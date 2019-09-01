@@ -181,15 +181,23 @@ part that is needing review.
 
 I haven't fully settled on a license for Heirloom yet, so I wouldn't 
 recommended using these libraries commercial use. *However*, I am tentatively 
-releasing Heirloom under zlib/libpng.
+releasing Heirloom under a modified zlib/libpng license requiring attribution
+and only for non-commercial use. Please be aware that this will likely change
+once I review the licensing options I desire.
 
 ### Special Thanks
 
-* https://github.com/glfw/glfw
+Media
+
+* https://www.kenney.nl/
 * https://datagoblin.itch.io/monogram
+
+Software
+
+* https://github.com/glfw/glfw
+* https://github.com/nothings/stb
+* https://github.com/rds1983/StbSharp
 * https://github.com/dr-soft/miniaudio
 * https://github.com/RandyGaul/cute_headers (partial port)
-* https://github.com/rds1983/StbSharp
-* https://github.com/nothings/stb
 
 [stbcsharp]: https://github.com/rds1983/StbSharp
