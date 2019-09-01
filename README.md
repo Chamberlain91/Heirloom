@@ -5,8 +5,8 @@ intended to help implement games and other graphical applications for Windows,
 Linux, macOS (Darwin), and Android!
 
 **Note:** *I would like to extend support for iOS (if given tools or help), but
-it beyond my know-how especially now that OpenGL is not a suitable target on
-iOS anymore. In the same light, macOS will eventually pose problems as well.
+it is beyond my know-how, especially now that OpenGL is not a suitable target
+on iOS anymore. In the same light, macOS will eventually pose problems as well.
 Any advice for wrapping Vulkan (once implemented) with Molten or creating a
 Metal backend would be highly appreciated.*
 
