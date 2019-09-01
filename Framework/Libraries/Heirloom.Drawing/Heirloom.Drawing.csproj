@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Platforms>AnyCPU</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants />
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Backends\OpenGL\Embedded\blur.frag" />
+    <None Remove="Backends\OpenGL\Embedded\invert.frag" />
+    <None Remove="Backends\OpenGL\Embedded\shader.frag" />
+    <None Remove="Backends\OpenGL\Embedded\shader.vert" />
+    <None Remove="Backends\OpenGL\Embedded\standard\standard.frag" />
+    <None Remove="Backends\OpenGL\Embedded\standard\standard.vert" />
+    <None Remove="Embedded\monogram_extended.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Backends\OpenGL\Embedded\blur.frag" />
+    <EmbeddedResource Include="Backends\OpenGL\Embedded\invert.frag" />
+    <EmbeddedResource Include="Backends\OpenGL\Embedded\shader.frag" />
+    <EmbeddedResource Include="Backends\OpenGL\Embedded\shader.vert" />
+    <EmbeddedResource Include="Backends\OpenGL\Embedded\standard\standard.frag" />
+    <EmbeddedResource Include="Backends\OpenGL\Embedded\standard\standard.vert" />
+    <EmbeddedResource Include="Embedded\monogram_extended.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Wrappers\Heirloom.OpenGLES\Heirloom.OpenGLES.csproj" />
+    <ProjectReference Include="..\Heirloom.Math\Heirloom.Math.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Backends\Vulkan\" />
+  </ItemGroup>
+
+</Project>

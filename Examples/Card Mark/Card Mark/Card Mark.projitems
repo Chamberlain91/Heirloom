@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>63313765-c8d5-4971-9f0e-187b8862607d</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Heirloom.Examples.CardMark</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CardMarkApplication.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Heartbeat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Particle.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Rabbits\rabbit1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Rabbits\rabbit2.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Rabbits\rabbit3.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Rabbits\rabbit4.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Rabbits\rabbit5.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Rabbits\rabbit6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardClubs10.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardClubs2.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardClubs3.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardClubs4.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardClubs5.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardClubs6.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardClubs7.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardClubs8.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardClubs9.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardClubsA.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardClubsJ.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardClubsK.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardClubsQ.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardDiamonds10.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardDiamonds2.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardDiamonds3.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardDiamonds4.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardDiamonds5.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardDiamonds6.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardDiamonds7.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardDiamonds8.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardDiamonds9.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardDiamondsA.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardDiamondsJ.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardDiamondsK.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardDiamondsQ.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardHearts10.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardHearts2.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardHearts3.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardHearts4.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardHearts5.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardHearts6.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardHearts7.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardHearts8.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardHearts9.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardHeartsA.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardHeartsJ.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardHeartsK.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardHeartsQ.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardJoker.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardSpades10.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardSpades2.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardSpades3.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardSpades4.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardSpades5.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardSpades6.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardSpades7.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardSpades8.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardSpades9.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardSpadesA.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardSpadesJ.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardSpadesK.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\cardSpadesQ.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\chipBlackWhite_border.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\chipBlueWhite_border.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\chipGreenWhite_border.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\chipRedWhite_border.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\chipWhiteBlue_border.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\dieRed1.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\dieRed2.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\dieRed3.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\dieRed4.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\dieRed5.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\dieRed6.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\pieceBlack_border01.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\pieceBlack_border10.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\pieceBlack_border17.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\pieceBlue_border02.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\pieceBlue_border11.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\pieceBlue_border18.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\pieceGreen_border01.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\pieceGreen_border10.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\pieceGreen_border17.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\pieceRed_border01.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\pieceRed_border10.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\pieceRed_border17.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\pieceWhite_border01.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\pieceWhite_border10.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Files\Casino\pieceWhite_border17.png" />
+  </ItemGroup>
+</Project>

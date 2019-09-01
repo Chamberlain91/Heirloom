@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0F7A0B5D-BB72-4931-A83E-0F8EA5992540}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>KenneyUI</RootNamespace>
+    <AssemblyName>KenneyUI</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GUI.cs" />
+    <Compile Include="GUILayout.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <EmbeddedResource Include="Assets\Fonts\trueno_bold.otf" />
+    <EmbeddedResource Include="Assets\Fonts\trueno_regular.otf" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Images\blue_boxCheckmark.png" />
+    <EmbeddedResource Include="Assets\Images\blue_boxCross.png" />
+    <EmbeddedResource Include="Assets\Images\blue_boxTick.png" />
+    <EmbeddedResource Include="Assets\Images\blue_button00.png" />
+    <EmbeddedResource Include="Assets\Images\blue_button01.png" />
+    <EmbeddedResource Include="Assets\Images\blue_button02.png" />
+    <EmbeddedResource Include="Assets\Images\blue_button03.png" />
+    <EmbeddedResource Include="Assets\Images\blue_button04.png" />
+    <EmbeddedResource Include="Assets\Images\blue_button05.png" />
+    <EmbeddedResource Include="Assets\Images\blue_button06.png" />
+    <EmbeddedResource Include="Assets\Images\blue_button07.png" />
+    <EmbeddedResource Include="Assets\Images\blue_button08.png" />
+    <EmbeddedResource Include="Assets\Images\blue_button09.png" />
+    <EmbeddedResource Include="Assets\Images\blue_button10.png" />
+    <EmbeddedResource Include="Assets\Images\blue_button11.png" />
+    <EmbeddedResource Include="Assets\Images\blue_button12.png" />
+    <EmbeddedResource Include="Assets\Images\blue_button13.png" />
+    <EmbeddedResource Include="Assets\Images\blue_checkmark.png" />
+    <EmbeddedResource Include="Assets\Images\blue_circle.png" />
+    <EmbeddedResource Include="Assets\Images\blue_cross.png" />
+    <EmbeddedResource Include="Assets\Images\blue_panel.png" />
+    <EmbeddedResource Include="Assets\Images\blue_sliderDown.png" />
+    <EmbeddedResource Include="Assets\Images\blue_sliderLeft.png" />
+    <EmbeddedResource Include="Assets\Images\blue_sliderRight.png" />
+    <EmbeddedResource Include="Assets\Images\blue_sliderUp.png" />
+    <EmbeddedResource Include="Assets\Images\blue_tick.png" />
+    <EmbeddedResource Include="Assets\Images\dropdownBottom.png" />
+    <EmbeddedResource Include="Assets\Images\dropdownMid.png" />
+    <EmbeddedResource Include="Assets\Images\dropdownTop.png" />
+    <EmbeddedResource Include="Assets\Images\green_boxCheckmark.png" />
+    <EmbeddedResource Include="Assets\Images\green_boxCross.png" />
+    <EmbeddedResource Include="Assets\Images\green_boxTick.png" />
+    <EmbeddedResource Include="Assets\Images\green_button00.png" />
+    <EmbeddedResource Include="Assets\Images\green_button01.png" />
+    <EmbeddedResource Include="Assets\Images\green_button02.png" />
+    <EmbeddedResource Include="Assets\Images\green_button03.png" />
+    <EmbeddedResource Include="Assets\Images\green_button04.png" />
+    <EmbeddedResource Include="Assets\Images\green_button05.png" />
+    <EmbeddedResource Include="Assets\Images\green_button06.png" />
+    <EmbeddedResource Include="Assets\Images\green_button07.png" />
+    <EmbeddedResource Include="Assets\Images\green_button08.png" />
+    <EmbeddedResource Include="Assets\Images\green_button09.png" />
+    <EmbeddedResource Include="Assets\Images\green_button10.png" />
+    <EmbeddedResource Include="Assets\Images\green_button11.png" />
+    <EmbeddedResource Include="Assets\Images\green_button12.png" />
+    <EmbeddedResource Include="Assets\Images\green_button13.png" />
+    <EmbeddedResource Include="Assets\Images\green_checkmark.png" />
+    <EmbeddedResource Include="Assets\Images\green_circle.png" />
+    <EmbeddedResource Include="Assets\Images\green_cross.png" />
+    <EmbeddedResource Include="Assets\Images\green_panel.png" />
+    <EmbeddedResource Include="Assets\Images\green_sliderDown.png" />
+    <EmbeddedResource Include="Assets\Images\green_sliderLeft.png" />
+    <EmbeddedResource Include="Assets\Images\green_sliderRight.png" />
+    <EmbeddedResource Include="Assets\Images\green_sliderUp.png" />
+    <EmbeddedResource Include="Assets\Images\green_tick.png" />
+    <EmbeddedResource Include="Assets\Images\grey_arrowDownGrey.png" />
+    <EmbeddedResource Include="Assets\Images\grey_arrowDownWhite.png" />
+    <EmbeddedResource Include="Assets\Images\grey_arrowUpGrey.png" />
+    <EmbeddedResource Include="Assets\Images\grey_arrowUpWhite.png" />
+    <EmbeddedResource Include="Assets\Images\grey_box.png" />
+    <EmbeddedResource Include="Assets\Images\grey_boxCheckmark.png" />
+    <EmbeddedResource Include="Assets\Images\grey_boxCross.png" />
+    <EmbeddedResource Include="Assets\Images\grey_boxTick.png" />
+    <EmbeddedResource Include="Assets\Images\grey_button00.png" />
+    <EmbeddedResource Include="Assets\Images\grey_button01.png" />
+    <EmbeddedResource Include="Assets\Images\grey_button02.png" />
+    <EmbeddedResource Include="Assets\Images\grey_button03.png" />
+    <EmbeddedResource Include="Assets\Images\grey_button04.png" />
+    <EmbeddedResource Include="Assets\Images\grey_button05.png" />
+    <EmbeddedResource Include="Assets\Images\grey_button06.png" />
+    <EmbeddedResource Include="Assets\Images\grey_button07.png" />
+    <EmbeddedResource Include="Assets\Images\grey_button08.png" />
+    <EmbeddedResource Include="Assets\Images\grey_button09.png" />
+    <EmbeddedResource Include="Assets\Images\grey_button10.png" />
+    <EmbeddedResource Include="Assets\Images\grey_button11.png" />
+    <EmbeddedResource Include="Assets\Images\grey_button12.png" />
+    <EmbeddedResource Include="Assets\Images\grey_button13.png" />
+    <EmbeddedResource Include="Assets\Images\grey_button14.png" />
+    <EmbeddedResource Include="Assets\Images\grey_button15.png" />
+    <EmbeddedResource Include="Assets\Images\grey_checkmarkGrey.png" />
+    <EmbeddedResource Include="Assets\Images\grey_checkmarkWhite.png" />
+    <EmbeddedResource Include="Assets\Images\grey_circle.png" />
+    <EmbeddedResource Include="Assets\Images\grey_crossGrey.png" />
+    <EmbeddedResource Include="Assets\Images\grey_crossWhite.png" />
+    <EmbeddedResource Include="Assets\Images\grey_panel.png" />
+    <EmbeddedResource Include="Assets\Images\grey_sliderDown.png" />
+    <EmbeddedResource Include="Assets\Images\grey_sliderEnd.png" />
+    <EmbeddedResource Include="Assets\Images\grey_sliderHorizontal.png" />
+    <EmbeddedResource Include="Assets\Images\grey_sliderLeft.png" />
+    <EmbeddedResource Include="Assets\Images\grey_sliderRight.png" />
+    <EmbeddedResource Include="Assets\Images\grey_sliderUp.png" />
+    <EmbeddedResource Include="Assets\Images\grey_sliderVertical.png" />
+    <EmbeddedResource Include="Assets\Images\grey_tickGrey.png" />
+    <EmbeddedResource Include="Assets\Images\grey_tickWhite.png" />
+    <EmbeddedResource Include="Assets\Images\red_boxCheckmark.png" />
+    <EmbeddedResource Include="Assets\Images\red_boxCross.png" />
+    <EmbeddedResource Include="Assets\Images\red_boxTick.png" />
+    <EmbeddedResource Include="Assets\Images\red_button00.png" />
+    <EmbeddedResource Include="Assets\Images\red_button01.png" />
+    <EmbeddedResource Include="Assets\Images\red_button02.png" />
+    <EmbeddedResource Include="Assets\Images\red_button03.png" />
+    <EmbeddedResource Include="Assets\Images\red_button04.png" />
+    <EmbeddedResource Include="Assets\Images\red_button05.png" />
+    <EmbeddedResource Include="Assets\Images\red_button06.png" />
+    <EmbeddedResource Include="Assets\Images\red_button07.png" />
+    <EmbeddedResource Include="Assets\Images\red_button08.png" />
+    <EmbeddedResource Include="Assets\Images\red_button09.png" />
+    <EmbeddedResource Include="Assets\Images\red_button10.png" />
+    <EmbeddedResource Include="Assets\Images\red_button11.png" />
+    <EmbeddedResource Include="Assets\Images\red_button12.png" />
+    <EmbeddedResource Include="Assets\Images\red_button13.png" />
+    <EmbeddedResource Include="Assets\Images\red_checkmark.png" />
+    <EmbeddedResource Include="Assets\Images\red_circle.png" />
+    <EmbeddedResource Include="Assets\Images\red_cross.png" />
+    <EmbeddedResource Include="Assets\Images\red_panel.png" />
+    <EmbeddedResource Include="Assets\Images\red_sliderDown.png" />
+    <EmbeddedResource Include="Assets\Images\red_sliderLeft.png" />
+    <EmbeddedResource Include="Assets\Images\red_sliderRight.png" />
+    <EmbeddedResource Include="Assets\Images\red_sliderUp.png" />
+    <EmbeddedResource Include="Assets\Images\red_tick.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_boxCheckmark.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_boxCross.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_boxTick.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_button00.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_button01.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_button02.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_button03.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_button04.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_button05.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_button06.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_button07.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_button08.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_button09.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_button10.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_button11.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_button12.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_button13.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_checkmark.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_circle.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_cross.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_panel.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_sliderDown.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_sliderLeft.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_sliderRight.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_sliderUp.png" />
+    <EmbeddedResource Include="Assets\Images\yellow_tick.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Framework\Libraries\Heirloom.Drawing\Heirloom.Drawing.csproj">
+      <Project>{90bc4354-a98d-495b-9cc0-af799e439444}</Project>
+      <Name>Heirloom.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Framework\Libraries\Heirloom.Input\Heirloom.Input.csproj">
+      <Project>{91D45416-1052-4939-BB80-0699E258A100}</Project>
+      <Name>Heirloom.Input</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Framework\Libraries\Heirloom.IO\Heirloom.IO.csproj">
+      <Project>{df3df199-6dd7-4144-b646-3f56a3c4bba9}</Project>
+      <Name>Heirloom.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Framework\Libraries\Heirloom.Math\Heirloom.Math.csproj">
+      <Project>{5e4954d2-7082-4b13-bb05-805109e52c1d}</Project>
+      <Name>Heirloom.Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Framework\Platforms\Heirloom.Platforms.Desktop\Heirloom.Platforms.Desktop.csproj">
+      <Project>{243a7dfb-d23a-4d3f-9dc8-e3659b990d72}</Project>
+      <Name>Heirloom.Platforms.Desktop</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

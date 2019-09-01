@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{F60F4C30-177E-4D77-AE10-80F1FCB7BFA1}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Heirloom.Examples.CardMark</RootNamespace>
+    <AssemblyName>CardMark</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CardMarkProgram.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Framework\Libraries\Heirloom.Drawing\Heirloom.Drawing.csproj">
+      <Project>{90BC4354-A98D-495B-9CC0-AF799E439444}</Project>
+      <Name>Heirloom.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Framework\Libraries\Heirloom.Input\Heirloom.Input.csproj">
+      <Project>{91D45416-1052-4939-BB80-0699E258A100}</Project>
+      <Name>Heirloom.Input</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Framework\Libraries\Heirloom.IO\Heirloom.IO.csproj">
+      <Project>{DF3DF199-6DD7-4144-B646-3F56A3C4BBA9}</Project>
+      <Name>Heirloom.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Framework\Libraries\Heirloom.Math\Heirloom.Math.csproj">
+      <Project>{5E4954D2-7082-4B13-BB05-805109E52C1D}</Project>
+      <Name>Heirloom.Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Framework\Platforms\Heirloom.Platforms.Desktop\Heirloom.Platforms.Desktop.csproj">
+      <Project>{243A7DFB-D23A-4D3F-9DC8-E3659B990D72}</Project>
+      <Name>Heirloom.Platforms.Desktop</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="..\Card Mark\Card Mark.projitems" Label="Shared" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

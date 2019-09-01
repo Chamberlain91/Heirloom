@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{80721656-A846-416A-907A-E3D2431016B0}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>OneBitHero</RootNamespace>
+    <AssemblyName>OneBitHero</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Actor.cs" />
+    <Compile Include="Colors.cs" />
+    <Compile Include="MainScene.cs" />
+    <Compile Include="OneBitHeroGame.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <EmbeddedResource Include="Embedded\Tilemap\sample_fantasy.tmx" />
+    <EmbeddedResource Include="Embedded\Tilemap\sample_interior.tmx" />
+    <EmbeddedResource Include="Embedded\Tilemap\sample_platformer.tmx" />
+    <EmbeddedResource Include="Embedded\Tilemap\sample_urban.tmx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Framework\Libraries\Heirloom.Drawing\Heirloom.Drawing.csproj">
+      <Project>{90BC4354-A98D-495B-9CC0-AF799E439444}</Project>
+      <Name>Heirloom.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Framework\Libraries\Heirloom.Input\Heirloom.Input.csproj">
+      <Project>{91D45416-1052-4939-BB80-0699E258A100}</Project>
+      <Name>Heirloom.Input</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Framework\Libraries\Heirloom.IO\Heirloom.IO.csproj">
+      <Project>{DF3DF199-6DD7-4144-B646-3F56A3C4BBA9}</Project>
+      <Name>Heirloom.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Framework\Libraries\Heirloom.Math\Heirloom.Math.csproj">
+      <Project>{5E4954D2-7082-4B13-BB05-805109E52C1D}</Project>
+      <Name>Heirloom.Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Framework\Platforms\Heirloom.Platforms.Desktop\Heirloom.Platforms.Desktop.csproj">
+      <Project>{243a7dfb-d23a-4d3f-9dc8-e3659b990d72}</Project>
+      <Name>Heirloom.Platforms.Desktop</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Framework\Libraries\Heirloom.Runtime\Heirloom.Runtime.csproj">
+      <Project>{4833C134-5E7C-4084-A573-5EBE4AA10062}</Project>
+      <Name>Heirloom.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Framework\Libraries\Heirloom.Collections.Spatial\Heirloom.Collections.Spatial.csproj">
+      <Project>{b52fac56-10c6-489e-98c8-52d915029954}</Project>
+      <Name>Heirloom.Collections.Spatial</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Embedded\Tilemap\tileset_colored.tsx" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Embedded\Tilesheet\colored.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Embedded\Tilesheet\colored_transparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Embedded\Tilesheet\monochrome.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Embedded\Tilesheet\monochrome_transparent.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
