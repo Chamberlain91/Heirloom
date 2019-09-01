@@ -49,7 +49,7 @@ and `miniaudio.dll`) and may be unable to be found and loaded with a fresh
 clone. They need to be built / copied into a place that the runtime will be
 able to resovle. I have included for convenience some binaries in
 `Framework/Binaries` (possibly only for now, I'm not sure what the legality of
-distributing them and whatnot).
+distributing them and whatnot).*
 
 *I expect some more thought is needed about resolving and loading the native
 libraries in future.*
