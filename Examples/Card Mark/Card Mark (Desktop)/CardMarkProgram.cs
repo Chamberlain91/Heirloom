@@ -25,7 +25,7 @@ namespace Heirloom.Examples.CardMark
                     ExitFullscreen();
                 }
             };
-
+             
             // 
             Application = new CardMarkApplication(60, 10, 20000);
         }
