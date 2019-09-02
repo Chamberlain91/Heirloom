@@ -5,7 +5,7 @@ namespace Heirloom.Examples.Physics
 {
     public class Graphic
     {
-        public ImageSource Surface; // todo: replace w/ image when glReadPixels is implemented
+        public Image Image; // todo: replace w/ image when glReadPixels is implemented
         public Matrix Matrix;
 
         public Graphic(RenderContext ctx, IPolygon shape)
@@ -14,11 +14,11 @@ namespace Heirloom.Examples.Physics
             var pixelScale = 1F / ctx.ApproximatePixelScale;
 
             // 
-            Surface = CreateGraphicSurface(ctx, shape, pixelScale, out var matrix);
+            Image = CreateImage(ctx, shape, pixelScale, out var matrix);
             Matrix = matrix;
         }
 
-        private static ImageSource CreateGraphicSurface(RenderContext ctx, IPolygon polygon, float objectToPixelScale, out Matrix graphicMatrix)
+        private static Image CreateImage(RenderContext ctx, IPolygon polygon, float objectToPixelScale, out Matrix graphicMatrix)
         {
             // 
             var bounds = Rectangle.FromPoints(polygon);
@@ -34,22 +34,16 @@ namespace Heirloom.Examples.Physics
 
             // Create surface
             using (var surface = ctx.CreateSurface((IntSize) (bounds.Size * objectToPixelScale) + (8, 8)))
-            using (ctx.PushState())
+            using (ctx.PushState(reset: true))
             {
-                // 
-                ctx.ResetState();
                 ctx.Surface = surface;
-
-                // 
-                ctx.Clear(Color.Transparent);
 
                 var mesh = Mesh.CreateFromConvexPolygon(polygon);
                 ctx.Draw(Image.White, mesh, transform);
                 ctx.DrawPolygon(polygon, transform, Color.Gray, 3F);
 
-                // todo: replace w/ when glReadPixels implemented
-                // return ctx.Capture();
-                return surface;
+                // 
+                return ctx.GrabPixels();
             }
         }
     }

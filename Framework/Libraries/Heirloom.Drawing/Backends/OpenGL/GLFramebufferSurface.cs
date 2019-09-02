@@ -17,6 +17,7 @@ namespace Heirloom.Drawing.Backends.OpenGL
         {
             var framebuffer = context.GetFramebuffer(Texture);
             GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, framebuffer.Handle);
+            GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, framebuffer.Handle);
         }
 
         protected override void Dispose(bool managed)

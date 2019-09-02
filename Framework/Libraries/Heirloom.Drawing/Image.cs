@@ -403,6 +403,42 @@ namespace Heirloom.Drawing
         }
 
         /// <summary>
+        /// Replace all pixels in this image, assumes bytes are 8-bit interleved RGBA encoded and correct dimensions.
+        /// </summary>
+        public unsafe void SetPixels(uint[] pixels)
+        {
+            if (pixels.Length != (Width * Height))
+            {
+                throw new ArgumentException("Must specify same number of pixels as image.");
+            }
+
+            if (IsSubImage)
+            {
+                fixed (uint* pPixels = pixels)
+                {
+                    // TODO: Can probably optimize with processing pointers + stride
+                    foreach (var co in Rasterizer.Rectangle(0, 0, Width, Height))
+                    {
+                        var i = (co.Y * Width) + co.X;
+
+                        // 
+                        var addr = (Pixel*) &pPixels[i];
+                        SetPixel(Region.Min + co, *addr);
+                    }
+                }
+            }
+            else
+            {
+                fixed (uint* src = pixels)
+                fixed (Pixel* dst = _pixels)
+                {
+                    Buffer.MemoryCopy((void*) src, (void*) dst, 4 * pixels.Length, 4 * pixels.Length);
+                    UpdateVersionNumber();
+                }
+            }
+        }
+
+        /// <summary>
         /// Returns a copy of the pixels in this image.
         /// </summary>
         public Pixel[] GetPixels()

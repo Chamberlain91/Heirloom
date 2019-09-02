@@ -45,8 +45,8 @@ namespace Heirloom.Drawing
 
         // == Read Operations ==
 
-        Image Capture(IntRectangle region);
-        Image Capture();
+        Image GrabPixels(IntRectangle region);
+        Image GrabPixels();
 
         // == Swap Buffers
 
@@ -127,11 +127,11 @@ namespace Heirloom.Drawing
 
         public abstract BlendMode BlendMode { get; set; }
 
-        public IDisposable PushState()
+        public IDisposable PushState(bool reset)
         {
             var state = new State(Surface, Viewport, Transform, BlendColor, BlendMode);
             _states.Push(state);
-
+            if (reset) { ResetState(); }
             return new DisposePush(this);
         }
 
@@ -173,12 +173,18 @@ namespace Heirloom.Drawing
             Draw(image, mesh, transform, Color.White);
         }
 
-        // 'Read Operations'
-        public abstract Image Capture(IntRectangle region);
+        /// <summary>
+        /// Grabs the pixels from the currently set surface in the specified subregion.
+        /// </summary>
+        /// <param name="region">A subregion to capture pixels from.</param>
+        public abstract Image GrabPixels(IntRectangle region);
 
-        public Image Capture()
+        /// <summary>
+        /// Grabs the pixels from the currently set surface.
+        /// </summary>
+        public Image GrabPixels()
         {
-            return Capture((0, 0, Surface.Width, Surface.Height));
+            return GrabPixels((0, 0, Surface.Width, Surface.Height));
         }
 
         // 

@@ -17,6 +17,7 @@ namespace Heirloom.Drawing.Backends.OpenGL
         protected static void BindDefaultFramebuffer()
         {
             GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, 0);
+            GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, 0);
         }
     }
 }

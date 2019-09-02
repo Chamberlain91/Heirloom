@@ -71,11 +71,6 @@ namespace Heirloom.Platforms.Desktop
                 Glfw.DestroyWindow(Window.Native);
             }
 
-            protected override void SetSwapInterval(int interval)
-            {
-                Invoke(() => Glfw.SwapInterval(interval));
-            }
-
             public override void SwapBuffers()
             {
                 // Complete any pending work

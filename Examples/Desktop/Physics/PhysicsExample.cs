@@ -182,7 +182,7 @@ namespace Heirloom.Examples.Physics
                     }
 
                     // 
-                    ctx.Draw(g.Surface, transform * g.Matrix, color);
+                    ctx.Draw(g.Image, transform * g.Matrix, color);
 
                     // ctx.DrawPolygon(body.WorldShape, Matrix.Identity, Color.Cyan);
                 }
