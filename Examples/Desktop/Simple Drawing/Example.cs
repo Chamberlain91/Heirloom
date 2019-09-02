@@ -17,8 +17,7 @@ namespace Heirloom.Examples.SimpleDrawing
             // Image by https://pixabay.com/users/nara_kim/
             Image = new Image(Files.ReadBytes("files/image.png"));
 
-            //
-            IsResizeable = false;
+            // 
             Size = (800, 500);
         }
 
