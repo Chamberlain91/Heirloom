@@ -28,7 +28,7 @@ namespace Heirloom.Platforms.Android
             {
                 // Make current (with vsync forced on)
                 Egl.MakeCurrent(SurfaceView.EglSurface, SurfaceView.EglContext);
-                SurfaceView.EglSurface.Display.SetSwapInterval(1);
+                SurfaceView.EglSurface?.Display.SetSwapInterval(1);
 
                 // Load GL Functions
                 if (!GL.HasLoadedFunctions)
