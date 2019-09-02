@@ -3,18 +3,40 @@
 using Heirloom.Drawing;
 using Heirloom.Drawing.Backends.OpenGL;
 using Heirloom.GLFW;
+using Heirloom.OpenGLES;
 
 namespace Heirloom.Platforms.Desktop
 {
-    internal sealed class OpenGLGraphicsContext : GraphicsContext
+    internal sealed class GLContextManager : ContextManager
     {
-        internal OpenGLGraphicsContext()
+        internal GLContextManager()
             : base(GraphicsAPI.OpenGL)
         { }
 
-        internal override RenderContext CreateRenderingContext(Window window)
+        internal override RenderContext CreateRenderContext(Window window)
         {
             return new GlfwRenderContext(window);
+        }
+
+        protected override void Configure()
+        {
+            Glfw.WindowHint(Glfw.CLIENT_API, Glfw.OPENGL_API);
+            Glfw.WindowHint(Glfw.OPENGL_PROFILE, Glfw.OPENGL_CORE_PROFILE);
+            Glfw.WindowHint(Glfw.OPENGL_FORWARD_COMPAT, Glfw.True);
+            Glfw.WindowHint(Glfw.CONTEXT_VERSION_MAJOR, 3);
+            Glfw.WindowHint(Glfw.CONTEXT_VERSION_MINOR, 2);
+        }
+
+        protected override unsafe void LoadFunctions()
+        {
+            Glfw.MakeContextCurrent(ShareContext);
+            Glfw.SwapInterval(0); // disable-vsync
+
+            // Load OpenGL Functions
+            if (!GL.HasLoadedFunctions)
+            {
+                GL.LoadFunctions(Glfw.GetProcAddress);
+            }
         }
 
         private class GlfwRenderContext : OpenGLRenderContext
@@ -71,7 +93,7 @@ namespace Heirloom.Platforms.Desktop
                  */
 
                 // swap buffers (aka, puts the rendered image on screen)
-                if (Instance.Windows.Count > 1) { InvokeLater(() => Glfw.SwapBuffers(Window.Native)); }
+                if (Window.Windows.Count > 1) { InvokeLater(() => Glfw.SwapBuffers(Window.Native)); }
                 else { Invoke(() => Glfw.SwapBuffers(Window.Native)); }
             }
         }

@@ -9,7 +9,7 @@ using Heirloom.OpenGLES;
 
 namespace Heirloom.Platforms.Desktop
 {
-    internal abstract unsafe class GraphicsContext
+    internal abstract unsafe class ContextManager
     {
         private readonly Queue<Action> _invokeQueue;
         private readonly GraphicsAPI _graphicsApi;
@@ -20,19 +20,15 @@ namespace Heirloom.Platforms.Desktop
         private Glfw.ErrorCallback _errorCallback;
         private Glfw.Window _shareContext;
 
-        // Windows
-        private readonly List<Window> _windows;
-
         #region Constructors
 
-        protected GraphicsContext(GraphicsAPI api)
+        protected ContextManager(GraphicsAPI api)
         {
-            _windows = new List<Window>();
             _invokeQueue = new Queue<Action>();
             _graphicsApi = api;
         }
 
-        ~GraphicsContext()
+        ~ContextManager()
         {
             Glfw.Terminate();
 
@@ -45,7 +41,11 @@ namespace Heirloom.Platforms.Desktop
 
         internal Glfw.Window ShareContext => _shareContext;
 
-        internal abstract RenderContext CreateRenderingContext(Window window);
+        internal abstract RenderContext CreateRenderContext(Window window);
+
+        abstract protected void Configure();
+
+        abstract protected void LoadFunctions();
 
         private void Initialize()
         {
@@ -64,76 +64,48 @@ namespace Heirloom.Platforms.Desktop
 
             if (Glfw.Init())
             {
-                // Configure context creation hints
-                switch (_graphicsApi)
-                {
-                    case GraphicsAPI.OpenGL:
+                // We desire windows
+                Glfw.WindowHint(Glfw.RED_BITS, 8);
+                Glfw.WindowHint(Glfw.BLUE_BITS, 8);
+                Glfw.WindowHint(Glfw.GREEN_BITS, 8);
+                Glfw.WindowHint(Glfw.ALPHA_BITS, 8);
+                Glfw.WindowHint(Glfw.STENCIL_BITS, 0);
+                Glfw.WindowHint(Glfw.DEPTH_BITS, 0);
+                Glfw.WindowHint(Glfw.SAMPLES, 0);
 
-                        // 
-                        Glfw.WindowHint(Glfw.RED_BITS, 8);
-                        Glfw.WindowHint(Glfw.BLUE_BITS, 8);
-                        Glfw.WindowHint(Glfw.GREEN_BITS, 8);
-                        Glfw.WindowHint(Glfw.ALPHA_BITS, 8);
-                        Glfw.WindowHint(Glfw.STENCIL_BITS, 0);
-                        Glfw.WindowHint(Glfw.DEPTH_BITS, 0);
-                        Glfw.WindowHint(Glfw.SAMPLES, 0);
-
-                        // Configure window hints for context creation
-                        Glfw.WindowHint(Glfw.CLIENT_API, Glfw.OPENGL_API);
-                        Glfw.WindowHint(Glfw.OPENGL_PROFILE, Glfw.OPENGL_CORE_PROFILE);
-                        Glfw.WindowHint(Glfw.OPENGL_FORWARD_COMPAT, Glfw.True);
-                        Glfw.WindowHint(Glfw.CONTEXT_VERSION_MAJOR, 3);
-                        Glfw.WindowHint(Glfw.CONTEXT_VERSION_MINOR, 2);
-                        break;
-
-                    case GraphicsAPI.Vulkan:
-                        Glfw.WindowHint(Glfw.CLIENT_API, Glfw.NO_API);
-                        throw new NotImplementedException("Vulkan backend is not currently implemented! Sorry.");
-
-                    default: // Unknown backend type
-                        throw new ArgumentException("Unable to configure backend, unknown type.");
-                }
+                // Backend Specific Configuration (GL or VK)
+                Configure();
             }
             else
             {
                 throw new InvalidOperationException("Unable to initialize GLFW!");
             }
 
-            // GLFW successfully initialized
-            Console.WriteLine($"Initialized Drawing and Input Backends ({_graphicsApi})");
+            // -- Create Sharing Context Window
+            _shareContext = Glfw.CreateWindow(1, 1, "GLFW CONTEXT SHARE WINDOW", null, Glfw.Window.None);
+            Glfw.HideWindow(_shareContext); // We don't want this visible
+
+            // 
+            LoadFunctions();
 
             // -- Initialize Screens (Monitors)
 
             // Monitor list change callback
             Glfw.SetMonitorCallback(_monitorCallback = (m, action) =>
             {
-                if (action == Glfw.CONNECTED) { Screen.AddScreen(m); }
-                else if (action == Glfw.DISCONNECTED) { Screen.RemoveScreen(m); }
+                if (action == Glfw.CONNECTED) { Monitor.AddMonitor(m); }
+                else if (action == Glfw.DISCONNECTED) { Monitor.RemoveMonitor(m); }
             });
 
             // Gather existing monitors
             var monitors = Glfw.GetMonitors(out var count);
             for (var i = 0; i < count; i++)
             {
-                Screen.AddScreen(monitors[i]);
+                Monitor.AddMonitor(monitors[i]);
             }
 
-            // todo: opengl specific code at desktop abstraction, consider moving to GLContext somehow?
-            if (_graphicsApi == GraphicsAPI.OpenGL)
-            {
-                // -- Create Background GL Context
-                _shareContext = Glfw.CreateWindow(1, 1, "GLFW BACKGROUND WINDOW", null, Glfw.Window.None);
-                Glfw.HideWindow(_shareContext); // We don't want this visible
-
-                Glfw.MakeContextCurrent(_shareContext);
-                Glfw.SwapInterval(0); // disable-vsync
-
-                // Load OpenGL Functions
-                if (!GL.HasLoadedFunctions)
-                {
-                    GL.LoadFunctions(Glfw.GetProcAddress);
-                }
-            }
+            // GLFW successfully initialized
+            Console.WriteLine($"Initialized GLFW ({_graphicsApi})");
         }
 
         public void PollEventsInternal()
@@ -146,29 +118,13 @@ namespace Heirloom.Platforms.Desktop
                 lock (action)
                 {
                     action(); // perform action
-                    Monitor.Pulse(action);
+                    System.Threading.Monitor.Pulse(action);
                 }
             }
 
             // 
             Glfw.PollEvents();
         }
-
-        #region Window List
-
-        internal void AddWindow(Window window)
-        {
-            _windows.Add(window);
-        }
-
-        internal void RemoveWindow(Window window)
-        {
-            _windows.Remove(window);
-        }
-
-        internal IReadOnlyList<Window> Windows => _windows;
-
-        #endregion
 
         #region Invoke (private)
 
@@ -180,7 +136,7 @@ namespace Heirloom.Platforms.Desktop
                 lock (action)
                 {
                     _invokeQueue.Enqueue(action);
-                    Monitor.Wait(action);
+                    System.Threading.Monitor.Wait(action);
                 }
             }
         }
@@ -202,7 +158,7 @@ namespace Heirloom.Platforms.Desktop
 
         #region Static / Singleton
 
-        private static GraphicsContext _context;
+        private static ContextManager _context;
 
         /// <summary>
         /// Return the default API current platform this application is running on (ie, OpenGL 3.3)
@@ -233,13 +189,13 @@ namespace Heirloom.Platforms.Desktop
                 _context.Initialize();
             }
 
-            GraphicsContext CreateBackendContext()
+            ContextManager CreateBackendContext()
             {
                 // Initialize based on desired backend
                 switch (backend)
                 {
                     case GraphicsAPI.OpenGL:
-                        return new OpenGLGraphicsContext();
+                        return new GLContextManager();
 
                     case GraphicsAPI.Vulkan:
                         // return new VKContext();
@@ -255,7 +211,7 @@ namespace Heirloom.Platforms.Desktop
         /// Gets the desktop context instance.
         /// This will initialize with defaults if not explicitly initialized beforehand.
         /// </summary>
-        internal static GraphicsContext Instance
+        internal static ContextManager Instance
         {
             get
             {

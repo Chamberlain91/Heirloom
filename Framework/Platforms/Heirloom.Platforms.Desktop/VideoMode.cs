@@ -9,7 +9,7 @@ namespace Heirloom.Platforms.Desktop
     {
         private Glfw.VideoMode _mode;
 
-        internal VideoMode(Screen screen, Glfw.VideoMode mode)
+        internal VideoMode(Monitor screen, Glfw.VideoMode mode)
         {
             Screen = screen;
             _mode = mode;
@@ -18,7 +18,7 @@ namespace Heirloom.Platforms.Desktop
         /// <summary>
         /// The screen this video mode represents.
         /// </summary>
-        public Screen Screen { get; }
+        public Monitor Screen { get; }
 
         /// <summary>
         /// Gets the width of the screen when this mode is active.
@@ -34,13 +34,5 @@ namespace Heirloom.Platforms.Desktop
         /// Gets the refresh rate of the screen when this mode is active.
         /// </summary>
         public int RefreshRate => _mode.RefreshRate;
-
-        // ...?
-
-        public int RedBits => _mode.RedBits;
-
-        public int BlueBits => _mode.BlueBits;
-
-        public int GreenBits => _mode.GreenBits;
     }
 }

@@ -12,7 +12,7 @@ namespace Heirloom.Platforms.Desktop.Input
 
         internal KeyboardDevice(Glfw.Window window)
         {
-            GraphicsContext.Invoke(() =>
+            ContextManager.Invoke(() =>
             {
                 // Character Typed (for text input)
                 Glfw.SetCharCallback(window, _charCallback = (_, unicodeCharacter) =>
@@ -52,7 +52,7 @@ namespace Heirloom.Platforms.Desktop.Input
 
         public override int GetScanCode(Key key)
         {
-            return GraphicsContext.Invoke(() => Glfw.GetKeyScancode((int) key));
+            return ContextManager.Invoke(() => Glfw.GetKeyScancode((int) key));
         }
     }
 }
