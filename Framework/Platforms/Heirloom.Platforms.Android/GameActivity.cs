@@ -28,7 +28,6 @@ namespace Heirloom.Platforms.Android
 
             // 
             SurfaceView = new HeirloomSurfaceView(this);
-            SurfaceView.Resume(); // todo: put inside surfaceview on OnSurfaceCreate with boolean trap, definitely rename.
             SetContentView(SurfaceView);
 
             // Start game thread

@@ -5,7 +5,6 @@ using System.Threading;
 
 using Heirloom.Drawing;
 using Heirloom.GLFW;
-using Heirloom.OpenGLES;
 
 namespace Heirloom.Platforms.Desktop
 {
@@ -43,9 +42,9 @@ namespace Heirloom.Platforms.Desktop
 
         internal abstract RenderContext CreateRenderContext(Window window);
 
-        abstract protected void Configure();
+        protected abstract void Configure();
 
-        abstract protected void LoadFunctions();
+        protected abstract void LoadFunctions();
 
         private void Initialize()
         {
@@ -165,6 +164,11 @@ namespace Heirloom.Platforms.Desktop
         /// </summary>
         public static GraphicsAPI GetDefaultBackendType()
         {
+            if (Glfw.VulkanSupported())
+            {
+                Console.WriteLine("Vulkan Supported");
+            }
+
             return GraphicsAPI.OpenGL;
         }
 
@@ -219,7 +223,7 @@ namespace Heirloom.Platforms.Desktop
                 if (_context == null)
                 {
                     // Initialize context with platform defaults
-                    Initialize(GetDefaultBackendType());
+                    Initialize(GraphicsAPI.Automatic);
                 }
 
                 // 
@@ -239,6 +243,25 @@ namespace Heirloom.Platforms.Desktop
             return Instance.InvokeInternal(action);
         }
 
-        #endregion 
+        #endregion
+
+        internal enum GraphicsAPI
+        // todo: make public somehow when implemented vulkan
+        {
+            /// <summary>
+            /// Automatically chooses for the platform.
+            /// </summary>
+            Automatic,
+
+            /// <summary>
+            /// Rendering powered by OpenGL
+            /// </summary>
+            OpenGL,
+
+            /// <summary>
+            /// Rendering powered by Vulkan
+            /// </summary>
+            Vulkan
+        };
     }
 }

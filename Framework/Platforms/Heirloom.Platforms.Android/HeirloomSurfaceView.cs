@@ -1,18 +1,25 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
+
 using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.Views;
 
 using Heirloom.Drawing;
+using Heirloom.Drawing.Backends.OpenGL;
 using Heirloom.Math;
+using Heirloom.OpenGLES;
 using Heirloom.OpenGLES.Platform;
 
 namespace Heirloom.Platforms.Android
 {
+    /// <summary>
+    /// A <see cref="SurfaceView"/>
+    /// </summary>
     public class HeirloomSurfaceView : SurfaceView, ISurfaceHolderCallback
     {
-        private readonly AndroidRenderContext _renderContext;
+        private readonly GLRenderContext _renderContext;
         private bool _canRender;
 
         public HeirloomSurfaceView(Activity activity)
@@ -45,8 +52,9 @@ namespace Heirloom.Platforms.Android
             EglContext = Egl.CreateContext(config);
 
             // Create render context, and set to initial size
-            _renderContext = new AndroidRenderContext(this);
+            _renderContext = new GLRenderContext(this);
             _renderContext.SetDefaultSurfaceSize(resolution);
+            _renderContext.StartThread();
         }
 
         public RenderContext RenderContext => _renderContext;
@@ -74,23 +82,6 @@ namespace Heirloom.Platforms.Android
         public event Action Resized;
 
         public delegate void CanRenderChanged(bool available);
-
-        public void Resume()
-        {
-            SetImmersiveFullscreenFlags();
-            _renderContext?.StartThread();
-        }
-
-        public void Pause()
-        {
-            SetImmersiveFullscreenFlags();
-            //_renderContext?.StopThread();
-        }
-
-        private void SetImmersiveFullscreenFlags()
-        {
-            SystemUiVisibility = (StatusBarVisibility) (SystemUiFlags.HideNavigation | SystemUiFlags.ImmersiveSticky | SystemUiFlags.Fullscreen);
-        }
 
         void ISurfaceHolderCallback.SurfaceCreated(ISurfaceHolder holder)
         {
@@ -132,6 +123,61 @@ namespace Heirloom.Platforms.Android
 
             // Surface was destroyed, so unable to render
             CanRender = false;
+        }
+
+        private sealed class GLRenderContext : OpenGLRenderContext
+        {
+            public HeirloomSurfaceView SurfaceView { get; }
+
+            internal GLRenderContext(HeirloomSurfaceView surfaceView)
+            {
+                SurfaceView = surfaceView;
+            }
+
+            protected override void PrepareContext()
+            {
+                MakeCurrent();
+            }
+
+            public void MakeCurrent()
+            {
+                Invoke(() =>
+                {
+                    // Make current (with vsync forced on)
+                    Egl.MakeCurrent(SurfaceView.EglSurface, SurfaceView.EglContext);
+                    SurfaceView.EglSurface?.Display.SetSwapInterval(1);
+
+                    // Load GL Functions
+                    if (!GL.HasLoadedFunctions)
+                    {
+                        GL.LoadFunctions(Egl.GetProcAddress);
+                    }
+                });
+            }
+
+            protected override void TerminateContext()
+            {
+                // todo: what to do here?!
+                Console.WriteLine("Terminate Context");
+            }
+
+            public override void SwapBuffers()
+            {
+                // Finish any pending work
+                Flush();
+
+                // Display onto the screen
+                Invoke(() =>
+                {
+                    if (!SurfaceView.EglSurface?.SwapBuffers() ?? false)
+                    {
+                        Console.WriteLine("Failed To Swap Buffers!");
+                    }
+                });
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal new void SetDefaultSurfaceSize(IntSize size) { base.SetDefaultSurfaceSize(size); }
         }
     }
 }

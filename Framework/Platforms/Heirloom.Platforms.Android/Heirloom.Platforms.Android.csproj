@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AndroidHelper.cs" />
-    <Compile Include="AndroidRenderContext.cs" />
     <Compile Include="AndroidWindow.cs" />
     <Compile Include="GameActivity.cs" />
     <Compile Include="HeirloomSurfaceView.cs" />

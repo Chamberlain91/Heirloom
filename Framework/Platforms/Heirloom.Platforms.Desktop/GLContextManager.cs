@@ -15,7 +15,7 @@ namespace Heirloom.Platforms.Desktop
 
         internal override RenderContext CreateRenderContext(Window window)
         {
-            return new GlfwRenderContext(window);
+            return new GLRenderContext(window);
         }
 
         protected override void Configure()
@@ -39,9 +39,9 @@ namespace Heirloom.Platforms.Desktop
             }
         }
 
-        private class GlfwRenderContext : OpenGLRenderContext
+        private class GLRenderContext : OpenGLRenderContext
         {
-            internal GlfwRenderContext(Window window)
+            internal GLRenderContext(Window window)
             {
                 Window = window ?? throw new ArgumentNullException(nameof(window));
 
