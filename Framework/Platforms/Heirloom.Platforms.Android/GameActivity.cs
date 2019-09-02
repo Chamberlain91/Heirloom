@@ -6,11 +6,8 @@ using Android.OS;
 
 using Heirloom.Drawing;
 using Heirloom.Math;
-using Heirloom.Platforms.Android;
 
-using ThreadPriority = System.Threading.ThreadPriority;
-
-namespace Heirloom.Examples.CardMark
+namespace Heirloom.Platforms.Android
 {
     public abstract class GameActivity : Activity
     {
@@ -66,9 +63,6 @@ namespace Heirloom.Examples.CardMark
             var rateCounter = new RateCounter(DesiredFrameRate);
             var loopWatch = new Stopwatch();
 
-            // Set to highest priority
-            Thread.CurrentThread.Priority = ThreadPriority.Highest;
-
             var stopwatchInvalid = true;
 
             while (true)
@@ -110,9 +104,9 @@ namespace Heirloom.Examples.CardMark
             }
         }
 
-        internal abstract void Update(float delta);
+        protected abstract void Update(float delta);
 
-        internal abstract void Render(RenderContext ctx, float delta);
+        protected abstract void Render(RenderContext ctx, float delta);
 
         private sealed class RateCounter
         {

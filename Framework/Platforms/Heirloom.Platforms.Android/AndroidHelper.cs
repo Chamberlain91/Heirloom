@@ -1,8 +1,7 @@
-﻿
-using System;
-using Android.App;
+﻿using Android.App;
 using Android.Util;
 using Android.Views;
+
 using Heirloom.Math;
 
 namespace Heirloom.Platforms.Android

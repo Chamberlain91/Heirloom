@@ -3,6 +3,7 @@ using Android.Content.PM;
 using Android.OS;
 
 using Heirloom.Drawing;
+using Heirloom.Platforms.Android;
 
 namespace Heirloom.Examples.CardMark
 {
@@ -22,12 +23,12 @@ namespace Heirloom.Examples.CardMark
             base.OnCreate(bundle);
         }
 
-        internal override void Update(float delta)
+        protected override void Update(float delta)
         {
             CardMark.Update(delta);
         }
 
-        internal override void Render(RenderContext ctx, float delta)
+        protected override void Render(RenderContext ctx, float delta)
         {
             CardMark.Render(ctx, delta);
         }
