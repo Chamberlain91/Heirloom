@@ -7,7 +7,7 @@ using Heirloom.Math;
 
 namespace Heirloom.Examples.Physics
 {
-    public class PhysicsBody : ISpatialObject
+    public class Body : ISpatialObject
     {
         private const float StaticMass = float.MaxValue;
 
@@ -21,11 +21,11 @@ namespace Heirloom.Examples.Physics
 
         public static readonly Vector Gravity = new Vector(0, 3);
 
-        public PhysicsBody(IPolygon shape, Vector position, bool dynamic)
+        public Body(IPolygon shape, Vector position, bool dynamic)
             : this(shape, position, dynamic ? shape.Area : StaticMass)
         { }
 
-        public PhysicsBody(IPolygon shape, Vector position, float mass)
+        public Body(IPolygon shape, Vector position, float mass)
         {
             Shape = shape ?? throw new ArgumentNullException(nameof(shape));
             WorldShape = Shape.ToArray();
@@ -127,7 +127,7 @@ namespace Heirloom.Examples.Physics
         public float Torque { get; set; }
 
         public Matrix Transform => Matrix.CreateTransform(Position, Rotation, Scale);
-         
+
         public Rectangle Bounds { get; private set; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -162,7 +162,7 @@ namespace Heirloom.Examples.Physics
             AngularVelocity += InvRotationalInertia * Vector.Cross(point - Position, impulse);
         }
 
-        public void UpdateBroadPhase(BroadPhase<PhysicsBody> broadPhase)
+        public void UpdateBroadPhase(BroadPhase<Body> broadPhase)
         {
             if (_changed)
             {

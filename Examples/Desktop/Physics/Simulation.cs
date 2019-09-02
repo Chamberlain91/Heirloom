@@ -8,14 +8,14 @@ using Heirloom.Math;
 
 namespace Heirloom.Examples.Physics
 {
-    class PhysicsWorld
+    internal class Simulation
     {
-        private readonly BroadPhase<PhysicsBody> _bodies;
+        private readonly BroadPhase<Body> _bodies;
 
         private readonly ObjectPool<RigidContact> _collisionPairsPool;
         private readonly List<RigidContact> _collisionPairs;
 
-        public PhysicsWorld()
+        public Simulation()
         {
             _collisionPairsPool = new ObjectPool<RigidContact>(() => new RigidContact());
             _collisionPairs = new List<RigidContact>();
@@ -25,25 +25,24 @@ namespace Heirloom.Examples.Physics
 
             // Faster, but grid size affects performance / objects, raycast implmented with 
             // bresenham line drawing so infinite distance is infinite work.
-            _bodies = new SparseGridBroadPhase<PhysicsBody>(0.5F);
+            _bodies = new SparseGridBroadPhase<Body>(0.5F);
 
             // Slower, but scale independant and suppports infinite raycast
-            // note: appears to be 2x slower than sparse grid
-            // _bodies = new SpatialBroadPhase<PhysicsBody>();
+            // _bodies = new SpatialBroadPhase<Body>();
         }
 
-        public IReadOnlyList<PhysicsBody> Bodies => _bodies;
+        public IReadOnlyList<Body> Bodies => _bodies;
 
         public int NumberOfCollisions { get; private set; }
 
         public int NumberOfCollisionTests { get; private set; }
 
-        public void Add(PhysicsBody body)
+        public void Add(Body body)
         {
             _bodies.Add(body);
         }
 
-        public IEnumerable<PhysicsBody> Query(PhysicsBody body)
+        public IEnumerable<Body> Query(Body body)
         {
             return _bodies.Query(body);
         }
@@ -156,7 +155,7 @@ namespace Heirloom.Examples.Physics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static Vector ComputeRelativeVelocity(PhysicsBody b1, PhysicsBody b2, in Vector point)
+        private static Vector ComputeRelativeVelocity(Body b1, Body b2, in Vector point)
         {
             // 
             var r1 = point - b1.Position;
@@ -169,8 +168,8 @@ namespace Heirloom.Examples.Physics
 
         internal sealed class RigidContact
         {
-            public PhysicsBody B1;
-            public PhysicsBody B2;
+            public Body B1;
+            public Body B2;
 
             public float MassNormal;
             public float MassTangent;
@@ -180,7 +179,7 @@ namespace Heirloom.Examples.Physics
 
             public Contact Contact;
 
-            internal void Set(PhysicsBody b1, PhysicsBody b2, in Manifold m, int mi, float friction)
+            internal void Set(Body b1, Body b2, in Manifold m, int mi, float friction)
             {
                 B1 = b1 ?? throw new ArgumentNullException(nameof(b1));
                 B2 = b2 ?? throw new ArgumentNullException(nameof(b2));

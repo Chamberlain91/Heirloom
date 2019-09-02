@@ -47,10 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Graphic.cs" />
-    <Compile Include="PhysicsBody.cs" />
-    <Compile Include="PhysicsExample.cs" />
-    <Compile Include="PhysicsWorld.cs" />
+    <Compile Include="Body.cs" />
+    <Compile Include="Example.cs" />
+    <Compile Include="Simulation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

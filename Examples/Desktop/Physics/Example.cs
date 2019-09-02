@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Heirloom.Collections.Spatial;
 using Heirloom.Drawing;
 using Heirloom.Math;
 using Heirloom.Platforms.Desktop;
 
 namespace Heirloom.Examples.Physics
 {
-    public class PhysicsExample : GameWindow
+    public sealed class Example : GameWindow
     {
-        private readonly PhysicsWorld _physics;
+        private readonly Simulation _simulation;
 
-        private readonly PhysicsBody _platform;
+        private readonly Body _platform;
 
         private readonly Dictionary<IPolygon, Graphic> _graphics;
 
@@ -40,11 +39,14 @@ namespace Heirloom.Examples.Physics
             (Color) Pixel.Parse("81A2BE"),
         };
 
-        public PhysicsExample()
+        public Example()
             : base("Heirloom Physics")
         {
             // SetSwapInterval(0);
             Maximize();
+
+            // 
+            ShowDiagnostics = true;
 
             // Get mouse motion from event
             Mouse.Moved += (o, e) => _mousePosition = e.Position;
@@ -88,22 +90,22 @@ namespace Heirloom.Examples.Physics
             };
 
             // Create the physics world
-            _physics = new PhysicsWorld();
+            _simulation = new Simulation();
 
             // Create world (floor, walls, etc)
-            _physics.Add(new PhysicsBody(floor, (+0.0F, +1F), false));
-            _physics.Add(new PhysicsBody(floor, (-6.2F, -3F), false) { Rotation = Calc.HalfPi });
-            _physics.Add(new PhysicsBody(floor, (+6.2F, -3F), false) { Rotation = Calc.HalfPi });
-            _physics.Add(new PhysicsBody(floor, (+0.0F, -9F), false));
+            _simulation.Add(new Body(floor, (+0.0F, +1F), false));
+            _simulation.Add(new Body(floor, (-6.2F, -3F), false) { Rotation = Calc.HalfPi });
+            _simulation.Add(new Body(floor, (+6.2F, -3F), false) { Rotation = Calc.HalfPi });
+            _simulation.Add(new Body(floor, (+0.0F, -9F), false));
 
             // Platform that animates around the map to toss dynamic objects
-            _platform = new PhysicsBody(trapezoid, Vector.Zero, false);
-            _physics.Add(_platform);
+            _platform = new Body(trapezoid, Vector.Zero, false);
+            _simulation.Add(_platform);
 
             // Create large blockers get in the way of the dynamic objects
-            _physics.Add(new PhysicsBody(blocker, (-2, -2), false) { Rotation = +2 });
-            _physics.Add(new PhysicsBody(blocker, (+0, -4), false) { Rotation = 0 });
-            _physics.Add(new PhysicsBody(blocker, (+2, -2), false) { Rotation = -2 });
+            _simulation.Add(new Body(blocker, (-2, -2), false) { Rotation = +2 });
+            _simulation.Add(new Body(blocker, (+0, -4), false) { Rotation = 0 });
+            _simulation.Add(new Body(blocker, (+2, -2), false) { Rotation = -2 });
 
             // Create field of random objects
             for (var y = 0; y < 14; y++)
@@ -112,12 +114,12 @@ namespace Heirloom.Examples.Physics
                 {
                     var shape = Calc.Random.Choose(shapes);
 
-                    var body = new PhysicsBody(shape, ((x - 20) / 4F, -1 - y / 2F), true);
+                    var body = new Body(shape, ((x - 20) / 4F, -1 - y / 2F), true);
                     // todo: fix non uniform negative scaled collision shape bug
                     // todo: fix circles not scaling bug
                     //body.Scale = (2 / 3F, 1F);
 
-                    _physics.Add(body);
+                    _simulation.Add(body);
                 }
             }
         }
@@ -140,7 +142,7 @@ namespace Heirloom.Examples.Physics
             while (_accumTime >= TimeStep)
             {
                 // Process time step (ie, 1/60th of a second)
-                _physics.Simulate(TimeStep);
+                _simulation.Simulate(TimeStep);
                 _accumTime -= TimeStep;
             }
         }
@@ -155,18 +157,15 @@ namespace Heirloom.Examples.Physics
             // Compute 'camera' matrix, centered bottom aligned creating a 10x10 world
             var scale = Calc.Min(surface.Width, surface.Height) / 10F;
             ctx.Transform = Matrix.CreateTransform(
-                new Vector((surface.Width - scale) / 2F, surface.Height - scale),
-                0,
-                new Vector(scale, scale));
-
-            // Compute mouse position in world space
-            var mousePos = ctx.InverseTransform * _mousePosition;
+                position: new Vector((surface.Width - scale) / 2F, surface.Height - scale),
+                scale: new Vector(scale, scale),
+                angle: 0);
 
             // == Draw Bodies
 
             {
                 var i = 0;
-                foreach (var body in _physics.Bodies)
+                foreach (var body in _simulation.Bodies)
                 {
                     var transform = body.Transform;
                     var shape = body.Shape;
@@ -183,52 +182,85 @@ namespace Heirloom.Examples.Physics
 
                     // 
                     ctx.Draw(g.Image, transform * g.Matrix, color);
-
-                    // ctx.DrawPolygon(body.WorldShape, Matrix.Identity, Color.Cyan);
                 }
             }
 
-            // == Visualize Broad Phase Structure
+            // == Visualize Broad Phase Neighbors
 
             {
+                // Compute mouse position in world space
+                var mousePos = ctx.InverseTransform * _mousePosition;
+
                 // Get nearest body to mouse or platform
-                var near = _physics.Bodies.Where(b => Vector.Distance(mousePos, b.Position) < 0.2F).FirstOrDefault();
+                var near = _simulation.Bodies.Where(b => Vector.Distance(mousePos, b.Position) < 0.2F).FirstOrDefault();
                 if (near == null) { near = _platform; }
 
                 // Draw marks on relevant bodies
                 ctx.DrawCross(near.Position, Color.Magenta, 4, 2);
-                foreach (var q in _physics.Query(near))
+                foreach (var q in _simulation.Query(near))
                 {
                     ctx.DrawCross(q.Position, Color.Magenta, 4, 1);
                 }
             }
-
-            //DrawNode(ctx, _physics.Bodies.Collection.Root, 0);
 
             // Draw World Origin
             ctx.DrawCross(Vector.Zero, Color.Yellow);
 
             // Draw statistics
             ctx.ResetState();
-            ctx.DrawText($"{_physics.NumberOfCollisions} Collisions ({_physics.NumberOfCollisionTests})\n{_physics.Bodies.Count} Bodies", (20, 20), TextAlign.Left, Font.Default, 16, Color.Yellow);
+            ctx.DrawText($"{_simulation.NumberOfCollisions} Collisions ({_simulation.NumberOfCollisionTests})\n{_simulation.Bodies.Count} Bodies", (20, 20), TextAlign.Left, Font.Default, 16, Color.Yellow);
         }
 
-        public void DrawNode(RenderContext ctx, SpatialCollection<PhysicsBody>.Node node, int d)
+        private class Graphic
         {
-            // 
-            ctx.DrawRectOutline(node.Bounds, _colors[d % _colors.Length]);
+            public Image Image;
 
-            if (!node.IsLeaf)
+            public Matrix Matrix;
+
+            public Graphic(RenderContext ctx, IPolygon shape)
+            {
+                // Approximates how big a screen pixel is in world units
+                var pixelScale = 1F / ctx.ApproximatePixelScale;
+
+                // 
+                Image = CreateImage(ctx, shape, pixelScale, out var matrix);
+                Matrix = matrix;
+            }
+
+            private static Image CreateImage(RenderContext ctx, IPolygon polygon, float objectToPixelScale, out Matrix imageToObject)
             {
                 // 
-                DrawNode(ctx, node.Children[0], d + 1);
-                DrawNode(ctx, node.Children[1], d + 1);
+                var edgeWidth = 2;
+                var edgeOffset = edgeWidth / objectToPixelScale;
+                var edgeExtra = edgeWidth * 2;
+
+                // 
+                var bounds = Rectangle.FromPoints(polygon);
+
+                // Compute transformation matrices
+                var inverseScale = 1F / objectToPixelScale;
+                imageToObject = Matrix.CreateTransform(bounds.Min - (edgeOffset, edgeOffset), 0, (inverseScale, inverseScale));
+                var objectToImage = Matrix.Inverse(imageToObject);
+
+                // Draw polygon to surface and capture image
+                using (var surface = ctx.CreateSurface((IntSize) (bounds.Size * objectToPixelScale) + (edgeExtra, edgeExtra)))
+                using (ctx.PushState(reset: true))
+                {
+                    ctx.Surface = surface;
+
+                    var mesh = Mesh.CreateFromConvexPolygon(polygon);
+                    ctx.Draw(Image.White, mesh, objectToImage);
+                    ctx.DrawPolygon(polygon, objectToImage, Color.Gray, edgeWidth);
+
+                    // Constructs an image from this surface
+                    return ctx.GrabPixels();
+                }
             }
         }
 
         private static void Main(string[] _)
         {
-            Run(new PhysicsExample());
+            Run(new Example());
         }
     }
 }
