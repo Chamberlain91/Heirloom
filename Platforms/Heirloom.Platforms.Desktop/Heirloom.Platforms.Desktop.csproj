@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Platforms>AnyCPU</Platforms>
+  </PropertyGroup> 
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup> 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Backends\**" />
+    <EmbeddedResource Remove="Backends\**" />
+    <None Remove="Backends\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="AsyncRunnerThread.cs" />
+    <Compile Remove="WindowRenderContext.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Heirloom.Drawing\Heirloom.Drawing.csproj" />
+    <ProjectReference Include="..\Heirloom.GLFW\Heirloom.GLFW.csproj" />
+    <ProjectReference Include="..\Heirloom.Input\Heirloom.Input.csproj" />
+    <ProjectReference Include="..\Heirloom.Math\Heirloom.Math.csproj" />
+    <ProjectReference Include="..\Heirloom.OpenGLES\Heirloom.OpenGLES.csproj" />
+  </ItemGroup>
+
+</Project>
