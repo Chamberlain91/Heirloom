@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Heirloom.Math;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Heirloom.Collection.Testing
@@ -64,7 +64,7 @@ namespace Heirloom.Collection.Testing
             for (var i = 0; i < arr.Length; i++)
             {
                 var r = Random.Next(0, arr.Length);
-                Calc.Swap(ref arr[r], ref arr[i]);
+                Swap(ref arr[r], ref arr[i]);
             }
         }
 
@@ -82,5 +82,13 @@ namespace Heirloom.Collection.Testing
                 return Number.CompareTo(other.Number);
             }
         }
+
+        public static void Swap<T>(ref T a, ref T b)
+        {
+            var t = a;
+            a = b;
+            b = t;
+        }
+
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq;
-
-using Heirloom.Collections;
-using Heirloom.Math;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Heirloom.Collection.Testing
 {
