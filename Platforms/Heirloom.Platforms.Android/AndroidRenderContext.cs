@@ -28,7 +28,7 @@ namespace Heirloom.Platforms.Android
             {
                 // Make current
                 Egl.MakeCurrent(SurfaceView.EglSurface, SurfaceView.EglContext);
-                if (SurfaceView.EglSurface != null) { SetSwapInterval(1); }
+                SurfaceView.EglSurface?.Display.SetSwapInterval(1);
 
                 // Load GL Functions
                 if (!GL.HasLoadedFunctions)
@@ -42,11 +42,6 @@ namespace Heirloom.Platforms.Android
         {
             // todo: what to do here?!
             Console.WriteLine("Terminate Context");
-        }
-
-        protected override void SetSwapInterval(int interval)
-        {
-            Invoke(() => SurfaceView.EglSurface.Display.SetSwapInterval(interval));
         }
 
         public override void SwapBuffers()

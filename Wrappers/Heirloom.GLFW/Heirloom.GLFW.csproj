@@ -4,6 +4,20 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Configurations>Debug;Release</Configurations>
     <Platforms>AnyCPU</Platforms>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>1.0.0-beta</Version>
+    <Authors>Chris Chamberlain</Authors>
+    <Company />
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <PackageReleaseNotes />
+    <PackageTags>glfw, opengl, vulkan</PackageTags>
+    <PackageLicenseFile>LICENSE_GLFW.md</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Description>GLFW 3.3 Bindings for .NET Standard 2.0
+
+Tested on Windows, Linux, Mac</Description>
   </PropertyGroup> 
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -20,6 +34,10 @@
   <ItemGroup>
     <None Update="Heirloom.GLFW.dll.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\LICENSE_GLFW.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
     </None>
   </ItemGroup>
 

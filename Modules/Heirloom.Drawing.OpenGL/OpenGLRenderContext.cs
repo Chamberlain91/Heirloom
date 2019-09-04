@@ -62,8 +62,6 @@ namespace Heirloom.Drawing.Backends.OpenGL
 
         #endregion
 
-        protected abstract void SetSwapInterval(int interval);
-
         #region Thread Callbacks
 
         protected abstract void PrepareContext(); // make current, etc
@@ -519,9 +517,18 @@ namespace Heirloom.Drawing.Backends.OpenGL
         #region Capture
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override Image Capture(IntRectangle region)
+        public override unsafe Image GrabPixels(IntRectangle region)
         {
-            throw new NotImplementedException();
+            return Invoke(() =>
+            {
+                // 
+                Flush();
+
+                // Grab pixels from framebuffer
+                var image = new Image(region.Width, region.Height);
+                image.SetPixels(GL.ReadPixels(region.X, region.Y, region.Width, region.Height));
+                return image;
+            });
         }
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 using Heirloom.Drawing;
@@ -9,55 +10,8 @@ using Heirloom.Platforms.Desktop.Input;
 
 namespace Heirloom.Platforms.Desktop
 {
-    internal interface IWindow
+    public class Window
     {
-        string Title { get; set; }
-
-        IntVector Position { get; set; }
-        IntSize Size { get; set; }
-        int Height { get; set; }
-        int Width { get; set; }
-
-        WindowState State { get; set; }
-
-        bool IsClosed { get; }
-        bool IsDecorated { get; set; }
-        bool IsResizeable { get; set; }
-
-        bool SupportsTransparentFramebuffer { get; }
-
-        event EventHandler<ClosingEventArgs> Closing;
-        event EventHandler Closed;
-        event EventHandler GainedFocus;
-        event EventHandler LostFocus;
-        event EventHandler Maximized;
-        event EventHandler Minimized;
-        event EventHandler Moved;
-        event EventHandler Resized;
-        event EventHandler Restored;
-        event EventHandler RefreshNeeded;
-
-        RenderContext RenderContext { get; }
-
-        Gamepad Gamepad { get; }
-        Keyboard Keyboard { get; }
-        Mouse Mouse { get; }
-
-        void Maximize();
-        void Minimize();
-        void Restore();
-
-        void SetFullscreen(Screen screen);
-        void SetFullscreen(VideoMode mode);
-        void ExitFullscreen();
-
-        void RequestAttention();
-    }
-
-    public class Window : IWindow
-    {
-        private readonly RenderContext _context;
-
         private Glfw.Window _window;
         private IntVector _position;
         private IntSize _framebufferSize;
@@ -85,7 +39,7 @@ namespace Heirloom.Platforms.Desktop
 
         public unsafe Window(int width, int height, string title, bool vsync = false, bool transparentFramebuffer = false)
         {
-            var context = GraphicsContext.Instance;
+            var context = ContextManager.Instance;
 
             VSync = vsync;
 
@@ -94,7 +48,7 @@ namespace Heirloom.Platforms.Desktop
             _title = title;
 
             // Execute on the window thread
-            _window = GraphicsContext.Invoke(() =>
+            _window = ContextManager.Invoke(() =>
             {
                 // Must release context to construct shared context. (why? find documentation)
                 Glfw.MakeContextCurrent(Glfw.Window.None);
@@ -131,12 +85,12 @@ namespace Heirloom.Platforms.Desktop
                     if (OnClosing())
                     {
                         // Hide window and terminate thread
-                        context.RemoveWindow(this);
+                        RemoveWindow(this);
                         Glfw.HideWindow(window);
                         IsClosed = true;
 
                         // Close window
-                        _context.Dispose();
+                        RenderContext.Dispose();
                         OnClosed();
                     }
                     else
@@ -222,10 +176,10 @@ namespace Heirloom.Platforms.Desktop
             Mouse = new MouseDevice(_window);
 
             // Create rendering context
-            _context = context.CreateRenderingContext(this);
+            RenderContext = context.CreateRenderContext(this);
 
             //
-            context.AddWindow(this);
+            AddWindow(this);
         }
 
         ~Window()
@@ -246,7 +200,7 @@ namespace Heirloom.Platforms.Desktop
 
         internal Glfw.Window Native => _window;
 
-        public RenderContext RenderContext => _context;
+        public RenderContext RenderContext { get; }
 
         public Keyboard Keyboard { get; }
 
@@ -276,7 +230,7 @@ namespace Heirloom.Platforms.Desktop
             set
             {
                 _title = value;
-                GraphicsContext.Invoke(()
+                ContextManager.Invoke(()
                     => Glfw.SetWindowTitle(_window, _title));
             }
         }
@@ -291,7 +245,7 @@ namespace Heirloom.Platforms.Desktop
             set
             {
                 _size = value;
-                GraphicsContext.Invoke(()
+                ContextManager.Invoke(()
                     => Glfw.SetWindowSize(_window, _size.Width, _size.Height));
             }
         }
@@ -316,7 +270,7 @@ namespace Heirloom.Platforms.Desktop
             set
             {
                 _size = new IntSize(Width, value);
-                GraphicsContext.Invoke(()
+                ContextManager.Invoke(()
                     => Glfw.SetWindowSize(_window, _size.Width, _size.Height));
             }
         }
@@ -331,7 +285,7 @@ namespace Heirloom.Platforms.Desktop
             set
             {
                 _size = new IntSize(value, Height);
-                GraphicsContext.Invoke(()
+                ContextManager.Invoke(()
                     => Glfw.SetWindowSize(_window, _size.Width, _size.Height));
             }
         }
@@ -346,7 +300,7 @@ namespace Heirloom.Platforms.Desktop
             set
             {
                 _position = value;
-                GraphicsContext.Invoke(()
+                ContextManager.Invoke(()
                     => Glfw.SetWindowPos(_window, _position.X, _position.Y));
             }
         }
@@ -366,7 +320,7 @@ namespace Heirloom.Platforms.Desktop
                     _state = value;
 
                     // 
-                    GraphicsContext.Invoke(() =>
+                    ContextManager.Invoke(() =>
                     {
                         switch (_state)
                         {
@@ -397,7 +351,7 @@ namespace Heirloom.Platforms.Desktop
             set
             {
                 _isDecorated = value;
-                GraphicsContext.Invoke(()
+                ContextManager.Invoke(()
                     => Glfw.SetWindowAttrib(_window, Glfw.DECORATED, value ? 1 : 0));
             }
         }
@@ -412,7 +366,7 @@ namespace Heirloom.Platforms.Desktop
             set
             {
                 _isResizable = value;
-                GraphicsContext.Invoke(()
+                ContextManager.Invoke(()
                     => Glfw.SetWindowAttrib(_window, Glfw.RESIZABLE, value ? 1 : 0));
             }
         }
@@ -573,7 +527,7 @@ namespace Heirloom.Platforms.Desktop
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void RequestAttention()
         {
-            GraphicsContext.Invoke(()
+            ContextManager.Invoke(()
                 => Glfw.RequestWindowAttention(_window));
         }
 
@@ -581,7 +535,7 @@ namespace Heirloom.Platforms.Desktop
         /// Enable fullscreen with the current video mode of the screen.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe void SetFullscreen(Screen screen)
+        public unsafe void SetFullscreen(Monitor screen)
         {
             if (screen == null) { throw new ArgumentNullException(nameof(screen)); }
 
@@ -603,8 +557,8 @@ namespace Heirloom.Platforms.Desktop
             }
 
             // Set to fullscreen
-            GraphicsContext.Invoke(()
-                => Glfw.SetWindowMonitor(_window, mode.Screen.Native, 0, 0, mode.Width, mode.Height, mode.RefreshRate));
+            ContextManager.Invoke(()
+                => Glfw.SetWindowMonitor(_window, mode.Monitor.Native, 0, 0, mode.Width, mode.Height, mode.RefreshRate));
 
             OnStateChanged(WindowState.Fullscreen);
         }
@@ -620,7 +574,7 @@ namespace Heirloom.Platforms.Desktop
                 var (x, y, w, h) = _fullscreenRestore;
 
                 // Restore from fullscreen
-                GraphicsContext.Invoke(()
+                ContextManager.Invoke(()
                     => Glfw.SetWindowMonitor(_window, null, x, y, w, h, Glfw.DONT_CARE));
 
                 // 
@@ -662,7 +616,30 @@ namespace Heirloom.Platforms.Desktop
         public static void PollEvents()
         {
             // 
-            GraphicsContext.Instance.PollEventsInternal();
+            ContextManager.Instance.PollEventsInternal();
         }
+
+        #region Window List
+
+        private static readonly List<Window> _windows;
+
+        static Window()
+        {
+            _windows = new List<Window>();
+        }
+
+        public static IReadOnlyList<Window> Windows => _windows;
+
+        internal static void AddWindow(Window window)
+        {
+            _windows.Add(window);
+        }
+
+        internal static void RemoveWindow(Window window)
+        {
+            _windows.Remove(window);
+        }
+
+        #endregion
     }
 }

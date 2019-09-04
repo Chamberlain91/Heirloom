@@ -45,6 +45,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Networking", "Modu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{0EBDA45D-4262-4725-B733-3FC90E7F05E4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Drawing.OpenGLES", "Modules\Heirloom.Drawing.OpenGL\Heirloom.Drawing.OpenGLES.csproj", "{7B45294D-6E43-4505-B31C-2569D5E0DB5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -119,6 +121,10 @@ Global
 		{3598287C-D1CB-48FD-8EDF-95B05ECA7375}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3598287C-D1CB-48FD-8EDF-95B05ECA7375}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3598287C-D1CB-48FD-8EDF-95B05ECA7375}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B45294D-6E43-4505-B31C-2569D5E0DB5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B45294D-6E43-4505-B31C-2569D5E0DB5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B45294D-6E43-4505-B31C-2569D5E0DB5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B45294D-6E43-4505-B31C-2569D5E0DB5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -142,6 +148,7 @@ Global
 		{AF70D5DE-3E55-4D07-96E6-F24AD1DA30DF} = {0EBDA45D-4262-4725-B733-3FC90E7F05E4}
 		{6598A55E-B72A-4CA9-9203-DB3EB579B8D7} = {0EBDA45D-4262-4725-B733-3FC90E7F05E4}
 		{3598287C-D1CB-48FD-8EDF-95B05ECA7375} = {0EBDA45D-4262-4725-B733-3FC90E7F05E4}
+		{7B45294D-6E43-4505-B31C-2569D5E0DB5E} = {0EBDA45D-4262-4725-B733-3FC90E7F05E4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {696A41D8-DF3F-4D16-B3D9-514D627DCCE2}

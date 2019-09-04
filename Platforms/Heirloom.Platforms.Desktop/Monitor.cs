@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 using Heirloom.GLFW;
@@ -8,11 +8,14 @@ using Heirloom.Math;
 
 namespace Heirloom.Platforms.Desktop
 {
-    public unsafe class Screen
+    /// <summary>
+    /// Represents a single monitor on the computer.
+    /// </summary>
+    public unsafe class Monitor
     {
         #region Constructors
 
-        private Screen(Glfw.Monitor* monitor)
+        private Monitor(Glfw.Monitor* monitor)
         {
             Native = monitor;
 
@@ -29,14 +32,10 @@ namespace Heirloom.Platforms.Desktop
 
             // Get video modes
             var modes = Glfw.GetVideoModes(monitor, out var modeCount);
-            Modes = new VideoMode[modeCount];
-            for (var i = 0; i < modeCount; i++)
-            {
-                Modes[i] = new VideoMode(this, modes[i]);
-            }
-
-            // In debug mode, print information about the monitor to console
-            PrintScreenDiagnostics();
+            Modes = Enumerable.Range(0, modeCount)
+                              .Where(i => modes[i].RedBits == 8 && modes[i].BlueBits == 8 && modes[i].GreenBits == 8)
+                              .Select(i => new VideoMode(this, modes[i]))
+                              .ToArray();
         }
 
         #endregion
@@ -51,7 +50,7 @@ namespace Heirloom.Platforms.Desktop
         /// <summary>
         /// Gets the current video mode
         /// </summary>
-        public VideoMode CurrentVideoMode => GraphicsContext.Invoke(() =>
+        public VideoMode CurrentVideoMode => ContextManager.Invoke(() =>
         {
             // Get the current mode known to GLFW
             var mode = Glfw.GetVideoMode(Native);
@@ -61,19 +60,25 @@ namespace Heirloom.Platforms.Desktop
             {
                 return m.Width == mode->Width
                     && m.Height == mode->Height
-                    && m.RefreshRate == mode->RefreshRate
-                    && m.RedBits == mode->RedBits
-                    && m.GreenBits == mode->GreenBits
-                    && m.BlueBits == mode->BlueBits;
+                    && m.RefreshRate == mode->RefreshRate;
             });
         });
 
         internal Glfw.Monitor* Native { get; }
 
+        /// <summary>
+        /// Is the primary screen/monitor on the system?
+        /// </summary>
         public bool IsPrimary { get; }
 
+        /// <summary>
+        /// The name of this screen/monitor.
+        /// </summary>
         public string Name { get; }
 
+        /// <summary>
+        /// Position of this screen
+        /// </summary>
         public IntVector Position { get; }
 
         /// <summary>
@@ -83,62 +88,48 @@ namespace Heirloom.Platforms.Desktop
 
         #endregion
 
-        [Conditional("DEBUG")]
-        private void PrintScreenDiagnostics()
-        {
-            Console.WriteLine($"Detected Screen: {Name} at {Position} w/ {Modes.Length} modes.");
-            foreach (var mode in Modes)
-            {
-                Console.WriteLine($"    {mode.Width}x{mode.Height} @ {mode.RefreshRate}hz ({mode.RedBits}, {mode.GreenBits}, {mode.BlueBits})");
-            }
-        }
-
         #region Static
 
-        private static readonly List<Screen> _screenList = new List<Screen>();
-        private static Screen[] _screens;
+        private static readonly List<Monitor> _monitorList = new List<Monitor>();
+        private static Monitor[] _monitors;
 
-        internal static void AddScreen(Glfw.Monitor* monitor)
+        internal static void AddMonitor(Glfw.Monitor* monitor)
         {
-            _screenList.Add(new Screen(monitor));
-            _screens = null;
+            _monitorList.Add(new Monitor(monitor));
+            _monitors = null;
         }
 
-        internal static void RemoveScreen(Glfw.Monitor* monitor)
+        internal static void RemoveMonitor(Glfw.Monitor* monitor)
         {
-            _screenList.RemoveAll(s => s.Native == monitor);
-            _screens = null;
+            _monitorList.RemoveAll(s => s.Native == monitor);
+            _monitors = null;
         }
 
         /// <summary>
         /// Gets a list of every screen
         /// </summary>
-        public static IReadOnlyList<Screen> GetScreens()
+        public static IReadOnlyList<Monitor> GetMonitors()
         {
             // If we don't have a cached array of the monitors, create one
             // this should help prevent concurrent modification exception,
             // in the rare case a monitor is plugged in while the application
             // is running AND trying to access the screen list.
-            if (_screens == null)
+            if (_monitors == null)
             {
-                lock (_screenList)
+                lock (_monitorList)
                 {
-                    _screens = _screenList.ToArray();
+                    _monitors = _monitorList.ToArray();
                 }
             }
 
             // Return screen array
-            return _screens;
+            return _monitors;
         }
 
         /// <summary>
-        /// Gets the primary screen.
+        /// Gets the primary monitor.
         /// </summary>
-        public static Screen GetPrimaryScreen()
-        {
-            return GraphicsContext.Invoke(() =>
-                _screenList.Find(s => s.Native == Glfw.GetPrimaryMonitor()));
-        }
+        public static Monitor Default => ContextManager.Invoke(() => _monitorList.Find(s => s.Native == Glfw.GetPrimaryMonitor()));
 
         #endregion
     }
