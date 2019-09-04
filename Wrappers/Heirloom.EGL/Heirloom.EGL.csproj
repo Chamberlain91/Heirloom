@@ -4,6 +4,18 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Configurations>Debug;Release</Configurations>
     <Platforms>AnyCPU</Platforms>
+    <Description>EGL Bindings for .NET Standard 2.0
+
+Tested on Android 8.0</Description>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>opengl, egl</PackageTags>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Chris Chamberlain</Authors>
+    <Company />
+    <Version>1.0.0-beta</Version>
   </PropertyGroup> 
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -16,5 +28,12 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <None Include="..\..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>

@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>1.0.0-beta</Version>
+    <Authors>Chris Chamberlain</Authors>
+    <Description>OpenGL Implementation of Heirloom.Drawing</Description>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>opengl, drawing, 2D</PackageTags>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Embedded\blur.frag" />
+    <None Remove="Embedded\invert.frag" />
+    <None Remove="Embedded\shader.frag" />
+    <None Remove="Embedded\shader.vert" />
+    <None Remove="Embedded\standard\standard.frag" />
+    <None Remove="Embedded\standard\standard.vert" />
+    <None Include="..\..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Embedded\blur.frag" />
+    <EmbeddedResource Include="Embedded\invert.frag" />
+    <EmbeddedResource Include="Embedded\shader.frag" />
+    <EmbeddedResource Include="Embedded\shader.vert" />
+    <EmbeddedResource Include="Embedded\standard\standard.frag" />
+    <EmbeddedResource Include="Embedded\standard\standard.vert" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Wrappers\Heirloom.OpenGLES\Heirloom.OpenGLES.csproj" />
+    <ProjectReference Include="..\Heirloom.Drawing\Heirloom.Drawing.csproj" />
+  </ItemGroup>
+
+</Project>

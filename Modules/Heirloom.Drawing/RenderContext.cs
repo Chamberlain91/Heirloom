@@ -45,8 +45,8 @@ namespace Heirloom.Drawing
 
         // == Read Operations ==
 
-        Image Capture(IntRectangle region);
-        Image Capture();
+        Image GrabPixels(IntRectangle region);
+        Image GrabPixels();
 
         // == Swap Buffers
 
@@ -174,11 +174,11 @@ namespace Heirloom.Drawing
         }
 
         // 'Read Operations'
-        public abstract Image Capture(IntRectangle region);
+        public abstract Image GrabPixels(IntRectangle region);
 
-        public Image Capture()
+        public Image GrabPixels()
         {
-            return Capture((0, 0, Surface.Width, Surface.Height));
+            return GrabPixels((0, 0, Surface.Width, Surface.Height));
         }
 
         // 

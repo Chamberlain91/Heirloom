@@ -69,6 +69,10 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Heirloom.Drawing.OpenGL\Heirloom.Drawing.OpenGLES.csproj">
+      <Project>{7b45294d-6e43-4505-b31c-2569d5e0db5e}</Project>
+      <Name>Heirloom.Drawing.OpenGLES</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Modules\Heirloom.Drawing\Heirloom.Drawing.csproj">
       <Project>{ECABC5FB-23AD-45F0-B18E-65866B0B285C}</Project>
       <Name>Heirloom.Drawing</Name>
@@ -82,7 +86,7 @@
       <Name>Heirloom.EGL</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Wrappers\Heirloom.OpenGLES\Heirloom.OpenGLES.csproj">
-      <Project>{12862F5F-B3FF-4DA3-BE38-6FD498E02C56}</Project>
+      <Project>{12862f5f-b3ff-4da3-be38-6fd498e02c56}</Project>
       <Name>Heirloom.OpenGLES</Name>
     </ProjectReference>
   </ItemGroup>

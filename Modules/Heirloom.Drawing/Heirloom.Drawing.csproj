@@ -3,47 +3,50 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Platforms>AnyCPU</Platforms>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <Authors>Chris Chamberlain</Authors>
+    <Version>1.0.0-beta</Version>
+    <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>drawing, graphics, 2D</PackageTags>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <Description>Simple Hardware Accelerated 2D Drawing
+
+Backends:
+* OpenGL ES 3.0
+* Vulkan (Not Implemented)</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DefineConstants />
+    <DefineConstants>TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <OutputPath></OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <OutputPath></OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Backends\OpenGL\Embedded\blur.frag" />
-    <None Remove="Backends\OpenGL\Embedded\invert.frag" />
-    <None Remove="Backends\OpenGL\Embedded\shader.frag" />
-    <None Remove="Backends\OpenGL\Embedded\shader.vert" />
-    <None Remove="Backends\OpenGL\Embedded\standard\standard.frag" />
-    <None Remove="Backends\OpenGL\Embedded\standard\standard.vert" />
     <None Remove="Embedded\monogram_extended.ttf" />
+    <None Include="..\..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Backends\OpenGL\Embedded\blur.frag" />
-    <EmbeddedResource Include="Backends\OpenGL\Embedded\invert.frag" />
-    <EmbeddedResource Include="Backends\OpenGL\Embedded\shader.frag" />
-    <EmbeddedResource Include="Backends\OpenGL\Embedded\shader.vert" />
-    <EmbeddedResource Include="Backends\OpenGL\Embedded\standard\standard.frag" />
-    <EmbeddedResource Include="Backends\OpenGL\Embedded\standard\standard.vert" />
     <EmbeddedResource Include="Embedded\monogram_extended.ttf" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Wrappers\Heirloom.OpenGLES\Heirloom.OpenGLES.csproj" />
     <ProjectReference Include="..\Heirloom.Math\Heirloom.Math.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Backends\Vulkan\" />
   </ItemGroup>
 
 </Project>

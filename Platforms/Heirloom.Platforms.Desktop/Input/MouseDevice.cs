@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Heirloom.Platforms.Desktop;
 using Heirloom.GLFW;
 using Heirloom.Input;
 
@@ -14,7 +13,7 @@ namespace Heirloom.Platforms.Desktop.Input
 
         internal MouseDevice(Glfw.Window window)
         {
-            GraphicsContext.Invoke(() =>
+            ContextManager.Invoke(() =>
             {
                 // Mouse moved
                 Glfw.SetCursorPosCallback(window, _positionCallback = (_, x, y) =>
