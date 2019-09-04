@@ -5,6 +5,10 @@
     <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Heirloom.Collections.Spatial\Heirloom.Collections.Spatial.csproj" />
     <ProjectReference Include="..\Heirloom.Collections\Heirloom.Collections.csproj" />
