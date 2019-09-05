@@ -37,7 +37,7 @@ namespace Heirloom.Platforms.Desktop
 
         #region Constructors
 
-        public unsafe Window(int width, int height, string title, bool vsync = false, bool transparentFramebuffer = false)
+        public unsafe Window(int width, int height, string title, bool vsync = true, bool transparentFramebuffer = false)
         {
             var context = ContextManager.Instance;
 

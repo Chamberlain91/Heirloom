@@ -64,9 +64,7 @@ namespace Heirloom.Drawing.Backends.OpenGL
 
         #region Thread Callbacks
 
-        protected abstract void PrepareContext(); // make current, etc
-
-        protected abstract void TerminateContext();  // destroy context, window, etc
+        protected abstract void PrepareContext();    // make current, etc
 
         protected void SetDefaultSurfaceSize(IntSize size)
         {
@@ -78,10 +76,8 @@ namespace Heirloom.Drawing.Backends.OpenGL
             // Make current, etc
             PrepareContext();
 
-            // 
-            Info = ParseVersion();
-
-            Console.WriteLine(Info);
+            //  
+            Console.WriteLine(Info = ParseVersion());
 
             // 
             GL.Enable(EnableCap.ScissorTest);
@@ -109,9 +105,6 @@ namespace Heirloom.Drawing.Backends.OpenGL
                 var buffer = GetUniformBuffer(block);
                 GL.BindBufferBase(BufferTarget.UniformBuffer, block.Index, buffer.Handle);
             }
-
-            // 
-            ResetState();
         }
 
         private VersionInfo ParseVersion()
