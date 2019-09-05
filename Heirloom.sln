@@ -47,6 +47,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{0EBD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Drawing.OpenGLES", "Modules\Heirloom.Drawing.OpenGL\Heirloom.Drawing.OpenGLES.csproj", "{7B45294D-6E43-4505-B31C-2569D5E0DB5E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple Drawing", "Examples\Simple Drawing\Simple Drawing.csproj", "{E92F4B21-88E6-4F38-85A8-FB0C9FC18408}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.GLFW3", "Wrappers\Heirloom.GLFW3\Heirloom.GLFW3.csproj", "{33C8FDC7-13AD-4CE5-8E82-B4E57B673BA0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -125,6 +129,14 @@ Global
 		{7B45294D-6E43-4505-B31C-2569D5E0DB5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B45294D-6E43-4505-B31C-2569D5E0DB5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B45294D-6E43-4505-B31C-2569D5E0DB5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E92F4B21-88E6-4F38-85A8-FB0C9FC18408}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E92F4B21-88E6-4F38-85A8-FB0C9FC18408}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E92F4B21-88E6-4F38-85A8-FB0C9FC18408}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E92F4B21-88E6-4F38-85A8-FB0C9FC18408}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33C8FDC7-13AD-4CE5-8E82-B4E57B673BA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33C8FDC7-13AD-4CE5-8E82-B4E57B673BA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33C8FDC7-13AD-4CE5-8E82-B4E57B673BA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33C8FDC7-13AD-4CE5-8E82-B4E57B673BA0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -149,6 +161,7 @@ Global
 		{6598A55E-B72A-4CA9-9203-DB3EB579B8D7} = {0EBDA45D-4262-4725-B733-3FC90E7F05E4}
 		{3598287C-D1CB-48FD-8EDF-95B05ECA7375} = {0EBDA45D-4262-4725-B733-3FC90E7F05E4}
 		{7B45294D-6E43-4505-B31C-2569D5E0DB5E} = {0EBDA45D-4262-4725-B733-3FC90E7F05E4}
+		{33C8FDC7-13AD-4CE5-8E82-B4E57B673BA0} = {F81DCBF1-6D36-4CB7-BB4E-8D3F0CAF38DF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {696A41D8-DF3F-4D16-B3D9-514D627DCCE2}
