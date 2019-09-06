@@ -27,6 +27,8 @@ namespace Heirloom.GLFW3
         private static CursorPositionCallback _cursorPositionCallback;
         private static CursorEnterCallback _cursorEnterCallback;
         private static ScrollCallback _scrollCallback;
+
+        private static DropCallbackInternal _dropCallbackInternal;
         private static DropCallback _dropCallback;
 
         public static bool Init()
@@ -605,8 +607,24 @@ namespace Heirloom.GLFW3
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DropCallback SetDropCallback(WindowHandle window, DropCallback callback)
         {
-            var old = glfwSetDropCallback(window, _dropCallback = callback);
+            var old = _dropCallback;
+
+            // Special handling to account for function pointer with char** arg
+            _dropCallback = callback;
+            _dropCallbackInternal = (w, count, ptrPaths) =>
+            {
+                var paths = new string[count];
+                for (var i = 0; i < count; i++)
+                {
+                    paths[i] = Marshal.PtrToStringAnsi((IntPtr) ptrPaths[i]);
+                }
+
+                callback(w, paths);
+            };
+
+            glfwSetDropCallback(window, _dropCallbackInternal);
             CheckError(nameof(SetDropCallback));
+
             return old;
         }
 

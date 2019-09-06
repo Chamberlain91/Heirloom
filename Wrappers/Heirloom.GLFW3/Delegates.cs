@@ -51,7 +51,9 @@ namespace Heirloom.GLFW3
     public unsafe delegate void ScrollCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, double xoffset, double yoffset);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void DropCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, int pathCount, char** pathNames);
+    internal unsafe delegate void DropCallbackInternal([MarshalAs(UnmanagedType.Struct)] WindowHandle window, int pathCount, char** pathNames);
+
+    public unsafe delegate void DropCallback(WindowHandle window, string[] pathNames);
 
     #endregion
 
