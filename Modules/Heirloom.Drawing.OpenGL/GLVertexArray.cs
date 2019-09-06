@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using Heirloom.Math;
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.Backends.OpenGL
+namespace Heirloom.Drawing.OpenGL
 {
     internal unsafe class GLVertexArray
     {

@@ -2,7 +2,7 @@
 
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.Backends.OpenGL
+namespace Heirloom.Drawing.OpenGL
 {
     internal sealed class GLFramebuffer : IDisposable
     {

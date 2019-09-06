@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
-using Heirloom.Drawing.Backends.OpenGL.Utilities;
+using Heirloom.Drawing.OpenGL.Utilities;
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.Backends.OpenGL
+namespace Heirloom.Drawing.OpenGL
 {
     internal sealed class GLShaderFactory
     {

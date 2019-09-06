@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace Heirloom.Drawing.Backends.OpenGL.Utilities
+namespace Heirloom.Drawing.OpenGL.Utilities
 {
     internal static class EmbeddedFiles
     {

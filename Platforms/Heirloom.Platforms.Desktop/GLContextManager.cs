@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Heirloom.Drawing;
-using Heirloom.Drawing.Backends.OpenGL;
+using Heirloom.Drawing.OpenGL;
 using Heirloom.GLFW;
 using Heirloom.OpenGLES;
 
