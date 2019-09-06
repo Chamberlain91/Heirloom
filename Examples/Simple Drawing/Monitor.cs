@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using Heirloom.GLFW3;
 
-namespace Heirloom.GLFW3
+namespace Heirloom.Desktop
 {
-    public unsafe class Monitor
+    public class Monitor
     {
-        internal readonly Glfw.MonitorHandle Handle;
+        internal readonly MonitorHandle Handle;
 
-        internal Monitor(string name, Glfw.MonitorHandle handle)
+        internal Monitor(string name, MonitorHandle handle)
         {
             Handle = handle;
             Name = name;
@@ -39,7 +40,7 @@ namespace Heirloom.GLFW3
 
         static Monitor()
         {
-            _monitors = new Dictionary<Glfw.MonitorHandle, Monitor>();
+            _monitors = new Dictionary<MonitorHandle, Monitor>();
 
             // 
             Glfw.SetMonitorCallback(OnMonitorCallback);
@@ -47,11 +48,11 @@ namespace Heirloom.GLFW3
             // Scan current monitors
             foreach (var monitor in Glfw.GetMonitors())
             {
-                OnMonitorCallback(monitor, Glfw.ConnectState.Connected);
+                OnMonitorCallback(monitor, ConnectState.Connected);
             }
         }
 
-        private static void OnMonitorCallback(Glfw.MonitorHandle monitor, Glfw.ConnectState state)
+        private static void OnMonitorCallback(MonitorHandle monitor, ConnectState state)
         {
             var name = Glfw.GetMonitorName(monitor);
 
@@ -61,7 +62,7 @@ namespace Heirloom.GLFW3
             Console.WriteLine($"Monitor: \"{name}\" ({state}, isPrimary: {isPrimary})");
 
             // Connected Monitor
-            if (state == Glfw.ConnectState.Connected)
+            if (state == ConnectState.Connected)
             {
                 // We can only insert if unknown
                 if (!_monitors.ContainsKey(monitor))
@@ -83,6 +84,6 @@ namespace Heirloom.GLFW3
             Default = _monitors[primary];
         }
 
-        private static readonly Dictionary<Glfw.MonitorHandle, Monitor> _monitors;
+        private static readonly Dictionary<MonitorHandle, Monitor> _monitors;
     }
 }

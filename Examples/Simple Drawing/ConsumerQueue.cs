@@ -4,7 +4,7 @@ using System.Threading;
 
 using Mon = System.Threading.Monitor;
 
-namespace Heirloom.GLFW3
+namespace Heirloom.Desktop
 {
     internal class ConsumerQueue
     {

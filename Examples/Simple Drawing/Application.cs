@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using Heirloom.GLFW3;
 
-namespace Heirloom.GLFW3
+namespace Heirloom.Desktop
 {
     public static class Application
     {
@@ -10,21 +11,21 @@ namespace Heirloom.GLFW3
 
         internal static ConsumerQueue Queue { get; private set; }
 
-        internal static Glfw.WindowHandle DummyWindow;
+        internal static WindowHandle DummyWindow;
 
         private static List<Window> _windows;
 
         public static void Run(Action startAction)
         {
             // Initialize GLFW
-            if (!Glfw.Initialize())
+            if (!Glfw.Init())
             {
                 Console.WriteLine("Unable to initialize GL FW");
                 return;
             }
 
             // Create "dummy" window, the GL context sharing window
-            DummyWindow = Glfw.CreateWindow(256, 256, "GLFW Background Window", Glfw.MonitorHandle.None, Glfw.WindowHandle.None);
+            DummyWindow = Glfw.CreateWindow(256, 256, "GLFW Background Window");
             Glfw.HideWindow(DummyWindow);
 
             // 
