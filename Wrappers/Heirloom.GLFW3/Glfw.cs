@@ -20,6 +20,15 @@ namespace Heirloom.GLFW3
         private static WindowMaximizeCallback _windowMaximizeCallback;
         private static WindowContentScaleCallback _windowContentScale;
 
+
+        private static KeyCallback _keyCallback;
+        private static CharCallback _charCallback;
+        private static MouseButtonCallback _mouseButtonCallback;
+        private static CursorPositionCallback _cursorPositionCallback;
+        private static CursorEnterCallback _cursorEnterCallback;
+        private static ScrollCallback _scrollCallback;
+        private static DropCallback _dropCallback;
+
         public static bool Init()
         {
             var success = glfwInit();
@@ -234,7 +243,7 @@ namespace Heirloom.GLFW3
 
         #endregion
 
-        #region Windows
+        #region Window
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ResetWindowHints()
@@ -543,6 +552,167 @@ namespace Heirloom.GLFW3
             var old = glfwSetWindowContentScaleCallback(window, _windowContentScale = callback);
             CheckError(nameof(SetWindowContentScaleCallback));
             return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static KeyCallback SetKeyCallback(WindowHandle window, KeyCallback callback)
+        {
+            var old = glfwSetKeyCallback(window, _keyCallback = callback);
+            CheckError(nameof(SetKeyCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static CharCallback SetCharCallback(WindowHandle window, CharCallback callback)
+        {
+            var old = glfwSetCharCallback(window, _charCallback = callback);
+            CheckError(nameof(SetCharCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static MouseButtonCallback SetMouseButtonCallback(WindowHandle window, MouseButtonCallback callback)
+        {
+            var old = glfwSetMouseButtonCallback(window, _mouseButtonCallback = callback);
+            CheckError(nameof(SetMouseButtonCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static CursorPositionCallback SetCursorPositionCallback(WindowHandle window, CursorPositionCallback callback)
+        {
+            var old = glfwSetCursorPosCallback(window, _cursorPositionCallback = callback);
+            CheckError(nameof(SetCursorPositionCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static CursorEnterCallback SetCursorEnterCallback(WindowHandle window, CursorEnterCallback callback)
+        {
+            var old = glfwSetCursorEnterCallback(window, _cursorEnterCallback = callback);
+            CheckError(nameof(SetCursorEnterCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ScrollCallback SetScrollCallback(WindowHandle window, ScrollCallback callback)
+        {
+            var old = glfwSetScrollCallback(window, _scrollCallback = callback);
+            CheckError(nameof(SetScrollCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static DropCallback SetDropCallback(WindowHandle window, DropCallback callback)
+        {
+            var old = glfwSetDropCallback(window, _dropCallback = callback);
+            CheckError(nameof(SetDropCallback));
+            return old;
+        }
+
+        #endregion
+
+        #region Window (Input)
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int GetInputMode(WindowHandle window, InputMode mode)
+        {
+            var value = glfwGetInputMode(window, mode);
+            CheckError(nameof(GetInputMode));
+            return value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetInputMode(WindowHandle window, InputMode mode, int value)
+        {
+            glfwSetInputMode(window, mode, value);
+            CheckError(nameof(SetInputMode));
+        }
+
+        public static bool IsRawMouseMotionSupported
+        {
+            get
+            {
+                var value = glfwRawMouseMotionSupported();
+                CheckError(nameof(IsRawMouseMotionSupported));
+                return value;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static string GetKeyName(Key key, int scancode)
+        {
+            var cstr = glfwGetKeyName(key, scancode);
+            CheckError(nameof(GetKeyName));
+            return Marshal.PtrToStringAnsi((IntPtr) cstr);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int GetKeyScancode(Key key)
+        {
+            var scancode = glfwGetKeyScancode(key);
+            CheckError(nameof(GetKeyScancode));
+            return scancode;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ButtonAction GetKey(WindowHandle window, Key key)
+        {
+            var action = glfwGetKey(window, key);
+            CheckError(nameof(GetKey));
+            return action;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ButtonAction GetMouseButton(WindowHandle window, int button)
+        {
+            var action = glfwGetMouseButton(window, button);
+            CheckError(nameof(GetMouseButton));
+            return action;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetCursorPos(WindowHandle window, out double xPos, out double yPos)
+        {
+            glfwGetCursorPos(window, out xPos, out yPos);
+            CheckError(nameof(GetCursorPos));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetCursorPos(WindowHandle window, double xPos, double yPos)
+        {
+            glfwSetCursorPos(window, xPos, yPos);
+            CheckError(nameof(SetCursorPos));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static CursorHandle CreateCursor(ImageData image, int xHot, int yHot)
+        {
+            var cursor = glfwCreateCursor(ref image, xHot, yHot);
+            CheckError(nameof(CreateCursor));
+            return cursor;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static CursorHandle CreateStandardCursor(StandardCursor standardCursor)
+        {
+            var cursor = glfwCreateStandardCursor(standardCursor);
+            CheckError(nameof(CreateCursor));
+            return cursor;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DestroyCursor(CursorHandle cursor)
+        {
+            glfwDestroyCursor(cursor);
+            CheckError(nameof(DestroyCursor));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetCursor(WindowHandle window, CursorHandle cursor)
+        {
+            glfwSetCursor(window, cursor);
+            CheckError(nameof(SetCursor));
         }
 
         #endregion

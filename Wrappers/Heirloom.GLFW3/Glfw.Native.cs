@@ -227,13 +227,13 @@ namespace Heirloom.GLFW3
         private static extern bool glfwRawMouseMotionSupported();
 
         [DllImport(Library), SuppressUnmanagedCodeSecurity]
-        private static extern char* glfwGetKeyName(int key, int scancode);
+        private static extern char* glfwGetKeyName(Key key, int scancode);
 
         [DllImport(Library), SuppressUnmanagedCodeSecurity]
-        private static extern int glfwGetKeyScancode(int key);
+        private static extern int glfwGetKeyScancode(Key key);
 
         [DllImport(Library), SuppressUnmanagedCodeSecurity]
-        private static extern int glfwGetKey(WindowHandle window, int key);
+        private static extern ButtonAction glfwGetKey(WindowHandle window, Key key);
 
         [DllImport(Library), SuppressUnmanagedCodeSecurity]
         private static extern ButtonAction glfwGetMouseButton(WindowHandle window, int button);
@@ -245,7 +245,7 @@ namespace Heirloom.GLFW3
         private static extern void glfwSetCursorPos(WindowHandle window, double xPos, double yPos);
 
         [DllImport(Library), SuppressUnmanagedCodeSecurity]
-        private static extern CursorHandle glfwCreateCursor(ImageData* image, int xHot, int yHot);
+        private static extern CursorHandle glfwCreateCursor(ref ImageData image, int xHot, int yHot);
 
         [DllImport(Library), SuppressUnmanagedCodeSecurity]
         private static extern CursorHandle glfwCreateStandardCursor(StandardCursor cursorType);
@@ -257,25 +257,25 @@ namespace Heirloom.GLFW3
         private static extern void glfwSetCursor(WindowHandle window, CursorHandle handle);
 
         [DllImport(Library), SuppressUnmanagedCodeSecurity]
-        private static extern void glfwSetKeyCallback(WindowHandle window, KeyCallback callback);
+        private static extern KeyCallback glfwSetKeyCallback(WindowHandle window, KeyCallback callback);
 
         [DllImport(Library), SuppressUnmanagedCodeSecurity]
-        private static extern void glfwSetCharCallback(WindowHandle window, CharCallback callback);
+        private static extern CharCallback glfwSetCharCallback(WindowHandle window, CharCallback callback);
 
         [DllImport(Library), SuppressUnmanagedCodeSecurity]
-        private static extern void glfwSetMouseButtonCallback(WindowHandle window, MouseButtonCallback callback);
+        private static extern MouseButtonCallback glfwSetMouseButtonCallback(WindowHandle window, MouseButtonCallback callback);
 
         [DllImport(Library), SuppressUnmanagedCodeSecurity]
-        private static extern void glfwSetCursorPosCallback(WindowHandle window, CursorPositionCallback callback);
+        private static extern CursorPositionCallback glfwSetCursorPosCallback(WindowHandle window, CursorPositionCallback callback);
 
         [DllImport(Library), SuppressUnmanagedCodeSecurity]
-        private static extern void glfwSetCursorEnterCallback(WindowHandle window, CursorEnterCallback callback);
+        private static extern CursorEnterCallback glfwSetCursorEnterCallback(WindowHandle window, CursorEnterCallback callback);
 
         [DllImport(Library), SuppressUnmanagedCodeSecurity]
-        private static extern void glfwSetScrollCallback(WindowHandle window, ScrollCallback callback);
+        private static extern ScrollCallback glfwSetScrollCallback(WindowHandle window, ScrollCallback callback);
 
         [DllImport(Library), SuppressUnmanagedCodeSecurity]
-        private static extern void glfwSetDropCallback(WindowHandle window, DropCallback callback);
+        private static extern DropCallback glfwSetDropCallback(WindowHandle window, DropCallback callback);
 
         #endregion
 

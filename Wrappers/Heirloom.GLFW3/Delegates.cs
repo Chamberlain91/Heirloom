@@ -33,7 +33,7 @@ namespace Heirloom.GLFW3
     public unsafe delegate void WindowContentScaleCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, float xscale, float yscale);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void KeyCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, int key, int scancode, ButtonAction action, KeyModifiers modifiers);
+    public unsafe delegate void KeyCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, Key key, int scancode, ButtonAction action, KeyModifiers modifiers);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public unsafe delegate void CharCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, uint codepoint);
