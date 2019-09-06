@@ -1,12 +1,77 @@
-﻿using System;
-
-namespace Heirloom.GLFW3
+﻿namespace Heirloom.GLFW3
 {
     public class Window
     {
-        public Window(int width, int height, string title, Monitor monitor = null, Window shared = null)
+        public bool IsClosed { get; }
+
+        public bool IsVisible { get; }
+
+        public int Width => _width;
+
+        public int Height => _height;
+
+        public string Title
         {
-            throw new NotImplementedException();
+            get => _title;
+
+            set
+            {
+                _title = value;
+
+                // 
+                if (Handle != Glfw.WindowHandle.None)
+                {
+                    Application.Queue.Invoke(() =>
+                    {
+                        // Glfw.SetWindowTitle(Handle, _title);
+                    });
+                }
+            }
         }
+
+        internal Glfw.WindowHandle Handle;
+
+        private int _width, _height;
+        private string _title;
+
+        public Window(int width, int height, string title)
+        {
+            _width = width;
+            _height = height;
+            _title = title;
+
+            // Track window
+            Application.AddWindow(this);
+        }
+
+        public void Show()
+        {
+            Application.Queue.Invoke(() =>
+            {
+                // No known window, create one
+                if (Handle == Glfw.WindowHandle.None)
+                {
+                    Handle = Glfw.CreateWindow(Width, Height, Title, Glfw.MonitorHandle.None, Application.DummyWindow);
+                }
+
+                // 
+                Glfw.ShowWindow(Handle);
+            });
+        }
+
+        //public void Resize(int width, int height)
+        //{
+        //    _width = width;
+        //    _height = height;
+
+        //    // 
+        //    if (Handle != Glfw.WindowHandle.None)
+        //    {
+        //        Application.Queue.Invoke(() =>
+        //        {
+        //            Glfw.SetWindowSize(Handle, width, height);
+        //        });
+        //    }
+        //}
     }
 }

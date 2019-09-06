@@ -3,7 +3,7 @@ using System.Security;
 
 namespace Heirloom.GLFW3
 {
-    public static unsafe partial class Glfw
+    internal static unsafe partial class Glfw
     {
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
