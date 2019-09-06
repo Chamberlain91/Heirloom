@@ -25,6 +25,13 @@ namespace Examples.SimpleDrawing
             // Create window
             var window = Glfw.CreateWindow(800, 600, "GLFW Example");
 
+            // 
+            Glfw.SetKeyCallback(window, (w, k, c, a, m) =>
+            {
+                if (m != 0) Console.WriteLine($"{k} + {m} ({c}): {a}");
+                else Console.WriteLine($"{k} ({c}): {a}");
+            });
+
             // Prepare OpenGL
             Glfw.MakeContextCurrent(window);
             GL.LoadFunctions(Glfw.GetProcAddress);
