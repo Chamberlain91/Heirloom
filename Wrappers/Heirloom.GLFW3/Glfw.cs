@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Heirloom.GLFW3
 {
-    public static unsafe partial class Glfw
+    internal static unsafe partial class Glfw
     {
         private const string Library = "glfw3";
 
@@ -29,12 +29,7 @@ namespace Heirloom.GLFW3
             _monitorCallback = null;
         }
 
-        internal static MonitorCallback SetMonitorCallback(MonitorCallback callback)
-        {
-            var previous = glfwSetMonitorCallback(_monitorCallback = callback);
-            CheckError(nameof(SetMonitorCallback));
-            return previous;
-        }
+        #region Monitors
 
         internal static MonitorHandle GetPrimaryMonitor()
         {
@@ -56,6 +51,12 @@ namespace Heirloom.GLFW3
             return monitors;
         }
 
+        internal static VideoMode GetVideoMode(MonitorHandle monitor)
+        {
+            var ptr = glfwGetVideoMode(monitor);
+            return Marshal.PtrToStructure<VideoMode>(ptr);
+        }
+
         internal static VideoMode[] GetVideoModes(MonitorHandle monitor)
         {
             var array = glfwGetVideoModes(monitor, out var count);
@@ -69,12 +70,6 @@ namespace Heirloom.GLFW3
             return modes;
         }
 
-        internal static VideoMode GetVideoMode(MonitorHandle monitor)
-        {
-            var ptr = glfwGetVideoMode(monitor);
-            return Marshal.PtrToStructure<VideoMode>(ptr);
-        }
-
         internal static string GetMonitorName(MonitorHandle monitor)
         {
             var cstr = glfwGetMonitorName(monitor);
@@ -82,6 +77,50 @@ namespace Heirloom.GLFW3
 
             return Marshal.PtrToStringAnsi((IntPtr) cstr);
         }
+
+        internal static MonitorCallback SetMonitorCallback(MonitorCallback callback)
+        {
+            var previous = glfwSetMonitorCallback(_monitorCallback = callback);
+            CheckError(nameof(SetMonitorCallback));
+            return previous;
+        }
+
+        #endregion
+
+        #region Windows
+
+        internal static WindowHandle CreateWindow(int width, int height, string title, MonitorHandle monitor, WindowHandle share)
+        {
+            var handle = glfwCreateWindow(width, height, title, monitor, share);
+            CheckError(nameof(CreateWindow));
+            return handle;
+        }
+
+        internal static void ShowWindow(WindowHandle window)
+        {
+            glfwShowWindow(window);
+            CheckError(nameof(ShowWindow));
+        }
+
+        internal static void HideWindow(WindowHandle window)
+        {
+            glfwHideWindow(window);
+            CheckError(nameof(HideWindow));
+        }
+
+        internal static void FocusWindow(WindowHandle window)
+        {
+            glfwFocusWindow(window);
+            CheckError(nameof(FocusWindow));
+        }
+
+        internal static void PollEvents()
+        {
+            glfwPollEvents();
+            CheckError(nameof(PollEvents));
+        }
+
+        #endregion
 
         [Conditional("DEBUG"), MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void CheckError(string command)
