@@ -1,0 +1,53 @@
+﻿using System;
+using System.Runtime.InteropServices;
+
+namespace Heirloom.GLFW3
+{
+    [StructLayout(LayoutKind.Sequential)]
+    public struct CursorHandle : IEquatable<CursorHandle>
+    {
+        public static readonly CursorHandle None = new CursorHandle(IntPtr.Zero);
+
+        public IntPtr Ptr;
+
+        internal CursorHandle(IntPtr ptr)
+        {
+            Ptr = ptr;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is CursorHandle cursor ? Equals(cursor) : false;
+        }
+
+        public bool Equals(CursorHandle obj)
+        {
+            return Ptr == obj.Ptr;
+        }
+
+        public override string ToString()
+        {
+            return Ptr.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            return Ptr.GetHashCode();
+        }
+
+        public static bool operator ==(CursorHandle a, CursorHandle b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(CursorHandle a, CursorHandle b)
+        {
+            return !a.Equals(b);
+        }
+
+        public static implicit operator bool(CursorHandle obj)
+        {
+            return obj.Ptr != IntPtr.Zero;
+        }
+    }
+}

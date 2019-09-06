@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Threading;
 
 using Heirloom.GLFW3;
-
-using Monitor = Heirloom.GLFW3.Monitor;
+using Heirloom.OpenGLES;
 
 namespace Examples.SimpleDrawing
 {
@@ -11,30 +9,49 @@ namespace Examples.SimpleDrawing
     {
         private static void Main(string[] _)
         {
-            Console.WriteLine($"Thread ID: {Thread.CurrentThread.ManagedThreadId}");
-
-            Application.Run(() =>
+            // Initialize
+            if (!Glfw.Init())
             {
-                var window = new Window(800, 600, "Simple Drawing");
-                window.Show();
-            });
-
-            var monitor = Monitor.Default;
-            Console.WriteLine($"{monitor.Name}");
-
-            // 
-            var mode = monitor.GetCurrentVideoMode();
-            Console.WriteLine($"\t{mode}");
-
-            // 
-            var modes = monitor.GetVideoModes();
-            foreach (var _mode in modes)
-            {
-                Console.WriteLine($"\t{_mode}");
+                Console.WriteLine("Unable to initialize GLFW");
+                Environment.Exit(-1);
             }
 
-            // Wait
-            Console.ReadKey();
+            // Set to use OpenGL 3.2 core (forward compatible)
+            Glfw.SetWindowHint(WindowHint.ContextVersionMajor, 3);
+            Glfw.SetWindowHint(WindowHint.ContextVersionMinor, 2);
+            Glfw.SetWindowHint(WindowHint.OpenGLForwardCompatibility, 1);
+            Glfw.SetWindowHint(WindowHint.OpenGLProfile, (int) OpenGLProfile.Core);
+
+            // Create window
+            var window = Glfw.CreateWindow(800, 600, "GLFW Example");
+
+            // Prepare OpenGL
+            Glfw.MakeContextCurrent(window);
+            GL.LoadFunctions(Glfw.GetProcAddress);
+
+            // Main Loop
+            while (!Glfw.GetWindowShouldClose(window))
+            {
+                Glfw.WaitEvents();
+
+                // 
+                Glfw.GetFramebufferSize(window, out var w, out var h);
+                GL.SetViewport(0, 0, w, h);
+
+                // 
+                GL.SetClearColor(0xFF123456);
+                GL.Clear(ClearMask.Color);
+
+                // 
+                Glfw.SwapBuffers(window);
+
+                // Hit the GC hard
+                GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);
+            }
+
+            // Terminate
+            Glfw.DestroyWindow(window);
+            Glfw.Terminate();
         }
     }
 }

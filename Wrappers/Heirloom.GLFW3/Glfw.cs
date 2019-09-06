@@ -5,42 +5,141 @@ using System.Runtime.InteropServices;
 
 namespace Heirloom.GLFW3
 {
-    internal static unsafe partial class Glfw
+    public static unsafe partial class Glfw
     {
         private const string Library = "glfw3";
 
         private static MonitorCallback _monitorCallback;
+        private static WindowPositionCallback _windowPositionCallback;
+        private static FramebufferSizeCallback _framebufferSizeCallback;
+        private static WindowSizeCallback _windowSizeCallback;
+        private static WindowCloseCallback _windowCloseCallback;
+        private static WindowRefreshCallback _windowRefreshCallback;
+        private static WindowFocusCallback _windowFocusCallback;
+        private static WindowIconifyCallback _windowIconifyCallback;
+        private static WindowMaximizeCallback _windowMaximizeCallback;
+        private static WindowContentScaleCallback _windowContentScale;
 
-        public static bool IsInitialized { get; private set; }
-
-        public static bool Initialize()
+        public static bool Init()
         {
             var success = glfwInit();
-            CheckError(nameof(Initialize));
-            IsInitialized = success;
+            CheckError(nameof(Init));
             return success;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetInitHint(InitHint hint, bool state)
+        {
+            glfwInitHint(hint, state);
+            CheckError(nameof(SetInitHint));
         }
 
         public static void Terminate()
         {
-            GC.KeepAlive(_monitorCallback);
+            glfwTerminate();
+            CheckError(nameof(Terminate));
 
-            // Clear callbacks?
-            _monitorCallback = null;
+            // 
+            GC.KeepAlive(_monitorCallback);
+            GC.KeepAlive(_windowPositionCallback);
+            GC.KeepAlive(_framebufferSizeCallback);
+            GC.KeepAlive(_windowSizeCallback);
+            GC.KeepAlive(_windowCloseCallback);
+            GC.KeepAlive(_windowRefreshCallback);
+            GC.KeepAlive(_windowFocusCallback);
+            GC.KeepAlive(_windowIconifyCallback);
+            GC.KeepAlive(_windowMaximizeCallback);
+            GC.KeepAlive(_windowContentScale);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetVersion(out int major, out int minor, out int revision)
+        {
+            glfwGetVersion(out major, out minor, out revision);
+            CheckError(nameof(GetVersion));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Version GetVersion()
+        {
+            GetVersion(out var maj, out var min, out var rev);
+            return new Version(maj, min, 0, rev);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static string GetVersionString()
+        {
+            var cstr = glfwGetVersionString();
+            CheckError(nameof(GetVersionString));
+            return Marshal.PtrToStringAnsi((IntPtr) cstr);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void PollEvents()
+        {
+            glfwPollEvents();
+            CheckError(nameof(PollEvents));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WaitEvents()
+        {
+            glfwWaitEvents();
+            CheckError(nameof(WaitEvents));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WaitEventsTimeout(double timeout)
+        {
+            glfwWaitEventsTimeout(timeout);
+            CheckError(nameof(WaitEventsTimeout));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void PostEmptyEvent()
+        {
+            glfwPostEmptyEvent();
+            CheckError(nameof(PostEmptyEvent));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double GetTime()
+        {
+            var time = glfwGetTime();
+            CheckError(nameof(GetTime));
+            return time;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetTime(double time)
+        {
+            glfwSetTime(time);
+            CheckError(nameof(SetTime));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong GetTimerValue()
+        {
+            var value = glfwGetTimerValue();
+            CheckError(nameof(GetTimerValue));
+            return value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong GetTimerFrequency()
+        {
+            var freq = glfwGetTimerFrequency();
+            CheckError(nameof(GetTimerFrequency));
+            return freq;
         }
 
         #region Monitors
 
-        internal static MonitorHandle GetPrimaryMonitor()
-        {
-            var handle = glfwGetPrimaryMonitor();
-            CheckError(nameof(GetPrimaryMonitor));
-            return handle;
-        }
-
-        internal static MonitorHandle[] GetMonitors()
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static MonitorHandle[] GetMonitors()
         {
             var array = glfwGetMonitors(out var count);
+            CheckError(nameof(GetMonitors));
 
             var monitors = new MonitorHandle[count];
             for (var i = 0; i < count; i++)
@@ -51,15 +150,63 @@ namespace Heirloom.GLFW3
             return monitors;
         }
 
-        internal static VideoMode GetVideoMode(MonitorHandle monitor)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static MonitorHandle GetPrimaryMonitor()
+        {
+            var handle = glfwGetPrimaryMonitor();
+            CheckError(nameof(GetPrimaryMonitor));
+            return handle;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetMonitorPosition(MonitorHandle monitor, out int x, out int y)
+        {
+            glfwGetMonitorPos(monitor, out x, out y);
+            CheckError(nameof(GetMonitorPosition));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetMonitorWorkarea(MonitorHandle monitor, out int x, out int y, out int width, out int height)
+        {
+            glfwGetMonitorWorkarea(monitor, out x, out y, out width, out height);
+            CheckError(nameof(GetMonitorWorkarea));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetMonitorPhysicalSize(MonitorHandle monitor, out int widthMM, out int heightMM)
+        {
+            glfwGetMonitorPhysicalSize(monitor, out widthMM, out heightMM);
+            CheckError(nameof(GetMonitorPhysicalSize));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetMonitorContentScale(MonitorHandle monitor, out float xScale, out float yScale)
+        {
+            glfwGetMonitorContentScale(monitor, out xScale, out yScale);
+            CheckError(nameof(GetMonitorContentScale));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static string GetMonitorName(MonitorHandle monitor)
+        {
+            var cstr = glfwGetMonitorName(monitor);
+            CheckError(nameof(GetMonitorName));
+            return Marshal.PtrToStringAnsi((IntPtr) cstr);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static VideoMode GetVideoMode(MonitorHandle monitor)
         {
             var ptr = glfwGetVideoMode(monitor);
+            CheckError(nameof(GetVideoMode));
             return Marshal.PtrToStructure<VideoMode>(ptr);
         }
 
-        internal static VideoMode[] GetVideoModes(MonitorHandle monitor)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static VideoMode[] GetVideoModes(MonitorHandle monitor)
         {
             var array = glfwGetVideoModes(monitor, out var count);
+            CheckError(nameof(GetVideoModes));
 
             var modes = new VideoMode[count];
             for (var i = 0; i < count; i++)
@@ -70,15 +217,15 @@ namespace Heirloom.GLFW3
             return modes;
         }
 
-        internal static string GetMonitorName(MonitorHandle monitor)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetGamma(MonitorHandle monitor, float gamma)
         {
-            var cstr = glfwGetMonitorName(monitor);
-            CheckError(nameof(GetMonitorName));
-
-            return Marshal.PtrToStringAnsi((IntPtr) cstr);
+            glfwSetGamma(monitor, gamma);
+            CheckError(nameof(SetGamma));
         }
 
-        internal static MonitorCallback SetMonitorCallback(MonitorCallback callback)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static MonitorCallback SetMonitorCallback(MonitorCallback callback)
         {
             var previous = glfwSetMonitorCallback(_monitorCallback = callback);
             CheckError(nameof(SetMonitorCallback));
@@ -89,35 +236,362 @@ namespace Heirloom.GLFW3
 
         #region Windows
 
-        internal static WindowHandle CreateWindow(int width, int height, string title, MonitorHandle monitor, WindowHandle share)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void ResetWindowHints()
+        {
+            glfwDefaultWindowHints();
+            CheckError(nameof(ResetWindowHints));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowHint(WindowHint hint, bool value)
+        {
+            SetWindowHint(hint, value ? 1 : 0);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowHint(WindowHint hint, int value)
+        {
+            glfwWindowHint(hint, value);
+            CheckError(nameof(SetWindowHint));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowHint(WindowHint hint, string value)
+        {
+            glfwWindowHintString(hint, value);
+            CheckError(nameof(SetWindowHint));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static WindowHandle CreateWindow(int width, int height, string title, MonitorHandle monitor = default, WindowHandle share = default)
         {
             var handle = glfwCreateWindow(width, height, title, monitor, share);
             CheckError(nameof(CreateWindow));
             return handle;
         }
 
-        internal static void ShowWindow(WindowHandle window)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DestroyWindow(WindowHandle window)
+        {
+            glfwDestroyWindow(window);
+            CheckError(nameof(DestroyWindow));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool GetWindowShouldClose(WindowHandle window)
+        {
+            var state = glfwWindowShouldClose(window);
+            CheckError(nameof(GetWindowShouldClose));
+            return state;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowShouldClose(WindowHandle window, bool state)
+        {
+            glfwSetWindowShouldClose(window, state);
+            CheckError(nameof(SetWindowShouldClose));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowTitle(WindowHandle window, string title)
+        {
+            glfwSetWindowTitle(window, title);
+            CheckError(nameof(SetWindowTitle));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowIcon(WindowHandle window, ImageData image)
+        {
+            SetWindowIcons(window, new[] { image });
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowIcons(WindowHandle window, ImageData[] images)
+        {
+            fixed (ImageData* ptr = images)
+            {
+                glfwSetWindowIcon(window, images.Length, ptr);
+                CheckError(nameof(SetWindowIcon));
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetWindowPosition(WindowHandle window, out int xPos, out int yPos)
+        {
+            glfwGetWindowPos(window, out xPos, out yPos);
+            CheckError(nameof(GetWindowPosition));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowPosition(WindowHandle window, int xPos, int yPos)
+        {
+            glfwSetWindowPos(window, xPos, yPos);
+            CheckError(nameof(SetWindowPosition));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetWindowSize(WindowHandle window, out int width, out int height)
+        {
+            glfwGetWindowSize(window, out width, out height);
+            CheckError(nameof(GetWindowSize));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowSize(WindowHandle window, int width, int height)
+        {
+            glfwSetWindowSize(window, width, height);
+            CheckError(nameof(SetWindowSize));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowSizeLimits(WindowHandle window, int minWidth, int minHeight, int maxWidth, int maxHeight)
+        {
+            glfwSetWindowSizeLimits(window, minWidth, minHeight, maxWidth, maxHeight);
+            CheckError(nameof(SetWindowSizeLimits));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowAspectRatio(WindowHandle window, int numerator, int denominator)
+        {
+            glfwSetWindowAspectRatio(window, numerator, denominator);
+            CheckError(nameof(SetWindowAspectRatio));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetFramebufferSize(WindowHandle window, out int width, out int height)
+        {
+            glfwGetFramebufferSize(window, out width, out height);
+            CheckError(nameof(GetFramebufferSize));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetWindowBounds(WindowHandle window, out int left, out int top, out int right, out int bottom)
+        {
+            glfwGetWindowFrameSize(window, out left, out top, out right, out bottom);
+            CheckError(nameof(GetWindowBounds));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetWindowContentScale(WindowHandle window, out float xScale, out float yScale)
+        {
+            glfwGetWindowContentScale(window, out xScale, out yScale);
+            CheckError(nameof(GetWindowContentScale));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowOpacity(WindowHandle window, float opacity)
+        {
+            glfwSetWindowOpacity(window, opacity);
+            CheckError(nameof(SetWindowOpacity));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float GetWindowOpacity(WindowHandle window)
+        {
+            var opacity = glfwGetWindowOpacity(window);
+            CheckError(nameof(GetWindowOpacity));
+            return opacity;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void ShowWindow(WindowHandle window)
         {
             glfwShowWindow(window);
             CheckError(nameof(ShowWindow));
         }
 
-        internal static void HideWindow(WindowHandle window)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IconifyWindow(WindowHandle window)
+        {
+            glfwIconifyWindow(window);
+            CheckError(nameof(IconifyWindow));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void MaximizeWindow(WindowHandle window)
+        {
+            glfwMaximizeWindow(window);
+            CheckError(nameof(MaximizeWindow));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RestoreWindow(WindowHandle window)
+        {
+            glfwRestoreWindow(window);
+            CheckError(nameof(RestoreWindow));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RequestWindowAttention(WindowHandle window)
+        {
+            glfwRequestWindowAttention(window);
+            CheckError(nameof(RequestWindowAttention));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HideWindow(WindowHandle window)
         {
             glfwHideWindow(window);
             CheckError(nameof(HideWindow));
         }
 
-        internal static void FocusWindow(WindowHandle window)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void FocusWindow(WindowHandle window)
         {
             glfwFocusWindow(window);
             CheckError(nameof(FocusWindow));
         }
 
-        internal static void PollEvents()
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static MonitorHandle GetWindowMonitor(WindowHandle window)
         {
-            glfwPollEvents();
-            CheckError(nameof(PollEvents));
+            var monitor = glfwGetWindowMonitor(window);
+            CheckError(nameof(GetWindowMonitor));
+            return monitor;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowMonitor(WindowHandle window, MonitorHandle monitor, int x, int y, int width, int height, int refresh)
+        {
+            glfwSetWindowMonitor(window, monitor, x, y, width, height, refresh);
+            CheckError(nameof(SetWindowMonitor));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int GetWindowAttrib(WindowHandle window, WindowAttribute attribute)
+        {
+            var value = glfwGetWindowAttrib(window, attribute);
+            CheckError(nameof(GetWindowAttrib));
+            return value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowAttrib(WindowHandle window, WindowAttribute attribute, int value)
+        {
+            glfwSetWindowAttrib(window, attribute, value);
+            CheckError(nameof(SetWindowAttrib));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static WindowPositionCallback SetWindowPositionCallback(WindowHandle window, WindowPositionCallback callback)
+        {
+            var old = glfwSetWindowPosCallback(window, _windowPositionCallback = callback);
+            CheckError(nameof(SetWindowPositionCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static WindowSizeCallback SetWindowSizeCallback(WindowHandle window, WindowSizeCallback callback)
+        {
+            var old = glfwSetWindowSizeCallback(window, _windowSizeCallback = callback);
+            CheckError(nameof(SetWindowSizeCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static WindowCloseCallback SetWindowCloseCallback(WindowHandle window, WindowCloseCallback callback)
+        {
+            var old = glfwSetWindowCloseCallback(window, _windowCloseCallback = callback);
+            CheckError(nameof(SetWindowCloseCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static WindowRefreshCallback SetWindowRefreshCallback(WindowHandle window, WindowRefreshCallback callback)
+        {
+            var old = glfwSetWindowRefreshCallback(window, _windowRefreshCallback = callback);
+            CheckError(nameof(SetWindowRefreshCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static WindowFocusCallback SetWindowFocusCallback(WindowHandle window, WindowFocusCallback callback)
+        {
+            var old = glfwSetWindowFocusCallback(window, _windowFocusCallback = callback);
+            CheckError(nameof(SetWindowFocusCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static WindowIconifyCallback SetWindowIconifyCallback(WindowHandle window, WindowIconifyCallback callback)
+        {
+            var old = glfwSetWindowIconifyCallback(window, _windowIconifyCallback = callback);
+            CheckError(nameof(SetWindowIconifyCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static WindowMaximizeCallback SetWindowMaximizeCallback(WindowHandle window, WindowMaximizeCallback callback)
+        {
+            var old = glfwSetWindowMaximizeCallback(window, _windowMaximizeCallback = callback);
+            CheckError(nameof(SetWindowMaximizeCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static FramebufferSizeCallback SetFramebufferSizeCallback(WindowHandle window, FramebufferSizeCallback callback)
+        {
+            var old = glfwSetFramebufferSizeCallback(window, _framebufferSizeCallback = callback);
+            CheckError(nameof(SetFramebufferSizeCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static WindowContentScaleCallback SetWindowContentScaleCallback(WindowHandle window, WindowContentScaleCallback callback)
+        {
+            var old = glfwSetWindowContentScaleCallback(window, _windowContentScale = callback);
+            CheckError(nameof(SetWindowContentScaleCallback));
+            return old;
+        }
+
+        #endregion
+
+        #region Window (OpenGL)
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void MakeContextCurrent(WindowHandle window)
+        {
+            glfwMakeContextCurrent(window);
+            CheckError(nameof(MakeContextCurrent));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static WindowHandle GetCurrentContext()
+        {
+            var value = glfwGetCurrentContext();
+            CheckError(nameof(GetCurrentContext));
+            return value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SwapBuffers(WindowHandle window)
+        {
+            glfwSwapBuffers(window);
+            CheckError(nameof(SwapBuffers));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetSwapInterval(int interval)
+        {
+            glfwSwapInterval(interval);
+            CheckError(nameof(SetSwapInterval));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsExtensionSupported(string extension)
+        {
+            var value = glfwExtensionSupported(extension);
+            CheckError(nameof(IsExtensionSupported));
+            return value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IntPtr GetProcAddress(string name)
+        {
+            var addr = glfwGetProcAddress(name);
+            CheckError(nameof(GetProcAddress));
+            return addr;
         }
 
         #endregion
@@ -143,18 +617,6 @@ namespace Heirloom.GLFW3
             {
                 throw new GlfwException($"GL error detected in a call to {command}");
             }
-        }
-
-        internal enum ErrorCode : int
-        {
-            None = 0,
-            NotInitialized = 0x10001
-        }
-
-        internal enum ConnectState
-        {
-            Connected = 0x00040001,
-            Disconnected = 0x00040002
         }
     }
 }

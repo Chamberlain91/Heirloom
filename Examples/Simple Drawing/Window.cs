@@ -1,4 +1,6 @@
-﻿namespace Heirloom.GLFW3
+﻿using Heirloom.GLFW3;
+
+namespace Heirloom.Desktop
 {
     public class Window
     {
@@ -19,7 +21,7 @@
                 _title = value;
 
                 // 
-                if (Handle != Glfw.WindowHandle.None)
+                if (Handle != WindowHandle.None)
                 {
                     Application.Queue.Invoke(() =>
                     {
@@ -29,7 +31,7 @@
             }
         }
 
-        internal Glfw.WindowHandle Handle;
+        internal WindowHandle Handle;
 
         private int _width, _height;
         private string _title;
@@ -49,9 +51,9 @@
             Application.Queue.Invoke(() =>
             {
                 // No known window, create one
-                if (Handle == Glfw.WindowHandle.None)
+                if (Handle == WindowHandle.None)
                 {
-                    Handle = Glfw.CreateWindow(Width, Height, Title, Glfw.MonitorHandle.None, Application.DummyWindow);
+                    Handle = Glfw.CreateWindow(Width, Height, Title, MonitorHandle.None, Application.DummyWindow);
                 }
 
                 // 
