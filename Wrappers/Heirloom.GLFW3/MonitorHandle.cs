@@ -17,7 +17,7 @@ namespace Heirloom.GLFW3
 
         public override bool Equals(object obj)
         {
-            return obj is MonitorHandle hdl ? Equals(hdl) : false;
+            return obj is MonitorHandle mon ? Equals(mon) : false;
         }
 
         public bool Equals(MonitorHandle obj)
