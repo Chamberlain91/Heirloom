@@ -3,7 +3,7 @@
 using Heirloom.Math;
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.Backends.OpenGL
+namespace Heirloom.Drawing.OpenGL
 {
     internal class GLTexture : IDisposable
     {

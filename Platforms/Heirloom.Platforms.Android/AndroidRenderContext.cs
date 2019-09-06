@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-using Heirloom.Drawing.Backends.OpenGL;
+using Heirloom.Drawing.OpenGL;
 using Heirloom.Math;
 using Heirloom.OpenGLES;
 using Heirloom.OpenGLES.Platform;
@@ -36,12 +36,6 @@ namespace Heirloom.Platforms.Android
                     GL.LoadFunctions(Egl.GetProcAddress);
                 }
             });
-        }
-
-        protected override void TerminateContext()
-        {
-            // todo: what to do here?!
-            Console.WriteLine("Terminate Context");
         }
 
         public override void SwapBuffers()

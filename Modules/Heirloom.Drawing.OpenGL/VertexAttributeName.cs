@@ -1,4 +1,4 @@
-﻿namespace Heirloom.Drawing.Backends.OpenGL
+﻿namespace Heirloom.Drawing.OpenGL
 {
     internal enum VertexAttributeName
     {

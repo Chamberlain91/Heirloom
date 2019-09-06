@@ -1,6 +1,6 @@
 ﻿using Heirloom.Math;
 
-namespace Heirloom.Drawing.Backends.OpenGL
+namespace Heirloom.Drawing.OpenGL
 {
     internal abstract class Renderer
     {

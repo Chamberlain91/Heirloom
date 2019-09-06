@@ -1,7 +1,7 @@
 ﻿using Heirloom.Math;
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.Backends.OpenGL
+namespace Heirloom.Drawing.OpenGL
 {
     internal sealed class GLFramebufferSurface : GLSurface
     {
