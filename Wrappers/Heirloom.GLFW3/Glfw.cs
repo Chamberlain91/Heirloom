@@ -478,9 +478,9 @@ namespace Heirloom.GLFW3
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SetWindowAttrib(WindowHandle window, WindowAttribute attribute, int value)
+        public static void SetWindowAttrib(WindowHandle window, WindowAttribute attribute, bool value)
         {
-            glfwSetWindowAttrib(window, attribute, value);
+            glfwSetWindowAttrib(window, attribute, value ? 1 : 0);
             CheckError(nameof(SetWindowAttrib));
         }
 
@@ -690,17 +690,17 @@ namespace Heirloom.GLFW3
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void GetCursorPos(WindowHandle window, out double xPos, out double yPos)
+        public static void GetCursorPosition(WindowHandle window, out double xPos, out double yPos)
         {
             glfwGetCursorPos(window, out xPos, out yPos);
-            CheckError(nameof(GetCursorPos));
+            CheckError(nameof(GetCursorPosition));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SetCursorPos(WindowHandle window, double xPos, double yPos)
+        public static void SetCursorPosition(WindowHandle window, double xPos, double yPos)
         {
             glfwSetCursorPos(window, xPos, yPos);
-            CheckError(nameof(SetCursorPos));
+            CheckError(nameof(SetCursorPosition));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
