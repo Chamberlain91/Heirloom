@@ -17,7 +17,7 @@ namespace Heirloom.GLFW3
 
         public override bool Equals(object obj)
         {
-            return obj is CursorHandle cursor ? Equals(cursor) : false;
+            return obj is CursorHandle cur ? Equals(cur) : false;
         }
 
         public bool Equals(CursorHandle obj)

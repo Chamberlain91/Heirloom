@@ -275,7 +275,7 @@ namespace Heirloom.GLFW3
         private static extern ScrollCallback glfwSetScrollCallback(WindowHandle window, ScrollCallback callback);
 
         [DllImport(Library), SuppressUnmanagedCodeSecurity]
-        private static extern DropCallbackInternal glfwSetDropCallback(WindowHandle window, DropCallbackInternal callback);
+        private static extern DropCallback glfwSetDropCallback(WindowHandle window, DropCallback callback);
 
         #endregion
 

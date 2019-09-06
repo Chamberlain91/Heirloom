@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Runtime.InteropServices;
 using Heirloom.GLFW3;
 using Heirloom.OpenGLES;
 
@@ -28,8 +28,18 @@ namespace Examples.SimpleDrawing
             // 
             Glfw.SetKeyCallback(window, (w, k, c, a, m) =>
             {
-                if (m != 0) Console.WriteLine($"{k} + {m} ({c}): {a}");
-                else Console.WriteLine($"{k} ({c}): {a}");
+                Console.WriteLine($"Key '{k}' => {a}");
+            });
+
+            // 
+            Glfw.SetDropCallback(window, (w, c, p) =>
+            {
+                Console.WriteLine($"Dropped: {c} files");
+
+                for (var i = 0; i < c; i++)
+                {
+                    Console.WriteLine($"    {i}: {Glfw.ReadString(p, i)}");
+                }
             });
 
             // Prepare OpenGL

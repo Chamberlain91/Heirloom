@@ -9,28 +9,6 @@ namespace Heirloom.GLFW3
     {
         private const string Library = "glfw3";
 
-        private static MonitorCallback _monitorCallback;
-        private static WindowPositionCallback _windowPositionCallback;
-        private static FramebufferSizeCallback _framebufferSizeCallback;
-        private static WindowSizeCallback _windowSizeCallback;
-        private static WindowCloseCallback _windowCloseCallback;
-        private static WindowRefreshCallback _windowRefreshCallback;
-        private static WindowFocusCallback _windowFocusCallback;
-        private static WindowIconifyCallback _windowIconifyCallback;
-        private static WindowMaximizeCallback _windowMaximizeCallback;
-        private static WindowContentScaleCallback _windowContentScale;
-
-
-        private static KeyCallback _keyCallback;
-        private static CharCallback _charCallback;
-        private static MouseButtonCallback _mouseButtonCallback;
-        private static CursorPositionCallback _cursorPositionCallback;
-        private static CursorEnterCallback _cursorEnterCallback;
-        private static ScrollCallback _scrollCallback;
-
-        private static DropCallbackInternal _dropCallbackInternal;
-        private static DropCallback _dropCallback;
-
         public static bool Init()
         {
             var success = glfwInit();
@@ -49,18 +27,6 @@ namespace Heirloom.GLFW3
         {
             glfwTerminate();
             CheckError(nameof(Terminate));
-
-            // 
-            GC.KeepAlive(_monitorCallback);
-            GC.KeepAlive(_windowPositionCallback);
-            GC.KeepAlive(_framebufferSizeCallback);
-            GC.KeepAlive(_windowSizeCallback);
-            GC.KeepAlive(_windowCloseCallback);
-            GC.KeepAlive(_windowRefreshCallback);
-            GC.KeepAlive(_windowFocusCallback);
-            GC.KeepAlive(_windowIconifyCallback);
-            GC.KeepAlive(_windowMaximizeCallback);
-            GC.KeepAlive(_windowContentScale);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -238,7 +204,7 @@ namespace Heirloom.GLFW3
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static MonitorCallback SetMonitorCallback(MonitorCallback callback)
         {
-            var previous = glfwSetMonitorCallback(_monitorCallback = callback);
+            var previous = glfwSetMonitorCallback(callback);
             CheckError(nameof(SetMonitorCallback));
             return previous;
         }
@@ -487,7 +453,7 @@ namespace Heirloom.GLFW3
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static WindowPositionCallback SetWindowPositionCallback(WindowHandle window, WindowPositionCallback callback)
         {
-            var old = glfwSetWindowPosCallback(window, _windowPositionCallback = callback);
+            var old = glfwSetWindowPosCallback(window, callback);
             CheckError(nameof(SetWindowPositionCallback));
             return old;
         }
@@ -495,7 +461,7 @@ namespace Heirloom.GLFW3
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static WindowSizeCallback SetWindowSizeCallback(WindowHandle window, WindowSizeCallback callback)
         {
-            var old = glfwSetWindowSizeCallback(window, _windowSizeCallback = callback);
+            var old = glfwSetWindowSizeCallback(window, callback);
             CheckError(nameof(SetWindowSizeCallback));
             return old;
         }
@@ -503,7 +469,7 @@ namespace Heirloom.GLFW3
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static WindowCloseCallback SetWindowCloseCallback(WindowHandle window, WindowCloseCallback callback)
         {
-            var old = glfwSetWindowCloseCallback(window, _windowCloseCallback = callback);
+            var old = glfwSetWindowCloseCallback(window, callback);
             CheckError(nameof(SetWindowCloseCallback));
             return old;
         }
@@ -511,7 +477,7 @@ namespace Heirloom.GLFW3
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static WindowRefreshCallback SetWindowRefreshCallback(WindowHandle window, WindowRefreshCallback callback)
         {
-            var old = glfwSetWindowRefreshCallback(window, _windowRefreshCallback = callback);
+            var old = glfwSetWindowRefreshCallback(window, callback);
             CheckError(nameof(SetWindowRefreshCallback));
             return old;
         }
@@ -519,7 +485,7 @@ namespace Heirloom.GLFW3
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static WindowFocusCallback SetWindowFocusCallback(WindowHandle window, WindowFocusCallback callback)
         {
-            var old = glfwSetWindowFocusCallback(window, _windowFocusCallback = callback);
+            var old = glfwSetWindowFocusCallback(window, callback);
             CheckError(nameof(SetWindowFocusCallback));
             return old;
         }
@@ -527,7 +493,7 @@ namespace Heirloom.GLFW3
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static WindowIconifyCallback SetWindowIconifyCallback(WindowHandle window, WindowIconifyCallback callback)
         {
-            var old = glfwSetWindowIconifyCallback(window, _windowIconifyCallback = callback);
+            var old = glfwSetWindowIconifyCallback(window, callback);
             CheckError(nameof(SetWindowIconifyCallback));
             return old;
         }
@@ -535,7 +501,7 @@ namespace Heirloom.GLFW3
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static WindowMaximizeCallback SetWindowMaximizeCallback(WindowHandle window, WindowMaximizeCallback callback)
         {
-            var old = glfwSetWindowMaximizeCallback(window, _windowMaximizeCallback = callback);
+            var old = glfwSetWindowMaximizeCallback(window, callback);
             CheckError(nameof(SetWindowMaximizeCallback));
             return old;
         }
@@ -543,7 +509,7 @@ namespace Heirloom.GLFW3
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static FramebufferSizeCallback SetFramebufferSizeCallback(WindowHandle window, FramebufferSizeCallback callback)
         {
-            var old = glfwSetFramebufferSizeCallback(window, _framebufferSizeCallback = callback);
+            var old = glfwSetFramebufferSizeCallback(window, callback);
             CheckError(nameof(SetFramebufferSizeCallback));
             return old;
         }
@@ -551,7 +517,7 @@ namespace Heirloom.GLFW3
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static WindowContentScaleCallback SetWindowContentScaleCallback(WindowHandle window, WindowContentScaleCallback callback)
         {
-            var old = glfwSetWindowContentScaleCallback(window, _windowContentScale = callback);
+            var old = glfwSetWindowContentScaleCallback(window, callback);
             CheckError(nameof(SetWindowContentScaleCallback));
             return old;
         }
@@ -559,7 +525,7 @@ namespace Heirloom.GLFW3
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static KeyCallback SetKeyCallback(WindowHandle window, KeyCallback callback)
         {
-            var old = glfwSetKeyCallback(window, _keyCallback = callback);
+            var old = glfwSetKeyCallback(window, callback);
             CheckError(nameof(SetKeyCallback));
             return old;
         }
@@ -567,7 +533,7 @@ namespace Heirloom.GLFW3
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static CharCallback SetCharCallback(WindowHandle window, CharCallback callback)
         {
-            var old = glfwSetCharCallback(window, _charCallback = callback);
+            var old = glfwSetCharCallback(window, callback);
             CheckError(nameof(SetCharCallback));
             return old;
         }
@@ -575,7 +541,7 @@ namespace Heirloom.GLFW3
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static MouseButtonCallback SetMouseButtonCallback(WindowHandle window, MouseButtonCallback callback)
         {
-            var old = glfwSetMouseButtonCallback(window, _mouseButtonCallback = callback);
+            var old = glfwSetMouseButtonCallback(window, callback);
             CheckError(nameof(SetMouseButtonCallback));
             return old;
         }
@@ -583,7 +549,7 @@ namespace Heirloom.GLFW3
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static CursorPositionCallback SetCursorPositionCallback(WindowHandle window, CursorPositionCallback callback)
         {
-            var old = glfwSetCursorPosCallback(window, _cursorPositionCallback = callback);
+            var old = glfwSetCursorPosCallback(window, callback);
             CheckError(nameof(SetCursorPositionCallback));
             return old;
         }
@@ -591,7 +557,7 @@ namespace Heirloom.GLFW3
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static CursorEnterCallback SetCursorEnterCallback(WindowHandle window, CursorEnterCallback callback)
         {
-            var old = glfwSetCursorEnterCallback(window, _cursorEnterCallback = callback);
+            var old = glfwSetCursorEnterCallback(window, callback);
             CheckError(nameof(SetCursorEnterCallback));
             return old;
         }
@@ -599,7 +565,7 @@ namespace Heirloom.GLFW3
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ScrollCallback SetScrollCallback(WindowHandle window, ScrollCallback callback)
         {
-            var old = glfwSetScrollCallback(window, _scrollCallback = callback);
+            var old = glfwSetScrollCallback(window, callback);
             CheckError(nameof(SetScrollCallback));
             return old;
         }
@@ -607,24 +573,8 @@ namespace Heirloom.GLFW3
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DropCallback SetDropCallback(WindowHandle window, DropCallback callback)
         {
-            var old = _dropCallback;
-
-            // Special handling to account for function pointer with char** arg
-            _dropCallback = callback;
-            _dropCallbackInternal = (w, count, ptrPaths) =>
-            {
-                var paths = new string[count];
-                for (var i = 0; i < count; i++)
-                {
-                    paths[i] = Marshal.PtrToStringAnsi((IntPtr) ptrPaths[i]);
-                }
-
-                callback(w, paths);
-            };
-
-            glfwSetDropCallback(window, _dropCallbackInternal);
+            var old = glfwSetDropCallback(window, callback);
             CheckError(nameof(SetDropCallback));
-
             return old;
         }
 
@@ -712,7 +662,7 @@ namespace Heirloom.GLFW3
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static CursorHandle CreateStandardCursor(StandardCursor standardCursor)
+        public static CursorHandle CreateCursor(StandardCursor standardCursor)
         {
             var cursor = glfwCreateStandardCursor(standardCursor);
             CheckError(nameof(CreateCursor));
@@ -783,6 +733,17 @@ namespace Heirloom.GLFW3
         }
 
         #endregion
+
+        public static string ReadString(IntPtr ptr)
+        {
+            return Marshal.PtrToStringAnsi(ptr);
+        }
+
+        public static string ReadString(IntPtr ptr, int index)
+        {
+            ptr = Marshal.ReadIntPtr(ptr + (index * IntPtr.Size));
+            return Marshal.PtrToStringAnsi(ptr);
+        }
 
         [Conditional("DEBUG"), MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void CheckError(string command)
