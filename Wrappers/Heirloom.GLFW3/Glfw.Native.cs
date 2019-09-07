@@ -99,10 +99,10 @@ namespace Heirloom.GLFW3
         private static extern void glfwDefaultWindowHints();
 
         [DllImport(Library), SuppressUnmanagedCodeSecurity]
-        private static extern void glfwWindowHint(WindowHint hint, int value);
+        private static extern void glfwWindowHint(WindowCreationHint hint, int value);
 
         [DllImport(Library), SuppressUnmanagedCodeSecurity]
-        private static extern void glfwWindowHintString(WindowHint hint, string value);
+        private static extern void glfwWindowHintString(WindowCreationHint hint, string value);
 
         [DllImport(Library), SuppressUnmanagedCodeSecurity]
         private static extern WindowHandle glfwCreateWindow(int width, int height, string title, MonitorHandle monitor, WindowHandle share);

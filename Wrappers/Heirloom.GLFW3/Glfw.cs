@@ -214,30 +214,35 @@ namespace Heirloom.GLFW3
         #region Window
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ResetWindowHints()
+        public static void SetDefaultWindowCreationHints()
         {
             glfwDefaultWindowHints();
-            CheckError(nameof(ResetWindowHints));
+            CheckError(nameof(SetDefaultWindowCreationHints));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SetWindowHint(WindowHint hint, bool value)
+        public static void SetWindowCreationHint(WindowAttribute hint, bool value)
         {
-            SetWindowHint(hint, value ? 1 : 0);
+            SetWindowCreationHint((WindowCreationHint) hint, value ? 1 : 0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SetWindowHint(WindowHint hint, int value)
+        public static void SetWindowCreationHint(WindowAttribute hint, int value)
+        {
+            SetWindowCreationHint((WindowCreationHint) hint, value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowCreationHint(WindowCreationHint hint, bool value)
+        {
+            SetWindowCreationHint(hint, value ? 1 : 0);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowCreationHint(WindowCreationHint hint, int value)
         {
             glfwWindowHint(hint, value);
-            CheckError(nameof(SetWindowHint));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SetWindowHint(WindowHint hint, string value)
-        {
-            glfwWindowHintString(hint, value);
-            CheckError(nameof(SetWindowHint));
+            CheckError(nameof(SetWindowCreationHint));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -436,18 +441,18 @@ namespace Heirloom.GLFW3
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int GetWindowAttrib(WindowHandle window, WindowAttribute attribute)
+        public static int GetWindowAttribute(WindowHandle window, WindowAttribute attribute)
         {
             var value = glfwGetWindowAttrib(window, attribute);
-            CheckError(nameof(GetWindowAttrib));
+            CheckError(nameof(GetWindowAttribute));
             return value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SetWindowAttrib(WindowHandle window, WindowAttribute attribute, bool value)
+        public static void SetWindowAttribute(WindowHandle window, WindowAttribute attribute, bool value)
         {
             glfwSetWindowAttrib(window, attribute, value ? 1 : 0);
-            CheckError(nameof(SetWindowAttrib));
+            CheckError(nameof(SetWindowAttribute));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -749,22 +754,22 @@ namespace Heirloom.GLFW3
         internal static void CheckError(string command)
         {
             var foundError = false;
-            ErrorCode err;
+            ErrorCode errorCode;
 
             var messageBuffer = stackalloc char[1024];
+            var message = string.Empty;
 
             var infloop = 0;
-            while ((err = glfwGetError(&messageBuffer)) != ErrorCode.None && (++infloop < 10))
+            while ((errorCode = glfwGetError(&messageBuffer)) != ErrorCode.None && (++infloop < 10))
             {
-                var message = Marshal.PtrToStringAnsi((IntPtr) messageBuffer);
-                Console.WriteLine($"GLFW Error ({command}) '{message}'.");
+                message += Marshal.PtrToStringAnsi((IntPtr) messageBuffer);
                 foundError = true;
             }
 
             // 
             if (foundError)
             {
-                throw new GlfwException($"GL error detected in a call to {command}");
+                throw new GlfwException($"Error in a call to {command}.\n{message}");
             }
         }
     }
