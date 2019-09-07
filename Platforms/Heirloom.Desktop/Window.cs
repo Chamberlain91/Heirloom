@@ -57,9 +57,9 @@ namespace Heirloom.Desktop
 
             Glfw.SetWindowCloseCallback(WindowHandle, _windowCloseCallback = _ =>
             {
-                var shouldClose = OnWindowClose();
-                Glfw.SetWindowShouldClose(WindowHandle, shouldClose);
-                if (shouldClose) { Dispose(); }
+                IsClosed = OnClosing();
+                Glfw.SetWindowShouldClose(WindowHandle, IsClosed);
+                if (IsClosed) { Dispose(); }
             });
 
             Glfw.SetFramebufferSizeCallback(WindowHandle, _framebufferSizeCallback = (_, w, h) =>
@@ -92,6 +92,7 @@ namespace Heirloom.Desktop
             // 
             GC.KeepAlive(_windowCloseCallback);
             GC.KeepAlive(_windowPositionCallback);
+            GC.KeepAlive(_framebufferSizeCallback);
             GC.KeepAlive(_windowSizeCallback);
 
             GC.KeepAlive(_charCallback);
@@ -104,6 +105,11 @@ namespace Heirloom.Desktop
         /// Has this window been disposed?
         /// </summary>
         public bool IsDisposed { get; private set; }
+
+        /// <summary>
+        /// Has this window been closed?
+        /// </summary>
+        public bool IsClosed { get; private set; }
 
         /// <summary>
         /// Is vsync enabled on this window?
@@ -124,6 +130,33 @@ namespace Heirloom.Desktop
         /// Is the window visible?
         /// </summary>
         public bool IsVisible => Application.Invoke(() => Glfw.GetWindowAttribute(WindowHandle, WindowAttribute.Visible) != 0);
+
+        /// <summary>
+        /// Is the window decorated? (ie, window chrome)
+        /// </summary>
+        public bool Decorated
+        {
+            get => Application.Invoke(() => Glfw.GetWindowAttribute(WindowHandle, WindowAttribute.Decorated) != 0);
+            set => Application.Invoke(() => Glfw.SetWindowAttribute(WindowHandle, WindowAttribute.Decorated, value));
+        }
+
+        /// <summary>
+        /// Can the window be resized?
+        /// </summary>
+        public bool Resizable
+        {
+            get => Application.Invoke(() => Glfw.GetWindowAttribute(WindowHandle, WindowAttribute.Resizable) != 0);
+            set => Application.Invoke(() => Glfw.SetWindowAttribute(WindowHandle, WindowAttribute.Resizable, value));
+        }
+
+        /// <summary>
+        /// Is the window "always on top"?
+        /// </summary>
+        public bool Floating
+        {
+            get => Application.Invoke(() => Glfw.GetWindowAttribute(WindowHandle, WindowAttribute.Floating) != 0);
+            set => Application.Invoke(() => Glfw.SetWindowAttribute(WindowHandle, WindowAttribute.Floating, value));
+        }
 
         /// <summary>
         /// Get or set the window title text.
@@ -213,7 +246,7 @@ namespace Heirloom.Desktop
 
         #region Events / Callback Sinks
 
-        protected virtual bool OnWindowClose()
+        protected virtual bool OnClosing()
         {
             return true; // Yes, should close by default
         }
@@ -324,15 +357,17 @@ namespace Heirloom.Desktop
             {
                 IsDisposed = true;
 
+                // Destroy window
+                Application.Invoke(() => Glfw.DestroyWindow(WindowHandle));
+                Application.RemoveWindow(this);
+
+                // todo: wait for render context to empty?
+
                 if (disposeManaged)
                 {
+                    // Terminate rendering context
                     RenderContext.Dispose();
                 }
-
-                // Destroy window
-                // todo: wait for render context to empty?
-                Application.Invoke(() => Glfw.DestroyWindow(WindowHandle), false);
-                Application.RemoveWindow(this);
             }
         }
 
@@ -369,7 +404,7 @@ namespace Heirloom.Desktop
             public override void SwapBuffers()
             {
                 Flush(); // todo: move to parent type, we always need to flush here!
-                Invoke(() => Glfw.SwapBuffers(Window.WindowHandle));
+                Invoke(() => Glfw.SwapBuffers(Window.WindowHandle), false);
             }
         }
     }

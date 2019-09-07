@@ -32,9 +32,6 @@ namespace Heirloom.Drawing.OpenGL.Utilities
 
         private void ThreadAction()
         {
-            // 
-            _isAlive = true;
-
             // Set to highest priority
             // Thread.CurrentThread.Priority = ThreadPriority.Highest;
 
@@ -43,8 +40,11 @@ namespace Heirloom.Drawing.OpenGL.Utilities
             {
                 lock (_queue)
                 {
-                    // Wait for jobs
-                    while (_queue.Count == 0) { Monitor.Wait(_queue); }
+                    // Wait for jobs (and still alive)
+                    while (_queue.Count == 0 && _isAlive)
+                    {
+                        Monitor.Wait(_queue);
+                    }
 
                     // Process all jobs
                     while (_queue.Count > 0)
@@ -59,6 +59,8 @@ namespace Heirloom.Drawing.OpenGL.Utilities
                     }
                 }
             }
+
+            Console.WriteLine($"Thread {Thread.CurrentThread.ManagedThreadId} Exit.");
         }
 
         public void Invoke(Action action)
@@ -118,14 +120,21 @@ namespace Heirloom.Drawing.OpenGL.Utilities
 
         public void Start()
         {
-            // Start task thread
+            // Start task thread 
+            _isAlive = true;
             _thread.Start();
         }
 
         public void Stop(bool falseCompletion = false)
         {
-            // 
-            _isAlive = false;
+            // Mark thead for death
+            lock (_queue)
+            {
+                _isAlive = false;
+                Monitor.Pulse(_queue);
+            }
+
+            // Wait for death
             _thread.Join();
 
             // 
@@ -141,7 +150,7 @@ namespace Heirloom.Drawing.OpenGL.Utilities
                         }
                     }
 
-                    Console.WriteLine($"WARNING: False notification sent {_queue.Count} jobs that have not yet executed.");
+                    Console.WriteLine($"WARNING: False notification sent to {_queue.Count} jobs that have not yet executed.");
                 }
                 else
                 {

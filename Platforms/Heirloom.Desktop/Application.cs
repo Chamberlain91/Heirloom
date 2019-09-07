@@ -16,6 +16,9 @@ namespace Heirloom.Desktop
         private static ConsumerQueue _invokeQueue;
         private static List<Window> _windows;
 
+        /// <summary>
+        /// Are transparent framebuffers supported on this platform?
+        /// </summary>
         public static bool SupportsTransparentFramebuffer { get; private set; }
 
         public static void Run(ThreadStart threadStart)
