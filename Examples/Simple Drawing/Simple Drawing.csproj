@@ -7,6 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Files\chick.png" />
+    <None Remove="Files\image.png" />
+    <None Remove="Files\rabbit.png" />
+    <None Remove="Files\whale.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Files\chick.png" />
+    <EmbeddedResource Include="Files\rabbit.png" />
+    <EmbeddedResource Include="Files\whale.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Heirloom.IO\Heirloom.IO.csproj" />
     <ProjectReference Include="..\..\Platforms\Heirloom.Desktop\Heirloom.Desktop.csproj" />
   </ItemGroup>
 
