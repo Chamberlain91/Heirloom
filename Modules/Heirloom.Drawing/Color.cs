@@ -61,6 +61,8 @@ namespace Heirloom.Drawing
 
         public static readonly Color Violet = Parse("FF8A2BE2");
 
+        public static readonly Color Pink = Parse("DD55AA");
+
         public static readonly Color Transparent = Parse("00000000");
 
         public static readonly Color[] Rainbow = { Red, Orange, Yellow, Green, Blue, Indigo, Violet };
