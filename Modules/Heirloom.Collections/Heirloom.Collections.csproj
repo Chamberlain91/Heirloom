@@ -4,12 +4,15 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Platforms>AnyCPU</Platforms>
     <Configurations>Debug;Release</Configurations>
-    <Version>1.0.0-beta</Version>
+    <Version>1.1.0-beta</Version>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Additional collections, search, sort and more.</Description>
+    <Authors>Chris Chamberlain</Authors>
+    <PackageTags>collections, search, astar, graph, sort, heap</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

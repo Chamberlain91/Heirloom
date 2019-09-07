@@ -4,9 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Configurations>Debug;Release</Configurations>
     <Platforms>AnyCPU</Platforms>
-    <Description>EGL Bindings for .NET Standard 2.0
-
-Tested on Android 8.0</Description>
+    <Description>EGL 1.4 Bindings</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -15,7 +13,7 @@ Tested on Android 8.0</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Chris Chamberlain</Authors>
     <Company />
-    <Version>1.0.0-beta</Version>
+    <Version>1.1.0-beta</Version>
   </PropertyGroup> 
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

@@ -10,9 +10,10 @@
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageTags>math, 2D</PackageTags>
-    <Version>1.0.0-beta</Version>
+    <PackageTags>math, 2D, vector, matrix, polygon</PackageTags>
+    <Version>1.1.0-beta</Version>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <Description>A library for 2D math and shapes.</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
