@@ -7,6 +7,7 @@ namespace Examples.SimpleDrawing
 {
     internal class Program : GameWindow
     {
+        private const int SlideshowTimeout = 5;
         static readonly public Color Background = Color.Parse("E111");
 
         private readonly Image[] _images;
@@ -30,14 +31,17 @@ namespace Examples.SimpleDrawing
         {
             _time += dt;
 
-            // 
-            if (_time >= 5)
+            // Enough time has elapsed
+            if (_time >= SlideshowTimeout)
             {
-                _time -= 5;
+                _time -= SlideshowTimeout;
 
-                // 
+                // Move to next image
                 _current++;
-                if (_current >= _images.Length) { _current = 0; }
+                if (_current >= _images.Length)
+                {
+                    _current = 0;
+                }
             }
         }
 
