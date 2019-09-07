@@ -617,16 +617,16 @@ namespace Heirloom.Drawing.OpenGL
         {
             if (!IsDisposed)
             {
+                _isDisposed = true;
+
+                // 
                 if (disposeManaged)
                 {
-                    // Dispose Managed
+                    _thread.Stop(true);
                     _defaultSurface.Dispose();
-                    _thread.Stop();
                 }
 
                 // Dispose Unmanaged
-
-                _isDisposed = true;
             }
         }
 
