@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 
-using Heirloom.GLFW3;
+using Heirloom.GLFW;
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Desktop

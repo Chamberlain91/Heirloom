@@ -105,7 +105,7 @@ namespace Heirloom.Drawing.OpenGL
                 else
                 {
                     // 
-                    var prefix = "#version 410\n";
+                    var prefix = "#version 330\n";
 
                     // Append Version Prefix
                     code = prefix + code;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Heirloom.GLFW3;
+using Heirloom.GLFW;
 
 namespace Heirloom.Desktop
 {

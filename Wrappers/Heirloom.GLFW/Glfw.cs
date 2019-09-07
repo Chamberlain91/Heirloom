@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Security;
 
 namespace Heirloom.GLFW
 {
@@ -8,609 +9,768 @@ namespace Heirloom.GLFW
     {
         private const string Library = "glfw3";
 
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwInit")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        // int glfwInit(void);
-        public static extern bool Init();
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwTerminate")]
-        // void glfwTerminate(void);
-        public static extern void Terminate();
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwInitHint")]
-        // void glfwInitHint(int hint, int value);
-        public static extern void InitHint(int hint, int value);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetVersion")]
-        // void glfwGetVersion(int* major, int* minor, int* rev);
-        public static extern void GetVersion(out int major, out int minor, out int rev);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetVersionString")]
-        // char* glfwGetVersionString(void);
-        public static extern char* GetVersionString();
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetError")]
-        // int glfwGetError( char** description);
-        public static extern int GetError(char** description);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetErrorCallback")]
-        // GLFWerrorfun glfwSetErrorCallback(GLFWerrorfun cbfun);
-        public static extern ErrorCallback SetErrorCallback(ErrorCallback cbfun);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetMonitors")]
-        // GLFWmonitor** glfwGetMonitors(int* count);
-        public static extern Monitor** GetMonitors(out int count);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetPrimaryMonitor")]
-        // GLFWmonitor* glfwGetPrimaryMonitor(void);
-        // [return: MarshalAs(UnmanagedType.Struct)]
-        public static extern Monitor* GetPrimaryMonitor();
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetMonitorPos")]
-        // void glfwGetMonitorPos(GLFWmonitor* monitor, int* xpos, int* ypos);
-        public static extern void GetMonitorPosition(Monitor* monitor, out int xpos, out int ypos);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetMonitorWorkarea")]
-        // void glfwGetMonitorWorkarea(GLFWmonitor* monitor, int* xpos, int* ypos, int* width, int* height);
-        public static extern void GetMonitorWorkarea(Monitor* monitor, out int xpos, out int ypos, out int width, out int height);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetMonitorPhysicalSize")]
-        // void glfwGetMonitorPhysicalSize(GLFWmonitor* monitor, int* widthMM, int* heightMM);
-        public static extern void GetMonitorPhysicalSize(Monitor* monitor, out int widthMM, out int heightMM);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetMonitorContentScale")]
-        // void glfwGetMonitorContentScale(GLFWmonitor* monitor, float* xscale, float* yscale);
-        public static extern void GetMonitorContentScale(Monitor* monitor, out float xscale, out float yscale);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetMonitorName")]
-        // char* glfwGetMonitorName(GLFWmonitor* monitor);
-        public static extern char* GetMonitorName(Monitor* monitor);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetMonitorUserPointer")]
-        // void glfwSetMonitorUserPointer(GLFWmonitor* monitor, void* pointer);
-        public static extern void SetMonitorUserPointer(Monitor* monitor, void* pointer);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetMonitorUserPointer")]
-        // void* glfwGetMonitorUserPointer(GLFWmonitor* monitor);
-        public static extern void* GetMonitorUserPointer(Monitor* monitor);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetMonitorCallback")]
-        // GLFWmonitorfun glfwSetMonitorCallback(GLFWmonitorfun cbfun);
-        public static extern MonitorCallback SetMonitorCallback(MonitorCallback cbfun);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetVideoModes")]
-        // GLFWvidmode* glfwGetVideoModes(GLFWmonitor* monitor, int* count);
-        public static extern VideoMode* GetVideoModes(Monitor* monitor, out int count);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetVideoMode")]
-        // GLFWvidmode* glfwGetVideoMode(GLFWmonitor* monitor);
-        public static extern VideoMode* GetVideoMode(Monitor* monitor);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetGamma")]
-        // void glfwSetGamma(GLFWmonitor* monitor, float gamma);
-        public static extern void SetGamma(Monitor* monitor, float gamma);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetGammaRamp")]
-        // GLFWgammaramp* glfwGetGammaRamp(GLFWmonitor* monitor);
-        public static extern GammaRamp* GetGammaRamp(Monitor* monitor);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetGammaRamp")]
-        // void glfwSetGammaRamp(GLFWmonitor* monitor,  GLFWgammaramp* ramp);
-        public static extern void SetGammaRamp(Monitor* monitor, GammaRamp* ramp);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwDefaultWindowHints")]
-        // void glfwDefaultWindowHints(void);
-        public static extern void DefaultWindowHints();
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwWindowHint")]
-        // void glfwWindowHint(int hint, int value);
-        public static extern void WindowHint(int hint, int value);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwWindowHintString")]
-        // void glfwWindowHintString(int hint,  char* value);
-        public static extern void WindowHintString(int hint, string value);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwCreateWindow")]
-        [return: MarshalAs(UnmanagedType.Struct)]
-        // GLFWwindow* glfwCreateWindow(int width, int height,  char* title, GLFWmonitor* monitor, GLFWwindow* share);
-        public static extern Window CreateWindow(int width, int height, string title, Monitor* monitor, [MarshalAs(UnmanagedType.Struct)] Window share);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwDestroyWindow")]
-        // void glfwDestroyWindow(GLFWwindow* window);
-        public static extern void DestroyWindow([MarshalAs(UnmanagedType.Struct)] Window window);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwWindowShouldClose")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        // int glfwWindowShouldClose(GLFWwindow* window);
-        public static extern bool WindowShouldClose([MarshalAs(UnmanagedType.Struct)] Window window);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetWindowShouldClose")]
-        // void glfwSetWindowShouldClose(GLFWwindow* window, int value);
-        public static extern void SetWindowShouldClose([MarshalAs(UnmanagedType.Struct)] Window window, int value);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetWindowTitle")]
-        // void glfwSetWindowTitle(GLFWwindow* window,  char* title);
-        public static extern void SetWindowTitle([MarshalAs(UnmanagedType.Struct)] Window window, string title);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetWindowIcon")]
-        // void glfwSetWindowIcon(GLFWwindow* window, int count,  GLFWimage* images);
-        public static extern void SetWindowIcon([MarshalAs(UnmanagedType.Struct)] Window window, int count, Image* images);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetWindowPos")]
-        // void glfwGetWindowPos(GLFWwindow* window, int* xpos, int* ypos);
-        public static extern void GetWindowPos([MarshalAs(UnmanagedType.Struct)] Window window, out int xpos, out int ypos);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetWindowPos")]
-        // void glfwSetWindowPos(GLFWwindow* window, int xpos, int ypos);
-        public static extern void SetWindowPos([MarshalAs(UnmanagedType.Struct)] Window window, int xpos, int ypos);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetWindowSize")]
-        // void glfwGetWindowSize(GLFWwindow* window, int* width, int* height);
-        public static extern void GetWindowSize([MarshalAs(UnmanagedType.Struct)] Window window, out int width, out int height);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetWindowSizeLimits")]
-        // void glfwSetWindowSizeLimits(GLFWwindow* window, int minwidth, int minheight, int maxwidth, int maxheight);
-        public static extern void SetWindowSizeLimits([MarshalAs(UnmanagedType.Struct)] Window window, int minwidth, int minheight, int maxwidth, int maxheight);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetWindowAspectRatio")]
-        // void glfwSetWindowAspectRatio(GLFWwindow* window, int numer, int denom);
-        public static extern void SetWindowAspectRatio([MarshalAs(UnmanagedType.Struct)] Window window, int numer, int denom);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetWindowSize")]
-        // void glfwSetWindowSize(GLFWwindow* window, int width, int height);
-        public static extern void SetWindowSize([MarshalAs(UnmanagedType.Struct)] Window window, int width, int height);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetFramebufferSize")]
-        // void glfwGetFramebufferSize(GLFWwindow* window, int* width, int* height);
-        public static extern void GetFramebufferSize([MarshalAs(UnmanagedType.Struct)] Window window, out int width, out int height);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetWindowFrameSize")]
-        // void glfwGetWindowFrameSize(GLFWwindow* window, int* left, int* top, int* right, int* bottom);
-        public static extern void GetWindowFrameSize([MarshalAs(UnmanagedType.Struct)] Window window, out int left, out int top, out int right, out int bottom);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetWindowContentScale")]
-        // void glfwGetWindowContentScale(GLFWwindow* window, float* xscale, float* yscale);
-        public static extern void GetWindowContentScale([MarshalAs(UnmanagedType.Struct)] Window window, out float xscale, out float yscale);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetWindowOpacity")]
-        // float glfwGetWindowOpacity(GLFWwindow* window);
-        public static extern float GetWindowOpacity([MarshalAs(UnmanagedType.Struct)] Window window);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetWindowOpacity")]
-        // void glfwSetWindowOpacity(GLFWwindow* window, float opacity);
-        public static extern void SetWindowOpacity([MarshalAs(UnmanagedType.Struct)] Window window, float opacity);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwIconifyWindow")]
-        // void glfwIconifyWindow(GLFWwindow* window);
-        public static extern void IconifyWindow([MarshalAs(UnmanagedType.Struct)] Window window);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwRestoreWindow")]
-        // void glfwRestoreWindow(GLFWwindow* window);
-        public static extern void RestoreWindow([MarshalAs(UnmanagedType.Struct)] Window window);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwMaximizeWindow")]
-        // void glfwMaximizeWindow(GLFWwindow* window);
-        public static extern void MaximizeWindow([MarshalAs(UnmanagedType.Struct)] Window window);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwShowWindow")]
-        // void glfwShowWindow(GLFWwindow* window);
-        public static extern void ShowWindow([MarshalAs(UnmanagedType.Struct)] Window window);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwHideWindow")]
-        // void glfwHideWindow(GLFWwindow* window);
-        public static extern void HideWindow([MarshalAs(UnmanagedType.Struct)] Window window);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwFocusWindow")]
-        // void glfwFocusWindow(GLFWwindow* window);
-        public static extern void FocusWindow([MarshalAs(UnmanagedType.Struct)] Window window);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwRequestWindowAttention")]
-        // void glfwRequestWindowAttention(GLFWwindow* window);
-        public static extern void RequestWindowAttention([MarshalAs(UnmanagedType.Struct)] Window window);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetWindowMonitor")]
-        // GLFWmonitor* glfwGetWindowMonitor(GLFWwindow* window);
-        public static extern Monitor* GetWindowMonitor([MarshalAs(UnmanagedType.Struct)] Window window);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetWindowMonitor")]
-        // void glfwSetWindowMonitor(GLFWwindow* window, GLFWmonitor* monitor, int xpos, int ypos, int width, int height, int refreshRate);
-        public static extern void SetWindowMonitor([MarshalAs(UnmanagedType.Struct)] Window window, Monitor* monitor, int xpos, int ypos, int width, int height, int refreshRate);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetWindowAttrib")]
-        // int glfwGetWindowAttrib(GLFWwindow* window, int attrib);
-        public static extern int GetWindowAttrib([MarshalAs(UnmanagedType.Struct)] Window window, int attrib);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetWindowAttrib")]
-        // void glfwSetWindowAttrib(GLFWwindow* window, int attrib, int value);
-        public static extern void SetWindowAttrib([MarshalAs(UnmanagedType.Struct)] Window window, int attrib, int value);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetWindowUserPointer")]
-        // void glfwSetWindowUserPointer(GLFWwindow* window, void* pointer);
-        public static extern void SetWindowUserPointer([MarshalAs(UnmanagedType.Struct)] Window window, void* pointer);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetWindowUserPointer")]
-        // void* glfwGetWindowUserPointer(GLFWwindow* window);
-        public static extern void* GetWindowUserPointer([MarshalAs(UnmanagedType.Struct)] Window window);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetWindowPosCallback")]
-        // GLFWwindowposfun glfwSetWindowPosCallback(GLFWwindow* window, GLFWwindowposfun cbfun);
-        public static extern WindowPositionCallback SetWindowPositionCallback([MarshalAs(UnmanagedType.Struct)] Window window, WindowPositionCallback cbfun);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetWindowSizeCallback", CallingConvention = CallingConvention.Cdecl)]
-        // GLFWwindowsizefun glfwSetWindowSizeCallback(GLFWwindow* window, GLFWwindowsizefun cbfun);
-        public static extern WindowSizeCallback SetWindowSizeCallback([MarshalAs(UnmanagedType.Struct)] Window window, WindowSizeCallback cbfun);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetWindowCloseCallback")]
-        // GLFWwindowclosefun glfwSetWindowCloseCallback(GLFWwindow* window, GLFWwindowclosefun cbfun);
-        public static extern WindowCloseCallback SetWindowCloseCallback([MarshalAs(UnmanagedType.Struct)] Window window, WindowCloseCallback cbfun);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetWindowRefreshCallback")]
-        // GLFWwindowrefreshfun glfwSetWindowRefreshCallback(GLFWwindow* window, GLFWwindowrefreshfun cbfun);
-        public static extern WindowRefreshCallback SetWindowRefreshCallback([MarshalAs(UnmanagedType.Struct)] Window window, WindowRefreshCallback cbfun);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetWindowFocusCallback")]
-        // GLFWwindowfocusfun glfwSetWindowFocusCallback(GLFWwindow* window, GLFWwindowfocusfun cbfun);
-        public static extern WindowFocusCallback SetWindowFocusCallback([MarshalAs(UnmanagedType.Struct)] Window window, WindowFocusCallback cbfun);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetWindowIconifyCallback")]
-        // GLFWwindowiconifyfun glfwSetWindowIconifyCallback(GLFWwindow* window, GLFWwindowiconifyfun cbfun);
-        public static extern WindowIconifyCallback SetWindowIconifyCallback([MarshalAs(UnmanagedType.Struct)] Window window, WindowIconifyCallback cbfun);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetWindowMaximizeCallback")]
-        // GLFWwindowmaximizefun glfwSetWindowMaximizeCallback(GLFWwindow* window, GLFWwindowmaximizefun cbfun);
-        public static extern WindowMaximizeCallback SetWindowMaximizeCallback([MarshalAs(UnmanagedType.Struct)] Window window, WindowMaximizeCallback cbfun);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetFramebufferSizeCallback")]
-        // GLFWframebuffersizefun glfwSetFramebufferSizeCallback(GLFWwindow* window, GLFWframebuffersizefun cbfun);
-        public static extern FramebufferSizeCallback SetFramebufferSizeCallback([MarshalAs(UnmanagedType.Struct)] Window window, FramebufferSizeCallback cbfun);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetWindowContentScaleCallback")]
-        // GLFWwindowcontentscalefun glfwSetWindowContentScaleCallback(GLFWwindow* window, GLFWwindowcontentscalefun cbfun);
-        public static extern WindowContentScaleCallback SetWindowContentScaleCallback([MarshalAs(UnmanagedType.Struct)] Window window, WindowContentScaleCallback cbfun);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwPollEvents")]
-        // void glfwPollEvents(void);
-        public static extern void PollEvents();
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwWaitEvents")]
-        // void glfwWaitEvents(void);
-        public static extern void WaitEvents();
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwWaitEventsTimeout")]
-        // void glfwWaitEventsTimeout(double timeout);
-        public static extern void WaitEventsTimeout(double timeout);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwPostEmptyEvent")]
-        // void glfwPostEmptyEvent(void);
-        public static extern void PostEmptyEvent();
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetInputMode")]
-        // int glfwGetInputMode(GLFWwindow* window, int mode);
-        public static extern int GetInputMode([MarshalAs(UnmanagedType.Struct)] Window window, int mode);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetInputMode")]
-        // void glfwSetInputMode(GLFWwindow* window, int mode, int value);
-        public static extern void SetInputMode([MarshalAs(UnmanagedType.Struct)] Window window, int mode, int value);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwRawMouseMotionSupported")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        // int glfwRawMouseMotionSupported(void);
-        public static extern bool RawMouseMotionSupported();
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetKeyName")]
-        // char* glfwGetKeyName(int key, int scancode);
-        public static extern char* GetKeyName(int key, int scancode);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetKeyScancode")]
-        // int glfwGetKeyScancode(int key);
-        public static extern int GetKeyScancode(int key);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetKey")]
-        // int glfwGetKey(GLFWwindow* window, int key);
-        public static extern int GetKey([MarshalAs(UnmanagedType.Struct)] Window window, int key);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetMouseButton")]
-        // int glfwGetMouseButton(GLFWwindow* window, int button);
-        public static extern int GetMouseButton([MarshalAs(UnmanagedType.Struct)] Window window, int button);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetCursorPos")]
-        // void glfwGetCursorPos(GLFWwindow* window, double* xpos, double* ypos);
-        public static extern void GetCursorPos([MarshalAs(UnmanagedType.Struct)] Window window, out double xpos, out double ypos);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetCursorPos")]
-        // void glfwSetCursorPos(GLFWwindow* window, double xpos, double ypos);
-        public static extern void SetCursorPos([MarshalAs(UnmanagedType.Struct)] Window window, double xpos, double ypos);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwCreateCursor")]
-        // GLFWcursor* glfwCreateCursor( GLFWimage* image, int xhot, int yhot);
-        public static extern Cursor* CreateCursor(Image* image, int xhot, int yhot);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwCreateStandardCursor")]
-        // GLFWcursor* glfwCreateStandardCursor(int shape);
-        public static extern Cursor* CreateStandardCursor(int shape);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwDestroyCursor")]
-        // void glfwDestroyCursor(GLFWcursor* cursor);
-        public static extern void DestroyCursor(Cursor* cursor);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetCursor")]
-        // void glfwSetCursor(GLFWwindow* window, GLFWcursor* cursor);
-        public static extern void SetCursor([MarshalAs(UnmanagedType.Struct)] Window window, Cursor* cursor);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetKeyCallback")]
-        // GLFWkeyfun glfwSetKeyCallback(GLFWwindow* window, GLFWkeyfun cbfun);
-        public static extern KeyCallback SetKeyCallback([MarshalAs(UnmanagedType.Struct)] Window window, KeyCallback cbfun);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetCharCallback")]
-        // GLFWcharfun glfwSetCharCallback(GLFWwindow* window, GLFWcharfun cbfun);
-        public static extern CharCallback SetCharCallback([MarshalAs(UnmanagedType.Struct)] Window window, CharCallback cbfun);
-
-        [SuppressUnmanagedCodeSecurity]
-        [Obsolete, DllImport(Library, EntryPoint = "glfwSetCharModsCallback")]
-        // GLFWcharmodsfun glfwSetCharModsCallback(GLFWwindow* window, GLFWcharmodsfun cbfun);
-        public static extern CharModifierCallback SetCharModsCallback([MarshalAs(UnmanagedType.Struct)] Window window, CharModifierCallback cbfun);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetMouseButtonCallback")]
-        // GLFWmousebuttonfun glfwSetMouseButtonCallback(GLFWwindow* window, GLFWmousebuttonfun cbfun);
-        public static extern MouseButtonCallback SetMouseButtonCallback([MarshalAs(UnmanagedType.Struct)] Window window, MouseButtonCallback cbfun);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetCursorPosCallback")]
-        // GLFWcursorposfun glfwSetCursorPosCallback(GLFWwindow* window, GLFWcursorposfun cbfun);
-        public static extern CursorPositionCallback SetCursorPosCallback([MarshalAs(UnmanagedType.Struct)] Window window, CursorPositionCallback cbfun);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetCursorEnterCallback")]
-        // GLFWcursorenterfun glfwSetCursorEnterCallback(GLFWwindow* window, GLFWcursorenterfun cbfun);
-        public static extern CursorEnterCallback SetCursorEnterCallback([MarshalAs(UnmanagedType.Struct)] Window window, CursorEnterCallback cbfun);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetScrollCallback")]
-        // GLFWscrollfun glfwSetScrollCallback(GLFWwindow* window, GLFWscrollfun cbfun);
-        public static extern ScrollCallback SetScrollCallback([MarshalAs(UnmanagedType.Struct)] Window window, ScrollCallback cbfun);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetDropCallback")]
-        // GLFWdropfun glfwSetDropCallback(GLFWwindow* window, GLFWdropfun cbfun);
-        public static extern DropCallback SetDropCallback([MarshalAs(UnmanagedType.Struct)] Window window, DropCallback cbfun);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwJoystickPresent")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        // int glfwJoystickPresent(int jid);
-        public static extern bool JoystickPresent(int jid);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetJoystickAxes")]
-        // float* glfwGetJoystickAxes(int jid, int* count);
-        public static extern float* GetJoystickAxes(int jid, out int count);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetJoystickButtons")]
-        // unsigned char* glfwGetJoystickButtons(int jid, int* count);
-        public static extern byte* GetJoystickButtons(int jid, out int count);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetJoystickHats")]
-        // unsigned char* glfwGetJoystickHats(int jid, int* count);
-        public static extern byte* GetJoystickHats(int jid, out int count);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetJoystickName")]
-        // char* glfwGetJoystickName(int jid);
-        public static extern char* GetJoystickName(int jid);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetJoystickGUID")]
-        // char* glfwGetJoystickGUID(int jid);
-        public static extern char* GetJoystickGUID(int jid);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetJoystickUserPointer")]
-        // void glfwSetJoystickUserPointer(int jid, void* pointer);
-        public static extern void SetJoystickUserPointer(int jid, void* pointer);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetJoystickUserPointer")]
-        // void* glfwGetJoystickUserPointer(int jid);
-        public static extern void* GetJoystickUserPointer(int jid);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwJoystickIsGamepad")]
-        // int glfwJoystickIsGamepad(int jid);
-        public static extern int JoystickIsGamepad(int jid);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetJoystickCallback")]
-        // GLFWjoystickfun glfwSetJoystickCallback(GLFWjoystickfun cbfun);
-        public static extern JoystickCallback SetJoystickCallback(JoystickCallback cbfun);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwUpdateGamepadMappings")]
-        // int glfwUpdateGamepadMappings( char* string);
-        public static extern int UpdateGamepadMappings(char* str);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetGamepadName")]
-        // char* glfwGetGamepadName(int jid);
-        public static extern char* GetGamepadName(int jid);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetGamepadState")]
-        // int glfwGetGamepadState(int jid, GLFWgamepadstate* state);
-        public static extern int GetGamepadState(int jid, out GamepadState state);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetClipboardString")]
-        // void glfwSetClipboardString(GLFWwindow* window,  char* string);
-        public static extern void SetClipboardString([MarshalAs(UnmanagedType.Struct)] Window window, string str);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetClipboardString")]
-        // char* glfwGetClipboardString(GLFWwindow* window);
-        public static extern char* GetClipboardString([MarshalAs(UnmanagedType.Struct)] Window window);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetTime")]
-        // double glfwGetTime(void);
-        public static extern double GetTime();
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSetTime")]
-        // void glfwSetTime(double time);
-        public static extern void SetTime(double time);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetTimerValue")]
-        // uint64_t glfwGetTimerValue(void);
-        public static extern ulong GetTimerValue();
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetTimerFrequency")]
-        // uint64_t glfwGetTimerFrequency(void);
-        public static extern ulong GetTimerFrequency();
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwMakeContextCurrent")]
-        // void glfwMakeContextCurrent(GLFWwindow* window);
-        public static extern void MakeContextCurrent([MarshalAs(UnmanagedType.Struct)]Window window);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetCurrentContext")]
-        [return: MarshalAs(UnmanagedType.Struct)]
-        // GLFWwindow* glfwGetCurrentContext(void);
-        public static extern Window GetCurrentContext();
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSwapBuffers")]
-        // void glfwSwapBuffers(GLFWwindow* window);
-        public static extern void SwapBuffers([MarshalAs(UnmanagedType.Struct)] Window window);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwSwapInterval")]
-        // void glfwSwapInterval(int interval);
-        public static extern void SwapInterval(int interval);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwExtensionSupported")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        // int glfwExtensionSupported( char* extension);
-        public static extern bool ExtensionSupported(string extension);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetProcAddress")]
-        // GLFWglproc glfwGetProcAddress( char* procname);
-        public static extern IntPtr GetProcAddress(string procname);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwVulkanSupported")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        // int glfwVulkanSupported(void);
-        public static extern bool VulkanSupported();
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetRequiredInstanceExtensions")]
-        // char** glfwGetRequiredInstanceExtensions(uint32_t* count);
-        public static extern char** GetRequiredInstanceExtensions(out uint count);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetInstanceProcAddress")]
-        // GLFWvkproc glfwGetInstanceProcAddress(VkInstance instance,  char* procname);
-        public static extern IntPtr GetInstanceProcAddress(VkInstance instance, string procname);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwGetPhysicalDevicePresentationSupport")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        // int glfwGetPhysicalDevicePresentationSupport(VkInstance instance, VkPhysicalDevice device, uint32_t queuefamily);
-        public static extern bool GetPhysicalDevicePresentationSupport(VkInstance instance, VkPhysicalDevice device, uint queuefamily);
-
-        [SuppressUnmanagedCodeSecurity]
-        [DllImport(Library, EntryPoint = "glfwCreateWindowSurface")]
-        // VkResult glfwCreateWindowSurface(VkInstance instance, GLFWwindow* window,  VkAllocationCallbacks* allocator, VkSurfaceKHR* surface);
-        public static extern VkResult CreateWindowSurface(VkInstance instance, Window* window, VkAllocationCallbacks* allocator, out VkSurfaceKHR surface);
+        public static bool Initialize()
+        {
+            var success = glfwInit();
+            CheckError(nameof(Initialize));
+            return success;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetInitializationHint(InitHint hint, bool state)
+        {
+            glfwInitHint(hint, state);
+            CheckError(nameof(SetInitializationHint));
+        }
+
+        public static void Terminate()
+        {
+            glfwTerminate();
+            CheckError(nameof(Terminate));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetVersion(out int major, out int minor, out int revision)
+        {
+            glfwGetVersion(out major, out minor, out revision);
+            CheckError(nameof(GetVersion));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Version GetVersion()
+        {
+            GetVersion(out var maj, out var min, out var rev);
+            return new Version(maj, min, 0, rev);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static string GetVersionString()
+        {
+            var cstr = glfwGetVersionString();
+            CheckError(nameof(GetVersionString));
+            return Marshal.PtrToStringAnsi((IntPtr) cstr);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void PollEvents()
+        {
+            glfwPollEvents();
+            CheckError(nameof(PollEvents));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WaitEvents()
+        {
+            glfwWaitEvents();
+            CheckError(nameof(WaitEvents));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WaitEventsTimeout(double timeout)
+        {
+            glfwWaitEventsTimeout(timeout);
+            CheckError(nameof(WaitEventsTimeout));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void PostEmptyEvent()
+        {
+            glfwPostEmptyEvent();
+            CheckError(nameof(PostEmptyEvent));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double GetTime()
+        {
+            var time = glfwGetTime();
+            CheckError(nameof(GetTime));
+            return time;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetTime(double time)
+        {
+            glfwSetTime(time);
+            CheckError(nameof(SetTime));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong GetTimerValue()
+        {
+            var value = glfwGetTimerValue();
+            CheckError(nameof(GetTimerValue));
+            return value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong GetTimerFrequency()
+        {
+            var freq = glfwGetTimerFrequency();
+            CheckError(nameof(GetTimerFrequency));
+            return freq;
+        }
+
+        #region Monitors
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static MonitorHandle[] GetMonitors()
+        {
+            var array = glfwGetMonitors(out var count);
+            CheckError(nameof(GetMonitors));
+
+            var monitors = new MonitorHandle[count];
+            for (var i = 0; i < count; i++)
+            {
+                monitors[i] = array[i];
+            }
+
+            return monitors;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static MonitorHandle GetPrimaryMonitor()
+        {
+            var handle = glfwGetPrimaryMonitor();
+            CheckError(nameof(GetPrimaryMonitor));
+            return handle;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetMonitorPosition(MonitorHandle monitor, out int x, out int y)
+        {
+            glfwGetMonitorPos(monitor, out x, out y);
+            CheckError(nameof(GetMonitorPosition));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetMonitorWorkarea(MonitorHandle monitor, out int x, out int y, out int width, out int height)
+        {
+            glfwGetMonitorWorkarea(monitor, out x, out y, out width, out height);
+            CheckError(nameof(GetMonitorWorkarea));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetMonitorPhysicalSize(MonitorHandle monitor, out int widthMM, out int heightMM)
+        {
+            glfwGetMonitorPhysicalSize(monitor, out widthMM, out heightMM);
+            CheckError(nameof(GetMonitorPhysicalSize));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetMonitorContentScale(MonitorHandle monitor, out float xScale, out float yScale)
+        {
+            glfwGetMonitorContentScale(monitor, out xScale, out yScale);
+            CheckError(nameof(GetMonitorContentScale));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static string GetMonitorName(MonitorHandle monitor)
+        {
+            var cstr = glfwGetMonitorName(monitor);
+            CheckError(nameof(GetMonitorName));
+            return Marshal.PtrToStringAnsi((IntPtr) cstr);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static VideoMode GetVideoMode(MonitorHandle monitor)
+        {
+            var ptr = glfwGetVideoMode(monitor);
+            CheckError(nameof(GetVideoMode));
+            return Marshal.PtrToStructure<VideoMode>(ptr);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static VideoMode[] GetVideoModes(MonitorHandle monitor)
+        {
+            var array = glfwGetVideoModes(monitor, out var count);
+            CheckError(nameof(GetVideoModes));
+
+            var modes = new VideoMode[count];
+            for (var i = 0; i < count; i++)
+            {
+                modes[i] = array[i];
+            }
+
+            return modes;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetGamma(MonitorHandle monitor, float gamma)
+        {
+            glfwSetGamma(monitor, gamma);
+            CheckError(nameof(SetGamma));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static MonitorCallback SetMonitorCallback(MonitorCallback callback)
+        {
+            var previous = glfwSetMonitorCallback(callback);
+            CheckError(nameof(SetMonitorCallback));
+            return previous;
+        }
+
+        #endregion
+
+        #region Window
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetDefaultWindowCreationHints()
+        {
+            glfwDefaultWindowHints();
+            CheckError(nameof(SetDefaultWindowCreationHints));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowCreationHint(WindowAttribute hint, bool value)
+        {
+            SetWindowCreationHint((WindowCreationHint) hint, value ? 1 : 0);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowCreationHint(WindowAttribute hint, int value)
+        {
+            SetWindowCreationHint((WindowCreationHint) hint, value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowCreationHint(WindowCreationHint hint, bool value)
+        {
+            SetWindowCreationHint(hint, value ? 1 : 0);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowCreationHint(WindowCreationHint hint, int value)
+        {
+            glfwWindowHint(hint, value);
+            CheckError(nameof(SetWindowCreationHint));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static WindowHandle CreateWindow(int width, int height, string title, MonitorHandle monitor = default, WindowHandle share = default)
+        {
+            var handle = glfwCreateWindow(width, height, title, monitor, share);
+            CheckError(nameof(CreateWindow));
+            return handle;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DestroyWindow(WindowHandle window)
+        {
+            glfwDestroyWindow(window);
+            CheckError(nameof(DestroyWindow));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool GetWindowShouldClose(WindowHandle window)
+        {
+            var state = glfwWindowShouldClose(window);
+            CheckError(nameof(GetWindowShouldClose));
+            return state;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowShouldClose(WindowHandle window, bool state)
+        {
+            glfwSetWindowShouldClose(window, state);
+            CheckError(nameof(SetWindowShouldClose));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowTitle(WindowHandle window, string title)
+        {
+            glfwSetWindowTitle(window, title);
+            CheckError(nameof(SetWindowTitle));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowIcon(WindowHandle window, ImageData image)
+        {
+            SetWindowIcons(window, new[] { image });
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowIcons(WindowHandle window, ImageData[] images)
+        {
+            fixed (ImageData* ptr = images)
+            {
+                glfwSetWindowIcon(window, images.Length, ptr);
+                CheckError(nameof(SetWindowIcon));
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetWindowPosition(WindowHandle window, out int xPos, out int yPos)
+        {
+            glfwGetWindowPos(window, out xPos, out yPos);
+            CheckError(nameof(GetWindowPosition));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowPosition(WindowHandle window, int xPos, int yPos)
+        {
+            glfwSetWindowPos(window, xPos, yPos);
+            CheckError(nameof(SetWindowPosition));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetWindowSize(WindowHandle window, out int width, out int height)
+        {
+            glfwGetWindowSize(window, out width, out height);
+            CheckError(nameof(GetWindowSize));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowSize(WindowHandle window, int width, int height)
+        {
+            glfwSetWindowSize(window, width, height);
+            CheckError(nameof(SetWindowSize));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowSizeLimits(WindowHandle window, int minWidth, int minHeight, int maxWidth, int maxHeight)
+        {
+            glfwSetWindowSizeLimits(window, minWidth, minHeight, maxWidth, maxHeight);
+            CheckError(nameof(SetWindowSizeLimits));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowAspectRatio(WindowHandle window, int numerator, int denominator)
+        {
+            glfwSetWindowAspectRatio(window, numerator, denominator);
+            CheckError(nameof(SetWindowAspectRatio));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetFramebufferSize(WindowHandle window, out int width, out int height)
+        {
+            glfwGetFramebufferSize(window, out width, out height);
+            CheckError(nameof(GetFramebufferSize));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetWindowBounds(WindowHandle window, out int left, out int top, out int right, out int bottom)
+        {
+            glfwGetWindowFrameSize(window, out left, out top, out right, out bottom);
+            CheckError(nameof(GetWindowBounds));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetWindowContentScale(WindowHandle window, out float xScale, out float yScale)
+        {
+            glfwGetWindowContentScale(window, out xScale, out yScale);
+            CheckError(nameof(GetWindowContentScale));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowOpacity(WindowHandle window, float opacity)
+        {
+            glfwSetWindowOpacity(window, opacity);
+            CheckError(nameof(SetWindowOpacity));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float GetWindowOpacity(WindowHandle window)
+        {
+            var opacity = glfwGetWindowOpacity(window);
+            CheckError(nameof(GetWindowOpacity));
+            return opacity;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void ShowWindow(WindowHandle window)
+        {
+            glfwShowWindow(window);
+            CheckError(nameof(ShowWindow));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IconifyWindow(WindowHandle window)
+        {
+            glfwIconifyWindow(window);
+            CheckError(nameof(IconifyWindow));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void MaximizeWindow(WindowHandle window)
+        {
+            glfwMaximizeWindow(window);
+            CheckError(nameof(MaximizeWindow));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RestoreWindow(WindowHandle window)
+        {
+            glfwRestoreWindow(window);
+            CheckError(nameof(RestoreWindow));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RequestWindowAttention(WindowHandle window)
+        {
+            glfwRequestWindowAttention(window);
+            CheckError(nameof(RequestWindowAttention));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HideWindow(WindowHandle window)
+        {
+            glfwHideWindow(window);
+            CheckError(nameof(HideWindow));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void FocusWindow(WindowHandle window)
+        {
+            glfwFocusWindow(window);
+            CheckError(nameof(FocusWindow));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static MonitorHandle GetWindowMonitor(WindowHandle window)
+        {
+            var monitor = glfwGetWindowMonitor(window);
+            CheckError(nameof(GetWindowMonitor));
+            return monitor;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowMonitor(WindowHandle window, MonitorHandle monitor, int x, int y, int width, int height, int refresh)
+        {
+            glfwSetWindowMonitor(window, monitor, x, y, width, height, refresh);
+            CheckError(nameof(SetWindowMonitor));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int GetWindowAttribute(WindowHandle window, WindowAttribute attribute)
+        {
+            var value = glfwGetWindowAttrib(window, attribute);
+            CheckError(nameof(GetWindowAttribute));
+            return value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetWindowAttribute(WindowHandle window, WindowAttribute attribute, bool value)
+        {
+            glfwSetWindowAttrib(window, attribute, value ? 1 : 0);
+            CheckError(nameof(SetWindowAttribute));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static WindowPositionCallback SetWindowPositionCallback(WindowHandle window, WindowPositionCallback callback)
+        {
+            var old = glfwSetWindowPosCallback(window, callback);
+            CheckError(nameof(SetWindowPositionCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static WindowSizeCallback SetWindowSizeCallback(WindowHandle window, WindowSizeCallback callback)
+        {
+            var old = glfwSetWindowSizeCallback(window, callback);
+            CheckError(nameof(SetWindowSizeCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static WindowCloseCallback SetWindowCloseCallback(WindowHandle window, WindowCloseCallback callback)
+        {
+            var old = glfwSetWindowCloseCallback(window, callback);
+            CheckError(nameof(SetWindowCloseCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static WindowRefreshCallback SetWindowRefreshCallback(WindowHandle window, WindowRefreshCallback callback)
+        {
+            var old = glfwSetWindowRefreshCallback(window, callback);
+            CheckError(nameof(SetWindowRefreshCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static WindowFocusCallback SetWindowFocusCallback(WindowHandle window, WindowFocusCallback callback)
+        {
+            var old = glfwSetWindowFocusCallback(window, callback);
+            CheckError(nameof(SetWindowFocusCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static WindowIconifyCallback SetWindowIconifyCallback(WindowHandle window, WindowIconifyCallback callback)
+        {
+            var old = glfwSetWindowIconifyCallback(window, callback);
+            CheckError(nameof(SetWindowIconifyCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static WindowMaximizeCallback SetWindowMaximizeCallback(WindowHandle window, WindowMaximizeCallback callback)
+        {
+            var old = glfwSetWindowMaximizeCallback(window, callback);
+            CheckError(nameof(SetWindowMaximizeCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static FramebufferSizeCallback SetFramebufferSizeCallback(WindowHandle window, FramebufferSizeCallback callback)
+        {
+            var old = glfwSetFramebufferSizeCallback(window, callback);
+            CheckError(nameof(SetFramebufferSizeCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static WindowContentScaleCallback SetWindowContentScaleCallback(WindowHandle window, WindowContentScaleCallback callback)
+        {
+            var old = glfwSetWindowContentScaleCallback(window, callback);
+            CheckError(nameof(SetWindowContentScaleCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static KeyCallback SetKeyCallback(WindowHandle window, KeyCallback callback)
+        {
+            var old = glfwSetKeyCallback(window, callback);
+            CheckError(nameof(SetKeyCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static CharCallback SetCharCallback(WindowHandle window, CharCallback callback)
+        {
+            var old = glfwSetCharCallback(window, callback);
+            CheckError(nameof(SetCharCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static MouseButtonCallback SetMouseButtonCallback(WindowHandle window, MouseButtonCallback callback)
+        {
+            var old = glfwSetMouseButtonCallback(window, callback);
+            CheckError(nameof(SetMouseButtonCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static CursorPositionCallback SetCursorPositionCallback(WindowHandle window, CursorPositionCallback callback)
+        {
+            var old = glfwSetCursorPosCallback(window, callback);
+            CheckError(nameof(SetCursorPositionCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static CursorEnterCallback SetCursorEnterCallback(WindowHandle window, CursorEnterCallback callback)
+        {
+            var old = glfwSetCursorEnterCallback(window, callback);
+            CheckError(nameof(SetCursorEnterCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ScrollCallback SetScrollCallback(WindowHandle window, ScrollCallback callback)
+        {
+            var old = glfwSetScrollCallback(window, callback);
+            CheckError(nameof(SetScrollCallback));
+            return old;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static DropCallback SetDropCallback(WindowHandle window, DropCallback callback)
+        {
+            var old = glfwSetDropCallback(window, callback);
+            CheckError(nameof(SetDropCallback));
+            return old;
+        }
+
+        #endregion
+
+        #region Window (Input)
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int GetInputMode(WindowHandle window, InputMode mode)
+        {
+            var value = glfwGetInputMode(window, mode);
+            CheckError(nameof(GetInputMode));
+            return value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetInputMode(WindowHandle window, InputMode mode, int value)
+        {
+            glfwSetInputMode(window, mode, value);
+            CheckError(nameof(SetInputMode));
+        }
+
+        public static bool IsRawMouseMotionSupported
+        {
+            get
+            {
+                var value = glfwRawMouseMotionSupported();
+                CheckError(nameof(IsRawMouseMotionSupported));
+                return value;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static string GetKeyName(Key key, int scancode)
+        {
+            var cstr = glfwGetKeyName(key, scancode);
+            CheckError(nameof(GetKeyName));
+            return Marshal.PtrToStringAnsi((IntPtr) cstr);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int GetKeyScancode(Key key)
+        {
+            var scancode = glfwGetKeyScancode(key);
+            CheckError(nameof(GetKeyScancode));
+            return scancode;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ButtonAction GetKey(WindowHandle window, Key key)
+        {
+            var action = glfwGetKey(window, key);
+            CheckError(nameof(GetKey));
+            return action;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ButtonAction GetMouseButton(WindowHandle window, int button)
+        {
+            var action = glfwGetMouseButton(window, button);
+            CheckError(nameof(GetMouseButton));
+            return action;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetCursorPosition(WindowHandle window, out double xPos, out double yPos)
+        {
+            glfwGetCursorPos(window, out xPos, out yPos);
+            CheckError(nameof(GetCursorPosition));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetCursorPosition(WindowHandle window, double xPos, double yPos)
+        {
+            glfwSetCursorPos(window, xPos, yPos);
+            CheckError(nameof(SetCursorPosition));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static CursorHandle CreateCursor(ImageData image, int xHot, int yHot)
+        {
+            var cursor = glfwCreateCursor(ref image, xHot, yHot);
+            CheckError(nameof(CreateCursor));
+            return cursor;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static CursorHandle CreateCursor(StandardCursor standardCursor)
+        {
+            var cursor = glfwCreateStandardCursor(standardCursor);
+            CheckError(nameof(CreateCursor));
+            return cursor;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DestroyCursor(CursorHandle cursor)
+        {
+            glfwDestroyCursor(cursor);
+            CheckError(nameof(DestroyCursor));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetCursor(WindowHandle window, CursorHandle cursor)
+        {
+            glfwSetCursor(window, cursor);
+            CheckError(nameof(SetCursor));
+        }
+
+        #endregion
+
+        #region Window (OpenGL)
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void MakeContextCurrent(WindowHandle window)
+        {
+            glfwMakeContextCurrent(window);
+            CheckError(nameof(MakeContextCurrent));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static WindowHandle GetCurrentContext()
+        {
+            var value = glfwGetCurrentContext();
+            CheckError(nameof(GetCurrentContext));
+            return value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SwapBuffers(WindowHandle window)
+        {
+            glfwSwapBuffers(window);
+            CheckError(nameof(SwapBuffers));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetSwapInterval(int interval)
+        {
+            glfwSwapInterval(interval);
+            CheckError(nameof(SetSwapInterval));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsExtensionSupported(string extension)
+        {
+            var value = glfwExtensionSupported(extension);
+            CheckError(nameof(IsExtensionSupported));
+            return value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IntPtr GetProcAddress(string name)
+        {
+            var addr = glfwGetProcAddress(name);
+            CheckError(nameof(GetProcAddress));
+            return addr;
+        }
+
+        #endregion
+
+        public static string ReadString(IntPtr ptr)
+        {
+            return Marshal.PtrToStringAnsi(ptr);
+        }
+
+        public static string ReadString(IntPtr ptr, int index)
+        {
+            ptr = Marshal.ReadIntPtr(ptr + (index * IntPtr.Size));
+            return Marshal.PtrToStringAnsi(ptr);
+        }
+
+        [Conditional("DEBUG"), MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void CheckError(string command)
+        {
+            var foundError = false;
+            ErrorCode errorCode;
+
+            var messageBuffer = stackalloc char[1024];
+            var message = string.Empty;
+
+            var infloop = 0;
+            while ((errorCode = glfwGetError(&messageBuffer)) != ErrorCode.None && (++infloop < 10))
+            {
+                message += Marshal.PtrToStringAnsi((IntPtr) messageBuffer);
+                foundError = true;
+            }
+
+            // 
+            if (foundError)
+            {
+                throw new GlfwException($"Error in a call to {command}.\n{message}");
+            }
+        }
     }
 }
