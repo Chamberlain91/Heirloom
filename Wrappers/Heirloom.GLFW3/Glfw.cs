@@ -9,18 +9,18 @@ namespace Heirloom.GLFW3
     {
         private const string Library = "glfw3";
 
-        public static bool Init()
+        public static bool Initialize()
         {
             var success = glfwInit();
-            CheckError(nameof(Init));
+            CheckError(nameof(Initialize));
             return success;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SetInitHint(InitHint hint, bool state)
+        public static void SetInitializationHint(InitHint hint, bool state)
         {
             glfwInitHint(hint, state);
-            CheckError(nameof(SetInitHint));
+            CheckError(nameof(SetInitializationHint));
         }
 
         public static void Terminate()

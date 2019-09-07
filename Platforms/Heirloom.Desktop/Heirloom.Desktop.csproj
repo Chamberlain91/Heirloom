@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Heirloom.Drawing.OpenGL\Heirloom.Drawing.OpenGLES.csproj" />
+    <ProjectReference Include="..\..\Wrappers\Heirloom.GLFW3\Heirloom.GLFW3.csproj" />
+  </ItemGroup>
+
+</Project>

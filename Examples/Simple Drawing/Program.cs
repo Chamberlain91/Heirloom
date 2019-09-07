@@ -1,7 +1,9 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using Heirloom.GLFW3;
-using Heirloom.OpenGLES;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
+
+using Heirloom.Desktop;
+using Heirloom.Drawing;
+using Heirloom.Math;
 
 namespace Examples.SimpleDrawing
 {
@@ -9,66 +11,29 @@ namespace Examples.SimpleDrawing
     {
         private static void Main(string[] _)
         {
-            // Initialize
-            if (!Glfw.Init())
+            var sw = Stopwatch.StartNew();
+
+            Application.Run(() =>
             {
-                Console.WriteLine("Unable to initialize GLFW");
-                Environment.Exit(-1);
-            }
+                var window = new Window(512, 512, "Example Window");
 
-            // Set to use OpenGL 3.2 core (forward compatible)
-            Glfw.SetWindowHint(WindowHint.ContextVersionMajor, 3);
-            Glfw.SetWindowHint(WindowHint.ContextVersionMinor, 2);
-            Glfw.SetWindowHint(WindowHint.OpenGLForwardCompatibility, 1);
-            Glfw.SetWindowHint(WindowHint.OpenGLProfile, (int) OpenGLProfile.Core);
-
-            // Create window
-            var window = Glfw.CreateWindow(800, 600, "GLFW Example");
-
-            // 
-            Glfw.SetKeyCallback(window, (w, k, c, a, m) =>
-            {
-                Console.WriteLine($"Key '{k}' => {a}");
-            });
-
-            // 
-            Glfw.SetDropCallback(window, (w, c, p) =>
-            {
-                Console.WriteLine($"Dropped: {c} files");
-
-                for (var i = 0; i < c; i++)
+                Task.Run(() =>
                 {
-                    Console.WriteLine($"    {i}: {Glfw.ReadString(p, i)}");
-                }
+                    var ctx = window.RenderContext;
+
+                    // 
+                    while (!window.IsDisposed)
+                    {
+                        var time = (float) sw.Elapsed.TotalSeconds;
+
+                        var v = Calc.Sin(time) * 0.5F + 0.5F;
+
+                        ctx.ResetState(); // todo: have to call to resize viewport, fix this.
+                        ctx.Clear(new Color(v * v * v, v * v, v, 1F));
+                        ctx.SwapBuffers();
+                    }
+                });
             });
-
-            // Prepare OpenGL
-            Glfw.MakeContextCurrent(window);
-            GL.LoadFunctions(Glfw.GetProcAddress);
-
-            // Main Loop
-            while (!Glfw.GetWindowShouldClose(window))
-            {
-                Glfw.WaitEvents();
-
-                // 
-                Glfw.GetFramebufferSize(window, out var w, out var h);
-                GL.SetViewport(0, 0, w, h);
-
-                // 
-                GL.SetClearColor(0xFF123456);
-                GL.Clear(ClearMask.Color);
-
-                // 
-                Glfw.SwapBuffers(window);
-
-                // Hit the GC hard
-                GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);
-            }
-
-            // Terminate
-            Glfw.DestroyWindow(window);
-            Glfw.Terminate();
         }
     }
 }

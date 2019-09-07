@@ -6,59 +6,7 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public interface IRenderContext
-    {
-        Surface CreateSurface(int width, int height);
-        Surface CreateSurface(IntSize size);
-
-        // == Surface ==
-
-        Surface DefaultSurface { get; } // window, framebuffer 0 
-        Surface Surface { get; set; }   // active framebuffer
-
-        // == State ==
-
-        Rectangle Viewport { get; set; }
-        Matrix Transform { get; set; }
-        BlendMode BlendMode { get; set; }
-        Color BlendColor { get; set; }
-
-        // Reset state to defaults
-        void ResetState();
-
-        // 
-        // void SetShader(Shader shader);
-        // void GetShader();
-        // 
-        // void SetShaderVariable<P>(string name, P parameter) where P : struct;
-        // 
-
-        // == Write Operations ==
-
-        void Clear(Color color);
-
-        void Draw(ImageSource image, Matrix transform);
-        void Draw(ImageSource image, Matrix transform, Color color);
-
-        void Draw(ImageSource image, Mesh mesh, Matrix transform);
-        void Draw(ImageSource image, Mesh mesh, Matrix transform, Color color);
-
-        // == Read Operations ==
-
-        Image GrabPixels(IntRectangle region);
-        Image GrabPixels();
-
-        // == Swap Buffers
-
-        void SwapBuffers();
-
-        // == Dispose ==
-
-        bool IsDisposed { get; }
-        void Dispose();
-    }
-
-    public abstract class RenderContext : IDisposable, IRenderContext
+    public abstract class RenderContext : IDisposable
     {
         private readonly struct DisposePush : IDisposable
         {
@@ -181,8 +129,16 @@ namespace Heirloom.Drawing
             return GrabPixels((0, 0, Surface.Width, Surface.Height));
         }
 
-        // 
+        /// <summary>
+        /// Present the drawing operations to the screen.
+        /// </summary>
         public abstract void SwapBuffers();
+
+        /// <summary>
+        /// Force pending drawing operations to complete, useful for synchronization between contexts. <para/>
+        /// Note: Currently untested for said synchronization.
+        /// </summary>
+        public abstract void Flush();
 
         // 
         public abstract bool IsDisposed { get; }
