@@ -44,10 +44,5 @@ namespace Heirloom.GLFW3
         {
             return !a.Equals(b);
         }
-
-        public static implicit operator bool(CursorHandle obj)
-        {
-            return obj.Ptr != IntPtr.Zero;
-        }
     }
 }

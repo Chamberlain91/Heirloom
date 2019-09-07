@@ -43,6 +43,11 @@
         Maximized = 0x00020008,
 
         /// <summary>
+        /// Is the window maximized?
+        /// </summary>
+        Iconified = 0x00020002,
+
+        /// <summary>
         /// Does the window support a transparent framebuffer?
         /// </summary>
         TransparentFramebuffer = 0x0002000A,

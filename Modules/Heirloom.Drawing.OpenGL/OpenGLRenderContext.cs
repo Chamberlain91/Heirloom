@@ -185,17 +185,11 @@ namespace Heirloom.Drawing.OpenGL
         //}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected internal void InvokeLater(Action action)
+        protected internal void Invoke(Action action, bool blocking = true)
         {
             if (!_isRunning) { throw new InvalidOperationException("Unable to invoke, thread not started."); }
-            _thread.InvokeLater(action);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected internal void Invoke(Action action)
-        {
-            if (!_isRunning) { throw new InvalidOperationException("Unable to invoke, thread not started."); }
-            _thread.Invoke(action);
+            if (blocking) { _thread.Invoke(action); }
+            else { _thread.InvokeLater(action); }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -529,7 +523,7 @@ namespace Heirloom.Drawing.OpenGL
         #region Flush
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected internal unsafe void Flush()
+        public override unsafe void Flush()
         {
             // If the renderer has batched work
             if (_renderer.IsDirty)
@@ -627,6 +621,7 @@ namespace Heirloom.Drawing.OpenGL
                 {
                     // Dispose Managed
                     _defaultSurface.Dispose();
+                    _thread.Stop();
                 }
 
                 // Dispose Unmanaged

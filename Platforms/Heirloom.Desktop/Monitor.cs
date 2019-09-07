@@ -1,55 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Heirloom.GLFW3;
 
 namespace Heirloom.Desktop
 {
     public class Monitor
     {
-        internal readonly MonitorHandle Handle;
+        internal readonly MonitorHandle MonitorHandle;
 
-        internal Monitor(string name, MonitorHandle handle)
+        internal Monitor(string name, MonitorHandle monitor)
         {
-            Handle = handle;
+            MonitorHandle = monitor;
             Name = name;
         }
 
+        /// <summary>
+        /// The human-readable name of the monitor.
+        /// </summary>
         public string Name { get; }
 
+        /// <summary>
+        /// The current video mode on this monitor.
+        /// </summary>
+        public VideoMode CurrentVideoMode => Application.Invoke(() => Glfw.GetVideoMode(MonitorHandle));
+
+        /// <summary>
+        /// Get known video modes on this monitor.
+        /// </summary>
+        /// <returns></returns>
         public VideoMode[] GetVideoModes()
         {
-            return Glfw.GetVideoModes(Handle);
+            return Application.Invoke(() => Glfw.GetVideoModes(MonitorHandle));
         }
 
-        public VideoMode GetCurrentVideoMode()
-        {
-            return Glfw.GetVideoMode(Handle);
-        }
+        #region Static
 
-        public void SetFullscreen(Window window)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static Monitor Default { get; private set; }
-
-        public static IEnumerable<Monitor> GetMonitors()
-        {
-            return _monitors.Values;
-        }
+        private static readonly Dictionary<MonitorHandle, Monitor> _monitors;
 
         static Monitor()
         {
             _monitors = new Dictionary<MonitorHandle, Monitor>();
 
-            // 
+            // Register monitor callback, invoked when the monitor configuration changes.
             Glfw.SetMonitorCallback(OnMonitorCallback);
 
-            // Scan current monitors
+            // Scan currently connected monitors
             foreach (var monitor in Glfw.GetMonitors())
             {
                 OnMonitorCallback(monitor, ConnectState.Connected);
             }
+        }
+
+        /// <summary>
+        /// The default (primary) monitor.
+        /// </summary>
+        public static Monitor Default { get; private set; }
+
+        /// <summary>
+        /// Get all currently connected monitors.
+        /// </summary>
+        public static IEnumerable<Monitor> GetMonitors()
+        {
+            return _monitors.Values;
         }
 
         private static void OnMonitorCallback(MonitorHandle monitor, ConnectState state)
@@ -59,7 +72,7 @@ namespace Heirloom.Desktop
             var primary = Glfw.GetPrimaryMonitor();
             var isPrimary = primary == monitor;
 
-            Console.WriteLine($"Monitor: \"{name}\" ({state}, isPrimary: {isPrimary})");
+            Console.WriteLine($"Found Monitor: \"{name}\" ({state}, isPrimary: {isPrimary})");
 
             // Connected Monitor
             if (state == ConnectState.Connected)
@@ -84,6 +97,6 @@ namespace Heirloom.Desktop
             Default = _monitors[primary];
         }
 
-        private static readonly Dictionary<MonitorHandle, Monitor> _monitors;
+        #endregion
     }
 }
