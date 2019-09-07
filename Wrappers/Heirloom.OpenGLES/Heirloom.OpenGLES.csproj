@@ -8,14 +8,12 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Chris Chamberlain</Authors>
     <PackageLicenseExpression></PackageLicenseExpression>
-    <Version>1.0.0-beta</Version>
+    <Version>1.1.0-beta</Version>
     <PackageTags>opengl</PackageTags>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Description>OpenGL ES 3.0 Bindings for .NET Standard 2.0
-
-Tested on Windows, Linux, Mac and Android</Description>
+    <Description>OpenGL ES 3.0 Bindings</Description>
   </PropertyGroup> 
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

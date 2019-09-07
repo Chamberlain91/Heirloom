@@ -7,16 +7,12 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression></PackageLicenseExpression>
     <Authors>Chris Chamberlain</Authors>
-    <Version>1.0.0-beta</Version>
+    <Version>1.1.0-beta</Version>
     <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>drawing, graphics, 2D</PackageTags>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <Description>Simple Hardware Accelerated 2D Drawing
-
-Backends:
-* OpenGL ES 3.0
-* Vulkan (Not Implemented)</Description>
+    <Description>Hardware accelerated 2D graphics.</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

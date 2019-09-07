@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.0-beta</Version>
+    <Version>1.1.0-beta</Version>
     <Authors>Chris Chamberlain</Authors>
-    <Description>OpenGL Implementation of Heirloom.Drawing</Description>
+    <Description>An OpenGL implementation of Heirloom.Drawing.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
