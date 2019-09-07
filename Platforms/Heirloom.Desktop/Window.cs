@@ -2,7 +2,7 @@
 
 using Heirloom.Drawing;
 using Heirloom.Drawing.OpenGL;
-using Heirloom.GLFW3;
+using Heirloom.GLFW;
 using Heirloom.Math;
 
 namespace Heirloom.Desktop
@@ -357,10 +357,6 @@ namespace Heirloom.Desktop
             {
                 IsDisposed = true;
 
-                // Destroy window
-                Application.Invoke(() => Glfw.DestroyWindow(WindowHandle));
-                Application.RemoveWindow(this);
-
                 // todo: wait for render context to empty?
 
                 if (disposeManaged)
@@ -368,6 +364,10 @@ namespace Heirloom.Desktop
                     // Terminate rendering context
                     RenderContext.Dispose();
                 }
+
+                // Destroy window
+                Application.Invoke(() => Glfw.DestroyWindow(WindowHandle));
+                Application.RemoveWindow(this);
             }
         }
 

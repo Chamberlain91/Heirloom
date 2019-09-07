@@ -622,7 +622,7 @@ namespace Heirloom.Drawing.OpenGL
                 // 
                 if (disposeManaged)
                 {
-                    _thread.Stop(true);
+                    _thread.Stop(false);
                     _defaultSurface.Dispose();
                 }
 
