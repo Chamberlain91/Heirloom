@@ -1,8 +1,12 @@
 ﻿namespace Heirloom.GLFW3
 {
+    /// <summary>
+    /// Standard GLFW virtual key mapping (standard US keyboard layout).
+    /// </summary>
     public enum Key
     {
         Unknown = -1,
+
         Space = 32,
         Apostrophe = 39,
         Comma = 44,
@@ -51,10 +55,10 @@
         Y = 89,
         Z = 90,
 
-        LeftBracket = 91  /* [ */,
-        Backslash = 92  /* \ */,
-        RightBracket = 93  /* ] */,
-        GraveAccent = 96  /* ` */,
+        LeftBracket = 91,
+        Backslash = 92,
+        RightBracket = 93,
+        GraveAccent = 96,
         World1 = 161 /* non-US #1 */,
         World2 = 162 /* non-US #2 */,
         Escape = 256,
@@ -103,28 +107,29 @@
         F24 = 313,
         F25 = 314,
 
-        KP_0 = 320,
-        KP_1 = 321,
-        KP_2 = 322,
-        KP_3 = 323,
-        KP_4 = 324,
-        KP_5 = 325,
-        KP_6 = 326,
-        KP_7 = 327,
-        KP_8 = 328,
-        KP_9 = 329,
-        KP_DECIMAL = 330,
-        KP_DIVIDE = 331,
-        KP_MULTIPLY = 332,
-        KP_SUBTRACT = 333,
-        KP_ADD = 334,
-        KP_ENTER = 335,
-        KP_EQUAL = 336,
+        Num0 = 320,
+        Num1 = 321,
+        Num2 = 322,
+        Num3 = 323,
+        Num4 = 324,
+        Num5 = 325,
+        Num6 = 326,
+        Num7 = 327,
+        Num8 = 328,
+        Num9 = 329,
+        NumDecimal = 330,
+        NumDivide = 331,
+        NumMultiply = 332,
+        NumSubtract = 333,
+        NumAdd = 334,
+        NumEnter = 335,
+        NumEqual = 336,
 
         LeftShift = 340,
         LeftControl = 341,
         LeftAlt = 342,
         LeftSuper = 343,
+
         RightShift = 344,
         RightControl = 345,
         RightAlt = 346,

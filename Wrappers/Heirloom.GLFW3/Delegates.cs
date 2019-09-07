@@ -31,7 +31,7 @@ namespace Heirloom.GLFW3
     public unsafe delegate void FramebufferSizeCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, int width, int height);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void WindowContentScaleCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, float xscale, float yscale);
+    public unsafe delegate void WindowContentScaleCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, float xScale, float yScale);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public unsafe delegate void KeyCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, Key key, int scancode, ButtonAction action, KeyModifiers modifiers);
@@ -49,7 +49,7 @@ namespace Heirloom.GLFW3
     public unsafe delegate void CursorEnterCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, [MarshalAs(UnmanagedType.Bool)] bool state);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void ScrollCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, double xoffset, double yoffset);
+    public unsafe delegate void ScrollCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, double xOffset, double yOffset);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public unsafe delegate void DropCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, int pathCount, IntPtr pathNames);
