@@ -15,7 +15,7 @@ namespace Heirloom.Desktop
         private int _fpsCount;
 
         protected GameWindow(string title, bool vsync = true, bool transparent = false)
-            : this(800, 600, title, vsync, transparent)
+            : this(1280, 720, title, vsync, transparent)
         { }
 
         protected GameWindow(int width, int height, string title, bool vsync = true, bool transparent = false)
