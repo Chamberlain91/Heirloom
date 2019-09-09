@@ -1,6 +1,6 @@
 ﻿using Heirloom.Desktop;
 
-namespace Examples.SimpleDrawing
+namespace Examples.Slideshow
 {
     internal static class Program
     {
