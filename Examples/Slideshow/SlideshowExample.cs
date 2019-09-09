@@ -3,7 +3,7 @@ using Heirloom.Drawing;
 using Heirloom.IO;
 using Heirloom.Math;
 
-namespace Examples.SimpleDrawing
+namespace Examples.Slideshow
 {
     internal class SlideshowExample : GameWindow
     {
