@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>Examples.MusicPlayer</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Files\wholesome-by-kevin-macleod.mp3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Files\wholesome-by-kevin-macleod.mp3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Heirloom.IO\Heirloom.IO.csproj" />
+    <ProjectReference Include="..\..\Modules\Heirloom.Sound\Heirloom.Sound.csproj" />
+  </ItemGroup>
+
+</Project>
