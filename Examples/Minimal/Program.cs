@@ -2,7 +2,7 @@
 using Heirloom.Drawing;
 using Heirloom.Math;
 
-namespace Minimal
+namespace Examples.Minimal
 {
     internal static class Program
     {
