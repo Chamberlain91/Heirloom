@@ -32,9 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content CopyToOutputDirectory="PreserveNewest" Include="runtimes/win-x64/miniaudio.dll" Pack="true" PackagePath="runtimes/win-x64/native/" />
-		<Content CopyToOutputDirectory="PreserveNewest" Include="runtimes/linux-x64/libminiaudio.so" Pack="true" PackagePath="runtimes/linux-x64/native/" />
-    <Content CopyToOutputDirectory="PreserveNewest" Include="runtimes/osx-x64/libminiaudio.dylib" Pack="true" PackagePath="runtimes/osx-x64/native/" />
+    <Content CopyToOutputDirectory="PreserveNewest" Link="miniaudio.dll" Include="runtimes/win-x64/miniaudio.dll" Pack="true" PackagePath="runtimes/win-x64/native/" />
+    <Content CopyToOutputDirectory="PreserveNewest" Link="libminiaudio.so" Include="runtimes/linux-x64/libminiaudio.so" Pack="true" PackagePath="runtimes/linux-x64/native/" />
+    <Content CopyToOutputDirectory="PreserveNewest" Link="libminiaudio.dylib" Include="runtimes/osx-x64/libminiaudio.dylib" Pack="true" PackagePath="runtimes/osx-x64/native/" />
   </ItemGroup>
 
 </Project>
