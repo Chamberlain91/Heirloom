@@ -26,4 +26,11 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Content CopyToOutputDirectory="PreserveNewest" Include="runtimes/win-x64/glfw3.dll" Pack="true" PackagePath="runtimes/win-x64/native/" />
+    <Content CopyToOutputDirectory="PreserveNewest" Include="runtimes/win-x86/glfw3.dll" Pack="true" PackagePath="runtimes/win-x86/native/" />
+		<Content CopyToOutputDirectory="PreserveNewest" Include="runtimes/linux-x64/libglfw3.so" Pack="true" PackagePath="runtimes/linux-x64/native/" />
+    <Content CopyToOutputDirectory="PreserveNewest" Include="runtimes/osx-x64/libglfw3.dylib" Pack="true" PackagePath="runtimes/osx-x64/native/" />
+  </ItemGroup>
+
 </Project>
