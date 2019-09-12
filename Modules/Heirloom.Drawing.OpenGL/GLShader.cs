@@ -10,8 +10,10 @@ namespace Heirloom.Drawing.OpenGL
 
         #region Constructors
 
-        public GLShader(ShaderType type, string source)
+        public GLShader(string name, ShaderType type, string source)
         {
+            Name = name;
+
             Handle = GL.CreateShader(type);
             GL.ShaderSource(Handle, source);
             GL.CompileShader(Handle);
@@ -35,6 +37,8 @@ namespace Heirloom.Drawing.OpenGL
         #endregion
 
         #region Properties
+
+        public string Name { get; }
 
         public uint Handle { get; }
 

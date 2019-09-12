@@ -30,7 +30,6 @@ namespace Heirloom.Drawing.OpenGL.Utilities
             {
                 if (name.Contains("Embedded.") && name.Contains(path))
                 {
-                    Print($"Found '{path}' ({name})");
                     return assembly.GetManifestResourceStream(name);
                 }
             }
