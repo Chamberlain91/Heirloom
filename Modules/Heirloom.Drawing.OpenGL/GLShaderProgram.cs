@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
+using System.Linq;
+
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGL
@@ -23,6 +24,9 @@ namespace Heirloom.Drawing.OpenGL
 
         internal GLShaderProgram(GLShader frag, GLShader vert)
         {
+            FragmentShader = frag;
+            VertexShader = vert;
+
             // 
             Handle = CreateAndLinkShaderProgram(frag, vert);
 
@@ -37,7 +41,7 @@ namespace Heirloom.Drawing.OpenGL
             foreach (var uniform in GL.GetActiveUniforms(Handle))
             {
                 // Causes the dictionary to populate with the locations this
-                // won't cover *every* case. Something like an the location of 
+                // won't cover *every* case. Something like the location of an
                 // array with non-zero index will still have to be retrieved
                 // on-demand, but this should prepopulate the location of most
                 // uniforms by a commonly used name.
@@ -45,9 +49,6 @@ namespace Heirloom.Drawing.OpenGL
 
                 // 
                 _uniforms[uniform.Name] = new Uniform(uniform);
-
-                // 
-                PrintUniformDebug(uniform);
             }
 
             //
@@ -69,10 +70,9 @@ namespace Heirloom.Drawing.OpenGL
                     // Mark as part of a block 
                     _locations[uniform.Key] = LOCATION_IN_BLOCK;
                 }
-
-                // 
-                PrintUniformBlockDebug(block);
             }
+
+            DebugPrintUniformStructure();
 
             // 
             ConfigureStandardUniforms();
@@ -87,6 +87,10 @@ namespace Heirloom.Drawing.OpenGL
 
         #region Properties
 
+        internal GLShader FragmentShader { get; }
+
+        internal GLShader VertexShader { get; }
+
         internal uint Handle { get; }
 
         #endregion
@@ -94,29 +98,40 @@ namespace Heirloom.Drawing.OpenGL
         #region Print Debug
 
         [Conditional("DEBUG")]
-        private void PrintUniformBlockDebug(ActiveUniformBlock block)
+        private void DebugPrintUniformStructure()
         {
-            Console.WriteLine($"Block {block.Name}");
-            Console.WriteLine($"    Index: {block.Index}");
-            Console.WriteLine($"    Byte Size: {block.DataSize}");
+            Console.WriteLine($"Shader Structure ({VertexShader.Name}, {FragmentShader.Name})");
 
-            foreach (var uniform in block.Uniforms)
+            // Print raw uniforms
+            foreach (var uniform in _uniforms.Values.Where(u => u.BlockInfo == null).Select(u => u.Info))
             {
-                PrintUniformDebug(uniform.Value, "    ");
+                PrintUniform(uniform, "  ");
             }
-        }
 
-        [Conditional("DEBUG")]
-        private void PrintUniformDebug(ActiveUniform uniform, string indent = "")
-        {
-            var location = GetUniformLocation(uniform.Name);
+            // Print uniform blocks
+            foreach (var block in _blocks.Values)
+            {
+                PrintBlock(block, "  ");
+            }
 
-            Console.WriteLine($"{indent}Uniform {uniform.Name}");
-            Console.WriteLine($"{indent}    Index: {uniform.Index}");
-            Console.WriteLine($"{indent}    Location: {location}");
-            Console.WriteLine($"{indent}    Offset: {uniform.Offset}");
-            Console.WriteLine($"{indent}    Size: {uniform.Size}");
-            Console.WriteLine($"{indent}    Type: {uniform.Type}");
+            Console.WriteLine();
+
+            void PrintBlock(ActiveUniformBlock block, string indent)
+            {
+                Console.WriteLine($"{indent}B {block.Index} \"{block.Name}\" ({block.DataSize} bytes)");
+
+                foreach (var uniform in block.Uniforms)
+                {
+                    PrintUniform(uniform.Value, indent + "  ");
+                }
+            }
+
+            void PrintUniform(ActiveUniform uniform, string indent)
+            {
+                var message = $"{indent}U {uniform.Index} \"{uniform.Name}\" ({uniform.Size} x {uniform.Type})";
+                if (uniform.Offset != -1) { message += $" @ {uniform.Offset} bytes"; }
+                Console.WriteLine(message);
+            }
         }
 
         #endregion

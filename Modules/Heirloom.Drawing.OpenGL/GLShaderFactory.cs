@@ -111,8 +111,11 @@ namespace Heirloom.Drawing.OpenGL
                     code = prefix + code;
                 }
 
+                // Extract file name
+                var name = Path.GetFileName(filePath);
+
                 // Compile and return
-                shader = new GLShader(type, code);
+                shader = new GLShader(name, type, code);
                 return _shaders[filePath] = shader;
             }
 
