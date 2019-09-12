@@ -170,6 +170,7 @@ namespace Heirloom.Drawing.OpenGL
                 // Create and start new task runner
                 _thread = new ConsumerThread("GL Consumer");
                 _thread.InvokeLater(InitializeContext);
+                _thread.InvokeLater(ResetState);
                 _thread.Start();
             }
         }

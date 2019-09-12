@@ -17,7 +17,6 @@ namespace Examples.Minimal
                 window.IsResizable = false;
 
                 // Draw hello world text
-                window.RenderContext.ResetState(); // TODO: Bug, should not be needed here
                 window.RenderContext.Clear(Color.DarkGray);
 
                 // todo: feature, should be able to vertical align without this.
