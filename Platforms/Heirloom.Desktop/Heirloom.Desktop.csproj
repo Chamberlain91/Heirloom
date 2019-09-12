@@ -8,7 +8,7 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <Description>Desktop infrastructure for Heirloom.Drawing applications.</Description>
+    <Description>Desktop infrastructure for Heirloom applications.</Description>
     <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>glfw, windows, graphics, desktop, drawing</PackageTags>
