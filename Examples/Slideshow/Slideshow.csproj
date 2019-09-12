@@ -6,6 +6,10 @@
     <RootNamespace>Examples.Slideshow</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="Files\chick.png" />
     <None Remove="Files\image.png" />
