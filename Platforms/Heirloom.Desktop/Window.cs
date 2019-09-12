@@ -134,7 +134,7 @@ namespace Heirloom.Desktop
         /// <summary>
         /// Is the window decorated? (ie, window chrome)
         /// </summary>
-        public bool Decorated
+        public bool IsDecorated
         {
             get => Application.Invoke(() => Glfw.GetWindowAttribute(WindowHandle, WindowAttribute.Decorated) != 0);
             set => Application.Invoke(() => Glfw.SetWindowAttribute(WindowHandle, WindowAttribute.Decorated, value));
@@ -143,7 +143,7 @@ namespace Heirloom.Desktop
         /// <summary>
         /// Can the window be resized?
         /// </summary>
-        public bool Resizable
+        public bool IsResizable
         {
             get => Application.Invoke(() => Glfw.GetWindowAttribute(WindowHandle, WindowAttribute.Resizable) != 0);
             set => Application.Invoke(() => Glfw.SetWindowAttribute(WindowHandle, WindowAttribute.Resizable, value));
@@ -152,7 +152,7 @@ namespace Heirloom.Desktop
         /// <summary>
         /// Is the window "always on top"?
         /// </summary>
-        public bool Floating
+        public bool IsFloating
         {
             get => Application.Invoke(() => Glfw.GetWindowAttribute(WindowHandle, WindowAttribute.Floating) != 0);
             set => Application.Invoke(() => Glfw.SetWindowAttribute(WindowHandle, WindowAttribute.Floating, value));
