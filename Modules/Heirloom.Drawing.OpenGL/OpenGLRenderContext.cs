@@ -33,8 +33,6 @@ namespace Heirloom.Drawing.OpenGL
         private BlendMode _blendMode;
         private Color _blendColor;
 
-        private bool _isDisposed = false;
-
         // Quad mesh
         private readonly Mesh _quadMesh = Mesh.CreateQuad();
 
@@ -56,7 +54,7 @@ namespace Heirloom.Drawing.OpenGL
 
         #region Properties
 
-        public override bool IsDisposed => _isDisposed;
+        public bool IsDisposed { get; private set; } = false;
 
         public VersionInfo Info { get; private set; }
 
@@ -618,7 +616,7 @@ namespace Heirloom.Drawing.OpenGL
         {
             if (!IsDisposed)
             {
-                _isDisposed = true;
+                IsDisposed = true;
 
                 // 
                 if (disposeManaged)
