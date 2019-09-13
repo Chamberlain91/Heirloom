@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 using Heirloom.Math;
@@ -8,21 +7,6 @@ namespace Heirloom.Drawing
 {
     public abstract class RenderContext : IDisposable
     {
-        private readonly struct DisposePush : IDisposable
-        {
-            private readonly RenderContext _context;
-
-            public DisposePush(RenderContext context)
-            {
-                _context = context ?? throw new ArgumentNullException(nameof(context));
-            }
-
-            public void Dispose()
-            {
-                _context.PopState();
-            }
-        }
-
         private struct State
         {
             public Surface Surface;
@@ -41,14 +25,10 @@ namespace Heirloom.Drawing
             }
         }
 
-        private readonly Stack<State> _states;
-
         protected RenderContext()
         {
-            _states = new Stack<State>();
+            // Nothing to do
         }
-
-        public abstract Surface DefaultSurface { get; }
 
         public abstract Surface CreateSurface(IntSize size);
 
@@ -58,43 +38,50 @@ namespace Heirloom.Drawing
             return CreateSurface(new IntSize(width, height));
         }
 
+        /// <summary>
+        /// Gets the default surface (ie, window) of this render context.
+        /// </summary>
+        public abstract Surface DefaultSurface { get; }
+
+        /// <summary>
+        /// Gets or sets the current surface.
+        /// </summary>
         public abstract Surface Surface { get; set; }
 
+        /// <summary>
+        /// Gets or sets the viewport in normalized coordinates.
+        /// </summary>
         public abstract Rectangle Viewport { get; set; }
 
+        /// <summary>
+        /// Get or sets the global transform.
+        /// </summary>
         public abstract Matrix Transform { get; set; }
 
+        /// <summary>
+        /// Gets the inverse of the current global transform.
+        /// </summary>
         public abstract Matrix InverseTransform { get; }
 
         /// <summary>
-        /// Approximates the scaling factor that one pixel consumes in world units.
+        /// Gets the approximate scaling factor that one pixel consumes in world units.
         /// </summary>
         public abstract float ApproximatePixelScale { get; }
 
+        /// <summary>
+        /// Gets or sets the current blending color.
+        /// </summary>
         public abstract Color BlendColor { get; set; }
 
+        /// <summary>
+        /// Gets or sets the current blending mode.
+        /// </summary>
         public abstract BlendMode BlendMode { get; set; }
 
-        public IDisposable PushState()
-        {
-            var state = new State(Surface, Viewport, Transform, BlendColor, BlendMode);
-            _states.Push(state);
-
-            return new DisposePush(this);
-        }
-
-        public void PopState()
-        {
-            var state = _states.Pop();
-
-            Surface = state.Surface;
-            Viewport = state.Viewport;
-            Transform = state.Transform;
-            BlendColor = state.BlendColor;
-            BlendMode = state.BlendMode;
-        }
-
-        public virtual void ResetState()
+        /// <summary>
+        /// Reset context state to defaults.
+        /// </summary>
+        public void ResetState()
         {
             Surface = DefaultSurface; // also adjusts viewport
             Viewport = (0, 0, 1, 1);
@@ -104,26 +91,50 @@ namespace Heirloom.Drawing
             BlendColor = Color.White;
         }
 
-        // 'Write Operations'
+        /// <summary>
+        /// Clears the current surface with the specified color.
+        /// </summary>
         public abstract void Clear(Color color);
+
+        /// <summary>
+        /// Draws an image with the given blending color.
+        /// </summary>
         public abstract void Draw(ImageSource image, Matrix transform, Color color);
+
+        /// <summary>
+        /// Draws an image with the given mesh and blending color.
+        /// </summary>
         public abstract void Draw(ImageSource image, Mesh mesh, Matrix transform, Color color);
 
+        /// <summary>
+        /// Draws an image.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Draw(ImageSource image, Matrix transform)
         {
             Draw(image, transform, Color.White);
         }
 
+        /// <summary>
+        /// Draws an image with the given mesh.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Draw(ImageSource image, Mesh mesh, Matrix transform)
         {
             Draw(image, mesh, transform, Color.White);
         }
 
-        // 'Read Operations'
+        /// <summary>
+        /// Grab the pixels from a subregion of the current surface and return that image. (ie, a screenshot)
+        /// </summary>
+        /// <param name="region">A region within the currently set surface.</param>
+        /// <returns>An image with a copy of the pixels on the surface.</returns>
         public abstract Image GrabPixels(IntRectangle region);
 
+        /// <summary>
+        /// Grab the pixels from the current surface and return that image. (ie, a screenshot)
+        /// </summary>
+        /// <returns>An image with a copy of the pixels on the surface.</returns>
         public Image GrabPixels()
         {
             return GrabPixels((0, 0, Surface.Width, Surface.Height));
@@ -140,8 +151,9 @@ namespace Heirloom.Drawing
         /// </summary>
         public abstract void Flush();
 
-        // 
-        public abstract bool IsDisposed { get; }
+        /// <summary>
+        /// Dispose this render context, freeing any resources occupied by it.
+        /// </summary>
         public abstract void Dispose();
     }
 }
