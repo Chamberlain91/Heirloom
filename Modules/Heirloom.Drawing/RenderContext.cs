@@ -7,24 +7,6 @@ namespace Heirloom.Drawing
 {
     public abstract class RenderContext : IDisposable
     {
-        private struct State
-        {
-            public Surface Surface;
-            public Rectangle Viewport;
-            public Matrix Transform;
-            public Color BlendColor;
-            public BlendMode BlendMode;
-
-            public State(Surface surface, Rectangle viewport, Matrix transform, Color blendColor, BlendMode blendMode)
-            {
-                Surface = surface ?? throw new ArgumentNullException(nameof(surface));
-                Viewport = viewport;
-                Transform = transform;
-                BlendColor = blendColor;
-                BlendMode = blendMode;
-            }
-        }
-
         protected RenderContext()
         {
             // Nothing to do
@@ -83,7 +65,7 @@ namespace Heirloom.Drawing
         /// </summary>
         public void ResetState()
         {
-            Surface = DefaultSurface; // also adjusts viewport
+            Surface = DefaultSurface; // also adjusts viewport?
             Viewport = (0, 0, 1, 1);
 
             Transform = Matrix.Identity;
