@@ -97,6 +97,95 @@ namespace Heirloom.Drawing
         /// </summary>
         public Color Inverted => new Color(1F - R, 1F - G, 1F - B, A);
 
+        /// <summary>
+        /// Gets or sets the (HSV) hue of this color.
+        /// </summary>
+        public float Hue
+        {
+            get
+            {
+                var min = Calc.Min(R, G, B);
+                var max = Calc.Max(R, G, B);
+                var delta = max - min;
+
+                // Undefined hue cases
+                if (max <= 0F || Calc.NearZero(delta)) { return 0; }
+
+                float hue;
+
+                // Compute Hue
+                if (Calc.NearEquals(R, max))
+                {
+                    hue = (G - B) / delta;
+                }
+                else
+                if (Calc.NearEquals(G, max))
+                {
+                    hue = 2F + (B - R) / delta;
+                }
+                else
+                {
+                    hue = 4F + (R - G) / delta;
+                }
+
+                hue *= 60; // quadrant to degrees
+
+                // Return hue in positive range
+                return hue < 0 ? hue + 360 : hue;
+            }
+
+            set
+            {
+                // todo: optimize, can probably skip some of the work
+                ToHSV(out _, out var s, out var v);
+                this = FromHSV(value, s, v);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the (HSV) value of this color.
+        /// </summary>
+        public float Value
+        {
+            get => Calc.Max(R, G, B);
+
+            set
+            {
+                // todo: optimize, can probably skip some of the work
+                ToHSV(out var h, out var s, out _);
+                this = FromHSV(h, s, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the (HSV) saturation of this color.
+        /// </summary>
+        public float Saturation
+        {
+            get
+            {
+                var min = Calc.Min(R, G, B);
+                var max = Calc.Max(R, G, B);
+                var delta = max - min;
+
+                // Invalid saturation cases
+                if (max <= 0F || Calc.NearZero(delta))
+                {
+                    return 0;
+                }
+
+                // Compute Saturation
+                return delta / max;
+            }
+
+            set
+            {
+                // todo: optimize, can probably skip some of the work
+                ToHSV(out var h, out var _, out var v);
+                this = FromHSV(h, value, v);
+            }
+        }
+
         #endregion
 
         #region Parse
@@ -179,6 +268,94 @@ namespace Heirloom.Drawing
         private static int ParseHexInt(string str)
         {
             return Convert.ToInt32(str, 16);
+        }
+
+        #endregion
+
+        #region HSV Conversion
+
+        public static Color FromHSV(float hue, float saturation, float value, float alpha = 1F)
+        // ref: https://github.com/Inseckto/HSV-to-RGB
+        {
+            var h = hue / 360F;
+            var s = saturation;
+            var v = value;
+
+            var i = Calc.Floor(h * 6);
+            var f = h * 6 - i;
+            var p = v * (1 - s);
+            var q = v * (1 - f * s);
+            var t = v * (1 - (1 - f) * s);
+
+            float r, g, b;
+
+            switch (i % 6)
+            {
+                default:
+                case 0: r = v; g = t; b = p; break;
+                case 1: r = q; g = v; b = p; break;
+                case 2: r = p; g = v; b = t; break;
+                case 3: r = p; g = q; b = v; break;
+                case 4: r = t; g = p; b = v; break;
+                case 5: r = v; g = p; b = q; break;
+            }
+
+            return new Color(r, g, b, alpha);
+        }
+
+        public void ToHSV(out float hue, out float saturation, out float value)
+        // ref: https://stackoverflow.com/questions/3018313
+        {
+            var min = Calc.Min(R, G, B);
+            var max = Calc.Max(R, G, B);
+            var delta = max - min;
+
+            // Compute Value
+            value = max;
+
+            if (Calc.NearZero(delta))
+            {
+                // Pure gray
+                saturation = 0;
+                hue = 0; // undefined
+                return;
+            }
+
+            if (max > 0F)
+            {
+                // Compute Saturation
+                saturation = delta / max;
+            }
+            else
+            {
+                // Pure black
+                saturation = 0;
+                hue = 0;
+                return;
+            }
+
+            // Compute Hue
+            if (Calc.NearEquals(R, max))
+            {
+                hue = (G - B) / delta;
+            }
+            else
+            if (Calc.NearEquals(G, max))
+            {
+                hue = 2F + (B - R) / delta;
+            }
+            else
+            {
+                hue = 4F + (R - G) / delta;
+            }
+
+            hue *= 60; // quadrant to degrees
+
+            // Wrap hue to positive range
+            if (hue < 0)
+            {
+                hue += 360;
+            }
         }
 
         #endregion
