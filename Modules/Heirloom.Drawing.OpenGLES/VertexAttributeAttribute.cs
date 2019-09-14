@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Heirloom.Drawing.OpenGL
+namespace Heirloom.Drawing.OpenGLES
 {
     [AttributeUsage(AttributeTargets.Field)]
     internal class VertexAttributeAttribute : Attribute

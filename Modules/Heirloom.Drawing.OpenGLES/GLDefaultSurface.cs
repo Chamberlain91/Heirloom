@@ -1,7 +1,7 @@
 ﻿using Heirloom.Math;
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.OpenGL
+namespace Heirloom.Drawing.OpenGLES
 {
     internal sealed class GLDefaultSurface : GLSurface
     {

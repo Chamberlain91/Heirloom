@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-using Heirloom.Drawing.OpenGL;
+using Heirloom.Drawing.OpenGLES;
 using Heirloom.Math;
 using Heirloom.OpenGLES;
 using Heirloom.OpenGLES.Platform;

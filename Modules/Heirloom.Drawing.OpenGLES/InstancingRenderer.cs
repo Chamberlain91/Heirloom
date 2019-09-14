@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using Heirloom.Math;
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.OpenGL
+namespace Heirloom.Drawing.OpenGLES
 {
     internal unsafe class InstancingRenderer : Renderer
     {

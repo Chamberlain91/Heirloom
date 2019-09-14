@@ -5,7 +5,7 @@ using System.Linq;
 
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.OpenGL
+namespace Heirloom.Drawing.OpenGLES
 {
     internal class GLShaderProgram
     {
