@@ -1,12 +1,11 @@
-﻿using Heirloom.Math;
-using Heirloom.OpenGLES;
+﻿using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGL
 {
     internal abstract class GLSurface : Surface
     {
-        protected GLSurface(IntSize size)
-            : base(size)
+        protected GLSurface(int width, int height)
+            : base(width, height)
         { }
 
         // expose function with new visibility

@@ -1,14 +1,13 @@
-﻿using Heirloom.Math;
-using Heirloom.OpenGLES;
+﻿using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGL
 {
     internal sealed class GLFramebufferSurface : GLSurface
     {
-        internal GLFramebufferSurface(IntSize size)
-            : base(size)
+        internal GLFramebufferSurface(int width, int height)
+            : base(width, height)
         {
-            Texture = new GLTexture(size);
+            Texture = new GLTexture(Size);
         }
 
         public GLTexture Texture { get; }

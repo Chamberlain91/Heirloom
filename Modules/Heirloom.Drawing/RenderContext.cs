@@ -12,12 +12,12 @@ namespace Heirloom.Drawing
             // Nothing to do
         }
 
-        public abstract Surface CreateSurface(IntSize size);
+        public abstract Surface CreateSurface(int width, int height);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Surface CreateSurface(int width, int height)
+        public Surface CreateSurface(IntSize size)
         {
-            return CreateSurface(new IntSize(width, height));
+            return CreateSurface(size.Width, size.Height);
         }
 
         /// <summary>
