@@ -19,7 +19,12 @@ namespace Benchmark
 
         protected override void OnCreate(Bundle bundle)
         {
+            // Display FPS
+            ShowFPSOverlay = true;
+
+            // Create app instance
             App = new BenchmarkApp(30, 4, 5000);
+
             base.OnCreate(bundle);
         }
 

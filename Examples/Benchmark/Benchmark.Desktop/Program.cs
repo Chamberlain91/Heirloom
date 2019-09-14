@@ -1,7 +1,5 @@
-﻿using System;
-using Heirloom.Desktop;
+﻿using Heirloom.Desktop;
 using Heirloom.Drawing;
-using Heirloom.IO;
 
 namespace Benchmark
 {
@@ -17,16 +15,7 @@ namespace Benchmark
             // Display FPS
             ShowFPSOverlay = true;
 
-            foreach (var ef in Files.GetEmbeddedFiles())
-            {
-                Console.WriteLine(ef.Path);
-                foreach (var id in ef.Identifiers)
-                {
-                    Console.WriteLine("    " + id);
-                }
-            }
-
-            // 
+            // Create app instance
             App = new BenchmarkApp(60, 8, 20000);
         }
 
