@@ -8,9 +8,9 @@ namespace Heirloom.Drawing
     {
         #region Constructors
 
-        protected Surface(IntSize size)
+        protected Surface(int width, int height)
         {
-            Size = size;
+            Size = new IntSize(width, height);
         }
 
         ~Surface()

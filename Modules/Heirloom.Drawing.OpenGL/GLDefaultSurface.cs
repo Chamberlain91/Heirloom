@@ -6,7 +6,7 @@ namespace Heirloom.Drawing.OpenGL
     internal sealed class GLDefaultSurface : GLSurface
     {
         internal GLDefaultSurface()
-            : base(new IntSize(1, 1))
+            : base(1, 1)
         { }
 
         protected internal override void Prepare(OpenGLRenderContext context)

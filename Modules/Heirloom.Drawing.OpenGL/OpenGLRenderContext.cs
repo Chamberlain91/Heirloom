@@ -308,9 +308,9 @@ namespace Heirloom.Drawing.OpenGL
         #region Surface
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override Surface CreateSurface(IntSize size)
+        public override Surface CreateSurface(int width, int height)
         {
-            return Invoke(() => new GLFramebufferSurface(size));
+            return Invoke(() => new GLFramebufferSurface(width, height));
         }
 
         public override Surface DefaultSurface => _defaultSurface;
