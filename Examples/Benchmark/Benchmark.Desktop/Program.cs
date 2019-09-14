@@ -16,7 +16,7 @@ namespace Benchmark
             ShowFPSOverlay = true;
 
             // Create app instance
-            App = new BenchmarkApp(60, 8, 20000);
+            App = new BenchmarkApp(60, 6, 20000);
         }
 
         protected override void Update(float dt)

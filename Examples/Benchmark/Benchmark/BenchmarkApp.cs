@@ -58,17 +58,27 @@ namespace Benchmark
             _benchmarks[_index].Render(ctx, delta);
 
             // 
-            var statusText = $"Resolution: {ctx.Surface.Width}x{ctx.Surface.Height} at {_targetFPS}HZ\n\n";
+            var statusText = "";
+            var average = 0;
+
             foreach (var benchmark in _benchmarks)
             {
                 // Get name
                 var name = benchmark.Name;
-                if (benchmark.IsEvaluating) { name = $"[{name}]"; }
 
                 // Append status text
-                statusText += $"{name}: {benchmark.Count}\n";
+                var label = $"{name}: {benchmark.Count}";
+                if (benchmark.IsEvaluating) { label = $"> {label} <"; }
+                statusText += $"{label}\n";
+
+                // Append to average scoring
+                average += benchmark.Count;
             }
-            DrawStateText(ctx, statusText);
+
+            var resolutionInfo = $"{ctx.Surface.Width}x{ctx.Surface.Height} at {_targetFPS}HZ";
+            average /= _benchmarks.Count;
+
+            DrawStateText(ctx, $"{resolutionInfo}\nOverall: {average}\n\n" + statusText);
         }
 
         private void DrawStateText(RenderContext ctx, string text)
