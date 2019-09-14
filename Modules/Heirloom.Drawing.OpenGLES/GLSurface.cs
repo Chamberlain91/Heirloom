@@ -1,6 +1,6 @@
 ﻿using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.OpenGL
+namespace Heirloom.Drawing.OpenGLES
 {
     internal abstract class GLSurface : Surface
     {

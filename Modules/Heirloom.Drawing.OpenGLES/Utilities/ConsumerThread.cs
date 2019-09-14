@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Heirloom.Drawing.OpenGL.Utilities
+namespace Heirloom.Drawing.OpenGLES.Utilities
 {
     /// <summary>
     /// Object to schedule actions onto a dedicated thread, useful for OpenGL as

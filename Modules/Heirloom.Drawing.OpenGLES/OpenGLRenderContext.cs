@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-using Heirloom.Drawing.OpenGL.Utilities;
+using Heirloom.Drawing.OpenGLES.Utilities;
 using Heirloom.Math;
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.OpenGL
+namespace Heirloom.Drawing.OpenGLES
 {
     public abstract class OpenGLRenderContext : RenderContext
     {

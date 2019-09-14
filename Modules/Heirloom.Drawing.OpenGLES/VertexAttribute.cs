@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using Heirloom.Math;
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.OpenGL
+namespace Heirloom.Drawing.OpenGLES
 {
     internal class VertexAttribute
     {

@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Modules\Heirloom.Drawing.OpenGL\Heirloom.Drawing.OpenGLES.csproj" />
+    <ProjectReference Include="..\..\Modules\Heirloom.Drawing.OpenGLES\Heirloom.Drawing.OpenGLES.csproj" />
     <ProjectReference Include="..\..\Wrappers\Heirloom.GLFW\Heirloom.GLFW.csproj" />
   </ItemGroup>
 
