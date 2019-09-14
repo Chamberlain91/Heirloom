@@ -143,9 +143,9 @@ namespace Heirloom.Drawing
         }
 
         /// <summary>
-        /// Gets or sets the (HSV) value of this color.
+        /// Gets or sets the (HSV) brightness value of this color.
         /// </summary>
-        public float Value
+        public float Brightness
         {
             get => Calc.Max(R, G, B);
 
