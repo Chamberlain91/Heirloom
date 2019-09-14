@@ -1,26 +1,36 @@
 ﻿using Android.App;
+using Android.Content.PM;
 using Android.OS;
-using Android.Support.V7.App;
-using Android.Runtime;
-using Android.Widget;
+
+using Heirloom.Android;
+using Heirloom.Drawing;
 
 namespace Benchmark
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
-    public class MainActivity : AppCompatActivity
+    [Activity(
+           Immersive = true,
+           Theme = "@android:style/Theme.NoTitleBar.Fullscreen",
+           ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize | ConfigChanges.Keyboard,
+           ScreenOrientation = ScreenOrientation.SensorPortrait,
+           MainLauncher = true)]
+    public class MainActivity : GameActivity
     {
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            // Set our view from the "main" layout resource
-            SetContentView(Resource.Layout.activity_main);
-        }
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
-        {
-            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        public BenchmarkApp App;
 
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        protected override void OnCreate(Bundle bundle)
+        {
+            App = new BenchmarkApp(30, 4, 5000);
+            base.OnCreate(bundle);
+        }
+
+        protected override void Update(float dt)
+        {
+            App.Update(dt);
+        }
+
+        protected override void Render(RenderContext ctx, float dt)
+        {
+            App.Render(ctx, dt);
         }
     }
 }
