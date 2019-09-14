@@ -23,7 +23,7 @@ namespace Benchmark
             ShowFPSOverlay = true;
 
             // Create app instance
-            App = new BenchmarkApp(30, 4, 5000);
+            App = new BenchmarkApp(30, 6, 5000);
 
             base.OnCreate(bundle);
         }

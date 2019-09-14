@@ -22,32 +22,38 @@ namespace Benchmark
         {
             Position += Velocity * delta;
 
+            var w1 = Image.Width * scale * 0.8F;
+            var w2 = Image.Width * scale * 0.2F;
+
+            var h1 = Image.Height * scale * 0.8F;
+            var h2 = Image.Height * scale * 0.2F;
+
             // Off right edge
-            if (Position.X + Image.Width * scale > bounds.Right && Velocity.X > 0)
+            if (Position.X + w1 > bounds.Right && Velocity.X > 0)
             {
                 Velocity.X *= -1;
-                Position.X = bounds.Right - Image.Width * scale;
+                Position.X = bounds.Right - w1;
             }
 
             // Off left edge
-            if (Position.X < bounds.Left && Velocity.X < 0)
+            if (Position.X + w2 < bounds.Left && Velocity.X < 0)
             {
                 Velocity.X *= -1;
-                Position.X = bounds.Left;
+                Position.X = bounds.Left - w2;
             }
 
             // Off bottom
-            if (Position.Y + Image.Height * scale > bounds.Bottom && Velocity.Y > 0)
+            if (Position.Y + h1 > bounds.Bottom && Velocity.Y > 0)
             {
                 Velocity.Y *= -1;
-                Position.Y = bounds.Bottom - Image.Height * scale;
+                Position.Y = bounds.Bottom - h1;
             }
 
             // Off top
-            if (Position.Y < bounds.Top && Velocity.Y < 0)
+            if (Position.Y + h2 < bounds.Top && Velocity.Y < 0)
             {
                 Velocity.Y *= -1;
-                Position.Y = bounds.Top;
+                Position.Y = bounds.Top - h2;
             }
         }
     }
