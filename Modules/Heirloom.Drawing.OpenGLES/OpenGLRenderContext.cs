@@ -477,7 +477,7 @@ namespace Heirloom.Drawing.OpenGLES
         }
          
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override void Draw(ImageSource image, Mesh mesh, Matrix transform)
+        public override void DrawMesh(ImageSource image, Mesh mesh, Matrix transform)
         {
             _renderer.Submit(image, mesh, in transform, _blendColor);
         }

@@ -154,7 +154,7 @@ namespace Heirloom.Drawing
                 {
                     // Draw to surface
                     ctx.Color = state.Color;
-                    ctx.Draw(image, Matrix.CreateTranslation(x, y));
+                    ctx.DrawImage(image, Matrix.CreateTranslation(x, y));
                 }
             });
 

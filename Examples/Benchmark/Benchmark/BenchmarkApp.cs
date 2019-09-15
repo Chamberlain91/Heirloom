@@ -273,7 +273,7 @@ namespace Benchmark
                     particle.Update(in bounds, in delta, Scale);
 
                     // Draw
-                    ctx.Draw(particle.Image, particle.Transform * scale);
+                    ctx.DrawImage(particle.Image, particle.Transform * scale);
                 }
             }
 
