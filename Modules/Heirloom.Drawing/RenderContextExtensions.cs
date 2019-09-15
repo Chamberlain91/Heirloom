@@ -148,7 +148,7 @@ namespace Heirloom.Drawing
         #region Draw Nine Slice
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Draw(this RenderContext ctx, NineSlice nine, Rectangle rectangle)
+        public static void DrawNineSlice(this RenderContext ctx, NineSlice nine, Rectangle rectangle)
         {
             // Compute stretch factors
             var w = (rectangle.Width - nine.TopLeftImage.Width - nine.TopRightImage.Width) / nine.MiddleImage.Width;
