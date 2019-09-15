@@ -3,6 +3,7 @@ Working document for the finalization of the Drawing API
 ```cs
 // == Fundamental Operations
 
+// [Mutable Properties]
 ctx.Surface = ...
 ctx.Viewport = ...
 ctx.Transform = ...
@@ -10,10 +11,16 @@ ctx.Blending = ...
 ctx.Shader = ... // not yet implemented
 ctx.Color = ...
 
-ctx.GrabPixels(region)
-ctx.SwapBuffers()
-ctx.Flush()
+// [Accessor Properties]
+... = ctx.DefaultSurface
+... = ctx.InverseTransform
+... = ctx.ApproximatePixelScale
 
+// []
+ctx.GrabPixels(pixelRegion)
+ctx.SwapBuffers()
+
+// [Fundamental Drawing]
 ctx.Clear(color)
 ctx.Draw(mesh, image, transform)
 
@@ -64,11 +71,6 @@ ctx.DrawPolygonOutline(polygon, width=1)
 
 ctx.DrawTriangle(a, b, c)
 ctx.DrawTriangleOutline(a, b, c, width=1)
-
-// [Esoteric]
-
-ctx.DrawNineSlice(nineslice, rectangle)
-ctx.DrawSprite(sprite, frame, matrix)
 
 ```
 
