@@ -12,22 +12,24 @@ namespace Heirloom.Drawing
         // used to center the line within the 1x1 pixel image to anchor at left-center
         private static readonly Matrix _lineOffsetMatrix = Matrix.CreateTranslation(0, -1 / 2F);
 
+        #region Draw Image
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawImage(this RenderContext ctx, ImageSource image, Vector position)
         {
-            ctx.Draw(image, Matrix.CreateTranslation(position));
+            ctx.DrawImage(image, Matrix.CreateTranslation(position));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawImage(this RenderContext ctx, ImageSource image, Vector position, float rotation)
         {
-            ctx.Draw(image, Matrix.CreateTransform(position, rotation, Vector.One));
+            ctx.DrawImage(image, Matrix.CreateTransform(position, rotation, Vector.One));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawImage(this RenderContext ctx, ImageSource image, Vector position, float rotation, Vector scale)
         {
-            ctx.Draw(image, Matrix.CreateTransform(position, rotation, scale));
+            ctx.DrawImage(image, Matrix.CreateTransform(position, rotation, scale));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -35,10 +37,12 @@ namespace Heirloom.Drawing
         {
             var scale = rectangle.Size / image.Size;
             var transform = Matrix.CreateTransform(rectangle.Position, 0, (Vector) scale);
-            ctx.Draw(image, transform);
+            ctx.DrawImage(image, transform);
         }
 
-        #region Primitive
+        #endregion
+
+        #region Draw Primitive
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawLine(this RenderContext ctx, Vector start, Vector end, float width = 1F)
@@ -53,7 +57,7 @@ namespace Heirloom.Drawing
             var transform = Matrix.CreateTransform(start, angle, (len, width * s))
                           * _lineOffsetMatrix;
 
-            ctx.Draw(Image.White, transform);
+            ctx.DrawImage(Image.White, transform);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -141,7 +145,7 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        #region Nine Slice
+        #region Draw Nine Slice
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Draw(this RenderContext ctx, NineSlice nine, Rectangle rectangle)
@@ -159,29 +163,29 @@ namespace Heirloom.Drawing
             var y2 = y1 + nine.MiddleImage.Height * h;
 
             // Corners
-            ctx.Draw(nine.TopLeftImage, Matrix.CreateTranslation(x0, y0));
-            ctx.Draw(nine.TopRightImage, Matrix.CreateTranslation(x2, y0));
-            ctx.Draw(nine.BottomLeftImage, Matrix.CreateTranslation(x0, y2));
-            ctx.Draw(nine.BottomRightImage, Matrix.CreateTranslation(x2, y2));
+            ctx.DrawImage(nine.TopLeftImage, Matrix.CreateTranslation(x0, y0));
+            ctx.DrawImage(nine.TopRightImage, Matrix.CreateTranslation(x2, y0));
+            ctx.DrawImage(nine.BottomLeftImage, Matrix.CreateTranslation(x0, y2));
+            ctx.DrawImage(nine.BottomRightImage, Matrix.CreateTranslation(x2, y2));
 
             if (w > 0)
             {
                 // Horizontal
-                ctx.Draw(nine.TopMiddleImage, Matrix.CreateTransform(x1, y0, 0, w, 1));
-                ctx.Draw(nine.BottomMiddleImage, Matrix.CreateTransform(x1, y2, 0, w, 1));
+                ctx.DrawImage(nine.TopMiddleImage, Matrix.CreateTransform(x1, y0, 0, w, 1));
+                ctx.DrawImage(nine.BottomMiddleImage, Matrix.CreateTransform(x1, y2, 0, w, 1));
             }
 
             if (h > 0)
             {
                 // Vertical
-                ctx.Draw(nine.MiddleLeftImage, Matrix.CreateTransform(x0, y1, 0, 1, h));
-                ctx.Draw(nine.MiddleRightImage, Matrix.CreateTransform(x2, y1, 0, 1, h));
+                ctx.DrawImage(nine.MiddleLeftImage, Matrix.CreateTransform(x0, y1, 0, 1, h));
+                ctx.DrawImage(nine.MiddleRightImage, Matrix.CreateTransform(x2, y1, 0, 1, h));
             }
 
             if (w > 0 && h > 0)
             {
                 // Middle
-                ctx.Draw(nine.MiddleImage, Matrix.CreateTransform(x1, y1, 0, w, h));
+                ctx.DrawImage(nine.MiddleImage, Matrix.CreateTransform(x1, y1, 0, w, h));
             }
         }
 

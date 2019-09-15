@@ -67,7 +67,7 @@ namespace Examples.Slideshow
 
             // Draw image
             ctx.Color = color;
-            ctx.Draw(image, Matrix.CreateTransform(xOffset, yOffset, 0, scale, scale));
+            ctx.DrawImage(image, Matrix.CreateTransform(xOffset, yOffset, 0, scale, scale));
         }
     }
 }

@@ -86,7 +86,7 @@ namespace Heirloom.Drawing
         /// <param name="mesh">Some mesh.</param>
         /// <param name="image">Some image.</param>
         /// <param name="transform">Some transform.</param>
-        public abstract void Draw(ImageSource image, Mesh mesh, Matrix transform);
+        public abstract void DrawMesh(ImageSource image, Mesh mesh, Matrix transform);
 
         /// <summary>
         /// Draw an image to the current surface.
@@ -94,7 +94,7 @@ namespace Heirloom.Drawing
         /// <param name="image">Some image.</param>
         /// <param name="transform">Some transform.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Draw(ImageSource image, Matrix transform)
+        public void DrawImage(ImageSource image, Matrix transform)
         {
             // Scale to image dimensions
             transform.M0 *= image.Size.Width;
@@ -102,7 +102,7 @@ namespace Heirloom.Drawing
             transform.M1 *= image.Size.Height;
             transform.M4 *= image.Size.Height;
 
-            Draw(image, _quadMesh, transform);
+            DrawMesh(image, _quadMesh, transform);
         }
 
         /// <summary>
