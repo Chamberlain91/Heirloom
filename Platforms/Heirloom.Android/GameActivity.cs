@@ -96,26 +96,32 @@ namespace Heirloom.Android
 
                     Update(delta);
 
+                    var ctx = SurfaceView.RenderContext;
+
                     //
-                    SurfaceView.RenderContext.ResetState();
-                    Render(SurfaceView.RenderContext, delta);
+                    ctx.ResetState();
+                    Render(ctx, delta);
 
                     FrameRate = rateCounter.Rate;
 
                     if (ShowFPSOverlay)
                     {
-                        SurfaceView.RenderContext.ResetState();
+                        ctx.ResetState();
 
-                        var surfaceWidth = SurfaceView.RenderContext.Surface.Width;
+                        var surfaceWidth = ctx.Surface.Width;
 
                         var text = $"FPS: {FrameRate.ToString("0.00")}";
                         var size = Font.Default.MeasureText(text, 16);
-                        SurfaceView.RenderContext.DrawRect(new Rectangle(surfaceWidth - 16 - size.Width - 3, 16, size.Width + 4, size.Height + 1), Color.DarkGray);
-                        SurfaceView.RenderContext.DrawText(text, new Vector(surfaceWidth - 16, 16), TextAlign.Right, Font.Default, 16, Color.Pink);
+
+                        ctx.Color = Color.DarkGray;
+                        ctx.DrawRect(new Rectangle(surfaceWidth - 16 - size.Width - 3, 16, size.Width + 4, size.Height + 1));
+
+                        ctx.Color = Color.Pink;
+                        ctx.DrawText(text, new Vector(surfaceWidth - 16, 16), Font.Default, 16, TextAlign.Right);
                     }
 
                     // 
-                    SurfaceView.RenderContext.SwapBuffers();
+                    ctx.SwapBuffers();
                     rateCounter.Tick();
                 }
             }

@@ -1,6 +1,6 @@
 ﻿namespace Heirloom.Drawing
 {
-    public enum BlendMode
+    public enum Blending
     {
         Opaque,
         Alpha,

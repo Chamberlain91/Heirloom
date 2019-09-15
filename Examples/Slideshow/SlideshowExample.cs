@@ -66,7 +66,8 @@ namespace Examples.Slideshow
             var yOffset = (FramebufferSize.Height - (image.Height * scale)) / 2F;
 
             // Draw image
-            ctx.Draw(image, Matrix.CreateTransform(xOffset, yOffset, 0, scale, scale), color);
+            ctx.Color = color;
+            ctx.Draw(image, Matrix.CreateTransform(xOffset, yOffset, 0, scale, scale));
         }
     }
 }

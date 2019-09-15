@@ -85,9 +85,15 @@ namespace Benchmark
         {
             var size = Font.Default.MeasureText(text, 32);
             var rect = new Rectangle((ctx.Surface.Width - size.Width) / 2F, (ctx.Surface.Height - size.Height) / 2F, size.Width, size.Height);
-            ctx.DrawRect(rect.Inflate(10), Colors.FlatUI.Concrete);
-            ctx.DrawRect(rect.Inflate(8), Colors.FlatUI.Clouds);
-            ctx.DrawText(text, rect.Position + (size.Width / 2, 0), TextAlign.Center, Font.Default, 32, Colors.FlatUI.Pomegranate);
+
+            ctx.Color = Colors.FlatUI.Concrete;
+            ctx.DrawRect(rect.Inflate(10));
+
+            ctx.Color = Colors.FlatUI.Clouds;
+            ctx.DrawRect(rect.Inflate(8));
+
+            ctx.Color = Colors.FlatUI.Pomegranate;
+            ctx.DrawText(text, rect.Position + (size.Width / 2, 0), Font.Default, 32, TextAlign.Center);
         }
 
         internal enum Phase

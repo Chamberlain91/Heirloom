@@ -21,7 +21,7 @@ namespace Examples.Minimal
 
                 // todo: feature, should be able to vertical align without this.
                 var align = new Vector(0, Font.Default.MeasureText(Text, 48).Height / 2F);
-                window.RenderContext.DrawText(Text, -align + ((Vector) window.FramebufferSize) * 0.5F, TextAlign.Center, Font.Default, 48, Color.White);
+                window.RenderContext.DrawText(Text, -align + ((Vector) window.FramebufferSize) * 0.5F, Font.Default, 48, TextAlign.Center);
 
                 window.RenderContext.SwapBuffers();
             });

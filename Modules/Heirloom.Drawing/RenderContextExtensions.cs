@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -12,38 +13,35 @@ namespace Heirloom.Drawing
         private static readonly Matrix _lineOffsetMatrix = Matrix.CreateTranslation(0, -1 / 2F);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Draw(this RenderContext ctx, ImageSource image, Rectangle rectangle, Color color)
+        public static void DrawImage(this RenderContext ctx, ImageSource image, Vector position)
+        {
+            ctx.Draw(image, Matrix.CreateTranslation(position));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawImage(this RenderContext ctx, ImageSource image, Vector position, float rotation)
+        {
+            ctx.Draw(image, Matrix.CreateTransform(position, rotation, Vector.One));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawImage(this RenderContext ctx, ImageSource image, Vector position, float rotation, Vector scale)
+        {
+            ctx.Draw(image, Matrix.CreateTransform(position, rotation, scale));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawImage(this RenderContext ctx, ImageSource image, Rectangle rectangle)
         {
             var scale = rectangle.Size / image.Size;
             var transform = Matrix.CreateTransform(rectangle.Position, 0, (Vector) scale);
-            ctx.Draw(image, transform, color);
+            ctx.Draw(image, transform);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void DrawRect(this RenderContext ctx, Rectangle rectangle, Color color)
-        {
-            Draw(ctx, Image.White, rectangle, color);
-        }
+        #region Primitive
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void DrawRectOutline(this RenderContext ctx, Rectangle rectangle, Color color, float width = 1)
-        {
-            DrawLine(ctx, rectangle.TopLeft, rectangle.BottomLeft, color, width);
-            DrawLine(ctx, rectangle.TopRight, rectangle.BottomRight, color, width);
-            DrawLine(ctx, rectangle.TopLeft, rectangle.TopRight, color, width);
-            DrawLine(ctx, rectangle.BottomLeft, rectangle.BottomRight, color, width);
-        }
-
-        /// <summary>
-        /// Draws a line.
-        /// </summary>
-        /// <param name="ctx"></param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <param name="color"></param>
-        /// <param name="width">Width of the lines screen pixels (not world space).</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void DrawLine(this RenderContext ctx, Vector start, Vector end, Color color, float width = 1F)
+        public static void DrawLine(this RenderContext ctx, Vector start, Vector end, float width = 1F)
         {
             var s = ctx.ApproximatePixelScale;
 
@@ -55,25 +53,66 @@ namespace Heirloom.Drawing
             var transform = Matrix.CreateTransform(start, angle, (len, width * s))
                           * _lineOffsetMatrix;
 
-            ctx.Draw(Image.White, transform, color);
+            ctx.Draw(Image.White, transform);
         }
 
-        /// <summary>
-        /// Draws a simple axis aligned 'cross' or 'plus' shape, useful for debugging positions.
-        /// </summary>
-        /// <param name="width">Width of the lines screen pixels (not world space).</param>
-        /// <param name="size">Size in screen pixels (not world space).</param>
-        public static void DrawCross(this RenderContext ctx, Vector center, Color color, float size = 2, float width = 1F)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawCurve(this RenderContext ctx, Vector start, Vector mid, Vector end, float width = 1F)
         {
-            // Scale input size by pixel scaling
-            size *= ctx.ApproximatePixelScale;
-
-            // Draw axis
-            ctx.DrawLine(center + (Vector.Left * size), center + (Vector.Right * size), color, width);
-            ctx.DrawLine(center + (Vector.Up * size), center + (Vector.Down * size), color, width);
+            // draw a cubic curve
+            throw new NotImplementedException();
         }
 
-        public static void DrawPolygon(this RenderContext ctx, IEnumerable<Vector> polygon, in Matrix transform, Color color, float width = 1F)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawRect(this RenderContext ctx, Rectangle rectangle)
+        {
+            DrawImage(ctx, Image.White, rectangle);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawRectOutline(this RenderContext ctx, Rectangle rectangle, float width = 1)
+        {
+            DrawLine(ctx, rectangle.TopLeft, rectangle.BottomLeft, width);
+            DrawLine(ctx, rectangle.TopRight, rectangle.BottomRight, width);
+            DrawLine(ctx, rectangle.TopLeft, rectangle.TopRight, width);
+            DrawLine(ctx, rectangle.BottomLeft, rectangle.BottomRight, width);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawCircle(this RenderContext ctx, Vector position, float radius)
+        {
+            throw new NotImplementedException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawCircleOutline(this RenderContext ctx, Vector position, float radius, float width = 1F)
+        {
+            // Draw a regular polygon to approximate a circle w/ number sides needed to imitate that circle 
+            var sides = ComputeCircleSegments(radius, 1F / ctx.ApproximatePixelScale);
+            DrawPolygonOutline(ctx, position, sides, radius, width);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawPolygon(this RenderContext ctx, Vector position, int sides, float radius)
+        {
+            throw new NotImplementedException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawPolygonOutline(this RenderContext ctx, Vector position, int sides, float radius, float width = 1F)
+        {
+            var polygon = Polygon.GetRegularPolygonPoints(position, sides, radius);
+            DrawPolygonOutline(ctx, polygon, width);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawPolygonOutline(this RenderContext ctx, IEnumerable<Vector> polygon, float width = 1F)
+        {
+            DrawPolygonOutline(ctx, polygon, Matrix.Identity, width);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawPolygonOutline(this RenderContext ctx, IEnumerable<Vector> polygon, in Matrix transform, float width = 1F)
         {
             if (polygon.Any())
             {
@@ -84,32 +123,13 @@ namespace Heirloom.Drawing
                 foreach (var v in polygon.Skip(1))
                 {
                     var V = transform * v;
-                    DrawLine(ctx, point, V, color, width);
+                    DrawLine(ctx, point, V, width);
                     point = V;
                 }
 
                 // Draw (n-1 to 0)
-                DrawLine(ctx, point, first, color, width);
+                DrawLine(ctx, point, first, width);
             }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void DrawPolygon(this RenderContext ctx, IEnumerable<Vector> polygon, Color color, float width = 1F)
-        {
-            DrawPolygon(ctx, polygon, Matrix.Identity, color, width);
-        }
-
-        public static void DrawRegularPolygon(this RenderContext ctx, Vector center, int sides, float radius, Color color, float width = 1F)
-        {
-            var polygon = Polygon.GetRegularPolygonPoints(center, sides, radius);
-            DrawPolygon(ctx, polygon, color, width);
-        }
-
-        public static void DrawCircle(this RenderContext ctx, Vector center, float radius, Color color, float width = 1F)
-        {
-            // Draw a regular polygon to approximate a circle w/ number sides needed to imitate that circle 
-            var sides = ComputeCircleSegments(radius, 1F / ctx.ApproximatePixelScale);
-            DrawRegularPolygon(ctx, center, sides, radius, color, width);
         }
 
         internal static int ComputeCircleSegments(float radius, float objectToPixelScale)
@@ -119,8 +139,12 @@ namespace Heirloom.Drawing
             return Calc.Clamp(s, 3, 64);
         }
 
+        #endregion
+
+        #region Nine Slice
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Draw(this RenderContext ctx, NineSlice nine, Rectangle rectangle, Color color)
+        public static void Draw(this RenderContext ctx, NineSlice nine, Rectangle rectangle)
         {
             // Compute stretch factors
             var w = (rectangle.Width - nine.TopLeftImage.Width - nine.TopRightImage.Width) / nine.MiddleImage.Width;
@@ -135,30 +159,47 @@ namespace Heirloom.Drawing
             var y2 = y1 + nine.MiddleImage.Height * h;
 
             // Corners
-            ctx.Draw(nine.TopLeftImage, Matrix.CreateTranslation(x0, y0), color);
-            ctx.Draw(nine.TopRightImage, Matrix.CreateTranslation(x2, y0), color);
-            ctx.Draw(nine.BottomLeftImage, Matrix.CreateTranslation(x0, y2), color);
-            ctx.Draw(nine.BottomRightImage, Matrix.CreateTranslation(x2, y2), color);
+            ctx.Draw(nine.TopLeftImage, Matrix.CreateTranslation(x0, y0));
+            ctx.Draw(nine.TopRightImage, Matrix.CreateTranslation(x2, y0));
+            ctx.Draw(nine.BottomLeftImage, Matrix.CreateTranslation(x0, y2));
+            ctx.Draw(nine.BottomRightImage, Matrix.CreateTranslation(x2, y2));
 
             if (w > 0)
             {
                 // Horizontal
-                ctx.Draw(nine.TopMiddleImage, Matrix.CreateTransform(x1, y0, 0, w, 1), color);
-                ctx.Draw(nine.BottomMiddleImage, Matrix.CreateTransform(x1, y2, 0, w, 1), color);
+                ctx.Draw(nine.TopMiddleImage, Matrix.CreateTransform(x1, y0, 0, w, 1));
+                ctx.Draw(nine.BottomMiddleImage, Matrix.CreateTransform(x1, y2, 0, w, 1));
             }
 
             if (h > 0)
             {
                 // Vertical
-                ctx.Draw(nine.MiddleLeftImage, Matrix.CreateTransform(x0, y1, 0, 1, h), color);
-                ctx.Draw(nine.MiddleRightImage, Matrix.CreateTransform(x2, y1, 0, 1, h), color);
+                ctx.Draw(nine.MiddleLeftImage, Matrix.CreateTransform(x0, y1, 0, 1, h));
+                ctx.Draw(nine.MiddleRightImage, Matrix.CreateTransform(x2, y1, 0, 1, h));
             }
 
             if (w > 0 && h > 0)
             {
                 // Middle
-                ctx.Draw(nine.MiddleImage, Matrix.CreateTransform(x1, y1, 0, w, h), color);
+                ctx.Draw(nine.MiddleImage, Matrix.CreateTransform(x1, y1, 0, w, h));
             }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Draws a simple axis aligned 'cross' or 'plus' shape, useful for debugging positions.
+        /// </summary>
+        /// <param name="width">Width of the lines screen pixels (not world space).</param>
+        /// <param name="size">Size in screen pixels (not world space).</param>
+        public static void DrawCross(this RenderContext ctx, Vector center, float size = 2, float width = 1F)
+        {
+            // Scale input size by pixel scaling
+            size *= ctx.ApproximatePixelScale;
+
+            // Draw axis
+            ctx.DrawLine(center + (Vector.Left * size), center + (Vector.Right * size), width);
+            ctx.DrawLine(center + (Vector.Up * size), center + (Vector.Down * size), width);
         }
     }
 }

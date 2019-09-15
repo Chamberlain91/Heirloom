@@ -7,10 +7,10 @@ namespace Heirloom.Drawing
 {
     public abstract class RenderContext : IDisposable
     {
-        protected RenderContext()
-        {
-            // Nothing to do
-        }
+        // Quad mesh
+        private static readonly Mesh _quadMesh = Mesh.CreateQuad();
+
+        #region Create Surface
 
         public abstract Surface CreateSurface(int width, int height);
 
@@ -19,6 +19,8 @@ namespace Heirloom.Drawing
         {
             return CreateSurface(size.Width, size.Height);
         }
+
+        #endregion
 
         /// <summary>
         /// Gets the default surface (ie, window) of this render context.
@@ -53,15 +55,15 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Gets or sets the current blending color.
         /// </summary>
-        public abstract Color BlendColor { get; set; }
+        public abstract Color Color { get; set; }
 
         /// <summary>
         /// Gets or sets the current blending mode.
         /// </summary>
-        public abstract BlendMode BlendMode { get; set; }
+        public abstract Blending Blending { get; set; }
 
         /// <summary>
-        /// Reset context state to defaults.
+        /// Reset context state to default (default surface, full viewport, no transform, alpha and white).
         /// </summary>
         public void ResetState()
         {
@@ -69,8 +71,8 @@ namespace Heirloom.Drawing
             Viewport = (0, 0, 1, 1);
 
             Transform = Matrix.Identity;
-            BlendMode = BlendMode.Alpha;
-            BlendColor = Color.White;
+            Blending = Blending.Alpha;
+            Color = Color.White;
         }
 
         /// <summary>
@@ -79,31 +81,28 @@ namespace Heirloom.Drawing
         public abstract void Clear(Color color);
 
         /// <summary>
-        /// Draws an image with the given blending color.
+        /// Draw a mesh with the given image to the current surface.
         /// </summary>
-        public abstract void Draw(ImageSource image, Matrix transform, Color color);
+        /// <param name="mesh">Some mesh.</param>
+        /// <param name="image">Some image.</param>
+        /// <param name="transform">Some transform.</param>
+        public abstract void Draw(ImageSource image, Mesh mesh, Matrix transform);
 
         /// <summary>
-        /// Draws an image with the given mesh and blending color.
+        /// Draw an image to the current surface.
         /// </summary>
-        public abstract void Draw(ImageSource image, Mesh mesh, Matrix transform, Color color);
-
-        /// <summary>
-        /// Draws an image.
-        /// </summary>
+        /// <param name="image">Some image.</param>
+        /// <param name="transform">Some transform.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Draw(ImageSource image, Matrix transform)
         {
-            Draw(image, transform, Color.White);
-        }
+            // Scale to image dimensions
+            transform.M0 *= image.Size.Width;
+            transform.M3 *= image.Size.Width;
+            transform.M1 *= image.Size.Height;
+            transform.M4 *= image.Size.Height;
 
-        /// <summary>
-        /// Draws an image with the given mesh.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Draw(ImageSource image, Mesh mesh, Matrix transform)
-        {
-            Draw(image, mesh, transform, Color.White);
+            Draw(image, _quadMesh, transform);
         }
 
         /// <summary>
