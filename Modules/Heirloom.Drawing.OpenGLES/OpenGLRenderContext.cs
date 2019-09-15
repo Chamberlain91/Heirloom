@@ -30,11 +30,8 @@ namespace Heirloom.Drawing.OpenGLES
         private Matrix _inverseViewMatrix;
         private float _approxPixelScale = 1;
 
-        private BlendMode _blendMode;
+        private Blending _blendMode;
         private Color _blendColor;
-
-        // Quad mesh
-        private readonly Mesh _quadMesh = Mesh.CreateQuad();
 
         #region Constructors
 
@@ -401,13 +398,13 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Blending and Color
 
-        public override Color BlendColor
+        public override Color Color
         {
             get => _blendColor;
             set => _blendColor = value;
         }
 
-        public override BlendMode BlendMode
+        public override Blending Blending
         {
             get => _blendMode;
 
@@ -429,32 +426,32 @@ namespace Heirloom.Drawing.OpenGLES
                             default:
                                 throw new InvalidOperationException("Unable to set unknown blend mode.");
 
-                            case BlendMode.Opaque:
+                            case Blending.Opaque:
                                 GL.SetBlendEquation(BlendEquation.Add);
                                 GL.SetBlendFunction(BlendFunction.One, BlendFunction.Zero);
                                 break;
 
-                            case BlendMode.Alpha:
+                            case Blending.Alpha:
                                 GL.SetBlendEquation(BlendEquation.Add, BlendEquation.Add);
                                 GL.SetBlendFunction(BlendFunction.SourceAlpha, BlendFunction.OneMinusSourceAlpha, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
                                 break;
 
-                            case BlendMode.Additive:
+                            case Blending.Additive:
                                 GL.SetBlendEquation(BlendEquation.Add);
                                 GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
                                 break;
 
-                            case BlendMode.Subtractive: // Opposite of Additive (DST - SRC)
+                            case Blending.Subtractive: // Opposite of Additive (DST - SRC)
                                 GL.SetBlendEquation(BlendEquation.ReverseSubtract);
                                 GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha, BlendFunction.One);
                                 break;
 
-                            case BlendMode.Multiply:
+                            case Blending.Multiply:
                                 GL.SetBlendEquation(BlendEquation.Add);
                                 GL.SetBlendFunction(BlendFunction.DestinationColor, BlendFunction.OneMinusSourceAlpha);
                                 break;
 
-                            case BlendMode.Invert:
+                            case Blending.Invert:
                                 GL.SetBlendEquation(BlendEquation.Subtract);
                                 GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.Zero);
                                 break;
@@ -478,24 +475,11 @@ namespace Heirloom.Drawing.OpenGLES
                 GL.Clear(ClearMask.Color);
             });
         }
-
+         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override void Draw(ImageSource image, Matrix transform, Color color)
+        public override void Draw(ImageSource image, Mesh mesh, Matrix transform)
         {
-            // Scale to image dimensions
-            transform.M0 *= image.Size.Width;
-            transform.M3 *= image.Size.Width;
-
-            transform.M1 *= image.Size.Height;
-            transform.M4 *= image.Size.Height;
-
-            Draw(image, _quadMesh, transform, color);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override void Draw(ImageSource image, Mesh mesh, Matrix transform, Color color)
-        {
-            _renderer.Submit(image, mesh, in transform, color * _blendColor);
+            _renderer.Submit(image, mesh, in transform, _blendColor);
         }
 
         #endregion
