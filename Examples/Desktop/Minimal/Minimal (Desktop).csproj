@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Platforms\Heirloom.Desktop\Heirloom.Desktop.csproj" />
+    <ProjectReference Include="..\..\..\Platforms\Heirloom.Desktop\Heirloom.Desktop.csproj" />
   </ItemGroup>
 
 </Project>

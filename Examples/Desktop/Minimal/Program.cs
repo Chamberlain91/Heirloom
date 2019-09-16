@@ -16,14 +16,16 @@ namespace Examples.Minimal
                 var window = new Window(500, 300, "Minimal Example");
                 window.IsResizable = false;
 
+                var ctx = window.RenderContext;
+
                 // Draw hello world text
-                window.RenderContext.Clear(Color.DarkGray);
+                ctx.Clear(Color.DarkGray);
 
                 // todo: feature, should be able to vertical align without this.
                 var align = new Vector(0, Font.Default.MeasureText(Text, 48).Height / 2F);
-                window.RenderContext.DrawText(Text, -align + ((Vector) window.FramebufferSize) * 0.5F, Font.Default, 48, TextAlign.Center);
+                ctx.DrawText(Text, -align + ((Vector) window.FramebufferSize) * 0.5F, Font.Default, 48, TextAlign.Center);
 
-                window.RenderContext.SwapBuffers();
+                ctx.SwapBuffers();
             });
         }
     }

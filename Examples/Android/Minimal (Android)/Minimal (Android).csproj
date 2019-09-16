@@ -5,13 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2BF2E2D6-CDCD-4A9A-85A2-63A8DE5F21EC}</ProjectGuid>
+    <ProjectGuid>{76188443-6520-45A2-BFD0-BB3C35FCC786}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TemplateGuid>{122416d6-6b49-4ee2-a1e8-b825f31c79fe}</TemplateGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Benchmark</RootNamespace>
-    <AssemblyName>Benchmark.Android</AssemblyName>
+    <RootNamespace>Examples.Android.Minimal</RootNamespace>
+    <AssemblyName>Examples.Android.Minimal</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
@@ -83,15 +83,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Modules\Heirloom.Drawing\Heirloom.Drawing.csproj">
-      <Project>{ecabc5fb-23ad-45f0-b18e-65866b0b285c}</Project>
+      <Project>{ECABC5FB-23AD-45F0-B18E-65866B0B285C}</Project>
       <Name>Heirloom.Drawing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Modules\Heirloom.IO\Heirloom.IO.csproj">
-      <Project>{61c1b263-2d78-46d9-ba84-f62b0f763aed}</Project>
-      <Name>Heirloom.IO</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Modules\Heirloom.Math\Heirloom.Math.csproj">
-      <Project>{198e0d8a-56d7-40d4-b7fc-49fc5114f0f4}</Project>
+      <Project>{198E0D8A-56D7-40D4-B7FC-49FC5114F0F4}</Project>
       <Name>Heirloom.Math</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Platforms\Heirloom.Android\Heirloom.Android.csproj">
@@ -100,52 +96,28 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher.png">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-    </AndroidResource>
-    <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher_round.png">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-    </AndroidResource>
-    <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher.png">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-    </AndroidResource>
-    <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher_round.png">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-    </AndroidResource>
-    <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher.png">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-    </AndroidResource>
-    <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher_round.png">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-    </AndroidResource>
-    <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher.png">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-    </AndroidResource>
-    <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher_round.png">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-    </AndroidResource>
-    <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher.png">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-    </AndroidResource>
-    <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher_round.png">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-    </AndroidResource>
-    <AndroidResource Include="Resources\values\ic_launcher_background.xml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-    </AndroidResource>
+    <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\values\ic_launcher_background.xml" />
   </ItemGroup>
-  <Import Project="..\Benchmark\Benchmark.projitems" Label="Shared" />
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher_round.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher_round.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher_round.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher_round.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher_round.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
     Other similar extension points exist, see Microsoft.Common.targets.
