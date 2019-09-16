@@ -2,7 +2,20 @@
 
 A collection of C# libraries (Drawing, Sound, Collections, Math and more)
 intended to help implement games and other graphical applications for Windows,
-Linux, macOS (Darwin), and Android!
+Linux, macOS (Darwin), and Android! 
+
+I've been developing this framework (or whatever you would call it) with
+**Visual Studio 2019**, another IDE may work to open and develop the projects 
+with but I am entirely unfamiliar with them. Using the `dotnet` CLI on Windows
+and Linux seemed straight forward enough to build and run the examples, so a
+combination of `VS Code` and a terminal might suffice on devices without
+Visual Studio.
+
+Libraries are `NET Standard 2.0` and desktop examples run `NET Core 2.1`. To use
+`Heirloom` on Android and run the relevant examples you'll need `Xamarin`.
+While Android is availble, it is less "well defined" about how to use it at the
+moment. In particular, I have not yet gotten the sound library to work on
+Android yet.
 
 **Note:** *I would like to extend support for iOS (if given tools or help), but
 it is beyond my know-how, especially now that OpenGL is not a suitable target
@@ -12,57 +25,94 @@ Metal backend would be highly appreciated.*
 
 **Created by Chris Chamberlain**
 
-## Getting Started
+## Getting Started w/ Nuget (Windows, Linux and macOS)
 
-I've been developing this framework (or whatever you would call it) with
-**Visual Studio 2019**, another IDE may work to open and develop the projects 
-with but I am entirely unfamiliar with them.
+I've compiled most of the projects and created nuget packages and put them up 
+on [Nuget](https://www.nuget.org/packages?q=heirloom). They may be occasionally
+out of date with respect to the repository.
+
+### dotnet CLI
+
+```sh
+mkdir Example
+cd ./Example
+dotnet new console
+```
+
+This will create a C# project file in the `Example/` directory called 
+`Example.csproj`. It should also create a simple *"Hello World"* example app in
+`Program.cs`.
+
+For desktop applications using `Heirloom` we need to include the
+`Heirloom.Desktop` package. Including `Heirloom.Desktop` in a NET Core project
+will transitively add `Heirloom.Drawing` and `Heirloom.Math`.
+
+```sh
+dotnet add package Heirloom.Desktop -v 1.1.0-beta
+```
+
+Now update `Program.cs` to match the following:
+
+```cs
+using Heirloom.Desktop;
+using Heirloom.Drawing;
+
+namespace Example
+{
+    internal class Program
+    {
+        private static void Main(string[] args)
+        {
+            Application.Run(() =>
+            {
+                // Create window
+                var window = new Window(1280, 720, "Example");
+                window.RenderContext.Clear(Color.Pink);
+                window.RenderContext.SwapBuffers();
+            });
+        }
+    }
+}
+```
+
+You can then run the project calling `dotnet run` from the project folder. This
+will by default run a `Debug` build. To run a `Release` build use `dotnet run -c
+Release`. If everything has gone correctly, you should see a blank pink window.
+
+## Building
 
 ### Windows 10
 
 1. Clone this repository.
 2. Open the `Heirloom.sln` in Visual Studio.
-3. Right Click > Build on any example project OR `Set as StartUp Project`
-   and press `Ctrl + F5`.
-4. Will probably complain about missing `glfw3` or `miniaudio`, see below.
 
 ### Non-Windows Platforms
 
-I am completely unaware how to build the C# projects on other platforms, but
-once built with Windows I was able to copy and paste onto Linux or macOS and
-run with `mono app.exe`. On these platforms I used Mono 5.2. Another 5.X
-version may work, but that is what I tested with. Essentially, the runtime must
-support  `.Net Standard 2.0` for the libraries and `.Net Framework v4.7.2` for
-the examples. When running on mono for non-windows, a `*.dll.config` file may
-be needed with appropriate remapping (ie. `glfw3.dll` maps to `libglfw.so.3.3`
-on linux), or the files themselves copied and renamed into the executables 
-directory.
+1. Clone this repository.
+2. Build Solution or Run Examples
+   * Run `dotnet build -c Release` in the solution folder
+   * Run `dotnet run -c Release` in any example project folder
+
+Essentially, it is required to use `dotnet` CLI. Technically the runtime must
+support `.Net Standard 2.0` for the libraries and `.Net Core 2.1` for the
+examples. Tested with `dotnet` on Windows 10 and Linux. Executing *already*
+compiled examples with  `mono` on Linux (via WSL) things did appear to "work",
+but don't seem to terminate the threads nicely.
 
 **The projects are set to the standard `AnyCpu` platform, but its important to
-note I've only ever used *64 bit* binaries. New projects might have to uncheck
-the `Prefer 32-bit` in `.Net Framework` style projects. It might be nice to
-have a solution for smart loading `32 bit` libraries, but I'm unsure of use
-cases for this framework on such machines.**
-
-**Note:** *The application is dependant on some C libraries (namely `glfw3.dll`
-and `miniaudio.dll`) and may be unable to be found and loaded with a fresh
-clone. They need to be built / copied into a place that the runtime will be
-able to resovle. I have included for convenience some binaries in
-`Framework/Binaries` (possibly only for now, I'm not sure what the legality of
-distributing them and whatnot).*
-
-*I expect some more thought is needed about resolving and loading the native
-libraries in future.*
+note I've only ever used *64 bit* binaries.**
 
 ## Overview
 
-A breif overview (bullet point form) of each project and notable
-features.
+A breif overview (in bullet point form) of each project and notable features.
 
 **Note:** *Some features or projects are marked with some extra text to inform
 you that either the project or feature is not yet implemented
 **(Not Implemented)**, is not complete **(Incomplete)** or the implementation
 is in a state I am not satisfied with **(Needs Review)***.
+
+*This might be a little out of date to compared actual code but since this is
+abstract is should be largely the same.*
 
 ### Drawing
 
@@ -71,7 +121,7 @@ A hardware accelerated 2D drawing library.
 * JPEG and PNG Image Encode and Decode
 * Text Rendering w/ Truetype Fonts
 * Supports drawing Quads (Images) and Meshes.
-* Offscreen Rendering
+* Offscreen Rendering (Render Targets)
 * Composition
     + Various Blending (Alpha, Additive, Multiply, etc)
     + Configurable Effects / Shader **(Not Implemented)**
@@ -82,17 +132,6 @@ A hardware accelerated 2D drawing library.
 **Note:** *Image and font support is implemented by a [C to C# machine-port of
 STB][stbcsharp], additional functionality or unexpected quirks might exist. For
 example loading additional image formats not listed above.*
-
-### Input (Needs Review)
-
-* Keyboard
-    + Unicode Text Input
-    + Key Events (including scancode)
-* Mouse
-    + Move, Scroll and Button Events
-    + Raw Motion **(Not Implemented)**
-* Gamepad **(Not Implemented)**
-* Touch **(Not Implemented)**
 
 ### Audio
 
@@ -150,40 +189,30 @@ grids.
 * Broad Phase (Bounding Box Spatial Query)
 * etc
 
-### IO / Networking (Needs Review)
+### IO
 
 Utilities for file access or other useful mechanisms for data manipulation.
 
-* Embedded Files
 * BitField (compact 8 bits of boolean state)
-* Message style Networking **(Needs Review)**
+* Unified File Access
+  * Assembly Embedded Files
+  * Files on Disk
+
+### Networking (Needs Review)
+
+Utilities for simple message based networking.
+
+* Message style Networking
   * NetworkListener
   * NetworkConnection
-
-**Note:** The `Networking` features within this module are the most significant
-part that is needing review.
-
-### Runtime (Incomplete)
-* **!! Incomplete Design !!**
-* Asset System
-    * Load / Cache Mechanism
-    * Load Fonts, Image and Sprites
-    * Loader for Aseprite files
-    * Loader for Tiled Map XML and Tileset XML
-* Game Loop
-    * Entity-Component
-    * Coroutines
-    * Timing Metrics
-* Tile Map Mechanism
-* Extension Methods
 
 ## License
 
 I haven't fully settled on a license for Heirloom yet, so I wouldn't 
 recommended using these libraries commercial use. *However*, I am tentatively 
 releasing Heirloom under a modified zlib/libpng license requiring attribution
-and only for non-commercial use. Please be aware that this will likely change
-once I review the licensing options I desire.
+and only for non-commercial use. Please be aware that this may change once I
+properly review licensing options.
 
 ### Special Thanks
 
