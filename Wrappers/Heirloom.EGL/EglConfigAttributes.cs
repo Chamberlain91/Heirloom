@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Heirloom.OpenGLES.Platform
+namespace Heirloom.EGL
 {
     public struct EglConfigAttributes
     {

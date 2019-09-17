@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace Heirloom.OpenGLES.Platform
+namespace Heirloom.EGL
 {
     public static unsafe partial class Egl
     {
@@ -79,7 +79,7 @@ namespace Heirloom.OpenGLES.Platform
 
         public static bool Initialize(EglDisplay display)
         {
-            return eglInitialize(display.Address, (int*) 0, (int*) 0);
+            return eglInitialize(display.Address, (int*)0, (int*)0);
         }
 
         public static bool Terminate(EglDisplay display)
@@ -241,38 +241,6 @@ namespace Heirloom.OpenGLES.Platform
             D3D9 = 0x3207
         }
 
-        private static IntPtr GetAnglePlatformDisplay(IntPtr handle, int maj, int min, PlatformType type)
-        {
-            try
-            {
-                const int EGL_PLATFORM_ANGLE_ANGLE = 0x3202;
-                const int EGL_PLATFORM_ANGLE_MAX_VERSION_MAJOR_ANGLE = 0x3204;
-                const int EGL_PLATFORM_ANGLE_MAX_VERSION_MINOR_ANGLE = 0x3205;
-                const int EGL_PLATFORM_ANGLE_ENABLE_AUTOMATIC_TRIM_ANGLE = 0x320F;
-
-                const int EGL_PLATFORM_ANGLE_DEVICE_TYPE_ANGLE = 0x3209;
-                const int EGL_PLATFORM_ANGLE_DEVICE_TYPE_HARDWARE_ANGLE = 0x320A;
-                const int EGL_PLATFORM_ANGLE_DEVICE_TYPE_NULL_ANGLE = 0x345E;
-
-                const int EGL_PLATFORM_ANGLE_TYPE_ANGLE = 0x3203;
-                const int EGL_PLATFORM_ANGLE_TYPE_DEFAULT_ANGLE = 0x3206;
-                const int EGL_PLATFORM_ANGLE_TYPE_OPENGL_ANGLE = 0x320D;
-                const int EGL_PLATFORM_ANGLE_TYPE_OPENGLES_ANGLE = 0x320E;
-
-                // Try ANGLE OpenGL Platform
-                return eglGetPlatformDisplayEXT(EGL_PLATFORM_ANGLE_ANGLE, handle,
-                    new int[] {
-                        EGL_PLATFORM_ANGLE_TYPE_ANGLE, (int) type,
-                        EGL_NONE,
-                    });
-            }
-            catch
-            {
-                // Something went wrong, so no display.
-                return NO_DISPLAY;
-            }
-        }
-
         public static EglDisplay GetDisplay(IntPtr native_display)
         {
             if (_displays.ContainsKey(native_display))
@@ -281,45 +249,13 @@ namespace Heirloom.OpenGLES.Platform
             }
             else
             {
-                var displayAddress = NO_DISPLAY;
-
-                // Try to get Angle OpenGL Display
-                displayAddress = GetAnglePlatformDisplay(native_display, 3, 3, PlatformType.OpenGL);
-                if (displayAddress != NO_DISPLAY)
-                {
-                    Console.WriteLine($"Angle: Returning OpenGL Display - {displayAddress}.");
-                }
-
-                // Try to get Angle Direct3D 11 Display
-                if (displayAddress == NO_DISPLAY)
-                {
-                    displayAddress = GetAnglePlatformDisplay(native_display, 11, 0, PlatformType.OpenGLES);
-                    if (displayAddress != NO_DISPLAY)
-                    {
-                        Console.WriteLine($"Angle: Returning GLES Display - {displayAddress}.");
-                    }
-                }
-
-                // Try to get Angle Direct3D 11 Display
-                if (displayAddress == NO_DISPLAY)
-                {
-                    displayAddress = GetAnglePlatformDisplay(native_display, 11, 0, PlatformType.D3D11);
-                    if (displayAddress != NO_DISPLAY)
-                    {
-                        Console.WriteLine($"Angle: Returning Direct3D 11 Display - {displayAddress}.");
-                    }
-                }
-
                 // Try EGL Default Display
-                if (displayAddress == NO_DISPLAY)
-                {
-                    displayAddress = eglGetDisplay(native_display);
-                }
+                var displayAddress = eglGetDisplay(native_display);
 
                 // Throw exception if we haven't acquired a display.
                 if (displayAddress == NO_DISPLAY)
                 {
-                    throw new EglException("Unable to get display");
+                    throw new EglException("Unable to get EGL display");
                 }
 
                 // Create display
@@ -602,7 +538,7 @@ namespace Heirloom.OpenGLES.Platform
 
         public static IntPtr GetProcAddress(string procname)
         {
-            return (IntPtr) eglGetProcAddress(procname);
+            return (IntPtr)eglGetProcAddress(procname);
         }
     }
 }

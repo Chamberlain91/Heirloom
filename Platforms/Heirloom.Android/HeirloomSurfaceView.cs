@@ -1,12 +1,13 @@
 ﻿using System;
+
 using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.Views;
 
 using Heirloom.Drawing;
+using Heirloom.EGL;
 using Heirloom.Math;
-using Heirloom.OpenGLES.Platform;
 
 namespace Heirloom.Android
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Heirloom.OpenGLES.Platform
+namespace Heirloom.EGL
 {
     public class EglContext : IDisposable
     {

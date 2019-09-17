@@ -1,4 +1,4 @@
-﻿namespace Heirloom.OpenGLES.Platform
+﻿namespace Heirloom.EGL
 {
     /// <summary>
     /// An enum used to select a surface based on if its bound to read or draw.

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Heirloom.OpenGLES.Platform
+namespace Heirloom.EGL
 {
     public static unsafe partial class Egl
     {

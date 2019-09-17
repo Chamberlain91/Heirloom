@@ -1,4 +1,4 @@
-﻿namespace Heirloom.OpenGLES.Platform
+﻿namespace Heirloom.EGL
 {
     public enum EglErrorCode : uint
     {
