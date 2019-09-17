@@ -73,6 +73,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minimal (Android)", "Exampl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slideshow (Android)", "Examples\Android\Slideshow (Android)\Slideshow (Android).csproj", "{8AFD626A-2D03-424F-9456-41B40E9D2EFE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Custom Text (Desktop)", "Examples\Desktop\Custom Text (Desktop)\Custom Text (Desktop).csproj", "{A9D4E61F-738F-475A-B461-413EE047D451}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Examples\Benchmark\Benchmark\Benchmark.projitems*{2bf2e2d6-cdcd-4a9a-85a2-63a8de5f21ec}*SharedItemsImports = 4
@@ -189,6 +191,10 @@ Global
 		{8AFD626A-2D03-424F-9456-41B40E9D2EFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AFD626A-2D03-424F-9456-41B40E9D2EFE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8AFD626A-2D03-424F-9456-41B40E9D2EFE}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{A9D4E61F-738F-475A-B461-413EE047D451}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9D4E61F-738F-475A-B461-413EE047D451}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9D4E61F-738F-475A-B461-413EE047D451}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9D4E61F-738F-475A-B461-413EE047D451}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -224,6 +230,7 @@ Global
 		{110A605B-52CB-4C2B-96BD-B1C7E2726662} = {650DBB2B-E5C9-4CDD-93A9-FA149235C57A}
 		{76188443-6520-45A2-BFD0-BB3C35FCC786} = {5EEB4640-5942-49D1-BAC8-A2ABBEFAE4C7}
 		{8AFD626A-2D03-424F-9456-41B40E9D2EFE} = {5EEB4640-5942-49D1-BAC8-A2ABBEFAE4C7}
+		{A9D4E61F-738F-475A-B461-413EE047D451} = {650DBB2B-E5C9-4CDD-93A9-FA149235C57A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {696A41D8-DF3F-4D16-B3D9-514D627DCCE2}
