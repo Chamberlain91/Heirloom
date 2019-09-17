@@ -1,8 +1,14 @@
 # Heirloom
 
 A collection of C# libraries (Drawing, Sound, Collections, Math and more)
-intended to help implement games and other graphical applications for Windows,
-Linux, macOS (Darwin), and Android! 
+for prototyping and the implementation of games and other graphical 
+applications for **Windows, Linux, macOS**.
+
+---
+
+**Articles, Docs and Tutorials**: https://chamberlain91.github.io/Heirloom/
+
+---
 
 I've been developing this framework (or whatever you would call it) with
 **Visual Studio 2019**, another IDE may work to open and develop the projects 
@@ -11,25 +17,17 @@ and Linux seemed straight forward enough to build and run the examples, so a
 combination of `VS Code` and a terminal might suffice on devices without
 Visual Studio.
 
-Libraries are `NET Standard 2.0` and desktop examples run `NET Core 2.1`. To use
-`Heirloom` on Android and run the relevant examples you'll need `Xamarin`.
-While Android is availble, it is less "well defined" about how to use it at the
-moment. In particular, I have not yet gotten the sound library to work on
-Android yet.
+Libraries are `NET Standard 2.0` and examples run on `NET Core 2.1`. 
 
-**Note:** *I would like to extend support for iOS (if given tools or help), but
-it is beyond my know-how, especially now that OpenGL is not a suitable target
-on iOS anymore. In the same light, macOS will eventually pose problems as well.
-Any advice for wrapping Vulkan (once implemented) with Molten or creating a
-Metal backend would be highly appreciated.*
-
-**Created by Chris Chamberlain**
+**Note**: *Android is partially supported!* The drawing features are available, 
+but audio currently is unavailable (anyone want to help?). To use `Heirloom` on 
+Android and/or run the relevant examples you'll need to have the `Xamarin SDK` 
+installed and `Android SDK` API Level 22 or higher.
 
 ## Getting Started w/ Nuget (Windows, Linux and macOS)
 
 I've compiled most of the projects and created nuget packages and put them up 
-on [Nuget](https://www.nuget.org/packages?q=heirloom). They may be occasionally
-out of date with respect to the repository.
+on [Nuget](https://www.nuget.org/packages?q=heirloom). They may be out of date with respect to the repository, but I will try to keep them relevant.
 
 ### dotnet CLI
 
@@ -44,11 +42,11 @@ This will create a C# project file in the `Example/` directory called
 `Program.cs`.
 
 For desktop applications using `Heirloom` we need to include the
-`Heirloom.Desktop` package. Including `Heirloom.Desktop` in a NET Core project
-will transitively add `Heirloom.Drawing` and `Heirloom.Math`.
+`Heirloom.Desktop` package.
 
 ```sh
-dotnet add package Heirloom.Desktop -v 1.1.0-beta
+dotnet add package Heirloom.Desktop -v 1.1.1-beta
+dotnet add package Heirloom.Drawing -v 1.1.1-beta
 ```
 
 Now update `Program.cs` to match the following:
@@ -104,15 +102,11 @@ note I've only ever used *64 bit* binaries.**
 
 ## Overview
 
-A breif overview (in bullet point form) of each project and notable features.
+A breif overview (in bullet point form) of each project and their notable 
+features. The specifics may be a little off to compared actual code but 
+since these descriptions are fairly abstract is should be largely the same. Some projects will be marked `(Alpha)` or `(Beta)`. These represent my confidence in their stability and likelyhood to remain with the same API, respectively.
 
-**Note:** *Some features or projects are marked with some extra text to inform
-you that either the project or feature is not yet implemented
-**(Not Implemented)**, is not complete **(Incomplete)** or the implementation
-is in a state I am not satisfied with **(Needs Review)***.
-
-*This might be a little out of date to compared actual code but since this is
-abstract is should be largely the same.*
+**Note:** *Some projects may exist in the the repository that are not mentioned here. You should consider these projects as pre-alpha 'in early development' and not rely on them.*
 
 ### Drawing
 
@@ -133,7 +127,7 @@ A hardware accelerated 2D drawing library.
 STB][stbcsharp], additional functionality or unexpected quirks might exist. For
 example loading additional image formats not listed above.*
 
-### Audio
+### Audio (Beta)
 
 A cross platform audio library (both a high and low level wrapper on 
 `miniaudio.dll`).
@@ -143,6 +137,8 @@ A cross platform audio library (both a high and low level wrapper on
 * In-Memory Audio Clips
 * Custom AudioSourceProvider
   * Ie, Synthesized Sound!
+
+**Note:** In theory, `miniaudio` should support Android via `OpenSL|ES` or `AAudio`. My attempts to compile, and run this code in a `Xamarin` based app have been unsucessful thus far.
 
 ### Math
 
@@ -159,10 +155,10 @@ A collection of mathematical data types and functions useful for 2D math.
     * Triangle
     * Polygons (Simple and Convex)
     * Line Segment
-* Polygon Tools
+* Polygon Tools (Beta)
     * Polygon Convex Decomposition
     * Polygon Triangulation
-* Collision Detection
+* Collision Detection (Alpha)
     * Overlap Detection
     * Contact Manifolds
 
@@ -180,7 +176,7 @@ A collection of data structures and other algorithms.
 * Type Dictionary
 * Extension Methods
 
-### Collections.Spatial (Needs Review)
+### Collections.Spatial (Alpha)
 
 A collection of data structures for spatially accelerated queries, such as
 grids.
@@ -189,7 +185,7 @@ grids.
 * Broad Phase (Bounding Box Spatial Query)
 * etc
 
-### IO
+### IO (Beta)
 
 Utilities for file access or other useful mechanisms for data manipulation.
 
@@ -198,7 +194,7 @@ Utilities for file access or other useful mechanisms for data manipulation.
   * Assembly Embedded Files
   * Files on Disk
 
-### Networking (Needs Review)
+### Networking (Alpha)
 
 Utilities for simple message based networking.
 
