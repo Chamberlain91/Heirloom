@@ -6,8 +6,9 @@ using Heirloom.Math;
 namespace Heirloom.Drawing
 {
     /// <summary>
-    /// Color with float components.
+    /// Color encoded as 4 component floats.
     /// </summary>
+    /// <seealso cref="Pixel"/>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct Color : IEquatable<Color>
     {

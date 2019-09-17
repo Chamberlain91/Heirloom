@@ -6,7 +6,7 @@ using Heirloom.Math;
 namespace Heirloom.Drawing
 {
     /// <summary>
-    /// Color with byte components.
+    /// Color encoded as 4 component bytes.
     /// </summary>
     /// <seealso cref="Color"/>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
