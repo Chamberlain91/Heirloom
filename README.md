@@ -1,9 +1,9 @@
 # Heirloom
 
-A collection of C# libraries (Drawing, Sound, Collections, Math and more)
-for prototyping and the implementation of games and other graphical 
-applications for **Windows, Linux, macOS**.
-
+A collection of C# libraries (Drawing, Sound, Collections, Math and more) for 
+prototyping and the implementation of games and other graphical applications on 
+**Windows**, **Linux** and **macOS**.
+ 
 ---
 
 **Articles, Docs and Tutorials**: https://chamberlain91.github.io/Heirloom/
