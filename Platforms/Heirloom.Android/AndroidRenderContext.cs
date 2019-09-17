@@ -2,9 +2,9 @@
 using System.Runtime.CompilerServices;
 
 using Heirloom.Drawing.OpenGLES;
+using Heirloom.EGL;
 using Heirloom.Math;
 using Heirloom.OpenGLES;
-using Heirloom.OpenGLES.Platform;
 
 namespace Heirloom.Android
 {

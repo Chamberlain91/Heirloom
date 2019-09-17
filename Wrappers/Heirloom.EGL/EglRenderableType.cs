@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Heirloom.OpenGLES.Platform
+namespace Heirloom.EGL
 {
     [Flags]
     internal enum EglRenderableType

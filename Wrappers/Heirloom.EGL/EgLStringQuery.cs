@@ -1,4 +1,4 @@
-﻿namespace Heirloom.OpenGLES.Platform
+﻿namespace Heirloom.EGL
 {
     /// <summary>
     /// An enum used to select the information returned by <see cref="EGLDisplay.Query(EglStringQuery)"/> 

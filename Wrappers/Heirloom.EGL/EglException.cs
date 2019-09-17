@@ -1,7 +1,6 @@
 ﻿using System;
-using Heirloom.OpenGLES.Platform;
 
-namespace Heirloom.OpenGLES
+namespace Heirloom.EGL
 {
     public class EglException : Exception
     {
