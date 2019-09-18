@@ -21,13 +21,14 @@ namespace Heirloom.Desktop
         private readonly CharCallback _charCallback;
         private readonly KeyCallback _keyCallback;
 
-        public Window(int width, int height, string title, bool vsync = true, bool transparentFramebuffer = false)
+        public Window(int width, int height, string title, bool vsync = true, bool transparentFramebuffer = false, MultisampleLevel multisample = MultisampleLevel.None)
         {
             // Watch window
             Application.AddWindow(this);
 
             // 
             Transparent = transparentFramebuffer && Application.SupportsTransparentFramebuffer;
+            MultisampleLevel = multisample;
             VSync = vsync;
 
             // 
@@ -36,6 +37,9 @@ namespace Heirloom.Desktop
             // 
             WindowHandle = Application.Invoke(() =>
             {
+                // 
+                Glfw.SetWindowCreationHint(WindowCreationHint.Samples, (int) multisample);
+
                 // Create window
                 Glfw.SetWindowCreationHint(WindowAttribute.TransparentFramebuffer, transparentFramebuffer);
                 var handle = Glfw.CreateWindow(width, height, title, MonitorHandle.None, Application.ShareContext);
@@ -120,6 +124,11 @@ namespace Heirloom.Desktop
         /// Does this window have a transparent framebuffer?
         /// </summary>
         public bool Transparent { get; private set; }
+
+        /// <summary>
+        /// The multisampling level configured on this window.
+        /// </summary>
+        public MultisampleLevel MultisampleLevel { get; private set; }
 
         /// <summary>
         /// The render context for drawing on this window.

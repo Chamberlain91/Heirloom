@@ -14,9 +14,9 @@ namespace Examples.Drawing
             var min = (Vector) ctx.Surface.Size * 0.25F;
             var max = (Vector) ctx.Surface.Size * 0.75F;
 
-            for (var i = 0; i < 8; i++)
+            for (var i = 0; i < 6; i++)
             {
-                var t = i / 8F;
+                var t = i / 6F;
 
                 var x = Calc.Lerp(min.X, max.X, t);
                 var y = min.Y;
