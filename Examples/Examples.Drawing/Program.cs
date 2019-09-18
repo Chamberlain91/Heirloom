@@ -13,7 +13,7 @@ namespace Examples.Drawing
         public Demo CurrentDemo => _demos[_demoIndex];
 
         public Program()
-            : base("Heirloom - Drawing Examples")
+            : base("Heirloom - Drawing Examples", multisample: MultisampleLevel.High)
         {
             ShowFPSOverlay = true;
 
@@ -21,9 +21,10 @@ namespace Examples.Drawing
             _demos = new Demo[]
             {
                 new ImageDemo(),
+                new TextCallbackDemo(),
                 new QuadraticCurveDemo(),
                 new LineThicknessDemo(),
-                new TextCallbackDemo()
+                new PolygonDemo(),
             };
         }
 
@@ -41,7 +42,7 @@ namespace Examples.Drawing
 
             //
             ctx.ResetState();
-             
+
             var bottomText = new Vector(ctx.Surface.Width / 2F, ctx.Surface.Height - 96);
             ctx.DrawText($"Use arrow keys to change demo\nDemo {_demoIndex + 1} of {_demos.Length}", bottomText, Font.Default, 32, TextAlign.Center);
 
