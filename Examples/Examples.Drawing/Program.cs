@@ -22,6 +22,7 @@ namespace Examples.Drawing
             {
                 new ImageDemo(),
                 new QuadraticCurveDemo(),
+                new CubicCurveDemo(),
                 new LineThicknessDemo(),
                 new TextCallbackDemo()
             };
@@ -41,7 +42,7 @@ namespace Examples.Drawing
 
             //
             ctx.ResetState();
-             
+
             var bottomText = new Vector(ctx.Surface.Width / 2F, ctx.Surface.Height - 96);
             ctx.DrawText($"Use arrow keys to change demo\nDemo {_demoIndex + 1} of {_demos.Length}", bottomText, Font.Default, 32, TextAlign.Center);
 
