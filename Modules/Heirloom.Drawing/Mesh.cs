@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -36,6 +37,39 @@ namespace Heirloom.Drawing
                 mesh.Indices.Add(0);
                 mesh.Indices.Add((ushort) i);
                 mesh.Indices.Add((ushort) ((i + 1) % count));
+            }
+
+            return mesh;
+        }
+
+        /// <summary>
+        /// Constructs a mesh from the given polygon via <see cref="Polygon.Triangulate()"/>.
+        /// </summary>
+        /// <param name="polygon">Some polygon</param>
+        /// <returns></returns>
+        public static Mesh CreateFromPolygon(Polygon polygon)
+        {
+            var mesh = new Mesh();
+
+            foreach (var (a, b, c) in Polygon.DecomposeTrianglesIndices(polygon))
+            {
+                var vA = polygon[a];
+                var vB = polygon[b];
+                var vC = polygon[c];
+
+                var uA = (vA - polygon.Bounds.Min) / polygon.Bounds.Width;
+                var uB = (vB - polygon.Bounds.Min) / polygon.Bounds.Width;
+                var uC = (vC - polygon.Bounds.Min) / polygon.Bounds.Width;
+
+                var i = mesh.Vertices.Count;
+
+                mesh.Vertices.Add(new Vertex(vA, uA));
+                mesh.Vertices.Add(new Vertex(vB, uB));
+                mesh.Vertices.Add(new Vertex(vC, uC));
+
+                mesh.Indices.Add((ushort) (i + 0));
+                mesh.Indices.Add((ushort) (i + 1));
+                mesh.Indices.Add((ushort) (i + 2));
             }
 
             return mesh;
