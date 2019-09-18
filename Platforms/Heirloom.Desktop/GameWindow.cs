@@ -7,12 +7,17 @@ using Heirloom.Math;
 
 namespace Heirloom.Desktop
 {
+    /// <summary>
+    /// A window with an embedded thread running a game loop.
+    /// </summary>
     public abstract class GameWindow : Window
     {
         private const float FpsSampleDuration = 1F;
 
         private float _fpsTime;
         private int _fpsCount;
+
+        #region Constructors
 
         protected GameWindow(string title, bool vsync = true, bool transparent = false)
             : this(1280, 720, title, vsync, transparent)
@@ -21,6 +26,10 @@ namespace Heirloom.Desktop
         protected GameWindow(int width, int height, string title, bool vsync = true, bool transparent = false)
             : base(width, height, title, vsync, transparent)
         { }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Enable or disable drawing the FPS overlay.
@@ -37,6 +46,8 @@ namespace Heirloom.Desktop
         /// </summary>
         public bool IsRunning { get; private set; }
 
+        #endregion
+
         /// <summary>
         /// Run the game thread.
         /// </summary>
@@ -47,63 +58,61 @@ namespace Heirloom.Desktop
                 throw new InvalidOperationException("Unable to run the game thread a second time.");
             }
 
-            RunBackgroundThread(() =>
-            {
-                IsRunning = true;
-
-                var time = Glfw.GetTime();
-
-                // 
-                while (!IsClosed)
-                {
-                    // Compute frame time
-                    var now = Glfw.GetTime();
-                    var delta = (float) (now - time);
-                    time = now;
-
-                    // == Update Phase
-
-                    Update(delta);
-
-                    // == Render Phase
-
-                    RenderContext.ResetState();
-                    Draw(RenderContext, delta);
-
-                    // == Render FPS Overlay
-
-                    if (ShowFPSOverlay)
-                    {
-                        RenderContext.ResetState();
-
-                        var text = $"FPS: {FrameRate.ToString("0.00")}";
-                        var size = Font.Default.MeasureText(text, 16);
-
-                        RenderContext.Color = Color.DarkGray;
-                        RenderContext.DrawRect(new Rectangle(FramebufferSize.Width - 16 - size.Width - 3, 16, size.Width + 4, size.Height + 1));
-
-                        RenderContext.Color = Color.Pink;
-                        RenderContext.DrawText(text, new Vector(FramebufferSize.Width - 16, 16), Font.Default, 16, TextAlign.Right);
-                    }
-
-                    // == Swap Buffers
-
-                    RenderContext.SwapBuffers();
-
-                    // == Compute Timing Metrics
-
-                    ComputeFPS(delta);
-                }
-
-                // 
-                IsRunning = false;
-            });
+            // Run game thread
+            var thread = new Thread(GameThread) { Name = "Game Thread", IsBackground = true };
+            thread.Start();
         }
 
-        private static void RunBackgroundThread(ThreadStart threadStart)
+        private void GameThread()
         {
-            var thread = new Thread(threadStart) { Name = "Game Thread", IsBackground = true };
-            thread.Start();
+            IsRunning = true;
+
+            var time = Glfw.GetTime();
+
+            // 
+            while (!IsClosed)
+            {
+                // Compute frame time
+                var now = Glfw.GetTime();
+                var delta = (float) (now - time);
+                time = now;
+
+                // == Update Phase
+
+                Update(delta);
+
+                // == Render Phase
+
+                RenderContext.ResetState();
+                Draw(RenderContext, delta);
+
+                // == Render FPS Overlay
+
+                if (ShowFPSOverlay)
+                {
+                    RenderContext.ResetState();
+
+                    var text = $"FPS: {FrameRate.ToString("0.00")}";
+                    var size = Font.Default.MeasureText(text, 16);
+
+                    RenderContext.Color = Color.DarkGray;
+                    RenderContext.DrawRect(new Rectangle(FramebufferSize.Width - 16 - size.Width - 3, 16, size.Width + 4, size.Height + 1));
+
+                    RenderContext.Color = Color.Pink;
+                    RenderContext.DrawText(text, new Vector(FramebufferSize.Width - 16, 16), Font.Default, 16, TextAlign.Right);
+                }
+
+                // == Swap Buffers
+
+                RenderContext.SwapBuffers();
+
+                // == Compute Timing Metrics
+
+                ComputeFPS(delta);
+            }
+
+            // 
+            IsRunning = false;
         }
 
         private void ComputeFPS(float delta)
@@ -123,6 +132,6 @@ namespace Heirloom.Desktop
 
         protected abstract void Update(float dt);
 
-        protected abstract void Draw(RenderContext renderContext, float dt);
+        protected abstract void Draw(RenderContext ctx, float dt);
     }
 }
