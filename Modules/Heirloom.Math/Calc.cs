@@ -848,43 +848,7 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Curves
-
-        public static float HermiteInterpolate(float p0, float m0, float p1, float m1, float t)
-        {
-            return (2f * p0 - 2f * p1 + m1 + m0) * t * t * t + (3f * p1 - 3f * p0 - 2f * m0 - m1) * t * t + m0 * t + p0;
-        }
-
-        public static float HermiteInterpolate(float y0, float y1, float y2, float y3, float t, float tension, float bias)
-        {
-
-            float m0, m1, mu2, mu3;
-            float a0, a1, a2, a3;
-
-            mu2 = t * t;
-            mu3 = mu2 * t;
-
-            m0 = (y1 - y0) * (1 + bias) * (1 - tension) / 2;
-            m0 += (y2 - y1) * (1 - bias) * (1 - tension) / 2;
-            m1 = (y2 - y1) * (1 + bias) * (1 - tension) / 2;
-            m1 += (y3 - y2) * (1 - bias) * (1 - tension) / 2;
-
-            a0 = 2 * mu3 - 3 * mu2 + 1;
-            a1 = mu3 - 2 * mu2 + t;
-            a2 = mu3 - mu2;
-            a3 = -2 * mu3 + 3 * mu2;
-
-            return a0 * y1 + a1 * m0 + a2 * m1 + a3 * y2;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float CubicInterpolation(float[] p, float t) { return CubicInterpolation(t, p); }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float CubicInterpolation(float t, params float[] p)
-        {
-            return p[1] + 0.5F * t * (p[2] - p[0] + t * (2.0F * p[0] - 5.0F * p[1] + 4.0F * p[2] - p[3] + t * (3.0F * (p[1] - p[2]) + p[3] - p[0])));
-        }
+        #region Smoothing
 
         /// <summary>
         /// Computes a cosine based interpolation from <paramref name="x1"/> to <paramref name="x2"/>.

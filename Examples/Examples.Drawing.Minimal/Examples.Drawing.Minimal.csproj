@@ -3,12 +3,11 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <RootNamespace>Examples.CustomText</RootNamespace>
+    <RootNamespace>Examples.Minimal</RootNamespace>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Modules\Heirloom.Drawing\Heirloom.Drawing.csproj" />
     <ProjectReference Include="..\..\Platforms\Heirloom.Desktop\Heirloom.Desktop.csproj" />
   </ItemGroup>
 

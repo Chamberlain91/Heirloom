@@ -44,62 +44,74 @@ namespace Heirloom.Drawing
 
         #region Draw Primitive
 
+        /// <summary>
+        /// Draws a line segment between two points.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="p0">The start point.</param>
+        /// <param name="p1">The end point.</param>
+        /// <param name="width">The thickness of the line in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void DrawLine(this RenderContext ctx, Vector start, Vector end, float width = 1F)
+        public static void DrawLine(this RenderContext ctx, Vector p0, Vector p1, float width = 1F)
         {
             var s = ctx.ApproximatePixelScale;
 
-            var off = end - start;
+            var off = p1 - p0;
             var len = off.Length;
             var dir = off * len;
 
             var angle = dir.Angle;
-            var transform = Matrix.CreateTransform(start, angle, (len, width * s))
+            var transform = Matrix.CreateTransform(p0, angle, (len, width * s))
                           * _lineOffsetMatrix;
 
             ctx.DrawImage(Image.White, transform);
         }
 
+        /// <summary>
+        /// Draws a quadratic curve using three control points.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="p0">The first control point.</param>
+        /// <param name="p1">The second control point.</param>
+        /// <param name="p2">The third control point.</param>
+        /// <param name="width">The thickness of the line in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void DrawCurve(this RenderContext ctx, Vector p0, Vector p1, Vector p2, Vector p3, float width = 1F)
+        public static void DrawCurve(this RenderContext ctx, Vector p0, Vector p1, Vector p2, float width = 1F)
         {
-            var pOld = p1;
+            // Compute approximate curve length
+            var length = Curves.QuadraticApproximateLength(p0, p1, p2);
 
-            var segments = 50F;
+            // Approximate length of a segment in pixels, used to calibrate the quality
+            const int ApproximateSegmentCount = 20;
+            const float StepSize = 1F / ApproximateSegmentCount;
 
-            for (var i = 0; i < segments; i++)
+            var prev = p0;
+            var t = 0F;
+
+            var terminate = false;
+            while (!terminate)
             {
-                var a = i / segments;
+                // Compute tangent vector
+                var tangent = Curves.QuadraticDerivative(p0, p1, p2, t);
+                t += StepSize * (tangent.Length / length);
 
-                var x = Cubic(p0.X, p1.X, p2.X, p3.X, a);
-                var y = Cubic(p0.Y, p1.Y, p2.Y, p3.Y, a);
+                // Have we advanced beyond the curve?
+                if (t >= 1F)
+                {
+                    // Moved to last point
+                    terminate = true;
+                    t = 1F;
+                }
 
-                // 
-                var slope = (float) CubicDerivative(p0, p1, p2, p3, a);
+                // Compute interpolated point
+                var curr = Curves.Quadratic(p0, p1, p2, t);
 
-                var pNow = new Vector(x, y);
+                // Draw line from previous point to current point
+                ctx.DrawLine(prev, curr, width);
 
-                ctx.DrawLine(pOld, pNow, slope);
-
-                pOld = pNow;
+                // The current point will be the previous next iteration
+                prev = curr;
             }
-        }
-
-        public static float Cubic(float a, float b, float c, float d, float t)
-        {
-            return b + 0.5F * t * (c - a + t * (2.0F * a - 5.0F * b + 4.0F * c - d + t * (3.0F * (b - c) + d - a)));
-        }
-
-        public static double CubicDerivative(double a, double b, double c, double d, double t)
-        {
-            return (a * ((-1.5 * (t * t)) + (2 * t) - 0.5)) + (t * ((4.5 * b * t) - (5 * b) + (1.5 * d * t) - d)) + (c * ((-4.5 * (t * t)) + (4 * t) + 0.5));
-        }
-
-        public static double CubicDerivative(Vector a, Vector b, Vector c, Vector d, double t)
-        {
-            var x = CubicDerivative(a.X, b.X, c.X, d.X, t);
-            var y = CubicDerivative(a.Y, b.Y, c.Y, d.Y, t);
-            return y / x;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

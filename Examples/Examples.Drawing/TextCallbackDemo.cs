@@ -4,27 +4,24 @@ using System.Diagnostics;
 using Heirloom.Drawing;
 using Heirloom.Math;
 
-namespace Examples.CustomText
+namespace Examples.Drawing
 {
-    public class CustomTextExample
+    public sealed class TextCallbackDemo : Demo
     {
-        public RichText Text = new RichText("You have found the [Blade of Harmony]!");
+        private RichText _richText = new RichText("You have found the [Blade of Harmony], you lucky adventurer!");
 
-        internal void Update(float dt)
+        public TextCallbackDemo()
+            : base("Text Callback")
+        { }
+
+        internal override void Draw(RenderContext ctx)
         {
-            // Nothing To Do
+            // todo: Implement feature, should be able to vertical align text without this step.
+            var align = new Vector(0, Font.Default.MeasureText(_richText.Text, 32).Height / 2F);
+            _richText.Draw(ctx, -align + ((Vector) ctx.Surface.Size) * 0.5F, Font.Default, 32, TextAlign.Center);
         }
 
-        internal void Draw(RenderContext ctx, float dt)
-        {
-            ctx.Clear(Color.DarkGray);
-
-            // 
-            var position = new Vector(ctx.Surface.Width / 2F, ctx.Surface.Height - 128);
-            Text.Draw(ctx, position, Font.Default, 64, TextAlign.Center);
-        }
-
-        public class RichText
+        private class RichText
         {
             private readonly Stopwatch _stopwatch;
             private readonly bool[] _states;
@@ -65,13 +62,13 @@ namespace Examples.CustomText
             internal void CallbackProcessor(string text, int index, ref CharacterRenderState state)
             {
                 ref var isSpecial = ref _states[index];
-                state.Color = isSpecial ? Color.Violet : Color.White;
+                state.Color = isSpecial ? Color.Pink : Color.Yellow;
 
                 // 
                 if (isSpecial)
                 {
                     var now = (float) _stopwatch.Elapsed.TotalSeconds;
-                    state.Position.Y += Calc.Sin(index / 4F + now * 4F) * 3;
+                    state.Position.Y += Calc.Sin(index / 2F + now * 8F) * 2;
                 }
             }
 
