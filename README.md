@@ -46,7 +46,6 @@ For desktop applications using `Heirloom` we need to include the
 
 ```sh
 dotnet add package Heirloom.Desktop -v 1.1.1-beta
-dotnet add package Heirloom.Drawing -v 1.1.1-beta
 ```
 
 Now update `Program.cs` to match the following:
@@ -54,6 +53,7 @@ Now update `Program.cs` to match the following:
 ```cs
 using Heirloom.Desktop;
 using Heirloom.Drawing;
+using Heirloom.Math;
 
 namespace Example
 {
@@ -61,11 +61,14 @@ namespace Example
     {
         private static void Main(string[] args)
         {
+            var image = Image.CreateCheckerboardPattern(512, 512, Pixel.White, 64);
+
             Application.Run(() =>
             {
                 // Create window
-                var window = new Window(1280, 720, "Example");
-                window.RenderContext.Clear(Color.Pink);
+                var window = new Window(512, 512, "Example");
+                window.RenderContext.ResetState(); // bug, should not be needed here
+                window.RenderContext.DrawImage(image, Vector.Zero);
                 window.RenderContext.SwapBuffers();
             });
         }
@@ -75,7 +78,8 @@ namespace Example
 
 You can then run the project calling `dotnet run` from the project folder. This
 will by default run a `Debug` build. To run a `Release` build use `dotnet run -c
-Release`. If everything has gone correctly, you should see a blank pink window.
+Release`. If everything has gone correctly, you should see a window with a 
+checkerboard pattern drawn in it.
 
 ## Building
 
