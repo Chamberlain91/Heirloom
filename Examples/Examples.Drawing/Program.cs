@@ -25,6 +25,7 @@ namespace Examples.Drawing
                 new QuadraticCurveDemo(),
                 new LineThicknessDemo(),
                 new PolygonDemo(),
+                new MeshDemo()
             };
         }
 
@@ -38,7 +39,12 @@ namespace Examples.Drawing
             ctx.Clear(Color.DarkGray);
 
             // 
-            CurrentDemo.Draw(ctx);
+            var contentBounds = new Rectangle(234, 32, ctx.Surface.Width - 288, ctx.Surface.Height - 160);
+            ctx.Color = Color.Lerp(Color.DarkGray, Color.Black, 0.1F);
+            ctx.DrawRect(contentBounds);
+
+            ctx.ResetState();
+            CurrentDemo.Draw(ctx, contentBounds.Inflate(-16));
 
             //
             ctx.ResetState();

@@ -1,4 +1,5 @@
 ﻿using Heirloom.Drawing;
+using Heirloom.Math;
 
 namespace Examples.Drawing
 {
@@ -21,6 +22,6 @@ namespace Examples.Drawing
             Time += dt;
         }
 
-        internal virtual void Draw(RenderContext ctx) { }
+        internal virtual void Draw(RenderContext ctx, Rectangle contentBounds) { }
     }
 }

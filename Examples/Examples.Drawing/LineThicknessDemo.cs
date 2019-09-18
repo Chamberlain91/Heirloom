@@ -9,26 +9,26 @@ namespace Examples.Drawing
             : base("Line Thickness")
         { }
 
-        internal override void Draw(RenderContext ctx)
+        internal override void Draw(RenderContext ctx, Rectangle contentBounds)
         {
-            var min = (Vector) ctx.Surface.Size * 0.25F;
-            var max = (Vector) ctx.Surface.Size * 0.75F;
+            var min = contentBounds.Min;
+            var max = contentBounds.Max;
 
-            for (var i = 0; i < 6; i++)
+            for (var i = 0; i < 8; i++)
             {
-                var t = i / 6F;
+                var t = i / 8F;
 
-                var x = Calc.Lerp(min.X, max.X, t);
+                var x = Calc.Lerp(min.X, max.X + 16, t);
                 var y = min.Y;
 
-                var w = (max.X - min.X) / 9F;
+                var w = (max.X - min.X) / 8F - 16;
                 var h = max.Y - min.Y;
 
                 var rect = new Rectangle(x, y, w, h);
 
                 // 
-                ctx.Color = Color.Yellow;
-                ctx.DrawRectOutline(rect, 1 + i);
+                ctx.Color = Colors.FlatUI.BelizeHole;
+                ctx.DrawRectOutline(rect, 1 + t * 7);
             }
         }
     }

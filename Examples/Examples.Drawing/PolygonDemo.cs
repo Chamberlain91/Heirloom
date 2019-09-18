@@ -23,29 +23,29 @@ namespace Examples.Drawing
             Triangles = Polygon.DecomposeTriangles(Polygon);
         }
 
-        internal override void Draw(RenderContext ctx)
+        internal override void Draw(RenderContext ctx, Rectangle contentBounds)
         {
-            var s = (Vector) ctx.Surface.Size;
 
-            var w = s.X * 0.25F;
+            var center = contentBounds.Center;
+            var offset = contentBounds.Width * 0.33F;
 
-            var left = Matrix.CreateTranslation(s * 0.5F - (w, 0));
-            var center = Matrix.CreateTranslation(s * 0.5F);
-            var right = Matrix.CreateTranslation(s * 0.5F + (w, 0));
+            var transA = Matrix.CreateTranslation(center - (offset, 0));
+            var transB = Matrix.CreateTranslation(center);
+            var transC = Matrix.CreateTranslation(center + (offset, 0));
 
-            ctx.Color = Color.Cyan;
-            ctx.DrawPolygonOutline(PolygonHull, left, 1);
+            ctx.Color = Colors.FlatUI.BelizeHole;
+            ctx.DrawPolygonOutline(PolygonHull, transA, 1);
 
             // 
             foreach (var triangle in Triangles)
             {
                 ctx.Color = Color.Pink;
-                ctx.DrawPolygonOutline(triangle, center, 1);
+                ctx.DrawPolygonOutline(triangle, transB, 1);
             }
 
             // 
-            ctx.Color = Color.Yellow;
-            ctx.DrawPolygonOutline(Polygon, right, 3);
+            ctx.Color = Colors.FlatUI.Carrot;
+            ctx.DrawPolygonOutline(Polygon, transC, 3);
         }
     }
 }

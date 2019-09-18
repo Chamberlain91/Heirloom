@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
-
+using System.Threading.Tasks;
 using Heirloom.Drawing.Utilities;
 using Heirloom.Math;
 
@@ -964,7 +964,7 @@ namespace Heirloom.Drawing
             scale = 1F / scale;
 
             // Draw border
-            foreach (var co in Rasterizer.Rectangle(0, 0, width, height))
+            Parallel.ForEach(Rasterizer.Rectangle(0, 0, width, height), co =>
             {
                 var p0 = ((Vector) co + new Vector(0, 0)) * scale;
                 var p1 = ((Vector) co + new Vector(10000, 0)) * scale;
@@ -979,7 +979,7 @@ namespace Heirloom.Drawing
                 // 
                 var color = (Pixel) new Color(n0, n1, n2, n3);
                 im.SetPixel(co.X, co.Y, color);
-            }
+            });
 
             return im;
         }

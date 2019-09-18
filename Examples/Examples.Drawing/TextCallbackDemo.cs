@@ -14,11 +14,11 @@ namespace Examples.Drawing
             : base("Text Callback")
         { }
 
-        internal override void Draw(RenderContext ctx)
+        internal override void Draw(RenderContext ctx, Rectangle contentBounds)
         {
             // todo: Implement feature, should be able to vertical align text without this step.
             var align = new Vector(0, Font.Default.MeasureText(_richText.Text, 32).Height / 2F);
-            _richText.Draw(ctx, -align + ((Vector) ctx.Surface.Size) * 0.5F, Font.Default, 32, TextAlign.Center);
+            _richText.Draw(ctx, -align + contentBounds.Center, Font.Default, 32, TextAlign.Center);
         }
 
         private class RichText
@@ -62,7 +62,7 @@ namespace Examples.Drawing
             internal void CallbackProcessor(string text, int index, ref CharacterRenderState state)
             {
                 ref var isSpecial = ref _states[index];
-                state.Color = isSpecial ? Color.Pink : Color.Yellow;
+                state.Color = isSpecial ? Colors.FlatUI.BelizeHole : Color.White;
 
                 // 
                 if (isSpecial)
