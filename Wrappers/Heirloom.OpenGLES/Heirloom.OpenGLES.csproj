@@ -8,7 +8,7 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Authors>Chris Chamberlain</Authors>
     <PackageLicenseExpression></PackageLicenseExpression>
-    <Version>1.1.0-beta</Version>
+    <Version>1.1.1-beta</Version>
     <PackageTags>opengl</PackageTags>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>

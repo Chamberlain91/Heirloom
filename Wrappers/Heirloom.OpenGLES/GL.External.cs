@@ -16,52 +16,52 @@ namespace Heirloom.OpenGLES
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate ErrorCode _glGetError();
-        private static readonly _glGetError glGetError;
+        private static _glGetError glGetError;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate sbyte* _glGetString(StringParameter name);
-        private static readonly _glGetString glGetString;
+        private static _glGetString glGetString;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate sbyte* _glGetStringi(StringParameter name, int index);
-        private static readonly _glGetStringi glGetStringi;
-        
+        private static _glGetStringi glGetStringi;
+
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetBooleanv(GetParameter enable, bool* values);
-        private static readonly _glGetBooleanv glGetBooleanv;
+        private static _glGetBooleanv glGetBooleanv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetFloatv(GetParameter name, float* values);
-        private static readonly _glGetFloatv glGetFloatv;
+        private static _glGetFloatv glGetFloatv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetIntegerv(GetParameter name, int* values);
-        private static readonly _glGetIntegerv glGetIntegerv;
+        private static _glGetIntegerv glGetIntegerv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetInteger64v(GetParameter name, long* values);
-        private static readonly _glGetInteger64v glGetInteger64v;
+        private static _glGetInteger64v glGetInteger64v;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetIntegeri_v(GetParameter name, int index, int* values);
-        private static readonly _glGetIntegeri_v glGetIntegeri_v;
+        private static _glGetIntegeri_v glGetIntegeri_v;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetInteger64i_v(GetParameter name, int index, long* values);
-        private static readonly _glGetInteger64i_v glGetInteger64i_v;
+        private static _glGetInteger64i_v glGetInteger64i_v;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetInternalformativ(InternalFormatTarget sync, SyncParameter pname, int bufSize, out int length, int[] values);
-        private static readonly _glGetInternalformativ glGetInternalformativ;
+        private static _glGetInternalformativ glGetInternalformativ;
 
         #endregion
 
@@ -70,62 +70,62 @@ namespace Heirloom.OpenGLES
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDrawArrays(DrawMode mode, int first, int count);
-        private static readonly _glDrawArrays glDrawArrays;
+        private static _glDrawArrays glDrawArrays;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDrawArraysInstanced(DrawMode mode, int first, int count, int primCount);
-        private static readonly _glDrawArraysInstanced glDrawArraysInstanced;
+        private static _glDrawArraysInstanced glDrawArraysInstanced;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDrawRangeElements(DrawMode mode, int start, int end, int count, DrawElementType type, void* indices);
-        private static readonly _glDrawRangeElements glDrawRangeElements;
+        private static _glDrawRangeElements glDrawRangeElements;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDrawElements(DrawMode mode, int count, DrawElementType type, void* indices);
-        private static readonly _glDrawElements glDrawElements;
+        private static _glDrawElements glDrawElements;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDrawElementsInstanced(DrawMode mode, int count, DrawElementType type, void* indices, int primCount);
-        private static readonly _glDrawElementsInstanced glDrawElementsInstanced;
+        private static _glDrawElementsInstanced glDrawElementsInstanced;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glEnableVertexAttribArray(uint index);
-        private static readonly _glEnableVertexAttribArray glEnableVertexAttribArray;
+        private static _glEnableVertexAttribArray glEnableVertexAttribArray;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDisableVertexAttribArray(uint index);
-        private static readonly _glDisableVertexAttribArray glDisableVertexAttribArray;
+        private static _glDisableVertexAttribArray glDisableVertexAttribArray;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetVertexAttribfv(uint index, VertexAttributeParameter pname, float* values);
-        private static readonly _glGetVertexAttribfv glGetVertexAttribfv;
+        private static _glGetVertexAttribfv glGetVertexAttribfv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetVertexAttribiv(uint index, VertexAttributeParameter pname, int* values);
-        private static readonly _glGetVertexAttribiv glGetVertexAttribiv;
+        private static _glGetVertexAttribiv glGetVertexAttribiv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetVertexAttribPointerv(uint index, VertexAttributePointerParameter pname, IntPtr* values);
-        private static readonly _glGetVertexAttribPointerv glGetVertexAttribPointerv;
+        private static _glGetVertexAttribPointerv glGetVertexAttribPointerv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glVertexAttribPointer(uint index, int size, VertexAttributeType type, bool normalized, int stride, IntPtr pointer);
-        private static readonly _glVertexAttribPointer glVertexAttribPointer;
+        private static _glVertexAttribPointer glVertexAttribPointer;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glVertexAttribDivisor(uint index, int divisor);
-        private static readonly _glVertexAttribDivisor glVertexAttribDivisor;
+        private static _glVertexAttribDivisor glVertexAttribDivisor;
 
         #endregion
 
@@ -134,48 +134,48 @@ namespace Heirloom.OpenGLES
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate uint _glCreateShader(ShaderType type);
-        private static readonly _glCreateShader glCreateShader;
+        private static _glCreateShader glCreateShader;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDeleteShader(uint shader);
-        private static readonly _glDeleteShader glDeleteShader;
+        private static _glDeleteShader glDeleteShader;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private delegate bool _glIsShader(uint shader);
-        private static readonly _glIsShader glIsShader;
+        private static _glIsShader glIsShader;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glShaderSource(uint shader, int count, string[] sources, int[] lengths);
-        private static readonly _glShaderSource glShaderSource;
+        private static _glShaderSource glShaderSource;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetShaderSource(uint shader, int maxSourceLength, out int sourceLength, StringBuilder builder);
-        private static readonly _glGetShaderSource glGetShaderSource;
+        private static _glGetShaderSource glGetShaderSource;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glCompileShader(uint shader);
-        private static readonly _glCompileShader glCompileShader;
+        private static _glCompileShader glCompileShader;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate int _glShaderBinary(int shaderCount, uint[] shaders, uint format, byte[] binary, int binarySize);
-        private static readonly _glShaderBinary glShaderBinary;
+        private static _glShaderBinary glShaderBinary;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetShaderiv(uint shader, ShaderParameter name, int[] result);
-        private static readonly _glGetShaderiv glGetShaderiv;
+        private static _glGetShaderiv glGetShaderiv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetShaderInfoLog(uint shader, int maxLength, out int outLength, StringBuilder outMessage);
-        private static readonly _glGetShaderInfoLog glGetShaderInfoLog;
+        private static _glGetShaderInfoLog glGetShaderInfoLog;
 
         #endregion
 
@@ -184,205 +184,205 @@ namespace Heirloom.OpenGLES
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate uint _glCreateProgram();
-        private static readonly _glCreateProgram glCreateProgram;
+        private static _glCreateProgram glCreateProgram;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDeleteProgram(uint program);
-        private static readonly _glDeleteProgram glDeleteProgram;
+        private static _glDeleteProgram glDeleteProgram;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private delegate bool _glIsProgram(uint shader);
-        private static readonly _glIsProgram glIsProgram;
+        private static _glIsProgram glIsProgram;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glAttachShader(uint program, uint shader);
-        private static readonly _glAttachShader glAttachShader;
+        private static _glAttachShader glAttachShader;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDetachShader(uint program, uint shader);
-        private static readonly _glDetachShader glDetachShader;
+        private static _glDetachShader glDetachShader;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glLinkProgram(uint program);
-        private static readonly _glLinkProgram glLinkProgram;
+        private static _glLinkProgram glLinkProgram;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glValidateProgram(uint program);
-        private static readonly _glValidateProgram glValidateProgram;
+        private static _glValidateProgram glValidateProgram;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate uint _glBindAttribLocation(uint program, uint index, string name);
-        private static readonly _glBindAttribLocation glBindAttribLocation;
+        private static _glBindAttribLocation glBindAttribLocation;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetAttachedShaders(uint program, int maxCount, out int count, uint[] shaders);
-        private static readonly _glGetAttachedShaders glGetAttachedShaders;
+        private static _glGetAttachedShaders glGetAttachedShaders;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetProgramiv(uint program, ProgramParameter name, int[] result);
-        private static readonly _glGetProgramiv glGetProgramiv;
+        private static _glGetProgramiv glGetProgramiv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetProgramInfoLog(uint program, int maxLength, out int outLength, StringBuilder outMessage);
-        private static readonly _glGetProgramInfoLog glGetProgramInfoLog;
+        private static _glGetProgramInfoLog glGetProgramInfoLog;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUseProgram(uint program);
-        private static readonly _glUseProgram glUseProgram;
+        private static _glUseProgram glUseProgram;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate int _glGetProgramBinary(uint program, int bufSize, out int length, out uint format, byte[] binary);
-        private static readonly _glGetProgramBinary glGetProgramBinary;
+        private static _glGetProgramBinary glGetProgramBinary;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate int _glProgramBinary(uint program, uint format, byte[] binary, int binarySize);
-        private static readonly _glProgramBinary glProgramBinary;
+        private static _glProgramBinary glProgramBinary;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate int _glGetAttribLocation(uint program, string name);
-        private static readonly _glGetAttribLocation glGetAttribLocation;
+        private static _glGetAttribLocation glGetAttribLocation;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate int _glGetFragDataLocation(uint program, string name);
-        private static readonly _glGetFragDataLocation glGetFragDataLocation;
+        private static _glGetFragDataLocation glGetFragDataLocation;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate int _glGetUniformLocation(uint program, string name);
-        private static readonly _glGetUniformLocation glGetUniformLocation;
+        private static _glGetUniformLocation glGetUniformLocation;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate uint _glGetUniformBlockIndex(uint program, string name);
-        private static readonly _glGetUniformBlockIndex glGetUniformBlockIndex;
+        private static _glGetUniformBlockIndex glGetUniformBlockIndex;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetUniformIndices(uint program, int uniformCount, string[] uniformNames, uint[] uniformIndices);
-        private static readonly _glGetUniformIndices glGetUniformIndices;
+        private static _glGetUniformIndices glGetUniformIndices;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetUniformiv(uint program, int location, int[] result);
-        private static readonly _glGetUniformiv glGetUniformiv;
+        private static _glGetUniformiv glGetUniformiv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetUniformuiv(uint program, int location, uint[] result);
-        private static readonly _glGetUniformuiv glGetUniformuiv;
+        private static _glGetUniformuiv glGetUniformuiv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetUniformfv(uint program, int location, float[] result);
-        private static readonly _glGetUniformfv glGetUniformfv;
+        private static _glGetUniformfv glGetUniformfv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetActiveUniformsiv(uint program, int uniformCount, uint[] uniformIndices, UniformParameter pname, int[] result);
-        private static readonly _glGetActiveUniformsiv glGetActiveUniformsiv;
+        private static _glGetActiveUniformsiv glGetActiveUniformsiv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetActiveAttrib(uint program, uint index, int maxNameLength, out int nameLength, out int size, out ActiveAttribType type, StringBuilder name);
-        private static readonly _glGetActiveAttrib glGetActiveAttrib;
+        private static _glGetActiveAttrib glGetActiveAttrib;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetActiveUniform(uint program, uint index, int maxNameLength, out int nameLength, out int size, out ActiveUniformType type, StringBuilder name);
-        private static readonly _glGetActiveUniform glGetActiveUniform;
+        private static _glGetActiveUniform glGetActiveUniform;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetActiveUniformBlockName(uint program, uint blockIndex, int maxNameLength, out int nameLength, StringBuilder name);
-        private static readonly _glGetActiveUniformBlockName glGetActiveUniformBlockName;
+        private static _glGetActiveUniformBlockName glGetActiveUniformBlockName;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetActiveUniformBlockiv(uint program, uint blockIndex, UniformBlockParameter pname, int[] result);
-        private static readonly _glGetActiveUniformBlockiv glGetActiveUniformBlockiv;
+        private static _glGetActiveUniformBlockiv glGetActiveUniformBlockiv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniformBlockBinding(uint program, uint blockIndex, uint blockBinding);
-        private static readonly _glUniformBlockBinding glUniformBlockBinding;
+        private static _glUniformBlockBinding glUniformBlockBinding;
 
         #region Singular Uniforms
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform1f(int location, float v);
-        private static readonly _glUniform1f glUniform1f;
+        private static _glUniform1f glUniform1f;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform2f(int location, float v1, float v2);
-        private static readonly _glUniform2f glUniform2f;
+        private static _glUniform2f glUniform2f;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform3f(int location, float v1, float v2, float v3);
-        private static readonly _glUniform3f glUniform3f;
+        private static _glUniform3f glUniform3f;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform4f(int location, float v1, float v2, float v3, float v4);
-        private static readonly _glUniform4f glUniform4f;
+        private static _glUniform4f glUniform4f;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform1i(int location, int v);
-        private static readonly _glUniform1i glUniform1i;
+        private static _glUniform1i glUniform1i;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform2i(int location, int v1, int v2);
-        private static readonly _glUniform2i glUniform2i;
+        private static _glUniform2i glUniform2i;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform3i(int location, int v1, int v2, int v3);
-        private static readonly _glUniform3i glUniform3i;
+        private static _glUniform3i glUniform3i;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform4i(int location, int v1, int v2, int v3, int v4);
-        private static readonly _glUniform4i glUniform4i;
+        private static _glUniform4i glUniform4i;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform1ui(int location, uint v);
-        private static readonly _glUniform1ui glUniform1ui;
+        private static _glUniform1ui glUniform1ui;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform2ui(int location, uint v1, uint v2);
-        private static readonly _glUniform2ui glUniform2ui;
+        private static _glUniform2ui glUniform2ui;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform3ui(int location, uint v1, uint v2, uint v3);
-        private static readonly _glUniform3ui glUniform3ui;
+        private static _glUniform3ui glUniform3ui;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform4ui(int location, uint v1, uint v2, uint v3, uint v4);
-        private static readonly _glUniform4ui glUniform4ui;
+        private static _glUniform4ui glUniform4ui;
 
         #endregion
 
@@ -391,62 +391,62 @@ namespace Heirloom.OpenGLES
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform1fv(int location, int count, float* ptr);
-        private static readonly _glUniform1fv glUniform1fv;
+        private static _glUniform1fv glUniform1fv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform2fv(int location, int count, float* ptr);
-        private static readonly _glUniform2fv glUniform2fv;
+        private static _glUniform2fv glUniform2fv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform3fv(int location, int count, float* ptr);
-        private static readonly _glUniform3fv glUniform3fv;
+        private static _glUniform3fv glUniform3fv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform4fv(int location, int count, float* ptr);
-        private static readonly _glUniform4fv glUniform4fv;
+        private static _glUniform4fv glUniform4fv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform1iv(int location, int count, int* ptr);
-        private static readonly _glUniform1iv glUniform1iv;
+        private static _glUniform1iv glUniform1iv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform2iv(int location, int count, int* ptr);
-        private static readonly _glUniform2iv glUniform2iv;
+        private static _glUniform2iv glUniform2iv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform3iv(int location, int count, int* ptr);
-        private static readonly _glUniform3iv glUniform3iv;
+        private static _glUniform3iv glUniform3iv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform4iv(int location, int count, int* ptr);
-        private static readonly _glUniform4iv glUniform4iv;
+        private static _glUniform4iv glUniform4iv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform1uiv(int location, int count, uint* ptr);
-        private static readonly _glUniform1uiv glUniform1uiv;
+        private static _glUniform1uiv glUniform1uiv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform2uiv(int location, int count, uint* ptr);
-        private static readonly _glUniform2uiv glUniform2uiv;
+        private static _glUniform2uiv glUniform2uiv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform3uiv(int location, int count, uint* ptr);
-        private static readonly _glUniform3uiv glUniform3uiv;
+        private static _glUniform3uiv glUniform3uiv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniform4uiv(int location, int count, uint* ptr);
-        private static readonly _glUniform4uiv glUniform4uiv;
+        private static _glUniform4uiv glUniform4uiv;
 
         #endregion
 
@@ -455,59 +455,59 @@ namespace Heirloom.OpenGLES
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniformMatrix2fv(int location, int count, bool transpose, float* ptr);
-        private static readonly _glUniformMatrix2fv glUniformMatrix2fv;
+        private static _glUniformMatrix2fv glUniformMatrix2fv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniformMatrix2x3fv(int location, int count, bool transpose, float* ptr);
-        private static readonly _glUniformMatrix2x3fv glUniformMatrix2x3fv;
+        private static _glUniformMatrix2x3fv glUniformMatrix2x3fv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniformMatrix2x4fv(int location, int count, bool transpose, float* ptr);
-        private static readonly _glUniformMatrix2x4fv glUniformMatrix2x4fv;
+        private static _glUniformMatrix2x4fv glUniformMatrix2x4fv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniformMatrix3fv(int location, int count, bool transpose, float* ptr);
-        private static readonly _glUniformMatrix3fv glUniformMatrix3fv;
+        private static _glUniformMatrix3fv glUniformMatrix3fv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniformMatrix3x2fv(int location, int count, bool transpose, float* ptr);
-        private static readonly _glUniformMatrix3x2fv glUniformMatrix3x2fv;
+        private static _glUniformMatrix3x2fv glUniformMatrix3x2fv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniformMatrix3x4fv(int location, int count, bool transpose, float* ptr);
-        private static readonly _glUniformMatrix3x4fv glUniformMatrix3x4fv;
+        private static _glUniformMatrix3x4fv glUniformMatrix3x4fv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniformMatrix4fv(int location, int count, bool transpose, float* ptr);
-        private static readonly _glUniformMatrix4fv glUniformMatrix4fv;
+        private static _glUniformMatrix4fv glUniformMatrix4fv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniformMatrix4x2fv(int location, int count, bool transpose, float* ptr);
-        private static readonly _glUniformMatrix4x2fv glUniformMatrix4x2fv;
+        private static _glUniformMatrix4x2fv glUniformMatrix4x2fv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glUniformMatrix4x3fv(int location, int count, bool transpose, float* ptr);
-        private static readonly _glUniformMatrix4x3fv glUniformMatrix4x3fv;
+        private static _glUniformMatrix4x3fv glUniformMatrix4x3fv;
 
         #endregion
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glReleaseShaderCompiler();
-        private static readonly _glReleaseShaderCompiler glReleaseShaderCompiler;
+        private static _glReleaseShaderCompiler glReleaseShaderCompiler;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate int _glGetShaderPrecisionFormat(ShaderType shaderType, ShaderPrecision precisionType, int[] range, int[] precision);
-        private static readonly _glGetShaderPrecisionFormat glGetShaderPrecisionFormat;
+        private static _glGetShaderPrecisionFormat glGetShaderPrecisionFormat;
 
         #endregion
 
@@ -516,59 +516,59 @@ namespace Heirloom.OpenGLES
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGenBuffers(int n, uint[] buffers);
-        private static readonly _glGenBuffers glGenBuffers;
+        private static _glGenBuffers glGenBuffers;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDeleteBuffers(int n, uint[] buffers);
-        private static readonly _glDeleteBuffers glDeleteBuffers;
+        private static _glDeleteBuffers glDeleteBuffers;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private delegate bool _glIsBuffer(uint buffer);
-        private static readonly _glIsBuffer glIsBuffer;
+        private static _glIsBuffer glIsBuffer;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetBufferParameteriv(BufferTarget target, BufferParameter parameter, int[] result);
-        private static readonly _glGetBufferParameteriv glGetBufferParameteriv;
+        private static _glGetBufferParameteriv glGetBufferParameteriv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glBindBuffer(BufferTarget target, uint buffer);
-        private static readonly _glBindBuffer glBindBuffer;
+        private static _glBindBuffer glBindBuffer;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glBindBufferBase(BufferTarget target, uint index, uint buffer);
-        private static readonly _glBindBufferBase glBindBufferBase;
+        private static _glBindBufferBase glBindBufferBase;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glBufferData(BufferTarget target, uint size, IntPtr data, BufferUsage usage);
-        private static readonly _glBufferData glBufferData;
+        private static _glBufferData glBufferData;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glBufferSubData(BufferTarget target, uint offset, uint size, IntPtr data);
-        private static readonly _glBufferSubData glBufferSubData;
+        private static _glBufferSubData glBufferSubData;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void* _glMapBufferRange(BufferTarget target, int offset, int size, MapBufferAccess access);
-        private static readonly _glMapBufferRange glMapBufferRange;
+        private static _glMapBufferRange glMapBufferRange;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private delegate bool _glUnmapBuffer(BufferTarget targets);
-        private static readonly _glUnmapBuffer glUnmapBuffer;
+        private static _glUnmapBuffer glUnmapBuffer;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glFlushMappedBufferRange(BufferTarget target, int offset, int size);
-        private static readonly _glFlushMappedBufferRange glFlushMappedBufferRange;
+        private static _glFlushMappedBufferRange glFlushMappedBufferRange;
 
         #endregion
 
@@ -577,23 +577,23 @@ namespace Heirloom.OpenGLES
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGenVertexArrays(int n, uint[] arrays);
-        private static readonly _glGenVertexArrays glGenVertexArrays;
+        private static _glGenVertexArrays glGenVertexArrays;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDeleteVertexArrays(int n, uint[] arrays);
-        private static readonly _glDeleteVertexArrays glDeleteVertexArrays;
+        private static _glDeleteVertexArrays glDeleteVertexArrays;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private delegate bool _glIsVertexArray(uint array);
-        private static readonly _glIsVertexArray glIsVertexArray;
+        private static _glIsVertexArray glIsVertexArray;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glBindVertexArray(uint array);
-        private static readonly _glBindVertexArray glBindVertexArray;
+        private static _glBindVertexArray glBindVertexArray;
 
         #endregion
 
@@ -602,63 +602,63 @@ namespace Heirloom.OpenGLES
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGenFramebuffers(int n, uint[] framebuffers);
-        private static readonly _glGenFramebuffers glGenFramebuffers;
+        private static _glGenFramebuffers glGenFramebuffers;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDeleteFramebuffers(int n, uint[] framebuffers);
-        private static readonly _glDeleteFramebuffers glDeleteFramebuffers;
+        private static _glDeleteFramebuffers glDeleteFramebuffers;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private delegate bool _glIsFramebuffer(uint framebuffer);
-        private static readonly _glIsFramebuffer glIsFramebuffer;
+        private static _glIsFramebuffer glIsFramebuffer;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetFramebufferAttachmentParameteriv(FramebufferTarget target, FramebufferAttachment attachment, FramebufferAttachmentParameter name, int[] result);
-        private static readonly _glGetFramebufferAttachmentParameteriv glGetFramebufferAttachmentParameteriv;
+        private static _glGetFramebufferAttachmentParameteriv glGetFramebufferAttachmentParameteriv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glBindFramebuffer(FramebufferTarget target, uint framebuffer);
-        private static readonly _glBindFramebuffer glBindFramebuffer;
+        private static _glBindFramebuffer glBindFramebuffer;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate FramebufferStatus _glCheckFramebufferStatus(FramebufferTarget target);
-        private static readonly _glCheckFramebufferStatus glCheckFramebufferStatus;
+        private static _glCheckFramebufferStatus glCheckFramebufferStatus;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glFramebufferTexture2D(FramebufferTarget target, FramebufferAttachment attachment, TextureImageTarget textarget, uint texture, int level);
-        private static readonly _glFramebufferTexture2D glFramebufferTexture2D;
+        private static _glFramebufferTexture2D glFramebufferTexture2D;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glFramebufferTextureLayer(FramebufferTarget target, FramebufferAttachment attachment, uint texture, int level, int layer);
-        private static readonly _glFramebufferTextureLayer glFramebufferTextureLayer;
+        private static _glFramebufferTextureLayer glFramebufferTextureLayer;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glFramebufferRenderbuffer(FramebufferTarget target, FramebufferAttachment attachment, RenderbufferTarget textarget, uint renderbuffer);
-        private static readonly _glFramebufferRenderbuffer glFramebufferRenderbuffer;
+        private static _glFramebufferRenderbuffer glFramebufferRenderbuffer;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glBlitFramebuffer(int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, FramebufferBlitMask mask, FramebufferBlitFilter filter);
-        private static readonly _glBlitFramebuffer glBlitFramebuffer;
+        private static _glBlitFramebuffer glBlitFramebuffer;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glInvalidateFramebuffer(FramebufferTarget target, int numAttachments, FramebufferAttachment[] attachments);
-        private static readonly _glInvalidateFramebuffer glInvalidateFramebuffer;
+        private static _glInvalidateFramebuffer glInvalidateFramebuffer;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glInvalidateSubFramebuffer(FramebufferTarget target, int numAttachments, FramebufferAttachment[] attachments, int x, int y, int width, int height);
-        private static readonly _glInvalidateSubFramebuffer glInvalidateSubFramebuffer;
+        private static _glInvalidateSubFramebuffer glInvalidateSubFramebuffer;
 
         #endregion
 
@@ -667,38 +667,38 @@ namespace Heirloom.OpenGLES
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGenRenderbuffers(int n, uint[] renderbuffers);
-        private static readonly _glGenRenderbuffers glGenRenderbuffers;
+        private static _glGenRenderbuffers glGenRenderbuffers;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDeleteRenderbuffers(int n, uint[] renderbuffers);
-        private static readonly _glDeleteRenderbuffers glDeleteRenderbuffers;
+        private static _glDeleteRenderbuffers glDeleteRenderbuffers;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private delegate bool _glIsRenderbuffer(uint renderbuffer);
-        private static readonly _glIsRenderbuffer glIsRenderbuffer;
+        private static _glIsRenderbuffer glIsRenderbuffer;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glBindRenderbuffer(RenderbufferTarget target, uint renderbuffer);
-        private static readonly _glBindRenderbuffer glBindRenderbuffer;
+        private static _glBindRenderbuffer glBindRenderbuffer;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetRenderbufferParameteriv(RenderbufferTarget target, RenderbufferValue name, int[] result);
-        private static readonly _glGetRenderbufferParameteriv glGetRenderbufferParameteriv;
+        private static _glGetRenderbufferParameteriv glGetRenderbufferParameteriv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glRenderbufferStorage(RenderbufferTarget target, RenderbufferFormat format, int width, int height);
-        private static readonly _glRenderbufferStorage glRenderbufferStorage;
+        private static _glRenderbufferStorage glRenderbufferStorage;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glRenderbufferStorageMultisample(RenderbufferTarget target, int samples, RenderbufferFormat format, int width, int height);
-        private static readonly _glRenderbufferStorageMultisample glRenderbufferStorageMultisample;
+        private static _glRenderbufferStorageMultisample glRenderbufferStorageMultisample;
 
         #endregion
 
@@ -707,128 +707,128 @@ namespace Heirloom.OpenGLES
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGenTextures(int n, uint[] textures);
-        private static readonly _glGenTextures glGenTextures;
+        private static _glGenTextures glGenTextures;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDeleteTextures(int n, uint[] textures);
-        private static readonly _glDeleteTextures glDeleteTextures;
+        private static _glDeleteTextures glDeleteTextures;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private delegate bool _glIsTexture(uint texture);
-        private static readonly _glIsTexture glIsTexture;
+        private static _glIsTexture glIsTexture;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetTexParameterfv(TextureTarget target, TextureParameter parameter, float[] result);
-        private static readonly _glGetTexParameterfv glGetTexParameterfv;
+        private static _glGetTexParameterfv glGetTexParameterfv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetTexParameteriv(TextureTarget target, TextureParameter parameter, int[] result);
-        private static readonly _glGetTexParameteriv glGetTexParameteriv;
+        private static _glGetTexParameteriv glGetTexParameteriv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glTexParameterf(TextureTarget target, TextureParameter parameter, float value);
-        private static readonly _glTexParameterf glTexParameterf;
+        private static _glTexParameterf glTexParameterf;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glTexParameteri(TextureTarget target, TextureParameter parameter, int value);
-        private static readonly _glTexParameteri glTexParameteri;
+        private static _glTexParameteri glTexParameteri;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glTexParameterfv(TextureTarget target, TextureParameter parameter, float[] value);
-        private static readonly _glTexParameterfv glTexParameterfv;
+        private static _glTexParameterfv glTexParameterfv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glTexParameteriv(TextureTarget target, TextureParameter parameter, int[] value);
-        private static readonly _glTexParameteriv glTexParameteriv;
+        private static _glTexParameteriv glTexParameteriv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glBindTexture(TextureTarget target, uint texture);
-        private static readonly _glBindTexture glBindTexture;
+        private static _glBindTexture glBindTexture;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glActiveTexture(uint texture);
-        private static readonly _glActiveTexture glActiveTexture;
+        private static _glActiveTexture glActiveTexture;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glTexImage2D(TextureImageTarget target, int level, TextureSizedFormat internalFormat, int width, int height, int border, TexturePixelFormat format, TexturePixelType pixelFormat, IntPtr data);
-        private static readonly _glTexImage2D glTexImage2D;
+        private static _glTexImage2D glTexImage2D;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glTexImage3D(TextureImageTarget target, int level, TextureSizedFormat internalFormat, int width, int height, int depth, int border, TexturePixelFormat format, TexturePixelType pixelFormat, IntPtr data);
-        private static readonly _glTexImage3D glTexImage3D;
+        private static _glTexImage3D glTexImage3D;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glTexStorage2D(TextureImageTarget target, int levels, TextureSizedFormat internalFormat, int width, int height);
-        private static readonly _glTexStorage2D glTexStorage2D;
+        private static _glTexStorage2D glTexStorage2D;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glTexStorage3D(TextureImageTarget target, int levels, TextureSizedFormat internalFormat, int width, int height, int depth);
-        private static readonly _glTexStorage3D glTexStorage3D;
+        private static _glTexStorage3D glTexStorage3D;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glTexSubImage2D(TextureImageTarget target, int level, int xoffset, int yoffset, int width, int height, TexturePixelFormat format, TexturePixelType pixelFormat, IntPtr data);
-        private static readonly _glTexSubImage2D glTexSubImage2D;
+        private static _glTexSubImage2D glTexSubImage2D;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glTexSubImage3D(TextureImageTarget target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, TexturePixelFormat format, TexturePixelType pixelFormat, IntPtr data);
-        private static readonly _glTexSubImage3D glTexSubImage3D;
+        private static _glTexSubImage3D glTexSubImage3D;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glCompressedTexImage2D(TextureImageTarget target, int level, TextureCompressedFormat internalFormat, int width, int height, int border, int imageSize, IntPtr data);
-        private static readonly _glCompressedTexImage2D glCompressedTexImage2D;
+        private static _glCompressedTexImage2D glCompressedTexImage2D;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glCompressedTexImage3D(TextureImageTarget target, int level, TextureCompressedFormat internalFormat, int width, int height, int depth, int border, int imageSize, IntPtr data);
-        private static readonly _glCompressedTexImage3D glCompressedTexImage3D;
+        private static _glCompressedTexImage3D glCompressedTexImage3D;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glCompressedTexSubImage2D(TextureImageTarget target, int level, int xoffset, int yoffset, int width, int height, int imageSize, IntPtr data);
-        private static readonly _glCompressedTexSubImage2D glCompressedTexSubImage2D;
+        private static _glCompressedTexSubImage2D glCompressedTexSubImage2D;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glCompressedTexSubImage3D(TextureImageTarget target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int imageSize, IntPtr data);
-        private static readonly _glCompressedTexSubImage3D glCompressedTexSubImage3D;
+        private static _glCompressedTexSubImage3D glCompressedTexSubImage3D;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glCopyTexImage2D(TextureImageTarget target, int level, TexturePixelFormat internalFormat, int x, int y, int width, int height, int border);
-        private static readonly _glCopyTexImage2D glCopyTexImage2D;
+        private static _glCopyTexImage2D glCopyTexImage2D;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glCopyTexSubImage2D(TextureImageTarget target, int level, int xoffset, int yoffset, int x, int y, int width, int height);
-        private static readonly _glCopyTexSubImage2D glCopyTexSubImage2D;
+        private static _glCopyTexSubImage2D glCopyTexSubImage2D;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glCopyTexSubImage3D(TextureImageTarget target, int level, int xoffset, int yoffset, int zoffset, int x, int y, int width, int height, int depth);
-        private static readonly _glCopyTexSubImage3D glCopyTexSubImage3D;
+        private static _glCopyTexSubImage3D glCopyTexSubImage3D;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGenerateMipmap(TextureTarget target);
-        private static readonly _glGenerateMipmap glGenerateMipmap;
+        private static _glGenerateMipmap glGenerateMipmap;
 
         #endregion
 
@@ -837,53 +837,53 @@ namespace Heirloom.OpenGLES
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGenSamplers(int n, uint[] samplers);
-        private static readonly _glGenSamplers glGenSamplers;
+        private static _glGenSamplers glGenSamplers;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDeleteSamplers(int n, uint[] samplers);
-        private static readonly _glDeleteSamplers glDeleteSamplers;
+        private static _glDeleteSamplers glDeleteSamplers;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glBindSampler(uint unit, uint sampler);
-        private static readonly _glBindSampler glBindSampler;
+        private static _glBindSampler glBindSampler;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private delegate bool _glIsSampler(uint sampler);
-        private static readonly _glIsSampler glIsSampler;
+        private static _glIsSampler glIsSampler;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glSamplerParameterf(uint sampler, TextureParameter parameter, float value);
-        private static readonly _glSamplerParameterf glSamplerParameterf;
+        private static _glSamplerParameterf glSamplerParameterf;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glSamplerParameteri(uint sampler, TextureParameter parameter, int value);
-        private static readonly _glSamplerParameteri glSamplerParameteri;
+        private static _glSamplerParameteri glSamplerParameteri;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glSamplerParameterfv(uint sampler, TextureParameter parameter, float[] value);
-        private static readonly _glSamplerParameterfv glSamplerParameterfv;
+        private static _glSamplerParameterfv glSamplerParameterfv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glSamplerParameteriv(uint sampler, TextureParameter parameter, int[] value);
-        private static readonly _glSamplerParameteriv glSamplerParameteriv;
+        private static _glSamplerParameteriv glSamplerParameteriv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetSamplerParameterfv(uint sampler, TextureParameter parameter, float[] result);
-        private static readonly _glGetSamplerParameterfv glGetSamplerParameterfv;
+        private static _glGetSamplerParameterfv glGetSamplerParameterfv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetSamplerParameteriv(uint sampler, TextureParameter parameter, int[] result);
-        private static readonly _glGetSamplerParameteriv glGetSamplerParameteriv;
+        private static _glGetSamplerParameteriv glGetSamplerParameteriv;
 
         #endregion
 
@@ -892,27 +892,27 @@ namespace Heirloom.OpenGLES
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glBlendColor(float r, float g, float b, float a);
-        private static readonly _glBlendColor glBlendColor;
+        private static _glBlendColor glBlendColor;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glBlendEquation(BlendEquation eq);
-        private static readonly _glBlendEquation glBlendEquation;
+        private static _glBlendEquation glBlendEquation;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glBlendEquationSeparate(BlendEquation eqColor, BlendEquation eqAlpha);
-        private static readonly _glBlendEquationSeparate glBlendEquationSeparate;
+        private static _glBlendEquationSeparate glBlendEquationSeparate;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glBlendFunc(BlendFunction source, BlendFunction destination);
-        private static readonly _glBlendFunc glBlendFunc;
+        private static _glBlendFunc glBlendFunc;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glBlendFuncSeparate(BlendFunction sourceColor, BlendFunction destinationColor, BlendFunction sourceAlpha, BlendFunction destinationAlpha);
-        private static readonly _glBlendFuncSeparate glBlendFuncSeparate;
+        private static _glBlendFuncSeparate glBlendFuncSeparate;
 
         #endregion
 
@@ -921,32 +921,32 @@ namespace Heirloom.OpenGLES
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glStencilFunc(StencilFunction func, int _ref, uint mask);
-        private static readonly _glStencilFunc glStencilFunc;
+        private static _glStencilFunc glStencilFunc;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glStencilFuncSeparate(Face face, StencilFunction func, int _ref, uint mask);
-        private static readonly _glStencilFuncSeparate glStencilFuncSeparate;
+        private static _glStencilFuncSeparate glStencilFuncSeparate;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glStencilMask(uint mask);
-        private static readonly _glStencilMask glStencilMask;
+        private static _glStencilMask glStencilMask;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glStencilMaskSeparate(Face face, uint mask);
-        private static readonly _glStencilMaskSeparate glStencilMaskSeparate;
+        private static _glStencilMaskSeparate glStencilMaskSeparate;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glStencilOp(StencilOperation sfail, StencilOperation dfail, StencilOperation dpass);
-        private static readonly _glStencilOp glStencilOp;
+        private static _glStencilOp glStencilOp;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glStencilOpSeparate(Face face, StencilOperation sfail, StencilOperation dfail, StencilOperation dpass);
-        private static readonly _glStencilOpSeparate glStencilOpSeparate;
+        private static _glStencilOpSeparate glStencilOpSeparate;
 
         #endregion
 
@@ -955,67 +955,67 @@ namespace Heirloom.OpenGLES
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glClear(ClearMask mask);
-        private static readonly _glClear glClear;
+        private static _glClear glClear;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glClearBufferiv(uint buffer, int drawBuffer, int[] value);
-        private static readonly _glClearBufferiv glClearBufferiv;
+        private static _glClearBufferiv glClearBufferiv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glClearBufferuiv(uint buffer, int drawBuffer, uint[] value);
-        private static readonly _glClearBufferuiv glClearBufferuiv;
+        private static _glClearBufferuiv glClearBufferuiv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glClearBufferfv(uint buffer, int drawBuffer, float[] value);
-        private static readonly _glClearBufferfv glClearBufferfv;
+        private static _glClearBufferfv glClearBufferfv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glClearBufferfi(uint buffer, int drawBuffer, float depth, int stencil);
-        private static readonly _glClearBufferfi glClearBufferfi;
+        private static _glClearBufferfi glClearBufferfi;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glClearColor(float r, float g, float b, float a);
-        private static readonly _glClearColor glClearColor;
+        private static _glClearColor glClearColor;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glClearDepthf(float d);
-        private static readonly _glClearDepthf glClearDepthf;
+        private static _glClearDepthf glClearDepthf;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glClearStencil(int stencil);
-        private static readonly _glClearStencil glClearStencil;
+        private static _glClearStencil glClearStencil;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glReadBuffer(FramebufferBuffer mode);
-        private static readonly _glReadBuffer glReadBuffer;
+        private static _glReadBuffer glReadBuffer;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDrawBuffers(int n, FramebufferBuffer[] bufs);
-        private static readonly _glDrawBuffers glDrawBuffers;
+        private static _glDrawBuffers glDrawBuffers;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glReadPixels(int x, int y, int width, int height, ReadPixelsFormat format, ReadPixelsType type, void* data);
-        private static readonly _glReadPixels glReadPixels;
+        private static _glReadPixels glReadPixels;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glFinish();
-        private static readonly _glFinish glFinish;
+        private static _glFinish glFinish;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glFlush();
-        private static readonly _glFlush glFlush;
+        private static _glFlush glFlush;
 
         #endregion
 
@@ -1024,38 +1024,38 @@ namespace Heirloom.OpenGLES
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glBeginQuery(QueryTarget target, uint id);
-        private static readonly _glBeginQuery glBeginQuery;
+        private static _glBeginQuery glBeginQuery;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glEndQuery(QueryTarget target);
-        private static readonly _glEndQuery glEndQuery;
+        private static _glEndQuery glEndQuery;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGenQueries(int n, uint[] queries);
-        private static readonly _glGenQueries glGenQueries;
+        private static _glGenQueries glGenQueries;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDeleteQueries(int n, uint[] queries);
-        private static readonly _glDeleteQueries glDeleteQueries;
+        private static _glDeleteQueries glDeleteQueries;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetQueryObjectuiv(uint id, QueryObjectParameter pname, uint[] values);
-        private static readonly _glGetQueryObjectuiv glGetQueryObjectuiv;
+        private static _glGetQueryObjectuiv glGetQueryObjectuiv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetQueryiv(QueryTarget target, QueryParameter pname, int[] values);
-        private static readonly _glGetQueryiv glGetQueryiv;
+        private static _glGetQueryiv glGetQueryiv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private delegate bool _glIsQuery(uint query);
-        private static readonly _glIsQuery glIsQuery;
+        private static _glIsQuery glIsQuery;
 
         #endregion
 
@@ -1064,33 +1064,33 @@ namespace Heirloom.OpenGLES
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate ClientWaitSyncResult _glClientWaitSync(ulong sync, ClientWaitSyncFlags flags, ulong timeout);
-        private static readonly _glClientWaitSync glClientWaitSync;
+        private static _glClientWaitSync glClientWaitSync;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate ulong _glFenceSync(SyncFenceCondition condition, SyncFenceFlags flags);
-        private static readonly _glFenceSync glFenceSync;
+        private static _glFenceSync glFenceSync;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDeleteSync(ulong sync);
-        private static readonly _glDeleteSync glDeleteSync;
+        private static _glDeleteSync glDeleteSync;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glGetSynciv(ulong sync, SyncParameter pname, int bufSize, out int length, int[] values);
-        private static readonly _glGetSynciv glGetSynciv;
+        private static _glGetSynciv glGetSynciv;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glWaitSync(ulong sync, WaitSyncFlags flags, ulong timeout);
-        private static readonly _glWaitSync glWaitSync;
+        private static _glWaitSync glWaitSync;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private delegate bool _glIsSync(ulong sync);
-        private static readonly _glIsSync glIsSync;
+        private static _glIsSync glIsSync;
 
         #endregion
 
@@ -1099,83 +1099,83 @@ namespace Heirloom.OpenGLES
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glColorMask(bool r, bool g, bool b, bool a);
-        private static readonly _glColorMask glColorMask;
+        private static _glColorMask glColorMask;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDepthMask(bool depth);
-        private static readonly _glDepthMask glDepthMask;
+        private static _glDepthMask glDepthMask;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDepthFunc(DepthFunction func);
-        private static readonly _glDepthFunc glDepthFunc;
+        private static _glDepthFunc glDepthFunc;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDepthRangef(float near, float far);
-        private static readonly _glDepthRangef glDepthRangef;
+        private static _glDepthRangef glDepthRangef;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glViewport(int x, int y, int width, int height);
-        private static readonly _glViewport glViewport;
+        private static _glViewport glViewport;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glScissor(int x, int y, int width, int height);
-        private static readonly _glScissor glScissor;
+        private static _glScissor glScissor;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glFrontFace(FrontFaceMode face);
-        private static readonly _glFrontFace glFrontFace;
+        private static _glFrontFace glFrontFace;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glCullFace(Face face);
-        private static readonly _glCullFace glCullFace;
+        private static _glCullFace glCullFace;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glEnable(EnableCap enable);
-        private static readonly _glEnable glEnable;
+        private static _glEnable glEnable;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glDisable(EnableCap enable);
-        private static readonly _glDisable glDisable;
+        private static _glDisable glDisable;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private delegate bool _glIsEnabled(EnableCap enable);
-        private static readonly _glIsEnabled glIsEnabled;
+        private static _glIsEnabled glIsEnabled;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glHint(Hint hint, HintMode mode);
-        private static readonly _glHint glHint;
+        private static _glHint glHint;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glLineWidth(float width);
-        private static readonly _glLineWidth glLineWidth;
+        private static _glLineWidth glLineWidth;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glPixelStorei(PixelStoreParameter pname, int param);
-        private static readonly _glPixelStorei glPixelStorei;
+        private static _glPixelStorei glPixelStorei;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glPolygonOffset(float factor, float units);
-        private static readonly _glPolygonOffset glPolygonOffset;
+        private static _glPolygonOffset glPolygonOffset;
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glSampleCoverage(float value, bool invert);
-        private static readonly _glSampleCoverage glSampleCoverage;
+        private static _glSampleCoverage glSampleCoverage;
 
         #endregion
 
