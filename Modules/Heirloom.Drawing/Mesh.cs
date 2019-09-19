@@ -21,52 +21,40 @@ namespace Heirloom.Drawing
 
         #region Create Standard Shapes
 
-        public static Mesh CreateFromConvexPolygon(IEnumerable<Vector> polygon)
-        {
-            var mesh = new Mesh();
-
-            var count = polygon.Count();
-
-            // Add vertices
-            // todo: UV?
-            mesh.Vertices.AddRange(polygon.Select(v => new Vertex(v, Vector.Zero)));
-
-            // Add triangles (triangle fan style)
-            for (var i = 1; i < count; i++)
-            {
-                mesh.Indices.Add(0);
-                mesh.Indices.Add((ushort) i);
-                mesh.Indices.Add((ushort) ((i + 1) % count));
-            }
-
-            return mesh;
-        }
-
         /// <summary>
-        /// Constructs a mesh from the given polygon via <see cref="Polygon.Triangulate()"/>.
+        /// Constructs a mesh from the given polygon via <see cref="Polygon.Triangulate()"/>. <para/>
+        /// UV coordinates are the normalized polygon within its own bounds.
         /// </summary>
-        /// <param name="polygon">Some polygon</param>
-        /// <returns></returns>
-        public static Mesh CreateFromPolygon(Polygon polygon)
+        /// <param name="polygon">Some polygon.</param>
+        /// <returns>A new mesh representign the 'filled' space of the polygon.</returns>
+        public static Mesh CreateFromPolygon(IReadOnlyList<Vector> polygon)
         {
+            if (polygon is null) { throw new ArgumentNullException(nameof(polygon)); }
+
             var mesh = new Mesh();
 
+            // Compute polygon bounds
+            var bounds = Rectangle.FromPoints(polygon);
+
+            // 
             foreach (var (a, b, c) in Polygon.DecomposeTrianglesIndices(polygon))
             {
                 var vA = polygon[a];
                 var vB = polygon[b];
                 var vC = polygon[c];
 
-                var uA = (vA - polygon.Bounds.Min) / polygon.Bounds.Width;
-                var uB = (vB - polygon.Bounds.Min) / polygon.Bounds.Width;
-                var uC = (vC - polygon.Bounds.Min) / polygon.Bounds.Width;
+                var uA = (vA - bounds.Min) / (Vector) bounds.Size;
+                var uB = (vB - bounds.Min) / (Vector) bounds.Size;
+                var uC = (vC - bounds.Min) / (Vector) bounds.Size;
 
                 var i = mesh.Vertices.Count;
 
+                // Add triangle vertices
                 mesh.Vertices.Add(new Vertex(vA, uA));
                 mesh.Vertices.Add(new Vertex(vB, uB));
                 mesh.Vertices.Add(new Vertex(vC, uC));
 
+                // Add triangle indices
                 mesh.Indices.Add((ushort) (i + 0));
                 mesh.Indices.Add((ushort) (i + 1));
                 mesh.Indices.Add((ushort) (i + 2));
@@ -75,19 +63,54 @@ namespace Heirloom.Drawing
             return mesh;
         }
 
+        /// <summary>
+        /// Constructs a mesh from the given convex polygon. <para/>
+        /// UV coordinates are the normalized polygon within its own bounds.
+        /// </summary>
+        /// <param name="polygon">Some convex polygon.</param>
+        /// <returns>A new mesh representign the 'filled' space of the polygon.</returns>
+        public static Mesh CreateFromConvexPolygon(IEnumerable<Vector> polygon)
+        {
+            if (polygon is null) { throw new ArgumentNullException(nameof(polygon)); }
+
+            var mesh = new Mesh();
+
+            // Compute polygon bounds
+            var bounds = Rectangle.FromPoints(polygon);
+
+            // Add vertices
+            mesh.Vertices.AddRange(polygon.Select(v => new Vertex(v, (v - bounds.Min) / (Vector) bounds.Size)));
+
+            // Add triangles (triangle fan style)
+            for (var i = 1; i < mesh.Vertices.Count; i++)
+            {
+                mesh.Indices.Add(0);
+                mesh.Indices.Add((ushort) i);
+                mesh.Indices.Add((ushort) ((i + 1) % mesh.Vertices.Count));
+            }
+
+            return mesh;
+        }
+
+        /// <summary>
+        /// Constructs a mesh from a regular polygon.
+        /// </summary>
+        /// <param name="sides">Number of sides.</param>
+        /// <param name="radius">Radius if the regular polygon.</param> 
+        /// <returns>A new mesh representign the 'filled' space of the polygon.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Mesh CreateRegularPolygon(float radius, int sides)
+        public static Mesh CreateRegularPolygon(int sides, float radius)
         {
             var regularPolygon = Polygon.GetRegularPolygonPoints(Vector.Zero, sides, radius);
             return CreateFromConvexPolygon(regularPolygon);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Mesh CreateQuad()
-        {
-            return CreateQuad(1, 1);
-        }
-
+        /// <summary>
+        /// Creates a simple quad mesh.
+        /// </summary>
+        /// <param name="w">Width of the quad mesh.</param>
+        /// <param name="h">Height of the quad mesh.</param>
+        /// <returns>A new mesh representign the 'filled' space of the quad.</returns>
         public static Mesh CreateQuad(float w, float h)
         {
             var mesh = new Mesh();
