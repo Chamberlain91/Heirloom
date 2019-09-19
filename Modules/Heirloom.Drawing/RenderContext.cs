@@ -8,7 +8,7 @@ namespace Heirloom.Drawing
     public abstract class RenderContext : IDisposable
     {
         // Quad mesh
-        private static readonly Mesh _quadMesh = Mesh.CreateQuad();
+        private static readonly Mesh _quadMesh = Mesh.CreateQuad(1, 1);
 
         #region Create Surface
 
