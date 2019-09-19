@@ -79,11 +79,11 @@ namespace Heirloom.Drawing
         public static void DrawCurve(this RenderContext ctx, Vector p0, Vector p1, Vector p2, float width = 1F)
         {
             // Compute approximate curve length
-            var length = Curves.QuadraticApproximateLength(p0, p1, p2);
+            var length = Curves.QuadraticDerivativeApproximateLength(p0, p1, p2);
 
-            // Approximate length of a segment in pixels, used to calibrate the quality
-            const int ApproximateSegmentCount = 20;
-            const float StepSize = 1F / ApproximateSegmentCount;
+            // Calibrates the curve approximation quality
+            const float MinStepSize = 1 / 64F; // No more than 64 segments
+            const float MaxStepSize = 1 / 8F;  // No fewer than 8 segments
 
             var prev = p0;
             var t = 0F;
@@ -93,7 +93,7 @@ namespace Heirloom.Drawing
             {
                 // Compute tangent vector
                 var tangent = Curves.QuadraticDerivative(p0, p1, p2, t);
-                t += StepSize * (tangent.Length / length);
+                t += Calc.Clamp(MaxStepSize * (tangent.Length / length), MinStepSize, MaxStepSize);
 
                 // Have we advanced beyond the curve?
                 if (t >= 1F)
@@ -105,6 +105,54 @@ namespace Heirloom.Drawing
 
                 // Compute interpolated point
                 var curr = Curves.Quadratic(p0, p1, p2, t);
+
+                // Draw line from previous point to current point
+                ctx.DrawLine(prev, curr, width);
+
+                // The current point will be the previous next iteration
+                prev = curr;
+            }
+        }
+
+        /// <summary>
+        /// Draws a cubic curve using four control points.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="p0">The first control point.</param>
+        /// <param name="p1">The second control point.</param>
+        /// <param name="p2">The third control point.</param>
+        /// <param name="p3">The fourth control point.</param>
+        /// <param name="width">The thickness of the line in pixels.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawCurve(this RenderContext ctx, Vector p0, Vector p1, Vector p2, Vector p3, float width = 1F)
+        {
+            // Compute approximate curve length
+            var length = Curves.CubicDerivativeApproximateLength(p0, p1, p2, p3);
+
+            // Calibrates the curve approximation quality
+            const float MinStepSize = 1 / 64F; // No more than 64 segments
+            const float MaxStepSize = 1 / 8F;  // No fewer than 8 segments
+
+            var prev = p0;
+            var t = 0F;
+
+            var terminate = false;
+            while (!terminate)
+            {
+                // Compute tangent vector
+                var tangent = Curves.CubicDerivative(p0, p1, p2, p3, t);
+                t += Calc.Clamp(MaxStepSize * (tangent.Length / length), MinStepSize, MaxStepSize);
+
+                // Have we advanced beyond the curve?
+                if (t >= 1F)
+                {
+                    // Moved to last point
+                    terminate = true;
+                    t = 1F;
+                }
+
+                // Compute interpolated point
+                var curr = Curves.Cubic(p0, p1, p2, p3, t);
 
                 // Draw line from previous point to current point
                 ctx.DrawLine(prev, curr, width);
