@@ -64,7 +64,7 @@ namespace Heirloom.Drawing
             var transform = Matrix.CreateTransform(p0, angle, (len, width * s))
                           * _lineOffsetMatrix;
 
-            ctx.DrawImage(Image.White, transform);
+            ctx.DrawImage(Image.Default, transform);
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace Heirloom.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawRect(this RenderContext ctx, Rectangle rectangle)
         {
-            DrawImage(ctx, Image.White, rectangle);
+            DrawImage(ctx, Image.Default, rectangle);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

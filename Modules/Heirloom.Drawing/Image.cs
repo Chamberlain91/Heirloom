@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+
 using Heirloom.Drawing.Utilities;
 using Heirloom.Math;
 
@@ -19,7 +20,10 @@ namespace Heirloom.Drawing
 
         #region Constants
 
-        public static Image White = CreateColor(1, 1, Pixel.White);
+        /// <summary>
+        /// A 1x1 solid white image.
+        /// </summary>
+        public static Image Default = CreateColor(1, 1, Color.White);
 
         #endregion
 
@@ -864,7 +868,12 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Create an image with checkerboard pattern.
         /// </summary>
-        public static Image CreateCheckerboardPattern(int width, int height, Pixel color, int cellSize = 16)
+        /// <param name="width">Width of the image in pixels.</param>
+        /// <param name="height">Height of the image in pixels.</param>
+        /// <param name="color">Color to base the checkerboard pattern on.</param>
+        /// <param name="cellSize">Size of each "checker" in the checkerboard.</param>
+        /// <returns>An image filled with the checkerboard pattern.</returns>
+        public static Image CreateCheckerboardPattern(int width, int height, Color color, int cellSize = 16)
         {
             var im = new Image(width, height);
 
@@ -872,14 +881,14 @@ namespace Heirloom.Drawing
             foreach (var p in Rasterizer.Rectangle(0, 0, im.Width, im.Height))
             {
                 var flag = ((p.Y & cellSize) == 0) ^ (p.X & cellSize) == 0;
-                var pixel = (flag ? Pixel.LightGray : Pixel.White) * color;
+                var pixel = (Pixel) ((flag ? Color.LightGray : Color.White) * color);
                 im.SetPixel(p.X, p.Y, pixel);
             }
 
             // Draw border
             foreach (var edge in Rasterizer.RectangleOutline(0, 0, width, height))
             {
-                var pixel = Pixel.Gray * color;
+                var pixel = (Pixel) (Color.Gray * color);
                 im.SetPixel(edge.X, edge.Y, pixel);
             }
 
@@ -940,14 +949,20 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Creates an image filled with a solid color.
         /// </summary
-        public static Image CreateColor(int width, int height, Pixel color)
+        /// <param name="width">Width of the image in pixels.</param>
+        /// <param name="height">Height of the image in pixels.</param>
+        /// <param name="color">Color to fill the image with.</param>
+        /// <returns>An image of only the specified color.</returns>
+        public static Image CreateColor(int width, int height, Color color)
         {
             var im = new Image(width, height);
+
+            var pixel = (Pixel) color;
 
             // Draw border
             foreach (var p in Rasterizer.Rectangle(0, 0, width, height))
             {
-                im.SetPixel(p.X, p.Y, color);
+                im.SetPixel(p.X, p.Y, pixel);
             }
 
             return im;
@@ -956,8 +971,31 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Creates an image filled with noise.
         /// </summary
-        public static Image CreateNoise(int width, int height, INoise2D noise, float scale, int octaves = 4, float persistence = 0.5F)
+        /// <param name="width">Width of the image in pixels.</param>
+        /// <param name="height">Height of the image in pixels.</param>
+        /// <param name="scale">The approximate size of a 'noise blob'.</param>
+        /// <param name="octaves">Number of noise layers.</param>
+        /// <param name="persistence">How persistent each noise layer is.</param>
+        /// <returns>A noisy image with noise generated on all four components.</returns>
+        public static Image CreateNoise(int width, int height, float scale = 1, int octaves = 4, float persistence = 0.5F)
         {
+            return CreateNoise(width, height, Calc.Simplex, scale, octaves, persistence);
+        }
+
+        /// <summary>
+        /// Creates an image filled with noise, provided with an instance of <see cref="INoise2D"/>.
+        /// </summary
+        /// <param name="width">Width of the image in pixels.</param>
+        /// <param name="height">Height of the image in pixels.</param>
+        /// <param name="noise">A 2D noise generator.</param>
+        /// <param name="scale">The approximate size of a 'noise blob'.</param>
+        /// <param name="octaves">Number of noise layers.</param>
+        /// <param name="persistence">How persistent each noise layer is.</param>
+        /// <returns>A noisy image with noise generated on all four components.</returns>
+        public static Image CreateNoise(int width, int height, INoise2D noise, float scale = 1, int octaves = 4, float persistence = 0.5F)
+        {
+            if (noise is null) { throw new ArgumentNullException(nameof(noise)); }
+
             var im = new Image(width, height);
 
             // 
