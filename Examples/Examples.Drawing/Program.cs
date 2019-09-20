@@ -41,7 +41,7 @@ namespace Examples.Drawing
             ctx.Clear(Color.DarkGray);
 
             // 
-            var contentBounds = new Rectangle(234, 32, ctx.Surface.Width - 288, ctx.Surface.Height - 160);
+            var contentBounds = new Rectangle(256, 32, ctx.Surface.Width - 288, ctx.Surface.Height - 160);
             ctx.Color = Color.Lerp(Color.DarkGray, Color.Black, 0.1F);
             ctx.DrawRect(contentBounds);
 
