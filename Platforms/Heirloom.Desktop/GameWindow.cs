@@ -96,10 +96,10 @@ namespace Heirloom.Desktop
                     var size = Font.Default.MeasureText(text, 16);
 
                     RenderContext.Color = Color.DarkGray;
-                    RenderContext.DrawRect(new Rectangle(FramebufferSize.Width - 16 - size.Width - 3, 16, size.Width + 4, size.Height + 1));
+                    RenderContext.DrawRect(new Rectangle(FramebufferSize.Width - 8 - size.Width - 3, 8, size.Width + 4, size.Height + 1));
 
                     RenderContext.Color = Color.Pink;
-                    RenderContext.DrawText(text, new Vector(FramebufferSize.Width - 16, 16), Font.Default, 16, TextAlign.Right);
+                    RenderContext.DrawText(text, new Vector(FramebufferSize.Width - 8, 8), Font.Default, 16, TextAlign.Right);
                 }
 
                 // == Swap Buffers
