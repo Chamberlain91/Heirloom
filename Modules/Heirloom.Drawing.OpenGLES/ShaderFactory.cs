@@ -8,25 +8,25 @@ using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    internal sealed class GLShaderFactory
+    internal sealed class ShaderFactory
     {
-        private readonly Dictionary<string, GLShader> _shaders;
+        private readonly Dictionary<string, Shader> _shaders;
         private readonly Dictionary<string, string> _sources;
 
-        private readonly Dictionary<(string vert, string frag), GLShaderProgram> _programs;
+        private readonly Dictionary<(string vert, string frag), ShaderProgram> _programs;
 
         private readonly Regex _includeDirectiveRegex;
         private readonly HashSet<string> _included;
 
         private readonly OpenGLRenderContext _renderContext;
 
-        public GLShaderFactory(OpenGLRenderContext renderContext)
+        public ShaderFactory(OpenGLRenderContext renderContext)
         {
             _renderContext = renderContext;
 
             // 
-            _programs = new Dictionary<(string vert, string frag), GLShaderProgram>();
-            _shaders = new Dictionary<string, GLShader>();
+            _programs = new Dictionary<(string vert, string frag), ShaderProgram>();
+            _shaders = new Dictionary<string, Shader>();
             _sources = new Dictionary<string, string>();
 
             // Compile include directive regex
@@ -41,7 +41,7 @@ namespace Heirloom.Drawing.OpenGLES
             SetShaderSource("generated/image", GenerateImageUnitCode(maxTextureImageUnits));
         }
 
-        internal GLShaderProgram GetShaderProgram(string vsFilePath, string fsFilePath)
+        internal ShaderProgram GetShaderProgram(string vsFilePath, string fsFilePath)
         {
             // 
             var key = (vsFilePath, fsFilePath);
@@ -52,7 +52,7 @@ namespace Heirloom.Drawing.OpenGLES
                 // Construct new shader program
                 var vs = GetShader(vsFilePath);
                 var fs = GetShader(fsFilePath);
-                program = new GLShaderProgram(vs, fs);
+                program = new ShaderProgram(vs, fs);
 
                 // Store shader for next time
                 _programs[key] = program;
@@ -78,7 +78,7 @@ namespace Heirloom.Drawing.OpenGLES
             _sources[path] = source;
         }
 
-        private GLShader GetShader(string filePath)
+        private Shader GetShader(string filePath)
         {
             if (_shaders.TryGetValue(filePath, out var shader))
             {
@@ -115,7 +115,7 @@ namespace Heirloom.Drawing.OpenGLES
                 var name = Path.GetFileName(filePath);
 
                 // Compile and return
-                shader = new GLShader(name, type, code);
+                shader = new Shader(name, type, code);
                 return _shaders[filePath] = shader;
             }
 

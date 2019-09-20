@@ -9,10 +9,10 @@ namespace Heirloom.Drawing.OpenGLES
     internal unsafe class InstancingRenderer : Renderer
     {
         private readonly OpenGLRenderContext _renderingContext;
-        private readonly GLVertexArray _vertexArray;
+        private readonly VertexArray _vertexArray;
 
-        private readonly Dictionary<GLTexture, int> _textures;
-        private readonly GLTexture[] _texturesState;
+        private readonly Dictionary<Texture, int> _textures;
+        private readonly Texture[] _texturesState;
         private readonly int _maxTextureUnits;
 
         #region Constructors
@@ -23,11 +23,11 @@ namespace Heirloom.Drawing.OpenGLES
 
             // Query for maximum textures
             _maxTextureUnits = maxTextureUnits;
-            _texturesState = new GLTexture[_maxTextureUnits];
-            _textures = new Dictionary<GLTexture, int>(_maxTextureUnits);
+            _texturesState = new Texture[_maxTextureUnits];
+            _textures = new Dictionary<Texture, int>(_maxTextureUnits);
 
             // Create buffer sets
-            _vertexArray = new GLVertexArray();
+            _vertexArray = new VertexArray();
         }
 
         ~InstancingRenderer()

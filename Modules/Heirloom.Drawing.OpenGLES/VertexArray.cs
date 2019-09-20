@@ -6,27 +6,27 @@ using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    internal unsafe class GLVertexArray
+    internal unsafe class VertexArray
     {
         // Instance Buffer
         // todo: GLVertexBuffer<InstanceData> ...?
-        public readonly GLBuffer InstanceBuffer;
+        public readonly Buffer InstanceBuffer;
         public readonly VertexAttribute[] InstanceAttributes;
         public readonly InstanceData[] InstanceElements;
         public int InstanceCount;
 
-        public readonly GLBuffer VertexBuffer;
+        public readonly Buffer VertexBuffer;
         public readonly VertexAttribute[] VertexAttributes;
         public readonly VertexData[] VertexElements;
         public int VertexCount;
 
-        public readonly GLBuffer IndexBuffer;
+        public readonly Buffer IndexBuffer;
         public readonly ushort[] IndexElements;
         public int IndexCount;
 
         public readonly uint Handle;
 
-        public GLVertexArray()
+        public VertexArray()
         {
             // Client buffer storage
             InstanceElements = new InstanceData[ushort.MaxValue];
@@ -34,9 +34,9 @@ namespace Heirloom.Drawing.OpenGLES
             IndexElements = new ushort[ushort.MaxValue];
 
             // Construct buffers
-            InstanceBuffer = new GLBuffer(BufferTarget.Array, (uint) (sizeof(InstanceData) * InstanceElements.Length));
-            VertexBuffer = new GLBuffer(BufferTarget.Array, (uint) (sizeof(VertexData) * VertexElements.Length));
-            IndexBuffer = new GLBuffer(BufferTarget.ElementArray, (uint) (sizeof(ushort) * IndexElements.Length));
+            InstanceBuffer = new Buffer(BufferTarget.Array, (uint) (sizeof(InstanceData) * InstanceElements.Length));
+            VertexBuffer = new Buffer(BufferTarget.Array, (uint) (sizeof(VertexData) * VertexElements.Length));
+            IndexBuffer = new Buffer(BufferTarget.ElementArray, (uint) (sizeof(ushort) * IndexElements.Length));
 
             // Create Attributes
             InstanceAttributes = VertexAttribute.GenerateAttributes(typeof(InstanceData));

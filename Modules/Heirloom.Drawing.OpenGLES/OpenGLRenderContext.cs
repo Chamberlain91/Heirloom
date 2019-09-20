@@ -11,7 +11,7 @@ namespace Heirloom.Drawing.OpenGLES
 {
     public abstract class OpenGLRenderContext : RenderContext
     {
-        private GLShaderFactory _shaderFactory;
+        private ShaderFactory _shaderFactory;
 
         private readonly GLDefaultSurface _defaultSurface;
         private GLSurface _currentSurface;
@@ -20,10 +20,10 @@ namespace Heirloom.Drawing.OpenGLES
         private ConsumerThread _thread;
         private bool _isRunning = false;
 
-        private readonly ConditionalWeakTable<GLTexture, GLFramebuffer> _framebuffers;
-        private GLShaderProgram _shader;
+        private readonly ConditionalWeakTable<Texture, Framebuffer> _framebuffers;
+        private ShaderProgram _shader;
 
-        private Dictionary<string, GLBuffer> _uniformBuffers;
+        private Dictionary<string, Buffer> _uniformBuffers;
 
         private Rectangle _viewport;
         private Matrix _viewMatrix;
@@ -39,7 +39,7 @@ namespace Heirloom.Drawing.OpenGLES
         {
             // 
             _defaultSurface = new GLDefaultSurface();
-            _framebuffers = new ConditionalWeakTable<GLTexture, GLFramebuffer>();
+            _framebuffers = new ConditionalWeakTable<Texture, Framebuffer>();
         }
 
         ~OpenGLRenderContext()
@@ -79,8 +79,8 @@ namespace Heirloom.Drawing.OpenGLES
             GL.Enable(EnableCap.Blend);
 
             // TODO: Share buffers in ResourceManager?
-            _uniformBuffers = new Dictionary<string, GLBuffer>();
-            _shaderFactory = new GLShaderFactory(this);
+            _uniformBuffers = new Dictionary<string, Buffer>();
+            _shaderFactory = new ShaderFactory(this);
 
             // Construct the instancing batching renderer
             var maxTextureImageUnits = GL.GetInteger(GetParameter.MaxTextureImageUnits);
@@ -193,13 +193,13 @@ namespace Heirloom.Drawing.OpenGLES
             return _thread.Invoke(action);
         }
 
-        internal GLFramebuffer GetFramebuffer(GLTexture texture)
+        internal Framebuffer GetFramebuffer(Texture texture)
         {
             // This framebuffer is not configured, need to initialize
             if (_framebuffers.TryGetValue(texture, out var framebuffer) == false)
             {
                 // Generate and bind framebuffer
-                framebuffer = new GLFramebuffer(this, texture);
+                framebuffer = new Framebuffer(this, texture);
 
                 // Store newly created framebuffer
                 _framebuffers.Add(texture, framebuffer);
@@ -208,13 +208,13 @@ namespace Heirloom.Drawing.OpenGLES
             return framebuffer;
         }
 
-        private GLBuffer GetUniformBuffer(ActiveUniformBlock block)
+        private Buffer GetUniformBuffer(ActiveUniformBlock block)
         {
             // Try to get uniform buffer for block name
             if (_uniformBuffers.TryGetValue(block.Name, out var buffer) == false)
             {
                 // Create the buffer
-                buffer = Invoke(() => new GLBuffer(BufferTarget.UniformBuffer, (uint) block.DataSize));
+                buffer = Invoke(() => new Buffer(BufferTarget.UniformBuffer, (uint) block.DataSize));
                 _uniformBuffers[block.Name] = buffer;
             }
 
@@ -237,7 +237,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Shader Parameters
 
-        private void SetShaderProgram(GLShaderProgram shader)
+        private void SetShaderProgram(ShaderProgram shader)
         {
             if (_shader != shader)
             {

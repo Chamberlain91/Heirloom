@@ -7,7 +7,7 @@ using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    internal class GLShaderProgram
+    internal class ShaderProgram
     {
         private const int LOCATION_NOT_FOUND = -1;
         private const int LOCATION_IN_BLOCK = -2;
@@ -22,7 +22,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Constructors
 
-        internal GLShaderProgram(GLShader frag, GLShader vert)
+        internal ShaderProgram(Shader frag, Shader vert)
         {
             FragmentShader = frag;
             VertexShader = vert;
@@ -78,7 +78,7 @@ namespace Heirloom.Drawing.OpenGLES
             ConfigureStandardUniforms();
         }
 
-        ~GLShaderProgram()
+        ~ShaderProgram()
         {
             Dispose(false);
         }
@@ -87,9 +87,9 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Properties
 
-        internal GLShader FragmentShader { get; }
+        internal Shader FragmentShader { get; }
 
-        internal GLShader VertexShader { get; }
+        internal Shader VertexShader { get; }
 
         internal uint Handle { get; }
 
@@ -195,7 +195,7 @@ namespace Heirloom.Drawing.OpenGLES
             return location;
         }
 
-        private static uint CreateAndLinkShaderProgram(GLShader frag, GLShader vert)
+        private static uint CreateAndLinkShaderProgram(Shader frag, Shader vert)
         {
             var handle = GL.CreateProgram();
 

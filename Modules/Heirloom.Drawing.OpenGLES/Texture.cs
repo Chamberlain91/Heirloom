@@ -5,13 +5,13 @@ using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    internal class GLTexture : IDisposable
+    internal class Texture : IDisposable
     {
         private bool _isDisposed = false;
 
         #region Constructors
 
-        public GLTexture(IntSize size)
+        public Texture(IntSize size)
         {
             Size = size;
 
@@ -46,7 +46,7 @@ namespace Heirloom.Drawing.OpenGLES
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
-        ~GLTexture()
+        ~Texture()
         {
             Dispose(false);
         }
@@ -82,13 +82,13 @@ namespace Heirloom.Drawing.OpenGLES
             // Image provided must be a 'top level' image.
             if (image.Source != null)
             {
-                throw new ArgumentException($"Image provided to {nameof(Update)} in {nameof(GLTexture)} must be a base image.", nameof(image));
+                throw new ArgumentException($"Image provided to {nameof(Update)} in {nameof(Texture)} must be a base image.", nameof(image));
             }
 
             // Ensure the image provided has matching dimensions to the texture
             if (image.Width != Width || image.Height != Height)
             {
-                throw new ArgumentException($"Image provided to {nameof(Update)} in {nameof(GLTexture)} did not match texture dimensions." +
+                throw new ArgumentException($"Image provided to {nameof(Update)} in {nameof(Texture)} did not match texture dimensions." +
                     $"{image.Size} vs {Size}", nameof(image));
             }
 
