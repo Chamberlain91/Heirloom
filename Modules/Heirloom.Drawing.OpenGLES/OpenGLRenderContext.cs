@@ -78,9 +78,7 @@ namespace Heirloom.Drawing.OpenGLES
             GL.Enable(EnableCap.ScissorTest);
             GL.Enable(EnableCap.Blend);
 
-            // TODO: Shared resources...?
-            // TODO: Shared textures! ...GLTextureFactory?
-            // TODO: Shared buffers? ...GLBufferFactory?
+            // TODO: Share buffers in ResourceManager?
             _uniformBuffers = new Dictionary<string, GLBuffer>();
             _shaderFactory = new GLShaderFactory(this);
 
@@ -475,7 +473,7 @@ namespace Heirloom.Drawing.OpenGLES
                 GL.Clear(ClearMask.Color);
             });
         }
-         
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override void DrawMesh(ImageSource image, Mesh mesh, Matrix transform)
         {
@@ -531,64 +529,6 @@ namespace Heirloom.Drawing.OpenGLES
                     // Draw batch
                     _renderer.Flush();
                 });
-            }
-        }
-
-        #endregion
-
-        #region Texture Lookup
-
-        private readonly Dictionary<Image, GLTexture> _imageTextureMap = new Dictionary<Image, GLTexture>();
-
-        // todo: Elevate to an GL implementation of WindowManager? or something
-        // that each rendering contex can access for shared resources (such as the textures)
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal (GLTexture, Rectangle) GetTextureInfo(ImageSource input)
-        {
-            // If an image
-            if (input is Image image)
-            {
-                // Get root image
-                var root = image.Root;
-
-                // If the associated texture does not exist,
-                if (!_imageTextureMap.TryGetValue(root, out var texture))
-                {
-                    // We need to create the texture
-                    texture = Invoke(() => new GLTexture(root.Size));
-
-                    // Store the texture by root image for next time
-                    _imageTextureMap[root] = texture;
-                }
-
-                // Is the root image out of date?
-                if (root.Version != texture.Version)
-                {
-                    // Update texture by root image
-                    Invoke(() => texture.Update(root));
-                }
-
-                // 
-                return (texture, image.UVRect);
-            }
-            // If a framebuffer surface
-            else if (input is GLFramebufferSurface surface)
-            {
-                // Is the root image out of date?
-                if (surface.Version != surface.Texture.Version)
-                {
-                    // Surface was newer than texture knew about, update mip maps
-                    // todo: configurable/avoid when not really needed?
-                    Invoke(() => surface.Texture.GenerateMips(surface.Version));
-                }
-
-                // Framebuffer, texture already exists
-                return (surface.Texture, (0, 0, 1, -1));
-            }
-            // 
-            else
-            {
-                throw new ArgumentException($"Image source wasn't valid to acquire a texture.", nameof(input));
             }
         }
 

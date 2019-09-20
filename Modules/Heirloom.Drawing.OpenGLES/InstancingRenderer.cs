@@ -64,7 +64,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
 
             // Get OpenGL texture and packed rect
-            var (texture, textureRect) = _renderingContext.GetTextureInfo(image);
+            var (texture, textureRect) = ResourceManager.GetTextureInfo(_renderingContext, image);
 
             int textureSlot;
 
