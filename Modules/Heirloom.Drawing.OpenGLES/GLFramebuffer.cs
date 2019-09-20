@@ -12,26 +12,30 @@ namespace Heirloom.Drawing.OpenGLES
 
         public GLFramebuffer(OpenGLRenderContext context, GLTexture texture)
         {
-            RenderingContext = context;
             Texture = texture;
 
-            // Generate and bind framebuffer
-            Handle = GL.GenFramebuffer();
-            GL.BindFramebuffer(FramebufferTarget.Framebuffer, Handle);
-
-            // Attach texture to framebuffer
-            GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.Color0,
-                TextureImageTarget.Texture2D, Texture.Handle, 0);
-
-            // Ensure framebuffer is valid
-            var status = GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer);
-            if (status != FramebufferStatus.Complete)
+            Handle = context.Invoke(() =>
             {
-                throw new InvalidOperationException($"Unable to initialzie framebuffer surface. {status}");
-            }
+                // Generate and bind framebuffer
+                var handle = GL.GenFramebuffer();
+                GL.BindFramebuffer(FramebufferTarget.Framebuffer, handle);
 
-            // Unbind framebuffer
-            GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+                // Attach texture to framebuffer
+                GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.Color0,
+                      TextureImageTarget.Texture2D, Texture.Handle, 0);
+
+                // Ensure framebuffer is valid
+                var status = GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer);
+                if (status != FramebufferStatus.Complete)
+                {
+                    throw new InvalidOperationException($"Unable to initialzie framebuffer surface. {status}");
+                }
+
+                // Unbind framebuffer
+                GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+
+                return handle;
+            });
         }
 
         ~GLFramebuffer()
@@ -46,8 +50,6 @@ namespace Heirloom.Drawing.OpenGLES
         public uint Handle { get; }
 
         public GLTexture Texture { get; }
-
-        public OpenGLRenderContext RenderingContext { get; }
 
         #endregion
 
