@@ -4,13 +4,13 @@ using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    internal sealed class GLShader : IDisposable
+    internal sealed class Shader : IDisposable
     {
         private bool _isDisposed = false;
 
         #region Constructors
 
-        public GLShader(string name, ShaderType type, string source)
+        public Shader(string name, ShaderType type, string source)
         {
             Name = name;
 
@@ -29,7 +29,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        ~GLShader()
+        ~Shader()
         {
             Dispose(false);
         }

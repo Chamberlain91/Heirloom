@@ -4,13 +4,13 @@ using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    internal sealed class GLFramebuffer : IDisposable
+    internal sealed class Framebuffer : IDisposable
     {
         private bool _isDisposed = false;
 
         #region Constructors
 
-        public GLFramebuffer(OpenGLRenderContext context, GLTexture texture)
+        public Framebuffer(OpenGLRenderContext context, Texture texture)
         {
             Texture = texture;
 
@@ -38,7 +38,7 @@ namespace Heirloom.Drawing.OpenGLES
             });
         }
 
-        ~GLFramebuffer()
+        ~Framebuffer()
         {
             Dispose(false);
         }
@@ -49,7 +49,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         public uint Handle { get; }
 
-        public GLTexture Texture { get; }
+        public Texture Texture { get; }
 
         #endregion
 

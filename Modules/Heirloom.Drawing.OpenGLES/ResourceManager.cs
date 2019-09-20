@@ -7,17 +7,17 @@ namespace Heirloom.Drawing.OpenGLES
 {
     internal static class ResourceManager
     {
-        private static readonly ConditionalWeakTable<GLTexture, GLFramebuffer> _framebuffers;
-        private static readonly ConditionalWeakTable<Image, GLTexture> _textures;
+        private static readonly ConditionalWeakTable<Texture, Framebuffer> _framebuffers;
+        private static readonly ConditionalWeakTable<Image, Texture> _textures;
 
         static ResourceManager()
         {
-            _framebuffers = new ConditionalWeakTable<GLTexture, GLFramebuffer>();
-            _textures = new ConditionalWeakTable<Image, GLTexture>();
+            _framebuffers = new ConditionalWeakTable<Texture, Framebuffer>();
+            _textures = new ConditionalWeakTable<Image, Texture>();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static (GLTexture, Rectangle) GetTextureInfo(OpenGLRenderContext context, ImageSource input)
+        internal static (Texture, Rectangle) GetTextureInfo(OpenGLRenderContext context, ImageSource input)
         {
             // If an image
             if (input is Image image)
@@ -29,7 +29,7 @@ namespace Heirloom.Drawing.OpenGLES
                 if (!_textures.TryGetValue(root, out var texture))
                 {
                     // We need to create the texture
-                    texture = context.Invoke(() => new GLTexture(root.Size));
+                    texture = context.Invoke(() => new Texture(root.Size));
 
                     // Store the texture by root image for next time
                     _textures.Add(root, texture);
@@ -66,13 +66,13 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        internal static GLFramebuffer GetFramebuffer(OpenGLRenderContext context, GLTexture texture)
+        internal static Framebuffer GetFramebuffer(OpenGLRenderContext context, Texture texture)
         {
             // This framebuffer is not configured, need to initialize
             if (_framebuffers.TryGetValue(texture, out var framebuffer) == false)
             {
                 // Generate and bind framebuffer
-                framebuffer = new GLFramebuffer(context, texture);
+                framebuffer = new Framebuffer(context, texture);
 
                 // Store newly created framebuffer
                 _framebuffers.Add(texture, framebuffer);

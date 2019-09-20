@@ -6,13 +6,13 @@ using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    internal class GLBuffer : IDisposable
+    internal class Buffer : IDisposable
     {
         private bool _isDisposed = false;
 
         #region Constructors
 
-        public GLBuffer(BufferTarget target, uint capacity)
+        public Buffer(BufferTarget target, uint capacity)
         {
             Capacity = capacity;
             Target = target;
@@ -24,7 +24,7 @@ namespace Heirloom.Drawing.OpenGLES
             GL.BindBuffer(Target, 0);
         }
 
-        ~GLBuffer()
+        ~Buffer()
         {
             Dispose(false);
         }

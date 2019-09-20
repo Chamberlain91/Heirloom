@@ -7,10 +7,10 @@ namespace Heirloom.Drawing.OpenGLES
         internal GLFramebufferSurface(int width, int height)
             : base(width, height)
         {
-            Texture = new GLTexture(Size);
+            Texture = new Texture(Size);
         }
 
-        public GLTexture Texture { get; }
+        public Texture Texture { get; }
 
         protected internal override void Prepare(OpenGLRenderContext context)
         {
