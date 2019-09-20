@@ -13,14 +13,12 @@ namespace Heirloom.Drawing.OpenGLES
     {
         private ShaderFactory _shaderFactory;
 
-        private readonly GLDefaultSurface _defaultSurface;
-        private GLSurface _currentSurface;
+        private Surface _currentSurface;
         private Renderer _renderer;
 
         private ConsumerThread _thread;
         private bool _isRunning = false;
 
-        private readonly ConditionalWeakTable<Texture, Framebuffer> _framebuffers;
         private ShaderProgram _shader;
 
         private Dictionary<string, Buffer> _uniformBuffers;
@@ -37,9 +35,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         protected internal OpenGLRenderContext()
         {
-            // 
-            _defaultSurface = new GLDefaultSurface();
-            _framebuffers = new ConditionalWeakTable<Texture, Framebuffer>();
+            // nothing
         }
 
         ~OpenGLRenderContext()
@@ -60,11 +56,6 @@ namespace Heirloom.Drawing.OpenGLES
         #region Thread Callbacks
 
         protected abstract void PrepareContext();    // make current, etc
-
-        protected void SetDefaultSurfaceSize(IntSize size)
-        {
-            _defaultSurface.SetSize(size);
-        }
 
         private unsafe void InitializeContext()
         {
@@ -193,21 +184,6 @@ namespace Heirloom.Drawing.OpenGLES
             return _thread.Invoke(action);
         }
 
-        internal Framebuffer GetFramebuffer(Texture texture)
-        {
-            // This framebuffer is not configured, need to initialize
-            if (_framebuffers.TryGetValue(texture, out var framebuffer) == false)
-            {
-                // Generate and bind framebuffer
-                framebuffer = new Framebuffer(this, texture);
-
-                // Store newly created framebuffer
-                _framebuffers.Add(texture, framebuffer);
-            }
-
-            return framebuffer;
-        }
-
         private Buffer GetUniformBuffer(ActiveUniformBlock block)
         {
             // Try to get uniform buffer for block name
@@ -302,14 +278,6 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Surface
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override Surface CreateSurface(int width, int height)
-        {
-            return Invoke(() => new GLFramebufferSurface(width, height));
-        }
-
-        public override Surface DefaultSurface => _defaultSurface;
-
         public override Surface Surface
         {
             get => _currentSurface;
@@ -325,9 +293,23 @@ namespace Heirloom.Drawing.OpenGLES
                         // 
                         Flush();
 
+                        // 
+                        _currentSurface = value;
+
                         // Set and prepare the surface (ie, bind framebuffer)
-                        _currentSurface = value as GLSurface;
-                        _currentSurface.Prepare(this);
+                        if (value == DefaultSurface)
+                        {
+                            // Bind window surface (gl default for context)
+                            GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, 0);
+                        }
+                        else
+                        {
+                            // 
+                            var texture = ResourceManager.GetSurfaceTexture(this, _currentSurface);
+                            var framebuffer = ResourceManager.GetFramebuffer(this, texture);
+
+                            GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, framebuffer.Handle);
+                        }
                     });
                 }
             }
@@ -338,7 +320,7 @@ namespace Heirloom.Drawing.OpenGLES
         /// </summary>
         internal void MarkSurfaceDirty()
         {
-            _currentSurface.UpdateVersionNumber();
+            UpdateSurfaceVersionNumber();
         }
 
         #endregion
@@ -546,7 +528,6 @@ namespace Heirloom.Drawing.OpenGLES
                 if (disposeManaged)
                 {
                     _thread.Stop(false);
-                    _defaultSurface.Dispose();
                 }
 
                 // Dispose Unmanaged

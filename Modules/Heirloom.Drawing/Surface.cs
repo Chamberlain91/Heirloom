@@ -1,28 +1,19 @@
-﻿using System;
-
-using Heirloom.Math;
+﻿using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public abstract class Surface : ImageSource, IDisposable
+    public sealed class Surface : ImageSource
     {
         #region Constructors
 
-        protected Surface(int width, int height)
+        public Surface(int width, int height)
         {
             Size = new IntSize(width, height);
-        }
-
-        ~Surface()
-        {
-            DisposeInternal(false);
         }
 
         #endregion
 
         #region Properties
-
-        public bool IsDisposed { get; private set; } = false;
 
         public override IntSize Size { get; protected set; }
 
@@ -32,26 +23,9 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        protected abstract void Dispose(bool managed);
-
-        #region Dispose
-
-        protected virtual void DisposeInternal(bool managed)
+        internal void SetSize(IntSize size)
         {
-            if (!IsDisposed)
-            {
-                Dispose(managed);
-                IsDisposed = true;
-            }
+            Size = size;
         }
-
-        // This code added to correctly implement the disposable pattern.
-        public void Dispose()
-        {
-            DisposeInternal(true);
-            GC.SuppressFinalize(this);
-        }
-
-        #endregion
     }
 }

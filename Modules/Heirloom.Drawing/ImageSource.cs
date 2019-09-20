@@ -23,7 +23,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Increments the version number.
         /// </summary>
-        protected void UpdateVersionNumber()
+        internal void UpdateVersionNumber()
         {
             Version++;
 
