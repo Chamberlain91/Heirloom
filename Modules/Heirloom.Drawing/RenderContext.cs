@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 using Heirloom.Math;
@@ -10,22 +11,18 @@ namespace Heirloom.Drawing
         // Quad mesh
         private static readonly Mesh _quadMesh = Mesh.CreateQuad(1, 1);
 
-        #region Create Surface
+        private readonly Stack<State> _stateStack;
 
-        public abstract Surface CreateSurface(int width, int height);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Surface CreateSurface(IntSize size)
+        protected RenderContext()
         {
-            return CreateSurface(size.Width, size.Height);
+            _stateStack = new Stack<State>();
+            DefaultSurface = new Surface(1, 1);
         }
-
-        #endregion
 
         /// <summary>
         /// Gets the default surface (ie, window) of this render context.
         /// </summary>
-        public abstract Surface DefaultSurface { get; }
+        public Surface DefaultSurface { get; }
 
         /// <summary>
         /// Gets or sets the current surface.
@@ -63,7 +60,7 @@ namespace Heirloom.Drawing
         public abstract Blending Blending { get; set; }
 
         /// <summary>
-        /// Reset context state to default (default surface, full viewport, no transform, alpha and white).
+        /// Reset current context state to defaults (default surface, full viewport, no transform, alpha and white).
         /// </summary>
         public void ResetState()
         {
@@ -73,6 +70,44 @@ namespace Heirloom.Drawing
             Transform = Matrix.Identity;
             Blending = Blending.Alpha;
             Color = Color.White;
+        }
+
+        /// <summary>
+        /// Save the context state (push it on the state stack).
+        /// </summary>
+        public void SaveState()
+        {
+            var state = new State { Blending = Blending, Color = Color, Surface = Surface, Transform = Transform, Viewport = Viewport };
+            _stateStack.Push(state);
+        }
+
+        protected void SetDefaultSurfaceSize(IntSize size)
+        {
+            DefaultSurface.SetSize(size);
+        }
+
+        /// <summary>
+        /// Restore the context state (pop from the state stack).
+        /// </summary>
+        public void RestoreState()
+        {
+            if (_stateStack.Count == 0)
+            {
+                // todo: Should this throw an exception instead?
+                ResetState();
+            }
+            else
+            {
+                // 
+                var state = _stateStack.Pop();
+
+                // Recover state values
+                Surface = state.Surface;
+                Viewport = state.Viewport;
+                Transform = state.Transform;
+                Blending = state.Blending;
+                Color = state.Color;
+            }
         }
 
         /// <summary>
@@ -133,8 +168,25 @@ namespace Heirloom.Drawing
         public abstract void Flush();
 
         /// <summary>
+        /// Updates the current surfaces version number.
+        /// </summary>
+        protected void UpdateSurfaceVersionNumber()
+        {
+            Surface.UpdateVersionNumber();
+        }
+
+        /// <summary>
         /// Dispose this render context, freeing any resources occupied by it.
         /// </summary>
         public abstract void Dispose();
+
+        private struct State
+        {
+            public Surface Surface;
+            public Rectangle Viewport;
+            public Matrix Transform;
+            public Blending Blending;
+            public Color Color;
+        }
     }
 }

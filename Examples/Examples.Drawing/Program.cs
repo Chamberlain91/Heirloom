@@ -1,4 +1,5 @@
-﻿using Heirloom.Desktop;
+﻿using System;
+using Heirloom.Desktop;
 using Heirloom.Drawing;
 using Heirloom.GLFW;
 using Heirloom.Math;
@@ -27,7 +28,8 @@ namespace Examples.Drawing
                 new CubicCurveDemo(),
                 new LineThicknessDemo(),
                 new PolygonDemo(),
-                new MeshDemo()
+                new MeshDemo(),
+                new SurfaceDemo()
             };
         }
 

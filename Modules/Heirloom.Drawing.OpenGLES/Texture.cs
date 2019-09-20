@@ -11,13 +11,9 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Constructors
 
-        public Texture(IntSize size)
+        public Texture(OpenGLRenderContext context, IntSize size)
         {
             Size = size;
-
-            // 
-            Handle = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, Handle);
 
             var levels = 1;
             var w = size.Width;
@@ -29,21 +25,29 @@ namespace Heirloom.Drawing.OpenGLES
                 h /= 2;
             }
 
-            // 
-            GL.TexStorage2D(TextureImageTarget.Texture2D, levels, TextureSizedFormat.RGBA8, size.Width, size.Height);
+            Handle = context.Invoke(() =>
+            {
+                var handle = GL.GenTexture();
+                GL.BindTexture(TextureTarget.Texture2D, handle);
 
-            // TODO: Somehow configurable?
-            GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MagFilter, (int) TextureMagFilter.Nearest);
-            GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MinFilter, (int) TextureMinFilter.LinearMipNearest);
-            GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.WrapS, (int) TextureWrap.Clamp);
-            GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.WrapT, (int) TextureWrap.Clamp);
+                // 
+                GL.TexStorage2D(TextureImageTarget.Texture2D, levels, TextureSizedFormat.RGBA8, size.Width, size.Height);
 
-            // GL_TEXTURE_MAX_ANISOTROPY
-            // GL.SetTextureParameter(TextureTarget.Texture2D, (TextureParameter) 0x84FE, 16F);
+                // TODO: Somehow configurable?
+                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MagFilter, (int) TextureMagFilter.Nearest);
+                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MinFilter, (int) TextureMinFilter.LinearMipNearest);
+                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.WrapS, (int) TextureWrap.Clamp);
+                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.WrapT, (int) TextureWrap.Clamp);
 
-            //
-            // GL.GenerateMipmap(TextureTarget.Texture2D);
-            GL.BindTexture(TextureTarget.Texture2D, 0);
+                // GL_TEXTURE_MAX_ANISOTROPY
+                // GL.SetTextureParameter(TextureTarget.Texture2D, (TextureParameter) 0x84FE, 16F);
+
+                //
+                // GL.GenerateMipmap(TextureTarget.Texture2D);
+                GL.BindTexture(TextureTarget.Texture2D, 0);
+
+                return handle;
+            });
         }
 
         ~Texture()
