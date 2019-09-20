@@ -27,7 +27,7 @@ namespace Examples.Drawing
                 var rect = new Rectangle(x, y, w, h);
 
                 // 
-                ctx.Color = Colors.FlatUI.BelizeHole;
+                ctx.Color = Color.White;
                 ctx.DrawRectOutline(rect, 1 + t * 7);
             }
         }

@@ -16,6 +16,7 @@ namespace Examples.Drawing
             : base("Heirloom - Drawing Examples", multisample: MultisampleLevel.High)
         {
             ShowFPSOverlay = true;
+            IsResizable = false;
 
             // 
             _demos = new Demo[]
