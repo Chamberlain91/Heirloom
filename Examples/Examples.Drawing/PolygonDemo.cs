@@ -33,18 +33,15 @@ namespace Examples.Drawing
             var transB = Matrix.CreateTranslation(center);
             var transC = Matrix.CreateTranslation(center + (offset, 0));
 
-            ctx.Color = Colors.FlatUI.BelizeHole;
             ctx.DrawPolygonOutline(PolygonHull, transA, 1);
 
             // 
             foreach (var triangle in Triangles)
             {
-                ctx.Color = Color.Pink;
                 ctx.DrawPolygonOutline(triangle, transB, 1);
             }
 
             // 
-            ctx.Color = Colors.FlatUI.Carrot;
             ctx.DrawPolygonOutline(Polygon, transC, 3);
         }
     }
