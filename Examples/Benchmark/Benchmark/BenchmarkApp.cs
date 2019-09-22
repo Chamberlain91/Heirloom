@@ -23,10 +23,10 @@ namespace Benchmark
             // 
             _benchmarks = new Benchmark[]
             {
-                new Benchmark(targetFPS, increment, samplePeriod, "Rabbits (LG)", 1 / 1F,  _rabbitImages),
+                new Benchmark(targetFPS, increment / 2, samplePeriod, "Rabbits (LG)", 1 / 1F,  _rabbitImages),
                 new Benchmark(targetFPS, increment, samplePeriod, "Rabbits (MD)", 1 / 3F,  _rabbitImages),
-                new Benchmark(targetFPS, increment, samplePeriod, "Rabbits (SM)", 1 / 9F,  _rabbitImages),
-                new Benchmark(targetFPS, increment, samplePeriod, "Rabbits (XS)", 1 / 27F, _rabbitImages),
+                new Benchmark(targetFPS, increment * 2, samplePeriod, "Rabbits (SM)", 1 / 9F,  _rabbitImages),
+                new Benchmark(targetFPS, increment * 2, samplePeriod, "Rabbits (XS)", 1 / 27F, _rabbitImages),
                 new Benchmark(targetFPS, increment, samplePeriod, "Casino", 1F,  _casinoImages)
             };
         }
@@ -78,7 +78,11 @@ namespace Benchmark
             var resolutionInfo = $"{ctx.Surface.Width}x{ctx.Surface.Height} at {_targetFPS}HZ";
             average /= _benchmarks.Count;
 
-            DrawStateText(ctx, $"{resolutionInfo}\nOverall: {average}\n\n" + statusText);
+            // Compute a 'normalized score'
+            var resolutionFactor = ctx.Surface.Width * ctx.Surface.Height * _targetFPS / 124416000.0;
+            var score = Calc.Round(average * resolutionFactor);
+
+            DrawStateText(ctx, $"{resolutionInfo}\nAverage: {average}\nScore: {score}\n\n" + statusText);
         }
 
         private void DrawStateText(RenderContext ctx, string text)
