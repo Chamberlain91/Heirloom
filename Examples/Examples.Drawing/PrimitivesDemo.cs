@@ -13,12 +13,10 @@ namespace Examples.Drawing
 
         internal override void Draw(RenderContext ctx, Rectangle contentBounds)
         {
-            // circle 
-            // polygon
-            // regular polygon
-
+            // Two rows (outline and filled)
             for (var j = 0; j < 2; j++)
             {
+                // Draws a circle, polygon and regular polygon in each row
                 for (var i = 0; i < 3; i++)
                 {
                     ctx.SaveState();
@@ -34,50 +32,50 @@ namespace Examples.Drawing
                     var boxOffset = box.Min + ((Vector) (box.Size - boxSize)) * 0.5F;
                     box = new Rectangle(boxOffset, boxSize);
 
-                    DrawPrimitive(ctx, i, box, j == 1);
+                    DrawPrimitive(i, box, j == 1);
 
                     ctx.RestoreState();
                 }
             }
-        }
 
-        private void DrawPrimitive(RenderContext ctx, int index, Rectangle bounds, bool fill)
-        {
-            var center = bounds.Center;
-            var radius = Calc.Min(bounds.Width, bounds.Height) / 2F;
-
-            if (fill)
+            void DrawPrimitive(int index, Rectangle bounds, bool isFilled)
             {
-                switch (index)
+                var center = bounds.Center;
+                var radius = Calc.Min(bounds.Width, bounds.Height) / 2F;
+
+                if (isFilled)
                 {
-                    case 0:
-                        ctx.DrawRect(bounds);
-                        break;
+                    switch (index)
+                    {
+                        case 0:
+                            ctx.DrawRect(bounds);
+                            break;
 
-                    case 1:
-                        ctx.DrawPolygon(StarPolygon, Matrix.CreateTransform(center, 0, Vector.One * radius));
-                        break;
+                        case 1:
+                            ctx.DrawPolygon(StarPolygon, Matrix.CreateTransform(center, 0, Vector.One * radius));
+                            break;
 
-                    case 2:
-                        ctx.DrawCircle(center, radius);
-                        break;
+                        case 2:
+                            ctx.DrawCircle(center, radius);
+                            break;
+                    }
                 }
-            }
-            else
-            {
-                switch (index)
+                else
                 {
-                    case 0:
-                        ctx.DrawRectOutline(bounds);
-                        break;
+                    switch (index)
+                    {
+                        case 0:
+                            ctx.DrawRectOutline(bounds);
+                            break;
 
-                    case 1:
-                        ctx.DrawPolygonOutline(StarPolygon, Matrix.CreateTransform(center, 0, Vector.One * radius));
-                        break;
+                        case 1:
+                            ctx.DrawPolygonOutline(StarPolygon, Matrix.CreateTransform(center, 0, Vector.One * radius));
+                            break;
 
-                    case 2:
-                        ctx.DrawCircleOutline(center, radius);
-                        break;
+                        case 2:
+                            ctx.DrawCircleOutline(center, radius);
+                            break;
+                    }
                 }
             }
         }
