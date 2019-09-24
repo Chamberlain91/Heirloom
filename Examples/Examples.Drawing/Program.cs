@@ -22,10 +22,11 @@ namespace Examples.Drawing
             _demos = new Demo[]
             {
                 new ImageDemo(),
+                new TextDemo(),
                 new TextCallbackDemo(),
+                new LineThicknessDemo(),
                 new QuadraticCurveDemo(),
                 new CubicCurveDemo(),
-                new LineThicknessDemo(),
                 new PrimitivesDemo(),
                 new PolygonDemo(),
                 new MeshDemo(),
