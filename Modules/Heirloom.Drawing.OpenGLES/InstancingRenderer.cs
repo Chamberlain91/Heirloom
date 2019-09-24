@@ -129,12 +129,8 @@ namespace Heirloom.Drawing.OpenGLES
                 // Perform on the rendering thread
                 _renderingContext.Invoke(() =>
                 {
-                    // Update instance buffer
-                    _vertexArray.InstanceBuffer.Update(_vertexArray.InstanceElements, _vertexArray.InstanceCount, 0);
-
-                    // Update template mesh
-                    _vertexArray.VertexBuffer.Update(_vertexArray.VertexElements, _vertexArray.VertexCount, 0);
-                    _vertexArray.IndexBuffer.Update(_vertexArray.IndexElements, _vertexArray.IndexCount, 0);
+                    // Update GPU side buffers
+                    _vertexArray.Update();
 
                     // Bind textures
                     foreach (var kv in _textures)
@@ -151,7 +147,11 @@ namespace Heirloom.Drawing.OpenGLES
 
                     // Draw elements
                     GL.BindVertexArray(_vertexArray.Handle);
-                    GL.DrawElementsInstanced(DrawMode.Triangles, _vertexArray.IndexCount, DrawElementType.UnsignedShort, _vertexArray.InstanceCount);
+
+                    // If indices were defined, use them
+                    if (_vertexArray.IndexCount > 0) { GL.DrawElementsInstanced(DrawMode.Triangles, _vertexArray.IndexCount, DrawElementType.UnsignedShort, _vertexArray.InstanceCount); }
+                    else { GL.DrawArraysInstanced(DrawMode.Triangles, _vertexArray.VertexCount, _vertexArray.InstanceCount); }
+
                     GL.BindVertexArray(0);
                 });
 
