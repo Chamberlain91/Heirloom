@@ -734,7 +734,7 @@ namespace Heirloom.Math
         /// Vector perpendicular to the i-th edge scaled by the length of the edge.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector GetScaledNormal(IReadOnlyList<Vector> polygon, int i)
+        internal static Vector GetScaledNormal(IReadOnlyList<Vector> polygon, int i)
         {
             var v1 = polygon[i];
             var v2 = polygon[i + 1 == polygon.Count ? 0 : i + 1];
