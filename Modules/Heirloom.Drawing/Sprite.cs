@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 using Heirloom.Drawing.Extras;
 using Heirloom.Math;
@@ -10,12 +9,12 @@ namespace Heirloom.Drawing
 {
     /// <summary>
     /// A representation of single animated sprite.
-    /// May also contains per-frame and sequence information for animating the sprite.
+    /// May also contains per-frame and animation sequence information for animating the sprite.
     /// </summary>
     public sealed class Sprite
     {
         private readonly List<Frame> _frames;
-        private readonly Dictionary<string, Sequence> _sequences;
+        private readonly Dictionary<string, Animation> _animations;
 
         #region Constructors
 
@@ -24,7 +23,7 @@ namespace Heirloom.Drawing
         /// </summary>
         public Sprite()
         {
-            _sequences = new Dictionary<string, Sequence>();
+            _animations = new Dictionary<string, Animation>();
             _frames = new List<Frame>();
         }
 
@@ -65,7 +64,7 @@ namespace Heirloom.Drawing
                 foreach (var tag in ase.Tags)
                 {
                     var count = tag.To - tag.From;
-                    AddSequence(tag.Name, tag.From, count, tag.Direction);
+                    AddAnimation(tag.Name, tag.From, count, tag.Direction);
                 }
             }
         }
@@ -82,16 +81,16 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Gets the name of each known animation sequence.
         /// </summary>
-        public IReadOnlyCollection<string> Sequences => _sequences.Keys;
+        public IReadOnlyCollection<string> Animations => _animations.Keys;
 
         #endregion
 
         /// <summary>
-        /// Removes all frames and sequences.
+        /// Removes all frames and animation sequences.
         /// </summary>
         public void Clear()
         {
-            _sequences.Clear();
+            _animations.Clear();
             _frames.Clear();
         }
 
@@ -117,27 +116,27 @@ namespace Heirloom.Drawing
         /// <param name="start">The first frame of the animation.</param>
         /// <param name="count">The duration of the animation in frames.</param>
         /// <param name="direction">The intended playback direction of the animation.</param>
-        public void AddSequence(string name, int start, int count, Direction direction = Direction.Forward)
+        public void AddAnimation(string name, int start, int count, Direction direction = Direction.Forward)
         {
             if (string.IsNullOrWhiteSpace(name)) { throw new ArgumentException("message", nameof(name)); }
             if (start < 0) { throw new ArgumentOutOfRangeException(nameof(start), "Must be non-negative"); }
             if (count > 0) { throw new ArgumentOutOfRangeException(nameof(start), "Must be greater than zero."); }
 
-            // Append sequence
-            _sequences.Add(name, new Sequence(name, start, start + count, direction));
+            // Append animation sequence
+            _animations.Add(name, new Animation(name, start, start + count, direction));
         }
 
         /// <summary>
         /// Gets an animation sequence by name.
         /// </summary>
-        public Sequence GetSequence(string name)
+        public Animation GetAnimation(string name)
         {
-            if (_sequences.TryGetValue(name, out var sequence))
+            if (_animations.TryGetValue(name, out var animation))
             {
-                return sequence;
+                return animation;
             }
 
-            throw new KeyNotFoundException($"Unable to find sequence named \"{name}\" in sprite.");
+            throw new KeyNotFoundException($"Unable to find animation named \"{name}\" in sprite.");
         }
 
         public class Frame
@@ -165,9 +164,9 @@ namespace Heirloom.Drawing
             public Vector Origin { get; }
         }
 
-        public class Sequence
+        public class Animation
         {
-            internal Sequence(string name, int from, int to, Direction direction)
+            internal Animation(string name, int from, int to, Direction direction)
             {
                 Name = name ?? throw new ArgumentNullException(nameof(name));
                 From = from;
@@ -215,23 +214,6 @@ namespace Heirloom.Drawing
             /// Animation bounces between <see cref="Forward"/> and then <see cref="Reverse"/> changing at each end, starting with <see cref="Forward"/>.
             /// </summary>
             PingPong
-        }
-    }
-
-    public static class SpriteRenderExtensions
-    {
-        /// <summary>
-        /// Draw a sprite to the current surface.
-        /// </summary>
-        /// <param name="ctx">Some render context.</param>
-        /// <param name="sprite">Some sprite.</param>
-        /// <param name="index">Some valid frame number within the sprite.</param>
-        /// <param name="transform">Some transform to draw the sprite.</param>
-        public static void DrawSprite(this RenderContext ctx, Sprite sprite, int index, Matrix transform)
-        {
-            var frame = sprite.Frames[index];
-            transform = transform * Matrix.CreateTranslation(-frame.Origin);
-            ctx.DrawImage(frame.Image, transform);
         }
     }
 }

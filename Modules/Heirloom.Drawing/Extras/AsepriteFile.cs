@@ -19,6 +19,8 @@ namespace Heirloom.Drawing.Extras
 {
     internal class AsepriteFile : IDisposable
     {
+        public const int MagicNumber = 0xA5E0;
+
         private readonly BinaryReader _reader;
         private readonly Stream _stream;
 
@@ -70,7 +72,7 @@ namespace Heirloom.Drawing.Extras
             _magicNumber = ReadWord();
 
             // Validate magic number
-            if (_magicNumber != 0xA5E0) { throw new InvalidOperationException($"Unable to read aseprite header, invalid magic number."); }
+            if (_magicNumber != MagicNumber) { throw new InvalidOperationException($"Unable to read aseprite header, invalid magic number."); }
 
             _frameCount = ReadWord();
 
