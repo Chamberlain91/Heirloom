@@ -5,69 +5,12 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public delegate void LayoutCharacterCallback(string text, int index, ref CharacterLayoutState state);
-
-    public delegate void DrawTextCallback(string text, int index, ref CharacterRenderState state);
-
-    public struct CharacterRenderState
-    {
-        /// <summary>
-        /// The current character.
-        /// </summary>
-        public UnicodeCharacter Character;
-
-        /// <summary>
-        /// The position of the glyph.
-        /// </summary>
-        public Vector Position;
-
-        /// <summary>
-        /// The color of the glyph.
-        /// </summary>
-        public Color Color;
-    }
-
-    public struct CharacterLayoutState
-    {
-        /// <summary>
-        /// The current character.
-        /// </summary>
-        public UnicodeCharacter Character;
-
-        /// <summary>
-        /// The position of the glyph.
-        /// </summary>
-        public Vector Position;
-
-        /// <summary>
-        /// The metrics of the glyph being rendered.
-        /// </summary>
-        public GlyphMetrics Metrics { get; internal set; }
-    }
-
-    /// <summary>
-    /// Controls how text is aligned to the layout rectangle.
-    /// </summary>
-    public enum TextAlign
-    {
-        /// <summary>
-        /// Text is aligned to the left.
-        /// </summary>
-        Left,
-
-        /// <summary>
-        /// Text is aligned to the center.
-        /// </summary>
-        Center,
-
-        /// <summary>
-        /// Text is aligned to the right.
-        /// </summary>
-        Right
-    }
-
     public static class TextRenderer
     {
+        public delegate void LayoutTextCallback(string text, int index, ref CharacterLayoutState state);
+
+        public delegate void DrawTextCallback(string text, int index, ref CharacterDrawState state);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UnicodeCharacter GetCharacter(this string text, int i)
         {
@@ -93,7 +36,7 @@ namespace Heirloom.Drawing
 
         public static Vector DrawText(this RenderContext ctx, string text, Vector position, Font font, int size, TextAlign align, DrawTextCallback callback)
         {
-            var bounds = GetAnchoredTextRect(text, font, size, position, align);
+            var bounds = GetPositionAnchoredTextBounds(text, font, size, position, align);
             return DrawText(ctx, text, bounds, font, size, align, callback);
         }
 
@@ -128,7 +71,7 @@ namespace Heirloom.Drawing
             var atlas = FontManager.GetAtlas(font, size);
 
             // Character render state
-            var state = new CharacterRenderState { Color = color };
+            var state = new CharacterDrawState { Color = color };
 
             // Layout text
             LayoutText(text, bounds, align, atlas, (string _, int index, ref CharacterLayoutState layout) =>
@@ -164,11 +107,7 @@ namespace Heirloom.Drawing
             return state.Position;
         }
 
-        #endregion 
-
-        #region Layout
-
-        private static Rectangle GetAnchoredTextRect(in string text, in Font font, in int size, in Vector position, in TextAlign align)
+        private static Rectangle GetPositionAnchoredTextBounds(in string text, in Font font, in int size, in Vector position, in TextAlign align)
         {
             var textSize = font.MeasureText(text, size);
 
@@ -193,15 +132,23 @@ namespace Heirloom.Drawing
             return new Rectangle(pos, textSize);
         }
 
+        #endregion 
+
+        #region Layout
+
+        /// <summary>
+        /// Performs the layout of text around the given position with the specified font and size, invoking the callback at each location.
+        /// </summary>
+        public static void LayoutText(string text, Vector position, Font font, int size, TextAlign align, LayoutTextCallback characterCallback)
+        {
+            var bounds = GetPositionAnchoredTextBounds(text, font, size, position, align);
+            LayoutText(text, bounds, font, size, align, characterCallback);
+        }
+
         /// <summary>
         /// Performs the layout of text within the given bounds with the specified font and size, invoking the callback at each location.
         /// </summary>
-        /// <param name="text"></param>
-        /// <param name="bounds"></param>
-        /// <param name="font"></param>
-        /// <param name="size"></param>
-        /// <param name="characterCallback"></param>
-        public static void LayoutText(string text, Rectangle bounds, Font font, int size, LayoutCharacterCallback characterCallback)
+        public static void LayoutText(string text, Rectangle bounds, Font font, int size, TextAlign align, LayoutTextCallback characterCallback)
         {
             // Validate arguments
             if (text == null) { throw new ArgumentNullException(nameof(text)); }
@@ -211,10 +158,10 @@ namespace Heirloom.Drawing
 
             // Get atlas, layout text
             var atlas = FontManager.GetAtlas(font, size);
-            LayoutText(text, bounds, TextAlign.Left, atlas, characterCallback);
+            LayoutText(text, bounds, align, atlas, characterCallback);
         }
 
-        internal static void LayoutText(string text, Rectangle bounds, TextAlign align, FontAtlas atlas, LayoutCharacterCallback characterCallback)
+        internal static void LayoutText(string text, Rectangle bounds, TextAlign align, FontAtlas atlas, LayoutTextCallback characterCallback)
         {
             // Extract atlas properties for brevity
             var fontSize = atlas.FontSize;
@@ -290,7 +237,7 @@ namespace Heirloom.Drawing
         #region Line Break Checking
 
         // checks if character should break (newline or word too long, etc)
-        internal static int FindNextBreak(in string text, int index, UnicodeCharacter previous, in Vector position, in Rectangle bounds, FontAtlas atlas, out float width)
+        private static int FindNextBreak(in string text, int index, UnicodeCharacter previous, in Vector position, in Rectangle bounds, FontAtlas atlas, out float width)
         {
             var opportunity = -1;
             var opportunityEdge = 0F;
@@ -353,7 +300,7 @@ namespace Heirloom.Drawing
         }
 
         // classifies a character into its break category
-        internal static TextBreakCategory GetBreakCategory(UnicodeCharacter character)
+        private static TextBreakCategory GetBreakCategory(UnicodeCharacter character)
         {
             var c = (char) character;
 
