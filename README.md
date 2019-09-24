@@ -24,62 +24,11 @@ but audio currently is unavailable (anyone want to help?). To use `Heirloom` on
 Android and/or run the relevant examples you'll need to have the `Xamarin SDK` 
 installed and `Android SDK` API Level 22 or higher.
 
-## Getting Started w/ Nuget (Windows, Linux and macOS)
+## Nuget (Windows, Linux and macOS)
 
 I've compiled most of the projects and created nuget packages and put them up 
-on [Nuget](https://www.nuget.org/packages?q=heirloom). They may be out of date with respect to the repository, but I will try to keep them relevant.
-
-### dotnet CLI
-
-```sh
-mkdir Example
-cd ./Example
-dotnet new console
-```
-
-This will create a C# project file in the `Example/` directory called 
-`Example.csproj`. It should also create a simple *"Hello World"* example app in
-`Program.cs`.
-
-For desktop applications using `Heirloom` we need to include the
-`Heirloom.Desktop` package.
-
-```sh
-dotnet add package Heirloom.Desktop -v 1.1.1-beta
-```
-
-Now update `Program.cs` to match the following:
-
-```cs
-using Heirloom.Desktop;
-using Heirloom.Drawing;
-using Heirloom.Math;
-
-namespace Example
-{
-    internal class Program
-    {
-        private static void Main(string[] args)
-        {
-            var image = Image.CreateCheckerboardPattern(512, 512, Pixel.White, 64);
-
-            Application.Run(() =>
-            {
-                // Create window
-                var window = new Window(512, 512, "Example");
-                window.RenderContext.ResetState(); // bug, should not be needed here
-                window.RenderContext.DrawImage(image, Vector.Zero);
-                window.RenderContext.SwapBuffers();
-            });
-        }
-    }
-}
-```
-
-You can then run the project calling `dotnet run` from the project folder. This
-will by default run a `Debug` build. To run a `Release` build use `dotnet run -c
-Release`. If everything has gone correctly, you should see a window with a 
-checkerboard pattern drawn in it.
+on [Nuget](https://www.nuget.org/packages?q=heirloom). They may be out of date 
+with respect to the repository, but I will try to keep them relevant.
 
 ## Building
 
@@ -116,9 +65,10 @@ since these descriptions are fairly abstract is should be largely the same. Some
 
 A hardware accelerated 2D drawing library.
 
-* JPEG and PNG Image Encode and Decode
+* Images and Sprites
+    + JPEG and PNG image encode and decode
+    + Partial support for Aseprite format
 * Text Rendering w/ Truetype Fonts
-* Supports drawing Quads (Images) and Meshes.
 * Offscreen Rendering (Render Targets)
 * Composition
     + Various Blending (Alpha, Additive, Multiply, etc)
@@ -206,13 +156,25 @@ Utilities for simple message based networking.
   * NetworkListener
   * NetworkConnection
 
+### Extras (Alpha)
+
+Utilities for that just felt like they don't warrant a specific library and didn't fit in another existing project.
+
+* Time
+    + Convert between time units
+    + Get human readable durations (ie, '2.3 minutes')
+* String Extensions
+    + Shortened string (ie, 'this is a long string' to 'this i...string')
+    + Convert identifier to title (ie, 'myExample' to 'My Example')
+
 ## License
 
 I haven't fully settled on a license for Heirloom yet, so I wouldn't 
 recommended using these libraries commercial use. *However*, I am tentatively 
 releasing Heirloom under a modified zlib/libpng license requiring attribution
 and only for non-commercial use. Please be aware that this may change once I
-properly review licensing options.
+properly review licensing options, in particular the non-commercial clause will 
+likely be removed.
 
 ### Special Thanks
 
