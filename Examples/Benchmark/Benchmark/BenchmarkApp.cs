@@ -10,24 +10,29 @@ namespace Benchmark
 {
     public class BenchmarkApp
     {
+        internal const float SamplePeriod = 2F;
+
         private readonly IReadOnlyList<Benchmark> _benchmarks;
         private int _index = 0;
 
         private readonly int _targetFPS;
 
-        public BenchmarkApp(int targetFPS, int samplePeriod, int increment)
+        public BenchmarkApp(int targetFPS)
         {
             //  
             _targetFPS = targetFPS;
 
             // 
+            var initialCapacity = 1000;
+
+            // 
             _benchmarks = new Benchmark[]
             {
-                new Benchmark(targetFPS, increment, samplePeriod, "Rabbits (LG)", 1 / 1F,  _rabbitImages),
-                new Benchmark(targetFPS, increment, samplePeriod, "Rabbits (MD)", 1 / 3F,  _rabbitImages),
-                new Benchmark(targetFPS, increment, samplePeriod, "Rabbits (SM)", 1 / 9F,  _rabbitImages),
-                new Benchmark(targetFPS, increment, samplePeriod, "Rabbits (XS)", 1 / 27F, _rabbitImages),
-                new Benchmark(targetFPS, increment, samplePeriod, "Casino", 1F,  _casinoImages)
+                new Benchmark(targetFPS, initialCapacity, "Large Sprites", 1 / 1F, 0, _rabbitImages),
+                new Benchmark(targetFPS, initialCapacity, "Medium Sprites", 1 / 3F,0, _rabbitImages),
+                new Benchmark(targetFPS, initialCapacity, "Small Sprites", 1 / 9F, 0, _rabbitImages),
+                new Benchmark(targetFPS, initialCapacity, "Tiny Sprites", 1 / 27F, 0, _rabbitImages),
+                new Benchmark(targetFPS, initialCapacity, "Casino", 1F, 1F, _casinoImages)
             };
         }
 
@@ -59,7 +64,10 @@ namespace Benchmark
 
             // 
             var statusText = "";
+            var totalCompletion = 0F;
             var average = 0;
+
+            var inv = 1F / _benchmarks.Count;
 
             foreach (var benchmark in _benchmarks)
             {
@@ -68,17 +76,26 @@ namespace Benchmark
 
                 // Append status text
                 var label = $"{name}: {benchmark.Count}";
-                if (benchmark.IsEvaluating) { label = $"> {label} <"; }
+                if (benchmark.IsEvaluating)
+                {
+                    label = $"{label} - {Calc.Floor(benchmark.PercentComplete * 100F)}%";
+                }
                 statusText += $"{label}\n";
 
                 // Append to average scoring
+                totalCompletion += benchmark.PercentComplete * inv;
                 average += benchmark.Count;
             }
 
             var resolutionInfo = $"{ctx.Surface.Width}x{ctx.Surface.Height} at {_targetFPS}HZ";
+
             average /= _benchmarks.Count;
 
-            DrawStateText(ctx, $"{resolutionInfo}\nOverall: {average}\n\n" + statusText);
+            // Compute a 'normalized score'
+            var resolutionFactor = ctx.Surface.Width * ctx.Surface.Height * _targetFPS / 124416000.0;
+            var score = Calc.Round(average * resolutionFactor);
+
+            DrawStateText(ctx, $"{resolutionInfo}\nProgress: {Calc.Floor(totalCompletion * 100)}%\nScore: {score}\n\n{statusText}");
         }
 
         private void DrawStateText(RenderContext ctx, string text)
@@ -109,12 +126,12 @@ namespace Benchmark
             private readonly Random _random = new Random(0);
 
             private readonly Heartbeat _heartbeat;
-            private readonly int _increment;
             private readonly int _targetFPS;
-            private readonly int _samplePeriod;
-            private int _capacity;
 
             private IntRange _searchDomain;
+            private int _searchDomainThreshold;
+            private int _searchDomainCapacity;
+            private int _searchStep = 1;
 
             // Quarter million cards *should* always be a grotesque amount?
             private readonly Particle[] _particles = new Particle[250000];
@@ -126,21 +143,25 @@ namespace Benchmark
 
             public float Scale { get; }
 
+            public float Rotation { get; }
+
             public string Name { get; }
 
-            public Benchmark(int targetFPS, int increment, int samplePeriod, string name, float scale, IEnumerable<Image> images)
+            public Benchmark(int targetFPS, int initialCapacity, string name, float scale, float rotation, IEnumerable<Image> images)
             {
                 Name = name;
+
+                Rotation = rotation;
                 Scale = scale;
 
                 // Load Images
                 Images = images.ToList();
 
                 // 
-                _samplePeriod = samplePeriod;
                 _targetFPS = targetFPS;
-                _increment = increment;
-                _capacity = 0;
+
+                _searchDomainCapacity = initialCapacity;
+                _searchDomainThreshold = 1;
 
                 // Create particles
                 for (var i = 0; i < _particles.Length; i++)
@@ -149,7 +170,7 @@ namespace Benchmark
                 }
 
                 // 
-                _heartbeat = new Heartbeat(CardSearchUpdate, _samplePeriod);
+                _heartbeat = new Heartbeat(CardSearchUpdate, SamplePeriod);
             }
 
             internal int Count { get; private set; }
@@ -158,10 +179,24 @@ namespace Benchmark
 
             internal bool IsEvaluating => Phase == Phase.Capacity || Phase == Phase.Search;
 
+            internal float PercentComplete
+            {
+                get
+                {
+                    if (Phase == Phase.Complete) { return 1F; }
+                    if (Phase != Phase.Search) { return 0F; }
+
+                    var stepsDeep = Calc.Log(_searchDomainCapacity, 2);
+                    var stepsThreshold = Calc.Log(_searchDomainThreshold / 2, 2);
+
+                    return _searchStep / (stepsDeep - stepsThreshold);
+                }
+            }
+
             public void CardSearchUpdate()
             {
                 var fps = _frameCount / _frameElapsed;
-                _frameElapsed -= _samplePeriod;
+                _frameElapsed -= SamplePeriod;
                 _frameCount = 0;
 
                 // 
@@ -180,30 +215,33 @@ namespace Benchmark
             private void FindCapacity(float fps)
             {
                 // Have we tanked the framerate yet?
-                if (fps < _targetFPS * (2F / 3F))
+                if (fps < _targetFPS * (3F / 4F))
                 {
                     // Yes, suboptimal frame rate
-                    Console.WriteLine("Change Phase: Search");
                     Phase = Phase.Search;
-                    _capacity = Count;
+
+                    // 
+                    _searchDomainThreshold = Calc.Clamp(Calc.Ceil(_searchDomainCapacity * 0.005F), 2, 100);
+                    _searchDomainCapacity = Count;
 
                     // Construct search domain
-                    _searchDomain = new IntRange(0, _capacity);
-                    Count = _capacity / 2;
+                    _searchDomain = new IntRange(0, _searchDomainCapacity);
+                    Count = _searchDomainCapacity / 2;
                 }
                 else
                 {
                     // No, increase particle count
-                    Count += _increment;
+                    Count = _searchDomainCapacity;
+                    _searchDomainCapacity *= 2;
 
                     // Have we exceeded the particle buffer (how...?)
                     if (Count >= _particles.Length)
                     {
                         // Topped out, jump straight to complete!
-                        _capacity = _particles.Length;
-                        Count = _capacity;
+                        _searchDomainCapacity = _particles.Length;
+                        Count = _searchDomainCapacity;
 
-                        Console.WriteLine("Change Phase: Complete");
+                        // 
                         Phase = Phase.Complete;
                     }
                 }
@@ -212,10 +250,9 @@ namespace Benchmark
             private void Search(float fps)
             {
                 // Are we within target fps tolerance?
-                if (_searchDomain.Size < 75)
+                if (_searchDomain.Size < _searchDomainThreshold)
                 {
                     // Found our desired score
-                    Console.WriteLine("Change Phase: Complete");
                     Phase = Phase.Complete;
                 }
                 else
@@ -232,6 +269,9 @@ namespace Benchmark
                         _searchDomain = new IntRange(_searchDomain.Min, Count);
                         Count = _searchDomain.Average;
                     }
+
+                    // 
+                    _searchStep++;
                 }
             }
 
@@ -243,8 +283,8 @@ namespace Benchmark
                 // If in the before phase, immediately become active!
                 if (Phase == Phase.Before)
                 {
+                    Count = _searchDomainCapacity;
                     Phase = Phase.Capacity;
-                    Count = _increment;
                 }
 
                 // 
@@ -271,6 +311,7 @@ namespace Benchmark
 
                     // Update
                     particle.Update(in bounds, in delta, Scale);
+                    particle.Rotation = Rotation * Calc.Sin(i + particle.Time);
 
                     // Draw
                     ctx.DrawImage(particle.Image, particle.Transform * scale);

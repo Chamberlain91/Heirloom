@@ -2,8 +2,10 @@
 {
     public interface IDrawingResource
     {
-        uint Handle { get; }
+        object NativeObject { get; set; }
 
         uint Version { get; }
+
+        void UpdateVersionNumber();
     }
 }

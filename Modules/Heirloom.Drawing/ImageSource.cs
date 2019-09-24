@@ -2,8 +2,10 @@
 
 namespace Heirloom.Drawing
 {
-    public abstract class ImageSource
+    public abstract class ImageSource : IDrawingResource
     {
+        private object _native;
+
         internal ImageSource()
         {
             // Only visible in Heirloom.Drawing
@@ -13,16 +15,13 @@ namespace Heirloom.Drawing
         /// The version number of the image.
         /// Modifications to the image increment this number.
         /// </summary>
-        public uint Version { get; private set; } = 0;
+        public uint Version { get; private set; }
 
         /// <summary>
         /// The size of this image.
         /// </summary>
         public abstract IntSize Size { get; protected set; }
 
-        /// <summary>
-        /// Increments the version number.
-        /// </summary>
         internal void UpdateVersionNumber()
         {
             Version++;
@@ -32,6 +31,17 @@ namespace Heirloom.Drawing
             {
                 Version = 0;
             }
+        }
+
+        object IDrawingResource.NativeObject
+        {
+            get => _native;
+            set => _native = value;
+        }
+
+        void IDrawingResource.UpdateVersionNumber()
+        {
+            UpdateVersionNumber();
         }
     }
 }

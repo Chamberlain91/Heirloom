@@ -305,7 +305,7 @@ namespace Heirloom.Drawing.OpenGLES
                         else
                         {
                             // 
-                            var texture = ResourceManager.GetSurfaceTexture(this, _currentSurface);
+                            var texture = ResourceManager.GetTexture(this, _currentSurface);
                             var framebuffer = ResourceManager.GetFramebuffer(this, texture);
 
                             GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, framebuffer.Handle);

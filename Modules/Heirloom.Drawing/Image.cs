@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-using Heirloom.Drawing.Utilities;
+using Heirloom.Drawing.Extras;
 using Heirloom.Math;
 
 using StbSharp;

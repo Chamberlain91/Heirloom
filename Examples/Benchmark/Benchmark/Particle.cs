@@ -11,7 +11,11 @@ namespace Benchmark
 
         public Vector Velocity;
 
-        public Matrix Transform => Matrix.CreateTranslation(Position);
+        public float Rotation;
+
+        public Matrix Transform => Matrix.CreateTransform(Position, Rotation, Vector.One);
+
+        public float Time;
 
         public Particle(Image image)
         {
@@ -21,6 +25,7 @@ namespace Benchmark
         public void Update(in Rectangle bounds, in float delta, in float scale)
         {
             Position += Velocity * delta;
+            Time += delta;
 
             var w1 = Image.Width * scale * 0.8F;
             var w2 = Image.Width * scale * 0.2F;
