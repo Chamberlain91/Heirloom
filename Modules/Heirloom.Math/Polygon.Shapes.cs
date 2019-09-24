@@ -32,7 +32,13 @@ namespace Heirloom.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Polygon CreateStar(Vector center, int numPoints, float radius)
         {
-            return new Polygon(GetStarPoints(center, numPoints, radius));
+            return CreateStar(center, numPoints, radius * 0.66F, radius);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Polygon CreateStar(Vector center, int numPoints, float innerRadius, float outerRadius)
+        {
+            return new Polygon(GetStarPoints(center, numPoints, innerRadius, outerRadius));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -61,17 +67,6 @@ namespace Heirloom.Math
 
         #region Enumerate (IEnumerable<Vector>)
 
-        public static IEnumerable<Vector> GetRectanglePoints(Vector center, float width, float height)
-        {
-            var w = width / 2F;
-            var h = height / 2F;
-
-            yield return (-w + center.X, -h + center.Y);
-            yield return (+w + center.X, -h + center.Y);
-            yield return (+w + center.X, +h + center.Y);
-            yield return (-w + center.X, +h + center.Y);
-        }
-
         public static IEnumerable<Vector> GetRegularPolygonPoints(Vector center, int segments, float radius)
         {
             for (var i = 0; i < segments; i++)
@@ -86,12 +81,7 @@ namespace Heirloom.Math
             }
         }
 
-        public static IEnumerable<Vector> GetStarPoints(Vector center, int numPoints, float radius)
-        {
-            return GetStarPoints(center, numPoints, radius * 0.66F, radius);
-        }
-
-        public static IEnumerable<Vector> GetStarPoints(Vector center, int numPoints, float innerRadius, float outerRadius)
+        private static IEnumerable<Vector> GetStarPoints(Vector center, int numPoints, float innerRadius, float outerRadius)
         {
             numPoints *= 2; // For each point and valley
 
@@ -106,6 +96,17 @@ namespace Heirloom.Math
 
                 yield return new Vector(x, y);
             }
+        }
+
+        private static IEnumerable<Vector> GetRectanglePoints(Vector center, float width, float height)
+        {
+            var w = width / 2F;
+            var h = height / 2F;
+
+            yield return (-w + center.X, -h + center.Y);
+            yield return (+w + center.X, -h + center.Y);
+            yield return (+w + center.X, +h + center.Y);
+            yield return (-w + center.X, +h + center.Y);
         }
 
         #endregion

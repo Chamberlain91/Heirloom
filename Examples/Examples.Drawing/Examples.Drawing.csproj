@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Files\alice.txt" />
     <None Remove="Files\rabbit.png" />
   </ItemGroup>
 
@@ -15,8 +16,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Heirloom.Extras\Heirloom.Extras.csproj" />
     <ProjectReference Include="..\..\Modules\Heirloom.IO\Heirloom.IO.csproj" />
     <ProjectReference Include="..\..\Platforms\Heirloom.Desktop\Heirloom.Desktop.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Files\alice.txt" />
   </ItemGroup>
 
 </Project>
