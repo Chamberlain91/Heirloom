@@ -1,11 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 
 namespace Heirloom.Collections.Spatial.Testing
 {
-    [TestClass]
+    [TestFixture]
     public class SparseGridTest
     {
-        [TestMethod]
+        [Test]
         public void ContainsAt()
         {
             var grid = new SparseGrid<char>();

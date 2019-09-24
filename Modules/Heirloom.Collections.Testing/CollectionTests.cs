@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Linq;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
-namespace Heirloom.Collection.Testing
+namespace Heirloom.Collections.Testing
 {
-    public abstract class CollectionTest
+    public abstract class CollectionTests
     {
         public Random Random { get; private set; }
 
-        [TestInitialize]
+        [OneTimeSetUp]
         public void InitializeTest()
         {
             Random = new Random(0xC0FFEE);
