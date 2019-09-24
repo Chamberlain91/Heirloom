@@ -200,10 +200,10 @@ namespace Heirloom.Math
         /// <summary>
         /// Decomposes a simple polygon into constituent triangles enumerated by indices of the original polygon.
         /// </summary>
-        public static IEnumerable<(int a, int b, int c)> DecomposeTrianglesIndices(IReadOnlyList<Vector> polygon)
+        public static IEnumerable<(int a, int b, int c)> DecomposeTrianglesIndices(IEnumerable<Vector> polygon)
         {
-            var pointsMap = new List<int>(Enumerable.Range(0, polygon.Count));
             var points = new List<Vector>(polygon);
+            var pointsMap = new List<int>(Enumerable.Range(0, points.Count));
             var earIndex = 0;
 
             // 

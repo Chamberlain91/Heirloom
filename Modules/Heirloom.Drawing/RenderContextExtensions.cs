@@ -11,6 +11,7 @@ namespace Heirloom.Drawing
     {
         // used to center the line within the 1x1 pixel image to anchor at left-center
         private static readonly Matrix _lineOffsetMatrix = Matrix.CreateTranslation(0, -1 / 2F);
+        private static Mesh _temporaryMesh = new Mesh();
 
         #region Draw Image
 
@@ -42,7 +43,7 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        #region Draw Primitive
+        #region Draw Line / Curve
 
         /// <summary>
         /// Draws a line segment between two points.
@@ -162,6 +163,10 @@ namespace Heirloom.Drawing
             }
         }
 
+        #endregion
+
+        #region Draw Rectangle
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawRect(this RenderContext ctx, Rectangle rectangle)
         {
@@ -177,32 +182,72 @@ namespace Heirloom.Drawing
             DrawLine(ctx, rectangle.BottomLeft, rectangle.BottomRight, width);
         }
 
+        #endregion
+
+        #region Draw Circle
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawCircle(this RenderContext ctx, Vector position, float radius)
         {
-            throw new NotImplementedException();
+            var sides = ComputeCircleSegments(radius, 1F / ctx.ApproximatePixelScale);
+            DrawPolygon(ctx, position, sides, radius);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawCircleOutline(this RenderContext ctx, Vector position, float radius, float width = 1F)
         {
-            // Draw a regular polygon to approximate a circle w/ number sides needed to imitate that circle 
             var sides = ComputeCircleSegments(radius, 1F / ctx.ApproximatePixelScale);
             DrawPolygonOutline(ctx, position, sides, radius, width);
         }
 
+        internal static int ComputeCircleSegments(float radius, float objectToPixelScale)
+        {
+            // Computes (hopefully), a decent number of segments to approximate a circle with a regular polygon
+            var s = (int) (Calc.Sqrt(radius * objectToPixelScale) * 2.8F);
+            return Calc.Clamp(s, 3, 64);
+        }
+
+        #endregion
+
+        #region Draw Regular Polygon
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawPolygon(this RenderContext ctx, Vector position, int sides, float radius)
         {
-            throw new NotImplementedException();
+            var regular = Polygon.GetRegularPolygonPoints(position, sides, radius);
+
+            // 
+            _temporaryMesh.Clear();
+
+            // Append vertices
+            foreach (var pt in regular)
+            {
+                var vertex = new Vertex(pt, Vector.Zero);
+                _temporaryMesh.AddVertex(vertex);
+            }
+
+            // Append indices
+            for (var i = 1; i < (sides - 1); i++)
+            {
+                _temporaryMesh.AddIndex(0);
+                _temporaryMesh.AddIndex(i + 0);
+                _temporaryMesh.AddIndex(i + 1);
+            }
+
+            // 
+            ctx.DrawMesh(Image.Default, _temporaryMesh, Matrix.Identity);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawPolygonOutline(this RenderContext ctx, Vector position, int sides, float radius, float width = 1F)
         {
-            var polygon = Polygon.GetRegularPolygonPoints(position, sides, radius);
-            DrawPolygonOutline(ctx, polygon, width);
+            var regular = Polygon.GetRegularPolygonPoints(position, sides, radius);
+            DrawPolygonOutline(ctx, regular, width);
         }
+
+        #endregion
+
+        #region Draw Polygon
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawPolygonOutline(this RenderContext ctx, IEnumerable<Vector> polygon, float width = 1F)
@@ -231,11 +276,37 @@ namespace Heirloom.Drawing
             }
         }
 
-        internal static int ComputeCircleSegments(float radius, float objectToPixelScale)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawPolygon(this RenderContext ctx, IEnumerable<Vector> polygon)
         {
-            // Computes (hopefully), a decent number of segments to approximate a circle with a regular polygon
-            var s = (int) (Calc.Sqrt(radius * objectToPixelScale) * 2.8F);
-            return Calc.Clamp(s, 3, 64);
+            DrawPolygon(ctx, polygon, Matrix.Identity);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawPolygon(this RenderContext ctx, IEnumerable<Vector> polygon, in Matrix transform)
+        {
+            if (polygon.Any())
+            {
+                _temporaryMesh.Clear();
+
+                // Append vertices
+                foreach (var pt in polygon)
+                {
+                    var vertex = new Vertex(pt, Vector.Zero);
+                    _temporaryMesh.AddVertex(vertex);
+                }
+
+                // Append indices
+                foreach (var (a, b, c) in Polygon.DecomposeTrianglesIndices(polygon))
+                {
+                    _temporaryMesh.AddIndices(a);
+                    _temporaryMesh.AddIndices(b);
+                    _temporaryMesh.AddIndices(c);
+                }
+
+                // Draw mesh
+                ctx.DrawMesh(Image.Default, _temporaryMesh, transform);
+            }
         }
 
         #endregion

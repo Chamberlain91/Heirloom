@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 using Heirloom.Math;
@@ -14,6 +15,9 @@ namespace Heirloom.Drawing.OpenGLES
         private readonly Dictionary<Texture, int> _textures;
         private readonly Texture[] _texturesState;
         private readonly int _maxTextureUnits;
+
+        private Mesh _mesh;
+        private uint _meshVersion;
 
         #region Constructors
 
@@ -39,8 +43,6 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Properties
 
-        public Mesh Mesh { get; private set; }
-
         public override bool IsDirty => _vertexArray.InstanceCount > 0;
 
         #endregion
@@ -48,8 +50,8 @@ namespace Heirloom.Drawing.OpenGLES
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override void Submit(ImageSource image, Mesh mesh, in Matrix transform, in Color color)
         {
-            // Change the template mesh (used to batch same mesh into instances)
-            if (!ReferenceEquals(Mesh, mesh))
+            // If the mesh reference changed or a change in version, update instancing template
+            if (!ReferenceEquals(_mesh, mesh) || _meshVersion != mesh.Version)
             {
                 // Render previous
                 Flush();
@@ -101,24 +103,28 @@ namespace Heirloom.Drawing.OpenGLES
         private void SetTemplate(Mesh mesh)
         {
             // 
-            Mesh = mesh;
+            _mesh = mesh;
+            _meshVersion = mesh.Version;
 
             // Copy vertex data
-            for (var i = 0; i < Mesh.Vertices.Count; i++)
+            for (var i = 0; i < _mesh.Vertices.Count; i++)
             {
-                _vertexArray.VertexElements[i].Position = Mesh.Vertices[i].Position;
-                _vertexArray.VertexElements[i].UV = Mesh.Vertices[i].UV;
+                _vertexArray.VertexElements[i].Position = _mesh.Vertices[i].Position;
+                _vertexArray.VertexElements[i].UV = _mesh.Vertices[i].UV;
             }
 
             // Copy index data
-            for (var i = 0; i < Mesh.Indices.Count; i++)
+            for (var i = 0; i < _mesh.Indices.Count; i++)
             {
-                _vertexArray.IndexElements[i] = Mesh.Indices[i];
+                var index = _mesh.Indices[i];
+                if (index >= ushort.MaxValue) { throw new InvalidOperationException($"Mesh must not have indices greater then or equal to {ushort.MaxValue}."); }
+
+                _vertexArray.IndexElements[i] = (ushort) _mesh.Indices[i];
             }
 
             // Store vertex and index counts
-            _vertexArray.VertexCount = Mesh.Vertices.Count;
-            _vertexArray.IndexCount = Mesh.Indices.Count;
+            _vertexArray.VertexCount = _mesh.Vertices.Count;
+            _vertexArray.IndexCount = _mesh.Indices.Count;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
