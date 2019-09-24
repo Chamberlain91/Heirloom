@@ -33,7 +33,8 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Constructors
 
-        protected internal OpenGLRenderContext()
+        protected internal OpenGLRenderContext(MultisampleQuality multisample)
+            : base(multisample)
         {
             // nothing
         }
@@ -299,16 +300,13 @@ namespace Heirloom.Drawing.OpenGLES
                         // Set and prepare the surface (ie, bind framebuffer)
                         if (value == DefaultSurface)
                         {
-                            // Bind window surface (gl default for context)
+                            // Bind window surface (default for context)
                             GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, 0);
                         }
                         else
                         {
-                            // 
-                            var texture = ResourceManager.GetTexture(this, _currentSurface);
-                            var framebuffer = ResourceManager.GetFramebuffer(this, texture);
-
-                            GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, framebuffer.Handle);
+                            // Bind surface framebuffer
+                            ResourceManager.GetFramebuffer(this, value).Bind();
                         }
                     });
                 }

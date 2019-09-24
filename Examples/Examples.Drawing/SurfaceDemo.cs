@@ -10,7 +10,7 @@ namespace Examples.Drawing
         public SurfaceDemo()
             : base("Surface")
         {
-            LowResSurface = new Surface(350, 200);
+            LowResSurface = new Surface(350, 200, MultisampleQuality.High);
         }
 
         internal override void Draw(RenderContext ctx, Rectangle contentBounds)

@@ -6,9 +6,10 @@ namespace Heirloom.Drawing
     {
         #region Constructors
 
-        public Surface(int width, int height)
+        public Surface(int width, int height, MultisampleQuality multisample = MultisampleQuality.None)
         {
             Size = new IntSize(width, height);
+            Multisample = multisample;
         }
 
         #endregion
@@ -20,6 +21,8 @@ namespace Heirloom.Drawing
         public int Width => Size.Width;
 
         public int Height => Size.Height;
+
+        public MultisampleQuality Multisample { get; }
 
         #endregion
 

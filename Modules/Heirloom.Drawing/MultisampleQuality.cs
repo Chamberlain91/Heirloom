@@ -1,9 +1,9 @@
-﻿namespace Heirloom.Desktop
+﻿namespace Heirloom.Drawing
 {
     /// <summary>
     /// Multisampling levels
     /// </summary>
-    public enum MultisampleLevel
+    public enum MultisampleQuality
     {
         /// <summary>
         /// No multisampling.

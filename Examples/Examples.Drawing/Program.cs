@@ -15,7 +15,7 @@ namespace Examples.Drawing
         public Demo CurrentDemo => _demos[_demoIndex];
 
         public Program()
-            : base("Heirloom - Drawing Examples", multisample: MultisampleLevel.High)
+            : base("Heirloom - Drawing Examples", multisample: MultisampleQuality.High)
         {
             ShowFPSOverlay = true;
             IsResizable = false;

@@ -25,6 +25,8 @@ namespace Heirloom.Drawing.OpenGLES
                 h /= 2;
             }
 
+            Console.WriteLine($"Creating texture.");
+
             Handle = context.Invoke(() =>
             {
                 var handle = GL.GenTexture();
@@ -75,7 +77,7 @@ namespace Heirloom.Drawing.OpenGLES
         /// Update the GPU representation of this texture with the given image data.
         /// </summary>
         /// <param name="image"></param>
-        public void Update(Image image)
+        public void Update(OpenGLRenderContext ctx, Image image)
         {
             // Validate we were provide a non-null image.
             if (image == null)
@@ -96,23 +98,26 @@ namespace Heirloom.Drawing.OpenGLES
                     $"{image.Size} vs {Size}", nameof(image));
             }
 
-            // 
-            GL.BindTexture(TextureTarget.Texture2D, Handle);
+            ctx.Invoke(() =>
+            {
+                // 
+                GL.BindTexture(TextureTarget.Texture2D, Handle);
 
-            // TODO: Consider how to implement optimization to mutate only where sub
-            // images update thus only needing to call GL.TexSubImage2D? Is this really
-            // that much of an optimization? I could see it being maybe useful in a
-            // dynamic atlas or something.
+                // TODO: Consider how to implement optimization to mutate only where sub
+                // images update thus only needing to call GL.TexSubImage2D? Is this really
+                // that much of an optimization? I could see it being maybe useful in a
+                // dynamic atlas or something.
 
-            // Update entire image region
-            GL.TexSubImage2D(TextureImageTarget.Texture2D, 0,
-                0, 0, Width, Height, // Sub Region
-                TexturePixelFormat.RGBA, TexturePixelType.UnsignedByte,
-                image.GetPixels());
+                // Update entire image region
+                GL.TexSubImage2D(TextureImageTarget.Texture2D, 0,
+                    0, 0, Width, Height, // Sub Region
+                    TexturePixelFormat.RGBA, TexturePixelType.UnsignedByte,
+                    image.GetPixels());
 
-            // Generate mips
-            GL.GenerateMipmap(TextureTarget.Texture2D);
-            GL.BindTexture(TextureTarget.Texture2D, 0);
+                // Generate mips
+                GL.GenerateMipmap(TextureTarget.Texture2D);
+                GL.BindTexture(TextureTarget.Texture2D, 0);
+            });
 
             // Store version to mark as updated
             Version = image.Version;
