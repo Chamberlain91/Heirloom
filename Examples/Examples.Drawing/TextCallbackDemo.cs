@@ -59,7 +59,7 @@ namespace Examples.Drawing
 
             public string Text { get; }
 
-            internal void CallbackProcessor(string text, int index, ref CharacterRenderState state)
+            internal void CallbackProcessor(string text, int index, ref CharacterDrawState state)
             {
                 ref var isSpecial = ref _states[index];
                 state.Color = isSpecial ? Colors.FlatUI.BelizeHole : Color.White;
