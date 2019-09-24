@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using Heirloom.Drawing.Extra;
+using Heirloom.Drawing.Extras;
 using Heirloom.Math;
 
 namespace Heirloom.Drawing

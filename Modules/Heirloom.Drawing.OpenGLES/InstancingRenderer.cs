@@ -45,6 +45,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override void Submit(ImageSource image, Mesh mesh, in Matrix transform, in Color color)
         {
             // Change the template mesh (used to batch same mesh into instances)

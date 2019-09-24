@@ -6,7 +6,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 
-using Heirloom.Drawing.Utilities;
 using Heirloom.Math;
 
 using DWORD = System.UInt32;
@@ -16,7 +15,7 @@ using SHORT = System.Int16;
 using STRING = System.String;
 using WORD = System.UInt16;
 
-namespace Heirloom.Drawing.Extra
+namespace Heirloom.Drawing.Extras
 {
     internal class AsepriteFile : IDisposable
     {
