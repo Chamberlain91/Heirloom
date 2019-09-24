@@ -33,20 +33,10 @@ namespace Heirloom.Drawing
             }
         }
 
-        internal void SetNativeObject(object native)
-        {
-            _native = native;
-        }
-
-        internal object GetNativeObject()
-        {
-            return _native;
-        }
-
         object IDrawingResource.NativeObject
         {
-            get => GetNativeObject();
-            set => SetNativeObject(value);
+            get => _native;
+            set => _native = value;
         }
 
         void IDrawingResource.UpdateVersionNumber()

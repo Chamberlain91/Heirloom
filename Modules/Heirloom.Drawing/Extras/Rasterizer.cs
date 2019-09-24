@@ -2,7 +2,7 @@
 
 using Heirloom.Math;
 
-namespace Heirloom.Drawing.Utilities
+namespace Heirloom.Drawing.Extras
 {
     /// <summary>
     /// Contains rasterization methods for rendering on the CPU.
