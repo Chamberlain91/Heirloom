@@ -36,28 +36,19 @@ namespace Heirloom.Drawing
             // Compute polygon bounds
             var bounds = Rectangle.FromPoints(polygon);
 
-            // 
+            // Add polygon vertices
+            foreach (var pt in polygon)
+            {
+                var uv = (pt - bounds.Min) / (Vector) bounds.Size;
+                mesh.Vertices.Add(new Vertex(pt, uv));
+            }
+
+            // Add triangle indices
             foreach (var (a, b, c) in Polygon.DecomposeTrianglesIndices(polygon))
             {
-                var vA = polygon[a];
-                var vB = polygon[b];
-                var vC = polygon[c];
-
-                var uA = (vA - bounds.Min) / (Vector) bounds.Size;
-                var uB = (vB - bounds.Min) / (Vector) bounds.Size;
-                var uC = (vC - bounds.Min) / (Vector) bounds.Size;
-
-                var i = mesh.Vertices.Count;
-
-                // Add triangle vertices
-                mesh.Vertices.Add(new Vertex(vA, uA));
-                mesh.Vertices.Add(new Vertex(vB, uB));
-                mesh.Vertices.Add(new Vertex(vC, uC));
-
-                // Add triangle indices
-                mesh.Indices.Add((ushort) (i + 0));
-                mesh.Indices.Add((ushort) (i + 1));
-                mesh.Indices.Add((ushort) (i + 2));
+                mesh.Indices.Add((ushort) a);
+                mesh.Indices.Add((ushort) b);
+                mesh.Indices.Add((ushort) c);
             }
 
             return mesh;
