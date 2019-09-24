@@ -1,5 +1,7 @@
-﻿using Heirloom.Desktop;
+﻿using System;
+using Heirloom.Desktop;
 using Heirloom.Drawing;
+using Heirloom.Extras;
 using Heirloom.GLFW;
 using Heirloom.Math;
 
