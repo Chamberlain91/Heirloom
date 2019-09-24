@@ -71,6 +71,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples.Sound", "Examples\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples.Drawing", "Examples\Examples.Drawing\Examples.Drawing.csproj", "{0DEA322A-597A-4D71-A6F2-C35F77E6335F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Extras", "Modules\Heirloom.Extras\Heirloom.Extras.csproj", "{00DAAD87-9E84-4FEB-BD2B-F9AD9D33F74B}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Examples\Benchmark\Benchmark\Benchmark.projitems*{2bf2e2d6-cdcd-4a9a-85a2-63a8de5f21ec}*SharedItemsImports = 4
@@ -187,6 +189,10 @@ Global
 		{0DEA322A-597A-4D71-A6F2-C35F77E6335F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DEA322A-597A-4D71-A6F2-C35F77E6335F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DEA322A-597A-4D71-A6F2-C35F77E6335F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00DAAD87-9E84-4FEB-BD2B-F9AD9D33F74B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00DAAD87-9E84-4FEB-BD2B-F9AD9D33F74B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00DAAD87-9E84-4FEB-BD2B-F9AD9D33F74B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00DAAD87-9E84-4FEB-BD2B-F9AD9D33F74B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -221,6 +227,7 @@ Global
 		{BD9DC4D9-61B9-44C2-BA1E-EC7C727F5DFE} = {ED52051C-C8CE-4EFE-ABD1-3D6D5EFCDFFE}
 		{70127DA8-9A11-4469-9FA5-4982B161EF0E} = {ED52051C-C8CE-4EFE-ABD1-3D6D5EFCDFFE}
 		{0DEA322A-597A-4D71-A6F2-C35F77E6335F} = {ED52051C-C8CE-4EFE-ABD1-3D6D5EFCDFFE}
+		{00DAAD87-9E84-4FEB-BD2B-F9AD9D33F74B} = {0EBDA45D-4262-4725-B733-3FC90E7F05E4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {696A41D8-DF3F-4D16-B3D9-514D627DCCE2}
