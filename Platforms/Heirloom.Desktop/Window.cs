@@ -21,14 +21,14 @@ namespace Heirloom.Desktop
         private readonly CharCallback _charCallback;
         private readonly KeyCallback _keyCallback;
 
-        public Window(int width, int height, string title, bool vsync = true, bool transparentFramebuffer = false, MultisampleLevel multisample = MultisampleLevel.None)
+        public Window(int width, int height, string title, bool vsync = true, bool transparentFramebuffer = false, MultisampleQuality multisample = MultisampleQuality.None)
         {
             // Watch window
             Application.AddWindow(this);
 
             // 
             Transparent = transparentFramebuffer && Application.SupportsTransparentFramebuffer;
-            MultisampleLevel = multisample;
+            Multisample = multisample;
             VSync = vsync;
 
             // 
@@ -128,7 +128,7 @@ namespace Heirloom.Desktop
         /// <summary>
         /// The multisampling level configured on this window.
         /// </summary>
-        public MultisampleLevel MultisampleLevel { get; private set; }
+        public MultisampleQuality Multisample { get; private set; }
 
         /// <summary>
         /// The render context for drawing on this window.
@@ -391,6 +391,7 @@ namespace Heirloom.Desktop
         private sealed class WindowRenderContext : OpenGLRenderContext
         {
             public WindowRenderContext(Window window)
+                : base(window.Multisample)
             {
                 Window = window;
 

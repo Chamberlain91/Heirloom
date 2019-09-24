@@ -45,7 +45,7 @@
         NUM_SHADER_BINARY_FORMATS = 0x8DF9,
         SHADER_BINARY_FORMATS = 0x8DF8,
         SHADER_COMPILER = 0x8DFA,
-         
+
         MaxCombinedTextureImageUnits = 0x8B4D,
         // ^^ 34930
         MaxTextureCubeSize = 0x851C,
@@ -61,7 +61,10 @@
         GENERATE_MIPMAP_HINT = 0x8192,
 
         ELEMENT_ARRAY_BUFFER_BINDING = 0x8895,
+
         FramebufferBinding = 0x8CA6,
+        DrawFramebufferBinding = 0x8CA6,
+        ReadFramebufferBinding = 0x8CAA,
 
         DITHER = 0x0BD0,
         FRONT_FACE = 0x0B46,

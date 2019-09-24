@@ -13,10 +13,10 @@ namespace Heirloom.Drawing
 
         private readonly Stack<State> _stateStack;
 
-        protected RenderContext()
+        protected RenderContext(MultisampleQuality multisample)
         {
             _stateStack = new Stack<State>();
-            DefaultSurface = new Surface(1, 1);
+            DefaultSurface = new Surface(1, 1, multisample);
         }
 
         /// <summary>
