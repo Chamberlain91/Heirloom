@@ -1,11 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 
-namespace Heirloom.Collection.Testing
+namespace Heirloom.Collections.Testing
 {
-    [TestClass]
-    public class SearchTest : CollectionTest
+    [TestFixture]
+    public class SearchTests : CollectionTests
     {
-        [TestMethod]
+        [Test]
         public void HeuristicSearchCostCall()
         {
             Assert.Inconclusive("No Test Implemented Yet");
@@ -25,27 +25,27 @@ namespace Heirloom.Collection.Testing
             //Assert.IsTrue(costFunctionCalled, $"Cost function was not called during {nameof(Search.HeuristicSearch)}.");
         }
 
-        [TestMethod]
+        [Test]
         public void HeuristicSearchHeuristicCall()
         {
             // See HeuristicSearchCostCall for similar implementation notes
             Assert.Inconclusive("No Test Implemented Yet");
         }
 
-        [TestMethod]
+        [Test]
         public void HeuristicSearchExpectedPath()
         {
             Assert.Inconclusive("No Test Implemented Yet");
         }
 
-        [TestMethod]
+        [Test]
         public void BreadthFirstTraversal()
         {
             // Search.BreadthFirst()
             Assert.Inconclusive("No Test Implemented Yet");
         }
 
-        [TestMethod]
+        [Test]
         public void DepthFirstTraversal()
         {
             // Search.DepthFirst()

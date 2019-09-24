@@ -2,14 +2,14 @@
 
 using Heirloom.Collections;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
-namespace Heirloom.Collection.Testing
+namespace Heirloom.Collections.Testing
 {
-    [TestClass]
-    public class SortTest : CollectionTest
+    [TestFixture]
+    public class SortTests : CollectionTests
     {
-        [TestMethod]
+        [Test]
         public void InsertionSortOrdered()
         {
             var data = CreateRandomIntegerArray(16);
@@ -17,7 +17,7 @@ namespace Heirloom.Collection.Testing
             Assert.IsTrue(data.IsAscendingOrder(), "Items were not in ascending order after insertion sort");
         }
 
-        [TestMethod]
+        [Test]
         public void InsertionSortRandom()
         {
             var data = CreateOrderedIntegerArray(16);
@@ -25,21 +25,21 @@ namespace Heirloom.Collection.Testing
             Assert.IsTrue(data.IsAscendingOrder(), "Items were not in ascending order after insertion sort");
         }
 
-        [TestMethod]
+        [Test]
         public void HeapSortOrdered()
         {
             var items = Enumerable.Range(0, 32);
             Assert.IsTrue(Sort.HeapSort(items).IsAscendingOrder(), "Items were not in ascending order after heap sort");
         }
 
-        [TestMethod]
+        [Test]
         public void HeapSortReverse()
         {
             var items = Enumerable.Range(0, 32).Reverse();
             Assert.IsTrue(Sort.HeapSort(items).IsAscendingOrder(), "Items were not in ascending order after heap sort");
         }
 
-        [TestMethod]
+        [Test]
         public void HeapSortRandom()
         {
             var items = CreateRandomIntegerArray(32);
