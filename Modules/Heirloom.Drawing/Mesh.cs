@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -7,17 +8,137 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public class Mesh
+    public class Mesh : IDrawingResource
     {
-        public List<Vertex> Vertices { get; }
+        private readonly List<Vertex> _vertices;
+        private readonly List<int> _indices;
+        private object _native;
 
-        public List<ushort> Indices { get; }
+        #region Constructors
 
         public Mesh()
         {
-            Vertices = new List<Vertex>();
-            Indices = new List<ushort>();
+            _vertices = new List<Vertex>();
+            _indices = new List<int>();
         }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the vertices contained by this mesh.
+        /// </summary>
+        public IReadOnlyList<Vertex> Vertices => _vertices;
+
+        /// <summary>
+        /// Gets the (optional) indices defining triangles by index of the vertex list.
+        /// </summary>
+        public IReadOnlyList<int> Indices => _indices;
+
+        /// <summary>
+        /// Is this mesh constructed triangles specified by indexed?
+        /// </summary>
+        public bool IsIndexed => _indices.Count > 0;
+
+        /// <summary>
+        /// The version number of the mesh.
+        /// Modifications to the mesh data increment this number.
+        /// </summary>
+        public uint Version { get; private set; }
+
+        #endregion
+
+        #region Manipulation Functions
+
+        /// <summary>
+        /// Clears the mesh data.
+        /// </summary>
+        public void Clear()
+        {
+            _vertices.Clear();
+            _indices.Clear();
+
+            UpdateVersionNumber();
+        }
+
+        /// <summary>
+        /// Appends a vertex to this mesh.
+        /// </summary>
+        public void AddVertex(Vertex vertex)
+        {
+            if (_vertices.Count >= ushort.MaxValue)
+            {
+                throw new InvalidOperationException($"Unable to add vertex. Will cause mesh to have too many vertices! Must contain less than {ushort.MaxValue}.");
+            }
+
+            // Append vertex
+            _vertices.Add(vertex);
+            UpdateVersionNumber();
+        }
+
+        /// <summary>
+        /// Appends multiple vertices to this mesh.
+        /// </summary>
+        public void AddVertices(params Vertex[] vertices)
+        {
+            if ((_vertices.Count + vertices.Length) >= ushort.MaxValue)
+            {
+                throw new InvalidOperationException($"Unable to add vertices. Will cause mesh to have too many vertices! Must contain less than {ushort.MaxValue}.");
+            }
+
+            // Append vertices
+            _vertices.AddRange(vertices);
+            UpdateVersionNumber();
+        }
+
+        /// <summary>
+        /// Appends a triangle index to this mesh. Until <see cref="Clear"/> is called, this mesh becomes indexed.
+        /// </summary>
+        /// <seealso cref="IsIndexed"/>
+        public void AddIndex(int index)
+        {
+            CheckIndex(index);
+
+            // Append index
+            _indices.Add(index);
+            UpdateVersionNumber();
+        }
+
+        /// <summary>
+        /// Appends a triangle index to this mesh. Until <see cref="Clear"/> is called, this mesh becomes indexed.
+        /// </summary>
+        /// <seealso cref="IsIndexed"/>
+        public void AddIndices(params int[] indices)
+        {
+            CheckIndices(indices);
+
+            // Append indices
+            _indices.AddRange(indices);
+            UpdateVersionNumber();
+        }
+
+        [Conditional("DEBUG")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void CheckIndices(int[] indices)
+        {
+            foreach (var index in indices)
+            {
+                CheckIndex(index);
+            }
+        }
+
+        [Conditional("DEBUG")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void CheckIndex(int index)
+        {
+            if (index < 0 || index >= ushort.MaxValue)
+            {
+                throw new ArgumentOutOfRangeException($"Unable to add triangle indices. Indices must be non-negative and less than {ushort.MaxValue}.");
+            }
+        }
+
+        #endregion
 
         #region Create Standard Shapes
 
@@ -36,28 +157,19 @@ namespace Heirloom.Drawing
             // Compute polygon bounds
             var bounds = Rectangle.FromPoints(polygon);
 
-            // 
+            // Add polygon vertices
+            foreach (var pt in polygon)
+            {
+                var uv = (pt - bounds.Min) / (Vector) bounds.Size;
+                mesh._vertices.Add(new Vertex(pt, uv));
+            }
+
+            // Add triangle indices
             foreach (var (a, b, c) in Polygon.DecomposeTrianglesIndices(polygon))
             {
-                var vA = polygon[a];
-                var vB = polygon[b];
-                var vC = polygon[c];
-
-                var uA = (vA - bounds.Min) / (Vector) bounds.Size;
-                var uB = (vB - bounds.Min) / (Vector) bounds.Size;
-                var uC = (vC - bounds.Min) / (Vector) bounds.Size;
-
-                var i = mesh.Vertices.Count;
-
-                // Add triangle vertices
-                mesh.Vertices.Add(new Vertex(vA, uA));
-                mesh.Vertices.Add(new Vertex(vB, uB));
-                mesh.Vertices.Add(new Vertex(vC, uC));
-
-                // Add triangle indices
-                mesh.Indices.Add((ushort) (i + 0));
-                mesh.Indices.Add((ushort) (i + 1));
-                mesh.Indices.Add((ushort) (i + 2));
+                mesh._indices.Add((ushort) a);
+                mesh._indices.Add((ushort) b);
+                mesh._indices.Add((ushort) c);
             }
 
             return mesh;
@@ -79,14 +191,14 @@ namespace Heirloom.Drawing
             var bounds = Rectangle.FromPoints(polygon);
 
             // Add vertices
-            mesh.Vertices.AddRange(polygon.Select(v => new Vertex(v, (v - bounds.Min) / (Vector) bounds.Size)));
+            mesh._vertices.AddRange(polygon.Select(v => new Vertex(v, (v - bounds.Min) / (Vector) bounds.Size)));
 
             // Add triangles (triangle fan style)
-            for (var i = 1; i < mesh.Vertices.Count; i++)
+            for (var i = 1; i < mesh._vertices.Count; i++)
             {
-                mesh.Indices.Add(0);
-                mesh.Indices.Add((ushort) i);
-                mesh.Indices.Add((ushort) ((i + 1) % mesh.Vertices.Count));
+                mesh._indices.Add(0);
+                mesh._indices.Add((ushort) i);
+                mesh._indices.Add((ushort) ((i + 1) % mesh._vertices.Count));
             }
 
             return mesh;
@@ -114,8 +226,8 @@ namespace Heirloom.Drawing
         public static Mesh CreateQuad(float w, float h)
         {
             var mesh = new Mesh();
-            mesh.Indices.AddRange(new ushort[] { 0, 1, 2, 0, 2, 3 });
-            mesh.Vertices.AddRange(new[] {
+            mesh._indices.AddRange(new[] { 0, 1, 2, 0, 2, 3 });
+            mesh._vertices.AddRange(new[] {
                 new Vertex((0, 0), (0, 0)),
                 new Vertex((w, 0), (1, 0)),
                 new Vertex((w, h), (1, 1)),
@@ -126,5 +238,27 @@ namespace Heirloom.Drawing
         }
 
         #endregion
+
+        internal void UpdateVersionNumber()
+        {
+            Version++;
+
+            // If hit the maximum version number, wrap around.
+            if (Version == uint.MaxValue)
+            {
+                Version = 0;
+            }
+        }
+
+        object IDrawingResource.NativeObject
+        {
+            get => _native;
+            set => _native = value;
+        }
+
+        void IDrawingResource.UpdateVersionNumber()
+        {
+            UpdateVersionNumber();
+        }
     }
 }

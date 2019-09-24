@@ -116,7 +116,7 @@ namespace Heirloom.Drawing
         public abstract void Clear(Color color);
 
         /// <summary>
-        /// Draw a mesh with the given image to the current surface.
+        /// Draws a mesh with the given image to the current surface.
         /// </summary>
         /// <param name="mesh">Some mesh.</param>
         /// <param name="image">Some image.</param>
@@ -124,7 +124,7 @@ namespace Heirloom.Drawing
         public abstract void DrawMesh(ImageSource image, Mesh mesh, Matrix transform);
 
         /// <summary>
-        /// Draw an image to the current surface.
+        /// Draws an image to the current surface.
         /// </summary>
         /// <param name="image">Some image.</param>
         /// <param name="transform">Some transform.</param>

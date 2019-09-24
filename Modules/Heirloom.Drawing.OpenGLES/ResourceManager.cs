@@ -7,35 +7,24 @@ namespace Heirloom.Drawing.OpenGLES
 {
     internal static class ResourceManager
     {
+        private static readonly Rectangle _surfaceUVRect = new Rectangle(0, 0, 1, -1);
+
         private static readonly ConditionalWeakTable<Texture, Framebuffer> _framebuffers;
-        private static readonly ConditionalWeakTable<Surface, Texture> _surfaces;
-        private static readonly ConditionalWeakTable<Image, Texture> _textures;
 
         static ResourceManager()
         {
             _framebuffers = new ConditionalWeakTable<Texture, Framebuffer>();
-            _surfaces = new ConditionalWeakTable<Surface, Texture>();
-            _textures = new ConditionalWeakTable<Image, Texture>();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static (Texture, Rectangle) GetTextureInfo(OpenGLRenderContext context, ImageSource input)
+        internal static (Texture, Rectangle) GetTextureInfo(OpenGLRenderContext context, ImageSource source)
         {
             // If an image
-            if (input is Image image)
+            if (source is Image image)
             {
                 // Get root image
                 var root = image.Root;
-
-                // If the associated texture does not exist,
-                if (!_textures.TryGetValue(root, out var texture))
-                {
-                    // We need to create the texture
-                    texture = context.Invoke(() => new Texture(context, root.Size));
-
-                    // Store the texture by root image for next time
-                    _textures.Add(root, texture);
-                }
+                var texture = GetTexture(context, root);
 
                 // Is the root image out of date?
                 if (root.Version != texture.Version)
@@ -48,9 +37,9 @@ namespace Heirloom.Drawing.OpenGLES
                 return (texture, image.UVRect);
             }
             // If a surface
-            else if (input is Surface surface)
+            else if (source is Surface surface)
             {
-                var texture = GetSurfaceTexture(context, surface);
+                var texture = GetTexture(context, surface);
 
                 // Is the root image out of date?
                 if (surface.Version != texture.Version)
@@ -62,12 +51,12 @@ namespace Heirloom.Drawing.OpenGLES
                 }
 
                 // Framebuffer, texture already exists
-                return (texture, (0, 0, 1, -1));
+                return (texture, _surfaceUVRect);
             }
             // 
             else
             {
-                throw new ArgumentException($"Image source wasn't valid to acquire a texture.", nameof(input));
+                throw new ArgumentException($"Image source wasn't valid to acquire a texture.", nameof(source));
             }
         }
 
@@ -88,16 +77,21 @@ namespace Heirloom.Drawing.OpenGLES
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static Texture GetSurfaceTexture(OpenGLRenderContext context, Surface surface)
+        internal static Texture GetTexture(OpenGLRenderContext context, ImageSource source)
         {
-            // This framebuffer is not configured, need to initialize
-            if (_surfaces.TryGetValue(surface, out var texture) == false)
+            return GetTextureFromResource(context, source, source.Size);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Texture GetTextureFromResource(OpenGLRenderContext context, IDrawingResource resource, IntSize size)
+        {
+            if (!(resource.NativeObject is Texture texture))
             {
                 // Generate and bind framebuffer
-                texture = new Texture(context, surface.Size);
+                texture = new Texture(context, size);
 
                 // Store newly created framebuffer
-                _surfaces.Add(surface, texture);
+                resource.NativeObject = texture;
             }
 
             return texture;

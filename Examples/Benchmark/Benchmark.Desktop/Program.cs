@@ -10,13 +10,14 @@ namespace Benchmark
         public Program()
             : base("Heirloom Benchmark", vsync: false)
         {
+            // SetFullscreen(Monitor.Default);
             Maximize();
 
             // Display FPS
             ShowFPSOverlay = true;
 
             // Create app instance
-            App = new BenchmarkApp(60, 6, 20000);
+            App = new BenchmarkApp(60);
         }
 
         protected override void Update(float dt)

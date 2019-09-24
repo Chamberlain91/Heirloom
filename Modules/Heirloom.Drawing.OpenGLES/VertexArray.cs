@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 using Heirloom.Math;
@@ -75,6 +76,16 @@ namespace Heirloom.Drawing.OpenGLES
                 attr.SetAttributePointer(offset, stride, instanced ? 1 : 0);
                 offset += VertexAttribute.GetSizeInBytes(attr.Type, attr.Size);
             }
+        }
+
+        internal void Update()
+        {
+            // Update instance buffer
+            InstanceBuffer.Update(InstanceElements, InstanceCount, 0);
+
+            // Update template mesh
+            VertexBuffer.Update(VertexElements, VertexCount, 0);
+            IndexBuffer.Update(IndexElements, IndexCount, 0);
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]

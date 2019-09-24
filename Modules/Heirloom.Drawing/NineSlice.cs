@@ -2,19 +2,6 @@
 
 namespace Heirloom.Drawing
 {
-    public enum NineSliceStyle
-    {
-        /// <summary>
-        /// Middle segments are stretched to accomodate panel size.
-        /// </summary>
-        Stretch,
-
-        /// <summary>
-        /// Middle segments are repeated to accomodate panel size.
-        /// </summary>
-        Repeat
-    }
-
     public sealed class NineSlice
     {
         public Image TopLeftImage { get; }
@@ -35,12 +22,10 @@ namespace Heirloom.Drawing
 
         public Image BottomRightImage { get; }
 
-        public NineSliceStyle Style { get; }
-
         public NineSlice(
             Image topLeft, Image topMiddle, Image topRight,
             Image middleLeft, Image middleMiddle, Image middleRight,
-            Image bottomLeft, Image bottomMiddle, Image bottomRight, NineSliceStyle style = NineSliceStyle.Stretch)
+            Image bottomLeft, Image bottomMiddle, Image bottomRight)
         {
             TopLeftImage = topLeft;
             TopMiddleImage = topMiddle;
@@ -53,11 +38,9 @@ namespace Heirloom.Drawing
             BottomLeftImage = bottomLeft;
             BottomMiddleImage = bottomMiddle;
             BottomRightImage = bottomRight;
-
-            Style = style;
         }
 
-        public static NineSlice Create(Image image, IntRectangle center, NineSliceStyle style = NineSliceStyle.Stretch)
+        public static NineSlice Create(Image image, IntRectangle center)
         {
             var x0 = 0;
             var x1 = center.Left;
@@ -92,7 +75,7 @@ namespace Heirloom.Drawing
             var BR = new Image(image, (x2, y2, w2, h2));
 
             // 
-            return new NineSlice(TL, TM, TR, ML, MM, MR, BL, BM, BR, style);
+            return new NineSlice(TL, TM, TR, ML, MM, MR, BL, BM, BR);
         }
     }
 }

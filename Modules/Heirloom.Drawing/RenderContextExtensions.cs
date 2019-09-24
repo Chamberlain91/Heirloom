@@ -11,27 +11,55 @@ namespace Heirloom.Drawing
     {
         // used to center the line within the 1x1 pixel image to anchor at left-center
         private static readonly Matrix _lineOffsetMatrix = Matrix.CreateTranslation(0, -1 / 2F);
+        private static readonly Mesh _temporaryMesh = new Mesh();
 
         #region Draw Image
 
+        /// <summary>
+        /// Draws an image to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="image">Some image.</param>
+        /// <param name="position">The position of the image.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawImage(this RenderContext ctx, ImageSource image, Vector position)
         {
             ctx.DrawImage(image, Matrix.CreateTranslation(position));
         }
 
+        /// <summary>
+        /// Draws an image to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="image">Some image.</param>
+        /// <param name="position">The position of the image.</param>
+        /// <param name="rotation">The rotation applied to the image.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawImage(this RenderContext ctx, ImageSource image, Vector position, float rotation)
         {
             ctx.DrawImage(image, Matrix.CreateTransform(position, rotation, Vector.One));
         }
 
+        /// <summary>
+        /// Draws an image to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="image">Some image.</param>
+        /// <param name="position">The position of the image.</param>
+        /// <param name="rotation">The rotation applied to the image.</param>
+        /// <param name="scale">The scale applied to the image.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawImage(this RenderContext ctx, ImageSource image, Vector position, float rotation, Vector scale)
         {
             ctx.DrawImage(image, Matrix.CreateTransform(position, rotation, scale));
         }
 
+        /// <summary>
+        /// Draws an image stretched to fill a rectangular region to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="image">Some image.</param>
+        /// <param name="rectangle">The bounds of the drawn image.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawImage(this RenderContext ctx, ImageSource image, Rectangle rectangle)
         {
@@ -42,10 +70,10 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        #region Draw Primitive
+        #region Draw Line / Curve
 
         /// <summary>
-        /// Draws a line segment between two points.
+        /// Draws a line segment between two points to the current surface.
         /// </summary>
         /// <param name="ctx">The drawing context.</param>
         /// <param name="p0">The start point.</param>
@@ -68,7 +96,7 @@ namespace Heirloom.Drawing
         }
 
         /// <summary>
-        /// Draws a quadratic curve using three control points.
+        /// Draws a quadratic curve using three control points to the current surface.
         /// </summary>
         /// <param name="ctx">The drawing context.</param>
         /// <param name="p0">The first control point.</param>
@@ -115,7 +143,7 @@ namespace Heirloom.Drawing
         }
 
         /// <summary>
-        /// Draws a cubic curve using four control points.
+        /// Draws a cubic curve using four control points to the current surface.
         /// </summary>
         /// <param name="ctx">The drawing context.</param>
         /// <param name="p0">The first control point.</param>
@@ -162,12 +190,27 @@ namespace Heirloom.Drawing
             }
         }
 
+        #endregion
+
+        #region Draw Rectangle
+
+        /// <summary>
+        /// Draws a rectangle to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="rectangle">The rectangular region of the rectangle.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawRect(this RenderContext ctx, Rectangle rectangle)
         {
             DrawImage(ctx, Image.Default, rectangle);
         }
 
+        /// <summary>
+        /// Draws the outline of a rectangel to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="rectangle">The rectangular region of the rectangle.</param>
+        /// <param name="width">Width of the outline in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawRectOutline(this RenderContext ctx, Rectangle rectangle, float width = 1)
         {
@@ -177,43 +220,166 @@ namespace Heirloom.Drawing
             DrawLine(ctx, rectangle.BottomLeft, rectangle.BottomRight, width);
         }
 
+        #endregion
+
+        #region Draw Circle
+
+        /// <summary>
+        /// Draws a circle to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="position">The centr of the circle.</param>
+        /// <param name="radius">The radius of the circle.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawCircle(this RenderContext ctx, Vector position, float radius)
         {
-            throw new NotImplementedException();
+            var sides = ComputeCircleSegments(radius, 1F / ctx.ApproximatePixelScale);
+            DrawPolygon(ctx, position, sides, radius);
         }
 
+        /// <summary>
+        /// Draws the outline of a circle to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="position">The centr of the circle.</param>
+        /// <param name="radius">The radius of the circle.</param>
+        /// <param name="width">Width of the outline in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawCircleOutline(this RenderContext ctx, Vector position, float radius, float width = 1F)
         {
-            // Draw a regular polygon to approximate a circle w/ number sides needed to imitate that circle 
             var sides = ComputeCircleSegments(radius, 1F / ctx.ApproximatePixelScale);
             DrawPolygonOutline(ctx, position, sides, radius, width);
         }
 
+        private static int ComputeCircleSegments(float radius, float objectToPixelScale)
+        {
+            // Computes (hopefully), a decent number of segments to approximate a circle with a regular polygon
+            var s = (int) (Calc.Sqrt(radius * objectToPixelScale) * 2.8F);
+            return Calc.Clamp(s, 3, 64);
+        }
+
+        #endregion
+
+        #region Draw Regular Polygon
+
+        /// <summary>
+        /// Draws a regular polygon to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="sides">The number of sides in the regular polygon.</param>
+        /// <param name="radius">The radius of the regular polygon.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawPolygon(this RenderContext ctx, Vector position, int sides, float radius)
         {
-            throw new NotImplementedException();
+            var regular = Polygon.GetRegularPolygonPoints(position, sides, radius);
+
+            // 
+            _temporaryMesh.Clear();
+
+            // Append vertices
+            foreach (var pt in regular)
+            {
+                var vertex = new Vertex(pt, Vector.Zero);
+                _temporaryMesh.AddVertex(vertex);
+            }
+
+            // Append indices
+            for (var i = 1; i < (sides - 1); i++)
+            {
+                _temporaryMesh.AddIndex(0);
+                _temporaryMesh.AddIndex(i + 0);
+                _temporaryMesh.AddIndex(i + 1);
+            }
+
+            // 
+            ctx.DrawMesh(Image.Default, _temporaryMesh, Matrix.Identity);
         }
 
+        /// <summary>
+        /// Draws the outline of a regular polygon to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="sides">The number of sides in the regular polygon.</param>
+        /// <param name="radius">The radius of the regular polygon.</param>
+        /// <param name="width">Width of the outline in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawPolygonOutline(this RenderContext ctx, Vector position, int sides, float radius, float width = 1F)
         {
-            var polygon = Polygon.GetRegularPolygonPoints(position, sides, radius);
-            DrawPolygonOutline(ctx, polygon, width);
+            var regular = Polygon.GetRegularPolygonPoints(position, sides, radius);
+            DrawPolygonOutline(ctx, regular, width);
         }
 
+        #endregion
+
+        #region Draw Polygon
+
+        /// <summary>
+        /// Draws a simple polygon to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="polygon">Some polygon.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawPolygon(this RenderContext ctx, IEnumerable<Vector> polygon)
+        {
+            DrawPolygon(ctx, polygon, Matrix.Identity);
+        }
+
+        /// <summary>
+        /// Draws a simple polygon to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="polygon">Some polygon.</param>
+        /// <param name="transform">Some transform.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawPolygon(this RenderContext ctx, IEnumerable<Vector> polygon, in Matrix transform)
+        {
+            if (polygon?.Any() ?? throw new ArgumentNullException(nameof(polygon)))
+            {
+                _temporaryMesh.Clear();
+
+                // Append vertices
+                foreach (var pt in polygon)
+                {
+                    var vertex = new Vertex(pt, Vector.Zero);
+                    _temporaryMesh.AddVertex(vertex);
+                }
+
+                // Append indices
+                foreach (var (a, b, c) in Polygon.DecomposeTrianglesIndices(polygon))
+                {
+                    _temporaryMesh.AddIndices(a);
+                    _temporaryMesh.AddIndices(b);
+                    _temporaryMesh.AddIndices(c);
+                }
+
+                // Draw mesh
+                ctx.DrawMesh(Image.Default, _temporaryMesh, transform);
+            }
+        }
+
+        /// <summary>
+        /// Draws the outline of a simple polygon to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="polygon">Some polygon.</param>
+        /// <param name="width">Width of the outline in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawPolygonOutline(this RenderContext ctx, IEnumerable<Vector> polygon, float width = 1F)
         {
             DrawPolygonOutline(ctx, polygon, Matrix.Identity, width);
         }
 
+        /// <summary>
+        /// Draws the outline of a simple polygon to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="polygon">Some polygon.</param>
+        /// <param name="transform">Some transform.</param>
+        /// <param name="width">Width of the outline in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawPolygonOutline(this RenderContext ctx, IEnumerable<Vector> polygon, in Matrix transform, float width = 1F)
         {
-            if (polygon.Any())
+            if (polygon?.Any() ?? throw new ArgumentNullException(nameof(polygon)))
             {
                 var first = transform * polygon.First();
                 var point = first;
@@ -229,13 +395,6 @@ namespace Heirloom.Drawing
                 // Draw (n-1 to 0)
                 DrawLine(ctx, point, first, width);
             }
-        }
-
-        internal static int ComputeCircleSegments(float radius, float objectToPixelScale)
-        {
-            // Computes (hopefully), a decent number of segments to approximate a circle with a regular polygon
-            var s = (int) (Calc.Sqrt(radius * objectToPixelScale) * 2.8F);
-            return Calc.Clamp(s, 3, 64);
         }
 
         #endregion
@@ -289,8 +448,10 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Draws a simple axis aligned 'cross' or 'plus' shape, useful for debugging positions.
         /// </summary>
-        /// <param name="width">Width of the lines screen pixels (not world space).</param>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="center">The position of the cross.</param>
         /// <param name="size">Size in screen pixels (not world space).</param>
+        /// <param name="width">Width of the lines screen pixels (not world space).</param>
         public static void DrawCross(this RenderContext ctx, Vector center, float size = 2, float width = 1F)
         {
             // Scale input size by pixel scaling
