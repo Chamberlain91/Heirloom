@@ -287,6 +287,11 @@ namespace Heirloom.Desktop
 
         #endregion
 
+        public void Close()
+        {
+            Dispose();
+        }
+
         public void Show()
         {
             Application.Invoke(() => Glfw.ShowWindow(WindowHandle));

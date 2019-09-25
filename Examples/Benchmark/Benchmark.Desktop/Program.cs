@@ -2,6 +2,7 @@
 
 using Heirloom.Desktop;
 using Heirloom.Drawing;
+using Heirloom.GLFW;
 
 namespace Benchmark
 {
@@ -32,6 +33,14 @@ namespace Benchmark
         protected override void Draw(RenderContext ctx, float dt)
         {
             App.Render(ctx, dt);
+        }
+
+        protected override void OnKeyPressed(Key key, int scancode, ButtonAction action, KeyModifiers modifiers)
+        {
+            if (key == Key.Escape)
+            {
+                Close();
+            }
         }
 
         private static void Main(string[] args)
