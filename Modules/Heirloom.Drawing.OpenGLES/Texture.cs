@@ -15,17 +15,7 @@ namespace Heirloom.Drawing.OpenGLES
         {
             Size = size;
 
-            var levels = 1;
-            var w = size.Width;
-            var h = size.Height;
-            while (w > 1 && h > 1)
-            {
-                levels++;
-                w /= 2;
-                h /= 2;
-            }
-
-            Console.WriteLine($"Creating texture.");
+            var levels = ComputeMipLevels(size);
 
             Handle = context.Invoke(() =>
             {
@@ -74,39 +64,43 @@ namespace Heirloom.Drawing.OpenGLES
         #endregion
 
         /// <summary>
+        /// Computes the number of mip levels for a texture of the given size.
+        /// </summary>
+        private static int ComputeMipLevels(IntSize size)
+        {
+            var levels = 1;
+
+            var w = size.Width;
+            var h = size.Height;
+
+            while (w > 1 && h > 1)
+            {
+                levels++;
+                w /= 2;
+                h /= 2;
+            }
+
+            return levels;
+        }
+
+        /// <summary>
         /// Update the GPU representation of this texture with the given image data.
         /// </summary>
-        /// <param name="image"></param>
-        public void Update(OpenGLRenderContext ctx, Image image)
+        internal void Update(OpenGLRenderContext ctx, Image image)
         {
             // Validate we were provide a non-null image.
-            if (image == null)
-            {
-                throw new ArgumentNullException(nameof(image));
-            }
+            if (image == null) { throw new ArgumentNullException(nameof(image)); }
 
             // Image provided must be a 'top level' image.
-            if (image.Source != null)
-            {
-                throw new ArgumentException($"Image provided to {nameof(Update)} in {nameof(Texture)} must be a base image.", nameof(image));
-            }
+            if (image.Source != null) { throw new ArgumentException($"Image must be the root image", nameof(image)); }
 
             // Ensure the image provided has matching dimensions to the texture
-            if (image.Width != Width || image.Height != Height)
-            {
-                throw new ArgumentException($"Image provided to {nameof(Update)} in {nameof(Texture)} did not match texture dimensions." +
-                    $"{image.Size} vs {Size}", nameof(image));
-            }
+            if (image.Width != Width || image.Height != Height) { throw new ArgumentException($"Image did not match texture dimensions", nameof(image)); }
 
             ctx.Invoke(() =>
             {
                 // 
                 GL.BindTexture(TextureTarget.Texture2D, Handle);
-
-                // TODO: Consider how to implement optimization to mutate only where sub
-                // images update thus only needing to call GL.TexSubImage2D? Is this really
-                // that much of an optimization? I could see it being maybe useful in a
-                // dynamic atlas or something.
 
                 // Update entire image region
                 GL.TexSubImage2D(TextureImageTarget.Texture2D, 0,

@@ -22,16 +22,8 @@ namespace Heirloom.Drawing.OpenGLES
             // If an image
             if (source is Image image)
             {
-                // Get root image
-                var rootImage = image.Root;
-                var texture = GetTexture(ctx, rootImage);
-
-                // Is the root image out of date?
-                if (rootImage.Version != texture.Version)
-                {
-                    // Update texture (image data and mips)
-                    texture.Update(ctx, rootImage);
-                }
+                // Get texture for root image
+                var texture = GetTexture(ctx, image.Root);
 
                 // Return texture information
                 return (texture, image.UVRect);
@@ -42,15 +34,8 @@ namespace Heirloom.Drawing.OpenGLES
                 // Get the associated framebuffer
                 var framebuffer = GetFramebuffer(ctx, surface);
 
-                // Is the framebuffer out of date?
-                if (framebuffer.Version != surface.Version)
-                {
-                    // Update texture (msaa blit and mips)
-                    framebuffer.Update(ctx);
-                }
-
                 // Return texture information
-                return (framebuffer.TextureBuffer.Texture, _surfaceUVRect);
+                return (framebuffer.Texture, _surfaceUVRect);
             }
             // 
             else
@@ -71,19 +56,33 @@ namespace Heirloom.Drawing.OpenGLES
                 resource.NativeObject = framebuffer;
             }
 
+            // Is the framebuffer out of date?
+            if (framebuffer.Version != surface.Version)
+            {
+                // Update texture (msaa blit and mips)
+                framebuffer.Update(ctx);
+            }
+
             return framebuffer;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static Texture GetTexture(OpenGLRenderContext context, Image image)
+        internal static Texture GetTexture(OpenGLRenderContext ctx, Image image)
         {
             var resource = image as IDrawingResource;
 
             // Try to get the native texture
             if (!(resource.NativeObject is Texture texture))
             {
-                texture = new Texture(context, image.Size);
+                texture = new Texture(ctx, image.Size);
                 resource.NativeObject = texture;
+            }
+
+            // Is the root image out of date?
+            if (image.Version != texture.Version)
+            {
+                // Update texture (image data and mips)
+                texture.Update(ctx, image);
             }
 
             return texture;
