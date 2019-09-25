@@ -10,92 +10,102 @@ namespace Benchmark
 {
     public class BenchmarkApp
     {
-        internal const float SamplePeriod = 2F;
+        private const float CapacityInterval = 0.33F;
+        private const float SearchInterval = CapacityInterval * 4;
 
         private readonly IReadOnlyList<Benchmark> _benchmarks;
-        private int _index = 0;
+        private int _benchmarkIndex = 0;
+
+        private bool _isComplete = false;
 
         private readonly int _targetFPS;
 
-        public BenchmarkApp(int targetFPS)
+        public BenchmarkApp(int targetFPS, Surface surface)
         {
             //  
             _targetFPS = targetFPS;
 
             // 
-            var initialCapacity = 1000;
-
-            // 
             _benchmarks = new Benchmark[]
             {
-                new Benchmark(targetFPS, initialCapacity, "Large Sprites", 1 / 1F, 0, _rabbitImages),
-                new Benchmark(targetFPS, initialCapacity, "Medium Sprites", 1 / 3F,0, _rabbitImages),
-                new Benchmark(targetFPS, initialCapacity, "Small Sprites", 1 / 9F, 0, _rabbitImages),
-                new Benchmark(targetFPS, initialCapacity, "Tiny Sprites", 1 / 27F, 0, _rabbitImages),
-                new Benchmark(targetFPS, initialCapacity, "Casino", 1F, 1F, _casinoImages)
+                new Benchmark(targetFPS, "Large", 1 / 1F, 0, surface, _rabbitImages),
+                new Benchmark(targetFPS, "Medium", 1 / 3F,0, surface, _rabbitImages),
+                new Benchmark(targetFPS, "Small", 1 / 9F, 0, surface, _rabbitImages),
+                new Benchmark(targetFPS, "Tiny", 1 / 27F, 0, surface, _rabbitImages),
+                new Benchmark(targetFPS, "Casino", 1F, 1F, surface, _casinoImages)
             };
         }
 
         public void Update(float delta)
         {
             // If the current benchmark is complete
-            if (_benchmarks[_index].Phase == Phase.Complete)
+            if (_benchmarks[_benchmarkIndex].Phase == Phase.Complete)
             {
                 // Can we move to the next benchmark?
-                if ((_index + 1) < _benchmarks.Count) { _index++; }
+                if ((_benchmarkIndex + 1) < _benchmarks.Count) { _benchmarkIndex++; }
                 else
                 {
+                    _isComplete = true;
+
                     // Complete!
                     // todo: write to "benchmark_results.txt"
                 }
             }
 
             // Update the current benchmark
-            _benchmarks[_index].Update(delta);
+            _benchmarks[_benchmarkIndex].Update(delta);
         }
 
         public void Render(RenderContext ctx, float delta)
         {
-            // 
             ctx.Clear(Colors.FlatUI.MidnightBlue);
 
-            // 
-            _benchmarks[_index].Render(ctx, delta);
-
-            // 
-            var statusText = "";
-            var totalCompletion = 0F;
-            var average = 0;
-
-            var inv = 1F / _benchmarks.Count;
-
-            foreach (var benchmark in _benchmarks)
+            if (_isComplete)
             {
-                // Get name
-                var name = benchmark.Name;
+                // 
+                var benchmarkInfo = "";
+                var overallScore = 0;
 
-                // Append status text
-                var label = $"{name}: {benchmark.Count}";
-                if (benchmark.IsEvaluating)
+                foreach (var benchmark in _benchmarks)
                 {
-                    label = $"{label} - {Calc.Floor(benchmark.PercentComplete * 100F)}%";
+                    // Append information about each benchmark
+                    benchmarkInfo += CreateTableRow(benchmark.Name, $"{benchmark.Count,0:N0}");
+                    benchmarkInfo += "\n";
+
+                    // Add to average score
+                    overallScore += benchmark.Count;
                 }
-                statusText += $"{label}\n";
 
-                // Append to average scoring
-                totalCompletion += benchmark.PercentComplete * inv;
-                average += benchmark.Count;
+                // Finish computing score
+                overallScore /= _benchmarks.Count;
+
+                // Computes 'framerate normalized score' ... not sure if this a good metric
+                var score = overallScore * (_targetFPS / 60.0);
+
+                // 
+                var resolutionInfo = $"{ctx.Surface.Width}x{ctx.Surface.Height}";
+                var overallInfo = CreateTableRow("Overall", $"{score,0:N0}");
+
+                // 
+                DrawStateText(ctx, $"Heirloom Benchmark\n{resolutionInfo}\n\n{benchmarkInfo}\n{overallInfo}");
             }
+            else
+            {
+                // Draw current benchmark
+                _benchmarks[_benchmarkIndex].Render(ctx, delta);
 
-            var resolutionInfo = $"{ctx.Surface.Width}x{ctx.Surface.Height} at {_targetFPS}HZ";
+                // Draw evaluation progress
+                var overallProgress = _benchmarks.Average(x => x.Progress);
+                var overallInfo = CreateTableRow("Evaluating", $"{overallProgress,3:N0}%");
+                DrawStateText(ctx, $"Heirloom Benchmark\n{overallInfo}");
+            }
+        }
 
-            average /= _benchmarks.Count;
-
-            // Compute a 'normalized score'
-            var resolutionFactor = ctx.Surface.Width * ctx.Surface.Height * _targetFPS / 124416000.0;
-            var score = Calc.Round(average * resolutionFactor);
-
-            DrawStateText(ctx, $"{resolutionInfo}\nProgress: {Calc.Floor(totalCompletion * 100)}%\nScore: {score}\n\n{statusText}");
+        private static string CreateTableRow(string name, string info, int width = 24)
+        {
+            name = $"{name}:";
+            var spac = new string(' ', Calc.Max(1, width - name.Length - info.Length));
+            return $"{name}{spac}{info}";
         }
 
         private void DrawStateText(RenderContext ctx, string text)
@@ -134,7 +144,7 @@ namespace Benchmark
             private int _searchStep = 1;
 
             // Quarter million cards *should* always be a grotesque amount?
-            private readonly Particle[] _particles = new Particle[250000];
+            private readonly Particle[] _particles = new Particle[750000];
 
             private float _frameElapsed = 0;
             private int _frameCount = 0;
@@ -147,7 +157,7 @@ namespace Benchmark
 
             public string Name { get; }
 
-            public Benchmark(int targetFPS, int initialCapacity, string name, float scale, float rotation, IEnumerable<Image> images)
+            public Benchmark(int targetFPS, string name, float scale, float rotation, Surface surface, IEnumerable<Image> images)
             {
                 Name = name;
 
@@ -160,17 +170,17 @@ namespace Benchmark
                 // 
                 _targetFPS = targetFPS;
 
-                _searchDomainCapacity = initialCapacity;
+                _searchDomainCapacity = 500;
                 _searchDomainThreshold = 1;
 
                 // Create particles
                 for (var i = 0; i < _particles.Length; i++)
                 {
-                    _particles[i] = CreateParticle(i);
+                    _particles[i] = CreateParticle(i, surface, scale);
                 }
 
                 // 
-                _heartbeat = new Heartbeat(CardSearchUpdate, SamplePeriod);
+                _heartbeat = new Heartbeat(CardSearchUpdate, 1F);
             }
 
             internal int Count { get; private set; }
@@ -179,24 +189,25 @@ namespace Benchmark
 
             internal bool IsEvaluating => Phase == Phase.Capacity || Phase == Phase.Search;
 
-            internal float PercentComplete
+            internal int Progress // 0 to 100
             {
                 get
                 {
-                    if (Phase == Phase.Complete) { return 1F; }
-                    if (Phase != Phase.Search) { return 0F; }
+                    if (Phase == Phase.Complete) { return 100; }
+                    if (Phase != Phase.Search) { return 0; }
 
-                    var stepsDeep = Calc.Log(_searchDomainCapacity, 2);
-                    var stepsThreshold = Calc.Log(_searchDomainThreshold / 2, 2);
+                    var stepsDeep = Calc.Ceil(Calc.Log(_searchDomainCapacity, 2));
+                    var stepsThreshold = Calc.Floor(Calc.Log(_searchDomainThreshold / 2, 2));
+                    var spread = stepsDeep - stepsThreshold;
 
-                    return _searchStep / (stepsDeep - stepsThreshold);
+                    return Calc.Floor(_searchStep / (float) spread * 100F);
                 }
             }
 
             public void CardSearchUpdate()
             {
                 var fps = _frameCount / _frameElapsed;
-                _frameElapsed -= SamplePeriod;
+                _frameElapsed -= _heartbeat.Interval;
                 _frameCount = 0;
 
                 // 
@@ -217,11 +228,12 @@ namespace Benchmark
                 // Have we tanked the framerate yet?
                 if (fps < _targetFPS * (3F / 4F))
                 {
-                    // Yes, suboptimal frame rate
+                    // Yes, suboptimal frame rate 
+                    _heartbeat.Interval = SearchInterval;
                     Phase = Phase.Search;
 
                     // 
-                    _searchDomainThreshold = Calc.Clamp(Calc.Ceil(_searchDomainCapacity * 0.005F), 2, 100);
+                    _searchDomainThreshold = Calc.Clamp(Calc.Ceil(_searchDomainCapacity * 0.01F), 2, 250);
                     _searchDomainCapacity = Count;
 
                     // Construct search domain
@@ -283,6 +295,7 @@ namespace Benchmark
                 // If in the before phase, immediately become active!
                 if (Phase == Phase.Before)
                 {
+                    _heartbeat.Interval = CapacityInterval;
                     Count = _searchDomainCapacity;
                     Phase = Phase.Capacity;
                 }
@@ -318,15 +331,15 @@ namespace Benchmark
                 }
             }
 
-            private Particle CreateParticle(int index)
+            private Particle CreateParticle(int index, Surface surface, float scale)
             {
                 // Create card
                 var image = Images[index % Images.Count];
                 var card = new Particle(image);
 
                 // Randomize position
-                card.Position.X = _random.NextFloat(0, 200);
-                card.Position.Y = _random.NextFloat(0, 200);
+                card.Position.X = _random.NextFloat(0, surface.Width - image.Width * scale);
+                card.Position.Y = _random.NextFloat(0, surface.Height - image.Height * scale);
 
                 // Randomize velocity
                 card.Velocity.X = _random.NextFloat(-1F, +1F);

@@ -1,4 +1,6 @@
-﻿using Heirloom.Desktop;
+﻿using System;
+
+using Heirloom.Desktop;
 using Heirloom.Drawing;
 
 namespace Benchmark
@@ -10,14 +12,16 @@ namespace Benchmark
         public Program()
             : base("Heirloom Benchmark", vsync: false)
         {
-            // SetFullscreen(Monitor.Default);
-            Maximize();
+            // Try fullscreen, otherwise maximize
+            // Note: This might be useless, but one time on a mac it failed
+            try { SetFullscreen(Monitor.Default); }
+            catch (Exception) { Maximize(); }
 
             // Display FPS
             ShowFPSOverlay = true;
 
             // Create app instance
-            App = new BenchmarkApp(60);
+            App = new BenchmarkApp(60, RenderContext.DefaultSurface);
         }
 
         protected override void Update(float dt)
