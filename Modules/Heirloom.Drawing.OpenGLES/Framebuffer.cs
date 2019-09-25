@@ -35,6 +35,8 @@ namespace Heirloom.Drawing.OpenGLES
 
         public Surface Surface { get; }
 
+        public Texture Texture => TextureBuffer.Texture;
+
         public TextureTarget TextureBuffer { get; }
 
         public MultisampleTarget MultisampleBuffer { get; }
