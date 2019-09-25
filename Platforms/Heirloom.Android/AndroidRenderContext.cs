@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
+using Heirloom.Drawing;
 using Heirloom.Drawing.OpenGLES;
 using Heirloom.EGL;
 using Heirloom.Math;
@@ -12,7 +13,8 @@ namespace Heirloom.Android
     {
         public HeirloomSurfaceView SurfaceView { get; }
 
-        internal AndroidRenderContext(HeirloomSurfaceView surfaceView)
+        internal AndroidRenderContext(HeirloomSurfaceView surfaceView, MultisampleQuality multisample)
+            : base(multisample)
         {
             SurfaceView = surfaceView;
         }

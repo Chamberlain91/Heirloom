@@ -16,11 +16,11 @@ namespace Heirloom.Android
         private readonly AndroidRenderContext _renderContext;
         private bool _canRender;
 
-        public HeirloomSurfaceView(Activity activity)
-            : this(activity, AndroidHelper.ComputeAutomaticResolution(activity))
+        public HeirloomSurfaceView(Activity activity, MultisampleQuality multisample = MultisampleQuality.None)
+            : this(activity, AndroidHelper.ComputeAutomaticResolution(activity), multisample)
         { }
 
-        public HeirloomSurfaceView(Context context, IntSize resolution)
+        public HeirloomSurfaceView(Activity context, IntSize resolution, MultisampleQuality multisample = MultisampleQuality.None)
             : base(context)
         {
             // 
@@ -46,7 +46,7 @@ namespace Heirloom.Android
             EglContext = Egl.CreateContext(config);
 
             // Create render context, and set to initial size
-            _renderContext = new AndroidRenderContext(this);
+            _renderContext = new AndroidRenderContext(this, multisample);
             _renderContext.SetDefaultSurfaceSize(resolution);
         }
 

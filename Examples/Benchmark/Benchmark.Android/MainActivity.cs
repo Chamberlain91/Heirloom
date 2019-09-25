@@ -22,10 +22,10 @@ namespace Benchmark
             // Display FPS
             ShowFPSOverlay = true;
 
+            base.OnCreate(bundle);
+
             // Create app instance
             App = new BenchmarkApp(30, SurfaceView.RenderContext.DefaultSurface);
-
-            base.OnCreate(bundle);
         }
 
         protected override void Update(float dt)
