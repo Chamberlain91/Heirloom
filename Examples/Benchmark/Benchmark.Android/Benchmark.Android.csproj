@@ -76,12 +76,6 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.1" />
-    <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="28.0.0.1" />
-    <PackageReference Include="Xamarin.Android.Support.CustomTabs" Version="28.0.0.1" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.1.0" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\Modules\Heirloom.Drawing\Heirloom.Drawing.csproj">
       <Project>{ecabc5fb-23ad-45f0-b18e-65866b0b285c}</Project>
       <Name>Heirloom.Drawing</Name>
