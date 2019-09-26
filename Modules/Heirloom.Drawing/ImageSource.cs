@@ -22,6 +22,16 @@ namespace Heirloom.Drawing
         /// </summary>
         public abstract IntSize Size { get; protected set; }
 
+        /// <summary>
+        /// The offset used to 'center' the image around a non-zero origin.
+        /// </summary>
+        public Vector Origin { get; set; }
+
+        /// <summary>
+        /// The local bounds of the image.
+        /// </summary>
+        public Rectangle Bounds => new Rectangle(-Origin, Size);
+
         internal void UpdateVersionNumber()
         {
             Version++;

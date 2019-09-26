@@ -131,6 +131,12 @@ namespace Heirloom.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawImage(ImageSource image, Matrix transform)
         {
+            if (image.Origin != Vector.Zero)
+            {
+                // todo: optimize? M2 and M5?
+                transform = transform * Matrix.CreateTranslation(-image.Origin);
+            }
+
             // Scale to image dimensions
             transform.M0 *= image.Size.Width;
             transform.M3 *= image.Size.Width;

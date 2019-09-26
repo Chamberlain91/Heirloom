@@ -36,6 +36,18 @@ namespace Heirloom.Drawing
             ConstructFromStream(stream);
         }
 
+        /// <summary>
+        /// Constructs a new sprite from a single image.
+        /// </summary>
+        /// <param name="image">Some image.</param>
+        public Sprite(Image image) : this()
+        {
+            if (image is null) { throw new ArgumentNullException(nameof(image)); }
+
+
+            AddFrame(image, 1);
+        }
+
         #endregion
 
         #region Stream Constructor Helpers
@@ -54,10 +66,7 @@ namespace Heirloom.Drawing
                 for (var i = 0; i < ase.Frames.Length; i++)
                 {
                     var aseFrame = ase.Frames[i];
-                    var origin = Vector.Zero; // todo: from aseFrame
-
-                    // 
-                    AddFrame(aseFrame.Image, aseFrame.Duration, origin);
+                    AddFrame(aseFrame.Image, aseFrame.Duration);
                 }
 
                 // For each named animation
@@ -100,13 +109,13 @@ namespace Heirloom.Drawing
         /// <param name="image">Some image.</param>
         /// <param name="delay">The delay in seconds before the next frame when animated.</param>
         /// <param name="origin">The origin of the sprite for this frame.</param>
-        public void AddFrame(Image image, float delay, Vector origin = default)
+        public void AddFrame(Image image, float delay)
         {
             if (image is null) { throw new ArgumentNullException(nameof(image)); }
             if (delay <= 0) { throw new ArgumentOutOfRangeException(nameof(delay), "Must be greater than zero"); }
 
             // Append frame
-            _frames.Add(new Frame(image, delay, origin));
+            _frames.Add(new Frame(image, delay));
         }
 
         /// <summary>
@@ -141,10 +150,9 @@ namespace Heirloom.Drawing
 
         public class Frame
         {
-            internal Frame(Image image, float delay, Vector origin)
+            internal Frame(Image image, float delay)
             {
                 Image = image ?? throw new ArgumentNullException(nameof(image));
-                Origin = origin;
                 Delay = delay;
             }
 
@@ -157,11 +165,6 @@ namespace Heirloom.Drawing
             /// The delay in seconds to be used when animating the sprite.
             /// </summary>
             public float Delay { get; }
-
-            /// <summary>
-            /// The offset used to 'center' the sprite around a non-zero origin.
-            /// </summary>
-            public Vector Origin { get; }
         }
 
         public class Animation

@@ -14,7 +14,6 @@ namespace Heirloom.Drawing
         public static void DrawSprite(this RenderContext ctx, Sprite sprite, int index, Matrix transform)
         {
             var frame = sprite.Frames[index];
-            transform = transform * Matrix.CreateTranslation(-frame.Origin);
             ctx.DrawImage(frame.Image, transform);
         }
     }

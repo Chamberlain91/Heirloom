@@ -30,7 +30,7 @@ namespace Benchmark
             App.Update(dt);
         }
 
-        protected override void Draw(RenderContext ctx, float dt)
+        protected override void Update(RenderContext ctx, float dt)
         {
             App.Render(ctx, dt);
         }
