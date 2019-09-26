@@ -472,6 +472,23 @@ namespace Heirloom.Drawing.OpenGLES
                 // 
                 Flush();
 
+                // If not the default surface and multisampled
+                if (Surface != DefaultSurface)
+                {
+                    var framebuffer = ResourceManager.GetFramebuffer(this, Surface);
+
+                    // If a multisampled surface, cause the framebuffer to blit into texture
+                    if (Surface.Multisample != MultisampleQuality.None) { framebuffer.Update(this); }
+
+                    // Read pixels from surface texture
+                    GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, framebuffer.TextureBuffer.Handle);
+                }
+                else
+                {
+                    // Read from default buffer (window, etc)
+                    GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, 0);
+                }
+
                 // Grab pixels from framebuffer
                 var image = new Image(region.Width, region.Height);
                 image.SetPixels(GL.ReadPixels(region.X, region.Y, region.Width, region.Height));
