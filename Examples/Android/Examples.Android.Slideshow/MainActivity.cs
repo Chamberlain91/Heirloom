@@ -38,7 +38,7 @@ namespace Examples.Android.Slideshow
             };
         }
 
-        protected override void Update(float dt)
+        protected override void Update(RenderContext ctx, float dt)
         {
             _time += dt;
 
@@ -54,10 +54,7 @@ namespace Examples.Android.Slideshow
                     _current = 0;
                 }
             }
-        }
 
-        protected override void Render(RenderContext ctx, float dt)
-        {
             ctx.Clear(_background);
 
             var surfaceSize = ctx.Surface.Size;

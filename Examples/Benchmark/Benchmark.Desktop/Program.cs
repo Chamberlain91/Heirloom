@@ -25,14 +25,9 @@ namespace Benchmark
             App = new BenchmarkApp(60, RenderContext.DefaultSurface);
         }
 
-        protected override void Update(float dt)
-        {
-            App.Update(dt);
-        }
-
         protected override void Update(RenderContext ctx, float dt)
         {
-            App.Render(ctx, dt);
+            App.Update(ctx, dt);
         }
 
         protected override void OnKeyPressed(Key key, int scancode, ButtonAction action, KeyModifiers modifiers)

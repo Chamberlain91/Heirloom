@@ -87,20 +87,17 @@ namespace Heirloom.Android
 
                 if (SurfaceView.CanRender)
                 {
+                    var ctx = SurfaceView.RenderContext;
+
                     // Get time since last frame
                     var delta = stopwatchInvalid ? ExpectedDelta : loopWatch.ElapsedTicks / (float) Stopwatch.Frequency;
                     stopwatchInvalid = false;
 
                     // (Re)Start measuring time    
                     loopWatch.Restart();
-
-                    Update(delta);
-
-                    var ctx = SurfaceView.RenderContext;
-
-                    //
+                     
                     ctx.ResetState();
-                    Render(ctx, delta);
+                    Update(ctx, delta);
 
                     FrameRate = rateCounter.Rate;
 
@@ -126,10 +123,8 @@ namespace Heirloom.Android
                 }
             }
         }
-
-        protected abstract void Update(float delta);
-
-        protected abstract void Render(RenderContext ctx, float delta);
+         
+        protected abstract void Update(RenderContext ctx, float delta);
 
         private sealed class RateCounter
         {
