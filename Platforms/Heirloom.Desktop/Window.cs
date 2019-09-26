@@ -21,6 +21,9 @@ namespace Heirloom.Desktop
         private readonly CharCallback _charCallback;
         private readonly KeyCallback _keyCallback;
 
+        private readonly CursorPositionCallback _cursorPositionCallback;
+        private readonly MouseButtonCallback _mouseButtonCallback;
+
         public Window(int width, int height, string title, bool vsync = true, bool transparentFramebuffer = false, MultisampleQuality multisample = MultisampleQuality.None)
         {
             // Watch window
@@ -75,18 +78,22 @@ namespace Heirloom.Desktop
             Glfw.SetWindowSizeCallback(WindowHandle, _windowSizeCallback = (_, w, h) =>
             {
                 _bounds.Size = (w, h);
-                OnResized(w, h);
+                OnWindowResized(w, h);
             });
 
             Glfw.SetWindowPositionCallback(WindowHandle, _windowPositionCallback = (_, x, y) =>
             {
                 _bounds.Position = (x, y);
-                OnMoved(x, y);
+                OnWindowMoved(x, y);
             });
 
-            // 
+            // Key callbacks
             Glfw.SetCharCallback(WindowHandle, _charCallback = (_, cp) => OnCharTyped((UnicodeCharacter) cp));
             Glfw.SetKeyCallback(WindowHandle, _keyCallback = (_, k, c, a, m) => OnKeyPressed(k, c, a, m));
+
+            // Mouse callbacks
+            Glfw.SetCursorPositionCallback(WindowHandle, _cursorPositionCallback = (_, x, y) => OnMouseMove((float) x, (float) y));
+            Glfw.SetMouseButtonCallback(WindowHandle, _mouseButtonCallback = (_, b, a, m) => OnMousePressed(b, a, m));
         }
 
         ~Window()
@@ -101,6 +108,9 @@ namespace Heirloom.Desktop
 
             GC.KeepAlive(_charCallback);
             GC.KeepAlive(_keyCallback);
+
+            GC.KeepAlive(_cursorPositionCallback);
+            GC.KeepAlive(_mouseButtonCallback);
         }
 
         internal WindowHandle WindowHandle { get; private set; }
@@ -260,7 +270,7 @@ namespace Heirloom.Desktop
             return true; // Yes, should close by default
         }
 
-        protected virtual void OnResized(int w, int h)
+        protected virtual void OnWindowResized(int w, int h)
         {
             Resized?.Invoke(this);
         }
@@ -270,7 +280,7 @@ namespace Heirloom.Desktop
             FramebufferResized?.Invoke(this);
         }
 
-        protected virtual void OnMoved(int x, int y)
+        protected virtual void OnWindowMoved(int x, int y)
         {
             // Does nothing by default
         }
@@ -281,6 +291,16 @@ namespace Heirloom.Desktop
         }
 
         protected virtual void OnCharTyped(UnicodeCharacter character)
+        {
+            // Does nothing by default
+        }
+
+        protected virtual void OnMousePressed(int button, ButtonAction action, KeyModifiers modifiers)
+        {
+            // Does nothing by default
+        }
+
+        protected virtual void OnMouseMove(float x, float y)
         {
             // Does nothing by default
         }

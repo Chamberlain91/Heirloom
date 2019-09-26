@@ -4,15 +4,29 @@ using System.Linq;
 
 namespace Examples.Gridcannon
 {
+    /// <summary>
+    /// Represents a single playing card.
+    /// </summary>
     public readonly struct Card : IEquatable<Card>
     {
         public const int CardsPerSuit = 13;
         public const int NumberOfSuits = 4;
 
+        /// <summary>
+        /// The card number (1 through 13, 0 for Joker)
+        /// </summary>
         public readonly int Value;
 
+        /// <summary>
+        /// The card suit.
+        /// </summary>
         public readonly Suit Suit;
 
+        #region Constructors
+
+        /// <summary>
+        /// Constructs a new playing card.
+        /// </summary>
         public Card(int value, Suit suit)
         {
             if (suit != Suit.Joker && (value <= 0 || value > CardsPerSuit)) { throw new ArgumentOutOfRangeException(nameof(value)); }
@@ -21,6 +35,10 @@ namespace Examples.Gridcannon
             Value = value;
             Suit = suit;
         }
+
+        #endregion
+
+        #region Equality
 
         public bool Equals(Card other)
         {
@@ -38,12 +56,6 @@ namespace Examples.Gridcannon
             return HashCode.Combine(Value, Suit);
         }
 
-        public override string ToString()
-        {
-            if (Suit == Suit.Joker) { return "Joker"; }
-            return $"{GetValueName(Value)} of {Suit}";
-        }
-
         public static bool operator ==(Card left, Card right)
         {
             return left.Equals(right);
@@ -54,16 +66,9 @@ namespace Examples.Gridcannon
             return !(left == right);
         }
 
-        public static IEnumerable<Suit> Suits
-        {
-            get
-            {
-                yield return Suit.Clubs;
-                yield return Suit.Diamonds;
-                yield return Suit.Hearts;
-                yield return Suit.Spades;
-            }
-        }
+        #endregion
+
+        #region Conversion Operators
 
         public static explicit operator int(Card card)
         {
@@ -79,6 +84,14 @@ namespace Examples.Gridcannon
             var suit = (Suit) ((index - 1) / CardsPerSuit);
 
             return new Card(value, suit);
+        }
+
+        #endregion
+
+        public override string ToString()
+        {
+            if (Suit == Suit.Joker) { return "Joker"; }
+            return $"{GetValueName(Value)} of {Suit}";
         }
 
         /// <summary>
@@ -105,13 +118,20 @@ namespace Examples.Gridcannon
             return cards.ToArray();
         }
 
+        /// <summary>
+        /// Gets the name of the card value (ie, 1 is 'A' or 11 is 'J')
+        /// </summary>
         public static string GetValueName(int value)
         {
+            // standard 13
             if (value == 1) { return "A"; }
             if (value >= 2 && value <= 10) { return $"{value}"; }
             if (value == 11) { return "J"; }
             if (value == 12) { return "Q"; }
-            if (value == CardsPerSuit) { return "K"; }
+            if (value == 13) { return "K"; }
+
+            // joker
+            if (value == 0) { return "0"; }
 
             throw new ArgumentOutOfRangeException(nameof(value));
         }
