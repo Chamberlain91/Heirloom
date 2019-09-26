@@ -36,7 +36,7 @@ namespace Benchmark
             };
         }
 
-        public void Update(float delta)
+        public void Update(RenderContext ctx, float delta)
         {
             // If the current benchmark is complete
             if (_benchmarks[_benchmarkIndex].Phase == Phase.Complete)
@@ -54,10 +54,7 @@ namespace Benchmark
 
             // Update the current benchmark
             _benchmarks[_benchmarkIndex].Update(delta);
-        }
 
-        public void Render(RenderContext ctx, float delta)
-        {
             ctx.Clear(Colors.FlatUI.MidnightBlue);
 
             if (_isComplete)

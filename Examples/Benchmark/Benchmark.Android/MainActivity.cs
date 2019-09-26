@@ -28,14 +28,9 @@ namespace Benchmark
             App = new BenchmarkApp(30, SurfaceView.RenderContext.DefaultSurface);
         }
 
-        protected override void Update(float dt)
+        protected override void Update(RenderContext ctx, float dt)
         {
-            App.Update(dt);
-        }
-
-        protected override void Render(RenderContext ctx, float dt)
-        {
-            App.Render(ctx, dt);
+            App.Update(ctx, dt);
         }
     }
 }

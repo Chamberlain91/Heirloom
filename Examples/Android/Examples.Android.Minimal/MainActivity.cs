@@ -24,12 +24,7 @@ namespace Examples.Android.Minimal
             base.OnCreate(bundle);
         }
 
-        protected override void Update(float dt)
-        {
-            // Do Nothing
-        }
-
-        protected override void Render(RenderContext ctx, float dt)
+        protected override void Update(RenderContext ctx, float dt)
         {
             // Draw hello world text
             ctx.Clear(Color.DarkGray);
