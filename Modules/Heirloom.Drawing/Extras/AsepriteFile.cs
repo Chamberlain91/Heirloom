@@ -18,6 +18,7 @@ using WORD = System.UInt16;
 namespace Heirloom.Drawing.Extras
 {
     internal class AsepriteFile : IDisposable
+    // todo: origin of each image
     {
         public const int MagicNumber = 0xA5E0;
 

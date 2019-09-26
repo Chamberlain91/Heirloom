@@ -41,7 +41,7 @@ namespace Examples.Drawing
             CurrentDemo.Update(dt);
         }
 
-        protected override void Draw(RenderContext ctx, float dt)
+        protected override void Update(RenderContext ctx, float dt)
         {
             ctx.Clear(Color.DarkGray);
 

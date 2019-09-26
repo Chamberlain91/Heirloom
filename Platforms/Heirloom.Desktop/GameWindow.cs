@@ -77,14 +77,10 @@ namespace Heirloom.Desktop
                 var delta = (float) (now - time);
                 time = now;
 
-                // == Update Phase
-
-                Update(delta);
-
-                // == Render Phase
+                // == Update/Render Phase
 
                 RenderContext.ResetState();
-                Draw(RenderContext, delta);
+                Update(RenderContext, delta);
 
                 // == Render FPS Overlay
 
@@ -130,8 +126,6 @@ namespace Heirloom.Desktop
             }
         }
 
-        protected abstract void Update(float dt);
-
-        protected abstract void Draw(RenderContext ctx, float dt);
+        protected abstract void Update(RenderContext ctx, float dt);
     }
 }
