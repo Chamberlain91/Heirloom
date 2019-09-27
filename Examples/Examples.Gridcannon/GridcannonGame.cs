@@ -154,7 +154,7 @@ namespace Examples.Gridcannon
 
         private static void Main(string[] _)
         {
-            Application.Run(() => new GridcannonGame());
+            Application.Run<GridcannonGame>();
         }
 
         public class CardEntity : Draggable

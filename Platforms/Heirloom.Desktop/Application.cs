@@ -21,11 +21,11 @@ namespace Heirloom.Desktop
         /// </summary>
         public static bool SupportsTransparentFramebuffer { get; private set; }
 
-        public static void Run(Func<GameWindow> createGameWindow)
+        public static void Run<W>() where W : GameWindow, new()
         {
             Run(() =>
             {
-                var game = createGameWindow();
+                var game = new W();
                 game.Run();
             });
         }

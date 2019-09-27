@@ -36,14 +36,11 @@ namespace Examples.Drawing
             };
         }
 
-        protected override void Update(float dt)
-        {
-            CurrentDemo.Update(dt);
-        }
-
         protected override void Update(RenderContext ctx, float dt)
         {
             ctx.Clear(Color.DarkGray);
+
+            CurrentDemo.Update(dt);
 
             // 
             var contentBounds = new Rectangle(256, 32, ctx.Surface.Width - 288, ctx.Surface.Height - 160);
@@ -98,7 +95,7 @@ namespace Examples.Drawing
 
         private static void Main(string[] args)
         {
-            Application.Run(() => new Program());
+            Application.Run<Program>();
         }
     }
 }
