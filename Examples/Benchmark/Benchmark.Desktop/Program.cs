@@ -40,7 +40,7 @@ namespace Benchmark
 
         private static void Main(string[] args)
         {
-            Application.Run(() => new Program());
+            Application.Run<Program>();
         }
     }
 }
