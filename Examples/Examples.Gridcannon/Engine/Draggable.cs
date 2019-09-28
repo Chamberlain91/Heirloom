@@ -7,8 +7,8 @@ namespace Examples.Gridcannon.Engine
     {
         private bool _isMouseDown = false;
 
-        public Draggable(Image image, Vector position = default, float rotation = 0)
-            : base(image, position, rotation)
+        public Draggable(Image image)
+            : base(image)
         { }
 
         internal override bool OnMouseClick(int button, bool isDown, Vector position)
@@ -42,7 +42,7 @@ namespace Examples.Gridcannon.Engine
         {
             if (_isMouseDown)
             {
-                Position += delta;
+                Transform.Position += delta;
             }
 
             return false;

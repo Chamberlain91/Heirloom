@@ -1,33 +1,35 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-
+using System.Linq;
 using Heirloom.Drawing;
 using Heirloom.Math;
 
 namespace Examples.Gridcannon.Engine
 {
-    public class Entity
+    public abstract class Entity
     {
-        public Vector Position;
-
-        public float Rotation;
-
         private int _depth = 0;
 
-        public Entity(Image image, Vector position = default, float rotation = default)
+        private readonly List<Component> _components;
+
+        public Entity(Image image)
         {
+            _components = new List<Component>();
+
             Image = image ?? throw new ArgumentNullException(nameof(image));
-            Position = position;
-            Rotation = rotation;
+
+            // Default Components
+            Transform = new Transform(this);
         }
+
+        public Transform Transform { get; }
 
         public Image Image { get; set; }
 
         public Scene Scene { get; internal set; }
 
         public Rectangle Bounds { get; private set; }
-
-        public Matrix Matrix { get; private set; }
 
         public int Depth
         {
@@ -43,28 +45,62 @@ namespace Examples.Gridcannon.Engine
             }
         }
 
-        internal virtual void Update(float dt)
+        public C GetComponent<C>() where C : Component
         {
-            // 
-            Matrix = Matrix.CreateTransform(Position, Rotation, Vector.One);
-
-            // Compute bounds (rotation?)
-            var bounds = Image.Bounds;
-            bounds.Position += Position;
-            Bounds = bounds;
+            return GetComponents<C>()
+                  .FirstOrDefault();
         }
 
-        internal virtual void Draw(RenderContext ctx)
+        public IEnumerable<C> GetComponents<C>() where C : Component
         {
+            // todo: could this cause a concurrent modification exception?
+            foreach (var component in _components)
+            {
+                if (component is C c)
+                {
+                    yield return c;
+                }
+            }
+        }
+
+        protected abstract void Update(float dt);
+
+        protected abstract void Draw(RenderContext ctx);
+
+        internal void InternalUpdate(float dt)
+        {
+            UpdateBounds();
+
+            // Update each component and entity
+            foreach (var c in GetComponents<Component>()) { c.Update(dt); }
+            Update(dt);
+        }
+
+        internal void InternalDraw(RenderContext ctx)
+        {
+            // Draw each component and entity
+            foreach (var c in GetComponents<DrawableComponent>()) { c.Draw(ctx); }
+            Draw(ctx);
+
+            // TODO: Make into SpriteComponent/ImageComponent?
             if (Image == null) { return; }
-            ctx.DrawImage(Image, Matrix);
+            ctx.DrawImage(Image, Transform.Matrix);
+            DebugDraw(ctx);
         }
 
         [Conditional("DEBUG")]
-        internal virtual void DrawDebug(RenderContext ctx)
+        private void DebugDraw(RenderContext ctx)
         {
             ctx.Color = Color.Green;
             ctx.DrawRectOutline(Bounds);
+        }
+
+        private void UpdateBounds()
+        {
+            // Compute bounds (rotation?)
+            var bounds = Image.Bounds;
+            bounds.Position += Transform.Position;
+            Bounds = bounds;
         }
 
         internal virtual bool OnMouseClick(int button, bool isDown, Vector position)
