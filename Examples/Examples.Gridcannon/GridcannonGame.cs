@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-
-using Examples.Gridcannon.Engine;
+using System.Linq;
 
 using Heirloom.Collections;
 using Heirloom.Desktop;
+using Heirloom.Desktop.Game;
 using Heirloom.Drawing;
 using Heirloom.GLFW;
-using Heirloom.IO;
 using Heirloom.Math;
+
+using static Examples.Gridcannon.Assets;
 
 namespace Examples.Gridcannon
 {
@@ -18,87 +18,167 @@ namespace Examples.Gridcannon
     {
         public static int Padding = 12;
 
+        //
         private Vector _latestMousePosition;
+        private readonly Scene _scene;
+
+        //  
+        private readonly CardStack _deck;
+        private readonly CardStack[,] _grid;
+        private readonly CardStack _pile;
 
         // 
-        public Image[] CardImages;
-        public Image CardBack;
-
-        // 
-        public Scene Scene;
-
-        private List<CardEntity> _cards;
+        private static readonly IntVector[] _gridPositions = new IntVector[] {
+            (0, 0), (1, 0), (2, 0),
+            (0, 1), (1, 1), (2, 1),
+            (0, 2), (1, 2), (2, 2),
+        };
 
         public GridcannonGame()
             : base("Gridcannon")
         {
             ShowFPSOverlay = true;
 
-            // == Load Graphics
+            // == Load Assets
 
-            // Load card back
-            CardBack = new Image(Files.ReadBytes("files/cardBack_green5.png"));
-            CardBack.Origin = CardBack.Bounds.Center;
-
-            // Load cards
-            CardImages = new Image[53];
-            for (var index = 0; index < 53; index++)
-            {
-                var card = (Card) index;
-                var name = card.Suit == Suit.Joker ? "joker" : $"{card.Suit}{Card.GetValueName(card.Value)}";
-
-                // Load card image, set origin to center
-                CardImages[index] = new Image(Files.ReadBytes($"files/{$"card{name}.png"}"));
-                CardImages[index].Origin = CardImages[index].Bounds.Center;
-            }
+            LoadAssets();
 
             // == Size Window
 
             var mode = Monitor.Default.CurrentVideoMode;
-            Size = new IntSize((CardBack.Width + Padding) * 5, (CardBack.Height + Padding) * 6);
+            Size = new IntSize(Padding + (GfxCardBack.Width + Padding) * 5, (GfxCardBack.Height + Padding) * 6);
             Position = new IntVector(mode.Width - Size.Width, mode.Height - Size.Height) / 2;
             IsResizable = false;
 
             // == Initialize Game State
 
-            Scene = new Scene();
+            _scene = new Scene();
 
-            // Create card entities
-            _cards = new List<CardEntity>();
-            foreach (var card in Card.GenerateDeck(true))
+            // Create card stacks 
+            _scene.Add(_deck = new CardStack());
+            _deck.Transform.Position = GetCardPosition(0, 0);
+
+            _scene.Add(_pile = new CardStack());
+            _pile.Transform.Position = GetCardPosition(4, 0);
+
+            // Create grid
+            _grid = new CardStack[3, 3];
+            for (var y = 0; y < 3; y++)
             {
-                var entity = new CardEntity(card, GetCardImage(card), CardBack);
-                entity.Transform.Position = new Vector(Padding + CardBack.Width / 2, Padding + CardBack.Height / 2);
-                _cards.Add(entity);
+                for (var x = 0; x < 3; x++)
+                {
+                    var stack = _grid[x, y] = new CardStack();
+                    stack.Transform.Position = GetCardPosition(1 + x, 2 + y);
+                    _scene.Add(stack);
+                }
             }
 
-            // Shuffle cards
-            _cards.Shuffle(Calc.Random);
-
-            var i = 0;
-            foreach (var card in _cards)
+            // Create standard deck and put into deck stack
+            foreach (var card in CreateStandardDeck())
             {
-                var w = CardBack.Width;
-                var h = CardBack.Height;
+                // Position cards onto deck
+                card.Transform.Position = _deck.Transform.Position;
+                card.IsFaceDown = true;
 
-                var xi = i % 3;
-                var yi = i / 3;
-
-                var x = Padding + w / 2 + (xi + 1) * (w + Padding);
-                var y = Padding + h / 2 + (yi + 2) * (h + Padding);
-                Scene.StartCoroutine(CoAnimateCard(card, (x, y)));
-
-                // 
-                if (++i >= 9) { break; }
+                // Add to game deck
+                _deck.AddTopCard(card);
+                _scene.Add(card);
             }
 
-            // Insert cards into scene
-            Scene.Add(_cards);
+            // == Setup game field
+            var royalCards = new Queue<Card>();
+            var gridCards = new Queue<Card>();
+
+            // Draw cards, sorting grid and royals
+            while (gridCards.Count < 8)
+            {
+                // Draw a card, face up
+                var card = _deck.DrawTopCard();
+                card.IsFaceDown = false;
+
+                // Sort drawn cards into royals and the grid cards
+                if (card.CardInfo.IsRoyal) { royalCards.Enqueue(card); }
+                else { gridCards.Enqueue(card); }
+            }
+
+            // Put cards onto grid
+            foreach (var (xi, yi) in _gridPositions)
+            {
+                // Skip center
+                if (xi == 1 && yi == 1) { continue; }
+
+                // Place card into grid
+                var card = gridCards.Dequeue();
+                _grid[xi, yi].AddTopCard(card);
+
+                var delay = (xi + (yi * 3)) / 9F;
+                _scene.StartCoroutine(delay, CoAnimateToPosition(card, _grid[xi, yi].Transform.Position));
+            }
+
+            //for (var i = 0; i < royalCards.Count; i++)
+            //{
+            //    var card = royalCards[i];
+
+            //    var w = GfxCardBack.Width;
+            //    var h = GfxCardBack.Height;
+
+            //    var x = Padding + w / 2 + (1) * (w + Padding);
+            //    var y = Padding + h / 2 + (1) * (h + Padding);
+            //    _scene.StartCoroutine(CoAnimateCard(card, (x, y)));
+            //}
+
+            // todo: properly do game...
+            var firstCard = _deck.DrawTopCard();
+            firstCard.IsFaceDown = false;
+            _scene.StartCoroutine(1.5F, CoAnimateToPosition(firstCard, GetCardPosition(1, 0)));
+
+            // 
+            _deck.ReorderEntities();
         }
 
-        private IEnumerator CoAnimateCard(CardEntity card, Vector target)
+        public static IEnumerable<Card> CreateStandardDeck(bool shuffle = true)
         {
-            var timer = Timer.StartNew(Calc.Random.NextFloat(0.8F, 1.2F));
+            if (shuffle)
+            {
+                // Collect cards into an array and shuffle first
+                var cards = EmitCards().ToArray();
+                cards.Shuffle(Calc.Random);
+                return cards;
+            }
+            else
+            {
+                // Emit generator directly
+                return EmitCards();
+            }
+
+            IEnumerable<Card> EmitCards()
+            {
+                // Generate standard 52 cards
+                for (var i = 1; i <= 52; i++)
+                {
+                    yield return new Card(i);
+                }
+
+                // Supplement 2 jokers
+                yield return new Card(0);
+                yield return new Card(0);
+            }
+        }
+
+        private static Vector GetCardPosition(int xi, int yi)
+        {
+            var w = GfxCardBack.Width;
+            var h = GfxCardBack.Height;
+
+            var x = Padding + (w / 2) + (xi * (w + Padding));
+            var y = Padding + (h / 2) + (yi * (h + Padding));
+
+            return new Vector(x, y);
+        }
+
+        private IEnumerator CoAnimateToPosition(Card card, Vector target)
+        {
+            var timer = Timer.StartNew(0.8F);
             var start = card.Transform.Position;
 
             while (timer.Remaining > 0)
@@ -110,24 +190,14 @@ namespace Examples.Gridcannon
                 yield return Coroutine.WaitNextFrame();
             }
 
-            // 
-            yield return CoWaitRandomTime(0.2F, 0.3F);
-            card.Flip();
-
             // Snap to final position
             card.Transform.Position = target;
-        }
-
-        private IEnumerator CoWaitRandomTime(float min, float max)
-        {
-            var seconds = Calc.Random.NextFloat(min, max);
-            yield return Coroutine.WaitSeconds(seconds);
         }
 
         protected override void OnMousePressed(int button, ButtonAction action, KeyModifiers modifiers)
         {
             // Inform the scene of a click event
-            Scene.NotifyMouseClick(button, action == ButtonAction.Press, _latestMousePosition);
+            _scene.NotifyMouseClick(button, action == ButtonAction.Press, _latestMousePosition);
         }
 
         protected override void OnMouseMove(float x, float y)
@@ -138,64 +208,17 @@ namespace Examples.Gridcannon
             _latestMousePosition = mousePosition;
 
             // Inform the scene of a mouse motion event
-            Scene.NotifyMouseMove(_latestMousePosition, deltaPosition);
+            _scene.NotifyMouseMove(_latestMousePosition, deltaPosition);
         }
 
         protected override void Update(RenderContext ctx, float dt)
         {
-            // ctx.DrawImage(CardBack, _cardPosition);
-            Scene.Update(ctx, dt);
-        }
-
-        public Image GetCardImage(Card card)
-        {
-            return CardImages[(int) card];
+            _scene.Update(ctx, dt);
         }
 
         private static void Main(string[] _)
         {
             Application.Run<GridcannonGame>();
-        }
-
-        public class CardEntity : Draggable
-        {
-            public bool IsFaceDown = true;
-
-            private readonly Image _cardImage;
-            private readonly Image _backImage;
-
-            public CardEntity(Card card, Image cardImage, Image backImage)
-                : base(backImage)
-            {
-                _cardImage = cardImage;
-                _backImage = backImage;
-
-                Card = card;
-            }
-
-            public Card Card { get; }
-
-            internal override bool OnMouseClick(int button, bool isDown, Vector position)
-            {
-                if (button == 1 && isDown)
-                {
-                    if (Bounds.Contains(position))
-                    {
-                        Flip();
-                        return true;
-                    }
-                }
-
-                return base.OnMouseClick(button, isDown, position);
-            }
-
-            public void Flip()
-            {
-                // Toggle if the card is facing down
-                IsFaceDown = !IsFaceDown;
-                if (IsFaceDown) { Image = _backImage; }
-                else { Image = _cardImage; }
-            }
         }
     }
 }

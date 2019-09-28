@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,19 +8,23 @@ namespace Heirloom.Collections
     /// <summary>
     /// Manages objects by their type hierarchy up to the base type, allowing access by enumeration of objects by type.
     /// </summary>
-    /// <typeparam name="TBase">Some base type</typeparam>
-    public class TypeDictionary<TBase> : ITypeDictionary<TBase>
+    /// <typeparam name="T">Some base type</typeparam>
+    public sealed class TypeDictionary<T> : ITypeDictionary<T>
     {
-        private readonly Dictionary<Type, List<TBase>> _typeLists;
-        private readonly HashSet<TBase> _items;
+        private readonly Dictionary<Type, List<T>> _typeLists;
+        private readonly HashSet<T> _items;
 
         public TypeDictionary()
         {
-            _typeLists = new Dictionary<Type, List<TBase>>();
-            _items = new HashSet<TBase>();
+            _typeLists = new Dictionary<Type, List<T>>();
+            _items = new HashSet<T>();
         }
 
-        public void Add(TBase item)
+        public int Count => _items.Count;
+
+        #region Add, Remove
+
+        public void Add(T item)
         {
             if (item == null) { throw new ArgumentNullException(nameof(item)); }
 
@@ -35,7 +40,7 @@ namespace Heirloom.Collections
             }
         }
 
-        public bool Remove(TBase item)
+        public bool Remove(T item)
         {
             // Try to remove item from bucket
             if (_items.Remove(item))
@@ -56,38 +61,42 @@ namespace Heirloom.Collections
             }
         }
 
-        public bool Contains(TBase item)
+        #endregion
+
+        #region Contains, ContainsType and Enumerate
+
+        public bool Contains(T item)
         {
             return _items.Contains(item);
         }
 
-        public bool ContainsType<X>() where X : TBase
+        public bool ContainsType<X>() where X : T
         {
             return _typeLists.ContainsKey(typeof(X));
         }
 
-        public IEnumerable<X> Enumerate<X>() where X : TBase
-            // TODO: Better name?
+        public IEnumerable<X> GetItemsByType<X>() where X : T
         {
             if (ContainsType<X>())
             {
-                // Specific type list
-                return _typeLists[typeof(X)] as List<X>;
-            }
-            else
-            {
-                // Nothing
-                return Enumerable.Empty<X>();
+                foreach (var x in GetListByType(typeof(X)))
+                {
+                    yield return (X) x; // todo: avoid cast...?
+                }
             }
         }
 
-        private List<TBase> GetListByType(Type type)
+        #endregion
+
+        #region Helpers
+
+        private List<T> GetListByType(Type type)
         {
             // Create type list if not already present
             if (!_typeLists.ContainsKey(type))
             {
                 // TODO: Actually create polymorphic List<X>
-                _typeLists[type] = new List<TBase>();
+                _typeLists[type] = new List<T>();
             }
 
             // Return appropriate type list
@@ -96,11 +105,31 @@ namespace Heirloom.Collections
 
         private static IEnumerable<Type> GetAncestorTypes(Type type)
         {
-            while (type != typeof(TBase))
+            while (type != typeof(T))
             {
+                // Emits each anscestor type
                 yield return type;
                 type = type.BaseType;
             }
+
+            // Emits the root type
+            yield return typeof(T);
         }
+
+        #endregion
+
+        #region IEnumerable<T>
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return _items.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        #endregion
     }
 }

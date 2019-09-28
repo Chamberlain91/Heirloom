@@ -185,6 +185,7 @@ namespace Heirloom.Drawing.OpenGLES
             return _thread.Invoke(action);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private Buffer GetUniformBuffer(ActiveUniformBlock block)
         {
             // Try to get uniform buffer for block name
@@ -518,10 +519,10 @@ namespace Heirloom.Drawing.OpenGLES
                     // Write into uniform buffer
                     SetShaderParamter("uMatrix", projMatrix);
 
-                    // Synchronize GPU with operations before drawing
-                    var sync = GL.FenceSync(SyncFenceCondition.SyncGpuCommandsComplete, 0);
-                    GL.WaitSync(sync, 0); // Wait GPU for buffer writes, etc
-                    GL.DeleteSync(sync);  // Remove sync object
+                    //// Synchronize GPU with operations before drawing
+                    //var sync = GL.FenceSync(SyncFenceCondition.SyncGpuCommandsComplete, 0);
+                    //GL.WaitSync(sync, 0); // Wait GPU for buffer writes, etc
+                    //GL.DeleteSync(sync);  // Remove sync object
 
                     // Draw batch
                     _renderer.Flush();

@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Heirloom.Collections\Heirloom.Collections.csproj" />
+    <ProjectReference Include="..\Heirloom.Drawing\Heirloom.Drawing.csproj" />
+    <ProjectReference Include="..\Heirloom.Math\Heirloom.Math.csproj" />
+  </ItemGroup>
+
+</Project>

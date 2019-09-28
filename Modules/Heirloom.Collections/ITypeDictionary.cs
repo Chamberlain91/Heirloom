@@ -26,7 +26,7 @@ namespace Heirloom.Collections
     /// A read-only view of <see cref="ITypeDictionary{T}"/>.
     /// </summary>
     /// <typeparam name="T">Some base type</typeparam>
-    public interface IReadOnlyTypeDictionary<T>
+    public interface IReadOnlyTypeDictionary<T> : IReadOnlyCollection<T>
     {
         /// <summary>
         /// Does this type dictionary contain this object?
@@ -47,6 +47,6 @@ namespace Heirloom.Collections
         /// </summary>
         /// <typeparam name="X">Some inherited type.</typeparam>
         /// <returns>Enumeration of objects by the inherited type.</returns>
-        IEnumerable<X> Enumerate<X>() where X : T;
+        IEnumerable<X> GetItemsByType<X>() where X : T;
     }
 }

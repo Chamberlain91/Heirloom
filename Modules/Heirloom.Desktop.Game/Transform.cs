@@ -1,6 +1,8 @@
-﻿using Heirloom.Math;
+﻿using System;
 
-namespace Examples.Gridcannon.Engine
+using Heirloom.Math;
+
+namespace Heirloom.Desktop.Game
 {
     public sealed class Transform : Component
     {
@@ -10,8 +12,17 @@ namespace Examples.Gridcannon.Engine
 
         private Matrix _matrix = Matrix.Identity;
         private Matrix _inverseMatrix = Matrix.Identity;
-        private bool _needComputeInverse = false;
-        private bool _needCompute = false;
+
+        private bool _needComputeInverse;
+        private bool _needComputeMatrix;
+        private bool _wasChanged;
+
+        public event Action Changed;
+
+        internal Transform()
+        {
+            MarkMutation();
+        }
 
         /// <summary>
         /// Gets or sets the position of the object.
@@ -23,7 +34,7 @@ namespace Examples.Gridcannon.Engine
             set
             {
                 _position = value;
-                _needCompute = true;
+                MarkMutation();
             }
         }
 
@@ -37,7 +48,7 @@ namespace Examples.Gridcannon.Engine
             set
             {
                 _rotation = value;
-                _needCompute = true;
+                MarkMutation();
             }
         }
 
@@ -51,7 +62,7 @@ namespace Examples.Gridcannon.Engine
             set
             {
                 _scale = value;
-                _needCompute = true;
+                MarkMutation();
             }
         }
 
@@ -62,11 +73,10 @@ namespace Examples.Gridcannon.Engine
         {
             get
             {
-                if (_needCompute)
+                if (_needComputeMatrix)
                 {
                     _matrix = Matrix.CreateTransform(_position, _rotation, _scale);
-                    _needComputeInverse = true;
-                    _needCompute = false;
+                    _needComputeMatrix = false;
                 }
 
                 return _matrix;
@@ -90,8 +100,20 @@ namespace Examples.Gridcannon.Engine
             }
         }
 
-        internal Transform(Entity entity)
-            : base(entity)
-        { }
+        protected internal override void Update(float dt)
+        {
+            if (_wasChanged)
+            {
+                _wasChanged = false;
+                Changed?.Invoke();
+            }
+        }
+
+        private void MarkMutation()
+        {
+            _needComputeMatrix = true;
+            _needComputeInverse = true;
+            _wasChanged = true;
+        }
     }
 }

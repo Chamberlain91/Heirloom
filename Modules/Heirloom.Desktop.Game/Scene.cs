@@ -6,7 +6,7 @@ using Heirloom.Collections;
 using Heirloom.Drawing;
 using Heirloom.Math;
 
-namespace Examples.Gridcannon.Engine
+namespace Heirloom.Desktop.Game
 {
     public class Scene
     {
@@ -129,7 +129,7 @@ namespace Examples.Gridcannon.Engine
             // Update Entities 
             foreach (var entity in _entities)
             {
-                entity.Update(dt);
+                entity.InternalUpdate(dt);
             }
         }
 
@@ -142,8 +142,7 @@ namespace Examples.Gridcannon.Engine
             foreach (var entity in _entities)
             {
                 ctx.SaveState();
-                entity.Draw(ctx);
-                entity.InternalDebugDraw(ctx);
+                entity.InternalDraw(ctx);
                 ctx.RestoreState();
             }
         }
@@ -155,7 +154,6 @@ namespace Examples.Gridcannon.Engine
             {
                 var entity = _entities[i];
 
-                // 
                 if (entity.OnMouseClick(button, isDown, position))
                 {
                     break;
