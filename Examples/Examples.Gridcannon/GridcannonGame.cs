@@ -68,7 +68,7 @@ namespace Examples.Gridcannon
             foreach (var card in Card.GenerateDeck(true))
             {
                 var entity = new CardEntity(card, GetCardImage(card), CardBack);
-                entity.Position = new Vector(Padding + CardBack.Width / 2, Padding + CardBack.Height / 2);
+                entity.Transform.Position = new Vector(Padding + CardBack.Width / 2, Padding + CardBack.Height / 2);
                 _cards.Add(entity);
             }
 
@@ -99,14 +99,14 @@ namespace Examples.Gridcannon
         private IEnumerator CoAnimateCard(CardEntity card, Vector target)
         {
             var timer = Timer.StartNew(Calc.Random.NextFloat(0.8F, 1.2F));
-            var start = card.Position;
+            var start = card.Transform.Position;
 
             while (timer.Remaining > 0)
             {
                 var t = timer.Elapsed / timer.Duration;
                 t = Calc.SmootherStep(0, 1, t);
 
-                card.Position = Vector.Lerp(start, target, t);
+                card.Transform.Position = Vector.Lerp(start, target, t);
                 yield return Coroutine.WaitNextFrame();
             }
 
@@ -115,7 +115,7 @@ namespace Examples.Gridcannon
             card.Flip();
 
             // Snap to final position
-            card.Position = target;
+            card.Transform.Position = target;
         }
 
         private IEnumerator CoWaitRandomTime(float min, float max)

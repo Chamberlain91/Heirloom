@@ -143,7 +143,7 @@ namespace Examples.Gridcannon.Engine
             {
                 ctx.SaveState();
                 entity.Draw(ctx);
-                entity.DrawDebug(ctx);
+                entity.InternalDebugDraw(ctx);
                 ctx.RestoreState();
             }
         }
