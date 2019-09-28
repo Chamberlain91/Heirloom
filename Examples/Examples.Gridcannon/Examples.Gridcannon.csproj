@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Files\cardBack_green5.png" />
+    <None Remove="Files\cardBack.png" />
     <None Remove="Files\cardClubs10.png" />
     <None Remove="Files\cardClubs2.png" />
     <None Remove="Files\cardClubs3.png" />
@@ -63,7 +63,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Files\cardBack_green5.png" />
+    <EmbeddedResource Include="Files\cardBack.png" />
     <EmbeddedResource Include="Files\cardClubs10.png" />
     <EmbeddedResource Include="Files\cardClubs2.png" />
     <EmbeddedResource Include="Files\cardClubs3.png" />
@@ -121,6 +121,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Modules\Heirloom.Collections\Heirloom.Collections.csproj" />
+    <ProjectReference Include="..\..\Modules\Heirloom.Desktop.Game\Heirloom.Desktop.Game.csproj" />
     <ProjectReference Include="..\..\Modules\Heirloom.IO\Heirloom.IO.csproj" />
     <ProjectReference Include="..\..\Platforms\Heirloom.Desktop\Heirloom.Desktop.csproj" />
   </ItemGroup>

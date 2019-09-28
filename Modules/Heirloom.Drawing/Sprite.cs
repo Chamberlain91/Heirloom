@@ -13,7 +13,7 @@ namespace Heirloom.Drawing
     /// </summary>
     public sealed class Sprite
     {
-        private readonly List<Frame> _frames;
+        private readonly List<FrameInfo> _frames;
         private readonly Dictionary<string, Animation> _animations;
 
         #region Constructors
@@ -24,7 +24,7 @@ namespace Heirloom.Drawing
         public Sprite()
         {
             _animations = new Dictionary<string, Animation>();
-            _frames = new List<Frame>();
+            _frames = new List<FrameInfo>();
         }
 
         /// <summary>
@@ -43,7 +43,6 @@ namespace Heirloom.Drawing
         public Sprite(Image image) : this()
         {
             if (image is null) { throw new ArgumentNullException(nameof(image)); }
-
 
             AddFrame(image, 1);
         }
@@ -85,7 +84,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Gets a read-only list of frames contained by this sprite.
         /// </summary>
-        public IReadOnlyList<Frame> Frames => _frames;
+        public IReadOnlyList<FrameInfo> Frames => _frames;
 
         /// <summary>
         /// Gets the name of each known animation sequence.
@@ -115,7 +114,7 @@ namespace Heirloom.Drawing
             if (delay <= 0) { throw new ArgumentOutOfRangeException(nameof(delay), "Must be greater than zero"); }
 
             // Append frame
-            _frames.Add(new Frame(image, delay));
+            _frames.Add(new FrameInfo(image, delay));
         }
 
         /// <summary>
@@ -148,9 +147,9 @@ namespace Heirloom.Drawing
             throw new KeyNotFoundException($"Unable to find animation named \"{name}\" in sprite.");
         }
 
-        public class Frame
+        public class FrameInfo
         {
-            internal Frame(Image image, float delay)
+            internal FrameInfo(Image image, float delay)
             {
                 Image = image ?? throw new ArgumentNullException(nameof(image));
                 Delay = delay;
@@ -165,6 +164,11 @@ namespace Heirloom.Drawing
             /// The delay in seconds to be used when animating the sprite.
             /// </summary>
             public float Delay { get; }
+
+            /// <summary>
+            /// Gets this frame's frame number.
+            /// </summary>
+            public int Index { get; }
         }
 
         public class Animation
@@ -174,6 +178,7 @@ namespace Heirloom.Drawing
                 Name = name ?? throw new ArgumentNullException(nameof(name));
                 From = from;
                 To = to;
+                Length = To - From + 1;
                 Direction = direction;
             }
 
@@ -191,6 +196,11 @@ namespace Heirloom.Drawing
             /// The index of the last frame of the animation.
             /// </summary>
             public int To { get; }
+
+            /// <summary>
+            /// The length of the animation in frames.
+            /// </summary>
+            public int Length { get; }
 
             /// <summary>
             /// The intended animation direction.

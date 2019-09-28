@@ -2,7 +2,7 @@
 
 using Heirloom.Math;
 
-namespace Examples.Gridcannon.Engine
+namespace Heirloom.Desktop.Game
 {
     public class Timer
     {

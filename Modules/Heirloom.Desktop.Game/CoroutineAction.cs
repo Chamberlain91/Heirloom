@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Examples.Gridcannon.Engine
+namespace Heirloom.Desktop.Game
 {
     public abstract class CoroutineAction
     {
