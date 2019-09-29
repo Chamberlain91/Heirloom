@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 using Heirloom.Drawing.Extras;
 using Heirloom.Math;
-
-using StbSharp;
+using StbImageSharp;
+using static StbImageSharp.StbImage;
+using static StbImageWriteSharp.StbImageWrite;
 
 namespace Heirloom.Drawing
 {
@@ -114,14 +115,14 @@ namespace Heirloom.Drawing
             {
                 // Decode from file to raw RGBA bytes
                 int width, height, comp;
-                var pResult = Stb.stbi_load_from_memory(buffer, file.Length, &width, &height, &comp, 4);
+                var pResult = stbi_load_from_memory(buffer, file.Length, &width, &height, &comp, 4);
 
                 // Copy from unmanaged to managed
                 var pixels = new byte[width * height * 4];
                 Marshal.Copy((IntPtr) pResult, pixels, 0, pixels.Length);
 
                 // Free stb bitmap
-                Stb.stbi_image_free(pResult);
+                CRuntime.free(pResult);
 
                 // Fully occupied and no parenting image
                 _pixels = new Pixel[width * height];
@@ -658,7 +659,7 @@ namespace Heirloom.Drawing
 
                 fixed (Pixel* pPixels = _pixels)
                 {
-                    if (Stb.stbi_write_png_to_func(WriteImageCallback, null, Width, Height, 4, pPixels, Width * 4) == 0)
+                    if (stbi_write_png_to_func(WriteImageCallback, null, Width, Height, 4, pPixels, Width * 4) == 0)
                     {
                         throw new InvalidOperationException("Unable to write png image to stream.");
                     }
@@ -682,7 +683,7 @@ namespace Heirloom.Drawing
 
                 fixed (Pixel* pPixels = _pixels)
                 {
-                    if (Stb.stbi_write_jpg_to_func(WriteImageCallback, null, Width, Height, 4, pPixels, quality) == 0)
+                    if (stbi_write_jpg_to_func(WriteImageCallback, null, Width, Height, 4, pPixels, quality) == 0)
                     {
                         throw new InvalidOperationException("Unable to write jpg image to stream.");
                     }

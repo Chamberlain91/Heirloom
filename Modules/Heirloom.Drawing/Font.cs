@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 using Heirloom.Math;
 
-using static StbSharp.Stb;
+using static StbTrueTypeSharp.StbTrueType;
 
 namespace Heirloom.Drawing
 {
@@ -311,7 +311,7 @@ namespace Heirloom.Drawing
             }
 
             // Free stb bitmap
-            stbtt_FreeBitmap(pBitmap, null);
+            stbtt_FreeBitmap(pBitmap);
         }
 
         #region Helper Functions
