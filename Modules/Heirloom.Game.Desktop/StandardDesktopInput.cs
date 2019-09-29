@@ -8,22 +8,28 @@ using Heirloom.Math;
 
 namespace Heirloom.Game.Desktop
 {
-    public sealed class StandardDesktopInput : InputSource
+    internal sealed class StandardDesktopInput : InputSource
     {
+        // event queues
         private readonly Queue<MouseMoveEvent> _mouseMoveEvents;
         private readonly Queue<MouseButtonEvent> _mouseButtonEvents;
+        private readonly Queue<MouseScrollEvent> _mouseScrollEvents;
         private readonly Queue<KeyboardEvent> _keyboardEvents;
         private readonly Queue<CharEvent> _characterEvents;
 
+        // active state
         private readonly HashSet<string> _buttonNames;
         private readonly Dictionary<string, ButtonState> _buttonState;
-        private Vector _pointer;
+        private Vector _pointer, _pointerDelta, _scroll;
+
+        #region Constructor 
 
         public StandardDesktopInput(Window window)
         {
             Window = window ?? throw new ArgumentNullException(nameof(window));
 
             // 
+            _mouseScrollEvents = new Queue<MouseScrollEvent>();
             _mouseButtonEvents = new Queue<MouseButtonEvent>();
             _mouseMoveEvents = new Queue<MouseMoveEvent>();
             _keyboardEvents = new Queue<KeyboardEvent>();
@@ -34,14 +40,15 @@ namespace Heirloom.Game.Desktop
             _buttonNames = new HashSet<string>();
 
             // Subscribe to keyboard events
-            window.KeyPress += OnKeyEvent;
-            window.KeyRelease += OnKeyEvent;
-            window.CharTyped += OnCharEvent;
+            Window.KeyPress += OnKeyEvent;
+            Window.KeyRelease += OnKeyEvent;
+            Window.CharTyped += OnCharEvent;
 
             // Subscribe to mouse events
-            window.MousePress += OnMouseButtonEvent;
-            window.MouseRelease += OnMouseButtonEvent;
-            window.MouseMove += OnMouseMoveEvent;
+            Window.MousePress += OnMouseButtonEvent;
+            Window.MouseRelease += OnMouseButtonEvent;
+            Window.MouseScroll += OnMouseScrollEvent;
+            Window.MouseMove += OnMouseMoveEvent;
         }
 
         ~StandardDesktopInput()
@@ -54,14 +61,24 @@ namespace Heirloom.Game.Desktop
             // Unsubscribe from mouse events
             Window.MousePress -= OnMouseButtonEvent;
             Window.MouseRelease -= OnMouseButtonEvent;
+            Window.MouseScroll -= OnMouseScrollEvent;
             Window.MouseMove -= OnMouseMoveEvent;
         }
 
+        #endregion
+
         public Window Window { get; }
+
+        #region Event Handlers
 
         private void OnMouseMoveEvent(MouseMoveEvent ev)
         {
             _mouseMoveEvents.Enqueue(ev);
+        }
+
+        private void OnMouseScrollEvent(MouseScrollEvent ev)
+        {
+            _mouseScrollEvents.Enqueue(ev);
         }
 
         private void OnMouseButtonEvent(MouseButtonEvent ev)
@@ -79,6 +96,8 @@ namespace Heirloom.Game.Desktop
             _characterEvents.Enqueue(ev);
         }
 
+        #endregion
+
         protected override bool TryGetPointer(out Vector state)
         {
             state = _pointer;
@@ -92,6 +111,15 @@ namespace Heirloom.Game.Desktop
 
         protected override bool TryGetAxis(string identifier, out float state)
         {
+            if (identifier == "scroll_x") { state = _scroll.X; return true; }
+            if (identifier == "scroll_y") { state = _scroll.Y; return true; }
+
+            if (identifier == "mouse_x") { state = _pointer.X; return true; }
+            if (identifier == "mouse_y") { state = _pointer.Y; return true; }
+
+            if (identifier == "mouse_dx") { state = _pointerDelta.X; return true; }
+            if (identifier == "mouse_dy") { state = _pointerDelta.Y; return true; }
+
             state = default;
             return false;
         }
@@ -105,88 +133,98 @@ namespace Heirloom.Game.Desktop
             }
 
             ProcessMouseMoveEvents();
+            ProcessMouseScrollEvents();
             ProcessMouseButtonEvents();
             ProcessCharacterEvents();
             ProcessKeyboardEvents();
-        }
 
-        private void ProcessKeyboardEvents()
-        {
-            // For each known keyboard event
-            while (_keyboardEvents.Count > 0)
+            void ProcessMouseMoveEvents()
             {
-                var ev = _keyboardEvents.Dequeue();
-
-                // Generate button identifier
-                var name = ev.Key.ToString().ToSnakeCase();
-
-                _buttonNames.Add(name);
-
-                switch (ev.Action)
+                _pointerDelta = Vector.Zero;
+                while (_mouseMoveEvents.Count > 0)
                 {
-                    case ButtonAction.Press:
-                        _buttonState[name] = ButtonState.Pressed;
-                        break;
-
-                    case ButtonAction.Release:
-                        _buttonState[name] = ButtonState.Released;
-                        break;
-                }
-            }
-        }
-
-        private void ProcessMouseButtonEvents()
-        {
-            while (_mouseButtonEvents.Count > 0)
-            {
-                var ev = _mouseButtonEvents.Dequeue();
-
-                // Generate button identifier
-                var name = $"mouse_{GetName(ev.Button)}";
-                _buttonNames.Add(name);
-
-                switch (ev.Action)
-                {
-                    case ButtonAction.Press:
-                        _buttonState[name] = ButtonState.Pressed;
-                        break;
-
-                    case ButtonAction.Release:
-                        _buttonState[name] = ButtonState.Released;
-                        break;
+                    var ev = _mouseMoveEvents.Dequeue();
+                    _pointerDelta += ev.Position - _pointer;
+                    _pointer = ev.Position;
                 }
             }
 
-            string GetName(int index)
+            void ProcessMouseScrollEvents()
             {
-                if (index == 0) { return "left"; }
-                else if (index == 1) { return "right"; }
-                else if (index == 2) { return "middle"; }
-                else if (index >= 3) { return $"extra{index - 3}"; }
-
-                // Shouldn't occur, but here anyway
-                return "unknown";
+                while (_mouseScrollEvents.Count > 0)
+                {
+                    var ev = _mouseScrollEvents.Dequeue();
+                    _scroll = ev.Scroll;
+                }
             }
-        }
 
-        private void ProcessMouseMoveEvents()
-        {
-            var delta = Vector.Zero;
-            while (_mouseMoveEvents.Count > 0)
+            void ProcessKeyboardEvents()
             {
-                var ev = _mouseMoveEvents.Dequeue();
-                delta += ev.Position - _pointer;
-                _pointer = ev.Position;
+                // For each known keyboard event
+                while (_keyboardEvents.Count > 0)
+                {
+                    var ev = _keyboardEvents.Dequeue();
+
+                    // Generate button identifier
+                    var name = ev.Key.ToString().ToSnakeCase();
+
+                    _buttonNames.Add(name);
+
+                    switch (ev.Action)
+                    {
+                        case ButtonAction.Press:
+                            _buttonState[name] = ButtonState.Pressed;
+                            break;
+
+                        case ButtonAction.Release:
+                            _buttonState[name] = ButtonState.Released;
+                            break;
+                    }
+                }
             }
-        }
 
-        private void ProcessCharacterEvents()
-        {
-            // todo: provide a mechanism for character input
-            // Just burn through the characters 
-            while (_characterEvents.Count > 0)
+            void ProcessMouseButtonEvents()
             {
-                _characterEvents.Dequeue();
+                while (_mouseButtonEvents.Count > 0)
+                {
+                    var ev = _mouseButtonEvents.Dequeue();
+
+                    // Generate button identifier
+                    var name = $"mouse_{GetName(ev.Button)}";
+                    _buttonNames.Add(name);
+
+                    switch (ev.Action)
+                    {
+                        case ButtonAction.Press:
+                            _buttonState[name] = ButtonState.Pressed;
+                            break;
+
+                        case ButtonAction.Release:
+                            _buttonState[name] = ButtonState.Released;
+                            break;
+                    }
+                }
+
+                string GetName(int index)
+                {
+                    if (index == 0) { return "left"; }
+                    else if (index == 1) { return "right"; }
+                    else if (index == 2) { return "middle"; }
+                    else if (index >= 3) { return $"extra{index - 3}"; }
+
+                    // Shouldn't occur, but here anyway
+                    return "unknown";
+                }
+            }
+
+            void ProcessCharacterEvents()
+            {
+                // todo: provide a mechanism for character input
+                // Just burn through the characters 
+                while (_characterEvents.Count > 0)
+                {
+                    _characterEvents.Dequeue();
+                }
             }
         }
     }

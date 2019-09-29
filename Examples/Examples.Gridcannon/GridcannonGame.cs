@@ -4,7 +4,6 @@ using System.Linq;
 
 using Heirloom.Collections;
 using Heirloom.Desktop;
-using Heirloom.Drawing;
 using Heirloom.Game;
 using Heirloom.Game.Desktop;
 using Heirloom.Math;
@@ -13,13 +12,12 @@ using static Examples.Gridcannon.Assets;
 
 namespace Examples.Gridcannon
 {
-    internal class GridcannonGame : GameWindow
+    internal class GridcannonGame : DesktopGame
     // rules: https://www.pentadact.com/2019-08-20-gridcannon-a-single-player-game-with-regular-playing-cards/
     {
         public static int Padding = 12;
 
         // 
-        private readonly SceneManager _sceneManager;
         private readonly Scene _scene;
 
         //  
@@ -37,7 +35,7 @@ namespace Examples.Gridcannon
         public GridcannonGame()
             : base("Gridcannon")
         {
-            ShowFPSOverlay = true;
+            Window.ShowFPSOverlay = true;
 
             // == Load Assets
 
@@ -46,16 +44,13 @@ namespace Examples.Gridcannon
             // == Size Window
 
             var mode = Monitor.Default.CurrentVideoMode;
-            Size = new IntSize(Padding + (GfxCardBack.Width + Padding) * 5, (GfxCardBack.Height + Padding) * 6);
-            Position = new IntVector(mode.Width - Size.Width, mode.Height - Size.Height) / 2;
-            IsResizable = false;
+            Window.Size = new IntSize(Padding + (GfxCardBack.Width + Padding) * 5, (GfxCardBack.Height + Padding) * 6);
+            Window.Position = new IntVector(mode.Width - Window.Size.Width, mode.Height - Window.Size.Height) / 2;
+            Window.IsResizable = false;
 
             // == Initialize Game State
 
-            // Track input from the window w/ basic mapping
-            Input.AddInputSource(new StandardDesktopInput(this));
-            _sceneManager = new SceneManager();
-            _sceneManager.Add(_scene = new Scene());
+            SceneManager.Add(_scene = new Scene());
 
             // Create card stacks 
             _scene.Add(_deck = new CardStack());
@@ -197,14 +192,9 @@ namespace Examples.Gridcannon
             card.Transform.Position = target;
         }
 
-        protected override void Update(RenderContext ctx, float dt)
-        {
-            _sceneManager.Update(dt, ctx);
-        }
-
         private static void Main(string[] _)
         {
-            Application.Run<GridcannonGame>();
+            Run<GridcannonGame>();
         }
     }
 }

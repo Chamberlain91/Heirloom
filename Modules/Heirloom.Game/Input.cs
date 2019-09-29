@@ -80,7 +80,7 @@ namespace Heirloom.Game
         }
 
         /// <summary>
-        /// Gets the state of an axis (ie, joystick, etc).
+        /// Gets the state of an axis (ie, horizontal thumbstick or trigger).
         /// </summary>
         public static float GetAxis(string identifier)
         {
@@ -97,6 +97,26 @@ namespace Heirloom.Game
             }
 
             return default;
+        }
+
+        /// <summary>
+        /// Gets the state of two axii (ie, a thumbstick).
+        /// </summary>
+        public static Vector GetVector(string xIdentifier, string yIdentifier)
+        {
+            var x = GetAxis(xIdentifier);
+            var y = GetAxis(yIdentifier);
+            return new Vector(x, y);
+        }
+
+        /// <summary>
+        /// Gets the state of two axii (ie, a thumbstick).
+        /// </summary>
+        public static Vector GetVector(string partialIdentifier)
+        {
+            var x = GetAxis($"{partialIdentifier}_x");
+            var y = GetAxis($"{partialIdentifier}_y");
+            return new Vector(x, y);
         }
     }
 }
