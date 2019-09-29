@@ -27,6 +27,8 @@ namespace Heirloom.Desktop
         private readonly MouseButtonCallback _mouseButtonCallback;
         private readonly ScrollCallback _scrollCallback;
 
+        #region Constructors
+
         public Window(int width, int height, string title, bool vsync = true, bool transparentFramebuffer = false, MultisampleQuality multisample = MultisampleQuality.None)
         {
             // Watch window
@@ -117,6 +119,10 @@ namespace Heirloom.Desktop
             GC.KeepAlive(_mouseButtonCallback);
             GC.KeepAlive(_scrollCallback);
         }
+
+        #endregion
+
+        #region Properties
 
         internal WindowHandle WindowHandle { get; private set; }
 
@@ -264,6 +270,10 @@ namespace Heirloom.Desktop
             }
         });
 
+        #endregion
+
+        #region Events
+
         public event Action<Window> Resized;
 
         public event Action<Window> FramebufferResized;
@@ -284,7 +294,9 @@ namespace Heirloom.Desktop
 
         public event Action<MouseScrollEvent> MouseScroll;
 
-        #region Events / Callback Sinks
+        #endregion
+
+        #region OnEvents
 
         protected virtual bool OnClosing()
         {
@@ -368,10 +380,7 @@ namespace Heirloom.Desktop
 
         #endregion
 
-        public void Close()
-        {
-            Dispose();
-        }
+        #region Window State (Show, Maximize, etc)
 
         public void Show()
         {
@@ -381,6 +390,11 @@ namespace Heirloom.Desktop
         public void Hide()
         {
             Application.Invoke(() => Glfw.HideWindow(WindowHandle));
+        }
+
+        public void Close()
+        {
+            Dispose();
         }
 
         public void Focus()
@@ -412,8 +426,28 @@ namespace Heirloom.Desktop
             Application.Invoke(() => Glfw.RestoreWindow(WindowHandle));
         }
 
+        #endregion
+
+        #region Fullscreen
+
         /// <summary>
-        /// Sets the specified window fullscreen on this monitor.
+        /// Sets the window to fullscreen using the nearest monitor and existing video mode.
+        /// </summary>
+        public void SetFullscreen()
+        {
+            SetFullscreen(GetNearestMonitor());
+        }
+
+        /// <summary>
+        /// Sets the window to fullscreen using the nearest monitor and specified video mode.
+        /// </summary>
+        public void SetFullscreen(VideoMode mode)
+        {
+            SetFullscreen(GetNearestMonitor(), mode);
+        }
+
+        /// <summary>
+        /// Sets the window to fullscreen using the specified monitor and existing video mode.
         /// </summary>
         public void SetFullscreen(Monitor monitor)
         {
@@ -421,7 +455,7 @@ namespace Heirloom.Desktop
         }
 
         /// <summary>
-        /// Sets the specified window fullscreen on this monitor.
+        /// Sets the window to fullscreen using the specified monitor and video mode.
         /// </summary>
         public void SetFullscreen(Monitor monitor, VideoMode mode)
         {
@@ -442,6 +476,45 @@ namespace Heirloom.Desktop
                     Glfw.SetWindowMonitor(WindowHandle, monitor.MonitorHandle, 0, 0, mode.Width, mode.Height, mode.RefreshRate);
                 }
             });
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Gets the monitor this window is positioned on.
+        /// </summary>
+        public Monitor GetNearestMonitor()
+        {
+            // Whatever monitor contains the window's center point is
+            // considered the nearest. Another method of evaluation may
+            // be more appropriate such as minimal sum of corner distances.
+            foreach (var monitor in Monitor.Monitors)
+            {
+                if (monitor.Workarea.Contains(Bounds.Center))
+                {
+                    return monitor;
+                }
+            }
+
+            // Somehow arrived here, just use the primary monitor.
+            return Monitor.Default;
+        }
+
+        /// <summary>
+        /// Moves the window to the center of the nearest monitor.
+        /// </summary>
+        public void MoveToCenter()
+        {
+            MoveToCenter(GetNearestMonitor());
+        }
+
+        /// <summary>
+        /// Moves the window to the center of the specified monitor.
+        /// </summary>
+        public void MoveToCenter(Monitor monitor)
+        {
+            var area = monitor.Workarea;
+            Position = new IntVector(area.Width - Size.Width, area.Height - Size.Height) / 2;
         }
 
         #region Dispose
@@ -502,74 +575,6 @@ namespace Heirloom.Desktop
                 Flush(); // todo: move to parent type, we always need to flush here!
                 Invoke(() => Glfw.SwapBuffers(Window.WindowHandle), false);
             }
-        }
-    }
-
-    public readonly struct KeyboardEvent
-    {
-        public readonly Key Key;
-
-        public readonly int ScanCode;
-
-        public readonly ButtonAction Action;
-
-        public readonly KeyModifiers Modifiers;
-
-        internal KeyboardEvent(Key key, int scanCode, ButtonAction action, KeyModifiers modifiers)
-        {
-            Key = key;
-            ScanCode = scanCode;
-            Action = action;
-            Modifiers = modifiers;
-        }
-    }
-
-    public readonly struct CharEvent
-    {
-        public readonly UnicodeCharacter Character;
-
-        internal CharEvent(UnicodeCharacter character)
-        {
-            Character = character;
-        }
-    }
-
-    public readonly struct MouseButtonEvent
-    {
-        public readonly int Button;
-
-        public readonly ButtonAction Action;
-
-        public readonly KeyModifiers Modifiers;
-
-        public readonly Vector Position;
-
-        internal MouseButtonEvent(int button, ButtonAction action, KeyModifiers modifiers, Vector position)
-        {
-            Button = button;
-            Action = action;
-            Modifiers = modifiers;
-            Position = position;
-        }
-    }
-
-    public readonly struct MouseMoveEvent
-    {
-        public readonly Vector Position;
-
-        internal MouseMoveEvent(float x, float y)
-        {
-            Position = new Vector(x, y);
-        }
-    }
-
-    public readonly struct MouseScrollEvent
-    {
-        public readonly Vector Scroll;
-
-        internal MouseScrollEvent(float x, float y)
-        {
-            Scroll = new Vector(x, y);
         }
     }
 }

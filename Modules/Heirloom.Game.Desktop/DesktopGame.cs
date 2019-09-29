@@ -7,10 +7,10 @@ namespace Heirloom.Game.Desktop
 {
     public abstract class DesktopGame : AbstractGame
     {
-        protected DesktopGame(string title)
+        protected DesktopGame(string title, bool vsync = true, MultisampleQuality multisample = MultisampleQuality.None)
             : base(title)
         {
-            Window = new DesktopGameWindow(this);
+            Window = new DesktopGameWindow(this, vsync, multisample);
         }
 
         public GameWindow Window { get; }
@@ -19,8 +19,8 @@ namespace Heirloom.Game.Desktop
         {
             Application.Run(() =>
             {
+                // Create a new instance of the game
                 var game = new TGame();
-                Input.AddInputSource(new StandardDesktopInput(game.Window));
                 game.Window.Run();
             });
         }
@@ -32,10 +32,14 @@ namespace Heirloom.Game.Desktop
 
         private class DesktopGameWindow : GameWindow
         {
-            public DesktopGameWindow(DesktopGame game)
-                : base(game.Title)
+            public DesktopGameWindow(DesktopGame game, bool vsync, MultisampleQuality multisample)
+                : base(game.Title, vsync: vsync, multisample: multisample)
             {
+                // 
                 Game = game ?? throw new ArgumentNullException(nameof(game));
+
+                // Add input source from this window
+                Input.AddInputSource(new StandardDesktopInput(this));
             }
 
             public DesktopGame Game { get; }

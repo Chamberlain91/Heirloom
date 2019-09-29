@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Heirloom.GLFW;
+using Heirloom.Math;
 
 namespace Heirloom.Desktop
 {
@@ -16,19 +17,28 @@ namespace Heirloom.Desktop
         }
 
         /// <summary>
-        /// The human-readable name of the monitor.
+        /// Gets the human-readable name of the monitor.
         /// </summary>
         public string Name { get; }
 
         /// <summary>
-        /// The current video mode on this monitor.
+        /// Gets the current video mode on this monitor.
         /// </summary>
         public VideoMode CurrentVideoMode => Application.Invoke(() => Glfw.GetVideoMode(MonitorHandle));
 
         /// <summary>
-        /// Get known video modes on this monitor.
+        /// Gets the work area of the monitor (ie, region ignoring taskbar).
         /// </summary>
-        /// <returns></returns>
+        public IntRectangle Workarea => Application.Invoke(() =>
+        {
+            var area = default(IntRectangle);
+            Glfw.GetMonitorWorkarea(MonitorHandle, out area.X, out area.Y, out area.Width, out area.Height);
+            return area;
+        });
+
+        /// <summary>
+        /// Gets all known video modes on this monitor.
+        /// </summary>
         public VideoMode[] GetVideoModes()
         {
             return Application.Invoke(() => Glfw.GetVideoModes(MonitorHandle));
@@ -60,10 +70,7 @@ namespace Heirloom.Desktop
         /// <summary>
         /// Get all currently connected monitors.
         /// </summary>
-        public static IEnumerable<Monitor> GetMonitors()
-        {
-            return _monitors.Values;
-        }
+        public static IEnumerable<Monitor> Monitors => _monitors.Values;
 
         private static void OnMonitorCallback(MonitorHandle monitor, ConnectState state)
         {

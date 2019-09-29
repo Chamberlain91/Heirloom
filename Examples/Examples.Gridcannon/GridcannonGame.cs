@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Heirloom.Collections;
-using Heirloom.Desktop;
 using Heirloom.Game;
 using Heirloom.Game.Desktop;
 using Heirloom.Math;
@@ -43,10 +42,9 @@ namespace Examples.Gridcannon
 
             // == Size Window
 
-            var mode = Monitor.Default.CurrentVideoMode;
             Window.Size = new IntSize(Padding + (GfxCardBack.Width + Padding) * 5, (GfxCardBack.Height + Padding) * 6);
-            Window.Position = new IntVector(mode.Width - Window.Size.Width, mode.Height - Window.Size.Height) / 2;
             Window.IsResizable = false;
+            Window.MoveToCenter();
 
             // == Initialize Game State
 
