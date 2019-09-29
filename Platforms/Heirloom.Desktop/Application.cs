@@ -21,16 +21,16 @@ namespace Heirloom.Desktop
         /// </summary>
         public static bool SupportsTransparentFramebuffer { get; private set; }
 
-        public static void Run<W>() where W : GameWindow, new()
+        public static void Run<TGameWindow>() where TGameWindow : GameWindow, new()
         {
             Run(() =>
             {
-                var game = new W();
+                var game = new TGameWindow();
                 game.Run();
             });
         }
 
-        public static void Run(ThreadStart threadStart)
+        public static void Run(Action initialize)
         {
             // Initialize GLFW
             if (!Glfw.Initialize())
@@ -69,7 +69,7 @@ namespace Heirloom.Desktop
             _windows = new List<Window>();
 
             // 
-            threadStart();
+            initialize();
 
             // While any window is open
             while (Windows.Count > 0)

@@ -25,6 +25,7 @@ namespace Heirloom.Desktop
 
         private readonly CursorPositionCallback _cursorPositionCallback;
         private readonly MouseButtonCallback _mouseButtonCallback;
+        private readonly ScrollCallback _scrollCallback;
 
         public Window(int width, int height, string title, bool vsync = true, bool transparentFramebuffer = false, MultisampleQuality multisample = MultisampleQuality.None)
         {
@@ -96,6 +97,7 @@ namespace Heirloom.Desktop
             // Mouse callbacks
             Glfw.SetCursorPositionCallback(WindowHandle, _cursorPositionCallback = (_, x, y) => OnMouseMove((float) x, (float) y));
             Glfw.SetMouseButtonCallback(WindowHandle, _mouseButtonCallback = (_, b, a, m) => OnMousePressed(b, a, m));
+            Glfw.SetScrollCallback(WindowHandle, _scrollCallback = (_, x, y) => OnMouseScroll((float) x, (float) y));
         }
 
         ~Window()
@@ -113,6 +115,7 @@ namespace Heirloom.Desktop
 
             GC.KeepAlive(_cursorPositionCallback);
             GC.KeepAlive(_mouseButtonCallback);
+            GC.KeepAlive(_scrollCallback);
         }
 
         internal WindowHandle WindowHandle { get; private set; }
@@ -279,6 +282,8 @@ namespace Heirloom.Desktop
 
         public event Action<MouseMoveEvent> MouseMove;
 
+        public event Action<MouseScrollEvent> MouseScroll;
+
         #region Events / Callback Sinks
 
         protected virtual bool OnClosing()
@@ -353,6 +358,12 @@ namespace Heirloom.Desktop
             var ev = new MouseMoveEvent(x, y);
             _mousePosition = ev.Position;
             MouseMove?.Invoke(ev);
+        }
+
+        protected virtual void OnMouseScroll(float x, float y)
+        {
+            var ev = new MouseScrollEvent(x, y);
+            MouseScroll?.Invoke(ev);
         }
 
         #endregion
@@ -544,11 +555,21 @@ namespace Heirloom.Desktop
 
     public readonly struct MouseMoveEvent
     {
-        readonly public Vector Position;
+        public readonly Vector Position;
 
         internal MouseMoveEvent(float x, float y)
         {
             Position = new Vector(x, y);
+        }
+    }
+
+    public readonly struct MouseScrollEvent
+    {
+        public readonly Vector Scroll;
+
+        internal MouseScrollEvent(float x, float y)
+        {
+            Scroll = new Vector(x, y);
         }
     }
 }

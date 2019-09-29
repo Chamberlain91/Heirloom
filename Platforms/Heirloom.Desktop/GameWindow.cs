@@ -49,7 +49,8 @@ namespace Heirloom.Desktop
         #endregion
 
         /// <summary>
-        /// Run the game thread.
+        /// Run the game thread. 
+        /// Should be invoked from within the callback of <see cref="Application.Run(Action)"/>.
         /// </summary>
         public void Run()
         {

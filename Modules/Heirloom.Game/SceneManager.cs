@@ -8,7 +8,7 @@ namespace Heirloom.Game
     {
         private readonly List<Scene> _activeScenes;
 
-        public SceneManager()
+        internal SceneManager()
         {
             _activeScenes = new List<Scene>();
         }
@@ -25,11 +25,8 @@ namespace Heirloom.Game
             _activeScenes.Remove(scene);
         }
 
-        public void Update(float dt, RenderContext ctx)
+        internal void Update(RenderContext ctx, float dt)
         {
-            // Process input
-            Input.Update();
-
             // Process active scenes
             foreach (var scene in _activeScenes)
             {
