@@ -1,4 +1,5 @@
-﻿using Heirloom.Desktop.Game;
+﻿using System;
+using Heirloom.Game;
 
 namespace Examples.Gridcannon
 {
@@ -15,7 +16,7 @@ namespace Examples.Gridcannon
 
             // Create and attch renderer
             _renderer = new ImageRenderer(Assets.GfxCardBack);
-            AttachComponent(_renderer);
+            AddComponent(_renderer);
         }
 
         /// <summary>

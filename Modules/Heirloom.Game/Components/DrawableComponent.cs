@@ -1,9 +1,8 @@
-﻿
-using Heirloom.Drawing;
+﻿using Heirloom.Drawing;
 
-namespace Heirloom.Desktop.Game
+namespace Heirloom.Game
 {
-    public abstract class Renderer : Component
+    public abstract class DrawableComponent : Component
     {
         /// <summary>
         /// Gets or sets if this component will draw.

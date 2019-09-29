@@ -121,7 +121,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Modules\Heirloom.Collections\Heirloom.Collections.csproj" />
-    <ProjectReference Include="..\..\Modules\Heirloom.Desktop.Game\Heirloom.Desktop.Game.csproj" />
+    <ProjectReference Include="..\..\Modules\Heirloom.Game.Desktop\Heirloom.Game.Desktop.csproj" />
+    <ProjectReference Include="..\..\Modules\Heirloom.Game\Heirloom.Game.csproj" />
     <ProjectReference Include="..\..\Modules\Heirloom.IO\Heirloom.IO.csproj" />
     <ProjectReference Include="..\..\Platforms\Heirloom.Desktop\Heirloom.Desktop.csproj" />
   </ItemGroup>

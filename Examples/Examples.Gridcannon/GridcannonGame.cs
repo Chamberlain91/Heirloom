@@ -4,9 +4,9 @@ using System.Linq;
 
 using Heirloom.Collections;
 using Heirloom.Desktop;
-using Heirloom.Desktop.Game;
 using Heirloom.Drawing;
-using Heirloom.GLFW;
+using Heirloom.Game;
+using Heirloom.Game.Desktop;
 using Heirloom.Math;
 
 using static Examples.Gridcannon.Assets;
@@ -18,8 +18,8 @@ namespace Examples.Gridcannon
     {
         public static int Padding = 12;
 
-        //
-        private Vector _latestMousePosition;
+        // 
+        private readonly SceneManager _sceneManager;
         private readonly Scene _scene;
 
         //  
@@ -52,7 +52,10 @@ namespace Examples.Gridcannon
 
             // == Initialize Game State
 
-            _scene = new Scene();
+            // Track input from the window w/ basic mapping
+            Input.AddInputSource(new StandardDesktopInput(this));
+            _sceneManager = new SceneManager();
+            _sceneManager.Add(_scene = new Scene());
 
             // Create card stacks 
             _scene.Add(_deck = new CardStack());
@@ -112,7 +115,7 @@ namespace Examples.Gridcannon
                 _grid[xi, yi].AddTopCard(card);
 
                 var delay = (xi + (yi * 3)) / 9F;
-                _scene.StartCoroutine(delay, CoAnimateToPosition(card, _grid[xi, yi].Transform.Position));
+                card.StartCoroutine(delay, CoAnimateToPosition(card, _grid[xi, yi].Transform.Position));
             }
 
             //for (var i = 0; i < royalCards.Count; i++)
@@ -130,7 +133,7 @@ namespace Examples.Gridcannon
             // todo: properly do game...
             var firstCard = _deck.DrawTopCard();
             firstCard.IsFaceDown = false;
-            _scene.StartCoroutine(1.5F, CoAnimateToPosition(firstCard, GetCardPosition(1, 0)));
+            firstCard.StartCoroutine(1.5F, CoAnimateToPosition(firstCard, GetCardPosition(1, 0)));
 
             // 
             _deck.ReorderEntities();
@@ -194,26 +197,9 @@ namespace Examples.Gridcannon
             card.Transform.Position = target;
         }
 
-        protected override void OnMousePressed(int button, ButtonAction action, KeyModifiers modifiers)
-        {
-            // Inform the scene of a click event
-            _scene.NotifyMouseClick(button, action == ButtonAction.Press, _latestMousePosition);
-        }
-
-        protected override void OnMouseMove(float x, float y)
-        {
-            // Compute delta position
-            var mousePosition = new Vector(x, y);
-            var deltaPosition = mousePosition - _latestMousePosition;
-            _latestMousePosition = mousePosition;
-
-            // Inform the scene of a mouse motion event
-            _scene.NotifyMouseMove(_latestMousePosition, deltaPosition);
-        }
-
         protected override void Update(RenderContext ctx, float dt)
         {
-            _scene.Update(ctx, dt);
+            _sceneManager.Update(dt, ctx);
         }
 
         private static void Main(string[] _)
