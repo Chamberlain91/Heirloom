@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace StbSharp
+namespace StbImageWriteSharp
 {
+#pragma warning disable IDE1006 // Naming Styles
+#pragma warning disable CS0649  // Default value null
+#pragma warning disable CS0169  // Unassigned
+
     internal static unsafe class CRuntime
     {
-#pragma warning disable IDE1006 // Naming Styles
-
         public const long DBL_EXP_MASK = 0x7ff0000000000000L;
         public const int DBL_MANT_BITS = 52;
         public const long DBL_SGN_MASK = -1 - 0x7fffffffffffffffL;
@@ -27,15 +29,12 @@ namespace StbSharp
 
         public static void memcpy(void* a, void* b, long size)
         {
-            //var ap = (byte*) a;
-            //var bp = (byte*) b;
-            //for (long i = 0; i < size; ++i)
-            //{
-            //    *ap++ = *bp++;
-            //}
-
-            // 
-            Buffer.MemoryCopy(b, a, size, size);
+            var ap = (byte*) a;
+            var bp = (byte*) b;
+            for (long i = 0; i < size; ++i)
+            {
+                *ap++ = *bp++;
+            }
         }
 
         public static void memcpy(void* a, void* b, ulong size)
@@ -184,141 +183,9 @@ namespace StbSharp
 
             return number;
         }
-
-        public static double pow(double a, double b)
-        {
-            return Math.Pow(a, b);
-        }
-
-        public static float fabs(double a)
-        {
-            return (float) Math.Abs(a);
-        }
-
-        public static double ceil(double a)
-        {
-            return Math.Ceiling(a);
-        }
-
-
-        public static double floor(double a)
-        {
-            return Math.Floor(a);
-        }
-
-        public static double log(double value)
-        {
-            return Math.Log(value);
-        }
-
-        public static double exp(double value)
-        {
-            return Math.Exp(value);
-        }
-
-        public static double cos(double value)
-        {
-            return Math.Cos(value);
-        }
-
-        public static double acos(double value)
-        {
-            return Math.Acos(value);
-        }
-
-        public static double sin(double value)
-        {
-            return Math.Sin(value);
-        }
-
-        public static double ldexp(double number, int exponent)
-        {
-            return number * Math.Pow(2, exponent);
-        }
-
-        public delegate int QSortComparer(void* a, void* b);
-
-        private static void qsortSwap(byte* data, long size, long pos1, long pos2)
-        {
-            var a = data + size * pos1;
-            var b = data + size * pos2;
-
-            for (long k = 0; k < size; ++k)
-            {
-                var tmp = *a;
-                *a = *b;
-                *b = tmp;
-
-                a++;
-                b++;
-            }
-        }
-
-        private static long qsortPartition(byte* data, long size, QSortComparer comparer, long left, long right)
-        {
-            void* pivot = data + size * left;
-            var i = left - 1;
-            var j = right + 1;
-            for (; ; )
-            {
-                do
-                {
-                    ++i;
-                } while (comparer(data + size * i, pivot) < 0);
-
-                do
-                {
-                    --j;
-                } while (comparer(data + size * j, pivot) > 0);
-
-                if (i >= j)
-                {
-                    return j;
-                }
-
-                qsortSwap(data, size, i, j);
-            }
-        }
-
-
-        private static void qsortInternal(byte* data, long size, QSortComparer comparer, long left, long right)
-        {
-            if (left < right)
-            {
-                var p = qsortPartition(data, size, comparer, left, right);
-
-                qsortInternal(data, size, comparer, left, p);
-                qsortInternal(data, size, comparer, p + 1, right);
-            }
-        }
-
-        public static void qsort(void* data, ulong count, ulong size, QSortComparer comparer)
-        {
-            qsortInternal((byte*) data, (long) size, comparer, 0, (long) count - 1);
-        }
-
-        public static double sqrt(double val)
-        {
-            return Math.Sqrt(val);
-        }
-
-        public static double fmod(double x, double y)
-        {
-            return x % y;
-        }
-
-        public static ulong strlen(sbyte* str)
-        {
-            var ptr = str;
-
-            while (*ptr != '\0')
-            {
-                ptr++;
-            }
-
-            return (ulong) ptr - (ulong) str - 1;
-        }
+    }
 
 #pragma warning restore IDE1006 // Naming Styles
-    }
+#pragma warning restore CS0649  // Default value null
+#pragma warning restore CS0169  // Unassigned
 }

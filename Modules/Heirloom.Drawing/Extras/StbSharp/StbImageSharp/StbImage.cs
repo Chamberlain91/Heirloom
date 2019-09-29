@@ -1,11 +1,14 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 
-namespace StbSharp
+namespace StbImageSharp
 {
-    internal static unsafe partial class Stb
-    {
 #pragma warning disable IDE1006 // Naming Styles
+#pragma warning disable CS0649  // Default value null
+#pragma warning disable CS0169  // Unassigned
 
+    internal static unsafe partial class StbImage
+    {
         public static string LastError;
 
         public const int STBI__ZFAST_BITS = 9;
@@ -31,6 +34,37 @@ namespace StbSharp
             public ReadCallback read;
             public SkipCallback skip;
             public EofCallback eof;
+        }
+
+        public class stbi__context : IDisposable
+        {
+            public uint img_x = 0;
+            public uint img_y = 0;
+            public int img_n = 0;
+            public int img_out_n = 0;
+            public stbi_io_callbacks io = new stbi_io_callbacks();
+            public void* io_user_data;
+            public int read_from_callbacks = 0;
+            public int buflen = 0;
+            public byte* buffer_start = (byte*) CRuntime.malloc(128);
+            public byte* img_buffer;
+            public byte* img_buffer_end;
+            public byte* img_buffer_original;
+            public byte* img_buffer_original_end;
+
+            ~stbi__context()
+            {
+                Dispose();
+            }
+
+            public void Dispose()
+            {
+                if (buffer_start != null)
+                {
+                    CRuntime.free(buffer_start);
+                    buffer_start = null;
+                }
+            }
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -139,12 +173,13 @@ namespace StbSharp
             public byte suffix;
         }
 
-        public class stbi__gif
+        public class stbi__gif : IDisposable
         {
             public int w;
             public int h;
             public byte* _out_;
-            public byte* old_out;
+            public byte* background;
+            public byte* history;
             public int flags;
             public int bgindex;
             public int ratio;
@@ -153,7 +188,7 @@ namespace StbSharp
             public int delay;
             public byte* pal;
             public byte* lpal;
-            public stbi__gif_lzw* codes;
+            public stbi__gif_lzw* codes = (stbi__gif_lzw*) stbi__malloc(8192 * sizeof(stbi__gif_lzw));
             public byte* color_table;
             public int parse;
             public int step;
@@ -168,15 +203,35 @@ namespace StbSharp
 
             public stbi__gif()
             {
-                codes = (stbi__gif_lzw*) stbi__malloc(4096 * sizeof(stbi__gif_lzw));
                 pal = (byte*) stbi__malloc(256 * 4 * sizeof(byte));
                 lpal = (byte*) stbi__malloc(256 * 4 * sizeof(byte));
             }
-        }
 
-        public static void stbi_image_free(void* retval)
-        {
-            CRuntime.free(retval);
+            ~stbi__gif()
+            {
+                Dispose();
+            }
+
+            public void Dispose()
+            {
+                if (pal != null)
+                {
+                    CRuntime.free(pal);
+                    pal = null;
+                }
+
+                if (lpal != null)
+                {
+                    CRuntime.free(lpal);
+                    lpal = null;
+                }
+
+                if (codes != null)
+                {
+                    CRuntime.free(codes);
+                    codes = null;
+                }
+            }
         }
 
         private static void* stbi__malloc(int size)
@@ -206,7 +261,9 @@ namespace StbSharp
                 pal[i * 4 + 3] = (byte) (transp == i ? 0 : 255);
             }
         }
+    }
 
 #pragma warning restore IDE1006 // Naming Styles
-    }
+#pragma warning restore CS0649  // Default value null
+#pragma warning restore CS0169  // Unassigned
 }
