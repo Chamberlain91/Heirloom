@@ -13,6 +13,8 @@ namespace Heirloom.Desktop
         private IntSize _framebufferSize;
         private string _title;
 
+        private Vector _mousePosition;
+
         private readonly WindowCloseCallback _windowCloseCallback;
         private readonly WindowPositionCallback _windowPositionCallback;
         private readonly FramebufferSizeCallback _framebufferSizeCallback;
@@ -263,6 +265,20 @@ namespace Heirloom.Desktop
 
         public event Action<Window> FramebufferResized;
 
+        public event Action<KeyboardEvent> KeyPress;
+
+        public event Action<KeyboardEvent> KeyRelease;
+
+        public event Action<KeyboardEvent> KeyRepeat;
+
+        public event Action<CharEvent> CharTyped;
+
+        public event Action<MouseButtonEvent> MousePress;
+
+        public event Action<MouseButtonEvent> MouseRelease;
+
+        public event Action<MouseMoveEvent> MouseMove;
+
         #region Events / Callback Sinks
 
         protected virtual bool OnClosing()
@@ -285,24 +301,58 @@ namespace Heirloom.Desktop
             // Does nothing by default
         }
 
-        protected virtual void OnKeyPressed(Key key, int scancode, ButtonAction action, KeyModifiers modifiers)
+        protected virtual void OnKeyPressed(Key key, int scanCode, ButtonAction action, KeyModifiers modifiers)
         {
-            // Does nothing by default
+            var ev = new KeyboardEvent(key, scanCode, action, modifiers);
+
+            switch (action)
+            {
+                default:
+                    throw new InvalidOperationException("Encountered illegal key action");
+
+                case ButtonAction.Press:
+                    KeyPress?.Invoke(ev);
+                    break;
+
+                case ButtonAction.Release:
+                    KeyRelease?.Invoke(ev);
+                    break;
+
+                case ButtonAction.Repeat:
+                    KeyRepeat?.Invoke(ev);
+                    break;
+            }
         }
 
         protected virtual void OnCharTyped(UnicodeCharacter character)
         {
-            // Does nothing by default
+            var ev = new CharEvent(character);
+            CharTyped?.Invoke(ev);
         }
 
         protected virtual void OnMousePressed(int button, ButtonAction action, KeyModifiers modifiers)
         {
-            // Does nothing by default
+            var ev = new MouseButtonEvent(button, action, modifiers, _mousePosition);
+            switch (action)
+            {
+                default:
+                    throw new InvalidOperationException("Encountered illegal mosue button action");
+
+                case ButtonAction.Press:
+                    MousePress?.Invoke(ev);
+                    break;
+
+                case ButtonAction.Release:
+                    MouseRelease?.Invoke(ev);
+                    break;
+            }
         }
 
         protected virtual void OnMouseMove(float x, float y)
         {
-            // Does nothing by default
+            var ev = new MouseMoveEvent(x, y);
+            _mousePosition = ev.Position;
+            MouseMove?.Invoke(ev);
         }
 
         #endregion
@@ -441,6 +491,64 @@ namespace Heirloom.Desktop
                 Flush(); // todo: move to parent type, we always need to flush here!
                 Invoke(() => Glfw.SwapBuffers(Window.WindowHandle), false);
             }
+        }
+    }
+
+    public readonly struct KeyboardEvent
+    {
+        public readonly Key Key;
+
+        public readonly int ScanCode;
+
+        public readonly ButtonAction Action;
+
+        public readonly KeyModifiers Modifiers;
+
+        internal KeyboardEvent(Key key, int scanCode, ButtonAction action, KeyModifiers modifiers)
+        {
+            Key = key;
+            ScanCode = scanCode;
+            Action = action;
+            Modifiers = modifiers;
+        }
+    }
+
+    public readonly struct CharEvent
+    {
+        public readonly UnicodeCharacter Character;
+
+        internal CharEvent(UnicodeCharacter character)
+        {
+            Character = character;
+        }
+    }
+
+    public readonly struct MouseButtonEvent
+    {
+        public readonly int Button;
+
+        public readonly ButtonAction Action;
+
+        public readonly KeyModifiers Modifiers;
+
+        public readonly Vector Position;
+
+        internal MouseButtonEvent(int button, ButtonAction action, KeyModifiers modifiers, Vector position)
+        {
+            Button = button;
+            Action = action;
+            Modifiers = modifiers;
+            Position = position;
+        }
+    }
+
+    public readonly struct MouseMoveEvent
+    {
+        readonly public Vector Position;
+
+        internal MouseMoveEvent(float x, float y)
+        {
+            Position = new Vector(x, y);
         }
     }
 }

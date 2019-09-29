@@ -1,6 +1,6 @@
 ﻿using Heirloom.Drawing;
 
-namespace Heirloom.Desktop.Game
+namespace Heirloom.Game
 {
     public sealed class ImageRenderer : Renderer
     {
@@ -29,6 +29,9 @@ namespace Heirloom.Desktop.Game
 
         protected internal override void Draw(RenderContext ctx)
         {
+            ctx.Blending = Blending;
+            ctx.Color = Color;
+
             ctx.DrawImage(Image, Transform.Matrix);
         }
     }

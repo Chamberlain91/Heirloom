@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Heirloom.Desktop.Game
+namespace Heirloom.Game
 {
     public abstract class CoroutineAction
     {

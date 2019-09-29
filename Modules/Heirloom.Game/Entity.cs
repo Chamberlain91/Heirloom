@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
 using Heirloom.Collections;
 using Heirloom.Drawing;
-using Heirloom.Math;
 
-namespace Heirloom.Desktop.Game
+namespace Heirloom.Game
 {
     public abstract class Entity
     {
@@ -14,12 +14,15 @@ namespace Heirloom.Desktop.Game
 
         private readonly TypeDictionary<Component> _components;
 
+        private readonly CoroutineRunner _coroutineRunner;
+
         protected Entity()
         {
+            _coroutineRunner = new CoroutineRunner();
             _components = new TypeDictionary<Component>();
 
             // Default Components
-            Transform = AttachComponent(new Transform());
+            Transform = AddComponent(new Transform());
         }
 
         /// <summary>
@@ -46,12 +49,38 @@ namespace Heirloom.Desktop.Game
             }
         }
 
-        public C AttachComponent<C>() where C : Component, new()
+        #region Coroutines
+
+        public Coroutine StartCoroutine(float delay, IEnumerator enumerator)
         {
-            return AttachComponent(new C());
+            return _coroutineRunner.Run(delay, enumerator);
         }
 
-        public C AttachComponent<C>(C component) where C : Component
+        public Coroutine StartCoroutine(float delay, Func<IEnumerator> coroutine)
+        {
+            return StartCoroutine(delay, coroutine());
+        }
+
+        public Coroutine StartCoroutine(IEnumerator enumerator)
+        {
+            return StartCoroutine(0, enumerator);
+        }
+
+        public Coroutine StartCoroutine(Func<IEnumerator> coroutine)
+        {
+            return StartCoroutine(0, coroutine());
+        }
+
+        #endregion
+
+        #region Components
+
+        public C AddComponent<C>() where C : Component, new()
+        {
+            return AddComponent(new C());
+        }
+
+        public C AddComponent<C>(C component) where C : Component
         {
             if (component.Entity == null)
             {
@@ -65,7 +94,7 @@ namespace Heirloom.Desktop.Game
             }
         }
 
-        public void DetatchComponent(Component component)
+        public void RemoveComponent(Component component)
         {
             if (component.Entity == null)
             {
@@ -95,6 +124,8 @@ namespace Heirloom.Desktop.Game
             return _components.GetItemsByType<C>();
         }
 
+        #endregion
+
         protected virtual void Update(float dt) { }
 
         protected virtual void Draw(RenderContext ctx) { }
@@ -104,6 +135,9 @@ namespace Heirloom.Desktop.Game
 
         internal void InternalUpdate(float dt)
         {
+            // Update coroutines
+            _coroutineRunner.Update(dt);
+
             // Update entity
             Update(dt);
 
@@ -123,7 +157,7 @@ namespace Heirloom.Desktop.Game
             Draw(ctx);
 
             // Draw each component
-            foreach (var c in GetComponents<Renderer>())
+            foreach (var c in GetComponents<DrawableComponent>())
             {
                 if (c.IsEnabled && c.IsVisible)
                 {
@@ -133,16 +167,6 @@ namespace Heirloom.Desktop.Game
 
             // Draw debug mode visuals
             DrawDebug(ctx);
-        }
-
-        protected internal virtual bool OnMouseClick(int button, bool isDown, Vector position)
-        {
-            return false;
-        }
-
-        protected internal virtual bool OnMouseMove(Vector position, Vector delta)
-        {
-            return false;
         }
     }
 }

@@ -2,9 +2,10 @@
 
 using Heirloom.Math;
 
-namespace Heirloom.Desktop.Game
+namespace Heirloom.Game
 {
     public sealed class Transform : Component
+    // todo: Transform Hierarchy via Parent and Children properties
     {
         private Vector _position = Vector.Zero;
         private float _rotation = 0;

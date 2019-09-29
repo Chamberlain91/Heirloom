@@ -376,6 +376,14 @@ namespace Heirloom.Math
             return CreateTransform(position.X, position.Y, angle, scale.X, scale.Y);
         }
 
+        /// <summary>
+        /// Creates a transform matrix with postion, rotation and scale.
+        /// </summary>
+        public static Matrix CreateTransform(in Vector position, float angle, in float scale)
+        {
+            return CreateTransform(position.X, position.Y, angle, scale, scale);
+        }
+
         #endregion
 
         #region Create Rectangle Projection

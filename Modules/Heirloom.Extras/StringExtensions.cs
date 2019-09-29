@@ -17,6 +17,26 @@
         }
 
         /// <summary>
+        /// Transforms a variable name like string into sname case (ie, "myExampleString" into "my_example_string").
+        /// </summary>
+        public static string ToSnakeCase(this string @this)
+        {
+            return @this.ToSmartDisplayName()
+                        .ToLowerInvariant()
+                        .Replace(' ', '_');
+        }
+
+        /// <summary>
+        /// Transforms a variable name like string into sname case (ie, "myExampleString" into "MY_EXAMPLE_STRING").
+        /// </summary>
+        public static string ToShoutingCase(this string @this)
+        {
+            return @this.ToSmartDisplayName()
+                        .ToUpperInvariant()
+                        .Replace(' ', '_');
+        }
+
+        /// <summary>
         /// Transform a variable name like string to an improved display string (akin to Unity's NicifyVariableName). <para/>
         /// Ie, "myExampleString" becomes "My Example String"
         /// </summary>

@@ -2,7 +2,7 @@
 
 using Heirloom.Math;
 
-namespace Heirloom.Desktop.Game
+namespace Heirloom.Game
 {
     public class Timer
     {

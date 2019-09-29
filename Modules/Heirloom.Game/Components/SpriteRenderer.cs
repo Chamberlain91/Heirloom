@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 using Heirloom.Drawing;
 
-namespace Heirloom.Desktop.Game
+namespace Heirloom.Game
 {
     public sealed class SpriteRenderer : Renderer
     {
@@ -157,6 +157,9 @@ namespace Heirloom.Desktop.Game
 
         protected internal override void Draw(RenderContext ctx)
         {
+            ctx.Blending = Blending;
+            ctx.Color = Color;
+
             ctx.DrawSprite(Sprite, 0, Transform.Matrix);
         }
     }

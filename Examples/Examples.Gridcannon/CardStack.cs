@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Heirloom.Desktop.Game;
+using Heirloom.Game;
 using Heirloom.Drawing;
 using Heirloom.Math;
 

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Heirloom.Desktop.Game
+namespace Heirloom.Game
 {
     public class Coroutine
     {
