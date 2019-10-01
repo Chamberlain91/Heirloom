@@ -11,7 +11,7 @@ namespace Benchmark
         public BenchmarkApp App;
 
         public Program()
-            : base("Heirloom Benchmark", vsync: false)
+            : base(new WindowCreationSettings { EnableVSync = false }, "Heirloom Benchmark")
         {
             // Try fullscreen, otherwise maximize
             // Note: This might be useless, but one time on a mac it failed
@@ -40,7 +40,11 @@ namespace Benchmark
 
         private static void Main(string[] args)
         {
-            Application.Run<Program>();
+            Application.Run(() =>
+            {
+                var program = new Program();
+                program.Run();
+            });
         }
     }
 }

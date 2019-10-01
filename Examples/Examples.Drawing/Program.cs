@@ -1,7 +1,5 @@
-﻿using System;
-using Heirloom.Desktop;
+﻿using Heirloom.Desktop;
 using Heirloom.Drawing;
-using Heirloom.Extras;
 using Heirloom.GLFW;
 using Heirloom.Math;
 
@@ -15,7 +13,7 @@ namespace Examples.Drawing
         public Demo CurrentDemo => _demos[_demoIndex];
 
         public Program()
-            : base("Heirloom - Drawing Examples", multisample: MultisampleQuality.High)
+            : base(new WindowCreationSettings { Multisample = MultisampleQuality.High }, "Heirloom - Drawing Examples")
         {
             ShowFPSOverlay = true;
             IsResizable = false;
@@ -95,7 +93,11 @@ namespace Examples.Drawing
 
         private static void Main(string[] args)
         {
-            Application.Run<Program>();
+            Application.Run(() =>
+            {
+                var program = new Program();
+                program.Run();
+            });
         }
     }
 }
