@@ -32,9 +32,9 @@ namespace Examples.Gridcannon
         };
 
         public GridcannonGame()
-            : base("Gridcannon")
         {
             Window.ShowFPSOverlay = true;
+            Window.Title = "Gridcannon";
 
             // == Load Assets
 

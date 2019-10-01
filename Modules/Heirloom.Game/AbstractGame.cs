@@ -4,13 +4,10 @@ namespace Heirloom.Game
 {
     public abstract class AbstractGame
     {
-        protected AbstractGame(string title)
+        protected AbstractGame()
         {
             SceneManager = new SceneManager();
-            Title = title;
         }
-
-        public string Title { get; }
 
         public RenderContext RenderContext { get; }
 

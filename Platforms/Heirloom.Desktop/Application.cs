@@ -21,15 +21,6 @@ namespace Heirloom.Desktop
         /// </summary>
         public static bool SupportsTransparentFramebuffer { get; private set; }
 
-        public static void Run<TGameWindow>() where TGameWindow : GameWindow, new()
-        {
-            Run(() =>
-            {
-                var game = new TGameWindow();
-                game.Run();
-            });
-        }
-
         public static void Run(Action initialize)
         {
             // Initialize GLFW

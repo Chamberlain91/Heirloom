@@ -91,7 +91,7 @@ namespace Heirloom.Drawing.OpenGLES
                 var code = GetSourceCode(filePath, 0);
 
                 // Is OpenGL ES (Mobile)
-                if (_renderContext.Info.IsEmbedded)
+                if (_renderContext.Version.IsEmbedded)
                 {
                     // 
                     var prefix = "#version 300 es\n";
