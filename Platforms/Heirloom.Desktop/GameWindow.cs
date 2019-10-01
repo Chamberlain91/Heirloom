@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 
 using Heirloom.Drawing;
@@ -7,6 +8,61 @@ using Heirloom.Math;
 
 namespace Heirloom.Desktop
 {
+    public class RenderLoop
+    {
+        public delegate void UpdateFunction(RenderContext ctx, float dt);
+
+        private readonly UpdateFunction _update;
+        private Thread _thread;
+
+        public RenderLoop(RenderContext context, UpdateFunction update)
+        {
+            _update = update ?? throw new ArgumentNullException(nameof(update));
+            Context = context;
+        }
+
+        public RenderContext Context { get; }
+
+        public bool IsRunning { get; set; }
+
+        public void Start()
+        {
+            if (IsRunning) { throw new InvalidOperationException($"{nameof(RenderLoop)} has already started."); }
+
+            // Create and start thread
+            IsRunning = true;
+            _thread = new Thread(ThreadBody) { IsBackground = true, Name = "Render Thread" };
+            _thread.Start();
+        }
+
+        public void Stop()
+        {
+            if (!IsRunning) { throw new InvalidOperationException($"{nameof(RenderLoop)} has already stopped."); }
+
+            IsRunning = false;
+            _thread.Join();
+        }
+
+        private void ThreadBody()
+        {
+            var stopwatch = Stopwatch.StartNew();
+
+            while (IsRunning)
+            {
+                // == Compute Delta
+
+                var delta = (float) stopwatch.Elapsed.TotalSeconds;
+                stopwatch.Restart();
+
+                // == Render Phase
+
+                Context.ResetState();
+                _update(Context, delta);
+                Context.SwapBuffers();
+            }
+        }
+    }
+
     /// <summary>
     /// A window with an embedded thread running a game loop.
     /// </summary>
@@ -17,15 +73,19 @@ namespace Heirloom.Desktop
         private float _fpsTime;
         private int _fpsCount;
 
+        private RenderLoop _renderLoop;
+
         #region Constructors
 
         protected GameWindow(string title = "Heirloom Game Window")
-            : base(title)
+            : this(WindowCreationSettings.Default, title)
         { }
 
         protected GameWindow(WindowCreationSettings settings, string title = "Heirloom Game Window")
             : base(settings, title)
-        { }
+        {
+            _renderLoop = new RenderLoop(RenderContext, RenderUpdate);
+        }
 
         #endregion
 
@@ -44,7 +104,7 @@ namespace Heirloom.Desktop
         /// <summary>
         /// Is the game thread running?
         /// </summary>
-        public bool IsRunning { get; private set; }
+        public bool IsRunning => _renderLoop.IsRunning;
 
         #endregion
 
@@ -54,62 +114,41 @@ namespace Heirloom.Desktop
         /// </summary>
         public void Run()
         {
-            if (IsRunning)
-            {
-                throw new InvalidOperationException("Unable to run the game thread a second time.");
-            }
-
-            // Run game thread
-            var thread = new Thread(GameThread) { Name = "Game Thread", IsBackground = true };
-            thread.Start();
+            _renderLoop.Start();
         }
 
-        private void GameThread()
+        private void RenderUpdate(RenderContext ctx, float dt)
         {
-            IsRunning = true;
+            Update(RenderContext, dt);
 
-            var time = Glfw.GetTime();
+            // == Render FPS Overlay
 
-            // 
-            while (!IsClosed)
+            if (ShowFPSOverlay)
             {
-                // Compute frame time
-                var now = Glfw.GetTime();
-                var delta = (float) (now - time);
-                time = now;
-
-                // == Update/Render Phase
-
                 RenderContext.ResetState();
-                Update(RenderContext, delta);
 
-                // == Render FPS Overlay
+                var text = $"FPS: {FrameRate.ToString("0.00")}";
+                var size = Font.Default.MeasureText(text, 16);
 
-                if (ShowFPSOverlay)
-                {
-                    RenderContext.ResetState();
+                RenderContext.Color = Color.DarkGray;
+                RenderContext.DrawRect(new Rectangle(FramebufferSize.Width - 8 - size.Width - 3, 8, size.Width + 4, size.Height + 1));
 
-                    var text = $"FPS: {FrameRate.ToString("0.00")}";
-                    var size = Font.Default.MeasureText(text, 16);
-
-                    RenderContext.Color = Color.DarkGray;
-                    RenderContext.DrawRect(new Rectangle(FramebufferSize.Width - 8 - size.Width - 3, 8, size.Width + 4, size.Height + 1));
-
-                    RenderContext.Color = Color.Pink;
-                    RenderContext.DrawText(text, new Vector(FramebufferSize.Width - 8, 8), Font.Default, 16, TextAlign.Right);
-                }
-
-                // == Swap Buffers
-
-                RenderContext.SwapBuffers();
-
-                // == Compute Timing Metrics
-
-                ComputeFPS(delta);
+                RenderContext.Color = Color.Pink;
+                RenderContext.DrawText(text, new Vector(FramebufferSize.Width - 8, 8), Font.Default, 16, TextAlign.Right);
             }
 
-            // 
-            IsRunning = false;
+            // == Compute Timing Metrics
+
+            ComputeFPS(dt);
+        }
+
+        protected override void Dispose(bool disposeManaged)
+        {
+            // Stop render thread
+            _renderLoop.Stop();
+
+            // Dispose window
+            base.Dispose(disposeManaged);
         }
 
         private void ComputeFPS(float delta)
