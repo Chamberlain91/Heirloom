@@ -29,15 +29,22 @@ namespace Heirloom.Desktop
 
         #region Constructors
 
-        public Window(int width, int height, string title, bool vsync = true, bool transparentFramebuffer = false, MultisampleQuality multisample = MultisampleQuality.None)
+        public Window(string title = "Heirloom Window")
+            : this(WindowCreationSettings.Default, title)
+        { }
+
+        public Window(WindowCreationSettings settings, string title = "Heirloom Window")
         {
             // Watch window
             Application.AddWindow(this);
 
             // 
-            Transparent = transparentFramebuffer && Application.SupportsTransparentFramebuffer;
-            Multisample = multisample;
-            VSync = vsync;
+            WindowCreationSettings.FillDefaults(ref settings);
+
+            // 
+            Transparent = settings.UseTransparentFramebuffer.Value && Application.SupportsTransparentFramebuffer;
+            Multisample = settings.Multisample.Value;
+            VSync = settings.EnableVSync.Value;
 
             // 
             _title = title;
@@ -46,11 +53,11 @@ namespace Heirloom.Desktop
             WindowHandle = Application.Invoke(() =>
             {
                 // 
-                Glfw.SetWindowCreationHint(WindowCreationHint.Samples, (int) multisample);
+                Glfw.SetWindowCreationHint(WindowCreationHint.Samples, (int) Multisample);
 
                 // Create window
-                Glfw.SetWindowCreationHint(WindowAttribute.TransparentFramebuffer, transparentFramebuffer);
-                var handle = Glfw.CreateWindow(width, height, title, MonitorHandle.None, Application.ShareContext);
+                Glfw.SetWindowCreationHint(WindowAttribute.TransparentFramebuffer, Transparent);
+                var handle = Glfw.CreateWindow(settings.Width.Value, settings.Height.Value, title, MonitorHandle.None, Application.ShareContext);
 
                 // Query intial window properties
                 Glfw.GetWindowSize(handle, out _bounds.Width, out _bounds.Height);
@@ -500,6 +507,8 @@ namespace Heirloom.Desktop
             return Monitor.Default;
         }
 
+        #region MoveTo
+
         /// <summary>
         /// Moves the window to the center of the nearest monitor.
         /// </summary>
@@ -516,6 +525,8 @@ namespace Heirloom.Desktop
             var area = monitor.Workarea;
             Position = new IntVector(area.Width - Size.Width, area.Height - Size.Height) / 2;
         }
+
+        #endregion
 
         #region Dispose
 

@@ -7,10 +7,13 @@ namespace Heirloom.Game.Desktop
 {
     public abstract class DesktopGame : AbstractGame
     {
-        protected DesktopGame(string title, bool vsync = true, MultisampleQuality multisample = MultisampleQuality.None)
-            : base(title)
+        protected DesktopGame()
+            : this(WindowCreationSettings.Default)
+        { }
+
+        protected DesktopGame(WindowCreationSettings settings)
         {
-            Window = new DesktopGameWindow(this, vsync, multisample);
+            Window = new DesktopGameWindow(this, settings);
         }
 
         public GameWindow Window { get; }
@@ -32,8 +35,8 @@ namespace Heirloom.Game.Desktop
 
         private class DesktopGameWindow : GameWindow
         {
-            public DesktopGameWindow(DesktopGame game, bool vsync, MultisampleQuality multisample)
-                : base(game.Title, vsync: vsync, multisample: multisample)
+            public DesktopGameWindow(DesktopGame game, WindowCreationSettings settings)
+                : base(settings)
             {
                 // 
                 Game = game ?? throw new ArgumentNullException(nameof(game));

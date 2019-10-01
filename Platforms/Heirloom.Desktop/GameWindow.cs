@@ -19,12 +19,12 @@ namespace Heirloom.Desktop
 
         #region Constructors
 
-        protected GameWindow(string title, bool vsync = true, bool transparent = false, MultisampleQuality multisample = MultisampleQuality.None)
-            : this(1280, 720, title, vsync, transparent, multisample)
+        protected GameWindow(string title = "Heirloom Game Window")
+            : base(title)
         { }
 
-        protected GameWindow(int width, int height, string title, bool vsync = true, bool transparent = false, MultisampleQuality multisample = MultisampleQuality.None)
-            : base(width, height, title, vsync, transparent, multisample)
+        protected GameWindow(WindowCreationSettings settings, string title = "Heirloom Game Window")
+            : base(settings, title)
         { }
 
         #endregion

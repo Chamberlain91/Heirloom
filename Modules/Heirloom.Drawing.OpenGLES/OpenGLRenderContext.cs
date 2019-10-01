@@ -50,7 +50,9 @@ namespace Heirloom.Drawing.OpenGLES
 
         public bool IsDisposed { get; private set; } = false;
 
-        public VersionInfo Info { get; private set; }
+        public GLCapabilities Capabilities { get; private set; }
+
+        public GLVersion Version { get; private set; }
 
         #endregion
 
@@ -64,7 +66,8 @@ namespace Heirloom.Drawing.OpenGLES
             PrepareContext();
 
             //  
-            Console.WriteLine(Info = ParseVersion());
+            Console.WriteLine(Version = ParseVersion());
+            Capabilities = GetCapabilities();
 
             // 
             GL.Enable(EnableCap.ScissorTest);
@@ -75,10 +78,7 @@ namespace Heirloom.Drawing.OpenGLES
             _shaderFactory = new ShaderFactory(this);
 
             // Construct the instancing batching renderer
-            var maxTextureImageUnits = GL.GetInteger(GetParameter.MaxTextureImageUnits);
-            _renderer = new InstancingRenderer(this, maxTextureImageUnits); // todo: reserve 4 for effect units?
-
-            Console.WriteLine($"Max Texture Units: {maxTextureImageUnits}");
+            _renderer = new InstancingRenderer(this);
 
             // Set the default shader
             var defaultShader = _shaderFactory.GetShaderProgram("shader.vert", "shader.frag");
@@ -92,7 +92,15 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        private VersionInfo ParseVersion()
+        private GLCapabilities GetCapabilities()
+        {
+            return new GLCapabilities
+            {
+                MaxTextureUnits = GL.GetInteger(GetParameter.MaxTextureImageUnits)
+            };
+        }
+
+        private GLVersion ParseVersion()
         // ref: https://hackage.haskell.org/package/bindings-GLFW-3.1.2.2/src/glfw/src/context.c
         {
             var vendor = GL.GetString(StringParameter.Vendor);
@@ -132,7 +140,7 @@ namespace Heirloom.Drawing.OpenGLES
             var major = int.Parse(version.Substring(0, minDot));
             var minor = int.Parse(version.Substring(minDot + 1, revDot - minDot - 1));
 
-            return new VersionInfo
+            return new GLVersion
             {
                 Vendor = vendor,
                 Renderer = renderer,
@@ -155,7 +163,6 @@ namespace Heirloom.Drawing.OpenGLES
                 // Create and start new task runner
                 _thread = new ConsumerThread("GL Consumer");
                 _thread.InvokeLater(InitializeContext);
-                _thread.InvokeLater(ResetState);
                 _thread.Start();
             }
         }
@@ -558,7 +565,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
-        public struct VersionInfo
+        public struct GLVersion
         {
             public string Vendor;
             public string Renderer;
@@ -573,6 +580,11 @@ namespace Heirloom.Drawing.OpenGLES
                 if (IsEmbedded) { return $"OpenGL ES {Major}.{Minor} - {Vendor} - {Renderer}"; }
                 else { return $"OpenGL {Major}.{Minor} - {Vendor} - {Renderer}"; }
             }
+        }
+
+        public struct GLCapabilities
+        {
+            public int MaxTextureUnits;
         }
     }
 }

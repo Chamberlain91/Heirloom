@@ -9,26 +9,24 @@ namespace Heirloom.Drawing.OpenGLES
 {
     internal unsafe class InstancingRenderer : Renderer
     {
-        private readonly OpenGLRenderContext _renderingContext;
+        private readonly OpenGLRenderContext _context;
         private readonly VertexArray _vertexArray;
 
         private readonly Dictionary<Texture, int> _textures;
         private readonly Texture[] _texturesState;
-        private readonly int _maxTextureUnits;
 
         private Mesh _mesh;
         private uint _meshVersion;
 
         #region Constructors
 
-        public InstancingRenderer(OpenGLRenderContext renderingContext, int maxTextureUnits)
+        public InstancingRenderer(OpenGLRenderContext context)
         {
-            _renderingContext = renderingContext;
+            _context = context;
 
-            // Query for maximum textures
-            _maxTextureUnits = maxTextureUnits;
-            _texturesState = new Texture[_maxTextureUnits];
-            _textures = new Dictionary<Texture, int>(_maxTextureUnits);
+            // Query for maximum textures 
+            _texturesState = new Texture[context.Capabilities.MaxTextureUnits]; // todo: reserve 3 for effect units?
+            _textures = new Dictionary<Texture, int>(context.Capabilities.MaxTextureUnits);
 
             // Create buffer sets
             _vertexArray = new VertexArray();
@@ -67,7 +65,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
 
             // Get OpenGL texture and packed rect
-            var (texture, textureRect) = ResourceManager.GetTextureInfo(_renderingContext, image);
+            var (texture, textureRect) = ResourceManager.GetTextureInfo(_context, image);
 
             int textureSlot;
 
@@ -75,7 +73,7 @@ namespace Heirloom.Drawing.OpenGLES
             if (!_textures.ContainsKey(texture))
             {
                 // Texture mechanism is full, emit batched drawing
-                if (_textures.Count == _maxTextureUnits)
+                if (_textures.Count == _context.Capabilities.MaxTextureUnits)
                 {
                     Flush();
                 }
@@ -133,7 +131,7 @@ namespace Heirloom.Drawing.OpenGLES
             if (_vertexArray.InstanceCount > 0)
             {
                 // Perform on the rendering thread
-                _renderingContext.Invoke(() =>
+                _context.Invoke(() =>
                 {
                     // Update GPU side buffers
                     _vertexArray.Update();
@@ -162,7 +160,7 @@ namespace Heirloom.Drawing.OpenGLES
                 });
 
                 // Update current surface version number, as we have mutated it
-                _renderingContext.MarkSurfaceDirty();
+                _context.MarkSurfaceDirty();
 
                 // 
                 _vertexArray.InstanceCount = 0;
