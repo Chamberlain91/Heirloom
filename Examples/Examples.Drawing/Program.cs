@@ -5,19 +5,18 @@ using Heirloom.Math;
 
 namespace Examples.Drawing
 {
-    internal class Program : GameWindow
+    internal class Program
     {
         private int _demoIndex = 0;
         private readonly Demo[] _demos;
 
         public Demo CurrentDemo => _demos[_demoIndex];
 
-        public Program()
-            : base(new WindowCreationSettings { Multisample = MultisampleQuality.High }, "Heirloom - Drawing Examples")
-        {
-            ShowFPSOverlay = true;
-            IsResizable = false;
+        public RenderLoop Loop;
+        public Window Window;
 
+        public Program()
+        {
             // 
             _demos = new Demo[]
             {
@@ -32,9 +31,24 @@ namespace Examples.Drawing
                 new MeshDemo(),
                 new SurfaceDemo()
             };
+
+            // Create window
+            Window = new Window("Heirloom - Drawing Examples", new WindowCreationSettings
+            {
+                Multisample = MultisampleQuality.High,
+                IsResizable = false
+            });
+
+            // Create render loop
+            Loop = RenderLoop.CreateDefault(Window.RenderContext, Update);
+            Loop.ShowFPSOverlay = true;
+            Loop.Start();
+
+            // Register key events
+            Window.KeyPress += Window_KeyPress;
         }
 
-        protected override void Update(RenderContext ctx, float dt)
+        private void Update(RenderContext ctx, float dt)
         {
             ctx.Clear(Color.DarkGray);
 
@@ -65,11 +79,11 @@ namespace Examples.Drawing
             }
         }
 
-        protected override void OnKeyPressed(Key key, int scancode, ButtonAction action, KeyModifiers modifiers)
+        private void Window_KeyPress(Window win, KeyboardEvent ev)
         {
-            if (action == ButtonAction.Press)
+            if (ev.Action == ButtonAction.Press)
             {
-                if (key == Key.Up)
+                if (ev.Key == Key.Up)
                 {
                     _demoIndex--;
 
@@ -79,7 +93,7 @@ namespace Examples.Drawing
                     }
                 }
 
-                if (key == Key.Down)
+                if (ev.Key == Key.Down)
                 {
                     _demoIndex++;
 
@@ -93,11 +107,7 @@ namespace Examples.Drawing
 
         private static void Main(string[] args)
         {
-            Application.Run(() =>
-            {
-                var program = new Program();
-                program.Run();
-            });
+            Application.Run(() => new Program());
         }
     }
 }

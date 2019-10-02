@@ -29,11 +29,11 @@ namespace Heirloom.Desktop
 
         #region Constructors
 
-        public Window(string title = "Heirloom Window")
-            : this(WindowCreationSettings.Default, title)
+        public Window(string title)
+            : this(title, WindowCreationSettings.Default)
         { }
 
-        public Window(WindowCreationSettings settings, string title = "Heirloom Window")
+        public Window(string title, WindowCreationSettings settings)
         {
             // Watch window
             Application.AddWindow(this);
@@ -44,10 +44,7 @@ namespace Heirloom.Desktop
             // 
             Transparent = settings.UseTransparentFramebuffer.Value && Application.SupportsTransparentFramebuffer;
             Multisample = settings.Multisample.Value;
-            VSync = settings.EnableVSync.Value;
-
-            // 
-            _title = title;
+            VSync = settings.VSync.Value;
 
             // 
             WindowHandle = Application.Invoke(() =>
@@ -57,7 +54,7 @@ namespace Heirloom.Desktop
 
                 // Create window
                 Glfw.SetWindowCreationHint(WindowAttribute.TransparentFramebuffer, Transparent);
-                var handle = Glfw.CreateWindow(settings.Width.Value, settings.Height.Value, title, MonitorHandle.None, Application.ShareContext);
+                var handle = Glfw.CreateWindow(settings.Size.Value.Width, settings.Size.Value.Height, title, MonitorHandle.None, Application.ShareContext);
 
                 // Query intial window properties
                 Glfw.GetWindowSize(handle, out _bounds.Width, out _bounds.Height);
@@ -68,9 +65,11 @@ namespace Heirloom.Desktop
                 return handle;
             });
 
-            // == Construct Render Context
+            // Set if the window is resizable (must happen after window is created)
+            IsResizable = settings.IsResizable.Value;
 
-            RenderContext = new WindowRenderContext(this);
+            // 
+            _title = title;
 
             // == Bind Callbacks
 
@@ -78,7 +77,12 @@ namespace Heirloom.Desktop
             {
                 IsClosed = OnClosing();
                 Glfw.SetWindowShouldClose(WindowHandle, IsClosed);
-                if (IsClosed) { Dispose(); }
+
+                if (IsClosed)
+                {
+                    OnClosed();
+                    Dispose();
+                }
             });
 
             Glfw.SetFramebufferSizeCallback(WindowHandle, _framebufferSizeCallback = (_, w, h) =>
@@ -107,6 +111,10 @@ namespace Heirloom.Desktop
             Glfw.SetCursorPositionCallback(WindowHandle, _cursorPositionCallback = (_, x, y) => OnMouseMove((float) x, (float) y));
             Glfw.SetMouseButtonCallback(WindowHandle, _mouseButtonCallback = (_, b, a, m) => OnMousePressed(b, a, m));
             Glfw.SetScrollCallback(WindowHandle, _scrollCallback = (_, x, y) => OnMouseScroll((float) x, (float) y));
+
+            // == Construct Render Context
+
+            RenderContext = new WindowRenderContext(this);
         }
 
         ~Window()
@@ -285,30 +293,29 @@ namespace Heirloom.Desktop
 
         public event Action<Window> FramebufferResized;
 
-        public event Action<KeyboardEvent> KeyPress;
+        public event Action<Window, KeyboardEvent> KeyPress;
 
-        public event Action<KeyboardEvent> KeyRelease;
+        public event Action<Window, KeyboardEvent> KeyRelease;
 
-        public event Action<KeyboardEvent> KeyRepeat;
+        public event Action<Window, KeyboardEvent> KeyRepeat;
 
-        public event Action<CharEvent> CharTyped;
+        public event Action<Window, CharEvent> CharTyped;
 
-        public event Action<MouseButtonEvent> MousePress;
+        public event Action<Window, MouseButtonEvent> MousePress;
 
-        public event Action<MouseButtonEvent> MouseRelease;
+        public event Action<Window, MouseButtonEvent> MouseRelease;
 
-        public event Action<MouseMoveEvent> MouseMove;
+        public event Action<Window, MouseScrollEvent> MouseScroll;
 
-        public event Action<MouseScrollEvent> MouseScroll;
+        public event Action<Window, MouseMoveEvent> MouseMove;
+
+        public event Func<Window, bool> Closing;
+
+        public event Action<Window> Closed;
 
         #endregion
 
         #region OnEvents
-
-        protected virtual bool OnClosing()
-        {
-            return true; // Yes, should close by default
-        }
 
         protected virtual void OnWindowResized(int w, int h)
         {
@@ -335,15 +342,15 @@ namespace Heirloom.Desktop
                     throw new InvalidOperationException("Encountered illegal key action");
 
                 case ButtonAction.Press:
-                    KeyPress?.Invoke(ev);
+                    KeyPress?.Invoke(this, ev);
                     break;
 
                 case ButtonAction.Release:
-                    KeyRelease?.Invoke(ev);
+                    KeyRelease?.Invoke(this, ev);
                     break;
 
                 case ButtonAction.Repeat:
-                    KeyRepeat?.Invoke(ev);
+                    KeyRepeat?.Invoke(this, ev);
                     break;
             }
         }
@@ -351,7 +358,7 @@ namespace Heirloom.Desktop
         protected virtual void OnCharTyped(UnicodeCharacter character)
         {
             var ev = new CharEvent(character);
-            CharTyped?.Invoke(ev);
+            CharTyped?.Invoke(this, ev);
         }
 
         protected virtual void OnMousePressed(int button, ButtonAction action, KeyModifiers modifiers)
@@ -363,11 +370,11 @@ namespace Heirloom.Desktop
                     throw new InvalidOperationException("Encountered illegal mosue button action");
 
                 case ButtonAction.Press:
-                    MousePress?.Invoke(ev);
+                    MousePress?.Invoke(this, ev);
                     break;
 
                 case ButtonAction.Release:
-                    MouseRelease?.Invoke(ev);
+                    MouseRelease?.Invoke(this, ev);
                     break;
             }
         }
@@ -376,13 +383,24 @@ namespace Heirloom.Desktop
         {
             var ev = new MouseMoveEvent(x, y);
             _mousePosition = ev.Position;
-            MouseMove?.Invoke(ev);
+            MouseMove?.Invoke(this, ev);
         }
 
         protected virtual void OnMouseScroll(float x, float y)
         {
             var ev = new MouseScrollEvent(x, y);
-            MouseScroll?.Invoke(ev);
+            MouseScroll?.Invoke(this, ev);
+        }
+
+        protected virtual bool OnClosing()
+        {
+            // note: returns true to allow the window to close by default
+            return Closing?.Invoke(this) ?? true;
+        }
+
+        protected virtual void OnClosed()
+        {
+            Closed?.Invoke(this);
         }
 
         #endregion
@@ -401,6 +419,7 @@ namespace Heirloom.Desktop
 
         public void Close()
         {
+            OnClosed();
             Dispose();
         }
 
@@ -541,7 +560,7 @@ namespace Heirloom.Desktop
                 if (disposeManaged)
                 {
                     // Terminate rendering context
-                    RenderContext.Dispose();
+                    ((IDisposable) RenderContext).Dispose();
                 }
 
                 // Destroy window

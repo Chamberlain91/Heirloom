@@ -1,32 +1,35 @@
 ﻿using Heirloom.Drawing;
+using Heirloom.Math;
 
 namespace Heirloom.Desktop
 {
     public struct WindowCreationSettings
     {
-        public int? Width;
-        public int? Height;
+        public IntSize? Size;
+        public bool? IsResizable;
 
         public MultisampleQuality? Multisample;
         public bool? UseTransparentFramebuffer;
-        public bool? EnableVSync;
+        public bool? VSync;
 
         public static readonly WindowCreationSettings Default = new WindowCreationSettings
         {
-            Width = 1280,
-            Height = 720,
+            Size = (1280, 720),
+            IsResizable = true,
+
             Multisample = MultisampleQuality.None,
             UseTransparentFramebuffer = false,
-            EnableVSync = true,
+            VSync = true,
         };
 
         internal static void FillDefaults(ref WindowCreationSettings settings)
         {
-            settings.Width = settings.Width ?? Default.Width;
-            settings.Height = settings.Height ?? Default.Height;
+            settings.Size = settings.Size ?? Default.Size;
+            settings.IsResizable = settings.IsResizable ?? Default.IsResizable;
+
             settings.Multisample = settings.Multisample ?? Default.Multisample;
             settings.UseTransparentFramebuffer = settings.UseTransparentFramebuffer ?? Default.UseTransparentFramebuffer;
-            settings.EnableVSync = settings.EnableVSync ?? Default.EnableVSync;
+            settings.VSync = settings.VSync ?? Default.VSync;
         }
     }
 }

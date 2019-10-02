@@ -71,27 +71,27 @@ namespace Heirloom.Game.Desktop
 
         #region Event Handlers
 
-        private void OnMouseMoveEvent(MouseMoveEvent ev)
+        private void OnMouseMoveEvent(Window window, MouseMoveEvent ev)
         {
             _mouseMoveEvents.Enqueue(ev);
         }
 
-        private void OnMouseScrollEvent(MouseScrollEvent ev)
+        private void OnMouseScrollEvent(Window window, MouseScrollEvent ev)
         {
             _mouseScrollEvents.Enqueue(ev);
         }
 
-        private void OnMouseButtonEvent(MouseButtonEvent ev)
+        private void OnMouseButtonEvent(Window window, MouseButtonEvent ev)
         {
             _mouseButtonEvents.Enqueue(ev);
         }
 
-        private void OnKeyEvent(KeyboardEvent ev)
+        private void OnKeyEvent(Window window, KeyboardEvent ev)
         {
             _keyboardEvents.Enqueue(ev);
         }
 
-        private void OnCharEvent(CharEvent ev)
+        private void OnCharEvent(Window window, CharEvent ev)
         {
             _characterEvents.Enqueue(ev);
         }
