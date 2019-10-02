@@ -8,7 +8,7 @@ using Heirloom.Math;
 
 namespace Heirloom.Game.Desktop
 {
-    public sealed class StandardDesktopInput : InputSource
+    internal sealed class StandardDesktopInput : InputSource
     {
         // event queues
         private readonly Queue<MouseMoveEvent> _mouseMoveEvents;

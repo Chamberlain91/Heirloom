@@ -4,10 +4,13 @@ namespace Heirloom.Game.Desktop
 {
     public abstract class DesktopGameContext : GameContext
     {
+        /// <summary>
+        /// Gets the game window.
+        /// </summary>
         public Window Window { get; }
 
         public DesktopGameContext(string title)
-            : this(new Window(title))
+            : this(title, WindowCreationSettings.Default)
         { }
 
         public DesktopGameContext(string title, WindowCreationSettings settings)
