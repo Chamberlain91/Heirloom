@@ -189,7 +189,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Present the drawing operations to the screen.
         /// </summary>
-        public void UpdateScreen()
+        public void RefreshScreen()
         {
             ComputeFPS();
             DrawFPSOverlay();

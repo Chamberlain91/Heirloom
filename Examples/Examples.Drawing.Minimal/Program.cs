@@ -34,7 +34,7 @@ namespace Examples.Minimal
                 ctx.DrawText(text, -align + ((Vector) ctx.Surface.Size) * 0.5F, Font.Default, fontSize, TextAlign.Center);
 
                 // Put drawn image on screen
-                ctx.UpdateScreen();
+                ctx.RefreshScreen();
             });
         }
 

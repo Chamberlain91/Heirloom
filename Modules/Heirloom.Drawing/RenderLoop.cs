@@ -92,7 +92,7 @@ namespace Heirloom.Drawing
                     Update(Context, delta);
 
                     // Push pixels to screen
-                    Context.UpdateScreen();
+                    Context.RefreshScreen();
                 }
             }
         }
