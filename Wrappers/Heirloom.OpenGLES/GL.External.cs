@@ -60,7 +60,7 @@ namespace Heirloom.OpenGLES
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void _glGetInternalformativ(InternalFormatTarget sync, SyncParameter pname, int bufSize, out int length, int[] values);
+        private delegate void _glGetInternalformativ(InternalFormatTarget target, int internalFormat, InternalFormatParameter pname, int bufSize, int[] values);
         private static _glGetInternalformativ glGetInternalformativ;
 
         #endregion

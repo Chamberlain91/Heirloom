@@ -14,11 +14,22 @@ namespace Heirloom.Drawing.OpenGLES
         {
             Surface = surface;
 
+            // 
+            var samples = ctx.Invoke(() =>
+            {
+                // Query platform for multisample capabilities
+                var allowableSamplesCount = GL.GetInternalformat(RenderbufferFormat.RGBA8, InternalFormatParameter.NUM_SAMPLE_COUNTS, 1)[0];
+                var allowableSamples = GL.GetInternalformat(RenderbufferFormat.RGBA8, InternalFormatParameter.SAMPLES, allowableSamplesCount);
+
+                // Get intended max samples, and compare against max allowed on this platform
+                return System.Math.Min((int) surface.Multisample, allowableSamples[0]);
+            });
+
             // Create texture buffer
             TextureBuffer = new TextureTarget(ctx, surface);
 
             // If surface is multisampled, create a multisample buffer too
-            if (surface.Multisample != MultisampleQuality.None)
+            if (samples > 1)
             {
                 MultisampleBuffer = new MultisampleTarget(ctx, surface);
             }
@@ -129,10 +140,15 @@ namespace Heirloom.Drawing.OpenGLES
                     var handle = GL.GenFramebuffer();
                     GL.BindFramebuffer(FramebufferTarget.Framebuffer, handle);
 
+                    // Get intended max samples, and compare against max provided by GL
+                    var samples = (int) surface.Multisample;
+                    var allowableSamples = GL.GetInternalformat(RenderbufferFormat.RGBA8, InternalFormatParameter.SAMPLES);
+                    samples = System.Math.Min(samples, allowableSamples[0]);
+
                     // Construct a multisampled render buffer
                     var renderBuffer = GL.GenRenderbuffer();
                     GL.BindRenderbuffer(renderBuffer);
-                    GL.RenderbufferStorage(RenderbufferFormat.RGBA8, surface.Width, surface.Height, (int) surface.Multisample);
+                    GL.RenderbufferStorage(RenderbufferFormat.RGBA8, surface.Width, surface.Height, samples);
                     GL.BindRenderbuffer(0);
 
                     // Attach to framebuffer

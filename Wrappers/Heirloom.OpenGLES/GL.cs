@@ -662,7 +662,7 @@ namespace Heirloom.OpenGLES
             CheckError(nameof(GetString));
             return x;
         }
-         
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool GetBoolean(GetParameter name)
         {
@@ -690,6 +690,15 @@ namespace Heirloom.OpenGLES
             glGetIntegerv(name, &x);
             CheckError(nameof(GetInteger));
             return x;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int[] GetInternalformat(RenderbufferFormat renderBufferFormat, InternalFormatParameter pname, int bufferSize = 16)
+        {
+            var buffer = new int[bufferSize];
+            glGetInternalformativ(InternalFormatTarget.GL_RENDERBUFFER, (int) renderBufferFormat, pname, buffer.Length, buffer);
+            CheckError(nameof(GetInteger));
+            return buffer;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
