@@ -17,7 +17,7 @@ namespace Heirloom.Drawing
 
         public RenderLoop(RenderContext context)
         {
-            Context = context;
+            RenderContext = context;
         }
 
         #endregion
@@ -27,7 +27,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Gets the associated render context.
         /// </summary>
-        public RenderContext Context { get; }
+        public RenderContext RenderContext { get; }
 
         /// <summary>
         /// Is the render thread active?
@@ -36,7 +36,7 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        protected abstract void Update(RenderContext renderContext, float delta);
+        protected abstract void Update(RenderContext ctx, float dt);
 
         /// <summary>
         /// Start the render thread.
@@ -77,22 +77,22 @@ namespace Heirloom.Drawing
 
                 // Lock the render context to have 'exclusive control' and prevent it
                 // from being disposed of when it is needed to render.
-                lock (Context)
+                lock (RenderContext)
                 {
                     // Render context was disposed of already (we can't render anymore)
                     // so we will shutdown and exit this thread.
-                    if (Context.IsDisposed)
+                    if (RenderContext.IsDisposed)
                     {
                         Stop();
                         break;
                     }
 
                     // Draw Application
-                    Context.ResetState();
-                    Update(Context, delta);
+                    RenderContext.ResetState();
+                    Update(RenderContext, delta);
 
                     // Push pixels to screen
-                    Context.RefreshScreen();
+                    RenderContext.RefreshScreen();
                 }
             }
         }
