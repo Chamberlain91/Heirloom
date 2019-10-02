@@ -15,7 +15,7 @@ namespace Heirloom.Game
 
         public SceneManager SceneManager { get; }
 
-        public RenderContext RenderContext => _gameLoop.Context;
+        public RenderContext RenderContext => _gameLoop.RenderContext;
 
         public bool IsRunning => _gameLoop.IsRunning;
 
