@@ -39,9 +39,11 @@ namespace Examples.Drawing
                 IsResizable = false
             });
 
+            // 
+            Window.RenderContext.ShowFPSOverlay = true;
+
             // Create render loop
-            Loop = RenderLoop.CreateDefault(Window.RenderContext, Update);
-            Loop.ShowFPSOverlay = true;
+            Loop = RenderLoop.Create(Window.RenderContext, Update);
             Loop.Start();
 
             // Register key events

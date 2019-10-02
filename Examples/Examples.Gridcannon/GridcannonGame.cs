@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Heirloom.Collections;
+using Heirloom.Desktop;
 using Heirloom.Game;
 using Heirloom.Game.Desktop;
 using Heirloom.Math;
@@ -11,7 +12,7 @@ using static Examples.Gridcannon.Assets;
 
 namespace Examples.Gridcannon
 {
-    internal class GridcannonGame : DesktopGame
+    internal class GridcannonGame : DesktopGameContext
     // rules: https://www.pentadact.com/2019-08-20-gridcannon-a-single-player-game-with-regular-playing-cards/
     {
         public static int Padding = 12;
@@ -32,9 +33,9 @@ namespace Examples.Gridcannon
         };
 
         public GridcannonGame()
+            : base("Gridcannon")
         {
-            Window.ShowFPSOverlay = true;
-            Window.Title = "Gridcannon";
+            RenderContext.ShowFPSOverlay = true;
 
             // == Load Assets
 
@@ -192,7 +193,12 @@ namespace Examples.Gridcannon
 
         private static void Main(string[] _)
         {
-            Run<GridcannonGame>();
+            Application.Run(() =>
+            {
+                // Begin game
+                var game = new GridcannonGame();
+                game.Start();
+            });
         }
     }
 }

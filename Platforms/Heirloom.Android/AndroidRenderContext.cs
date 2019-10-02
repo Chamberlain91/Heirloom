@@ -40,11 +40,8 @@ namespace Heirloom.Android
             });
         }
 
-        public override void SwapBuffers()
+        protected override void SwapBuffers()
         {
-            // Finish any pending work
-            Flush();
-
             // Display onto the screen
             Invoke(() =>
             {

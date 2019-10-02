@@ -600,9 +600,8 @@ namespace Heirloom.Desktop
                 Glfw.SetSwapInterval(Window.VSync ? 1 : 0);
             }
 
-            public override void SwapBuffers()
+            protected override void SwapBuffers()
             {
-                Flush(); // todo: move to parent type, we always need to flush here!
                 Invoke(() => Glfw.SwapBuffers(Window.WindowHandle), false);
             }
         }
