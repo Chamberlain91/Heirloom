@@ -477,7 +477,7 @@ namespace Heirloom.Drawing.OpenGLES
                     var framebuffer = ResourceManager.GetFramebuffer(this, Surface);
 
                     // If a multisampled surface, cause the framebuffer to blit into texture
-                    if (Surface.Multisample != MultisampleQuality.None) { framebuffer.Update(this); }
+                    if (framebuffer.MultisampleBuffer != null) { framebuffer.Update(this); }
 
                     // Read pixels from surface texture
                     GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, framebuffer.TextureBuffer.Handle);
