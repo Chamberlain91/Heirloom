@@ -1,5 +1,4 @@
-﻿using System;
-using Heirloom.Drawing;
+﻿using Heirloom.Drawing;
 
 namespace Heirloom.Game
 {
@@ -13,42 +12,35 @@ namespace Heirloom.Game
             SceneManager = new SceneManager();
         }
 
+        /// <summary>
+        /// Gets the scene manager.
+        /// </summary>
         public SceneManager SceneManager { get; }
 
+        /// <summary>
+        /// Gets the render context.
+        /// </summary>
         public RenderContext RenderContext => _gameLoop.RenderContext;
 
+        /// <summary>
+        /// Gets a value determining if the game loop is running.
+        /// </summary>
         public bool IsRunning => _gameLoop.IsRunning;
 
-        public event Action GameStart;
-
-        public event Action GameStop;
-
         /// <summary>
-        /// Begins the game thread.
+        /// Begins the game loop.
         /// </summary>
         public void Start()
         {
             _gameLoop.Start();
-            OnStart();
         }
 
         /// <summary>
-        /// Stops the game thread.
+        /// Stops the game loop.
         /// </summary>
         public void Stop()
         {
             _gameLoop.Stop();
-            OnStop();
-        }
-
-        protected virtual void OnStart()
-        {
-            GameStart?.Invoke();
-        }
-
-        protected virtual void OnStop()
-        {
-            GameStop?.Invoke();
         }
 
         protected void Update(RenderContext ctx, float dt)
