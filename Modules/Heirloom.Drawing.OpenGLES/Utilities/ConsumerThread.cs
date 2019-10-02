@@ -13,6 +13,7 @@ namespace Heirloom.Drawing.OpenGLES.Utilities
         private readonly Queue<Action> _queue;
         private readonly Thread _thread;
 
+        private bool _isStopped;
         private bool _isAlive;
 
         public ConsumerThread(string name)
@@ -59,8 +60,6 @@ namespace Heirloom.Drawing.OpenGLES.Utilities
                     }
                 }
             }
-
-            Console.WriteLine($"Thread {Thread.CurrentThread.ManagedThreadId} Exit.");
         }
 
         public void Invoke(Action action)
@@ -100,6 +99,8 @@ namespace Heirloom.Drawing.OpenGLES.Utilities
 
         public void InvokeLater(Action action)
         {
+            if (_isStopped) { throw new InvalidOperationException($"Unable to invoke on thread \"{_thread.Name}\", thread was disposed."); }
+
             // Execute now if already on the thread
             if (Thread.CurrentThread == _thread) { action(); }
             else
@@ -127,6 +128,8 @@ namespace Heirloom.Drawing.OpenGLES.Utilities
 
         public void Stop(bool falseCompletion = false)
         {
+            _isStopped = true;
+
             // Mark thead for death
             lock (_queue)
             {

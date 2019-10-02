@@ -8,7 +8,7 @@ using Heirloom.Math;
 
 namespace Benchmark
 {
-    public class BenchmarkApp
+    public class BenchmarkApp : RenderLoop
     {
         private const float CapacityInterval = 0.33F;
         private const float SearchInterval = CapacityInterval * 4;
@@ -20,10 +20,13 @@ namespace Benchmark
 
         private readonly int _targetFPS;
 
-        public BenchmarkApp(int targetFPS, Surface surface)
+        public BenchmarkApp(int targetFPS, RenderContext ctx)
+            : base(ctx)
         {
             //  
             _targetFPS = targetFPS;
+
+            var surface = ctx.DefaultSurface;
 
             // 
             _benchmarks = new Benchmark[]
@@ -36,7 +39,7 @@ namespace Benchmark
             };
         }
 
-        public void Update(RenderContext ctx, float delta)
+        protected override void Update(RenderContext ctx, float delta)
         {
             // If the current benchmark is complete
             if (_benchmarks[_benchmarkIndex].Phase == Phase.Complete)

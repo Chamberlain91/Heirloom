@@ -25,7 +25,7 @@ namespace Benchmark
             base.OnCreate(bundle);
 
             // Create app instance
-            App = new BenchmarkApp(30, SurfaceView.RenderContext.DefaultSurface);
+            App = new BenchmarkApp(30, SurfaceView.RenderContext);
         }
 
         protected override void Update(RenderContext ctx, float dt)

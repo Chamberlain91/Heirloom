@@ -18,6 +18,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         private ConsumerThread _thread;
         private bool _isRunning = false;
+        private bool _isDisposed;
 
         private ShaderProgram _shader;
 
@@ -46,9 +47,9 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
-        #region Properties
+        #region Properties 
 
-        public bool IsDisposed { get; private set; } = false;
+        public override bool IsDisposed => _isDisposed;
 
         public GLCapabilities Capabilities { get; private set; }
 
@@ -166,16 +167,6 @@ namespace Heirloom.Drawing.OpenGLES
                 _thread.Start();
             }
         }
-
-        //public void StopThread()
-        //{
-        //    if (_isRunning)
-        //    {
-        //        // Terminate task runner
-        //        _asyncRunner.Stop();
-        //        _isRunning = false;
-        //    }
-        //}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected internal void Invoke(Action action, bool blocking = true)
@@ -543,17 +534,24 @@ namespace Heirloom.Drawing.OpenGLES
 
         private void Dispose(bool disposeManaged)
         {
-            if (!IsDisposed)
+            if (!_isDisposed)
             {
-                IsDisposed = true;
-
-                // 
-                if (disposeManaged)
+                // This lock is here to have 'exclusive control' of the render context.
+                // The application should lock the context during its render loop
+                // to prevent the context from being disposed of when rendering.
+                lock (this)
                 {
-                    _thread.Stop(false);
-                }
+                    _isDisposed = true;
+                    _isRunning = false;
 
-                // Dispose Unmanaged
+                    // Terminate thread
+                    _thread.Stop(true);
+
+                    if (disposeManaged)
+                    {
+                        // Dispose managed objects...
+                    }
+                }
             }
         }
 

@@ -20,6 +20,11 @@ namespace Heirloom.Drawing
         }
 
         /// <summary>
+        /// Gets a value determining if this <see cref="RenderContext"/> was disposed.
+        /// </summary>
+        public abstract bool IsDisposed { get; }
+
+        /// <summary>
         /// Gets the default surface (ie, window) of this render context.
         /// </summary>
         public Surface DefaultSurface { get; }
