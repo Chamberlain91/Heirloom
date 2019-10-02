@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 using Heirloom.Math;
@@ -8,14 +9,22 @@ namespace Heirloom.Drawing
 {
     public abstract class RenderContext : IDisposable
     {
+        private const float FpsSampleDuration = 1F;
+
         // Quad mesh
         private static readonly Mesh _quadMesh = Mesh.CreateQuad(1, 1);
 
         private readonly Stack<State> _stateStack;
 
+        private readonly Stopwatch _stopwatch;
+        private float _fpsTime;
+        private int _fpsCount;
+
         protected RenderContext(MultisampleQuality multisample)
         {
             _stateStack = new Stack<State>();
+            _stopwatch = Stopwatch.StartNew();
+
             DefaultSurface = new Surface(1, 1, multisample);
         }
 
@@ -23,6 +32,16 @@ namespace Heirloom.Drawing
         /// Gets a value determining if this <see cref="RenderContext"/> was disposed.
         /// </summary>
         public abstract bool IsDisposed { get; }
+
+        /// <summary>
+        /// Gets how often the default surface is presented to the screen per second.
+        /// </summary>
+        public float FrameRate { get; private set; }
+
+        /// <summary>
+        /// Gets or sets a value that will enable or disable drawing the FPS overlay.
+        /// </summary>
+        public bool ShowFPSOverlay { get; set; } = false;
 
         /// <summary>
         /// Gets the default surface (ie, window) of this render context.
@@ -170,13 +189,28 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Present the drawing operations to the screen.
         /// </summary>
-        public abstract void SwapBuffers();
+        public void UpdateScreen()
+        {
+            ComputeFPS();
+            DrawFPSOverlay();
+            Flush();
+
+            // Low level swap buffers
+            SwapBuffers();
+        }
+
+        protected abstract void SwapBuffers();
 
         /// <summary>
         /// Force pending drawing operations to complete, useful for synchronization between contexts. <para/>
         /// Note: Currently untested for said synchronization.
         /// </summary>
         public abstract void Flush();
+
+        /// <summary>
+        /// Dispose this render context, freeing any resources occupied by it.
+        /// </summary>
+        public abstract void Dispose();
 
         /// <summary>
         /// Updates the current surfaces version number.
@@ -186,10 +220,41 @@ namespace Heirloom.Drawing
             Surface.UpdateVersionNumber();
         }
 
-        /// <summary>
-        /// Dispose this render context, freeing any resources occupied by it.
-        /// </summary>
-        public abstract void Dispose();
+        private void DrawFPSOverlay()
+        {
+            if (ShowFPSOverlay)
+            {
+                ResetState();
+
+                var text = $"FPS: {FrameRate.ToString("0.00")}";
+                var size = Font.Default.MeasureText(text, 16);
+
+                Color = Color.DarkGray;
+                this.DrawRect(new Rectangle(Surface.Width - 8 - size.Width - 3, 8, size.Width + 4, size.Height + 1));
+
+                Color = Color.Pink;
+                this.DrawText(text, new Vector(Surface.Width - 8, 8), Font.Default, 16, TextAlign.Right);
+            }
+        }
+
+        private void ComputeFPS()
+        {
+            // Get elapsed time
+            var delta = (float) _stopwatch.Elapsed.TotalSeconds;
+            _stopwatch.Restart();
+
+            _fpsTime += delta;
+            _fpsCount++;
+
+            if (_fpsTime >= FpsSampleDuration)
+            {
+                // hz, events/time
+                FrameRate = _fpsCount / _fpsTime;
+
+                _fpsCount = 0;
+                _fpsTime = 0;
+            }
+        }
 
         private struct State
         {

@@ -2,39 +2,45 @@
 using System.Diagnostics;
 using System.Threading;
 
-using Heirloom.Math;
-
 namespace Heirloom.Drawing
 {
+    /// <summary>
+    /// Provides a thread to manage invoking a render/update function continuously.
+    /// </summary>
     public abstract class RenderLoop
     {
         public delegate void UpdateFunction(RenderContext ctx, float dt);
 
-        private const float FpsSampleDuration = 1F;
-
-        private float _fpsTime;
-        private int _fpsCount;
-
         private Thread _thread;
+
+        #region Constructor
 
         public RenderLoop(RenderContext context)
         {
-            RenderContext = context;
+            Context = context;
         }
 
-        public RenderContext RenderContext { get; }
+        #endregion
 
-        public bool IsRunning { get; private set; }
-
-        public float FrameRate { get; private set; }
+        #region Properties
 
         /// <summary>
-        /// Gets or sets a value that will enable or disable drawing the FPS overlay.
+        /// Gets the associated render context.
         /// </summary>
-        public bool ShowFPSOverlay { get; set; } = false;
+        public RenderContext Context { get; }
+
+        /// <summary>
+        /// Is the render thread active?
+        /// </summary>
+        public bool IsRunning { get; private set; }
+
+        #endregion
 
         protected abstract void Update(RenderContext renderContext, float delta);
 
+        /// <summary>
+        /// Start the render thread.
+        /// </summary>
         public void Start()
         {
             if (IsRunning) { throw new InvalidOperationException($"{nameof(RenderLoop)} has already started."); }
@@ -45,6 +51,9 @@ namespace Heirloom.Drawing
             _thread.Start();
         }
 
+        /// <summary>
+        /// Stop the render thread.
+        /// </summary>
         public void Stop()
         {
             if (!IsRunning) { throw new InvalidOperationException($"{nameof(RenderLoop)} has already stopped."); }
@@ -68,67 +77,37 @@ namespace Heirloom.Drawing
 
                 // Lock the render context to have 'exclusive control' and prevent it
                 // from being disposed of when it is needed to render.
-                lock (RenderContext)
+                lock (Context)
                 {
                     // Render context was disposed of already (we can't render anymore)
                     // so we will shutdown and exit this thread.
-                    if (RenderContext.IsDisposed)
+                    if (Context.IsDisposed)
                     {
                         Stop();
                         break;
                     }
 
                     // Draw Application
-                    RenderContext.ResetState();
-                    Update(RenderContext, delta);
-
-                    // Draw Debug Overlays
-                    DrawFPSOverlay();
+                    Context.ResetState();
+                    Update(Context, delta);
 
                     // Push pixels to screen
-                    RenderContext.SwapBuffers();
+                    Context.UpdateScreen();
                 }
-
-                // == Compute Timing Metrics
-
-                ComputeFPS(delta);
             }
         }
 
-        private void DrawFPSOverlay()
+        /// <summary>
+        /// Creates a render loop instance from the given context and method reference.
+        /// </summary>
+        /// <param name="ctx">The relevant render context.</param>
+        /// <param name="update">The relevant update function.</param>
+        /// <returns></returns>
+        public static RenderLoop Create(RenderContext ctx, UpdateFunction update)
         {
-            if (ShowFPSOverlay)
-            {
-                RenderContext.ResetState();
+            if (ctx is null) { throw new ArgumentNullException(nameof(ctx)); }
+            if (update is null) { throw new ArgumentNullException(nameof(update)); }
 
-                var text = $"FPS: {FrameRate.ToString("0.00")}";
-                var size = Font.Default.MeasureText(text, 16);
-
-                RenderContext.Color = Color.DarkGray;
-                RenderContext.DrawRect(new Rectangle(RenderContext.Surface.Width - 8 - size.Width - 3, 8, size.Width + 4, size.Height + 1));
-
-                RenderContext.Color = Color.Pink;
-                RenderContext.DrawText(text, new Vector(RenderContext.Surface.Width - 8, 8), Font.Default, 16, TextAlign.Right);
-            }
-        }
-
-        private void ComputeFPS(float delta)
-        {
-            _fpsTime += delta;
-            _fpsCount++;
-
-            if (_fpsTime >= FpsSampleDuration)
-            {
-                // hz, events/time
-                FrameRate = _fpsCount / _fpsTime;
-
-                _fpsCount = 0;
-                _fpsTime = 0;
-            }
-        }
-
-        public static RenderLoop CreateDefault(RenderContext ctx, UpdateFunction update)
-        {
             return new DefaultRenderLoop(ctx, update);
         }
 
