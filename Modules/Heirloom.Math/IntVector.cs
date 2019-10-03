@@ -145,7 +145,7 @@ namespace Heirloom.Math
             return new Vector(x, y);
         }
 
-        public static implicit operator (int x, int y) (IntVector vec)
+        public static implicit operator (int x, int y)(IntVector vec)
         {
             return (vec.X, vec.Y);
         }
@@ -177,6 +177,13 @@ namespace Heirloom.Math
         {
             var x = a.X - b.X;
             var y = a.Y - b.Y;
+            return new IntVector(x, y);
+        }
+
+        public static IntVector operator *(IntVector a, IntVector b)
+        {
+            var x = a.X * b.X;
+            var y = a.Y * b.Y;
             return new IntVector(x, y);
         }
 

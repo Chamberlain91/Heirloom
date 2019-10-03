@@ -1,5 +1,4 @@
-﻿
-using Heirloom.Drawing;
+﻿using Heirloom.Drawing;
 using Heirloom.GLFW;
 using Heirloom.Math;
 
@@ -71,5 +70,20 @@ namespace Heirloom.Desktop
         {
             Scroll = new Vector(x, y);
         }
+    }
+
+    public readonly struct ContentScaleEvent
+    {
+        public readonly float XScale;
+
+        public readonly float YScale;
+
+        internal ContentScaleEvent(float xScale, float yScale)
+        {
+            XScale = xScale;
+            YScale = yScale;
+        }
+
+        public Vector ContentScale => new Vector(XScale, YScale);
     }
 }

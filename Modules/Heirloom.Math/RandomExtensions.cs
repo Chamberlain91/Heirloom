@@ -109,5 +109,27 @@ namespace Heirloom.Math
         }
 
         #endregion
+
+        #region Shuffle
+
+        public static void Shuffle<T>(this Random @this, IList<T> items)
+        {
+            items.Shuffle(@this);
+        }
+
+        public static void Shuffle<T>(this IList<T> @this, Random random)
+        {
+            for (var i = 0; i < @this.Count; i++)
+            {
+                var r = random.Next(@this.Count);
+
+                // Swap
+                var t = @this[r];
+                @this[r] = @this[i];
+                @this[i] = t;
+            }
+        }
+
+        #endregion
     }
 }

@@ -11,6 +11,7 @@ namespace Heirloom.Desktop
     {
         private IntRectangle _bounds, _restoreBounds;
         private IntSize _framebufferSize;
+        private Vector _contentScale;
         private string _title;
 
         private Vector _mousePosition;
@@ -18,6 +19,7 @@ namespace Heirloom.Desktop
         private readonly WindowCloseCallback _windowCloseCallback;
         private readonly WindowPositionCallback _windowPositionCallback;
         private readonly FramebufferSizeCallback _framebufferSizeCallback;
+        private readonly WindowContentScaleCallback _windowContentScaleCallback;
         private readonly WindowSizeCallback _windowSizeCallback;
 
         private readonly CharCallback _charCallback;
@@ -101,6 +103,12 @@ namespace Heirloom.Desktop
             {
                 _bounds.Position = (x, y);
                 OnWindowMoved(x, y);
+            });
+
+            Glfw.SetWindowContentScaleCallback(WindowHandle, _windowContentScaleCallback = (_, xs, ys) =>
+            {
+                _contentScale = (xs, ys);
+                OnContentScaleChanged(xs, ys);
             });
 
             // Key callbacks
@@ -217,6 +225,9 @@ namespace Heirloom.Desktop
             });
         }
 
+        /// <summary>
+        /// Gets or sets the window bounds in screen units.
+        /// </summary>
         public IntRectangle Bounds
         {
             get => _bounds;
@@ -229,6 +240,9 @@ namespace Heirloom.Desktop
             });
         }
 
+        /// <summary>
+        /// Gets or sets the window position in screen coordinates.
+        /// </summary>
         public IntVector Position
         {
             get => Bounds.Position;
@@ -240,6 +254,9 @@ namespace Heirloom.Desktop
             });
         }
 
+        /// <summary>
+        /// Gets or sets the window size in screen units.
+        /// </summary>
         public IntSize Size
         {
             get => Bounds.Size;
@@ -252,9 +269,14 @@ namespace Heirloom.Desktop
         }
 
         /// <summary>
-        /// The size of the underlying framebuffer.
+        /// The size of the underlying framebuffer in pixels.
         /// </summary>
         public IntSize FramebufferSize => _framebufferSize;
+
+        /// <summary>
+        /// Gets the content scaling factor.
+        /// </summary>
+        public Vector ContentScale => _contentScale;
 
         /// <summary>
         /// Gets the current state of the window.
@@ -293,6 +315,8 @@ namespace Heirloom.Desktop
 
         public event Action<Window> FramebufferResized;
 
+        public event Action<Window, ContentScaleEvent> ContentScaleChanged;
+
         public event Action<Window, KeyboardEvent> KeyPress;
 
         public event Action<Window, KeyboardEvent> KeyRelease;
@@ -325,6 +349,12 @@ namespace Heirloom.Desktop
         protected virtual void OnFramebufferResized(int w, int h)
         {
             FramebufferResized?.Invoke(this);
+        }
+
+        protected virtual void OnContentScaleChanged(float xScale, float yScale)
+        {
+            var ev = new ContentScaleEvent(xScale, yScale);
+            ContentScaleChanged?.Invoke(this, ev);
         }
 
         protected virtual void OnWindowMoved(int x, int y)
