@@ -10,6 +10,8 @@ namespace Examples.Gridcannon
 
         public readonly Suit Suit;
 
+        public readonly SuitColor SuitColor;
+
         public readonly int Value;
 
         #region Constructors
@@ -17,9 +19,10 @@ namespace Examples.Gridcannon
         public CardInfo(int index)
         {
             Index = index;
-
-            Value = GetValue(Index);
+            Value = GetValue(index);
             Suit = GetSuit(index);
+
+            SuitColor = GetColor(Suit);
         }
 
         public CardInfo(Suit suit, int value)
@@ -27,6 +30,8 @@ namespace Examples.Gridcannon
             Index = GetIndex(suit, value);
             Value = value;
             Suit = suit;
+
+            SuitColor = GetColor(Suit);
         }
 
         #endregion
@@ -37,16 +42,6 @@ namespace Examples.Gridcannon
         /// Gets if this card is a royal (jack, queen or king).
         /// </summary>
         public bool IsRoyal => Value > 10;
-
-        /// <summary>
-        /// Gets a value that determines if this card is 'red' (ie, Hearts or Diamonds).
-        /// </summary>
-        public bool IsRed => Suit == Suit.Diamonds || Suit == Suit.Hearts;
-
-        /// <summary>
-        /// Gets a value that determines if this card is 'black' (ie, Spades or Clubs).
-        /// </summary>
-        public bool IsBlack => !IsRed;
 
         /// <summary>
         /// Gets the associated image (static lookup from <see cref="Assets"/>).
@@ -72,6 +67,16 @@ namespace Examples.Gridcannon
         private static int GetValue(int index)
         {
             return 1 + ((index - 1) % 13);
+        }
+
+        public static SuitColor GetColor(Suit suit)
+        {
+            if (suit == Suit.Joker) { return SuitColor.Any; }
+            else
+            {
+                if (suit == Suit.Diamonds || suit == Suit.Hearts) { return SuitColor.Red; }
+                else { return SuitColor.Black; }
+            }
         }
 
         #endregion

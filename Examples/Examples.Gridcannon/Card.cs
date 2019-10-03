@@ -1,5 +1,4 @@
-﻿using System;
-using Heirloom.Game;
+﻿using Heirloom.Game;
 
 namespace Examples.Gridcannon
 {
@@ -8,11 +7,11 @@ namespace Examples.Gridcannon
         private readonly ImageRenderer _renderer;
         private bool _isFaceDown = true;
 
-        public readonly CardInfo CardInfo;
+        public readonly CardInfo Info;
 
         public Card(CardInfo cardInfo)
         {
-            CardInfo = cardInfo;
+            Info = cardInfo;
 
             // Create and attch renderer
             _renderer = new ImageRenderer(Assets.GfxCardBack);
@@ -31,7 +30,7 @@ namespace Examples.Gridcannon
                 if (_isFaceDown != value)
                 {
                     _isFaceDown = value;
-                    _renderer.Image = IsFaceDown ? Assets.GfxCardBack : CardInfo.Image;
+                    _renderer.Image = IsFaceDown ? Assets.GfxCardBack : Info.Image;
                 }
             }
         }

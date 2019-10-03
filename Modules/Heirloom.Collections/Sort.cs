@@ -84,19 +84,6 @@ namespace Heirloom.Collections
 
         #endregion
 
-        public static void Shuffle<T>(this IList<T> items, Random random)
-        {
-            for (var i = 0; i < items.Count; i++)
-            {
-                var r = random.Next(items.Count);
-
-                // Swap
-                var t = items[r];
-                items[r] = items[i];
-                items[i] = t;
-            }
-        }
-
         public static void Radix(int[] arr)
         // TODO: Find source/implement myself/better design
         // Fast linear time sort, but limited use case.

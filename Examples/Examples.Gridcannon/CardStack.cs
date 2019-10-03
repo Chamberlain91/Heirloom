@@ -1,85 +1,79 @@
 ﻿using System;
 using System.Collections.Generic;
-
-using Heirloom.Game;
 using Heirloom.Drawing;
-using Heirloom.Math;
+using Heirloom.Game;
 
 namespace Examples.Gridcannon
 {
     public class CardStack : Entity
     {
-        private readonly LinkedList<Card> _cards;
+        private readonly List<Card> _cards;
 
         public CardStack()
         {
-            _cards = new LinkedList<Card>();
-
-            // When the transform changes, update the bounds
-            Transform.Changed += UpdateBounds;
+            _cards = new List<Card>();
         }
 
+        /// <summary>
+        /// Number of cards in the stack.
+        /// </summary>
         public int Count => _cards.Count;
 
+        /// <summary>
+        /// Is the stack of cards empty?
+        /// </summary>
         public bool IsEmpty => Count == 0;
 
-        public Rectangle Bounds { get; private set; }
+        /// <summary>
+        /// Gets all the cards the stack.
+        /// </summary>
+        public IReadOnlyList<Card> Cards => _cards;
 
-        private void UpdateBounds()
+        /// <summary>
+        /// Gets the top card the stack.
+        /// </summary>
+        public Card TopCard => Cards[Count - 1];
+
+        /// <summary>
+        /// Remove a card from the stack.
+        /// </summary>
+        public bool Remove(Card card)
         {
-            // Compute bounds from image
-            var bounds = Assets.GfxCardBack.Bounds;
-            bounds.Position += Transform.Position;
-            Bounds = bounds;
+            if (card is null) { throw new ArgumentNullException(nameof(card)); }
+            return _cards.Remove(card);
         }
 
-        public Card DrawTopCard()
+        /// <summary>
+        /// Remove all cards from the stack.
+        /// </summary>
+        public void Clear()
         {
-            if (!IsEmpty)
-            {
-                var card = _cards.First.Value;
-
-                _cards.RemoveFirst();
-                return card;
-            }
-            else
-            {
-                throw new InvalidOperationException("Card stack was empty");
-            }
+            _cards.Clear();
         }
 
-        public void ReorderEntities()
+        /// <summary>
+        /// Inserts a card into the stack.
+        /// </summary>
+        public void Insert(int index, Card card)
         {
-            var depth = _cards.Count - 1;
-            foreach (var card in _cards)
-            {
-                card.Depth = depth--;
-            }
+            while (index < 0) { index += Count; }
+            while (index > 0) { index -= Count; }
+            _cards.Insert(index, card);
         }
 
-        public void AddTopCard(Card card)
+        /// <summary>
+        /// Inserts several cards into the stack.
+        /// </summary>
+        public void Insert(int index, IEnumerable<Card> cards)
         {
-            _cards.AddFirst(card);
-        }
-
-        public void AddBottomCard(Card card)
-        {
-            _cards.AddLast(card);
+            while (index < 0) { index += Count; }
+            while (index > 0) { index -= Count; }
+            _cards.InsertRange(index, cards);
         }
 
         protected override void Draw(RenderContext ctx)
         {
-            if (IsEmpty)
-            {
-                ctx.Color = Colors.FlatUI.BelizeHole;
-                ctx.DrawRectOutline(Bounds.Inflate(4), 2);
-            }
-        }
-
-        protected override void DrawDebug(RenderContext ctx)
-        {
-            ctx.Color = Colors.FlatUI.Emerald;
-            ctx.DrawRectOutline(Bounds, 2);
+            ctx.DrawImage(Assets.GfxCardBack, Transform.Matrix);
         }
     }
 }
