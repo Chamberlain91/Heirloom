@@ -13,10 +13,7 @@
     <Description>Additional collections, search, sort and more.</Description>
     <Authors>Chris Chamberlain</Authors>
     <PackageTags>collections, search, astar, graph, sort, heap</PackageTags>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>

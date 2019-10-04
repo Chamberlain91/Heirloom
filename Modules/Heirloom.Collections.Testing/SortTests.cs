@@ -1,49 +1,54 @@
-﻿using System.Linq;
-
-using Heirloom.Collections;
+﻿using System;
+using System.Collections.Generic;
 
 using NUnit.Framework;
 
 namespace Heirloom.Collections.Testing
 {
     [TestFixture]
-    public class SortTests : CollectionTests
+    public class SortTests : TestingBase
     {
-        [Test]
-        public void InsertionSortOrdered()
+        public delegate IEnumerable<T> SortingFunction<T>(IEnumerable<T> items);
+
+        // Number of generated elements to sort
+        private const int N = 16384 / 2;
+
+        private static TestCaseData[] GetSortingData()
         {
-            var data = CreateRandomIntegerArray(16);
-            data.InsertionSort(); // Extension function on Sort.InsertionSort
-            Assert.IsTrue(data.IsAscendingOrder(), "Items were not in ascending order after insertion sort");
+            return new[] {
+
+                // Integers
+                new TestCaseData(CreateOrderedIntegerArray(N)).SetName("{m}(Ordered)"),
+                new TestCaseData(CreateReverseIntegerArray(N)).SetName("{m}(Reverse)"),
+                new TestCaseData(CreatePartiallyRandomIntegerArray(N)).SetName("{m}(Partially Random)"),
+                new TestCaseData(CreateRandomIntegerArray(N)).SetName("{m}(Random)"),
+
+                // Objects
+                new TestCaseData((Array) CreateOrderedSortableArray(N)).SetName("{m}(Ordered)"),
+                new TestCaseData((Array) CreateReverseSortableArray(N)).SetName("{m}(Reverse)"),
+                new TestCaseData((Array) CreateRandomSortableArray(N)).SetName("{m}(Random)"),
+            };
         }
 
-        [Test]
-        public void InsertionSortRandom()
+        [Test, TestCaseSource(nameof(GetSortingData))]
+        public void MergeSort<T>(IEnumerable<T> items) where T : IComparable<T>
         {
-            var data = CreateOrderedIntegerArray(16);
-            data.InsertionSort(); // Extension function on Sort.InsertionSort
-            Assert.IsTrue(data.IsAscendingOrder(), "Items were not in ascending order after insertion sort");
+            items = Sort.MergeSort(items);
+            Assert.IsTrue(items.IsAscendingOrder(), "Items were not in ascending order after insertion sort");
         }
 
-        [Test]
-        public void HeapSortOrdered()
+        [Test, TestCaseSource(nameof(GetSortingData))]
+        public void HeapSort<T>(IEnumerable<T> items) where T : IComparable<T>
         {
-            var items = Enumerable.Range(0, 32);
-            Assert.IsTrue(Sort.HeapSort(items).IsAscendingOrder(), "Items were not in ascending order after heap sort");
+            items = Sort.HeapSort(items);
+            Assert.IsTrue(items.IsAscendingOrder(), "Items were not in ascending order after insertion sort");
         }
 
-        [Test]
-        public void HeapSortReverse()
+        [Test, TestCaseSource(nameof(GetSortingData))]
+        public void InsertionSort<T>(IEnumerable<T> items) where T : IComparable<T>
         {
-            var items = Enumerable.Range(0, 32).Reverse();
-            Assert.IsTrue(Sort.HeapSort(items).IsAscendingOrder(), "Items were not in ascending order after heap sort");
-        }
-
-        [Test]
-        public void HeapSortRandom()
-        {
-            var items = CreateRandomIntegerArray(32);
-            Assert.IsTrue(Sort.HeapSort(items).IsAscendingOrder(), "Items were not in ascending order after heap sort");
+            items = Sort.InsertionSort(items);
+            Assert.IsTrue(items.IsAscendingOrder(), "Items were not in ascending order after insertion sort");
         }
     }
 }

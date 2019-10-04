@@ -11,17 +11,17 @@ namespace Heirloom.Collections
         /// <summary>
         /// Sorts an enumerable by insertion sort (an array is created to sort).
         /// </summary>
-        public static IEnumerable<T> InsertionSort<T>(this IEnumerable<T> enumerable) where T : IComparable<T>
+        public static IEnumerable<T> InsertionSort<T>(this IEnumerable<T> enumerable)
         {
             var data = enumerable.ToArray();
-            data.InsertionSort();
+            InsertionSort(data);
             return data;
         }
 
         /// <summary>
         /// Sort the list using insertion sort.
         /// </summary>
-        public static void InsertionSort<T>(this IList<T> list) where T : IComparable<T>
+        public static void InsertionSort<T>(this IList<T> list)
         {
             InsertionSort(list, Comparer<T>.Default.Compare);
         }
@@ -51,6 +51,113 @@ namespace Heirloom.Collections
 
         #endregion
 
+        #region Merge Sort
+
+        /// <summary>
+        /// Sorts an enumerable by insertion sort (an array is created to sort).
+        /// </summary>
+        public static IEnumerable<T> MergeSort<T>(this IEnumerable<T> enumerable)
+        {
+            var data = enumerable.ToArray();
+            MergeSort(data);
+            return data;
+        }
+
+        /// <summary>
+        /// Sort the list using merge sort.
+        /// </summary>
+        public static void MergeSort<T>(this IList<T> list)
+        {
+            MergeSort(list, Comparer<T>.Default.Compare);
+        }
+
+        /// <summary>
+        /// Sort the list using merge sort.
+        /// </summary>
+        public static void MergeSort<T>(this IList<T> list, Comparison<T> comparison)
+        // ref: https://www.geeksforgeeks.org/iterative-merge-sort/
+        // todo: replace with personal implementation
+        {
+            // Merge subarrays in bottom up manner. First merge subarrays of 
+            // size 1 to create sorted subarrays of size 2, then merge subarrays 
+            // of size 2 to create sorted subarrays of size 4, and so on. 
+            for (var curr_size = 1; curr_size < list.Count; curr_size *= 2)
+            {
+                // Pick starting point of different subarrays of current size 
+                for (var left = 0; left < list.Count - 1; left += curr_size * 2)
+                {
+                    // Find ending point of left subarray. mid+1 is starting  
+                    // point of right 
+                    var middle = Math.Min(left + curr_size - 1, list.Count - 1);
+
+                    var right = Math.Min(left + 2 * curr_size - 1, list.Count - 1);
+
+                    // Merge Subarrays arr[left_start...mid] & arr[mid+1...right_end] 
+                    merge(list, left, middle, right);
+                }
+            }
+
+            /* Function to merge the two haves arr[l..m] and arr[m+1..r] of array arr[] */
+            unsafe void merge(IList<T> arr, int l, int m, int r)
+            {
+                int i, j, k;
+                var n1 = m - l + 1;
+                var n2 = r - m;
+
+                /* create temp arrays */
+                var L = new T[n1];
+                var R = new T[n2];
+
+                /* Copy data to temp arrays L[] and R[] */
+                for (i = 0; i < n1; i++)
+                {
+                    L[i] = arr[l + i];
+                }
+
+                for (j = 0; j < n2; j++)
+                {
+                    R[j] = arr[m + 1 + j];
+                }
+
+                /* Merge the temp arrays back into arr[l..r]*/
+                i = 0;
+                j = 0;
+                k = l;
+                while (i < n1 && j < n2)
+                {
+                    if (comparison(L[i], R[j]) <= 0)
+                    {
+                        arr[k] = L[i];
+                        i++;
+                    }
+                    else
+                    {
+                        arr[k] = R[j];
+                        j++;
+                    }
+                    k++;
+                }
+
+                /* Copy the remaining elements of L[], if there are any */
+                while (i < n1)
+                {
+                    arr[k] = L[i];
+                    i++;
+                    k++;
+                }
+
+                /* Copy the remaining elements of R[], if there are any */
+                while (j < n2)
+                {
+                    arr[k] = R[j];
+                    j++;
+                    k++;
+                }
+            }
+        }
+
+        #endregion
+
         #region Heap Sort
 
         /// <summary>
@@ -58,21 +165,32 @@ namespace Heirloom.Collections
         /// </summary>
         public static IEnumerable<T> HeapSort<T>(IEnumerable<T> items)
         {
-            return HeapSort(HeapType.Min, items);
+            return HeapSort(items, HeapType.Min);
         }
 
         /// <summary>
-        /// Sorts items by exploiting <see cref="Heap{T}"/> in descending order.
+        /// Sorts items by exploiting <see cref="Heap{T}"/> in ascending order.
         /// </summary>
-        public static IEnumerable<T> HeapSortDescending<T>(IEnumerable<T> items)
+        public static IEnumerable<T> HeapSort<T>(IEnumerable<T> items, Comparison<T> comparison)
         {
-            return HeapSort(HeapType.Max, items);
+            return HeapSort(items, comparison, HeapType.Min);
         }
 
-        private static IEnumerable<T> HeapSort<T>(HeapType type, IEnumerable<T> items)
+        /// <summary>
+        /// Sorts items by exploiting <see cref="Heap{T}"/> in ascending order (<see cref="HeapType.Min"/>) or descending order (<see cref="HeapType.Max"/>).
+        /// </summary>
+        public static IEnumerable<T> HeapSort<T>(IEnumerable<T> items, HeapType type)
+        {
+            return HeapSort(items, Comparer<T>.Default.Compare, type);
+        }
+
+        /// <summary>
+        /// Sorts items by exploiting <see cref="Heap{T}"/> in ascending order (<see cref="HeapType.Min"/>) or descending order (<see cref="HeapType.Max"/>).
+        /// </summary>
+        public static IEnumerable<T> HeapSort<T>(IEnumerable<T> items, Comparison<T> comparison, HeapType type)
         {
             // Create min-heap
-            var heap = new Heap<T>(type);
+            var heap = new Heap<T>(comparison, type);
             heap.AddRange(items);
 
             // Remove items from the heap (in sorted order)
@@ -83,32 +201,5 @@ namespace Heirloom.Collections
         }
 
         #endregion
-
-        public static void Radix(int[] arr)
-        // TODO: Find source/implement myself/better design
-        // Fast linear time sort, but limited use case.
-        // ref: ?
-        {
-            var tmp = new int[arr.Length];
-            for (var shift = 31; shift > -1; --shift)
-            {
-                var j = 0;
-
-                for (var i = 0; i < arr.Length; ++i)
-                {
-                    var move = (arr[i] << shift) >= 0;
-                    if (shift == 0 ? !move : move)
-                    {
-                        arr[i - j] = arr[i];
-                    }
-                    else
-                    {
-                        tmp[j++] = arr[i];
-                    }
-                }
-
-                Array.Copy(tmp, 0, arr, arr.Length - j, j);
-            }
-        }
     }
 }
