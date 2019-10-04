@@ -6,200 +6,138 @@ namespace Heirloom.Collections
 {
     public static class Sort
     {
-        #region Insertion Sort
-
         /// <summary>
-        /// Sorts an enumerable by insertion sort (an array is created to sort).
+        /// Sorts the elements of an enumerable with a stable sort (note: an array is created).
         /// </summary>
-        public static IEnumerable<T> InsertionSort<T>(this IEnumerable<T> enumerable)
+        public static IEnumerable<T> StableSort<T>(this IEnumerable<T> enumerable)
         {
             var data = enumerable.ToArray();
-            InsertionSort(data);
+            StableSort(data);
             return data;
         }
 
         /// <summary>
-        /// Sort the list using insertion sort.
+        /// Sorts the elements of the list using a stable sort.
         /// </summary>
-        public static void InsertionSort<T>(this IList<T> list)
+        public static void StableSort<T>(this IList<T> list)
         {
-            InsertionSort(list, Comparer<T>.Default.Compare);
+            StableSort(list, Comparer<T>.Default.Compare);
         }
 
         /// <summary>
-        /// Sort the list using insertion sort.
+        /// Sorts the elements of the list using a stable sort.
         /// </summary>
-        public static void InsertionSort<T>(this IList<T> list, Comparison<T> comparison)
+        public static void StableSort<T>(this IList<T> items, Comparison<T> comparison)
         {
-            if (list == null) { throw new ArgumentNullException(nameof(list)); }
-
-            // 
-            for (var i = 1; i < list.Count; i++)
+            if (items.Count < 2)
             {
-                var x = list[i];
-                var j = i - 1;
-
-                while (j >= 0 && comparison(list[j], x) > 0)
-                {
-                    list[j + 1] = list[j];
-                    j--;
-                }
-
-                list[j + 1] = x;
+                // A one element list is already sorted :)
+                return;
             }
-        }
-
-        #endregion
-
-        #region Merge Sort
-
-        /// <summary>
-        /// Sorts an enumerable by insertion sort (an array is created to sort).
-        /// </summary>
-        public static IEnumerable<T> MergeSort<T>(this IEnumerable<T> enumerable)
-        {
-            var data = enumerable.ToArray();
-            MergeSort(data);
-            return data;
-        }
-
-        /// <summary>
-        /// Sort the list using merge sort.
-        /// </summary>
-        public static void MergeSort<T>(this IList<T> list)
-        {
-            MergeSort(list, Comparer<T>.Default.Compare);
-        }
-
-        /// <summary>
-        /// Sort the list using merge sort.
-        /// </summary>
-        public static void MergeSort<T>(this IList<T> list, Comparison<T> comparison)
-        // ref: https://www.geeksforgeeks.org/iterative-merge-sort/
-        // todo: replace with personal implementation
-        {
-            // Merge subarrays in bottom up manner. First merge subarrays of 
-            // size 1 to create sorted subarrays of size 2, then merge subarrays 
-            // of size 2 to create sorted subarrays of size 4, and so on. 
-            for (var curr_size = 1; curr_size < list.Count; curr_size *= 2)
+            else
             {
-                // Pick starting point of different subarrays of current size 
-                for (var left = 0; left < list.Count - 1; left += curr_size * 2)
+                // Optimization: Check if already in order
+                // Makes the time complexity nlogn + n, but empirical testing seems
+                // to show improvement for already sorted data with minimal impact to random data.
+                if (CheckAlreadyInOrder(items, comparison)) { return; }
+
+                // Iterate over block sizes until larger than the entire list
+                for (var step = 1; step < items.Count; step *= 2)
                 {
-                    // Find ending point of left subarray. mid+1 is starting  
-                    // point of right 
-                    var middle = Math.Min(left + curr_size - 1, list.Count - 1);
+                    var iL = 0;
+                    var iM = iL + step;
+                    var iR = iM + step;
 
-                    var right = Math.Min(left + 2 * curr_size - 1, list.Count - 1);
-
-                    // Merge Subarrays arr[left_start...mid] & arr[mid+1...right_end] 
-                    merge(list, left, middle, right);
-                }
-            }
-
-            /* Function to merge the two haves arr[l..m] and arr[m+1..r] of array arr[] */
-            unsafe void merge(IList<T> arr, int l, int m, int r)
-            {
-                int i, j, k;
-                var n1 = m - l + 1;
-                var n2 = r - m;
-
-                /* create temp arrays */
-                var L = new T[n1];
-                var R = new T[n2];
-
-                /* Copy data to temp arrays L[] and R[] */
-                for (i = 0; i < n1; i++)
-                {
-                    L[i] = arr[l + i];
-                }
-
-                for (j = 0; j < n2; j++)
-                {
-                    R[j] = arr[m + 1 + j];
-                }
-
-                /* Merge the temp arrays back into arr[l..r]*/
-                i = 0;
-                j = 0;
-                k = l;
-                while (i < n1 && j < n2)
-                {
-                    if (comparison(L[i], R[j]) <= 0)
+                    // Walk across array in step sized blocks
+                    while (iR <= items.Count)
                     {
-                        arr[k] = L[i];
-                        i++;
+                        // Merge left and right blocks
+                        merge(iL, iM, iR);
+
+                        // Advance ranges
+                        iL = iR;
+                        iM = iL + step;
+                        iR = iM + step;
+                    }
+
+                    // Non power of 2 tail elements
+                    if (iM < items.Count)
+                    {
+                        iR = items.Count;
+                        merge(iL, iM, iR);
+                    }
+                }
+            }
+
+            void merge(int iL, int iM, int iR)
+            {
+                var right = clone(iM, iR - iM);
+                var left = clone(iL, iM - iL);
+
+                int l = 0, r = 0;
+
+                // For each element in the block (iL to iR)
+                for (var i = iL; i < iR; i++)
+                {
+                    // Has the left list been exhausted?
+                    if (l >= left.Length)
+                    {
+                        // Copy remainder of right list
+                        copy(right, r, right.Length, items, i);
+                        break;
                     }
                     else
+                    // Has the right list been exhausted?
+                    if (r >= right.Length)
                     {
-                        arr[k] = R[j];
-                        j++;
+                        // Copy remainder of left list
+                        copy(left, l, left.Length, items, i);
+                        break;
                     }
-                    k++;
-                }
-
-                /* Copy the remaining elements of L[], if there are any */
-                while (i < n1)
-                {
-                    arr[k] = L[i];
-                    i++;
-                    k++;
-                }
-
-                /* Copy the remaining elements of R[], if there are any */
-                while (j < n2)
-                {
-                    arr[k] = R[j];
-                    j++;
-                    k++;
+                    // Neither list has been exhausted
+                    else
+                    {
+                        // Weave left and right arrays together
+                        var lesserThan = comparison(left[l], right[r]) <= 0;
+                        items[i] = lesserThan ? left[l++] : right[r++];
+                    }
                 }
             }
-        }
 
-        #endregion
-
-        #region Heap Sort
-
-        /// <summary>
-        /// Sorts items by exploiting <see cref="Heap{T}"/> in ascending order.
-        /// </summary>
-        public static IEnumerable<T> HeapSort<T>(IEnumerable<T> items)
-        {
-            return HeapSort(items, HeapType.Min);
-        }
-
-        /// <summary>
-        /// Sorts items by exploiting <see cref="Heap{T}"/> in ascending order.
-        /// </summary>
-        public static IEnumerable<T> HeapSort<T>(IEnumerable<T> items, Comparison<T> comparison)
-        {
-            return HeapSort(items, comparison, HeapType.Min);
-        }
-
-        /// <summary>
-        /// Sorts items by exploiting <see cref="Heap{T}"/> in ascending order (<see cref="HeapType.Min"/>) or descending order (<see cref="HeapType.Max"/>).
-        /// </summary>
-        public static IEnumerable<T> HeapSort<T>(IEnumerable<T> items, HeapType type)
-        {
-            return HeapSort(items, Comparer<T>.Default.Compare, type);
-        }
-
-        /// <summary>
-        /// Sorts items by exploiting <see cref="Heap{T}"/> in ascending order (<see cref="HeapType.Min"/>) or descending order (<see cref="HeapType.Max"/>).
-        /// </summary>
-        public static IEnumerable<T> HeapSort<T>(IEnumerable<T> items, Comparison<T> comparison, HeapType type)
-        {
-            // Create min-heap
-            var heap = new Heap<T>(comparison, type);
-            heap.AddRange(items);
-
-            // Remove items from the heap (in sorted order)
-            while (heap.Count > 0)
+            // Create copy array elements from start to start+len
+            T[] clone(int start, int len)
             {
-                yield return heap.Remove();
+                var arr = new T[len];
+                copy(items, start, start + len, arr, 0);
+                return arr;
+            }
+
+            // Copy source to destination in s1 to s2 range at offset d1
+            void copy(IList<T> s, int s1, int s2, IList<T> d, int d1)
+            {
+                while (s1 < s2)
+                {
+                    d[d1++] = s[s1++];
+                }
             }
         }
 
-        #endregion
+        private static bool CheckAlreadyInOrder<T>(IList<T> items, Comparison<T> comparison)
+        {
+            for (var i = 1; i < items.Count; i++)
+            {
+                var a = items[i - 1];
+                var b = items[i + 0];
+
+                if (comparison(a, b) > 0)
+                {
+                    // Was not in order
+                    return false;
+                }
+            }
+
+            // All elements are in order
+            return true;
+        }
     }
 }
