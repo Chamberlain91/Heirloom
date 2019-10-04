@@ -148,7 +148,7 @@ namespace Heirloom.Game
                 // Sort entities by depth
                 // todo: sort each curated list too!
                 // todo: possibly only sort DrawableComponents once curated?
-                _entities.InsertionSort((a, b) => a.Depth.CompareTo(b.Depth));
+                _entities.StableSort((a, b) => a.Depth.CompareTo(b.Depth));
             }
         }
     }
