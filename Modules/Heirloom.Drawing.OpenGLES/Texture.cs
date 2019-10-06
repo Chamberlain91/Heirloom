@@ -111,7 +111,7 @@ namespace Heirloom.Drawing.OpenGLES
                 // Generate mips
                 GL.GenerateMipmap(TextureTarget.Texture2D);
                 GL.BindTexture(TextureTarget.Texture2D, 0);
-            });
+            }, false);
 
             // Store version to mark as updated
             Version = image.Version;

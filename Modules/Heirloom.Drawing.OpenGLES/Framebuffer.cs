@@ -80,7 +80,7 @@ namespace Heirloom.Drawing.OpenGLES
                 // Generate mips (also updates texture version)
                 var texture = TextureBuffer.Texture;
                 texture.GenerateMips(Surface.Version);
-            });
+            }, false);
 
             // We should be up to date with surface at this point
             Version = Surface.Version;

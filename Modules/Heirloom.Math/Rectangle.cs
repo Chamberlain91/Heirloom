@@ -165,14 +165,14 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Merge (Points)
+        #region Include (Points)
 
         /// <summary>
         /// Mutates this rectangle to accommodate the given point.
         /// Useful for computing the size of a bounding rectangle.
         /// </summary>
         /// <param name="point">Some point to include.</param>
-        public void Merge(Vector point)
+        public void Include(Vector point)
         {
             var min = Vector.Min(point, Min);
             var max = Vector.Max(point, Max);
@@ -181,10 +181,16 @@ namespace Heirloom.Math
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle FromPoints(params Vector[] points)
+        {
+            return FromPoints((IEnumerable<Vector>) points);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Rectangle FromPoints(IEnumerable<Vector> points)
         {
             var b = InvertedInfinite;
-            foreach (var v in points) { b.Merge(v); }
+            foreach (var v in points) { b.Include(v); }
             return b;
         }
 

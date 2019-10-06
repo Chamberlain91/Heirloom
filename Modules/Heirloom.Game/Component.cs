@@ -22,6 +22,6 @@
         /// </summary>
         internal bool IsUpdateImplemented => OverrideChecker.IsMethodOverridden(typeof(Component), GetType(), nameof(Update));
 
-        protected internal abstract void Update(float dt);
+        protected internal virtual void Update(float dt) { }
     }
 }

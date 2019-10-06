@@ -75,6 +75,10 @@ namespace Heirloom.Game
                     throw new CriticalStateException("Target component for removal already unknown to entity but component configured for entity.");
                 }
             }
+            else if (component.Entity == null)
+            {
+                throw new InvalidOperationException("Unable to remove component from entity, component is not attached to an entity.");
+            }
             else
             {
                 throw new InvalidOperationException("Unable to remove component from entity, component is attached to a different entity.");

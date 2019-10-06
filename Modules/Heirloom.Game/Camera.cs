@@ -1,4 +1,6 @@
-﻿using Heirloom.Drawing;
+﻿using System;
+
+using Heirloom.Drawing;
 using Heirloom.Math;
 
 namespace Heirloom.Game
@@ -6,60 +8,130 @@ namespace Heirloom.Game
     public sealed class Camera : Entity
     // todo: Compute camera bounds
     {
-        private float _zoom = 1F;
-        private Matrix _cameraMatrix;
-        private bool _changed;
+        private float _scale = 1F;
+        private Rectangle _bounds;
+        private Matrix _matrix;
+
+        private bool _needComputeMatrix;
+        private bool _needComputeBounds;
+
+        private IntSize _surfaceSize;
+        private Surface _surface;
 
         /// <summary>
         /// Construct a new camera entity.
         /// </summary>
         public Camera()
         {
-            Transform.Changed += OnTransformUpdated;
+            Surface = GameContext.Instance.RenderContext.DefaultSurface;
+            Transform.Changed += MarkDirty;
         }
 
         /// <summary>
-        /// Camera magnification.
+        /// Gets or sets the camera scaling factor (ie, zoom).
         /// </summary>
-        public float Zoom
+        public float Scale
         {
-            get => _zoom;
+            get => _scale;
+
             set
             {
-                _changed = true;
-                _zoom = value;
+                _scale = value;
+                MarkDirty();
             }
         }
 
+        /// <summary>
+        /// Gets or sets the background color used when rendering from this camera.
+        /// </summary>
         public Color BackgroundColor { get; set; } = Colors.FlatUI.WetAshphalt;
 
+        /// <summary>
+        /// Gets or sets the normalized viewport coordinates used when rendering from this camera.
+        /// </summary>
         public Rectangle Viewport { get; set; } = Rectangle.One;
 
-        public Surface Surface { get; set; }
+        /// <summary>
+        /// Gets or sets the target surface used to draw on when rendering from this camera.
+        /// </summary>
+        public Surface Surface
+        {
+            get => _surface;
 
-        public Matrix CameraMatrix
+            set
+            {
+                _surface = value ?? throw new ArgumentNullException(nameof(value));
+                _surfaceSize = _surface.Size;
+
+                MarkDirty();
+            }
+        }
+
+        /// <summary>
+        /// Gets the matrix used to transform from world to surface.
+        /// </summary>
+        public Matrix Matrix
         {
             get
             {
-                if (_changed)
+                DetectSurfaceResize();
+
+                if (_needComputeMatrix)
                 {
-                    _cameraMatrix = Matrix.CreateTransform(-Transform.Position, 0, Zoom);
-                    _changed = false;
+                    var viewportScale = (Vector) Viewport.Size;
+
+                    var offset = viewportScale * Surface.Bounds.Center;
+                    _matrix = Matrix.CreateTransform(-Transform.Position + offset, -Transform.Rotation, viewportScale * Scale);
+                    _needComputeMatrix = false;
                 }
 
-                return _cameraMatrix;
+                return _matrix;
             }
         }
 
-        private void OnTransformUpdated()
+        /// <summary>
+        /// Gets the bounds of the camera in world space.
+        /// </summary>
+        public Rectangle Bounds
         {
-            _changed = true;
+            get
+            {
+                DetectSurfaceResize();
+
+                if (_needComputeBounds)
+                {
+                    var invMatrix = Matrix.Inverse(Matrix);
+
+                    // Compute transformed points
+                    var size = (Vector) Viewport.Size;
+                    var p0 = invMatrix * (Surface.Bounds.TopLeft * size + Viewport.Position);
+                    var p1 = invMatrix * (Surface.Bounds.TopRight * size + Viewport.Position);
+                    var p2 = invMatrix * (Surface.Bounds.BottomLeft * size + Viewport.Position);
+                    var p3 = invMatrix * (Surface.Bounds.BottomRight * size + Viewport.Position);
+
+                    // Construct bounds
+                    _bounds = Rectangle.FromPoints(p0, p1, p2, p3);
+
+                    _needComputeBounds = false;
+                }
+
+                return _bounds;
+            }
         }
 
-        protected internal override void Update(float dt)
+        private void MarkDirty()
         {
-            // Does nothing?
-            // Possibly have events for the camera bounds changing or something like that
+            _needComputeMatrix = true;
+            _needComputeBounds = true;
+        }
+
+        private void DetectSurfaceResize()
+        {
+            if (_surfaceSize != _surface.Size)
+            {
+                _surfaceSize = _surface.Size;
+                MarkDirty();
+            }
         }
     }
 }
