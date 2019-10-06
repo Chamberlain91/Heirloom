@@ -3,12 +3,16 @@ using Heirloom.Math;
 
 namespace Heirloom.Game
 {
-    public abstract class Camera : Component
+    public sealed class Camera : Entity
+    // todo: Compute camera bounds
     {
         private float _zoom = 1F;
         private Matrix _cameraMatrix;
         private bool _changed;
 
+        /// <summary>
+        /// Construct a new camera entity.
+        /// </summary>
         public Camera()
         {
             Transform.Changed += OnTransformUpdated;
@@ -39,7 +43,7 @@ namespace Heirloom.Game
             {
                 if (_changed)
                 {
-                    _cameraMatrix = Matrix.CreateTransform(-Transform.Position, 0, 1F / Zoom);
+                    _cameraMatrix = Matrix.CreateTransform(-Transform.Position, 0, Zoom);
                     _changed = false;
                 }
 
@@ -50,6 +54,12 @@ namespace Heirloom.Game
         private void OnTransformUpdated()
         {
             _changed = true;
+        }
+
+        protected internal override void Update(float dt)
+        {
+            // Does nothing?
+            // Possibly have events for the camera bounds changing or something like that
         }
     }
 }

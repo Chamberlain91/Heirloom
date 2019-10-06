@@ -2,6 +2,9 @@
 
 namespace Heirloom.Game
 {
+    /// <summary>
+    /// Represents the state of a button queried by <see cref="Input.GetButton(string)"/>.
+    /// </summary>
     [Flags]
     public enum ButtonState
     {

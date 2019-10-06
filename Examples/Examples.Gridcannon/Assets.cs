@@ -45,8 +45,8 @@ namespace Examples.Gridcannon
                 var cards = new List<Image> { LoadCard("joker") };
                 cards.AddRange(LoadSuit(Suit.Clubs));
                 cards.AddRange(LoadSuit(Suit.Diamonds));
-                cards.AddRange(LoadSuit(Suit.Hearts));
                 cards.AddRange(LoadSuit(Suit.Spades));
+                cards.AddRange(LoadSuit(Suit.Hearts));
                 return cards;
 
                 // loads the 13 cards of a suit
@@ -54,7 +54,7 @@ namespace Examples.Gridcannon
                 {
                     for (var val = 1; val <= 13; val++)
                     {
-                        yield return LoadCard($"{suit}{CardInfo.GetValueName(val)}");
+                        yield return LoadCard($"{suit}{Card.GetValueName(val)}");
                     }
                 }
             }

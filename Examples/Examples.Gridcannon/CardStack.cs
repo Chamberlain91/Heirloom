@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Heirloom.Drawing;
-using Heirloom.Game;
 
 namespace Examples.Gridcannon
 {
-    public class CardStack : Entity
+    public sealed class CardStack
     {
         private readonly List<Card> _cards;
 
@@ -69,11 +67,6 @@ namespace Examples.Gridcannon
             while (index < 0) { index += Count; }
             while (index > 0) { index -= Count; }
             _cards.InsertRange(index, cards);
-        }
-
-        protected override void Draw(RenderContext ctx)
-        {
-            ctx.DrawImage(Assets.GfxCardBack, Transform.Matrix);
         }
     }
 }
