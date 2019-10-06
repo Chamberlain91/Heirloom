@@ -234,7 +234,7 @@ namespace Heirloom.Drawing.OpenGLES
                         var buffer = GetUniformBuffer(block);
                         GL.BindBufferBase(BufferTarget.UniformBuffer, block.Index, buffer.Handle);
                     }
-                });
+                }, false);
             }
         }
 
@@ -260,7 +260,7 @@ namespace Heirloom.Drawing.OpenGLES
             var buffer = GetUniformBuffer(uniform.BlockInfo);
 
             // Update data in buffer
-            Invoke(() => buffer.Update(data, uniform.Info.Offset + offset, size));
+            Invoke(() => buffer.Update(data, uniform.Info.Offset + offset, size), false);
         }
 
         /// <summary>
@@ -287,15 +287,12 @@ namespace Heirloom.Drawing.OpenGLES
                 // Wasn't the same surface as before, flush everything
                 if (value != _currentSurface)
                 {
-                    // Invoke the rest of the method on the rendering thread
+                    Flush();
+
+                    _currentSurface = value;
+
                     Invoke(() =>
                     {
-                        // 
-                        Flush();
-
-                        // 
-                        _currentSurface = value;
-
                         // Set and prepare the surface (ie, bind framebuffer)
                         if (value == DefaultSurface)
                         {
@@ -307,7 +304,7 @@ namespace Heirloom.Drawing.OpenGLES
                             // Bind surface framebuffer
                             ResourceManager.GetFramebuffer(this, value).Bind();
                         }
-                    });
+                    }, false);
                 }
             }
         }
@@ -364,7 +361,7 @@ namespace Heirloom.Drawing.OpenGLES
                 else
                 {
                     // Nothing to draw, so we will just set the viewport
-                    Invoke(() => SetViewportAndScissor(out var _, out var _));
+                    Invoke(() => SetViewportAndScissor(out var _, out var _), false);
                 }
 
                 _viewport = value;
@@ -433,7 +430,7 @@ namespace Heirloom.Drawing.OpenGLES
                                 GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.Zero);
                                 break;
                         }
-                    });
+                    }, false);
                 }
             }
         }
@@ -450,7 +447,7 @@ namespace Heirloom.Drawing.OpenGLES
                 // Set color and clear
                 GL.SetClearColor(color.R, color.G, color.B, color.A);
                 GL.Clear(ClearMask.Color);
-            });
+            }, false);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -503,7 +500,7 @@ namespace Heirloom.Drawing.OpenGLES
         public override unsafe void Flush()
         {
             // If the renderer has batched work
-            if (_renderer.IsDirty)
+            if (_renderer?.IsDirty ?? false)
             {
                 Invoke(() =>
                 {

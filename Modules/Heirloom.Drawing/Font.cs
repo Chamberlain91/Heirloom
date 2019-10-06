@@ -141,8 +141,8 @@ namespace Heirloom.Drawing
             TextRenderer.LayoutText(text, (Vector.Zero, layoutSize), TextAlign.Left, atlas, (string _, int index, ref CharacterLayoutState state) =>
             {
                 // Include extents of glyph box
-                measure.Merge(state.Position);
-                measure.Merge(state.Position + (state.Metrics.AdvanceWidth, atlas.Metrics.LineAdvance));
+                measure.Include(state.Position);
+                measure.Include(state.Position + (state.Metrics.AdvanceWidth, atlas.Metrics.LineAdvance));
             });
 
             return measure.Size;

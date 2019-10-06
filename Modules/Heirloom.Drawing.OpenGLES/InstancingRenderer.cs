@@ -131,6 +131,7 @@ namespace Heirloom.Drawing.OpenGLES
             if (_vertexArray.InstanceCount > 0)
             {
                 // Perform on the rendering thread
+                // todo: make invoke non-blocking but we need a vertex array ring buffer
                 _context.Invoke(() =>
                 {
                     // Update GPU side buffers

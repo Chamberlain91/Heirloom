@@ -35,7 +35,7 @@ namespace Heirloom.Game
 
         #endregion
 
-        #region Add / Remove Nodes
+        #region Add / Remove Entities
 
         public static void AddEntity(Entity entity)
         {
@@ -79,6 +79,22 @@ namespace Heirloom.Game
 
             // Inform entity it was removed from the scene
             entity.OnRemovedFromScene();
+        }
+
+        public static IEnumerable<T> FindEntities<T>() where T : Entity
+        {
+            return _entities.GetItemsByType<T>();
+        }
+
+        public static IEnumerable<Entity> FindEntities(Predicate<Entity> predicate)
+        {
+            foreach (var entity in _entities)
+            {
+                if (predicate(entity))
+                {
+                    yield return entity;
+                }
+            }
         }
 
         internal static void AddComponent(Component component)
@@ -218,7 +234,7 @@ namespace Heirloom.Game
                 foreach (var camera in _cameras)
                 {
                     var surface = camera.Surface ?? ctx.DefaultSurface;
-                    DrawEntities(surface, camera.CameraMatrix, camera.Viewport, camera.BackgroundColor);
+                    DrawEntities(surface, camera.Matrix, camera.Viewport, camera.BackgroundColor);
                 }
             }
             else
