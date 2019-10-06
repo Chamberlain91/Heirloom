@@ -5,7 +5,7 @@ using Heirloom.Math;
 namespace Heirloom.Game
 {
     public sealed class Transform : Component
-    // todo: Transform Hierarchy via Parent and Children properties
+    // todo: Transform Hierarchy via Parent and Children properties?
     {
         private Vector _position = Vector.Zero;
         private float _rotation = 0;
@@ -18,12 +18,12 @@ namespace Heirloom.Game
         private bool _needComputeMatrix;
         private bool _wasChanged;
 
-        public event Action Changed;
-
         internal Transform()
         {
             MarkMutation();
         }
+
+        public event Action Changed;
 
         /// <summary>
         /// Gets or sets the position of the object.
@@ -108,6 +108,11 @@ namespace Heirloom.Game
                 _wasChanged = false;
                 Changed?.Invoke();
             }
+        }
+
+        internal void SetParent(Transform transform)
+        {
+            throw new NotImplementedException();
         }
 
         private void MarkMutation()

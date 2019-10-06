@@ -1,38 +1,110 @@
-﻿using Heirloom.Game;
+﻿using System;
+
+using Heirloom.Drawing;
 
 namespace Examples.Gridcannon
 {
-    public class Card : Entity
+    public sealed class Card
     {
-        private readonly ImageRenderer _renderer;
-        private bool _isFaceDown = true;
+        private readonly int _imageIndex;
 
-        public readonly CardInfo Info;
+        #region Constructors
 
-        public Card(CardInfo cardInfo)
+        public Card(Suit suit, int value)
         {
-            Info = cardInfo;
+            _imageIndex = GetIndex(suit, value);
 
-            // Create and attch renderer
-            _renderer = new ImageRenderer(Assets.GfxCardBack);
-            AddComponent(_renderer);
+            Value = value;
+            Suit = suit;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the associated image (static lookup from <see cref="Assets"/>).
+        /// </summary>
+        public Image Image => Assets.GfxCards[_imageIndex];
+
+        /// <summary>
+        /// Gets this cards suit.
+        /// </summary>
+        public Suit Suit { get; }
+
+        /// <summary>
+        /// Gets thus cards value (Joker, Ace... King is mapped to 0, 1 ... 13).
+        /// </summary>
+        public int Value { get; }
+
+        /// <summary>
+        /// Gets if this card is a royal (jack, queen or king).
+        /// </summary>
+        public bool IsRoyal => Value > 10;
+
+        #endregion
+
+        #region Index to Suit/Value Conversions
+
+        private static int GetIndex(Suit suit, int value)
+        {
+            if (suit == Suit.Joker) { return 0; }
+            return value + (((int) suit) * 13);
+        }
+
+        private static Suit GetSuit(int index)
+        {
+            if (index == 0) { return Suit.Joker; }
+            return (Suit) ((index - 1) / 13);
+        }
+
+        private static int GetValue(int index)
+        {
+            return 1 + ((index - 1) % 13);
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Is the card given the same suit as this card?
+        /// </summary>
+        public bool IsSameSuit(Card card)
+        {
+            if (card is null) { throw new ArgumentNullException(nameof(card)); }
+            return card.Suit == Suit;
         }
 
         /// <summary>
-        /// Is this card facing down?
+        /// Is the card given the same suit color as this card?
         /// </summary>
-        public bool IsFaceDown
+        public bool IsSameColor(Card card)
         {
-            get => _isFaceDown;
+            if (card is null) { throw new ArgumentNullException(nameof(card)); }
+            return ((int) card.Suit % 2) == ((int) Suit % 2);
+        }
 
-            set
-            {
-                if (_isFaceDown != value)
-                {
-                    _isFaceDown = value;
-                    _renderer.Image = IsFaceDown ? Assets.GfxCardBack : Info.Image;
-                }
-            }
+        /// <summary>
+        /// Gets the name of the card value (ie, 1 is 'A' or 11 is 'J')
+        /// </summary>
+        public static string GetValueName(int value)
+        {
+            // Standard 13
+            if (value == 1) { return "A"; }
+            if (value >= 2 && value <= 10) { return $"{value}"; }
+            if (value == 11) { return "J"; }
+            if (value == 12) { return "Q"; }
+            if (value == 13) { return "K"; }
+
+            // Joker
+            if (value == 0) { return "?"; }
+
+            throw new ArgumentOutOfRangeException(nameof(value));
+        }
+
+        public override string ToString()
+        {
+            if (Suit == Suit.Joker) { return "Joker"; }
+            return $"{GetValueName(Value)} of {Suit}";
         }
     }
 }

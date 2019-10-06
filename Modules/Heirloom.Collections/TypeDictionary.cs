@@ -24,11 +24,11 @@ namespace Heirloom.Collections
 
         #region Add, Remove
 
-        public void Add(T item)
+        public bool Add(T item)
         {
             if (item == null) { throw new ArgumentNullException(nameof(item)); }
 
-            // Try to add item to bucket, was it already present?
+            // Try to add item to buckets
             if (_items.Add(item))
             {
                 // Was not present, add association with each ancestor type
@@ -37,7 +37,13 @@ namespace Heirloom.Collections
                     var list = GetListByType(type);
                     list.Add(item);
                 }
+
+                // Successfully added item
+                return true;
             }
+
+            // Failed to add item
+            return false;
         }
 
         public bool Remove(T item)

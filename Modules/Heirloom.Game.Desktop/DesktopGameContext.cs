@@ -9,15 +9,15 @@ namespace Heirloom.Game.Desktop
         /// </summary>
         public Window Window { get; }
 
-        public DesktopGameContext(string title)
+        protected DesktopGameContext(string title)
             : this(title, WindowCreationSettings.Default)
         { }
 
-        public DesktopGameContext(string title, WindowCreationSettings settings)
+        protected DesktopGameContext(string title, WindowCreationSettings settings)
             : this(new Window(title, settings))
         { }
 
-        public DesktopGameContext(Window window)
+        protected DesktopGameContext(Window window)
             : base(window.RenderContext)
         {
             Window = window;

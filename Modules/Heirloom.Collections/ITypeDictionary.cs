@@ -12,7 +12,7 @@ namespace Heirloom.Collections
         /// Add a new object to the type dictionary.
         /// </summary>
         /// <param name="obj">Some object.</param>
-        void Add(T obj);
+        bool Add(T obj);
 
         /// <summary>
         /// Remove an object from the type dictionary.

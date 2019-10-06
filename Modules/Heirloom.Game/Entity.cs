@@ -1,92 +1,52 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 using Heirloom.Collections;
-using Heirloom.Drawing;
 
 namespace Heirloom.Game
 {
-    public abstract class Entity
+    public class Entity
     {
-        private int _depth = 0;
-
         private readonly TypeDictionary<Component> _components;
-
-        private readonly CoroutineRunner _coroutineRunner;
+        private bool _isContainedByScene = false;
 
         protected Entity()
         {
-            _coroutineRunner = new CoroutineRunner();
             _components = new TypeDictionary<Component>();
 
-            // Default Components
+            // 
             Transform = AddComponent(new Transform());
         }
 
         /// <summary>
-        /// Gets the transform of this entity.
+        /// Gets the entity's transform.
         /// </summary>
         public Transform Transform { get; }
 
         /// <summary>
-        /// Gets which scene this entity exists (may be null if not contained by a scene).
+        /// Has the update method been implemented?
         /// </summary>
-        public Scene Scene { get; internal set; }
+        internal bool IsUpdateImplemented => OverrideChecker.IsMethodOverridden(typeof(Entity), GetType(), nameof(Update));
 
-        public int Depth
-        {
-            get => _depth;
-
-            set
-            {
-                if (_depth != value)
-                {
-                    _depth = value;
-                    Scene.MarkDepthChange();
-                }
-            }
-        }
-
-        #region Coroutines
-
-        public Coroutine StartCoroutine(float delay, IEnumerator enumerator)
-        {
-            return _coroutineRunner.Run(delay, enumerator);
-        }
-
-        public Coroutine StartCoroutine(float delay, Func<IEnumerator> coroutine)
-        {
-            return StartCoroutine(delay, coroutine());
-        }
-
-        public Coroutine StartCoroutine(IEnumerator enumerator)
-        {
-            return StartCoroutine(0, enumerator);
-        }
-
-        public Coroutine StartCoroutine(Func<IEnumerator> coroutine)
-        {
-            return StartCoroutine(0, coroutine());
-        }
-
-        #endregion
-
-        #region Components
-
-        public C AddComponent<C>() where C : Component, new()
-        {
-            return AddComponent(new C());
-        }
+        protected internal virtual void Update(float dt) { }
 
         public C AddComponent<C>(C component) where C : Component
         {
             if (component.Entity == null)
             {
-                _components.Add(component);
-                component.Entity = this;
-                return component;
+                // todo: could this cause a concurrent modification exception
+                if (_components.Add(component))
+                {
+                    // Track component
+                    if (_isContainedByScene) { Scene.AddComponent(component); }
+                    component.Entity = this;
+
+                    return component;
+                }
+                else
+                {
+                    throw new CriticalStateException("Added component already known to entity but not component.");
+                }
             }
             else
             {
@@ -96,14 +56,28 @@ namespace Heirloom.Game
 
         public void RemoveComponent(Component component)
         {
-            if (component.Entity == null)
+            if (component == Transform)
             {
-                _components.Add(component);
-                component.Entity = this;
+                throw new InvalidOperationException("Removal of transform component from entity is prohibited.");
+            }
+
+            if (component.Entity == this)
+            {
+                // todo: could this cause a concurrent modification exception
+                if (_components.Remove(component))
+                {
+                    // Untrack component
+                    if (_isContainedByScene) { Scene.RemoveComponent(component); }
+                    component.Entity = null;
+                }
+                else
+                {
+                    throw new CriticalStateException("Target component for removal already unknown to entity but component configured for entity.");
+                }
             }
             else
             {
-                throw new InvalidOperationException("Unable to add component to entity, component already attached to another entity.");
+                throw new InvalidOperationException("Unable to remove component from entity, component is attached to a different entity.");
             }
         }
 
@@ -124,49 +98,14 @@ namespace Heirloom.Game
             return _components.GetItemsByType<C>();
         }
 
-        #endregion
-
-        protected virtual void Update(float dt) { }
-
-        protected virtual void Draw(RenderContext ctx) { }
-
-        [Conditional("DEBUG")]
-        protected virtual void DrawDebug(RenderContext ctx) { }
-
-        internal void InternalUpdate(float dt)
+        internal void OnAddedToScene()
         {
-            // Update coroutines
-            _coroutineRunner.Update(dt);
-
-            // Update entity
-            Update(dt);
-
-            // Update each component
-            foreach (var c in GetComponents<Component>())
-            {
-                if (c.IsEnabled)
-                {
-                    c.Update(dt);
-                }
-            }
+            _isContainedByScene = true;
         }
 
-        internal void InternalDraw(RenderContext ctx)
+        internal void OnRemovedFromScene()
         {
-            // Draw entity
-            Draw(ctx);
-
-            // Draw each component
-            foreach (var c in GetComponents<DrawableComponent>())
-            {
-                if (c.IsEnabled && c.IsVisible)
-                {
-                    c.Draw(ctx);
-                }
-            }
-
-            // Draw debug mode visuals
-            DrawDebug(ctx);
+            _isContainedByScene = false;
         }
     }
 }

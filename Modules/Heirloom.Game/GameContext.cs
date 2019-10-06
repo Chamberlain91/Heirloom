@@ -9,13 +9,7 @@ namespace Heirloom.Game
         protected GameContext(RenderContext ctx)
         {
             _gameLoop = RenderLoop.Create(ctx, Update);
-            SceneManager = new SceneManager();
         }
-
-        /// <summary>
-        /// Gets the scene manager.
-        /// </summary>
-        public SceneManager SceneManager { get; }
 
         /// <summary>
         /// Gets the render context.
@@ -43,13 +37,13 @@ namespace Heirloom.Game
             _gameLoop.Stop();
         }
 
-        protected void Update(RenderContext ctx, float dt)
+        protected virtual void Update(RenderContext ctx, float dt)
         {
             // Process input
             Input.Update();
 
             // Update scenes
-            SceneManager.Update(ctx, dt);
+            Scene.Update(ctx, dt);
         }
     }
 }

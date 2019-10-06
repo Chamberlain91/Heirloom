@@ -2,16 +2,14 @@
 
 namespace Heirloom.Game
 {
-    public sealed class ImageRenderer : Renderer
+    /// <summary>
+    /// Provides rendering an image to the attached entity.
+    /// </summary>
+    public sealed class ImageComponent : DrawableComponent
     {
         private Image _image;
 
-        public ImageRenderer()
-        {
-            // 
-        }
-
-        public ImageRenderer(Image image)
+        public ImageComponent(Image image)
         {
             Image = image;
         }
@@ -27,11 +25,8 @@ namespace Heirloom.Game
             // Nothing to do
         }
 
-        protected internal override void Draw(RenderContext ctx)
+        protected override void Draw(RenderContext ctx)
         {
-            ctx.Blending = Blending;
-            ctx.Color = Color;
-
             ctx.DrawImage(Image, Transform.Matrix);
         }
     }

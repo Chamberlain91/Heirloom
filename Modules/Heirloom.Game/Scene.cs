@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 using Heirloom.Collections;
 using Heirloom.Drawing;
@@ -8,109 +8,217 @@ using Heirloom.Math;
 
 namespace Heirloom.Game
 {
-    public sealed class Scene
+    public static class Scene
     {
-        private readonly List<Entity> _entities;
-        private readonly List<Camera> _cameras;
-        private bool _hasDepthChange = true;
+        // Game Logic
+        private static readonly TypeDictionary<Entity> _entities = new TypeDictionary<Entity>();
+        private static readonly List<Entity> _updatableEntities = new List<Entity>();
 
-        public Scene()
-        {
-            _entities = new List<Entity>();
-        }
+        private static readonly TypeDictionary<Component> _components = new TypeDictionary<Component>();
+        private static readonly List<Component> _updatableComponents = new List<Component>();
+
+        // Game Drawing
+        private static readonly List<Camera> _cameras = new List<Camera>();
+        private static readonly List<DrawableComponent> _drawbles = new List<DrawableComponent>();
+        private static bool _hasDrawableDepthChange = true;
+
+        private static readonly Queue<Action> _futureActions = new Queue<Action>();
+
+        private static readonly CoroutineRunner _coroutineRunner = new CoroutineRunner();
+
+        #region Properties
 
         /// <summary>
         /// Background color used if no camera components exist in the scene.
         /// </summary>
-        public Color BackgroundColor { get; set; } = Colors.FlatUI.WetAshphalt;
+        public static Color BackgroundColor { get; set; } = Colors.FlatUI.WetAshphalt;
 
-        /// <summary>
-        /// Gets a read-only list of entities contained in the scene.
-        /// </summary>
-        public IReadOnlyList<Entity> Entities => _entities;
+        #endregion
 
-        #region Add / Remove Entities
+        #region Add / Remove Nodes
 
-        public void Add(IEnumerable<Entity> entities)
+        public static void AddEntity(Entity entity)
         {
-            foreach (var entity in entities)
-            {
-                Add(entity);
-            }
-        }
-
-        public void Add(Entity entity)
-        {
-            // 
-            if (entity.Scene != null)
-            {
-                throw new InvalidOperationException("Unable to add entity to scene, already contained by another scene");
-            }
-
             // Add to entities list
+            // todo: schedule addition to prevent concurrent mutation?
             _entities.Add(entity);
-            entity.Scene = this;
 
-            // 
-            MarkDepthChange();
+            // If update method is implemented, put onto update list
+            if (entity.IsUpdateImplemented) { _updatableEntities.Add(entity); }
+
+            // Was the entity a camera?
+            if (entity is Camera camera) { _cameras.Add(camera); }
+
+            // Add known components
+            foreach (var component in entity.GetComponents<Component>())
+            {
+                AddComponent(component);
+            }
+
+            // Inform entity it is now part of the scene
+            entity.OnAddedToScene();
         }
 
-        public void Remove(IEnumerable<Entity> entities)
+        public static void RemoveEntity(Entity entity)
         {
-            foreach (var entity in entities)
+            // Add to entities list
+            // todo: schedule removal to prevent concurrent mutation?
+            _entities.Remove(entity);
+
+            // If update method is implemented, remove from update list
+            if (entity.IsUpdateImplemented) { _updatableEntities.Remove(entity); }
+
+            // Was the entity a camera?
+            if (entity is Camera camera) { _cameras.Remove(camera); }
+
+            // Add known components
+            foreach (var component in entity.GetComponents<Component>())
             {
-                Remove(entity);
+                RemoveComponent(component);
+            }
+
+            // Inform entity it was removed from the scene
+            entity.OnRemovedFromScene();
+        }
+
+        internal static void AddComponent(Component component)
+        {
+            if (_components.Add(component))
+            {
+                // If update method is implemented, add to update list
+                if (component.IsUpdateImplemented) { _updatableComponents.Add(component); }
+
+                // 
+                if (component is DrawableComponent drawable)
+                {
+                    _drawbles.Add(drawable);
+                    NotifyDrawableDepthChange();
+                }
+            }
+            else
+            {
+                throw new ArgumentException($"Unable to add component to scene tracking, already tracked.");
             }
         }
 
-        public void Remove(Entity entity)
+        internal static void RemoveComponent(Component component)
         {
-            // 
-            if (entity.Scene == null) { throw new InvalidOperationException("Unable to remove entity from scene, not contained by any scene"); }
-
-            // 
-            if (_entities.Remove(entity))
+            if (_components.Remove(component))
             {
-                entity.Scene = null;
-                MarkDepthChange();
+                // If update method is implemented, remove from update list
+                if (component.IsUpdateImplemented) { _updatableComponents.Remove(component); }
+
+                // 
+                if (component is DrawableComponent drawable)
+                {
+                    _drawbles.Remove(drawable);
+                    NotifyDrawableDepthChange();
+                }
+            }
+            else
+            {
+                throw new ArgumentException($"Unable to remove component from scene tracking, already untracked.");
             }
         }
 
         #endregion
 
-        internal void MarkDepthChange()
+        #region Coroutines
+
+        public static Coroutine StartCoroutine(float delay, IEnumerator enumerator)
         {
-            _hasDepthChange = true;
+            return _coroutineRunner.Run(delay, enumerator);
         }
 
-        internal void Update(RenderContext ctx, float dt)
+        public static Coroutine StartCoroutine(float delay, Func<IEnumerator> coroutine)
         {
-            // Update input
-            Input.Update();
+            return StartCoroutine(delay, coroutine());
+        }
 
-            //  
-            SortEntities();
+        public static Coroutine StartCoroutine(IEnumerator enumerator)
+        {
+            return StartCoroutine(0, enumerator);
+        }
+
+        public static Coroutine StartCoroutine(Func<IEnumerator> coroutine)
+        {
+            return StartCoroutine(0, coroutine());
+        }
+
+        #endregion
+
+        internal static void NotifyDrawableDepthChange()
+        {
+            _hasDrawableDepthChange = true;
+        }
+
+        internal static void Update(RenderContext ctx, float dt)
+        {
+            // Process all scheduled actions
+            while (_futureActions.Count > 0)
+            {
+                var action = _futureActions.Dequeue();
+                action();
+            }
+
+            ProcessLogic(dt);
+            ProcessDrawing(ctx);
+        }
+
+        private static void ProcessLogic(float dt)
+        {
+            // Update coroutines
+            _coroutineRunner.Update(dt);
 
             // Update Entities 
+            // todo: Not all entities will need to update, curate a "updatable entity list" with some sort of flag / detection.
+            //       For example, An entity used to act a hierarchical node does not need to update.
             foreach (var entity in _entities)
             {
-                entity.InternalUpdate(dt);
+                entity.Update(dt);
             }
+
+            // Update each component
+            // todo: Not all components will need to update, curate a "updatable component list" with some sort of flag / detection.
+            //       For example, ImageComponent does not need update, but SpriteComponent does to track time for animations.
+            foreach (var c in _components)
+            {
+                // todo: Instead remove from _components when disabled to prevent even having to loop over it?
+                if (c.IsEnabled)
+                {
+                    c.Update(dt);
+                }
+            }
+        }
+
+        private static void SortDrawables()
+        {
+            if (_hasDrawableDepthChange)
+            {
+                _hasDrawableDepthChange = false;
+
+                // Sort entities by depth
+                // todo: sort each curated list too!
+                // todo: possibly only sort DrawableComponents once curated?
+                _drawbles.StableSort((a, b) => a.Depth.CompareTo(b.Depth));
+            }
+        }
+
+        private static void ProcessDrawing(RenderContext ctx)
+        {
+            //  
+            SortDrawables();
 
             // If there are cameras existing in the scene a default '2D canvas' approach is used.
             // If at least one camera does exist in the scene then we will render the scene from each enabled camera's point of view.
             // todo: remove LINQ, use TypeDictionary or some other type curated structure
-            var cameras = _entities.SelectMany(e => e.GetComponents<Camera>());
-            if (cameras.Any())
+            if (_cameras.Count > 0)
             {
                 // Iterate over each camera, only drawing from enabled cameras
-                foreach (var camera in cameras)
+                foreach (var camera in _cameras)
                 {
-                    if (camera.IsEnabled)
-                    {
-                        var surface = camera.Surface ?? ctx.DefaultSurface;
-                        DrawEntities(surface, camera.CameraMatrix, camera.Viewport, camera.BackgroundColor);
-                    }
+                    var surface = camera.Surface ?? ctx.DefaultSurface;
+                    DrawEntities(surface, camera.CameraMatrix, camera.Viewport, camera.BackgroundColor);
                 }
             }
             else
@@ -129,26 +237,15 @@ namespace Heirloom.Game
                 // Clear
                 ctx.Clear(clearColor);
 
-                // Draw Entities
-                foreach (var entity in _entities)
+                // Process drawbles
+                foreach (var drawable in _drawbles)
                 {
-                    ctx.SaveState();
-                    entity.InternalDraw(ctx);
-                    ctx.RestoreState();
+                    // todo: instead remove from _drawbles when disabled to prevent even having to loop over it
+                    if (drawable.IsEnabled)
+                    {
+                        drawable.InternalDraw(ctx);
+                    }
                 }
-            }
-        }
-
-        private void SortEntities()
-        {
-            if (_hasDepthChange)
-            {
-                _hasDepthChange = false;
-
-                // Sort entities by depth
-                // todo: sort each curated list too!
-                // todo: possibly only sort DrawableComponents once curated?
-                _entities.StableSort((a, b) => a.Depth.CompareTo(b.Depth));
             }
         }
     }

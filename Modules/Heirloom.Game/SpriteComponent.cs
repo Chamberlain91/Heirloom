@@ -5,7 +5,10 @@ using Heirloom.Drawing;
 
 namespace Heirloom.Game
 {
-    public sealed class SpriteRenderer : Renderer
+    /// <summary>
+    /// Provides rendering and animating a sprite to the attached entity.
+    /// </summary>
+    public sealed class SpriteComponent : DrawableComponent
     {
         private const string DefaultAnimationName = "default";
 
@@ -15,11 +18,17 @@ namespace Heirloom.Game
 
         private Sprite _sprite;
 
-        public SpriteRenderer(Sprite sprite)
+        #region Constructors
+
+        public SpriteComponent(Sprite sprite)
         {
             Sprite = sprite ?? throw new ArgumentNullException(nameof(sprite));
             Animation = Sprite.GetAnimation(DefaultAnimationName);
         }
+
+        #endregion
+
+        #region Properties
 
         public Sprite Sprite
         {
@@ -38,6 +47,8 @@ namespace Heirloom.Game
 
         public int Frame { get; private set; }
 
+        #endregion
+
         /// <summary>
         /// Jumps to a specified frame relative to the current anmation.
         /// </summary>
@@ -52,6 +63,8 @@ namespace Heirloom.Game
             // 
             Frame = Animation.From + frame;
         }
+
+        #region Animation Playback
 
         /// <summary>
         /// Begins playback of an animation by name.
@@ -96,6 +109,8 @@ namespace Heirloom.Game
             Frame = Animation.From;
             _time = 0;
         }
+
+        #endregion
 
         protected internal override void Update(float dt)
         {
@@ -155,11 +170,8 @@ namespace Heirloom.Game
             }
         }
 
-        protected internal override void Draw(RenderContext ctx)
+        protected override void Draw(RenderContext ctx)
         {
-            ctx.Blending = Blending;
-            ctx.Color = Color;
-
             ctx.DrawSprite(Sprite, 0, Transform.Matrix);
         }
     }
