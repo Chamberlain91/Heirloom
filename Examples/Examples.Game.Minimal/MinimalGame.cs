@@ -13,10 +13,12 @@ namespace Examples.Game.Minimal
             : base("Minimal Game Example", new WindowCreationSettings { Multisample = MultisampleQuality.Medium })
         {
             RenderContext.ShowFPSOverlay = true;
+            Window.Size = (800, 500);
         }
 
         protected override void Initialize()
         {
+            // Create card and camera
             Scene.AddEntity(new QueenOfHearts());
             Scene.AddEntity(new Camera());
         }

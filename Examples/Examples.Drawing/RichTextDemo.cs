@@ -29,8 +29,11 @@ namespace Examples.Drawing
 
             private void ItalicsCallback(string text, int index, ref CharacterDrawState state)
             {
+                state.Color = Color.Pink;
+
                 // Fake italics by shearing glyph
-                state.Transform = Matrix.CreateShear(-0.4F, 0);
+                state.Transform = Matrix.CreateShear(-0.3F, 0)
+                                * Matrix.CreateScale(1.1F, 1F);
             }
         }
     }

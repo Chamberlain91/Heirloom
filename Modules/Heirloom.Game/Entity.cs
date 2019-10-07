@@ -10,7 +10,7 @@ namespace Heirloom.Game
         private readonly TypeDictionary<Component> _components;
         private bool _isContainedByScene = false;
 
-        protected Entity()
+        public Entity()
         {
             _components = new TypeDictionary<Component>();
 

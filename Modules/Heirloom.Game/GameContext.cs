@@ -11,7 +11,7 @@ namespace Heirloom.Game
 
         protected GameContext(RenderContext ctx)
         {
-            _loop = RenderLoop.Create(ctx, Update);
+            _loop = RenderLoop.Create(ctx, Scene.Update);
             _hasInitialized = false;
         }
 
