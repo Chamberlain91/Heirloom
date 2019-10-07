@@ -153,5 +153,31 @@ namespace Heirloom.Game
         {
             return new CoroutineAction.WaitCondition(condition);
         }
+
+        #region Static
+
+        internal static readonly CoroutineRunner Runner = new CoroutineRunner();
+
+        public static Coroutine Start(float delay, IEnumerator enumerator)
+        {
+            return Runner.Run(delay, enumerator);
+        }
+
+        public static Coroutine Start(float delay, Func<IEnumerator> coroutine)
+        {
+            return Start(delay, coroutine());
+        }
+
+        public static Coroutine Start(IEnumerator enumerator)
+        {
+            return Start(0, enumerator);
+        }
+
+        public static Coroutine Start(Func<IEnumerator> coroutine)
+        {
+            return Start(0, coroutine());
+        }
+
+        #endregion
     }
 }

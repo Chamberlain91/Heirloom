@@ -69,14 +69,5 @@ namespace Heirloom.Game
         #endregion
 
         protected abstract void Initialize();
-
-        protected virtual void Update(RenderContext ctx, float dt)
-        {
-            // Process input
-            Input.Update();
-
-            // Update scenes
-            Scene.Update(ctx, dt);
-        }
     }
 }

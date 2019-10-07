@@ -24,8 +24,6 @@ namespace Heirloom.Game
 
         private static readonly Queue<Action> _futureActions = new Queue<Action>();
 
-        private static readonly CoroutineRunner _coroutineRunner = new CoroutineRunner();
-
         #region Properties
 
         /// <summary>
@@ -139,30 +137,6 @@ namespace Heirloom.Game
 
         #endregion
 
-        #region Coroutines
-
-        public static Coroutine StartCoroutine(float delay, IEnumerator enumerator)
-        {
-            return _coroutineRunner.Run(delay, enumerator);
-        }
-
-        public static Coroutine StartCoroutine(float delay, Func<IEnumerator> coroutine)
-        {
-            return StartCoroutine(delay, coroutine());
-        }
-
-        public static Coroutine StartCoroutine(IEnumerator enumerator)
-        {
-            return StartCoroutine(0, enumerator);
-        }
-
-        public static Coroutine StartCoroutine(Func<IEnumerator> coroutine)
-        {
-            return StartCoroutine(0, coroutine());
-        }
-
-        #endregion
-
         internal static void NotifyDrawableDepthChange()
         {
             _hasDrawableDepthChange = true;
@@ -170,6 +144,9 @@ namespace Heirloom.Game
 
         internal static void Update(RenderContext ctx, float dt)
         {
+            // Process input
+            Input.Update();
+
             // Process all scheduled actions
             while (_futureActions.Count > 0)
             {
@@ -177,15 +154,16 @@ namespace Heirloom.Game
                 action();
             }
 
-            ProcessLogic(dt);
-            ProcessDrawing(ctx);
+            // Update coroutines
+            Coroutine.Runner.Update(dt);
+
+            // Update scene
+            ProcessSceneLogic(dt);
+            ProcessSceneDrawing(ctx);
         }
 
-        private static void ProcessLogic(float dt)
+        private static void ProcessSceneLogic(float dt)
         {
-            // Update coroutines
-            _coroutineRunner.Update(dt);
-
             // Update Entities 
             // todo: Not all entities will need to update, curate a "updatable entity list" with some sort of flag / detection.
             //       For example, An entity used to act a hierarchical node does not need to update.
@@ -220,7 +198,7 @@ namespace Heirloom.Game
             }
         }
 
-        private static void ProcessDrawing(RenderContext ctx)
+        private static void ProcessSceneDrawing(RenderContext ctx)
         {
             //  
             SortDrawables();
