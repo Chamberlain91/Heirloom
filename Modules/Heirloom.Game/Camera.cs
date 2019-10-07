@@ -6,17 +6,17 @@ using Heirloom.Math;
 namespace Heirloom.Game
 {
     public sealed class Camera : Entity
-    // todo: Compute camera bounds
     {
         private float _scale = 1F;
         private Rectangle _bounds;
-        private Matrix _matrix;
-
-        private bool _needComputeMatrix;
-        private bool _needComputeBounds;
+        private Matrix _matrix, _inverse;
 
         private IntSize _surfaceSize;
         private Surface _surface;
+
+        private bool _needComputeMatrix;
+        private bool _needComputeInverse;
+        private bool _needComputeBounds;
 
         /// <summary>
         /// Construct a new camera entity.
@@ -90,6 +90,25 @@ namespace Heirloom.Game
         }
 
         /// <summary>
+        /// Gets the matrix used to transform from surface to world.
+        /// </summary>
+        public Matrix InverseMatrix
+        {
+            get
+            {
+                DetectSurfaceResize();
+
+                if (_needComputeInverse)
+                {
+                    _inverse = Matrix.Inverse(Matrix);
+                    _needComputeInverse = false;
+                }
+
+                return _inverse;
+            }
+        }
+
+        /// <summary>
         /// Gets the bounds of the camera in world space.
         /// </summary>
         public Rectangle Bounds
@@ -100,14 +119,12 @@ namespace Heirloom.Game
 
                 if (_needComputeBounds)
                 {
-                    var invMatrix = Matrix.Inverse(Matrix);
-
                     // Compute transformed points
                     var size = (Vector) Viewport.Size;
-                    var p0 = invMatrix * (Surface.Bounds.TopLeft * size + Viewport.Position);
-                    var p1 = invMatrix * (Surface.Bounds.TopRight * size + Viewport.Position);
-                    var p2 = invMatrix * (Surface.Bounds.BottomLeft * size + Viewport.Position);
-                    var p3 = invMatrix * (Surface.Bounds.BottomRight * size + Viewport.Position);
+                    var p0 = InverseMatrix * (Surface.Bounds.TopLeft * size + Viewport.Position);
+                    var p1 = InverseMatrix * (Surface.Bounds.TopRight * size + Viewport.Position);
+                    var p2 = InverseMatrix * (Surface.Bounds.BottomLeft * size + Viewport.Position);
+                    var p3 = InverseMatrix * (Surface.Bounds.BottomRight * size + Viewport.Position);
 
                     // Construct bounds
                     _bounds = Rectangle.FromPoints(p0, p1, p2, p3);
@@ -122,6 +139,7 @@ namespace Heirloom.Game
         private void MarkDirty()
         {
             _needComputeMatrix = true;
+            _needComputeInverse = true;
             _needComputeBounds = true;
         }
 
