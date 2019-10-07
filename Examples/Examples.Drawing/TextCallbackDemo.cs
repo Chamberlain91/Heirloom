@@ -12,7 +12,7 @@ namespace Examples.Drawing
         private readonly RichText _richText;
 
         public TextCallbackDemo()
-            : base("Custom Text")
+            : base("Text Callback")
         {
             _richText = new RichText(Files.ReadText("files/alice.txt"));
         }
@@ -108,6 +108,8 @@ namespace Examples.Drawing
                         break;
 
                     case State.Parens:
+                        // Fake italics by shearing glyph
+                        state.Transform = Matrix.CreateShear(-0.33F, 0);
                         state.Color = Color.Gray;
                         break;
 
@@ -116,7 +118,7 @@ namespace Examples.Drawing
                         // Set color
                         state.Color = Colors.FlatUI.BelizeHole;
 
-                        // Animated quotes
+                        // Animated up and down wobble
                         var now = (float) _stopwatch.Elapsed.TotalSeconds;
                         state.Position.Y += Calc.Sin(index / 2F + now * 8F) * 2;
 

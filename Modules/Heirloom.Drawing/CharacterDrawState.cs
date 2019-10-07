@@ -1,14 +1,13 @@
-﻿
-using Heirloom.Math;
+﻿using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
     public struct CharacterDrawState
     {
         /// <summary>
-        /// The current character.
+        /// A relative transform to apply to the glyphs (Set to <see cref="Matrix.Identity"/> by default).
         /// </summary>
-        public UnicodeCharacter Character;
+        public Matrix Transform;
 
         /// <summary>
         /// The position of the glyph.

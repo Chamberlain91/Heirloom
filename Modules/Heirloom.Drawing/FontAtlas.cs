@@ -72,6 +72,7 @@ namespace Heirloom.Drawing
         {
             // Create a sub-image for the packed region and render to it
             var cell = new Image(atlas, new IntRectangle(region.Position + (1, 1), region.Size - (2, 2)));
+            cell.Origin = cell.Bounds.Center;
             glyph.RenderTo(cell, 0, 0, size);
             return cell;
         }

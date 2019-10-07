@@ -23,6 +23,7 @@ namespace Examples.Drawing
                 new ImageDemo(),
                 new TextDemo(),
                 new TextCallbackDemo(),
+                new RichTextDemo(),
                 new LineThicknessDemo(),
                 new QuadraticCurveDemo(),
                 new CubicCurveDemo(),
