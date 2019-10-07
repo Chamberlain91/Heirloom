@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Heirloom.Drawing;
+﻿using Heirloom.Drawing;
 using Heirloom.Math;
 
 namespace Heirloom.Game
@@ -8,88 +6,87 @@ namespace Heirloom.Game
     public sealed class TextComponent : DrawableComponent
     {
         private string _text = string.Empty;
-        private RichTextParser _markup;
+        private RichTextParser _parser;
+        private RichText _richText;
 
-        // 
-        private RichText _markupResult;
+        private bool _needParse = false;
 
-        private bool _needParseMarkup = false;
-
+        /// <summary>
+        /// Gets or sets the text.
+        /// </summary>
         public string Text
         {
             get => _text;
 
             set
             {
-                _needParseMarkup = true;
+                _needParse = true;
                 _text = value;
             }
         }
 
-        public TextAlign Align { get; set; } = TextAlign.Left;
+        /// <summary>
+        /// Gets or sets the horizontal alignment.
+        /// </summary>
+        public TextAlign TextAlign { get; set; } = TextAlign.Left;
 
+        /// <summary>
+        /// Gets or sets the dired font.
+        /// </summary>
         public Font Font { get; set; } = Font.Default;
 
+        /// <summary>
+        /// Gets or sets the font size.
+        /// </summary>
         public int FontSize { get; set; } = 16;
 
         /// <summary>
-        /// The size of the text layout box, if set to <see cref="Size.Zero"/> then text is anchored around <see cref="Transform.Position"/>.
+        /// Gets or sets the size of the text layout box. <para/>
+        /// If set to <see cref="Size.Zero"/> then text is anchored around <see cref="Transform.Position"/> without word wrapping.
         /// </summary>
         public Size LayoutSize { get; set; } = Size.Zero;
 
         /// <summary>
-        /// Gets or sets the text markup processor.
+        /// Gets or sets the rich text markup parser. Setting this to <c>null</c> will simply render as plain text.
         /// </summary>
-        public RichTextParser MarkupProcessor
+        public RichTextParser RichTextParser
         {
-            get => _markup;
+            get => _parser;
 
             set
             {
-                _needParseMarkup = true;
-                _markup = value;
+                _needParse = true;
+                _parser = value;
             }
         }
 
-        private bool HasLayoutBox => LayoutSize.Width > 0 && LayoutSize.Height > 0;
-
         protected override void Draw(RenderContext ctx)
         {
-            if (_needParseMarkup)
-            {
-                _needParseMarkup = false;
+            DetectAndParseRichText();
 
-                // If a markup processor was given, process text with it
-                if (!MarkupProcessor?.TryParse(_text, out _markupResult) ?? true)
-                {
-                    // Failed to parse, just use plain text
-                    _markupResult = new PlainTextMarkupResult(_text);
-                }
-            }
-
-            // 
-            if (HasLayoutBox)
+            // Do we have a valid layout box?
+            if (LayoutSize.Width > 0 && LayoutSize.Height > 0)
             {
                 // Draw text in layout box
-                ctx.DrawText(_markupResult.Text, (Transform.Position, LayoutSize), Font, FontSize, Align, _markupResult.Callback);
+                if (_richText == null) { ctx.DrawText(_text, (Transform.Position, LayoutSize), Font, FontSize, TextAlign); }
+                else { ctx.DrawText(_richText, (Transform.Position, LayoutSize), Font, FontSize, TextAlign); }
             }
             else
             {
                 // Draw text anchored on position
-                ctx.DrawText(_markupResult.Text, Transform.Position, Font, FontSize, Align, _markupResult.Callback);
+                if (_richText == null) { ctx.DrawText(_text, Transform.Position, Font, FontSize, TextAlign); }
+                else { ctx.DrawText(_richText, Transform.Position, Font, FontSize, TextAlign); }
             }
         }
 
-        private class PlainTextMarkupResult : RichText
+        private void DetectAndParseRichText()
         {
-            public PlainTextMarkupResult(string text)
+            if (_needParse)
             {
-                Text = text ?? throw new ArgumentNullException(nameof(text));
+                _richText = RichTextParser?.Parse(_text);
+                _needParse = false;
             }
-
-            public override TextRenderer.DrawTextCallback Callback { get; }
-
-            public override string Text { get; }
         }
     }
+}
 

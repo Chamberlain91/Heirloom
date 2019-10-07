@@ -108,8 +108,6 @@ namespace Examples.Drawing
                         break;
 
                     case State.Parens:
-                        // Fake italics by shearing glyph
-                        state.Transform = Matrix.CreateShear(-0.33F, 0);
                         state.Color = Color.Gray;
                         break;
 
