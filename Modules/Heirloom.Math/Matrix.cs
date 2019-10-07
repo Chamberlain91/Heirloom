@@ -316,6 +316,35 @@ namespace Heirloom.Math
 
         #endregion
 
+        #region Create Shear
+
+        public void SetShear(float sx, float sy)
+        {
+            M0 = 1F;
+            M1 = sx;
+            M2 = 0F;
+
+            M3 = sy;
+            M4 = 1F;
+            M5 = 0F;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix CreateShear(Vector shear)
+        {
+            return CreateShear(shear.X, shear.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix CreateShear(float sx, float sy)
+        {
+            var m = Identity;
+            m.SetShear(sx, sy);
+            return m;
+        }
+
+        #endregion
+
         #region Create Translation
 
         public static Matrix CreateTranslation(in float x, in float y)

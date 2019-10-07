@@ -19,47 +19,39 @@ namespace Heirloom.Drawing
 
         #region Draw Text (Extension Methods)
 
-        public static Vector DrawText(this RenderContext ctx, string text, Vector position, Font font, int size)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector DrawText(this RenderContext ctx, RichText text, Vector position, Font font, int size, TextAlign align = TextAlign.Left)
         {
-            return DrawText(ctx, text, position, font, size, TextAlign.Left, null);
+            return DrawText(ctx, text.Text, position, font, size, align, text.Callback);
         }
 
-        public static Vector DrawText(this RenderContext ctx, string text, Vector position, Font font, int size, DrawTextCallback callback)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector DrawText(this RenderContext ctx, RichText text, Rectangle bounds, Font font, int size, TextAlign align = TextAlign.Left)
+        {
+            return DrawText(ctx, text.Text, bounds, font, size, align, text.Callback);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector DrawText(this RenderContext ctx, string text, Vector position, Font font, int size, DrawTextCallback callback = null)
         {
             return DrawText(ctx, text, position, font, size, TextAlign.Left, callback);
         }
 
-        public static Vector DrawText(this RenderContext ctx, string text, Vector position, Font font, int size, TextAlign align)
-        {
-            return DrawText(ctx, text, position, font, size, align, null);
-        }
-
-        public static Vector DrawText(this RenderContext ctx, string text, Vector position, Font font, int size, TextAlign align, DrawTextCallback callback)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector DrawText(this RenderContext ctx, string text, Vector position, Font font, int size, TextAlign align = TextAlign.Left, DrawTextCallback callback = null)
         {
             var bounds = GetPositionAnchoredTextBounds(text, font, size, position, align);
             return DrawText(ctx, text, bounds, font, size, align, callback);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector DrawText(this RenderContext ctx, string text, Rectangle bounds, Font font, int size)
-        {
-            return DrawText(ctx, text, bounds, font, size, TextAlign.Left, null);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector DrawText(this RenderContext ctx, string text, Rectangle bounds, Font font, int size, DrawTextCallback callback)
+        public static Vector DrawText(this RenderContext ctx, string text, Rectangle bounds, Font font, int size, DrawTextCallback callback = null)
         {
             return DrawText(ctx, text, bounds, font, size, TextAlign.Left, callback);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector DrawText(this RenderContext ctx, string text, Rectangle bounds, Font font, int size, TextAlign align)
-        {
-            return DrawText(ctx, text, bounds, font, size, align, null);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector DrawText(this RenderContext ctx, string text, Rectangle bounds, Font font, int size, TextAlign align, DrawTextCallback callback)
+        public static Vector DrawText(this RenderContext ctx, string text, Rectangle bounds, Font font, int size, TextAlign align = TextAlign.Left, DrawTextCallback callback = null)
         {
             if (font == null) { throw new ArgumentNullException(nameof(font)); }
             if (size < 1) { throw new ArgumentException("Font size must be greater than zero.", nameof(size)); }
@@ -77,27 +69,26 @@ namespace Heirloom.Drawing
             LayoutText(text, bounds, align, atlas, (string _, int index, ref CharacterLayoutState layout) =>
             {
                 // Set initial state
-                state.Character = layout.Character;
+                state.Transform = Matrix.Identity;
                 state.Position = layout.Position;
                 state.Color = color;
 
                 // Process character (per character animation, etc)
                 callback?.Invoke(text, index, ref state);
 
-                // Compute transform
-                // todo: I think we need to consider pixel scale, but if we don't then the divide can be removed.
-                var x = Calc.Floor((state.Position.X + layout.Metrics.Offset.X) / ctx.ApproximatePixelScale) * ctx.ApproximatePixelScale;
-                var y = Calc.Floor((state.Position.Y + layout.Metrics.Offset.Y + atlas.Metrics.Ascent) / ctx.ApproximatePixelScale) * ctx.ApproximatePixelScale;
+                // Compute render position
+                state.Position.X += layout.Metrics.Offset.X;
+                state.Position.Y += layout.Metrics.Offset.Y + atlas.Metrics.Ascent;
 
                 // Get glyph image
-                var image = atlas.GetImage(state.Character);
+                var image = atlas.GetImage(layout.Character);
 
                 // If has image data, draw to surface
                 if (image != null)
                 {
                     // Draw to surface
                     ctx.Color = state.Color;
-                    ctx.DrawImage(image, Matrix.CreateTranslation(x, y));
+                    ctx.DrawImage(image, Matrix.CreateTranslation(state.Position + image.Origin) * state.Transform);
                 }
             });
 

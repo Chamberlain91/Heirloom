@@ -8,10 +8,12 @@
 
   <ItemGroup>
     <None Remove="Files\alice.txt" />
+    <None Remove="Files\example.txt" />
     <None Remove="Files\rabbit.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Files\example.txt" />
     <EmbeddedResource Include="Files\rabbit.png" />
   </ItemGroup>
 
