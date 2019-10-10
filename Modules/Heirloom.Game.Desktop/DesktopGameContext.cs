@@ -1,4 +1,5 @@
 ﻿using Heirloom.Desktop;
+using Heirloom.Drawing;
 
 namespace Heirloom.Game.Desktop
 {
@@ -10,7 +11,11 @@ namespace Heirloom.Game.Desktop
         public Window Window { get; }
 
         protected DesktopGameContext(string title)
-            : this(title, WindowCreationSettings.Default)
+            : this(new Window(title))
+        { }
+
+        protected DesktopGameContext(string title, MultisampleQuality multisample)
+            : this(new Window(title, multisample))
         { }
 
         protected DesktopGameContext(string title, WindowCreationSettings settings)

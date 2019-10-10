@@ -7,12 +7,7 @@ namespace Heirloom.Game
 {
     public static class Input
     {
-        private static readonly List<InputSource> _sources;
-
-        static Input()
-        {
-            _sources = new List<InputSource>();
-        }
+        private static readonly List<InputSource> _sources = new List<InputSource>();
 
         internal static void Update()
         {
@@ -45,12 +40,12 @@ namespace Heirloom.Game
         /// <summary>
         /// Gets the position of a pointer (ie, mouse, etc).
         /// </summary>
-        public static Vector GetPointer()
+        public static Vector GetPointerPosition()
         {
             // Try each source for pointer input
             foreach (var source in _sources)
             {
-                if (source.TryGetPointer(out var state))
+                if (source.TryGetPointerPosition(out var state))
                 {
                     return state;
                 }
@@ -102,7 +97,7 @@ namespace Heirloom.Game
         /// <summary>
         /// Gets the state of two axii (ie, a thumbstick).
         /// </summary>
-        public static Vector GetVector(string xIdentifier, string yIdentifier)
+        public static Vector GetAxisVector(string xIdentifier, string yIdentifier)
         {
             var x = GetAxis(xIdentifier);
             var y = GetAxis(yIdentifier);
@@ -110,13 +105,12 @@ namespace Heirloom.Game
         }
 
         /// <summary>
-        /// Gets the state of two axii (ie, a thumbstick).
+        /// Gets the state of two axii (ie, a thumbstick), appends either '_x' or '_y' for each respective axis.
         /// </summary>
-        public static Vector GetVector(string partialIdentifier)
+        public static Vector GetAxisVector(string partialIdentifier)
         {
-            var x = GetAxis($"{partialIdentifier}_x");
-            var y = GetAxis($"{partialIdentifier}_y");
-            return new Vector(x, y);
+            // ie, left_thumb_x, left_thumb_y
+            return GetAxisVector($"{partialIdentifier}X", $"{partialIdentifier}Y");
         }
     }
 }

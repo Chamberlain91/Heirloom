@@ -98,7 +98,7 @@ namespace Heirloom.Game.Desktop
 
         #endregion
 
-        protected override bool TryGetPointer(out Vector state)
+        protected override bool TryGetPointerPosition(out Vector state)
         {
             state = _pointer;
             return true;

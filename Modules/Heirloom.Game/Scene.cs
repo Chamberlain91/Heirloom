@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 using Heirloom.Collections;
@@ -23,6 +22,9 @@ namespace Heirloom.Game
         private static bool _hasDrawableDepthChange = true;
 
         private static readonly Queue<Action> _futureActions = new Queue<Action>();
+
+        private static readonly LoadScreen _loadScreen = new DefaultLoadScreen();
+        private static bool _isLoadScreenVisible = false;
 
         #region Properties
 
@@ -142,6 +144,19 @@ namespace Heirloom.Game
             _hasDrawableDepthChange = true;
         }
 
+        public static void ShowLoadScreen()
+        {
+            LoadScreen.Progress.Message = string.Empty;
+            LoadScreen.Progress.Percent = 0F;
+
+            _isLoadScreenVisible = true;
+        }
+
+        public static void HideLoadScreen()
+        {
+            _isLoadScreenVisible = false;
+        }
+
         internal static void Update(RenderContext ctx, float dt)
         {
             // Process input
@@ -160,6 +175,15 @@ namespace Heirloom.Game
             // Update scene
             ProcessSceneLogic(dt);
             ProcessSceneDrawing(ctx);
+
+            // Overlay loading screen
+            if (_isLoadScreenVisible)
+            {
+                ctx.SaveState();
+                ctx.ResetState();
+                _loadScreen.Draw(ctx, dt);
+                ctx.RestoreState();
+            }
         }
 
         private static void ProcessSceneLogic(float dt)
@@ -240,6 +264,45 @@ namespace Heirloom.Game
                         drawable.InternalDraw(ctx);
                     }
                 }
+            }
+        }
+
+        private class DefaultLoadScreen : LoadScreen
+        {
+            protected internal override void Draw(RenderContext ctx, float dt)
+            {
+                ctx.Clear(BackgroundColor);
+
+                var text = $"LOADING\n{Progress.Message}";
+                var textSize = Font.Default.MeasureText(text, (400, ctx.Surface.Height), 32);
+                textSize.Width = Calc.Max(400, textSize.Width);
+
+                // Compute centered text rectangle
+                var x = (ctx.Surface.Bounds.Width - textSize.Width) / 2F;
+                var y = (ctx.Surface.Bounds.Height - textSize.Height) / 2F;
+                var textRect = new Rectangle((x, y), textSize);
+                textRect = textRect.Inflate(8);
+
+                var progRect = textRect;
+                progRect.Y += 4 + textRect.Height;
+                progRect.Height = 4;
+
+                // Draw text container
+                ctx.Color = Color.White;
+                ctx.DrawRect(textRect);
+
+                // Draw text
+                ctx.Color = Color.DarkGray;
+                ctx.DrawText(text, textRect.Inflate(-8), Font.Default, 32, TextAlign.Center);
+
+                // Draw percent bar container
+                ctx.Color = Color.Gray;
+                ctx.DrawRect(progRect);
+
+                // Draw percent bar
+                ctx.Color = Color.Pink;
+                progRect.Width = Progress.Percent * progRect.Width;
+                ctx.DrawRect(progRect);
             }
         }
     }

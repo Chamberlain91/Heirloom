@@ -32,7 +32,7 @@ namespace Heirloom.Drawing
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector DrawText(this RenderContext ctx, string text, Vector position, Font font, int size, DrawTextCallback callback = null)
+        public static Vector DrawText(this RenderContext ctx, string text, Vector position, Font font, int size, DrawTextCallback callback)
         {
             return DrawText(ctx, text, position, font, size, TextAlign.Left, callback);
         }
@@ -45,7 +45,7 @@ namespace Heirloom.Drawing
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector DrawText(this RenderContext ctx, string text, Rectangle bounds, Font font, int size, DrawTextCallback callback = null)
+        public static Vector DrawText(this RenderContext ctx, string text, Rectangle bounds, Font font, int size, DrawTextCallback callback)
         {
             return DrawText(ctx, text, bounds, font, size, TextAlign.Left, callback);
         }

@@ -45,8 +45,10 @@ namespace Heirloom.Drawing
         {
             if (IsRunning) { throw new InvalidOperationException($"{nameof(RenderLoop)} has already started."); }
 
-            // Create and start thread
+            // Mark thread for life
             IsRunning = true;
+
+            // Create and start thread
             _thread = new Thread(ThreadBody) { IsBackground = true, Name = "Render Thread" };
             _thread.Start();
         }
@@ -58,7 +60,10 @@ namespace Heirloom.Drawing
         {
             if (!IsRunning) { throw new InvalidOperationException($"{nameof(RenderLoop)} has already stopped."); }
 
+            // Mark thread for death
             IsRunning = false;
+
+            // Wait for thread to exit
             _thread.Join();
         }
 
