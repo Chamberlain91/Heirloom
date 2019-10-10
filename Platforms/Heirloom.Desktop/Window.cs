@@ -31,10 +31,23 @@ namespace Heirloom.Desktop
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs a new window with default settings.
+        /// </summary>
         public Window(string title)
             : this(title, WindowCreationSettings.Default)
         { }
 
+        /// <summary>
+        /// Constructs a new window with specified multisample quality and otherwise default settings.
+        /// </summary>
+        public Window(string title, MultisampleQuality multisample)
+            : this(title, new WindowCreationSettings { Multisample = multisample })
+        { }
+
+        /// <summary>
+        /// Constructs a new window with the specified settings.
+        /// </summary>
         public Window(string title, WindowCreationSettings settings)
         {
             // Watch window

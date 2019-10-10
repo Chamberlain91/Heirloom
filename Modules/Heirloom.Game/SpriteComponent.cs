@@ -10,8 +10,6 @@ namespace Heirloom.Game
     /// </summary>
     public sealed class SpriteComponent : DrawableComponent
     {
-        private const string DefaultAnimationName = "default";
-
         private bool _isAnimateForward = true;
         private bool _isPlaying = false;
         private float _time;
@@ -23,7 +21,7 @@ namespace Heirloom.Game
         public SpriteComponent(Sprite sprite)
         {
             Sprite = sprite ?? throw new ArgumentNullException(nameof(sprite));
-            Animation = Sprite.GetAnimation(DefaultAnimationName);
+            Animation = Sprite.DefaultAnimation;
         }
 
         #endregion
@@ -37,7 +35,7 @@ namespace Heirloom.Game
             set
             {
                 _sprite = value ?? throw new ArgumentNullException(nameof(value));
-                Animation = Sprite.GetAnimation(DefaultAnimationName);
+                Animation = Sprite.DefaultAnimation;
             }
         }
 
@@ -120,7 +118,7 @@ namespace Heirloom.Game
                 _time += dt;
 
                 // If the accumulated time exceeds the current frame delay
-                while (_time > FrameInfo.Delay)
+                while (_time >= FrameInfo.Delay)
                 {
                     // Remove frame delay from accumulated time
                     _time -= FrameInfo.Delay;
@@ -140,7 +138,7 @@ namespace Heirloom.Game
                 Frame++;
 
                 // If beyond the 'forward edge' of the animation, wrap around
-                if (Frame > Animation.To)
+                if (Frame >= Animation.To)
                 {
                     Frame = Animation.From;
                     CheckAndPingPongAnimation();
@@ -172,7 +170,7 @@ namespace Heirloom.Game
 
         protected override void Draw(RenderContext ctx)
         {
-            ctx.DrawSprite(Sprite, 0, Transform.Matrix);
+            ctx.DrawSprite(Sprite, Frame, Transform.Matrix);
         }
     }
 }

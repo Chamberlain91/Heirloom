@@ -1,19 +1,25 @@
 ﻿using System;
-
+using System.IO;
+using System.Threading.Tasks;
 using Heirloom.Drawing;
+using Heirloom.IO;
 
 namespace Heirloom.Game
 {
     public abstract class GameContext
     {
         private readonly RenderLoop _loop;
-        private bool _hasInitialized;
+        private bool _isLoaded;
 
         protected GameContext(RenderContext ctx)
         {
             _loop = RenderLoop.Create(ctx, Scene.Update);
-            _hasInitialized = false;
+            _isLoaded = false;
         }
+
+        protected abstract void GameLoad(LoadScreenProgress progress);
+
+        protected abstract void GameStart();
 
         #region Properties
 
@@ -47,14 +53,29 @@ namespace Heirloom.Game
 
             // Store 
             Instance = this;
-
-            if (!_hasInitialized)
-            {
-                _hasInitialized = true;
-                Initialize();
-            }
-
             _loop.Start();
+
+            if (!_isLoaded)
+            {
+                _isLoaded = true;
+
+                // Launch on secondary thread to prevent locking up the window
+                Task.Run(() =>
+                {
+                    Scene.ShowLoadScreen();
+                    GameLoad(LoadScreen.Progress);
+                    Scene.HideLoadScreen();
+                    GameStart();
+                })
+                .ContinueWith((t) =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        Console.WriteLine(t.Exception);
+                        throw t.Exception;
+                    }
+                });
+            }
         }
 
         /// <summary>
@@ -66,8 +87,28 @@ namespace Heirloom.Game
             Instance = null;
         }
 
-        #endregion
+        #endregion 
 
-        protected abstract void Initialize();
+        static GameContext()
+        {
+            AssetDatabase.RegisterAssetLoader<Image, ImageLoader>();
+            AssetDatabase.RegisterAssetLoader<Sprite, SpriteLoader>();
+        }
+
+        private sealed class ImageLoader : AssetLoader<Image>
+        {
+            protected override Image LoadAsset(Stream stream)
+            {
+                return new Image(stream);
+            }
+        }
+
+        private sealed class SpriteLoader : AssetLoader<Sprite>
+        {
+            protected override Sprite LoadAsset(Stream stream)
+            {
+                return new Sprite(stream);
+            }
+        }
     }
 }
