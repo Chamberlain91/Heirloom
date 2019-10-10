@@ -12,14 +12,37 @@ namespace Examples.Game
         public Player()
         {
             SpriteRenderer = AddComponent(new SpriteComponent(GetAsset<Sprite>("player")));
-            SpriteRenderer.Play("walk");
-
-            Transform.Position = (100, 100);
         }
 
         protected override void Update(float dt)
         {
+            // Check input buttons
+            var goLeft = Input.GetButton("a") == ButtonState.Down;
+            var goRight = Input.GetButton("d") == ButtonState.Down;
+
             // 
+            if (goLeft || goRight)
+            {
+                if (SpriteRenderer.Animation.Name != "walk")
+                {
+                    SpriteRenderer.Play("walk");
+                }
+
+                // 
+                if (goLeft) { Transform.Scale = (-1, 1); }
+                else { Transform.Scale = (1, 1); }
+
+                //
+                if (goLeft) { Transform.Position -= (240 * dt, 0); }
+                else { Transform.Position += (240 * dt, 0); }
+            }
+            else
+            {
+                if (SpriteRenderer.Animation.Name != "idle")
+                {
+                    SpriteRenderer.Play("idle");
+                }
+            }
         }
     }
 }

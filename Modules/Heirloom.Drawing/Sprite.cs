@@ -34,6 +34,9 @@ namespace Heirloom.Drawing
             }
 
             _animations = animations;
+
+            // Select default animation
+            DefaultAnimation = _animations.FirstOrDefault().Value;
         }
 
         /// <summary>
