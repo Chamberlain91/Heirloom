@@ -7,14 +7,15 @@ using static Heirloom.Game.AssetDatabase;
 
 namespace Examples.Game
 {
-    internal class Platformer : DesktopGameContext
+    internal class PlatformerGame : DesktopGameContext
     {
-        public Platformer()
+        public PlatformerGame()
             : base("Example Game", MultisampleQuality.Low)
         { }
 
         protected override void GameStart()
         {
+            Scene.AddEntity(new Camera());
             Scene.AddEntity(new Player());
         }
 
@@ -49,13 +50,19 @@ namespace Examples.Game
 
             // Store player sprite
             AddAsset("player", builder.CreateSprite());
+
+            // Set each frame of the player sprite to center origin
+            foreach (var frame in GetAsset<Sprite>("player").Frames)
+            {
+                frame.Image.Origin = frame.Image.Bounds.Center;
+            }
         }
 
         private static void Main(string[] args)
         {
             Application.Run(() =>
             {
-                var game = new Platformer();
+                var game = new PlatformerGame();
                 game.Start();
             });
         }
