@@ -59,8 +59,8 @@ namespace Heirloom.Game
         /// </summary>
         public static ButtonState GetButton(string identifier)
         {
-            if (string.IsNullOrWhiteSpace(identifier))
-            { throw new ArgumentException("Button identifier must not be null, blank or only whitespace.", nameof(identifier)); }
+            if (string.IsNullOrWhiteSpace(identifier)) { throw new ArgumentException("Button identifier must not be null, blank or only whitespace.", nameof(identifier)); }
+            identifier = identifier.ToLowerInvariant();
 
             // Try each source for button input
             foreach (var source in _sources)
@@ -79,8 +79,8 @@ namespace Heirloom.Game
         /// </summary>
         public static float GetAxis(string identifier)
         {
-            if (string.IsNullOrWhiteSpace(identifier))
-            { throw new ArgumentException("Axis identifier must not be null, blank or only whitespace.", nameof(identifier)); }
+            if (string.IsNullOrWhiteSpace(identifier)) { throw new ArgumentException("Axis identifier must not be null, blank or only whitespace.", nameof(identifier)); }
+            identifier = identifier.ToLowerInvariant();
 
             // Try each source for axis input
             foreach (var source in _sources)

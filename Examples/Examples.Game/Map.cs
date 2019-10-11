@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
 using Heirloom.Drawing;
 using Heirloom.Game;
 using Heirloom.Math;
@@ -116,23 +116,6 @@ namespace Examples.Game
                         ctx.DrawImage(tile.Image, Transform.Matrix * trx);
                     }
                 }
-
-                // Visualize player bounds
-                var player = Scene.GetEntity<Player>();
-                var playerCollider = player.GetCollisionBounds();
-
-                ctx.Color = Color.Orange;
-                ctx.DrawRectOutline(playerCollider.Inflate(8), 2);
-
-                // Draw map tiles
-                var mapCoord = (IntVector) (player.Transform.Position / Map.TileSize);
-                foreach (var tileCollider in Map.GetCollisionBounds(mapCoord.X, mapCoord.Y))
-                {
-                    ctx.Color = Color.Green;
-                    ctx.DrawRectOutline(tileCollider, 2);
-                }
-
-                ctx.Color = Color.White;
             }
         }
     }
