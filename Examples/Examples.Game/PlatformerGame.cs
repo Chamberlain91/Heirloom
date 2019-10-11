@@ -10,8 +10,10 @@ namespace Examples.Game
     internal class PlatformerGame : DesktopGameContext
     {
         public PlatformerGame()
-            : base("Example Game", MultisampleQuality.Low)
-        { }
+            : base("Example Game", new WindowCreationSettings { VSync = true })
+        {
+            RenderContext.ShowFPSOverlay = true;
+        }
 
         protected override void GameStart()
         {
@@ -33,6 +35,7 @@ namespace Examples.Game
             }
 
             map.GetTile(2, 1).Image = GetAsset<Image>("tile.dirt");
+            map.GetTile(4, 2).Image = GetAsset<Image>("tile.dirt");
 
             // Position player over the top center of the map
             var player = Scene.GetEntity<Player>();
