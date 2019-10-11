@@ -32,38 +32,21 @@ namespace Examples.Game
             return new Rectangle(left, top, 48, 48);
         }
 
+        private float _stopTime;
+
         protected override void Update(float dt)
         {
+            if (dt > 0.1F) { dt = 0.1F; }
+
+            ProcessCollisions(dt);
+
             // Apply Gravity
-            _velocity.Y += 680 * dt;
-
-            // Collision Phase
-            var map = Scene.GetEntity<Map>();
-
-            // Reset collision state
-            _hasGroundCollision = false;
-            _hasWallCollision = false;
-            _canJump = false;
-
-            // Integrate Velocity Y Component
-            Transform.Position += (0, _velocity.Y * dt);
-            ProcessVerticalCollisions(map);
-
-            // Integrate Velocity X Component
-            Transform.Position += (_velocity.X * dt, 0);
-            ProcessHorizontalCollisions(map);
+            _velocity.Y += 9 * dt;
 
             // Check input buttons
             var goLeft = Input.GetButton("a") == ButtonState.Down;
             var goRight = Input.GetButton("d") == ButtonState.Down;
             var doJump = Input.GetButton("space") == ButtonState.Down;
-
-            // 
-            if (Input.GetButton("r") == ButtonState.Pressed)
-            {
-                Transform.Position = (96, -96);
-                _velocity = Vector.Zero;
-            }
 
             // Jump
             if (doJump && _canJump)
@@ -78,9 +61,11 @@ namespace Examples.Game
                 }
             }
 
-            // 
+            // Movement
             if (goLeft || goRight)
             {
+                _stopTime = -1;
+
                 // Apply movement
                 if (goLeft)
                 {
@@ -107,10 +92,16 @@ namespace Examples.Game
             }
             else
             {
+                if (_stopTime < -1) { }
+                else if (_stopTime < 0) { _stopTime = 0; }
+                else if (!Calc.NearEquals(_velocity.X, 0, 1F)) { _stopTime += dt; }
+                else if (Calc.NearEquals(_velocity.X, 0, 1F)) { Console.WriteLine($"stop: {_stopTime}"); _stopTime = -2; }
+
                 if (_canJump) // Aka, on the ground
                 {
                     // Stop moving
-                    _velocity.X = 0;
+                    var rate = 1.5F;
+                    _velocity.X = Calc.Lerp(0, _velocity.X, (float) Math.Pow(2, -rate * dt));
 
                     if (SpriteRenderer.Animation.Name != "idle")
                     {
@@ -120,8 +111,32 @@ namespace Examples.Game
             }
 
             // Clamp max velocity
-            if (Calc.Abs(_velocity.X) > 240) { _velocity.X = Calc.Sign(_velocity.X) * 240; }
-            if (Calc.Abs(_velocity.Y) > 480) { _velocity.Y = Calc.Sign(_velocity.Y) * 480; }
+            if (Calc.Abs(_velocity.X) > 240 * dt) { _velocity.X = Calc.Sign(_velocity.X) * 240 * dt; }
+            if (Calc.Abs(_velocity.Y) > 480 * dt) { _velocity.Y = Calc.Sign(_velocity.Y) * 480 * dt; }
+        }
+
+        public static float Damp(float source, float target, float smoothing, float dt)
+        {
+            return Calc.Lerp(source, target, 1 - Calc.Pow(smoothing, dt));
+        }
+
+        private void ProcessCollisions(float dt)
+        {
+            // Collision Phase
+            var map = Scene.GetEntity<Map>();
+
+            // Reset collision state
+            _hasGroundCollision = false;
+            _hasWallCollision = false;
+            _canJump = false;
+
+            // Integrate Velocity Y Component
+            Transform.Position += (0, _velocity.Y);
+            ProcessVerticalCollisions(map);
+
+            // Integrate Velocity X Component
+            Transform.Position += (_velocity.X, 0);
+            ProcessHorizontalCollisions(map);
         }
 
         private void ProcessHorizontalCollisions(Map map)
