@@ -122,7 +122,7 @@ namespace Examples.Game
                 var playerCollider = player.GetCollisionBounds();
 
                 ctx.Color = Color.Orange;
-                ctx.DrawRectOutline(playerCollider, 2);
+                ctx.DrawRectOutline(playerCollider.Inflate(8), 2);
 
                 // Draw map tiles
                 var mapCoord = (IntVector) (player.Transform.Position / Map.TileSize);
@@ -133,7 +133,6 @@ namespace Examples.Game
                 }
 
                 ctx.Color = Color.White;
-                ctx.DrawText($"Wall: {player.HasWallCollision}\nGround: {player.HasGroundCollision}\nCan Jump: {player.CanJump}", player.Transform.Position - (0, 64), Font.Default, 16);
             }
         }
     }

@@ -19,8 +19,6 @@ namespace Examples.Game
 
         public bool CanJump = false;
 
-        public float GroundPlane;
-
         public Player()
         {
             SpriteRenderer = AddComponent(new SpriteComponent(GetAsset<Sprite>("player")));
@@ -29,10 +27,10 @@ namespace Examples.Game
         public Rectangle GetCollisionBounds()
         {
             var left = Transform.Position.X - 24;
-            var top = Transform.Position.Y - 18;
+            var top = Transform.Position.Y;
 
             // Compute player bounds
-            return new Rectangle(left, top, 48, 66);
+            return new Rectangle(left, top, 48, 48);
         }
 
         protected override void Update(float dt)
@@ -43,10 +41,6 @@ namespace Examples.Game
             // Collision Phase
             var map = Scene.GetEntity<Map>();
             var mapCoord = (IntVector) (Transform.Position / map.TileSize);
-
-            var falling = Velocity.Y > 0;
-
-            GroundPlane = float.MaxValue;
 
             HasGroundCollision = false;
             HasWallCollision = false;
@@ -65,24 +59,24 @@ namespace Examples.Game
                 if (playerBounds.Right <= tileBounds.Left) { continue; }
                 if (playerBounds.Left >= tileBounds.Right) { continue; }
 
-                // Is the tile below the player?
-                if (playerBounds.Center.Y < tileBounds.Top)
+                // Moving into ground
+                if (Velocity.Y > 0 && playerBounds.Top < tileBounds.Top && playerBounds.Bottom > tileBounds.Top)
                 {
-                    // Find the nearest ground plane
-                    GroundPlane = Calc.Min(GroundPlane, tileBounds.Top);
+                    Transform.Position += (0, tileBounds.Top - playerBounds.Bottom - CollisionTolerance);
+                    Velocity.Y = 0;
+
+                    HasGroundCollision = true;
+                    CanJump = true;
+                }
+
+                // Moving into ceiling
+                if (Velocity.Y < 0 && playerBounds.Bottom > tileBounds.Bottom && playerBounds.Top < tileBounds.Bottom)
+                {
+                    Transform.Position += (0, tileBounds.Bottom - playerBounds.Top + CollisionTolerance);
+                    Velocity.Y = 0;
                 }
             }
 
-            // 
-            if (falling && playerBounds.Bottom >= GroundPlane)
-            {
-                var overlap = playerBounds.Bottom - GroundPlane;
-                Transform.Position += (0, -overlap - CollisionTolerance);
-                Velocity.Y = 0;
-
-                HasGroundCollision = true;
-                CanJump = true;
-            }
 
             // 
             Transform.Position += (Velocity.X * dt, 0); // m/s
@@ -100,8 +94,7 @@ namespace Examples.Game
                 // Moving left into tile
                 if (Velocity.X < 0 && playerBounds.Right > tileBounds.Right && playerBounds.Left < tileBounds.Right)
                 {
-                    var overlap = playerBounds.Left - tileBounds.Right;
-                    Transform.Position += (-overlap + CollisionTolerance, 0);
+                    Transform.Position += (tileBounds.Right - playerBounds.Left + CollisionTolerance, 0);
                     Velocity.X = 0;
 
                     HasWallCollision = true;
@@ -110,8 +103,7 @@ namespace Examples.Game
                 // Moving right into tile
                 if (Velocity.X > 0 && playerBounds.Left < tileBounds.Left && playerBounds.Right > tileBounds.Left)
                 {
-                    var overlap = playerBounds.Right - tileBounds.Left;
-                    Transform.Position += (-overlap - CollisionTolerance, 0);
+                    Transform.Position += (tileBounds.Left - playerBounds.Right - CollisionTolerance, 0);
                     Velocity.X = 0;
 
                     HasWallCollision = true;

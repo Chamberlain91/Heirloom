@@ -26,13 +26,13 @@ namespace Examples.Game
                 map.GetTile(i, map.Height - 1).Image = GetAsset<Image>("tile.dirt");
             }
 
-            for (var i = 2; i < map.Height; i++)
+            for (var i = 0; i < map.Height; i++)
             {
                 map.GetTile(0, i).Image = GetAsset<Image>("tile.dirt");
                 map.GetTile(map.Width - 1, i).Image = GetAsset<Image>("tile.dirt");
             }
 
-            map.GetTile(0, 0).Image = GetAsset<Image>("tile.dirt");
+            map.GetTile(2, 1).Image = GetAsset<Image>("tile.dirt");
 
             // Position player over the top center of the map
             var player = Scene.GetEntity<Player>();
@@ -57,7 +57,7 @@ namespace Examples.Game
                 { "player.climb1", "data/characters/platformChar_climb1.png" },
                 { "player.climb2", "data/characters/platformChar_climb2.png" },
                 // Tiles
-                { "tile.dirt", "data/tiles/platformPack_tile004.png" }
+                { "tile.dirt", "data/tiles/platformPack_tile001.png" }
             };
 
             // Load!
