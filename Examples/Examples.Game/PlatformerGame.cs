@@ -17,6 +17,30 @@ namespace Examples.Game
         {
             Scene.AddEntity(new Camera());
             Scene.AddEntity(new Player());
+            Scene.AddEntity(new Map(16, 4, 64)); // 64x64 sized tiles
+
+            // 
+            var map = Scene.GetEntity<Map>();
+            for (var i = 0; i < map.Width; i++)
+            {
+                map.GetTile(i, map.Height - 1).Image = GetAsset<Image>("tile.dirt");
+            }
+
+            for (var i = 2; i < map.Height; i++)
+            {
+                map.GetTile(0, i).Image = GetAsset<Image>("tile.dirt");
+                map.GetTile(map.Width - 1, i).Image = GetAsset<Image>("tile.dirt");
+            }
+
+            map.GetTile(0, 0).Image = GetAsset<Image>("tile.dirt");
+
+            // Position player over the top center of the map
+            var player = Scene.GetEntity<Player>();
+            player.Transform.Position = (map.Width * map.TileSize / 2F, 0);
+
+            // Make camera follow player
+            var camera = Scene.GetEntity<Camera>();
+            camera.AddComponent(new SmoothFollow(player.Transform));
         }
 
         protected override void GameLoad(LoadScreenProgress progress)
@@ -32,6 +56,8 @@ namespace Examples.Game
                 { "player.walk2", "data/characters/platformChar_walk2.png" },
                 { "player.climb1", "data/characters/platformChar_climb1.png" },
                 { "player.climb2", "data/characters/platformChar_climb2.png" },
+                // Tiles
+                { "tile.dirt", "data/tiles/platformPack_tile004.png" }
             };
 
             // Load!

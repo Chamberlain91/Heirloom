@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using Heirloom.Collections;
 using Heirloom.Drawing;
 using Heirloom.Math;
@@ -81,7 +81,12 @@ namespace Heirloom.Game
             entity.OnRemovedFromScene();
         }
 
-        public static IEnumerable<T> FindEntities<T>() where T : Entity
+        public static T GetEntity<T>() where T : Entity
+        {
+            return GetEntities<T>().FirstOrDefault();
+        }
+
+        public static IEnumerable<T> GetEntities<T>() where T : Entity
         {
             return _entities.GetItemsByType<T>();
         }
