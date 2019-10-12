@@ -84,22 +84,6 @@ namespace Examples.Game
 
         protected override void FixedUpdate()
         {
-            // Collision Phase
-            var map = Scene.GetEntity<Map>();
-
-            // Reset collision state
-            _hasGroundCollision = false;
-            _hasWallCollision = false;
-            _canJump = false;
-
-            // Integrate Velocity Y Component
-            Transform.Position += (0, _velocity.Y);
-            ProcessVerticalCollisions(map);
-
-            // Integrate Velocity X Component
-            Transform.Position += (_velocity.X, 0);
-            ProcessHorizontalCollisions(map);
-
             // Apply Gravity
             _velocity.Y += 0.5F;
 
@@ -115,6 +99,22 @@ namespace Examples.Game
             // Clamp max velocity
             if (Calc.Abs(_velocity.X) > 4) { _velocity.X = Calc.Sign(_velocity.X) * 4; }
             if (Calc.Abs(_velocity.Y) > 8) { _velocity.Y = Calc.Sign(_velocity.Y) * 8; }
+
+            // Collision Phase
+            var map = Scene.GetEntity<Map>();
+
+            // Reset collision state
+            _hasGroundCollision = false;
+            _hasWallCollision = false;
+            _canJump = false;
+
+            // Integrate Velocity Y Component
+            Transform.Position += (0, _velocity.Y);
+            ProcessVerticalCollisions(map);
+
+            // Integrate Velocity X Component
+            Transform.Position += (_velocity.X, 0);
+            ProcessHorizontalCollisions(map);
         }
 
         private void ProcessHorizontalCollisions(Map map)

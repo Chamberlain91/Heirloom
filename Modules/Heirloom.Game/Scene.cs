@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Heirloom.Collections;
 using Heirloom.Drawing;
 using Heirloom.Math;
@@ -15,6 +16,7 @@ namespace Heirloom.Game
         private static readonly List<Entity> _updatableEntities = new List<Entity>();
 
         private static readonly TypeDictionary<Component> _components = new TypeDictionary<Component>();
+        private static readonly List<Component> _fixedUpdatableComponents = new List<Component>();
         private static readonly List<Component> _updatableComponents = new List<Component>();
 
         // Game Drawing
@@ -27,8 +29,8 @@ namespace Heirloom.Game
         private static readonly LoadScreen _loadScreen = new DefaultLoadScreen();
         private static bool _isLoadScreenVisible = false;
 
+        private const float FixedUpdateDuration = 1 / 60F;
         private static float _fixedUpdateTime;
-        private static readonly float _fixedUpdateDuration = 1 / 60F;
 
         #region Properties
 
@@ -39,7 +41,7 @@ namespace Heirloom.Game
 
         #endregion
 
-        #region Add / Remove Entities
+        #region Add/Remove Entities/Components
 
         public static void AddEntity(Entity entity)
         {
@@ -91,33 +93,15 @@ namespace Heirloom.Game
             entity.OnRemovedFromScene();
         }
 
-        public static T GetEntity<T>() where T : Entity
-        {
-            return GetEntities<T>().FirstOrDefault();
-        }
-
-        public static IEnumerable<T> GetEntities<T>() where T : Entity
-        {
-            return _entities.GetItemsByType<T>();
-        }
-
-        public static IEnumerable<Entity> FindEntities(Predicate<Entity> predicate)
-        {
-            foreach (var entity in _entities)
-            {
-                if (predicate(entity))
-                {
-                    yield return entity;
-                }
-            }
-        }
-
         internal static void AddComponent(Component component)
         {
             if (_components.Add(component))
             {
                 // If update method is implemented, add to update list
                 if (component.IsUpdateImplemented) { _updatableComponents.Add(component); }
+
+                // If fixed update method is implemented, put onto fixed update list
+                if (component.IsFixedUpdateImplemented) { _fixedUpdatableComponents.Add(component); }
 
                 // 
                 if (component is DrawableComponent drawable)
@@ -139,6 +123,9 @@ namespace Heirloom.Game
                 // If update method is implemented, remove from update list
                 if (component.IsUpdateImplemented) { _updatableComponents.Remove(component); }
 
+                // If fixed update method is implemented, remove from fixed update list
+                if (component.IsFixedUpdateImplemented) { _fixedUpdatableComponents.Remove(component); }
+
                 // 
                 if (component is DrawableComponent drawable)
                 {
@@ -153,6 +140,40 @@ namespace Heirloom.Game
         }
 
         #endregion
+
+        public static T GetEntity<T>() where T : Entity
+        {
+            return GetEntities<T>().FirstOrDefault();
+        }
+
+        public static IEnumerable<T> GetEntities<T>() where T : Entity
+        {
+            return _entities.GetItemsByType<T>();
+        }
+
+        public static Entity FindEntity(Predicate<Entity> predicate)
+        {
+            foreach (var entity in _entities)
+            {
+                if (predicate(entity))
+                {
+                    return entity;
+                }
+            }
+
+            return default;
+        }
+
+        public static IEnumerable<Entity> FindEntities(Predicate<Entity> predicate)
+        {
+            foreach (var entity in _entities)
+            {
+                if (predicate(entity))
+                {
+                    yield return entity;
+                }
+            }
+        }
 
         internal static void NotifyDrawableDepthChange()
         {
@@ -211,18 +232,6 @@ namespace Heirloom.Game
                 entity.Update(dt);
             }
 
-            // Update each entity with FixedUpdate
-            while (_fixedUpdateTime >= _fixedUpdateDuration)
-            {
-                _fixedUpdateTime -= _fixedUpdateDuration;
-
-                // For each entity with FixedUpdate
-                foreach (var entity in _fixedUpdatableEntities)
-                {
-                    entity.FixedUpdate();
-                }
-            }
-
             // Update each component with Update
             foreach (var c in _updatableComponents)
             {
@@ -230,6 +239,28 @@ namespace Heirloom.Game
                 if (c.IsEnabled)
                 {
                     c.Update(dt);
+                }
+            }
+
+            // Update each entity with FixedUpdate
+            while (_fixedUpdateTime >= FixedUpdateDuration)
+            {
+                _fixedUpdateTime -= FixedUpdateDuration;
+
+                // For each entity with FixedUpdate
+                foreach (var entity in _fixedUpdatableEntities)
+                {
+                    entity.FixedUpdate();
+                }
+
+                // Update each component with Update
+                foreach (var c in _fixedUpdatableComponents)
+                {
+                    // todo: Instead remove from _components when disabled to prevent even having to loop over it?
+                    if (c.IsEnabled)
+                    {
+                        c.Update(dt);
+                    }
                 }
             }
         }
