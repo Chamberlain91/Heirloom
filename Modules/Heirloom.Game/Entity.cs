@@ -28,7 +28,14 @@ namespace Heirloom.Game
         /// </summary>
         internal bool IsUpdateImplemented => OverrideChecker.IsMethodOverridden(typeof(Entity), GetType(), nameof(Update));
 
+        /// <summary>
+        /// Has the fixed update method been implemented?
+        /// </summary>
+        internal bool IsFixedUpdateImplemented => OverrideChecker.IsMethodOverridden(typeof(Entity), GetType(), nameof(FixedUpdate));
+
         protected internal virtual void Update(float dt) { }
+
+        protected internal virtual void FixedUpdate() { }
 
         public C AddComponent<C>(C component) where C : Component
         {

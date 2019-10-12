@@ -10,7 +10,7 @@ namespace Examples.Game
     internal class PlatformerGame : DesktopGameContext
     {
         public PlatformerGame()
-            : base("Example Game", new WindowCreationSettings { VSync = !true })
+            : base("Example Game", MultisampleQuality.Low)
         {
             RenderContext.ShowFPSOverlay = true;
         }

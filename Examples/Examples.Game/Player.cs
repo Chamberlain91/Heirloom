@@ -18,6 +18,10 @@ namespace Examples.Game
         private bool _hasWallCollision;
         private bool _canJump = false;
 
+        private bool _moveLeft;
+        private bool _moveRight;
+        private bool _doJump;
+
         public Player()
         {
             SpriteRenderer = AddComponent(new SpriteComponent(GetAsset<Sprite>("player")));
@@ -32,29 +36,23 @@ namespace Examples.Game
             return new Rectangle(left, top, 48, 48);
         }
 
-        private float _stopTime;
-
         protected override void Update(float dt)
         {
-            if (dt > 0.1F) { dt = 0.1F; }
-
-            ProcessCollisions(dt);
-
-            // Apply Gravity
-            _velocity.Y += 9 * dt;
-
             // Check input buttons
-            var goLeft = Input.GetButton("a") == ButtonState.Down;
-            var goRight = Input.GetButton("d") == ButtonState.Down;
-            var doJump = Input.GetButton("space") == ButtonState.Down;
+            _moveLeft = Input.GetButton("a") == ButtonState.Down;
+            _moveRight = Input.GetButton("d") == ButtonState.Down;
+            _doJump = Input.GetButton("space") == ButtonState.Down;
 
             // Jump
-            if (doJump && _canJump)
+            if (_doJump && _canJump)
             {
                 _canJump = false;
-                Transform.Position -= (0, 1);
-                _velocity.Y -= 320;
 
+                // 
+                Transform.Position -= (0, 1);
+                _velocity.Y -= 12;
+
+                // 
                 if (SpriteRenderer.Animation.Name != "jump")
                 {
                     SpriteRenderer.Play("jump");
@@ -62,29 +60,13 @@ namespace Examples.Game
             }
 
             // Movement
-            if (goLeft || goRight)
+            if (_moveLeft || _moveRight)
             {
-                _stopTime = -1;
+                // Flip sprite for movement direction
+                if (_moveLeft) { Transform.Scale = (-1, 1); }
+                else { Transform.Scale = (1, 1); }
 
-                // Apply movement
-                if (goLeft)
-                {
-                    // Flip sprite for movement direction
-                    Transform.Scale = (-1, 1);
-
-                    // 
-                    _velocity.X -= 800 * dt;
-                }
-                else
-                {
-                    // Flip sprite for movement direction
-                    Transform.Scale = (1, 1);
-
-                    // 
-                    _velocity.X += 800 * dt;
-                }
-
-                // If we can jump (thus, on stable ground), set to walking animation.
+                // If we can jump (thus on stable ground), set to walking animation.
                 if (_canJump && SpriteRenderer.Animation.Name != "walk")
                 {
                     SpriteRenderer.Play("walk");
@@ -92,35 +74,15 @@ namespace Examples.Game
             }
             else
             {
-                if (_stopTime < -1) { }
-                else if (_stopTime < 0) { _stopTime = 0; }
-                else if (!Calc.NearEquals(_velocity.X, 0, 1F)) { _stopTime += dt; }
-                else if (Calc.NearEquals(_velocity.X, 0, 1F)) { Console.WriteLine($"stop: {_stopTime}"); _stopTime = -2; }
-
-                if (_canJump) // Aka, on the ground
+                // If we can jump (thus on stable ground), set to idle animation
+                if (_canJump && SpriteRenderer.Animation.Name != "idle")
                 {
-                    // Stop moving
-                    var rate = 1.5F;
-                    _velocity.X = Calc.Lerp(0, _velocity.X, (float) Math.Pow(2, -rate * dt));
-
-                    if (SpriteRenderer.Animation.Name != "idle")
-                    {
-                        SpriteRenderer.Play("idle");
-                    }
+                    SpriteRenderer.Play("idle");
                 }
             }
-
-            // Clamp max velocity
-            if (Calc.Abs(_velocity.X) > 240 * dt) { _velocity.X = Calc.Sign(_velocity.X) * 240 * dt; }
-            if (Calc.Abs(_velocity.Y) > 480 * dt) { _velocity.Y = Calc.Sign(_velocity.Y) * 480 * dt; }
         }
 
-        public static float Damp(float source, float target, float smoothing, float dt)
-        {
-            return Calc.Lerp(source, target, 1 - Calc.Pow(smoothing, dt));
-        }
-
-        private void ProcessCollisions(float dt)
+        protected override void FixedUpdate()
         {
             // Collision Phase
             var map = Scene.GetEntity<Map>();
@@ -137,21 +99,38 @@ namespace Examples.Game
             // Integrate Velocity X Component
             Transform.Position += (_velocity.X, 0);
             ProcessHorizontalCollisions(map);
+
+            // Apply Gravity
+            _velocity.Y += 0.5F;
+
+            // Move character based on input
+            if (_moveLeft) { _velocity.X -= 1; }
+            else if (_moveRight) { _velocity.X += 1; }
+            // If can jump (thus on stable ground), apply friction
+            else if (_canJump)
+            {
+                _velocity.X *= 0.7F;
+            }
+
+            // Clamp max velocity
+            if (Calc.Abs(_velocity.X) > 4) { _velocity.X = Calc.Sign(_velocity.X) * 4; }
+            if (Calc.Abs(_velocity.Y) > 8) { _velocity.Y = Calc.Sign(_velocity.Y) * 8; }
         }
 
         private void ProcessHorizontalCollisions(Map map)
         {
+            // Get player collision bounds
             var bounds = GetCollisionBounds();
 
             // Convert world position in to map coordinates
             var mapCoord = (IntVector) (Transform.Position / map.TileSize);
 
+            // For each collider near the player on the map
+            // todo: Use a more universal selection so other solid entities can be considered
             foreach (var other in map.GetCollisionBounds(mapCoord.X, mapCoord.Y))
             {
-                // Player is outside the tile collision row 
-                // If not on the ground, raise feet, making collision with corners softer
-                if (!_hasGroundCollision) { if ((bounds.Bottom - 16) <= other.Top) { continue; } }
-                else if (bounds.Bottom <= other.Top) { continue; }
+                // Player is outside the tile collision row
+                if (bounds.Bottom <= other.Top) { continue; }
                 if (bounds.Top >= other.Bottom) { continue; }
 
                 // Moving left into tile
@@ -182,7 +161,8 @@ namespace Examples.Game
             // Convert world position in to map coordinates
             var mapCoord = (IntVector) (Transform.Position / map.TileSize);
 
-            // Vertical resolution
+            // For each collider near the player on the map
+            // todo: Use a more universal selection so other solid entities can be considered
             foreach (var other in map.GetCollisionBounds(mapCoord.X, mapCoord.Y))
             {
                 // Player is outside the tile collision column

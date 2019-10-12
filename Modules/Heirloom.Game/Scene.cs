@@ -11,6 +11,7 @@ namespace Heirloom.Game
     {
         // Game Logic
         private static readonly TypeDictionary<Entity> _entities = new TypeDictionary<Entity>();
+        private static readonly List<Entity> _fixedUpdatableEntities = new List<Entity>();
         private static readonly List<Entity> _updatableEntities = new List<Entity>();
 
         private static readonly TypeDictionary<Component> _components = new TypeDictionary<Component>();
@@ -25,6 +26,9 @@ namespace Heirloom.Game
 
         private static readonly LoadScreen _loadScreen = new DefaultLoadScreen();
         private static bool _isLoadScreenVisible = false;
+
+        private static float _fixedUpdateTime;
+        private static readonly float _fixedUpdateDuration = 1 / 60F;
 
         #region Properties
 
@@ -45,6 +49,9 @@ namespace Heirloom.Game
 
             // If update method is implemented, put onto update list
             if (entity.IsUpdateImplemented) { _updatableEntities.Add(entity); }
+
+            // If fixed update method is implemented, put onto fixed update list
+            if (entity.IsFixedUpdateImplemented) { _fixedUpdatableEntities.Add(entity); }
 
             // Was the entity a camera?
             if (entity is Camera camera) { _cameras.Add(camera); }
@@ -67,6 +74,9 @@ namespace Heirloom.Game
 
             // If update method is implemented, remove from update list
             if (entity.IsUpdateImplemented) { _updatableEntities.Remove(entity); }
+
+            // If fixed update method is implemented, remove from fixed update list
+            if (entity.IsFixedUpdateImplemented) { _fixedUpdatableEntities.Remove(entity); }
 
             // Was the entity a camera?
             if (entity is Camera camera) { _cameras.Remove(camera); }
@@ -193,18 +203,28 @@ namespace Heirloom.Game
 
         private static void ProcessSceneLogic(float dt)
         {
-            // Update Entities 
-            // todo: Not all entities will need to update, curate a "updatable entity list" with some sort of flag / detection.
-            //       For example, An entity used to act a hierarchical node does not need to update.
-            foreach (var entity in _entities)
+            _fixedUpdateTime += dt;
+
+            // For each entity with Update
+            foreach (var entity in _updatableEntities)
             {
                 entity.Update(dt);
             }
 
-            // Update each component
-            // todo: Not all components will need to update, curate a "updatable component list" with some sort of flag / detection.
-            //       For example, ImageComponent does not need update, but SpriteComponent does to track time for animations.
-            foreach (var c in _components)
+            // Update each entity with FixedUpdate
+            while (_fixedUpdateTime >= _fixedUpdateDuration)
+            {
+                _fixedUpdateTime -= _fixedUpdateDuration;
+
+                // For each entity with FixedUpdate
+                foreach (var entity in _fixedUpdatableEntities)
+                {
+                    entity.FixedUpdate();
+                }
+            }
+
+            // Update each component with Update
+            foreach (var c in _updatableComponents)
             {
                 // todo: Instead remove from _components when disabled to prevent even having to loop over it?
                 if (c.IsEnabled)
