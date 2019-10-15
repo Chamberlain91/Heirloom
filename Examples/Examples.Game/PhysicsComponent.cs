@@ -1,4 +1,6 @@
-﻿using Heirloom.Game;
+﻿using System;
+
+using Heirloom.Game;
 using Heirloom.Math;
 
 namespace Examples.Game
@@ -14,7 +16,9 @@ namespace Examples.Game
 
         // For interpolation
         private Vector _lastPosition;
-        private float _lastTime;
+        private float _interTime;
+
+        private Vector _wallNormal;
 
         // Collision
         public Rectangle Shape { get; set; }
@@ -60,6 +64,16 @@ namespace Examples.Game
         /// </summary>
         public bool HasWallCollision { get; private set; }
 
+        /// <summary>
+        /// Event triggered when a collision with the ground is detected.
+        /// </summary>
+        public event Action GroundCollision;
+
+        /// <summary>
+        /// Event triggered when a collision with a wall is detected.
+        /// </summary>
+        public event Action<Vector> WallCollision;
+
         protected override void OnAdded()
         {
             _position = Transform.Position;
@@ -76,14 +90,14 @@ namespace Examples.Game
 
         protected override void Update(float dt)
         {
-            _lastTime += dt;
-            Transform.Position = Vector.Lerp(_lastPosition, _position, _lastTime / Scene.FixedDeltaTime);
+            _interTime += dt;
+            Transform.Position = Vector.Lerp(_lastPosition, _position, _interTime / Scene.FixedDeltaTime);
         }
 
         protected override void FixedUpdate(float ft)
         {
             _lastPosition = _position;
-            _lastTime = 0;
+            _interTime = 0;
 
             // Apply Gravity
             _acceleration.Y += 720;
@@ -98,6 +112,9 @@ namespace Examples.Game
 
             // == Collision Phase
 
+            var wasGroundCollision = HasGroundCollision;
+            var wasWallCollision = HasWallCollision;
+
             // Reset collision state
             HasGroundCollision = false;
             HasWallCollision = false;
@@ -111,6 +128,20 @@ namespace Examples.Game
             // Integrate Position (X Component)
             _position += (_velocity.X * ft, 0);
             ProcessHorizontalCollisions(map);
+
+            // == Collision Callbacks
+
+            // Has the ground collision state changed?
+            if (wasGroundCollision != HasGroundCollision && HasGroundCollision)
+            {
+                GroundCollision?.Invoke();
+            }
+
+            // Has the wall collision state changed?
+            if (wasWallCollision != HasWallCollision && HasWallCollision)
+            {
+                WallCollision?.Invoke(_wallNormal);
+            }
         }
 
         private void ProcessHorizontalCollisions(Map map)
@@ -135,6 +166,7 @@ namespace Examples.Game
                     _position += (other.Right - bounds.Left + CollisionTolerance, 0);
                     _velocity.X = 0;
 
+                    _wallNormal = Vector.Right;
                     HasWallCollision = true;
                 }
 
@@ -144,6 +176,7 @@ namespace Examples.Game
                     _position += (other.Left - bounds.Right - CollisionTolerance, 0);
                     _velocity.X = 0;
 
+                    _wallNormal = Vector.Left;
                     HasWallCollision = true;
                 }
             }

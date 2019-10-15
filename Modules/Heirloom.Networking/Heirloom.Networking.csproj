@@ -11,6 +11,7 @@
     <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>networking, tcp, messages</PackageTags>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

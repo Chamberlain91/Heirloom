@@ -13,6 +13,7 @@
     <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>audio, sound, ogg, mp3, miniaudio</PackageTags>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

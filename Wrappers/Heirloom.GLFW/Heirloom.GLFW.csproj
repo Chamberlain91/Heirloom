@@ -16,6 +16,7 @@
     <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Description>GLFW 3.3 Bindings</Description>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup> 
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

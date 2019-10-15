@@ -8,13 +8,24 @@ namespace Examples.Game
 {
     public class Player : Entity
     {
-        public readonly SpriteComponent SpriteRenderer;
+        private float _ignoreInputTime = 0;
 
-        public readonly PhysicsComponent Physics;
-
+        // Input state
         private bool _moveLeft;
         private bool _moveRight;
         private bool _doJump;
+
+        private bool _allowJump;
+
+        // Wall jump mechanics
+        private enum WallJump { Any, Left, Right }
+        private WallJump _wallJump;
+        private Vector _wallNormal;
+        private bool _isTouchWall;
+
+        public readonly SpriteComponent SpriteRenderer;
+
+        public readonly PhysicsComponent Physics;
 
         public Player()
         {
@@ -23,7 +34,21 @@ namespace Examples.Game
 
             // 
             Physics = AddComponent(new PhysicsComponent());
+            Physics.WallCollision += Physics_WallCollision;
             Physics.Shape = new Rectangle(-24, 0, 48, 48);
+        }
+
+        /// <summary>
+        /// Gets a value determining if we should to respect user input.
+        /// </summary>
+        private bool AllowInput => _ignoreInputTime <= 0;
+
+        private void ChangeAnimation(string name)
+        {
+            if (SpriteRenderer.Animation.Name != name)
+            {
+                SpriteRenderer.Play(name);
+            }
         }
 
         protected override void Update(float dt)
@@ -31,62 +56,145 @@ namespace Examples.Game
             // Check input buttons
             _moveLeft = Input.GetButton("a") == ButtonState.Down;
             _moveRight = Input.GetButton("d") == ButtonState.Down;
-            _doJump = Input.GetButton("space") == ButtonState.Down;
 
-            // Jump
-            if (_doJump)
+            // Did we press the jump button?
+            if (Input.GetButton("space") == ButtonState.Pressed)
             {
-                // 
-                if (SpriteRenderer.Animation.Name != "jump")
-                {
-                    SpriteRenderer.Play("jump");
-                }
+                _doJump = true;
             }
 
+            // 
+            _ignoreInputTime -= dt;
+
             // Movement
+
             if (_moveLeft || _moveRight)
             {
-                // Flip sprite for movement direction
-                if (_moveLeft) { Transform.Scale = (-1, 1); }
-                else { Transform.Scale = (1, 1); }
-
-                // If we can jump (thus on stable ground), set to walking animation.
-                if (Physics.HasGroundCollision && SpriteRenderer.Animation.Name != "walk")
+                if (AllowInput)
                 {
-                    SpriteRenderer.Play("walk");
+                    // Flip sprite for movement direction
+                    if (_moveLeft) { Transform.Scale = (-1, 1); }
+                    else { Transform.Scale = (1, 1); }
+                }
+
+                // If on the ground, set walking animation
+                if (Physics.HasGroundCollision)
+                {
+                    ChangeAnimation("walk");
                 }
             }
             else
             {
-                // If we can jump (thus on stable ground), set to idle animation
-                if (Physics.HasGroundCollision && SpriteRenderer.Animation.Name != "idle")
+                // If on the ground, set idle animation
+                if (Physics.HasGroundCollision)
                 {
-                    SpriteRenderer.Play("idle");
+                    ChangeAnimation("idle");
+                }
+            }
+
+            // Are we on the ground?
+            if (Physics.HasGroundCollision)
+            {
+                // We cannot be touching a wall if we are touching the ground
+                _isTouchWall = false;
+
+                // Reset jumping state
+                _wallJump = WallJump.Any;
+                _allowJump = true;
+
+                // If we intend to do a jump
+                if (_doJump)
+                {
+                    // Set jump animation
+                    ChangeAnimation("jump");
                 }
             }
         }
 
         protected override void FixedUpdate(float ft)
         {
-            // Move character based on input
-            if (_moveLeft) { Physics.Acceleration += (-960, 0); }
-            else if (_moveRight) { Physics.Acceleration += (+960, 0); }
-            // If can jump (thus on stable ground), apply friction
-            else if (Physics.HasGroundCollision)
+            // Do we want to jump and are we on solid ground?
+            if (_doJump)
             {
-                // Friction...?
-                Physics.Velocity -= (Physics.Velocity.X * 0.5F, 0);
+                // Are we allowed to wall jump?
+                if (_isTouchWall)
+                {
+                    // Jump off left facing wall
+                    if (_wallJump != WallJump.Right && _wallNormal.X > 0)
+                    {
+                        // Apply top-right jumpy velocity
+                        Physics.Velocity = (360, -360);
+
+                        // Allow only jumps off a left facing wall now
+                        _wallJump = WallJump.Right;
+
+                        // Ignore input for a short time to allow time to release
+                        // directional input and get full wall jump velocity
+                        _ignoreInputTime = 0.2F;
+
+                        // Face right
+                        Transform.Scale = (1, 1);
+
+                        // 
+                        ChangeAnimation("jump");
+                    }
+
+                    // Jump off right facing wall
+                    if (_wallJump != WallJump.Left && _wallNormal.X < 0)
+                    {
+                        // Apply top-left jumpy velocity
+                        Physics.Velocity = (-360, -360);
+
+                        // Allow only jumps off a left facing wall now
+                        _wallJump = WallJump.Left;
+
+                        // Ignore input for a short time to allow time to release
+                        // directional input and get full wall jump velocity
+                        _ignoreInputTime = 0.2F;
+
+                        // Face right
+                        Transform.Scale = (-1, 1);
+
+                        // 
+                        ChangeAnimation("jump");
+                    }
+                }
+
+                // Are we allowed to regular jump?
+                if (_allowJump && Physics.HasGroundCollision)
+                {
+                    // Apply impulse upwards
+                    Physics.Velocity = (Physics.Velocity.X, -360);
+
+                    // We have now jumped
+                    _wallJump = WallJump.Any;
+                    _allowJump = false;
+                }
+
+                // 
+                _doJump = false;
             }
 
             // 
-            if (_doJump && Physics.HasGroundCollision)
+            if (AllowInput)
             {
-                _doJump = false;
-
-                // 
-                Physics.Position -= (0, 1);
-                Physics.Velocity -= (0, 360);
+                // Are we pressing left?
+                if (_moveLeft) { Physics.Acceleration += (-960, 0); }
+                // Are we pressing right?
+                else if (_moveRight) { Physics.Acceleration += (+960, 0); }
+                // No input, and on the ground, smoothly stop player
+                else if (Physics.HasGroundCollision)
+                {
+                    // Not correct friction, but a sliding stop.
+                    Physics.Velocity -= (Physics.Velocity.X * 0.5F, 0);
+                }
             }
+        }
+
+        private void Physics_WallCollision(Vector normal)
+        {
+            _wallNormal = normal;
+            _isTouchWall = true;
         }
     }
 }

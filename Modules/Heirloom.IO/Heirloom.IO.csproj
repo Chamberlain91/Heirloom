@@ -13,7 +13,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>files, stream, embedded</PackageTags>
     <Version>1.1.0-beta</Version>
-    <Company></Company>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
