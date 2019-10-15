@@ -39,12 +39,11 @@ namespace Examples.Game
 
             // Position player over the top center of the map
             var player = Scene.GetEntity<Player>();
-            player.Transform.Position = (map.Width * map.TileSize / 2F, 0);
+            player.Physics.Position = (map.Width * map.TileSize / 2, 0);
 
             // Make camera follow player
             var camera = Scene.GetEntity<Camera>();
-            camera.Transform.Position = (240, 0);
-            // camera.AddComponent(new SmoothFollow(player.Transform));
+            camera.AddComponent(new SmoothFollow(player.Transform));
         }
 
         protected override void GameLoad(LoadScreenProgress progress)

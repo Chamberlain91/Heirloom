@@ -34,9 +34,10 @@ namespace Heirloom.Game
         #region Properties
 
         /// <summary>
-        /// The fixed duration in seconds between calls to <see cref="Entity.FixedUpdate(float)"/> or <see cref="Component.FixedUpdate(float)"/>.
+        /// The fixed duration in seconds between calls to <see cref="Entity.FixedUpdate(float)"/> or <see cref="Component.FixedUpdate(float)"/>. <para/>
+        /// Set to 1/30th a second by default.
         /// </summary>
-        public static float FixedDeltaTime { get; internal set; } = 1 / 60F;
+        public static float FixedDeltaTime { get; internal set; } = 1 / 30F;
 
         /// <summary>
         /// Background color used if no camera components exist in the scene.
@@ -69,7 +70,7 @@ namespace Heirloom.Game
             }
 
             // Inform entity it is now part of the scene
-            entity.OnAddedToScene();
+            entity.OnAddedInternal();
         }
 
         public static void RemoveEntity(Entity entity)
@@ -94,7 +95,7 @@ namespace Heirloom.Game
             }
 
             // Inform entity it was removed from the scene
-            entity.OnRemovedFromScene();
+            entity.OnRemovedInternal();
         }
 
         internal static void AddComponent(Component component)
@@ -113,6 +114,9 @@ namespace Heirloom.Game
                     _drawbles.Add(drawable);
                     NotifyDrawableDepthChange();
                 }
+
+                // 
+                component.OnAdded();
             }
             else
             {
@@ -136,6 +140,9 @@ namespace Heirloom.Game
                     _drawbles.Remove(drawable);
                     NotifyDrawableDepthChange();
                 }
+
+                // 
+                component.OnRemoved();
             }
             else
             {

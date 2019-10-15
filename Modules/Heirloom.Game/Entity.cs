@@ -109,14 +109,20 @@ namespace Heirloom.Game
             return _components.GetItemsByType<C>();
         }
 
-        internal void OnAddedToScene()
+        protected virtual void OnAdded() { }
+
+        protected virtual void OnRemoved() { }
+
+        internal void OnAddedInternal()
         {
             _isContainedByScene = true;
+            OnAdded();
         }
 
-        internal void OnRemovedFromScene()
+        internal void OnRemovedInternal()
         {
             _isContainedByScene = false;
+            OnRemoved();
         }
     }
 }
