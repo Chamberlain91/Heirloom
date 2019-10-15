@@ -79,19 +79,8 @@ namespace Examples.Game
             }
         }
 
-        private int _count = 0;
-        private Stopwatch _stopwatch = Stopwatch.StartNew();
-
-        protected override void FixedUpdate(float dt)
+        protected override void FixedUpdate(float ft)
         {
-            _count++;
-            if (_stopwatch.ElapsedMilliseconds > 1000)
-            {
-                Console.WriteLine($"Count: {_count}");
-                _stopwatch.Restart();
-                _count = 0;
-            }
-
             // Apply Gravity
             _acceleration.Y += 720;
 
@@ -101,9 +90,8 @@ namespace Examples.Game
             // If can jump (thus on stable ground), apply friction
             else if (_onGround)
             {
-                // Friction impulse...?
-                if (_velocity.X > 0) { _velocity.X = Calc.Max(0F, _velocity.X - 2880 * dt); }
-                if (_velocity.X < 0) { _velocity.X = Calc.Min(0F, _velocity.X + 2880 * dt); }
+                // Friction...?
+                _velocity.X -= _velocity.X * 0.33F;
             }
 
             // 
@@ -117,7 +105,7 @@ namespace Examples.Game
             }
 
             // 
-            _velocity += _acceleration * dt;
+            _velocity += _acceleration * ft;
             _acceleration = Vector.Zero;
 
             // Clamp max velocity
@@ -133,11 +121,11 @@ namespace Examples.Game
             var map = Scene.GetEntity<Map>();
 
             // Integrate Velocity Y Component
-            Transform.Position += (0, _velocity.Y * dt);
+            Transform.Position += (0, _velocity.Y * ft);
             ProcessVerticalCollisions(map);
 
             // Integrate Velocity X Component
-            Transform.Position += (_velocity.X * dt, 0);
+            Transform.Position += (_velocity.X * ft, 0);
             ProcessHorizontalCollisions(map);
         }
 
