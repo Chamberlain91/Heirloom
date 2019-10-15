@@ -1,10 +1,12 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+
 using Heirloom.Desktop;
 using Heirloom.Drawing;
 using Heirloom.Game;
 using Heirloom.Game.Desktop;
 using Heirloom.IO;
+using Heirloom.Math;
+
 using static Heirloom.Game.AssetDatabase;
 
 namespace Examples.Game
@@ -12,7 +14,7 @@ namespace Examples.Game
     internal class PlatformerGame : DesktopGameContext
     {
         public PlatformerGame()
-            : base("Example Game", MultisampleQuality.Low)
+            : base("Example Game")
         {
             RenderContext.ShowFPSOverlay = true;
         }
@@ -37,11 +39,18 @@ namespace Examples.Game
                 for (var x = 0; x < map.Width; x++)
                 {
                     var tile = map.GetTile(x, y);
+                    var tileCenterOffset = new Vector(map.TileSize / 2F, map.TileSize / 2F);
+                    var tilePosition = new Vector(x * map.TileSize, y * map.TileSize);
 
                     switch (row[x])
                     {
                         case '!':
-                            player.Physics.Position = (map.TileSize / 2F + x * map.TileSize, map.TileSize / 2F + y * map.TileSize);
+                            player.Physics.Position = tileCenterOffset + tilePosition;
+                            break;
+
+                        case 'B':
+                            var crate = Scene.AddEntity(new Crate());
+                            crate.Physics.Position = tilePosition;
                             break;
 
                         case '#':
@@ -49,7 +58,22 @@ namespace Examples.Game
                             tile.IsSolid = true;
                             break;
 
-                        case '_':
+                        case '$':
+                            tile.Images.Add(GetAsset<Image>("tile.dirt"));
+                            tile.IsSolid = true;
+                            break;
+
+                        case 'H':
+                            tile.Images.Add(GetAsset<Image>("tile.ladder"));
+                            tile.IsClimbable = true;
+                            break;
+
+                        case '~':
+                            tile.Images.Add(GetAsset<Image>("tile.ladder-top"));
+                            tile.IsClimbable = true;
+                            break;
+
+                        case '&':
                             tile.Images.Add(GetAsset<Image>("tile.brick"));
                             tile.IsSolid = true;
                             break;
@@ -62,6 +86,9 @@ namespace Examples.Game
 
                 y++;
             }
+
+            // Create colliders for solid tiles
+            map.GenerateColliders();
 
             // Make camera follow player
             var camera = Scene.GetEntity<Camera>();
@@ -83,10 +110,13 @@ namespace Examples.Game
                 { "player.climb1", "data/characters/platformChar_climb1.png" },
                 { "player.climb2", "data/characters/platformChar_climb2.png" },
                 // Tiles
+                { "tile.crate", "data/tiles/platformPack_tile047.png" },
                 { "tile.dirt", "data/tiles/platformPack_tile004.png" },
-                { "tile.brick", "data/tiles/platformPack_tile047.png" },
+                { "tile.brick", "data/tiles/platformPack_tile040.png" },
                 { "tile.dirt-top", "data/tiles/platformPack_tile001.png" },
                 { "tile.grass", "data/tiles/platformPack_tile045.png" },
+                { "tile.ladder", "data/tiles/platformPack_tile038.png" },
+                { "tile.ladder-top", "data/tiles/platformPack_tile037.png" },
             };
 
             // Load!

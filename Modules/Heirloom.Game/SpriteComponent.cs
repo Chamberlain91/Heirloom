@@ -80,6 +80,18 @@ namespace Heirloom.Game
         }
 
         /// <summary>
+        /// Begins playback of an animation by name.
+        /// </summary>
+        public void SetAnimation(string name)
+        {
+            if (name is null) { throw new ArgumentNullException(nameof(name)); }
+
+            // Set the new animation
+            Animation = Sprite.GetAnimation(name);
+            Reset();
+        }
+
+        /// <summary>
         /// Enables playback of the current animation.
         /// </summary>
         public void Play()

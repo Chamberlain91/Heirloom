@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using Heirloom.Game;
 using Heirloom.Math;
 
@@ -18,10 +18,12 @@ namespace Examples.Game
         private Vector _lastPosition;
         private float _interTime;
 
-        private Vector _wallNormal;
+        private readonly List<CollisionInfo> _wallCollisions = new List<CollisionInfo>();
 
         // Collision
-        public Rectangle Shape { get; set; }
+        public Collider Collider => Entity.GetComponent<Collider>();
+
+        public float GravityMultiplier { get; set; } = 1F;
 
         /// <summary>
         /// Gets or sets the velocity.
@@ -72,20 +74,11 @@ namespace Examples.Game
         /// <summary>
         /// Event triggered when a collision with a wall is detected.
         /// </summary>
-        public event Action<Vector> WallCollision;
+        public event Action<Collider, Vector> WallCollision;
 
         protected override void OnAdded()
         {
             _position = Transform.Position;
-        }
-
-        public Rectangle ComputeCollisionBounds()
-        {
-            var left = _position.X + Shape.X;
-            var top = _position.Y + Shape.Y;
-
-            // Compute player bounds
-            return new Rectangle(left, top, Shape.Width, Shape.Height);
         }
 
         protected override void Update(float dt)
@@ -100,7 +93,7 @@ namespace Examples.Game
             _interTime = 0;
 
             // Apply Gravity
-            _acceleration.Y += 720;
+            _acceleration.Y += 720 * GravityMultiplier;
 
             // Integrate velocity
             _velocity += _acceleration * ft;
@@ -119,15 +112,15 @@ namespace Examples.Game
             HasGroundCollision = false;
             HasWallCollision = false;
 
-            var map = Scene.GetEntity<Map>();
+            _wallCollisions.Clear();
 
             // Integrate Position (Y Component)
             _position += (0, _velocity.Y * ft);
-            ProcessVerticalCollisions(map);
+            ProcessVerticalCollisions();
 
             // Integrate Position (X Component)
             _position += (_velocity.X * ft, 0);
-            ProcessHorizontalCollisions(map);
+            ProcessHorizontalCollisions();
 
             // == Collision Callbacks
 
@@ -140,22 +133,24 @@ namespace Examples.Game
             // Has the wall collision state changed?
             if (wasWallCollision != HasWallCollision && HasWallCollision)
             {
-                WallCollision?.Invoke(_wallNormal);
+                foreach (var collision in _wallCollisions)
+                {
+                    WallCollision?.Invoke(collision.Collider, collision.Normal);
+                }
             }
         }
 
-        private void ProcessHorizontalCollisions(Map map)
+        private void ProcessHorizontalCollisions()
         {
             // Get player collision bounds
-            var bounds = ComputeCollisionBounds();
-
-            // Convert world position in to map coordinates
-            var mapCoord = (IntVector) (_position / map.TileSize);
+            var bounds = Collider.Bounds;
 
             // For each collider near the player on the map
             // todo: Use a more universal selection so other solid entities can be considered
-            foreach (var other in map.GetCollisionBounds(mapCoord.X, mapCoord.Y))
+            foreach (var collider in Collider.GetColliders(Collider))
             {
+                var other = collider.Bounds;
+
                 // Player is outside the tile collision row
                 if (bounds.Bottom <= other.Top) { continue; }
                 if (bounds.Top >= other.Bottom) { continue; }
@@ -163,37 +158,46 @@ namespace Examples.Game
                 // Moving left into tile
                 if (_velocity.X < 0 && bounds.Right > other.Right && bounds.Left < other.Right)
                 {
-                    _position += (other.Right - bounds.Left + CollisionTolerance, 0);
+                    var overlapAmount = other.Right - bounds.Left;
+                    _position += (overlapAmount + CollisionTolerance, 0);
                     _velocity.X = 0;
 
-                    _wallNormal = Vector.Right;
                     HasWallCollision = true;
+                    _wallCollisions.Add(new CollisionInfo
+                    {
+                        Normal = (overlapAmount, 0),
+                        Collider = collider
+                    });
                 }
 
                 // Moving right into tile
                 if (_velocity.X > 0 && bounds.Left < other.Left && bounds.Right > other.Left)
                 {
-                    _position += (other.Left - bounds.Right - CollisionTolerance, 0);
+                    var overlapAmount = other.Left - bounds.Right;
+                    _position += (overlapAmount - CollisionTolerance, 0);
                     _velocity.X = 0;
 
-                    _wallNormal = Vector.Left;
                     HasWallCollision = true;
+                    _wallCollisions.Add(new CollisionInfo
+                    {
+                        Normal = (overlapAmount, 0),
+                        Collider = collider
+                    });
                 }
             }
         }
 
-        private void ProcessVerticalCollisions(Map map)
+        private void ProcessVerticalCollisions()
         {
             // Get player collision bounds
-            var bounds = ComputeCollisionBounds();
-
-            // Convert world position in to map coordinates
-            var mapCoord = (IntVector) (_position / map.TileSize);
+            var bounds = Collider.Bounds;
 
             // For each collider near the player on the map
             // todo: Use a more universal selection so other solid entities can be considered
-            foreach (var other in map.GetCollisionBounds(mapCoord.X, mapCoord.Y))
+            foreach (var collider in Collider.GetColliders(Collider))
             {
+                var other = collider.Bounds;
+
                 // Player is outside the tile collision column
                 if (bounds.Right <= other.Left) { continue; }
                 if (bounds.Left >= other.Right) { continue; }
@@ -214,6 +218,12 @@ namespace Examples.Game
                     _velocity.Y = 0;
                 }
             }
+        }
+
+        private struct CollisionInfo
+        {
+            public Collider Collider;
+            public Vector Normal;
         }
     }
 }

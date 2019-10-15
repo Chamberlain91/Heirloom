@@ -164,28 +164,14 @@ namespace Heirloom.Game
             return _entities.GetItemsByType<T>();
         }
 
-        public static Entity FindEntity(Predicate<Entity> predicate)
+        public static T GetComponent<T>() where T : Component
         {
-            foreach (var entity in _entities)
-            {
-                if (predicate(entity))
-                {
-                    return entity;
-                }
-            }
-
-            return default;
+            return GetComponents<T>().FirstOrDefault();
         }
 
-        public static IEnumerable<Entity> FindEntities(Predicate<Entity> predicate)
+        public static IEnumerable<T> GetComponents<T>() where T : Component
         {
-            foreach (var entity in _entities)
-            {
-                if (predicate(entity))
-                {
-                    yield return entity;
-                }
-            }
+            return _components.GetItemsByType<T>();
         }
 
         internal static void NotifyDrawableDepthChange()
