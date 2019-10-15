@@ -14,7 +14,7 @@ namespace Heirloom.Drawing
 {
     public sealed partial class Image : ImageSource
     {
-        private Pixel[] _pixels;
+        private ColorBytes[] _pixels;
 
         private Image _source;
         private Image _root;
@@ -91,7 +91,7 @@ namespace Heirloom.Drawing
             if (clone || source == null)
             {
                 // Create pixel data
-                _pixels = new Pixel[Width * Height];
+                _pixels = new ColorBytes[Width * Height];
 
                 if (clone)
                 {
@@ -125,7 +125,7 @@ namespace Heirloom.Drawing
                 CRuntime.free(pResult);
 
                 // Fully occupied and no parenting image
-                _pixels = new Pixel[width * height];
+                _pixels = new ColorBytes[width * height];
                 Region = new IntRectangle(0, 0, width, height);
                 Source = null;
 
@@ -221,13 +221,13 @@ namespace Heirloom.Drawing
 
         #region Indexers
 
-        public Pixel this[int x, int y]
+        public ColorBytes this[int x, int y]
         {
             get => GetPixel(x, y);
             set => SetPixel(x, y, value);
         }
 
-        public Pixel this[IntVector coord]
+        public ColorBytes this[IntVector coord]
         {
             get => GetPixel(coord);
             set => SetPixel(coord, value);
@@ -240,7 +240,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Sets all pixels in the image to the specified color.
         /// </summary>
-        public unsafe void Clear(Pixel pixel)
+        public unsafe void Clear(ColorBytes pixel)
         {
             if (IsSubImage)
             {
@@ -252,7 +252,7 @@ namespace Heirloom.Drawing
             }
             else
             {
-                fixed (Pixel* ptr = _pixels)
+                fixed (ColorBytes* ptr = _pixels)
                 {
                     // Fill entire data buffer
                     for (var i = 0; i < _pixels.Length; i++)
@@ -270,7 +270,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Get some pixel within the image.
         /// </summary>
-        public Pixel GetPixel(IntVector coord)
+        public ColorBytes GetPixel(IntVector coord)
         {
             return GetPixel(coord.X, coord.Y);
         }
@@ -278,7 +278,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Set some pixel within the image.
         /// </summary>
-        public void SetPixel(IntVector coord, Pixel pixel)
+        public void SetPixel(IntVector coord, ColorBytes pixel)
         {
             SetPixel(coord.X, coord.Y, pixel);
         }
@@ -286,7 +286,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Get some pixel within the image.
         /// </summary>
-        public Pixel GetPixel(int x, int y)
+        public ColorBytes GetPixel(int x, int y)
         {
             if (IsSubImage)
             {
@@ -297,12 +297,12 @@ namespace Heirloom.Drawing
             {
                 if (x >= Width || y >= Height)
                 {
-                    return Pixel.Black;
+                    return ColorBytes.Black;
                 }
 
                 if (x < 0 || y < 0)
                 {
-                    return Pixel.Black;
+                    return ColorBytes.Black;
                 }
 
                 // TODO: Validate coordinate within image
@@ -313,7 +313,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Set some pixel within the image.
         /// </summary>
-        public void SetPixel(int x, int y, Pixel pixel)
+        public void SetPixel(int x, int y, ColorBytes pixel)
         {
             // 
             if (IsSubImage)
@@ -344,7 +344,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Replace all pixels in this image.
         /// </summary>
-        public unsafe void SetPixels(Pixel[] pixels)
+        public unsafe void SetPixels(ColorBytes[] pixels)
         {
             if (pixels.Length != (Width * Height))
             {
@@ -362,8 +362,8 @@ namespace Heirloom.Drawing
             }
             else
             {
-                fixed (Pixel* src = pixels)
-                fixed (Pixel* dst = _pixels)
+                fixed (ColorBytes* src = pixels)
+                fixed (ColorBytes* dst = _pixels)
                 {
                     var len = _pixels.Length * 4;
                     Buffer.MemoryCopy((void*) src, (void*) dst, len, len);
@@ -392,7 +392,7 @@ namespace Heirloom.Drawing
                         var i = (co.Y * Width) + co.X;
 
                         // 
-                        var addr = (Pixel*) &pPixels[i];
+                        var addr = (ColorBytes*) &pPixels[i];
                         SetPixel(Region.Min + co, *addr);
                     }
                 }
@@ -400,7 +400,7 @@ namespace Heirloom.Drawing
             else
             {
                 fixed (uint* src = pixels)
-                fixed (Pixel* dst = _pixels)
+                fixed (ColorBytes* dst = _pixels)
                 {
                     Buffer.MemoryCopy((void*) src, (void*) dst, 4 * pixels.Length, 4 * pixels.Length);
                     UpdateVersionNumber();
@@ -428,7 +428,7 @@ namespace Heirloom.Drawing
                         var i = (co.Y * Width) + co.X;
 
                         // 
-                        var addr = (Pixel*) &pPixels[i * 4];
+                        var addr = (ColorBytes*) &pPixels[i * 4];
                         SetPixel(Region.Min + co, *addr);
                     }
                 }
@@ -436,7 +436,7 @@ namespace Heirloom.Drawing
             else
             {
                 fixed (byte* src = pixels)
-                fixed (Pixel* dst = _pixels)
+                fixed (ColorBytes* dst = _pixels)
                 {
                     Buffer.MemoryCopy((void*) src, (void*) dst, pixels.Length, pixels.Length);
                     UpdateVersionNumber();
@@ -447,11 +447,11 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Returns a copy of the pixels in this image.
         /// </summary>
-        public Pixel[] GetPixels()
+        public ColorBytes[] GetPixels()
         {
             if (IsSubImage)
             {
-                var pixels = new Pixel[Width * Height];
+                var pixels = new ColorBytes[Width * Height];
 
                 // TODO: Can probably optimize with processing pointers + stride
                 foreach (var co in Rasterizer.Rectangle(0, 0, Width, Height))
@@ -464,7 +464,7 @@ namespace Heirloom.Drawing
             }
             else
             {
-                var pixels = new Pixel[_pixels.Length];
+                var pixels = new ColorBytes[_pixels.Length];
                 Array.Copy(_pixels, pixels, _pixels.Length);
                 return pixels;
             }
@@ -532,10 +532,10 @@ namespace Heirloom.Drawing
             var c01 = GetPixel(x1, y2);
 
             // 
-            var q1 = Pixel.Lerp(c00, c10, xt);
-            var q2 = Pixel.Lerp(c01, c11, xt);
+            var q1 = ColorBytes.Lerp(c00, c10, xt);
+            var q2 = ColorBytes.Lerp(c01, c11, xt);
 
-            return (Color) Pixel.Lerp(q1, q2, yt);
+            return (Color) ColorBytes.Lerp(q1, q2, yt);
         }
 
         #endregion
@@ -548,9 +548,9 @@ namespace Heirloom.Drawing
         /// Copies pixel data to the image.
         /// The data must be contiguous and the same size of the image.
         /// </summary>
-        public unsafe void CopyFrom(Pixel* src, bool swapBGRA = true)
+        public unsafe void CopyFrom(ColorBytes* src, bool swapBGRA = true)
         {
-            var len = Width * Height * sizeof(Pixel);
+            var len = Width * Height * sizeof(ColorBytes);
 
             if (IsSubImage)
             {
@@ -562,12 +562,12 @@ namespace Heirloom.Drawing
             }
             else
             {
-                fixed (Pixel* dst = _pixels)
+                fixed (ColorBytes* dst = _pixels)
                 {
                     if (swapBGRA)
                     {
                         // Copy per-pixel (RGBA)
-                        for (var i = 0; i < len / sizeof(Pixel); i++)
+                        for (var i = 0; i < len / sizeof(ColorBytes); i++)
                         {
                             var p = src[i];
                             if (swapBGRA) { Calc.Swap(ref p.R, ref p.B); }
@@ -589,7 +589,7 @@ namespace Heirloom.Drawing
         /// </summary>
         public unsafe void CopyFrom(IntPtr src, bool swapBGRA = true)
         {
-            CopyFrom((Pixel*) src, swapBGRA);
+            CopyFrom((ColorBytes*) src, swapBGRA);
         }
 
         /// <summary>
@@ -598,14 +598,14 @@ namespace Heirloom.Drawing
         /// </summary>
         public unsafe void CopyTo(IntPtr dst, bool swapBGRA = true)
         {
-            CopyTo((Pixel*) dst, swapBGRA);
+            CopyTo((ColorBytes*) dst, swapBGRA);
         }
 
         /// <summary>
         /// Copies image data from the image to destination.
         /// The data must be contiguous and the same size of the image.
         /// </summary>
-        public unsafe void CopyTo(Pixel* dst, bool swapBGRA = true)
+        public unsafe void CopyTo(ColorBytes* dst, bool swapBGRA = true)
         {
             var len = Width * Height * 4; // Number of bytes in the pixel data
 
@@ -620,12 +620,12 @@ namespace Heirloom.Drawing
             }
             else
             {
-                fixed (Pixel* src = _pixels)
+                fixed (ColorBytes* src = _pixels)
                 {
                     if (swapBGRA)
                     {
                         // Copy per-pixel (RGBA)
-                        for (var i = 0; i < len / sizeof(Pixel); i++)
+                        for (var i = 0; i < len / sizeof(ColorBytes); i++)
                         {
                             var p = *(src + i);
                             if (swapBGRA) { Calc.Swap(ref p.R, ref p.B); }
@@ -657,7 +657,7 @@ namespace Heirloom.Drawing
                 // StbSharp is out of date...?
                 // Stb.stbi_flip_vertically_on_write(1);
 
-                fixed (Pixel* pPixels = _pixels)
+                fixed (ColorBytes* pPixels = _pixels)
                 {
                     if (stbi_write_png_to_func(WriteImageCallback, null, Width, Height, 4, pPixels, Width * 4) == 0)
                     {
@@ -681,7 +681,7 @@ namespace Heirloom.Drawing
                 // StbSharp is out of date...?
                 // Stb.stbi_flip_vertically_on_write(1);
 
-                fixed (Pixel* pPixels = _pixels)
+                fixed (ColorBytes* pPixels = _pixels)
                 {
                     if (stbi_write_jpg_to_func(WriteImageCallback, null, Width, Height, 4, pPixels, quality) == 0)
                     {
@@ -751,7 +751,7 @@ namespace Heirloom.Drawing
 
             // Create image (atlas)
             var atlas = new Image(packer.Bounds.Width, packer.Bounds.Height);
-            atlas.Clear(Pixel.Red);
+            atlas.Clear(ColorBytes.Red);
 
             // Insert images into atlas
             foreach (var image in packer.Keys)
@@ -882,14 +882,14 @@ namespace Heirloom.Drawing
             foreach (var p in Rasterizer.Rectangle(0, 0, im.Width, im.Height))
             {
                 var flag = ((p.Y & cellSize) == 0) ^ (p.X & cellSize) == 0;
-                var pixel = (Pixel) ((flag ? Color.LightGray : Color.White) * color);
+                var pixel = (ColorBytes) ((flag ? Color.LightGray : Color.White) * color);
                 im.SetPixel(p.X, p.Y, pixel);
             }
 
             // Draw border
             foreach (var edge in Rasterizer.RectangleOutline(0, 0, width, height))
             {
-                var pixel = (Pixel) (Color.Gray * color);
+                var pixel = (ColorBytes) (Color.Gray * color);
                 im.SetPixel(edge.X, edge.Y, pixel);
             }
 
@@ -906,8 +906,8 @@ namespace Heirloom.Drawing
             {
                 var nco = (co / (Vector) size * 2F) - Vector.One;
                 var distance = Vector.Distance(nco, Vector.Zero);
-                if (distance <= 1) { image.SetPixel(co, (Pixel) Color.Lerp(inner, outer, distance)); }
-                else { image.SetPixel(co, (Pixel) outer); }
+                if (distance <= 1) { image.SetPixel(co, (ColorBytes) Color.Lerp(inner, outer, distance)); }
+                else { image.SetPixel(co, (ColorBytes) outer); }
             }
             return image;
         }
@@ -929,18 +929,18 @@ namespace Heirloom.Drawing
                     if (distance >= 1 - (edgeWidth / size))
                     {
                         // Set edge color
-                        image.SetPixel(co, (Pixel) edge);
+                        image.SetPixel(co, (ColorBytes) edge);
                     }
                     else
                     {
                         // Set fill color
-                        image.SetPixel(co, (Pixel) color);
+                        image.SetPixel(co, (ColorBytes) color);
                     }
                 }
                 else
                 {
                     // Outside circle
-                    image.SetPixel(co, Pixel.Transparent);
+                    image.SetPixel(co, ColorBytes.Transparent);
                 }
             }
 
@@ -958,7 +958,7 @@ namespace Heirloom.Drawing
         {
             var im = new Image(width, height);
 
-            var pixel = (Pixel) color;
+            var pixel = (ColorBytes) color;
 
             // Draw border
             foreach (var p in Rasterizer.Rectangle(0, 0, width, height))
@@ -1016,7 +1016,7 @@ namespace Heirloom.Drawing
                 var n3 = (noise.Sample(p3, octaves, persistence) + 1F) / 2F;
 
                 // 
-                var color = (Pixel) new Color(n0, n1, n2, n3);
+                var color = (ColorBytes) new Color(n0, n1, n2, n3);
                 im.SetPixel(co.X, co.Y, color);
             });
 

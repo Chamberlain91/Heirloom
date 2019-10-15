@@ -204,7 +204,7 @@ namespace Heirloom.Drawing.OpenGLES
                 return VertexAttributeType.Byte;
             }
             else
-            if (type == typeof(byte) || type == typeof(Pixel))
+            if (type == typeof(byte) || type == typeof(ColorBytes))
             {
                 return VertexAttributeType.UnsignedByte;
             }

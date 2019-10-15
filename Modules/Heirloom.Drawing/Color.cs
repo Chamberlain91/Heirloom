@@ -8,7 +8,7 @@ namespace Heirloom.Drawing
     /// <summary>
     /// Color encoded as 4 component floats.
     /// </summary>
-    /// <seealso cref="Pixel"/>
+    /// <seealso cref="ColorBytes"/>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct Color : IEquatable<Color>
     {
@@ -454,34 +454,34 @@ namespace Heirloom.Drawing
 
         #region Conversion Operators
 
-        public static explicit operator Pixel(Color c)
+        public static implicit operator ColorBytes(Color c)
         {
             var r = (byte) (c.R * 255);
             var g = (byte) (c.G * 255);
             var b = (byte) (c.B * 255);
             var a = (byte) (c.A * 255);
 
-            return new Pixel(r, g, b, a);
+            return new ColorBytes(r, g, b, a);
         }
 
         public static explicit operator uint(Color c)
         {
-            return (uint) (Pixel) c;
+            return (uint) (ColorBytes) c;
         }
 
         public static explicit operator int(Color c)
         {
-            return (int) (Pixel) c;
+            return (int) (ColorBytes) c;
         }
 
         public static explicit operator Color(uint c)
         {
-            return (Color) (Pixel) c;
+            return (Color) (ColorBytes) c;
         }
 
         public static explicit operator Color(int c)
         {
-            return (Color) (Pixel) c;
+            return (Color) (ColorBytes) c;
         }
 
         #endregion
