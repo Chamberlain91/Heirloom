@@ -44,9 +44,11 @@ namespace Heirloom.Game
                 // todo: could this cause a concurrent modification exception
                 if (_components.Add(component))
                 {
+                    // Mark component ownership
+                    component.Entity = this;
+
                     // Track component
                     if (_isContainedByScene) { Scene.AddComponent(component); }
-                    component.Entity = this;
 
                     return component;
                 }

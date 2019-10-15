@@ -32,7 +32,7 @@ namespace Heirloom.Collections.Spatial
         public override IEnumerable<B> Query(B obj)
         {
             return Collection.Query(obj.Bounds)
-                              .Where(b => !Equals(b, obj));
+                             .Where(b => !Equals(b, obj));
         }
 
         public override IEnumerable<B> Query(Ray ray, float maxDistance)

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Heirloom.Drawing;
+using Heirloom.Drawing.Extras;
 using Heirloom.Game;
 using Heirloom.Math;
 
@@ -10,6 +12,8 @@ namespace Examples.Game
     {
         private readonly TileMapRenderer _mapRenderer;
         private readonly Tile[] _tiles;
+
+        private List<Collider> _colliders;
 
         public Map(int width, int height, int tileSize)
         {
@@ -23,6 +27,9 @@ namespace Examples.Game
             {
                 _tiles[i] = new Tile();
             }
+
+            // 
+            _colliders = new List<Collider>();
 
             // 
             AddComponent(_mapRenderer = new TileMapRenderer(this));
@@ -43,41 +50,53 @@ namespace Examples.Game
             return Tiles[i];
         }
 
-        public IEnumerable<Rectangle> GetCollisionBounds(int x, int y)
-        {
-            if (IsSolid(x, y)) { yield return GetCollider(x, y); }
+        //public IEnumerable<Rectangle> GetCollisionBounds(int x, int y)
+        //{
+        //    if (IsSolid(x, y)) { yield return ComputeCollisionBounds(x, y); }
 
-            // Floor
-            if (IsSolid(x, y + 1)) { yield return GetCollider(x, y + 1); }
-            if (IsSolid(x - 1, y + 1)) { yield return GetCollider(x - 1, y + 1); }
-            if (IsSolid(x + 1, y + 1)) { yield return GetCollider(x + 1, y + 1); }
+        //    // Floor
+        //    if (IsSolid(x, y + 1)) { yield return ComputeCollisionBounds(x, y + 1); }
+        //    if (IsSolid(x - 1, y + 1)) { yield return ComputeCollisionBounds(x - 1, y + 1); }
+        //    if (IsSolid(x + 1, y + 1)) { yield return ComputeCollisionBounds(x + 1, y + 1); }
 
-            // Walls
-            if (IsSolid(x - 1, y)) { yield return GetCollider(x - 1, y); }
-            if (IsSolid(x + 1, y)) { yield return GetCollider(x + 1, y); }
+        //    // Walls
+        //    if (IsSolid(x - 1, y)) { yield return ComputeCollisionBounds(x - 1, y); }
+        //    if (IsSolid(x + 1, y)) { yield return ComputeCollisionBounds(x + 1, y); }
 
-            // Ceiling
-            if (IsSolid(x, y - 1)) { yield return GetCollider(x, y - 1); }
-            if (IsSolid(x + 1, y - 1)) { yield return GetCollider(x + 1, y - 1); }
-            if (IsSolid(x - 1, y - 1)) { yield return GetCollider(x - 1, y - 1); }
-        }
+        //    // Ceiling
+        //    if (IsSolid(x, y - 1)) { yield return ComputeCollisionBounds(x, y - 1); }
+        //    if (IsSolid(x + 1, y - 1)) { yield return ComputeCollisionBounds(x + 1, y - 1); }
+        //    if (IsSolid(x - 1, y - 1)) { yield return ComputeCollisionBounds(x - 1, y - 1); }
+        //}
 
-        private Rectangle GetCollider(int x, int y)
+        private Rectangle ComputeCollisionBounds(int x, int y)
         {
             return new Rectangle(x * TileSize, y * TileSize, TileSize, TileSize);
         }
 
-        private bool IsSolid(int x, int y)
+        public void GenerateColliders()
         {
-            if (IsValid(x, y))
+            // Remove any previous
+            foreach (var collider in _colliders)
             {
-                var tile = GetTile(x, y);
-                return tile.IsSolid;
+                RemoveComponent(collider);
             }
-            else
+
+            // 
+            _colliders.Clear();
+
+            //
+            foreach (var co in Rasterizer.Rectangle(0, 0, Width, Height))
             {
-                // Not on the map, not solid
-                return false;
+                var tile = GetTile(co.X, co.Y);
+
+                if (tile.IsSolid)
+                {
+                    var bounds = ComputeCollisionBounds(co.X, co.Y);
+
+                    var collider = AddComponent(new Collider(bounds));
+                    _colliders.Add(collider);
+                }
             }
         }
 
@@ -86,9 +105,24 @@ namespace Examples.Game
             return x >= 0 && x < Width && y >= 0 && y < Height;
         }
 
+        public bool IsNearClimable(Vector worldPosition)
+        {
+            var co = (IntVector) (worldPosition / TileSize);
+
+            if (IsValid(co.X, co.Y))
+            {
+                var tile = GetTile(co.X, co.Y);
+                return tile.IsClimbable;
+            }
+
+            return false;
+        }
+
         public class Tile
         {
             public List<Image> Images { get; } = new List<Image>();
+
+            public bool IsClimbable { get; set; }
 
             public bool IsSolid { get; set; }
         }
