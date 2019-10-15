@@ -11,7 +11,7 @@ namespace Examples.Minimal
         private static void Main(string[] args)
         {
             var text = $"Hello {GetOperatingSystem()}!";
-            var fontSize = 48;
+            var fontSize = 32;
 
             Application.Run(() =>
             {
@@ -19,7 +19,7 @@ namespace Examples.Minimal
                 var window = new Window("Minimal Example")
                 {
                     IsResizable = false,
-                    Size = (500, 300),
+                    Size = (400, 200),
                 };
 
                 // 
