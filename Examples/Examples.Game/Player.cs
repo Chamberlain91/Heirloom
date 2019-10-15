@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Heirloom.Drawing;
 using Heirloom.Game;
 using Heirloom.Math;
@@ -14,9 +15,11 @@ namespace Examples.Game
         public readonly SpriteComponent SpriteRenderer;
 
         private Vector _velocity;
+        private Vector _acceleration;
+
         private bool _hasGroundCollision;
         private bool _hasWallCollision;
-        private bool _canJump = false;
+        private bool _onGround = false;
 
         private bool _moveLeft;
         private bool _moveRight;
@@ -44,14 +47,8 @@ namespace Examples.Game
             _doJump = Input.GetButton("space") == ButtonState.Down;
 
             // Jump
-            if (_doJump && _canJump)
+            if (_doJump)
             {
-                _canJump = false;
-
-                // 
-                Transform.Position -= (0, 1);
-                _velocity.Y -= 12;
-
                 // 
                 if (SpriteRenderer.Animation.Name != "jump")
                 {
@@ -67,7 +64,7 @@ namespace Examples.Game
                 else { Transform.Scale = (1, 1); }
 
                 // If we can jump (thus on stable ground), set to walking animation.
-                if (_canJump && SpriteRenderer.Animation.Name != "walk")
+                if (_onGround && SpriteRenderer.Animation.Name != "walk")
                 {
                     SpriteRenderer.Play("walk");
                 }
@@ -75,45 +72,72 @@ namespace Examples.Game
             else
             {
                 // If we can jump (thus on stable ground), set to idle animation
-                if (_canJump && SpriteRenderer.Animation.Name != "idle")
+                if (_onGround && SpriteRenderer.Animation.Name != "idle")
                 {
                     SpriteRenderer.Play("idle");
                 }
             }
         }
 
-        protected override void FixedUpdate()
-        {
-            // Apply Gravity
-            _velocity.Y += 0.5F;
+        private int _count = 0;
+        private Stopwatch _stopwatch = Stopwatch.StartNew();
 
-            // Move character based on input
-            if (_moveLeft) { _velocity.X -= 1; }
-            else if (_moveRight) { _velocity.X += 1; }
-            // If can jump (thus on stable ground), apply friction
-            else if (_canJump)
+        protected override void FixedUpdate(float dt)
+        {
+            _count++;
+            if (_stopwatch.ElapsedMilliseconds > 1000)
             {
-                _velocity.X *= 0.7F;
+                Console.WriteLine($"Count: {_count}");
+                _stopwatch.Restart();
+                _count = 0;
             }
 
-            // Clamp max velocity
-            if (Calc.Abs(_velocity.X) > 4) { _velocity.X = Calc.Sign(_velocity.X) * 4; }
-            if (Calc.Abs(_velocity.Y) > 8) { _velocity.Y = Calc.Sign(_velocity.Y) * 8; }
+            // Apply Gravity
+            _acceleration.Y += 720;
 
-            // Collision Phase
-            var map = Scene.GetEntity<Map>();
+            // Move character based on input
+            if (_moveLeft) { _acceleration.X -= 960; }
+            else if (_moveRight) { _acceleration.X += 960; }
+            // If can jump (thus on stable ground), apply friction
+            else if (_onGround)
+            {
+                // Friction impulse...?
+                if (_velocity.X > 0) { _velocity.X = Calc.Max(0F, _velocity.X - 2880 * dt); }
+                if (_velocity.X < 0) { _velocity.X = Calc.Min(0F, _velocity.X + 2880 * dt); }
+            }
+
+            // 
+            if (_doJump && _onGround)
+            {
+                _doJump = false;
+
+                // 
+                Transform.Position -= (0, 1);
+                _velocity.Y -= 360;
+            }
+
+            // 
+            _velocity += _acceleration * dt;
+            _acceleration = Vector.Zero;
+
+            // Clamp max velocity
+            if (Calc.Abs(_velocity.X) > 240) { _velocity.X = Calc.Sign(_velocity.X) * 240; }
+            if (Calc.Abs(_velocity.Y) > 480) { _velocity.Y = Calc.Sign(_velocity.Y) * 480; }
 
             // Reset collision state
             _hasGroundCollision = false;
             _hasWallCollision = false;
-            _canJump = false;
+            _onGround = false;
+
+            // Collision Phase
+            var map = Scene.GetEntity<Map>();
 
             // Integrate Velocity Y Component
-            Transform.Position += (0, _velocity.Y);
+            Transform.Position += (0, _velocity.Y * dt);
             ProcessVerticalCollisions(map);
 
             // Integrate Velocity X Component
-            Transform.Position += (_velocity.X, 0);
+            Transform.Position += (_velocity.X * dt, 0);
             ProcessHorizontalCollisions(map);
         }
 
@@ -176,7 +200,7 @@ namespace Examples.Game
                     _velocity.Y = 0;
 
                     _hasGroundCollision = true;
-                    _canJump = true;
+                    _onGround = true;
                 }
 
                 // Moving into ceiling
