@@ -35,7 +35,7 @@ namespace Heirloom.Game
 
         protected internal virtual void Update(float dt) { }
 
-        protected internal virtual void FixedUpdate() { }
+        protected internal virtual void FixedUpdate(float ft) { }
 
         public C AddComponent<C>(C component) where C : Component
         {

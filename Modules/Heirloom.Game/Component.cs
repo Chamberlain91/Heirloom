@@ -29,6 +29,6 @@
 
         protected internal virtual void Update(float dt) { }
 
-        protected internal virtual void FixedUpdate() { }
+        protected internal virtual void FixedUpdate(float ft) { }
     }
 }

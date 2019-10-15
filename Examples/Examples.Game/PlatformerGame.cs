@@ -43,7 +43,8 @@ namespace Examples.Game
 
             // Make camera follow player
             var camera = Scene.GetEntity<Camera>();
-            camera.AddComponent(new SmoothFollow(player.Transform));
+            camera.Transform.Position = (240, 0);
+            // camera.AddComponent(new SmoothFollow(player.Transform));
         }
 
         protected override void GameLoad(LoadScreenProgress progress)

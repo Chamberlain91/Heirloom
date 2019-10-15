@@ -29,10 +29,14 @@ namespace Heirloom.Game
         private static readonly LoadScreen _loadScreen = new DefaultLoadScreen();
         private static bool _isLoadScreenVisible = false;
 
-        private const float FixedUpdateDuration = 1 / 60F;
         private static float _fixedUpdateTime;
 
         #region Properties
+
+        /// <summary>
+        /// The fixed duration in seconds between calls to <see cref="Entity.FixedUpdate(float)"/> or <see cref="Component.FixedUpdate(float)"/>.
+        /// </summary>
+        public static float FixedDeltaTime { get; internal set; } = 1 / 60F;
 
         /// <summary>
         /// Background color used if no camera components exist in the scene.
@@ -227,39 +231,40 @@ namespace Heirloom.Game
             _fixedUpdateTime += dt;
 
             // For each entity with Update
-            foreach (var entity in _updatableEntities)
+            foreach (var en in _updatableEntities)
             {
-                entity.Update(dt);
+                en.Update(dt);
             }
 
             // Update each component with Update
-            foreach (var c in _updatableComponents)
+            foreach (var co in _updatableComponents)
             {
-                // todo: Instead remove from _components when disabled to prevent even having to loop over it?
-                if (c.IsEnabled)
+                // todo: Instead remove from list when disabled to prevent even having to loop over it?
+                if (co.IsEnabled)
                 {
-                    c.Update(dt);
+                    co.Update(dt);
                 }
             }
 
-            // Update each entity with FixedUpdate
-            while (_fixedUpdateTime >= FixedUpdateDuration)
+            // For each elapsed fixed timestep
+            while (_fixedUpdateTime >= FixedDeltaTime)
             {
-                _fixedUpdateTime -= FixedUpdateDuration;
+                // 
+                _fixedUpdateTime -= FixedDeltaTime;
 
                 // For each entity with FixedUpdate
-                foreach (var entity in _fixedUpdatableEntities)
+                foreach (var en in _fixedUpdatableEntities)
                 {
-                    entity.FixedUpdate();
+                    en.FixedUpdate(FixedDeltaTime);
                 }
 
-                // Update each component with Update
-                foreach (var c in _fixedUpdatableComponents)
+                // For each component with FixedUpdate
+                foreach (var co in _fixedUpdatableComponents)
                 {
-                    // todo: Instead remove from _components when disabled to prevent even having to loop over it?
-                    if (c.IsEnabled)
+                    // todo: Instead remove from list when disabled to prevent even having to loop over it?
+                    if (co.IsEnabled)
                     {
-                        c.Update(dt);
+                        co.FixedUpdate(FixedDeltaTime);
                     }
                 }
             }
