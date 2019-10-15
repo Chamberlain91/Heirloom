@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using Heirloom.Drawing;
+﻿using Heirloom.Drawing;
 using Heirloom.Game;
 using Heirloom.Math;
 
@@ -10,16 +8,9 @@ namespace Examples.Game
 {
     public class Player : Entity
     {
-        private const float CollisionTolerance = 0.1F;
-
         public readonly SpriteComponent SpriteRenderer;
 
-        private Vector _velocity;
-        private Vector _acceleration;
-
-        private bool _hasGroundCollision;
-        private bool _hasWallCollision;
-        private bool _onGround = false;
+        public readonly PhysicsComponent Physics;
 
         private bool _moveLeft;
         private bool _moveRight;
@@ -27,16 +18,12 @@ namespace Examples.Game
 
         public Player()
         {
+            // 
             SpriteRenderer = AddComponent(new SpriteComponent(GetAsset<Sprite>("player")));
-        }
 
-        public Rectangle GetCollisionBounds()
-        {
-            var left = Transform.Position.X - 24;
-            var top = Transform.Position.Y;
-
-            // Compute player bounds
-            return new Rectangle(left, top, 48, 48);
+            // 
+            Physics = AddComponent(new PhysicsComponent());
+            Physics.Shape = new Rectangle(-24, 0, 48, 48);
         }
 
         protected override void Update(float dt)
@@ -64,7 +51,7 @@ namespace Examples.Game
                 else { Transform.Scale = (1, 1); }
 
                 // If we can jump (thus on stable ground), set to walking animation.
-                if (_onGround && SpriteRenderer.Animation.Name != "walk")
+                if (Physics.HasGroundCollision && SpriteRenderer.Animation.Name != "walk")
                 {
                     SpriteRenderer.Play("walk");
                 }
@@ -72,7 +59,7 @@ namespace Examples.Game
             else
             {
                 // If we can jump (thus on stable ground), set to idle animation
-                if (_onGround && SpriteRenderer.Animation.Name != "idle")
+                if (Physics.HasGroundCollision && SpriteRenderer.Animation.Name != "idle")
                 {
                     SpriteRenderer.Play("idle");
                 }
@@ -81,122 +68,24 @@ namespace Examples.Game
 
         protected override void FixedUpdate(float ft)
         {
-            // Apply Gravity
-            _acceleration.Y += 720;
-
             // Move character based on input
-            if (_moveLeft) { _acceleration.X -= 960; }
-            else if (_moveRight) { _acceleration.X += 960; }
+            if (_moveLeft) { Physics.Acceleration += (-960, 0); }
+            else if (_moveRight) { Physics.Acceleration += (+960, 0); }
             // If can jump (thus on stable ground), apply friction
-            else if (_onGround)
+            else if (Physics.HasGroundCollision)
             {
                 // Friction...?
-                _velocity.X -= _velocity.X * 0.33F;
+                Physics.Velocity -= (Physics.Velocity.X * 0.5F, 0);
             }
 
             // 
-            if (_doJump && _onGround)
+            if (_doJump && Physics.HasGroundCollision)
             {
                 _doJump = false;
 
                 // 
-                Transform.Position -= (0, 1);
-                _velocity.Y -= 360;
-            }
-
-            // 
-            _velocity += _acceleration * ft;
-            _acceleration = Vector.Zero;
-
-            // Clamp max velocity
-            if (Calc.Abs(_velocity.X) > 240) { _velocity.X = Calc.Sign(_velocity.X) * 240; }
-            if (Calc.Abs(_velocity.Y) > 480) { _velocity.Y = Calc.Sign(_velocity.Y) * 480; }
-
-            // Reset collision state
-            _hasGroundCollision = false;
-            _hasWallCollision = false;
-            _onGround = false;
-
-            // Collision Phase
-            var map = Scene.GetEntity<Map>();
-
-            // Integrate Velocity Y Component
-            Transform.Position += (0, _velocity.Y * ft);
-            ProcessVerticalCollisions(map);
-
-            // Integrate Velocity X Component
-            Transform.Position += (_velocity.X * ft, 0);
-            ProcessHorizontalCollisions(map);
-        }
-
-        private void ProcessHorizontalCollisions(Map map)
-        {
-            // Get player collision bounds
-            var bounds = GetCollisionBounds();
-
-            // Convert world position in to map coordinates
-            var mapCoord = (IntVector) (Transform.Position / map.TileSize);
-
-            // For each collider near the player on the map
-            // todo: Use a more universal selection so other solid entities can be considered
-            foreach (var other in map.GetCollisionBounds(mapCoord.X, mapCoord.Y))
-            {
-                // Player is outside the tile collision row
-                if (bounds.Bottom <= other.Top) { continue; }
-                if (bounds.Top >= other.Bottom) { continue; }
-
-                // Moving left into tile
-                if (_velocity.X < 0 && bounds.Right > other.Right && bounds.Left < other.Right)
-                {
-                    Transform.Position += (other.Right - bounds.Left + CollisionTolerance, 0);
-                    _velocity.X = 0;
-
-                    _hasWallCollision = true;
-                }
-
-                // Moving right into tile
-                if (_velocity.X > 0 && bounds.Left < other.Left && bounds.Right > other.Left)
-                {
-                    Transform.Position += (other.Left - bounds.Right - CollisionTolerance, 0);
-                    _velocity.X = 0;
-
-                    _hasWallCollision = true;
-                }
-            }
-        }
-
-        private void ProcessVerticalCollisions(Map map)
-        {
-            // Get player collision bounds
-            var bounds = GetCollisionBounds();
-
-            // Convert world position in to map coordinates
-            var mapCoord = (IntVector) (Transform.Position / map.TileSize);
-
-            // For each collider near the player on the map
-            // todo: Use a more universal selection so other solid entities can be considered
-            foreach (var other in map.GetCollisionBounds(mapCoord.X, mapCoord.Y))
-            {
-                // Player is outside the tile collision column
-                if (bounds.Right <= other.Left) { continue; }
-                if (bounds.Left >= other.Right) { continue; }
-
-                // Moving into ground
-                if (_velocity.Y > 0 && bounds.Top < other.Top && bounds.Bottom > other.Top)
-                {
-                    Transform.Position += (0, other.Top - bounds.Bottom - CollisionTolerance);
-                    _velocity.Y = 0;
-
-                    _hasGroundCollision = true;
-                    _onGround = true;
-                }
-
-                // Moving into ceiling
-                if (_velocity.Y < 0 && bounds.Bottom > other.Bottom && bounds.Top < other.Bottom)
-                {
-                    Transform.Position += (0, other.Bottom - bounds.Top + CollisionTolerance);
-                    _velocity.Y = 0;
-                }
+                Physics.Position -= (0, 1);
+                Physics.Velocity -= (0, 360);
             }
         }
     }

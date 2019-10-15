@@ -30,5 +30,9 @@
         protected internal virtual void Update(float dt) { }
 
         protected internal virtual void FixedUpdate(float ft) { }
+
+        protected internal virtual void OnAdded() { }
+
+        protected internal virtual void OnRemoved() { }
     }
 }
