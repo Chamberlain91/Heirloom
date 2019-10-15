@@ -54,7 +54,7 @@ namespace Heirloom.Drawing.Extras
         /// <summary>
         /// The loaded palette.
         /// </summary>
-        public Pixel[] Palette { get; set; }
+        public ColorBytes[] Palette { get; set; }
 
         // 
         public IReadOnlyList<LayerData> Layers => Frames[0].Layers;
@@ -256,7 +256,7 @@ namespace Heirloom.Drawing.Extras
                 cel.Height = ReadWord();
 
                 // Create pixel storage
-                cel.Pixels = new Pixel[cel.Width * cel.Height];
+                cel.Pixels = new ColorBytes[cel.Width * cel.Height];
 
                 // If a 'raw' cel
                 if (cel.Type == 0)
@@ -345,7 +345,7 @@ namespace Heirloom.Drawing.Extras
                 ReadByte(); // spec, extra byte (zero)
 
                 // Tag Color and Name
-                tag.Color = new Pixel(R, G, B);
+                tag.Color = new ColorBytes(R, G, B);
                 tag.Name = ReadString();
 
                 // 
@@ -355,10 +355,10 @@ namespace Heirloom.Drawing.Extras
             return tags;
         }
 
-        private Pixel[] ReadPaletteChunk()
+        private ColorBytes[] ReadPaletteChunk()
         {
             var size = ReadDWord();
-            var palette = new Pixel[size];
+            var palette = new ColorBytes[size];
 
             var from = ReadDWord();
             var to = ReadDWord();
@@ -378,7 +378,7 @@ namespace Heirloom.Drawing.Extras
                 var A = ReadByte();
 
                 // 
-                palette[i] = new Pixel(R, G, B, A);
+                palette[i] = new ColorBytes(R, G, B, A);
 
                 // 
                 if (flags.HasFlag(PaletteEntryFlags.HasName))
@@ -455,10 +455,10 @@ namespace Heirloom.Drawing.Extras
             return slice;
         }
 
-        private Pixel[] ReadOldPaletteChunk(int depth)
+        private ColorBytes[] ReadOldPaletteChunk(int depth)
         {
             var packetCount = ReadWord();
-            var palette = new Pixel[256];
+            var palette = new ColorBytes[256];
 
             // For each packet
             for (var p = 0; p < packetCount; p++)
@@ -472,7 +472,7 @@ namespace Heirloom.Drawing.Extras
                     var r = (byte) (ReadByte() / (float) depth * 0xFF);
                     var g = (byte) (ReadByte() / (float) depth * 0xFF);
                     var b = (byte) (ReadByte() / (float) depth * 0xFF);
-                    palette[offset + c] = new Pixel(r, g, b);
+                    palette[offset + c] = new ColorBytes(r, g, b);
                 }
             }
 
@@ -545,7 +545,7 @@ namespace Heirloom.Drawing.Extras
             return Encoding.UTF8.GetString(b);
         }
 
-        private void CopyDataToPixelArray(byte[] data, Pixel[] pixels)
+        private void CopyDataToPixelArray(byte[] data, ColorBytes[] pixels)
         {
             if (pixels.Length * (_colorDepth / 8) != data.Length)
             {
@@ -562,7 +562,7 @@ namespace Heirloom.Drawing.Extras
                     var B = data[i * 4 + 2];
                     var A = data[i * 4 + 3];
 
-                    pixels[i] = new Pixel(R, G, B, A);
+                    pixels[i] = new ColorBytes(R, G, B, A);
                 }
             }
             else if (_colorDepth == 16)
@@ -573,7 +573,7 @@ namespace Heirloom.Drawing.Extras
                     var G = data[i * 2 + 0];
                     var A = data[i * 2 + 1];
 
-                    pixels[i] = new Pixel(G, G, G, A);
+                    pixels[i] = new ColorBytes(G, G, G, A);
                 }
             }
             else
@@ -661,7 +661,7 @@ namespace Heirloom.Drawing.Extras
                 }
             }
 
-            private Pixel BlendColor(Pixel src, Pixel dst, byte opacity, BlendMode blend)
+            private ColorBytes BlendColor(ColorBytes src, ColorBytes dst, byte opacity, BlendMode blend)
             {
                 switch (blend)
                 {
@@ -679,7 +679,7 @@ namespace Heirloom.Drawing.Extras
                 }
             }
 
-            internal static Pixel BlendNormal(Pixel src, Pixel dst, byte opacity)
+            internal static ColorBytes BlendNormal(ColorBytes src, ColorBytes dst, byte opacity)
             {
                 if (dst.A == 0)
                 {
@@ -702,10 +702,10 @@ namespace Heirloom.Drawing.Extras
                 var Rg = (byte) (dst.G + (src.G - dst.G) * src.A / Ra);
                 var Rb = (byte) (dst.B + (src.B - dst.B) * src.A / Ra);
 
-                return new Pixel(Rr, Rg, Rb, Ra);
+                return new ColorBytes(Rr, Rg, Rb, Ra);
             }
 
-            internal static Pixel BlendAddition(Pixel src, Pixel dst, byte opacity)
+            internal static ColorBytes BlendAddition(ColorBytes src, ColorBytes dst, byte opacity)
             {
                 src.R = (byte) Calc.Min(dst.R + src.R, 0xFF);
                 src.G = (byte) Calc.Min(dst.G + src.G, 0xFF);
@@ -714,7 +714,7 @@ namespace Heirloom.Drawing.Extras
                 return BlendNormal(src, dst, opacity);
             }
 
-            internal static Pixel BlendSubtract(Pixel src, Pixel dst, byte opacity)
+            internal static ColorBytes BlendSubtract(ColorBytes src, ColorBytes dst, byte opacity)
             {
                 src.R = (byte) Calc.Max(dst.R - src.R, 0);
                 src.G = (byte) Calc.Max(dst.G - src.G, 0);
@@ -758,7 +758,7 @@ namespace Heirloom.Drawing.Extras
             public ushort Width { get; internal set; }
             public ushort Height { get; internal set; }
 
-            public Pixel[] Pixels { get; set; }
+            public ColorBytes[] Pixels { get; set; }
 
             public byte Opacity { get; set; }
 
@@ -793,7 +793,7 @@ namespace Heirloom.Drawing.Extras
 
             public string Text { get; set; }
 
-            public Pixel Color { get; set; }
+            public ColorBytes Color { get; set; }
         }
 
         public sealed class SliceData
@@ -821,7 +821,7 @@ namespace Heirloom.Drawing.Extras
 
             public Sprite.Direction Direction { get; set; }
 
-            public Pixel Color { get; set; }
+            public ColorBytes Color { get; set; }
         }
 
         #endregion

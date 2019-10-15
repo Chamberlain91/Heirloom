@@ -290,7 +290,7 @@ namespace Heirloom.Drawing
             int w, h, ox, oy;
             var pBitmap = stbtt_GetGlyphBitmap(Info, scale, scale, glyph, &w, &h, &ox, &oy);
 
-            var pixel = Pixel.White;
+            var pixel = ColorBytes.White;
 
             // Copy stb bitmap into image
             for (var sY = 0; sY < h; sY++)

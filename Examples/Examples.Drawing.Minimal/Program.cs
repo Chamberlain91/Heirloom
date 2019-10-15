@@ -8,34 +8,31 @@ namespace Examples.Minimal
 {
     internal static class Program
     {
+        private const int FontSize = 32;
+
         private static void Main(string[] args)
         {
-            var text = $"Hello {GetOperatingSystem()}!";
-            var fontSize = 32;
-
             Application.Run(() =>
             {
                 // Create window
-                var window = new Window("Minimal Example")
-                {
-                    IsResizable = false,
-                    Size = (400, 200),
-                };
+                var window = new Window("Minimal Example") { Size = (400, 200) };
 
-                // 
-                var ctx = window.RenderContext;
-
-                // Draw hello world text
-                ctx.ResetState(); // bug: should not need to be called, but errors!
-                ctx.Clear(Color.DarkGray);
-
-                // todo: Implement feature, should be able to vertical align text without this step.
-                var align = new Vector(0, Font.Default.MeasureText(text, fontSize).Height / 2F);
-                ctx.DrawText(text, -align + ((Vector) ctx.Surface.Size) * 0.5F, Font.Default, fontSize, TextAlign.Center);
-
-                // Put drawn image on screen
-                ctx.RefreshScreen();
+                // Loop
+                var loop = RenderLoop.Create(window.RenderContext, OnDraw);
+                loop.Start();
             });
+        }
+
+        private static void OnDraw(RenderContext ctx, float dt)
+        {
+            ctx.Clear(Color.DarkGray);
+
+            // Generate hello message
+            var text = $"Hello {GetOperatingSystem()}!";
+
+            // todo: Implement feature, should be able to vertical align text without this step.
+            var align = new Vector(0, Font.Default.MeasureText(text, FontSize).Height / 2F);
+            ctx.DrawText(text, -align + ((Vector) ctx.Surface.Size) * 0.5F, Font.Default, FontSize, TextAlign.Center);
         }
 
         private static string GetOperatingSystem()
