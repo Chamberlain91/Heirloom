@@ -72,7 +72,7 @@ namespace Examples.Game
             if (IsValid(x, y))
             {
                 var tile = GetTile(x, y);
-                return tile.Image != null;
+                return tile.IsSolid;
             }
             else
             {
@@ -88,7 +88,9 @@ namespace Examples.Game
 
         public class Tile
         {
-            public Image Image { get; set; }
+            public List<Image> Images { get; } = new List<Image>();
+
+            public bool IsSolid { get; set; }
         }
 
         private class TileMapRenderer : DrawableComponent
@@ -109,11 +111,17 @@ namespace Examples.Game
                     var x = i % Map.Width;
                     var y = i / Map.Width;
 
-                    if (tile.Image != null)
+                    if (tile.Images.Count > 0)
                     {
-                        // 
+                        // Compute transform
                         var trx = Matrix.CreateTranslation(x * Map.TileSize, y * Map.TileSize);
-                        ctx.DrawImage(tile.Image, Transform.Matrix * trx);
+                        trx = Transform.Matrix * trx;
+
+                        // Draw each image
+                        foreach (var image in tile.Images)
+                        {
+                            ctx.DrawImage(image, trx);
+                        }
                     }
                 }
             }

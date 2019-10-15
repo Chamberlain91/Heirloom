@@ -14,6 +14,7 @@
     <Authors>Chris Chamberlain</Authors>
     <Company />
     <Version>1.1.0-beta</Version>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup> 
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

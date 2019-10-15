@@ -48,7 +48,7 @@ namespace Heirloom.Game
 
         #region Add/Remove Entities/Components
 
-        public static void AddEntity(Entity entity)
+        public static E AddEntity<E>(E entity) where E : Entity
         {
             // Add to entities list
             // todo: schedule addition to prevent concurrent mutation?
@@ -71,6 +71,8 @@ namespace Heirloom.Game
 
             // Inform entity it is now part of the scene
             entity.OnAddedInternal();
+
+            return entity;
         }
 
         public static void RemoveEntity(Entity entity)

@@ -14,6 +14,7 @@
     <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Description>OpenGL ES 3.0 Bindings</Description>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup> 
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

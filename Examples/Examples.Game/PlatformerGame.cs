@@ -1,8 +1,10 @@
-﻿using Heirloom.Desktop;
+﻿using System;
+using System.Linq;
+using Heirloom.Desktop;
 using Heirloom.Drawing;
 using Heirloom.Game;
 using Heirloom.Game.Desktop;
-
+using Heirloom.IO;
 using static Heirloom.Game.AssetDatabase;
 
 namespace Examples.Game
@@ -18,31 +20,52 @@ namespace Examples.Game
         protected override void GameStart()
         {
             Scene.AddEntity(new Camera());
-            Scene.AddEntity(new Player());
-            Scene.AddEntity(new Map(16, 4, 64)); // 64x64 sized tiles
-
-            // 
-            var map = Scene.GetEntity<Map>();
-            for (var i = 0; i < map.Width; i++)
-            {
-                map.GetTile(i, map.Height - 1).Image = GetAsset<Image>("tile.dirt");
-            }
-
-            for (var i = 0; i < map.Height; i++)
-            {
-                map.GetTile(0, i).Image = GetAsset<Image>("tile.dirt");
-                map.GetTile(map.Width - 1, i).Image = GetAsset<Image>("tile.dirt");
-            }
-
-            map.GetTile(2, 1).Image = GetAsset<Image>("tile.dirt");
-            map.GetTile(4, 2).Image = GetAsset<Image>("tile.dirt");
+            var player = Scene.AddEntity(new Player());
 
             // Position player over the top center of the map
-            var player = Scene.GetEntity<Player>();
-            player.Physics.Position = (map.Width * map.TileSize / 2, 0);
+
+            // Load map from text file
+            var mapData = Files.ReadText("data/level.txt");
+
+            // 
+            var mapRows = mapData.Split("\n").Select(s => s.Trim()).ToArray();
+            var map = Scene.AddEntity(new Map(mapRows.Max(s => s.Length), mapRows.Length, 64));
+
+            var y = 0;
+            foreach (var row in mapRows)
+            {
+                for (var x = 0; x < map.Width; x++)
+                {
+                    var tile = map.GetTile(x, y);
+
+                    switch (row[x])
+                    {
+                        case '!':
+                            player.Physics.Position = (map.TileSize / 2F + x * map.TileSize, map.TileSize / 2F + y * map.TileSize);
+                            break;
+
+                        case '#':
+                            tile.Images.Add(GetAsset<Image>("tile.dirt-top"));
+                            tile.IsSolid = true;
+                            break;
+
+                        case '_':
+                            tile.Images.Add(GetAsset<Image>("tile.brick"));
+                            tile.IsSolid = true;
+                            break;
+
+                        case '.':
+                            tile.Images.Add(GetAsset<Image>("tile.grass"));
+                            break;
+                    }
+                }
+
+                y++;
+            }
 
             // Make camera follow player
             var camera = Scene.GetEntity<Camera>();
+            camera.BackgroundColor = Colors.FlatUI.PeterRiver;
             camera.AddComponent(new SmoothFollow(player.Transform));
         }
 
@@ -60,7 +83,10 @@ namespace Examples.Game
                 { "player.climb1", "data/characters/platformChar_climb1.png" },
                 { "player.climb2", "data/characters/platformChar_climb2.png" },
                 // Tiles
-                { "tile.dirt", "data/tiles/platformPack_tile001.png" }
+                { "tile.dirt", "data/tiles/platformPack_tile004.png" },
+                { "tile.brick", "data/tiles/platformPack_tile047.png" },
+                { "tile.dirt-top", "data/tiles/platformPack_tile001.png" },
+                { "tile.grass", "data/tiles/platformPack_tile045.png" },
             };
 
             // Load!

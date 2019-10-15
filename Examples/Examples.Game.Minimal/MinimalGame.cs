@@ -16,7 +16,12 @@ namespace Examples.Game.Minimal
             Window.Size = (800, 500);
         }
 
-        protected override void Initialize()
+        protected override void GameLoad(LoadScreenProgress progress)
+        {
+            // Nothing!
+        }
+
+        protected override void GameStart()
         {
             // Create card and camera
             Scene.AddEntity(new QueenOfHearts());

@@ -13,6 +13,7 @@
     <PackageTags>drawing, graphics, 2D</PackageTags>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <Description>Hardware accelerated 2D graphics.</Description>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

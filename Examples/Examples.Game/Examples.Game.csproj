@@ -30,6 +30,7 @@
     <None Remove="data\Items\platformPack_item015.png" />
     <None Remove="data\Items\platformPack_item016.png" />
     <None Remove="data\Items\platformPack_item018.png" />
+    <None Remove="data\level.txt" />
     <None Remove="data\Tiles\platformPack_tile001.png" />
     <None Remove="data\Tiles\platformPack_tile002.png" />
     <None Remove="data\Tiles\platformPack_tile003.png" />
@@ -186,11 +187,11 @@
     <EmbeddedResource Include="data\Tiles\platformPack_tile063.png" />
     <EmbeddedResource Include="data\Tiles\platformPack_tile064.png" />
     <EmbeddedResource Include="data\Tiles\platformPack_tile065.png" />
+    <EmbeddedResource Include="data\level.txt" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Modules\Heirloom.Game.Desktop\Heirloom.Game.Desktop.csproj" />
-    <ProjectReference Include="..\..\Modules\Heirloom.IO\Heirloom.IO.csproj" />
   </ItemGroup>
 
 </Project>
