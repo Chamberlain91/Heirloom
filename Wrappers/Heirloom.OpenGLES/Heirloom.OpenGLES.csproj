@@ -1,34 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Configurations>Debug;Release</Configurations>
-    <Platforms>AnyCPU</Platforms>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>Chris Chamberlain</Authors>
-    <PackageLicenseExpression></PackageLicenseExpression>
     <Version>1.1.1-beta</Version>
-    <PackageTags>opengl</PackageTags>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageOutputPath>../../Nuget/$(Configuration)</PackageOutputPath>
     <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
     <Description>OpenGL ES 3.0 Bindings</Description>
+    <PackageTags>opengl</PackageTags>
     <LangVersion>latest</LangVersion>
-  </PropertyGroup> 
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <OutputPath></OutputPath>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-  </PropertyGroup>
-  
   <ItemGroup>
     <None Include="..\..\LICENSE.md">
       <Pack>True</Pack>

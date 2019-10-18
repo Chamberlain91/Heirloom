@@ -91,6 +91,9 @@ namespace Heirloom.Drawing.OpenGLES
                 var buffer = GetUniformBuffer(block);
                 GL.BindBufferBase(BufferTarget.UniformBuffer, block.Index, buffer.Handle);
             }
+
+            // 
+            ResetState();
         }
 
         private GLCapabilities GetCapabilities()

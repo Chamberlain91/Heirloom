@@ -136,7 +136,6 @@ namespace Heirloom.Desktop
             // == Construct Render Context
 
             RenderContext = new WindowRenderContext(this);
-            RenderContext.ResetState(); // bug: should not need to be called, but errors!  
         }
 
         ~Window()
