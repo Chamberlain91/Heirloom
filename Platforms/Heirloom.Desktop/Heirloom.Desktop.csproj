@@ -1,16 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Authors>Chris Chamberlain</Authors> 
     <Version>1.1.1-beta</Version>
-    <Authors>Chris Chamberlain</Authors>
-    <Company>Chris Chamberlain</Company>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <Description>Desktop infrastructure for Heirloom applications.</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageOutputPath>../../Nuget/$(Configuration)</PackageOutputPath>
     <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
+    <Description>Desktop infrastructure for Heirloom applications.</Description>
     <PackageTags>glfw, windows, graphics, desktop, drawing</PackageTags>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>

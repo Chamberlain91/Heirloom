@@ -1,38 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Configurations>Debug;Release</Configurations>
-    <Platforms>AnyCPU</Platforms>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.1.0-beta</Version>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>Chris Chamberlain</Authors>
-    <Company />
-    <PackageLicenseExpression></PackageLicenseExpression>
-    <PackageReleaseNotes />
-    <PackageTags>glfw, opengl, vulkan, window, graphics</PackageTags>
+    <Version>1.1.0-beta</Version>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE_GLFW.md</PackageLicenseFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageOutputPath>../../Nuget/$(Configuration)</PackageOutputPath>
     <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
     <Description>GLFW 3.3 Bindings</Description>
+    <PackageTags>glfw, opengl, vulkan, window, graphics</PackageTags>
     <LangVersion>latest</LangVersion>
-  </PropertyGroup> 
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="Heirloom.GLFW.dll.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="..\..\LICENSE_GLFW.md">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -41,7 +24,7 @@
 
   <ItemGroup>
     <Content CopyToOutputDirectory="PreserveNewest" Link="glfw3.dll" Include="runtimes/win-x64/glfw3.dll" Pack="true" PackagePath="runtimes/win-x64/native/" />
-		<Content CopyToOutputDirectory="PreserveNewest" Link="libglfw3.so" Include="runtimes/linux-x64/libglfw3.so" Pack="true" PackagePath="runtimes/linux-x64/native/" />
+    <Content CopyToOutputDirectory="PreserveNewest" Link="libglfw3.so" Include="runtimes/linux-x64/libglfw3.so" Pack="true" PackagePath="runtimes/linux-x64/native/" />
     <Content CopyToOutputDirectory="PreserveNewest" Link="libglfw3.dylib" Include="runtimes/osx-x64/libglfw3.dylib" Pack="true" PackagePath="runtimes/osx-x64/native/" />
   </ItemGroup>
 
