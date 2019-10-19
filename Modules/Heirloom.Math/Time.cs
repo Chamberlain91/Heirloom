@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Heirloom.Extras
+namespace Heirloom.Math
 {
     public static class Time
     {
