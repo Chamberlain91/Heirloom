@@ -12,8 +12,8 @@ namespace Examples.MusicPlayer
     {
         private static void Main(string[] args)
         {
-            // using var stream = new WebClient().OpenRead("http://uk5.internet-radio.com:8185/stream");
-            using var stream = Files.OpenStream("files/wholesome-by-kevin-macleod.mp3");
+            using var stream = new WebClient().OpenRead("http://uk5.internet-radio.com:8185/stream");
+            //using var stream = Files.OpenStream("files/wholesome-by-kevin-macleod.mp3");
 
             /**
              * Embedded MP3 Licenese:
@@ -23,13 +23,12 @@ namespace Examples.MusicPlayer
              * License: CC BY(http://creativecommons.org/licenses/by/4.0/)
              */
 
-            // Initialize audio mixer
-            AudioMixer.Initialize(false, 44100);
-            // AudioMixer.AddEffect(new HighPassFilter(8000));
-            // AudioMixer.AddEffect(new LowPassFilter(300));
+            // Uncomment to listen to different filters
+            // AudioMixer.Master.AddEffect(new HighPassFilter(12000));
+            // AudioMixer.Master.AddEffect(new LowPassFilter(100));
 
             // Construct a new streaming audio source
-            var source = new AudioSource(stream);
+            var source = AudioSource.FromStream(stream);
             source.Play();
 
             Console.WriteLine("Playing music!");

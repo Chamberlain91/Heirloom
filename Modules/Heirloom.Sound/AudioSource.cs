@@ -1,45 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices;
 
 namespace Heirloom.Sound
 {
     /// <summary>
     /// An instance of playable audio.
     /// </summary>
-    public class AudioSource
+    public abstract class AudioSource
     {
         private short[] _samplesReadBuffer = Array.Empty<short>();
 
-        private readonly AudioProvider _provider;
         private LinkedListNode<AudioSource> _node;
 
-        #region Constructors
-
-        public AudioSource(AudioClip clip)
-            : this(new AudioClipProvider(clip))
-        {
-            Clip = clip;
-        }
-
-        public AudioSource(Stream stream)
-            : this(new AudioStreamProvider(stream))
-        { }
-
-        public AudioSource(AudioProvider provider)
-        {
-            _provider = provider;
-        }
-
-        #endregion
-
         #region Properties
-
-        /// <summary>
-        /// Gets the clip used by this audio source if constructed with one, thus this may return null.
-        /// </summary>
-        public AudioClip Clip { get; }
 
         /// <summary>
         /// Should this clip loop when finished playing?
@@ -59,19 +33,19 @@ namespace Heirloom.Sound
         /// <summary>
         /// Is it possible seek through this sources audio data to change playback position.
         /// </summary>
-        public bool CanSeek => _provider.CanSeek;
+        public abstract bool CanSeek { get; }
 
         /// <summary>
         /// The duration of the audio in seconds.
         /// May report zero if the length of the source cannot be determined (such as a stream or format limitation).
         /// </summary>
-        public float Duration => Length == 0 ? 0 : Length / (float) (AudioProcessor.Instance.SampleRate * AudioProcessor.Instance.Channels);
+        public float Duration => Length == 0 ? 0 : Length / (float) (AudioContext.Instance.SampleRate * AudioContext.Instance.Channels);
 
         /// <summary>
         /// The length of the audio source in PCM frames.
         /// May report zero if the length of the source cannot be determined (such as a stream or format limitation).
         /// </summary>
-        public int Length => _provider.Length;
+        public abstract int Length { get; }
 
         #endregion
 
@@ -93,7 +67,7 @@ namespace Heirloom.Sound
         {
             if (_node == null)
             {
-                _node = AudioProcessor.Instance.InsertSource(this);
+                _node = AudioMixer.Master.InsertSource(this);
             }
         }
 
@@ -104,7 +78,7 @@ namespace Heirloom.Sound
         {
             if (_node != null)
             {
-                AudioProcessor.Instance.RemoveSource(_node);
+                AudioMixer.Master.RemoveSource(_node);
                 _node = null;
             }
         }
@@ -125,7 +99,7 @@ namespace Heirloom.Sound
         public void Seek(int offset)
         {
             if (!CanSeek) { throw new InvalidOperationException("Unable to seek this audio source."); }
-            _provider.Seek(offset);
+            SeekInternal(offset);
         }
 
         /// <summary>
@@ -133,12 +107,12 @@ namespace Heirloom.Sound
         /// </summary>
         public void Seek(float time)
         {
-            Seek((int) (time * AudioProcessor.Instance.SampleRate * AudioProcessor.Instance.Channels));
+            Seek((int) (time * AudioContext.Instance.SampleRate * AudioContext.Instance.Channels));
         }
 
         #endregion
 
-        internal unsafe void MixAudioToOutput(Span<float> outputBuffer)
+        internal unsafe void MixOutput(Span<float> outputBuffer)
         {
             var count = outputBuffer.Length;
 
@@ -166,7 +140,7 @@ namespace Heirloom.Sound
             if (_samplesReadBuffer.Length < count) { Array.Resize(ref _samplesReadBuffer, count); }
 
             // Read samples
-            var read = _provider.ReadSamples(_samplesReadBuffer, 0, count);
+            var read = ReadSamples(_samplesReadBuffer, 0, count);
 
             // End of audio detected
             if (read == 0 || read < count)
@@ -184,12 +158,16 @@ namespace Heirloom.Sound
                     while (read < count)
                     {
                         // Read the remaining samples into the buffer.
-                        var readMore = _provider.ReadSamples(_samplesReadBuffer, read, count - read);
+                        var readMore = ReadSamples(_samplesReadBuffer, read, count - read);
                         if (readMore == 0) { break; } else { read += readMore; }
                     }
                 }
             }
         }
+
+        protected internal abstract int ReadSamples(short[] samples, int offset, int count);
+
+        protected abstract void SeekInternal(int offset);
 
         internal void OnPlaybackEnded()
         {
@@ -202,6 +180,16 @@ namespace Heirloom.Sound
             {
                 Pause();
             }
+        }
+
+        public static AudioSource FromClip(AudioClip clip)
+        {
+            return new AudioClipSource(clip);
+        }
+
+        public static AudioSource FromStream(Stream stream)
+        {
+            return new AudioStreamSource(stream);
         }
     }
 }
