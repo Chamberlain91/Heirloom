@@ -2,7 +2,7 @@
 
 namespace Heirloom.Sound
 {
-    internal sealed class AudioClipProvider : AudioSourceProvider // todo: evaluate name
+    internal sealed class AudioClipProvider : AudioProvider // todo: evaluate name
     {
         public readonly AudioClip Clip;
 
@@ -16,33 +16,29 @@ namespace Heirloom.Sound
         // a clip can always seek as its raw data in memory
         protected internal override bool CanSeek => true;
 
-        protected internal override uint Length => Clip.Length;
+        protected internal override int Length => Clip.Length;
 
-        protected internal override int ReadFrames(short[] samples, int frameOffset, int frameCount)
+        protected internal override int ReadSamples(short[] samples, int offset, int count)
         {
-            // moves value into stereo sample coordinates
-            var sampleCount = frameCount * 2;
-            var sampleOffset = frameOffset * 2;
-
             // Compute how much can actually be read
-            var remaining = Math.Max(0, Clip.Samples.Length - _cursor);
-            var samplesToRead = Math.Min(remaining, sampleCount);
+            var remaining = Length - _cursor;
+            var samplesToRead = Math.Min(remaining, count);
 
             // Copy from clip array to samples array
             for (var i = 0; i < samplesToRead; i++)
             {
-                samples[sampleOffset + i] = Clip.Samples[_cursor + i];
+                samples[offset + i] = Clip[_cursor + i];
             }
 
             // Move clip cursor along
             _cursor += samplesToRead;
-            return samplesToRead / 2; // move back into frame coordinates
+            return samplesToRead;
         }
 
-        protected internal override void SeekToFrame(int frameOffset)
+        protected internal override void Seek(int frameOffset)
         {
             // todo: validate cursor is within a valid range
-            _cursor = frameOffset * 2;
+            _cursor = frameOffset;
         }
     }
 }
