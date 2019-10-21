@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Heirloom.Sound
 {
@@ -9,9 +10,9 @@ namespace Heirloom.Sound
     /// </summary>
     public class AudioSource
     {
-        private short[] _samples = new short[0];
+        private short[] _samplesReadBuffer = Array.Empty<short>();
 
-        private readonly AudioSourceProvider _provider;
+        private readonly AudioProvider _provider;
         private LinkedListNode<AudioSource> _node;
 
         #region Constructors
@@ -26,7 +27,7 @@ namespace Heirloom.Sound
             : this(new AudioStreamProvider(stream))
         { }
 
-        public AudioSource(AudioSourceProvider provider)
+        public AudioSource(AudioProvider provider)
         {
             _provider = provider;
         }
@@ -61,21 +62,16 @@ namespace Heirloom.Sound
         public bool CanSeek => _provider.CanSeek;
 
         /// <summary>
-        /// The length of the audio source in PCM frames.
-        /// May report zero if the length of the source cannot be determined (such as a stream or format limitation).
-        /// </summary>
-        public uint Length => _provider.Length;
-
-        /// <summary>
         /// The duration of the audio in seconds.
         /// May report zero if the length of the source cannot be determined (such as a stream or format limitation).
         /// </summary>
-        public float Duration => Length == 0 ? 0 : Length / (float) SampleRate;
+        public float Duration => Length == 0 ? 0 : Length / (float) (AudioProcessor.Instance.SampleRate * AudioProcessor.Instance.Channels);
 
         /// <summary>
-        /// How many samples are processed per second (ie, 44100 hz).
+        /// The length of the audio source in PCM frames.
+        /// May report zero if the length of the source cannot be determined (such as a stream or format limitation).
         /// </summary>
-        public uint SampleRate => AudioDevice.Instance.SampleRate;
+        public int Length => _provider.Length;
 
         #endregion
 
@@ -97,7 +93,7 @@ namespace Heirloom.Sound
         {
             if (_node == null)
             {
-                _node = AudioDevice.Instance.InsertSource(this);
+                _node = AudioProcessor.Instance.InsertSource(this);
             }
         }
 
@@ -108,13 +104,13 @@ namespace Heirloom.Sound
         {
             if (_node != null)
             {
-                AudioDevice.Instance.RemoveSource(_node);
+                AudioProcessor.Instance.RemoveSource(_node);
                 _node = null;
             }
         }
 
         /// <summary>
-        /// Pause playing audio and seeks to the first frame in the audio data.
+        /// Pause playing audio and seeks to the beginning in the audio data.
         /// If seek is not supported, this is equivalent to <see cref="Pause"/>.
         /// </summary>
         public void Stop()
@@ -124,27 +120,56 @@ namespace Heirloom.Sound
         }
 
         /// <summary>
-        /// Seek to the desired PCM frame.
+        /// Seek playback position to some time in samples.
         /// </summary>
         public void Seek(int offset)
         {
             if (!CanSeek) { throw new InvalidOperationException("Unable to seek this audio source."); }
-            _provider.SeekToFrame(offset);
+            _provider.Seek(offset);
+        }
+
+        /// <summary>
+        /// Seek playback position to some time in seconds.
+        /// </summary>
+        public void Seek(float time)
+        {
+            Seek((int) (time * AudioProcessor.Instance.SampleRate * AudioProcessor.Instance.Channels));
         }
 
         #endregion
 
-        internal unsafe void ProcessAudioOutput(float[] samples, int frameCount)
+        internal unsafe void MixAudioToOutput(Span<float> outputBuffer)
         {
-            // Ensure samples read buffer is large enough
-            var sampleCount = frameCount * AudioDevice.Instance.Channels;
-            if (_samples.Length < sampleCount) { Array.Resize(ref _samples, (int) sampleCount); }
+            var count = outputBuffer.Length;
+
+            ReadSamples(count);
+
+            // Process samples and write to output
+            for (var i = 0; i < count; i++)
+            {
+                // Volume (Gain)
+                var sample = _samplesReadBuffer[i] * Volume;
+
+                // Balance (Stereo Mixing)
+                var pan = (Balance / 2) + 0.5F;
+                if (i % AudioMixer.Channels == 0) { sample *= MathF.Sqrt(pan); }
+                else { sample *= MathF.Sqrt(1 - pan); }
+
+                // Output
+                outputBuffer[i] += (short) sample;
+            }
+        }
+
+        private unsafe void ReadSamples(int count)
+        {
+            // Ensure read buffer is large enough
+            if (_samplesReadBuffer.Length < count) { Array.Resize(ref _samplesReadBuffer, count); }
 
             // Read samples
-            var framesRead = _provider.ReadFrames(_samples, 0, frameCount);
+            var read = _provider.ReadSamples(_samplesReadBuffer, 0, count);
 
             // End of audio detected
-            if (framesRead == 0 || framesRead < frameCount)
+            if (read == 0 || read < count)
             {
                 // Invoke end of audio event
                 OnPlaybackEnded();
@@ -152,37 +177,18 @@ namespace Heirloom.Sound
                 // Don't bother with loop case if we are unable to seek
                 if (CanSeek && Looping)
                 {
-                    Seek(0); // Go to first frame
+                    Seek(0); // Go to first sample
 
-                    // Did not read enough before reaching end of audio, 
-                    // read the remainder of requested samples.
-                    if (framesRead < frameCount)
+                    // Did not read enough before reaching end of audio, read the remainder of requested samples.
+                    // This hopefully reduces the 'click' you might here on looping audio
+                    while (read < count)
                     {
-                        // read the remaining samples into the buffer
-                        _provider.ReadFrames(_samples, framesRead, frameCount - framesRead);
+                        // Read the remaining samples into the buffer.
+                        var readMore = _provider.ReadSamples(_samplesReadBuffer, read, count - read);
+                        if (readMore == 0) { break; } else { read += readMore; }
                     }
                 }
             }
-
-            // Mix!
-            for (var i = 0u; i < _samples.Length; i++)
-            {
-                MixSample(ref samples[i], _samples[i], i % AudioDevice.Instance.Channels);
-            }
-        }
-
-        protected internal virtual void MixSample(ref float existing, float incoming, uint channel)
-        {
-            // Volume
-            double sample = incoming * Volume;
-
-            // Balance / Panning
-            var x = (Balance / 2) + 0.5F;
-            if (channel == 0) { sample *= Math.Sqrt(x); }
-            else { sample *= Math.Sqrt(1 - x); }
-
-            // Output
-            existing += (short) sample;
         }
 
         internal void OnPlaybackEnded()

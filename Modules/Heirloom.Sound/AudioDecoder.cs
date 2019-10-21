@@ -1,19 +1,17 @@
 ﻿using System;
 using System.IO;
 
-using Heirloom.Sound.LowLevel.Backends.MiniAudio;
+using Heirloom.Sound.Backends.MiniAudio;
 
-using static Heirloom.Sound.LowLevel.Backends.MiniAudio.NativeApi;
+using static Heirloom.Sound.Backends.MiniAudio.NativeApi;
 
-namespace Heirloom.Sound.LowLevel
+namespace Heirloom.Sound
 {
     /// <summary>
     /// An object to assist with converting audio formats into raw PCM frames.
     /// </summary>
-    public unsafe sealed class AudioDecoder : IDisposable
+    internal sealed unsafe class AudioDecoder : IDisposable
     {
-        private const int StereoChannelCount = 2;
-
         private readonly void* _decoder;
         private readonly DecoderReadCallback _readProc;
         private readonly DecoderSeekCallback _seekProc;
@@ -28,14 +26,12 @@ namespace Heirloom.Sound.LowLevel
         /// </summary>
         /// <param name="stream">A stream to a file or streaming audio source in one of the supported formats.</param>
         /// <param name="sampleRate">The number of samples per second to decode this stream, will resample if not matching source.</param>
-        public AudioDecoder(Stream stream, uint sampleRate = 22050)
+        public AudioDecoder(Stream stream)
         {
-            SampleRate = sampleRate;
-
             _stream = stream;
 
             // We want signed 2 channel 16 bit audio
-            var config = ma_decoder_config_init(SampleFormat.S16, StereoChannelCount, SampleRate);
+            var config = ma_decoder_config_init(SampleFormat.S16, (uint) AudioProcessor.Instance.Channels, (uint) AudioProcessor.Instance.SampleRate);
 
             // Construct decoder
             _decoder = ma_ext_alloc_decoder();
@@ -46,7 +42,7 @@ namespace Heirloom.Sound.LowLevel
             }
 
             // The length is represented in pcm frames
-            Length = ma_decoder_get_length_in_pcm_frames(_decoder);
+            Length = (int) ma_decoder_get_length_in_pcm_frames(_decoder) * 2;
         }
 
         /// <summary>
@@ -54,8 +50,8 @@ namespace Heirloom.Sound.LowLevel
         /// </summary>
         /// <param name="file">An in memory copy of a file in one of the supported formats.</param>
         /// <param name="sampleRate">The number of samples per second to decode this stream, will resample if not matching source.</param>
-        public AudioDecoder(byte[] file, uint sampleRate = 22050)
-            : this(new MemoryStream(file), sampleRate)
+        public AudioDecoder(byte[] file)
+            : this(new MemoryStream(file))
         { }
 
         ~AudioDecoder()
@@ -74,19 +70,9 @@ namespace Heirloom.Sound.LowLevel
         public bool IsDisposed { get; set; } = false;
 
         /// <summary>
-        /// The sample rate this decoder was configured to use.
-        /// </summary>
-        public uint SampleRate { get; }
-
-        /// <summary>
-        /// The number of channels this decoder supports.
-        /// </summary>
-        public uint Channels => StereoChannelCount;
-
-        /// <summary>
         /// Length of the pcm frames known to the decoder. May be zero if a stream or an unknown to the audio format.
         /// </summary>
-        public ulong Length { get; }
+        public int Length { get; }
 
         #endregion
 
@@ -116,11 +102,11 @@ namespace Heirloom.Sound.LowLevel
             }
         }
 
-        private int SeekBytes(void* _, int byteOffset, LowLevel.Backends.MiniAudio.SeekOrigin origin)
+        private int SeekBytes(void* _, int byteOffset, Backends.MiniAudio.SeekOrigin origin)
         {
             if (_stream.CanSeek)
             {
-                if (origin == LowLevel.Backends.MiniAudio.SeekOrigin.FromCurrent) { _stream.Seek(byteOffset, System.IO.SeekOrigin.Current); }
+                if (origin == Backends.MiniAudio.SeekOrigin.FromCurrent) { _stream.Seek(byteOffset, System.IO.SeekOrigin.Current); }
                 else { _stream.Seek(byteOffset, System.IO.SeekOrigin.Begin); }
 
                 return 1;
@@ -137,30 +123,22 @@ namespace Heirloom.Sound.LowLevel
         #region Decoding
 
         /// <summary>
-        /// Decodes the next several frames.
+        /// Decodes the next several samples.
         /// </summary>
-        public ulong DecodeFrames(short* samples, ulong count)
-        {
-            return ma_decoder_read_pcm_frames(_decoder, samples, count);
-        }
-
-        /// <summary>
-        /// Decodes the next several frames.
-        /// </summary>
-        public ulong DecodeFrames(short[] samples, ulong offset, ulong count)
+        public int Decode(short[] samples, long offset, long count)
         {
             fixed (short* pSamples = samples)
             {
-                return DecodeFrames(pSamples + offset, count);
+                return (int) ma_decoder_read_pcm_frames(_decoder, pSamples + offset, (ulong) (count / AudioProcessor.Instance.Channels)) * AudioProcessor.Instance.Channels;
             }
         }
 
         /// <summary>
-        /// Seek to start decoding at the given frame offset.
+        /// Seek to start decoding at the given offset.
         /// </summary>
-        public bool SeekToFrame(ulong frameOffset)
+        public bool Seek(int offset)
         {
-            var result = ma_decoder_seek_to_pcm_frame(_decoder, frameOffset);
+            var result = ma_decoder_seek_to_pcm_frame(_decoder, (ulong) offset);
 
             // Log error...
             if (result != Result.Success)

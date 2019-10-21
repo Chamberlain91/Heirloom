@@ -1,4 +1,4 @@
-﻿namespace Heirloom.Sound.LowLevel.Backends.MiniAudio
+﻿namespace Heirloom.Sound.Backends.MiniAudio
 {
     internal unsafe struct DecoderConfig
     {
