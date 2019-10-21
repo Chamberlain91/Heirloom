@@ -4,6 +4,7 @@
     {
         Playback = 1,
         Capture = 2,
-        Duplex = Playback | Capture
+        Duplex = Playback | Capture,
+        Loopback = 4
     }
 }

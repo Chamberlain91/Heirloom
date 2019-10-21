@@ -4,7 +4,7 @@ using static Heirloom.Sound.Backends.MiniAudio.NativeApi;
 
 namespace Heirloom.Sound.Backends.MiniAudio
 {
-    internal sealed unsafe class MiniAudioProcessor : AudioProcessor
+    internal sealed unsafe class MiniAudioContext : AudioContext
     {
         private readonly void* _device;
         private readonly DataProcessCallback _dataProc;
@@ -12,27 +12,11 @@ namespace Heirloom.Sound.Backends.MiniAudio
 
         #region Constructors
 
-        internal MiniAudioProcessor(AudioProcessorMode mode, int sampleRate)
-            : base(mode, sampleRate)
+        internal MiniAudioContext(int sampleRate)
+            : base(sampleRate)
         {
-            DeviceType type = 0;
-            if (mode.HasFlag(AudioProcessorMode.Playback)) { type |= DeviceType.Playback; }
-            if (mode.HasFlag(AudioProcessorMode.Capture)) { type |= DeviceType.Capture; }
-
             // Allocate device config
-            var deviceConfig = ma_ext_alloc_device_config(type, (uint) SampleRate,
-                _dataProc = (void* pDevice, void* pOutput, void* pInput, uint frameCount) =>
-                {
-                    // Cast to short pointers (S16)
-                    var pOutputSamples = (short*) pOutput;
-                    var pInputSamples = (short*) pInput;
-
-                    var sampleCount = (int) frameCount * Channels;
-
-                    // Process audio (read, decode, etc)
-                    if (pInputSamples != null) { OnMicrophoneInput(new Span<short>(pInputSamples, sampleCount)); }
-                    if (pOutputSamples != null) { OnSpeakerOutput(new Span<short>(pOutputSamples, sampleCount)); }
-                });
+            var deviceConfig = ma_ext_alloc_device_config(DeviceType.Playback, (uint) SampleRate, _dataProc = DataProcessCallback);
 
             // Allocate device data and initialize
             _device = ma_ext_alloc_device();
@@ -47,13 +31,25 @@ namespace Heirloom.Sound.Backends.MiniAudio
             if (result != Result.Success) { throw new InvalidOperationException("Unable to start device. " + result); }
         }
 
-        ~MiniAudioProcessor()
+        ~MiniAudioContext()
         {
-            Console.WriteLine("~AudioProcessor");
             Dispose(false);
         }
 
         #endregion
+
+        private void DataProcessCallback(void* pDevice, void* pOutput, void* pInput, uint frameCount)
+        {
+            // Cast to short pointers (S16)
+            var pOutputSamples = (short*) pOutput;
+            var pInputSamples = (short*) pInput;
+
+            var sampleCount = (int) frameCount * Channels;
+
+            // Process audio (read, decode, etc)
+            if (pInputSamples != null) { OnMicrophoneInput(new Span<short>(pInputSamples, sampleCount)); }
+            if (pOutputSamples != null) { OnSpeakerOutput(new Span<short>(pOutputSamples, sampleCount)); }
+        }
 
         #region Dispose
 
@@ -66,7 +62,7 @@ namespace Heirloom.Sound.Backends.MiniAudio
                     // TODO: dispose managed state (managed objects).
                 }
 
-                // MiniAudio.ma_device_uninit
+                // Stop and uninitialize device
                 ma_device_stop(_device);
                 ma_device_uninit(_device);
                 ma_ext_free(_device);

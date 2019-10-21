@@ -2,21 +2,20 @@
 
 namespace Heirloom.Sound
 {
-    internal sealed class AudioClipProvider : AudioProvider // todo: evaluate name
+    internal sealed class AudioClipSource : AudioSource
     {
         public readonly AudioClip Clip;
 
         private int _cursor = 0;
 
-        public AudioClipProvider(AudioClip clip)
+        public AudioClipSource(AudioClip clip)
         {
             Clip = clip ?? throw new ArgumentNullException(nameof(clip));
         }
 
-        // a clip can always seek as its raw data in memory
-        protected internal override bool CanSeek => true;
+        public override int Length => Clip.Length;
 
-        protected internal override int Length => Clip.Length;
+        public override bool CanSeek => true;
 
         protected internal override int ReadSamples(short[] samples, int offset, int count)
         {
@@ -35,7 +34,7 @@ namespace Heirloom.Sound
             return samplesToRead;
         }
 
-        protected internal override void Seek(int frameOffset)
+        protected override void SeekInternal(int frameOffset)
         {
             // todo: validate cursor is within a valid range
             _cursor = frameOffset;

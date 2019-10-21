@@ -72,6 +72,9 @@ namespace Heirloom.Sound.Backends.MiniAudio
         public static extern void* ma_ext_alloc_device();
 
         [DllImport("miniaudio", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void* ma_ext_alloc_context();
+
+        [DllImport("miniaudio", CallingConvention = CallingConvention.Cdecl)]
         public static extern void* ma_ext_alloc_device_config(DeviceType deviceType, uint sampleRate, DataProcessCallback dataCallback);
 
         [DllImport("miniaudio", CallingConvention = CallingConvention.Cdecl)]

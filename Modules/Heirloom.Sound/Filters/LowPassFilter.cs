@@ -30,7 +30,7 @@ namespace Heirloom.Sound.Filters
             }
         }
 
-        protected internal override void Mix(Span<float> samples)
+        protected internal override void MixOutput(Span<float> samples)
         {
             // Compute alpha
             var dt = 1F / AudioMixer.SampleRate;

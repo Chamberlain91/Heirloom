@@ -34,7 +34,7 @@ namespace Heirloom.Sound.Filters
             }
         }
 
-        protected internal override void Mix(Span<float> samples)
+        protected internal override void MixOutput(Span<float> samples)
         {
             // Ensure we can record enough audio for one extra time slice
             if (_buffer.Capacity < (samples.Length + AudioMixer.Channels)) { _buffer.Resize(samples.Length + AudioMixer.Channels); }
