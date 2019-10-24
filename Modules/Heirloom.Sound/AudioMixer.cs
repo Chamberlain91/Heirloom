@@ -6,31 +6,21 @@ namespace Heirloom.Sound
     public class AudioMixer
     {
         private readonly LinkedList<AudioSource> _sources;
-        private readonly List<AudioMixerEffect> _effects;
+        private readonly LinkedList<AudioSource> _sourcesRemove;
+        private readonly LinkedList<AudioSource> _sourcesAdd;
 
         private float[] _mixBuffer = Array.Empty<float>();
 
         public AudioMixer()
         {
             _sources = new LinkedList<AudioSource>();
-            _effects = new List<AudioMixerEffect>();
+            _sourcesRemove = new LinkedList<AudioSource>();
+            _sourcesAdd = new LinkedList<AudioSource>();
+
+            Effects = new EffectChain();
         }
 
-        public void AddEffect(AudioMixerEffect effect)
-        {
-            lock (_effects)
-            {
-                _effects.Add(effect);
-            }
-        }
-
-        public void RemoveEffect(AudioMixerEffect effect)
-        {
-            lock (_effects)
-            {
-                _effects.Remove(effect);
-            }
-        }
+        public EffectChain Effects { get; }
 
         internal void MixOutput(Span<short> outSamples)
         {
@@ -40,6 +30,12 @@ namespace Heirloom.Sound
 
             lock (_sources)
             {
+                // Process source list mutation
+                foreach (var node in _sourcesRemove) { _sources.Remove(node); }
+                foreach (var node in _sourcesAdd) { _sources.AddLast(node); }
+                _sourcesRemove.Clear();
+                _sourcesAdd.Clear();
+
                 // Mix output from audio source
                 foreach (var source in _sources)
                 {
@@ -53,14 +49,8 @@ namespace Heirloom.Sound
                 mixBuffer[i] /= short.MaxValue;
             }
 
-            lock (_effects)
-            {
-                // Process effect chain
-                foreach (var effect in _effects)
-                {
-                    effect.MixOutput(mixBuffer);
-                }
-            }
+            // Process efect chain
+            Effects.MixOutput(mixBuffer);
 
             // Apply soft-clip and write into output
             for (var i = 0; i < outSamples.Length; i++)
@@ -79,9 +69,7 @@ namespace Heirloom.Sound
         {
             lock (_sources)
             {
-                var node = new LinkedListNode<AudioSource>(source);
-                _sources.AddLast(node);
-                return node;
+                return _sourcesAdd.AddLast(source);
             }
         }
 
@@ -89,7 +77,7 @@ namespace Heirloom.Sound
         {
             lock (_sources)
             {
-                _sources.Remove(node);
+                _sourcesRemove.AddLast(node);
             }
         }
 

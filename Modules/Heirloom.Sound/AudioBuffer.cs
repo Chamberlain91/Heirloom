@@ -64,7 +64,7 @@ namespace Heirloom.Sound
         /// <summary>
         /// Gets a recorded audio sample.
         /// </summary>
-        public float GetSample(int i)
+        public ref float GetSample(int i)
         {
             // Compute sample position in recording
             i = _front - Count + i;
@@ -75,7 +75,16 @@ namespace Heirloom.Sound
             if (i >= _samples.Length) { throw new ArgumentOutOfRangeException(); }
 
             // Return requested example
-            return _samples[i];
+            return ref _samples[i];
+        }
+
+        /// <summary>
+        /// Replaces a recorded audio sample.
+        /// </summary>
+        public void SetSample(int i, float sample)
+        {
+            ref var s1 = ref GetSample(i);
+            s1 = sample;
         }
     }
 }
