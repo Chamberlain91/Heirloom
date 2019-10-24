@@ -8,11 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Files\wholesome-by-kevin-macleod.mp3" />
+    <None Remove="Files\easy-lemon-by-kevin-macleod.mp3" />
+    <None Remove="Files\funk-game-loop-by-kevin-macleod.mp3" />
+    <None Remove="Files\too-cool-by-kevin-macleod.mp3" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Files\wholesome-by-kevin-macleod.mp3" />
+    <EmbeddedResource Include="Files\easy-lemon-by-kevin-macleod.mp3" />
+    <EmbeddedResource Include="Files\funk-game-loop-by-kevin-macleod.mp3" />
+    <EmbeddedResource Include="Files\too-cool-by-kevin-macleod.mp3" />
   </ItemGroup>
 
   <ItemGroup>
