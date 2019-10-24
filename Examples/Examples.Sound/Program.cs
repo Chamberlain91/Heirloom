@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 using Heirloom.IO;
@@ -25,9 +26,10 @@ namespace Examples.MusicPlayer
 
             //
             var songData = new[] {
-                new SongInfo("Easy Lemon", "files/easy-lemon-by-kevin-macleod.mp3"),
-                new SongInfo("Funk Game Loop", "files/funk-game-loop-by-kevin-macleod.mp3"),
-                new SongInfo("Too Cool", "files/too-cool-by-kevin-macleod.mp3")
+                new SongInfo("Easy Lemon", "Kevin MacLeod", "files/easy-lemon-by-kevin-macleod.mp3"),
+                new SongInfo("Funk Game Loop", "Kevin MacLeod", "files/funk-game-loop-by-kevin-macleod.mp3"),
+                new SongInfo("Too Cool", "Kevin MacLeod", "files/too-cool-by-kevin-macleod.mp3"),
+                new SongInfo("Effect Me", "Chris Chamberlain", "files/effect-me-by-chris-chamberlain.mp3")
             };
 
             // Construc song lookup
@@ -39,6 +41,7 @@ namespace Examples.MusicPlayer
             // AudioMixer.Master.Effects.Add(new HighPassFilter(2000));
             // AudioMixer.Master.Effects.Add(new LowPassFilter(80));
             // AudioMixer.Master.Effects.Add(new DelayEffect(0.8F));
+            // AudioMixer.Master.Effects.Add(new ReverbEffect());
 
             AudioSource currentSource = null;
 
@@ -70,7 +73,7 @@ namespace Examples.MusicPlayer
 
                         // Draw song name
                         Console.ForegroundColor = _funkColors[funkIndex % _funkColors.Length];
-                        var nowPlaying = $"Now Playing \"{info.Name}\" by Kevin MacLeod";
+                        var nowPlaying = $"Now Playing \"{info.Name}\" by {info.Author}.";
                         Console.WriteLine($"\n  {nowPlaying}");
 
                         // Draw progress bar
@@ -114,12 +117,18 @@ namespace Examples.MusicPlayer
             void DrawSongMenu()
             {
                 Console.ResetColor();
-                Console.WriteLine("Song Choices\n");
+                Console.WriteLine("Song Choices");
 
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                foreach (var info in songData)
+                foreach (var group in songData.GroupBy(i => i.Author))
                 {
-                    Console.WriteLine($"  {info.Name}");
+                    Console.ResetColor();
+                    Console.WriteLine($"\n  {group.Key}");
+
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    foreach (var info in group)
+                    {
+                        Console.WriteLine($"    {info.Name}");
+                    }
                 }
 
                 Console.ResetColor();
@@ -137,11 +146,13 @@ namespace Examples.MusicPlayer
         private struct SongInfo
         {
             public string Name;
+            public string Author;
             public string Path;
 
-            public SongInfo(string name, string path)
+            public SongInfo(string name, string author, string path)
             {
                 Name = name ?? throw new ArgumentNullException(nameof(name));
+                Author = author ?? throw new ArgumentNullException(nameof(author));
                 Path = path ?? throw new ArgumentNullException(nameof(path));
             }
         }

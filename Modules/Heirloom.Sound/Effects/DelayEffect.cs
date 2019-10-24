@@ -18,14 +18,14 @@ namespace Heirloom.Sound.Effects
 
             Delay = delay;
             Decay = decay;
-            Mix = mix;
+            WetBalance = mix;
         }
 
         public float Delay { get; set; }
 
         public float Decay { get; set; }
 
-        public float Mix { get; set; }
+        public float WetBalance { get; set; }
 
         public float LowPassCutoff
         {
@@ -57,7 +57,7 @@ namespace Heirloom.Sound.Effects
                 _lpf.MixOutput(new Span<float>(_echo, ef, 1));
 
                 // Mix echo buffer into stream
-                samples[i] = Interpolate(samples[i], echo, Mix);
+                samples[i] = Interpolate(samples[i], echo, WetBalance);
 
                 // Clear because it is the past now
                 _echo[(_time + i) % _echo.Length] = 0;
