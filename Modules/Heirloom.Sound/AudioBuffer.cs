@@ -2,7 +2,7 @@
 
 namespace Heirloom.Sound
 {
-    public class AudioBuffer
+    internal class AudioBuffer // todo: try to remove from highpass
     {
         private float[] _samples;
         private int _front;

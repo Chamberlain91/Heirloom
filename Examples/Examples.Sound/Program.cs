@@ -38,10 +38,9 @@ namespace Examples.MusicPlayer
 
             // Add "using Heirloom.Sound.Effects;" above and uncomment
             // lines below to listen to different effects and filters.
-            // AudioMixer.Master.Effects.Add(new HighPassFilter(2000));
-            // AudioMixer.Master.Effects.Add(new LowPassFilter(80));
-            // AudioMixer.Master.Effects.Add(new DelayEffect(0.8F));
-            // AudioMixer.Master.Effects.Add(new ReverbEffect());
+            //AudioMixer.Default.Effects.Add(new BitCrushEffect(10, 4));
+            //AudioMixer.Default.Effects.Add(new HighPassFilter(2000));
+            //AudioMixer.Default.Effects.Add(new ReverbEffect(0.1F, 0.7F));
 
             AudioSource currentSource = null;
 
@@ -78,10 +77,10 @@ namespace Examples.MusicPlayer
 
                         // Draw progress bar
                         Console.ForegroundColor = ConsoleColor.Gray;
-                        var prog = (int) (currentSource.Time / currentSource.Duration * (nowPlaying.Length - 2));
-                        Console.Write($"  [");
-                        for (var i = 0; i < (nowPlaying.Length - 2); i++) { Console.Write(i < prog ? '-' : ' '); }
-                        Console.WriteLine($"]");
+                        var prog = MathF.Round(currentSource.Time / currentSource.Duration * (nowPlaying.Length - 2));
+                        Console.Write($"  -");
+                        for (var i = 1; i < (nowPlaying.Length - 2); i++) { Console.Write(i < prog ? '-' : ' '); }
+                        Console.WriteLine();
 
                         // Draw menu hint
                         Console.ForegroundColor = ConsoleColor.DarkGray;

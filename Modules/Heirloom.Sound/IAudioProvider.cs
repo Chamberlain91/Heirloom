@@ -1,6 +1,6 @@
 ﻿namespace Heirloom.Sound
 {
-    public interface IAudioProvider
+    internal interface IAudioProvider
     {
         int Position { get; }
 

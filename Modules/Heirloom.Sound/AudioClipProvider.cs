@@ -2,7 +2,7 @@
 
 namespace Heirloom.Sound
 {
-    public sealed class AudioClipProvider : IAudioProvider
+    internal sealed class AudioClipProvider : IAudioProvider
     {
         public AudioClipProvider(AudioClip clip)
         {

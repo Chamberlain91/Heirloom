@@ -3,31 +3,61 @@ using System.Collections.Generic;
 
 namespace Heirloom.Sound
 {
-    public class AudioMixer
+    public class AudioMixer : AudioNode
     {
-        private readonly LinkedList<AudioSource> _sources;
-        private readonly LinkedList<AudioSource> _sourcesRemove;
-        private readonly LinkedList<AudioSource> _sourcesAdd;
+        private readonly LinkedList<AudioNode> _sources;
+        private readonly LinkedList<AudioNode> _sourcesRemove;
+        private readonly LinkedList<AudioNode> _sourcesAdd;
 
-        private float[] _mixBuffer = Array.Empty<float>();
+        private LinkedListNode<AudioNode> _node;
+        private AudioMixer _parent;
+
+        #region Constructors
 
         public AudioMixer()
-        {
-            _sources = new LinkedList<AudioSource>();
-            _sourcesRemove = new LinkedList<AudioSource>();
-            _sourcesAdd = new LinkedList<AudioSource>();
+            : this(Default)
+        { }
 
-            Effects = new EffectChain();
+        public AudioMixer(AudioMixer parentMixer)
+            : this(parentMixer, false)
+        { }
+
+        private AudioMixer(AudioMixer parentMixer, bool allowOrphanMixer)
+        {
+            _sources = new LinkedList<AudioNode>();
+            _sourcesRemove = new LinkedList<AudioNode>();
+            _sourcesAdd = new LinkedList<AudioNode>();
+
+            // Set parent mixer
+            if (!allowOrphanMixer && parentMixer == null) { throw new ArgumentNullException(nameof(parentMixer)); }
+            Parent = parentMixer;
         }
 
-        public EffectChain Effects { get; }
+        #endregion
 
-        internal void MixOutput(Span<short> outSamples)
+        /// <summary>
+        /// Gets or sets this mixer objects parent mixer.
+        /// </summary>
+        public AudioMixer Parent
         {
-            // Ensure mix buffer is a large enough size
-            if (_mixBuffer.Length < outSamples.Length) { Array.Resize(ref _mixBuffer, outSamples.Length); }
-            var mixBuffer = new Span<float>(_mixBuffer, 0, outSamples.Length);
+            get => _parent;
 
+            set
+            {
+                if (this == Default) { throw new InvalidOperationException("Unable to set the parent of the default (root) mixer."); }
+
+                // If a previous parent exists, remove this mixer from it
+                _parent?.RemoveNode(_node);
+
+                // Set new parent and register this mixer as a child
+                // TODO: Detect cycles to prevent stack overflow/infinite recursions.
+                _parent = value;
+                _node = _parent?.AddNode(this);
+            }
+        }
+
+        protected override void PopulateBuffer(Span<float> output)
+        {
             lock (_sources)
             {
                 // Process source list mutation
@@ -39,33 +69,12 @@ namespace Heirloom.Sound
                 // Mix output from audio source
                 foreach (var source in _sources)
                 {
-                    source.MixOutput(mixBuffer);
+                    source.MixOutput(output); // additive
                 }
-            }
-
-            // Normalize audio
-            for (var i = 0; i < outSamples.Length; i++)
-            {
-                mixBuffer[i] /= short.MaxValue;
-            }
-
-            // Process efect chain
-            Effects.MixOutput(mixBuffer);
-
-            // Apply soft-clip and write into output
-            for (var i = 0; i < outSamples.Length; i++)
-            {
-                // Write mixed audio to output buffer (soft clipped)
-                outSamples[i] = (short) (SoftClip(mixBuffer[i]) * short.MaxValue);
-
-                // Zero mix buffer at this positon
-                mixBuffer[i] = 0;
             }
         }
 
-        #region Active Source List Manipulation
-
-        internal LinkedListNode<AudioSource> InsertSource(AudioSource source)
+        internal LinkedListNode<AudioNode> AddNode(AudioNode source)
         {
             lock (_sources)
             {
@@ -73,7 +82,7 @@ namespace Heirloom.Sound
             }
         }
 
-        internal void RemoveSource(LinkedListNode<AudioSource> node)
+        internal void RemoveNode(LinkedListNode<AudioNode> node)
         {
             lock (_sources)
             {
@@ -81,32 +90,25 @@ namespace Heirloom.Sound
             }
         }
 
-        #endregion
+        #region Static
 
-        internal static AudioContext Context => AudioContext.Instance;
+        private static readonly AudioMixer _default = new AudioMixer(default, true);
 
         /// <summary>
         /// Gets the default mixer object.
         /// </summary>
-        public static AudioMixer Master { get; } = new AudioMixer();
+        public static AudioMixer Default => _default;
 
         /// <summary>
         /// Gets the audio sample rate.
         /// </summary>
-        public static int SampleRate => Context.SampleRate;
+        public static int SampleRate => AudioContext.Instance.SampleRate;
 
         /// <summary>
         /// Gets the number of audio channels.
         /// </summary>
-        public static int Channels => Context.Channels;
+        public static int Channels => AudioContext.Instance.Channels;
 
-        /// <summary>
-        /// Computes soft clamping of audio ( -1.0 to +1.0 ).
-        /// </summary>
-        private static float SoftClip(float x)
-        {
-            x /= (float) Math.Sqrt(Math.Sqrt(1 + (x * x * x * x)));
-            return x;
-        }
+        #endregion
     }
 }

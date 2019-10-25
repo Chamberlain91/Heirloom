@@ -7,18 +7,18 @@ namespace Heirloom.Sound
     /// <summary>
     /// An instance of playable audio.
     /// </summary>
-    public class AudioSource
+    public sealed class AudioSource : AudioNode
     {
-        private short[] _samplesBuffer = Array.Empty<short>();
+        [ThreadStatic] private static short[] _samplesBuffer = Array.Empty<short>();
         private readonly IAudioProvider _provider;
 
-        private LinkedListNode<AudioSource> _node;
+        private LinkedListNode<AudioNode> _node;
         private AudioMixer _mixer;
 
         #region Constructors
 
         public AudioSource(AudioClip clip)
-            : this(clip, AudioMixer.Master)
+            : this(clip, AudioMixer.Default)
         { }
 
         public AudioSource(AudioClip clip, AudioMixer mixer)
@@ -26,17 +26,15 @@ namespace Heirloom.Sound
         { }
 
         public AudioSource(Stream stream)
-            : this(stream, AudioMixer.Master)
+            : this(stream, AudioMixer.Default)
         { }
 
         public AudioSource(Stream stream, AudioMixer mixer)
             : this(new AudioStreamProvider(stream), mixer)
         { }
 
-        protected AudioSource(IAudioProvider provider, AudioMixer mixer)
+        private AudioSource(IAudioProvider provider, AudioMixer mixer)
         {
-            Effects = new EffectChain();
-
             _provider = provider;
             _mixer = mixer;
         }
@@ -44,11 +42,6 @@ namespace Heirloom.Sound
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets this sources <see cref="EffectChain"/>.
-        /// </summary>
-        public EffectChain Effects { get; }
 
         public AudioMixer Mixer
         {
@@ -66,16 +59,6 @@ namespace Heirloom.Sound
         /// Should this clip loop when finished playing?
         /// </summary>
         public bool Looping { get; set; } = false;
-
-        /// <summary>
-        /// In the range of 0.0 to 1.0 the volume of this source.
-        /// </summary>
-        public float Volume { get; set; } = 1F;
-
-        /// <summary>
-        /// In the range of -1.0 to +1.0 the stereo balance of the audio playback.
-        /// </summary>
-        public float Balance { get; set; } = 0F;
 
         /// <summary>
         /// Is it possible seek through this sources audio data to change playback position.
@@ -141,7 +124,7 @@ namespace Heirloom.Sound
         {
             if (_node == null)
             {
-                _node = Mixer.InsertSource(this);
+                _node = Mixer.AddNode(this);
             }
         }
 
@@ -152,7 +135,7 @@ namespace Heirloom.Sound
         {
             if (_node != null)
             {
-                Mixer.RemoveSource(_node);
+                Mixer.RemoveNode(_node);
                 _node = null;
             }
         }
@@ -186,41 +169,19 @@ namespace Heirloom.Sound
 
         #endregion
 
-        internal unsafe void MixOutput(Span<float> outputBuffer)
-        {
-            var count = outputBuffer.Length;
-
-            ReadSamples(count);
-
-            // Process samples and write to output
-            for (var i = 0; i < count; i++)
-            {
-                // Volume (Gain)
-                var sample = _samplesBuffer[i] * Volume;
-
-                // Balance (Stereo Mixing)
-                var pan = (Balance / 2) + 0.5F;
-                if (i % AudioMixer.Channels == 0) { sample *= MathF.Sqrt(pan); }
-                else { sample *= MathF.Sqrt(1 - pan); }
-
-                // Output
-                outputBuffer[i] += (short) sample;
-            }
-
-            // Process effects applied directly onto source
-            Effects.MixOutput(outputBuffer);
-        }
-
-        private unsafe void ReadSamples(int count)
+        protected override void PopulateBuffer(Span<float> output)
         {
             // Ensure read buffer is large enough
-            if (_samplesBuffer.Length < count) { Array.Resize(ref _samplesBuffer, count); }
+            if (_samplesBuffer.Length < output.Length)
+            {
+                Array.Resize(ref _samplesBuffer, output.Length);
+            }
 
             // Read samples
-            var read = _provider.ReadSamples(_samplesBuffer, 0, count);
+            var read = _provider.ReadSamples(_samplesBuffer, 0, output.Length);
 
             // End of audio detected
-            if (read == 0 || read < count)
+            if (read == 0 || read < output.Length)
             {
                 // Invoke end of audio event
                 OnPlaybackEnded();
@@ -233,13 +194,21 @@ namespace Heirloom.Sound
 
                     // Did not read enough before reaching end of audio, read the remainder of requested samples.
                     // This hopefully reduces the 'click' you might here on looping audio
-                    while (read < count)
+                    while (read < output.Length)
                     {
                         // Read the remaining samples into the buffer.
-                        var readMore = _provider.ReadSamples(_samplesBuffer, read, count - read);
+                        var readMore = _provider.ReadSamples(_samplesBuffer, read, output.Length - read);
                         if (readMore == 0) { break; } else { read += readMore; }
                     }
                 }
+            }
+
+            const float NORMALIZE_SHORT = 1F / short.MaxValue;
+
+            // Write read samplss to output
+            for (var i = 0; i < output.Length; i++)
+            {
+                output[i] += _samplesBuffer[i] * NORMALIZE_SHORT;
             }
         }
 
