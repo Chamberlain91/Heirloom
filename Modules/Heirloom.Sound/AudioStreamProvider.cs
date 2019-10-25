@@ -2,7 +2,7 @@
 
 namespace Heirloom.Sound
 {
-    public sealed class AudioStreamProvider : IAudioProvider
+    internal sealed class AudioStreamProvider : IAudioProvider
     {
         private readonly AudioDecoder _decoder;
         private readonly Stream _stream;
