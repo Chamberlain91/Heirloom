@@ -13,27 +13,27 @@ namespace Heirloom.Sound
         private readonly IAudioProvider _provider;
 
         private LinkedListNode<AudioNode> _node;
-        private AudioMixer _mixer;
+        private AudioGroup _mixer;
 
         #region Constructors
 
         public AudioSource(AudioClip clip)
-            : this(clip, AudioMixer.Default)
+            : this(clip, AudioGroup.Default)
         { }
 
-        public AudioSource(AudioClip clip, AudioMixer mixer)
+        public AudioSource(AudioClip clip, AudioGroup mixer)
             : this(new AudioClipProvider(clip), mixer)
         { }
 
         public AudioSource(Stream stream)
-            : this(stream, AudioMixer.Default)
+            : this(stream, AudioGroup.Default)
         { }
 
-        public AudioSource(Stream stream, AudioMixer mixer)
+        public AudioSource(Stream stream, AudioGroup mixer)
             : this(new AudioStreamProvider(stream), mixer)
         { }
 
-        private AudioSource(IAudioProvider provider, AudioMixer mixer)
+        private AudioSource(IAudioProvider provider, AudioGroup mixer)
         {
             _provider = provider;
             _mixer = mixer;
@@ -43,7 +43,7 @@ namespace Heirloom.Sound
 
         #region Properties
 
-        public AudioMixer Mixer
+        public AudioGroup Mixer
         {
             get => _mixer;
 
@@ -71,7 +71,7 @@ namespace Heirloom.Sound
         /// <seealso cref="Position"/>
         /// <seealso cref="Duration"/>
         /// <seealso cref="Length"/>
-        public float Time => Position < 0 ? 0 : Position / (float) (AudioContext.Instance.SampleRate * AudioContext.Instance.Channels);
+        public float Time => Position < 0 ? 0 : Position / (float) (AudioContext.SampleRate * AudioContext.Channels);
 
         /// <summary>
         /// The duration of the audio in seconds. <para/>
@@ -80,7 +80,7 @@ namespace Heirloom.Sound
         /// <seealso cref="Time"/>
         /// <seealso cref="Position"/>
         /// <seealso cref="Length"/>
-        public float Duration => Length == 0 ? 0 : Length / (float) (AudioContext.Instance.SampleRate * AudioContext.Instance.Channels);
+        public float Duration => Length == 0 ? 0 : Length / (float) (AudioContext.SampleRate * AudioContext.Channels);
 
         /// <summary>
         /// Gets the current playback position (time) in samples.
@@ -164,7 +164,7 @@ namespace Heirloom.Sound
         /// </summary>
         public void Seek(float time)
         {
-            Seek((int) (time * AudioMixer.SampleRate * AudioMixer.Channels));
+            Seek((int) (time * AudioContext.SampleRate * AudioContext.Channels));
         }
 
         #endregion

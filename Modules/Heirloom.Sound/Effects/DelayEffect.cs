@@ -36,7 +36,7 @@ namespace Heirloom.Sound.Effects
         protected internal override void MixOutput(Span<float> samples)
         {
             // Compute delay in samples and ensure buffer is long enough
-            var echoBufferSize = GetDurationInSamples(Delay) + AudioMixer.Channels;
+            var echoBufferSize = GetDurationInSamples(Delay) + AudioContext.Channels;
             if (_echo.Length < echoBufferSize) { Array.Resize(ref _echo, echoBufferSize); }
 
             // Process samples
@@ -70,7 +70,7 @@ namespace Heirloom.Sound.Effects
 
         private static int GetDurationInSamples(float delay)
         {
-            return (int) (delay * AudioMixer.SampleRate) * AudioMixer.Channels;
+            return (int) (delay * AudioContext.SampleRate) * AudioContext.Channels;
         }
     }
 }

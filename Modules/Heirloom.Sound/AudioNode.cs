@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Heirloom.Sound
 {
+    /// <summary>
+    /// An audio node. Represents a node in the audio mixing tree.
+    /// </summary>
     public abstract class AudioNode
     {
         private float[] _samples = Array.Empty<float>();
@@ -10,13 +15,13 @@ namespace Heirloom.Sound
 
         protected AudioNode()
         {
-            Effects = new EffectChain();
+            Effects = new List<AudioEffect>();
         }
 
         /// <summary>
-        /// Gets the <see cref="EffectChain"/> affecting the audio.
+        /// Gets the list of <see cref="AudioEffect"/> that affecting the audio on this node.
         /// </summary>
-        public EffectChain Effects { get; }
+        public List<AudioEffect> Effects { get; }
 
         /// <summary>
         /// Gets or sets the volume (gain) of the audio.
@@ -67,12 +72,18 @@ namespace Heirloom.Sound
                 sample *= Volume;
 
                 // Balance (Stereo Mixing/Panning)
-                if (i % AudioMixer.Channels == 0) { sample *= lPanFactor; }
+                if (i % AudioContext.Channels == 0) { sample *= lPanFactor; }
                 else { sample *= rPanFactor; }
             }
 
-            // Process effects applied directly onto source
-            Effects.MixOutput(samples);
+            //lock (Effects)
+            //{
+            //    // Process effect chain
+            //    foreach (var effect in Effects)
+            //    {
+            //        effect.MixOutput(samples);
+            //    }
+            //}
 
             // Append local buffer to output
             for (var i = 0; i < samples.Length; i++)

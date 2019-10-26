@@ -3,26 +3,29 @@ using System.Collections.Generic;
 
 namespace Heirloom.Sound
 {
-    public class AudioMixer : AudioNode
+    /// <summary>
+    /// An <see cref="AudioNode"/> to mix and apply effects a group of other nodes.
+    /// </summary>
+    public class AudioGroup : AudioNode
     {
         private readonly LinkedList<AudioNode> _sources;
         private readonly LinkedList<AudioNode> _sourcesRemove;
         private readonly LinkedList<AudioNode> _sourcesAdd;
 
         private LinkedListNode<AudioNode> _node;
-        private AudioMixer _parent;
+        private AudioGroup _parent;
 
         #region Constructors
 
-        public AudioMixer()
+        public AudioGroup()
             : this(Default)
         { }
 
-        public AudioMixer(AudioMixer parentMixer)
+        public AudioGroup(AudioGroup parentMixer)
             : this(parentMixer, false)
         { }
 
-        private AudioMixer(AudioMixer parentMixer, bool allowOrphanMixer)
+        private AudioGroup(AudioGroup parentMixer, bool allowOrphanMixer)
         {
             _sources = new LinkedList<AudioNode>();
             _sourcesRemove = new LinkedList<AudioNode>();
@@ -38,7 +41,7 @@ namespace Heirloom.Sound
         /// <summary>
         /// Gets or sets this mixer objects parent mixer.
         /// </summary>
-        public AudioMixer Parent
+        public AudioGroup Parent
         {
             get => _parent;
 
@@ -92,22 +95,10 @@ namespace Heirloom.Sound
 
         #region Static
 
-        private static readonly AudioMixer _default = new AudioMixer(default, true);
-
         /// <summary>
-        /// Gets the default mixer object.
+        /// Gets the default audio group (ie, the speakers, headphones, etc).
         /// </summary>
-        public static AudioMixer Default => _default;
-
-        /// <summary>
-        /// Gets the audio sample rate.
-        /// </summary>
-        public static int SampleRate => AudioContext.Instance.SampleRate;
-
-        /// <summary>
-        /// Gets the number of audio channels.
-        /// </summary>
-        public static int Channels => AudioContext.Instance.Channels;
+        public static AudioGroup Default { get; } = new AudioGroup(default, true);
 
         #endregion
     }
