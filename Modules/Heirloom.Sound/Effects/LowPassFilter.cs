@@ -12,7 +12,7 @@ namespace Heirloom.Sound.Effects
 
         public LowPassFilter(float cutoff)
         {
-            _k = new float[AudioMixer.Channels];
+            _k = new float[AudioContext.Channels];
             Cutoff = cutoff;
         }
 
@@ -33,14 +33,14 @@ namespace Heirloom.Sound.Effects
         protected internal override void MixOutput(Span<float> samples)
         {
             // Compute alpha
-            var dt = 1F / AudioMixer.SampleRate;
+            var dt = 1F / AudioContext.SampleRate;
             var rc = 1F / (2 * MathF.PI * Cutoff);
             var alpha = dt / (rc + dt);
 
             // 
             for (var i = 0; i < samples.Length; i++)
             {
-                var c = i % AudioMixer.Channels;
+                var c = i % AudioContext.Channels;
 
                 _k[c] += alpha * (samples[i] - _k[c]);
                 samples[i] = _k[c];

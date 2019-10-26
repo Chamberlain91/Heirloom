@@ -14,7 +14,7 @@ namespace Heirloom.Sound.Effects
 
         public HighPassFilter(float cutoff)
         {
-            _k = new float[AudioMixer.Channels];
+            _k = new float[AudioContext.Channels];
             Cutoff = cutoff;
 
             _buffer = new AudioBuffer(1); // 1/2 second
@@ -37,7 +37,7 @@ namespace Heirloom.Sound.Effects
         protected internal override void MixOutput(Span<float> samples)
         {
             // Ensure we can record enough audio for one extra time slice
-            if (_buffer.Capacity < (samples.Length + AudioMixer.Channels)) { _buffer.Resize(samples.Length + AudioMixer.Channels); }
+            if (_buffer.Capacity < (samples.Length + AudioContext.Channels)) { _buffer.Resize(samples.Length + AudioContext.Channels); }
 
             // 
             _buffer.Record(samples);
@@ -47,15 +47,15 @@ namespace Heirloom.Sound.Effects
             else
             {
                 // Compute alpha
-                var dt = 1F / AudioMixer.SampleRate;
+                var dt = 1F / AudioContext.SampleRate;
                 var rc = 1F / (2 * MathF.PI * Cutoff);
                 var alpha = rc / (rc + dt);
 
                 // 
                 for (var i = 0; i < samples.Length; i++)
                 {
-                    var c = i % AudioMixer.Channels;
-                    _k[c] = alpha * (_k[c] + _buffer.GetSample(i + AudioMixer.Channels) - _buffer.GetSample(i));
+                    var c = i % AudioContext.Channels;
+                    _k[c] = alpha * (_k[c] + _buffer.GetSample(i + AudioContext.Channels) - _buffer.GetSample(i));
                     samples[i] = _k[c];
                 }
             }

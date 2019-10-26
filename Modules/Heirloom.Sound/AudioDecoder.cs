@@ -31,7 +31,7 @@ namespace Heirloom.Sound
             _stream = stream;
 
             // We want signed 2 channel 16 bit audio
-            var config = ma_decoder_config_init(SampleFormat.S16, (uint) AudioContext.Instance.Channels, (uint) AudioContext.Instance.SampleRate);
+            var config = ma_decoder_config_init(SampleFormat.S16, (uint) AudioContext.Channels, (uint) AudioContext.SampleRate);
 
             // Construct decoder
             _decoder = ma_ext_alloc_decoder();
@@ -129,7 +129,7 @@ namespace Heirloom.Sound
         {
             fixed (short* pSamples = samples)
             {
-                return (int) ma_decoder_read_pcm_frames(_decoder, pSamples + offset, (ulong) (count / AudioContext.Instance.Channels)) * AudioContext.Instance.Channels;
+                return (int) ma_decoder_read_pcm_frames(_decoder, pSamples + offset, (ulong) (count / AudioContext.Channels)) * AudioContext.Channels;
             }
         }
 

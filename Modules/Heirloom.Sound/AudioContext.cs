@@ -6,26 +6,27 @@ namespace Heirloom.Sound
 {
     public abstract class AudioContext : IDisposable
     {
-        private float[] _buffer = Array.Empty<float>();
+        // used because OnSpeakerOutput or OnMicrophoneInput may be called concurrently
         private readonly bool _init = false;
+
+        private float[] _buffer = Array.Empty<float>();
+        private readonly int _sampleRate;
 
         #region Constructors
 
         internal AudioContext(int sampleRate)
         {
-            //if (sampleRate < 8000) { throw new InvalidOperationException("Sample rate must greater or equal to 8000."); }
-
-            SampleRate = sampleRate;
-
-            // 
+            if (sampleRate <= 0) { throw new InvalidOperationException("Sample rate must greater or equal to 1."); }
+            _sampleRate = sampleRate;
             _init = true;
         }
 
+        ~AudioContext()
+        {
+            Dispose(false);
+        }
+
         #endregion
-
-        public int SampleRate { get; }
-
-        public int Channels => 2;
 
         #region Mixing
 
@@ -38,7 +39,7 @@ namespace Heirloom.Sound
             var buffer = new Span<float>(_buffer, 0, output.Length);
 
             // Process speaker output
-            AudioMixer.Default.MixOutput(buffer);
+            AudioGroup.Default.MixOutput(buffer);
 
             // Write buffer (float) to device (short)
             for (var i = 0; i < output.Length; i++)
@@ -67,11 +68,9 @@ namespace Heirloom.Sound
 
         #endregion
 
-        public abstract void Dispose();
-
         #region Static / Singleton
 
-        private static AudioContext _context;
+        private static AudioContext _instance;
 
         /// <summary>
         /// Gets the audio context instance.
@@ -82,27 +81,58 @@ namespace Heirloom.Sound
             get
             {
                 // If no contxt has been initialized, initialize a default.
-                if (_context == null) { Initialize(44100); }
-                return _context;
+                if (_instance == null) { Initialize(44100); }
+                return _instance;
             }
         }
 
+        public static int SampleRate => Instance._sampleRate;
+
+        public static int Channels => 2;
+
         public static void Initialize(int sampleRate)
         {
-            if (_context == null)
+            if (_instance == null)
             {
                 // Create default
-                _context = new MiniAudioContext(sampleRate);
+                _instance = new MiniAudioContext(sampleRate);
 
                 // Dispose device when process exits, finalizer isn't being called
                 // but this reliably is called on Window .NET and Linux Mono 5.2
                 // todo: see behaviour on Android, macOS
-                AppDomain.CurrentDomain.ProcessExit += (s, e) => _context.Dispose();
+                AppDomain.CurrentDomain.ProcessExit += (s, e) => _instance.Dispose();
             }
             else
             {
                 throw new InvalidOperationException("Audio device already initialized");
             }
+        }
+
+        #endregion
+
+        #region IDisposable Support
+
+        private bool _isDisposed = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_isDisposed)
+            {
+                if (disposing)
+                {
+                    // Clean managed
+                }
+
+                // Clean unmanaged
+
+                _isDisposed = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion

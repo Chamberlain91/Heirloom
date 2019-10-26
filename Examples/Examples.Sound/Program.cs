@@ -5,6 +5,7 @@ using System.Threading;
 
 using Heirloom.IO;
 using Heirloom.Sound;
+using Heirloom.Sound.Effects;
 
 namespace Examples.MusicPlayer
 {
@@ -24,7 +25,7 @@ namespace Examples.MusicPlayer
              * License: CC BY(http://creativecommons.org/licenses/by/4.0/)
              */
 
-            //
+            // Song database
             var songData = new[] {
                 new SongInfo("Easy Lemon", "Kevin MacLeod", "files/easy-lemon-by-kevin-macleod.mp3"),
                 new SongInfo("Funk Game Loop", "Kevin MacLeod", "files/funk-game-loop-by-kevin-macleod.mp3"),
@@ -38,9 +39,9 @@ namespace Examples.MusicPlayer
 
             // Add "using Heirloom.Sound.Effects;" above and uncomment
             // lines below to listen to different effects and filters.
-            //AudioMixer.Default.Effects.Add(new BitCrushEffect(10, 4));
-            //AudioMixer.Default.Effects.Add(new HighPassFilter(2000));
-            //AudioMixer.Default.Effects.Add(new ReverbEffect(0.1F, 0.7F));
+            AudioGroup.Default.Effects.Add(new BitCrushEffect(10, 4));
+            AudioGroup.Default.Effects.Add(new HighPassFilter(2000));
+            AudioGroup.Default.Effects.Add(new ReverbEffect(0.1F, 0.7F));
 
             AudioSource currentSource = null;
 

@@ -8,9 +8,6 @@ namespace Heirloom.Sound.Backends.MiniAudio
     {
         private readonly void* _device;
         private readonly DataProcessCallback _dataProc;
-        private bool _isDisposed;
-
-        #region Constructors
 
         internal MiniAudioContext(int sampleRate)
             : base(sampleRate)
@@ -31,13 +28,6 @@ namespace Heirloom.Sound.Backends.MiniAudio
             if (result != Result.Success) { throw new InvalidOperationException("Unable to start device. " + result); }
         }
 
-        ~MiniAudioContext()
-        {
-            Dispose(false);
-        }
-
-        #endregion
-
         private void DataProcessCallback(void* pDevice, void* pOutput, void* pInput, uint frameCount)
         {
             // Cast to short pointers (S16)
@@ -51,34 +41,16 @@ namespace Heirloom.Sound.Backends.MiniAudio
             if (pOutputSamples != null) { OnSpeakerOutput(new Span<short>(pOutputSamples, sampleCount)); }
         }
 
-        #region Dispose
-
-        private void Dispose(bool disposeManaged)
+        protected override void Dispose(bool disposing)
         {
-            if (!_isDisposed)
-            {
-                if (disposeManaged)
-                {
-                    // TODO: dispose managed state (managed objects).
-                }
+            base.Dispose(disposing);
 
-                // Stop and uninitialize device
-                ma_device_stop(_device);
-                ma_device_uninit(_device);
-                ma_ext_free(_device);
+            // Stop and uninitialize device
+            ma_device_stop(_device);
+            ma_device_uninit(_device);
+            ma_ext_free(_device);
 
-                GC.KeepAlive(_dataProc);
-
-                _isDisposed = true;
-            }
+            GC.KeepAlive(_dataProc);
         }
-
-        public override void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        #endregion
     }
 }

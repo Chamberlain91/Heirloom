@@ -138,7 +138,7 @@ namespace Heirloom.Sound.Effects
 
             public void Prepare()
             {
-                var size = (int) (Delay * AudioMixer.SampleRate);
+                var size = (int) (Delay * AudioContext.SampleRate);
                 if (_buffer.Length < size) { Array.Resize(ref _buffer, size); }
             }
 
@@ -177,7 +177,7 @@ namespace Heirloom.Sound.Effects
 
             public void Prepare()
             {
-                var size = (int) (Delay * AudioMixer.SampleRate);
+                var size = (int) (Delay * AudioContext.SampleRate);
                 if (_buffer.Length < size) { Array.Resize(ref _buffer, size); }
             }
 
