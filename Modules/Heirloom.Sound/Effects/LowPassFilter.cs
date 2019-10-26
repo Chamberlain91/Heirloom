@@ -3,7 +3,7 @@
 namespace Heirloom.Sound.Effects
 {
     /// <summary>
-    /// A mixer effect that implements a low pass filter.
+    /// An audio effect that implements a low pass filter.
     /// </summary>
     public class LowPassFilter : AudioEffect
     {

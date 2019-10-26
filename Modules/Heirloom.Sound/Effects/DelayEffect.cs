@@ -3,7 +3,7 @@
 namespace Heirloom.Sound.Effects
 {
     /// <summary>
-    /// A mixer effect that implements a simple echo.
+    /// An audio effect that implements a simple echo.
     /// </summary>
     public class DelayEffect : AudioEffect
     {

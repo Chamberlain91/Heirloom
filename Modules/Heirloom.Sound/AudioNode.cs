@@ -55,7 +55,7 @@ namespace Heirloom.Sound
             if (_samples.Length < output.Length) { Array.Resize(ref _samples, output.Length); }
             var samples = new Span<float>(_samples, 0, output.Length); // Get span of exact length
 
-            // Populate audio buffer (ie, read from sources or child mixers)
+            // Populate audio buffer (ie, read from sources or child groups)
             PopulateBuffer(samples);
 
             // Compute panning factors
