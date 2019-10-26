@@ -76,14 +76,14 @@ namespace Heirloom.Sound
                 else { sample *= rPanFactor; }
             }
 
-            //lock (Effects)
-            //{
-            //    // Process effect chain
-            //    foreach (var effect in Effects)
-            //    {
-            //        effect.MixOutput(samples);
-            //    }
-            //}
+            lock (Effects)
+            {
+                // Process effect chain
+                foreach (var effect in Effects)
+                {
+                    effect.MixOutput(samples);
+                }
+            }
 
             // Append local buffer to output
             for (var i = 0; i < samples.Length; i++)
