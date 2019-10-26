@@ -524,18 +524,17 @@ namespace Heirloom.Drawing.Extras
             ReadByte();
             ReadByte();
 
-            using (var rawStream = new MemoryStream(ReadBytes(n - 6))) // ingore 2 for header, 4 for checksum
-            using (var deflateStream = new DeflateStream(rawStream, CompressionMode.Decompress))
-            using (var dataStream = new MemoryStream())
-            {
-                // Read everything (decompressed) into memory
-                deflateStream.CopyTo(dataStream);
-                var data = dataStream.ToArray();
+            using var rawStream = new MemoryStream(ReadBytes(n - 6));
+            using var deflateStream = new DeflateStream(rawStream, CompressionMode.Decompress);
+            using var dataStream = new MemoryStream();
 
-                ReadDWord(); // Skip ADLER32 Checksum
+            // Read everything (decompressed) into memory
+            deflateStream.CopyTo(dataStream);
+            var data = dataStream.ToArray();
 
-                return data;
-            }
+            ReadDWord(); // Skip ADLER32 Checksum
+
+            return data;
         }
 
         private STRING ReadString()

@@ -2,7 +2,7 @@
 
 using Heirloom.Math;
 
-namespace Heirloom.Drawing
+namespace Heirloom.Drawing.Extras
 {
     public sealed class RectanglePacker<K>
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Heirloom.Drawing
 {
-    public class SpriteBuilder : IEnumerable
+    public sealed class SpriteBuilder : IEnumerable
     {
         internal readonly List<Sprite.FrameInfo> Frames;
 

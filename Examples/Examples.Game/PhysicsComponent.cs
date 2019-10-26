@@ -93,7 +93,7 @@ namespace Examples.Game
             _interTime = 0;
 
             // Apply Gravity
-            _acceleration.Y += 720 * GravityMultiplier;
+            _acceleration.Y += 1440 * GravityMultiplier;
 
             // Integrate velocity
             _velocity += _acceleration * ft;

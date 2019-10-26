@@ -149,7 +149,7 @@ namespace Examples.Game
                 if (_allowJump && Physics.HasGroundCollision)
                 {
                     // Apply impulse upwards
-                    Physics.Velocity = (Physics.Velocity.X, -360);
+                    Physics.Velocity = (Physics.Velocity.X, -720);
 
                     // We have now jumped
                     _allowJump = false;

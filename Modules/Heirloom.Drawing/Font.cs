@@ -18,17 +18,15 @@ namespace Heirloom.Drawing
         /// </summary>
         /// <remarks>https://datagoblin.itch.io/monogram</remarks>
         public static Font Default { get; }
-         
+
         static Font()
         {
             // 
             var assembly = typeof(Font).Assembly;
 
             // Load default pixel font
-            using (var stream = assembly.GetManifestResourceStream("Heirloom.Drawing.Embedded.monogram_extended.ttf"))
-            {
-                Default = new Font(stream);
-            } 
+            using var stream = assembly.GetManifestResourceStream("Heirloom.Drawing.Embedded.monogram_extended.ttf");
+            Default = new Font(stream);
         }
 
         internal stbtt_fontinfo Info;
@@ -325,11 +323,9 @@ namespace Heirloom.Drawing
 
         private static byte[] ReadAllBytes(Stream stream)
         {
-            using (var ms = new MemoryStream())
-            {
-                stream.CopyTo(ms);
-                return ms.ToArray();
-            }
+            using var ms = new MemoryStream();
+            stream.CopyTo(ms);
+            return ms.ToArray();
         }
 
         #endregion

@@ -30,15 +30,14 @@ namespace Heirloom.IO.Networking
 
         public static byte[] GetBytes(Action<BinaryWriter> writeAction)
         {
-            using (var memStream = new MemoryStream())
-            using (var memWriter = new BinaryWriter(memStream, Encoding.UTF8))
-            {
-                // Write message
-                writeAction(memWriter);
+            using var memStream = new MemoryStream();
+            using var memWriter = new BinaryWriter(memStream, Encoding.UTF8);
 
-                // Send message to all connections
-                return memStream.ToArray();
-            }
+            // Write message
+            writeAction(memWriter);
+
+            // Send message to all connections
+            return memStream.ToArray();
         }
 
         public static byte[] GetBytes<T>(T obj)

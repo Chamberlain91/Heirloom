@@ -18,9 +18,6 @@ namespace Heirloom.Drawing
 
         #region Constructors
 
-        /// <summary>
-        /// Constructs a new empty sprite.
-        /// </summary>
         internal Sprite(SpriteBuilder builder)
         {
             // Create frame array (we clone to prevent unexpected modifications from the builder)
@@ -81,28 +78,27 @@ namespace Heirloom.Drawing
 
         private void ConstructFromAseprite(Stream stream, out FrameInfo[] frames, out Dictionary<string, Animation> animations)
         {
-            using (var ase = new AsepriteFile(stream))
+            using var ase = new AsepriteFile(stream);
+
+            var an = new Dictionary<string, Animation>();
+            var fr = new List<FrameInfo>();
+
+            // For each known frame
+            for (var i = 0; i < ase.Frames.Length; i++)
             {
-                var an = new Dictionary<string, Animation>();
-                var fr = new List<FrameInfo>();
-
-                // For each known frame
-                for (var i = 0; i < ase.Frames.Length; i++)
-                {
-                    var aseFrame = ase.Frames[i];
-                    fr.Add(new FrameInfo(aseFrame.Image, aseFrame.Duration));
-                }
-
-                // For each named animation
-                foreach (var tag in ase.Tags)
-                {
-                    an[tag.Name] = new Animation(tag.Name, tag.From, tag.To, tag.Direction);
-                }
-
-                // 
-                animations = an;
-                frames = fr.ToArray();
+                var aseFrame = ase.Frames[i];
+                fr.Add(new FrameInfo(aseFrame.Image, aseFrame.Duration));
             }
+
+            // For each named animation
+            foreach (var tag in ase.Tags)
+            {
+                an[tag.Name] = new Animation(tag.Name, tag.From, tag.To, tag.Direction);
+            }
+
+            // 
+            animations = an;
+            frames = fr.ToArray();
         }
 
         #endregion

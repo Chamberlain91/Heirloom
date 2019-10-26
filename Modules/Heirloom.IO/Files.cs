@@ -79,10 +79,8 @@ namespace Heirloom.IO
         /// <seealso cref="OpenStream(string)"/>
         public static string ReadText(string path)
         {
-            using (var stream = OpenStream(path))
-            {
-                return stream.ReadAllText();
-            }
+            using var stream = OpenStream(path);
+            return stream.ReadAllText();
         }
 
         /// <summary>
@@ -93,10 +91,8 @@ namespace Heirloom.IO
         /// <seealso cref="OpenStream(string)"/>
         public static byte[] ReadBytes(string path)
         {
-            using (var stream = OpenStream(path))
-            {
-                return stream.ReadAllBytes();
-            }
+            using var stream = OpenStream(path);
+            return stream.ReadAllBytes();
         }
 
         #endregion

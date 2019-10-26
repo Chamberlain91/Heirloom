@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 using Heirloom.Drawing.Extras;
 using Heirloom.Math;
+
 using StbImageSharp;
+
 using static StbImageSharp.StbImage;
 using static StbImageWriteSharp.StbImageWrite;
 
@@ -508,7 +510,7 @@ namespace Heirloom.Drawing
             var y1 = Calc.Floor(yf);
 
             // Read pixels
-            return (Color) GetPixel(x1, y1);
+            return GetPixel(x1, y1);
         }
 
         private Color SampleLinear(float u, float v)
@@ -535,7 +537,7 @@ namespace Heirloom.Drawing
             var q1 = ColorBytes.Lerp(c00, c10, xt);
             var q2 = ColorBytes.Lerp(c01, c11, xt);
 
-            return (Color) ColorBytes.Lerp(q1, q2, yt);
+            return ColorBytes.Lerp(q1, q2, yt);
         }
 
         #endregion
@@ -864,7 +866,7 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        #region Procedural Textures
+        #region Procedural Images
 
         /// <summary>
         /// Create an image with checkerboard pattern.
@@ -897,54 +899,26 @@ namespace Heirloom.Drawing
         }
 
         /// <summary>
-        /// Creates an image with a radial gradient.
+        /// Create an image with a grid pattern.
         /// </summary>
-        public static Image CreateRadialGradient(IntSize size, Color inner, Color outer)
+        /// <param name="width">Width of the image in pixels.</param>
+        /// <param name="height">Height of the image in pixels.</param>
+        /// <param name="color">Color to base the grid pattern on.</param>
+        /// <param name="borderWidth">Size of the line between each cell.</param>
+        /// <returns>An image filled with the grid pattern.</returns>
+        public static Image CreateGridPattern(int width, int height, Color color, int cellSize, int borderWidth = 1)
         {
-            var image = new Image(size);
-            foreach (var co in Rasterizer.Rectangle(image.Size))
+            var im = new Image(width, height);
+
+            // Compute checkerboard texture
+            foreach (var p in Rasterizer.Rectangle(0, 0, im.Width, im.Height))
             {
-                var nco = (co / (Vector) size * 2F) - Vector.One;
-                var distance = Vector.Distance(nco, Vector.Zero);
-                if (distance <= 1) { image.SetPixel(co, (ColorBytes) Color.Lerp(inner, outer, distance)); }
-                else { image.SetPixel(co, (ColorBytes) outer); }
-            }
-            return image;
-        }
-
-        /// <summary>
-        /// Creates an image with a radial gradient.
-        /// </summary>
-        public static Image CreateCircle(int size, Color color, Color edge, float edgeWidth = 1)
-        {
-            var image = new Image(size, size);
-
-            foreach (var co in Rasterizer.Rectangle(image.Size))
-            {
-                var normCo = ((Vector) co / size * 2F) - Vector.One;
-                var distance = Vector.Distance(normCo, Vector.Zero);
-
-                if (distance <= 1)
-                {
-                    if (distance >= 1 - (edgeWidth / size))
-                    {
-                        // Set edge color
-                        image.SetPixel(co, (ColorBytes) edge);
-                    }
-                    else
-                    {
-                        // Set fill color
-                        image.SetPixel(co, (ColorBytes) color);
-                    }
-                }
-                else
-                {
-                    // Outside circle
-                    image.SetPixel(co, ColorBytes.Transparent);
-                }
+                var flag = ((p.X % cellSize) < borderWidth) || ((p.Y % cellSize) < borderWidth);
+                var pixel = (ColorBytes) ((flag ? Color.LightGray : Color.White) * color);
+                im.SetPixel(p.X, p.Y, pixel);
             }
 
-            return image;
+            return im;
         }
 
         /// <summary>
@@ -1027,11 +1001,10 @@ namespace Heirloom.Drawing
 
         private static byte[] ReadAllBytes(Stream stream)
         {
-            using (var ms = new MemoryStream())
-            {
-                stream.CopyTo(ms);
-                return ms.ToArray();
-            }
+            using var ms = new MemoryStream();
+
+            stream.CopyTo(ms);
+            return ms.ToArray();
         }
     }
 }
