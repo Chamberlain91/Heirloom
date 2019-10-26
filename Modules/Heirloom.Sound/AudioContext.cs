@@ -4,22 +4,29 @@ using Heirloom.Sound.Backends.MiniAudio;
 
 namespace Heirloom.Sound
 {
+    public delegate void AudioCaptureCallback(Span<float> inputSamples);
+
     public abstract class AudioContext : IDisposable
     {
         // used because OnSpeakerOutput or OnMicrophoneInput may be called concurrently
         private readonly bool _init = false;
 
         private float[] _buffer = Array.Empty<float>();
+
+        private readonly bool _enableAudioCapture;
         private readonly int _sampleRate;
 
         private static AudioContext _instance;
 
         #region Constructors
 
-        internal AudioContext(int sampleRate)
+        internal AudioContext(int sampleRate, bool enableAudioCapture)
         {
             if (sampleRate <= 0) { throw new InvalidOperationException("Sample rate must greater or equal to 1."); }
+
+            _enableAudioCapture = enableAudioCapture;
             _sampleRate = sampleRate;
+
             _init = true;
         }
 
@@ -29,6 +36,8 @@ namespace Heirloom.Sound
         }
 
         #endregion
+
+        public static bool IsAudioCaptureEnabled => Instance._enableAudioCapture;
 
         public static int SampleRate => Instance._sampleRate;
 
@@ -48,12 +57,17 @@ namespace Heirloom.Sound
             }
         }
 
-        public static void Initialize(int sampleRate)
+        /// <summary>
+        /// Event invoked when a chunk of audio data is captured by the microphone.
+        /// </summary>
+        public static event AudioCaptureCallback AudioCaptured;
+
+        public static void Initialize(int sampleRate, bool enableAudioCapture = false)
         {
             if (_instance == null)
             {
                 // Create default
-                _instance = new MiniAudioContext(sampleRate);
+                _instance = new MiniAudioContext(sampleRate, enableAudioCapture);
 
                 // Dispose device when process exits, finalizer isn't being called
                 // but this reliably is called on Window .NET and Linux Mono 5.2
@@ -91,8 +105,12 @@ namespace Heirloom.Sound
         {
             if (!_init) { return; } // Not ready! 
 
+            // Ensure buffer is large enough for input
+            if (_buffer.Length < input.Length) { Array.Resize(ref _buffer, input.Length); }
+            var buffer = new Span<float>(_buffer, 0, input.Length);
+
             // Process microphone input
-            // TODO: Microphone support
+            AudioCaptured?.Invoke(buffer);
         }
 
         /// <summary>

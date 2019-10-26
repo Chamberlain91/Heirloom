@@ -10,12 +10,12 @@ namespace Heirloom.Sound.Effects
         private readonly float[] _k;
         private float _cutoff;
 
-        private AudioBuffer _buffer;
+        private readonly AudioBuffer _buffer;
 
         public HighPassFilter(float cutoff)
         {
             _k = new float[AudioContext.Channels];
-            Cutoff = cutoff;
+            Frequency = cutoff;
 
             _buffer = new AudioBuffer(1); // 1/2 second
         }
@@ -23,7 +23,7 @@ namespace Heirloom.Sound.Effects
         /// <summary>
         /// Gets or sets the filter cutoff in hertz.
         /// </summary>
-        public float Cutoff
+        public float Frequency
         {
             get => _cutoff;
 
@@ -48,7 +48,7 @@ namespace Heirloom.Sound.Effects
             {
                 // Compute alpha
                 var dt = 1F / AudioContext.SampleRate;
-                var rc = 1F / (2 * MathF.PI * Cutoff);
+                var rc = 1F / (2 * MathF.PI * Frequency);
                 var alpha = rc / (rc + dt);
 
                 // 

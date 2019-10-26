@@ -3,7 +3,7 @@
 namespace Heirloom.Sound.Effects
 {
     /// <summary>
-    /// An audio effect to crush the sound to mimic cheap radios other low quality or "retro" stuff.
+    /// An audio effect to crush bits and help mimic cheap radios and other low quality "retro" or "lo-fi" stuff.
     /// </summary>
     public class BitCrushEffect : AudioEffect
     {
@@ -39,21 +39,27 @@ namespace Heirloom.Sound.Effects
         protected internal override void MixOutput(Span<float> samples)
         {
             var bit = 1 << _bits;
-            var inc = 1 + (_downsampling - 1) * 4;
 
-            for (var i = 0; i < samples.Length; i += inc)
+            var skip = _downsampling * AudioContext.Channels;
+
+            // For each block
+            for (var a = 0; a < samples.Length; a += skip)
             {
-                var sample = 0F;
-
-                // Compute interpolated/downsampled sample
-                for (var j = 0; j < inc; j++)
+                // For each audio channel
+                for (var c = 0; c < AudioContext.Channels; c++)
                 {
-                    if ((i + j) < samples.Length) { sample += samples[i + j]; }
-                    else { break; }
-                }
+                    var sample = samples[a + c];
 
-                sample /= inc; // average
-                samples[i] += MathF.Floor(sample * bit) / bit;
+                    // Reduce effective integer bit count
+                    sample = MathF.Floor(sample * bit) / bit;
+
+                    // 
+                    for (var b = 0; b < skip; b += AudioContext.Channels)
+                    {
+                        if ((a + b + c) >= samples.Length) { continue; }
+                        samples[a + b + c] += sample;
+                    }
+                }
             }
         }
     }

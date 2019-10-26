@@ -13,13 +13,13 @@ namespace Heirloom.Sound.Effects
         public LowPassFilter(float cutoff)
         {
             _k = new float[AudioContext.Channels];
-            Cutoff = cutoff;
+            Frequency = cutoff;
         }
 
         /// <summary>
         /// Gets or sets the filter cutoff in hertz.
         /// </summary>
-        public float Cutoff
+        public float Frequency
         {
             get => _cutoff;
 
@@ -34,7 +34,7 @@ namespace Heirloom.Sound.Effects
         {
             // Compute alpha
             var dt = 1F / AudioContext.SampleRate;
-            var rc = 1F / (2 * MathF.PI * Cutoff);
+            var rc = 1F / (2 * MathF.PI * Frequency);
             var alpha = dt / (rc + dt);
 
             // 

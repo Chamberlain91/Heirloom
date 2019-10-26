@@ -5,7 +5,6 @@ using System.Threading;
 
 using Heirloom.IO;
 using Heirloom.Sound;
-using Heirloom.Sound.Effects;
 
 namespace Examples.MusicPlayer
 {
@@ -33,15 +32,17 @@ namespace Examples.MusicPlayer
                 new SongInfo("Effect Me", "Chris Chamberlain", "files/effect-me-by-chris-chamberlain.mp3")
             };
 
-            // Construc song lookup
+            // Construct song lookup
             var songLookup = new Dictionary<string, SongInfo>();
             foreach (var info in songData) { songLookup.Add(CreateIdentifier(info.Name), info); }
 
-            // Add "using Heirloom.Sound.Effects;" above and uncomment
-            // lines below to listen to different effects and filters.
-            AudioGroup.Default.Effects.Add(new BitCrushEffect(10, 4));
-            AudioGroup.Default.Effects.Add(new HighPassFilter(2000));
-            AudioGroup.Default.Effects.Add(new ReverbEffect(0.1F, 0.7F));
+            // Add "using Heirloom.Sound.Effects;" above and uncomment some (or all) of the
+            // lines below to listen to different effects and filters. When collectively all
+            // enabled, all three filters should somewhat mimic "a cheap radio in a garage"
+
+            //AudioGroup.Default.Effects.Add(new BandPassFilter(6000, 9000));
+            //AudioGroup.Default.Effects.Add(new BitCrushEffect(10, 8));
+            //AudioGroup.Default.Effects.Add(new ReverbEffect(0.1F, 0.7F));
 
             AudioSource currentSource = null;
 

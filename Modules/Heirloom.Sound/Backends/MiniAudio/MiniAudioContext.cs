@@ -9,11 +9,15 @@ namespace Heirloom.Sound.Backends.MiniAudio
         private readonly void* _device;
         private readonly DataProcessCallback _dataProc;
 
-        internal MiniAudioContext(int sampleRate)
-            : base(sampleRate)
+        internal MiniAudioContext(int sampleRate, bool enableAudioCapture)
+            : base(sampleRate, enableAudioCapture)
         {
+            // Build device type flags
+            var deviceType = DeviceType.Playback;
+            if (enableAudioCapture) { deviceType |= DeviceType.Capture; }
+
             // Allocate device config
-            var deviceConfig = ma_ext_alloc_device_config(DeviceType.Playback, (uint) sampleRate, _dataProc = DataProcessCallback);
+            var deviceConfig = ma_ext_alloc_device_config(deviceType, (uint) sampleRate, _dataProc = DataProcessCallback);
 
             // Allocate device data and initialize
             _device = ma_ext_alloc_device();
