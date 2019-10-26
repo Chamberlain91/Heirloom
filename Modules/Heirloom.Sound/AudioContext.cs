@@ -12,6 +12,8 @@ namespace Heirloom.Sound
         private float[] _buffer = Array.Empty<float>();
         private readonly int _sampleRate;
 
+        private static AudioContext _instance;
+
         #region Constructors
 
         internal AudioContext(int sampleRate)
@@ -27,6 +29,42 @@ namespace Heirloom.Sound
         }
 
         #endregion
+
+        public static int SampleRate => Instance._sampleRate;
+
+        public static int Channels => 2;
+
+        /// <summary>
+        /// Gets the audio context instance.
+        /// This will initialize with defaults if not explicitly initialized beforehand.
+        /// </summary>
+        internal static AudioContext Instance
+        {
+            get
+            {
+                // If no contxt has been initialized, initialize a default.
+                if (_instance == null) { Initialize(44100); }
+                return _instance;
+            }
+        }
+
+        public static void Initialize(int sampleRate)
+        {
+            if (_instance == null)
+            {
+                // Create default
+                _instance = new MiniAudioContext(sampleRate);
+
+                // Dispose device when process exits, finalizer isn't being called
+                // but this reliably is called on Window .NET and Linux Mono 5.2
+                // todo: see behaviour on Android, macOS
+                AppDomain.CurrentDomain.ProcessExit += (s, e) => _instance.Dispose();
+            }
+            else
+            {
+                throw new InvalidOperationException("Audio device already initialized");
+            }
+        }
 
         #region Mixing
 
@@ -64,48 +102,6 @@ namespace Heirloom.Sound
         {
             x /= (float) Math.Sqrt(Math.Sqrt(1 + (x * x * x * x)));
             return x;
-        }
-
-        #endregion
-
-        #region Static / Singleton
-
-        private static AudioContext _instance;
-
-        /// <summary>
-        /// Gets the audio context instance.
-        /// This will initialize with defaults if not explicitly initialized beforehand.
-        /// </summary>
-        internal static AudioContext Instance
-        {
-            get
-            {
-                // If no contxt has been initialized, initialize a default.
-                if (_instance == null) { Initialize(44100); }
-                return _instance;
-            }
-        }
-
-        public static int SampleRate => Instance._sampleRate;
-
-        public static int Channels => 2;
-
-        public static void Initialize(int sampleRate)
-        {
-            if (_instance == null)
-            {
-                // Create default
-                _instance = new MiniAudioContext(sampleRate);
-
-                // Dispose device when process exits, finalizer isn't being called
-                // but this reliably is called on Window .NET and Linux Mono 5.2
-                // todo: see behaviour on Android, macOS
-                AppDomain.CurrentDomain.ProcessExit += (s, e) => _instance.Dispose();
-            }
-            else
-            {
-                throw new InvalidOperationException("Audio device already initialized");
-            }
         }
 
         #endregion

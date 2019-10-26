@@ -9,8 +9,8 @@ namespace Heirloom.Sound
     public class AudioGroup : AudioNode
     {
         private readonly LinkedList<AudioNode> _sources;
-        private readonly LinkedList<AudioNode> _sourcesRemove;
-        private readonly LinkedList<AudioNode> _sourcesAdd;
+        private readonly LinkedList<LinkedListNode<AudioNode>> _sourcesRemove;
+        private readonly LinkedList<LinkedListNode<AudioNode>> _sourcesAdd;
 
         private LinkedListNode<AudioNode> _node;
         private AudioGroup _parent;
@@ -28,8 +28,8 @@ namespace Heirloom.Sound
         private AudioGroup(AudioGroup parentMixer, bool allowOrphanMixer)
         {
             _sources = new LinkedList<AudioNode>();
-            _sourcesRemove = new LinkedList<AudioNode>();
-            _sourcesAdd = new LinkedList<AudioNode>();
+            _sourcesRemove = new LinkedList<LinkedListNode<AudioNode>>();
+            _sourcesAdd = new LinkedList<LinkedListNode<AudioNode>>();
 
             // Set parent mixer
             if (!allowOrphanMixer && parentMixer == null) { throw new ArgumentNullException(nameof(parentMixer)); }
@@ -81,7 +81,9 @@ namespace Heirloom.Sound
         {
             lock (_sources)
             {
-                return _sourcesAdd.AddLast(source);
+                var listNode = new LinkedListNode<AudioNode>(source);
+                _sourcesAdd.AddLast(listNode);
+                return listNode;
             }
         }
 

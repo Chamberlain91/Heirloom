@@ -13,7 +13,7 @@ namespace Heirloom.Sound.Backends.MiniAudio
             : base(sampleRate)
         {
             // Allocate device config
-            var deviceConfig = ma_ext_alloc_device_config(DeviceType.Playback, (uint) SampleRate, _dataProc = DataProcessCallback);
+            var deviceConfig = ma_ext_alloc_device_config(DeviceType.Playback, (uint) sampleRate, _dataProc = DataProcessCallback);
 
             // Allocate device data and initialize
             _device = ma_ext_alloc_device();
