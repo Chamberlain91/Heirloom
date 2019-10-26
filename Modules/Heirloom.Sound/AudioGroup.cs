@@ -21,25 +21,25 @@ namespace Heirloom.Sound
             : this(Default)
         { }
 
-        public AudioGroup(AudioGroup parentMixer)
-            : this(parentMixer, false)
+        public AudioGroup(AudioGroup parentGroup)
+            : this(parentGroup, false)
         { }
 
-        private AudioGroup(AudioGroup parentMixer, bool allowOrphanMixer)
+        private AudioGroup(AudioGroup parentGroup, bool allowOrphan)
         {
             _sources = new LinkedList<AudioNode>();
             _sourcesRemove = new LinkedList<LinkedListNode<AudioNode>>();
             _sourcesAdd = new LinkedList<LinkedListNode<AudioNode>>();
 
-            // Set parent mixer
-            if (!allowOrphanMixer && parentMixer == null) { throw new ArgumentNullException(nameof(parentMixer)); }
-            Parent = parentMixer;
+            // Set parent audio group
+            if (!allowOrphan && parentGroup == null) { throw new ArgumentNullException(nameof(parentGroup)); }
+            Parent = parentGroup;
         }
 
         #endregion
 
         /// <summary>
-        /// Gets or sets this mixer objects parent mixer.
+        /// Gets or sets the parent audio group.
         /// </summary>
         public AudioGroup Parent
         {
@@ -47,12 +47,12 @@ namespace Heirloom.Sound
 
             set
             {
-                if (this == Default) { throw new InvalidOperationException("Unable to set the parent of the default (root) mixer."); }
+                if (this == Default) { throw new InvalidOperationException("Unable to set the parent of the default (root) audio group."); }
 
-                // If a previous parent exists, remove this mixer from it
+                // If a previous parent exists, remove ourselves from it
                 _parent?.RemoveNode(_node);
 
-                // Set new parent and register this mixer as a child
+                // Set new parent and register ourselves as a child
                 // TODO: Detect cycles to prevent stack overflow/infinite recursions.
                 _parent = value;
                 _node = _parent?.AddNode(this);

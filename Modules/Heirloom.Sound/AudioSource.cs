@@ -13,7 +13,7 @@ namespace Heirloom.Sound
         private readonly IAudioProvider _provider;
 
         private LinkedListNode<AudioNode> _node;
-        private AudioGroup _mixer;
+        private AudioGroup _group;
 
         #region Constructors
 
@@ -21,37 +21,40 @@ namespace Heirloom.Sound
             : this(clip, AudioGroup.Default)
         { }
 
-        public AudioSource(AudioClip clip, AudioGroup mixer)
-            : this(new AudioClipProvider(clip), mixer)
+        public AudioSource(AudioClip clip, AudioGroup group)
+            : this(new AudioClipProvider(clip), group)
         { }
 
         public AudioSource(Stream stream)
             : this(stream, AudioGroup.Default)
         { }
 
-        public AudioSource(Stream stream, AudioGroup mixer)
-            : this(new AudioStreamProvider(stream), mixer)
+        public AudioSource(Stream stream, AudioGroup group)
+            : this(new AudioStreamProvider(stream), group)
         { }
 
-        private AudioSource(IAudioProvider provider, AudioGroup mixer)
+        private AudioSource(IAudioProvider provider, AudioGroup group)
         {
             _provider = provider;
-            _mixer = mixer;
+            _group = group;
         }
 
         #endregion
 
         #region Properties
 
-        public AudioGroup Mixer
+        /// <summary>
+        /// Gets or sets which audio group this source is part of (default is <see cref="AudioGroup.Default"/>).
+        /// </summary>
+        public AudioGroup Group
         {
-            get => _mixer;
+            get => _group;
 
             set
             {
 
                 if (_node != null) { Stop(); }
-                _mixer = value;
+                _group = value;
             }
         }
 
@@ -124,7 +127,7 @@ namespace Heirloom.Sound
         {
             if (_node == null)
             {
-                _node = Mixer.AddNode(this);
+                _node = Group.AddNode(this);
             }
         }
 
@@ -135,7 +138,7 @@ namespace Heirloom.Sound
         {
             if (_node != null)
             {
-                Mixer.RemoveNode(_node);
+                Group.RemoveNode(_node);
                 _node = null;
             }
         }
@@ -217,7 +220,7 @@ namespace Heirloom.Sound
             // 
             PlaybackEnded?.Invoke();
 
-            // If not looping, remove from mixer by pausing.
+            // If not looping, remove from active list by pausing.
             if (!Looping) { Pause(); }
         }
     }
