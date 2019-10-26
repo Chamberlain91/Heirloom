@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Heirloom.Drawing.Extras;
 using Heirloom.Math;
 
 namespace Heirloom.Drawing

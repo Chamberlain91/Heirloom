@@ -23,22 +23,21 @@ namespace Heirloom.Game
 
         public static void LoadAsset(Type type, string identifier, string path)
         {
-            using (var stream = Files.OpenStream(path))
-            {
-                // Do we have a loader for this type?
-                if (_loaders.TryGetValue(type, out var loader))
-                {
-                    // Get the type generic implementation of the loader and load the asset!
-                    var asset = loader.Load(stream);
+            using var stream = Files.OpenStream(path);
 
-                    // Store loaded asset
-                    var storage = GetAssetStorage(type);
-                    storage.Add(identifier, asset);
-                }
-                else
-                {
-                    throw new InvalidOperationException($"Unable to load an asset, no known loader for type '{type.Name}'.");
-                }
+            // Do we have a loader for this type?
+            if (_loaders.TryGetValue(type, out var loader))
+            {
+                // Get the type generic implementation of the loader and load the asset!
+                var asset = loader.Load(stream);
+
+                // Store loaded asset
+                var storage = GetAssetStorage(type);
+                storage.Add(identifier, asset);
+            }
+            else
+            {
+                throw new InvalidOperationException($"Unable to load an asset, no known loader for type '{type.Name}'.");
             }
         }
 

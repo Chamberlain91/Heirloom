@@ -8,11 +8,9 @@ namespace Heirloom.Drawing.OpenGLES.Utilities
     {
         public static string ReadText(string path)
         {
-            using (var stream = OpenStream(path))
-            using (var reader = new StreamReader(stream))
-            {
-                return reader.ReadToEnd();
-            }
+            using var stream = OpenStream(path);
+            using var reader = new StreamReader(stream);
+            return reader.ReadToEnd();
         }
 
         public static Stream OpenStream(string path)
