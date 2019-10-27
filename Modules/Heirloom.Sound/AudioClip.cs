@@ -111,6 +111,7 @@ namespace Heirloom.Sound
                         // Far too much data, probably was a infinite stream (ie, internet radio)
                         if (total >= (int.MaxValue - count))
                         {
+                            // Reaching this exception would require over 13 hours of audio at 44.1K sample rate
                             throw new InvalidOperationException($"Error when decoding, too many samples! Stream may be infinite length.");
                         }
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Heirloom.Sound
 {
     /// <summary>
-    /// An <see cref="AudioNode"/> to mix and apply effects a group of other nodes.
+    /// An <see cref="AudioNode"/> to mix and apply effects to a group of other nodes.
     /// </summary>
     public class AudioGroup : AudioNode
     {
@@ -17,10 +17,17 @@ namespace Heirloom.Sound
 
         #region Constructors
 
+        /// <summary>
+        /// Construct a new audio node that is connected to default audio group (ie, <see cref="AudioGroup.Default"/>).
+        /// </summary>
         public AudioGroup()
             : this(Default)
         { }
 
+        /// <summary>
+        /// Construct a new audio group that is connected to the specified parent group.
+        /// </summary>
+        /// <param name="parentGroup">The parent audio group.</param>
         public AudioGroup(AudioGroup parentGroup)
             : this(parentGroup, false)
         { }

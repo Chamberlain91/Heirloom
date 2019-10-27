@@ -90,11 +90,9 @@ namespace Heirloom.Sound.Effects
 
         protected internal override void MixOutput(Span<float> samples)
         {
-            // Its called a Schroeder Reverb
-            // Which looks like the paper defines 3 all-pass filters fed into 4 comb filters
-            // Freeverb then looks to use 8 comb fed into 4 all pass... so eh?
+            // Schroeder Reverb
 
-            // todo: could remove if adjusting the Feedback/Delay paramters did this step
+            // todo: move to when adjusting the RoomSize/Damping paramters
             foreach (var allpass in _allpassFilters) { allpass.Prepare(); }
             foreach (var comb in _combFilters) { comb.Prepare(); }
 
