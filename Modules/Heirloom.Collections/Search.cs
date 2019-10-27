@@ -79,7 +79,7 @@ namespace Heirloom.Collections
                 return node;
             }
 
-            IList<TState> ConstructPath<TState>(Node<TState> node)
+            static IList<TState> ConstructPath<TState>(Node<TState> node)
             {
                 // Reconstruct path!
                 var path = new List<TState>();

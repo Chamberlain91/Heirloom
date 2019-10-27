@@ -116,7 +116,7 @@ namespace Heirloom.Drawing.OpenGLES
 
             Console.WriteLine();
 
-            void PrintBlock(ActiveUniformBlock block, string indent)
+            static void PrintBlock(ActiveUniformBlock block, string indent)
             {
                 Console.WriteLine($"{indent}B {block.Index} \"{block.Name}\" ({block.DataSize} bytes)");
 
@@ -126,7 +126,7 @@ namespace Heirloom.Drawing.OpenGLES
                 }
             }
 
-            void PrintUniform(ActiveUniform uniform, string indent)
+            static void PrintUniform(ActiveUniform uniform, string indent)
             {
                 var message = $"{indent}U {uniform.Index} \"{uniform.Name}\" ({uniform.Size} x {uniform.Type})";
                 if (uniform.Offset != -1) { message += $" @ {uniform.Offset} bytes"; }

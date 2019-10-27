@@ -118,7 +118,7 @@ namespace Heirloom.Android
                     }
 
                     // 
-                    ctx.SwapBuffers();
+                    ctx.RefreshScreen();
                     rateCounter.Tick();
                 }
             }

@@ -8,7 +8,6 @@ namespace Heirloom.Math
     /// A 2x3 transformation matrix.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = 4 * 6, Pack = 4)]
-    // todo: expose _m0 etc? The indexer seems *way* too slow.
     public struct Matrix
     {
         // row 0

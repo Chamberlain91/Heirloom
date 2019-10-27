@@ -2,14 +2,10 @@
 
 namespace Heirloom.Math
 {
-    public interface IPolygon : IReadOnlyList<Vector>
+    public interface IPolygon : IShape, IReadOnlyList<Vector>
     {
         Vector Center { get; }
 
         Vector Centroid { get; }
-
-        Rectangle Bounds { get; }
-
-        float Area { get; }
     }
 }

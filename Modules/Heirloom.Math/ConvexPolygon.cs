@@ -9,7 +9,6 @@ namespace Heirloom.Math
     /// <summary>
     /// Represents a convex polygon, may represent a convex hull of points or a convex partition of a <see cref="Polygon"/>.
     /// </summary>
-    /// todo: would a different name be better? Convex? ConvexHull?
     public sealed class ConvexPolygon : IPolygon
     {
         #region Constructors 
@@ -76,7 +75,16 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Contains / Closest (Point)
+        #region Closest Point
+
+        public Vector ClosestPoint(in Vector point)
+        {
+            return Polygon.ClosestPoint(this, point);
+        }
+
+        #endregion
+
+        #region Contains
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Contains(in Vector point)
@@ -84,11 +92,13 @@ namespace Heirloom.Math
             return Polygon.ContainsPoint(this, point);
         }
 
-        public Vector ClosestPoint(in Vector point)
+        #endregion
+
+        #region Overlaps
+
+        public bool Overlaps(IShape shape)
         {
-            // todo: could be implemented with interating edges 
-            // and gettting closest point on edge?
-            throw new NotImplementedException();
+            return Polygon.Overlaps(this, shape);
         }
 
         #endregion

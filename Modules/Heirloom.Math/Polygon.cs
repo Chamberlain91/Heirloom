@@ -59,7 +59,16 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Contains / Closest (Point)
+        #region Closest Point
+
+        public Vector ClosestPoint(in Vector point)
+        {
+            return ClosestPoint(this, in point);
+        }
+
+        #endregion
+
+        #region Contains
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Contains(in Vector point)
@@ -67,11 +76,13 @@ namespace Heirloom.Math
             return ContainsPoint(this, point);
         }
 
-        public Vector ClosestPoint(in Vector point)
+        #endregion
+
+        #region Overlaps
+
+        public bool Overlaps(IShape shape)
         {
-            // todo: could be implemented with interating edges 
-            // and gettting closest point on edge?
-            throw new NotImplementedException();
+            return Overlaps(this, shape);
         }
 
         #endregion
@@ -565,7 +576,7 @@ namespace Heirloom.Math
 
                 // TODO: Can I move into Vector as a 'GetWinding' function?
                 // What is p q r in terms of shape?
-                int orientation(Vector p, Vector q, Vector r)
+                static int orientation(Vector p, Vector q, Vector r)
                 {
                     var val = ((q.Y - p.Y) * (r.X - q.X))
                             - ((q.X - p.X) * (r.Y - q.Y));
@@ -583,6 +594,37 @@ namespace Heirloom.Math
                 // Not possible to make a hull...
                 // Return empty or exception?
                 return Enumerable.Empty<Vector>();
+            }
+        }
+
+        #endregion
+
+        #region Closest Point (IReadOnlyList<Vector>)
+
+        public static Vector ClosestPoint(IReadOnlyList<Vector> polygon, in Vector point)
+        // todo: can this be optimized?
+        {
+            if (ContainsPoint(polygon, point)) { return point; }
+            else
+            {
+                var minD = float.MaxValue;
+                var minP = Vector.Zero;
+
+                for (var i = 0; i < polygon.Count; i++)
+                {
+                    var a = GetVertex(polygon, i + 0);
+                    var b = GetVertex(polygon, i + 1);
+
+                    var p = LineSegment.ClosestPoint(a, b, point, out var d);
+
+                    if (d < minD)
+                    {
+                        minD = d;
+                        minP = p;
+                    }
+                }
+
+                return minP;
             }
         }
 
@@ -623,6 +665,41 @@ namespace Heirloom.Math
 
             // If no change in direction, then on same side of all segments, and thus inside
             return true;
+        }
+
+        #endregion
+
+        #region Overlaps (IReadOnlyList<Vector>)
+
+        public static bool Overlaps(IReadOnlyList<Vector> polygon, in IShape shape)
+        {
+            // pol - pol
+            if (shape is IReadOnlyList<Vector> pol)
+            {
+                return Collisions.Overlaps(polygon, pol);
+            }
+            // pol - rec
+            else if (shape is Rectangle rec)
+            {
+                pol = rec.GetTempPolygon(0);
+                return Collisions.Overlaps(polygon, pol);
+            }
+            // pol - tri
+            else if (shape is Triangle tri)
+            {
+                pol = tri.GetTempPolygon(0);
+                return Collisions.Overlaps(polygon, pol);
+            }
+            // pol - cir
+            else if (shape is Circle cir)
+            {
+                return Collisions.Overlaps(in cir, polygon);
+            }
+            // unknown case
+            else
+            {
+                throw new InvalidOperationException("Unable to determine overlap, shape was not a known type.");
+            }
         }
 
         #endregion

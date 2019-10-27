@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 using Heirloom.Math;
@@ -34,29 +35,42 @@ namespace Heirloom.Drawing
 
         #region Constants
 
-        public static readonly ColorBytes Red = Parse("FF0000");
+        public static ColorBytes Red { get; } = Parse("FF0000");
 
-        public static readonly ColorBytes Green = Parse("00FF00");
+        public static ColorBytes Green { get; } = Parse("00FF00");
 
-        public static readonly ColorBytes Blue = Parse("0000FF");
+        public static ColorBytes Blue { get; } = Parse("0000FF");
 
-        public static readonly ColorBytes Yellow = Parse("FFFF00");
+        public static ColorBytes Yellow { get; } = Parse("FFFF00");
 
-        public static readonly ColorBytes Cyan = Parse("00FFFF");
+        public static ColorBytes Cyan { get; } = Parse("00FFFF");
 
-        public static readonly ColorBytes Magenta = Parse("FF00FF");
+        public static ColorBytes Magenta { get; } = Parse("FF00FF");
 
-        public static readonly ColorBytes White = Parse("FFFFFF");
+        public static ColorBytes White { get; } = Parse("FFFFFF");
 
-        public static readonly ColorBytes Black = Parse("000000");
+        public static ColorBytes Black { get; } = Parse("000000");
 
-        public static readonly ColorBytes Gray = Parse("999999");
+        public static ColorBytes Gray { get; } = Parse("999999");
 
-        public static readonly ColorBytes DarkGray = Parse("333333");
+        public static ColorBytes DarkGray { get; } = Parse("333333");
 
-        public static readonly ColorBytes LightGray = Parse("CCCCCC");
+        public static ColorBytes LightGray { get; } = Parse("CCCCCC");
 
-        public static readonly ColorBytes Transparent = Parse("00000000");
+        public static ColorBytes Orange { get; } = Parse("FF8811");
+
+        public static ColorBytes Indigo { get; } = Parse("FF4B0082");
+
+        public static ColorBytes Violet { get; } = Parse("FF8A2BE2");
+
+        public static ColorBytes Pink { get; } = Parse("DD55AA");
+
+        public static ColorBytes Transparent { get; } = Parse("00000000");
+
+        public static IReadOnlyList<ColorBytes> Rainbow { get; } = new[] { Red, Orange, Yellow, Green, Blue, Indigo, Violet };
+
+        public static ColorBytes Random
+            => new ColorBytes((byte) (Calc.Random.Next() & 0xFF), (byte) (Calc.Random.Next() & 0xFF), (byte) (Calc.Random.Next() & 0xFF));
 
         #endregion
 
@@ -89,75 +103,98 @@ namespace Heirloom.Drawing
 
         #region Parse
 
+        /// <summary>
+        /// Parses a hex-string representation of a color. 
+        /// May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'.
+        /// </summary>
+        /// <param name="color">The hex-encoded string.</param>
         public static ColorBytes Parse(string color)
         {
-            if (TryParse(color, out var @out)) { return @out; }
+            if (TryParse(color, out var outColor)) { return outColor; }
             else { throw new FormatException($"Unable to parse color, invalid format."); }
         }
 
-        public static bool TryParse(string color, out ColorBytes @out)
+        /// <summary>
+        /// Parses a hex-string representation of a color. 
+        /// May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'.
+        /// </summary>
+        /// <param name="color">The hex-encoded string.</param>
+        /// <param name="outColor">Outputs the parsed color.</param>
+        /// <returns>True if color was successfully parsed, otherwise false.</returns>
+        public static bool TryParse(string color, out ColorBytes outColor)
         {
-            // Strip octothorpe character ( if given )
-            color = color.TrimStart('#');
+            if (string.IsNullOrWhiteSpace(color)) { throw new ArgumentException("Color string must not be blank or null.", nameof(color)); }
 
-            int r, g, b;
-            var a = 0xFF;
-
-            // ABC style
-            if (color.Length == 3)
+            try
             {
-                r = ParseHexInt(color.Substring(0, 1)) * 0x11;
-                g = ParseHexInt(color.Substring(1, 1)) * 0x11;
-                b = ParseHexInt(color.Substring(2, 1)) * 0x11;
+                // Strip hex prefix or octothorpe character ( if given )
+                if (color.StartsWith("0x")) { color = color.Substring(2); }
+                color = color.TrimStart('#');
+
+                int r, g, b;
+                var a = 0xFF;
+
+                // RGB style
+                if (color.Length == 3)
+                {
+                    r = ParseHexInt(color.Substring(0, 1)) * 0x11;
+                    g = ParseHexInt(color.Substring(1, 1)) * 0x11;
+                    b = ParseHexInt(color.Substring(2, 1)) * 0x11;
+                }
+
+                // RGBA style
+                else if (color.Length == 4)
+                {
+                    a = ParseHexInt(color.Substring(0, 1)) * 0x11;
+                    r = ParseHexInt(color.Substring(1, 1)) * 0x11;
+                    g = ParseHexInt(color.Substring(2, 1)) * 0x11;
+                    b = ParseHexInt(color.Substring(3, 1)) * 0x11;
+                }
+
+                // RRGGBB style
+                else if (color.Length == 6)
+                {
+                    r = ParseHexInt(color.Substring(0, 2));
+                    g = ParseHexInt(color.Substring(2, 2));
+                    b = ParseHexInt(color.Substring(4, 2));
+                }
+
+                // RRGGBBAA style
+                else if (color.Length == 8)
+                {
+                    a = ParseHexInt(color.Substring(0, 2));
+                    r = ParseHexInt(color.Substring(2, 2));
+                    g = ParseHexInt(color.Substring(4, 2));
+                    b = ParseHexInt(color.Substring(6, 2));
+                }
+                // No known style
+                else
+                {
+                    outColor = default;
+                    return false;
+                }
+
+                // 
+                outColor = new ColorBytes
+                {
+                    R = (byte) r,
+                    G = (byte) g,
+                    B = (byte) b,
+                    A = (byte) a
+                };
+
+                return true;
             }
-
-            // ABCD style
-            else if (color.Length == 4)
+            catch (FormatException)
             {
-                a = ParseHexInt(color.Substring(0, 1)) * 0x11;
-                r = ParseHexInt(color.Substring(1, 1)) * 0x11;
-                g = ParseHexInt(color.Substring(2, 1)) * 0x11;
-                b = ParseHexInt(color.Substring(3, 1)) * 0x11;
-            }
-
-            // AABBCC style
-            else if (color.Length == 6)
-            {
-                r = ParseHexInt(color.Substring(0, 2));
-                g = ParseHexInt(color.Substring(2, 2));
-                b = ParseHexInt(color.Substring(4, 2));
-            }
-
-            // AABBCCDD style
-            else if (color.Length == 8)
-            {
-                a = ParseHexInt(color.Substring(0, 2));
-                r = ParseHexInt(color.Substring(2, 2));
-                g = ParseHexInt(color.Substring(4, 2));
-                b = ParseHexInt(color.Substring(6, 2));
-            }
-            // No known style
-            else
-            {
-                @out = default;
+                outColor = default;
                 return false;
             }
 
-            // 
-            @out = new ColorBytes
+            static int ParseHexInt(string str)
             {
-                R = (byte) r,
-                G = (byte) g,
-                B = (byte) b,
-                A = (byte) a
-            };
-
-            return true;
-        }
-
-        private static int ParseHexInt(string str)
-        {
-            return Convert.ToInt32(str, 16);
+                return Convert.ToInt32(str, 16);
+            }
         }
 
         #endregion
@@ -179,6 +216,10 @@ namespace Heirloom.Drawing
             return new ColorBytes(r, g, b, a);
         }
 
+        /// <summary>
+        /// Multiplies two <see cref="ColorBytes"/> together.
+        /// Behaves the same as <see cref="Color"/>.
+        /// </summary>
         public static void Multiply(in ColorBytes c1, in ColorBytes c2, ref ColorBytes target)
         {
             target.R = (byte) (c1.R * c2.R / 255);

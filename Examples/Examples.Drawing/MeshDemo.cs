@@ -27,7 +27,6 @@ namespace Examples.Drawing
 
         internal override void Draw(RenderContext ctx, Rectangle contentBounds)
         {
-            var s = new Vector(1.1F, 1);
             DrawStar(ctx, contentBounds.Center, 1F);
             DrawStar(ctx, contentBounds.Min + new Vector(100, 100), 0.2F);
             DrawStar(ctx, contentBounds.Min + new Vector(64, 180), 0.075F);
@@ -46,7 +45,7 @@ namespace Examples.Drawing
             ctx.DrawMesh(Image, StarMesh, transform);
 
             // Draw polygon outline
-            ctx.Color = Colors.FlatUI.BelizeHole;
+            ctx.Color = (Color.Blue + Color.Cyan) / 2F;
             ctx.DrawPolygonOutline(Star, transform, 1);
         }
     }

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 
 using Heirloom.Desktop;
+using Heirloom.Drawing;
 using Heirloom.GLFW;
-using Heirloom.IO;
 using Heirloom.Math;
 
 namespace Heirloom.Game.Desktop
@@ -205,7 +205,7 @@ namespace Heirloom.Game.Desktop
                     }
                 }
 
-                string GetName(int index)
+                static string GetName(int index)
                 {
                     if (index == 0) { return "left"; }
                     else if (index == 1) { return "right"; }

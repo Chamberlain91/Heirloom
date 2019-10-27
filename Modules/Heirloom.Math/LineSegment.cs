@@ -143,5 +143,23 @@ namespace Heirloom.Math
         }
 
         #endregion
+
+        public Vector ClosestPoint(Vector p)
+        {
+            return ClosestPoint(A, B, p);
+        }
+
+        public static Vector ClosestPoint(Vector a, Vector b, Vector p)
+        {
+            var t = Vector.Project(a, b, p, true);
+            return a + (b - a) * t;
+        }
+
+        public static Vector ClosestPoint(Vector a, Vector b, Vector p, out float distance)
+        {
+            var q = ClosestPoint(a, b, p);
+            distance = Vector.Distance(q, p);
+            return q;
+        }
     }
 }

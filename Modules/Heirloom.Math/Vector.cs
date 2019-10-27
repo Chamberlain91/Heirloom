@@ -289,12 +289,12 @@ namespace Heirloom.Math
         /// <summary>
         /// Projects a point onto a line segment.
         /// </summary>
-        /// <param name="point">Point to project.</param>
         /// <param name="start">Starting point of the line segment.</param>
         /// <param name="end">Ending point of the line segment.</param>
+        /// <param name="point">Point to project.</param>
         /// <param name="clamp">Should we clamp to the ends of the line segment?</param>
         /// <returns>The 'progress' along the line segment.</returns>
-        public static float Project(in Vector point, in Vector start, in Vector end, bool clamp = true)
+        public static float Project(in Vector start, in Vector end, in Vector point, bool clamp = true)
         {
             var v = point - start;
             var e = end - start;

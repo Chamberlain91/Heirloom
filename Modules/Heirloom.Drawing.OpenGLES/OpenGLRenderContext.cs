@@ -16,7 +16,7 @@ namespace Heirloom.Drawing.OpenGLES
         private Surface _currentSurface;
         private Renderer _renderer;
 
-        private ConsumerThread _thread;
+        private readonly ConsumerThread _thread;
         private bool _isRunning = false;
         private bool _isDisposed;
 
@@ -37,7 +37,12 @@ namespace Heirloom.Drawing.OpenGLES
         protected internal OpenGLRenderContext(MultisampleQuality multisample)
             : base(multisample)
         {
-            // nothing
+            _isRunning = true;
+
+            // Create and start new task runner
+            _thread = new ConsumerThread("GL Consumer");
+            _thread.InvokeLater(InitializeContext);
+            _thread.Start();
         }
 
         ~OpenGLRenderContext()
@@ -51,9 +56,15 @@ namespace Heirloom.Drawing.OpenGLES
 
         public override bool IsDisposed => _isDisposed;
 
-        public GLCapabilities Capabilities { get; private set; }
+        /// <summary>
+        /// Gets the detected OpenGL capabilities of this platform.
+        /// </summary>
+        public OpenGLCapabilities Capabilities { get; private set; }
 
-        public GLVersion Version { get; private set; }
+        /// <summary>
+        /// Gets the detected OpenGL version of this platform.
+        /// </summary>
+        public OpenGLVersion Version { get; private set; }
 
         #endregion
 
@@ -68,7 +79,7 @@ namespace Heirloom.Drawing.OpenGLES
 
             //  
             Console.WriteLine(Version = ParseVersion());
-            Capabilities = GetCapabilities();
+            Capabilities = DetectCapabilities();
 
             // 
             GL.Enable(EnableCap.ScissorTest);
@@ -96,15 +107,13 @@ namespace Heirloom.Drawing.OpenGLES
             ResetState();
         }
 
-        private GLCapabilities GetCapabilities()
+        private OpenGLCapabilities DetectCapabilities()
         {
-            return new GLCapabilities
-            {
-                MaxTextureUnits = GL.GetInteger(GetParameter.MaxTextureImageUnits)
-            };
+            var maxTextureUnits = GL.GetInteger(GetParameter.MaxTextureImageUnits);
+            return new OpenGLCapabilities(maxTextureUnits);
         }
 
-        private GLVersion ParseVersion()
+        private OpenGLVersion ParseVersion()
         // ref: https://hackage.haskell.org/package/bindings-GLFW-3.1.2.2/src/glfw/src/context.c
         {
             var vendor = GL.GetString(StringParameter.Vendor);
@@ -144,32 +153,10 @@ namespace Heirloom.Drawing.OpenGLES
             var major = int.Parse(version.Substring(0, minDot));
             var minor = int.Parse(version.Substring(minDot + 1, revDot - minDot - 1));
 
-            return new GLVersion
-            {
-                Vendor = vendor,
-                Renderer = renderer,
-
-                Major = major,
-                Minor = minor,
-
-                IsEmbedded = embedded,
-            };
+            return new OpenGLVersion(vendor, renderer, major, minor, embedded);
         }
 
         #endregion
-
-        public void StartThread()
-        {
-            if (!_isRunning)
-            {
-                _isRunning = true;
-
-                // Create and start new task runner
-                _thread = new ConsumerThread("GL Consumer");
-                _thread.InvokeLater(InitializeContext);
-                _thread.Start();
-            }
-        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected internal void Invoke(Action action, bool blocking = true)
@@ -241,10 +228,10 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        public unsafe void SetShaderImage(int index, ImageSource image)
-        {
-            throw new NotImplementedException();
-        }
+        //public unsafe void SetShaderImage(int index, ImageSource image)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public unsafe void SetShaderParamter<T>(string name, T data) where T : struct
         {
@@ -562,27 +549,5 @@ namespace Heirloom.Drawing.OpenGLES
         }
 
         #endregion
-
-        public struct GLVersion
-        {
-            public string Vendor;
-            public string Renderer;
-
-            public int Major;
-            public int Minor;
-
-            public bool IsEmbedded;
-
-            public override string ToString()
-            {
-                if (IsEmbedded) { return $"OpenGL ES {Major}.{Minor} - {Vendor} - {Renderer}"; }
-                else { return $"OpenGL {Major}.{Minor} - {Vendor} - {Renderer}"; }
-            }
-        }
-
-        public struct GLCapabilities
-        {
-            public int MaxTextureUnits;
-        }
     }
 }

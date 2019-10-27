@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 namespace Heirloom.Math
 {
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    public struct Rectangle : IEquatable<Rectangle>
+    public struct Rectangle : IShape, IEquatable<Rectangle>
     {
         public float X;
 
@@ -15,6 +15,9 @@ namespace Heirloom.Math
         public float Width;
 
         public float Height;
+
+        [ThreadStatic]
+        private static readonly Vector[][] _polygon = new Vector[2][] { new Vector[4], new Vector[4] };
 
         #region Constants
 
@@ -55,6 +58,8 @@ namespace Heirloom.Math
         #endregion
 
         #region Properties
+
+        Rectangle IShape.Bounds => this;
 
         public float Area => Width * Height;
 
@@ -222,7 +227,22 @@ namespace Heirloom.Math
             Offset(offset.X, offset.Y);
         }
 
-        #region Contains / Overlaps
+        #region Closest Point
+
+        /// <summary>
+        /// Returns the nearest point on the rectangle to the given point.
+        /// </summary>
+        public Vector ClosestPoint(in Vector point)
+        {
+            Vector closest;
+            closest.X = (point.X < Min.X) ? Min.X : (point.X > Max.X) ? Max.X : point.X;
+            closest.Y = (point.Y < Min.Y) ? Min.Y : (point.Y > Max.Y) ? Max.Y : point.Y;
+            return closest;
+        }
+
+        #endregion
+
+        #region Contains
 
         /// <summary>
         /// Does this rectangle contain the given point?
@@ -251,6 +271,41 @@ namespace Heirloom.Math
             return true;
         }
 
+        #endregion
+
+        #region Overlaps
+
+        public bool Overlaps(IShape shape)
+        {
+            // rec - rec
+            if (shape is Rectangle rec) { return Overlaps(rec); }
+            // rec - cir
+            else if (shape is Circle cir) { return Overlaps(cir); }
+            // rec - pol
+            else if (shape is IPolygon pol) { return Overlaps((IReadOnlyList<Vector>) pol); }
+            // rec - tri
+            else if (shape is Triangle tri) { return Overlaps(tri); }
+            // unknown case
+            else
+            {
+                throw new InvalidOperationException("Unable to determine overlap, shape was not a known type.");
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(in Circle circle)
+        {
+            // circle has the implementation
+            return circle.Overlaps(this);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(in Triangle triangle)
+        {
+            // triangle has the implementation
+            return triangle.Overlaps(this);
+        }
+
         /// <summary>
         /// Does this rectangle overlap the given rectangle?
         /// </summary>
@@ -273,15 +328,10 @@ namespace Heirloom.Math
             return true;
         }
 
-        /// <summary>
-        /// Returns the nearest point on the rectangle to the given point.
-        /// </summary>
-        public Vector ClosestPoint(in Vector point)
+        public bool Overlaps(IReadOnlyList<Vector> polygon)
         {
-            Vector closest;
-            closest.X = (point.X < Min.X) ? Min.X : (point.X > Max.X) ? Max.X : point.X;
-            closest.Y = (point.Y < Min.Y) ? Min.Y : (point.Y > Max.Y) ? Max.Y : point.Y;
-            return closest;
+            var rec = GetTempPolygon(0);
+            return Collisions.Overlaps(rec, polygon);
         }
 
         #endregion
@@ -436,6 +486,18 @@ namespace Heirloom.Math
         }
 
         #endregion
+
+        internal Vector[] GetTempPolygon(int number)
+        {
+            var polygon = _polygon[number];
+
+            polygon[0] = TopLeft;
+            polygon[1] = TopRight;
+            polygon[2] = BottomRight;
+            polygon[3] = BottomLeft;
+
+            return polygon;
+        }
 
         public override string ToString()
         {

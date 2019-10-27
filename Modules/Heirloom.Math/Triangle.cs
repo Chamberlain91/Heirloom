@@ -1,14 +1,28 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Heirloom.Math
 {
-    public struct Triangle
+    public struct Triangle : IShape, IEquatable<Triangle>
     {
+        /// <summary>
+        /// The first point.
+        /// </summary>
         public Vector A;
 
+        /// <summary>
+        /// The second point.
+        /// </summary>
         public Vector B;
 
+        /// <summary>
+        /// The third point.
+        /// </summary>
         public Vector C;
+
+        [ThreadStatic]
+        private static readonly Vector[][] _polygon = new Vector[2][] { new Vector[3], new Vector[3] };
 
         #region Constructors
 
@@ -21,9 +35,33 @@ namespace Heirloom.Math
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the bounds of this triangle.
+        /// </summary>
+        public Rectangle Bounds => Rectangle.FromPoints(A, B, C);
+
+        /// <summary>
+        /// Gets the area of this triangle.
+        /// </summary>
+        public float Area => Vector.Cross(B - A, C - A) / 2F;
+
+        #endregion
+
+        #region Closest Point
+
+        public Vector ClosestPoint(in Vector point)
+        {
+            var poly = GetTempPolygon(0);
+            return Polygon.ClosestPoint(poly, point);
+        }
+
+        #endregion
+
         #region Contains
 
-        public bool Contains(Vector point)
+        public bool Contains(in Vector point)
         {
             return ContainsPoint(in A, in B, in C, point);
         }
@@ -56,21 +94,12 @@ namespace Heirloom.Math
 
             return oddNodes;
 
-            bool CheckPointToSegment(Vector sA, Vector sB, Vector sP)
+            static bool CheckPointToSegment(Vector sA, Vector sB, Vector sP)
             {
-                if ((sA.Y < sP.Y && sB.Y >= sP.Y) ||
-                    (sB.Y < sP.Y && sA.Y >= sP.Y))
+                if ((sA.Y < sP.Y && sB.Y >= sP.Y) || (sB.Y < sP.Y && sA.Y >= sP.Y))
                 {
-                    var x =
-                        sA.X +
-                        ((sP.Y - sA.Y) /
-                        (sB.Y - sA.Y) *
-                        (sB.X - sA.X));
-
-                    if (x < sP.X)
-                    {
-                        return true;
-                    }
+                    var x = sA.X + ((sP.Y - sA.Y) / (sB.Y - sA.Y) * (sB.X - sA.X));
+                    if (x < sP.X) { return true; }
                 }
 
                 return false;
@@ -79,7 +108,70 @@ namespace Heirloom.Math
 
         #endregion
 
-        // Raycast?
+        #region Overlaps
+
+        public bool Overlaps(IShape shape)
+        {
+            // tri - tri
+            if (shape is Triangle tri) { return Overlaps(tri); }
+            // tri - rec
+            else if (shape is Rectangle rec) { return Overlaps(rec); }
+            // tri - cir
+            else if (shape is Circle cir) { return Overlaps(cir); }
+            // tri - pol
+            else if (shape is IPolygon pol) { return Overlaps((IReadOnlyList<Vector>) pol); }
+            // unknown case
+            else
+            {
+                throw new InvalidOperationException("Unable to determine overlap, shape was not a known type.");
+            }
+        }
+
+        public bool Overlaps(Circle circle)
+        {
+            var poly = GetTempPolygon(0);
+            return Collisions.Overlaps(circle, poly);
+        }
+
+        public bool Overlaps(Triangle triangle)
+        {
+            var polyA = GetTempPolygon(0);
+            var polyB = triangle.GetTempPolygon(1);
+
+            return Collisions.Overlaps(polyA, polyB);
+        }
+
+        public bool Overlaps(Rectangle rectangle)
+        {
+            var tri = GetTempPolygon(0);
+            var rec = rectangle.GetTempPolygon(1);
+
+            return Collisions.Overlaps(tri, rec);
+        }
+
+        public bool Overlaps(IReadOnlyList<Vector> polygon)
+        {
+            var tri = GetTempPolygon(0);
+            return Collisions.Overlaps(tri, polygon);
+        }
+
+        #endregion
+
+        #region Raycast
+
+        public bool Raycast(in Ray ray, out Contact contact)
+        {
+            var poly = GetTempPolygon(0);
+            return Polygon.Raycast(poly, in ray, out contact);
+        }
+
+        public bool Raycast(in Ray ray)
+        {
+            var poly = GetTempPolygon(0);
+            return Polygon.Raycast(poly, in ray);
+        }
+
+        #endregion
 
         #region Barycentric Coordinates
 
@@ -125,5 +217,54 @@ namespace Heirloom.Math
         }
 
         #endregion
+
+        #region Equality
+
+        public override bool Equals(object obj)
+        {
+            return obj is Triangle triangle && Equals(triangle);
+        }
+
+        public bool Equals(Triangle other)
+        {
+            return A.Equals(other.A) &&
+                   B.Equals(other.B) &&
+                   C.Equals(other.C) &&
+                   Bounds.Equals(other.Bounds) &&
+                   Area == other.Area;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(A, B, C, Bounds, Area);
+        }
+
+        public static bool operator ==(Triangle left, Triangle right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Triangle left, Triangle right)
+        {
+            return !(left == right);
+        }
+
+        #endregion
+
+        internal Vector[] GetTempPolygon(int number)
+        {
+            var polygon = _polygon[number];
+
+            polygon[0] = A;
+            polygon[1] = B;
+            polygon[2] = C;
+
+            return polygon;
+        }
+
+        public override string ToString()
+        {
+            return $"(Triangle, {A}, {B}, {C})";
+        }
     }
 }

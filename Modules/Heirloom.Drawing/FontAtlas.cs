@@ -16,7 +16,7 @@ namespace Heirloom.Drawing
 
         public Image Atlas { get; }
 
-        private readonly Dictionary<UnicodeCharacter, Font.Glyph> _glyphs;
+        private readonly Dictionary<UnicodeCharacter, Glyph> _glyphs;
         private readonly Dictionary<UnicodeCharacter, Image> _images;
 
         // TODO: Keep a glyph life time counter, to know when its safe to recycle space.
@@ -54,7 +54,7 @@ namespace Heirloom.Drawing
             var packer = new RectanglePacker<UnicodeCharacter>();
             foreach (var kv in _glyphs) // TODO: Sort by size?
             {
-                packer.Insert(kv.Key, kv.Value.GetMetrics(FontSize).Box.Size + (2, 2));
+                packer.Insert(kv.Key, kv.Value.GetMetrics(FontSize).Size + (2, 2));
             }
 
             // Create image with the bounding of all packed glyphs
@@ -69,7 +69,7 @@ namespace Heirloom.Drawing
             }
         }
 
-        private static Image RenderGlyph(Image atlas, IntRectangle region, Font.Glyph glyph, float size)
+        private static Image RenderGlyph(Image atlas, IntRectangle region, Glyph glyph, float size)
         {
             // Create a sub-image for the packed region and render to it
             var cell = new Image(atlas, new IntRectangle(region.Position + (1, 1), region.Size - (2, 2)));
@@ -78,9 +78,9 @@ namespace Heirloom.Drawing
             return cell;
         }
 
-        private static Dictionary<UnicodeCharacter, Font.Glyph> GetValidGlyphs(Font font, float size, IEnumerable<UnicodeCharacter> characters)
+        private static Dictionary<UnicodeCharacter, Glyph> GetValidGlyphs(Font font, float size, IEnumerable<UnicodeCharacter> characters)
         {
-            var glyphs = new Dictionary<UnicodeCharacter, Font.Glyph>();
+            var glyphs = new Dictionary<UnicodeCharacter, Glyph>();
 
             // Find all valid glyphs
             foreach (var ch in characters)
@@ -97,7 +97,7 @@ namespace Heirloom.Drawing
 
                 // Unable to find glyph in this font face
                 // TODO: Find a better 'missing' / 'not printable' function...?
-                if (glyph == null || glyph.GetMetrics(size).Box.Width <= 0 || !glyph.IsVisibleCharacter)
+                if (glyph == null || glyph.GetMetrics(size).Size.Width <= 0 || !glyph.CanBeRendered)
                 {
                     continue;
                 }
@@ -111,14 +111,14 @@ namespace Heirloom.Drawing
         }
 
         // TODO: Might not be useful, have to evaluate how stb works 
-        public bool TryGetGlyph(UnicodeCharacter character, out Font.Glyph glyph)
+        public bool TryGetGlyph(UnicodeCharacter character, out Glyph glyph)
         {
             glyph = GetGlyph(character);
             return glyph != null;
         }
 
         // TODO: Might be redundant? Just a cache on the font?
-        public Font.Glyph GetGlyph(UnicodeCharacter ch)
+        public Glyph GetGlyph(UnicodeCharacter ch)
         {
             // Do we already know about this glyph?
             if (_glyphs.ContainsKey(ch)) { return _glyphs[ch]; }
