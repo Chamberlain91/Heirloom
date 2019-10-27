@@ -58,7 +58,7 @@ namespace Benchmark
             // Update the current benchmark
             _benchmarks[_benchmarkIndex].Update(delta);
 
-            ctx.Clear(Colors.FlatUI.MidnightBlue);
+            ctx.Clear(_backgroundColor);
 
             if (_isComplete)
             {
@@ -113,13 +113,13 @@ namespace Benchmark
             var size = Font.Default.MeasureText(text, 32);
             var rect = new Rectangle((ctx.Surface.Width - size.Width) / 2F, (ctx.Surface.Height - size.Height) / 2F, size.Width, size.Height);
 
-            ctx.Color = Colors.FlatUI.Concrete;
+            ctx.Color = Color.Gray;
             ctx.DrawRect(rect.Inflate(10));
 
-            ctx.Color = Colors.FlatUI.Clouds;
+            ctx.Color = Color.LightGray;
             ctx.DrawRect(rect.Inflate(8));
 
-            ctx.Color = Colors.FlatUI.Pomegranate;
+            ctx.Color = _pomegranate;
             ctx.DrawText(text, rect.Position + (size.Width / 2, 0), Font.Default, 32, TextAlign.Center);
         }
 
@@ -356,6 +356,9 @@ namespace Benchmark
             Image.CreateAtlas(images);
             return images;
         }
+
+        private readonly Color _backgroundColor = Color.Parse("2C3E50");
+        private readonly Color _pomegranate = Color.Parse("C0392B");
 
         private static readonly IEnumerable<Image> _rabbitImages = WrapAtlas(new[]
         {

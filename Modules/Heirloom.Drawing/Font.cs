@@ -85,8 +85,6 @@ namespace Heirloom.Drawing
         /// Get the vertical metrics of the this font at the specified size.
         /// </summary>
         /// <param name="size">The size of the font.</param>
-        /// <param name="mode">The mode to measure the font.</param>
-        /// <returns></returns>
         public FontMetrics GetMetrics(float size)
         {
             if (size < 1) { throw new ArgumentException("Font size must be greater than zero.", nameof(size)); }
@@ -104,11 +102,14 @@ namespace Heirloom.Drawing
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private float ComputeScale(float height)
+        internal float ComputeScale(float height)
         {
             return stbtt_ScaleForMappingEmToPixels(Info, height);
         }
 
+        /// <summary>
+        /// Gets the spacing adjustment (ie, kerning) between any two characters.
+        /// </summary>
         public float GetKerning(UnicodeCharacter cp1, UnicodeCharacter cp2, float size)
         {
             // Compute scaling factor
@@ -122,15 +123,31 @@ namespace Heirloom.Drawing
             return stbtt_GetGlyphKernAdvance(Info, g1.Index, g2.Index) * scale;
         }
 
+        /// <summary>
+        /// Computes the size of the bounding box that the specified text will occupy within an infinite layout size.
+        /// </summary>
+        /// <param name="text">The text to layout and measure.</param>
+        /// <param name="fontSize">The font size to use.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Size MeasureText(string text, int fontSize)
         {
             return MeasureText(text, Size.Infinite, fontSize);
         }
 
+        /// <summary>
+        /// Computes the size of the bounding box that the specified text will occupy within the given layout size.
+        /// </summary>
+        /// <param name="text">The text to layout and measure.</param>
+        /// <param name="layoutSize">The size of the layout box.</param>
+        /// <param name="fontSize">The font size to use.</param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Size MeasureText(string text, Size layoutSize, int fontSize)
         {
+            if (text is null) { throw new ArgumentNullException(nameof(text)); }
+            if (layoutSize.Width <= 0 || layoutSize.Height <= 0) { throw new ArgumentException($"Layout size must be greater than zero.", nameof(layoutSize)); }
+            if (fontSize <= 0) { throw new ArgumentException($"Font size must be greater than zero."); }
+
             // Get font atlas
             var atlas = FontManager.GetAtlas(this, fontSize);
 
@@ -146,99 +163,22 @@ namespace Heirloom.Drawing
             return measure.Size;
         }
 
-        public class Glyph
-        {
-            private readonly int _advanceWidth;
-            private readonly int _bearing;
-            internal readonly int Index;
-            internal IntRectangle Box;
-
-            public Font Font { get; }
-
-            public UnicodeCharacter Codepoint { get; private set; }
-
-            internal bool HasCodepoint { get; private set; }
-
-            internal Glyph(Font font, int index)
-            {
-                // Get glyph index (search)
-                Index = index;
-                Font = font;
-
-                // Get horizontal metrics (at raw scale)
-                int advWidth, bearing;
-                stbtt_GetGlyphHMetrics(Font.Info, Index, &advWidth, &bearing);
-                _advanceWidth = advWidth;
-                _bearing = bearing;
-
-                // Get glyph box info
-                int x0, x1, y0, y1;
-                stbtt_GetGlyphBitmapBox(Font.Info, Index, 1F, 1F, &x0, &y0, &x1, &y1);
-                Box = new IntRectangle(x0, y0, x1 - x0, y1 - y0);
-            }
-
-            public bool IsVisibleCharacter
-            {
-                get
-                {
-                    if (Index == 0) { return false; }
-                    return stbtt_IsGlyphEmpty(Font.Info, Index) == 0;
-                }
-            }
-
-            public GlyphMetrics GetMetrics(float size)
-            {
-                // Compute scaling factor
-                var scale = Font.ComputeScale(size);
-
-                // Compute metrics
-                var advanceWidth = _advanceWidth * scale;
-                var bearing = _bearing * scale;
-
-                // Compute scaled pixel box
-                var x0 = Calc.Floor(Box.X * scale);
-                var y0 = Calc.Floor(Box.Y * scale);
-                var x1 = Calc.Ceil((Box.X + Box.Width) * scale);
-                var y1 = Calc.Ceil((Box.Y + Box.Height) * scale);
-
-                // Return metrics to user
-                return new GlyphMetrics(advanceWidth, bearing, new IntRectangle(x0, y0, x1 - x0, y1 - y0));
-            }
-
-            internal void SetCodepoint(UnicodeCharacter codepoint)
-            {
-                if (HasCodepoint) { throw new InvalidOperationException("Unable to set glyph's codpoint, already set"); }
-                else
-                {
-                    Codepoint = codepoint;
-                    HasCodepoint = true;
-                }
-            }
-
-            public void RenderTo(Image image, int x, int y, float size)
-            {
-                // Compute scaling factor
-                var scale = Font.ComputeScale(size);
-
-                // Render into image
-                Font.RenderTo(Index, scale, image, x, y);
-            }
-
-            public override string ToString()
-            {
-                var c = char.ConvertFromUtf32((int) Codepoint);
-                return $"{nameof(Glyph)} of '{c}'";
-            }
-        }
-
         #region Get Glyph
 
+        /// <summary>
+        /// Gets the information about a particular glyph in this font.
+        /// </summary>
+        /// <param name="ch">Some character.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Glyph GetGlyph(char ch)
         {
             return GetGlyph((UnicodeCharacter) ch);
         }
 
+        /// <summary>
+        /// Gets the information about a particular glyph in this font.
+        /// </summary>
+        /// <param name="ch">Some character.</param>
         public Glyph GetGlyph(UnicodeCharacter ch)
         {
             // Attempt to lookup glyph from dictionary
@@ -302,7 +242,6 @@ namespace Heirloom.Drawing
                     var tY = y + sY;
 
                     // Adjust pixel alpha to match bitmap
-                    // TODO: Might have to adjust for blend mode when decided, pre-mul or not.
                     pixel.A = pBitmap[i];
                     image.SetPixel(tX, tY, pixel);
                 }

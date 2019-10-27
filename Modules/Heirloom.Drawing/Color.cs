@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 using Heirloom.Math;
@@ -34,39 +35,39 @@ namespace Heirloom.Drawing
 
         #region Constants
 
-        public static readonly Color Red = Parse("FF0000");
+        public static Color Red { get; } = Parse("FF0000");
 
-        public static readonly Color Green = Parse("00FF00");
+        public static Color Green { get; } = Parse("00FF00");
 
-        public static readonly Color Blue = Parse("0000FF");
+        public static Color Blue { get; } = Parse("0000FF");
 
-        public static readonly Color Yellow = Parse("FFFF00");
+        public static Color Yellow { get; } = Parse("FFFF00");
 
-        public static readonly Color Cyan = Parse("00FFFF");
+        public static Color Cyan { get; } = Parse("00FFFF");
 
-        public static readonly Color Magenta = Parse("FF00FF");
+        public static Color Magenta { get; } = Parse("FF00FF");
 
-        public static readonly Color White = Parse("FFFFFF");
+        public static Color White { get; } = Parse("FFFFFF");
 
-        public static readonly Color Black = Parse("000000");
+        public static Color Black { get; } = Parse("000000");
 
-        public static readonly Color Gray = Parse("999999");
+        public static Color Gray { get; } = Parse("999999");
 
-        public static readonly Color DarkGray = Parse("333333");
+        public static Color DarkGray { get; } = Parse("333333");
 
-        public static readonly Color LightGray = Parse("CCCCCC");
+        public static Color LightGray { get; } = Parse("CCCCCC");
 
-        public static readonly Color Orange = Parse("FF8811");
+        public static Color Orange { get; } = Parse("FF8811");
 
-        public static readonly Color Indigo = Parse("FF4B0082");
+        public static Color Indigo { get; } = Parse("FF4B0082");
 
-        public static readonly Color Violet = Parse("FF8A2BE2");
+        public static Color Violet { get; } = Parse("FF8A2BE2");
 
-        public static readonly Color Pink = Parse("DD55AA");
+        public static Color Pink { get; } = Parse("DD55AA");
 
-        public static readonly Color Transparent = Parse("00000000");
+        public static Color Transparent { get; } = Parse("00000000");
 
-        public static readonly Color[] Rainbow = { Red, Orange, Yellow, Green, Blue, Indigo, Violet };
+        public static IReadOnlyList<Color> Rainbow { get; } = new[] { Red, Orange, Yellow, Green, Blue, Indigo, Violet };
 
         public static Color Random
             => new Color(Calc.Random.NextFloat(), Calc.Random.NextFloat(), Calc.Random.NextFloat());
@@ -191,13 +192,25 @@ namespace Heirloom.Drawing
 
         #region Parse
 
+        /// <summary>
+        /// Parses a hex-string representation of a color. 
+        /// May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'.
+        /// </summary>
+        /// <param name="color">The hex-encoded string.</param>
         public static Color Parse(string color)
         {
             if (TryParse(color, out var @out)) { return @out; }
             else { throw new FormatException($"Unable to parse color, invalid format."); }
         }
 
-        public static bool TryParse(string color, out Color @out)
+        /// <summary>
+        /// Parses a hex-string representation of a color. 
+        /// May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'.
+        /// </summary>
+        /// <param name="color">The hex-encoded string.</param>
+        /// <param name="outColor">Outputs the parsed color.</param>
+        /// <returns>True if color was successfully parsed, otherwise false.</returns>
+        public static bool TryParse(string color, out Color outColor)
         {
             try
             {
@@ -208,7 +221,7 @@ namespace Heirloom.Drawing
                 int r, g, b;
                 var a = 0xFF;
 
-                // ABC style
+                // RGB style
                 if (color.Length == 3)
                 {
                     r = ParseHexInt(color.Substring(0, 1)) * 0x11;
@@ -216,7 +229,7 @@ namespace Heirloom.Drawing
                     b = ParseHexInt(color.Substring(2, 1)) * 0x11;
                 }
 
-                // ABCD style
+                // RGBA style
                 else if (color.Length == 4)
                 {
                     a = ParseHexInt(color.Substring(0, 1)) * 0x11;
@@ -225,7 +238,7 @@ namespace Heirloom.Drawing
                     b = ParseHexInt(color.Substring(3, 1)) * 0x11;
                 }
 
-                // AABBCC style
+                // RRGGBB style
                 else if (color.Length == 6)
                 {
                     r = ParseHexInt(color.Substring(0, 2));
@@ -233,7 +246,7 @@ namespace Heirloom.Drawing
                     b = ParseHexInt(color.Substring(4, 2));
                 }
 
-                // AABBCCDD style
+                // RRGGBBAA style
                 else if (color.Length == 8)
                 {
                     a = ParseHexInt(color.Substring(0, 2));
@@ -244,12 +257,12 @@ namespace Heirloom.Drawing
                 // No known style
                 else
                 {
-                    @out = default;
+                    outColor = default;
                     return false;
                 }
 
                 // 
-                @out = new Color
+                outColor = new Color
                 {
                     R = r / 255F,
                     G = g / 255F,
@@ -259,22 +272,30 @@ namespace Heirloom.Drawing
 
                 return true;
             }
-            catch (Exception)
+            catch (FormatException)
             {
-                @out = default;
+                outColor = default;
                 return false;
             }
-        }
 
-        private static int ParseHexInt(string str)
-        {
-            return Convert.ToInt32(str, 16);
+            static int ParseHexInt(string str)
+            {
+                return Convert.ToInt32(str, 16);
+            }
         }
 
         #endregion
 
         #region HSV Conversion
 
+        /// <summary>
+        /// Converts HSV values into a RGBA color.
+        /// </summary>
+        /// <param name="hue">The hue (0 to 360).</param>
+        /// <param name="saturation">The saturation (0.0 to 1.0).</param>
+        /// <param name="value">The value (0.0 to 1.0).</param>
+        /// <param name="alpha">The opacity (0.0 to 1.0).</param>
+        /// <returns></returns>
         public static Color FromHSV(float hue, float saturation, float value, float alpha = 1F)
         // ref: https://github.com/Inseckto/HSV-to-RGB
         {
@@ -304,6 +325,12 @@ namespace Heirloom.Drawing
             return new Color(r, g, b, alpha);
         }
 
+        /// <summary>
+        /// Extracts the HSV values from this color.
+        /// </summary>
+        /// <param name="hue">The hue (0 to 360).</param>
+        /// <param name="saturation">The saturation (0.0 to 1.0).</param>
+        /// <param name="value">The value (0.0 to 1.0).</param>
         public void ToHSV(out float hue, out float saturation, out float value)
         // ref: https://stackoverflow.com/questions/3018313
         {
@@ -476,22 +503,17 @@ namespace Heirloom.Drawing
 
         public static explicit operator Color(uint c)
         {
-            return (Color) (ColorBytes) c;
+            return (ColorBytes) c;
         }
 
         public static explicit operator Color(int c)
         {
-            return (Color) (ColorBytes) c;
+            return (ColorBytes) c;
         }
 
         #endregion
 
-        #region ToString / Equals / GetHashCode
-
-        public override string ToString()
-        {
-            return $"({R}, {G}, {B}, {A})";
-        }
+        #region Equality
 
         public override bool Equals(object obj)
         {
@@ -508,12 +530,7 @@ namespace Heirloom.Drawing
 
         public override int GetHashCode()
         {
-            var hashCode = 1960784236;
-            hashCode = hashCode * -1521134295 + R.GetHashCode();
-            hashCode = hashCode * -1521134295 + G.GetHashCode();
-            hashCode = hashCode * -1521134295 + B.GetHashCode();
-            hashCode = hashCode * -1521134295 + A.GetHashCode();
-            return hashCode;
+            return HashCode.Combine(R, G, B, A);
         }
 
         public static bool operator ==(Color color1, Color color2)
@@ -527,5 +544,10 @@ namespace Heirloom.Drawing
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return $"({R}, {G}, {B}, {A})";
+        }
     }
 }

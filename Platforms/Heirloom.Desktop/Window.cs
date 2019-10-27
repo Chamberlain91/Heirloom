@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Threading;
 using Heirloom.Drawing;
 using Heirloom.Drawing.OpenGLES;
 using Heirloom.GLFW;
@@ -630,15 +630,16 @@ namespace Heirloom.Desktop
                 // Set initial size, and whenever the window is resized, also set the default surface size
                 Window.FramebufferResized += _ => SetDefaultSurfaceSize(Window.FramebufferSize);
                 SetDefaultSurfaceSize(Window.FramebufferSize);
-
-                // Begin GL thread
-                StartThread();
             }
 
             public Window Window { get; }
 
             protected override void PrepareContext()
             {
+                // Wait for window to be set to help avoid the race condition, since the context thread is a different thread.
+                SpinWait.SpinUntil(() => Window != null);
+
+                // Make context current on context thread
                 Glfw.MakeContextCurrent(Window.WindowHandle);
                 Glfw.SetSwapInterval(Window.VSync ? 1 : 0);
             }

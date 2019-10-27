@@ -113,7 +113,7 @@ namespace Heirloom.Collections
             }
 
             // Copy source to destination in s1 to s2 range at offset d1
-            void copy(IList<T> s, int s1, int s2, IList<T> d, int d1)
+            static void copy(IList<T> s, int s1, int s2, IList<T> d, int d1)
             {
                 while (s1 < s2)
                 {

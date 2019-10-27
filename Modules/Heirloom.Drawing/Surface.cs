@@ -4,6 +4,9 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
+    /// <summary>
+    /// Represents a surface drawing onto.
+    /// </summary>
     public sealed class Surface : ImageSource
     {
         #region Constructors

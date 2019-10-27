@@ -26,8 +26,13 @@ namespace Heirloom.Drawing
             _callbacks.Add(keyword, callback);
         }
 
+        /// <summary>
+        /// Parse the input text and returns a <see cref="RichText"/> object.
+        /// </summary>
         public override RichText Parse(string markup)
         {
+            if (string.IsNullOrWhiteSpace(markup)) { throw new ArgumentException("Must not be a blank or null string.", nameof(markup)); }
+
             var modeStartMap = new Dictionary<string, int>();
             var modes = new List<TextMode>();
 

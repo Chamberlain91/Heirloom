@@ -11,8 +11,14 @@ namespace Heirloom.Drawing.Extras
         private IntRectangle _bounds;
         private readonly Dictionary<K, Node> _nodes;
 
+        /// <summary>
+        /// Gets the total bounds of the packed rectangles.
+        /// </summary>
         public IntRectangle Bounds => _bounds;
 
+        /// <summary>
+        /// Gets the identifiers of each packed rectangle.
+        /// </summary>
         public IEnumerable<K> Keys => _nodes.Keys;
 
         public RectanglePacker()
@@ -21,6 +27,11 @@ namespace Heirloom.Drawing.Extras
             _nodes = new Dictionary<K, Node>();
         }
 
+        /// <summary>
+        /// Insert and pack a rectangle of the specified size.
+        /// </summary>
+        /// <param name="key">Some key to identify the rectangle.</param>
+        /// <param name="size">The size of the rectangle to insert.</param>
         public void Insert(K key, IntSize size)
         {
             // Initial node
@@ -42,11 +53,17 @@ namespace Heirloom.Drawing.Extras
             _nodes[key] = node;
         }
 
+        /// <summary>
+        /// Does this packer have a rectangle with the specified key?
+        /// </summary>
         public bool Contains(K key)
         {
             return _nodes.ContainsKey(key);
         }
 
+        /// <summary>
+        /// Returns the packed rectangle for the specified key.
+        /// </summary>
         public IntRectangle GetRectangle(K key)
         {
             return _nodes[key].Bounds;
@@ -165,7 +182,7 @@ namespace Heirloom.Drawing.Extras
         #endregion
 
         /// <summary>
-        /// Attempts to pack the given rectangles.
+        /// Packs the given rectangle sizes and returns one-to-one ordering of their packed positions.
         /// </summary>
         public static IntRectangle[] Pack(IntSize[] rectangles)
         {
@@ -178,13 +195,13 @@ namespace Heirloom.Drawing.Extras
             }
 
             // Extract rectangles
-            var @out = new IntRectangle[rectangles.Length];
+            var output = new IntRectangle[rectangles.Length];
             for (var i = 0; i < rectangles.Length; i++)
             {
-                @out[i] = packer.GetRectangle(i);
+                output[i] = packer.GetRectangle(i);
             }
 
-            return @out;
+            return output;
         }
     }
 }

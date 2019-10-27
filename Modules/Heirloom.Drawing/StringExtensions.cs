@@ -1,4 +1,6 @@
-﻿namespace Heirloom.IO
+﻿using System.Runtime.CompilerServices;
+
+namespace Heirloom.Drawing
 {
     public static class StringExtensions
     {
@@ -14,6 +16,12 @@
             var segLength = (maxLength - 3) / 2;
             if (@this.Length >= maxLength) { return @this.Substring(0, segLength) + "..." + @this.Substring(@this.Length - segLength, segLength); }
             else { return @this; }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static UnicodeCharacter GetCharacter(this string text, int i)
+        {
+            return (UnicodeCharacter) char.ConvertToUtf32(text, i);
         }
 
         /// <summary>

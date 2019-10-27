@@ -42,7 +42,7 @@ namespace Heirloom.Game
         /// <summary>
         /// Background color used if no camera components exist in the scene.
         /// </summary>
-        public static Color BackgroundColor { get; set; } = Colors.FlatUI.WetAshphalt;
+        public static Color BackgroundColor { get; set; } = Color.DarkGray;
 
         #endregion
 

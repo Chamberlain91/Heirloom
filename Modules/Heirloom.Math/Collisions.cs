@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace Heirloom.Math
@@ -8,58 +7,47 @@ namespace Heirloom.Math
     // ref: https://www.randygaul.net/2013/07/16/separating-axis-test-and-support-points-in-2d/
     // ref: https://github.com/RandyGaul/cute_headers cute_c2.h
     {
-        // todo: Rectangle to Rectangle
-        // todo: Rectangle to Circle
-        // todo: ^ Circle to Rectangle
-        // todo: Rectangle to Polygon
-        // todo: ^ Polygon to Rectangle
+        /**
+         * The fundamental checks are:
+         *  - circ to poly
+         *  - poly to poly
+         *  
+         * Triangles and rectangles are also convex polygons.
+         */
 
         #region Collision (Rectangle to Rectangle)
 
-        // Overlaps already defined in the rectangle struct
-
         public static bool CheckCollision(this in Rectangle a, in Rectangle b, out Manifold manifold)
         {
-            throw new NotImplementedException();
+            var polyA = a.GetTempPolygon(0);
+            var polyB = b.GetTempPolygon(1);
+
+            return CheckCollision(polyA, polyB, out manifold);
         }
 
         #endregion
 
         #region Collision (Rectangle to Circle, Implementation)
 
-        public static bool Overlaps(this in Rectangle a, in Circle b)
-        {
-            throw new NotImplementedException();
-        }
-
         public static bool CheckCollision(this in Rectangle a, in Circle b, out Manifold manifold)
         {
-            throw new NotImplementedException();
+            var poly = a.GetTempPolygon(0);
+            return CheckCollision(b, poly, out manifold);
         }
 
         #endregion
 
         #region Collision (Rectangle to Polygon, Implementation)
 
-        public static bool Overlaps(this in Rectangle a, IReadOnlyList<Vector> b)
-        {
-            throw new NotImplementedException();
-        }
-
         public static bool CheckCollision(this in Rectangle a, IReadOnlyList<Vector> b, out Manifold manifold)
         {
-            throw new NotImplementedException();
+            var poly = a.GetTempPolygon(0);
+            return CheckCollision(poly, b, out manifold);
         }
 
         #endregion
 
         #region Collision (Circle to Rectangle)
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Overlaps(this in Circle a, in Rectangle b)
-        {
-            return Overlaps(b, a);
-        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CheckCollision(this in Circle a, in Rectangle b, out Manifold manifold)
@@ -134,12 +122,6 @@ namespace Heirloom.Math
         #region Collision (Polygon to Rectangle)
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Overlaps(this IReadOnlyList<Vector> a, in Rectangle b)
-        {
-            return Overlaps(b, a);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CheckCollision(this IReadOnlyList<Vector> a, in Rectangle b, out Manifold manifold)
         {
             var s = CheckCollision(b, a, out manifold);
@@ -150,12 +132,6 @@ namespace Heirloom.Math
         #endregion
 
         #region Collision (Polygon to Circle)
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Overlaps(this IReadOnlyList<Vector> a, in Circle b)
-        {
-            return Overlaps(b, a);
-        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CheckCollision(this IReadOnlyList<Vector> a, in Circle b, out Manifold manifold)

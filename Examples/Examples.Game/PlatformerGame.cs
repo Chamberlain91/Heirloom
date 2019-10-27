@@ -92,7 +92,7 @@ namespace Examples.Game
 
             // Make camera follow player
             var camera = Scene.GetEntity<Camera>();
-            camera.BackgroundColor = Colors.FlatUI.PeterRiver;
+            camera.BackgroundColor = Color.Parse("3498DB");
             camera.AddComponent(new SmoothFollow(player.Transform));
         }
 

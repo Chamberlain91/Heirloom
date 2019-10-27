@@ -114,7 +114,7 @@ namespace Examples.Drawing
                     case State.Quote:
 
                         // Set color
-                        state.Color = Colors.FlatUI.BelizeHole;
+                        state.Color = (Color.Blue + Color.Cyan) / 2F;
 
                         // Animated up and down wobble
                         var now = (float) _stopwatch.Elapsed.TotalSeconds;

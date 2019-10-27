@@ -44,7 +44,7 @@ namespace Heirloom.Game
         /// <summary>
         /// Gets or sets the background color used when rendering from this camera.
         /// </summary>
-        public Color BackgroundColor { get; set; } = Colors.FlatUI.WetAshphalt;
+        public Color BackgroundColor { get; set; } = Color.DarkGray;
 
         /// <summary>
         /// Gets or sets the normalized viewport coordinates used when rendering from this camera.

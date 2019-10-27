@@ -5,54 +5,112 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
+    /// <summary>
+    /// Implementation and utility of text rendering and text layout.
+    /// </summary>
     public static class TextRenderer
     {
         public delegate void LayoutTextCallback(string text, int index, ref CharacterLayoutState state);
 
         public delegate void DrawTextCallback(string text, int index, ref CharacterDrawState state);
 
+        #region Draw RichText (Extension Methods)
+
+        /// <summary>
+        /// Draws rich text to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="text">The rich text to draw.</param>
+        /// <param name="position">The anchor position to layout text around.</param>
+        /// <param name="font">The font to render with.</param>
+        /// <param name="size">The font size to render with.</param>
+        /// <param name="align">The text alignment.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static UnicodeCharacter GetCharacter(this string text, int i)
+        public static void DrawText(this RenderContext ctx, RichText text, Vector position, Font font, int size, TextAlign align = TextAlign.Left)
         {
-            return (UnicodeCharacter) char.ConvertToUtf32(text, i);
+            DrawText(ctx, text.Text, position, font, size, align, text.Callback);
         }
+
+        /// <summary>
+        /// Draws rich text to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="text">The rich text to draw.</param>
+        /// <param name="bounds">The boundng region to layout text.</param>
+        /// <param name="font">The font to render with.</param>
+        /// <param name="size">The font size to render with.</param>
+        /// <param name="align">The text alignment.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawText(this RenderContext ctx, RichText text, Rectangle bounds, Font font, int size, TextAlign align = TextAlign.Left)
+        {
+            DrawText(ctx, text.Text, bounds, font, size, align, text.Callback);
+        }
+
+        #endregion
 
         #region Draw Text (Extension Methods)
 
+        /// <summary>
+        /// Draws text to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="text">The text to draw.</param>
+        /// <param name="position">The anchor position to layout text around.</param>
+        /// <param name="font">The font to render with.</param>
+        /// <param name="size">The font size to render with.</param>
+        /// <param name="callback">A callback for manipulating the style of the rendered text.</param> 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector DrawText(this RenderContext ctx, RichText text, Vector position, Font font, int size, TextAlign align = TextAlign.Left)
+        public static void DrawText(this RenderContext ctx, string text, Vector position, Font font, int size, DrawTextCallback callback)
         {
-            return DrawText(ctx, text.Text, position, font, size, align, text.Callback);
+            DrawText(ctx, text, position, font, size, TextAlign.Left, callback);
         }
 
+        /// <summary>
+        /// Draws text to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="text">The text to draw.</param>
+        /// <param name="position">The anchor position to layout text around.</param>
+        /// <param name="font">The font to render with.</param>
+        /// <param name="size">The font size to render with.</param>
+        /// <param name="align">The text alignment.</param>
+        /// <param name="callback">A callback for manipulating the style of the rendered text.</param> 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector DrawText(this RenderContext ctx, RichText text, Rectangle bounds, Font font, int size, TextAlign align = TextAlign.Left)
-        {
-            return DrawText(ctx, text.Text, bounds, font, size, align, text.Callback);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector DrawText(this RenderContext ctx, string text, Vector position, Font font, int size, DrawTextCallback callback)
-        {
-            return DrawText(ctx, text, position, font, size, TextAlign.Left, callback);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector DrawText(this RenderContext ctx, string text, Vector position, Font font, int size, TextAlign align = TextAlign.Left, DrawTextCallback callback = null)
+        public static void DrawText(this RenderContext ctx, string text, Vector position, Font font, int size, TextAlign align = TextAlign.Left, DrawTextCallback callback = null)
         {
             var bounds = GetPositionAnchoredTextBounds(text, font, size, position, align);
-            return DrawText(ctx, text, bounds, font, size, align, callback);
+            DrawText(ctx, text, bounds, font, size, align, callback);
         }
 
+        /// <summary>
+        /// Draws text to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="text">The text to draw.</param>
+        /// <param name="bounds">The boundng region to layout text.</param>
+        /// <param name="font">The font to render with.</param>
+        /// <param name="size">The font size to render with.</param>
+        /// <param name="callback">A callback for manipulating the style of the rendered text.</param> 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector DrawText(this RenderContext ctx, string text, Rectangle bounds, Font font, int size, DrawTextCallback callback)
+        public static void DrawText(this RenderContext ctx, string text, Rectangle bounds, Font font, int size, DrawTextCallback callback)
         {
-            return DrawText(ctx, text, bounds, font, size, TextAlign.Left, callback);
+            DrawText(ctx, text, bounds, font, size, TextAlign.Left, callback);
         }
 
+        /// <summary>
+        /// Draws text to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="text">The text to draw.</param>
+        /// <param name="bounds">The boundng region to layout text.</param>
+        /// <param name="font">The font to render with.</param>
+        /// <param name="size">The font size to render with.</param>
+        /// <param name="align">The text alignment.</param>
+        /// <param name="callback">A callback for manipulating the style of the rendered text.</param> 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector DrawText(this RenderContext ctx, string text, Rectangle bounds, Font font, int size, TextAlign align = TextAlign.Left, DrawTextCallback callback = null)
+        public static void DrawText(this RenderContext ctx, string text, Rectangle bounds, Font font, int size, TextAlign align = TextAlign.Left, DrawTextCallback callback = null)
         {
+            if (text is null) { throw new ArgumentNullException(nameof(text)); }
             if (font == null) { throw new ArgumentNullException(nameof(font)); }
             if (size < 1) { throw new ArgumentException("Font size must be greater than zero.", nameof(size)); }
 
@@ -94,8 +152,6 @@ namespace Heirloom.Drawing
 
             // Restore context state
             ctx.Color = color;
-
-            return state.Position;
         }
 
         private static Rectangle GetPositionAnchoredTextBounds(in string text, in Font font, in int size, in Vector position, in TextAlign align)
@@ -182,7 +238,7 @@ namespace Heirloom.Drawing
 
                 // 
                 var previous = state.Character;
-                state.Character = GetCharacter(text, i);
+                state.Character = text.GetCharacter(i);
 
                 // Apply kerning with previous character
                 state.Position.X += font.GetKerning(previous, state.Character, fontSize);
@@ -239,7 +295,7 @@ namespace Heirloom.Drawing
             // For each character in the future, do we see a possible break?
             for (var i = index; i < text.Length; i++)
             {
-                var character = GetCharacter(text, i);
+                var character = text.GetCharacter(i);
                 var breakCategory = GetBreakCategory(character);
                 var glyph = atlas.GetGlyph(character);
 

@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Heirloom.Math
 {
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    public struct Circle
+    public struct Circle : IShape, IEquatable<Circle>
     {
         public Vector Position;
 
@@ -38,7 +39,17 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Contains / Overlaps / Closest Point
+        #region Closest Point
+
+        public Vector ClosestPoint(in Vector point)
+        {
+            var off = point - Position;
+            return off * (Radius / off.Length);
+        }
+
+        #endregion
+
+        #region Contains
 
         public bool Contains(in Vector point)
         {
@@ -47,7 +58,29 @@ namespace Heirloom.Math
 
         public bool Contains(in Circle circle)
         {
-            throw new NotImplementedException();
+            var d = Vector.DistanceSquared(in Position, in circle.Position);
+            return Radius > (d + circle.Radius);
+        }
+
+        #endregion
+
+        #region Overlaps
+
+        public bool Overlaps(IShape shape)
+        {
+            // cir - cir
+            if (shape is Circle cir) { return Overlaps(cir); }
+            // cir - rec
+            else if (shape is Rectangle rec) { return Overlaps(rec); }
+            // cir - tri
+            else if (shape is Triangle tri) { return Overlaps(tri); }
+            // cir - pol
+            else if (shape is IPolygon pol) { return Overlaps((IReadOnlyList<Vector>) pol); }
+            // unknown case
+            else
+            {
+                throw new InvalidOperationException("Unable to determine overlap, shape was not a known type.");
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -56,13 +89,27 @@ namespace Heirloom.Math
             var c = b.Position - Position;
             var r = Radius + b.Radius;
 
-            return Vector.Dot(c, c) < (r * r);
+            return Vector.Dot(in c, in c) < (r * r);
         }
 
-        public Vector ClosestPoint(in Vector point)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(in Rectangle rect)
         {
-            var off = point - Position;
-            return off * (Radius / off.Length);
+            var poly = rect.GetTempPolygon(0);
+            return Collisions.Overlaps(this, poly);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(in Triangle tri)
+        {
+            // triangle has the implementation
+            return tri.Overlaps(this);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(in IReadOnlyList<Vector> poly)
+        {
+            return Collisions.Overlaps(this, poly);
         }
 
         #endregion
@@ -109,6 +156,38 @@ namespace Heirloom.Math
 
             hit = default;
             return false;
+        }
+
+        #endregion
+
+        #region Equality
+
+        public override bool Equals(object obj)
+        {
+            return obj is Circle circle && Equals(circle);
+        }
+
+        public bool Equals(Circle other)
+        {
+            return Position.Equals(other.Position) &&
+                   Radius == other.Radius &&
+                   Area == other.Area &&
+                   Bounds.Equals(other.Bounds);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Position, Radius, Area, Bounds);
+        }
+
+        public static bool operator ==(Circle left, Circle right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Circle left, Circle right)
+        {
+            return !(left == right);
         }
 
         #endregion
