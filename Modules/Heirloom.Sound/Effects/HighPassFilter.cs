@@ -7,57 +7,70 @@ namespace Heirloom.Sound.Effects
     /// </summary>
     public class HighPassFilter : AudioEffect
     {
-        private readonly float[] _k;
-        private float _cutoff;
+        private readonly float[] _pre;
+        private readonly float[] _mem;
+        private float[] _out;
 
-        private readonly AudioBuffer _buffer;
+        private float _frequency;
 
         public HighPassFilter(float cutoff)
         {
-            _k = new float[AudioContext.Channels];
-            Frequency = cutoff;
+            _pre = new float[AudioContext.Channels];
+            _mem = new float[AudioContext.Channels];
 
-            _buffer = new AudioBuffer(1); // 1/2 second
+            _out = Array.Empty<float>();
+
+            Frequency = cutoff;
         }
 
         /// <summary>
-        /// Gets or sets the filter cutoff in hertz.
+        /// Gets or sets the filter cutoff frequency in hertz.
         /// </summary>
         public float Frequency
         {
-            get => _cutoff;
+            get => _frequency;
 
             set
             {
-                if (value <= 0) { throw new ArgumentOutOfRangeException($"Filter cutoff must be greater than zero."); }
-                _cutoff = value;
+                if (value <= 0) { throw new ArgumentOutOfRangeException($"Filter cutoff frequency must be greater than zero."); }
+                _frequency = value;
             }
         }
 
         protected internal override void MixOutput(Span<float> samples)
         {
-            // Ensure we can record enough audio for one extra time slice
-            if (_buffer.Capacity < (samples.Length + AudioContext.Channels)) { _buffer.Resize(samples.Length + AudioContext.Channels); }
+            // Ensure output buffer is large enough
+            if (_out.Length < samples.Length) { Array.Resize(ref _out, samples.Length); }
 
-            // 
-            _buffer.Record(samples);
+            // Compute alpha
+            var dt = 1F / AudioContext.SampleRate;
+            var rc = 1F / (2 * MathF.PI * Frequency);
+            var alpha = rc / (rc + dt);
 
-            // 
-            if (_buffer.Count < _buffer.Capacity) { samples.Fill(0); }
-            else
+            // Process each sample
+            for (var i = 0; i < samples.Length; i++)
             {
-                // Compute alpha
-                var dt = 1F / AudioContext.SampleRate;
-                var rc = 1F / (2 * MathF.PI * Frequency);
-                var alpha = rc / (rc + dt);
+                var c = i % AudioContext.Channels; // Channel index
+                var j = i - AudioContext.Channels; // Previous sample offset
+
+                // Get previous sample
+                var prev = j < 0 ? _mem[i] : samples[j];
 
                 // 
-                for (var i = 0; i < samples.Length; i++)
-                {
-                    var c = i % AudioContext.Channels;
-                    _k[c] = alpha * (_k[c] + _buffer.GetSample(i + AudioContext.Channels) - _buffer.GetSample(i));
-                    samples[i] = _k[c];
-                }
+                _pre[c] = alpha * (_pre[c] + samples[i] - prev);
+                _out[i] = _pre[c];
+            }
+
+            // Store last sample frame as memory for next update
+            for (var i = 0; i < AudioContext.Channels; i++)
+            {
+                _mem[i] = samples[samples.Length - AudioContext.Channels + i];
+            }
+
+            // Copy computed output into samples
+            for (var i = 0; i < samples.Length; i++)
+            {
+                samples[i] = _out[i];
             }
         }
     }

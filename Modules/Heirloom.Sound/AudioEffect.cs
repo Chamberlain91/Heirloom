@@ -2,13 +2,16 @@
 
 namespace Heirloom.Sound
 {
+    /// <summary>
+    /// An audio effect. Implementations of this class mutate the audio for various effects.
+    /// </summary>
+    /// <seealso cref="Effects.LowPassFilter"/>
+    /// <seealso cref="Effects.HighPassFilter"/>
+    /// <seealso cref="Effects.BandPassFilter"/>
+    /// <seealso cref="Effects.BitCrushEffect"/>
+    /// <seealso cref="Effects.ReverbEffect"/>
     public abstract class AudioEffect
     {
         protected internal abstract void MixOutput(Span<float> samples);
-
-        protected static float Interpolate(float a, float b, float t)
-        {
-            return a + (b - a) * t;
-        }
     }
 }

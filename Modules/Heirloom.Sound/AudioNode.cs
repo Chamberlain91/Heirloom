@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Heirloom.Sound
 {
     /// <summary>
-    /// An audio node. Represents a node in the audio mixing tree.
+    /// Represents a node in the audio mixing tree.
     /// </summary>
     public abstract class AudioNode
     {
@@ -19,7 +18,7 @@ namespace Heirloom.Sound
         }
 
         /// <summary>
-        /// Gets the list of <see cref="AudioEffect"/> that affecting the audio on this node.
+        /// Gets the list of <see cref="AudioEffect"/> that affect the audio on this node.
         /// </summary>
         public List<AudioEffect> Effects { get; }
 

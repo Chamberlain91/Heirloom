@@ -8,6 +8,8 @@ namespace Heirloom.Sound
 
     public abstract class AudioContext : IDisposable
     {
+        private const int DefaultSampleRate = 44100;
+
         // used because OnSpeakerOutput or OnMicrophoneInput may be called concurrently
         private readonly bool _init = false;
 
@@ -37,10 +39,19 @@ namespace Heirloom.Sound
 
         #endregion
 
+        /// <summary>
+        /// Gets a value determining if audio capture (ie, microphone) has been enabled.
+        /// </summary>
         public static bool IsAudioCaptureEnabled => Instance._enableAudioCapture;
 
+        /// <summary>
+        /// Gets the configured sample rate.
+        /// </summary>
         public static int SampleRate => Instance._sampleRate;
 
+        /// <summary>
+        /// Gets the number of configured channels.
+        /// </summary>
         public static int Channels => 2;
 
         /// <summary>
@@ -52,7 +63,7 @@ namespace Heirloom.Sound
             get
             {
                 // If no contxt has been initialized, initialize a default.
-                if (_instance == null) { Initialize(44100); }
+                if (_instance == null) { Initialize(false); }
                 return _instance;
             }
         }
@@ -62,7 +73,19 @@ namespace Heirloom.Sound
         /// </summary>
         public static event AudioCaptureCallback AudioCaptured;
 
-        public static void Initialize(int sampleRate, bool enableAudioCapture = false)
+        /// <summary>
+        /// Initialize the audio system with a sample rate of 44100 and optionally enabling audio capture.
+        /// </summary>
+        /// <param name="enableAudioCapture">Should we enable audio capture?</param>
+        public static void Initialize(bool enableAudioCapture)
+        {
+            Initialize(DefaultSampleRate, enableAudioCapture);
+        }
+
+        /// <summary>
+        /// Initialize the audio system with the specified sample rate and optionally enabling audio capture.
+        /// </summary>
+        public static void Initialize(int sampleRate, bool enableAudioCapture)
         {
             if (_instance == null)
             {
