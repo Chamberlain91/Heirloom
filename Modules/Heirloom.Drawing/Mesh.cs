@@ -165,7 +165,7 @@ namespace Heirloom.Drawing
             }
 
             // Add triangle indices
-            foreach (var (a, b, c) in Polygon.DecomposeTrianglesIndices(polygon))
+            foreach (var (a, b, c) in PolygonTools.DecomposeTrianglesIndices(polygon))
             {
                 mesh._indices.Add((ushort) a);
                 mesh._indices.Add((ushort) b);
@@ -213,7 +213,7 @@ namespace Heirloom.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Mesh CreateRegularPolygon(int sides, float radius)
         {
-            var regularPolygon = Polygon.GetRegularPolygonPoints(Vector.Zero, sides, radius);
+            var regularPolygon = PolygonTools.GetRegularPolygonPoints(Vector.Zero, sides, radius);
             return CreateFromConvexPolygon(regularPolygon);
         }
 

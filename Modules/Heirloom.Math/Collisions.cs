@@ -103,7 +103,7 @@ namespace Heirloom.Math
             {
                 // Contact normal
                 var cN = Vector.Normalize(pC - a.Position);
-                if (Polygon.ContainsPoint(b, a.Position)) { cN *= -1F; }
+                if (PolygonTools.ContainsPoint(b, a.Position)) { cN *= -1F; }
 
                 // Contact point
                 var cC = a.Position - (cN * a.Radius);
@@ -298,13 +298,13 @@ namespace Heirloom.Math
 
         private static unsafe void IncidentEdge(Vector* incident, IReadOnlyList<Vector> iPoly, IReadOnlyList<Vector> rPoly, int rEdge)
         {
-            var iNormal = Polygon.GetScaledNormal(rPoly, rEdge);
+            var iNormal = PolygonTools.GetScaledNormal(rPoly, rEdge);
 
             var index = ~0;
             var min_dot = float.MaxValue;
             for (var i = 0; i < iPoly.Count; i++)
             {
-                var dot = Vector.Dot(iNormal, Polygon.GetScaledNormal(iPoly, i));
+                var dot = Vector.Dot(iNormal, PolygonTools.GetScaledNormal(iPoly, i));
 
                 if (dot < min_dot)
                 {
@@ -410,7 +410,7 @@ namespace Heirloom.Math
             public static Halfspace PlaneAt(IReadOnlyList<Vector> p, int i)
             {
                 Halfspace h;
-                h.Normal = Polygon.GetNormal(p, i);
+                h.Normal = PolygonTools.GetNormal(p, i);
                 h.D = Vector.Dot(h.Normal, p[i]);
                 return h;
             }

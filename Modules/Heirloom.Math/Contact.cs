@@ -30,5 +30,7 @@ namespace Heirloom.Math
             Position = position;
             Normal = normal;
         }
+
+        public Contact Inverted => new Contact(Position, Normal, -Depth);
     }
 }

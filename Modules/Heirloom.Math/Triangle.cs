@@ -51,10 +51,10 @@ namespace Heirloom.Math
 
         #region Closest Point
 
-        public Vector ClosestPoint(in Vector point)
+        public Vector GetClosestPoint(in Vector point)
         {
             var poly = GetTempPolygon(0);
-            return Polygon.ClosestPoint(poly, point);
+            return PolygonTools.GetClosestPoint(poly, point);
         }
 
         #endregion
@@ -162,13 +162,13 @@ namespace Heirloom.Math
         public bool Raycast(in Ray ray, out Contact contact)
         {
             var poly = GetTempPolygon(0);
-            return Polygon.Raycast(poly, in ray, out contact);
+            return PolygonTools.Raycast(poly, in ray, out contact);
         }
 
         public bool Raycast(in Ray ray)
         {
             var poly = GetTempPolygon(0);
-            return Polygon.Raycast(poly, in ray);
+            return PolygonTools.Raycast(poly, in ray);
         }
 
         #endregion

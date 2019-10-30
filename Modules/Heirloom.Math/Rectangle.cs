@@ -201,6 +201,16 @@ namespace Heirloom.Math
 
         #endregion
 
+        public Rectangle Transform(in Matrix matrix)
+        {
+            var v0 = matrix * TopLeft;
+            var v1 = matrix * TopRight;
+            var v2 = matrix * BottomRight;
+            var v3 = matrix * BottomLeft;
+
+            return FromPoints(v0, v1, v2, v3);
+        }
+
         /// <summary>
         /// Adjusts the bounding size of the rectangle and returns the new rectangle.
         /// </summary>
@@ -232,7 +242,7 @@ namespace Heirloom.Math
         /// <summary>
         /// Returns the nearest point on the rectangle to the given point.
         /// </summary>
-        public Vector ClosestPoint(in Vector point)
+        public Vector GetClosestPoint(in Vector point)
         {
             Vector closest;
             closest.X = (point.X < Min.X) ? Min.X : (point.X > Max.X) ? Max.X : point.X;

@@ -41,7 +41,7 @@ namespace Heirloom.Math
 
         #region Closest Point
 
-        public Vector ClosestPoint(in Vector point)
+        public Vector GetClosestPoint(in Vector point)
         {
             var off = point - Position;
             return off * (Radius / off.Length);

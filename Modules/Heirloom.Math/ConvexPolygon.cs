@@ -11,13 +11,20 @@ namespace Heirloom.Math
     /// </summary>
     public sealed class ConvexPolygon : IPolygon
     {
+        private bool _computedMetrics = false;
+        private Vector _centroid, _center;
+        private float _area;
+
+        private bool _computedBounds = false;
+        private Rectangle _bounds;
+
         #region Constructors 
 
         public ConvexPolygon(IEnumerable<Vector> points)
             : this(Polygon.CreateConvexHull(points))
         { }
 
-        private ConvexPolygon(Polygon polygon)
+        internal ConvexPolygon(Polygon polygon)
             : this(polygon, Enumerable.Range(0, polygon.Count))
         { }
 
@@ -25,15 +32,6 @@ namespace Heirloom.Math
         {
             Polygon = polygon ?? throw new ArgumentNullException(nameof(polygon));
             Indices = indices?.ToArray() ?? throw new ArgumentNullException(nameof(indices));
-
-            // 
-            Polygon.ComputeMetrics(this, out var area, out var center, out var centroid);
-
-            Area = area;
-            Center = center;
-            Centroid = centroid;
-
-            Bounds = Rectangle.FromPoints(this);
         }
 
         #endregion
@@ -50,14 +48,6 @@ namespace Heirloom.Math
 
         #region Properties
 
-        public float Area { get; }
-
-        public Vector Center { get; }
-
-        public Vector Centroid { get; }
-
-        public Rectangle Bounds { get; }
-
         /// <summary>
         /// Number of indices in this convex polygon.
         /// </summary>
@@ -73,23 +63,99 @@ namespace Heirloom.Math
         /// </summary>
         public Polygon Polygon { get; }
 
+        /// <summary>
+        /// Gets the area of the polygon.
+        /// </summary>
+        public float Area
+        {
+            get
+            {
+                LazyComputeMetrics();
+                return _area;
+            }
+        }
+
+        /// <summary>
+        /// Gets the center (point mean) of the polygon.
+        /// </summary>
+        public Vector Center
+        {
+            get
+            {
+                LazyComputeMetrics();
+                return _center;
+            }
+        }
+
+        /// <summary>
+        /// Gets the centroid (area weighted) of the polygon.
+        /// </summary>
+        public Vector Centroid
+        {
+            get
+            {
+                LazyComputeMetrics();
+                return _centroid;
+            }
+        }
+
+        /// <summary>
+        /// Gets the bounding rectangle of this polygon.
+        /// </summary>
+        public Rectangle Bounds
+        {
+            get
+            {
+                if (!_computedBounds)
+                {
+                    // Lazy evaluation of bounds
+                    _bounds = Rectangle.FromPoints(this);
+                    _computedBounds = true;
+                }
+
+                return _bounds;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value determining if this polygon is convex. 
+        /// This type (ie, <see cref="ConvexPolygon"/>) is, by definition, always convex.
+        /// </summary>
+        public bool IsConvex => true;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void LazyComputeMetrics()
+        {
+            if (_computedMetrics)
+            {
+                PolygonTools.ComputeMetrics(this, out _area, out _center, out _centroid);
+                _computedMetrics = true;
+            }
+        }
+
         #endregion
 
         #region Closest Point
 
-        public Vector ClosestPoint(in Vector point)
+        /// <summary>
+        /// Gets the nearest point on the polygon to the specified point.
+        /// </summary>
+        public Vector GetClosestPoint(in Vector point)
         {
-            return Polygon.ClosestPoint(this, point);
+            return PolygonTools.GetClosestPoint(this, point);
         }
 
         #endregion
 
         #region Contains
 
+        /// <summary>
+        /// Determines if the specified point is contained by this polygon.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Contains(in Vector point)
         {
-            return Polygon.ContainsPoint(this, point);
+            return PolygonTools.ContainsPoint(this, point);
         }
 
         #endregion
@@ -98,7 +164,7 @@ namespace Heirloom.Math
 
         public bool Overlaps(IShape shape)
         {
-            return Polygon.Overlaps(this, shape);
+            return PolygonTools.Overlaps(this, shape);
         }
 
         #endregion
@@ -108,16 +174,22 @@ namespace Heirloom.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Raycast(in Ray ray)
         {
-            return Polygon.Raycast(this, in ray, out _);
+            return PolygonTools.Raycast(this, in ray, out _);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Raycast(in Ray ray, out Contact hit)
         {
-            return Polygon.Raycast(this, in ray, out hit);
+            return PolygonTools.Raycast(this, in ray, out hit);
         }
 
         #endregion
+
+        internal void MarkLazyRecompute()
+        {
+            _computedMetrics = false;
+            _computedBounds = false;
+        }
 
         public IEnumerator<Vector> GetEnumerator()
         {

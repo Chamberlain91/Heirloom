@@ -509,8 +509,8 @@ namespace Heirloom.Drawing.OpenGLES
                     //GL.WaitSync(sync, 0); // Wait GPU for buffer writes, etc
                     //GL.DeleteSync(sync);  // Remove sync object
 
-                    // Draw batch
-                    _renderer.Flush();
+                    // Flush pending batch
+                    _renderer.FlushPendingBatch();
                 });
             }
         }

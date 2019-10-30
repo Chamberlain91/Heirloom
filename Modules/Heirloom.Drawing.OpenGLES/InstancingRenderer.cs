@@ -8,6 +8,8 @@ using Heirloom.OpenGLES;
 namespace Heirloom.Drawing.OpenGLES
 {
     internal unsafe class InstancingRenderer : Renderer
+    // todo: better design, weird coupling between Renderer and OpenGLRenderContext
+    // could probably create a "gl state" tracker and move rendering impl into OpenGLRenderContext itself
     {
         private readonly OpenGLRenderContext _context;
         private readonly VertexArray _vertexArray;
@@ -52,7 +54,7 @@ namespace Heirloom.Drawing.OpenGLES
             if (!ReferenceEquals(_mesh, mesh) || _meshVersion != mesh.Version)
             {
                 // Render previous
-                Flush();
+                _context.Flush();
 
                 // Set quad template
                 SetTemplate(mesh);
@@ -61,7 +63,7 @@ namespace Heirloom.Drawing.OpenGLES
             // Unable to append another instance
             if (_vertexArray.InstanceCount == _vertexArray.InstanceElements.Length)
             {
-                Flush();
+                _context.Flush();
             }
 
             // Get OpenGL texture and packed rect
@@ -75,7 +77,7 @@ namespace Heirloom.Drawing.OpenGLES
                 // Texture mechanism is full, emit batched drawing
                 if (_textures.Count == _context.Capabilities.MaxTextureUnits)
                 {
-                    Flush();
+                    _context.Flush();
                 }
 
                 // Unknown texture, assign new slot
@@ -126,7 +128,7 @@ namespace Heirloom.Drawing.OpenGLES
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override void Flush()
+        public override void FlushPendingBatch()
         {
             if (_vertexArray.InstanceCount > 0)
             {

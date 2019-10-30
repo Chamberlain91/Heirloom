@@ -138,6 +138,15 @@ namespace Heirloom.Math
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the inverse of this matrix.
+        /// </summary>
+        public Matrix Inverted => Inverse(in this);
+
+        #endregion
+
         #region Inverse
 
         public static void Inverse(in Matrix a, ref Matrix inv)
