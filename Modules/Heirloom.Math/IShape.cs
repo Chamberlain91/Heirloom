@@ -6,7 +6,7 @@
         float Area { get; }
 
         // 
-        Vector ClosestPoint(in Vector point);
+        Vector GetClosestPoint(in Vector point);
 
         // 
         bool Contains(in Vector point);

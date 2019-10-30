@@ -56,9 +56,12 @@ namespace Heirloom.Desktop
     {
         public readonly Vector Position;
 
-        internal MouseMoveEvent(float x, float y)
+        public readonly Vector Delta;
+
+        internal MouseMoveEvent(Vector position, Vector delta)
         {
-            Position = new Vector(x, y);
+            Position = position;
+            Delta = delta;
         }
     }
 

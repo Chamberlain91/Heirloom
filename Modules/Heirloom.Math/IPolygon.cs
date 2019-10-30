@@ -7,5 +7,7 @@ namespace Heirloom.Math
         Vector Center { get; }
 
         Vector Centroid { get; }
+
+        bool IsConvex { get; }
     }
 }

@@ -8,6 +8,6 @@ namespace Heirloom.Drawing.OpenGLES
 
         public abstract void Submit(ImageSource image, Mesh mesh, in Matrix transform, in Color color);
 
-        public abstract void Flush();
+        public abstract void FlushPendingBatch();
     }
 }

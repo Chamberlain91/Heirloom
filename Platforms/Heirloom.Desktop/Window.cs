@@ -15,6 +15,7 @@ namespace Heirloom.Desktop
         private string _title;
 
         private Vector _mousePosition;
+        private Vector _mouseDelta;
 
         private readonly WindowCloseCallback _windowCloseCallback;
         private readonly WindowPositionCallback _windowPositionCallback;
@@ -424,8 +425,12 @@ namespace Heirloom.Desktop
 
         protected virtual void OnMouseMove(float x, float y)
         {
-            var ev = new MouseMoveEvent(x, y);
-            _mousePosition = ev.Position;
+            // Compute delta motion
+            var prevPosition = _mousePosition;
+            _mousePosition.Set(x, y);
+            _mouseDelta = _mousePosition - prevPosition;
+
+            var ev = new MouseMoveEvent(_mousePosition, _mouseDelta);
             MouseMove?.Invoke(this, ev);
         }
 

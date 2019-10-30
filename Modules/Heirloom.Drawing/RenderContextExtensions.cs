@@ -277,6 +277,53 @@ namespace Heirloom.Drawing
 
         #endregion
 
+        #region Draw Triangle
+
+        /// <summary>
+        /// Draw a triangle outline to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="a">The first point.</param>
+        /// <param name="b">The second point.</param>
+        /// <param name="c">The third point.</param>
+        /// <param name="width">The thickness of the line in pixels.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawTriangleOutline(this RenderContext ctx, Vector a, Vector b, Vector c, float width = 1F)
+        {
+            DrawLine(ctx, a, b, width);
+            DrawLine(ctx, b, c, width);
+            DrawLine(ctx, c, a, width);
+        }
+
+        /// <summary>
+        /// Draw a triangle outline to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="a">The first point.</param>
+        /// <param name="b">The second point.</param>
+        /// <param name="c">The third point.</param>
+        /// <param name="width">The thickness of the line in pixels.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawTriangle(this RenderContext ctx, Vector a, Vector b, Vector c, float width = 1F)
+        {
+            _temporaryMesh.Clear();
+
+            // Append vertices
+            _temporaryMesh.AddVertex(new Vertex(a, Vector.Zero));
+            _temporaryMesh.AddVertex(new Vertex(b, Vector.Zero));
+            _temporaryMesh.AddVertex(new Vertex(c, Vector.Zero));
+
+            // Append indices
+            _temporaryMesh.AddIndices(0);
+            _temporaryMesh.AddIndices(1);
+            _temporaryMesh.AddIndices(2);
+
+            // Draw mesh
+            ctx.DrawMesh(Image.Default, _temporaryMesh, Matrix.Identity);
+        }
+
+        #endregion
+
         #region Draw Regular Polygon
 
         /// <summary>
@@ -288,7 +335,7 @@ namespace Heirloom.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawPolygon(this RenderContext ctx, Vector position, int sides, float radius)
         {
-            var regular = Polygon.GetRegularPolygonPoints(position, sides, radius);
+            var regular = PolygonTools.GetRegularPolygonPoints(position, sides, radius);
 
             // 
             _temporaryMesh.Clear();
@@ -322,7 +369,7 @@ namespace Heirloom.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawPolygonOutline(this RenderContext ctx, Vector position, int sides, float radius, float width = 1F)
         {
-            var regular = Polygon.GetRegularPolygonPoints(position, sides, radius);
+            var regular = PolygonTools.GetRegularPolygonPoints(position, sides, radius);
             DrawPolygonOutline(ctx, regular, width);
         }
 
@@ -362,7 +409,7 @@ namespace Heirloom.Drawing
                 }
 
                 // Append indices
-                foreach (var (a, b, c) in Polygon.DecomposeTrianglesIndices(polygon))
+                foreach (var (a, b, c) in PolygonTools.DecomposeTrianglesIndices(polygon))
                 {
                     _temporaryMesh.AddIndices(a);
                     _temporaryMesh.AddIndices(b);
