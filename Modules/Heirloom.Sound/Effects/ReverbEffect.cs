@@ -90,10 +90,6 @@ namespace Heirloom.Sound.Effects
 
         public override float Process(float sample, int channel)
         {
-            // todo: move to when adjusting the RoomSize/Damping paramters
-            foreach (var allpass in _allpassFilters) { allpass.Prepare(); }
-            foreach (var comb in _combFilters) { comb.Prepare(); }
-
             // Process current samples 
             sample *= FixedGain;
 
@@ -118,73 +114,90 @@ namespace Heirloom.Sound.Effects
         private class AllpassFilter : AudioEffect
         {
             private float[] _buffer = Array.Empty<float>();
-            private int _bufidx;
+            private int _bufferIndex;
+
+            private float _delay;
 
             public AllpassFilter(float delay, float feedback)
             {
-                Delay = delay;
                 Feedback = feedback;
+                Delay = delay;
             }
-
-            public float Delay { get; set; }
 
             public float Feedback { get; set; }
 
-            public void Prepare()
+            public float Delay
             {
-                var size = (int) (Delay * AudioContext.SampleRate);
-                if (_buffer.Length < size) { Array.Resize(ref _buffer, size); }
+                get => _delay;
+
+                set
+                {
+                    _delay = value;
+
+                    // Adjust buffer size to fit delay size
+                    var size = (int) (_delay * AudioContext.SampleRate * AudioContext.Channels);
+                    Array.Resize(ref _buffer, size);
+                }
             }
 
             public override float Process(float input, int channel)
             {
-                var bufout = _buffer[_bufidx];
+                var bufferSample = _buffer[_bufferIndex];
 
-                var output = -input + bufout;
+                // Process allpass filter
+                _buffer[_bufferIndex] = input + (bufferSample * Feedback);
 
-                _buffer[_bufidx] = input + (bufout * Feedback);
+                // Wrap around buffer
+                if (++_bufferIndex >= _buffer.Length) { _bufferIndex = 0; }
 
-                if (++_bufidx >= _buffer.Length) { _bufidx = 0; }
-
-                return output;
+                return bufferSample - input;
             }
         }
 
         private class CombFilter : AudioEffect
         {
             private float[] _buffer = Array.Empty<float>();
-            private float _filterstore;
-            private int _bufidx;
+            private int _bufferIndex;
+
+            private readonly float[] _feedback;
+            private float _delay;
 
             public CombFilter(float delay)
             {
+                _feedback = new float[AudioContext.Channels];
                 Delay = delay;
             }
 
             public float Damp { get; set; } = 0.5F;
 
-            public float Damp2 => 1F - Damp;
+            private float Damp2 => 1F - Damp;
 
             public float Feedback { get; set; }
 
-            public float Delay { get; set; }
-
-            public void Prepare()
+            public float Delay
             {
-                var size = (int) (Delay * AudioContext.SampleRate);
-                if (_buffer.Length < size) { Array.Resize(ref _buffer, size); }
+                get => _delay;
+
+                set
+                {
+                    _delay = value;
+
+                    // Adjust buffer size to fit delay size
+                    var size = (int) (_delay * AudioContext.SampleRate * AudioContext.Channels);
+                    Array.Resize(ref _buffer, size);
+                }
             }
 
             public override float Process(float input, int channel)
             {
-                var output = _buffer[_bufidx];
+                var output = _buffer[_bufferIndex];
 
-                _filterstore *= Damp;
-                _filterstore += output * Damp2;
+                _feedback[channel] *= Damp;
+                _feedback[channel] += output * Damp2;
 
-                _buffer[_bufidx] = input + (_filterstore * Feedback);
+                _buffer[_bufferIndex] = input + (_feedback[channel] * Feedback);
 
-                if (++_bufidx >= _buffer.Length) { _bufidx = 0; }
+                if (++_bufferIndex >= _buffer.Length) { _bufferIndex = 0; }
 
                 return output;
             }
