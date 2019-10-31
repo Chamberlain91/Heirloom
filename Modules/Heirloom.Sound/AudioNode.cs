@@ -78,9 +78,12 @@ namespace Heirloom.Sound
             lock (Effects)
             {
                 // Process effect chain
-                foreach (var effect in Effects)
+                for (var i = 0; i < samples.Length; i++)
                 {
-                    effect.MixOutput(samples);
+                    foreach (var effect in Effects)
+                    {
+                        samples[i] = effect.Process(samples[i], i % AudioContext.Channels);
+                    }
                 }
             }
 

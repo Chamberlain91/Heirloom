@@ -16,6 +16,7 @@ namespace Heirloom.Sound
         private float[] _buffer = Array.Empty<float>();
 
         private readonly bool _enableAudioCapture;
+        private readonly float _invSampleRate;
         private readonly int _sampleRate;
 
         private static AudioContext _instance;
@@ -27,6 +28,8 @@ namespace Heirloom.Sound
             if (sampleRate <= 0) { throw new InvalidOperationException("Sample rate must greater or equal to 1."); }
 
             _enableAudioCapture = enableAudioCapture;
+
+            _invSampleRate = 1F / sampleRate;
             _sampleRate = sampleRate;
 
             _init = true;
@@ -45,9 +48,14 @@ namespace Heirloom.Sound
         public static bool IsAudioCaptureEnabled => Instance._enableAudioCapture;
 
         /// <summary>
-        /// Gets the configured sample rate.
+        /// Gets the configured sample rate (ie, samples per second).
         /// </summary>
         public static int SampleRate => Instance._sampleRate;
+
+        /// <summary>
+        /// Gets the the inverse of the configured sample rate (ie, seconds per sample)
+        /// </summary>
+        public static float InverseSampleRate => Instance._invSampleRate;
 
         /// <summary>
         /// Gets the number of configured channels.
@@ -58,6 +66,7 @@ namespace Heirloom.Sound
         /// Gets the audio context instance.
         /// This will initialize with defaults if not explicitly initialized beforehand.
         /// </summary>
+        /// <see cref="Initialize(int, bool)"/>
         internal static AudioContext Instance
         {
             get

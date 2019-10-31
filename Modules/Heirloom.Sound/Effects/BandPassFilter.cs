@@ -1,19 +1,17 @@
-﻿using System;
-
-namespace Heirloom.Sound.Effects
+﻿namespace Heirloom.Sound.Effects
 {
     /// <summary>
     /// An audio effect that implements a band pass filter.
     /// </summary>
     public class BandPassFilter : AudioEffect
     {
-        private readonly LowPassFilter _lp;
-        private readonly HighPassFilter _hp;
+        private readonly LowPassFilter _lo;
+        private readonly HighPassFilter _hi;
 
         public BandPassFilter(float low, float high)
         {
-            _hp = new HighPassFilter(low);
-            _lp = new LowPassFilter(high);
+            _hi = new HighPassFilter(low);
+            _lo = new LowPassFilter(high);
         }
 
         /// <summary>
@@ -21,8 +19,8 @@ namespace Heirloom.Sound.Effects
         /// </summary>
         public float MinFrequency
         {
-            get => _hp.Frequency;
-            set => _hp.Frequency = value;
+            get => _hi.Frequency;
+            set => _hi.Frequency = value;
         }
 
         /// <summary>
@@ -30,13 +28,15 @@ namespace Heirloom.Sound.Effects
         /// </summary>
         public float Cutoff
         {
-            get => _lp.Frequency;
-            set => _lp.Frequency = value;
+            get => _lo.Frequency;
+            set => _lo.Frequency = value;
         }
-        protected internal override void MixOutput(Span<float> samples)
+
+        public override float Process(float sample, int channel)
         {
-            _hp.MixOutput(samples);
-            _lp.MixOutput(samples);
+            sample = _hi.Process(sample, channel);
+            sample = _lo.Process(sample, channel);
+            return sample;
         }
     }
 }
