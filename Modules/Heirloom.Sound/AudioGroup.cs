@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace Heirloom.Sound
 {
@@ -8,11 +10,10 @@ namespace Heirloom.Sound
     /// </summary>
     public class AudioGroup : AudioNode
     {
-        private readonly LinkedList<AudioNode> _sources;
-        private readonly LinkedList<LinkedListNode<AudioNode>> _sourcesRemove;
-        private readonly LinkedList<LinkedListNode<AudioNode>> _sourcesAdd;
+        private readonly HashSet<AudioNode> _sources;
+        private readonly HashSet<AudioNode> _sourcesRemove;
+        private readonly HashSet<AudioNode> _sourcesAdd;
 
-        private LinkedListNode<AudioNode> _node;
         private AudioGroup _parent;
 
         #region Constructors
@@ -34,9 +35,9 @@ namespace Heirloom.Sound
 
         private AudioGroup(AudioGroup parentGroup, bool allowOrphan)
         {
-            _sources = new LinkedList<AudioNode>();
-            _sourcesRemove = new LinkedList<LinkedListNode<AudioNode>>();
-            _sourcesAdd = new LinkedList<LinkedListNode<AudioNode>>();
+            _sources = new HashSet<AudioNode>();
+            _sourcesRemove = new HashSet<AudioNode>();
+            _sourcesAdd = new HashSet<AudioNode>();
 
             // Set parent audio group
             if (!allowOrphan && parentGroup == null) { throw new ArgumentNullException(nameof(parentGroup)); }
@@ -57,14 +58,16 @@ namespace Heirloom.Sound
                 if (this == Default) { throw new InvalidOperationException("Unable to set the parent of the default (root) audio group."); }
 
                 // If a previous parent exists, remove ourselves from it
-                _parent?.RemoveNode(_node);
+                _parent?.RemoveNode(this);
 
                 // Set new parent and register ourselves as a child
                 // TODO: Detect cycles to prevent stack overflow/infinite recursions.
                 _parent = value;
-                _node = _parent?.AddNode(this);
+                _parent?.AddNode(this);
             }
         }
+
+        internal IEnumerable<AudioNode> Children => _sources.Concat(_sourcesAdd);
 
         protected override void PopulateBuffer(Span<float> output)
         {
@@ -72,7 +75,7 @@ namespace Heirloom.Sound
             {
                 // Process source list mutation
                 foreach (var node in _sourcesRemove) { _sources.Remove(node); }
-                foreach (var node in _sourcesAdd) { _sources.AddLast(node); }
+                foreach (var node in _sourcesAdd) { _sources.Add(node); }
                 _sourcesRemove.Clear();
                 _sourcesAdd.Clear();
 
@@ -84,21 +87,81 @@ namespace Heirloom.Sound
             }
         }
 
-        internal LinkedListNode<AudioNode> AddNode(AudioNode source)
+        internal void AddNode(AudioNode source)
         {
             lock (_sources)
             {
-                var listNode = new LinkedListNode<AudioNode>(source);
-                _sourcesAdd.AddLast(listNode);
-                return listNode;
+                // Schedule node for addition
+                _sourcesRemove.Add(source);
+                _sourcesAdd.Add(source);
+
+                // Ensure the audio graph is a DAG
+                if (!IsMixerGraphAcyclic())
+                {
+                    throw new InvalidOperationException("Audio graph must be a DAG. Adding this node will introduce a cycle.");
+                }
             }
         }
 
-        internal void RemoveNode(LinkedListNode<AudioNode> node)
+        internal void RemoveNode(AudioNode node)
         {
             lock (_sources)
             {
-                _sourcesRemove.AddLast(node);
+                // Schedule node for removal
+                _sourcesRemove.Add(node);
+                _sourcesAdd.Remove(node);
+            }
+        }
+
+        private bool IsMixerGraphAcyclic()
+        {
+            const int STATUS_NEW = 0;
+            const int STATUS_ACTIVE = 1;
+            const int STATUS_FINISHED = 2;
+
+            var statusTable = new Dictionary<AudioNode, int>();
+
+            // For each unvisited node
+            foreach (var node in Children)
+            {
+                if (GetStatus(node) == STATUS_NEW)
+                {
+                    // If subgraph is not a DAG, then entire graph is not a DAG
+                    if (!IsMixerGraphAcyclic(node)) { return false; }
+                }
+            }
+
+            return true;
+
+            int GetStatus(AudioNode node)
+            {
+                if (statusTable.TryGetValue(node, out var status)) { return status; }
+                return statusTable[node] = STATUS_NEW;
+            }
+
+            bool IsMixerGraphAcyclic(AudioNode node)
+            {
+                statusTable[node] = STATUS_ACTIVE;
+
+                // Node was a group, we need to check its children.
+                if (node is AudioGroup group)
+                {
+                    foreach (var child in group.Children)
+                    {
+                        // If child is active, we have detected a cycle (thus, not a DAG).
+                        if (GetStatus(child) == STATUS_ACTIVE) { return false; }
+                        // If the child is new (unvisited) we need to recurse and keep checking
+                        else if (GetStatus(child) == STATUS_NEW)
+                        {
+                            // If subgraph is not a DAG, then the graph is not a DAG
+                            if (!IsMixerGraphAcyclic(child)) { return false; }
+                        }
+                    }
+                }
+
+                // Was a source node or was determined to be cycle-free
+                statusTable[node] = STATUS_FINISHED;
+                return true;
             }
         }
 

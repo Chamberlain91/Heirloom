@@ -3,7 +3,7 @@
 namespace Heirloom.Sound.Effects
 {
     /// <summary>
-    /// An audio effect that implements a reverb.
+    /// An audio effect that implements a Schroeder reverb.
     /// </summary>
     /// <remarks> Based on Freeverb </remarks>
     public class ReverbEffect : AudioEffect
@@ -88,38 +88,34 @@ namespace Heirloom.Sound.Effects
             }
         }
 
-        protected internal override void MixOutput(Span<float> samples)
+        public override float Process(float sample, int channel)
         {
-            // Schroeder Reverb
-
             // todo: move to when adjusting the RoomSize/Damping paramters
             foreach (var allpass in _allpassFilters) { allpass.Prepare(); }
             foreach (var comb in _combFilters) { comb.Prepare(); }
 
-            // Process current samples
-            for (var i = 0; i < samples.Length; i++)
+            // Process current samples 
+            sample *= FixedGain;
+
+            var output = 0F;
+
+            // Process comb filters (in parallel)
+            foreach (var comb in _combFilters)
             {
-                var sample = samples[i] * FixedGain;
-
-                var outSample = 0F;
-
-                foreach (var comb in _combFilters)
-                {
-                    outSample += comb.Process(sample);
-                }
-
-                // Process all-pass series
-                foreach (var allpass in _allpassFilters)
-                {
-                    outSample = allpass.Process(outSample);
-                }
-
-                // Replace sample
-                samples[i] = outSample;
+                output += comb.Process(sample, channel);
             }
+
+            // Process allpass filters (in series)
+            foreach (var allpass in _allpassFilters)
+            {
+                output = allpass.Process(output, channel);
+            }
+
+            // Replace sample
+            return output;
         }
 
-        private class AllpassFilter
+        private class AllpassFilter : AudioEffect
         {
             private float[] _buffer = Array.Empty<float>();
             private int _bufidx;
@@ -140,7 +136,7 @@ namespace Heirloom.Sound.Effects
                 if (_buffer.Length < size) { Array.Resize(ref _buffer, size); }
             }
 
-            public float Process(float input)
+            public override float Process(float input, int channel)
             {
                 var bufout = _buffer[_bufidx];
 
@@ -154,7 +150,7 @@ namespace Heirloom.Sound.Effects
             }
         }
 
-        private class CombFilter
+        private class CombFilter : AudioEffect
         {
             private float[] _buffer = Array.Empty<float>();
             private float _filterstore;
@@ -179,7 +175,7 @@ namespace Heirloom.Sound.Effects
                 if (_buffer.Length < size) { Array.Resize(ref _buffer, size); }
             }
 
-            public float Process(float input)
+            public override float Process(float input, int channel)
             {
                 var output = _buffer[_bufidx];
 

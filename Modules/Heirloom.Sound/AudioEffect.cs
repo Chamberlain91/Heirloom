@@ -12,6 +12,6 @@ namespace Heirloom.Sound
     /// <seealso cref="Effects.ReverbEffect"/>
     public abstract class AudioEffect
     {
-        protected internal abstract void MixOutput(Span<float> samples);
+        public abstract float Process(float sample, int channel);
     }
 }

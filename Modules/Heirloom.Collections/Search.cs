@@ -17,13 +17,13 @@ namespace Heirloom.Collections
         /// <typeparam name="T">Type of the state elements.</typeparam>
         /// <param name="start">Starting state.</param>
         /// <param name="goal">Terminating state.</param>
-        /// <param name="getSucessors">Returns sucessors.</param>
+        /// <param name="getSuccessors">Returns sucessors.</param>
         /// <param name="cost">Cost function between two states. If neighbors, should return actual, if non-neighbors estimate.</param>
         /// <returns>A sequence of states from start (inclusive) to goal (inclusive).</returns>
-        public static IList<T> HeuristicSearch<T>(T start, T goal, Func<T, IEnumerable<T>> getSucessors, CostFunction<T> cost)
+        public static IList<T> HeuristicSearch<T>(T start, T goal, Func<T, IEnumerable<T>> getSuccessors, CostFunction<T> cost)
         // Assumes cost(...) will return actual cost for neighbors and estimated for non-neighbors
         {
-            return HeuristicSearch(start, goal, getSucessors, cost, cost);
+            return HeuristicSearch(start, goal, getSuccessors, cost, cost);
         }
 
         /// <summary>
@@ -32,13 +32,13 @@ namespace Heirloom.Collections
         /// <typeparam name="T">Type of the state elements.</typeparam>
         /// <param name="start">Starting state.</param>
         /// <param name="goal">Terminating state.</param>
-        /// <param name="getSucessors">Returns sucessors.</param>
+        /// <param name="getSuccessors">Returns sucessors.</param>
         /// <param name="cost">Cost function between two states.</param>
         /// <param name="heuristic">Estimate cost between state and goal state.</param>
         /// <returns>A sequence of states from start (inclusive) to goal (inclusive).</returns>
-        public static IList<T> HeuristicSearch<T>(T start, T goal, Func<T, IEnumerable<T>> getSucessors, CostFunction<T> cost, CostFunction<T> heuristic)
+        public static IList<T> HeuristicSearch<T>(T start, T goal, Func<T, IEnumerable<T>> getSuccessors, CostFunction<T> cost, CostFunction<T> heuristic)
         {
-            return HeuristicSearch(start, x => Equals(x, goal), getSucessors, cost, s => heuristic(s, goal));
+            return HeuristicSearch(start, x => Equals(x, goal), getSuccessors, cost, s => heuristic(s, goal));
         }
 
         /// <summary>
@@ -48,11 +48,11 @@ namespace Heirloom.Collections
         /// <typeparam name="T">Type of the state elements.</typeparam>
         /// <param name="start">Starting state</param>
         /// <param name="targetPredicate">Search predicate</param>
-        /// <param name="getSucessors">Returns sucessors</param>
+        /// <param name="getSuccessors">Returns sucessors</param>
         /// <param name="cost">Cost function between two states.</param>
         /// <param name="heuristic">Estimate cost between state and goal state.</param>
         /// <returns>A sequence of states from start (inclusive) to goal (inclusive).</returns>
-        public static IList<T> HeuristicSearch<T>(T start, Func<T, bool> targetPredicate, Func<T, IEnumerable<T>> getSucessors, CostFunction<T> cost, HeuristicFunction<T> heuristic)
+        public static IList<T> HeuristicSearch<T>(T start, Func<T, bool> targetPredicate, Func<T, IEnumerable<T>> getSuccessors, CostFunction<T> cost, HeuristicFunction<T> heuristic)
         {
             // 
             var nodes = new Dictionary<T, Node<T>>();
@@ -112,7 +112,7 @@ namespace Heirloom.Collections
                 current.Visited = true;
 
                 // For each adjacent state
-                foreach (var adjacent in getSucessors(current.State))
+                foreach (var adjacent in getSuccessors(current.State))
                 {
                     var neighbor = GetNode(adjacent);
 
@@ -207,9 +207,9 @@ namespace Heirloom.Collections
         /// </summary>
         /// <typeparam name="T">Type of the elements</typeparam>
         /// <param name="start">Starting element</param>
-        /// <param name="getSucessors">A function to return the successor/children of the current element</param>
+        /// <param name="getSuccessors">A function to return the successor/children of the current element</param>
         /// <returns>A depth first traversal of elements</returns>
-        public static IEnumerable<T> DepthFirst<T>(T start, Func<T, IEnumerable<T>> getSucessors)
+        public static IEnumerable<T> DepthFirst<T>(T start, Func<T, IEnumerable<T>> getSuccessors)
         {
             var stack = new Stack<T>();
             stack.Push(start);
@@ -225,7 +225,7 @@ namespace Heirloom.Collections
                 yield return item;
 
                 // Add children to frontier
-                foreach (var child in getSucessors(item))
+                foreach (var child in getSuccessors(item))
                 {
                     stack.Push(child);
                 }
@@ -237,9 +237,9 @@ namespace Heirloom.Collections
         /// </summary>
         /// <typeparam name="T">Type of the elements.</typeparam>
         /// <param name="start">Starting element.</param>
-        /// <param name="getSucessors">A function to return the successor/children of the current element.</param>
+        /// <param name="getSuccessors">A function to return the successor/children of the current element.</param>
         /// <returns>A breadth first traversal of elements.</returns>
-        public static IEnumerable<T> BreadthFirst<T>(T start, Func<T, IEnumerable<T>> getSucessors)
+        public static IEnumerable<T> BreadthFirst<T>(T start, Func<T, IEnumerable<T>> getSuccessors)
         {
             var queue = new Queue<T>();
             queue.Enqueue(start);
@@ -252,10 +252,68 @@ namespace Heirloom.Collections
                 yield return item;
 
                 // Add children to frontier
-                foreach (var child in getSucessors(item))
+                foreach (var child in getSuccessors(item))
                 {
                     queue.Enqueue(child);
                 }
+            }
+        }
+
+        #endregion
+
+        #region Detect Cycles
+
+        private enum AcyclicStatus { New, Active, Finished };
+
+        /// <summary>
+        /// Determines if the specified graph is acyclic. Do not use on infinite graphs.
+        /// </summary>
+        /// <typeparam name="T">Type of the elements</typeparam>
+        /// <param name="start">Starting element.</param>
+        /// <param name="getSuccessors">A function to return the successor/children of the current element.</param>
+        /// <returns>True if the graph is determined to be cycle free, otherwise false.</returns>
+        public static bool IsAcyclicGraph<T>(T start, Func<T, IEnumerable<T>> getSuccessors)
+        {
+            var statusTable = new Dictionary<T, AcyclicStatus>();
+
+            // For each unvisited node
+            foreach (var node in getSuccessors(start))
+            {
+                if (GetStatus(node) == AcyclicStatus.New)
+                {
+                    // If subgraph is not a DAG, then entire graph is not a DAG
+                    if (!IsAcyclicGraphHelper(node)) { return false; }
+                }
+            }
+
+            return true;
+
+            AcyclicStatus GetStatus(T node)
+            {
+                if (statusTable.TryGetValue(node, out var status)) { return status; }
+                return statusTable[node] = AcyclicStatus.New;
+            }
+
+            bool IsAcyclicGraphHelper(T node)
+            {
+                statusTable[node] = AcyclicStatus.Active;
+
+                // Check each successor
+                foreach (var child in getSuccessors(node))
+                {
+                    // If child is active, we have detected a cycle (thus, not a DAG).
+                    if (GetStatus(child) == AcyclicStatus.Active) { return false; }
+                    // If the child is new (unvisited) we need to recurse and keep checking
+                    else if (GetStatus(child) == AcyclicStatus.New)
+                    {
+                        // If subgraph is not a DAG, then the graph is not a DAG
+                        if (!IsAcyclicGraphHelper(child)) { return false; }
+                    }
+                }
+
+                // Was a source node or was determined to be cycle-free
+                statusTable[node] = AcyclicStatus.Finished;
+                return true;
             }
         }
 

@@ -12,7 +12,7 @@ namespace Heirloom.Sound
         [ThreadStatic] private static short[] _samplesBuffer = Array.Empty<short>();
         private readonly IAudioProvider _provider;
 
-        private LinkedListNode<AudioNode> _node;
+        private bool _isActive;
         private AudioGroup _group;
 
         #region Constructors
@@ -52,8 +52,7 @@ namespace Heirloom.Sound
 
             set
             {
-
-                if (_node != null) { Stop(); }
+                if (_isActive) { Stop(); }
                 _group = value;
             }
         }
@@ -125,9 +124,10 @@ namespace Heirloom.Sound
         /// </summary>
         public void Play()
         {
-            if (_node == null)
+            if (_isActive == false)
             {
-                _node = Group.AddNode(this);
+                Group.AddNode(this);
+                _isActive = true;
             }
         }
 
@@ -136,10 +136,10 @@ namespace Heirloom.Sound
         /// </summary>
         public void Pause()
         {
-            if (_node != null)
+            if (_isActive)
             {
-                Group.RemoveNode(_node);
-                _node = null;
+                Group.RemoveNode(this);
+                _isActive = false;
             }
         }
 
