@@ -63,7 +63,7 @@ namespace Examples.MusicPlayer
                     currentSource?.Stop();
 
                     // Create new source and play
-                    currentSource = new AudioSource(Files.OpenStream(info.Path)) { Looping = true };
+                    currentSource = new AudioSource(Files.OpenStream(info.Path)) { IsLooping = true };
                     currentSource.Play();
 
                     var funkIndex = 0;

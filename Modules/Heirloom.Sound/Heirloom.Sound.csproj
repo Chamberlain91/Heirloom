@@ -9,7 +9,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageOutputPath>../../Nuget/$(Configuration)</PackageOutputPath>
     <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
-    <Description>Audio input and output with support for decoding/loading of some standard audio formats.</Description>
+    <Description>Audio input and output with support for decoding/loading of some standard audio formats. Software effects are available such as Reverb or Lowpass. Custom effect implementations are possible.</Description>
     <PackageTags>audio, sound, ogg, mp3, miniaudio</PackageTags>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
