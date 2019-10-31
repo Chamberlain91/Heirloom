@@ -61,6 +61,6 @@ capture was enabled at a later point in the application by `AudioContext.IsAudio
 
 ## Version 1.1 Roadmap
 
-#### Audio Device (v1.1)
+#### Audio Device
 - [ ] Device Enumeration
 - [ ] Device Selection
