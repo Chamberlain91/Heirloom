@@ -2,7 +2,7 @@
 
 namespace Heirloom.Collections.Spatial
 {
-    public readonly struct BroadPhasePair<T> : IEquatable<BroadPhasePair<T>> where T : ISpatialObject
+    public readonly struct BroadPhasePair<T> : IEquatable<BroadPhasePair<T>> where T : IBroadPhaseObject
     {
         public readonly T A;
 

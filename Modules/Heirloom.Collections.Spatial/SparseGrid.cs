@@ -1,31 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Heirloom.Math;
 
 namespace Heirloom.Collections.Spatial
 {
     /// <summary>
-    /// Represents an infinite sparse grid.
+    /// An infinite, sparse grid of values.
     /// </summary>
-    public sealed class SparseGrid<T> : ISparseGrid<T>
+    public sealed class SparseGrid<T> : IGrid<T>
     {
         private readonly Dictionary<IntVector, T> _data;
+
+        #region Constructors
 
         public SparseGrid()
         {
             _data = new Dictionary<IntVector, T>();
         }
 
+        #endregion
+
         #region Indexer
 
-        public T this[IntVector co]
+        /// <summary>
+        /// Gets or sets the value at the specified coordinate.
+        /// </summary>
+        public T this[in IntVector co]
         {
-            get => TryGetValue(co, out var value) ? value : default;
-            set => _data[co] = value;
+            get => _data.TryGetValue(co, out var value) ? value : default;
+            set
+            {
+                // If setting the default value remove the data from the cell
+                if (Equals(value, default)) { _data.Remove(co); }
+                else { _data[co] = value; }
+            }
         }
 
-        public T this[int x, int y]
+        /// <summary>
+        /// Gets or sets the value at the specified coordinate.
+        /// </summary>
+        public T this[in int x, in int y]
         {
             get => this[(x, y)];
             set => this[(x, y)] = value;
@@ -42,52 +56,12 @@ namespace Heirloom.Collections.Spatial
         }
 
         /// <summary>
-        /// Removes the value at the given coordinate, marking it as unoccupied.
+        /// Is the specified coordinate valid on this grid?
         /// </summary>
-        public bool Remove(IntVector co)
+        public bool IsValidCoordinate(in IntVector co)
         {
-            return _data.Remove(co);
-        }
-
-        /// <summary>
-        /// Checks if the given coordinate is occupied.
-        /// </summary>
-        public bool ContainsAt(IntVector co)
-        {
-            return _data.ContainsKey(co);
-        }
-
-        /// <summary>
-        /// This will try to get the value at the specified coordinate.
-        /// If an item was set, this will return true and output the value.
-        /// Otherwise false.
-        /// </summary>
-        public bool TryGetValue(IntVector co, out T value)
-        {
-            return _data.TryGetValue(co, out value);
-        }
-
-        /// <summary>
-        /// Enumerates the neighboring coordinates.
-        /// </summary>
-        public IEnumerable<IntVector> FindNeighbors(IntVector co, GridNeighbors neighbors = GridNeighbors.FourAxis)
-        {
-            return GridUtilities.EnumerateNeighbors(co, neighbors);
-        }
-
-        /// <summary>
-        /// Enumerates the neighboring coordinates that satisfy a condition.
-        /// </summary>
-        public IEnumerable<IntVector> FindNeighbors(IntVector co, Predicate<T> predicate, GridNeighbors neighbors = GridNeighbors.FourAxis)
-        {
-            foreach (var neighbor in GridUtilities.EnumerateNeighbors(co, neighbors))
-            {
-                // Within bound and matches the selection test
-                if (predicate(this[neighbor]))
-                {
-                    yield return neighbor;
-                }
-            }
+            // All cells are valid in the sparse grid
+            return true;
         }
     }
 }

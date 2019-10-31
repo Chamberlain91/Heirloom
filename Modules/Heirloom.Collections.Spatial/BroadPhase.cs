@@ -6,7 +6,7 @@ using Heirloom.Math;
 namespace Heirloom.Collections.Spatial
 {
     // todo: BroadPhase<B> probably should not act like a list itself? Change to IEnumerable?
-    public abstract class BroadPhase<B> : IReadOnlyList<B> where B : class, ISpatialObject
+    public abstract class BroadPhase<B> : IReadOnlyList<B> where B : class, IBroadPhaseObject
     {
         private readonly HashSet<B> _bodySet;
         private readonly List<B> _bodyList;

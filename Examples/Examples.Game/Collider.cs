@@ -6,7 +6,7 @@ using Heirloom.Math;
 
 namespace Examples.Game
 {
-    public class Collider : Component, ISpatialObject
+    public class Collider : Component, IBroadPhaseObject
     {
         public Collider(Rectangle localBounds)
         {

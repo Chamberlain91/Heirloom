@@ -1,20 +1,20 @@
 ﻿namespace Heirloom.Collections.Spatial
 {
-    public enum GridNeighbors
+    public enum GridNeighborType
     {
         /// <summary>
         /// The four neighbors to north, east, south, west.
         /// </summary>
-        FourAxis,
+        Axis,
 
         /// <summary>
         /// The four neighbors to north-east, south-east, south-west, north-west.
         /// </summary>
-        FourDiagonal,
+        Diagonal,
 
         /// <summary>
-        /// All eight neiboring tiles (combines <see cref="FourAxis"/> and <see cref="FourDiagonal"/>).
+        /// All eight neiboring tiles (combines <see cref="Axis"/> and <see cref="Diagonal"/>).
         /// </summary>
-        Eight
+        All
     }
 }

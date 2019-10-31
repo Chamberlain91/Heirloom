@@ -6,7 +6,7 @@ using Heirloom.Math;
 
 namespace Heirloom.Collections.Spatial
 {
-    public sealed class SparseGridBroadPhase<B> : BroadPhase<B> where B : class, ISpatialObject
+    public sealed class SparseGridBroadPhase<B> : BroadPhase<B> where B : class, IBroadPhaseObject
     {
         private readonly Dictionary<B, IntRectangle> _bodies;
         private readonly SparseGrid<List<B>> _grid;
@@ -48,10 +48,13 @@ namespace Heirloom.Collections.Spatial
                         var co = new IntVector(x, y);
 
                         // Try to get cell set
-                        if (!_grid.TryGetValue(co, out var cell))
+                        var cell = _grid[co];
+
+                        // No cell set was defined
+                        if (cell == null)
                         {
-                            cell = new List<B>();
-                            _grid[co] = cell;
+                            // Create cell set
+                            _grid[co] = cell = new List<B>();
                         }
 
                         // Add cell to set
@@ -76,15 +79,9 @@ namespace Heirloom.Collections.Spatial
                         // 
                         var co = new IntVector(x, y);
 
-                        // Try to get cell set
-                        if (_grid.TryGetValue(co, out var cell))
-                        {
-                            cell.Remove(body);
-                        }
-                        else
-                        {
-                            throw new InvalidOperationException();
-                        }
+                        // Clear cell value
+                        if (_grid[co] != null) { _grid[co] = default; }
+                        else { throw new InvalidOperationException(); }
                     }
                 }
             }
@@ -142,13 +139,10 @@ namespace Heirloom.Collections.Spatial
         {
             var co = ComputeIntegerVector(point);
 
-            // Do entities exist in the cells at all?
-            if (_grid.TryGetValue(co, out var items))
+            // Enumerate values in the cell
+            foreach (var other in _grid[co] ?? Enumerable.Empty<B>())
             {
-                foreach (var other in items)
-                {
-                    yield return other;
-                }
+                yield return other;
             }
         }
 
@@ -163,13 +157,10 @@ namespace Heirloom.Collections.Spatial
                     // 
                     var co = new IntVector(x, y);
 
-                    // Do entities exist in the cells at all?
-                    if (_grid.TryGetValue(co, out var items))
+                    // Enumerate values in the cell
+                    foreach (var other in _grid[co] ?? Enumerable.Empty<B>())
                     {
-                        foreach (var other in items)
-                        {
-                            yield return other;
-                        }
+                        yield return other;
                     }
                 }
             }
@@ -192,13 +183,10 @@ namespace Heirloom.Collections.Spatial
             {
                 var co = new IntVector(x0, y0);
 
-                // Do entities exist in the cells at all?
-                if (_grid.TryGetValue(co, out var items))
+                // Enumerate values in the cell
+                foreach (var other in _grid[co] ?? Enumerable.Empty<B>())
                 {
-                    foreach (var other in items)
-                    {
-                        yield return other;
-                    }
+                    yield return other;
                 }
 
                 // Reached end of line

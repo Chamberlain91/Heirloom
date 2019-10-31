@@ -5,7 +5,7 @@ using Heirloom.Math;
 
 namespace Heirloom.Collections.Spatial
 {
-    public sealed class SpatialBroadPhase<B> : BroadPhase<B> where B : class, ISpatialObject
+    public sealed class SpatialBroadPhase<B> : BroadPhase<B> where B : class, IBroadPhaseObject
     {
         public readonly SpatialCollection<B> Collection;
 

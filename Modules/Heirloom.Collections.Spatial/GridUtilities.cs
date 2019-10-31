@@ -6,9 +6,9 @@ namespace Heirloom.Collections.Spatial
 {
     internal static class GridUtilities
     {
-        internal static IEnumerable<IntVector> EnumerateNeighbors(IntVector co, GridNeighbors neighbors)
+        internal static IEnumerable<IntVector> EnumerateNeighbors(IntVector co, GridNeighborType neighborType)
         {
-            if (neighbors == GridNeighbors.FourAxis)
+            if (neighborType == GridNeighborType.Axis)
             {
                 // Clockwise from three o'clock
                 yield return (co.X + 1, co.Y + 0);
@@ -17,7 +17,7 @@ namespace Heirloom.Collections.Spatial
                 yield return (co.X + 0, co.Y - 1);
             }
             else
-            if (neighbors == GridNeighbors.FourDiagonal)
+            if (neighborType == GridNeighborType.Diagonal)
             {
                 // Clockwise from half past one
                 yield return (co.X + 1, co.Y - 1);

@@ -11,7 +11,7 @@ namespace Heirloom.Collections.Spatial
     /// With only a moderate number of objects this becomes very slow, but should be bullet proof since it iterates *every* object.
     /// </summary>
     /// <typeparam name="B"></typeparam>
-    public sealed class BruteForceBroadPhase<B> : BroadPhase<B> where B : class, ISpatialObject
+    public sealed class BruteForceBroadPhase<B> : BroadPhase<B> where B : class, IBroadPhaseObject
     {
         public BruteForceBroadPhase()
         {
