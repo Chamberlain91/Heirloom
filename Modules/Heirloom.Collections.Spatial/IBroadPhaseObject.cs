@@ -2,7 +2,7 @@
 
 namespace Heirloom.Collections.Spatial
 {
-    public interface ISpatialObject
+    public interface IBroadPhaseObject
     {
         Rectangle Bounds { get; }
     }

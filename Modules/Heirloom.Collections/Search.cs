@@ -276,6 +276,10 @@ namespace Heirloom.Collections
         {
             var statusTable = new Dictionary<T, AcyclicStatus>();
 
+            // todo: see about using my own DepthFirst traversal defined above to 'remove duplication'
+            // foreach (var node in DepthFirst(start, getSuccessors))
+            // { ... }
+
             // For each unvisited node
             foreach (var node in getSuccessors(start))
             {

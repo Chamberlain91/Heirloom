@@ -1,49 +1,67 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Heirloom.Math;
 
 namespace Heirloom.Collections.Spatial
 {
+    /// <summary>
+    /// A finite grid (bounded by size) of values.
+    /// </summary>
     public sealed class Grid<T> : IFiniteGrid<T>
     {
-        private readonly T[,] _data;
+        private readonly T[] _data;
+
+        #region Constructors
 
         public Grid(int width, int height)
         {
             Width = width;
             Height = height;
 
-            // todo: reorder access as new T[Height, Width] because defining array is  y first {{..},{..},..}
-            _data = new T[Width, Height];
+            _data = new T[Width * Height];
         }
+
+        #endregion
 
         #region Properties
 
+        /// <summary>
+        /// The width of this grid.
+        /// </summary>
         public int Width { get; }
 
+        /// <summary>
+        /// The height of this grid.
+        /// </summary>
         public int Height { get; }
 
         #endregion
 
         #region Indexer
 
-        public T this[int x, int y]
-        {
-            get => this[(x, y)];
-            set => this[(x, y)] = value;
-        }
-
-        public T this[IntVector co]
+        /// <summary>
+        /// Gets or sets the value at the specified coordinate.
+        /// </summary>
+        public T this[in int x, in int y]
         {
             get
             {
-                if (co.X < 0 || co.X >= Width) { return default; }
-                if (co.Y < 0 || co.Y >= Height) { return default; }
-                return _data[co.X, co.Y];
+                if (x < 0 || x >= Width) { return default; }
+                if (y < 0 || y >= Height) { return default; }
+
+                return _data[x + (y * Width)];
             }
 
-            set => _data[co.X, co.Y] = value;
+            set => _data[x + (y * Width)] = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the value at the specified coordinate.
+        /// </summary>
+        public T this[in IntVector co]
+        {
+            get => this[in co.X, in co.Y];
+            set => this[in co.X, in co.Y] = value;
         }
 
         #endregion
@@ -53,31 +71,7 @@ namespace Heirloom.Collections.Spatial
         /// </summary>
         public void Clear()
         {
-            // Does this actually clear all dimensions?
             Array.Clear(_data, 0, _data.Length);
-        }
-
-        /// <summary>
-        /// Returns the valid neighboring coordinates for the specified coordinate.
-        /// </summary>
-        public IEnumerable<IntVector> FindNeighbors(IntVector co, GridNeighbors neighbors = GridNeighbors.FourAxis)
-        {
-            return FindNeighbors(co, _ => true, neighbors);
-        }
-
-        /// <summary>
-        /// Returns the valid neighboring coordinates for the specified coordinate that also match the given predicate.
-        /// </summary>
-        public IEnumerable<IntVector> FindNeighbors(IntVector co, Predicate<T> predicate, GridNeighbors neighbors = GridNeighbors.FourAxis)
-        {
-            foreach (var neighbor in GridUtilities.EnumerateNeighbors(co, neighbors))
-            {
-                // Within bound and matches the selection test
-                if (IsValidCoordinate(neighbor) && predicate(this[neighbor]))
-                {
-                    yield return neighbor;
-                }
-            }
         }
 
         /// <summary>
@@ -87,6 +81,7 @@ namespace Heirloom.Collections.Spatial
         {
             if (co.X < 0 || co.X >= Width) { return false; }
             if (co.Y < 0 || co.Y >= Height) { return false; }
+
             return true;
         }
     }
