@@ -17,18 +17,30 @@ namespace Heirloom.Sound
 
         #region Constructors
 
+        /// <summary>
+        /// Create an audio source for the given clip in the default audio group (ie, <see cref="AudioGroup.Default"/>).
+        /// </summary>
         public AudioSource(AudioClip clip)
             : this(clip, AudioGroup.Default)
         { }
 
+        /// <summary>
+        /// Create an audio source for the given clip in the specified audio group.
+        /// </summary> 
         public AudioSource(AudioClip clip, AudioGroup group)
             : this(new AudioClipProvider(clip), group)
         { }
 
+        /// <summary>
+        /// Create an audio source for the given stream in the default audio group (ie, <see cref="AudioGroup.Default"/>).
+        /// </summary> 
         public AudioSource(Stream stream)
             : this(stream, AudioGroup.Default)
         { }
 
+        /// <summary>
+        /// Create an audio source for the given stream in the specified audio group.
+        /// </summary> 
         public AudioSource(Stream stream, AudioGroup group)
             : this(new AudioStreamProvider(stream), group)
         { }
@@ -60,7 +72,7 @@ namespace Heirloom.Sound
         /// <summary>
         /// Should this clip loop when finished playing?
         /// </summary>
-        public bool Looping { get; set; } = false;
+        public bool IsLooping { get; set; } = false;
 
         /// <summary>
         /// Is it possible seek through this sources audio data to change playback position.
@@ -113,7 +125,7 @@ namespace Heirloom.Sound
         /// <summary>
         /// An event invoked when this source reaches the end of playable audio.
         /// </summary>
-        public event Action PlaybackEnded; // TODO: Better name...
+        public event Action PlaybackEnded;
 
         #endregion
 
@@ -190,7 +202,7 @@ namespace Heirloom.Sound
                 OnPlaybackEnded();
 
                 // Don't bother with loop case if we are unable to seek
-                if (CanSeek && Looping)
+                if (CanSeek && IsLooping)
                 {
                     // Go to first sample
                     Seek(0);
@@ -221,7 +233,7 @@ namespace Heirloom.Sound
             PlaybackEnded?.Invoke();
 
             // If not looping, remove from active list by pausing.
-            if (!Looping) { Pause(); }
+            if (!IsLooping) { Pause(); }
         }
     }
 }
