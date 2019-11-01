@@ -6,13 +6,18 @@ using Heirloom.Math;
 
 namespace Heirloom.Collections.Spatial
 {
+    /// <summary>
+    /// A spatial collection to store and query object in 2D space.
+    /// </summary>
     public sealed class SpatialCollection<T> : ISpatialCollection<T>
     {
         private readonly Dictionary<T, Node> _nodes;
         private readonly float _margin;
         private Node _root;
 
-        [ThreadStatic] private static readonly Queue<Node> _queue = new Queue<Node>();
+        [ThreadStatic] private static readonly Queue<Node> _queryQueue = new Queue<Node>();
+
+        #region Constructors
 
         public SpatialCollection(float margin)
         {
@@ -20,10 +25,37 @@ namespace Heirloom.Collections.Spatial
             _margin = margin;
         }
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the number of elements stored in this collection.
+        /// </summary>
         public int Count => _nodes.Count;
 
-        public Node Root => _root;
+        /// <summary>
+        /// Gets the total bounds of all elements in the collection.
+        /// </summary>
+        public Rectangle Bounds => _root?.Bounds ?? Rectangle.Zero;
 
+        #endregion
+
+        #region Collection Operations
+
+        /// <summary>
+        /// Clears all elements from this spatial collection.
+        /// </summary>
+        public void Clear()
+        {
+            // todo: recycle nodes in node pool?
+            _nodes.Clear();
+            _root = null;
+        }
+
+        /// <summary>
+        /// Adds an element with rectangle bounds into this spatial collection.
+        /// </summary>
         public void Add(in T item, in Rectangle bounds)
         {
             if (_nodes.ContainsKey(item)) { throw new ArgumentException($"Spatial item already exists in collection, unable to add."); }
@@ -40,6 +72,9 @@ namespace Heirloom.Collections.Spatial
             }
         }
 
+        /// <summary>
+        /// Updates an exising element with new bounds in the collection.
+        /// </summary>
         public void Update(in T item, in Rectangle bounds)
         {
             if (_nodes.TryGetValue(item, out var node))
@@ -59,10 +94,13 @@ namespace Heirloom.Collections.Spatial
             }
             else
             {
-                throw new ArgumentException($"Spatial item does not exist, unable to update.");
+                throw new ArgumentException($"Spatial element does not exist, unable to update.");
             }
         }
 
+        /// <summary>
+        /// Removes an element from this spatial collection.
+        /// </summary>
         public bool Remove(in T item)
         {
             // 
@@ -85,6 +123,125 @@ namespace Heirloom.Collections.Spatial
                 return false;
             }
         }
+
+        /// <summary>
+        /// Determines if the specified element exists in this collection.
+        /// </summary>
+        public bool Contains(in T item)
+        {
+            return _nodes.ContainsKey(item);
+        }
+
+        #endregion
+
+        #region Query Operations
+
+        /// <summary>
+        /// Queries the spatial collection and returns the elements with bounds that overlap the specified point.
+        /// </summary>
+        public IEnumerable<T> Query(Vector point)
+        {
+            if (_root == null) { yield break; }
+            else
+            {
+                _queryQueue.Clear();
+                _queryQueue.Enqueue(_root);
+
+                // 
+                while (_queryQueue.Count > 0)
+                {
+                    var node = _queryQueue.Dequeue();
+
+                    if (node.Bounds.Contains(point))
+                    {
+                        // 
+                        if (node.IsLeaf) { yield return node.Item; }
+                        else
+                        {
+                            // 
+                            _queryQueue.Enqueue(node.Children[0]);
+                            _queryQueue.Enqueue(node.Children[1]);
+                        }
+                    }
+                }
+
+                // Clear queue to prevent holding references
+                _queryQueue.Clear();
+            }
+        }
+
+        /// <summary>
+        /// Queries the spatial collection and returns the elements with bounds that overlap the specified rectangle.
+        /// </summary>
+        public IEnumerable<T> Query(Rectangle bounds)
+        {
+            if (_root == null) { yield break; }
+            else
+            {
+                _queryQueue.Clear();
+                _queryQueue.Enqueue(_root);
+
+                // 
+                while (_queryQueue.Count > 0)
+                {
+                    var node = _queryQueue.Dequeue();
+
+                    if (node.Bounds.Overlaps(bounds))
+                    {
+                        // 
+                        if (node.IsLeaf) { yield return node.Item; }
+                        else
+                        {
+                            // 
+                            _queryQueue.Enqueue(node.Children[0]);
+                            _queryQueue.Enqueue(node.Children[1]);
+                        }
+                    }
+                }
+
+                // Clear queue to prevent holding references
+                _queryQueue.Clear();
+            }
+        }
+
+        /// <summary>
+        /// Queries the spatial collection and returns the elements with bounds that intersect the specified ray.
+        /// </summary>
+        public IEnumerable<T> Query(Ray ray, float maxDistance = float.PositiveInfinity)
+        {
+            if (_root == null) { yield break; }
+            else
+            {
+                _queryQueue.Clear();
+                _queryQueue.Enqueue(_root);
+
+                // 
+                while (_queryQueue.Count > 0)
+                {
+                    var node = _queryQueue.Dequeue();
+
+                    // 
+                    if (node.Bounds.Raycast(ray))
+                    {
+                        // 
+                        if (node.IsLeaf) { yield return node.Item; }
+                        else
+                        {
+                            // 
+                            _queryQueue.Enqueue(node.Children[0]);
+                            _queryQueue.Enqueue(node.Children[1]);
+                        }
+                    }
+                }
+
+                // Clear queue to prevent holding references
+                _queryQueue.Clear();
+            }
+        }
+
+        #endregion
+
+        #region BSP Operations
 
         private void RemoveNode(Node node)
         {
@@ -176,115 +333,9 @@ namespace Heirloom.Collections.Spatial
             }
         }
 
-        public void Clear()
-        {
-            // todo: recycle nodes in node pool?
-            _nodes.Clear();
-            _root = null;
-        }
-
-        public bool Contains(in T item)
-        {
-            return _nodes.ContainsKey(item);
-        }
-
-        #region Query
-
-        public IEnumerable<T> Query(Vector point)
-        {
-            if (_root == null) { yield break; }
-            else
-            {
-                _queue.Clear();
-                _queue.Enqueue(_root);
-
-                // 
-                while (_queue.Count > 0)
-                {
-                    var node = _queue.Dequeue();
-
-                    if (node.Bounds.Contains(point))
-                    {
-                        // 
-                        if (node.IsLeaf) { yield return node.Item; }
-                        else
-                        {
-                            // 
-                            _queue.Enqueue(node.Children[0]);
-                            _queue.Enqueue(node.Children[1]);
-                        }
-                    }
-                }
-
-                // Clear queue to prevent holding references
-                _queue.Clear();
-            }
-        }
-
-        public IEnumerable<T> Query(Rectangle bounds)
-        {
-            if (_root == null) { yield break; }
-            else
-            {
-                _queue.Clear();
-                _queue.Enqueue(_root);
-
-                // 
-                while (_queue.Count > 0)
-                {
-                    var node = _queue.Dequeue();
-
-                    if (node.Bounds.Overlaps(bounds))
-                    {
-                        // 
-                        if (node.IsLeaf) { yield return node.Item; }
-                        else
-                        {
-                            // 
-                            _queue.Enqueue(node.Children[0]);
-                            _queue.Enqueue(node.Children[1]);
-                        }
-                    }
-                }
-
-                // Clear queue to prevent holding references
-                _queue.Clear();
-            }
-        }
-
-        public IEnumerable<T> Query(Ray ray, float maxDistance = float.PositiveInfinity)
-        {
-            if (_root == null) { yield break; }
-            else
-            {
-                _queue.Clear();
-                _queue.Enqueue(_root);
-
-                // 
-                while (_queue.Count > 0)
-                {
-                    var node = _queue.Dequeue();
-
-                    // 
-                    if (node.Bounds.Raycast(ray))
-                    {
-                        // 
-                        if (node.IsLeaf) { yield return node.Item; }
-                        else
-                        {
-                            // 
-                            _queue.Enqueue(node.Children[0]);
-                            _queue.Enqueue(node.Children[1]);
-                        }
-                    }
-                }
-
-                // Clear queue to prevent holding references
-                _queue.Clear();
-            }
-        }
-
         #endregion
+
+        #region Enumerator
 
         public IEnumerator<T> GetEnumerator()
         {
@@ -297,7 +348,9 @@ namespace Heirloom.Collections.Spatial
             return GetEnumerator();
         }
 
-        public class Node
+        #endregion
+
+        private class Node
         {
             // 
             private static readonly ObjectPool<Node> _pool = new ObjectPool<Node>(() => new Node(), n =>
