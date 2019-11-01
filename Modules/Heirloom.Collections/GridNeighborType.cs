@@ -1,4 +1,4 @@
-﻿namespace Heirloom.Collections.Spatial
+﻿namespace Heirloom.Collections
 {
     public enum GridNeighborType
     {

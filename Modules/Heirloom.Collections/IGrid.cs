@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-using Heirloom.Math;
-
-namespace Heirloom.Collections.Spatial
+namespace Heirloom.Collections
 {
     /// <summary>
     /// A read-only view of a 2D grid of values.
@@ -14,7 +11,11 @@ namespace Heirloom.Collections.Spatial
         /// <summary>
         /// Gets or sets the value at the specified coordinate.
         /// </summary>
-        T this[in IntVector co] { get; set; }
+        T this[in (int X, int Y) co]
+        {
+            get => this[co.X, co.Y];
+            set => this[co.X, co.Y] = value;
+        }
 
         /// <summary>
         /// Gets or sets the value at the specified coordinate.
@@ -24,25 +25,25 @@ namespace Heirloom.Collections.Spatial
         /// <summary>
         /// Is the specified coordinate valid on this grid?
         /// </summary>
-        bool IsValidCoordinate(in IntVector co);
-
-        /// <summary>
-        /// Enumerates the neighboring coordinates.
-        /// </summary>
-        IEnumerable<IntVector> GetNeighborCoordinates(IntVector co, GridNeighborType neighborType = GridNeighborType.Axis)
+        bool IsValidCoordinate(in (int X, int Y) co)
         {
-            return GridUtilities.EnumerateNeighbors(co, neighborType);
+            return IsValidCoordinate(co.X, co.Y);
         }
 
         /// <summary>
-        /// Enumerates the neighboring coordinates that satisfy a condition.
+        /// Is the specified coordinate valid on this grid?
         /// </summary>
-        IEnumerable<IntVector> GetNeighborCoordinates(IntVector co, Predicate<T> predicate, GridNeighborType neighborType = GridNeighborType.Axis)
+        bool IsValidCoordinate(in int x, in int y);
+
+        /// <summary>
+        /// Enumerates the neighboring valid coordinates.
+        /// </summary>
+        /// <seealso cref="GridUtilities.GetNeighboringCoordinates(IntVector, GridNeighborType)"/>
+        IEnumerable<(int x, int y)> GetNeighborCoordinates((int x, int y) co, GridNeighborType neighborType = GridNeighborType.Axis)
         {
-            foreach (var neighbor in GridUtilities.EnumerateNeighbors(co, neighborType))
+            foreach (var neighbor in GridUtilities.GetNeighboringCoordinates(co, neighborType))
             {
-                // Within bound and matches the selection test
-                if (IsValidCoordinate(neighbor) && predicate(this[neighbor]))
+                if (IsValidCoordinate(neighbor))
                 {
                     yield return neighbor;
                 }

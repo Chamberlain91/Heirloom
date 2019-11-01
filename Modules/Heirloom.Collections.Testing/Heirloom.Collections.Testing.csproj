@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Heirloom.Collections\Heirloom.Collections.csproj" />
+    <ProjectReference Include="..\Heirloom.Math\Heirloom.Math.csproj" />
   </ItemGroup>
 
 </Project>

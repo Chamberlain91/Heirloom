@@ -1,21 +1,19 @@
 ﻿using System.Collections.Generic;
 
-using Heirloom.Math;
-
-namespace Heirloom.Collections.Spatial
+namespace Heirloom.Collections
 {
     /// <summary>
     /// An infinite, sparse grid of values.
     /// </summary>
     public sealed class SparseGrid<T> : IGrid<T>
     {
-        private readonly Dictionary<IntVector, T> _data;
+        private readonly Dictionary<(int X, int Y), T> _data;
 
         #region Constructors
 
         public SparseGrid()
         {
-            _data = new Dictionary<IntVector, T>();
+            _data = new Dictionary<(int X, int Y), T>();
         }
 
         #endregion
@@ -25,7 +23,7 @@ namespace Heirloom.Collections.Spatial
         /// <summary>
         /// Gets or sets the value at the specified coordinate.
         /// </summary>
-        public T this[in IntVector co]
+        public T this[in (int X, int Y) co]
         {
             get => _data.TryGetValue(co, out var value) ? value : default;
             set
@@ -58,7 +56,7 @@ namespace Heirloom.Collections.Spatial
         /// <summary>
         /// Is the specified coordinate valid on this grid?
         /// </summary>
-        public bool IsValidCoordinate(in IntVector co)
+        public bool IsValidCoordinate(in int x, in int y)
         {
             // All cells are valid in the sparse grid
             return true;

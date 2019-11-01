@@ -9,7 +9,14 @@ namespace Heirloom.Collections.Spatial
     /// <summary>
     /// A spatial collection to store and query object in 2D space.
     /// </summary>
-    public sealed class SpatialCollection<T> : ISpatialCollection<T>
+    public sealed class SpatialQueryCollection<T> : ISpatialQueryCollection<T>
+    // todo: the magic super collection seems to be a Loose Quadtree + Loose Grid
+    // https://stackoverflow.com/questions/41946007/efficient-and-well-explained-implementation-of-a-quadtree-for-2d-collision-det
+    // where the quadtree can be used for ray queries and large box queries
+    // where the grid can very quickly find a point query
+    // the article mentions a deferred cleanup method for adjusting to removals after all changes have been made
+    // this generalized structure concept fails in that regard, but maybe a flag and cleanup method can be exposed
+    // to allow the user to take manual control of the cleanups?
     {
         private readonly Dictionary<T, Node> _nodes;
         private readonly float _margin;
@@ -19,7 +26,7 @@ namespace Heirloom.Collections.Spatial
 
         #region Constructors
 
-        public SpatialCollection(float margin)
+        public SpatialQueryCollection(float margin = 0.1F)
         {
             _nodes = new Dictionary<T, Node>();
             _margin = margin;
@@ -33,11 +40,6 @@ namespace Heirloom.Collections.Spatial
         /// Gets the number of elements stored in this collection.
         /// </summary>
         public int Count => _nodes.Count;
-
-        /// <summary>
-        /// Gets the total bounds of all elements in the collection.
-        /// </summary>
-        public Rectangle Bounds => _root?.Bounds ?? Rectangle.Zero;
 
         #endregion
 
@@ -139,7 +141,7 @@ namespace Heirloom.Collections.Spatial
         /// <summary>
         /// Queries the spatial collection and returns the elements with bounds that overlap the specified point.
         /// </summary>
-        public IEnumerable<T> Query(Vector point)
+        public IEnumerable<T> Find(Vector point)
         {
             if (_root == null) { yield break; }
             else
@@ -173,7 +175,7 @@ namespace Heirloom.Collections.Spatial
         /// <summary>
         /// Queries the spatial collection and returns the elements with bounds that overlap the specified rectangle.
         /// </summary>
-        public IEnumerable<T> Query(Rectangle bounds)
+        public IEnumerable<T> Find(Rectangle bounds)
         {
             if (_root == null) { yield break; }
             else
@@ -207,7 +209,7 @@ namespace Heirloom.Collections.Spatial
         /// <summary>
         /// Queries the spatial collection and returns the elements with bounds that intersect the specified ray.
         /// </summary>
-        public IEnumerable<T> Query(Ray ray, float maxDistance = float.PositiveInfinity)
+        public IEnumerable<T> Find(Ray ray, float maxDistance = float.PositiveInfinity)
         {
             if (_root == null) { yield break; }
             else
@@ -241,22 +243,7 @@ namespace Heirloom.Collections.Spatial
 
         #endregion
 
-        #region BSP Operations
-
-        private void RemoveNode(Node node)
-        {
-            // No parent, must be the root?
-            if (node.IsRoot)
-            {
-                Node.Recycle(node);
-                _root = null;
-            }
-            else
-            {
-                // The other node on the branch
-                ReplaceNode(node.Parent, node.GetSibling());
-            }
-        }
+        #region Tree Operations
 
         private void InsertNode(ref Node parent, Node node)
         {
@@ -311,25 +298,39 @@ namespace Heirloom.Collections.Spatial
             }
         }
 
-        private void ReplaceNode(Node target, Node replace)
+        private void RemoveNode(Node node)
         {
-            // The replace node's parent will become the same as the target node's parent
-            replace.Parent = target.Parent;
-
-            // Is the target the root node?
-            if (target.IsRoot)
+            if (node.IsRoot)
             {
-                // Simply replace the root
-                _root = replace;
+                Node.Recycle(node);
+                _root = null;
             }
             else
             {
-                // Reassign target index with node in parent
-                target.Parent.Children[target.Index] = replace;
-                target.Parent.RecomputeBounds();
+                // The other node on the branch
+                ReplaceNode(node.Parent, node.GetSibling());
+            }
 
-                // Recycle (clear and put back into pool)
-                Node.Recycle(target);
+            void ReplaceNode(Node target, Node replace)
+            {
+                // The replace node's parent will become the same as the target node's parent
+                replace.Parent = target.Parent;
+
+                // Is the target the root node?
+                if (target.IsRoot)
+                {
+                    // Simply replace the root
+                    _root = replace;
+                }
+                else
+                {
+                    // Reassign target index with node in parent
+                    target.Parent.Children[target.Index] = replace;
+                    target.Parent.RecomputeBounds();
+
+                    // Recycle (clear and put back into pool)
+                    Node.Recycle(target);
+                }
             }
         }
 
@@ -353,13 +354,7 @@ namespace Heirloom.Collections.Spatial
         private class Node
         {
             // 
-            private static readonly ObjectPool<Node> _pool = new ObjectPool<Node>(() => new Node(), n =>
-            {
-                n.Children = default;
-                n.Bounds = default;
-                n.Parent = default;
-                n.Item = default;
-            });
+            private static readonly Queue<Node> _pool = new Queue<Node>();
 
             public Rectangle Bounds;
 
@@ -373,8 +368,7 @@ namespace Heirloom.Collections.Spatial
 
             public static Node Create(T item, Rectangle bounds)
             {
-                var node = _pool.Request();
-
+                var node = Request();
                 node.Bounds = bounds;
                 node.Item = item;
 
@@ -383,8 +377,7 @@ namespace Heirloom.Collections.Spatial
 
             public static Node Create(Rectangle bounds, Node c0, Node c1)
             {
-                var node = _pool.Request();
-
+                var node = Request();
                 node.Children = new Node[2] { c0, c1 };
                 node.Bounds = bounds;
                 node.Item = default;
@@ -392,9 +385,35 @@ namespace Heirloom.Collections.Spatial
                 return node;
             }
 
+            private static Node Request()
+            {
+                if (_pool.Count > 0)
+                {
+                    lock (_pool)
+                    {
+                        // Request recycled node
+                        return _pool.Dequeue();
+                    }
+                }
+                else
+                {
+                    // Allocate new node
+                    return new Node();
+                }
+            }
+
             public static void Recycle(Node node)
             {
-                _pool.Recycle(node);
+                lock (_pool)
+                {
+                    _pool.Enqueue(node);
+
+                    // Reset node
+                    node.Children = default;
+                    node.Bounds = default;
+                    node.Parent = default;
+                    node.Item = default;
+                }
             }
 
             public bool IsLeaf => Children == null;

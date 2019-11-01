@@ -1,8 +1,6 @@
 ﻿using System;
 
-using Heirloom.Math;
-
-namespace Heirloom.Collections.Spatial
+namespace Heirloom.Collections
 {
     /// <summary>
     /// A finite grid (bounded by size) of values.
@@ -58,7 +56,7 @@ namespace Heirloom.Collections.Spatial
         /// <summary>
         /// Gets or sets the value at the specified coordinate.
         /// </summary>
-        public T this[in IntVector co]
+        public T this[in (int X, int Y) co]
         {
             get => this[in co.X, in co.Y];
             set => this[in co.X, in co.Y] = value;
@@ -77,10 +75,10 @@ namespace Heirloom.Collections.Spatial
         /// <summary>
         /// Determines if the specified coordinate is a valid coordinate within the grid.
         /// </summary>
-        public bool IsValidCoordinate(in IntVector co)
+        public bool IsValidCoordinate(in int x, in int y)
         {
-            if (co.X < 0 || co.X >= Width) { return false; }
-            if (co.Y < 0 || co.Y >= Height) { return false; }
+            if (x < 0 || x >= Width) { return false; }
+            if (y < 0 || y >= Height) { return false; }
 
             return true;
         }
