@@ -6,7 +6,7 @@ using Heirloom.Math;
 
 namespace Examples.Game
 {
-    public class Collider : Component, IBroadPhaseObject
+    public class Collider : Component
     {
         public Collider(Rectangle localBounds)
         {
@@ -35,7 +35,7 @@ namespace Examples.Game
 
         protected override void OnAdded()
         {
-            Colliders.Add(this);
+            Colliders.Add(this, Bounds);
             Transform.Changed += Transform_Changed;
         }
 
@@ -47,15 +47,14 @@ namespace Examples.Game
 
         private void Transform_Changed()
         {
-            Colliders.Update(this);
+            Colliders.Update(this, Bounds);
         }
 
-        // todo: IReadOnlyBroadPhase
-        public static BroadPhase<Collider> Colliders { get; } = new SpatialBroadPhase<Collider>( );
+        public static SpatialQueryCollection<Collider> Colliders { get; } = new SpatialQueryCollection<Collider>();
 
         public static IEnumerable<Collider> GetColliders(Collider collider)
         {
-            foreach (var other in Colliders.Query(collider.Bounds.Inflate(16)))
+            foreach (var other in Colliders.Find(collider.Bounds.Inflate(16)))
             {
                 yield return other;
             }

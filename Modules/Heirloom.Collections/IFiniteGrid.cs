@@ -1,7 +1,4 @@
-﻿
-using Heirloom.Math;
-
-namespace Heirloom.Collections.Spatial
+﻿namespace Heirloom.Collections
 {
     /// <summary>
     /// A finite grid (bounded by <see cref="Width"/> and <see cref="Height"/>).
@@ -17,10 +14,5 @@ namespace Heirloom.Collections.Spatial
         /// The height of this grid.
         /// </summary>
         int Height { get; }
-
-        /// <summary>
-        /// The size of this grid.
-        /// </summary>
-        IntSize Size => new IntSize(Width, Height);
     }
 }

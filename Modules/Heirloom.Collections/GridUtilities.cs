@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 
-using Heirloom.Math;
-
-namespace Heirloom.Collections.Spatial
+namespace Heirloom.Collections
 {
-    internal static class GridUtilities
+    public static class GridUtilities
     {
-        internal static IEnumerable<IntVector> EnumerateNeighbors(IntVector co, GridNeighborType neighborType)
+        public static IEnumerable<(int X, int Y)> GetNeighboringCoordinates((int X, int Y) co, GridNeighborType neighborType)
         {
             if (neighborType == GridNeighborType.Axis)
             {

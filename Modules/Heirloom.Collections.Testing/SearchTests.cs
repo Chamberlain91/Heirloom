@@ -3,7 +3,7 @@
 namespace Heirloom.Collections.Testing
 {
     [TestFixture]
-    public class SearchTests : TestingBase
+    public class SearchTests
     {
         [Test]
         public void HeuristicSearchCostCall()

@@ -4,10 +4,12 @@ using System.Linq;
 
 using NUnit.Framework;
 
+using static Heirloom.Collections.Testing.Utilities;
+
 namespace Heirloom.Collections.Testing
 {
     [TestFixture]
-    public class HeapTests : TestingBase
+    public class HeapTests
     {
         [Test]
         public void ContainedMutated()

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
 
+using Heirloom.Math;
+
 namespace Heirloom.Collections.Testing
 {
-    public abstract class TestingBase
+    public static class Utilities
     {
-        #region Integers
+        #region Create Integers
 
         /// <summary>
         /// Constructs an array of n elements in the range of 0 to n.
@@ -39,13 +41,13 @@ namespace Heirloom.Collections.Testing
         public static int[] CreatePartiallyRandomIntegerArray(int n)
         {
             var arr = CreateOrderedIntegerArray(n);
-            PartiallyRandomize(arr, (int) Math.Max(1, n * 0.1F));
+            PartiallyRandomize(arr, (int) Calc.Max(1, n * 0.1F));
             return arr;
         }
 
         #endregion
 
-        #region Sortable Objects
+        #region Create Sortable Objects
 
         /// <summary>
         /// Constructs an array of n elements in the range of 0 to n.
@@ -83,7 +85,7 @@ namespace Heirloom.Collections.Testing
         public static SortableObject[] CreatePartiallyRandomSortableArray(int n)
         {
             var arr = CreateOrderedSortableArray(n);
-            PartiallyRandomize(arr, (int) Math.Max(1, n * 0.1F));
+            PartiallyRandomize(arr, (int) Calc.Max(1, n * 0.1F));
             return arr;
         }
 
@@ -133,21 +135,6 @@ namespace Heirloom.Collections.Testing
             var t = a;
             a = b;
             b = t;
-        }
-
-        public sealed class SortableObject : IComparable<SortableObject>
-        {
-            public SortableObject(int number)
-            {
-                Number = number;
-            }
-
-            public int Number { get; set; }
-
-            public int CompareTo(SortableObject other)
-            {
-                return Number.CompareTo(other.Number);
-            }
         }
     }
 }

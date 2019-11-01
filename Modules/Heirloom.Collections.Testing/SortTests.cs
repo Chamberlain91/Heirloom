@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using NUnit.Framework;
+
+using static Heirloom.Collections.Testing.Utilities;
 
 namespace Heirloom.Collections.Testing
 {
     [TestFixture]
-    public class SortTests : TestingBase
+    public class SortTests
     {
         public delegate IEnumerable<T> SortingFunction<T>(IEnumerable<T> items);
 

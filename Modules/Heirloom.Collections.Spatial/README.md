@@ -1,7 +1,8 @@
 # Heirloom.Collections.Spatial
 
-A library to provide implementation of various spatial collections such 
-`SparseGrid` or for spatial query such as `SpatialCollection`.
+A library to provide implementations of various spatially oriented 
+datastructures such as a sparse grid and other spatial partitioning 
+structures to query 2D space.
 
 ----
 
