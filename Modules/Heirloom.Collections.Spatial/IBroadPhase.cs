@@ -5,16 +5,16 @@ namespace Heirloom.Collections.Spatial
     /// <summary>
     /// A spatial collection to store and query elements in 2D space suitable for collision detection schemes.
     /// </summary>
-    public interface IBroadPhase<B> : IReadOnlyCollection<B>, ISpatialQuery<B>
-        where B : class, IBroadPhaseObject
+    public interface IBroadPhase<T> : IReadOnlyCollection<T>, ISpatialQuery<T>
+        where T : class, IBroadPhaseObject
     { 
-        IReadOnlyList<B> Bodies { get; }
+        IReadOnlyList<T> Bodies { get; }
 
-        void Add(B obj);
-        void Remove(B obj);
-        void Update(B obj);
+        void Add(T obj);
+        void Remove(T obj);
+        void Update(T obj);
 
-        IEnumerable<BroadPhasePair<B>> GetCollisionCandidates();
-        IEnumerable<B> Query(B body);
+        IEnumerable<BroadPhasePair<T>> GetCollisionCandidates();
+        IEnumerable<T> Query(T body);
     }
 }
