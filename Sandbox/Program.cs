@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-
+﻿using System;
+using System.Collections.Generic;
+using Heirloom.Collections;
 using Heirloom.Desktop;
 using Heirloom.Drawing;
 using Heirloom.GLFW;

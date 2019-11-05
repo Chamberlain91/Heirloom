@@ -1,5 +1,8 @@
 ﻿namespace Heirloom.Collections
 {
+    /// <summary>
+    /// Describes the choice of neighbors in a grid.
+    /// </summary>
     public enum GridNeighborType
     {
         /// <summary>

@@ -7,16 +7,9 @@ using Heirloom.Math;
 namespace Heirloom.Collections.Spatial
 {
     /// <summary>
-    /// A spatial collection to store and query object in 2D space.
+    /// A spatial collection to store and query elements in 2D space, implemented as a BVH style tree and has infinite bounds.
     /// </summary>
-    public sealed class SpatialQueryCollection<T> : ISpatialQueryCollection<T>
-    // todo: the magic super collection seems to be a Loose Quadtree + Loose Grid
-    // https://stackoverflow.com/questions/41946007/efficient-and-well-explained-implementation-of-a-quadtree-for-2d-collision-det
-    // where the quadtree can be used for ray queries and large box queries
-    // where the grid can very quickly find a point query
-    // the article mentions a deferred cleanup method for adjusting to removals after all changes have been made
-    // this generalized structure concept fails in that regard, but maybe a flag and cleanup method can be exposed
-    // to allow the user to take manual control of the cleanups?
+    public sealed class BoundingHierarchy<T> : ISpatialCollection<T>
     {
         private readonly Dictionary<T, Node> _nodes;
         private readonly float _margin;
@@ -26,7 +19,7 @@ namespace Heirloom.Collections.Spatial
 
         #region Constructors
 
-        public SpatialQueryCollection(float margin = 0.1F)
+        public BoundingHierarchy(float margin = 0.1F)
         {
             _nodes = new Dictionary<T, Node>();
             _margin = margin;
@@ -141,7 +134,7 @@ namespace Heirloom.Collections.Spatial
         /// <summary>
         /// Queries the spatial collection and returns the elements with bounds that overlap the specified point.
         /// </summary>
-        public IEnumerable<T> Find(Vector point)
+        public IEnumerable<T> Query(Vector point)
         {
             if (_root == null) { yield break; }
             else
@@ -175,7 +168,7 @@ namespace Heirloom.Collections.Spatial
         /// <summary>
         /// Queries the spatial collection and returns the elements with bounds that overlap the specified rectangle.
         /// </summary>
-        public IEnumerable<T> Find(Rectangle bounds)
+        public IEnumerable<T> Query(Rectangle bounds)
         {
             if (_root == null) { yield break; }
             else
@@ -209,7 +202,7 @@ namespace Heirloom.Collections.Spatial
         /// <summary>
         /// Queries the spatial collection and returns the elements with bounds that intersect the specified ray.
         /// </summary>
-        public IEnumerable<T> Find(Ray ray, float maxDistance = float.PositiveInfinity)
+        public IEnumerable<T> Query(Ray ray, float maxDistance = float.PositiveInfinity)
         {
             if (_root == null) { yield break; }
             else
