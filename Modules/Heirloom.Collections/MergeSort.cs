@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Heirloom.Collections
 {
-    public static class Sort
+    public static class MergeSort
     {
         /// <summary>
         /// Sorts the elements of an enumerable with a stable sort (note: an array is created).

@@ -8,7 +8,7 @@ namespace Heirloom.Collections.Spatial
 
         public readonly T B;
 
-        public BroadPhasePair(T a, T b)
+        internal BroadPhasePair(T a, T b)
         {
             if (Equals(a, b))
             {
@@ -18,6 +18,8 @@ namespace Heirloom.Collections.Spatial
             A = a;
             B = b;
         }
+
+        #region Equality
 
         public override bool Equals(object obj)
         {
@@ -47,5 +49,7 @@ namespace Heirloom.Collections.Spatial
         {
             return !(left == right);
         }
+
+        #endregion
     }
 }

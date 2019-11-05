@@ -50,11 +50,11 @@ namespace Examples.Game
             Colliders.Update(this, Bounds);
         }
 
-        public static SpatialQueryCollection<Collider> Colliders { get; } = new SpatialQueryCollection<Collider>();
+        public static BoundingHierarchy<Collider> Colliders { get; } = new BoundingHierarchy<Collider>();
 
         public static IEnumerable<Collider> GetColliders(Collider collider)
         {
-            foreach (var other in Colliders.Find(collider.Bounds.Inflate(16)))
+            foreach (var other in Colliders.Query(collider.Bounds.Inflate(16)))
             {
                 yield return other;
             }

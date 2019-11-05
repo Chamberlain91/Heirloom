@@ -25,7 +25,7 @@ namespace Heirloom.Collections
         bool Remove(T item);
 
         /// <summary>
-        /// Removes and returns the next item in the heap.
+        /// Removes and returns the next priority item in the heap.
         /// </summary>
         T Remove();
 

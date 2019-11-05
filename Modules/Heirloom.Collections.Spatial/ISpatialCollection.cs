@@ -7,7 +7,7 @@ namespace Heirloom.Collections.Spatial
     /// <summary>
     /// A read-only view of a spatial collection to query elements in 2D space.
     /// </summary>
-    public interface IReadOnlySpatialQueryCollection<T> : ISpatialQuery<T>, IReadOnlyCollection<T>
+    public interface IReadOnlySpatialCollection<T> : ISpatialQuery<T>, IReadOnlyCollection<T>
     {
         /// <summary>
         /// Determines if the specified element exists in this collection.
@@ -18,7 +18,7 @@ namespace Heirloom.Collections.Spatial
     /// <summary>
     /// A spatial collection to store and query elements in 2D space.
     /// </summary>
-    public interface ISpatialQueryCollection<T> : IReadOnlySpatialQueryCollection<T>
+    public interface ISpatialCollection<T> : IReadOnlySpatialCollection<T>
     {
         /// <summary>
         /// Clears all elements from this spatial collection.

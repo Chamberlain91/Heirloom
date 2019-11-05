@@ -12,16 +12,16 @@ namespace Heirloom.Collections.Spatial
         /// <summary>
         /// Finds spatial elements that overlap the specified point.
         /// </summary>
-        IEnumerable<T> Find(Vector point);
+        IEnumerable<T> Query(Vector point);
 
         /// <summary>
         /// Finds spatial elements that overlap the specified rectangle.
         /// </summary>
-        IEnumerable<T> Find(Rectangle bounds);
+        IEnumerable<T> Query(Rectangle bounds);
 
         /// <summary>
         /// Finds spatial elements that intersect the specified ray.
         /// </summary>
-        IEnumerable<T> Find(Ray ray, float maxDistance = float.PositiveInfinity);
+        IEnumerable<T> Query(Ray ray, float maxDistance = float.PositiveInfinity);
     }
 }

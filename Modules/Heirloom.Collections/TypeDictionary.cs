@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Heirloom.Collections
 {
     /// <summary>
-    /// Manages objects by their type hierarchy up to the base type, allowing access by enumeration of objects by type.
+    /// Manages objects by their type hierarchy up to the base type, allowing access and enumeration of objects by type.
     /// </summary>
     /// <typeparam name="T">Some base type</typeparam>
     public sealed class TypeDictionary<T> : ITypeDictionary<T>
