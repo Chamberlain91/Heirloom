@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Heirloom.Collections;
+﻿using System.Collections.Generic;
+
 using Heirloom.Desktop;
 using Heirloom.Drawing;
 using Heirloom.GLFW;
@@ -33,8 +32,8 @@ namespace Sandbox
 
                 // Add objects
                 Add(new Shape(3, 48, 200));
-                Add(new Shape(5, 64, 400));
-                Add(new Shape(8, 96, 600));
+                Add(new Shape(4, 64, 400));
+                Add(new Shape(5, 96, 600));
             });
         }
 
@@ -104,8 +103,11 @@ namespace Sandbox
                             {
                                 foreach (var contact in contacts)
                                 {
+                                    // Compute opposite contact
+                                    var contactInverse = new Contact(contact.Position, contact.Normal, -contact.Depth);
+                                    
                                     s0.Contacts.Add(contact);
-                                    s1.Contacts.Add(contact.Inverted);
+                                    s1.Contacts.Add(contactInverse);
                                 }
                             }
                         }
@@ -171,7 +173,7 @@ namespace Sandbox
                     }
                 }
 
-                Polygon.Transform(Matrix.CreateTranslation(C.Normal * C.Depth));
+                // Polygon.Transform(Matrix.CreateTranslation(C.Normal * C.Depth));
             }
         }
 

@@ -191,7 +191,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Modules\Heirloom.Collections.Spatial\Heirloom.Collections.Spatial.csproj" />
     <ProjectReference Include="..\..\Modules\Heirloom.Game.Desktop\Heirloom.Game.Desktop.csproj" />
   </ItemGroup>
 

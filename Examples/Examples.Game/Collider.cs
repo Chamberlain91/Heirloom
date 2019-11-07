@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-using Heirloom.Collections.Spatial;
 using Heirloom.Game;
 using Heirloom.Math;
 
