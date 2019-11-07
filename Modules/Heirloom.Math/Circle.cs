@@ -75,7 +75,7 @@ namespace Heirloom.Math
             // cir - tri
             else if (shape is Triangle tri) { return Overlaps(tri); }
             // cir - pol
-            else if (shape is IPolygon pol) { return Overlaps((IReadOnlyList<Vector>) pol); }
+            else if (shape is Polygon pol) { return Overlaps((IReadOnlyList<Vector>) pol); }
             // unknown case
             else
             {

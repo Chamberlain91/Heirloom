@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Heirloom.Math
+using Heirloom.Math;
+
+namespace Heirloom.Collections.Spatial
 {
     /// <summary>
     /// DO NOT USE! <para/>

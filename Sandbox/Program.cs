@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using Heirloom.Desktop;
 using Heirloom.Drawing;
@@ -9,25 +10,36 @@ namespace Sandbox
 {
     internal class Program
     {
+        private static Queue<MouseButtonEvent> _mouseButtonEvents;
+        private static Queue<MouseScrollEvent> _mouseScrollEvents;
+        private static Queue<MouseMoveEvent> _mouseMoveEvents;
+
+        private static Window _window;
         private static List<Shape> _shapes;
 
         private static void Main(string[] args)
         {
+            // 
+            _mouseButtonEvents = new Queue<MouseButtonEvent>();
+            _mouseScrollEvents = new Queue<MouseScrollEvent>();
+            _mouseMoveEvents = new Queue<MouseMoveEvent>();
+
+            // 
             _shapes = new List<Shape>();
 
             Application.Run(() =>
             {
                 // Create window
-                var window = new Window("Sandbox", MultisampleQuality.High);
+                _window = new Window("Sandbox", MultisampleQuality.High);
 
                 // Bind events
-                window.MouseMove += Window_MouseMove;
-                window.MousePress += Window_MouseButton;
-                window.MouseRelease += Window_MouseButton;
-                window.MouseScroll += Window_MouseScroll;
+                _window.MouseMove += (w, e) => _mouseMoveEvents.Enqueue(e);
+                _window.MousePress += (w, e) => _mouseButtonEvents.Enqueue(e);
+                _window.MouseRelease += (w, e) => _mouseButtonEvents.Enqueue(e);
+                _window.MouseScroll += (w, e) => _mouseScrollEvents.Enqueue(e);
 
                 // Create render/update loop
-                var loop = RenderLoop.Create(window.RenderContext, OnUpdate);
+                var loop = RenderLoop.Create(_window.RenderContext, OnUpdate);
                 loop.Start();
 
                 // Add objects
@@ -42,7 +54,7 @@ namespace Sandbox
             _shapes.Add(obj);
         }
 
-        private static void Window_MouseButton(Window w, MouseButtonEvent e)
+        private static void ProcessMouseButtonEvent(MouseButtonEvent e)
         {
             if (e.Action == ButtonAction.Press)
             {
@@ -62,7 +74,7 @@ namespace Sandbox
             }
         }
 
-        private static void Window_MouseMove(Window w, MouseMoveEvent e)
+        private static void ProcessMouseMoveEvent(MouseMoveEvent e)
         {
             for (var i = _shapes.Count - 1; i >= 0; i--)
             {
@@ -71,7 +83,7 @@ namespace Sandbox
             }
         }
 
-        private static void Window_MouseScroll(Window w, MouseScrollEvent e)
+        private static void ProcessMouseScrollEvent(MouseScrollEvent e)
         {
             for (var i = _shapes.Count - 1; i >= 0; i--)
             {
@@ -82,6 +94,14 @@ namespace Sandbox
 
         private static void OnUpdate(RenderContext ctx, float dt)
         {
+            lock (_window)
+            {
+                // Process mouse input events
+                while (_mouseMoveEvents.Count > 0) { ProcessMouseMoveEvent(_mouseMoveEvents.Dequeue()); }
+                while (_mouseButtonEvents.Count > 0) { ProcessMouseButtonEvent(_mouseButtonEvents.Dequeue()); }
+                while (_mouseScrollEvents.Count > 0) { ProcessMouseScrollEvent(_mouseScrollEvents.Dequeue()); }
+            }
+
             ctx.Clear(Color.DarkGray);
 
             // 
@@ -105,7 +125,7 @@ namespace Sandbox
                                 {
                                     // Compute opposite contact
                                     var contactInverse = new Contact(contact.Position, contact.Normal, -contact.Depth);
-                                    
+
                                     s0.Contacts.Add(contact);
                                     s1.Contacts.Add(contactInverse);
                                 }
@@ -125,12 +145,21 @@ namespace Sandbox
     {
         private bool _isDragging;
 
+        private readonly Vector[] _localPolygon;
+
         public List<Contact> Contacts { get; }
 
         public Shape(int n, float r, float x)
         {
-            Polygon = Polygon.CreateStar(n, r);
-            Polygon.Transform(Matrix.CreateTranslation(x, 200));
+            _localPolygon = PolygonTools.GetStarPoints(Vector.Zero, n, r * 0.66F, r).ToArray();
+
+            var trans = Matrix.CreateTranslation(x, 200);
+            Polygon = new Polygon(_localPolygon);
+            for (var i = 0; i < Polygon.Count; i++)
+            {
+                Polygon[i] = trans * _localPolygon[i];
+            }
+
             Contacts = new List<Contact>();
         }
 
@@ -203,7 +232,11 @@ namespace Sandbox
         {
             if (_isDragging)
             {
-                Polygon.Transform(Matrix.CreateTranslation(ev.Delta));
+                var trans = Matrix.CreateTranslation(ev.Delta);
+                for (var i = 0; i < Polygon.Count; i++)
+                {
+                    Polygon[i] = trans * Polygon[i];
+                }
             }
 
             return false;

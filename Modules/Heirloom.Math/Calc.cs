@@ -206,6 +206,8 @@ namespace Heirloom.Math
 
         #endregion
 
+        #region Min Max Clamp Abs Sign
+
         #region Min Max Clamp Abs Sign ( double )
 
         /// <summary>
@@ -254,7 +256,7 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Min Max Clamp Sign Abs ( float )
+        #region Min Max Clamp Abs Sign ( float )
 
         /// <summary>
         /// Returns the minimum value between <paramref name="x"/> and <paramref name="y"/>.
@@ -588,6 +590,8 @@ namespace Heirloom.Math
 
             return m;
         }
+
+        #endregion
 
         #endregion
 
