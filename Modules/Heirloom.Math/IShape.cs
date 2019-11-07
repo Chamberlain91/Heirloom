@@ -23,9 +23,14 @@
         bool Contains(in Vector point);
 
         /// <summary>
-        /// Determines is this shape overlaps anothe shape.
+        /// Determines if this shape overlaps the specified shape.
         /// </summary>
         bool Overlaps(IShape shape);
+
+        ///// <summary>
+        ///// Performs a raycast against this shape.
+        ///// </summary>
+        //bool Raycast(in Ray ray, out float distance);
 
         /// <summary>
         /// Performs a raycast against this shape.
@@ -36,5 +41,10 @@
         /// Performs a raycast against this shape.
         /// </summary>
         bool Raycast(in Ray ray);
+
+        ///// <summary>
+        ///// Project this shape along the specified axis.
+        ///// </summary>
+        //Range Project(in Vector axis);
     }
 }

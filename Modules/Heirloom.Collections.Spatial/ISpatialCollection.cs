@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Heirloom.Math
+using Heirloom.Math;
+
+namespace Heirloom.Collections.Spatial
 {
     /// <summary>
     /// A read-only view of a spatial collection to query elements in 2D space.

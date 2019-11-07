@@ -7,47 +7,82 @@ using System.Runtime.CompilerServices;
 namespace Heirloom.Math
 {
     /// <summary>
-    /// Represents a simple polygon, some operations assume the polygon is convex.
+    /// Represents a simple polygon.
     /// </summary>
-    public partial class Polygon : IPolygon
+    public partial class Polygon : IShape, IEnumerable<Vector>
     {
-        private readonly Vector[] _vertices;
+        private readonly List<Vector> _vertices;
 
-        private bool _computedMetrics = false;
+        private List<Vector[]> _convexPartitions;
+        private bool _isConvex;
+
+        private Rectangle _bounds;
         private Vector _centroid, _center;
         private float _area;
 
-        private bool _computedBounds = false;
-        private Rectangle _bounds;
+        private Dirty _dirty;
 
-        private bool _computedConvexFragments = false;
-        private List<ConvexPolygon> _convexFragments;
+        [Flags]
+        private enum Dirty
+        {
+            IsConvex = 1 << 0,
+            ConvexPartitions = 1 << 1,
+            Metrics = 1 << 2,
+            Bounds = 1 << 3,
 
-        private bool _computedIsConvex = false;
-        private bool _isConvex;
+            Everything = IsConvex | ConvexPartitions | Metrics | Bounds
+        }
 
         #region Constructors
 
-        public Polygon(IEnumerable<Vector> vertices)
+        /// <summary>
+        /// Constructs a new empty polygon.
+        /// </summary>
+        public Polygon()
         {
-            // Store a shallow clone of the vertices
-            _vertices = vertices?.ToArray() ?? throw new ArgumentNullException(nameof(vertices));
+            _vertices = new List<Vector>();
+        }
+
+        /// <summary>
+        /// Constructs a new simple polygon (assumes points are defined clockwise and describe non-crossing edges).
+        /// </summary>
+        public Polygon(IEnumerable<Vector> points) : this()
+        {
+            // Add the given points to the polygon
+            foreach (var point in points ?? throw new ArgumentNullException(nameof(points)))
+            {
+                Add(point);
+            }
         }
 
         #endregion
 
         #region Indexer
 
-        public Vector this[int index] => _vertices[index];
+        public Vector this[int index]
+        {
+            get => _vertices[index];
+
+            set
+            {
+                _dirty |= Dirty.Everything;
+                _vertices[index] = value;
+            }
+        }
 
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// Gets the number of vertices contained in this polygon.
+        /// Gets a read-only view of this polygon's vertices.
         /// </summary>
-        public int Count => _vertices.Length;
+        public IReadOnlyList<Vector> Vertices => _vertices;
+
+        /// <summary>
+        /// Gets the number of vertices in this polygon.
+        /// </summary>
+        public int Count => _vertices.Count;
 
         /// <summary>
         /// Gets the area of the polygon.
@@ -92,13 +127,7 @@ namespace Heirloom.Math
         {
             get
             {
-                if (!_computedBounds)
-                {
-                    // Lazy evaluation of bounds
-                    _bounds = Rectangle.FromPoints(this);
-                    _computedBounds = true;
-                }
-
+                LazyComputeBounds();
                 return _bounds;
             }
         }
@@ -110,12 +139,7 @@ namespace Heirloom.Math
         {
             get
             {
-                if (!_computedIsConvex)
-                {
-                    _isConvex = PolygonTools.IsConvexPolygon(this);
-                    _computedIsConvex = true;
-                }
-
+                LazyComputeConvexStatus();
                 return _isConvex;
             }
         }
@@ -124,64 +148,111 @@ namespace Heirloom.Math
         /// Gets the list of convex fragments.
         /// If this polygon is already convex, there is only one convex fragment that mimics the original.
         /// </summary>
-        public IReadOnlyList<ConvexPolygon> ConvexFragments
+        public IReadOnlyList<IReadOnlyList<Vector>> ConvexFragments
         {
             get
             {
-                if (!_computedConvexFragments)
-                {
-                    // Clear previous list (just to be safe)
-                    _convexFragments = new List<ConvexPolygon>();
+                LazyComputeConvexPartitions();
+                return _convexPartitions;
+            }
+        }
 
-                    if (IsConvex)
-                    {
-                        // Create the convex mimic from this polygon
-                        _convexFragments.Add(new ConvexPolygon(this));
-                    }
-                    else
-                    {
-                        // Compute fragments
-                        foreach (var indices in PolygonTools.DecomposeConvexIndices(this))
-                        {
-                            // Create a convex fragment from this polygon
-                            _convexFragments.Add(new ConvexPolygon(this, indices));
-                        }
-                    }
+        #endregion
 
-                    _computedConvexFragments = true;
-                }
+        #region Lazy Compute Parameters
 
-                return _convexFragments;
+        private void LazyComputeConvexStatus()
+        {
+            if (_dirty.HasFlag(Dirty.IsConvex))
+            {
+                _isConvex = PolygonTools.IsConvexPolygon(_vertices);
+                _dirty &= ~Dirty.IsConvex;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void LazyComputeBounds()
+        {
+            if (_dirty.HasFlag(Dirty.Bounds))
+            {
+                // Lazy evaluation of bounds
+                _bounds = Rectangle.FromPoints(_vertices);
+                _dirty &= ~Dirty.Bounds;
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void LazyComputeMetrics()
         {
-            if (_computedMetrics)
+            if (_dirty.HasFlag(Dirty.Metrics))
             {
-                PolygonTools.ComputeMetrics(this, out _area, out _center, out _centroid);
-                _computedMetrics = true;
+                PolygonTools.ComputeMetrics(_vertices, out _area, out _center, out _centroid);
+                _dirty &= ~Dirty.Metrics;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void LazyComputeConvexPartitions()
+        {
+            if (_dirty.HasFlag(Dirty.ConvexPartitions))
+            {
+                // Clear previous list (just to be safe)
+                _convexPartitions = new List<Vector[]>();
+
+                if (IsConvex)
+                {
+                    // Create the convex mimic from this polygon
+                    _convexPartitions.Add(_vertices.ToArray());
+                }
+                else
+                {
+                    // Compute fragments
+                    foreach (var indices in PolygonTools.DecomposeConvexIndices(_vertices))
+                    {
+                        // Create a convex fragment from this polygon
+                        var vertices = indices.Select(i => _vertices[i]);
+                        _convexPartitions.Add(vertices.ToArray());
+                    }
+                }
+
+                _dirty &= ~Dirty.ConvexPartitions;
             }
         }
 
         #endregion
 
-        public void Transform(Matrix matrix)
-        {
-            // Mark lazy values to be recomputed
-            // TODO: Convex properties should be true after a linear transformation, right?
-            // _computedConvexFragments = false;
-            // _computedIsConvex = false;
-            _computedMetrics = false;
-            _computedBounds = false;
+        #region Vertex List (Add, Remove, Clear, etc)
 
-            // Transform vertices
-            for (var i = 0; i < _vertices.Length; i++)
-            {
-                _vertices[i] = matrix * _vertices[i];
-            }
+        public void Clear()
+        {
+            _vertices.Clear();
+            _dirty = Dirty.Everything;
         }
+
+        public void Add(Vector item)
+        {
+            _vertices.Add(item);
+            _dirty |= Dirty.Everything;
+        }
+
+        public void Insert(int index, Vector item)
+        {
+            _vertices.Insert(index, item);
+            _dirty |= Dirty.Everything;
+        }
+
+        public void RemoveAt(int index)
+        {
+            _dirty |= Dirty.Everything;
+            _vertices.RemoveAt(index);
+        }
+
+        public int IndexOf(Vector item)
+        {
+            return _vertices.IndexOf(item);
+        }
+
+        #endregion
 
         #region Closest Point
 
@@ -191,7 +262,7 @@ namespace Heirloom.Math
         public Vector GetClosestPoint(in Vector point)
         {
             // Is convex, simple test
-            if (IsConvex) { return PolygonTools.GetClosestPoint(this, in point); }
+            if (IsConvex) { return PolygonTools.GetClosestPoint(_vertices, in point); }
             else
             {
                 var nearestDistance = float.PositiveInfinity;
@@ -199,7 +270,7 @@ namespace Heirloom.Math
 
                 foreach (var convex in ConvexFragments)
                 {
-                    var v = convex.GetClosestPoint(in point);
+                    var v = PolygonTools.GetClosestPoint(convex, in point);
                     var d = Vector.DistanceSquared(in v, in point);
 
                     // Keep nearest found
@@ -242,7 +313,7 @@ namespace Heirloom.Math
         /// </summary>
         public bool Overlaps(IShape shape)
         {
-            return PolygonTools.Overlaps(this, shape);
+            return PolygonTools.Overlaps(_vertices, shape);
         }
 
         #endregion
@@ -255,7 +326,7 @@ namespace Heirloom.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Raycast(in Ray ray)
         {
-            return PolygonTools.Raycast(this, in ray, out _);
+            return PolygonTools.Raycast(_vertices, in ray, out _);
         }
 
         /// <summary>
@@ -264,7 +335,7 @@ namespace Heirloom.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Raycast(in Ray ray, out Contact hit)
         {
-            return PolygonTools.Raycast(this, in ray, out hit);
+            return PolygonTools.Raycast(_vertices, in ray, out hit);
         }
 
         #endregion
@@ -277,7 +348,7 @@ namespace Heirloom.Math
         public IEnumerable<Triangle> Triangulate()
         {
             // todo: would it be faster to triangle-fan the convex fragments if they've been computed already?
-            foreach (var (a, b, c) in PolygonTools.DecomposeTrianglesIndices(this))
+            foreach (var (a, b, c) in PolygonTools.DecomposeTrianglesIndices(_vertices))
             {
                 yield return new Triangle(this[a], this[b], this[c]);
             }
@@ -285,7 +356,7 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Enumerator
+        #region IEnumerable<Vector>
 
         public IEnumerator<Vector> GetEnumerator()
         {
@@ -294,7 +365,7 @@ namespace Heirloom.Math
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _vertices.GetEnumerator();
+            return ((IEnumerable<Vector>) _vertices).GetEnumerator();
         }
 
         #endregion
@@ -308,7 +379,7 @@ namespace Heirloom.Math
         {
             // Convert triangulation to polygons
             return PolygonTools.DecomposeTrianglesIndices(poylgon)
-                .Select(tri => new Triangle(poylgon[tri.a], poylgon[tri.b], poylgon[tri.c]));
+                               .Select(tri => new Triangle(poylgon[tri.a], poylgon[tri.b], poylgon[tri.c]));
         }
 
         /// <summary>
@@ -319,16 +390,7 @@ namespace Heirloom.Math
         {
             // Convert convex indices to polygons
             return PolygonTools.DecomposeConvexIndices(polygon)
-                .Select(indices => new Polygon(indices.Select(i => polygon[i])));
-        }
-
-        /// <summary>
-        /// Constructs a convex polygon representing the convex hull of the specified point cloud.
-        /// </summary>
-        /// <seealso cref="ConvexPolygon"/>
-        public static Polygon CreateConvexHull(IEnumerable<Vector> points)
-        {
-            return new Polygon(PolygonTools.EnumerateConvexHull(points));
+                               .Select(indices => new Polygon(indices.Select(i => polygon[i])));
         }
 
         #endregion
@@ -392,5 +454,13 @@ namespace Heirloom.Math
         }
 
         #endregion
+
+        /// <summary>
+        /// Constructs a convex polygon representing the convex hull of the specified point cloud.
+        /// </summary>
+        public static Polygon CreateConvexHull(IEnumerable<Vector> points)
+        {
+            return new Polygon(PolygonTools.EnumerateConvexHull(points));
+        }
     }
 }

@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Modules\Heirloom.Collections.Spatial\Heirloom.Collections.Spatial.csproj" />
     <ProjectReference Include="..\Modules\Heirloom.Math\Heirloom.Math.csproj" />
     <ProjectReference Include="..\Platforms\Heirloom.Desktop\Heirloom.Desktop.csproj" />
   </ItemGroup>

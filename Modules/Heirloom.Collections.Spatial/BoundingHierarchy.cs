@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Heirloom.Math
+using Heirloom.Math;
+
+namespace Heirloom.Collections.Spatial
 {
     /// <summary>
     /// A spatial collection to store and query elements in 2D space, implemented as a BVH style tree and has infinite bounds.

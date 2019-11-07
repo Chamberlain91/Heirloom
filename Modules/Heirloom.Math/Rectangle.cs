@@ -292,7 +292,7 @@ namespace Heirloom.Math
             // rec - cir
             else if (shape is Circle cir) { return Overlaps(cir); }
             // rec - pol
-            else if (shape is IPolygon pol) { return Overlaps((IReadOnlyList<Vector>) pol); }
+            else if (shape is Polygon pol) { return Overlaps((IReadOnlyList<Vector>) pol); }
             // rec - tri
             else if (shape is Triangle tri) { return Overlaps(tri); }
             // unknown case

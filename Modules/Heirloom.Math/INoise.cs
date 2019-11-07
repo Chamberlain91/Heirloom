@@ -3,7 +3,7 @@
     public interface INoise1D
     {
         /// <summary>
-        /// Samples noise in 1D.
+        /// Sample one-dimensional noise.
         /// </summary>
         float Sample(float x);
     }
@@ -11,7 +11,7 @@
     public interface INoise2D
     {
         /// <summary>
-        /// Samples noise in 2D.
+        /// Sample two-dimensional noise.
         /// </summary>
         float Sample(float x, float y);
     }
@@ -19,7 +19,7 @@
     public interface INoise3D
     {
         /// <summary>
-        /// Samples noise in 3D.
+        /// Sample three-dimensional noise.
         /// </summary>
         float Sample(float x, float y, float z);
     }
