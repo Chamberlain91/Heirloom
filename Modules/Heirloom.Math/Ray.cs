@@ -32,7 +32,7 @@ namespace Heirloom.Math
             return Origin + (Direction * distance);
         }
 
-        #region Create From
+        #region Create From (Static)
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Ray FromPoints(Vector origin, Vector target)
@@ -49,7 +49,7 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Intersects
+        #region Intersects (Static)
 
         public static bool Intersects(Ray r1, Ray r2, out float t1, out float t2)
         // todo: test!

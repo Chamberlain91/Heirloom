@@ -19,8 +19,7 @@ namespace Heirloom.Math
         public readonly Vector Normal;
 
         /// <summary>
-        /// The separating distance from a collision 
-        /// or the distance along the ray to point of contact.
+        /// The separating distance from the point of contact.
         /// </summary>
         public readonly float Depth;
 
@@ -30,7 +29,5 @@ namespace Heirloom.Math
             Position = position;
             Normal = normal;
         }
-
-        public Contact Inverted => new Contact(Position, Normal, -Depth);
     }
 }
