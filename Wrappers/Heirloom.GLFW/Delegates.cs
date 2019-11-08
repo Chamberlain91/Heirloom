@@ -7,59 +7,59 @@ namespace Heirloom.GLFW
     #region Window
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void WindowPositionCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, int x, int y);
+    public unsafe delegate void WindowPositionCallback(WindowHandle window, int x, int y);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void WindowSizeCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, int width, int height);
+    public unsafe delegate void WindowSizeCallback(WindowHandle window, int width, int height);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void WindowCloseCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window);
+    public unsafe delegate void WindowCloseCallback(WindowHandle window);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void WindowRefreshCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window);
+    public unsafe delegate void WindowRefreshCallback(WindowHandle window);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void WindowFocusCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, [MarshalAs(UnmanagedType.Bool)] bool state);
+    public unsafe delegate void WindowFocusCallback(WindowHandle window, [MarshalAs(UnmanagedType.Bool)] bool state);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void WindowIconifyCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, [MarshalAs(UnmanagedType.Bool)] bool state);
+    public unsafe delegate void WindowIconifyCallback(WindowHandle window, [MarshalAs(UnmanagedType.Bool)] bool state);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void WindowMaximizeCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, [MarshalAs(UnmanagedType.Bool)] bool state);
+    public unsafe delegate void WindowMaximizeCallback(WindowHandle window, [MarshalAs(UnmanagedType.Bool)] bool state);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void FramebufferSizeCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, int width, int height);
+    public unsafe delegate void FramebufferSizeCallback(WindowHandle window, int width, int height);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void WindowContentScaleCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, float xScale, float yScale);
+    public unsafe delegate void WindowContentScaleCallback(WindowHandle window, float xScale, float yScale);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void KeyCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, Key key, int scancode, ButtonAction action, KeyModifiers modifiers);
+    public unsafe delegate void KeyCallback(WindowHandle window, Key key, int scancode, ButtonAction action, KeyModifiers modifiers);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void CharCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, uint codepoint);
+    public unsafe delegate void CharCallback(WindowHandle window, uint codepoint);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void MouseButtonCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, int button, ButtonAction action, KeyModifiers modifiers);
+    public unsafe delegate void MouseButtonCallback(WindowHandle window, int button, ButtonAction action, KeyModifiers modifiers);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void CursorPositionCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, double x, double y);
+    public unsafe delegate void CursorPositionCallback(WindowHandle window, double x, double y);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void CursorEnterCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, [MarshalAs(UnmanagedType.Bool)] bool state);
+    public unsafe delegate void CursorEnterCallback(WindowHandle window, [MarshalAs(UnmanagedType.Bool)] bool state);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void ScrollCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, double xOffset, double yOffset);
+    public unsafe delegate void ScrollCallback(WindowHandle window, double xOffset, double yOffset);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void DropCallback([MarshalAs(UnmanagedType.Struct)] WindowHandle window, int pathCount, IntPtr pathNames);
+    public unsafe delegate void DropCallback(WindowHandle window, int pathCount, IntPtr pathNames);
 
     #endregion
 
     #region Monitor
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public unsafe delegate void MonitorCallback([MarshalAs(UnmanagedType.Struct)] MonitorHandle monitor, ConnectState state);
+    public unsafe delegate void MonitorCallback(MonitorHandle monitor, ConnectState state);
 
     #endregion
 
