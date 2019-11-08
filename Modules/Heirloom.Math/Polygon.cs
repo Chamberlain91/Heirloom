@@ -15,6 +15,7 @@ namespace Heirloom.Math
         private readonly List<Vector> _vertices;
 
         private List<Vector[]> _convexPartitions;
+        // todo: find shared edges, and skip them in collision checks?
         private bool _isConvex;
 
         private Rectangle _bounds;

@@ -28,12 +28,12 @@ namespace Heirloom.Collections.Spatial
         /// <summary>
         /// Adds an element with rectangle bounds into this spatial collection.
         /// </summary>
-        void Add(in T item, in Rectangle bounds);
+        void Add(in T item, in IShape boundingShape);
 
         /// <summary>
         /// Updates an exising element with new bounds in the collection.
         /// </summary>
-        void Update(in T item, in Rectangle bounds);
+        void Update(in T item, in IShape boundingShape);
 
         /// <summary>
         /// Removes an element from this spatial collection.

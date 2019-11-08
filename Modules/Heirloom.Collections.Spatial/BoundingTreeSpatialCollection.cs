@@ -9,7 +9,7 @@ namespace Heirloom.Collections.Spatial
     /// <summary>
     /// A spatial collection to store and query elements in 2D space, implemented as a BVH style tree and has infinite bounds.
     /// </summary>
-    public sealed class BoundingHierarchy<T> : ISpatialCollection<T>
+    public sealed class BoundingTreeSpatialCollection<T> : ISpatialCollection<T>
     {
         private readonly Dictionary<T, Node> _nodes;
         private readonly float _margin;
@@ -19,7 +19,7 @@ namespace Heirloom.Collections.Spatial
 
         #region Constructors
 
-        public BoundingHierarchy(float margin = 0.1F)
+        public BoundingTreeSpatialCollection(float margin = 0.1F)
         {
             _nodes = new Dictionary<T, Node>();
             _margin = margin;
@@ -51,13 +51,15 @@ namespace Heirloom.Collections.Spatial
         /// <summary>
         /// Adds an element with rectangle bounds into this spatial collection.
         /// </summary>
-        public void Add(in T item, in Rectangle bounds)
+        public void Add(in T item, in IShape boundingShape)
         {
             if (_nodes.ContainsKey(item)) { throw new ArgumentException($"Spatial item already exists in collection, unable to add."); }
             else
             {
+                var bounds = boundingShape.Bounds;
+
                 // Create node
-                var node = Node.Create(item, bounds.Inflate(_margin));
+                var node = Node.Create(item, boundingShape, _margin);
 
                 // Store node by item
                 _nodes.Add(item, node);
@@ -70,18 +72,20 @@ namespace Heirloom.Collections.Spatial
         /// <summary>
         /// Updates an exising element with new bounds in the collection.
         /// </summary>
-        public void Update(in T item, in Rectangle bounds)
+        public void Update(in T item, in IShape boundingShape)
         {
             if (_nodes.TryGetValue(item, out var node))
             {
+                var shapeBounds = boundingShape.Bounds;
+
                 // If the existing node bounds do not still contain the bounds, process update
-                if (!node.Bounds.Contains(bounds))
+                if (!node.Bounds.Contains(shapeBounds))
                 {
                     // Remove node from structure
                     RemoveNode(node);
 
                     // 
-                    node.Bounds = bounds.Inflate(_margin);
+                    node.Bounds = shapeBounds.Inflate(_margin);
 
                     // Reinsert item (possibly with new bounds)
                     InsertNode(ref _root, node);
@@ -168,7 +172,7 @@ namespace Heirloom.Collections.Spatial
         /// <summary>
         /// Queries the spatial collection and returns the elements with bounds that overlap the specified rectangle.
         /// </summary>
-        public IEnumerable<T> Query(Rectangle bounds)
+        public IEnumerable<T> Query(IShape queryShape)
         {
             if (_root == null) { yield break; }
             else
@@ -181,7 +185,7 @@ namespace Heirloom.Collections.Spatial
                 {
                     var node = _queryQueue.Dequeue();
 
-                    if (node.Bounds.Overlaps(bounds))
+                    if (node.Bounds.Overlaps(queryShape))
                     {
                         // 
                         if (node.IsLeaf) { yield return node.Item; }
@@ -351,6 +355,8 @@ namespace Heirloom.Collections.Spatial
 
             public Rectangle Bounds;
 
+            public IShape Shape;
+
             public Node[] Children;
 
             public Node Parent;
@@ -359,10 +365,13 @@ namespace Heirloom.Collections.Spatial
 
             private Node() { }
 
-            public static Node Create(T item, Rectangle bounds)
+            public static Node Create(T item, IShape shape, float margin)
             {
+                var bounds = shape.Bounds.Inflate(margin);
+
                 var node = Request();
                 node.Bounds = bounds;
+                node.Shape = shape;
                 node.Item = item;
 
                 return node;
