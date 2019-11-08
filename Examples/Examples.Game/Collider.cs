@@ -49,7 +49,7 @@ namespace Examples.Game
             Colliders.Update(this, Bounds);
         }
 
-        public static BoundingHierarchy<Collider> Colliders { get; } = new BoundingHierarchy<Collider>();
+        public static BoundingTreeSpatialCollection<Collider> Colliders { get; } = new BoundingTreeSpatialCollection<Collider>();
 
         public static IEnumerable<Collider> GetColliders(Collider collider)
         {

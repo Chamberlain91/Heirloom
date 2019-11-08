@@ -17,7 +17,7 @@ namespace Heirloom.Collections.Spatial
         /// <summary>
         /// Finds spatial elements that overlap the specified rectangle.
         /// </summary>
-        IEnumerable<T> Query(Rectangle bounds);
+        IEnumerable<T> Query(IShape queryShape);
 
         /// <summary>
         /// Finds spatial elements that intersect the specified ray.

@@ -11,18 +11,18 @@ namespace Heirloom.Collections.Spatial
     /// <summary>
     /// DO NOT USE! <para/>
     /// This is incredibly slow, but useful for behaviour testing against more complex implementions of <see cref="ISpatialCollection{T}"/>. <para/>
-    /// It is effectively implemented as list of rectangles without actual spatial accleration.
+    /// It is effectively implemented as list of shapes and does not operate on any spatial structure.
     /// </summary>
     public sealed class LinearSpatialCollection<T> : ISpatialCollection<T>
     {
-        private readonly List<Rectangle> _bounds;
+        private readonly List<IShape> _bounds;
         private readonly List<T> _items;
 
         #region Constructors
 
         public LinearSpatialCollection()
         {
-            _bounds = new List<Rectangle>();
+            _bounds = new List<IShape>();
             _items = new List<T>();
         }
 
@@ -42,22 +42,22 @@ namespace Heirloom.Collections.Spatial
             _items.Clear();
         }
 
-        public void Add(in T item, in Rectangle bounds)
+        public void Add(in T item, in IShape boundingShape)
         {
-            _bounds.Add(bounds);
+            _bounds.Add(boundingShape);
             _items.Add(item);
 
             Debug.Assert(_items.Count == _bounds.Count);
         }
 
-        public void Update(in T item, in Rectangle bounds)
+        public void Update(in T item, in IShape boundingShape)
         {
             var idx = _items.IndexOf(item);
 
             if (idx >= 0)
             {
                 // Update respective bounds
-                _bounds[idx] = bounds;
+                _bounds[idx] = boundingShape;
             }
             else
             {
@@ -96,10 +96,10 @@ namespace Heirloom.Collections.Spatial
 
         #region Query Methods
 
-        public IEnumerable<T> Query(Rectangle bounds)
+        public IEnumerable<T> Query(IShape queryShape)
         {
             // Every rect that overlaps the query bounds
-            return _items.Where((b, i) => _bounds[i].Overlaps(bounds));
+            return _items.Where((b, i) => _bounds[i].Overlaps(queryShape));
         }
 
         public IEnumerable<T> Query(Vector point)
