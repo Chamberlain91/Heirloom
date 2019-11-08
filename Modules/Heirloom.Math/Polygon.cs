@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+
+using static Heirloom.Math.ProceduralShapes;
 
 namespace Heirloom.Math
 {
     /// <summary>
     /// Represents a simple polygon.
     /// </summary>
-    public partial class Polygon : IShape, IEnumerable<Vector>
+    public partial class Polygon : IShape
     {
         private readonly List<Vector> _vertices;
 
@@ -207,7 +208,7 @@ namespace Heirloom.Math
                 else
                 {
                     // Compute fragments
-                    foreach (var indices in PolygonTools.DecomposeConvexIndices(_vertices))
+                    foreach (var indices in PolygonTools.DecomposeConvex(_vertices))
                     {
                         // Create a convex fragment from this polygon
                         var vertices = indices.Select(i => _vertices[i]);
@@ -221,7 +222,7 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Vertex List (Add, Remove, Clear, etc)
+        #region Vertex List (Clear, Add, Insert, RemoveAt)
 
         public void Clear()
         {
@@ -245,11 +246,6 @@ namespace Heirloom.Math
         {
             _dirty |= Dirty.Everything;
             _vertices.RemoveAt(index);
-        }
-
-        public int IndexOf(Vector item)
-        {
-            return _vertices.IndexOf(item);
         }
 
         #endregion
@@ -287,13 +283,13 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Contains
+        #region Contains Point
 
         /// <summary>
         /// Determines if the specified point is contained by this polygon.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Contains(in Vector point)
+        public bool ContainsPoint(in Vector point)
         {
             // Check for containment in each convex fragment
             foreach (var convex in ConvexFragments)
@@ -348,24 +344,10 @@ namespace Heirloom.Math
         public IEnumerable<Triangle> Triangulate()
         {
             // todo: would it be faster to triangle-fan the convex fragments if they've been computed already?
-            foreach (var (a, b, c) in PolygonTools.DecomposeTrianglesIndices(_vertices))
+            foreach (var (a, b, c) in PolygonTools.Triangulate(_vertices))
             {
                 yield return new Triangle(this[a], this[b], this[c]);
             }
-        }
-
-        #endregion
-
-        #region IEnumerable<Vector>
-
-        public IEnumerator<Vector> GetEnumerator()
-        {
-            return ((IEnumerable<Vector>) _vertices).GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ((IEnumerable<Vector>) _vertices).GetEnumerator();
         }
 
         #endregion
@@ -375,10 +357,10 @@ namespace Heirloom.Math
         /// <summary>
         /// Decomposes a simple polygon into constituent triangles.
         /// </summary>
-        public static IEnumerable<Triangle> DecomposeTriangles(IReadOnlyList<Vector> poylgon)
+        public static IEnumerable<Triangle> Triangulate(IReadOnlyList<Vector> poylgon)
         {
             // Convert triangulation to polygons
-            return PolygonTools.DecomposeTrianglesIndices(poylgon)
+            return PolygonTools.Triangulate(poylgon)
                                .Select(tri => new Triangle(poylgon[tri.a], poylgon[tri.b], poylgon[tri.c]));
         }
 
@@ -389,7 +371,7 @@ namespace Heirloom.Math
         public static IEnumerable<Polygon> DecomposeConvex(IReadOnlyList<Vector> polygon)
         {
             // Convert convex indices to polygons
-            return PolygonTools.DecomposeConvexIndices(polygon)
+            return PolygonTools.DecomposeConvex(polygon)
                                .Select(indices => new Polygon(indices.Select(i => polygon[i])));
         }
 
@@ -400,7 +382,7 @@ namespace Heirloom.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Polygon CreateRectangle(Vector center, float width, float height)
         {
-            return new Polygon(PolygonTools.GetRectanglePoints(center, width, height));
+            return new Polygon(GenerateRectangle(center, width, height));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -417,6 +399,22 @@ namespace Heirloom.Math
 
         #endregion
 
+        #region Create (Regular Polygon)
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Polygon CreateRegularPolygon(Vector center, int segments, float radius)
+        {
+            return new Polygon(GenerateRegularPolygon(center, segments, radius));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Polygon CreateRegularPolygon(int segments, float radius)
+        {
+            return CreateRegularPolygon(Vector.Zero, segments, radius);
+        }
+
+        #endregion
+
         #region Create (Star)
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -428,7 +426,7 @@ namespace Heirloom.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Polygon CreateStar(Vector center, int numPoints, float innerRadius, float outerRadius)
         {
-            return new Polygon(PolygonTools.GetStarPoints(center, numPoints, innerRadius, outerRadius));
+            return new Polygon(GenerateStar(center, numPoints, innerRadius, outerRadius));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -439,28 +437,16 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Create (Regular Polygon)
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Polygon CreateRegularPolygon(Vector center, int segments, float radius)
-        {
-            return new Polygon(PolygonTools.GetRegularPolygonPoints(center, segments, radius));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Polygon CreateRegularPolygon(int segments, float radius)
-        {
-            return CreateRegularPolygon(Vector.Zero, segments, radius);
-        }
-
-        #endregion
+        #region Create (Convex Hull)
 
         /// <summary>
         /// Constructs a convex polygon representing the convex hull of the specified point cloud.
         /// </summary>
         public static Polygon CreateConvexHull(IEnumerable<Vector> points)
         {
-            return new Polygon(PolygonTools.EnumerateConvexHull(points));
+            return new Polygon(PolygonTools.ComputeConvexHull(points));
         }
+
+        #endregion
     }
 }

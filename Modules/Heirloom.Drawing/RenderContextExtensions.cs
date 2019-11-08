@@ -5,6 +5,8 @@ using System.Runtime.CompilerServices;
 
 using Heirloom.Math;
 
+using static Heirloom.Math.ProceduralShapes;
+
 namespace Heirloom.Drawing
 {
     public static class RenderContextExtensions
@@ -335,13 +337,11 @@ namespace Heirloom.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawPolygon(this RenderContext ctx, Vector position, int sides, float radius)
         {
-            var regular = PolygonTools.GetRegularPolygonPoints(position, sides, radius);
-
             // 
             _temporaryMesh.Clear();
 
             // Append vertices
-            foreach (var pt in regular)
+            foreach (var pt in GenerateRegularPolygon(position, sides, radius))
             {
                 var vertex = new Vertex(pt, Vector.Zero);
                 _temporaryMesh.AddVertex(vertex);
@@ -369,13 +369,36 @@ namespace Heirloom.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawPolygonOutline(this RenderContext ctx, Vector position, int sides, float radius, float width = 1F)
         {
-            var regular = PolygonTools.GetRegularPolygonPoints(position, sides, radius);
+            var regular = GenerateRegularPolygon(position, sides, radius);
             DrawPolygonOutline(ctx, regular, width);
         }
 
         #endregion
 
         #region Draw Polygon
+
+        /// <summary>
+        /// Draws a simple polygon to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="polygon">Some polygon.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawPolygon(this RenderContext ctx, Polygon polygon)
+        {
+            DrawPolygon(ctx, polygon.Vertices, Matrix.Identity);
+        }
+
+        /// <summary>
+        /// Draws a simple polygon to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="polygon">Some polygon.</param>
+        /// <param name="transform">Some transform.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawPolygon(this RenderContext ctx, Polygon polygon, in Matrix transform)
+        {
+            DrawPolygon(ctx, polygon.Vertices, in transform);
+        }
 
         /// <summary>
         /// Draws a simple polygon to the current surface.
@@ -409,7 +432,7 @@ namespace Heirloom.Drawing
                 }
 
                 // Append indices
-                foreach (var (a, b, c) in PolygonTools.DecomposeTrianglesIndices(polygon))
+                foreach (var (a, b, c) in PolygonTools.Triangulate(polygon))
                 {
                     _temporaryMesh.AddIndices(a);
                     _temporaryMesh.AddIndices(b);
@@ -419,6 +442,31 @@ namespace Heirloom.Drawing
                 // Draw mesh
                 ctx.DrawMesh(Image.Default, _temporaryMesh, transform);
             }
+        }
+
+        /// <summary>
+        /// Draws the outline of a simple polygon to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="polygon">Some polygon.</param>
+        /// <param name="width">Width of the outline in pixels.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawPolygonOutline(this RenderContext ctx, Polygon polygon, float width = 1F)
+        {
+            DrawPolygonOutline(ctx, polygon.Vertices, Matrix.Identity, width);
+        }
+
+        /// <summary>
+        /// Draws the outline of a simple polygon to the current surface.
+        /// </summary>
+        /// <param name="ctx">The drawing context.</param>
+        /// <param name="polygon">Some polygon.</param>
+        /// <param name="transform">Some transform.</param>
+        /// <param name="width">Width of the outline in pixels.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void DrawPolygonOutline(this RenderContext ctx, Polygon polygon, in Matrix transform, float width = 1F)
+        {
+            DrawPolygonOutline(ctx, polygon, in transform, width);
         }
 
         /// <summary>
