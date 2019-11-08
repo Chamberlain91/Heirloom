@@ -257,7 +257,7 @@ namespace Heirloom.Math
         /// <summary>
         /// Does this rectangle contain the given point?
         /// </summary>
-        public bool Contains(in Vector point)
+        public bool ContainsPoint(in Vector point)
         {
             var xMax = X + Width;
             var yMax = Y + Height;

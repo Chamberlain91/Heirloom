@@ -51,7 +51,7 @@ namespace Heirloom.Math
 
         #region Contains
 
-        public bool Contains(in Vector point)
+        public bool ContainsPoint(in Vector point)
         {
             return Vector.DistanceSquared(Position, point) < (Radius * Radius);
         }

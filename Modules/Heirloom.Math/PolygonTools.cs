@@ -83,7 +83,7 @@ namespace Heirloom.Math
 
         #region Overlaps (IReadOnlyList<Vector>)
 
-        public static bool Overlaps(IReadOnlyList<Vector> polygon, in IShape shape)
+        public static bool Overlaps(IReadOnlyList<Vector> polygon, IShape shape)
         {
             // pol - pol
             if (shape is IReadOnlyList<Vector> pol)
@@ -195,9 +195,9 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Convex Hull
+        #region Compute Convex Hull
 
-        internal static IEnumerable<Vector> EnumerateConvexHull(IEnumerable<Vector> points)
+        internal static IEnumerable<Vector> ComputeConvexHull(IEnumerable<Vector> points)
         // Somewhat ported from https://www.geeksforgeeks.org/convex-hull-set-2-graham-scan/
         {
             if (points.Any())
@@ -273,8 +273,7 @@ namespace Heirloom.Math
             else
             {
                 // Not possible to make a hull...
-                // Return empty or exception?
-                return Enumerable.Empty<Vector>();
+                throw new InvalidOperationException("Unable to construct convex hull");
             }
         }
 
@@ -285,7 +284,8 @@ namespace Heirloom.Math
         /// <summary>
         /// Converts a simple polygon into one or more convex polygons enumerated by indices of the original polygon.
         /// </summary>
-        public static IEnumerable<IReadOnlyList<int>> DecomposeConvexIndices(IReadOnlyList<Vector> points)
+        public static IEnumerable<IReadOnlyList<int>> DecomposeConvex(IReadOnlyList<Vector> points)
+        // todo: possibly use ArrayPool<T> to prevent allocations of temporary lists?
         {
             // Check if already convex
             if (IsConvexPolygon(points)) // O(N)
@@ -298,7 +298,7 @@ namespace Heirloom.Math
             else
             {
                 // The set of triangles
-                var triangles = new List<(int a, int b, int c)>(DecomposeTrianglesIndices(points));
+                var triangles = new List<(int a, int b, int c)>(Triangulate(points));
 
                 // The set of polygons generated
                 var polygons = new List<List<int>>();
@@ -471,7 +471,8 @@ namespace Heirloom.Math
         /// <summary>
         /// Decomposes a simple polygon into constituent triangles enumerated by indices of the original polygon.
         /// </summary>
-        public static IEnumerable<(int a, int b, int c)> DecomposeTrianglesIndices(IEnumerable<Vector> polygon)
+        public static IEnumerable<(int a, int b, int c)> Triangulate(IEnumerable<Vector> polygon)
+        // todo: possibly use ArrayPool<T> to prevent allocations of temporary lists?
         {
             var points = new List<Vector>(polygon);
             var pointsMap = new List<int>(Enumerable.Range(0, points.Count));
@@ -569,52 +570,6 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Enumerate Procedural Shapes (IEnumerable<Vector>)
-
-        public static IEnumerable<Vector> GetRegularPolygonPoints(Vector center, int segments, float radius)
-        {
-            for (var i = 0; i < segments; i++)
-            {
-                var a = i / (float) segments * Calc.TwoPi;
-
-                // 
-                var x = center.X + Calc.Cos(a) * radius;
-                var y = center.Y + Calc.Sin(a) * radius;
-
-                yield return new Vector(x, y);
-            }
-        }
-
-        public static IEnumerable<Vector> GetStarPoints(Vector center, int numPoints, float innerRadius, float outerRadius)
-        {
-            numPoints *= 2; // For each point and valley
-
-            for (var i = 0; i < numPoints; i++)
-            {
-                var a = i / (float) numPoints * Calc.TwoPi;
-                var r = i % 2 == 0 ? innerRadius : outerRadius;
-
-                // 
-                var x = center.X + Calc.Cos(a) * r;
-                var y = center.Y + Calc.Sin(a) * r;
-
-                yield return new Vector(x, y);
-            }
-        }
-
-        public static IEnumerable<Vector> GetRectanglePoints(Vector center, float width, float height)
-        {
-            var w = width / 2F;
-            var h = height / 2F;
-
-            yield return (-w + center.X, -h + center.Y);
-            yield return (+w + center.X, -h + center.Y);
-            yield return (+w + center.X, +h + center.Y);
-            yield return (-w + center.X, +h + center.Y);
-        }
-
-        #endregion
-
         #region Convex Check
 
         /// <summary>
@@ -669,6 +624,8 @@ namespace Heirloom.Math
 
         #endregion
 
+        #region Compute Metrics
+
         public static void ComputeMetrics(IReadOnlyList<Vector> polygon, out float area, out Vector center, out Vector centroid)
         {
             // 
@@ -693,6 +650,19 @@ namespace Heirloom.Math
             center /= polygon.Count;
         }
 
+        #endregion
+
+        #region Get Normal
+
+        /// <summary>
+        /// Vector perpendicular to the i-th edge.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector GetNormal(IReadOnlyList<Vector> polygon, int i)
+        {
+            return Vector.Normalize(GetScaledNormal(polygon, i));
+        }
+
         /// <summary>
         /// Vector perpendicular to the i-th edge scaled by the length of the edge.
         /// </summary>
@@ -705,20 +675,13 @@ namespace Heirloom.Math
             return (v2 - v1).Perpendicular;
         }
 
-        /// <summary>
-        /// Vector perpendicular to the i-th edge.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector GetNormal(IReadOnlyList<Vector> polygon, int i)
-        {
-            return Vector.Normalize(GetScaledNormal(polygon, i));
-        }
+        #endregion
 
         /// <summary>
         /// Gets the i-th vertex but also wraps beyond the domain (ie, -1 will access last vertex).
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T GetVertex<T>(IReadOnlyList<T> data, int index)
+        internal static T GetVertex<T>(IReadOnlyList<T> data, int index)
         {
             // todo: test if statements vs wrap (modulus heavy) has considerable performance effect?
             // if (index >= data.Count) { }

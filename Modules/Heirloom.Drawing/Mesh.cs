@@ -6,6 +6,8 @@ using System.Runtime.CompilerServices;
 
 using Heirloom.Math;
 
+using static Heirloom.Math.ProceduralShapes;
+
 namespace Heirloom.Drawing
 {
     public class Mesh : IDrawingResource
@@ -165,7 +167,7 @@ namespace Heirloom.Drawing
             }
 
             // Add triangle indices
-            foreach (var (a, b, c) in PolygonTools.DecomposeTrianglesIndices(polygon))
+            foreach (var (a, b, c) in PolygonTools.Triangulate(polygon))
             {
                 mesh._indices.Add((ushort) a);
                 mesh._indices.Add((ushort) b);
@@ -213,7 +215,7 @@ namespace Heirloom.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Mesh CreateRegularPolygon(int sides, float radius)
         {
-            var regularPolygon = PolygonTools.GetRegularPolygonPoints(Vector.Zero, sides, radius);
+            var regularPolygon = GenerateRegularPolygon(Vector.Zero, sides, radius);
             return CreateFromConvexPolygon(regularPolygon);
         }
 

@@ -151,7 +151,7 @@ namespace Sandbox
 
         public Shape(int n, float r, float x)
         {
-            _localPolygon = PolygonTools.GetStarPoints(Vector.Zero, n, r * 0.66F, r).ToArray();
+            _localPolygon = Polygon.CreateStar(n, r).Vertices.ToArray(); // ehh...
 
             var trans = Matrix.CreateTranslation(x, 200);
             Polygon = new Polygon(_localPolygon);
@@ -208,7 +208,7 @@ namespace Sandbox
 
         internal bool OnMousePress(MouseButtonEvent ev)
         {
-            if (Polygon.Contains(ev.Position))
+            if (Polygon.ContainsPoint(ev.Position))
             {
                 _isDragging = true;
                 return true;
