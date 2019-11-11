@@ -74,7 +74,7 @@ namespace Examples.Drawing
                         break;
 
                     case 3:
-                        foreach (var convex in Polygon.ConvexFragments)
+                        foreach (var convex in Polygon.ConvexPartitions)
                         {
                             ctx.DrawPolygonOutline(convex, transform, 1);
                         }

@@ -15,7 +15,7 @@ namespace Sandbox
         private static Queue<MouseMoveEvent> _mouseMoveEvents;
 
         private static Window _window;
-        private static List<Shape> _shapes;
+        private static List<Collider> _colliders;
 
         private static void Main(string[] args)
         {
@@ -25,7 +25,7 @@ namespace Sandbox
             _mouseMoveEvents = new Queue<MouseMoveEvent>();
 
             // 
-            _shapes = new List<Shape>();
+            _colliders = new List<Collider>();
 
             Application.Run(() =>
             {
@@ -42,53 +42,63 @@ namespace Sandbox
                 var loop = RenderLoop.Create(_window.RenderContext, OnUpdate);
                 loop.Start();
 
-                // Add objects
-                Add(new Shape(3, 48, 200));
-                Add(new Shape(4, 64, 400));
-                Add(new Shape(5, 96, 600));
-            });
-        }
+                // Add objects 
+                _colliders.Add(new PolygonCollider(3, 0x40));
+                _colliders.Add(new PolygonCollider(4, 0x60));
+                _colliders.Add(new PolygonCollider(5, 0x80));
 
-        internal static void Add(Shape obj)
-        {
-            _shapes.Add(obj);
+                _colliders.Add(new RectangleCollider(0x50));
+                _colliders.Add(new TriangleCollider(0x50));
+                _colliders.Add(new CircleCollider(0x60));
+
+                _colliders.Add(new RectangleCollider(0x40));
+                _colliders.Add(new TriangleCollider(0x40));
+                _colliders.Add(new CircleCollider(0x50));
+
+                // Position shapes
+                for (var i = 0; i < _colliders.Count; i++)
+                {
+                    var offset = new Vector(200 + (i % 4 * 200), 200 + (i / 4 * 200));
+                    _colliders[i].Translate(offset);
+                }
+            });
         }
 
         private static void ProcessMouseButtonEvent(MouseButtonEvent e)
         {
             if (e.Action == ButtonAction.Press)
             {
-                for (var i = _shapes.Count - 1; i >= 0; i--)
+                for (var i = _colliders.Count - 1; i >= 0; i--)
                 {
                     // Apply mouse press to object
-                    if (_shapes[i].OnMousePress(e)) { return; }
+                    if (_colliders[i].OnMousePress(e)) { return; }
                 }
             }
             else
             {
-                for (var i = _shapes.Count - 1; i >= 0; i--)
+                for (var i = _colliders.Count - 1; i >= 0; i--)
                 {
                     // Apply mouse release to object
-                    if (_shapes[i].OnMouseRelease(e)) { return; }
+                    if (_colliders[i].OnMouseRelease(e)) { return; }
                 }
             }
         }
 
         private static void ProcessMouseMoveEvent(MouseMoveEvent e)
         {
-            for (var i = _shapes.Count - 1; i >= 0; i--)
+            for (var i = _colliders.Count - 1; i >= 0; i--)
             {
                 // Apply mouse release to object
-                if (_shapes[i].OnMouseMove(e)) { return; }
+                if (_colliders[i].OnMouseMove(e)) { return; }
             }
         }
 
         private static void ProcessMouseScrollEvent(MouseScrollEvent e)
         {
-            for (var i = _shapes.Count - 1; i >= 0; i--)
+            for (var i = _colliders.Count - 1; i >= 0; i--)
             {
                 // Apply mouse release to object
-                if (_shapes[i].OnMouseScroll(e)) { return; }
+                if (_colliders[i].OnMouseScroll(e)) { return; }
             }
         }
 
@@ -104,111 +114,51 @@ namespace Sandbox
 
             ctx.Clear(Color.DarkGray);
 
-            // 
-            for (var i = 0; i < _shapes.Count; i++)
+            // Clear collision state
+            for (var i = 0; i < _colliders.Count; i++)
             {
-                var s0 = _shapes[i];
+                _colliders[i].IsCollide = false;
+            }
 
-                // 
-                for (var j = i + 1; j < _shapes.Count; j++)
+            // 
+            for (var i = 0; i < _colliders.Count; i++)
+            {
+                var colliderA = _colliders[i].Shape;
+
+                for (var j = i + 1; j < _colliders.Count; j++)
                 {
-                    var s1 = _shapes[j];
+                    var colliderB = _colliders[j].Shape;
 
-                    // 
-                    foreach (var c0 in s0.Polygon.ConvexFragments)
+                    // Test overlap between A and B
+                    if (colliderA.Overlaps(colliderB))
                     {
-                        foreach (var c1 in s1.Polygon.ConvexFragments)
-                        {
-                            if (c0.CheckCollision(c1, out var contacts))
-                            {
-                                foreach (var contact in contacts)
-                                {
-                                    // Compute opposite contact
-                                    var contactInverse = new RayContact(contact.Position, contact.Normal, -contact.Depth);
-
-                                    s0.Contacts.Add(contact);
-                                    s1.Contacts.Add(contactInverse);
-                                }
-                            }
-                        }
+                        // Overlapping, store result and break inner loop.
+                        _colliders[i].IsCollide = true;
+                        _colliders[j].IsCollide = true;
                     }
                 }
 
-                // 
-                _shapes[i].Process(ctx, dt);
-                _shapes[i].Contacts.Clear();
+                // Process (update and draw)
+                _colliders[i].Process(ctx, dt);
             }
         }
     }
 
-    public class Shape
+    internal abstract class Collider
     {
         private bool _isDragging;
 
-        private readonly Vector[] _localPolygon;
+        public abstract IShape Shape { get; }
 
-        public List<RayContact> Contacts { get; }
+        public bool IsCollide { get; set; }
 
-        public Shape(int n, float r, float x)
-        {
-            _localPolygon = Polygon.CreateStar(n, r).Vertices.ToArray(); // ehh...
+        public abstract void Process(RenderContext ctx, float dt);
 
-            var trans = Matrix.CreateTranslation(x, 200);
-            Polygon = new Polygon(_localPolygon);
-            for (var i = 0; i < Polygon.Count; i++)
-            {
-                Polygon[i] = trans * _localPolygon[i];
-            }
-
-            Contacts = new List<RayContact>();
-        }
-
-        public Polygon Polygon { get; }
-
-        public void Process(RenderContext ctx, float dt)
-        {
-            // Draw filled convex fragments
-            for (var i = 0; i < Polygon.ConvexFragments.Count; i++)
-            {
-                var convex = Polygon.ConvexFragments[i];
-                var hue = i / (float) Polygon.ConvexFragments.Count * 360;
-
-                ctx.Color = Color.FromHSV(hue, 0.75F, 1.0F, 0.5F);
-                ctx.DrawPolygon(convex);
-            }
-
-            // Draw black outline
-            ctx.Color = Contacts.Count > 0 ? Color.Gray : Color.Black;
-            ctx.DrawPolygonOutline(Polygon, 2);
-
-            if (Contacts.Count > 0)
-            {
-                // 
-                var C = default(RayContact);
-                var D = float.MaxValue;
-
-                foreach (var c in Contacts)
-                {
-                    ctx.Color = Color.Yellow;
-                    ctx.DrawCross(c.Position, 4);
-
-                    ctx.Color = Color.Cyan;
-                    ctx.DrawLine(c.Position, c.Position + c.Normal * c.Distance);
-
-                    if (c.Distance < D)
-                    {
-                        C = c;
-                        D = c.Distance;
-                    }
-                }
-
-                // Polygon.Transform(Matrix.CreateTranslation(C.Normal * C.Depth));
-            }
-        }
+        public abstract void Translate(Vector offset);
 
         internal bool OnMousePress(MouseButtonEvent ev)
         {
-            if (Polygon.ContainsPoint(ev.Position))
+            if (Shape.ContainsPoint(ev.Position))
             {
                 _isDragging = true;
                 return true;
@@ -232,14 +182,141 @@ namespace Sandbox
         {
             if (_isDragging)
             {
-                var trans = Matrix.CreateTranslation(ev.Delta);
-                for (var i = 0; i < Polygon.Count; i++)
-                {
-                    Polygon[i] = trans * Polygon[i];
-                }
+                Translate(ev.Delta);
             }
 
             return false;
+        }
+    }
+
+    internal sealed class PolygonCollider : Collider
+    {
+        private readonly Vector[] _localPolygon;
+        private readonly Polygon _polygon;
+
+        public PolygonCollider(int n, float r)
+        {
+            _localPolygon = Polygon.CreateStar(n, r).Vertices.ToArray(); // ehh...
+            _polygon = new Polygon(_localPolygon);
+        }
+
+        public override IShape Shape => _polygon;
+
+        public override void Process(RenderContext ctx, float dt)
+        {
+            // Draw filled convex fragments
+            for (var i = 0; i < _polygon.ConvexPartitions.Count; i++)
+            {
+                var convex = _polygon.ConvexPartitions[i];
+                var hue = i / (float) _polygon.ConvexPartitions.Count * 360;
+
+                ctx.Color = Color.FromHSV(hue, 0.75F, 1.0F, 0.5F);
+                ctx.DrawPolygon(convex);
+            }
+
+            // Draw black outline
+            ctx.Color = IsCollide ? Color.White : Color.Black;
+            ctx.DrawPolygonOutline(_polygon, 2);
+        }
+
+        public override void Translate(Vector offset)
+        {
+            var m = Matrix.CreateTranslation(offset);
+
+            for (var i = 0; i < _polygon.Count; i++)
+            {
+                _polygon[i] = m * _polygon[i];
+            }
+        }
+    }
+
+    internal sealed class CircleCollider : Collider
+    {
+        private Circle _circle;
+
+        public CircleCollider(float radius)
+        {
+            _circle = new Circle(Vector.Zero, radius);
+        }
+
+        public override IShape Shape => _circle;
+
+        public override void Process(RenderContext ctx, float dt)
+        {
+            // Draw filled
+            ctx.Color = Color.FromHSV(0, 0.75F, 1.0F, 0.5F);
+            ctx.DrawCircle(_circle.Position, _circle.Radius);
+
+            // Draw outline
+            ctx.Color = IsCollide ? Color.White : Color.Black;
+            ctx.DrawCircleOutline(_circle.Position, _circle.Radius, 2);
+        }
+
+        public override void Translate(Vector offset)
+        {
+            _circle.Position += offset;
+        }
+    }
+
+    internal sealed class TriangleCollider : Collider
+    {
+        private Triangle _triangle;
+
+        public TriangleCollider(float radius)
+        {
+            var a = Vector.FromAngle(Calc.TwoPi / 3 * 0) * radius;
+            var b = Vector.FromAngle(Calc.TwoPi / 3 * 1) * radius;
+            var c = Vector.FromAngle(Calc.TwoPi / 3 * 2) * radius;
+
+            _triangle = new Triangle(a, b, c);
+        }
+
+        public override IShape Shape => _triangle;
+
+        public override void Process(RenderContext ctx, float dt)
+        {
+            // Draw filled
+            ctx.Color = Color.FromHSV(30, 0.75F, 1.0F, 0.5F);
+            ctx.DrawTriangle(_triangle.A, _triangle.B, _triangle.C);
+
+            // Draw outline
+            ctx.Color = IsCollide ? Color.White : Color.Black;
+            ctx.DrawTriangleOutline(_triangle.A, _triangle.B, _triangle.C, 2);
+        }
+
+        public override void Translate(Vector offset)
+        {
+            _triangle.A += offset;
+            _triangle.B += offset;
+            _triangle.C += offset;
+        }
+    }
+
+    internal sealed class RectangleCollider : Collider
+    {
+        private Rectangle _rect;
+
+        public RectangleCollider(float radius)
+        {
+            _rect = new Rectangle(0, 0, 2 * radius, radius);
+        }
+
+        public override IShape Shape => _rect;
+
+        public override void Process(RenderContext ctx, float dt)
+        {
+            // Draw filled
+            ctx.Color = Color.FromHSV(60, 0.75F, 1.0F, 0.5F);
+            ctx.DrawRect(_rect);
+
+            // Draw outline
+            ctx.Color = IsCollide ? Color.White : Color.Black;
+            ctx.DrawRectOutline(_rect, 2);
+        }
+
+        public override void Translate(Vector offset)
+        {
+            _rect.Position += offset;
         }
     }
 }

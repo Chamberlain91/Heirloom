@@ -41,7 +41,7 @@ namespace Heirloom.Math
 
         #region Closest Point
 
-        public Vector GetClosestPoint(in Vector point)
+        public Vector ClosestPoint(in Vector point)
         {
             var off = point - Position;
             return off * (Radius / off.Length);
@@ -66,23 +66,26 @@ namespace Heirloom.Math
 
         #region Overlaps
 
+        /// <summary>
+        /// Determines if this circle overlaps another shape.
+        /// </summary>
         public bool Overlaps(IShape shape)
         {
-            // cir - cir
-            if (shape is Circle cir) { return Overlaps(cir); }
-            // cir - rec
-            else if (shape is Rectangle rec) { return Overlaps(rec); }
-            // cir - tri
-            else if (shape is Triangle tri) { return Overlaps(tri); }
-            // cir - pol
-            else if (shape is Polygon pol) { return Overlaps((IReadOnlyList<Vector>) pol); }
-            // unknown case
-            else
+            return shape switch
             {
-                throw new InvalidOperationException("Unable to determine overlap, shape was not a known type.");
-            }
+                Circle cir => Overlaps(in cir),
+                Triangle tri => Overlaps(in tri),
+                Rectangle rec => Overlaps(in rec),
+                Polygon pol => Overlaps(pol),
+
+                // Unknown shape
+                _ => throw new InvalidOperationException("Unable to determine overlap, shape was not a known type."),
+            };
         }
 
+        /// <summary>
+        /// Determines if this circle overlaps another circle.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Overlaps(in Circle b)
         {
@@ -92,24 +95,83 @@ namespace Heirloom.Math
             return Vector.Dot(in c, in c) < (r * r);
         }
 
+        /// <summary>
+        /// Determines if this circle overlaps the specified rectangle.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(in Rectangle rect)
+        public bool Overlaps(in Rectangle rectangle)
         {
-            var poly = rect.GetTempPolygon(0);
-            return PolygonCollision.Overlaps(this, poly);
+            // Assembly temporary polygon representation of the rectangle
+            var polygon = PolygonTools.RequestTempPolygon(in rectangle);
+
+            // Test overlap with temp polygon
+            var overlap = SeparatingAxis.Overlaps(polygon, in this);
+
+            // Recycle temporary polygon and return overlap status
+            PolygonTools.RecycleTempPolygon(polygon);
+            return overlap;
         }
 
+        /// <summary>
+        /// Determines if this circle overlaps the specified triangle.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(in Triangle tri)
+        public bool Overlaps(in Triangle triangle)
         {
-            // triangle has the implementation
-            return tri.Overlaps(this);
+            // Assembly temporary polygon representation of the triangle
+            var polygon = PolygonTools.RequestTempPolygon(in triangle);
+
+            // Test overlap with temp polygon
+            var overlap = SeparatingAxis.Overlaps(polygon, in this);
+
+            // Recycle temporary polygon and return overlap status
+            PolygonTools.RecycleTempPolygon(polygon);
+            return overlap;
         }
 
+        /// <summary>
+        /// Determines if this circle overlaps the specified simple polygon.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(in IReadOnlyList<Vector> poly)
+        public bool Overlaps(Polygon polygon)
         {
-            return PolygonCollision.Overlaps(this, poly);
+            if (polygon is null) { throw new ArgumentNullException(nameof(polygon)); }
+
+            // For each convex partition on this polygon,
+            foreach (var partition in polygon.ConvexPartitions)
+            {
+                // check if this partition overlaps the circle.
+                if (SeparatingAxis.Overlaps(partition, in this))
+                {
+                    // An overlap was detected
+                    return true;
+                }
+            }
+
+            // No overlap was detected
+            return false;
+        }
+
+        /// <summary>
+        /// Determines if this circle overlaps the specified convex polygon.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(IReadOnlyList<Vector> polygon)
+        {
+            return SeparatingAxis.Overlaps(polygon, in this);
+        }
+
+        #endregion
+
+        #region Axis Projection
+
+        /// <summary>
+        /// Project this circle onto the specified axis.
+        /// </summary>
+        public Range Project(in Vector axis)
+        {
+            var t = Vector.Project(in Position, in axis);
+            return new Range(t - Radius, t + Radius);
         }
 
         #endregion

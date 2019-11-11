@@ -147,10 +147,10 @@ namespace Heirloom.Math
         }
 
         /// <summary>
-        /// Gets the list of convex fragments.
-        /// If this polygon is already convex, there is only one convex fragment that mimics the original.
+        /// Gets the list of convex partitions.
+        /// If this polygon is already convex, there is only one convex partition that maps one-to-one with the original.
         /// </summary>
-        public IReadOnlyList<IReadOnlyList<Vector>> ConvexFragments
+        public IReadOnlyList<IReadOnlyList<Vector>> ConvexPartitions
         {
             get
             {
@@ -256,7 +256,7 @@ namespace Heirloom.Math
         /// <summary>
         /// Gets the nearest point on the polygon to the specified point.
         /// </summary>
-        public Vector GetClosestPoint(in Vector point)
+        public Vector ClosestPoint(in Vector point)
         {
             // Is convex, simple test
             if (IsConvex) { return PolygonTools.GetClosestPoint(_vertices, in point); }
@@ -265,7 +265,7 @@ namespace Heirloom.Math
                 var nearestDistance = float.PositiveInfinity;
                 var nearest = point;
 
-                foreach (var convex in ConvexFragments)
+                foreach (var convex in ConvexPartitions)
                 {
                     var v = PolygonTools.GetClosestPoint(convex, in point);
                     var d = Vector.DistanceSquared(in v, in point);
@@ -293,7 +293,7 @@ namespace Heirloom.Math
         public bool ContainsPoint(in Vector point)
         {
             // Check for containment in each convex fragment
-            foreach (var convex in ConvexFragments)
+            foreach (var convex in ConvexPartitions)
             {
                 if (PolygonTools.ContainsPoint(convex, in point)) { return true; }
             }
@@ -308,9 +308,118 @@ namespace Heirloom.Math
         /// <summary>
         /// Checks for an overlap between this polygon and another shape.
         /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Overlaps(IShape shape)
         {
-            return PolygonTools.Overlaps(_vertices, shape);
+            // For each convex partition on this polygon,
+            foreach (var partition in ConvexPartitions)
+            {
+                // check if this partition overlaps the shape.
+                if (PolygonTools.Overlaps(partition, shape))
+                {
+                    // An overlap was detected
+                    return true;
+                }
+            }
+
+            // No overlap was detected
+            return false;
+        }
+
+        /// <summary>
+        /// Determines if this polygon overlaps the specified rectangle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(in Rectangle rectangle)
+        {
+            // For each convex partition on this polygon,
+            foreach (var partition in ConvexPartitions)
+            {
+                // check if this partition overlaps the shape.
+                if (rectangle.Overlaps(partition))
+                {
+                    // An overlap was detected
+                    return true;
+                }
+            }
+
+            // No overlap was detected
+            return false;
+        }
+
+        /// <summary>
+        /// Determines if this polygon overlaps the specified circle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(in Circle circle)
+        {
+            // For each convex partition on this polygon,
+            foreach (var partition in ConvexPartitions)
+            {
+                // check if this partition overlaps the shape.
+                if (circle.Overlaps(partition))
+                {
+                    // An overlap was detected
+                    return true;
+                }
+            }
+
+            // No overlap was detected
+            return false;
+        }
+
+        /// <summary>
+        /// Determines if this polygon overlaps the specified triangle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(in Triangle triangle)
+        {
+            // For each convex partition on this polygon,
+            foreach (var partition in ConvexPartitions)
+            {
+                // check if this partition overlaps the shape.
+                if (triangle.Overlaps(partition))
+                {
+                    // An overlap was detected
+                    return true;
+                }
+            }
+
+            // No overlap was detected
+            return false;
+        }
+
+        /// <summary>
+        /// Determines if this polygon overlaps the specified triangle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(IReadOnlyList<Vector> polygon)
+        {
+            // For each convex partition on this polygon,
+            foreach (var partition in ConvexPartitions)
+            {
+                // check if this partition overlaps the shape.
+                if (SeparatingAxis.Overlaps(polygon, partition))
+                {
+                    // An overlap was detected
+                    return true;
+                }
+            }
+
+            // No overlap was detected
+            return false;
+        }
+
+        #endregion
+
+        #region Axis Projection
+
+        /// <summary>
+        /// Project this polygon onto the specified axis.
+        /// </summary>
+        public Range Project(in Vector axis)
+        {
+            return PolygonTools.Project(_vertices, in axis);
         }
 
         #endregion

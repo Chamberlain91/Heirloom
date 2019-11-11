@@ -10,31 +10,43 @@ namespace Heirloom.Math
     {
         #region Closest Point (IReadOnlyList<Vector>)
 
+        /// <summary>
+        /// Gets the closest point on the polygon to the specified point. 
+        /// If the point is contained by the polygon, the point itself is returned.
+        /// </summary>
         public static Vector GetClosestPoint(IReadOnlyList<Vector> polygon, in Vector point)
         // todo: can this be optimized?
         {
-            if (ContainsPoint(polygon, point)) { return point; }
+            if (ContainsPoint(polygon, point)) { return point; }  // O(n)
             else
             {
-                var minD = float.MaxValue;
-                var minP = Vector.Zero;
-
-                for (var i = 0; i < polygon.Count; i++)
-                {
-                    var a = GetVertex(polygon, i + 0);
-                    var b = GetVertex(polygon, i + 1);
-
-                    var p = LineSegment.ClosestPoint(a, b, point, out var d);
-
-                    if (d < minD)
-                    {
-                        minD = d;
-                        minP = p;
-                    }
-                }
-
-                return minP;
+                return GetClosestPointOutline(polygon, in point); // O(n)
             }
+        }
+
+        /// <summary>
+        /// Gets the closest point on the polygon outline to the specified point.
+        /// </summary>
+        public static Vector GetClosestPointOutline(IReadOnlyList<Vector> polygon, in Vector point)
+        {
+            var minD = float.MaxValue;
+            var minP = Vector.Zero;
+
+            for (var i = 0; i < polygon.Count; i++) // O(n)
+            {
+                var a = polygon[i];
+                var b = polygon[i + 1 == polygon.Count ? 0 : i + 1];
+
+                var p = LineSegment.ClosestPoint(a, b, point, out var d);
+
+                if (d < minD)
+                {
+                    minD = d;
+                    minP = p;
+                }
+            }
+
+            return minP;
         }
 
         #endregion
@@ -83,35 +95,22 @@ namespace Heirloom.Math
 
         #region Overlaps (IReadOnlyList<Vector>)
 
+        /// <summary>
+        /// Tests if a (convex) polygon overlaps the specified shape.
+        /// </summary>
         public static bool Overlaps(IReadOnlyList<Vector> polygon, IShape shape)
         {
             // pol - pol
-            if (shape is IReadOnlyList<Vector> pol)
+            return shape switch
             {
-                return PolygonCollision.Overlaps(polygon, pol);
-            }
-            // pol - rec
-            else if (shape is Rectangle rec)
-            {
-                pol = rec.GetTempPolygon(0);
-                return PolygonCollision.Overlaps(polygon, pol);
-            }
-            // pol - tri
-            else if (shape is Triangle tri)
-            {
-                pol = tri.GetTempPolygon(0);
-                return PolygonCollision.Overlaps(polygon, pol);
-            }
-            // pol - cir
-            else if (shape is Circle cir)
-            {
-                return PolygonCollision.Overlaps(in cir, polygon);
-            }
-            // unknown case
-            else
-            {
-                throw new InvalidOperationException("Unable to determine overlap, shape was not a known type.");
-            }
+                Circle cir => cir.Overlaps(polygon),
+                Triangle tri => tri.Overlaps(polygon),
+                Rectangle rec => rec.Overlaps(polygon),
+                Polygon pol => pol.Overlaps(polygon),
+
+                // Unknown shape
+                _ => throw new InvalidOperationException("Unable to determine overlap, shape was not a known type."),
+            };
         }
 
         #endregion
@@ -181,8 +180,7 @@ namespace Heirloom.Math
                 // Create contact
                 contact = new RayContact(
                     position: origin + (direction * lo),
-                    normal: GetNormal(polygon, index)
-,
+                    normal: GetNormal(polygon, index),
                     distance: lo);
 
                 return true;
@@ -191,6 +189,35 @@ namespace Heirloom.Math
             // No contact (complete miss)
             contact = default;
             return false;
+        }
+
+        #endregion
+
+        #region Axis Projection
+
+        /// <summary>
+        /// Project a polygon onto the specified axis.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Range Project(IReadOnlyList<Vector> polygon, in Vector axis)
+        {
+            if (polygon is null) { throw new ArgumentNullException(nameof(polygon)); }
+
+            var min = Vector.Project(polygon[0], in axis);
+            var max = min;
+
+            // For each edge in polygon A
+            for (var i = 1; i < polygon.Count; i++)
+            {
+                var v = polygon[i];
+                var t = Vector.Project(in v, in axis);
+
+                // 
+                max = Calc.Max(t, max);
+                min = Calc.Min(t, min);
+            }
+
+            return new Range(min, max);
         }
 
         #endregion
@@ -673,6 +700,64 @@ namespace Heirloom.Math
             var v2 = polygon[i + 1 == polygon.Count ? 0 : i + 1];
 
             return (v2 - v1).Perpendicular;
+        }
+
+        #endregion
+
+        #region Temporary Polygon
+
+        private static readonly Queue<Vector[]>[] _tempPolygons = new[] { new Queue<Vector[]>(), new Queue<Vector[]>() };
+
+        internal static Vector[] RequestTempPolygon(in Rectangle rectangle)
+        {
+            // Get temporary polygon
+            var polygon = RequestTempPolygon(4);
+
+            // Copy into temp polygon
+            polygon[0] = rectangle.TopLeft;
+            polygon[1] = rectangle.TopRight;
+            polygon[2] = rectangle.BottomRight;
+            polygon[3] = rectangle.BottomLeft;
+
+            return polygon;
+        }
+
+        internal static Vector[] RequestTempPolygon(in Triangle triangle)
+        // todo: does winding matter?
+        {
+            // Get temporary polygon
+            var polygon = RequestTempPolygon(3);
+
+            // Copy into temp polygon
+            polygon[0] = triangle.A;
+            polygon[1] = triangle.B;
+            polygon[2] = triangle.C;
+
+            return polygon;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Vector[] RequestTempPolygon(int size)
+        {
+            // Get next in queue or allocate a new polygon
+            var queue = GetTempPolygonQueue(size);
+            if (queue.Count > 0) { return queue.Dequeue(); }
+            else { return new Vector[size]; }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void RecycleTempPolygon(Vector[] polygon)
+        {
+            // Recycle polygon
+            var queue = GetTempPolygonQueue(polygon.Length);
+            queue.Enqueue(polygon);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Queue<Vector[]> GetTempPolygonQueue(int size)
+        {
+            if (size < 3 || size > 4) { throw new ArgumentException(); }
+            return _tempPolygons[size - 3];
         }
 
         #endregion
