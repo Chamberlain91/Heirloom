@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace Heirloom.Math
+using Heirloom.Math;
+
+namespace Heirloom.Physics
 {
     [StructLayout(LayoutKind.Explicit, Pack = 4)]
     // todo: rename? ContactManifold? CollisionInfo? ContactGroup?

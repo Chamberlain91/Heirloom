@@ -96,7 +96,7 @@ namespace Heirloom.Math
         public bool Overlaps(in Rectangle rect)
         {
             var poly = rect.GetTempPolygon(0);
-            return Collisions.Overlaps(this, poly);
+            return PolygonCollision.Overlaps(this, poly);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -109,7 +109,7 @@ namespace Heirloom.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Overlaps(in IReadOnlyList<Vector> poly)
         {
-            return Collisions.Overlaps(this, poly);
+            return PolygonCollision.Overlaps(this, poly);
         }
 
         #endregion
@@ -122,7 +122,7 @@ namespace Heirloom.Math
             return Raycast(in ray, out _);
         }
 
-        public bool Raycast(in Ray ray, out Contact hit)
+        public bool Raycast(in Ray ray, out RayContact hit)
         {
             var v = ray.Origin - Position;
             var c = Vector.Dot(v, v) - (Radius * Radius);
@@ -144,7 +144,7 @@ namespace Heirloom.Math
             {
                 var impact = ray.Origin + (ray.Direction * t);
                 var normal = Vector.Normalize(impact - Position);
-                hit = new Contact(impact, normal, t);
+                hit = new RayContact(impact, normal, t);
                 return true;
             }
             // Negative `time` (behind on line)

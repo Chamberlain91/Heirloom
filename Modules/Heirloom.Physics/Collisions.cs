@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Heirloom.Math;
 
-namespace Heirloom.Math
+namespace Heirloom.Physics
 {
     public static class Collisions
     // ref: https://www.randygaul.net/2013/07/16/separating-axis-test-and-support-points-in-2d/

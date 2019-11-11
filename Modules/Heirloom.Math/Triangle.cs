@@ -130,7 +130,7 @@ namespace Heirloom.Math
         public bool Overlaps(Circle circle)
         {
             var poly = GetTempPolygon(0);
-            return Collisions.Overlaps(circle, poly);
+            return PolygonCollision.Overlaps(circle, poly);
         }
 
         public bool Overlaps(Triangle triangle)
@@ -138,7 +138,7 @@ namespace Heirloom.Math
             var polyA = GetTempPolygon(0);
             var polyB = triangle.GetTempPolygon(1);
 
-            return Collisions.Overlaps(polyA, polyB);
+            return PolygonCollision.Overlaps(polyA, polyB);
         }
 
         public bool Overlaps(Rectangle rectangle)
@@ -146,20 +146,20 @@ namespace Heirloom.Math
             var tri = GetTempPolygon(0);
             var rec = rectangle.GetTempPolygon(1);
 
-            return Collisions.Overlaps(tri, rec);
+            return PolygonCollision.Overlaps(tri, rec);
         }
 
         public bool Overlaps(IReadOnlyList<Vector> polygon)
         {
             var tri = GetTempPolygon(0);
-            return Collisions.Overlaps(tri, polygon);
+            return PolygonCollision.Overlaps(tri, polygon);
         }
 
         #endregion
 
         #region Raycast
 
-        public bool Raycast(in Ray ray, out Contact contact)
+        public bool Raycast(in Ray ray, out RayContact contact)
         {
             var poly = GetTempPolygon(0);
             return PolygonTools.Raycast(poly, in ray, out contact);

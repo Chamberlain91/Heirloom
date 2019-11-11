@@ -35,7 +35,7 @@
         /// <summary>
         /// Performs a raycast against this shape.
         /// </summary>
-        bool Raycast(in Ray ray, out Contact contact);
+        bool Raycast(in Ray ray, out RayContact contact);
 
         /// <summary>
         /// Performs a raycast against this shape.
