@@ -124,7 +124,7 @@ namespace Sandbox
                                 foreach (var contact in contacts)
                                 {
                                     // Compute opposite contact
-                                    var contactInverse = new Contact(contact.Position, contact.Normal, -contact.Depth);
+                                    var contactInverse = new RayContact(contact.Position, contact.Normal, -contact.Depth);
 
                                     s0.Contacts.Add(contact);
                                     s1.Contacts.Add(contactInverse);
@@ -147,7 +147,7 @@ namespace Sandbox
 
         private readonly Vector[] _localPolygon;
 
-        public List<Contact> Contacts { get; }
+        public List<RayContact> Contacts { get; }
 
         public Shape(int n, float r, float x)
         {
@@ -160,7 +160,7 @@ namespace Sandbox
                 Polygon[i] = trans * _localPolygon[i];
             }
 
-            Contacts = new List<Contact>();
+            Contacts = new List<RayContact>();
         }
 
         public Polygon Polygon { get; }
@@ -184,7 +184,7 @@ namespace Sandbox
             if (Contacts.Count > 0)
             {
                 // 
-                var C = default(Contact);
+                var C = default(RayContact);
                 var D = float.MaxValue;
 
                 foreach (var c in Contacts)
@@ -193,12 +193,12 @@ namespace Sandbox
                     ctx.DrawCross(c.Position, 4);
 
                     ctx.Color = Color.Cyan;
-                    ctx.DrawLine(c.Position, c.Position + c.Normal * c.Depth);
+                    ctx.DrawLine(c.Position, c.Position + c.Normal * c.Distance);
 
-                    if (c.Depth < D)
+                    if (c.Distance < D)
                     {
                         C = c;
-                        D = c.Depth;
+                        D = c.Distance;
                     }
                 }
 

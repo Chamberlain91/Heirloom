@@ -111,7 +111,7 @@ namespace Heirloom.Collections.Spatial
         public IEnumerable<T> Query(Ray ray, float maxDistance = float.PositiveInfinity)
         {
             // Every rect that touches the ray within distance limit
-            return _items.Where((b, i) => _bounds[i].Raycast(ray, out var c) && c.Depth < maxDistance);
+            return _items.Where((b, i) => _bounds[i].Raycast(ray, out var c) && c.Distance < maxDistance);
         }
 
         #endregion

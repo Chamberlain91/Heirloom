@@ -88,24 +88,24 @@ namespace Heirloom.Math
             // pol - pol
             if (shape is IReadOnlyList<Vector> pol)
             {
-                return Collisions.Overlaps(polygon, pol);
+                return PolygonCollision.Overlaps(polygon, pol);
             }
             // pol - rec
             else if (shape is Rectangle rec)
             {
                 pol = rec.GetTempPolygon(0);
-                return Collisions.Overlaps(polygon, pol);
+                return PolygonCollision.Overlaps(polygon, pol);
             }
             // pol - tri
             else if (shape is Triangle tri)
             {
                 pol = tri.GetTempPolygon(0);
-                return Collisions.Overlaps(polygon, pol);
+                return PolygonCollision.Overlaps(polygon, pol);
             }
             // pol - cir
             else if (shape is Circle cir)
             {
-                return Collisions.Overlaps(in cir, polygon);
+                return PolygonCollision.Overlaps(in cir, polygon);
             }
             // unknown case
             else
@@ -131,12 +131,12 @@ namespace Heirloom.Math
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Raycast(IReadOnlyList<Vector> polygon, in Ray ray, out Contact contact)
+        public static bool Raycast(IReadOnlyList<Vector> polygon, in Ray ray, out RayContact contact)
         {
             return Raycast(polygon, in ray.Origin, in ray.Direction, out contact);
         }
 
-        public static bool Raycast(IReadOnlyList<Vector> polygon, in Vector origin, in Vector direction, out Contact contact)
+        public static bool Raycast(IReadOnlyList<Vector> polygon, in Vector origin, in Vector direction, out RayContact contact)
         // ref: https://github.com/RandyGaul/cute_headers/blob/master/cute_c2.h
         {
             var lo = 0F;
@@ -179,7 +179,7 @@ namespace Heirloom.Math
             if (index != ~0)
             {
                 // Create contact
-                contact = new Contact(
+                contact = new RayContact(
                     position: origin + (direction * lo),
                     normal: GetNormal(polygon, index)
 ,

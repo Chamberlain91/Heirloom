@@ -341,7 +341,7 @@ namespace Heirloom.Math
         public bool Overlaps(IReadOnlyList<Vector> polygon)
         {
             var rec = GetTempPolygon(0);
-            return Collisions.Overlaps(rec, polygon);
+            return PolygonCollision.Overlaps(rec, polygon);
         }
 
         #endregion
@@ -355,7 +355,7 @@ namespace Heirloom.Math
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Raycast(in Ray ray, out Contact contact)
+        public bool Raycast(in Ray ray, out RayContact contact)
         {
             // r.dir is unit direction vector of ray
             Vector dirfrac;
@@ -395,7 +395,7 @@ namespace Heirloom.Math
 
             // 
             var point = ray.Origin + (ray.Direction * tmin);
-            contact = new Contact(point, GetBoxNormal(point - Center), tmin);
+            contact = new RayContact(point, GetBoxNormal(point - Center), tmin);
             return true;
         }
 

@@ -75,9 +75,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples.Game", "Examples\E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sandbox", "Sandbox\Sandbox.csproj", "{5B34EB06-41E1-4207-BF25-030197638D4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Physics", "Modules\Heirloom.Physics\Heirloom.Physics.csproj", "{980C2EF2-4B18-4997-82AE-DC75EA02CCA1}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Examples\Benchmark\Benchmark\Benchmark.projitems*{2bf2e2d6-cdcd-4a9a-85a2-63a8de5f21ec}*SharedItemsImports = 4
 		Examples\Benchmark\Benchmark\Benchmark.projitems*{a6fac900-7dd7-4a00-b40c-421f2863bdb0}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -203,6 +204,10 @@ Global
 		{5B34EB06-41E1-4207-BF25-030197638D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B34EB06-41E1-4207-BF25-030197638D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B34EB06-41E1-4207-BF25-030197638D4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{980C2EF2-4B18-4997-82AE-DC75EA02CCA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{980C2EF2-4B18-4997-82AE-DC75EA02CCA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{980C2EF2-4B18-4997-82AE-DC75EA02CCA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{980C2EF2-4B18-4997-82AE-DC75EA02CCA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -238,6 +243,7 @@ Global
 		{EE71C389-6797-4951-8EE5-7806E712834C} = {ED52051C-C8CE-4EFE-ABD1-3D6D5EFCDFFE}
 		{D1712331-4D80-4C12-9CA2-8E6EC475548D} = {ED52051C-C8CE-4EFE-ABD1-3D6D5EFCDFFE}
 		{5CD6892E-D322-4ECD-82E9-BE74596C3534} = {ED52051C-C8CE-4EFE-ABD1-3D6D5EFCDFFE}
+		{980C2EF2-4B18-4997-82AE-DC75EA02CCA1} = {0EBDA45D-4262-4725-B733-3FC90E7F05E4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {696A41D8-DF3F-4D16-B3D9-514D627DCCE2}

@@ -144,7 +144,7 @@ namespace Heirloom.Math
 
         #endregion
 
-        public Vector ClosestPoint(Vector p)
+        public Vector GetClosestPoint(Vector p)
         {
             return ClosestPoint(A, B, p);
         }

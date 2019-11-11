@@ -1,6 +1,8 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Heirloom.Math
+using Heirloom.Math;
+
+namespace Heirloom.Physics
 {
     /// <summary>
     /// Represents a point of contact as a result of collision detection or raycasting.

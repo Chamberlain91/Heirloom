@@ -330,7 +330,7 @@ namespace Heirloom.Math
         /// Checks if a ray intersects this polygon and outputs information on the contact point.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Raycast(in Ray ray, out Contact hit)
+        public bool Raycast(in Ray ray, out RayContact hit)
         {
             return PolygonTools.Raycast(_vertices, in ray, out hit);
         }
