@@ -15,7 +15,7 @@
         /// <summary>
         /// Gets the nearest point on the shape to the specified point.
         /// </summary>
-        Vector GetClosestPoint(in Vector point);
+        Vector ClosestPoint(in Vector point);
 
         /// <summary>
         /// Determines if this shape contains the specified point.
@@ -27,11 +27,6 @@
         /// </summary>
         bool Overlaps(IShape shape);
 
-        ///// <summary>
-        ///// Performs a raycast against this shape.
-        ///// </summary>
-        //bool Raycast(in Ray ray, out float distance);
-
         /// <summary>
         /// Performs a raycast against this shape.
         /// </summary>
@@ -42,9 +37,9 @@
         /// </summary>
         bool Raycast(in Ray ray);
 
-        ///// <summary>
-        ///// Project this shape along the specified axis.
-        ///// </summary>
-        //Range Project(in Vector axis);
+        /// <summary>
+        /// Project this shape onto the specified axis.
+        /// </summary>
+        Range Project(in Vector axis);
     }
 }

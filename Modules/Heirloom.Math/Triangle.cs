@@ -21,9 +21,6 @@ namespace Heirloom.Math
         /// </summary>
         public Vector C;
 
-        [ThreadStatic]
-        private static readonly Vector[][] _polygon = new Vector[2][] { new Vector[3], new Vector[3] };
-
         #region Constructors
 
         public Triangle(Vector a, Vector b, Vector c)
@@ -51,10 +48,17 @@ namespace Heirloom.Math
 
         #region Closest Point
 
-        public Vector GetClosestPoint(in Vector point)
+        public Vector ClosestPoint(in Vector point)
         {
-            var poly = GetTempPolygon(0);
-            return PolygonTools.GetClosestPoint(poly, point);
+            // Get temporary polygon representation
+            var polygon = PolygonTools.RequestTempPolygon(in this);
+
+            // Check for overlap
+            var result = PolygonTools.GetClosestPoint(polygon, point);
+
+            // Recycle temporary polygon and return overlap status
+            PolygonTools.RecycleTempPolygon(polygon);
+            return result;
         }
 
         #endregion
@@ -110,49 +114,113 @@ namespace Heirloom.Math
 
         #region Overlaps
 
+        /// <summary>
+        /// Determines if this triangle overlaps another shape.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Overlaps(IShape shape)
         {
-            // tri - tri
-            if (shape is Triangle tri) { return Overlaps(tri); }
-            // tri - rec
-            else if (shape is Rectangle rec) { return Overlaps(rec); }
-            // tri - cir
-            else if (shape is Circle cir) { return Overlaps(cir); }
-            // tri - pol
-            else if (shape is Polygon pol) { return Overlaps((IReadOnlyList<Vector>) pol); }
-            // unknown case
-            else
+            return shape switch
             {
-                throw new InvalidOperationException("Unable to determine overlap, shape was not a known type.");
-            }
+                Circle cir => Overlaps(in cir),
+                Triangle tri => Overlaps(in tri),
+                Rectangle rec => Overlaps(in rec),
+                Polygon pol => Overlaps(pol),
+
+                // Unknown shape
+                _ => throw new InvalidOperationException("Unable to determine overlap, shape was not a known type."),
+            };
         }
 
-        public bool Overlaps(Circle circle)
+        /// <summary>
+        /// Determines if this triangle overlaps the specified circle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(in Circle circle)
         {
-            var poly = GetTempPolygon(0);
-            return PolygonCollision.Overlaps(circle, poly);
+            // circle has the implementation
+            return circle.Overlaps(in this);
         }
 
-        public bool Overlaps(Triangle triangle)
+        /// <summary>
+        /// Determines if this triangle overlaps another triangle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(in Triangle triangle)
         {
-            var polyA = GetTempPolygon(0);
-            var polyB = triangle.GetTempPolygon(1);
+            // Get temporary polygon representation
+            var polygon = PolygonTools.RequestTempPolygon(in this);
 
-            return PolygonCollision.Overlaps(polyA, polyB);
+            // Check for overlap
+            var result = triangle.Overlaps(polygon);
+
+            // Recycle temporary polygon and return overlap status
+            PolygonTools.RecycleTempPolygon(polygon);
+            return result;
         }
 
-        public bool Overlaps(Rectangle rectangle)
+        /// <summary>
+        /// Determines if this triangle overlaps the specified rectangle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(in Rectangle rectangle)
         {
-            var tri = GetTempPolygon(0);
-            var rec = rectangle.GetTempPolygon(1);
+            // Get temporary polygon representation
+            var polygon = PolygonTools.RequestTempPolygon(in this);
 
-            return PolygonCollision.Overlaps(tri, rec);
+            // Check for overlap
+            var result = rectangle.Overlaps(polygon);
+
+            // Recycle temporary polygon and return overlap status
+            PolygonTools.RecycleTempPolygon(polygon);
+            return result;
         }
 
+        /// <summary>
+        /// Determines if this triangle overlaps the specified convex polygon.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Overlaps(IReadOnlyList<Vector> polygon)
         {
-            var tri = GetTempPolygon(0);
-            return PolygonCollision.Overlaps(tri, polygon);
+            // Get temporary polygon representation
+            var other = PolygonTools.RequestTempPolygon(in this);
+
+            // Check for overlap
+            var result = SeparatingAxis.Overlaps(polygon, other);
+
+            // Recycle temporary polygon and return overlap status
+            PolygonTools.RecycleTempPolygon(other);
+            return result;
+        }
+
+        /// <summary>
+        /// Determines if this triangle overlaps the specified simple polygon.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(Polygon polygon)
+        {
+            // polygon has the implementation
+            return polygon.Overlaps(in this);
+        }
+
+        #endregion
+
+        #region Axis Projection
+
+        /// <summary>
+        /// Project this polygon onto the specified axis.
+        /// </summary>
+        public Range Project(in Vector axis)
+        {
+            // Get temporary polygon representation
+            var polygon = PolygonTools.RequestTempPolygon(in this);
+
+            // Project polygon onto axis
+            var result = PolygonTools.Project(polygon, in axis);
+
+            // Recycle temporary polygon and return overlap status
+            PolygonTools.RecycleTempPolygon(polygon);
+            return result;
         }
 
         #endregion
@@ -161,14 +229,28 @@ namespace Heirloom.Math
 
         public bool Raycast(in Ray ray, out RayContact contact)
         {
-            var poly = GetTempPolygon(0);
-            return PolygonTools.Raycast(poly, in ray, out contact);
+            // Get temporary polygon representation
+            var polygon = PolygonTools.RequestTempPolygon(in this);
+
+            // Raycast against polygon
+            var status = PolygonTools.Raycast(polygon, in ray, out contact);
+
+            // Recycle temporary polygon and return overlap status
+            PolygonTools.RecycleTempPolygon(polygon);
+            return status;
         }
 
         public bool Raycast(in Ray ray)
         {
-            var poly = GetTempPolygon(0);
-            return PolygonTools.Raycast(poly, in ray);
+            // Get temporary polygon representation
+            var polygon = PolygonTools.RequestTempPolygon(in this);
+
+            // Raycast against polygon
+            var status = PolygonTools.Raycast(polygon, in ray);
+
+            // Recycle temporary polygon and return overlap status
+            PolygonTools.RecycleTempPolygon(polygon);
+            return status;
         }
 
         #endregion
@@ -250,17 +332,6 @@ namespace Heirloom.Math
         }
 
         #endregion
-
-        internal Vector[] GetTempPolygon(int number)
-        {
-            var polygon = _polygon[number];
-
-            polygon[0] = A;
-            polygon[1] = B;
-            polygon[2] = C;
-
-            return polygon;
-        }
 
         public override string ToString()
         {
