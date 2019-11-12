@@ -5,8 +5,6 @@ using System.Runtime.CompilerServices;
 
 using Heirloom.Math;
 
-using static Heirloom.Math.ProceduralShapes;
-
 namespace Heirloom.Drawing
 {
     public static class RenderContextExtensions
@@ -432,7 +430,7 @@ namespace Heirloom.Drawing
                 }
 
                 // Append indices
-                foreach (var (a, b, c) in PolygonTools.Triangulate(polygon))
+                foreach (var (a, b, c) in PolygonTools.TriangulateIndices(polygon))
                 {
                     _temporaryMesh.AddIndices(a);
                     _temporaryMesh.AddIndices(b);
@@ -466,7 +464,7 @@ namespace Heirloom.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void DrawPolygonOutline(this RenderContext ctx, Polygon polygon, in Matrix transform, float width = 1F)
         {
-            DrawPolygonOutline(ctx, polygon, in transform, width);
+            DrawPolygonOutline(ctx, polygon.Vertices, in transform, width);
         }
 
         /// <summary>
@@ -573,5 +571,25 @@ namespace Heirloom.Drawing
             ctx.DrawLine(center + (Vector.Left * size), center + (Vector.Right * size), width);
             ctx.DrawLine(center + (Vector.Up * size), center + (Vector.Down * size), width);
         }
+
+        /// <summary>
+        /// Generates the points of a regular polygon.
+        /// </summary> 
+        private static IEnumerable<Vector> GenerateRegularPolygon(Vector center, int segments, float radius)
+        {
+            if (segments < 3) { throw new ArgumentOutOfRangeException(); }
+
+            for (var i = 0; i < segments; i++)
+            {
+                var a = i / (float) segments * Calc.TwoPi;
+
+                // 
+                var x = center.X + Calc.Cos(a) * radius;
+                var y = center.Y + Calc.Sin(a) * radius;
+
+                yield return new Vector(x, y);
+            }
+        }
+
     }
 }

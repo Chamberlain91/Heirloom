@@ -1,81 +1,57 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Heirloom.Math
 {
+    /// <summary>
+    /// Represents a rectangle defined with integer coordinates.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct IntRectangle : IEquatable<IntRectangle>
     {
+        /// <summary>
+        /// The x-coordinate of this rectangle.
+        /// </summary>
         public int X;
 
+        /// <summary>
+        /// The y-coordinate of this rectangle.
+        /// </summary>
         public int Y;
 
+        /// <summary>
+        /// The width of this rectangle.
+        /// </summary>
         public int Width;
 
+        /// <summary>
+        /// The height of this rectangle.
+        /// </summary>
         public int Height;
 
         #region Constants
 
+        /// <summary>
+        /// A rectangle that spans the entire 2D integer plane (but inverted, with min and max reversed).
+        /// </summary>
         public static IntRectangle InvertedInfinite { get; } = new IntRectangle(IntVector.One * int.MaxValue, IntVector.One * int.MinValue);
 
+        /// <summary>
+        /// A rectangle that spans the entire 2D integer plane.
+        /// </summary>
         public static IntRectangle Infinite { get; } = new IntRectangle(IntVector.One * int.MinValue, IntVector.One * int.MaxValue);
 
-        public static IntRectangle Zero { get; } = new IntRectangle(0, 0, 0, 0);
-
-        #endregion
-
-        #region Properties
-
-        public int Area => Width * Height;
-
-        public IntSize Size
-        {
-            get => new IntSize(Width, Height);
-
-            set
-            {
-                Width = value.Width;
-                Height = value.Height;
-            }
-        }
-
-        public IntVector Position
-        {
-            get => new IntVector(X, Y);
-
-            set
-            {
-                X = value.X;
-                Y = value.Y;
-
-                Width = Max.X - X;
-                Height = Max.Y - Y;
-            }
-        }
-
-        public IntVector Center
-        {
-            get => (Min + Max) / 2;
-            set => Position = new IntVector(value.X - Width / 2, value.Y - Height / 2);
-        }
-
-        public IntVector Min => Position;
-
-        public IntVector Max => Position + (IntVector) Size;
-
-        public int Left => X;
-
-        public int Top => Y;
-
-        public int Right => X + Width;
-
-        public int Bottom => Y + Height;
+        /// <summary>
+        /// A 1x1 rectangle that is positioned at the origin.
+        /// </summary>
+        public static IntRectangle One { get; } = new IntRectangle(0, 0, 1, 1);
 
         /// <summary>
-        /// Determines if the values of this rectangle are considered to be valid or
-        /// that left is less than right and top is less than bottom.
+        /// A 0x0 rectangle that is positioned at the origin.
         /// </summary>
-        public bool IsValid => Left < Right && Top < Bottom;
+        public static IntRectangle Zero { get; } = new IntRectangle(0, 0, 0, 0);
 
         #endregion
 
@@ -99,12 +75,167 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Bounds Inclusion
+        #region Properties
+
+        /// <summary>
+        /// Gets the area of this rectangle.
+        /// </summary>
+        public int Area => Width * Height;
+
+        /// <summary>
+        /// Gets or sets the size of this rectangle.
+        /// </summary>
+        public IntSize Size
+        {
+            get => new IntSize(Width, Height);
+
+            set
+            {
+                Width = value.Width;
+                Height = value.Height;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the position of this rectangle.
+        /// </summary>
+        public IntVector Position
+        {
+            get => TopLeft;
+
+            set
+            {
+                X = value.X;
+                Y = value.Y;
+
+                Width = Max.X - X;
+                Height = Max.Y - Y;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the center position of this rectangle.
+        /// </summary>
+        public IntVector Center
+        {
+            get => (Min + Max) / 2;
+            set => Position = new IntVector(value.X - Width / 2, value.Y - Height / 2);
+        }
+
+        /// <summary>
+        /// Gets the minimum corner of this rectangle.
+        /// </summary>
+        public IntVector Min => TopLeft;
+
+        /// <summary>
+        /// Gets the maximum corner of this rectangle.
+        /// </summary>
+        public IntVector Max => BottomRight;
+
+        /// <summary>
+        /// Gets the left extent of this rectangle.
+        /// </summary>
+        public int Left => X;
+
+        /// <summary>
+        /// Gets the top extent of this rectangle.
+        /// </summary>
+        public int Top => Y;
+
+        /// <summary>
+        /// Gets the right extent of this rectangle.
+        /// </summary>
+        public int Right => X + Width;
+
+        /// <summary>
+        /// Gets the bottom extent of this rectangle.
+        /// </summary>
+        public int Bottom => Y + Height;
+
+        /// <summary>
+        /// Gets the top left corner of this rectangle.
+        /// </summary>
+        public IntVector TopLeft => new IntVector(X, Y); // Min
+
+        /// <summary>
+        /// Gets the bottom left corner of this rectangle.
+        /// </summary>
+        public IntVector BottomLeft => new IntVector(X, Bottom);
+
+        /// <summary>
+        /// Gets the bottom right corner of this rectangle.
+        /// </summary>
+        public IntVector BottomRight => new IntVector(Right, Bottom); // Max
+
+        /// <summary>
+        /// Gets the top right corner of this rectangle.
+        /// </summary>
+        public IntVector TopRight => new IntVector(Right, Y);
+
+        /// <summary>
+        /// Determines if the values of this rectangle are considered to be valid or in other words
+        /// that left &lt; right and top &lt; bottom.
+        /// </summary>
+        public bool IsValid => Left < Right && Top < Bottom;
+
+        #endregion
+
+        /// <summary>
+        /// Create a polygon from this rectangle.
+        /// </summary>
+        public Polygon ToPolygon()
+        {
+            return ((Rectangle) this).ToPolygon();
+        }
+
+        #region Transform (Offset)
+
+        /// <summary>
+        /// Translates this rectangle.
+        /// </summary>
+        public void Offset(int x, int y)
+        {
+            X += x;
+            Y += y;
+        }
+
+        /// <summary>
+        /// Translates this rectangle.
+        /// </summary>
+        public void Offset(IntVector offset)
+        {
+            Offset(offset.X, offset.Y);
+        }
+
+        /// <summary>
+        /// Copies and translates the given rectangle.
+        /// </summary>
+        public static IntRectangle Offset(IntRectangle rect, int x, int y)
+        {
+            rect.X += x;
+            rect.Y += y;
+
+            return rect;
+        }
+
+        /// <summary>
+        /// Copies and translates the given rectangle.
+        /// </summary>
+        public static IntRectangle Offset(IntRectangle rect, IntVector offset)
+        {
+            return Offset(rect, offset.X, offset.Y);
+        }
+
+        #endregion
+
+        #region Include (Point, Rectangle)
 
         /// <summary>
         /// Mutates this rectangle to accommodate the given point.
-        /// Useful for computing the size of a bounding rectangle.
         /// </summary>
+        /// <remarks>
+        /// Useful for computing a bounding rectangle.
+        /// </remarks>
         /// <param name="point">Some point to include.</param>
         public void Include(IntVector point)
         {
@@ -115,48 +246,134 @@ namespace Heirloom.Math
 
         /// <summary>
         /// Mutates this rectangle to accommodate the given rectangle.
-        /// Useful for computing the size of a bounding rectangle.
         /// </summary>
+        /// <remarks>
+        /// Useful for computing a bounding rectangle.
+        /// </remarks>
         /// <param name="rect">Some rectangle to include.</param>
-        public void Include(IntRectangle rect)
+        public void Include(in IntRectangle rect)
         {
-            var min = IntVector.Min(rect.Min, Min);
-            var max = IntVector.Max(rect.Max, Max);
-            this = new IntRectangle(min, max);
-        }
-
-        /// <summary>
-        /// Merges the given rectangles int one potentially larger rectangle.
-        /// Useful for computing a new bounding rectangle that fits the given two.
-        /// </summary>
-        /// <param name="a">Some rectangle '<paramref name="a"/>'.</param>
-        /// <param name="b">Some rectangle '<paramref name="b"/>'.</param>
-        /// <returns> A potentially larger rectangle comprised of the two given. </returns>
-        public static IntRectangle Merge(in IntRectangle a, in IntRectangle b)
-        {
-            a.Include(b);
-            return a;
+            this = Merge(in this, in rect);
         }
 
         #endregion
 
-        #region Contains / Overlaps
+        #region Merge (Rectangles)
 
-        public bool Contains(Vector point)
+        /// <summary>
+        /// Merges the given rectangles into one potentially larger rectangle.
+        /// </summary>
+        /// <remarks>
+        /// Useful for computing a bounding rectangle.
+        /// </remarks>
+        /// <param name="a">Some rectangle '<paramref name="a"/>'.</param>
+        /// <param name="b">Some rectangle '<paramref name="b"/>'.</param>
+        /// <returns> A potentially larger rectangle comprised of the two given. </returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IntRectangle Merge(in IntRectangle a, in IntRectangle b)
         {
-            var xMax = X + Width;
-            var yMax = Y + Height;
+            var min = IntVector.Min(a.Min, b.Min);
+            var max = IntVector.Max(a.Max, b.Max);
 
-            if (point.X < X) { return false; }
-            if (point.X >= xMax) { return false; }
-
-            if (point.Y < Y) { return false; }
-            if (point.Y >= yMax) { return false; }
-
-            return true;
+            return new IntRectangle(min, max);
         }
 
-        public bool Contains(IntVector point)
+        /// <summary>
+        /// Merges the given rectangles into one potentially larger rectangle.
+        /// </summary>
+        /// <remarks>
+        /// Useful for computing a bounding rectangle.
+        /// </remarks>
+        /// <param name="rects">A collection of rectangles to merge.</param>
+        /// <returns> A potentially larger rectangle comprised of the two given. </returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IntRectangle Merge(params IntRectangle[] rects)
+        {
+            var min = rects[0].Min;
+            var max = rects[0].Max;
+
+            for (var i = 1; i < rects.Length; i++)
+            {
+                var b = rects[i];
+                min = IntVector.Min(min, b.Min);
+                max = IntVector.Max(max, b.Max);
+            }
+
+            return new IntRectangle(min, max);
+        }
+
+        #endregion
+
+        #region Inflate
+
+        /// <summary>
+        /// Expands (or shrinks) the rectangle equally in all directions.
+        /// </summary>
+        public void Inflate(int factor)
+        {
+            this = Inflate(this, factor);
+        }
+
+        /// <summary>
+        /// Expands (or shrinks) the input rectangle equally in all directions.
+        /// </summary>
+        public static IntRectangle Inflate(IntRectangle rect, int factor)
+        {
+            rect.X -= factor;
+            rect.Y -= factor;
+            rect.Width += factor * 2;
+            rect.Height += factor * 2;
+
+            return rect;
+        }
+
+        #endregion
+
+        #region Create (Point Cloud)
+
+        /// <summary>
+        /// Computes the bounding rectangle of the given set of points.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IntRectangle FromPoints(params IntVector[] points)
+        {
+            return FromPoints((IEnumerable<IntVector>) points);
+        }
+
+        /// <summary>
+        /// Computes the bounding rectangle of the given set of points.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IntRectangle FromPoints(IEnumerable<IntVector> points)
+        {
+            var b = InvertedInfinite;
+            foreach (var v in points) { b.Include(v); }
+            return b;
+        }
+
+        #endregion
+
+        #region Closest Point
+
+        /// <summary>
+        /// Returns the nearest point on the rectangle to the given point.
+        /// </summary>
+        public IntVector ClosestPoint(in IntVector point)
+        {
+            IntVector closest;
+            closest.X = (point.X < Min.X) ? Min.X : (point.X > Max.X) ? Max.X : point.X;
+            closest.Y = (point.Y < Min.Y) ? Min.Y : (point.Y > Max.Y) ? Max.Y : point.Y;
+            return closest;
+        }
+
+        #endregion
+
+        #region Contains (Point, Rectangle)
+
+        /// <summary>
+        /// Determines if this rectangle contains the given point?
+        /// </summary>
+        public bool Contains(in Vector point)
         {
             var xMax = X + Width;
             var yMax = Y + Height;
@@ -171,7 +388,24 @@ namespace Heirloom.Math
         }
 
         /// <summary>
-        /// Does this rectangle contain the given rectangle?
+        /// Determines if this rectangle contains the given point?
+        /// </summary>
+        public bool Contains(in IntVector point)
+        {
+            var xMax = X + Width;
+            var yMax = Y + Height;
+
+            if (point.X < X) { return false; }
+            if (point.X >= xMax) { return false; }
+
+            if (point.Y < Y) { return false; }
+            if (point.Y >= yMax) { return false; }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Determines if this rectangle contains another rectangle?
         /// </summary>
         public bool Contains(in IntRectangle other)
         {
@@ -180,6 +414,13 @@ namespace Heirloom.Math
             return true;
         }
 
+        #endregion
+
+        #region Overlaps
+
+        /// <summary>
+        /// Determines if this rectangle overlaps another rectangle.
+        /// </summary>
         public bool Overlaps(IntRectangle other)
         {
             /**
@@ -199,27 +440,7 @@ namespace Heirloom.Math
             return true;
         }
 
-        public IntVector ClosestPoint(IntVector point)
-        {
-            IntVector closest;
-            closest.X = (point.X < Position.X) ? Position.X : (point.X > Max.X) ? Max.X : point.X;
-            closest.Y = (point.Y < Position.Y) ? Position.Y : (point.Y > Max.Y) ? Max.Y : point.Y;
-            return closest;
-        }
-
         #endregion
-
-        public IntRectangle Inflate(int factor)
-        {
-            var r = this;
-
-            r.X -= factor;
-            r.Y -= factor;
-            r.Width += factor * 2;
-            r.Height += factor * 2;
-
-            return r;
-        }
 
         #region Deconstruct
 

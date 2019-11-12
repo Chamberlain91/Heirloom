@@ -1,5 +1,8 @@
 ﻿namespace Heirloom.Math
 {
+    /// <summary>
+    /// Represents the general interface of a shape and common operators each shape should support.
+    /// </summary>
     public interface IShape
     {
         /// <summary>
@@ -15,7 +18,7 @@
         /// <summary>
         /// Gets the nearest point on the shape to the specified point.
         /// </summary>
-        Vector ClosestPoint(in Vector point);
+        Vector GetClosestPoint(in Vector point);
 
         /// <summary>
         /// Determines if this shape contains the specified point.

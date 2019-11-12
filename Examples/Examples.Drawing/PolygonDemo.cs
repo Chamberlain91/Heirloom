@@ -7,9 +7,8 @@ namespace Examples.Drawing
 {
     public sealed class PolygonDemo : Demo
     {
-        public Polygon Polygon;
+        public Polygon Polygon, PolygonHull;
         public IEnumerable<Triangle> Triangles;
-        public Polygon PolygonHull;
 
         public PolygonDemo()
             : base("Polygon")
@@ -18,10 +17,10 @@ namespace Examples.Drawing
             Polygon = Polygon.CreateStar(5, 1);
 
             // Construct the convex hull
-            PolygonHull = Polygon.CreateConvexHull(Polygon);
+            PolygonHull = Polygon.CreateConvexHull(Polygon.Vertices);
 
             // Decompose the polygon into triangles
-            Triangles = Polygon.DecomposeTriangles(Polygon);
+            Triangles = Polygon.Triangulate();
         }
 
         internal override void Draw(RenderContext ctx, Rectangle contentBounds)
@@ -61,8 +60,12 @@ namespace Examples.Drawing
                         break;
 
                     case 1:
-                        foreach (var (a, b, c) in Triangles)
+                        foreach (var triangle in Triangles)
                         {
+                            var a = transform * triangle.A;
+                            var b = transform * triangle.B;
+                            var c = transform * triangle.C;
+
                             ctx.DrawLine(a, b);
                             ctx.DrawLine(b, c);
                             ctx.DrawLine(c, a);

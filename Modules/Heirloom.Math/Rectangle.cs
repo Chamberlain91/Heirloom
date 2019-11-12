@@ -8,18 +8,30 @@ namespace Heirloom.Math
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct Rectangle : IShape, IEquatable<Rectangle>
     {
+        /// <summary>
+        /// The x-coordinate of this rectangle.
+        /// </summary>
         public float X;
 
+        /// <summary>
+        /// The y-coordinate of this rectangle.
+        /// </summary>
         public float Y;
 
+        /// <summary>
+        /// The width of this rectangle.
+        /// </summary>
         public float Width;
 
+        /// <summary>
+        /// The height of this rectangle.
+        /// </summary>
         public float Height;
 
         #region Constants
 
         /// <summary>
-        /// A rectangle that spans the entire 2D plane (inverted, with min and max reversed).
+        /// A rectangle that spans the entire 2D plane (but inverted, with min and max reversed).
         /// </summary>
         public static Rectangle InvertedInfinite { get; } = new Rectangle(Vector.One * float.MaxValue, Vector.One * float.MinValue);
 
@@ -28,8 +40,14 @@ namespace Heirloom.Math
         /// </summary>
         public static Rectangle Infinite { get; } = new Rectangle(Vector.One * float.MinValue, Vector.One * float.MaxValue);
 
+        /// <summary>
+        /// A 1x1 rectangle that is positioned at the origin.
+        /// </summary>
         public static Rectangle One { get; } = new Rectangle(0, 0, 1, 1);
 
+        /// <summary>
+        /// A 0x0 rectangle that is positioned at the origin.
+        /// </summary>
         public static Rectangle Zero { get; } = new Rectangle(0, 0, 0, 0);
 
         #endregion
@@ -58,8 +76,14 @@ namespace Heirloom.Math
 
         Rectangle IShape.Bounds => this;
 
+        /// <summary>
+        /// Gets the area of this rectangle.
+        /// </summary>
         public float Area => Width * Height;
 
+        /// <summary>
+        /// Gets or sets the size of this rectangle.
+        /// </summary>
         public Size Size
         {
             get => new Size(Width, Height);
@@ -71,9 +95,12 @@ namespace Heirloom.Math
             }
         }
 
+        /// <summary>
+        /// Gets or sets the position of this rectangle.
+        /// </summary>
         public Vector Position
         {
-            get => new Vector(X, Y);
+            get => TopLeft;
 
             set
             {
@@ -82,56 +109,192 @@ namespace Heirloom.Math
             }
         }
 
+        /// <summary>
+        /// Gets or sets the center position of this rectangle.
+        /// </summary>
         public Vector Center
         {
             get => (Min + Max) / 2F;
             set => Position = new Vector(value.X - Width / 2F, value.Y - Height / 2F);
         }
 
-        public Vector Min => new Vector(X, Y);
+        /// <summary>
+        /// Gets the minimum corner of this rectangle.
+        /// </summary>
+        public Vector Min => TopLeft;
 
-        public Vector Max => new Vector(X + Width, Y + Height);
+        /// <summary>
+        /// Gets the maximum corner of this rectangle.
+        /// </summary>
+        public Vector Max => BottomRight;
 
+        /// <summary>
+        /// Gets the left extent of this rectangle.
+        /// </summary>
         public float Left => X;
 
+        /// <summary>
+        /// Gets the top extent of this rectangle.
+        /// </summary>
         public float Top => Y;
 
+        /// <summary>
+        /// Gets the right extent of this rectangle.
+        /// </summary>
         public float Right => X + Width;
 
+        /// <summary>
+        /// Gets the bottom extent of this rectangle.
+        /// </summary>
         public float Bottom => Y + Height;
 
-        public Vector TopLeft => new Vector(X, Y); // Min
+        /// <summary>
+        /// Gets the top left corner of this rectangle.
+        /// </summary>
+        public Vector TopLeft => new Vector(X, Y);
 
+        /// <summary>
+        /// Gets the bottom left corner of this rectangle.
+        /// </summary>
         public Vector BottomLeft => new Vector(X, Bottom);
 
-        public Vector BottomRight => new Vector(Right, Bottom); // Max
+        /// <summary>
+        /// Gets the bottom right corner of this rectangle.
+        /// </summary>
+        public Vector BottomRight => new Vector(Right, Bottom);
 
+        /// <summary>
+        /// Gets the top right corner of this rectangle.
+        /// </summary>
         public Vector TopRight => new Vector(Right, Y);
 
         /// <summary>
-        /// Determines if the values of this rectangle are considered to be valid or
-        /// that left is less than right and top is less than bottom.
+        /// Determines if the values of this rectangle are considered to be valid or in other words
+        /// that <c>left &lt; right</c> and <c>top &lt; bottom</c>.
         /// </summary>
         public bool IsValid => Left < Right && Top < Bottom;
 
         #endregion
 
-        #region Merge (Rectangles)
+        /// <summary>
+        /// Create a polygon from this rectangle.
+        /// </summary>
+        public Polygon ToPolygon()
+        {
+            // Clone this rectangle as a polygon
+            var vertices = PolygonTools.RequestTempPolygon(in this);
+            var polygon = new Polygon(vertices);
+
+            // Recycle temp poylgon and return clone.
+            PolygonTools.RecycleTempPolygon(vertices);
+            return polygon;
+        }
+
+        #region Transform (Offset)
 
         /// <summary>
-        /// Mutates this rectangle to accommodate the given rectangle.
-        /// Useful for computing the size of a bounding rectangle.
+        /// Translates this rectangle.
         /// </summary>
-        /// <param name="rect">Some rectangle to include.</param>
-        public void Merge(Rectangle rect)
+        public void Offset(float x, float y)
         {
-            this = Merge(this, rect);
+            X += x;
+            Y += y;
         }
 
         /// <summary>
-        /// Merges the given rectangles into one potentially larger rectangle.
-        /// Useful for computing a new bounding rectangle that fits the given two.
+        /// Translates this rectangle.
         /// </summary>
+        public void Offset(Vector offset)
+        {
+            Offset(offset.X, offset.Y);
+        }
+
+        /// <summary>
+        /// Copies and translates the given rectangle.
+        /// </summary>
+        public static Rectangle Offset(Rectangle rect, float x, float y)
+        {
+            rect.X += x;
+            rect.Y += y;
+
+            return rect;
+        }
+
+        /// <summary>
+        /// Copies and translates the given rectangle.
+        /// </summary>
+        public static Rectangle Offset(Rectangle rect, Vector offset)
+        {
+            return Offset(rect, offset.X, offset.Y);
+        }
+
+        #endregion
+
+        #region Transform (Matrix)
+
+        /// <summary>
+        /// Transforms the four corners of this rectangle and updates itself to bound these points.
+        /// </summary>
+        public Rectangle Transform(in Matrix matrix)
+        {
+            this = Transform(this, in matrix);
+            return this;
+        }
+
+        /// <summary>
+        /// Transforms the four corners of this rectangle and returns the bounding rectangle of these points.
+        /// </summary>
+        public static Rectangle Transform(Rectangle rectangle, in Matrix matrix)
+        {
+            var v0 = matrix * rectangle.TopLeft;
+            var v1 = matrix * rectangle.TopRight;
+            var v2 = matrix * rectangle.BottomRight;
+            var v3 = matrix * rectangle.BottomLeft;
+
+            return FromPoints(v0, v1, v2, v3);
+        }
+
+        #endregion
+
+        #region Include (Point, Rectangle)
+
+        /// <summary>
+        /// Mutates this rectangle to accommodate the given point.
+        /// </summary>
+        /// <remarks>
+        /// Useful for computing a bounding rectangle.
+        /// </remarks>
+        /// <param name="point">Some point to include.</param>
+        public void Include(Vector point)
+        {
+            var min = Vector.Min(Min, point);
+            var max = Vector.Max(Max, point);
+
+            this = new Rectangle(min, max);
+        }
+
+        /// <summary>
+        /// Mutates this rectangle to accommodate the given rectangle.
+        /// </summary>
+        /// <remarks>
+        /// Useful for computing a bounding rectangle.
+        /// </remarks>
+        /// <param name="rect">Some rectangle to include.</param>
+        public void Include(in Rectangle rect)
+        {
+            this = Merge(in this, in rect);
+        }
+
+        #endregion
+
+        #region Merge (Rectangles) 
+
+        /// <summary>
+        /// Merges the given rectangles into one potentially larger rectangle.
+        /// </summary>
+        /// <remarks>
+        /// Useful for computing a bounding rectangle.
+        /// </remarks>
         /// <param name="a">Some rectangle '<paramref name="a"/>'.</param>
         /// <param name="b">Some rectangle '<paramref name="b"/>'.</param>
         /// <returns> A potentially larger rectangle comprised of the two given. </returns>
@@ -140,13 +303,16 @@ namespace Heirloom.Math
         {
             var min = Vector.Min(a.Min, b.Min);
             var max = Vector.Max(a.Max, b.Max);
+
             return new Rectangle(min, max);
         }
 
         /// <summary>
         /// Merges the given rectangles into one potentially larger rectangle.
-        /// Useful for computing a new bounding rectangle that fits the given two.
         /// </summary>
+        /// <remarks>
+        /// Useful for computing a bounding rectangle.
+        /// </remarks>
         /// <param name="rects">A collection of rectangles to merge.</param>
         /// <returns> A potentially larger rectangle comprised of the two given. </returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -167,27 +333,45 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Include (Points)
+        #region Inflate
 
         /// <summary>
-        /// Mutates this rectangle to accommodate the given point.
-        /// Useful for computing the size of a bounding rectangle.
+        /// Expands (or shrinks) the rectangle equally in all directions.
         /// </summary>
-        /// <param name="point">Some point to include.</param>
-        public void Include(Vector point)
+        public void Inflate(float factor)
         {
-            var min = Vector.Min(point, Min);
-            var max = Vector.Max(point, Max);
-
-            this = new Rectangle(min, max);
+            this = Inflate(this, factor);
         }
 
+        /// <summary>
+        /// Expands (or shrinks) the input rectangle equally in all directions.
+        /// </summary>
+        public static Rectangle Inflate(Rectangle rect, float factor)
+        {
+            rect.X -= factor;
+            rect.Y -= factor;
+            rect.Width += factor * 2;
+            rect.Height += factor * 2;
+
+            return rect;
+        }
+
+        #endregion
+
+        #region Create (Point Cloud)
+
+        /// <summary>
+        /// Computes the bounding rectangle of the given set of points.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Rectangle FromPoints(params Vector[] points)
         {
             return FromPoints((IEnumerable<Vector>) points);
         }
 
+        /// <summary>
+        /// Computes the bounding rectangle of the given set of points.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Rectangle FromPoints(IEnumerable<Vector> points)
         {
@@ -198,48 +382,12 @@ namespace Heirloom.Math
 
         #endregion
 
-        public Rectangle Transform(in Matrix matrix)
-        {
-            var v0 = matrix * TopLeft;
-            var v1 = matrix * TopRight;
-            var v2 = matrix * BottomRight;
-            var v3 = matrix * BottomLeft;
-
-            return FromPoints(v0, v1, v2, v3);
-        }
-
-        /// <summary>
-        /// Adjusts the bounding size of the rectangle and returns the new rectangle.
-        /// </summary>
-        public Rectangle Inflate(float size)
-        {
-            var r = this;
-
-            r.X -= size;
-            r.Y -= size;
-            r.Width += size * 2;
-            r.Height += size * 2;
-
-            return r;
-        }
-
-        public void Offset(float x, float y)
-        {
-            X += x;
-            Y += y;
-        }
-
-        public void Offset(Vector offset)
-        {
-            Offset(offset.X, offset.Y);
-        }
-
         #region Closest Point
 
         /// <summary>
         /// Returns the nearest point on the rectangle to the given point.
         /// </summary>
-        public Vector ClosestPoint(in Vector point)
+        public Vector GetClosestPoint(in Vector point)
         {
             Vector closest;
             closest.X = (point.X < Min.X) ? Min.X : (point.X > Max.X) ? Max.X : point.X;
@@ -249,10 +397,10 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Contains
+        #region Contains (Point, Rectangle)
 
         /// <summary>
-        /// Does this rectangle contain the given point?
+        /// Determines if this rectangle contains the given point?
         /// </summary>
         public bool ContainsPoint(in Vector point)
         {
@@ -269,7 +417,7 @@ namespace Heirloom.Math
         }
 
         /// <summary>
-        /// Does this rectangle contain the given rectangle?
+        /// Determines if this rectangle contains another rectangle?
         /// </summary>
         public bool Contains(in Rectangle other)
         {
@@ -378,7 +526,7 @@ namespace Heirloom.Math
         #region Axis Projection
 
         /// <summary>
-        /// Project this polygon onto the specified axis.
+        /// Project this rectangle onto the specified axis.
         /// </summary>
         public Range Project(in Vector axis)
         {
@@ -397,12 +545,20 @@ namespace Heirloom.Math
 
         #region Raycast
 
+        /// <summary>
+        /// Peforms a raycast onto this rectangle, returning true upon intersection.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Raycast(in Ray ray)
         {
             return Raycast(in ray, out _);
         }
 
+        /// <summary>
+        /// Peforms a raycast onto this circle, returning true upon intersection.
+        /// </summary>
+        /// <param name="ray">Some ray.</param>
+        /// <param name="contact">Ray intersection information.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Raycast(in Ray ray, out RayContact contact)
         {

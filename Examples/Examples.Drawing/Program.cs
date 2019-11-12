@@ -63,7 +63,7 @@ namespace Examples.Drawing
             ctx.DrawRect(contentBounds);
 
             ctx.ResetState();
-            CurrentDemo.Draw(ctx, contentBounds.Inflate(-16));
+            CurrentDemo.Draw(ctx, Rectangle.Inflate(contentBounds, -16));
 
             //
             ctx.ResetState();

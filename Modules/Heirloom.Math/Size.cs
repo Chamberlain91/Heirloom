@@ -6,18 +6,36 @@ namespace Heirloom.Math
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct Size : IEquatable<Size>, IComparable<Size>
     {
+        /// <summary>
+        /// The width (horizontal size measure).
+        /// </summary>
         public float Width;
 
+        /// <summary>
+        /// The height (vertical size measure).
+        /// </summary>
         public float Height;
 
         #region Constants
 
+        /// <summary>
+        /// An infinite size.
+        /// </summary>
         public static readonly Size Infinite = new Size(float.PositiveInfinity, float.PositiveInfinity);
 
+        /// <summary>
+        /// The maximum representable size possible.
+        /// </summary>
         public static readonly Size Max = new Size(float.MaxValue, float.MaxValue);
 
+        /// <summary>
+        /// A 0x0 size.
+        /// </summary>
         public static readonly Size Zero = new Size(0, 0);
 
+        /// <summary>
+        /// A 1x1 size.
+        /// </summary>
         public static readonly Size One = new Size(1, 1);
 
         #endregion
@@ -34,9 +52,15 @@ namespace Heirloom.Math
 
         #region Properties
 
+        /// <summary>
+        /// Gets the area of this size as if it was a rectangle at the origin.
+        /// </summary>
         public float Area => Width * Height;
 
-        public float Aspect => Width / Height;
+        /// <summary>
+        /// Gets the aspect ratio of this size.
+        /// </summary>
+        public float Aspect => Width / (float) Height;
 
         #endregion
 
@@ -191,14 +215,29 @@ namespace Heirloom.Math
 
         #region Comparison Operators
 
-        public static bool operator ==(Size size1, Size size2)
+        public int CompareTo(Size other)
         {
-            return size1.Equals(size2);
+            return Area.CompareTo(other.Area);
         }
 
-        public static bool operator !=(Size size1, Size size2)
+        public static bool operator <(Size left, Size right)
         {
-            return !(size1 == size2);
+            return left.CompareTo(right) < 0;
+        }
+
+        public static bool operator <=(Size left, Size right)
+        {
+            return left.CompareTo(right) <= 0;
+        }
+
+        public static bool operator >(Size left, Size right)
+        {
+            return left.CompareTo(right) > 0;
+        }
+
+        public static bool operator >=(Size left, Size right)
+        {
+            return left.CompareTo(right) >= 0;
         }
 
         #endregion
@@ -224,12 +263,17 @@ namespace Heirloom.Math
             return hashCode;
         }
 
-        #endregion
-
-        public int CompareTo(Size other)
+        public static bool operator ==(Size size1, Size size2)
         {
-            return Area.CompareTo(other.Area);
+            return size1.Equals(size2);
         }
+
+        public static bool operator !=(Size size1, Size size2)
+        {
+            return !(size1 == size2);
+        }
+
+        #endregion
 
         public override string ToString()
         {

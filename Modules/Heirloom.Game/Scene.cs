@@ -337,7 +337,7 @@ namespace Heirloom.Game
                 var x = (ctx.Surface.Bounds.Width - textSize.Width) / 2F;
                 var y = (ctx.Surface.Bounds.Height - textSize.Height) / 2F;
                 var textRect = new Rectangle((x, y), textSize);
-                textRect = textRect.Inflate(8);
+                textRect = Rectangle.Inflate(textRect, 8);
 
                 var progRect = textRect;
                 progRect.Y += 4 + textRect.Height;
@@ -349,7 +349,7 @@ namespace Heirloom.Game
 
                 // Draw text
                 ctx.Color = Color.DarkGray;
-                ctx.DrawText(text, textRect.Inflate(-8), Font.Default, 32, TextAlign.Center);
+                ctx.DrawText(text, Rectangle.Inflate(textRect, -8), Font.Default, 32, TextAlign.Center);
 
                 // Draw percent bar container
                 ctx.Color = Color.Gray;
