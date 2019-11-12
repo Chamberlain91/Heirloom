@@ -6,6 +6,9 @@ using System.Runtime.CompilerServices;
 
 namespace Heirloom.Math
 {
+    /// <summary>
+    /// Provides several operations for polygons represented as a read-only list of vectors.
+    /// </summary>
     public static class PolygonTools
     {
         #region Closest Point (IReadOnlyList<Vector>)
@@ -117,24 +120,36 @@ namespace Heirloom.Math
 
         #region Raycast (IReadOnlyList<Vector>)
 
+        /// <summary>
+        /// Checks if a ray intersects this polygon.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Raycast(IReadOnlyList<Vector> polygon, in Ray ray)
         {
             return Raycast(polygon, in ray.Origin, in ray.Direction, out _);
         }
 
+        /// <summary>
+        /// Checks if a ray intersects this polygon.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Raycast(IReadOnlyList<Vector> polygon, in Vector origin, in Vector direction)
         {
             return Raycast(polygon, in origin, in direction, out _);
         }
 
+        /// <summary>
+        /// Checks if a ray intersects this polygon and outputs information on the contact point.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Raycast(IReadOnlyList<Vector> polygon, in Ray ray, out RayContact contact)
         {
             return Raycast(polygon, in ray.Origin, in ray.Direction, out contact);
         }
 
+        /// <summary>
+        /// Checks if a ray intersects this polygon and outputs information on the contact point.
+        /// </summary>
         public static bool Raycast(IReadOnlyList<Vector> polygon, in Vector origin, in Vector direction, out RayContact contact)
         // ref: https://github.com/RandyGaul/cute_headers/blob/master/cute_c2.h
         {
@@ -309,9 +324,20 @@ namespace Heirloom.Math
         #region Convex Decomposition
 
         /// <summary>
+        /// Converts a simple polygon into one or more convex polygons.
+        /// If the polygon is already convex, this simply clones it.
+        /// </summary>
+        public static IEnumerable<Polygon> DecomposeConvex(IReadOnlyList<Vector> polygon)
+        {
+            // Convert convex indices to polygons
+            return DecomposeConvexIndices(polygon)
+                  .Select(indices => new Polygon(indices.Select(i => polygon[i])));
+        }
+
+        /// <summary>
         /// Converts a simple polygon into one or more convex polygons enumerated by indices of the original polygon.
         /// </summary>
-        public static IEnumerable<IReadOnlyList<int>> DecomposeConvex(IReadOnlyList<Vector> points)
+        public static IEnumerable<IReadOnlyList<int>> DecomposeConvexIndices(IReadOnlyList<Vector> points)
         // todo: possibly use ArrayPool<T> to prevent allocations of temporary lists?
         {
             // Check if already convex
@@ -325,7 +351,7 @@ namespace Heirloom.Math
             else
             {
                 // The set of triangles
-                var triangles = new List<(int a, int b, int c)>(Triangulate(points));
+                var triangles = new List<(int a, int b, int c)>(TriangulateIndices(points));
 
                 // The set of polygons generated
                 var polygons = new List<List<int>>();
@@ -496,9 +522,19 @@ namespace Heirloom.Math
         #region Triangle Decomposition
 
         /// <summary>
+        /// Decomposes a simple polygon into constituent triangles.
+        /// </summary>
+        public static IEnumerable<Triangle> Triangulate(IReadOnlyList<Vector> poylgon)
+        {
+            // Convert triangulation to polygons
+            return TriangulateIndices(poylgon)
+                  .Select(tri => new Triangle(poylgon[tri.a], poylgon[tri.b], poylgon[tri.c]));
+        }
+
+        /// <summary>
         /// Decomposes a simple polygon into constituent triangles enumerated by indices of the original polygon.
         /// </summary>
-        public static IEnumerable<(int a, int b, int c)> Triangulate(IEnumerable<Vector> polygon)
+        public static IEnumerable<(int a, int b, int c)> TriangulateIndices(IEnumerable<Vector> polygon)
         // todo: possibly use ArrayPool<T> to prevent allocations of temporary lists?
         {
             var points = new List<Vector>(polygon);
@@ -530,9 +566,8 @@ namespace Heirloom.Math
 
             bool FindNextEar()
             {
-                earIndex += 2; // Arbitrarily offset index each time
                 // This *seems* to produce better convex merging for some reason?
-                // TODO: Talk to Jarrod or Dr. Kiel about why this may be the case?
+                earIndex += 2; // Arbitrarily offset index each time
 
                 // Enumerate only the polygon worth of points
                 for (var o = 0; o < points.Count; o++)
@@ -704,7 +739,7 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Temporary Polygon
+        #region Temporary Polygons
 
         private static readonly Queue<Vector[]>[] _tempPolygons = new[] { new Queue<Vector[]>(), new Queue<Vector[]>() };
 
@@ -737,7 +772,7 @@ namespace Heirloom.Math
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static Vector[] RequestTempPolygon(int size)
+        internal static Vector[] RequestTempPolygon(int size)
         {
             // Get next in queue or allocate a new polygon
             var queue = GetTempPolygonQueue(size);

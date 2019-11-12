@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-using M = System.Math;
+using MathD = System.Math;
 
 namespace Heirloom.Math
 {
     /// <summary>
-    /// Math operations for <see cref="float"/> and a few other data types including <see cref="int"/>. <para/>
+    /// Math operations for <see cref="float"/> and a other data types including <see cref="int"/>. <para/>
     /// Includes a few genric utility functions such as <see cref="Swap{T}(ref T, ref T)"/>
     /// </summary>
     public static class Calc
@@ -70,55 +70,82 @@ namespace Heirloom.Math
         /// The function sine mapped to [0.0, 1.0].
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Osc(float x) { return (float) (1F + M.Sin(x)) / 2F; }
+        public static float Osc(float x)
+        {
+            return (1F + MathF.Sin(x)) / 2F;
+        }
 
         /// <summary>
         /// The function sine.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Sin(float x) { return (float) M.Sin(x); }
+        public static float Sin(float x)
+        {
+            return MathF.Sin(x);
+        }
 
         /// <summary>
         /// Ihe inverse of the function sine.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Asin(float x) { return (float) M.Asin(x); }
+        public static float Asin(float x)
+        {
+            return MathF.Asin(x);
+        }
 
         /// <summary>
         /// The function cosine.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Cos(float x) { return (float) M.Cos(x); }
+        public static float Cos(float x)
+        {
+            return MathF.Cos(x);
+        }
 
         /// <summary>
         /// The inverse of the function cosine.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Acos(float x) { return (float) M.Acos(x); }
+        public static float Acos(float x)
+        {
+            return MathF.Acos(x);
+        }
 
         /// <summary>
         /// The tangent function.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Tan(float x) { return (float) M.Tan(x); }
+        public static float Tan(float x)
+        {
+            return MathF.Tan(x);
+        }
 
         /// <summary>
         /// The inverse of the tangent function.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Atan(float x) { return (float) M.Atan(x); }
+        public static float Atan(float x)
+        {
+            return MathF.Atan(x);
+        }
 
         /// <summary>
         /// Computes the angle whose tangent is quotient to <paramref name="x"/> and <paramref name="y"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Atan2(float y, float x) { return (float) M.Atan2(y, x); }
+        public static float Atan2(float y, float x)
+        {
+            return MathF.Atan2(y, x);
+        }
 
         /// <summary>
         /// Computes the distance between a pair of one-dimensional points.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Distance(float x1, float x2) { return Abs(x1 - x2); }
+        public static float Distance(float x1, float x2)
+        {
+            return Abs(x1 - x2);
+        }
 
         /// <summary>
         /// Computes the distance between a pair of two-dimensional points.
@@ -139,55 +166,82 @@ namespace Heirloom.Math
         /// Computes <paramref name="x"/> raised to the power of <paramref name="y"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Pow(float x, float y) { return (float) M.Pow(x, y); }
+        public static float Pow(float x, float y)
+        {
+            return MathF.Pow(x, y);
+        }
 
         /// <summary>
         /// Computes <paramref name="x"/> raised to the power of <paramref name="y"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Pow(double x, double y) { return M.Pow(x, y); }
+        public static double Pow(double x, double y)
+        {
+            return MathD.Pow(x, y);
+        }
 
         /// <summary>
         /// Computes the natural logarithm of <paramref name="x"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Log(float x) { return (float) M.Log(x); }
+        public static float Log(float x)
+        {
+            return MathF.Log(x);
+        }
 
         /// <summary>
         /// Computes the natural logarithm of <paramref name="x"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Log(double x) { return M.Log(x); }
+        public static double Log(double x)
+        {
+            return MathD.Log(x);
+        }
 
         /// <summary>
         /// Computes the logarithm of <paramref name="x"/> with base <paramref name="b"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Log(float x, float b) { return (float) M.Log(x, b); }
+        public static float Log(float x, float b)
+        {
+            return MathF.Log(x, b);
+        }
 
         /// <summary>
         /// Computes the logarithm of <paramref name="x"/> with base <paramref name="b"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Log(double x, double b) { return M.Log(x, b); }
+        public static double Log(double x, double b)
+        {
+            return MathD.Log(x, b);
+        }
 
         /// <summary>
         /// Computes the square root of <paramref name="x"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Sqrt(float x) { return (float) M.Sqrt(x); }
+        public static float Sqrt(float x)
+        {
+            return MathF.Sqrt(x);
+        }
 
         /// <summary>
         /// Computes the square root of <paramref name="x"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Sqrt(double x) { return M.Sqrt(x); }
+        public static double Sqrt(double x)
+        {
+            return MathD.Sqrt(x);
+        }
 
         /// <summary>
         /// Computes the factorial of <paramref name="x"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Factorial(int x) { return (int) Factorial((uint) x); }
+        public static int Factorial(int x)
+        {
+            return (int) Factorial((uint) x);
+        }
 
         /// <summary>
         /// Computes the factorial of <paramref name="x"/>.
@@ -206,44 +260,52 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Min Max Clamp Abs Sign
-
         #region Min Max Clamp Abs Sign ( double )
 
         /// <summary>
         /// Returns the minimum value between <paramref name="x"/> and <paramref name="y"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Min(double x, double y) { return x < y ? x : y; }
+        public static double Min(double x, double y)
+        {
+            return x < y ? x : y;
+        }
 
         /// <summary>
         /// Returns the maximum value between <paramref name="x"/> and <paramref name="y"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Max(double x, double y) { return x > y ? x : y; }
+        public static double Max(double x, double y)
+        {
+            return x > y ? x : y;
+        }
 
         /// <summary>
         /// Returns the value <paramref name="x"/> clamped to the specified range.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Clamp(double x, double min, double max) { return Min(max, Max(min, x)); }
+        public static double Clamp(double x, double min, double max)
+        {
+            return Min(max, Max(min, x));
+        }
 
         /// <summary>
         /// Computes the absolute value of <paramref name="x"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Abs(double x) { return x < 0 ? -x : x; }
-
-        public static object Sqrt(object p)
+        public static double Abs(double x)
         {
-            throw new NotImplementedException();
+            return x < 0 ? -x : x;
         }
 
         /// <summary>
         /// Returns the sign of <paramref name="x"/> as if compared against zero (-1, 0 or +1)
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sign(double x) { return M.Sign(x); }
+        public static int Sign(double x)
+        {
+            return MathD.Sign(x);
+        }
 
         /// <summary>
         /// Compute the fractional (decimal) portion of the number <paramref name="x"/>.
@@ -262,31 +324,46 @@ namespace Heirloom.Math
         /// Returns the minimum value between <paramref name="x"/> and <paramref name="y"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Min(float x, float y) { return x < y ? x : y; }
+        public static float Min(float x, float y)
+        {
+            return x < y ? x : y;
+        }
 
         /// <summary>
         /// Returns the maximum value between <paramref name="x"/> and <paramref name="y"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Max(float x, float y) { return x > y ? x : y; }
+        public static float Max(float x, float y)
+        {
+            return x > y ? x : y;
+        }
 
         /// <summary>
         /// Returns the value <paramref name="x"/> clamped to the specified range.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Clamp(float x, float min, float max) { return Min(max, Max(min, x)); }
+        public static float Clamp(float x, float min, float max)
+        {
+            return Min(max, Max(min, x));
+        }
 
         /// <summary>
         /// Computes the absolute value of <paramref name="x"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Abs(float x) { return x < 0 ? -x : x; }
+        public static float Abs(float x)
+        {
+            return x < 0 ? -x : x;
+        }
 
         /// <summary>
         /// Returns the sign of <paramref name="x"/> as if compared against zero (-1, 0 or +1)
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sign(float x) { return M.Sign(x); }
+        public static int Sign(float x)
+        {
+            return MathF.Sign(x);
+        }
 
         /// <summary>
         /// Compute the fractional (decimal) portion of the number <paramref name="x"/>.
@@ -305,31 +382,46 @@ namespace Heirloom.Math
         /// Returns the minimum value between <paramref name="x"/> and <paramref name="y"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Min(int x, int y) { return x < y ? x : y; }
+        public static int Min(int x, int y)
+        {
+            return x < y ? x : y;
+        }
 
         /// <summary>
         /// Returns the maximum value between <paramref name="x"/> and <paramref name="y"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Max(int x, int y) { return x > y ? x : y; }
+        public static int Max(int x, int y)
+        {
+            return x > y ? x : y;
+        }
 
         /// <summary>
         /// Returns the value <paramref name="x"/> clamped to the specified range.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Clamp(int x, int min, int max) { return Min(max, Max(min, x)); }
+        public static int Clamp(int x, int min, int max)
+        {
+            return Min(max, Max(min, x));
+        }
 
         /// <summary>
         /// Computes the absolute value of <paramref name="x"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Abs(int x) { return x < 0 ? -x : x; }
+        public static int Abs(int x)
+        {
+            return x < 0 ? -x : x;
+        }
 
         /// <summary>
         /// Returns the sign of <paramref name="x"/> as if compared against zero (-1, 0 or +1)
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sign(int x) { return M.Sign((double) x); }
+        public static int Sign(int x)
+        {
+            return MathF.Sign(x);
+        }
 
         #endregion
 
@@ -339,19 +431,28 @@ namespace Heirloom.Math
         /// Returns the minimum value between <paramref name="x"/> and <paramref name="y"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint Min(uint x, uint y) { return x < y ? x : y; }
+        public static uint Min(uint x, uint y)
+        {
+            return x < y ? x : y;
+        }
 
         /// <summary>
         /// Returns the maximum value between <paramref name="x"/> and <paramref name="y"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint Max(uint x, uint y) { return x > y ? x : y; }
+        public static uint Max(uint x, uint y)
+        {
+            return x > y ? x : y;
+        }
 
         /// <summary>
         /// Returns the value <paramref name="x"/> clamped to the specified range.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint Clamp(uint x, uint min, uint max) { return Min(max, Max(min, x)); }
+        public static uint Clamp(uint x, uint min, uint max)
+        {
+            return Min(max, Max(min, x));
+        }
 
         #endregion
 
@@ -361,13 +462,19 @@ namespace Heirloom.Math
         /// Returns the minimum value between <paramref name="x"/> and <paramref name="y"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short Min(short x, short y) { return x < y ? x : y; }
+        public static short Min(short x, short y)
+        {
+            return x < y ? x : y;
+        }
 
         /// <summary>
         /// Returns the maximum value between <paramref name="x"/> and <paramref name="y"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short Max(short x, short y) { return x > y ? x : y; }
+        public static short Max(short x, short y)
+        {
+            return x > y ? x : y;
+        }
 
         /// <summary>
         /// Returns the value <paramref name="x"/> clamped to the specified range.
@@ -379,13 +486,19 @@ namespace Heirloom.Math
         /// Computes the absolute value of <paramref name="x"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short Abs(short x) { return (short) (x < 0 ? -x : x); }
+        public static short Abs(short x)
+        {
+            return (short) (x < 0 ? -x : x);
+        }
 
         /// <summary>
         /// Returns the sign of <paramref name="x"/> as if compared against zero (-1, 0 or +1)
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sign(short x) { return M.Sign((double) x); }
+        public static int Sign(short x)
+        {
+            return MathF.Sign(x);
+        }
 
         #endregion
 
@@ -395,19 +508,28 @@ namespace Heirloom.Math
         /// Returns the minimum value between <paramref name="x"/> and <paramref name="y"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort Min(ushort x, ushort y) { return x < y ? x : y; }
+        public static ushort Min(ushort x, ushort y)
+        {
+            return x < y ? x : y;
+        }
 
         /// <summary>
         /// Returns the maximum value between <paramref name="x"/> and <paramref name="y"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort Max(ushort x, ushort y) { return x > y ? x : y; }
+        public static ushort Max(ushort x, ushort y)
+        {
+            return x > y ? x : y;
+        }
 
         /// <summary>
         /// Returns the value <paramref name="x"/> clamped to the specified range.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort Clamp(ushort x, ushort min, ushort max) { return Min(max, Max(min, x)); }
+        public static ushort Clamp(ushort x, ushort min, ushort max)
+        {
+            return Min(max, Max(min, x));
+        }
 
         #endregion
 
@@ -417,13 +539,19 @@ namespace Heirloom.Math
         /// Returns the minimum value between <paramref name="x"/> and <paramref name="y"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte Min(sbyte x, sbyte y) { return x < y ? x : y; }
+        public static sbyte Min(sbyte x, sbyte y)
+        {
+            return x < y ? x : y;
+        }
 
         /// <summary>
         /// Returns the maximum value between <paramref name="x"/> and <paramref name="y"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte Max(sbyte x, sbyte y) { return x > y ? x : y; }
+        public static sbyte Max(sbyte x, sbyte y)
+        {
+            return x > y ? x : y;
+        }
 
         /// <summary>
         /// Returns the value <paramref name="x"/> clamped to the specified range.
@@ -435,13 +563,19 @@ namespace Heirloom.Math
         /// Computes the absolute value of <paramref name="x"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte Abs(sbyte x) { return (sbyte) (x < 0 ? -x : x); }
+        public static sbyte Abs(sbyte x)
+        {
+            return (sbyte) (x < 0 ? -x : x);
+        }
 
         /// <summary>
         /// Returns the sign of <paramref name="x"/> as if compared against zero (-1, 0 or +1)
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sign(sbyte x) { return M.Sign((double) x); }
+        public static int Sign(sbyte x)
+        {
+            return MathF.Sign(x);
+        }
 
         #endregion
 
@@ -451,19 +585,28 @@ namespace Heirloom.Math
         /// Returns the minimum value between <paramref name="x"/> and <paramref name="y"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte Min(byte x, byte y) { return x < y ? x : y; }
+        public static byte Min(byte x, byte y)
+        {
+            return x < y ? x : y;
+        }
 
         /// <summary>
         /// Returns the maximum value between <paramref name="x"/> and <paramref name="y"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte Max(byte x, byte y) { return x > y ? x : y; }
+        public static byte Max(byte x, byte y)
+        {
+            return x > y ? x : y;
+        }
 
         /// <summary>
         /// Returns the value <paramref name="x"/> clamped to the specified range.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte Clamp(byte x, byte min, byte max) { return Min(max, Max(min, x)); }
+        public static byte Clamp(byte x, byte min, byte max)
+        {
+            return Min(max, Max(min, x));
+        }
 
         #endregion
 
@@ -593,108 +736,114 @@ namespace Heirloom.Math
 
         #endregion
 
-        #endregion
-
         #region Rounding & Truncation
 
         /// <summary>
         /// Computes the floor integer (rounding down) of the value <paramref name="x"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Floor(double x) { return (int) M.Floor(x); }
+        public static int Floor(double x)
+        {
+            return (int) MathD.Floor(x);
+        }
 
         /// <summary>
         /// Computes the ceiling integer (rounding up) of the value <paramref name="x"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Ceil(double x) { return (int) M.Ceiling(x); }
+        public static int Ceil(double x)
+        {
+            return (int) MathD.Ceiling(x);
+        }
 
         /// <summary>
         /// Computes the nearest integer of the value <paramref name="x"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Round(double x) { return (int) M.Round(x); }
+        public static int Round(double x)
+        {
+            return (int) MathD.Round(x);
+        }
 
         /// <summary>
         /// Computes the floor integer (rounding down) of the value <paramref name="x"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Floor(float x) { return (int) M.Floor(x); }
+        public static int Floor(float x)
+        {
+            return (int) MathF.Floor(x);
+        }
 
         /// <summary>
         /// Computes the ceiling integer (rounding up) of the value <paramref name="x"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Ceil(float x) { return (int) M.Ceiling(x); }
+        public static int Ceil(float x)
+        {
+            return (int) MathF.Ceiling(x);
+        }
 
         /// <summary>
         /// Computes the nearest integer of the value <paramref name="x"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Round(float x) { return (int) M.Round(x); }
+        public static int Round(float x)
+        {
+            return (int) MathF.Round(x);
+        }
 
         /// <summary>
         /// Determines if the two values are nearly equal comparing equality within a <see cref="Epsilon"/> threshold.
         /// </summary> 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool NearEquals(double x1, double x2) { return Abs(x1 - x2) < Epsilon; }
+        public static bool NearEquals(double x1, double x2)
+        {
+            return Abs(x1 - x2) < Epsilon;
+        }
 
         /// <summary>
         /// Determines if the two values are nearly equal comparing equality within a threshold.
         /// </summary> 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool NearEquals(double x1, double x2, float threshold) { return Abs(x1 - x2) < threshold; }
+        public static bool NearEquals(double x1, double x2, float threshold)
+        {
+            return Abs(x1 - x2) < threshold;
+        }
 
         /// <summary>
         /// Determines if the value is nearly equal to zero by comparing equality within a <see cref="Epsilon"/> threshold.
         /// </summary> 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool NearZero(double v) { return v > -Epsilon && v < Epsilon; }
+        public static bool NearZero(double v)
+        {
+            return v > -Epsilon && v < Epsilon;
+        }
 
         /// <summary>
         /// Determines if the two values are nearly equal comparing equality within a <see cref="Epsilon"/> threshold.
         /// </summary> 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool NearEquals(float x1, float x2) { return Abs(x1 - x2) < Epsilon; }
+        public static bool NearEquals(float x1, float x2)
+        {
+            return Abs(x1 - x2) < Epsilon;
+        }
 
         /// <summary>
         /// Determines if the two values are nearly equal comparing equality within a threshold.
         /// </summary> 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool NearEquals(float x1, float x2, float threshold) { return Abs(x1 - x2) < threshold; }
+        public static bool NearEquals(float x1, float x2, float threshold)
+        {
+            return Abs(x1 - x2) < threshold;
+        }
 
         /// <summary>
         /// Determines if the value is nearly equal to zero by comparing equality within a <see cref="Epsilon"/> threshold.
         /// </summary> 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool NearZero(float v) { return v > -Epsilon && v < Epsilon; }
-
-        #endregion
-
-        #region Time Sensitive Interpolation
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float LerpTime(float a, float b, float time, float dt)
+        public static bool NearZero(float v)
         {
-            return Lerp(a, b, DeltaTimeInterpolationFactor(1F, dt / time));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float AngleLerpTime(float a, float b, float time, float dt)
-        {
-            return AngleLerp(a, b, DeltaTimeInterpolationFactor(1F, dt / time));
-        }
-
-        /// <summary>
-        /// Calculates a interpolation factor that moves a percentage of the interpolation adjusted independant of framerate.
-        /// </summary>
-        /// <param name="t"> Percentage to interpolate ( the normal 't' value of a interpolation function ) </param>
-        /// <param name="dt"> Delta time, the difference in time since last frame. </param>
-        /// <returns> An adjusted 't' value for use in interpolation functions. </returns> 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float DeltaTimeInterpolationFactor(float t, float dt)
-        {
-            return 1F - Pow(1F - (t - Epsilon), dt);
+            return v > -Epsilon && v < Epsilon;
         }
 
         #endregion
@@ -844,10 +993,22 @@ namespace Heirloom.Math
 
         #region Rescale
 
+        /// <summary>
+        /// Rescales a value with domain <paramref name="min1"/> to <paramref name="max1"/> to a new domain <paramref name="min2"/> to <paramref name="max2"/>.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Rescale(float x, float min1, float max1, float min2, float max2)
         {
-            return Lerp(min2, max2, Calc.Between(x, min1, max1)); ;
+            return Lerp(min2, max2, Between(x, min1, max1));
+        }
+
+        /// <summary>
+        /// Rescales a value from the source domain a target domain.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Rescale(float x, Range src, Range dst)
+        {
+            return Rescale(x, src.Min, src.Max, dst.Min, dst.Max);
         }
 
         #endregion
@@ -945,11 +1106,11 @@ namespace Heirloom.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint LowerPowerOfTwo(uint x)
         {
-            x = x | (x >> 1);
-            x = x | (x >> 2);
-            x = x | (x >> 4);
-            x = x | (x >> 8);
-            x = x | (x >> 16);
+            x |= x >> 1;
+            x |= x >> 2;
+            x |= x >> 4;
+            x |= x >> 8;
+            x |= x >> 16;
             return x - (x >> 1);
         }
 
@@ -961,11 +1122,11 @@ namespace Heirloom.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int LowerPowerOfTwo(int x)
         {
-            x = x | (x >> 1);
-            x = x | (x >> 2);
-            x = x | (x >> 4);
-            x = x | (x >> 8);
-            x = x | (x >> 16);
+            x |= x >> 1;
+            x |= x >> 2;
+            x |= x >> 4;
+            x |= x >> 8;
+            x |= x >> 16;
             return x - (x >> 1);
         }
 
@@ -1011,23 +1172,32 @@ namespace Heirloom.Math
         /// Determines if the given integer is a power of 2.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsPowerOfTwo(ulong x) { return (x & ~(x - 1)) == x; }
+        public static bool IsPowerOfTwo(ulong x)
+        {
+            return (x & ~(x - 1)) == x;
+        }
 
         /// <summary>
         /// Determines if the given integer is a power of 2.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsPowerOfTwo(uint x) { return (x & ~(x - 1)) == x; }
+        public static bool IsPowerOfTwo(uint x)
+        {
+            return (x & ~(x - 1)) == x;
+        }
 
         /// <summary>
         /// Determines if the given integer is a power of 2.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsPowerOfTwo(int x) { return (x & ~(x - 1)) == x; }
+        public static bool IsPowerOfTwo(int x)
+        {
+            return (x & ~(x - 1)) == x;
+        }
 
         #endregion
 
-        #region Swap
+        #region Swap / Order
 
         /// <summary>
         /// Swaps two references.

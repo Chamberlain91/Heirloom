@@ -4,22 +4,34 @@ using System.Runtime.CompilerServices;
 
 namespace Heirloom.Math
 {
+    /// <summary>
+    /// Provides extension methods for <see cref="Random"/> and other related random operations.
+    /// </summary>
     public static class RandomExtensions
     {
         #region Next Float / Double
 
+        /// <summary> 
+        /// Returns a random floating-point number that is greater than or equal to 0.0, and less than 1.0.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float NextFloat(this Random @this)
         {
             return (float) @this.NextDouble();
         }
 
+        /// <summary> 
+        /// Returns a random floating-point number that is within the specified range.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float NextFloat(this Random @this, float min, float max)
         {
             return min + (max - min) * @this.NextFloat();
         }
 
+        /// <summary> 
+        /// Returns a random floating-point number that is within the specified range.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double NextDouble(this Random @this, double min, double max)
         {
@@ -31,7 +43,7 @@ namespace Heirloom.Math
         #region Random Vectors
 
         /// <summary>
-        /// Gets a random point within a unit circle.
+        /// Returns a random point within a unit circle.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector NextVectorDisk(this Random @this)
@@ -40,7 +52,7 @@ namespace Heirloom.Math
         }
 
         /// <summary>
-        /// Gets a random point within a circle.
+        /// Returns a random point within a circle.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector NextVectorDisk(this Random @this, float r)
@@ -56,7 +68,7 @@ namespace Heirloom.Math
         }
 
         /// <summary>
-        /// Gets a random unit vector (point on edge of unit circle).
+        /// Returns a random unit vector (point on edge of unit circle).
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector NextUnitVector(this Random @this)
@@ -66,7 +78,7 @@ namespace Heirloom.Math
         }
 
         /// <summary>
-        /// Gets a random point within the specified rectangular domain.
+        /// Returns a random point within the specified rectangular domain.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector NextVector(this Random @this, in Rectangle domain)
@@ -81,7 +93,7 @@ namespace Heirloom.Math
         #region Chance and Choice
 
         /// <summary>
-        /// Randomly return true for occurrences with specified probability.
+        /// Randomly return true for occurrences with the specified probability.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Chance(this Random @this, float probability)
@@ -112,11 +124,17 @@ namespace Heirloom.Math
 
         #region Shuffle
 
+        /// <summary>
+        /// Shuffles all elements in the list randomly.
+        /// </summary>
         public static void Shuffle<T>(this Random @this, IList<T> items)
         {
             items.Shuffle(@this);
         }
 
+        /// <summary>
+        /// Shuffles all elements in the list randomly.
+        /// </summary>
         public static void Shuffle<T>(this IList<T> @this, Random random)
         {
             for (var i = 0; i < @this.Count; i++)

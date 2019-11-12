@@ -5,11 +5,20 @@ using System.Runtime.InteropServices;
 
 namespace Heirloom.Math
 {
+    /// <summary>
+    /// Represents a circle via center position and radius.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct Circle : IShape, IEquatable<Circle>
     {
+        /// <summary>
+        /// The center position of the circle.
+        /// </summary>
         public Vector Position;
 
+        /// <summary>
+        /// The radius of the circle.
+        /// </summary>
         public float Radius;
 
         #region Constructors
@@ -24,8 +33,14 @@ namespace Heirloom.Math
 
         #region Properties
 
+        /// <summary>
+        /// Gets the area of the circle.
+        /// </summary>
         public float Area => Calc.Pi * (Radius * Radius);
 
+        /// <summary>
+        /// Gets the bounding rectangle of this circle.
+        /// </summary>
         public Rectangle Bounds
         {
             get
@@ -39,23 +54,41 @@ namespace Heirloom.Math
 
         #endregion
 
+        /// <summary>
+        /// Create a polygon from this rectangle.
+        /// </summary>
+        public Polygon ToPolygon()
+        {
+            // Approximates a circle with an icositetragon (24 point) regular polygon
+            return Polygon.CreateRegularPolygon(Position, 24, Radius);
+        }
+
         #region Closest Point
 
-        public Vector ClosestPoint(in Vector point)
+        /// <summary>
+        /// Gets the nearest point on the circle to the specified point.
+        /// </summary>
+        public Vector GetClosestPoint(in Vector point)
         {
-            var off = point - Position;
-            return off * (Radius / off.Length);
+            var offset = Vector.Normalize(point - Position);
+            return Position + (offset * Radius);
         }
 
         #endregion
 
-        #region Contains
+        #region Contains (Point, Circle)
 
+        /// <summary>
+        /// Determines if the specified point is contained by the circle.
+        /// </summary>
         public bool ContainsPoint(in Vector point)
         {
             return Vector.DistanceSquared(Position, point) < (Radius * Radius);
         }
 
+        /// <summary>
+        /// Determines if this circle contains another circle.
+        /// </summary>
         public bool Contains(in Circle circle)
         {
             var d = Vector.DistanceSquared(in Position, in circle.Position);
@@ -178,13 +211,22 @@ namespace Heirloom.Math
 
         #region Raycast
 
+        /// <summary>
+        /// Peforms a raycast onto this circle, returning true upon intersection.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Raycast(in Ray ray)
         {
             return Raycast(in ray, out _);
         }
 
-        public bool Raycast(in Ray ray, out RayContact hit)
+        /// <summary>
+        /// Peforms a raycast onto this circle, returning true upon intersection.
+        /// </summary>
+        /// <param name="ray">Some ray.</param>
+        /// <param name="contact">Ray intersection information.</param>
+        /// <returns></returns>
+        public bool Raycast(in Ray ray, out RayContact contact)
         {
             var v = ray.Origin - Position;
             var c = Vector.Dot(v, v) - (Radius * Radius);
@@ -194,7 +236,7 @@ namespace Heirloom.Math
             // ...? Ray origin inside circle?
             if (disc < 0)
             {
-                hit = default;
+                contact = default;
                 return false;
             }
 
@@ -206,7 +248,7 @@ namespace Heirloom.Math
             {
                 var impact = ray.Origin + (ray.Direction * t);
                 var normal = Vector.Normalize(impact - Position);
-                hit = new RayContact(impact, normal, t);
+                contact = new RayContact(impact, normal, t);
                 return true;
             }
             // Negative `time` (behind on line)
@@ -216,7 +258,7 @@ namespace Heirloom.Math
                 // I feel inspired to create a line shape as well
             }
 
-            hit = default;
+            contact = default;
             return false;
         }
 

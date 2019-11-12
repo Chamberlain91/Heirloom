@@ -46,9 +46,26 @@ namespace Heirloom.Math
 
         #endregion
 
+        /// <summary>
+        /// Create a polygon from this triangle.
+        /// </summary>
+        public Polygon ToPolygon()
+        {
+            // Clone this rectangle as a polygon
+            var vertices = PolygonTools.RequestTempPolygon(in this);
+            var polygon = new Polygon(vertices);
+
+            // Recycle temp poylgon and return clone.
+            PolygonTools.RecycleTempPolygon(vertices);
+            return polygon;
+        }
+
         #region Closest Point
 
-        public Vector ClosestPoint(in Vector point)
+        /// <summary>
+        /// Gets the closest point on the triangle to the specified point.
+        /// </summary>
+        public Vector GetClosestPoint(in Vector point)
         {
             // Get temporary polygon representation
             var polygon = PolygonTools.RequestTempPolygon(in this);
@@ -65,49 +82,33 @@ namespace Heirloom.Math
 
         #region Contains
 
+        /// <summary>
+        /// Determines if this triangle contains the specified point.
+        /// </summary>
         public bool ContainsPoint(in Vector point)
         {
             return ContainsPoint(in A, in B, in C, point);
         }
 
+        /// <summary>
+        /// Determines if the triangle defined by <paramref name="a"/>, <paramref name="b"/>, <paramref name="c"/> contains the specified point.
+        /// </summary>
         public static bool ContainsPoint(in Vector a, in Vector b, in Vector c, in Vector point)
-        // todo: source?
         {
-            //return true if the point to test is one of the vertices
-            if (point.Equals(a) || point.Equals(b) || point.Equals(c))
-            {
-                return true;
-            }
+            // Get temporary polygon representation
+            var polygon = PolygonTools.RequestTempPolygon(3);
 
-            var oddNodes = false;
+            // Configure temp polygon to input points
+            polygon[0] = a;
+            polygon[1] = b;
+            polygon[2] = c;
 
-            if (CheckPointToSegment(c, a, point))
-            {
-                oddNodes = !oddNodes;
-            }
+            // Checks if the polygon contains the point
+            var result = PolygonTools.ContainsPoint(polygon, in point);
 
-            if (CheckPointToSegment(a, b, point))
-            {
-                oddNodes = !oddNodes;
-            }
-
-            if (CheckPointToSegment(b, c, point))
-            {
-                oddNodes = !oddNodes;
-            }
-
-            return oddNodes;
-
-            static bool CheckPointToSegment(Vector sA, Vector sB, Vector sP)
-            {
-                if ((sA.Y < sP.Y && sB.Y >= sP.Y) || (sB.Y < sP.Y && sA.Y >= sP.Y))
-                {
-                    var x = sA.X + ((sP.Y - sA.Y) / (sB.Y - sA.Y) * (sB.X - sA.X));
-                    if (x < sP.X) { return true; }
-                }
-
-                return false;
-            }
+            // Recycle temporary polygon and return containment status
+            PolygonTools.RecycleTempPolygon(polygon);
+            return result;
         }
 
         #endregion
@@ -227,6 +228,20 @@ namespace Heirloom.Math
 
         #region Raycast
 
+        /// <summary>
+        /// Peforms a raycast onto this rectangle, returning true upon intersection.
+        /// </summary>
+        /// <param name="ray">Some ray.</param>
+        public bool Raycast(in Ray ray)
+        {
+            return Raycast(in ray, out _);
+        }
+
+        /// <summary>
+        /// Peforms a raycast onto this rectangle, returning true upon intersection.
+        /// </summary>
+        /// <param name="ray">Some ray.</param>
+        /// <param name="contact">Ray intersection information.</param>
         public bool Raycast(in Ray ray, out RayContact contact)
         {
             // Get temporary polygon representation
@@ -234,19 +249,6 @@ namespace Heirloom.Math
 
             // Raycast against polygon
             var status = PolygonTools.Raycast(polygon, in ray, out contact);
-
-            // Recycle temporary polygon and return overlap status
-            PolygonTools.RecycleTempPolygon(polygon);
-            return status;
-        }
-
-        public bool Raycast(in Ray ray)
-        {
-            // Get temporary polygon representation
-            var polygon = PolygonTools.RequestTempPolygon(in this);
-
-            // Raycast against polygon
-            var status = PolygonTools.Raycast(polygon, in ray);
 
             // Recycle temporary polygon and return overlap status
             PolygonTools.RecycleTempPolygon(polygon);

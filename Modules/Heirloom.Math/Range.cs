@@ -3,11 +3,20 @@ using System.Runtime.InteropServices;
 
 namespace Heirloom.Math
 {
+    /// <summary>
+    /// Represents a range of single-precision floating point numbers from <see cref="Min"/> to <see cref="Max"/>.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct Range : IEquatable<Range>
     {
+        /// <summary>
+        /// The minimum value in the range.
+        /// </summary>
         public float Min;
 
+        /// <summary>
+        /// The maximum value in the range.
+        /// </summary>
         public float Max;
 
         #region Constants
@@ -31,7 +40,25 @@ namespace Heirloom.Math
 
         #region Properties
 
-        public float Random => Calc.Lerp(Min, Max, Calc.Random.NextFloat());
+        /// <summary>
+        /// Gets a random value between <see cref="Min"/> and <see cref="Max"/>.
+        /// </summary>
+        public float Random => Calc.Random.NextFloat(Min, Max);
+
+        /// <summary>
+        /// Gets the mean of <see cref="Min"/> and <see cref="Max"/>.
+        /// </summary>
+        public float Average => (Min + Max) / 2;
+
+        /// <summary>
+        /// Gets the size of the range.
+        /// </summary>
+        public float Size => Max - Min;
+
+        /// <summary>
+        /// Gets a value that determines if the range is valid (ie, <c><see cref="Max"/> >= <see cref="Min"/></c>).
+        /// </summary>
+        public bool IsValid => Max >= Min;
 
         #endregion
 
@@ -47,6 +74,9 @@ namespace Heirloom.Math
 
         #region Contains, Overlaps
 
+        /// <summary>
+        /// Determines if this range contains the specified value.
+        /// </summary>
         public bool Contains(in float x)
         {
             if (x < Min) { return false; }
@@ -54,6 +84,9 @@ namespace Heirloom.Math
             return true;
         }
 
+        /// <summary>
+        /// Determines if this range overlaps another range.
+        /// </summary>
         public bool Overlaps(in Range other)
         {
             return Min < other.Max && Max > other.Min;
@@ -63,30 +96,22 @@ namespace Heirloom.Math
 
         #region Include
 
+        /// <summary>
+        /// Mutate this range (by expansion) to include the specified value.
+        /// </summary>
         public void Include(in float val)
         {
             Min = Calc.Min(Min, val);
             Max = Calc.Max(Max, val);
         }
 
+        /// <summary>
+        /// Mutate this range (by expansion) to include the specified range.
+        /// </summary>
         public void Include(in Range range)
         {
             Min = Calc.Min(Min, range.Min);
             Max = Calc.Max(Max, range.Max);
-        }
-
-        #endregion
-
-        #region Order / Swap
-
-        public void Order()
-        {
-            if (Max < Min) { Swap(); }
-        }
-
-        public void Swap()
-        {
-            Calc.Swap(ref Min, ref Max);
         }
 
         #endregion

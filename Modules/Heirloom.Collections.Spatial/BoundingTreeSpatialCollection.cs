@@ -85,7 +85,7 @@ namespace Heirloom.Collections.Spatial
                     RemoveNode(node);
 
                     // 
-                    node.Bounds = shapeBounds.Inflate(_margin);
+                    node.Bounds = Rectangle.Inflate(shapeBounds, _margin);
 
                     // Reinsert item (possibly with new bounds)
                     InsertNode(ref _root, node);
@@ -367,7 +367,7 @@ namespace Heirloom.Collections.Spatial
 
             public static Node Create(T item, IShape shape, float margin)
             {
-                var bounds = shape.Bounds.Inflate(margin);
+                var bounds = Rectangle.Inflate(shape.Bounds, margin);
 
                 var node = Request();
                 node.Bounds = bounds;

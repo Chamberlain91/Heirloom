@@ -53,7 +53,7 @@ namespace Examples.Game
 
         public static IEnumerable<Collider> GetColliders(Collider collider)
         {
-            foreach (var other in Colliders.Query(collider.Bounds.Inflate(16)))
+            foreach (var other in Colliders.Query(Rectangle.Inflate(collider.Bounds, 16)))
             {
                 yield return other;
             }

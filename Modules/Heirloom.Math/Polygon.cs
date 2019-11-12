@@ -11,11 +11,12 @@ namespace Heirloom.Math
     /// Represents a simple polygon.
     /// </summary>
     public partial class Polygon : IShape
+    // todo: find shared edges, and skip them in collision checks?
+    // This should help in the design of computing the contacts needed for collision response.
     {
         private readonly List<Vector> _vertices;
 
         private List<Vector[]> _convexPartitions;
-        // todo: find shared edges, and skip them in collision checks?
         private bool _isConvex;
 
         private Rectangle _bounds;
@@ -209,7 +210,7 @@ namespace Heirloom.Math
                 else
                 {
                     // Compute fragments
-                    foreach (var indices in PolygonTools.DecomposeConvex(_vertices))
+                    foreach (var indices in PolygonTools.DecomposeConvexIndices(_vertices))
                     {
                         // Create a convex fragment from this polygon
                         var vertices = indices.Select(i => _vertices[i]);
@@ -256,7 +257,7 @@ namespace Heirloom.Math
         /// <summary>
         /// Gets the nearest point on the polygon to the specified point.
         /// </summary>
-        public Vector ClosestPoint(in Vector point)
+        public Vector GetClosestPoint(in Vector point)
         {
             // Is convex, simple test
             if (IsConvex) { return PolygonTools.GetClosestPoint(_vertices, in point); }
@@ -427,7 +428,7 @@ namespace Heirloom.Math
         #region Raycast
 
         /// <summary>
-        /// Checks if a ray intersects this shape.
+        /// Checks if a ray intersects this polygon.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Raycast(in Ray ray)
@@ -454,95 +455,54 @@ namespace Heirloom.Math
         public IEnumerable<Triangle> Triangulate()
         {
             // todo: would it be faster to triangle-fan the convex fragments if they've been computed already?
-            foreach (var (a, b, c) in PolygonTools.Triangulate(_vertices))
+            return PolygonTools.Triangulate(_vertices);
+        }
+
+        #endregion
+
+        #region Create (From Shape)
+
+        /// <summary>
+        /// Constructs a polygon representation of the specified shape.
+        /// </summary>
+        public static Polygon CreateFromShape(IShape shape)
+        {
+            return shape switch
             {
-                yield return new Triangle(this[a], this[b], this[c]);
-            }
-        }
+                Circle circle => CreateFromShape(in circle),
+                Triangle triangle => CreateFromShape(in triangle),
+                Rectangle rectangle => CreateFromShape(in rectangle),
 
-        #endregion
+                // Clones the input polygon
+                Polygon polygon => new Polygon(polygon.Vertices),
 
-        #region Decompose (IReadOnlyList<Vector>)
-
-        /// <summary>
-        /// Decomposes a simple polygon into constituent triangles.
-        /// </summary>
-        public static IEnumerable<Triangle> Triangulate(IReadOnlyList<Vector> poylgon)
-        {
-            // Convert triangulation to polygons
-            return PolygonTools.Triangulate(poylgon)
-                               .Select(tri => new Triangle(poylgon[tri.a], poylgon[tri.b], poylgon[tri.c]));
+                // Unable to create from shape
+                _ => throw new InvalidOperationException("Unable to create polygon from shape, was not a known type."),
+            };
         }
 
         /// <summary>
-        /// Converts a simple polygon into one or more convex polygons.
-        /// If the polygon is already convex, this simply clones it.
+        /// Constructs a polygon representation of the specified triangle.
         /// </summary>
-        public static IEnumerable<Polygon> DecomposeConvex(IReadOnlyList<Vector> polygon)
+        public static Polygon CreateFromShape(in Triangle triangle)
         {
-            // Convert convex indices to polygons
-            return PolygonTools.DecomposeConvex(polygon)
-                               .Select(indices => new Polygon(indices.Select(i => polygon[i])));
+            return triangle.ToPolygon();
         }
 
-        #endregion
-
-        #region Create (Rectangle)
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Polygon CreateRectangle(Vector center, float width, float height)
+        /// <summary>
+        /// Constructs a polygon representation of the specified rectangle.
+        /// </summary>
+        public static Polygon CreateFromShape(in Rectangle rectangle)
         {
-            return new Polygon(GenerateRectangle(center, width, height));
+            return rectangle.ToPolygon();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Polygon CreateRectangle(float width, float height)
+        /// <summary>
+        /// Constructs a polygon representation of the specified circle.
+        /// </summary>
+        public static Polygon CreateFromShape(in Circle circle)
         {
-            return CreateRectangle(Vector.Zero, width, height);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Polygon CreateRectangle(Rectangle rect)
-        {
-            return CreateRectangle(rect.Center, rect.Width, rect.Height);
-        }
-
-        #endregion
-
-        #region Create (Regular Polygon)
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Polygon CreateRegularPolygon(Vector center, int segments, float radius)
-        {
-            return new Polygon(GenerateRegularPolygon(center, segments, radius));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Polygon CreateRegularPolygon(int segments, float radius)
-        {
-            return CreateRegularPolygon(Vector.Zero, segments, radius);
-        }
-
-        #endregion
-
-        #region Create (Star)
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Polygon CreateStar(Vector center, int numPoints, float radius)
-        {
-            return CreateStar(center, numPoints, radius * 0.66F, radius);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Polygon CreateStar(Vector center, int numPoints, float innerRadius, float outerRadius)
-        {
-            return new Polygon(GenerateStar(center, numPoints, innerRadius, outerRadius));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Polygon CreateStar(int numPoints, float radius)
-        {
-            return CreateStar(Vector.Zero, numPoints, radius);
+            return circle.ToPolygon();
         }
 
         #endregion
@@ -555,6 +515,79 @@ namespace Heirloom.Math
         public static Polygon CreateConvexHull(IEnumerable<Vector> points)
         {
             return new Polygon(PolygonTools.ComputeConvexHull(points));
+        }
+
+        #endregion
+
+        #region Create (Regular Polygon)
+
+        /// <summary>
+        /// Construct a regular polygon.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Polygon CreateRegularPolygon(Vector center, int segments, float radius)
+        {
+            var points = GenerateRegularPolygon(center, segments, radius);
+            return new Polygon(points);
+        }
+
+        /// <summary>
+        /// Construct a regular polygon.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Polygon CreateRegularPolygon(int segments, float radius)
+        {
+            return CreateRegularPolygon(Vector.Zero, segments, radius);
+        }
+
+        #endregion
+
+        #region Create (Star)
+
+        /// <summary>
+        /// Creates a polygon shaped like a standard 5 point star centered on the origin.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Polygon CreateStar(float radius)
+        {
+            return CreateStar(Vector.Zero, 5, radius);
+        }
+
+        /// <summary>
+        /// Creates a polygon shaped like a standard 5 point star.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Polygon CreateStar(Vector center, float radius)
+        {
+            return CreateStar(center, 5, radius);
+        }
+
+        /// <summary>
+        /// Creates a polygon shaped like a star centered on the origin.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Polygon CreateStar(int numPoints, float radius)
+        {
+            return CreateStar(Vector.Zero, numPoints, radius);
+        }
+
+        /// <summary>
+        /// Creates a polygon shaped like a star.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Polygon CreateStar(Vector center, int numPoints, float radius)
+        {
+            return CreateStar(center, numPoints, radius * 0.6F, radius);
+        }
+
+        /// <summary>
+        /// Creates a polygon shaped like a star.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Polygon CreateStar(Vector center, int numPoints, float innerRadius, float outerRadius)
+        {
+            var points = GenerateStar(center, numPoints, innerRadius, outerRadius);
+            return new Polygon(points);
         }
 
         #endregion

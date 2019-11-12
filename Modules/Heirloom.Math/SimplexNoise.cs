@@ -5,7 +5,7 @@ using static Heirloom.Math.Calc;
 namespace Heirloom.Math
 {
     /// <summary>
-    /// An implementation of 2D and 3D simplex noise.
+    /// Implements methods for sampling 2D and 3D simplex noise.
     /// </summary>
     public class SimplexNoise : INoise2D, INoise3D
     {

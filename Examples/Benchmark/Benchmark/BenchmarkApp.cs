@@ -114,10 +114,10 @@ namespace Benchmark
             var rect = new Rectangle((ctx.Surface.Width - size.Width) / 2F, (ctx.Surface.Height - size.Height) / 2F, size.Width, size.Height);
 
             ctx.Color = Color.Gray;
-            ctx.DrawRect(rect.Inflate(10));
+            ctx.DrawRect(Rectangle.Inflate(rect, 10));
 
             ctx.Color = Color.LightGray;
-            ctx.DrawRect(rect.Inflate(8));
+            ctx.DrawRect(Rectangle.Inflate(rect, 8));
 
             ctx.Color = _pomegranate;
             ctx.DrawText(text, rect.Position + (size.Width / 2, 0), Font.Default, 32, TextAlign.Center);

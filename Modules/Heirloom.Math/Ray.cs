@@ -1,14 +1,24 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Heirloom.Math
 {
+    /// <summary>
+    /// Represents a ray by orgin and direction vectors.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    public struct Ray
+    public struct Ray : IEquatable<Ray>
     {
+        /// <summary>
+        /// The origin of the ray.
+        /// </summary>
         public Vector Origin;
 
+        /// <summary>
+        /// The direction of the ray.
+        /// </summary>
         public Vector Direction;
 
         #region Constructors
@@ -34,13 +44,28 @@ namespace Heirloom.Math
 
         #region Create From (Static)
 
+        /// <summary>
+        /// Creates a ray from a line segment.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Ray FromPoints(Vector origin, Vector target)
+        public static Ray FromLineSegment(in Vector origin, in Vector target)
         {
             var dir = (target - origin).Normalized;
             return new Ray(origin, dir);
         }
 
+        /// <summary>
+        /// Creates a ray from a line segment.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Ray FromLineSegment(in LineSegment segment)
+        {
+            return FromLineSegment(in segment.A, in segment.B);
+        }
+
+        /// <summary>
+        /// Creates a ray pointed along the specified angle from the origin given.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Ray FromAngle(Vector origin, float angle)
         {
@@ -51,6 +76,9 @@ namespace Heirloom.Math
 
         #region Intersects (Static)
 
+        /// <summary>
+        /// Computes the intersection of two rays.
+        /// </summary>
         public static bool Intersects(Ray r1, Ray r2, out float t1, out float t2)
         // todo: test!
         {
@@ -94,6 +122,36 @@ namespace Heirloom.Math
         {
             origin = Origin;
             direction = Direction;
+        }
+
+        #endregion
+
+        #region Equality
+
+        public override bool Equals(object obj)
+        {
+            return obj is Ray ray && Equals(ray);
+        }
+
+        public bool Equals(Ray other)
+        {
+            return Origin.Equals(other.Origin) &&
+                   Direction.Equals(other.Direction);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Origin, Direction);
+        }
+
+        public static bool operator ==(Ray left, Ray right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Ray left, Ray right)
+        {
+            return !(left == right);
         }
 
         #endregion
