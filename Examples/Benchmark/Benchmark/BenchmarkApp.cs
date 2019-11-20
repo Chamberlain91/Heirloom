@@ -20,7 +20,7 @@ namespace Benchmark
 
         private readonly int _targetFPS;
 
-        public BenchmarkApp(int targetFPS, RenderContext ctx)
+        public BenchmarkApp(int targetFPS, Graphics ctx)
             : base(ctx)
         {
             //  
@@ -39,7 +39,7 @@ namespace Benchmark
             };
         }
 
-        protected override void Update(RenderContext ctx, float delta)
+        protected override void Update(Graphics ctx, float delta)
         {
             // If the current benchmark is complete
             if (_benchmarks[_benchmarkIndex].Phase == Phase.Complete)
@@ -108,7 +108,7 @@ namespace Benchmark
             return $"{name}{spac}{info}";
         }
 
-        private void DrawStateText(RenderContext ctx, string text)
+        private void DrawStateText(Graphics ctx, string text)
         {
             var size = Font.Default.MeasureText(text, 32);
             var rect = new Rectangle((ctx.Surface.Width - size.Width) / 2F, (ctx.Surface.Height - size.Height) / 2F, size.Width, size.Height);
@@ -304,7 +304,7 @@ namespace Benchmark
                 _heartbeat.Update(delta);
             }
 
-            internal void Render(RenderContext ctx, float delta)
+            internal void Render(Graphics ctx, float delta)
             {
                 // 
                 if (Phase != Phase.Complete)

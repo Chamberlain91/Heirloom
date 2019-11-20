@@ -7,7 +7,7 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public abstract partial class RenderContext : IDisposable
+    public abstract partial class Graphics : IDisposable
     {
         private const float FpsSampleDuration = 1F;
 
@@ -20,7 +20,7 @@ namespace Heirloom.Drawing
         private float _fpsTime;
         private int _fpsCount;
 
-        protected RenderContext(MultisampleQuality multisample)
+        protected Graphics(MultisampleQuality multisample)
         {
             _stateStack = new Stack<State>();
             _stopwatch = Stopwatch.StartNew();
@@ -29,7 +29,7 @@ namespace Heirloom.Drawing
         }
 
         /// <summary>
-        /// Gets a value determining if this <see cref="RenderContext"/> was disposed.
+        /// Gets a value determining if this <see cref="Graphics"/> was disposed.
         /// </summary>
         public abstract bool IsDisposed { get; }
 

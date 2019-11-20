@@ -15,7 +15,7 @@ namespace Examples.Drawing
             _richText = parser.Parse(Files.ReadText("files/example.txt"));
         }
 
-        internal override void Draw(RenderContext ctx, Rectangle contentBounds)
+        internal override void Draw(Graphics ctx, Rectangle contentBounds)
         {
             ctx.DrawText(_richText, contentBounds, Font.Default, 32);
         }

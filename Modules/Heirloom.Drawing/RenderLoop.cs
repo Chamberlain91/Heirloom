@@ -9,15 +9,15 @@ namespace Heirloom.Drawing
     /// </summary>
     public abstract class RenderLoop
     {
-        public delegate void UpdateFunction(RenderContext ctx, float dt);
+        public delegate void UpdateFunction(Graphics gfx, float dt);
 
         private Thread _thread;
 
         #region Constructor
 
-        public RenderLoop(RenderContext context)
+        protected RenderLoop(Graphics graphics)
         {
-            RenderContext = context;
+            Graphics = graphics;
         }
 
         #endregion
@@ -27,7 +27,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Gets the associated render context.
         /// </summary>
-        public RenderContext RenderContext { get; }
+        public Graphics Graphics { get; }
 
         /// <summary>
         /// Is the render thread active?
@@ -36,7 +36,7 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        protected abstract void Update(RenderContext ctx, float dt);
+        protected abstract void Update(Graphics gfx, float dt);
 
         /// <summary>
         /// Start the render thread.
@@ -82,22 +82,22 @@ namespace Heirloom.Drawing
 
                 // Lock the render context to have 'exclusive control' and prevent it
                 // from being disposed of when it is needed to render.
-                lock (RenderContext)
+                lock (Graphics)
                 {
                     // Render context was disposed of already (we can't render anymore)
                     // so we will shutdown and exit this thread.
-                    if (RenderContext.IsDisposed)
+                    if (Graphics.IsDisposed)
                     {
                         Stop();
                         break;
                     }
 
                     // Draw Application
-                    RenderContext.ResetState();
-                    Update(RenderContext, delta);
+                    Graphics.ResetState();
+                    Update(Graphics, delta);
 
                     // Push pixels to screen
-                    RenderContext.RefreshScreen();
+                    Graphics.RefreshScreen();
                 }
             }
         }
@@ -105,30 +105,30 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Creates a render loop instance from the given context and method reference.
         /// </summary>
-        /// <param name="ctx">The relevant render context.</param>
+        /// <param name="gfx">The relevant graphics context.</param>
         /// <param name="update">The relevant update function.</param>
         /// <returns></returns>
-        public static RenderLoop Create(RenderContext ctx, UpdateFunction update)
+        public static RenderLoop Create(Graphics gfx, UpdateFunction update)
         {
-            if (ctx is null) { throw new ArgumentNullException(nameof(ctx)); }
+            if (gfx is null) { throw new ArgumentNullException(nameof(gfx)); }
             if (update is null) { throw new ArgumentNullException(nameof(update)); }
 
-            return new DefaultRenderLoop(ctx, update);
+            return new DefaultRenderLoop(gfx, update);
         }
 
         private sealed class DefaultRenderLoop : RenderLoop
         {
             private readonly UpdateFunction _update;
 
-            public DefaultRenderLoop(RenderContext context, UpdateFunction update)
+            public DefaultRenderLoop(Graphics context, UpdateFunction update)
                 : base(context)
             {
                 _update = update ?? throw new ArgumentNullException(nameof(update));
             }
 
-            protected override void Update(RenderContext ctx, float delta)
+            protected override void Update(Graphics gfx, float delta)
             {
-                _update(ctx, delta);
+                _update(gfx, delta);
             }
         }
     }

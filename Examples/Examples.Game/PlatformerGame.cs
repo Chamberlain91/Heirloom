@@ -16,7 +16,7 @@ namespace Examples.Game
         public PlatformerGame()
             : base("Example Game")
         {
-            RenderContext.ShowFPSOverlay = true;
+            Graphics.ShowFPSOverlay = true;
         }
 
         protected override void GameStart()

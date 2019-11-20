@@ -18,11 +18,11 @@ namespace Heirloom.Drawing.OpenGLES
         private readonly Regex _includeDirectiveRegex;
         private readonly HashSet<string> _included;
 
-        private readonly OpenGLRenderContext _renderContext;
+        private readonly OpenGLGraphics _graphics;
 
-        public ShaderFactory(OpenGLRenderContext renderContext)
+        public ShaderFactory(OpenGLGraphics graphics)
         {
-            _renderContext = renderContext;
+            _graphics = graphics;
 
             // 
             _programs = new Dictionary<(string vert, string frag), ShaderProgram>();
@@ -91,7 +91,7 @@ namespace Heirloom.Drawing.OpenGLES
                 var code = GetSourceCode(filePath, 0);
 
                 // Is OpenGL ES (Mobile)
-                if (_renderContext.Version.IsEmbedded)
+                if (_graphics.Version.IsEmbedded)
                 {
                     // 
                     var prefix = "#version 300 es\n";

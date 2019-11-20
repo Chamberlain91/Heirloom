@@ -11,7 +11,7 @@ namespace Heirloom.Game
         private readonly RenderLoop _loop;
         private bool _isLoaded;
 
-        protected GameContext(RenderContext ctx)
+        protected GameContext(Graphics ctx)
         {
             _loop = RenderLoop.Create(ctx, Scene.Update);
             _isLoaded = false;
@@ -33,7 +33,7 @@ namespace Heirloom.Game
         /// <summary>
         /// Gets the render context.
         /// </summary>
-        public RenderContext RenderContext => _loop.RenderContext;
+        public Graphics Graphics => _loop.Graphics;
 
         /// <summary>
         /// Gets a value determining if the game loop is running.

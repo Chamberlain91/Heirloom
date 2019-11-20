@@ -41,44 +41,44 @@ namespace Examples.Drawing
             });
 
             // 
-            Window.RenderContext.ShowFPSOverlay = true;
+            Window.Graphics.ShowFPSOverlay = true;
 
             // Create render loop
-            Loop = RenderLoop.Create(Window.RenderContext, Update);
+            Loop = RenderLoop.Create(Window.Graphics, Update);
             Loop.Start();
 
             // Register key events
             Window.KeyPress += Window_KeyPress;
         }
 
-        private void Update(RenderContext ctx, float dt)
+        private void Update(Graphics gfx, float dt)
         {
-            ctx.Clear(Color.DarkGray);
+            gfx.Clear(Color.DarkGray);
 
             CurrentDemo.Update(dt);
 
             // 
-            var contentBounds = new Rectangle(256, 32, ctx.Surface.Width - 288, ctx.Surface.Height - 160);
-            ctx.Color = Color.Lerp(Color.DarkGray, Color.Black, 0.1F);
-            ctx.DrawRect(contentBounds);
+            var contentBounds = new Rectangle(256, 32, gfx.Surface.Width - 288, gfx.Surface.Height - 160);
+            gfx.Color = Color.Lerp(Color.DarkGray, Color.Black, 0.1F);
+            gfx.DrawRect(contentBounds);
 
-            ctx.ResetState();
-            CurrentDemo.Draw(ctx, Rectangle.Inflate(contentBounds, -16));
+            gfx.ResetState();
+            CurrentDemo.Draw(gfx, Rectangle.Inflate(contentBounds, -16));
 
             //
-            ctx.ResetState();
+            gfx.ResetState();
 
-            var bottomText = new Vector(ctx.Surface.Width / 2F, ctx.Surface.Height - 96);
-            ctx.DrawText($"Use arrow keys to change demo\nDemo {_demoIndex + 1} of {_demos.Length}", bottomText, Font.Default, 32, TextAlign.Center);
+            var bottomText = new Vector(gfx.Surface.Width / 2F, gfx.Surface.Height - 96);
+            gfx.DrawText($"Use arrow keys to change demo\nDemo {_demoIndex + 1} of {_demos.Length}", bottomText, Font.Default, 32, TextAlign.Center);
 
             for (var i = 0; i < _demos.Length; i++)
             {
                 var menuPosition = new Vector(32, 32 + i * 32);
 
-                if (i == _demoIndex) { ctx.Color = Color.Pink; }
-                else { ctx.Color = Color.White; }
+                if (i == _demoIndex) { gfx.Color = Color.Pink; }
+                else { gfx.Color = Color.White; }
 
-                ctx.DrawText(_demos[i].Name, menuPosition, Font.Default, 32, TextAlign.Left);
+                gfx.DrawText(_demos[i].Name, menuPosition, Font.Default, 32, TextAlign.Left);
             }
         }
 

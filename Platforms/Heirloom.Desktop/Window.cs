@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+
 using Heirloom.Drawing;
 using Heirloom.Drawing.OpenGLES;
 using Heirloom.GLFW;
@@ -134,27 +135,14 @@ namespace Heirloom.Desktop
             Glfw.SetMouseButtonCallback(WindowHandle, _mouseButtonCallback = (_, b, a, m) => OnMousePressed(b, a, m));
             Glfw.SetScrollCallback(WindowHandle, _scrollCallback = (_, x, y) => OnMouseScroll((float) x, (float) y));
 
-            // == Construct Render Context
+            // == Construct Graphics Context
 
-            RenderContext = new WindowRenderContext(this);
+            Graphics = new OpenGLWindowGraphics(this);
         }
 
         ~Window()
         {
             Dispose(false);
-
-            // 
-            GC.KeepAlive(_windowCloseCallback);
-            GC.KeepAlive(_windowPositionCallback);
-            GC.KeepAlive(_framebufferSizeCallback);
-            GC.KeepAlive(_windowSizeCallback);
-
-            GC.KeepAlive(_charCallback);
-            GC.KeepAlive(_keyCallback);
-
-            GC.KeepAlive(_cursorPositionCallback);
-            GC.KeepAlive(_mouseButtonCallback);
-            GC.KeepAlive(_scrollCallback);
         }
 
         #endregion
@@ -189,9 +177,9 @@ namespace Heirloom.Desktop
         public MultisampleQuality Multisample { get; private set; }
 
         /// <summary>
-        /// The render context for drawing on this window.
+        /// The graphics context for drawing onto this window.
         /// </summary>
-        public RenderContext RenderContext { get; }
+        public Graphics Graphics { get; }
 
         /// <summary>
         /// Is the window visible?
@@ -608,12 +596,25 @@ namespace Heirloom.Desktop
                 if (disposeManaged)
                 {
                     // Terminate rendering context
-                    ((IDisposable) RenderContext).Dispose();
+                    ((IDisposable) Graphics).Dispose();
                 }
 
                 // Destroy window
                 Application.Invoke(() => Glfw.DestroyWindow(WindowHandle));
                 Application.RemoveWindow(this);
+
+                // 
+                GC.KeepAlive(_windowCloseCallback);
+                GC.KeepAlive(_windowPositionCallback);
+                GC.KeepAlive(_framebufferSizeCallback);
+                GC.KeepAlive(_windowSizeCallback);
+
+                GC.KeepAlive(_charCallback);
+                GC.KeepAlive(_keyCallback);
+
+                GC.KeepAlive(_cursorPositionCallback);
+                GC.KeepAlive(_mouseButtonCallback);
+                GC.KeepAlive(_scrollCallback);
             }
         }
 
@@ -625,9 +626,9 @@ namespace Heirloom.Desktop
 
         #endregion
 
-        private sealed class WindowRenderContext : OpenGLRenderContext
+        private sealed class OpenGLWindowGraphics : OpenGLGraphics
         {
-            public WindowRenderContext(Window window)
+            public OpenGLWindowGraphics(Window window)
                 : base(window.Multisample)
             {
                 Window = window;

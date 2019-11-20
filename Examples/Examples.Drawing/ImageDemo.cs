@@ -15,7 +15,7 @@ namespace Examples.Drawing
             _image = new Image(Files.OpenStream("files/rabbit.png"));
         }
 
-        internal override void Draw(RenderContext ctx, Rectangle contentBounds)
+        internal override void Draw(Graphics ctx, Rectangle contentBounds)
         {
             // Compute image centering
             var yScale = contentBounds.Height / _image.Height;

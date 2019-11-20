@@ -23,7 +23,7 @@ namespace Heirloom.Game.Desktop
         { }
 
         protected DesktopGameContext(Window window)
-            : base(window.RenderContext)
+            : base(window.Graphics)
         {
             Window = window;
 

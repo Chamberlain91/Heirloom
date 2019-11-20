@@ -136,7 +136,7 @@ namespace Examples.Game
                 Map = tileMap;
             }
 
-            protected override void Draw(RenderContext ctx)
+            protected override void Draw(Graphics ctx)
             {
                 for (var i = 0; i < Map.Tiles.Count; i++)
                 {

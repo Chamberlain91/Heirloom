@@ -37,7 +37,7 @@ namespace Heirloom.Game
         /// </summary>
         public Blending Blending { get; set; } = Blending.Alpha;
 
-        internal void InternalDraw(RenderContext ctx)
+        internal void InternalDraw(Graphics ctx)
         {
             ctx.SaveState();
 
@@ -49,6 +49,6 @@ namespace Heirloom.Game
             ctx.RestoreState();
         }
 
-        protected abstract void Draw(RenderContext ctx);
+        protected abstract void Draw(Graphics ctx);
     }
 }

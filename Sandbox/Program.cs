@@ -39,7 +39,7 @@ namespace Sandbox
                 _window.MouseScroll += (w, e) => _mouseScrollEvents.Enqueue(e);
 
                 // Create render/update loop
-                var loop = RenderLoop.Create(_window.RenderContext, OnUpdate);
+                var loop = RenderLoop.Create(_window.Graphics, OnUpdate);
                 loop.Start();
 
                 // Add objects 
@@ -102,7 +102,7 @@ namespace Sandbox
             }
         }
 
-        private static void OnUpdate(RenderContext ctx, float dt)
+        private static void OnUpdate(Graphics ctx, float dt)
         {
             lock (_window)
             {
@@ -152,7 +152,7 @@ namespace Sandbox
 
         public bool IsCollide { get; set; }
 
-        public abstract void Process(RenderContext ctx, float dt);
+        public abstract void Process(Graphics ctx, float dt);
 
         public abstract void Translate(Vector offset);
 
@@ -202,7 +202,7 @@ namespace Sandbox
 
         public override IShape Shape => _polygon;
 
-        public override void Process(RenderContext ctx, float dt)
+        public override void Process(Graphics ctx, float dt)
         {
             // Draw filled convex fragments
             for (var i = 0; i < _polygon.ConvexPartitions.Count; i++)
@@ -241,7 +241,7 @@ namespace Sandbox
 
         public override IShape Shape => _circle;
 
-        public override void Process(RenderContext ctx, float dt)
+        public override void Process(Graphics ctx, float dt)
         {
             // Draw filled
             ctx.Color = Color.FromHSV(0, 0.75F, 1.0F, 0.5F);
@@ -273,7 +273,7 @@ namespace Sandbox
 
         public override IShape Shape => _triangle;
 
-        public override void Process(RenderContext ctx, float dt)
+        public override void Process(Graphics ctx, float dt)
         {
             // Draw filled
             ctx.Color = Color.FromHSV(30, 0.75F, 1.0F, 0.5F);
@@ -303,7 +303,7 @@ namespace Sandbox
 
         public override IShape Shape => _rect;
 
-        public override void Process(RenderContext ctx, float dt)
+        public override void Process(Graphics ctx, float dt)
         {
             // Draw filled
             ctx.Color = Color.FromHSV(60, 0.75F, 1.0F, 0.5F);

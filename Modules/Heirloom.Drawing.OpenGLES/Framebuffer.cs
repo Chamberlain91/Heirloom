@@ -10,12 +10,12 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Constructors
 
-        public Framebuffer(OpenGLRenderContext ctx, Surface surface)
+        public Framebuffer(OpenGLGraphics gfx, Surface surface)
         {
             Surface = surface;
 
             // 
-            var samples = ctx.Invoke(() =>
+            var samples = gfx.Invoke(() =>
             {
                 // Query platform for multisample capabilities
                 var allowableSamplesCount = GL.GetInternalformat(RenderbufferFormat.RGBA8, InternalFormatParameter.NUM_SAMPLE_COUNTS, 1)[0];
@@ -26,12 +26,12 @@ namespace Heirloom.Drawing.OpenGLES
             });
 
             // Create texture buffer
-            TextureBuffer = new TextureTarget(ctx, surface);
+            TextureBuffer = new TextureTarget(gfx, surface);
 
             // If surface is multisampled, create a multisample buffer too
             if (samples > 1)
             {
-                MultisampleBuffer = new MultisampleTarget(ctx, surface);
+                MultisampleBuffer = new MultisampleTarget(gfx, surface);
             }
         }
 
@@ -56,9 +56,9 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
-        public void Update(OpenGLRenderContext ctx)
+        public void Update(OpenGLGraphics gfx)
         {
-            ctx.Invoke(() =>
+            gfx.Invoke(() =>
             {
                 // Is this surface multisampled?
                 if (MultisampleBuffer != null)
@@ -130,11 +130,11 @@ namespace Heirloom.Drawing.OpenGLES
         {
             public uint Handle { get; private set; }
 
-            public MultisampleTarget(OpenGLRenderContext ctx, Surface surface)
+            public MultisampleTarget(OpenGLGraphics gfx, Surface surface)
             {
                 Console.WriteLine($"Creating multisample framebuffer.");
 
-                Handle = ctx.Invoke(() =>
+                Handle = gfx.Invoke(() =>
                 {
                     // Generate framebuffer
                     var handle = GL.GenFramebuffer();
@@ -175,14 +175,14 @@ namespace Heirloom.Drawing.OpenGLES
 
             public Texture Texture { get; private set; }
 
-            public TextureTarget(OpenGLRenderContext ctx, Surface surface)
+            public TextureTarget(OpenGLGraphics gfx, Surface surface)
             {
-                Texture = new Texture(ctx, surface.Size);
+                Texture = new Texture(gfx, surface.Size);
 
                 Console.WriteLine($"Creating texture framebuffer.");
 
                 // 
-                Handle = ctx.Invoke(() =>
+                Handle = gfx.Invoke(() =>
                 {
                     // Generate framebuffer
                     var handle = GL.GenFramebuffer();

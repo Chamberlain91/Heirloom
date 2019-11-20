@@ -17,7 +17,7 @@ namespace Examples.Drawing
             _richText = new RichText(Files.ReadText("files/alice.txt"));
         }
 
-        internal override void Draw(RenderContext ctx, Rectangle contentBounds)
+        internal override void Draw(Graphics ctx, Rectangle contentBounds)
         {
             ctx.DrawText(_richText.Text, contentBounds, Font.Default, 32, TextAlign.Left, _richText.CharacterCallback);
         }

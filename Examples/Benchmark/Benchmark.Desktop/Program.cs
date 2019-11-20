@@ -20,7 +20,7 @@ namespace Benchmark
                 catch (Exception) { win.Maximize(); }
 
                 // Create app instance
-                var app = new BenchmarkApp(60, win.RenderContext);
+                var app = new BenchmarkApp(60, win.Graphics);
                 app.Start();
 
                 // Bind escape key

@@ -180,7 +180,7 @@ namespace Heirloom.Game
             }
         }
 
-        protected override void Draw(RenderContext ctx)
+        protected override void Draw(Graphics ctx)
         {
             ctx.DrawSprite(Sprite, Frame, Transform.Matrix);
         }

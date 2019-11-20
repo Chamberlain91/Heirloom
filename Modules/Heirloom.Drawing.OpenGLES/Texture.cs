@@ -11,7 +11,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Constructors
 
-        public Texture(OpenGLRenderContext context, IntSize size)
+        public Texture(OpenGLGraphics context, IntSize size)
         {
             Size = size;
 
@@ -86,7 +86,7 @@ namespace Heirloom.Drawing.OpenGLES
         /// <summary>
         /// Update the GPU representation of this texture with the given image data.
         /// </summary>
-        internal void Update(OpenGLRenderContext ctx, Image image)
+        internal void Update(OpenGLGraphics gfx, Image image)
         {
             // Validate we were provide a non-null image.
             if (image == null) { throw new ArgumentNullException(nameof(image)); }
@@ -97,7 +97,7 @@ namespace Heirloom.Drawing.OpenGLES
             // Ensure the image provided has matching dimensions to the texture
             if (image.Width != Width || image.Height != Height) { throw new ArgumentException($"Image did not match texture dimensions", nameof(image)); }
 
-            ctx.Invoke(() =>
+            gfx.Invoke(() =>
             {
                 // 
                 GL.BindTexture(TextureTarget.Texture2D, Handle);

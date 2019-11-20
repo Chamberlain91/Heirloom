@@ -12,7 +12,7 @@ namespace Examples.Game
             Collider = collider;
         }
 
-        protected override void Draw(RenderContext ctx)
+        protected override void Draw(Graphics ctx)
         {
             ctx.Color = Color.Pink;
 
