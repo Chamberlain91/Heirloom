@@ -75,7 +75,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples.Game", "Examples\E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sandbox", "Sandbox\Sandbox.csproj", "{5B34EB06-41E1-4207-BF25-030197638D4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Physics", "Modules\Heirloom.Physics\Heirloom.Physics.csproj", "{980C2EF2-4B18-4997-82AE-DC75EA02CCA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Physics", "Modules\Heirloom.Physics\Heirloom.Physics.csproj", "{980C2EF2-4B18-4997-82AE-DC75EA02CCA1}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
