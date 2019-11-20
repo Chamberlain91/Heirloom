@@ -17,13 +17,13 @@ namespace Heirloom.Drawing.OpenGLES
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static (Texture, Rectangle) GetTextureInfo(OpenGLRenderContext ctx, ImageSource source)
+        internal static (Texture, Rectangle) GetTextureInfo(OpenGLGraphics gfx, ImageSource source)
         {
             // If an image
             if (source is Image image)
             {
                 // Get texture for root image
-                var texture = GetTexture(ctx, image.Root);
+                var texture = GetTexture(gfx, image.Root);
 
                 // Return texture information
                 return (texture, image.UVRect);
@@ -32,7 +32,7 @@ namespace Heirloom.Drawing.OpenGLES
             else if (source is Surface surface)
             {
                 // Get the associated framebuffer
-                var framebuffer = GetFramebuffer(ctx, surface);
+                var framebuffer = GetFramebuffer(gfx, surface);
 
                 // Return texture information
                 return (framebuffer.Texture, _surfaceUVRect);
@@ -45,14 +45,14 @@ namespace Heirloom.Drawing.OpenGLES
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static Framebuffer GetFramebuffer(OpenGLRenderContext ctx, Surface surface)
+        internal static Framebuffer GetFramebuffer(OpenGLGraphics gfx, Surface surface)
         {
             var resource = surface as IDrawingResource;
 
             // Try to get framebuffer
             if (!(resource.NativeObject is Framebuffer framebuffer))
             {
-                framebuffer = new Framebuffer(ctx, surface);
+                framebuffer = new Framebuffer(gfx, surface);
                 resource.NativeObject = framebuffer;
             }
 
@@ -60,21 +60,21 @@ namespace Heirloom.Drawing.OpenGLES
             if (framebuffer.Version != surface.Version)
             {
                 // Update texture (msaa blit and mips)
-                framebuffer.Update(ctx);
+                framebuffer.Update(gfx);
             }
 
             return framebuffer;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static Texture GetTexture(OpenGLRenderContext ctx, Image image)
+        internal static Texture GetTexture(OpenGLGraphics gfx, Image image)
         {
             var resource = image as IDrawingResource;
 
             // Try to get the native texture
             if (!(resource.NativeObject is Texture texture))
             {
-                texture = new Texture(ctx, image.Size);
+                texture = new Texture(gfx, image.Size);
                 resource.NativeObject = texture;
             }
 
@@ -82,7 +82,7 @@ namespace Heirloom.Drawing.OpenGLES
             if (image.Version != texture.Version)
             {
                 // Update texture (image data and mips)
-                texture.Update(ctx, image);
+                texture.Update(gfx, image);
             }
 
             return texture;

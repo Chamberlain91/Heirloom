@@ -5,14 +5,13 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public abstract partial class RenderContext
+    public abstract partial class Graphics
     {
         #region Draw RichText (Extension Methods)
 
         /// <summary>
         /// Draws rich text to the current surface.
         /// </summary>
-        /// <param name="ctx">The drawing context.</param>
         /// <param name="text">The rich text to draw.</param>
         /// <param name="position">The anchor position to layout text around.</param>
         /// <param name="font">The font to render with.</param>
@@ -27,7 +26,6 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Draws rich text to the current surface.
         /// </summary>
-        /// <param name="ctx">The drawing context.</param>
         /// <param name="text">The rich text to draw.</param>
         /// <param name="bounds">The boundng region to layout text.</param>
         /// <param name="font">The font to render with.</param>
@@ -46,7 +44,6 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Draws text to the current surface.
         /// </summary>
-        /// <param name="ctx">The drawing context.</param>
         /// <param name="text">The text to draw.</param>
         /// <param name="position">The anchor position to layout text around.</param>
         /// <param name="font">The font to render with.</param>
@@ -61,7 +58,6 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Draws text to the current surface.
         /// </summary>
-        /// <param name="ctx">The drawing context.</param>
         /// <param name="text">The text to draw.</param>
         /// <param name="position">The anchor position to layout text around.</param>
         /// <param name="font">The font to render with.</param>
@@ -78,7 +74,6 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Draws text to the current surface.
         /// </summary>
-        /// <param name="ctx">The drawing context.</param>
         /// <param name="text">The text to draw.</param>
         /// <param name="bounds">The boundng region to layout text.</param>
         /// <param name="font">The font to render with.</param>
@@ -93,7 +88,6 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Draws text to the current surface.
         /// </summary>
-        /// <param name="ctx">The drawing context.</param>
         /// <param name="text">The text to draw.</param>
         /// <param name="bounds">The boundng region to layout text.</param>
         /// <param name="font">The font to render with.</param>

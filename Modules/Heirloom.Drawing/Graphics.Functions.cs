@@ -4,7 +4,7 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public abstract partial class RenderContext
+    public abstract partial class Graphics
     {
         // used to center the line within the 1x1 pixel image to anchor at left-center
         private static readonly Matrix _lineOffsetMatrix = Matrix.CreateTranslation(0, -1 / 2F);
@@ -14,8 +14,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draws an image to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="image">Some image.</param>
         /// <param name="position">The position of the image.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -26,8 +25,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draws an image to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="image">Some image.</param>
         /// <param name="position">The position of the image.</param>
         /// <param name="rotation">The rotation applied to the image.</param>
@@ -39,8 +37,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draws an image to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="image">Some image.</param>
         /// <param name="position">The position of the image.</param>
         /// <param name="rotation">The rotation applied to the image.</param>
@@ -53,8 +50,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draws an image stretched to fill a rectangular region to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="image">Some image.</param>
         /// <param name="rectangle">The bounds of the drawn image.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -71,8 +67,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draw a sprite to the current surface.
-        /// </summary>
-        /// <param name="ctx">Some render context.</param>
+        /// </summary> 
         /// <param name="sprite">Some sprite.</param>
         /// <param name="index">Some valid frame number within the sprite.</param>
         /// <param name="transform">Some transform to draw the sprite.</param>
@@ -132,8 +127,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draws a simple axis aligned 'cross' or 'plus' shape, useful for debugging positions.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="center">The position of the cross.</param>
         /// <param name="size">Size in screen pixels (not world space).</param>
         /// <param name="width">Width of the lines screen pixels (not world space).</param>
@@ -141,7 +135,7 @@ namespace Heirloom.Drawing
         {
             // Scale input size by pixel scaling
             size *= ApproximatePixelScale;
-            
+
             // Draw axis
             DrawLine(center + (Vector.Left * size), center + (Vector.Right * size), width);
             DrawLine(center + (Vector.Up * size), center + (Vector.Down * size), width);

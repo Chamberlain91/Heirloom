@@ -20,7 +20,7 @@ namespace Heirloom.Game
             set => _image = value ?? throw new System.ArgumentNullException(nameof(value));
         }
 
-        protected override void Draw(RenderContext ctx)
+        protected override void Draw(Graphics ctx)
         {
             ctx.DrawImage(Image, Transform.Matrix);
         }

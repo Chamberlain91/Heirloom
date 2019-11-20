@@ -22,6 +22,6 @@ namespace Examples.Drawing
             Time += dt;
         }
 
-        internal virtual void Draw(RenderContext ctx, Rectangle contentBounds) { }
+        internal virtual void Draw(Graphics ctx, Rectangle contentBounds) { }
     }
 }

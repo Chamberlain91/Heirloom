@@ -192,7 +192,7 @@ namespace Heirloom.Game
             _isLoadScreenVisible = false;
         }
 
-        internal static void Update(RenderContext ctx, float dt)
+        internal static void Update(Graphics ctx, float dt)
         {
             // Process input
             Input.Update();
@@ -278,7 +278,7 @@ namespace Heirloom.Game
             }
         }
 
-        private static void ProcessSceneDrawing(RenderContext ctx)
+        private static void ProcessSceneDrawing(Graphics ctx)
         {
             //  
             SortDrawables();
@@ -325,7 +325,7 @@ namespace Heirloom.Game
 
         private class DefaultLoadScreen : LoadScreen
         {
-            protected internal override void Draw(RenderContext ctx, float dt)
+            protected internal override void Draw(Graphics ctx, float dt)
             {
                 ctx.Clear(BackgroundColor);
 

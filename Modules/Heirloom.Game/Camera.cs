@@ -23,7 +23,7 @@ namespace Heirloom.Game
         /// </summary>
         public Camera()
         {
-            Surface = GameContext.Instance.RenderContext.DefaultSurface;
+            Surface = GameContext.Instance.Graphics.DefaultSurface;
             Transform.Changed += MarkDirty;
         }
 

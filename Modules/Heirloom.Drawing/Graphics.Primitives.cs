@@ -7,14 +7,13 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public abstract partial class RenderContext
+    public abstract partial class Graphics
     {
         #region Draw Line / Curve
 
         /// <summary>
         /// Draws a line segment between two points to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="p0">The start point.</param>
         /// <param name="p1">The end point.</param>
         /// <param name="width">The thickness of the line in pixels.</param>
@@ -36,8 +35,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draws a quadratic curve using three control points to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="p0">The first control point.</param>
         /// <param name="p1">The second control point.</param>
         /// <param name="p2">The third control point.</param>
@@ -83,8 +81,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draws a cubic curve using four control points to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="p0">The first control point.</param>
         /// <param name="p1">The second control point.</param>
         /// <param name="p2">The third control point.</param>
@@ -135,8 +132,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draws a rectangle to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="rectangle">The rectangular region of the rectangle.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawRect(Rectangle rectangle)
@@ -146,8 +142,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draws the outline of a rectangel to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="rectangle">The rectangular region of the rectangle.</param>
         /// <param name="width">Width of the outline in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -165,8 +160,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draws a circle to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="position">The centr of the circle.</param>
         /// <param name="radius">The radius of the circle.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -178,8 +172,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draws the outline of a circle to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="position">The centr of the circle.</param>
         /// <param name="radius">The radius of the circle.</param>
         /// <param name="width">Width of the outline in pixels.</param>
@@ -203,8 +196,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draw a triangle outline to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="a">The first point.</param>
         /// <param name="b">The second point.</param>
         /// <param name="c">The third point.</param>
@@ -219,8 +211,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draw a triangle outline to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="a">The first point.</param>
         /// <param name="b">The second point.</param>
         /// <param name="c">The third point.</param>
@@ -250,8 +241,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draws a regular polygon to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="sides">The number of sides in the regular polygon.</param>
         /// <param name="radius">The radius of the regular polygon.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -281,8 +271,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draws the outline of a regular polygon to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="sides">The number of sides in the regular polygon.</param>
         /// <param name="radius">The radius of the regular polygon.</param>
         /// <param name="width">Width of the outline in pixels.</param>
@@ -299,8 +288,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draws a simple polygon to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="polygon">Some polygon.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawPolygon(Polygon polygon)
@@ -310,8 +298,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draws a simple polygon to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="polygon">Some polygon.</param>
         /// <param name="transform">Some transform.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -322,8 +309,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draws a simple polygon to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="polygon">Some polygon.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawPolygon(IEnumerable<Vector> polygon)
@@ -333,8 +319,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draws a simple polygon to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="polygon">Some polygon.</param>
         /// <param name="transform">Some transform.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -366,8 +351,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draws the outline of a simple polygon to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="polygon">Some polygon.</param>
         /// <param name="width">Width of the outline in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -378,8 +362,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draws the outline of a simple polygon to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="polygon">Some polygon.</param>
         /// <param name="transform">Some transform.</param>
         /// <param name="width">Width of the outline in pixels.</param>
@@ -391,8 +374,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draws the outline of a simple polygon to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="polygon">Some polygon.</param>
         /// <param name="width">Width of the outline in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -403,8 +385,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Draws the outline of a simple polygon to the current surface.
-        /// </summary>
-        /// <param name="ctx">The drawing context.</param>
+        /// </summary> 
         /// <param name="polygon">Some polygon.</param>
         /// <param name="transform">Some transform.</param>
         /// <param name="width">Width of the outline in pixels.</param>

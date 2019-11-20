@@ -13,7 +13,7 @@ namespace Examples.Drawing
             LowResSurface = new Surface(350, 200, MultisampleQuality.High);
         }
 
-        internal override void Draw(RenderContext ctx, Rectangle contentBounds)
+        internal override void Draw(Graphics ctx, Rectangle contentBounds)
         {
             // == Draw curve to low res surface
 

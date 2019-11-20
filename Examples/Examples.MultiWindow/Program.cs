@@ -31,17 +31,17 @@ namespace Examples.MultiWindow
             }
 
             private WindowExample(Window window)
-                : base(window.RenderContext)
+                : base(window.Graphics)
             {
                 Window = window ?? throw new ArgumentNullException(nameof(window));
-                RenderContext.ShowFPSOverlay = true;
+                Graphics.ShowFPSOverlay = true;
             }
 
             public Window Window { get; }
 
             public Color Color { get; }
 
-            protected override void Update(RenderContext ctx, float dt)
+            protected override void Update(Graphics ctx, float dt)
             {
                 ctx.Clear(Color.Gray * Color);
                 ctx.DrawText($"I am positioned at {Window.Position}\nI am also {Window.Size} pixels in size.", (16, 16), Font.Default, 32);

@@ -6,6 +6,6 @@ namespace Heirloom.Game
     {
         protected internal static LoadScreenProgress Progress = new LoadScreenProgress();
 
-        protected internal abstract void Draw(RenderContext ctx, float dt);
+        protected internal abstract void Draw(Graphics ctx, float dt);
     }
 }

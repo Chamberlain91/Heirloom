@@ -9,7 +9,7 @@ using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    public abstract class OpenGLRenderContext : RenderContext
+    public abstract class OpenGLGraphics : Graphics
     {
         private ShaderFactory _shaderFactory;
 
@@ -34,7 +34,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Constructors
 
-        protected internal OpenGLRenderContext(MultisampleQuality multisample)
+        protected internal OpenGLGraphics(MultisampleQuality multisample)
             : base(multisample)
         {
             _isRunning = true;
@@ -45,7 +45,7 @@ namespace Heirloom.Drawing.OpenGLES
             _thread.Start();
         }
 
-        ~OpenGLRenderContext()
+        ~OpenGLGraphics()
         {
             Dispose(false);
         }

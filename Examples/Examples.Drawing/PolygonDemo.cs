@@ -23,7 +23,7 @@ namespace Examples.Drawing
             Triangles = Polygon.Triangulate();
         }
 
-        internal override void Draw(RenderContext ctx, Rectangle contentBounds)
+        internal override void Draw(Graphics ctx, Rectangle contentBounds)
         {
             // Draws a circle, polygon and regular polygon in each row
             for (var i = 0; i < 4; i++)

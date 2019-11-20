@@ -18,12 +18,12 @@ namespace Examples.Minimal
                 var window = new Window("Minimal Example") { Size = (400, 200) };
 
                 // Loop
-                var loop = RenderLoop.Create(window.RenderContext, OnDraw);
+                var loop = RenderLoop.Create(window.Graphics, OnDraw);
                 loop.Start();
             });
         }
 
-        private static void OnDraw(RenderContext ctx, float dt)
+        private static void OnDraw(Graphics ctx, float dt)
         {
             ctx.Clear(Color.DarkGray);
 

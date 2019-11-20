@@ -8,10 +8,10 @@ using Heirloom.OpenGLES;
 namespace Heirloom.Drawing.OpenGLES
 {
     internal unsafe class InstancingRenderer : Renderer
-    // todo: better design, weird coupling between Renderer and OpenGLRenderContext
-    // could probably create a "gl state" tracker and move rendering impl into OpenGLRenderContext itself
+    // todo: better design, weird coupling between Renderer and Graphics
+    // could probably create a "gl state" tracker and move rendering impl into OpenGLGraphics itself
     {
-        private readonly OpenGLRenderContext _context;
+        private readonly OpenGLGraphics _context;
         private readonly VertexArray _vertexArray;
 
         private readonly Dictionary<Texture, int> _textures;
@@ -22,7 +22,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Constructors
 
-        public InstancingRenderer(OpenGLRenderContext context)
+        public InstancingRenderer(OpenGLGraphics context)
         {
             _context = context;
 
