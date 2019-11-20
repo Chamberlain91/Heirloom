@@ -13,6 +13,6 @@
         /// <summary>
         /// Gets the text styling callback.
         /// </summary>
-        protected internal abstract TextRenderer.DrawTextCallback Callback { get; }
+        protected internal abstract DrawTextCallback Callback { get; }
     }
 }

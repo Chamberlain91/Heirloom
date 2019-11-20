@@ -14,14 +14,14 @@ namespace Heirloom.Drawing
         private const char TagEnd = ']';
         private const char TagEndMarker = '/';
 
-        private readonly Dictionary<string, TextRenderer.DrawTextCallback> _callbacks;
+        private readonly Dictionary<string, DrawTextCallback> _callbacks;
 
         protected StandardRichTextParser()
         {
-            _callbacks = new Dictionary<string, TextRenderer.DrawTextCallback>();
+            _callbacks = new Dictionary<string, DrawTextCallback>();
         }
 
-        protected void AddKeyword(string keyword, TextRenderer.DrawTextCallback callback)
+        protected void AddKeyword(string keyword, DrawTextCallback callback)
         {
             _callbacks.Add(keyword, callback);
         }
@@ -136,7 +136,7 @@ namespace Heirloom.Drawing
                 Text = text ?? throw new ArgumentNullException(nameof(text));
             }
 
-            protected internal override TextRenderer.DrawTextCallback Callback => OnStyleCharacter;
+            protected internal override DrawTextCallback Callback => OnStyleCharacter;
 
             public override string Text { get; }
 

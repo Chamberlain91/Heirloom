@@ -7,7 +7,7 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public abstract class RenderContext : IDisposable
+    public abstract partial class RenderContext : IDisposable
     {
         private const float FpsSampleDuration = 1F;
 
