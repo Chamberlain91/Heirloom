@@ -54,7 +54,7 @@ namespace Heirloom.Drawing
         /// <param name="image">Some image.</param>
         /// <param name="rectangle">The bounds of the drawn image.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawImage(ImageSource image, Rectangle rectangle)
+        public void DrawImage(ImageSource image, in Rectangle rectangle)
         {
             var scale = rectangle.Size / image.Size;
             var transform = Matrix.CreateTransform(rectangle.Position, 0, (Vector) scale);

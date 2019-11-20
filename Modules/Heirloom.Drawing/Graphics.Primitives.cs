@@ -18,7 +18,7 @@ namespace Heirloom.Drawing
         /// <param name="p1">The end point.</param>
         /// <param name="width">The thickness of the line in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawLine(Vector p0, Vector p1, float width = 1F)
+        public void DrawLine(in Vector p0, in Vector p1, float width = 1F)
         {
             var s = ApproximatePixelScale;
 
@@ -41,7 +41,7 @@ namespace Heirloom.Drawing
         /// <param name="p2">The third control point.</param>
         /// <param name="width">The thickness of the line in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawCurve(Vector p0, Vector p1, Vector p2, float width = 1F)
+        public void DrawCurve(in Vector p0, in Vector p1, in Vector p2, float width = 1F)
         {
             // Compute approximate curve length
             var length = Curves.QuadraticDerivativeApproximateLength(p0, p1, p2);
@@ -88,7 +88,7 @@ namespace Heirloom.Drawing
         /// <param name="p3">The fourth control point.</param>
         /// <param name="width">The thickness of the line in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawCurve(Vector p0, Vector p1, Vector p2, Vector p3, float width = 1F)
+        public void DrawCurve(in Vector p0, in Vector p1, in Vector p2, in Vector p3, float width = 1F)
         {
             // Compute approximate curve length
             var length = Curves.CubicDerivativeApproximateLength(p0, p1, p2, p3);
@@ -135,9 +135,9 @@ namespace Heirloom.Drawing
         /// </summary> 
         /// <param name="rectangle">The rectangular region of the rectangle.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawRect(Rectangle rectangle)
+        public void DrawRect(in Rectangle rectangle)
         {
-            DrawImage(Image.Default, rectangle);
+            DrawImage(Image.Default, in rectangle);
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace Heirloom.Drawing
         /// <param name="rectangle">The rectangular region of the rectangle.</param>
         /// <param name="width">Width of the outline in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawRectOutline(Rectangle rectangle, float width = 1)
+        public void DrawRectOutline(in Rectangle rectangle, float width = 1)
         {
             DrawLine(rectangle.TopLeft, rectangle.BottomLeft, width);
             DrawLine(rectangle.TopRight, rectangle.BottomRight, width);
@@ -161,13 +161,34 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Draws a circle to the current surface.
         /// </summary> 
-        /// <param name="position">The centr of the circle.</param>
+        /// <param name="circle">The circle to draw.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void DrawCircle(in Circle circle)
+        {
+            DrawCircle(in circle.Position, circle.Radius);
+        }
+
+        /// <summary>
+        /// Draws a circle to the current surface.
+        /// </summary> 
+        /// <param name="position">The center of the circle.</param>
         /// <param name="radius">The radius of the circle.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawCircle(Vector position, float radius)
+        public void DrawCircle(in Vector position, float radius)
         {
             var sides = ComputeCircleSegments(radius, 1F / ApproximatePixelScale);
             DrawPolygon(position, sides, radius);
+        }
+
+        /// <summary>
+        /// Draws the outline of a circle to the current surface.
+        /// </summary> 
+        /// <param name="circle">The circle to draw.</param>
+        /// <param name="width">Width of the outline in pixels.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void DrawCircleOutline(in Circle circle, float width = 1F)
+        {
+            DrawCircleOutline(in circle.Position, circle.Radius, width);
         }
 
         /// <summary>
@@ -177,7 +198,7 @@ namespace Heirloom.Drawing
         /// <param name="radius">The radius of the circle.</param>
         /// <param name="width">Width of the outline in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawCircleOutline(Vector position, float radius, float width = 1F)
+        public void DrawCircleOutline(in Vector position, float radius, float width = 1F)
         {
             var sides = ComputeCircleSegments(radius, 1F / ApproximatePixelScale);
             DrawPolygonOutline(position, sides, radius, width);
@@ -195,18 +216,13 @@ namespace Heirloom.Drawing
         #region Draw Triangle
 
         /// <summary>
-        /// Draw a triangle outline to the current surface.
+        /// Draw a triangle to the current surface.
         /// </summary> 
-        /// <param name="a">The first point.</param>
-        /// <param name="b">The second point.</param>
-        /// <param name="c">The third point.</param>
-        /// <param name="width">The thickness of the line in pixels.</param>
+        /// <param name="triangle">The triangle to draw.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawTriangleOutline(Vector a, Vector b, Vector c, float width = 1F)
+        public void DrawTriangle(in Triangle triangle)
         {
-            DrawLine(a, b, width);
-            DrawLine(b, c, width);
-            DrawLine(c, a, width);
+            DrawTriangle(in triangle.A, in triangle.B, in triangle.C);
         }
 
         /// <summary>
@@ -217,7 +233,7 @@ namespace Heirloom.Drawing
         /// <param name="c">The third point.</param>
         /// <param name="width">The thickness of the line in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawTriangle(Vector a, Vector b, Vector c, float width = 1F)
+        public void DrawTriangle(in Vector a, in Vector b, in Vector c)
         {
             _temporaryMesh.Clear();
 
@@ -235,6 +251,32 @@ namespace Heirloom.Drawing
             DrawMesh(Image.Default, _temporaryMesh, Matrix.Identity);
         }
 
+        /// <summary>
+        /// Draw a triangle outline to the current surface.
+        /// </summary> 
+        /// <param name="triangle">The triangle to draw.</param>
+        /// <param name="width">The thickness of the line in pixels.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void DrawTriangleOutline(in Triangle triangle, float width = 1F)
+        {
+            DrawTriangleOutline(in triangle.A, in triangle.B, in triangle.C, width);
+        }
+
+        /// <summary>
+        /// Draw a triangle outline to the current surface.
+        /// </summary> 
+        /// <param name="a">The first point.</param>
+        /// <param name="b">The second point.</param>
+        /// <param name="c">The third point.</param>
+        /// <param name="width">The thickness of the line in pixels.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void DrawTriangleOutline(in Vector a, in Vector b, in Vector c, float width = 1F)
+        {
+            DrawLine(in a, in b, width);
+            DrawLine(in b, in c, width);
+            DrawLine(in c, in a, width);
+        }
+
         #endregion
 
         #region Draw Regular Polygon
@@ -245,7 +287,7 @@ namespace Heirloom.Drawing
         /// <param name="sides">The number of sides in the regular polygon.</param>
         /// <param name="radius">The radius of the regular polygon.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawPolygon(Vector position, int sides, float radius)
+        public void DrawPolygon(in Vector position, int sides, float radius)
         {
             // 
             _temporaryMesh.Clear();
@@ -276,7 +318,7 @@ namespace Heirloom.Drawing
         /// <param name="radius">The radius of the regular polygon.</param>
         /// <param name="width">Width of the outline in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawPolygonOutline(Vector position, int sides, float radius, float width = 1F)
+        public void DrawPolygonOutline(in Vector position, int sides, float radius, float width = 1F)
         {
             var regular = GenerateRegularPolygon(position, sides, radius);
             DrawPolygonOutline(regular, width);
