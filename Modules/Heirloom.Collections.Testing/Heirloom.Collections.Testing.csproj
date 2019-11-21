@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Heirloom.Collections.Spatial\Heirloom.Collections.Spatial.csproj" />
     <ProjectReference Include="..\Heirloom.Collections\Heirloom.Collections.csproj" />
     <ProjectReference Include="..\Heirloom.IO\Heirloom.IO.csproj" />
     <ProjectReference Include="..\Heirloom.Math\Heirloom.Math.csproj" />
