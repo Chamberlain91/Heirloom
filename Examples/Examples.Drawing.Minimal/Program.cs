@@ -31,7 +31,7 @@ namespace Examples.Minimal
             var text = $"Hello {GetOperatingSystem()}!";
 
             // todo: Implement feature, should be able to vertical align text without this step.
-            var align = new Vector(0, Font.Default.MeasureText(text, FontSize).Height / 2F);
+            var align = new Vector(0, TextRenderer.Measure(text, Font.Default, FontSize).Height / 2F);
             ctx.DrawText(text, -align + ((Vector) ctx.Surface.Size) * 0.5F, Font.Default, FontSize, TextAlign.Center);
         }
 
