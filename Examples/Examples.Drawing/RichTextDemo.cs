@@ -6,7 +6,7 @@ namespace Examples.Drawing
 {
     public sealed class RichTextDemo : Demo
     {
-        private readonly RichText _richText;
+        private readonly StyledText _richText;
 
         public RichTextDemo()
             : base("Standard Rich Text")
@@ -20,7 +20,7 @@ namespace Examples.Drawing
             ctx.DrawText(_richText, contentBounds, Font.Default, 32);
         }
 
-        private sealed class ExampleParser : StandardRichTextParser
+        private sealed class ExampleParser : StandardStyledTextParser
         {
             public ExampleParser()
             {

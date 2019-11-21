@@ -6,8 +6,6 @@ using System.Runtime.CompilerServices;
 
 using Heirloom.Math;
 
-//using static Heirloom.Math.ProceduralShapes;
-
 namespace Heirloom.Drawing
 {
     public class Mesh : IDrawingResource

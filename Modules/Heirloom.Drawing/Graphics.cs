@@ -11,14 +11,17 @@ namespace Heirloom.Drawing
     {
         private const float FpsSampleDuration = 1F;
 
-        // Quad mesh
         private static readonly Mesh _quadMesh = Mesh.CreateQuad(1, 1);
 
+        // graphics state stack
         private readonly Stack<State> _stateStack;
 
+        // framerate tracking
         private readonly Stopwatch _stopwatch;
         private float _fpsTime;
         private int _fpsCount;
+
+        #region Constructors
 
         protected Graphics(MultisampleQuality multisample)
         {
@@ -28,10 +31,20 @@ namespace Heirloom.Drawing
             DefaultSurface = new Surface(1, 1, multisample);
         }
 
+        ~Graphics()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(false);
+        }
+
+        #endregion
+
+        #region Properties
+
         /// <summary>
         /// Gets a value determining if this <see cref="Graphics"/> was disposed.
         /// </summary>
-        public abstract bool IsDisposed { get; }
+        public bool IsDisposed { get; private set; } = false;
 
         /// <summary>
         /// Gets how often the default surface is presented to the screen per second.
@@ -83,6 +96,24 @@ namespace Heirloom.Drawing
         /// </summary>
         public abstract Blending Blending { get; set; }
 
+        #endregion
+
+        private struct State
+        {
+            public Surface Surface;
+            public Rectangle Viewport;
+            public Matrix Transform;
+            public Blending Blending;
+            public Color Color;
+        }
+
+        protected void SetDefaultSurfaceSize(IntSize size)
+        {
+            DefaultSurface.SetSize(size);
+        }
+
+        #region State Methods
+
         /// <summary>
         /// Reset current context state to defaults (default surface, full viewport, no transform, alpha and white).
         /// </summary>
@@ -103,11 +134,6 @@ namespace Heirloom.Drawing
         {
             var state = new State { Blending = Blending, Color = Color, Surface = Surface, Transform = Transform, Viewport = Viewport };
             _stateStack.Push(state);
-        }
-
-        protected void SetDefaultSurfaceSize(IntSize size)
-        {
-            DefaultSurface.SetSize(size);
         }
 
         /// <summary>
@@ -133,6 +159,10 @@ namespace Heirloom.Drawing
                 Color = state.Color;
             }
         }
+
+        #endregion
+
+        #region Draw Methods
 
         /// <summary>
         /// Clears the current surface with the specified color.
@@ -170,6 +200,10 @@ namespace Heirloom.Drawing
             DrawMesh(image, _quadMesh, transform);
         }
 
+        #endregion
+
+        #region Read Methods
+
         /// <summary>
         /// Grab the pixels from a subregion of the current surface and return that image. (ie, a screenshot)
         /// </summary>
@@ -185,6 +219,8 @@ namespace Heirloom.Drawing
         {
             return GrabPixels((0, 0, Surface.Width, Surface.Height));
         }
+
+        #endregion
 
         /// <summary>
         /// Present the drawing operations to the screen.
@@ -208,11 +244,6 @@ namespace Heirloom.Drawing
         public abstract void Flush();
 
         /// <summary>
-        /// Dispose this render context, freeing any resources occupied by it.
-        /// </summary>
-        public abstract void Dispose();
-
-        /// <summary>
         /// Updates the current surfaces version number.
         /// </summary>
         protected void UpdateSurfaceVersionNumber()
@@ -227,13 +258,13 @@ namespace Heirloom.Drawing
                 ResetState();
 
                 var text = $"FPS: {FrameRate.ToString("0.00")}";
-                var size = Font.Default.MeasureText(text, 16);
+                var size = TextRenderer.Measure(text, Font.Default, 16);
 
                 Color = Color.DarkGray;
-                this.DrawRect(new Rectangle(Surface.Width - 8 - size.Width - 3, 8, size.Width + 4, size.Height + 1));
+                DrawRect(new Rectangle(Surface.Width - 8 - size.Width - 3, 8, size.Width + 4, size.Height + 1));
 
                 Color = Color.Pink;
-                this.DrawText(text, new Vector(Surface.Width - 8, 8), Font.Default, 16, TextAlign.Right);
+                DrawText(text, new Vector(Surface.Width - 8, 8), Font.Default, 16, TextAlign.Right);
             }
         }
 
@@ -256,13 +287,32 @@ namespace Heirloom.Drawing
             }
         }
 
-        private struct State
+        #region IDisposable Support
+
+        protected virtual void Dispose(bool disposing)
         {
-            public Surface Surface;
-            public Rectangle Viewport;
-            public Matrix Transform;
-            public Blending Blending;
-            public Color Color;
+            if (!IsDisposed)
+            {
+                if (disposing)
+                {
+                    // Managed
+                }
+
+                // Unmanaged
+
+                IsDisposed = true;
+            }
         }
+
+        /// <summary>
+        /// Dispose this graphics context, freeing any resources occupied by it.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
     }
 }

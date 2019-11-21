@@ -5,36 +5,38 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
+    public delegate void DrawTextCallback(string text, int index, ref CharacterDrawState state);
+
     public abstract partial class Graphics
     {
-        #region Draw RichText (Extension Methods)
+        #region Draw Styled Text (Extension Methods)
 
         /// <summary>
         /// Draws rich text to the current surface.
         /// </summary>
-        /// <param name="text">The rich text to draw.</param>
+        /// <param name="styledText">The rich text to draw.</param>
         /// <param name="position">The anchor position to layout text around.</param>
         /// <param name="font">The font to render with.</param>
         /// <param name="size">The font size to render with.</param>
         /// <param name="align">The text alignment.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawText(RichText text, Vector position, Font font, int size, TextAlign align = TextAlign.Left)
+        public void DrawText(StyledText styledText, Vector position, Font font, int size, TextAlign align = TextAlign.Left)
         {
-            DrawText(text.Text, position, font, size, align, text.Callback);
+            DrawText(styledText.Text, position, font, size, align, styledText.Callback);
         }
 
         /// <summary>
         /// Draws rich text to the current surface.
         /// </summary>
-        /// <param name="text">The rich text to draw.</param>
+        /// <param name="styledText">The rich text to draw.</param>
         /// <param name="bounds">The boundng region to layout text.</param>
         /// <param name="font">The font to render with.</param>
         /// <param name="size">The font size to render with.</param>
         /// <param name="align">The text alignment.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawText(RichText text, Rectangle bounds, Font font, int size, TextAlign align = TextAlign.Left)
+        public void DrawText(StyledText styledText, Rectangle bounds, Font font, int size, TextAlign align = TextAlign.Left)
         {
-            DrawText(text.Text, bounds, font, size, align, text.Callback);
+            DrawText(styledText.Text, bounds, font, size, align, styledText.Callback);
         }
 
         #endregion
@@ -111,7 +113,7 @@ namespace Heirloom.Drawing
             var state = new CharacterDrawState { Color = color };
 
             // Layout text
-            TextRenderer.LayoutText(text, bounds, align, atlas, (string _, int index, ref CharacterLayoutState layout) =>
+            TextRenderer.PerformLayout(text, bounds, align, atlas, (string _, int index, ref CharacterLayoutState layout) =>
             {
                 // Set initial state
                 state.Transform = Matrix.Identity;

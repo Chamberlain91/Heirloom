@@ -1,19 +1,21 @@
 ﻿using System.Collections.Generic;
 
-namespace Heirloom.Collections
+using Heirloom.Math;
+
+namespace Heirloom.Collections.Spatial
 {
     /// <summary>
     /// An infinite, sparse grid of values.
     /// </summary>
     public sealed class SparseGrid<T> : IGrid<T>
     {
-        private readonly Dictionary<(int X, int Y), T> _data;
+        private readonly Dictionary<IntVector, T> _data;
 
         #region Constructors
 
         public SparseGrid()
         {
-            _data = new Dictionary<(int X, int Y), T>();
+            _data = new Dictionary<IntVector, T>();
         }
 
         #endregion
@@ -23,7 +25,7 @@ namespace Heirloom.Collections
         /// <summary>
         /// Gets or sets the value at the specified coordinate.
         /// </summary>
-        public T this[in (int X, int Y) co]
+        public T this[in IntVector co]
         {
             get => _data.TryGetValue(co, out var value) ? value : default;
             set
@@ -39,8 +41,8 @@ namespace Heirloom.Collections
         /// </summary>
         public T this[in int x, in int y]
         {
-            get => this[(x, y)];
-            set => this[(x, y)] = value;
+            get => this[new IntVector(x, y)];
+            set => this[new IntVector(x, y)] = value;
         }
 
         #endregion
@@ -57,6 +59,15 @@ namespace Heirloom.Collections
         /// Is the specified coordinate valid on this grid?
         /// </summary>
         public bool IsValidCoordinate(in int x, in int y)
+        {
+            // All cells are valid in the sparse grid
+            return true;
+        }
+
+        /// <summary>
+        /// Is the specified coordinate valid on this grid?
+        /// </summary>
+        public bool IsValidCoordinate(in IntVector co)
         {
             // All cells are valid in the sparse grid
             return true;

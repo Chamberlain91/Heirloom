@@ -4,59 +4,68 @@ using System.Linq;
 
 namespace Heirloom.Collections
 {
-    public class GraphNegativeWeightException : InvalidOperationException
-    {
-        internal GraphNegativeWeightException(string message)
-            : base(message) { }
-    }
-
-    public class GraphSelfLoopException : InvalidOperationException
-    {
-        internal GraphSelfLoopException(string message)
-            : base(message) { }
-    }
-
     /// <summary>
     /// A configurable adjacency list based graph.
     /// </summary>
-    /// <typeparam name="TKey">Some name/key of each stored element.</typeparam>
-    /// <typeparam name="TValue">Some element type to store in the graph.</typeparam>
-    public class Graph<TKey, TValue> : IGraph<TKey, TValue, Graph<TKey, TValue>>
+    /// <typeparam name="TVertexKey">Some name/key of each stored element.</typeparam>
+    /// <typeparam name="TVertexValue">Some element type to store in the graph.</typeparam>
+    public class Graph<TVertexKey, TVertexValue> : IGraph<TVertexKey, TVertexValue, Graph<TVertexKey, TVertexValue>>
     {
+        private readonly Dictionary<TVertexKey, Vertex> _vertices;
+        private readonly List<Edge> _edges;
+
+        #region Constructors
+
+        /// <summary>
+        /// Creates a new directed weighted graph.
+        /// </summary>
+        public Graph()
+            : this(false, false, false)
+        { }
+
+        /// <summary>
+        /// Creates a new graph with a custom configuration.
+        /// </summary>
+        public Graph(bool isUndirected, bool allowNegativeWeight = false, bool allowSelfLoops = false)
+        {
+            // Store configuration
+            AllowNegativeWeight = allowNegativeWeight;
+            AllowSelfLoops = allowSelfLoops;
+            IsUndirected = isUndirected;
+
+            // 
+            _vertices = new Dictionary<TVertexKey, Vertex>();
+            _edges = new List<Edge>();
+        }
+
+        #endregion
+
+        #region Properties
+
         /// <summary>
         /// Was this graph allowed to have negative edges weights?
         /// </summary>
-        public bool AllowNegativeWeight => Configuration.AllowNegativeWeight;
-
-        /// <summary>
-        /// Was this graph allowed to have multiple parallel edges?
-        /// </summary>
-        public bool AllowParallelEdges => Configuration.AllowParallelEdges;
+        public bool AllowNegativeWeight { get; }
 
         /// <summary>
         /// Was this graph allowed to have self connecting loops ( Ex, 'A' connected to 'A' ).
         /// </summary>
-        public bool AllowSelfLoops => Configuration.AllowSelfLoops;
-
-        /// <summary>
-        /// Is this graph allowed to have weighted edges? ( If not, all weights are clamped to 1.0 )
-        /// </summary>
-        public bool IsWeighted => Configuration.IsWeighted;
+        public bool AllowSelfLoops { get; }
 
         /// <summary>
         /// Is this graph configured to have directed edges?
         /// </summary>
-        public bool IsDirected => Configuration.IsDirected;
+        public bool IsUndirected { get; }
 
         /// <summary>
         /// An enumeration of all vertices within the graph.
         /// </summary>
-        public IEnumerable<IGraphVertex<TKey, TValue>> Vertices => _vertices.Values;
+        public IEnumerable<IGraphVertex<TVertexKey, TVertexValue>> Vertices => _vertices.Values;
 
         /// <summary>
         /// An enumeration of all edges within the graph.
         /// </summary>
-        public IEnumerable<IGraphEdge<TKey>> Edges => _edges;
+        public IEnumerable<IGraphEdge<TVertexKey>> Edges => _edges;
 
         /// <summary>
         /// The number of vertices / elements stored in the graph.
@@ -71,44 +80,72 @@ namespace Heirloom.Collections
         /// <summary>
         /// An enumeration of all the names/keys of the vertices in the graph.
         /// </summary>
-        public IEnumerable<TKey> Keys => _vertices.Keys;
+        public IEnumerable<TVertexKey> Keys => _vertices.Keys;
 
         /// <summary>
         /// An enumeration of all the elements stored in the vertices in the graph.
         /// </summary>
-        public IEnumerable<TValue> Values => _vertices.Values.Select(x => x.Value);
+        public IEnumerable<TVertexValue> Values => _vertices.Values.Select(x => x.Value);
 
-        private readonly Dictionary<TKey, Vertex> _vertices;
-        private readonly List<Edge> _edges;
+        #endregion
 
-        /// <summary>
-        /// Creates a new graph.
-        /// </summary>
-        public Graph()
-            : this(default)
-        { }
+        #region Clear (All, Edge)
 
         /// <summary>
-        /// Creates a new graph with a custom configuration.
+        /// Removes all vertices and edges from the graph.
         /// </summary>
-        /// <param name="config">Some configuration of the map.</param>
-        public Graph(GraphConfiguration config)
+        public void Clear()
         {
-            // todo: force this correction or throw configuration exception?
-            if (!config.IsWeighted) { config.AllowNegativeWeight = false; }
+            // Remove all edges
+            ClearEdges();
 
-            // Store configuration
-            Configuration = config;
-
-            // 
-            _vertices = new Dictionary<TKey, Vertex>();
-            _edges = new List<Edge>();
+            // Clear vertices
+            _vertices.Clear();
         }
 
         /// <summary>
-        /// Gets a clone of this graph's configuration.
+        /// Removes all edges from the graph.
         /// </summary>
-        public GraphConfiguration Configuration { get; }
+        public void ClearEdges()
+        {
+            // Do we have vertices?
+            if (_vertices.Count > 0)
+            {
+                // Clears the edges from all vertices
+                foreach (var vertex in _vertices)
+                {
+                    vertex.Value.ClearEdges();
+                }
+            }
+
+            // Clear edges known by the graph
+            _edges.Clear();
+        }
+
+        #endregion
+
+        #region Add (Edge, Vertex)
+
+        /// <summary>
+        /// Adds a vertex to the given graph via the given name/key.
+        /// </summary>
+        /// <param name="key">The name/key to identify the element.</param>
+        /// <param name="element">Some element to store in the graph.</param>
+        /// <returns>True, if the element could be added...?</returns>
+        public bool AddVertex(TVertexKey key, TVertexValue element)
+        {
+            if (_vertices.ContainsKey(key))
+            {
+                // Should this update the value?
+                return false;
+            }
+            else
+            {
+                var vertex = new Vertex(key, element, this);
+                _vertices.Add(key, vertex);
+                return true;
+            }
+        }
 
         /// <summary>
         /// Add an edge between two nodes in the graph.
@@ -117,18 +154,18 @@ namespace Heirloom.Collections
         /// <param name="target">Some name of a target node within the graph.</param>
         /// <param name="weight">Some weight/cost to assign to the newly connected edge.</param>
         /// <returns></returns>
-        public bool AddEdge(TKey source, TKey target, float weight = 1F)
+        public bool AddEdge(TVertexKey source, TVertexKey target, float weight = 1F)
         {
             // 
-            if ((AllowSelfLoops == false) && Equals(source, target))
+            if ((!AllowSelfLoops) && Equals(source, target))
             {
-                throw new GraphSelfLoopException($"Unable to add a self-connecting edge to '{source}' Disallowed by graph configuration.");
+                throw new InvalidOperationException($"Unable to add a self-connecting edge to '{source}' Disallowed by graph configuration.");
             }
 
             // 
-            if (IsWeighted && (AllowNegativeWeight == false) && weight < 0F)
+            if (!AllowNegativeWeight && weight < 0F)
             {
-                throw new GraphNegativeWeightException($"Unable to add a negatively weighted edge ({weight}) between '{source}' and '{target}'. Disallowed by graph configuration.");
+                throw new InvalidOperationException($"Unable to add a negatively weighted edge ({weight}) between '{source}' and '{target}'. Disallowed by graph configuration.");
             }
 
             // 
@@ -149,15 +186,6 @@ namespace Heirloom.Collections
             }
             else
             {
-                // Forces weight to 1 if not weights
-                if (!IsWeighted)
-                {
-                    weight = 1F;
-                }
-
-                // TODO: Maybe throw exception instead?
-                // if( weight != 1F ) throw new ArgumentException( nameof( weight ) );
-
                 // 
                 var edge = new Edge(vertexA, vertexB, weight);
 
@@ -165,7 +193,7 @@ namespace Heirloom.Collections
                 vertexA.AddEdge(edge);
 
                 // Add edge [ b -> a ]
-                if (IsDirected == false)
+                if (IsUndirected)
                 {
                     vertexB.AddEdge(edge);
                 }
@@ -177,169 +205,9 @@ namespace Heirloom.Collections
             }
         }
 
-        /// <summary>
-        /// Adds a vertex to the given graph via the given name/key.
-        /// </summary>
-        /// <param name="key">The name/key to identify the element.</param>
-        /// <param name="element">Some element to store in the graph.</param>
-        /// <returns>True, if the element could be added...?</returns>
-        public bool AddVertex(TKey key, TValue element)
-        {
-            if (_vertices.ContainsKey(key))
-            {
-                // Should this update the value?
-                return false;
-            }
-            else
-            {
-                var vertex = new Vertex(key, element, this);
-                _vertices.Add(key, vertex);
-                return true;
-            }
-        }
+        #endregion
 
-        /// <summary>
-        /// Removes all vertices and edges within the graph.
-        /// </summary>
-        public void Clear()
-        {
-            // Remove all edges
-            ClearEdges();
-
-            // Clear vertices
-            _vertices.Clear();
-        }
-
-        /// <summary>
-        /// Removes all edges within the graph.
-        /// </summary>
-        public void ClearEdges()
-        {
-            // Do we have vertices?
-            if (_vertices.Count > 0)
-            {
-                // Clears the edges from all vertices
-                foreach (var vertex in _vertices)
-                {
-                    vertex.Value.ClearEdges();
-                }
-            }
-
-            // Clear edges known by the graph
-            _edges.Clear();
-        }
-
-        /// <summary>
-        /// Determines if this graph contains the element ( by name ) requested.
-        /// </summary>
-        /// <param name="key">Some key/name of an element possibly within the graph.</param>
-        /// <returns>True, if the element was contained.</returns>
-        public bool ContainsVertex(TKey key)
-        {
-            return _vertices.ContainsKey(key);
-        }
-
-        /// <summary>
-        /// Determines if the graph contains an edge bewtween source and target vertices.
-        /// </summary>
-        /// <param name="source">Some name of a source node within the graph.</param>
-        /// <param name="target">Some name of a target node within the graph.</param>
-        /// <returns>True, if the edge was contained.</returns>
-        public bool ContainsEdge(TKey source, TKey target)
-        {
-            if (!TryGetVertex(source, out var vertexA))
-            {
-                return false;
-            }
-
-            if (!TryGetVertex(target, out var vertexB))
-            {
-                return false;
-            }
-
-            // Determine if edge is contained ( directed )
-            var containsEdge = vertexA.ContainsEdge(target);
-
-            // Determine if edge is contained ( undirected )
-            if (!containsEdge && IsDirected == false)
-            {
-                containsEdge = vertexB.ContainsEdge(source);
-            }
-
-            return containsEdge;
-        }
-
-        /// <summary>
-        /// Determines if this graph contains the element requested.
-        /// </summary>
-        /// <param name="value">Some element possibly within the graph.</param>
-        /// <returns>True, if the element was contained.</returns>
-        public bool ContainsValue(TValue value)
-        {
-            // Better way? This'd be a bit slow ( Memory vs Performance )
-            foreach (var val in _vertices.Select(k => k.Value.Value))
-            {
-                if (Equals(value, val))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Gets an edge in the graph.
-        /// </summary>
-        /// <param name="source">Some name of a source node within the graph.</param>
-        /// <param name="target">Some name of a target node within the graph.</param>
-        /// <returns>An edge representing the connection between source and target vertices.</returns>
-        public IGraphEdge<TKey> GetEdge(TKey source, TKey target)
-        {
-            // 
-            if (!TryGetVertex(source, out var vertexA))
-            {
-                throw new KeyNotFoundException($"Unable to find vertex '{source}'.");
-            }
-
-            if (!TryGetVertex(target, out var vertexB))
-            {
-                throw new KeyNotFoundException($"Unable to find vertex '{target}'.");
-            }
-
-            // 
-            if (IsDirected)
-            {
-                return vertexA.FindEdge(target);
-            }
-            else
-            {
-                // Since an undirected edge may come from both sides, we must try both keys.
-                var edge = vertexA.FindEdge(target);
-                if (edge == null)
-                {
-                    edge = vertexA.FindEdge(source);
-                }
-
-                return edge;
-            }
-        }
-
-        /// <summary>
-        /// Gets a vertex identified with the given key.
-        /// </summary>
-        /// <param name="key"> Some known key in the graph. </param>
-        /// <returns> An instance of the vertex created when a key-value pair was added to the graph. </returns>
-        /// <exception cref="KeyNotFoundException"> If the key is unknown. </exception>
-        public IGraphVertex<TKey, TValue> GetVertex(TKey key)
-        {
-            if (!TryGetVertex(key, out var vertex))
-            {
-                throw new KeyNotFoundException($"Unable to find vertex '{key}'.");
-            }
-
-            return vertex;
-        }
+        #region Remove (Edge, Vertex)
 
         /// <summary>
         /// Removes an edge between two vertices in the graph.
@@ -347,7 +215,7 @@ namespace Heirloom.Collections
         /// <param name="source">Some name of a source node within the graph.</param>
         /// <param name="target">Some name of a target node within the graph.</param>
         /// <returns></returns>
-        public bool RemoveEdge(TKey source, TKey target)
+        public bool RemoveEdge(TVertexKey source, TVertexKey target)
         {
             //
             if (!TryGetVertex(source, out var vertexA))
@@ -367,7 +235,7 @@ namespace Heirloom.Collections
                 vertexA.RemoveEdge(edge);
 
                 // If an undirected graph, vertex B also loses this edge
-                if (!IsDirected)
+                if (IsUndirected)
                 {
                     vertexB.RemoveEdge(edge);
                 }
@@ -389,7 +257,7 @@ namespace Heirloom.Collections
         /// </summary>
         /// <param name="key">Some name of a node within the graph.</param>
         /// <returns>True, if the element existed and was removed.</returns>
-        public bool RemoveVertex(TKey key)
+        public bool RemoveVertex(TVertexKey key)
         {
             if (!TryGetVertex(key, out var vertex))
             {
@@ -407,7 +275,7 @@ namespace Heirloom.Collections
             {
                 // Remove edge from target, if directed removing by source 
                 // vertex key. If undirected, removing by edge reference
-                if (IsDirected)
+                if (!IsUndirected)
                 {
                     // Will remove any edge that connects back to the vertex
                     if (edge.TargetVertex.ContainsEdge(key))
@@ -429,7 +297,129 @@ namespace Heirloom.Collections
             return _vertices.Remove(key);
         }
 
-        private bool TryGetVertex(TKey key, out Vertex vertex)
+        #endregion
+
+        #region Get (Edge, Vertex)
+
+        /// <summary>
+        /// Gets a vertex identified with the given key.
+        /// </summary>
+        /// <param name="key"> Some known key in the graph. </param>
+        /// <returns> An instance of the vertex created when a key-value pair was added to the graph. </returns>
+        /// <exception cref="KeyNotFoundException"> If the key is unknown. </exception>
+        public IGraphVertex<TVertexKey, TVertexValue> GetVertex(TVertexKey key)
+        {
+            if (!TryGetVertex(key, out var vertex))
+            {
+                throw new KeyNotFoundException($"Unable to find vertex '{key}'.");
+            }
+
+            return vertex;
+        }
+
+        /// <summary>
+        /// Gets an edge in the graph.
+        /// </summary>
+        /// <param name="source">Some name of a source node within the graph.</param>
+        /// <param name="target">Some name of a target node within the graph.</param>
+        /// <returns>An edge representing the connection between source and target vertices.</returns>
+        public IGraphEdge<TVertexKey> GetEdge(TVertexKey source, TVertexKey target)
+        {
+            // 
+            if (!TryGetVertex(source, out var vertexA))
+            {
+                throw new KeyNotFoundException($"Unable to find vertex '{source}'.");
+            }
+
+            if (!TryGetVertex(target, out var vertexB))
+            {
+                throw new KeyNotFoundException($"Unable to find vertex '{target}'.");
+            }
+
+            // 
+            if (!IsUndirected)
+            {
+                return vertexA.FindEdge(target);
+            }
+            else
+            {
+                // Since an undirected edge may come from both sides, we must try both keys.
+                var edge = vertexA.FindEdge(target);
+                if (edge == null)
+                {
+                    edge = vertexA.FindEdge(source);
+                }
+
+                return edge;
+            }
+        }
+
+        #endregion
+
+        #region Contains
+
+        /// <summary>
+        /// Determines if this graph contains the element ( by name ) requested.
+        /// </summary>
+        /// <param name="key">Some key/name of an element possibly within the graph.</param>
+        /// <returns>True, if the element was contained.</returns>
+        public bool ContainsVertex(TVertexKey key)
+        {
+            return _vertices.ContainsKey(key);
+        }
+
+        /// <summary>
+        /// Determines if the graph contains an edge bewtween source and target vertices.
+        /// </summary>
+        /// <param name="source">Some name of a source node within the graph.</param>
+        /// <param name="target">Some name of a target node within the graph.</param>
+        /// <returns>True, if the edge was contained.</returns>
+        public bool ContainsEdge(TVertexKey source, TVertexKey target)
+        {
+            if (!TryGetVertex(source, out var vertexA))
+            {
+                return false;
+            }
+
+            if (!TryGetVertex(target, out var vertexB))
+            {
+                return false;
+            }
+
+            // Determine if edge is contained ( directed )
+            var containsEdge = vertexA.ContainsEdge(target);
+
+            // Determine if edge is contained ( undirected )
+            if (!containsEdge && IsUndirected)
+            {
+                containsEdge = vertexB.ContainsEdge(source);
+            }
+
+            return containsEdge;
+        }
+
+        /// <summary>
+        /// Determines if this graph contains the element requested.
+        /// </summary>
+        /// <param name="value">Some element possibly within the graph.</param>
+        /// <returns>True, if the element was contained.</returns>
+        public bool ContainsValue(TVertexValue value)
+        {
+            // Better way? This'd be a bit slow ( Memory vs Performance )
+            foreach (var val in _vertices.Select(k => k.Value.Value))
+            {
+                if (Equals(value, val))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        #endregion
+
+        private bool TryGetVertex(TVertexKey key, out Vertex vertex)
         {
             if (_vertices.ContainsKey(key))
             {
@@ -442,54 +432,17 @@ namespace Heirloom.Collections
             return false;
         }
 
-        private class Edge : IGraphEdge<TKey>
+        #region Vertex and Edge Class
+
+        private class Vertex : IGraphVertex<TVertexKey, TVertexValue>
         {
-            public TKey Source => SourceVertex.Key;
+            public TVertexKey Key { get; private set; }
 
-            public TKey Target => TargetVertex.Key;
+            public TVertexValue Value { get; set; }
 
-            public readonly Vertex SourceVertex;
-            public readonly Vertex TargetVertex;
+            IReadOnlyList<IGraphEdge<TVertexKey>> IGraphVertex<TVertexKey, TVertexValue>.IncomingEdges => IncomingEdges;
 
-            public float Weight { get; set; }
-
-            public Edge(Vertex source, Vertex target, float weight)
-            {
-                SourceVertex = source;
-                TargetVertex = target;
-                Weight = weight;
-            }
-
-            public TKey GetOtherKey(TKey key)
-            {
-                if (key == null)
-                {
-                    throw new ArgumentNullException(nameof(key));
-                }
-
-                if (Equals(Source, key))
-                {
-                    return Target;
-                }
-
-                if (Equals(Target, key))
-                {
-                    return Source;
-                }
-
-                throw new ArgumentException($"Unable to get opposite key on edge. Key given was not either source or target.");
-            }
-        }
-
-        private class Vertex : IGraphVertex<TKey, TValue>
-        {
-            public TKey Key { get; private set; }
-
-            public TValue Value { get; set; }
-
-            IReadOnlyList<IGraphEdge<TKey>> IGraphVertex<TKey, TValue>.IncomingEdges => IncomingEdges;
-
-            IReadOnlyList<IGraphEdge<TKey>> IGraphVertex<TKey, TValue>.Edges => Edges;
+            IReadOnlyList<IGraphEdge<TVertexKey>> IGraphVertex<TVertexKey, TVertexValue>.Edges => Edges;
 
             public IReadOnlyList<Edge> IncomingEdges => _inEdges ?? throw new InvalidOperationException("With an undirected graph, there are no incoming edges.");
 
@@ -498,9 +451,9 @@ namespace Heirloom.Collections
             private readonly List<Edge> _inEdges;
             private readonly List<Edge> _edges;
 
-            private readonly Graph<TKey, TValue> _graph;
+            private readonly Graph<TVertexKey, TVertexValue> _graph;
 
-            public Vertex(TKey key, TValue value, Graph<TKey, TValue> graph)
+            public Vertex(TVertexKey key, TVertexValue value, Graph<TVertexKey, TVertexValue> graph)
             {
                 // 
                 _graph = graph;
@@ -509,7 +462,7 @@ namespace Heirloom.Collections
                 _edges = new List<Edge>();
 
                 // 
-                if (_graph.IsDirected)
+                if (!_graph.IsUndirected)
                 {
                     _inEdges = new List<Edge>();
                 }
@@ -519,7 +472,7 @@ namespace Heirloom.Collections
                 Key = key;
             }
 
-            public bool ContainsEdge(TKey target)
+            public bool ContainsEdge(TVertexKey target)
             {
                 var idx = _edges.FindIndex(e => Equals(e.Target, target));
                 if (idx >= 0)
@@ -532,7 +485,7 @@ namespace Heirloom.Collections
                 }
             }
 
-            public IGraphEdge<TKey> FindEdge(TKey target)
+            public IGraphEdge<TVertexKey> FindEdge(TVertexKey target)
             {
                 var idx = _edges.FindIndex(edge => Equals(edge.Target, target));
                 if (idx >= 0)
@@ -551,7 +504,7 @@ namespace Heirloom.Collections
                 _edges.Add(edge);
 
                 // Add to the incoming edge set ( other )
-                if (_graph.IsDirected)
+                if (!_graph.IsUndirected)
                 {
                     var other = edge.TargetVertex;
                     other._inEdges.Add(edge);
@@ -569,14 +522,14 @@ namespace Heirloom.Collections
                 _edges.Remove(edge);
 
                 // Remove from the incoming edge set ( other ) 
-                if (_graph.IsDirected)
+                if (!_graph.IsUndirected)
                 {
                     var other = edge.TargetVertex;
                     other._inEdges.Remove(edge);
                 }
             }
 
-            public void RemoveEdge(TKey target)
+            public void RemoveEdge(TVertexKey target)
             {
                 var edge = FindEdge(target);
                 if (edge == null)
@@ -597,7 +550,7 @@ namespace Heirloom.Collections
                     other.RemoveEdge(edge);
                 }
 
-                if (_graph.IsDirected)
+                if (!_graph.IsUndirected)
                 {
                     // For incoming edges ( parent edges )
                     foreach (var edge in IncomingEdges)
@@ -613,5 +566,46 @@ namespace Heirloom.Collections
                 _edges.Clear();
             }
         }
+
+        private class Edge : IGraphEdge<TVertexKey>
+        {
+            public TVertexKey Source => SourceVertex.Key;
+
+            public TVertexKey Target => TargetVertex.Key;
+
+            public readonly Vertex SourceVertex;
+            public readonly Vertex TargetVertex;
+
+            public float Weight { get; set; }
+
+            public Edge(Vertex source, Vertex target, float weight)
+            {
+                SourceVertex = source;
+                TargetVertex = target;
+                Weight = weight;
+            }
+
+            public TVertexKey GetOtherKey(TVertexKey key)
+            {
+                if (key == null)
+                {
+                    throw new ArgumentNullException(nameof(key));
+                }
+
+                if (Equals(Source, key))
+                {
+                    return Target;
+                }
+
+                if (Equals(Target, key))
+                {
+                    return Source;
+                }
+
+                throw new ArgumentException($"Unable to get opposite key on edge. Key given was not either source or target.");
+            }
+        }
+
+        #endregion
     }
 }

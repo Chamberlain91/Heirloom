@@ -8,7 +8,7 @@ namespace Heirloom.Drawing
     /// <summary>
     /// Provides implementation of a BBCode-esque text markup parser.
     /// </summary>
-    public abstract class StandardRichTextParser : RichTextParser
+    public abstract class StandardStyledTextParser : StyledTextParser
     {
         private const char TagBegin = '[';
         private const char TagEnd = ']';
@@ -16,7 +16,7 @@ namespace Heirloom.Drawing
 
         private readonly Dictionary<string, DrawTextCallback> _callbacks;
 
-        protected StandardRichTextParser()
+        protected StandardStyledTextParser()
         {
             _callbacks = new Dictionary<string, DrawTextCallback>();
         }
@@ -27,9 +27,9 @@ namespace Heirloom.Drawing
         }
 
         /// <summary>
-        /// Parse the input text and returns a <see cref="RichText"/> object.
+        /// Parse the input text and returns a <see cref="StyledText"/> object.
         /// </summary>
-        public override RichText Parse(string markup)
+        public override StyledText Parse(string markup)
         {
             if (string.IsNullOrWhiteSpace(markup)) { throw new ArgumentException("Must not be a blank or null string.", nameof(markup)); }
 
@@ -114,7 +114,7 @@ namespace Heirloom.Drawing
                 }
             }
 
-            return new StandardRichText(this, cleanText, modes);
+            return new StandardStyledText(this, cleanText, modes);
         }
 
         private struct TextMode
@@ -123,13 +123,13 @@ namespace Heirloom.Drawing
             public string Name;
         }
 
-        private sealed class StandardRichText : RichText
+        private sealed class StandardStyledText : StyledText
         {
-            internal StandardRichTextParser Processor;
+            internal StandardStyledTextParser Processor;
 
             internal IEnumerable<TextMode> Modes;
 
-            internal StandardRichText(StandardRichTextParser markupProcessor, string text, IEnumerable<TextMode> modes)
+            internal StandardStyledText(StandardStyledTextParser markupProcessor, string text, IEnumerable<TextMode> modes)
             {
                 Processor = markupProcessor ?? throw new ArgumentNullException(nameof(markupProcessor));
                 Modes = modes ?? throw new ArgumentNullException(nameof(modes));

@@ -8,7 +8,7 @@ using Heirloom.Math;
 
 namespace Heirloom.Desktop
 {
-    public class Window : IDisposable
+    public class Window : IWindow
     {
         private IntRectangle _bounds, _restoreBounds;
         private IntSize _framebufferSize;
@@ -606,6 +606,7 @@ namespace Heirloom.Desktop
                 // 
                 GC.KeepAlive(_windowCloseCallback);
                 GC.KeepAlive(_windowPositionCallback);
+                GC.KeepAlive(_windowContentScaleCallback);
                 GC.KeepAlive(_framebufferSizeCallback);
                 GC.KeepAlive(_windowSizeCallback);
 
