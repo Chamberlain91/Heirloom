@@ -123,46 +123,6 @@ namespace Heirloom.Drawing
             return stbtt_GetGlyphKernAdvance(Info, g1.Index, g2.Index) * scale;
         }
 
-        /// <summary>
-        /// Computes the size of the bounding box that the specified text will occupy within an infinite layout size.
-        /// </summary>
-        /// <param name="text">The text to layout and measure.</param>
-        /// <param name="fontSize">The font size to use.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Size MeasureText(string text, int fontSize)
-        {
-            return MeasureText(text, Size.Infinite, fontSize);
-        }
-
-        /// <summary>
-        /// Computes the size of the bounding box that the specified text will occupy within the given layout size.
-        /// </summary>
-        /// <param name="text">The text to layout and measure.</param>
-        /// <param name="layoutSize">The size of the layout box.</param>
-        /// <param name="fontSize">The font size to use.</param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Size MeasureText(string text, Size layoutSize, int fontSize)
-        {
-            if (text is null) { throw new ArgumentNullException(nameof(text)); }
-            if (layoutSize.Width <= 0 || layoutSize.Height <= 0) { throw new ArgumentException($"Layout size must be greater than zero.", nameof(layoutSize)); }
-            if (fontSize <= 0) { throw new ArgumentException($"Font size must be greater than zero."); }
-
-            // Get font atlas
-            var atlas = FontManager.GetAtlas(this, fontSize);
-
-            // Layout text, keeping track of the glyph box
-            var measure = Rectangle.Zero;
-            TextRenderer.LayoutText(text, (Vector.Zero, layoutSize), TextAlign.Left, atlas, (string _, int index, ref CharacterLayoutState state) =>
-            {
-                // Include extents of glyph box
-                measure.Include(state.Position);
-                measure.Include(state.Position + (state.Metrics.AdvanceWidth, atlas.Metrics.LineAdvance));
-            });
-
-            return measure.Size;
-        }
-
         #region Get Glyph
 
         /// <summary>

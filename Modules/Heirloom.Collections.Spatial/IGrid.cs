@@ -1,17 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using Heirloom.Math;
 
-namespace Heirloom.Collections
+namespace Heirloom.Collections.Spatial
 {
     /// <summary>
     /// A read-only view of a 2D grid of values.
     /// </summary>
     public interface IReadOnlyGrid<T>
-    // todo: search / path finding
     {
         /// <summary>
         /// Gets or sets the value at the specified coordinate.
         /// </summary>
-        T this[in (int X, int Y) co]
+        T this[in IntVector co]
         {
             get => this[co.X, co.Y];
             set => this[co.X, co.Y] = value;
@@ -25,30 +24,12 @@ namespace Heirloom.Collections
         /// <summary>
         /// Is the specified coordinate valid on this grid?
         /// </summary>
-        bool IsValidCoordinate(in (int X, int Y) co)
-        {
-            return IsValidCoordinate(co.X, co.Y);
-        }
+        bool IsValidCoordinate(in int x, in int y);
 
         /// <summary>
         /// Is the specified coordinate valid on this grid?
         /// </summary>
-        bool IsValidCoordinate(in int x, in int y);
-
-        /// <summary>
-        /// Enumerates the neighboring valid coordinates.
-        /// </summary>
-        /// <seealso cref="GridUtilities.GetNeighboringCoordinates(IntVector, GridNeighborType)"/>
-        IEnumerable<(int x, int y)> GetNeighborCoordinates((int x, int y) co, GridNeighborType neighborType = GridNeighborType.Axis)
-        {
-            foreach (var neighbor in GridUtilities.GetNeighboringCoordinates(co, neighborType))
-            {
-                if (IsValidCoordinate(neighbor))
-                {
-                    yield return neighbor;
-                }
-            }
-        }
+        bool IsValidCoordinate(in IntVector co);
     }
 
     /// <summary>

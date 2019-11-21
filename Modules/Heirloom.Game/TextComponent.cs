@@ -6,8 +6,8 @@ namespace Heirloom.Game
     public sealed class TextComponent : DrawableComponent
     {
         private string _text = string.Empty;
-        private RichTextParser _parser;
-        private RichText _richText;
+        private StyledTextParser _parser;
+        private StyledText _richText;
 
         private bool _needParse = false;
 
@@ -49,7 +49,7 @@ namespace Heirloom.Game
         /// <summary>
         /// Gets or sets the rich text markup parser. Setting this to <c>null</c> will simply render as plain text.
         /// </summary>
-        public RichTextParser RichTextParser
+        public StyledTextParser RichTextParser
         {
             get => _parser;
 

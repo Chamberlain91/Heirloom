@@ -1,56 +1,30 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public delegate void DrawTextCallback(string text, int index, ref CharacterDrawState state);
+    public delegate void LayoutTextCallback(string text, int index, ref CharacterLayoutState state);
 
     /// <summary>
     /// Implementation and utility of text rendering and text layout.
     /// </summary>
     public static class TextRenderer
     {
-        public delegate void LayoutTextCallback(string text, int index, ref CharacterLayoutState state);
-
-        internal static Rectangle GetPositionAnchoredTextBounds(in string text, in Font font, in int size, in Vector position, in TextAlign align)
-        {
-            var textSize = font.MeasureText(text, size);
-
-            var pos = position;
-
-            switch (align)
-            {
-                default:
-                case TextAlign.Left:
-                    // nothing to do
-                    break;
-
-                case TextAlign.Center:
-                    pos.X -= textSize.Width / 2F;
-                    break;
-
-                case TextAlign.Right:
-                    pos.X -= textSize.Width;
-                    break;
-            }
-
-            return new Rectangle(pos, textSize);
-        }
-
         /// <summary>
         /// Performs the layout of text around the given position with the specified font and size, invoking the callback at each location.
         /// </summary>
-        public static void LayoutText(string text, Vector position, Font font, int size, TextAlign align, LayoutTextCallback characterCallback)
+        public static void Layout(string text, Vector position, Font font, int size, TextAlign align, LayoutTextCallback characterCallback)
         {
             var bounds = GetPositionAnchoredTextBounds(text, font, size, position, align);
-            LayoutText(text, bounds, font, size, align, characterCallback);
+            Layout(text, bounds, font, size, align, characterCallback);
         }
 
         /// <summary>
         /// Performs the layout of text within the given bounds with the specified font and size, invoking the callback at each location.
         /// </summary>
-        public static void LayoutText(string text, Rectangle bounds, Font font, int size, TextAlign align, LayoutTextCallback characterCallback)
+        public static void Layout(string text, Rectangle bounds, Font font, int size, TextAlign align, LayoutTextCallback characterCallback)
         {
             // Validate arguments
             if (text == null) { throw new ArgumentNullException(nameof(text)); }
@@ -60,10 +34,50 @@ namespace Heirloom.Drawing
 
             // Get atlas, layout text
             var atlas = FontManager.GetAtlas(font, size);
-            LayoutText(text, bounds, align, atlas, characterCallback);
+            PerformLayout(text, bounds, align, atlas, characterCallback);
         }
 
-        internal static void LayoutText(string text, Rectangle bounds, TextAlign align, FontAtlas atlas, LayoutTextCallback characterCallback)
+        /// <summary>
+        /// Computes the bounding box that the specified text will occupy within an infinite layout size.
+        /// </summary>
+        /// <param name="text">The text to layout and measure.</param>
+        /// <param name="fontSize">The font size to use.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle Measure(string text, Font font, int fontSize)
+        {
+            return Measure(text, Size.Infinite, font, fontSize);
+        }
+
+        /// <summary>
+        /// Computes the bounding box that the specified text will occupy within the given layout size.
+        /// </summary>
+        /// <param name="text">The text to layout and measure.</param>
+        /// <param name="layoutSize">The size of the layout box.</param>
+        /// <param name="fontSize">The font size to use.</param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle Measure(string text, Size layoutSize, Font font, int fontSize)
+        {
+            if (text is null) { throw new ArgumentNullException(nameof(text)); }
+            if (layoutSize.Width <= 0 || layoutSize.Height <= 0) { throw new ArgumentException($"Layout size must be greater than zero.", nameof(layoutSize)); }
+            if (fontSize <= 0) { throw new ArgumentException($"Font size must be greater than zero."); }
+
+            // Get font atlas
+            var atlas = FontManager.GetAtlas(font, fontSize);
+
+            // Layout text, keeping track of the glyph box
+            var measure = Rectangle.Zero;
+            PerformLayout(text, (Vector.Zero, layoutSize), TextAlign.Left, atlas, (string _, int index, ref CharacterLayoutState state) =>
+            {
+                // Include extents of glyph box
+                measure.Include(state.Position);
+                measure.Include(state.Position + (state.Metrics.AdvanceWidth, atlas.Metrics.LineAdvance));
+            });
+
+            return measure;
+        }
+
+        internal static void PerformLayout(string text, Rectangle bounds, TextAlign align, FontAtlas atlas, LayoutTextCallback characterCallback)
         {
             // Extract atlas properties for brevity
             var fontSize = atlas.FontSize;
@@ -124,6 +138,31 @@ namespace Heirloom.Drawing
                     state.Position.X += offsetX;
                 }
             }
+        }
+
+        internal static Rectangle GetPositionAnchoredTextBounds(in string text, in Font font, in int size, in Vector position, in TextAlign align)
+        {
+            var measure = Measure(text, font, size).Size;
+
+            var pos = position;
+
+            switch (align)
+            {
+                default:
+                case TextAlign.Left:
+                    // nothing to do
+                    break;
+
+                case TextAlign.Center:
+                    pos.X -= measure.Width / 2F;
+                    break;
+
+                case TextAlign.Right:
+                    pos.X -= measure.Width;
+                    break;
+            }
+
+            return new Rectangle(pos, measure);
         }
 
         private static float ComputeAlignmentOffset(in Rectangle bounds, TextAlign align, float lineWidth)

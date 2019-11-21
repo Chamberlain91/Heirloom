@@ -1,21 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Heirloom.Collections
 {
     public static class MergeSort
     {
-        /// <summary>
-        /// Sorts the elements of an enumerable with a stable sort (note: an array is created).
-        /// </summary>
-        public static IEnumerable<T> StableSort<T>(this IEnumerable<T> enumerable)
-        {
-            var data = enumerable.ToArray();
-            StableSort(data);
-            return data;
-        }
-
         /// <summary>
         /// Sorts the elements of the list using a stable sort.
         /// </summary>

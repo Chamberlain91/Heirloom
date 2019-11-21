@@ -18,7 +18,6 @@ namespace Heirloom.Drawing.OpenGLES
 
         private readonly ConsumerThread _thread;
         private bool _isRunning = false;
-        private bool _isDisposed;
 
         private ShaderProgram _shader;
 
@@ -45,16 +44,9 @@ namespace Heirloom.Drawing.OpenGLES
             _thread.Start();
         }
 
-        ~OpenGLGraphics()
-        {
-            Dispose(false);
-        }
-
         #endregion
 
         #region Properties 
-
-        public override bool IsDisposed => _isDisposed;
 
         /// <summary>
         /// Gets the detected OpenGL capabilities of this platform.
@@ -519,33 +511,23 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Dispose
 
-        private void Dispose(bool disposeManaged)
+        protected override void Dispose(bool disposeManaged)
         {
-            if (!_isDisposed)
+            // This lock is here to have 'exclusive control' of the render context.
+            // The application should lock the context during its render loop
+            // to prevent the context from being disposed of when rendering.
+            lock (this)
             {
-                // This lock is here to have 'exclusive control' of the render context.
-                // The application should lock the context during its render loop
-                // to prevent the context from being disposed of when rendering.
-                lock (this)
+                _isRunning = false;
+
+                // Terminate thread
+                _thread.Stop(true);
+
+                if (disposeManaged)
                 {
-                    _isDisposed = true;
-                    _isRunning = false;
-
-                    // Terminate thread
-                    _thread.Stop(true);
-
-                    if (disposeManaged)
-                    {
-                        // Dispose managed objects...
-                    }
+                    // Dispose managed objects...
                 }
             }
-        }
-
-        public override void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         #endregion
