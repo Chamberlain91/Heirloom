@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Platforms\Heirloom.Desktop\Heirloom.Desktop.csproj" />
+    <ProjectReference Include="..\Heirloom.Desktop\Heirloom.Desktop.csproj" />
     <ProjectReference Include="..\Heirloom.Game\Heirloom.Game.csproj" />
   </ItemGroup>
 

@@ -15,15 +15,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Modules\Heirloom.Drawing.OpenGLES\Heirloom.Drawing.OpenGLES.csproj" />
-    <ProjectReference Include="..\..\Wrappers\Heirloom.GLFW\Heirloom.GLFW.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\..\LICENSE.md">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Heirloom.Drawing.OpenGLES\Heirloom.Drawing.OpenGLES.csproj" />
+    <ProjectReference Include="..\Heirloom.GLFW\Heirloom.GLFW.csproj" />
   </ItemGroup>
 
 </Project>

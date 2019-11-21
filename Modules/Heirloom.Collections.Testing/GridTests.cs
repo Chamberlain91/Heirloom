@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+
+using Heirloom.Collections.Spatial;
 using Heirloom.IO;
 using Heirloom.Math;
+
 using NUnit.Framework;
 
 namespace Heirloom.Collections.Testing

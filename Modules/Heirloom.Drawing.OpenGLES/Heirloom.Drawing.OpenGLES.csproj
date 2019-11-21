@@ -38,8 +38,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Wrappers\Heirloom.OpenGLES\Heirloom.OpenGLES.csproj" />
     <ProjectReference Include="..\Heirloom.Drawing\Heirloom.Drawing.csproj" />
+    <ProjectReference Include="..\Heirloom.OpenGLES\Heirloom.OpenGLES.csproj" />
   </ItemGroup>
 
 </Project>

@@ -33,9 +33,9 @@ namespace Heirloom.Collections.Testing
         }
 
         [Test, TestCaseSource(nameof(GetTestData))]
-        public void StableSort<T>(IEnumerable<T> items) where T : IComparable<T>
+        public void StableSort<T>(IList<T> items) where T : IComparable<T>
         {
-            items = Collections.MergeSort.StableSort(items);
+            MergeSort.StableSort(items);
             Assert.IsTrue(items.IsAscendingOrder(), "Items were not in ascending order after sort.");
         }
     }

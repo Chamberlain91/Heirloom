@@ -15,11 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{44B5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Wrappers", "Wrappers", "{F81DCBF1-6D36-4CB7-BB4E-8D3F0CAF38DF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.EGL", "Wrappers\Heirloom.EGL\Heirloom.EGL.csproj", "{EA07B389-FF73-4792-A27C-975560190359}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.EGL", "Modules\Heirloom.EGL\Heirloom.EGL.csproj", "{EA07B389-FF73-4792-A27C-975560190359}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.OpenGLES", "Wrappers\Heirloom.OpenGLES\Heirloom.OpenGLES.csproj", "{12862F5F-B3FF-4DA3-BE38-6FD498E02C56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.OpenGLES", "Modules\Heirloom.OpenGLES\Heirloom.OpenGLES.csproj", "{12862F5F-B3FF-4DA3-BE38-6FD498E02C56}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.GLFW", "Wrappers\Heirloom.GLFW\Heirloom.GLFW.csproj", "{B6EDA472-C18E-4FA6-9737-B498748F8716}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.GLFW", "Modules\Heirloom.GLFW\Heirloom.GLFW.csproj", "{B6EDA472-C18E-4FA6-9737-B498748F8716}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{27360338-D524-4065-A81D-2C76781FA66D}"
 EndProject
@@ -31,9 +31,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{0EBD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Drawing.OpenGLES", "Modules\Heirloom.Drawing.OpenGLES\Heirloom.Drawing.OpenGLES.csproj", "{7B45294D-6E43-4505-B31C-2569D5E0DB5E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Desktop", "Platforms\Heirloom.Desktop\Heirloom.Desktop.csproj", "{6B755B94-35E4-4E8E-A70C-67104E8C0DA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Desktop", "Modules\Heirloom.Desktop\Heirloom.Desktop.csproj", "{6B755B94-35E4-4E8E-A70C-67104E8C0DA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Android", "Platforms\Heirloom.Android\Heirloom.Android.csproj", "{D78E4127-57BD-4EB3-9144-6F6C6B024E97}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Android", "Modules\Heirloom.Android\Heirloom.Android.csproj", "{D78E4127-57BD-4EB3-9144-6F6C6B024E97}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{ED52051C-C8CE-4EFE-ABD1-3D6D5EFCDFFE}"
 EndProject
@@ -61,8 +61,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Math.Testing", "Mo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Collections.Testing", "Modules\Heirloom.Collections.Testing\Heirloom.Collections.Testing.csproj", "{75D11F16-DB2D-40CB-BBC8-4C9FB30DBDEA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Collections.Spatial.Testing", "Modules\Heirloom.Collections.Spatial.Testing\Heirloom.Collections.Spatial.Testing.csproj", "{D208F36B-C66F-48A2-8887-E236E87A0202}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Game", "Modules\Heirloom.Game\Heirloom.Game.csproj", "{32EA6937-03CE-43AE-9F56-A644DB71DBD6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Game.Desktop", "Modules\Heirloom.Game.Desktop\Heirloom.Game.Desktop.csproj", "{7ECEE750-9EE5-47BD-8883-A8472900A223}"
@@ -72,8 +70,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples.Game.Minimal", "Examples\Examples.Game.Minimal\Examples.Game.Minimal.csproj", "{D1712331-4D80-4C12-9CA2-8E6EC475548D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples.Game", "Examples\Examples.Game\Examples.Game.csproj", "{5CD6892E-D322-4ECD-82E9-BE74596C3534}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sandbox", "Sandbox\Sandbox.csproj", "{5B34EB06-41E1-4207-BF25-030197638D4E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Physics", "Modules\Heirloom.Physics\Heirloom.Physics.csproj", "{980C2EF2-4B18-4997-82AE-DC75EA02CCA1}"
 EndProject
@@ -176,10 +172,6 @@ Global
 		{75D11F16-DB2D-40CB-BBC8-4C9FB30DBDEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75D11F16-DB2D-40CB-BBC8-4C9FB30DBDEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75D11F16-DB2D-40CB-BBC8-4C9FB30DBDEA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D208F36B-C66F-48A2-8887-E236E87A0202}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D208F36B-C66F-48A2-8887-E236E87A0202}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D208F36B-C66F-48A2-8887-E236E87A0202}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D208F36B-C66F-48A2-8887-E236E87A0202}.Release|Any CPU.Build.0 = Release|Any CPU
 		{32EA6937-03CE-43AE-9F56-A644DB71DBD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{32EA6937-03CE-43AE-9F56-A644DB71DBD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32EA6937-03CE-43AE-9F56-A644DB71DBD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -200,10 +192,6 @@ Global
 		{5CD6892E-D322-4ECD-82E9-BE74596C3534}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CD6892E-D322-4ECD-82E9-BE74596C3534}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CD6892E-D322-4ECD-82E9-BE74596C3534}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5B34EB06-41E1-4207-BF25-030197638D4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5B34EB06-41E1-4207-BF25-030197638D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5B34EB06-41E1-4207-BF25-030197638D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5B34EB06-41E1-4207-BF25-030197638D4E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{980C2EF2-4B18-4997-82AE-DC75EA02CCA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{980C2EF2-4B18-4997-82AE-DC75EA02CCA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{980C2EF2-4B18-4997-82AE-DC75EA02CCA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -237,7 +225,6 @@ Global
 		{0DEA322A-597A-4D71-A6F2-C35F77E6335F} = {ED52051C-C8CE-4EFE-ABD1-3D6D5EFCDFFE}
 		{51F7528F-BDEB-4E0B-B897-DAFFB318E026} = {44B570D0-4877-459D-AC40-FDE2E7A498B7}
 		{75D11F16-DB2D-40CB-BBC8-4C9FB30DBDEA} = {44B570D0-4877-459D-AC40-FDE2E7A498B7}
-		{D208F36B-C66F-48A2-8887-E236E87A0202} = {44B570D0-4877-459D-AC40-FDE2E7A498B7}
 		{32EA6937-03CE-43AE-9F56-A644DB71DBD6} = {0EBDA45D-4262-4725-B733-3FC90E7F05E4}
 		{7ECEE750-9EE5-47BD-8883-A8472900A223} = {0EBDA45D-4262-4725-B733-3FC90E7F05E4}
 		{EE71C389-6797-4951-8EE5-7806E712834C} = {ED52051C-C8CE-4EFE-ABD1-3D6D5EFCDFFE}

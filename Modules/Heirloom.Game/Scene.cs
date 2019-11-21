@@ -330,7 +330,7 @@ namespace Heirloom.Game
                 ctx.Clear(BackgroundColor);
 
                 var text = $"LOADING\n{Progress.Message}";
-                var textSize = Font.Default.MeasureText(text, (400, ctx.Surface.Height), 32);
+                var textSize = TextRenderer.Measure(text, (400, ctx.Surface.Height), Font.Default, 32).Size;
                 textSize.Width = Calc.Max(400, textSize.Width);
 
                 // Compute centered text rectangle
