@@ -5,6 +5,7 @@
     <Authors>Chris Chamberlain</Authors>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
