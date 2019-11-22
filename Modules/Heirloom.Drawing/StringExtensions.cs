@@ -1,9 +1,12 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace Heirloom.Drawing
 {
     public static class StringExtensions
     {
+        private static readonly Regex _regexNumberedLabel = new Regex(@"[A-Z]+\d+", RegexOptions.Compiled);
+
         /// <summary>
         /// Shortens a string by removing the center portion and replacing with "..." dependant on the given max length.
         /// This ensures the shortened string has maxLength or less characters.
@@ -60,6 +63,12 @@ namespace Heirloom.Drawing
             if (@this.Length == 0)
             {
                 return string.Empty;
+            }
+
+            // ie, Will match "F3" "AREA51" but not "Area51"
+            if (_regexNumberedLabel.IsMatch(@this))
+            {
+                return @this.ToUpper();
             }
 
             var letter = char.IsLetter(@this[0]);
