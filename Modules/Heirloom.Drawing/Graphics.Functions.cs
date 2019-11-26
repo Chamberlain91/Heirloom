@@ -18,9 +18,9 @@ namespace Heirloom.Drawing
         /// <param name="image">Some image.</param>
         /// <param name="position">The position of the image.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawImage(ImageSource image, Vector position)
+        public void DrawImage(ImageSource image, in Vector position)
         {
-            DrawImage(image, Matrix.CreateTranslation(position));
+            DrawImage(image, Matrix.CreateTranslation(in position));
         }
 
         /// <summary>
@@ -30,9 +30,9 @@ namespace Heirloom.Drawing
         /// <param name="position">The position of the image.</param>
         /// <param name="rotation">The rotation applied to the image.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawImage(ImageSource image, Vector position, float rotation)
+        public void DrawImage(ImageSource image, in Vector position, float rotation)
         {
-            DrawImage(image, Matrix.CreateTransform(position, rotation, Vector.One));
+            DrawImage(image, Matrix.CreateTransform(in position, rotation, Vector.One));
         }
 
         /// <summary>
@@ -43,9 +43,9 @@ namespace Heirloom.Drawing
         /// <param name="rotation">The rotation applied to the image.</param>
         /// <param name="scale">The scale applied to the image.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawImage(ImageSource image, Vector position, float rotation, Vector scale)
+        public void DrawImage(ImageSource image, in Vector position, float rotation, in Vector scale)
         {
-            DrawImage(image, Matrix.CreateTransform(position, rotation, scale));
+            DrawImage(image, Matrix.CreateTransform(in position, rotation, in scale));
         }
 
         /// <summary>
@@ -71,10 +71,10 @@ namespace Heirloom.Drawing
         /// <param name="sprite">Some sprite.</param>
         /// <param name="index">Some valid frame number within the sprite.</param>
         /// <param name="transform">Some transform to draw the sprite.</param>
-        public void DrawSprite(Sprite sprite, int index, Matrix transform)
+        public void DrawSprite(Sprite sprite, int index, in Matrix transform)
         {
             var frame = sprite.Frames[index];
-            DrawImage(frame.Image, transform);
+            DrawImage(frame.Image, in transform);
         }
 
         #endregion
@@ -82,17 +82,17 @@ namespace Heirloom.Drawing
         #region Draw Nine Slice
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawNineSlice(NineSlice nine, Rectangle rectangle)
+        public void DrawNineSlice(NineSlice nine, in Rectangle rectangle)
         {
             // Compute stretch factors
             var w = (rectangle.Width - nine.TopLeftImage.Width - nine.TopRightImage.Width) / nine.MiddleImage.Width;
             var h = (rectangle.Height - nine.TopLeftImage.Height - nine.BottomLeftImage.Height) / nine.MiddleImage.Height;
 
-            var x0 = rectangle.Left + 0;
+            var x0 = rectangle.X + 0;
             var x1 = x0 + nine.TopLeftImage.Width;
             var x2 = x1 + nine.MiddleImage.Width * w;
 
-            var y0 = rectangle.Top + 0;
+            var y0 = rectangle.Y + 0;
             var y1 = y0 + nine.TopLeftImage.Height;
             var y2 = y1 + nine.MiddleImage.Height * h;
 
@@ -131,7 +131,7 @@ namespace Heirloom.Drawing
         /// <param name="center">The position of the cross.</param>
         /// <param name="size">Size in screen pixels (not world space).</param>
         /// <param name="width">Width of the lines screen pixels (not world space).</param>
-        public void DrawCross(Vector center, float size = 2, float width = 1F)
+        public void DrawCross(in Vector center, float size = 2, float width = 1F)
         {
             // Scale input size by pixel scaling
             size *= ApproximatePixelScale;

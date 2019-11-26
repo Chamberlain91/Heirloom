@@ -20,9 +20,9 @@ namespace Heirloom.Drawing
         /// <param name="size">The font size to render with.</param>
         /// <param name="align">The text alignment.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawText(StyledText styledText, Vector position, Font font, int size, TextAlign align = TextAlign.Left)
+        public void DrawText(StyledText styledText, in Vector position, Font font, int size, TextAlign align = TextAlign.Left)
         {
-            DrawText(styledText.Text, position, font, size, align, styledText.Callback);
+            DrawText(styledText.Text, in position, font, size, align, styledText.Callback);
         }
 
         /// <summary>
@@ -34,9 +34,9 @@ namespace Heirloom.Drawing
         /// <param name="size">The font size to render with.</param>
         /// <param name="align">The text alignment.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawText(StyledText styledText, Rectangle bounds, Font font, int size, TextAlign align = TextAlign.Left)
+        public void DrawText(StyledText styledText, in Rectangle bounds, Font font, int size, TextAlign align = TextAlign.Left)
         {
-            DrawText(styledText.Text, bounds, font, size, align, styledText.Callback);
+            DrawText(styledText.Text, in bounds, font, size, align, styledText.Callback);
         }
 
         #endregion
@@ -52,9 +52,9 @@ namespace Heirloom.Drawing
         /// <param name="size">The font size to render with.</param>
         /// <param name="callback">A callback for manipulating the style of the rendered text.</param> 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawText(string text, Vector position, Font font, int size, DrawTextCallback callback)
+        public void DrawText(string text, in Vector position, Font font, int size, DrawTextCallback callback)
         {
-            DrawText(text, position, font, size, TextAlign.Left, callback);
+            DrawText(text, in position, font, size, TextAlign.Left, callback);
         }
 
         /// <summary>
@@ -67,9 +67,9 @@ namespace Heirloom.Drawing
         /// <param name="align">The text alignment.</param>
         /// <param name="callback">A callback for manipulating the style of the rendered text.</param> 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawText(string text, Vector position, Font font, int size, TextAlign align = TextAlign.Left, DrawTextCallback callback = null)
+        public void DrawText(string text, in Vector position, Font font, int size, TextAlign align = TextAlign.Left, DrawTextCallback callback = null)
         {
-            var bounds = TextRenderer.GetPositionAnchoredTextBounds(text, font, size, position, align);
+            var bounds = TextRenderer.GetPositionAnchoredTextBounds(text, font, size, in position, align);
             DrawText(text, bounds, font, size, align, callback);
         }
 
@@ -82,9 +82,9 @@ namespace Heirloom.Drawing
         /// <param name="size">The font size to render with.</param>
         /// <param name="callback">A callback for manipulating the style of the rendered text.</param> 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawText(string text, Rectangle bounds, Font font, int size, DrawTextCallback callback)
+        public void DrawText(string text, in Rectangle bounds, Font font, int size, DrawTextCallback callback)
         {
-            DrawText(text, bounds, font, size, TextAlign.Left, callback);
+            DrawText(text, in bounds, font, size, TextAlign.Left, callback);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Heirloom.Drawing
         /// <param name="align">The text alignment.</param>
         /// <param name="callback">A callback for manipulating the style of the rendered text.</param> 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawText(string text, Rectangle bounds, Font font, int size, TextAlign align = TextAlign.Left, DrawTextCallback callback = null)
+        public void DrawText(string text, in Rectangle bounds, Font font, int size, TextAlign align = TextAlign.Left, DrawTextCallback callback = null)
         {
             if (text is null) { throw new ArgumentNullException(nameof(text)); }
             if (font == null) { throw new ArgumentNullException(nameof(font)); }
