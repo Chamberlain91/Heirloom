@@ -854,7 +854,7 @@ namespace Heirloom.Math
         /// Computes the linear interpolation from <paramref name="x1"/> to <paramref name="x2"/> by factor <paramref name="t"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Lerp(float x1, float x2, float t)
+        public static float Lerp(in float x1, in float x2, in float t)
         {
             return x1 * (1 - t) + x2 * t;
         }
@@ -863,7 +863,7 @@ namespace Heirloom.Math
         /// Computes the linear interpolation from <paramref name="x1"/> to <paramref name="x2"/> by factor <paramref name="t"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Lerp(double x1, double x2, double t)
+        public static double Lerp(in double x1, in double x2, in double t)
         {
             return x1 * (1 - t) + x2 * t;
         }
@@ -872,7 +872,7 @@ namespace Heirloom.Math
         /// Computes the linear interpolation from <paramref name="x1"/> to <paramref name="x2"/> by factor <paramref name="t"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Lerp(int x1, int x2, float t)
+        public static int Lerp(in int x1, in int x2, in float t)
         {
             return (int) (x1 * (1 - t) + x2 * t);
         }
@@ -881,7 +881,7 @@ namespace Heirloom.Math
         /// Computes the linear interpolation from <paramref name="x1"/> to <paramref name="x2"/> by factor <paramref name="t"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint Lerp(uint x1, uint x2, float t)
+        public static uint Lerp(in uint x1, in uint x2, in float t)
         {
             return (uint) (x1 * (1 - t) + x2 * t);
         }
@@ -890,7 +890,7 @@ namespace Heirloom.Math
         /// Computes the linear interpolation from <paramref name="x1"/> to <paramref name="x2"/> by factor <paramref name="t"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short Lerp(short x1, short x2, float t)
+        public static short Lerp(in short x1, in short x2, in float t)
         {
             return (short) (x1 * (1 - t) + x2 * t);
         }
@@ -899,7 +899,7 @@ namespace Heirloom.Math
         /// Computes the linear interpolation from <paramref name="x1"/> to <paramref name="x2"/> by factor <paramref name="t"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort Lerp(ushort x1, ushort x2, float t)
+        public static ushort Lerp(in ushort x1, in ushort x2, in float t)
         {
             return (ushort) (x1 * (1 - t) + x2 * t);
         }
@@ -917,7 +917,7 @@ namespace Heirloom.Math
         /// Computes the linear interpolation from <paramref name="x1"/> to <paramref name="x2"/> by factor <paramref name="t"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte Lerp(sbyte x1, sbyte x2, float t)
+        public static sbyte Lerp(in sbyte x1, in sbyte x2, in float t)
         {
             return (sbyte) (x1 * (1 - t) + x2 * t);
         }
@@ -975,7 +975,7 @@ namespace Heirloom.Math
         /// Computes the interpolation factor (0.0 to 1.0) of <paramref name="x"/> between <paramref name="min"/> and <paramref name="max"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Between(float x, float min, float max)
+        public static float Between(in float x, in float min, in float max)
         {
             return (x - min) / (max - min);
         }
@@ -984,7 +984,7 @@ namespace Heirloom.Math
         /// Computes the interpolation factor (0.0 to 1.0) of <paramref name="x"/> between <paramref name="min"/> and <paramref name="max"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsBetween(float x, float min, float max)
+        public static bool IsBetween(in float x, in float min, in float max)
         {
             return x >= min && x <= max;
         }
@@ -997,18 +997,18 @@ namespace Heirloom.Math
         /// Rescales a value with domain <paramref name="min1"/> to <paramref name="max1"/> to a new domain <paramref name="min2"/> to <paramref name="max2"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Rescale(float x, float min1, float max1, float min2, float max2)
+        public static float Rescale(in float x, in float min1, in float max1, in float min2, in float max2)
         {
-            return Lerp(min2, max2, Between(x, min1, max1));
+            return Lerp(in min2, in max2, Between(x, min1, max1));
         }
 
         /// <summary>
         /// Rescales a value from the source domain a target domain.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Rescale(float x, Range src, Range dst)
+        public static float Rescale(in float x, in Range src, in Range dst)
         {
-            return Rescale(x, src.Min, src.Max, dst.Min, dst.Max);
+            return Rescale(in x, in src.Min, in src.Max, in dst.Min, in dst.Max);
         }
 
         #endregion
