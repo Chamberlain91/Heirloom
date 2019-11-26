@@ -7,14 +7,14 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public abstract partial class Graphics : IDisposable
+    public abstract partial class Graphics : IGraphics
     {
         private const float FpsSampleDuration = 1F;
 
         private static readonly Mesh _quadMesh = Mesh.CreateQuad(1, 1);
 
         // graphics state stack
-        private readonly Stack<State> _stateStack;
+        private readonly Stack<GraphicsState> _stateStack;
 
         // framerate tracking
         private readonly Stopwatch _stopwatch;
@@ -25,7 +25,7 @@ namespace Heirloom.Drawing
 
         protected Graphics(MultisampleQuality multisample)
         {
-            _stateStack = new Stack<State>();
+            _stateStack = new Stack<GraphicsState>();
             _stopwatch = Stopwatch.StartNew();
 
             DefaultSurface = new Surface(1, 1, multisample);
@@ -98,15 +98,6 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        private struct State
-        {
-            public Surface Surface;
-            public Rectangle Viewport;
-            public Matrix Transform;
-            public Blending Blending;
-            public Color Color;
-        }
-
         protected void SetDefaultSurfaceSize(IntSize size)
         {
             DefaultSurface.SetSize(size);
@@ -130,16 +121,15 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Save the context state (push it on the state stack).
         /// </summary>
-        public void SaveState()
+        public void PushState()
         {
-            var state = new State { Blending = Blending, Color = Color, Surface = Surface, Transform = Transform, Viewport = Viewport };
-            _stateStack.Push(state);
+            _stateStack.Push(GetState());
         }
 
         /// <summary>
         /// Restore the context state (pop from the state stack).
         /// </summary>
-        public void RestoreState()
+        public void PopState()
         {
             if (_stateStack.Count == 0)
             {
@@ -148,16 +138,37 @@ namespace Heirloom.Drawing
             }
             else
             {
-                // 
-                var state = _stateStack.Pop();
-
                 // Recover state values
-                Surface = state.Surface;
-                Viewport = state.Viewport;
-                Transform = state.Transform;
-                Blending = state.Blending;
-                Color = state.Color;
+                SetState(_stateStack.Pop());
             }
+        }
+
+        /// <summary>
+        /// Get a copy of the current state applied to this <see cref="Graphics"/>.
+        /// </summary>
+        /// <returns></returns>
+        public GraphicsState GetState()
+        {
+            return new GraphicsState
+            {
+                Blending = Blending,
+                Color = Color,
+                Surface = Surface,
+                Transform = Transform,
+                Viewport = Viewport
+            };
+        }
+
+        /// <summary>
+        /// Updates the state of this <see cref="Graphics"/> to match the provided <see cref="GraphicsState"/>.
+        /// </summary>
+        public void SetState(GraphicsState state)
+        {
+            Surface = state.Surface;
+            Viewport = state.Viewport;
+            Transform = state.Transform;
+            Blending = state.Blending;
+            Color = state.Color;
         }
 
         #endregion
@@ -167,7 +178,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Clears the current surface with the specified color.
         /// </summary>
-        public abstract void Clear(Color color);
+        public abstract void Clear(in Color color);
 
         /// <summary>
         /// Draws a mesh with the given image to the current surface.
@@ -175,7 +186,7 @@ namespace Heirloom.Drawing
         /// <param name="mesh">Some mesh.</param>
         /// <param name="image">Some image.</param>
         /// <param name="transform">Some transform.</param>
-        public abstract void DrawMesh(ImageSource image, Mesh mesh, Matrix transform);
+        public abstract void DrawMesh(ImageSource image, Mesh mesh, in Matrix transform);
 
         /// <summary>
         /// Draws an image to the current surface.
@@ -183,21 +194,23 @@ namespace Heirloom.Drawing
         /// <param name="image">Some image.</param>
         /// <param name="transform">Some transform.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawImage(ImageSource image, Matrix transform)
+        public void DrawImage(ImageSource image, in Matrix transform)
         {
+            var mat = transform;
+
             if (image.Origin != Vector.Zero)
             {
                 // todo: optimize? M2 and M5?
-                transform = transform * Matrix.CreateTranslation(-image.Origin);
+                mat = transform * Matrix.CreateTranslation(-image.Origin);
             }
 
             // Scale to image dimensions
-            transform.M0 *= image.Size.Width;
-            transform.M3 *= image.Size.Width;
-            transform.M1 *= image.Size.Height;
-            transform.M4 *= image.Size.Height;
+            mat.M0 *= image.Size.Width;
+            mat.M3 *= image.Size.Width;
+            mat.M1 *= image.Size.Height;
+            mat.M4 *= image.Size.Height;
 
-            DrawMesh(image, _quadMesh, transform);
+            DrawMesh(image, _quadMesh, in mat);
         }
 
         #endregion
@@ -209,7 +222,7 @@ namespace Heirloom.Drawing
         /// </summary>
         /// <param name="region">A region within the currently set surface.</param>
         /// <returns>An image with a copy of the pixels on the surface.</returns>
-        public abstract Image GrabPixels(IntRectangle region);
+        public abstract Image GrabPixels(in IntRectangle region);
 
         /// <summary>
         /// Grab the pixels from the current surface and return that image. (ie, a screenshot)

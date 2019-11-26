@@ -214,10 +214,10 @@ namespace Heirloom.Game
             // Overlay loading screen
             if (_isLoadScreenVisible)
             {
-                ctx.SaveState();
+                ctx.PushState();
                 ctx.ResetState();
                 _loadScreen.Draw(ctx, dt);
-                ctx.RestoreState();
+                ctx.PopState();
             }
         }
 

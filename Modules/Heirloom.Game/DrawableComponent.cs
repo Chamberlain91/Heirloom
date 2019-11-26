@@ -39,14 +39,14 @@ namespace Heirloom.Game
 
         internal void InternalDraw(Graphics ctx)
         {
-            ctx.SaveState();
+            ctx.PushState();
 
             ctx.Blending = Blending;
             ctx.Color = Color;
 
             Draw(ctx);
 
-            ctx.RestoreState();
+            ctx.PopState();
         }
 
         protected abstract void Draw(Graphics ctx);

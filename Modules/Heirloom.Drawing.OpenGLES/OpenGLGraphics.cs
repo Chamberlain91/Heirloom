@@ -422,18 +422,20 @@ namespace Heirloom.Drawing.OpenGLES
         #region Draw
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override void Clear(Color color)
+        public override void Clear(in Color color)
         {
+            var col = color;
+
             Invoke(() =>
             {
                 // Set color and clear
-                GL.SetClearColor(color.R, color.G, color.B, color.A);
+                GL.SetClearColor(col.R, col.G, col.B, col.A);
                 GL.Clear(ClearMask.Color);
             }, false);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override void DrawMesh(ImageSource image, Mesh mesh, Matrix transform)
+        public override void DrawMesh(ImageSource image, Mesh mesh, in Matrix transform)
         {
             _renderer.Submit(image, mesh, in transform, _blendColor);
         }
@@ -443,8 +445,10 @@ namespace Heirloom.Drawing.OpenGLES
         #region Capture
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override unsafe Image GrabPixels(IntRectangle region)
+        public override unsafe Image GrabPixels(in IntRectangle region)
         {
+            var rec = region;
+
             return Invoke(() =>
             {
                 // 
@@ -468,8 +472,8 @@ namespace Heirloom.Drawing.OpenGLES
                 }
 
                 // Grab pixels from framebuffer
-                var image = new Image(region.Width, region.Height);
-                image.SetPixels(GL.ReadPixels(region.X, region.Y, region.Width, region.Height));
+                var image = new Image(rec.Width, rec.Height);
+                image.SetPixels(GL.ReadPixels(rec.X, rec.Y, rec.Width, rec.Height));
                 return image;
             });
         }

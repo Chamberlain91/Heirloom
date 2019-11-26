@@ -28,7 +28,7 @@ namespace Examples.Drawing
             // Draws a circle, polygon and regular polygon in each row
             for (var i = 0; i < 4; i++)
             {
-                ctx.SaveState();
+                ctx.PushState();
 
                 var w = contentBounds.Width / 3;
                 var h = contentBounds.Height / 2;
@@ -43,7 +43,7 @@ namespace Examples.Drawing
 
                 DrawPolygon(i, box);
 
-                ctx.RestoreState();
+                ctx.PopState();
             }
 
             void DrawPolygon(int index, Rectangle bounds)
