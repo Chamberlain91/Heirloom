@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Heirloom.Math
@@ -112,6 +113,28 @@ namespace Heirloom.Math
         {
             Min = Calc.Min(Min, range.Min);
             Max = Calc.Max(Max, range.Max);
+        }
+
+        #endregion
+
+        #region Rescale
+
+        /// <summary>
+        /// Scales <paramref name="x"/> from input domain (this range) to output range.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float Rescale(in float x, in float outMin, in float outMax)
+        {
+            return Calc.Rescale(x, Min, Max, outMin, outMax);
+        }
+
+        /// <summary>
+        /// Scales <paramref name="x"/> from input domain (this range) to output range.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float Rescale(in float x, in Range outRange)
+        {
+            return Calc.Rescale(x, this, outRange);
         }
 
         #endregion
