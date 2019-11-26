@@ -307,7 +307,7 @@ namespace Heirloom.Math
         #region Inflate
 
         /// <summary>
-        /// Expands (or shrinks) the rectangle equally in all directions.
+        /// Expands (or shrinks) the rectangle by a factor on both axis.
         /// </summary>
         public void Inflate(int factor)
         {
@@ -315,14 +315,30 @@ namespace Heirloom.Math
         }
 
         /// <summary>
-        /// Expands (or shrinks) the input rectangle equally in all directions.
+        /// Expands (or shrinks) the rectangle by a factor on each axis.
+        /// </summary>
+        public void Inflate(int xFactor, int yFactor)
+        {
+            this = Inflate(this, xFactor, yFactor);
+        }
+
+        /// <summary>
+        /// Expands (or shrinks) the input rectangle by a factor on both axis.
         /// </summary>
         public static IntRectangle Inflate(IntRectangle rect, int factor)
         {
-            rect.X -= factor;
-            rect.Y -= factor;
-            rect.Width += factor * 2;
-            rect.Height += factor * 2;
+            return Inflate(rect, factor, factor);
+        }
+
+        /// <summary>
+        /// Expands (or shrinks) the input rectangle by a factor on each axis.
+        /// </summary>
+        public static IntRectangle Inflate(IntRectangle rect, int xFactor, int yFactor)
+        {
+            rect.X -= xFactor;
+            rect.Y -= yFactor;
+            rect.Width += xFactor * 2;
+            rect.Height += yFactor * 2;
 
             return rect;
         }
