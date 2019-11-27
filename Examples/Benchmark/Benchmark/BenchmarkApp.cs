@@ -110,7 +110,7 @@ namespace Benchmark
 
         private void DrawStateText(Graphics ctx, string text)
         {
-            var size = TextRenderer.Measure(text, Font.Default, 32);
+            var size = TextLayout.Measure(text, Font.Default, 32);
             var rect = new Rectangle((ctx.Surface.Width - size.Width) / 2F, (ctx.Surface.Height - size.Height) / 2F, size.Width, size.Height);
 
             ctx.Color = Color.Gray;

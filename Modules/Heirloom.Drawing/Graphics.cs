@@ -271,7 +271,7 @@ namespace Heirloom.Drawing
                 ResetState();
 
                 var text = $"FPS: {FrameRate.ToString("0.00")}";
-                var size = TextRenderer.Measure(text, Font.Default, 16);
+                var size = TextLayout.Measure(text, Font.Default, 16);
 
                 Color = Color.DarkGray;
                 DrawRect(new Rectangle(Surface.Width - 8 - size.Width - 3, 8, size.Width + 4, size.Height + 1));
