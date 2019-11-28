@@ -123,7 +123,14 @@ namespace Heirloom.Drawing
         /// </summary>
         public void PushState()
         {
-            _stateStack.Push(GetState());
+            _stateStack.Push(new GraphicsState
+            {
+                Blending = Blending,
+                Color = Color,
+                Surface = Surface,
+                Transform = Transform,
+                Viewport = Viewport
+            });
         }
 
         /// <summary>
@@ -139,36 +146,14 @@ namespace Heirloom.Drawing
             else
             {
                 // Recover state values
-                SetState(_stateStack.Pop());
+                var state = _stateStack.Pop();
+
+                Surface = state.Surface;
+                Viewport = state.Viewport;
+                Transform = state.Transform;
+                Blending = state.Blending;
+                Color = state.Color;
             }
-        }
-
-        /// <summary>
-        /// Get a copy of the current state applied to this <see cref="Graphics"/>.
-        /// </summary>
-        /// <returns></returns>
-        public GraphicsState GetState()
-        {
-            return new GraphicsState
-            {
-                Blending = Blending,
-                Color = Color,
-                Surface = Surface,
-                Transform = Transform,
-                Viewport = Viewport
-            };
-        }
-
-        /// <summary>
-        /// Updates the state of this <see cref="Graphics"/> to match the provided <see cref="GraphicsState"/>.
-        /// </summary>
-        public void SetState(GraphicsState state)
-        {
-            Surface = state.Surface;
-            Viewport = state.Viewport;
-            Transform = state.Transform;
-            Blending = state.Blending;
-            Color = state.Color;
         }
 
         #endregion
@@ -187,31 +172,6 @@ namespace Heirloom.Drawing
         /// <param name="image">Some image.</param>
         /// <param name="transform">Some transform.</param>
         public abstract void DrawMesh(ImageSource image, Mesh mesh, in Matrix transform);
-
-        /// <summary>
-        /// Draws an image to the current surface.
-        /// </summary>
-        /// <param name="image">Some image.</param>
-        /// <param name="transform">Some transform.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawImage(ImageSource image, in Matrix transform)
-        {
-            var mat = transform;
-
-            if (image.Origin != Vector.Zero)
-            {
-                // todo: optimize? M2 and M5?
-                mat = transform * Matrix.CreateTranslation(-image.Origin);
-            }
-
-            // Scale to image dimensions
-            mat.M0 *= image.Size.Width;
-            mat.M3 *= image.Size.Width;
-            mat.M1 *= image.Size.Height;
-            mat.M4 *= image.Size.Height;
-
-            DrawMesh(image, _quadMesh, in mat);
-        }
 
         #endregion
 
