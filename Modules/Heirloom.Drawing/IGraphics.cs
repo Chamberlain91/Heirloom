@@ -7,10 +7,10 @@ namespace Heirloom.Drawing
 {
     public interface IGraphics : IDisposable
     {
-        bool ShowFPSOverlay { get; set; }
+        bool EnableFPSOverlay { get; set; }
+        float CurrentFPS { get; }
 
         float ApproximatePixelScale { get; }
-        float FrameRate { get; }
 
         Surface DefaultSurface { get; }
         Surface Surface { get; set; }

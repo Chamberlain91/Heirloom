@@ -12,7 +12,7 @@ namespace Examples.Game.Minimal
         public MinimalGame()
             : base("Minimal Game Example", new WindowCreationSettings { Multisample = MultisampleQuality.Medium })
         {
-            Graphics.ShowFPSOverlay = true;
+            Graphics.EnableFPSOverlay = true;
             Window.Size = (800, 500);
         }
 

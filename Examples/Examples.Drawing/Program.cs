@@ -41,7 +41,7 @@ namespace Examples.Drawing
             });
 
             // 
-            Window.Graphics.ShowFPSOverlay = true;
+            Window.Graphics.EnableFPSOverlay = true;
 
             // Create render loop
             Loop = RenderLoop.Create(Window.Graphics, Update);
