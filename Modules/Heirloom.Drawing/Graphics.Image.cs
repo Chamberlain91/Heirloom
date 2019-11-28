@@ -49,16 +49,40 @@ namespace Heirloom.Drawing
         }
 
         /// <summary>
-        /// Draws an image stretched to fill a rectangular region to the current surface.
+        /// Draws an image stretched to fill a rectangular region to the current surface ignoring the image origin offset.
         /// </summary> 
         /// <param name="image">Some image.</param>
         /// <param name="rectangle">The bounds of the drawn image.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawImage(ImageSource image, in Rectangle rectangle)
         {
-            var scale = rectangle.Size / image.Size;
-            var transform = Matrix.CreateTransform(rectangle.Position, 0, (Vector) scale);
-            DrawImage(image, transform);
+            var transform = Matrix.CreateTransform(rectangle.Position, 0, (Vector) rectangle.Size);
+            DrawMesh(image, _quadMesh, in transform);
+        }
+
+        /// <summary>
+        /// Draws an image to the current surface.
+        /// </summary>
+        /// <param name="image">Some image.</param>
+        /// <param name="transform">Some transform.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void DrawImage(ImageSource image, in Matrix transform)
+        {
+            var mat = transform;
+
+            if (image.Origin != Vector.Zero)
+            {
+                // todo: optimize? M2 and M5?
+                mat = transform * Matrix.CreateTranslation(-image.Origin);
+            }
+
+            // Scale to image dimensions
+            mat.M0 *= image.Size.Width;
+            mat.M3 *= image.Size.Width;
+            mat.M1 *= image.Size.Height;
+            mat.M4 *= image.Size.Height;
+
+            DrawMesh(image, _quadMesh, in mat);
         }
 
         #endregion
