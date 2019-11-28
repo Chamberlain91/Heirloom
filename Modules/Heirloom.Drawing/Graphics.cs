@@ -49,12 +49,12 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Gets how often the default surface is presented to the screen per second.
         /// </summary>
-        public float FrameRate { get; private set; }
+        public float CurrentFPS { get; private set; }
 
         /// <summary>
         /// Gets or sets a value that will enable or disable drawing the FPS overlay.
         /// </summary>
-        public bool ShowFPSOverlay { get; set; } = false;
+        public bool EnableFPSOverlay { get; set; } = false;
 
         /// <summary>
         /// Gets the default surface (ie, window) of this render context.
@@ -266,11 +266,11 @@ namespace Heirloom.Drawing
 
         private void DrawFPSOverlay()
         {
-            if (ShowFPSOverlay)
+            if (EnableFPSOverlay)
             {
                 ResetState();
 
-                var text = $"FPS: {FrameRate.ToString("0.00")}";
+                var text = $"FPS: {CurrentFPS.ToString("0.00")}";
                 var size = TextRenderer.Measure(text, Font.Default, 16);
 
                 Color = Color.DarkGray;
@@ -293,7 +293,7 @@ namespace Heirloom.Drawing
             if (_fpsTime >= FpsSampleDuration)
             {
                 // hz, events/time
-                FrameRate = _fpsCount / _fpsTime;
+                CurrentFPS = _fpsCount / _fpsTime;
 
                 _fpsCount = 0;
                 _fpsTime = 0;
