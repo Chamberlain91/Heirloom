@@ -15,16 +15,14 @@ namespace Heirloom.Drawing
         Surface DefaultSurface { get; }
         Surface Surface { get; set; }
 
+        Rectangle Viewport { get; set; }
+
+        Matrix Transform { get; set; }
+        Matrix InverseTransform { get; }
+
         Color Color { get; set; }
         Blending Blending { get; set; }
 
-        Rectangle Viewport { get; set; }
-
-        Matrix InverseTransform { get; }
-        Matrix Transform { get; set; }
-
-        GraphicsState GetState();
-        void SetState(GraphicsState state);
         void ResetState();
         void PushState();
         void PopState();
@@ -41,7 +39,7 @@ namespace Heirloom.Drawing
         void DrawImage(ImageSource image, in Vector position, float rotation);
         void DrawImage(ImageSource image, in Vector position, float rotation, in Vector scale);
 
-        void DrawSprite(Sprite sprite, int index, in Matrix transform);
+        void DrawSprite(Sprite sprite, int frame, in Matrix transform);
 
         void DrawCircle(in Circle circle);
         void DrawCircle(in Vector position, float radius);
