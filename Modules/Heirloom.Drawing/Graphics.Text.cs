@@ -5,7 +5,7 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public delegate void DrawTextCallback(string text, int index, ref CharacterDrawState state);
+    public delegate void DrawTextCallback(string text, int index, ref TextDrawState state);
 
     public abstract partial class Graphics
     {
@@ -110,10 +110,10 @@ namespace Heirloom.Drawing
             var atlas = FontManager.GetAtlas(font, size);
 
             // Character render state
-            var state = new CharacterDrawState { Color = color };
+            var state = new TextDrawState { Color = color };
 
             // Layout text
-            TextLayout.PerformLayout(text, bounds, align, atlas, (string _, int index, ref CharacterLayoutState layout) =>
+            TextLayout.PerformLayout(text, bounds, align, atlas, (string _, int index, ref TextLayoutState layout) =>
             {
                 // Set initial state
                 state.Transform = Matrix.Identity;

@@ -5,7 +5,7 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public delegate void TextLayoutCallback(string text, int index, ref CharacterLayoutState state);
+    public delegate void TextLayoutCallback(string text, int index, ref TextLayoutState state);
 
     /// <summary>
     /// Utility to measure text and manually invoke the text layout function. <para/> Internally used by 
@@ -58,7 +58,7 @@ namespace Heirloom.Drawing
 
             // Layout text, keeping track of the glyph box
             var measure = Rectangle.Zero;
-            PerformLayout(text, layoutBox, TextAlign.Left, atlas, (string _, int index, ref CharacterLayoutState state) =>
+            PerformLayout(text, layoutBox, TextAlign.Left, atlas, (string _, int index, ref TextLayoutState state) =>
             {
                 // Include extents of glyph box
                 measure.Include(state.Position);
@@ -104,7 +104,7 @@ namespace Heirloom.Drawing
             var font = atlas.Font;
 
             // Create character layout state
-            var state = new CharacterLayoutState
+            var state = new TextLayoutState
             {
                 Position = bounds.Position,
                 Character = (UnicodeCharacter) 0
