@@ -32,8 +32,12 @@ namespace Heirloom.Drawing
         void Clear(in Color color);
 
         void DrawMesh(ImageSource image, Mesh mesh, in Matrix transform);
+        //void DrawMesh(ImageSource image, Mesh mesh, in Vector position);
+        //void DrawMesh(ImageSource image, Mesh mesh, in Vector position, float rotation);
+        //void DrawMesh(ImageSource image, Mesh mesh, in Vector position, float rotation, in Vector scale);
 
         void DrawImage(ImageSource image, in Rectangle rectangle);
+        //void DrawImage(ImageSource image, in Rectangle rectangle, in Matrix transform);
         void DrawImage(ImageSource image, in Matrix transform);
         void DrawImage(ImageSource image, in Vector position);
         void DrawImage(ImageSource image, in Vector position, float rotation);

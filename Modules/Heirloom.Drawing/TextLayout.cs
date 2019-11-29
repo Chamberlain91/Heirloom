@@ -5,37 +5,15 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public delegate void LayoutTextCallback(string text, int index, ref CharacterLayoutState state);
+    public delegate void TextLayoutCallback(string text, int index, ref CharacterLayoutState state);
 
     /// <summary>
-    /// Implementation and utility of text rendering and text layout.
+    /// Utility to measure text and manually invoke the text layout function. <para/> Internally used by 
+    /// <see cref="Graphics.DrawText(string, in Rectangle, Font, int, TextAlign, DrawTextCallback)"/> and its variants.
     /// </summary>
-    public static class TextRenderer
+    public static class TextLayout
     {
-        /// <summary>
-        /// Performs the layout of text around the given position with the specified font and size, invoking the callback at each location.
-        /// </summary>
-        public static void Layout(string text, Vector position, Font font, int size, TextAlign align, LayoutTextCallback characterCallback)
-        {
-            var bounds = GetPositionAnchoredTextBounds(text, font, size, position, align);
-            Layout(text, bounds, font, size, align, characterCallback);
-        }
-
-        /// <summary>
-        /// Performs the layout of text within the given bounds with the specified font and size, invoking the callback at each location.
-        /// </summary>
-        public static void Layout(string text, Rectangle bounds, Font font, int size, TextAlign align, LayoutTextCallback characterCallback)
-        {
-            // Validate arguments
-            if (text == null) { throw new ArgumentNullException(nameof(text)); }
-            if (font == null) { throw new ArgumentNullException(nameof(font)); }
-            if (size < 1) { throw new ArgumentException("Font size must be greater than zero.", nameof(size)); }
-            if (characterCallback == null) { throw new ArgumentNullException(nameof(characterCallback)); }
-
-            // Get atlas, layout text
-            var atlas = FontManager.GetAtlas(font, size);
-            PerformLayout(text, bounds, align, atlas, characterCallback);
-        }
+        #region Measure
 
         /// <summary>
         /// Computes the bounding box that the specified text will occupy within an infinite layout size.
@@ -56,10 +34,23 @@ namespace Heirloom.Drawing
         /// <param name="fontSize">The font size to use.</param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Rectangle Measure(string text, Size layoutSize, Font font, int fontSize)
+        public static Rectangle Measure(string text, in Size layoutSize, Font font, int fontSize)
+        {
+            return Measure(text, new Rectangle(Vector.Zero, layoutSize), font, fontSize);
+        }
+
+        /// <summary>
+        /// Computes the bounding box that the specified text will occupy within the given layout size.
+        /// </summary>
+        /// <param name="text">The text to layout and measure.</param>
+        /// <param name="layoutSize">The size of the layout box.</param>
+        /// <param name="fontSize">The font size to use.</param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle Measure(string text, in Rectangle layoutBox, Font font, int fontSize)
         {
             if (text is null) { throw new ArgumentNullException(nameof(text)); }
-            if (layoutSize.Width <= 0 || layoutSize.Height <= 0) { throw new ArgumentException($"Layout size must be greater than zero.", nameof(layoutSize)); }
+            if (layoutBox.Width <= 0 || layoutBox.Height <= 0) { throw new ArgumentException($"Layout box size must be greater than zero.", nameof(layoutBox)); }
             if (fontSize <= 0) { throw new ArgumentException($"Font size must be greater than zero."); }
 
             // Get font atlas
@@ -67,7 +58,7 @@ namespace Heirloom.Drawing
 
             // Layout text, keeping track of the glyph box
             var measure = Rectangle.Zero;
-            PerformLayout(text, (Vector.Zero, layoutSize), TextAlign.Left, atlas, (string _, int index, ref CharacterLayoutState state) =>
+            PerformLayout(text, layoutBox, TextAlign.Left, atlas, (string _, int index, ref CharacterLayoutState state) =>
             {
                 // Include extents of glyph box
                 measure.Include(state.Position);
@@ -77,7 +68,36 @@ namespace Heirloom.Drawing
             return measure;
         }
 
-        internal static void PerformLayout(string text, Rectangle bounds, TextAlign align, FontAtlas atlas, LayoutTextCallback characterCallback)
+        #endregion
+
+        #region Perform Layout
+
+        /// <summary>
+        /// Performs the layout of text around the given position with the specified font and size, invoking the callback at each location.
+        /// </summary>
+        public static void PerformLayout(string text, Vector position, Font font, int size, TextAlign align, TextLayoutCallback layoutCallback)
+        {
+            var bounds = GetPositionAnchoredTextBounds(text, font, size, position, align);
+            PerformLayout(text, bounds, font, size, align, layoutCallback);
+        }
+
+        /// <summary>
+        /// Performs the layout of text within the given bounds with the specified font and size, invoking the callback at each location.
+        /// </summary>
+        public static void PerformLayout(string text, Rectangle bounds, Font font, int size, TextAlign align, TextLayoutCallback layoutCallback)
+        {
+            // Validate arguments
+            if (text == null) { throw new ArgumentNullException(nameof(text)); }
+            if (font == null) { throw new ArgumentNullException(nameof(font)); }
+            if (size < 1) { throw new ArgumentException("Font size must be greater than zero.", nameof(size)); }
+            if (layoutCallback == null) { throw new ArgumentNullException(nameof(layoutCallback)); }
+
+            // Get atlas, layout text
+            var atlas = FontManager.GetAtlas(font, size);
+            PerformLayout(text, bounds, align, atlas, layoutCallback);
+        }
+
+        internal static void PerformLayout(string text, Rectangle bounds, TextAlign align, FontAtlas atlas, TextLayoutCallback layoutCallback)
         {
             // Extract atlas properties for brevity
             var fontSize = atlas.FontSize;
@@ -119,7 +139,7 @@ namespace Heirloom.Drawing
                     state.Metrics = glyph.GetMetrics(fontSize);
 
                     // Process character, if kept, advance pen position
-                    characterCallback(text, i, ref state);
+                    layoutCallback(text, i, ref state);
 
                     // Apply horizontal advance
                     state.Position.X += state.Metrics.AdvanceWidth;
@@ -254,5 +274,7 @@ namespace Heirloom.Drawing
             // Shouldn't break
             return TextBreakCategory.None;
         }
+
+        #endregion
     }
 }

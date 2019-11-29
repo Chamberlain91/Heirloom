@@ -69,7 +69,7 @@ namespace Heirloom.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawText(string text, in Vector position, Font font, int size, TextAlign align = TextAlign.Left, DrawTextCallback callback = null)
         {
-            var bounds = TextRenderer.GetPositionAnchoredTextBounds(text, font, size, in position, align);
+            var bounds = TextLayout.GetPositionAnchoredTextBounds(text, font, size, in position, align);
             DrawText(text, bounds, font, size, align, callback);
         }
 
@@ -113,7 +113,7 @@ namespace Heirloom.Drawing
             var state = new CharacterDrawState { Color = color };
 
             // Layout text
-            TextRenderer.PerformLayout(text, bounds, align, atlas, (string _, int index, ref CharacterLayoutState layout) =>
+            TextLayout.PerformLayout(text, bounds, align, atlas, (string _, int index, ref CharacterLayoutState layout) =>
             {
                 // Set initial state
                 state.Transform = Matrix.Identity;
