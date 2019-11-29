@@ -27,7 +27,7 @@ namespace Examples.Drawing
                 AddKeyword("i", ItalicsCallback);
             }
 
-            private void ItalicsCallback(string text, int index, ref CharacterDrawState state)
+            private void ItalicsCallback(string text, int index, ref TextDrawState state)
             {
                 state.Color = Color.Pink;
 

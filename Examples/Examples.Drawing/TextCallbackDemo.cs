@@ -99,7 +99,7 @@ namespace Examples.Drawing
 
             public string Text { get; }
 
-            internal void CharacterCallback(string _, int index, ref CharacterDrawState state)
+            internal void CharacterCallback(string _, int index, ref TextDrawState state)
             {
                 switch (_states[index])
                 {

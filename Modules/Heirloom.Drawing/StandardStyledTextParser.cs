@@ -152,7 +152,7 @@ namespace Heirloom.Drawing
                 }
             }
 
-            private void OnStyleCharacter(string text, int index, ref CharacterDrawState state)
+            private void OnStyleCharacter(string text, int index, ref TextDrawState state)
             {
                 foreach (var keyword in GetKeywords(index))
                 {
