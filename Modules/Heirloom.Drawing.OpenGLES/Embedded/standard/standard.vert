@@ -1,4 +1,6 @@
-﻿// precision highp float;
+﻿#if GL_ES
+precision highp float;
+#endif
 
 // == Per Vertex Attributes ==
 
@@ -7,25 +9,23 @@ in vec2 aUV;
 
 // == Per Instance Attributes ==
 
-in vec4  aImageRect; // U, V, sU, sV
-in float aImageUnit;
+in vec4   aImageRect; // U, V, sU, sV
+in float  aImageUnit;
 in mat2x3 aTransform;
-in vec4 aColor;
+in vec4   aColor;
 
 // == Output (Fragment Shader) ==
 
-flat out int fImageUnit;
-out vec4 fColor;
-out vec2 fUV;
+flat out int  fImageUnit;
+	 out vec4 fColor;
+	 out vec2 fUV;
 
 // == Uniforms ==
 
-layout(std140) uniform Standard 
+uniform Standard 
 {
 	mat2x3 uMatrix;
 };
-
-// uniform mat2x3 uMatrix;
 
 // == Vertex Shader ==
 
