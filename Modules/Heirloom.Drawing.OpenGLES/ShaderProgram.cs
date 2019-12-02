@@ -145,11 +145,14 @@ namespace Heirloom.Drawing.OpenGLES
             GL.UseProgram(Handle);
 
             // Associate samplers with image units one-to-one
-            var uImage = GetUniformLocation("uImage[0]");
+            var uImage = GetUniformLocation("uImageUnits[0]");
             for (var i = 0; i < maxTextureImageUnits; i++)
             {
                 GL.Uniform1(uImage + i, i);
             }
+
+            // todo: Automatically enumerate image/texture units, tracking how 
+            //       many 'batch units' remain after processing.
 
             GL.UseProgram(0);
         }

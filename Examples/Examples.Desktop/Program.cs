@@ -39,9 +39,10 @@ namespace Examples.Desktop
             }
         }
 
-        private static void Update(Graphics gfx, float dt)
+        private static void Update(IGraphics gfx, float dt)
         {
             // 
+            gfx.SetShaderData("noiseTexture", noiseImage);
         }
     }
 }
