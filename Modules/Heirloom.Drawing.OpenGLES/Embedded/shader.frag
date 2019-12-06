@@ -1,7 +1,7 @@
 ﻿#include "standard/standard.frag"
  
-vec4 fragmentProgram() 
+vec4 fragmentProgram(vec4 color) 
 { 
-	// Simply sample image
-	return image(fUV);
+	// simple pass-through
+	return color;
 }
