@@ -304,7 +304,7 @@ namespace Heirloom.Game
             void DrawEntities(Surface surface, Matrix globalTransform, Rectangle viewport, Color clearColor)
             {
                 // Set view state
-                ctx.Transform = globalTransform;
+                ctx.GlobalTransform = globalTransform;
                 ctx.Viewport = viewport;
                 ctx.Surface = surface;
 

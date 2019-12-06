@@ -74,12 +74,12 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Get or sets the global transform.
         /// </summary>
-        public abstract Matrix Transform { get; set; }
+        public abstract Matrix GlobalTransform { get; set; }
 
         /// <summary>
         /// Gets the inverse of the current global transform.
         /// </summary>
-        public abstract Matrix InverseTransform { get; }
+        public abstract Matrix InverseGlobalTransform { get; }
 
         /// <summary>
         /// Gets the approximate scaling factor that one pixel consumes in world units.
@@ -113,7 +113,7 @@ namespace Heirloom.Drawing
             Surface = DefaultSurface; // also adjusts viewport?
             Viewport = (0, 0, 1, 1);
 
-            Transform = Matrix.Identity;
+            GlobalTransform = Matrix.Identity;
             Blending = Blending.Alpha;
             Color = Color.White;
         }
@@ -128,7 +128,7 @@ namespace Heirloom.Drawing
                 Blending = Blending,
                 Color = Color,
                 Surface = Surface,
-                Transform = Transform,
+                Transform = GlobalTransform,
                 Viewport = Viewport
             });
         }
@@ -150,7 +150,7 @@ namespace Heirloom.Drawing
 
                 Surface = state.Surface;
                 Viewport = state.Viewport;
-                Transform = state.Transform;
+                GlobalTransform = state.Transform;
                 Blending = state.Blending;
                 Color = state.Color;
             }

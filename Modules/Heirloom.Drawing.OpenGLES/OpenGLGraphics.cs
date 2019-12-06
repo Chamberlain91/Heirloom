@@ -303,7 +303,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region View State
 
-        public override Matrix Transform
+        public override Matrix GlobalTransform
         {
             get => _viewMatrix;
 
@@ -323,7 +323,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        public override Matrix InverseTransform => _inverseViewMatrix;
+        public override Matrix InverseGlobalTransform => _inverseViewMatrix;
 
         public override float ApproximatePixelScale => _approxPixelScale;
 
