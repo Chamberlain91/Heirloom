@@ -17,11 +17,12 @@ namespace Heirloom.Drawing
 
         Rectangle Viewport { get; set; }
 
-        Matrix Transform { get; set; }
-        Matrix InverseTransform { get; }
+        Matrix GlobalTransform { get; set; }
+        Matrix InverseGlobalTransform { get; }
 
         Color Color { get; set; }
         Blending Blending { get; set; }
+        // Shader Shader { get; set; }
 
         void ResetState();
         void PushState();
@@ -44,6 +45,9 @@ namespace Heirloom.Drawing
         void DrawImage(ImageSource image, in Vector position, float rotation, in Vector scale);
 
         void DrawSprite(Sprite sprite, int frame, in Matrix transform);
+        //void DrawSprite(Sprite sprite, in Vector position);
+        //void DrawSprite(Sprite sprite, in Vector position, float rotation);
+        //void DrawSprite(Sprite sprite, in Vector position, float rotation, in Vector scale);
 
         void DrawCircle(in Circle circle);
         void DrawCircle(in Vector position, float radius);
