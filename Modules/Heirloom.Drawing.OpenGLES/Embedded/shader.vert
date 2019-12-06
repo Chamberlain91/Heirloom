@@ -2,6 +2,6 @@
 
 vec2 vertexProgram(vec2 position)
 {
-	// simply forward vertex position
+	// simple pass-through
 	return position;
 }
