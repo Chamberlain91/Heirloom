@@ -1,10 +1,9 @@
 ﻿using Heirloom.Drawing;
-using Heirloom.GLFW;
 using Heirloom.Math;
 
 namespace Heirloom.Desktop
 {
-    public readonly struct KeyboardEvent
+    public readonly struct KeyEvent
     {
         public readonly Key Key;
 
@@ -14,7 +13,7 @@ namespace Heirloom.Desktop
 
         public readonly KeyModifiers Modifiers;
 
-        internal KeyboardEvent(Key key, int scanCode, ButtonAction action, KeyModifiers modifiers)
+        internal KeyEvent(Key key, int scanCode, ButtonAction action, KeyModifiers modifiers)
         {
             Key = key;
             ScanCode = scanCode;
@@ -23,11 +22,11 @@ namespace Heirloom.Desktop
         }
     }
 
-    public readonly struct CharEvent
+    public readonly struct CharacterEvent
     {
         public readonly UnicodeCharacter Character;
 
-        internal CharEvent(UnicodeCharacter character)
+        internal CharacterEvent(UnicodeCharacter character)
         {
             Character = character;
         }

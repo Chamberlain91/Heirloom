@@ -2,7 +2,6 @@
 
 using Heirloom.Desktop;
 using Heirloom.Drawing;
-using Heirloom.GLFW;
 
 namespace Examples.Desktop
 {
@@ -23,7 +22,7 @@ namespace Examples.Desktop
             });
         }
 
-        private static void Window_Key(Window win, KeyboardEvent ev)
+        private static void Window_Key(Window win, KeyEvent ev)
         {
             if (ev.Action == ButtonAction.Press)
             {
@@ -41,8 +40,7 @@ namespace Examples.Desktop
 
         private static void Update(IGraphics gfx, float dt)
         {
-            // 
-            gfx.SetShaderData("noiseTexture", noiseImage);
+            gfx.Clear(Color.Magenta);
         }
     }
 }

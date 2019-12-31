@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 
-using Heirloom.GLFW;
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Desktop
@@ -11,20 +9,48 @@ namespace Heirloom.Desktop
     {
         private const double WaitEventsTimeout = 1.0 / 60.0;
 
-        internal static WindowHandle ShareContext;
-
         private static ConsumerQueue _invokeQueue;
         private static List<Window> _windows;
 
         private static readonly object _lock = new object();
 
+        internal static WindowHandle ShareContext;
+
         /// <summary>
-        /// Are transparent framebuffers supported on this platform?
+        /// Gets a value that determines if transparent framebuffers supported on this device/platform.
         /// </summary>
         public static bool SupportsTransparentFramebuffer { get; private set; }
 
+        /// <summary>
+        /// Gets a value determining if the application is ready to process window events and other desktop features.
+        /// </summary>
+        public static bool IsInitialized { get; private set; } = false;
+
+        /// <summary>
+        /// Gets a read-only list of currently opened windows.
+        /// </summary>
+        public static IReadOnlyList<Window> Windows
+        {
+            get
+            {
+                EnsureReady();
+                return _windows;
+            }
+        }
+
+        /// <summary>
+        /// Initializes necessary windowing utilities and then executes the specified function when ready.
+        /// This function is blocking.
+        /// </summary>
+        /// <param name="initialize"></param>
+        /// <see cref="IsInitialized"/>
         public static void Run(Action initialize)
         {
+            if (IsInitialized)
+            {
+                throw new InvalidOperationException("Application has already been initialized and is currently running.");
+            }
+
             lock (_lock)
             {
                 // Initialize GLFW
@@ -52,6 +78,7 @@ namespace Heirloom.Desktop
                 // Set default window creation hints
                 Glfw.SetWindowCreationHint(WindowAttribute.FocusOnShow, true);
                 Glfw.SetWindowCreationHint(WindowAttribute.Visible, true);
+
                 // Bind share context and load GL functions
                 Glfw.MakeContextCurrent(ShareContext);
                 GL.LoadFunctions(Glfw.GetProcAddress);
@@ -64,7 +91,6 @@ namespace Heirloom.Desktop
                 _windows = new List<Window>();
             }
 
-            // 
             IsInitialized = true;
             initialize();
 
@@ -78,24 +104,40 @@ namespace Heirloom.Desktop
                 _invokeQueue.ProcessJobs();
 
                 // Sleep thread, prevent tight spinning
-                Thread.Sleep(1);
+                // NOTE: Removed because WaitEventsTimeout above should block...
+                // Thread.Sleep(1);
             }
 
             // Shutdown GLFW
             Glfw.Terminate();
+            IsInitialized = false;
         }
 
         /// <summary>
-        /// Gets a value determining if the application is ready to handle windows and other features.
+        /// Invoke an action on the window thread.
         /// </summary>
-        public static bool IsInitialized { get; private set; } = false;
-
-        public static IReadOnlyList<Window> Windows
+        internal static void Invoke(Action action, bool blocking = true)
         {
-            get
+            if (blocking) { _invokeQueue.Invoke(action); }
+            else { _invokeQueue.InvokeLater(action); }
+        }
+
+        /// <summary>
+        /// Invoke an action on the window thread and wait for a return value.
+        /// </summary>
+        internal static T Invoke<T>(Func<T> action)
+        {
+            return _invokeQueue.Invoke(action);
+        }
+
+        /// <summary>
+        /// Ensures the application has called <see cref="Run(Action)"/>.
+        /// </summary>
+        private static void EnsureReady()
+        {
+            if (IsInitialized == false)
             {
-                EnsureReady();
-                return _windows;
+                throw new InvalidOperationException($"You must execute the application via {nameof(Application)}.{nameof(Run)}.");
             }
         }
 
@@ -116,31 +158,6 @@ namespace Heirloom.Desktop
             lock (_lock)
             {
                 _windows.Remove(window);
-            }
-        }
-
-        /// <summary>
-        /// Invoke an action on the window thread.
-        /// </summary>
-        public static void Invoke(Action action, bool blocking = true)
-        {
-            if (blocking) { _invokeQueue.Invoke(action); }
-            else { _invokeQueue.InvokeLater(action); }
-        }
-
-        /// <summary>
-        /// Invoke an action on the window thread and wait for a return value.
-        /// </summary>
-        public static T Invoke<T>(Func<T> action)
-        {
-            return _invokeQueue.Invoke(action);
-        }
-
-        private static void EnsureReady()
-        {
-            if (IsInitialized == false)
-            {
-                throw new InvalidOperationException($"You must execute the application via {nameof(Application)}.{nameof(Run)}.");
             }
         }
     }

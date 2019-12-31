@@ -1,13 +1,11 @@
 ﻿using System.Runtime.CompilerServices;
 
-using Heirloom.GLFW;
-
 namespace Heirloom.Desktop
 {
     public static class Keyboard
     {
         /// <summary>
-        /// Gets the printable name of the key.
+        /// Gets the printable name of a key.
         /// </summary>
         public static string GetPrintableKeyName(Key key)
         {
@@ -15,7 +13,7 @@ namespace Heirloom.Desktop
         }
 
         /// <summary>
-        /// Gets the printable name of the specified by scancode.
+        /// Gets the printable name of a key specified by scancode.
         /// </summary>
         public static string GetPrintableKeyName(int scancode)
         {

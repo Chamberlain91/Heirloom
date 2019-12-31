@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Authors>Chris Chamberlain</Authors> 
+    <Authors>Chris Chamberlain</Authors>
     <Version>0.9.0-alpha</Version>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
@@ -12,7 +12,19 @@
     <Description>Desktop infrastructure for Heirloom applications.</Description>
     <PackageTags>glfw, windows, graphics, desktop, drawing</PackageTags>
     <LangVersion>latest</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Files\icon_128.png" />
+    <None Remove="Files\icon_16.png" />
+    <None Remove="Files\icon_32.png" />
+    <None Remove="Files\icon_64.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Heirloom.Drawing.OpenGLES\Heirloom.Drawing.OpenGLES.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\LICENSE.md">
@@ -22,8 +34,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Heirloom.Drawing.OpenGLES\Heirloom.Drawing.OpenGLES.csproj" />
-    <ProjectReference Include="..\Heirloom.GLFW\Heirloom.GLFW.csproj" />
+    <Content CopyToOutputDirectory="PreserveNewest" Link="glfw3.dll" Include="runtimes/win-x64/glfw3.dll" Pack="true" PackagePath="runtimes/win-x64/native/" />
+    <Content CopyToOutputDirectory="PreserveNewest" Link="libglfw3.so" Include="runtimes/linux-x64/libglfw3.so" Pack="true" PackagePath="runtimes/linux-x64/native/" />
+    <Content CopyToOutputDirectory="PreserveNewest" Link="libglfw3.dylib" Include="runtimes/osx-x64/libglfw3.dylib" Pack="true" PackagePath="runtimes/osx-x64/native/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Files\icon_128.png" />
+    <EmbeddedResource Include="Files\icon_16.png" />
+    <EmbeddedResource Include="Files\icon_32.png" />
+    <EmbeddedResource Include="Files\icon_64.png" />
   </ItemGroup>
 
 </Project>
