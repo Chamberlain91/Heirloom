@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 using Heirloom.Drawing;
 using Heirloom.Drawing.OpenGLES;
-using Heirloom.GLFW;
 using Heirloom.Math;
 
 namespace Heirloom.Desktop
 {
-    public class Window : IWindow
+    public class Window
     {
         private IntRectangle _bounds, _restoreBounds;
         private IntSize _framebufferSize;
@@ -30,6 +32,32 @@ namespace Heirloom.Desktop
         private readonly CursorPositionCallback _cursorPositionCallback;
         private readonly MouseButtonCallback _mouseButtonCallback;
         private readonly ScrollCallback _scrollCallback;
+
+        private Image[] _icons = Array.Empty<Image>();
+        private CursorHandle _cursorHandle;
+
+        /// <summary>
+        /// Gets the default window icon set.
+        /// </summary>
+        public static readonly Image[] DefaultIcons = LoadDefaultIcons();
+
+        private static Image[] LoadDefaultIcons()
+        {
+            return new Image[] {
+                new Image(GetStream("Files.icon_128.png")),
+                new Image(GetStream("Files.icon_64.png")),
+                new Image(GetStream("Files.icon_32.png")),
+                new Image(GetStream("Files.icon_16.png"))
+            };
+
+            static Stream GetStream(string file)
+            {
+                var type = typeof(Window);
+
+                // Return stream
+                return type.Assembly.GetManifestResourceStream($"{type.Namespace}.{file}");
+            }
+        }
 
         #region Constructors
 
@@ -135,6 +163,9 @@ namespace Heirloom.Desktop
             Glfw.SetMouseButtonCallback(WindowHandle, _mouseButtonCallback = (_, b, a, m) => OnMousePressed(b, a, m));
             Glfw.SetScrollCallback(WindowHandle, _scrollCallback = (_, x, y) => OnMouseScroll((float) x, (float) y));
 
+            // Set the default icons
+            SetIcons(DefaultIcons);
+
             // == Construct Graphics Context
 
             Graphics = new OpenGLWindowGraphics(this);
@@ -149,7 +180,7 @@ namespace Heirloom.Desktop
 
         #region Properties
 
-        internal WindowHandle WindowHandle { get; private set; }
+        internal WindowHandle WindowHandle;
 
         /// <summary>
         /// Has this window been disposed?
@@ -309,6 +340,34 @@ namespace Heirloom.Desktop
             }
         });
 
+        /// <summary>
+        /// Gets the monitor this window is positioned on by checking the center point of the window bounds.
+        /// </summary>
+        public Monitor Monitor
+        {
+            get
+            {
+                // Whatever monitor contains the window's center point is
+                // considered the nearest. Another method of evaluation may
+                // be more appropriate such as minimal sum of corner distances.
+                foreach (var monitor in Monitor.Monitors)
+                {
+                    if (monitor.Workarea.Contains(Bounds.Center))
+                    {
+                        return monitor;
+                    }
+                }
+
+                // Somehow arrived here, just use the primary monitor.
+                return Monitor.Default;
+            }
+        }
+
+        /// <summary>
+        /// Gets this windows icon set.
+        /// </summary>
+        public IReadOnlyList<Image> Icons => _icons;
+
         #endregion
 
         #region Events
@@ -319,13 +378,13 @@ namespace Heirloom.Desktop
 
         public event Action<Window, ContentScaleEvent> ContentScaleChanged;
 
-        public event Action<Window, KeyboardEvent> KeyPress;
+        public event Action<Window, KeyEvent> KeyPress;
 
-        public event Action<Window, KeyboardEvent> KeyRelease;
+        public event Action<Window, KeyEvent> KeyRelease;
 
-        public event Action<Window, KeyboardEvent> KeyRepeat;
+        public event Action<Window, KeyEvent> KeyRepeat;
 
-        public event Action<Window, CharEvent> CharTyped;
+        public event Action<Window, CharacterEvent> CharacterTyped;
 
         public event Action<Window, MouseButtonEvent> MousePress;
 
@@ -366,7 +425,7 @@ namespace Heirloom.Desktop
 
         protected virtual void OnKeyPressed(Key key, int scanCode, ButtonAction action, KeyModifiers modifiers)
         {
-            var ev = new KeyboardEvent(key, scanCode, action, modifiers);
+            var ev = new KeyEvent(key, scanCode, action, modifiers);
 
             switch (action)
             {
@@ -389,8 +448,8 @@ namespace Heirloom.Desktop
 
         protected virtual void OnCharTyped(UnicodeCharacter character)
         {
-            var ev = new CharEvent(character);
-            CharTyped?.Invoke(this, ev);
+            var ev = new CharacterEvent(character);
+            CharacterTyped?.Invoke(this, ev);
         }
 
         protected virtual void OnMousePressed(int button, ButtonAction action, KeyModifiers modifiers)
@@ -497,7 +556,7 @@ namespace Heirloom.Desktop
         /// </summary>
         public void SetFullscreen()
         {
-            SetFullscreen(GetNearestMonitor());
+            SetFullscreen(Monitor);
         }
 
         /// <summary>
@@ -505,7 +564,7 @@ namespace Heirloom.Desktop
         /// </summary>
         public void SetFullscreen(VideoMode mode)
         {
-            SetFullscreen(GetNearestMonitor(), mode);
+            SetFullscreen(Monitor, mode);
         }
 
         /// <summary>
@@ -542,26 +601,6 @@ namespace Heirloom.Desktop
 
         #endregion
 
-        /// <summary>
-        /// Gets the monitor this window is positioned on.
-        /// </summary>
-        public Monitor GetNearestMonitor()
-        {
-            // Whatever monitor contains the window's center point is
-            // considered the nearest. Another method of evaluation may
-            // be more appropriate such as minimal sum of corner distances.
-            foreach (var monitor in Monitor.Monitors)
-            {
-                if (monitor.Workarea.Contains(Bounds.Center))
-                {
-                    return monitor;
-                }
-            }
-
-            // Somehow arrived here, just use the primary monitor.
-            return Monitor.Default;
-        }
-
         #region MoveTo
 
         /// <summary>
@@ -569,7 +608,7 @@ namespace Heirloom.Desktop
         /// </summary>
         public void MoveToCenter()
         {
-            MoveToCenter(GetNearestMonitor());
+            MoveToCenter(Monitor);
         }
 
         /// <summary>
@@ -579,6 +618,125 @@ namespace Heirloom.Desktop
         {
             var area = monitor.Workarea;
             Position = new IntVector(area.Width - Size.Width, area.Height - Size.Height) / 2;
+        }
+
+        #endregion
+
+        #region Set Icon
+
+        /// <summary>
+        /// Assigns a set of icon images to the window (the image with the most desireable szie by the system is chosen).
+        /// </summary>
+        public void SetIcons(Image[] icons)
+        {
+            if (icons is null) { throw new ArgumentNullException(nameof(icons)); }
+
+            Application.Invoke(() =>
+            {
+                // 
+                var data = new ImageData[icons.Length];
+                var pins = new GCHandle[icons.Length];
+
+                // Pin each image and 
+                for (var i = 0; i < icons.Length; i++)
+                {
+                    var icon = icons[i];
+
+                    // Pin the pixels (prevent GC collection)
+                    var pixels = icon.GetPixels();
+                    pins[i] = GCHandle.Alloc(pixels, GCHandleType.Pinned);
+
+                    // Construct image data
+                    data[i] = new ImageData
+                    {
+                        Width = icon.Width,
+                        Height = icon.Height,
+                        Pixels = pins[i].AddrOfPinnedObject(),
+                    };
+                }
+
+                _icons = icons;
+                Glfw.SetWindowIcons(WindowHandle, data);
+
+                // Free GC Pins
+                for (var i = 0; i < icons.Length; i++)
+                {
+                    pins[i].Free();
+                }
+            });
+        }
+
+        /// <summary>
+        /// Assigns a new icon image to the window.
+        /// </summary>
+        public void SetIcon(Image icon)
+        {
+            SetIcons(new[] { icon });
+        }
+
+        #endregion
+
+        #region Set Cursor Image
+
+        /// <summary>
+        /// Changes the appearance of the cursor on this window.
+        /// </summary>
+        public void SetCursor(StandardCursor cursor)
+        {
+            Application.Invoke(() =>
+            {
+                // Remove previous cursor
+                if (_cursorHandle != CursorHandle.None) { Glfw.DestroyCursor(_cursorHandle); }
+
+                // Construct and set a new cursor
+                _cursorHandle = Glfw.CreateCursor(cursor);
+                Glfw.SetCursor(WindowHandle, _cursorHandle);
+            });
+        }
+
+        /// <summary>
+        /// Changes the appearance of the cursor on this window.
+        /// </summary>
+        public void SetCursor(Image cursor)
+        {
+            if (cursor is null) { throw new ArgumentNullException(nameof(cursor)); }
+
+            SetCursor(cursor, (IntVector) cursor.Origin);
+        }
+
+        /// <summary>
+        /// Changes the appearance of the cursor on this window.
+        /// </summary>
+        public void SetCursor(Image cursor, IntVector hotspot)
+        {
+            if (cursor is null) { throw new ArgumentNullException(nameof(cursor)); }
+
+            Application.Invoke(() =>
+            {
+                unsafe
+                {
+                    // Gets a copy of the image pixels
+                    var pixels = cursor.GetPixels();
+
+                    // 
+                    fixed (ColorBytes* ptr = pixels)
+                    {
+                        var data = new ImageData
+                        {
+                            Width = cursor.Width,
+                            Height = cursor.Height,
+                            Pixels = (IntPtr) ptr
+                        };
+
+                        // Remove previous cursor
+                        if (_cursorHandle != CursorHandle.None) { Glfw.DestroyCursor(_cursorHandle); }
+
+                        // Construct and set a new cursor
+                        _cursorHandle = Glfw.CreateCursor(data, hotspot.X, hotspot.Y);
+                        Glfw.SetCursor(WindowHandle, _cursorHandle);
+                    }
+                }
+            });
         }
 
         #endregion

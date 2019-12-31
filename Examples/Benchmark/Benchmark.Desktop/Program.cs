@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Heirloom.Desktop;
-using Heirloom.GLFW;
+using Heirloom.Desktop;
 
 namespace Benchmark
 {

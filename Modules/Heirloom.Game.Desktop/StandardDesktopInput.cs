@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Heirloom.Desktop;
 using Heirloom.Drawing;
-using Heirloom.GLFW;
+using Heirloom.Desktop;
 using Heirloom.Math;
 
 namespace Heirloom.Game.Desktop
@@ -14,8 +14,8 @@ namespace Heirloom.Game.Desktop
         private readonly Queue<MouseMoveEvent> _mouseMoveEvents;
         private readonly Queue<MouseButtonEvent> _mouseButtonEvents;
         private readonly Queue<MouseScrollEvent> _mouseScrollEvents;
-        private readonly Queue<KeyboardEvent> _keyboardEvents;
-        private readonly Queue<CharEvent> _characterEvents;
+        private readonly Queue<KeyEvent> _keyboardEvents;
+        private readonly Queue<CharacterEvent> _characterEvents;
 
         // active state
         private readonly HashSet<string> _buttonNames;
@@ -32,8 +32,8 @@ namespace Heirloom.Game.Desktop
             _mouseScrollEvents = new Queue<MouseScrollEvent>();
             _mouseButtonEvents = new Queue<MouseButtonEvent>();
             _mouseMoveEvents = new Queue<MouseMoveEvent>();
-            _keyboardEvents = new Queue<KeyboardEvent>();
-            _characterEvents = new Queue<CharEvent>();
+            _keyboardEvents = new Queue<KeyEvent>();
+            _characterEvents = new Queue<CharacterEvent>();
 
             // 
             _buttonState = new Dictionary<string, ButtonState>();
@@ -42,7 +42,7 @@ namespace Heirloom.Game.Desktop
             // Subscribe to keyboard events
             Window.KeyPress += OnKeyEvent;
             Window.KeyRelease += OnKeyEvent;
-            Window.CharTyped += OnCharEvent;
+            Window.CharacterTyped += OnCharEvent;
 
             // Subscribe to mouse events
             Window.MousePress += OnMouseButtonEvent;
@@ -56,7 +56,7 @@ namespace Heirloom.Game.Desktop
             // Unsubscribe from keyboard events
             Window.KeyPress -= OnKeyEvent;
             Window.KeyRelease -= OnKeyEvent;
-            Window.CharTyped -= OnCharEvent;
+            Window.CharacterTyped -= OnCharEvent;
 
             // Unsubscribe from mouse events
             Window.MousePress -= OnMouseButtonEvent;
@@ -86,12 +86,12 @@ namespace Heirloom.Game.Desktop
             _mouseButtonEvents.Enqueue(ev);
         }
 
-        private void OnKeyEvent(Window window, KeyboardEvent ev)
+        private void OnKeyEvent(Window window, KeyEvent ev)
         {
             _keyboardEvents.Enqueue(ev);
         }
 
-        private void OnCharEvent(Window window, CharEvent ev)
+        private void OnCharEvent(Window window, CharacterEvent ev)
         {
             _characterEvents.Enqueue(ev);
         }

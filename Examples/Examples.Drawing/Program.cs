@@ -1,6 +1,6 @@
 ﻿using Heirloom.Desktop;
 using Heirloom.Drawing;
-using Heirloom.GLFW;
+using Heirloom.Desktop;
 using Heirloom.Math;
 
 namespace Examples.Drawing
@@ -82,7 +82,7 @@ namespace Examples.Drawing
             }
         }
 
-        private void Window_KeyPress(Window win, KeyboardEvent ev)
+        private void Window_KeyPress(Window win, KeyEvent ev)
         {
             if (ev.Action == ButtonAction.Press)
             {
