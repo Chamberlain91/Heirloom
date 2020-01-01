@@ -17,12 +17,12 @@ namespace Heirloom.Desktop
         internal static WindowHandle ShareContext;
 
         /// <summary>
-        /// Gets a value that determines if transparent framebuffers supported on this device/platform.
+        /// Gets a value that determines if transparent window framebuffers are supported on this device/platform.
         /// </summary>
         public static bool SupportsTransparentFramebuffer { get; private set; }
 
         /// <summary>
-        /// Gets a value determining if the application is ready to process window events and other desktop features.
+        /// Gets a value determining if the application has been initialized.
         /// </summary>
         public static bool IsInitialized { get; private set; } = false;
 
@@ -39,13 +39,17 @@ namespace Heirloom.Desktop
         }
 
         /// <summary>
-        /// Initializes necessary windowing utilities and then executes the specified function when ready.
-        /// This function is blocking.
+        /// Initializes windowing utilities, executes <paramref name="initialize"/> and 
+        /// then continuously processes window events until all windows are closed. This is a blocking function.
         /// </summary>
-        /// <param name="initialize"></param>
         /// <see cref="IsInitialized"/>
         public static void Run(Action initialize)
         {
+            if (initialize is null)
+            {
+                throw new ArgumentNullException(nameof(initialize));
+            }
+
             if (IsInitialized)
             {
                 throw new InvalidOperationException("Application has already been initialized and is currently running.");
