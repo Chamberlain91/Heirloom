@@ -524,13 +524,16 @@ namespace Heirloom.Drawing.OpenGLES
             {
                 _isRunning = false;
 
-                // Terminate thread
+                // Terminate consumer thread
                 _thread.Stop(true);
 
                 if (disposeManaged)
                 {
                     // Dispose managed objects...
                 }
+
+                // Call base dispose (to cleanup non-OpenGL resources)
+                base.Dispose(disposeManaged);
             }
         }
 

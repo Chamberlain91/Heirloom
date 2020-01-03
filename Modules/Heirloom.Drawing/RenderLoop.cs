@@ -40,6 +40,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Start the render thread.
+        /// This thread will automatically terminate when the associated graphics object is disposed.
         /// </summary>
         public void Start()
         {
