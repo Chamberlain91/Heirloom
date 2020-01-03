@@ -110,9 +110,6 @@ namespace Heirloom.Desktop
                 return handle;
             });
 
-            // Set if the window is resizable (must happen after window is created)
-            IsResizable = settings.IsResizable.Value;
-
             // 
             _title = title;
 

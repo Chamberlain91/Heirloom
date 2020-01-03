@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 using Heirloom.OpenGLES;
 
@@ -7,9 +8,9 @@ namespace Heirloom.Desktop
 {
     public static class Application
     {
-        private const double WaitEventsTimeout = 1.0 / 60.0;
+        private const double WaitEventsTimeout = 1.0 / 100.0;
 
-        private static ConsumerQueue _invokeQueue;
+        private static readonly ConsumerQueue _invokeQueue = new ConsumerQueue();
 
         private static readonly Dictionary<MonitorHandle, Monitor> _monitors = new Dictionary<MonitorHandle, Monitor>();
         private static readonly List<Window> _windows = new List<Window>();
@@ -117,10 +118,9 @@ namespace Heirloom.Desktop
 
                 // Release context for use as a sharing context.
                 Glfw.MakeContextCurrent(WindowHandle.None);
-
-                // 
-                _invokeQueue = new ConsumerQueue();
             }
+
+            PrintDebug($"Supports Transparent Framebuffer: {SupportsTransparentFramebuffer}");
 
             IsInitialized = true;
             initialize();
@@ -199,7 +199,7 @@ namespace Heirloom.Desktop
             var primary = Glfw.GetPrimaryMonitor();
             var isPrimary = primary == monitor;
 
-            Console.WriteLine($"Found Monitor: \"{name}\" ({state}, isPrimary: {isPrimary})");
+            PrintDebug($"Monitor: \"{name}\" ({state}, isPrimary: {isPrimary})");
 
             // Connected Monitor
             if (state == ConnectState.Connected)
@@ -222,6 +222,12 @@ namespace Heirloom.Desktop
 
             // Set default monitor
             DefaultMonitor = _monitors[primary];
+        }
+
+        [Conditional("DEBUG")]
+        private static void PrintDebug(string value)
+        {
+            Console.WriteLine(value);
         }
     }
 }

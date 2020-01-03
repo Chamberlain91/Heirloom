@@ -34,14 +34,11 @@ namespace Examples.Drawing
             };
 
             // Create window
-            Window = new Window("Heirloom - Drawing Examples", new WindowCreationSettings
-            {
-                Multisample = MultisampleQuality.High,
-                IsResizable = false
-            });
+            Window = new Window("Heirloom - Drawing Examples", MultisampleQuality.High);
 
             // 
             Window.Graphics.EnableFPSOverlay = true;
+            Window.IsResizable = false;
 
             // Create render loop
             Loop = RenderLoop.Create(Window.Graphics, Update);

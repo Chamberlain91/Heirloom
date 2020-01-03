@@ -1,5 +1,8 @@
 ﻿namespace Heirloom.Desktop
 {
+    /// <summary>
+    /// Describes the size state a window can be in.
+    /// </summary>
     public enum WindowState
     {
         /// <summary>
