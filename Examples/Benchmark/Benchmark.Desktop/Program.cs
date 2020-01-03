@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Heirloom.Desktop;
-using Heirloom.Desktop;
 
 namespace Benchmark
 {
@@ -16,7 +15,7 @@ namespace Benchmark
 
                 // Try fullscreen, otherwise maximize
                 // Note: This might be useless, but one time on a macbook it failed.
-                try { win.SetFullscreen(Monitor.Default); }
+                try { win.SetFullscreen(Application.DefaultMonitor); }
                 catch (Exception) { win.Maximize(); }
 
                 // Create app instance

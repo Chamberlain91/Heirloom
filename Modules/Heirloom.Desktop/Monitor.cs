@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Heirloom.Desktop;
-using Heirloom.Math;
+﻿using Heirloom.Math;
 
 namespace Heirloom.Desktop
 {
+    /// <summary>
+    /// Represents a physical display on the current device.
+    /// </summary>
     public class Monitor
     {
         internal readonly MonitorHandle MonitorHandle;
@@ -16,18 +15,40 @@ namespace Heirloom.Desktop
             Name = name;
         }
 
+        #region Properties
+
         /// <summary>
         /// Gets the human-readable name of the monitor.
         /// </summary>
         public string Name { get; }
 
         /// <summary>
-        /// Gets the current video mode on this monitor.
+        /// Gets the width (in pixels) of the monitor (in the current video mode).
         /// </summary>
-        public VideoMode CurrentVideoMode => Application.Invoke(() => Glfw.GetVideoMode(MonitorHandle));
+        public int Width => CurrentMode.Width;
 
         /// <summary>
-        /// Gets the work area of the monitor (ie, region ignoring taskbar).
+        /// Gets the width (in pixels) of the monitor (in the current video mode).
+        /// </summary>
+        public int Height => CurrentMode.Height;
+
+        /// <summary>
+        /// Gets the refresh rate of the monitor (in the current video mode).
+        /// </summary>
+        public int RefreshRate => CurrentMode.RefreshRate;
+
+        /// <summary>
+        /// Gets the virtual position of the monitor (in screen units).
+        /// </summary>
+        public IntVector Position => Application.Invoke(() =>
+        {
+            Glfw.GetMonitorPosition(MonitorHandle, out var x, out var y);
+            return new IntVector(x, y);
+        });
+
+        /// <summary>
+        /// Gets the work area (in screen units) of the monitor.
+        /// This is the monitor bounds minus any global task or menu bars.
         /// </summary>
         public IntRectangle Workarea => Application.Invoke(() =>
         {
@@ -37,73 +58,18 @@ namespace Heirloom.Desktop
         });
 
         /// <summary>
+        /// Gets the current video mode on this monitor.
+        /// </summary>
+        public VideoMode CurrentMode => Application.Invoke(() => Glfw.GetVideoMode(MonitorHandle));
+
+        #endregion
+
+        /// <summary>
         /// Gets all known video modes on this monitor.
         /// </summary>
         public VideoMode[] GetVideoModes()
         {
             return Application.Invoke(() => Glfw.GetVideoModes(MonitorHandle));
         }
-
-        #region Static
-
-        private static readonly Dictionary<MonitorHandle, Monitor> _monitors;
-
-        static Monitor()
-        {
-            _monitors = new Dictionary<MonitorHandle, Monitor>();
-
-            // Register monitor callback, invoked when the monitor configuration changes.
-            Glfw.SetMonitorCallback(OnMonitorCallback);
-
-            // Scan currently connected monitors
-            foreach (var monitor in Glfw.GetMonitors())
-            {
-                OnMonitorCallback(monitor, ConnectState.Connected);
-            }
-        }
-
-        /// <summary>
-        /// The default (primary) monitor.
-        /// </summary>
-        public static Monitor Default { get; private set; }
-
-        /// <summary>
-        /// Get all currently connected monitors.
-        /// </summary>
-        public static IEnumerable<Monitor> Monitors => _monitors.Values;
-
-        private static void OnMonitorCallback(MonitorHandle monitor, ConnectState state)
-        {
-            var name = Glfw.GetMonitorName(monitor);
-
-            var primary = Glfw.GetPrimaryMonitor();
-            var isPrimary = primary == monitor;
-
-            Console.WriteLine($"Found Monitor: \"{name}\" ({state}, isPrimary: {isPrimary})");
-
-            // Connected Monitor
-            if (state == ConnectState.Connected)
-            {
-                // We can only insert if unknown
-                if (!_monitors.ContainsKey(monitor))
-                {
-                    _monitors[monitor] = new Monitor(name, monitor);
-                }
-            }
-            // Disconnected Monitor
-            else
-            {
-                // We can only remove if known already
-                if (_monitors.ContainsKey(monitor))
-                {
-                    _monitors.Remove(monitor);
-                }
-            }
-
-            // Set default monitor
-            Default = _monitors[primary];
-        }
-
-        #endregion
     }
 }

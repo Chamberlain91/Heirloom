@@ -10,7 +10,9 @@ namespace Heirloom.Desktop
         private const double WaitEventsTimeout = 1.0 / 60.0;
 
         private static ConsumerQueue _invokeQueue;
-        private static List<Window> _windows;
+
+        private static readonly Dictionary<MonitorHandle, Monitor> _monitors = new Dictionary<MonitorHandle, Monitor>();
+        private static readonly List<Window> _windows = new List<Window>();
 
         private static readonly object _lock = new object();
 
@@ -39,6 +41,23 @@ namespace Heirloom.Desktop
         }
 
         /// <summary>
+        /// The default (primary) monitor.
+        /// </summary>
+        public static Monitor DefaultMonitor { get; private set; }
+
+        /// <summary>
+        /// Gets all currently connected monitors.
+        /// </summary>
+        public static IEnumerable<Monitor> Monitors
+        {
+            get
+            {
+                EnsureReady();
+                return _monitors.Values;
+            }
+        }
+
+        /// <summary>
         /// Initializes windowing utilities, executes <paramref name="initialize"/> and 
         /// then continuously processes window events until all windows are closed. This is a blocking function.
         /// </summary>
@@ -62,6 +81,15 @@ namespace Heirloom.Desktop
                 {
                     Console.WriteLine("Unable to initialize GLFW");
                     return;
+                }
+
+                // Register monitor callback, invoked when the monitor configuration changes.
+                Glfw.SetMonitorCallback(OnMonitorCallback);
+
+                // Scan currently connected monitors
+                foreach (var monitor in Glfw.GetMonitors())
+                {
+                    OnMonitorCallback(monitor, ConnectState.Connected);
                 }
 
                 // Set to use OpenGL 3.2 core (forward compatible)
@@ -92,7 +120,6 @@ namespace Heirloom.Desktop
 
                 // 
                 _invokeQueue = new ConsumerQueue();
-                _windows = new List<Window>();
             }
 
             IsInitialized = true;
@@ -163,6 +190,38 @@ namespace Heirloom.Desktop
             {
                 _windows.Remove(window);
             }
+        }
+
+        private static void OnMonitorCallback(MonitorHandle monitor, ConnectState state)
+        {
+            var name = Glfw.GetMonitorName(monitor);
+
+            var primary = Glfw.GetPrimaryMonitor();
+            var isPrimary = primary == monitor;
+
+            Console.WriteLine($"Found Monitor: \"{name}\" ({state}, isPrimary: {isPrimary})");
+
+            // Connected Monitor
+            if (state == ConnectState.Connected)
+            {
+                // We can only insert if unknown
+                if (!_monitors.ContainsKey(monitor))
+                {
+                    _monitors[monitor] = new Monitor(name, monitor);
+                }
+            }
+            // Disconnected Monitor
+            else
+            {
+                // We can only remove if known already
+                if (_monitors.ContainsKey(monitor))
+                {
+                    _monitors.Remove(monitor);
+                }
+            }
+
+            // Set default monitor
+            DefaultMonitor = _monitors[primary];
         }
     }
 }
