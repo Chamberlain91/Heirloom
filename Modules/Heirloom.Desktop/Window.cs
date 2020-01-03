@@ -39,7 +39,7 @@ namespace Heirloom.Desktop
         /// <summary>
         /// Gets the default window icon set.
         /// </summary>
-        public static readonly Image[] DefaultIcons = LoadDefaultIcons();
+        private static readonly Image[] _defaultWindowIcons = LoadDefaultIcons();
 
         private static Image[] LoadDefaultIcons()
         {
@@ -164,7 +164,7 @@ namespace Heirloom.Desktop
             Glfw.SetScrollCallback(WindowHandle, _scrollCallback = (_, x, y) => OnMouseScroll((float) x, (float) y));
 
             // Set the default icons
-            SetIcons(DefaultIcons);
+            SetIcons(_defaultWindowIcons);
 
             // == Construct Graphics Context
 
@@ -350,7 +350,7 @@ namespace Heirloom.Desktop
                 // Whatever monitor contains the window's center point is
                 // considered the nearest. Another method of evaluation may
                 // be more appropriate such as minimal sum of corner distances.
-                foreach (var monitor in Monitor.Monitors)
+                foreach (var monitor in Application.Monitors)
                 {
                     if (monitor.Workarea.Contains(Bounds.Center))
                     {
@@ -359,7 +359,7 @@ namespace Heirloom.Desktop
                 }
 
                 // Somehow arrived here, just use the primary monitor.
-                return Monitor.Default;
+                return Application.DefaultMonitor;
             }
         }
 
@@ -572,7 +572,7 @@ namespace Heirloom.Desktop
         /// </summary>
         public void SetFullscreen(Monitor monitor)
         {
-            SetFullscreen(monitor, monitor?.CurrentVideoMode ?? default);
+            SetFullscreen(monitor, monitor?.CurrentMode ?? default);
         }
 
         /// <summary>
