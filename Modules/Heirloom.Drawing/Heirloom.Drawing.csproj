@@ -18,6 +18,10 @@
 
   <ItemGroup>
     <None Remove="Embedded\monogram_extended.ttf" />
+    <None Remove="Embedded\Shaders\shader.frag" />
+    <None Remove="Embedded\Shaders\shader.vert" />
+    <None Remove="Embedded\Shaders\standard\standard.frag" />
+    <None Remove="Embedded\Shaders\standard\standard.vert" />
     <None Include="..\..\LICENSE.md">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -26,9 +30,14 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Embedded\monogram_extended.ttf" />
+    <EmbeddedResource Include="Embedded\Shaders\shader.frag" />
+    <EmbeddedResource Include="Embedded\Shaders\shader.vert" />
+    <EmbeddedResource Include="Embedded\Shaders\standard\standard.frag" />
+    <EmbeddedResource Include="Embedded\Shaders\standard\standard.vert" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Heirloom.IO\Heirloom.IO.csproj" />
     <ProjectReference Include="..\Heirloom.Math\Heirloom.Math.csproj" />
   </ItemGroup>
 
