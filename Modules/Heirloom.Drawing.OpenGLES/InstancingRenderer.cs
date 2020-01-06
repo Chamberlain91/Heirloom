@@ -33,12 +33,7 @@ namespace Heirloom.Drawing.OpenGLES
             // Create buffer sets
             _vertexArray = new VertexArray();
         }
-
-        ~InstancingRenderer()
-        {
-            // TODO: Dispose BufferSets
-        }
-
+         
         #endregion
 
         #region Properties
