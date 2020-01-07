@@ -1,4 +1,4 @@
-﻿#include "./standard/standard.vert"
+﻿#include "standard/standard.vert"
 
 vec2 vertexProgram(vec2 position)
 {

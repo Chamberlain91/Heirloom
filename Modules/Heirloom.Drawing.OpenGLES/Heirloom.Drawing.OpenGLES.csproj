@@ -16,25 +16,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Embedded\blur.frag" />
-    <None Remove="Embedded\invert.frag" />
-    <None Remove="Embedded\shader.frag" />
-    <None Remove="Embedded\shader.vert" />
-    <None Remove="Embedded\standard\standard.frag" />
-    <None Remove="Embedded\standard\standard.vert" />
     <None Include="..\..\LICENSE.md">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Embedded\blur.frag" />
-    <EmbeddedResource Include="Embedded\invert.frag" />
-    <EmbeddedResource Include="Embedded\shader.frag" />
-    <EmbeddedResource Include="Embedded\shader.vert" />
-    <EmbeddedResource Include="Embedded\standard\standard.frag" />
-    <EmbeddedResource Include="Embedded\standard\standard.vert" />
   </ItemGroup>
 
   <ItemGroup>

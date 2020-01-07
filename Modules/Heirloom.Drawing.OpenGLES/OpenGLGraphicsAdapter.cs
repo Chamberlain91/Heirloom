@@ -1,5 +1,4 @@
-﻿using System;
-using Heirloom.OpenGLES;
+﻿using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
@@ -9,16 +8,44 @@ namespace Heirloom.Drawing.OpenGLES
         {
             return new GraphicsCapabilities(
                 maxSupportedTextures: GL.GetInteger(GetParameter.MaxTextureImageUnits),
-                isMobilePlatform: false);
+                isMobilePlatform: DetectOpenGLES());
+        }
+
+        private static bool DetectOpenGLES()
+        {
+            var version = GL.GetString(StringParameter.Version);
+            var embedded = false;
+
+            var embeddedPrefixes = new[]
+            {
+                "OpenGL ES ",
+                "OpenGL ES-CM ",
+                "OpenGL ES-CL "
+            };
+
+            // Try to detect OpenGL ES
+            foreach (var prefix in embeddedPrefixes)
+            {
+                if (version.StartsWith(prefix))
+                {
+                    // Strip prefix
+                    version = version.Substring(prefix.Length);
+                    embedded = true;
+                    break;
+                }
+            }
+
+            return embedded;
         }
 
         protected override object CompileShader(string vert, string frag)
         {
             return Invoke(() =>
             {
-                var vshader = new Shader("vert", ShaderType.Vertex, vert);
-                var fshader = new Shader("frag", ShaderType.Fragment, frag);
-                return new ShaderProgram(vshader, fshader);
+                var vShader = new ShaderStage("vert", ShaderType.Vertex, vert);
+                var fShader = new ShaderStage("frag", ShaderType.Fragment, frag);
+
+                return new ShaderProgram(vShader, fShader);
             });
         }
     }

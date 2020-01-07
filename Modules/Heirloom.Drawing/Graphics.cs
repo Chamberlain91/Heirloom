@@ -203,6 +203,11 @@ namespace Heirloom.Drawing
 
         #endregion
 
+        protected static object GetNativeObject(IDrawingResource resource)
+        {
+            return resource.NativeObject;
+        }
+
         /// <summary>
         /// Present the drawing operations to the screen.
         /// </summary>

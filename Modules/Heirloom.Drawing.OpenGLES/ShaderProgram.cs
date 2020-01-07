@@ -22,7 +22,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Constructors
 
-        internal ShaderProgram(Shader frag, Shader vert)
+        internal ShaderProgram(ShaderStage frag, ShaderStage vert)
         {
             FragmentShader = frag;
             VertexShader = vert;
@@ -87,9 +87,9 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Properties
 
-        internal Shader FragmentShader { get; }
+        internal ShaderStage FragmentShader { get; }
 
-        internal Shader VertexShader { get; }
+        internal ShaderStage VertexShader { get; }
 
         internal uint Handle { get; }
 
@@ -198,7 +198,7 @@ namespace Heirloom.Drawing.OpenGLES
             return location;
         }
 
-        private static uint CreateAndLinkShaderProgram(Shader frag, Shader vert)
+        private static uint CreateAndLinkShaderProgram(ShaderStage frag, ShaderStage vert)
         {
             var handle = GL.CreateProgram();
 

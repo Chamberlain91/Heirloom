@@ -13,6 +13,16 @@ namespace Heirloom.Desktop
             return new OpenGLWindowGraphics(this, window);
         }
 
+        protected override T Invoke<T>(Func<T> action)
+        {
+            return Application.Invoke(action);
+        }
+
+        protected override void Invoke(Action action)
+        {
+            Application.Invoke(action);
+        }
+
         private sealed class OpenGLWindowGraphics : OpenGLGraphics
         {
             public OpenGLWindowGraphics(GraphicsAdapter graphicsAdapter, Window window)
@@ -41,16 +51,6 @@ namespace Heirloom.Desktop
             {
                 Invoke(() => Glfw.SwapBuffers(Window.WindowHandle), false);
             }
-        }
-
-        protected override T Invoke<T>(Func<T> action)
-        {
-            return Application.Invoke(action);
-        }
-
-        protected override void Invoke(Action action)
-        {
-            Application.Invoke(action);
         }
     }
 }

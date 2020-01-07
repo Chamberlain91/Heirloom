@@ -11,8 +11,6 @@ namespace Heirloom.Drawing.OpenGLES
 {
     public abstract class OpenGLGraphics : Graphics
     {
-        private ShaderFactory _shaderFactory;
-
         private Surface _currentSurface;
         private Renderer _renderer;
 
@@ -73,14 +71,13 @@ namespace Heirloom.Drawing.OpenGLES
 
             // TODO: Share buffers in ResourceManager?
             _uniformBuffers = new Dictionary<string, Buffer>();
-            _shaderFactory = new ShaderFactory(this);
 
             // Construct the instancing batching renderer
             _renderer = new InstancingRenderer(this);
 
             // Set the default shader
-            var defaultShader = _shaderFactory.GetShaderProgram("shader.vert", "shader.frag");
-            SetShaderProgram(defaultShader);
+            var program = GetNativeObject(Shader.Default) as ShaderProgram;
+            SetShaderProgram(program);
 
             // Bind uniform buffers
             foreach (var block in _shader.GetBlocks())
@@ -204,24 +201,22 @@ namespace Heirloom.Drawing.OpenGLES
                         var buffer = GetUniformBuffer(block);
                         GL.BindBufferBase(BufferTarget.UniformBuffer, block.Index, buffer.Handle);
                     }
+
+                    // todo: Update any mutated uniforms
+
                 }, false);
             }
         }
 
-        //public unsafe void SetShaderImage(int index, ImageSource image)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public unsafe void SetShaderParamter<T>(string name, T data) where T : struct
+        public unsafe void SetShaderParameter<T>(string name, T data) where T : struct
         {
             var pin = GCHandle.Alloc(data, GCHandleType.Pinned);
             var size = Marshal.SizeOf<T>();
-            SetShaderParamter(name, (void*) pin.AddrOfPinnedObject(), 0, size);
+            SetShaderParameter(name, (void*) pin.AddrOfPinnedObject(), 0, size);
             pin.Free();
         }
 
-        public unsafe void SetShaderParamter(string name, void* data, int offset, int size)
+        public unsafe void SetShaderParameter(string name, void* data, int offset, int size)
         {
             // Get uniform
             var uniform = _shader.GetUniform(name);
@@ -237,11 +232,11 @@ namespace Heirloom.Drawing.OpenGLES
         /// Writes a matrix to the given address with each row aligned to 16 bytes.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe void SetShaderParamter(string name, Matrix matrix)
+        public unsafe void SetShaderParameter(string name, Matrix matrix)
         {
             var p = (float*) &matrix;
-            SetShaderParamter(name, p + 0, 0, 12);
-            SetShaderParamter(name, p + 3, 16, 12);
+            SetShaderParameter(name, p + 0, 0, 12);
+            SetShaderParameter(name, p + 3, 16, 12);
         }
 
         #endregion
@@ -486,7 +481,7 @@ namespace Heirloom.Drawing.OpenGLES
                     Matrix.Multiply(in projMatrix, in _viewMatrix, ref projMatrix);
 
                     // Write into uniform buffer
-                    SetShaderParamter("uMatrix", projMatrix);
+                    SetShaderParameter("uMatrix", projMatrix);
 
                     //// Synchronize GPU with operations before drawing
                     //var sync = GL.FenceSync(SyncFenceCondition.SyncGpuCommandsComplete, 0);

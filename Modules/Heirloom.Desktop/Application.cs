@@ -167,7 +167,7 @@ namespace Heirloom.Desktop
 
                     // Assign graphics factory and adapter
                     GraphicsFactory = adapter;
-                    GraphicsAdapter = adapter; 
+                    GraphicsAdapter = adapter;
                 }
 
                 // Determine if transparent framebuffers are possible

@@ -1,4 +1,4 @@
-﻿#include "./standard/standard.frag"
+﻿#include "standard/standard.frag"
  
 vec4 fragmentProgram(vec4 color) 
 { 
