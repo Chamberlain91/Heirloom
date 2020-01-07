@@ -33,8 +33,8 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Constructors
 
-        protected internal OpenGLGraphics(MultisampleQuality multisample)
-            : base(multisample)
+        protected internal OpenGLGraphics(GraphicsAdapter graphicsAdapter, MultisampleQuality multisample)
+            : base(graphicsAdapter, multisample)
         {
             _isRunning = true;
 
@@ -47,11 +47,6 @@ namespace Heirloom.Drawing.OpenGLES
         #endregion
 
         #region Properties 
-
-        /// <summary>
-        /// Gets the detected OpenGL capabilities of this platform.
-        /// </summary>
-        public OpenGLCapabilities Capabilities { get; private set; }
 
         /// <summary>
         /// Gets the detected OpenGL version of this platform.
@@ -71,7 +66,6 @@ namespace Heirloom.Drawing.OpenGLES
 
             //  
             Console.WriteLine(Version = ParseVersion());
-            Capabilities = DetectCapabilities();
 
             // 
             GL.Enable(EnableCap.ScissorTest);
@@ -97,12 +91,6 @@ namespace Heirloom.Drawing.OpenGLES
 
             // 
             ResetState();
-        }
-
-        private OpenGLCapabilities DetectCapabilities()
-        {
-            var maxTextureUnits = GL.GetInteger(GetParameter.MaxTextureImageUnits);
-            return new OpenGLCapabilities(maxTextureUnits);
         }
 
         private OpenGLVersion ParseVersion()

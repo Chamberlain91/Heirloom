@@ -118,8 +118,8 @@ namespace Heirloom.Drawing.OpenGLES
             yield return GenerateVersionPreprocessor();
 
 #if DEBUG
-                // If a debug build, enable debug shader
-                yield return "#pragma debug on\n";
+            // If a debug build, enable debug shader
+            yield return "#pragma debug on\n";
 #endif
 
             if (type == ShaderType.Fragment)
@@ -138,7 +138,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         private string GenerateBatchImageMethods()
         {
-            var maxTextureUnits = _graphics.Capabilities.MaxTextureUnits;
+            var maxTextureUnits = _graphics.Capabilities.MaxSupportedShaderImages;
 
             var code = "";
 
