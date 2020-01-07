@@ -137,7 +137,7 @@ namespace Heirloom.Drawing
 
 #if DEBUG
             // When a debug build, enable debug shader pragma
-            version += "#pragma debug on\n";
+            version += "#pragma debug(on)\n";
 #endif
 
             return version;
