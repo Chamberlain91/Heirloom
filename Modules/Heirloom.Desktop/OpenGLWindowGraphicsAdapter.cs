@@ -3,28 +3,14 @@ using System.Threading;
 
 using Heirloom.Drawing;
 using Heirloom.Drawing.OpenGLES;
-using Heirloom.OpenGLES;
 
 namespace Heirloom.Desktop
 {
-    internal sealed class OpenGLGraphicsAdapter : WindowGraphicsAdapter
+    internal sealed class OpenGLWindowGraphicsAdapter : OpenGLGraphicsAdapter, IWindowGraphicsFactory
     {
-        internal override Graphics CreateGraphics(Window window)
+        public Graphics CreateGraphics(Window window)
         {
             return new OpenGLWindowGraphics(this, window);
-        }
-
-        protected override GraphicsCapabilities QueryCapabilities()
-        {
-            return new GraphicsCapabilities(
-                maxSupportedTextures: GL.GetInteger(GetParameter.MaxTextureImageUnits),
-                isMobilePlatform: false);
-        }
-
-        protected override object CompileShader(string vert, string frag)
-        {
-            Console.WriteLine("OPENGL COMPILE SHADER NOW PLZ");
-            throw new NotImplementedException();
         }
 
         private sealed class OpenGLWindowGraphics : OpenGLGraphics
@@ -55,6 +41,16 @@ namespace Heirloom.Desktop
             {
                 Invoke(() => Glfw.SwapBuffers(Window.WindowHandle), false);
             }
+        }
+
+        protected override T Invoke<T>(Func<T> action)
+        {
+            return Application.Invoke(action);
+        }
+
+        protected override void Invoke(Action action)
+        {
+            Application.Invoke(action);
         }
     }
 }

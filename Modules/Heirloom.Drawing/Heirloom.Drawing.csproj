@@ -18,8 +18,8 @@
 
   <ItemGroup>
     <None Remove="Embedded\monogram_extended.ttf" />
-    <None Remove="Embedded\Shaders\shader.frag" />
-    <None Remove="Embedded\Shaders\shader.vert" />
+    <None Remove="Embedded\Shaders\default.frag" />
+    <None Remove="Embedded\Shaders\default.vert" />
     <None Remove="Embedded\Shaders\standard\standard.frag" />
     <None Remove="Embedded\Shaders\standard\standard.vert" />
     <None Include="..\..\LICENSE.md">
@@ -30,8 +30,8 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Embedded\monogram_extended.ttf" />
-    <EmbeddedResource Include="Embedded\Shaders\shader.frag" />
-    <EmbeddedResource Include="Embedded\Shaders\shader.vert" />
+    <EmbeddedResource Include="Embedded\Shaders\default.frag" />
+    <EmbeddedResource Include="Embedded\Shaders\default.vert" />
     <EmbeddedResource Include="Embedded\Shaders\standard\standard.frag" />
     <EmbeddedResource Include="Embedded\Shaders\standard\standard.vert" />
   </ItemGroup>

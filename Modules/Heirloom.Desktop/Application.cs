@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Heirloom.Drawing;
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Desktop
@@ -19,9 +19,11 @@ namespace Heirloom.Desktop
         internal static WindowHandle ShareContext;
 
         /// <summary>
-        /// Gets the graphics adapter (ie, drawing implementation).
+        /// Gets the graphics adapter.
         /// </summary>
-        internal static WindowGraphicsAdapter GraphicsAdapter { get; private set; }
+        internal static GraphicsAdapter GraphicsAdapter { get; private set; }
+
+        internal static IWindowGraphicsFactory GraphicsFactory { get; private set; }
 
         /// <summary>
         /// Gets a value that determines if transparent window framebuffers are supported on this device/platform.
@@ -149,17 +151,24 @@ namespace Heirloom.Desktop
                 // It is used to query window capabilities and assist with sharing OpenGL resources.
                 ShareContext = CreateSharingWindow();
 
-                // Construct Graphics Adapter
-                GraphicsAdapter = graphicsBackend switch
+                // Use share context temporarily to load the GL functions
+                // and construct the graphics adapter object...
+                Glfw.MakeContextCurrent(ShareContext);
+
+                // If using the GL backend, load GL functions
+                if (graphicsBackend == GraphicsBackend.OpenGLES)
                 {
-                    // Configures GLFW for OpenGL(ES)
+                    // Loads the GL functions via GLFW lookup
+                    GL.LoadFunctions(Glfw.GetProcAddress);
+
                     // On the desktop we actually use GL 3.2, but limit to GLES 3.0 features.
                     // This is to make a uniform implementation for supporting OpenGL on mobile platforms.
-                    GraphicsBackend.OpenGLES => CreateOpenGLGraphicsAdapter(),
+                    var adapter = new OpenGLWindowGraphicsAdapter();
 
-                    // Whatever the choice was, it is not supported or not implemented.
-                    _ => throw new NotSupportedException(),
-                };
+                    // Assign graphics factory and adapter
+                    GraphicsFactory = adapter;
+                    GraphicsAdapter = adapter; 
+                }
 
                 // Determine if transparent framebuffers are possible
                 SupportsTransparentFramebuffer = Glfw.GetWindowAttribute(ShareContext, WindowAttribute.TransparentFramebuffer) != 0;
@@ -240,24 +249,6 @@ namespace Heirloom.Desktop
             Glfw.SetWindowCreationHint(WindowAttribute.Visible, false);
             Glfw.SetWindowCreationHint(WindowAttribute.TransparentFramebuffer, true);
             return Glfw.CreateWindow(256, 256, "GLFW Background Window");
-        }
-
-        private static WindowGraphicsAdapter CreateOpenGLGraphicsAdapter()
-        {
-            // Use share context temporarily to load the GL functions
-            // and construct the graphics adapter object.
-            Glfw.MakeContextCurrent(ShareContext);
-
-            // We will load the OpenGL functions before creating the adapter.
-            // This ensures everything is ready before calling any GL methods.
-            GL.LoadFunctions(Glfw.GetProcAddress);
-
-            var adapter = new OpenGLGraphicsAdapter();
-
-            // Release context for use as a sharing context again.
-            Glfw.MakeContextCurrent(WindowHandle.None);
-
-            return adapter;
         }
 
         /// <summary>

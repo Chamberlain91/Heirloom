@@ -3,5 +3,5 @@
 vec4 fragmentProgram(vec4 color) 
 { 
 	// simple pass-through
-	return color;
+	return 1.0 - color;
 }

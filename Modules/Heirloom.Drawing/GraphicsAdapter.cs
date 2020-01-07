@@ -27,6 +27,10 @@ namespace Heirloom.Drawing
 
         protected internal abstract object CompileShader(string vert, string frag);
 
+        protected abstract T Invoke<T>(Func<T> action);
+
+        protected abstract void Invoke(Action action);
+
         protected virtual void Dispose(bool disposeManaged)
         {
             if (!_isDisposed)

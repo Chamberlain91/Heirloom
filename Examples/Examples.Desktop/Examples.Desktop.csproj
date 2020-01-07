@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Files\shader.frag" />
+    <EmbeddedResource Include="Files\invert.frag" />
   </ItemGroup>
 
   <ItemGroup>

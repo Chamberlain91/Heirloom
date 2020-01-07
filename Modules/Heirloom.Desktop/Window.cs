@@ -163,7 +163,7 @@ namespace Heirloom.Desktop
 
             // == Construct Graphics Context
 
-            Graphics = Application.GraphicsAdapter.CreateGraphics(this);
+            Graphics = Application.GraphicsFactory.CreateGraphics(this);
         }
 
         ~Window()
