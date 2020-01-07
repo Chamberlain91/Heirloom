@@ -6,7 +6,7 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public abstract partial class Graphics : IGraphics
+    public abstract partial class Graphics
     {
         private const float FpsSampleDuration = 1F;
 
@@ -73,6 +73,11 @@ namespace Heirloom.Drawing
         /// Gets or sets the current surface.
         /// </summary>
         public abstract Surface Surface { get; set; }
+
+        /// <summary>
+        /// Gets or sets the active shader.
+        /// </summary>
+        public abstract Shader Shader { get; set; }
 
         /// <summary>
         /// Gets or sets the viewport in normalized coordinates.

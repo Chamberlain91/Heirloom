@@ -2,22 +2,31 @@
 
 using Heirloom.Desktop;
 using Heirloom.Drawing;
+using Heirloom.IO;
+using Heirloom.Math;
 
 namespace Examples.Desktop
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        public static Shader InvertShader;
+
+        public static Image Image;
+
+        private static void Main(string[] args)
         {
             Application.Run(() =>
             {
+                // Loads the inverted color shader
+                InvertShader = new Shader("files/invert.frag");
+
+                // 
+                Image = new Image(Files.OpenStream("files/cardHeartsQ.png"));
+
                 // Create Window
                 var window = new Window("Window Information and Events");
                 window.KeyRelease += Window_Key;
                 window.KeyPress += Window_Key;
-
-                // Loads the inverted color shader
-                var shader = new Shader("files/invert.frag");
 
                 // 
                 var loop = RenderLoop.Create(window.Graphics, Update);
@@ -41,9 +50,15 @@ namespace Examples.Desktop
             }
         }
 
-        private static void Update(IGraphics gfx, float dt)
+        private static void Update(Graphics gfx, float dt)
         {
-            gfx.Clear(Color.Magenta);
+            gfx.Clear(Color.DarkGray);
+
+            gfx.Shader = InvertShader;
+            gfx.DrawImage(Image, Matrix.CreateTranslation(230, 30));
+
+            gfx.Shader = Shader.Default;
+            gfx.DrawImage(Image, Matrix.CreateTranslation(30, 30));
         }
     }
 }

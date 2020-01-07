@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Files\cardHeartsQ.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Files\cardHeartsQ.png" />
     <EmbeddedResource Include="Files\invert.frag" />
   </ItemGroup>
 
