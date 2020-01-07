@@ -16,8 +16,8 @@ namespace Examples.Desktop
                 window.KeyRelease += Window_Key;
                 window.KeyPress += Window_Key;
 
-                //
-                var shader = new Shader("files/shader.frag");
+                // Loads the inverted color shader
+                var shader = new Shader("files/invert.frag");
 
                 // 
                 var loop = RenderLoop.Create(window.Graphics, Update);

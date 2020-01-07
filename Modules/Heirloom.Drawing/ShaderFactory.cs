@@ -22,9 +22,9 @@ namespace Heirloom.Drawing
             ReadSourceCode("embedded/shaders/", "standard/standard.frag");
             ReadSourceCode("embedded/shaders/", "standard/standard.vert");
 
-            // Load default shaders
-            ReadSourceCode("embedded/shaders/", "shader.frag");
-            ReadSourceCode("embedded/shaders/", "shader.vert");
+            // Load default shader code
+            ReadSourceCode("embedded/shaders/", "default.frag");
+            ReadSourceCode("embedded/shaders/", "default.vert");
         }
 
         internal static string GetSource(string path)
