@@ -749,7 +749,7 @@ namespace Heirloom.Desktop
                 if (disposeManaged)
                 {
                     // Terminate rendering context
-                    ((IDisposable) Graphics).Dispose();
+                    Graphics.Dispose();
                 }
 
                 // Destroy window

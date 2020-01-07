@@ -17,7 +17,8 @@ namespace Heirloom.Drawing.OpenGLES
         private readonly ConsumerThread _thread;
         private bool _isRunning = false;
 
-        private ShaderProgram _shader;
+        private ShaderProgram _shaderProgram;
+        private Shader _shader;
 
         private Dictionary<string, Buffer> _uniformBuffers;
 
@@ -76,11 +77,10 @@ namespace Heirloom.Drawing.OpenGLES
             _renderer = new InstancingRenderer(this);
 
             // Set the default shader
-            var program = GetNativeObject(Shader.Default) as ShaderProgram;
-            SetShaderProgram(program);
+            Shader = Shader.Default;
 
             // Bind uniform buffers
-            foreach (var block in _shader.GetBlocks())
+            foreach (var block in _shaderProgram.GetBlocks())
             {
                 var buffer = GetUniformBuffer(block);
                 GL.BindBufferBase(BufferTarget.UniformBuffer, block.Index, buffer.Handle);
@@ -178,34 +178,42 @@ namespace Heirloom.Drawing.OpenGLES
             GL.SetScissor(x, y, w, h);
         }
 
-        #region Shader Parameters
+        #region Shaders
 
-        private void SetShaderProgram(ShaderProgram shader)
+        public override Shader Shader
+        {
+            get => _shader;
+            set => UseShader(value);
+        }
+
+        private void UseShader(Shader shader)
         {
             if (_shader != shader)
             {
+                _shader = shader;
+
                 Invoke(() =>
                 {
                     // Complete any previous render work
                     Flush();
 
-                    // Set the new shader
-                    _shader = shader;
-
                     // Use this shader program
-                    GL.UseProgram(_shader.Handle);
+                    _shaderProgram = GetNativeObject(shader) as ShaderProgram;
+                    GL.UseProgram(_shaderProgram.Handle);
 
                     // Bind uniform buffers
-                    foreach (var block in _shader.GetBlocks())
+                    foreach (var block in _shaderProgram.GetBlocks())
                     {
                         var buffer = GetUniformBuffer(block);
                         GL.BindBufferBase(BufferTarget.UniformBuffer, block.Index, buffer.Handle);
                     }
-
-                    // todo: Update any mutated uniforms
-
-                }, false);
+                });
             }
+        }
+
+        private void UpdateShaderUniforms()
+        {
+            // todo: read mutated uniforms somehow...
         }
 
         public unsafe void SetShaderParameter<T>(string name, T data) where T : struct
@@ -219,7 +227,7 @@ namespace Heirloom.Drawing.OpenGLES
         public unsafe void SetShaderParameter(string name, void* data, int offset, int size)
         {
             // Get uniform
-            var uniform = _shader.GetUniform(name);
+            var uniform = _shaderProgram.GetUniform(name);
 
             // Get uniform buffer for relevant block
             var buffer = GetUniformBuffer(uniform.BlockInfo);
@@ -479,6 +487,9 @@ namespace Heirloom.Drawing.OpenGLES
                     // Compute view-projection matrix
                     var projMatrix = Matrix.RectangleProjection(0, 0, w, h);
                     Matrix.Multiply(in projMatrix, in _viewMatrix, ref projMatrix);
+
+                    // Update any mutated uniforms
+                    UpdateShaderUniforms();
 
                     // Write into uniform buffer
                     SetShaderParameter("uMatrix", projMatrix);
