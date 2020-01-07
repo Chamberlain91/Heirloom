@@ -1,4 +1,5 @@
-﻿using Heirloom.OpenGLES;
+﻿using System;
+using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
@@ -40,7 +41,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         protected override object CompileShader(string vert, string frag)
         {
-            return Invoke(() =>
+            return InvokeOnGLThread(() =>
             {
                 var vShader = new ShaderStage("vert", ShaderType.Vertex, vert);
                 var fShader = new ShaderStage("frag", ShaderType.Fragment, frag);
@@ -48,5 +49,7 @@ namespace Heirloom.Drawing.OpenGLES
                 return new ShaderProgram(vShader, fShader);
             });
         }
+
+        protected abstract T InvokeOnGLThread<T>(Func<T> action);
     }
 }

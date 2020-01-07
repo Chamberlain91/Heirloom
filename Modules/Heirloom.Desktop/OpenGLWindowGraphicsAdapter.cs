@@ -13,14 +13,23 @@ namespace Heirloom.Desktop
             return new OpenGLWindowGraphics(this, window);
         }
 
-        protected override T Invoke<T>(Func<T> action)
+        protected override T InvokeOnGLThread<T>(Func<T> function)
         {
-            return Application.Invoke(action);
-        }
+            return Application.Invoke(() =>
+            {
+                // Make the share context current here
+                // todo: Possibly correct for this, this feels terrible...
+                Glfw.MakeContextCurrent(Application.ShareContext);
 
-        protected override void Invoke(Action action)
-        {
-            Application.Invoke(action);
+                // Execute function and keep return value
+                var returnValue = function();
+                
+                // Release context from thread. We want it not associated with any thread. On a AMD Vega
+                // platform this caused the main rendering loop to halt (resource blocking?).
+                Glfw.MakeContextCurrent(WindowHandle.None);
+
+                return returnValue;
+            });
         }
 
         private sealed class OpenGLWindowGraphics : OpenGLGraphics

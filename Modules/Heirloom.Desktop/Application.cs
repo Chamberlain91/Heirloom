@@ -23,6 +23,9 @@ namespace Heirloom.Desktop
         /// </summary>
         internal static GraphicsAdapter GraphicsAdapter { get; private set; }
 
+        /// <summary>
+        /// Gest the graphics factory.
+        /// </summary>
         internal static IWindowGraphicsFactory GraphicsFactory { get; private set; }
 
         /// <summary>
@@ -176,6 +179,9 @@ namespace Heirloom.Desktop
                 // Set default window creation hints
                 Glfw.SetWindowCreationHint(WindowAttribute.FocusOnShow, true);
                 Glfw.SetWindowCreationHint(WindowAttribute.Visible, true);
+
+                // Release context
+                Glfw.MakeContextCurrent(WindowHandle.None);
             }
 
             IsInitialized = true;
