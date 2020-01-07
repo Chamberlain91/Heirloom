@@ -27,13 +27,13 @@ namespace Heirloom.Drawing.OpenGLES
             _context = context;
 
             // Query for maximum textures 
-            _texturesState = new Texture[context.Capabilities.MaxTextureUnits]; // todo: reserve 3 for effect units?
-            _textures = new Dictionary<Texture, int>(context.Capabilities.MaxTextureUnits);
+            _texturesState = new Texture[context.Capabilities.MaxSupportedShaderImages]; // todo: reserve 3 for effect units?
+            _textures = new Dictionary<Texture, int>(context.Capabilities.MaxSupportedShaderImages);
 
             // Create buffer sets
             _vertexArray = new VertexArray();
         }
-         
+
         #endregion
 
         #region Properties
@@ -70,7 +70,7 @@ namespace Heirloom.Drawing.OpenGLES
             if (!_textures.ContainsKey(texture))
             {
                 // Texture mechanism is full, emit batched drawing
-                if (_textures.Count == _context.Capabilities.MaxTextureUnits)
+                if (_textures.Count == _context.Capabilities.MaxSupportedShaderImages)
                 {
                     _context.Flush();
                 }

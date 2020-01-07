@@ -22,8 +22,10 @@ namespace Heirloom.Drawing
 
         #region Constructors
 
-        protected Graphics(MultisampleQuality multisample)
+        protected Graphics(GraphicsAdapter graphicsAdapter, MultisampleQuality multisample)
         {
+            GraphicsAdapter = graphicsAdapter;
+
             _stateStack = new Stack<GraphicsState>();
             _stopwatch = Stopwatch.StartNew();
 
@@ -39,6 +41,13 @@ namespace Heirloom.Drawing
         #endregion
 
         #region Properties
+
+        internal GraphicsAdapter GraphicsAdapter { get; }
+
+        /// <summary>
+        /// Gets the queried capabilities (ie, limits) for the current device.
+        /// </summary>
+        public GraphicsCapabilities Capabilities => GraphicsAdapter.Capabilities;
 
         /// <summary>
         /// Gets a value determining if this <see cref="Graphics"/> was disposed.

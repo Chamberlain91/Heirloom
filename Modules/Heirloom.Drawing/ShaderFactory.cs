@@ -27,7 +27,7 @@ namespace Heirloom.Drawing
             ReadSourceCode("embedded/shaders/", "shader.vert");
         }
 
-        public static string GetSource(string path)
+        internal static string GetSource(string path)
         {
             return ReadSourceCode(string.Empty, path);
         }
@@ -39,6 +39,9 @@ namespace Heirloom.Drawing
 
             // Normalize path
             var path = Path.Combine(root, Files.NormalizePath(fragment));
+
+            // Determines kind of shader by extension
+            var shaderType = GetShaderType(path);
 
             // Have we already processed this source/path?
             if (_sources.TryGetValue(path, out var code))
@@ -84,6 +87,21 @@ namespace Heirloom.Drawing
                     }
                 }
 
+                // If the root...
+                if (depth == 0)
+                {
+                    // Generates the prefered version preprocessor (ie, #version 330)
+                    // and prepends generated code to ensure version is on top.
+                    code = $"{GenerateVersionHeader()}\n{code.TrimEnd()}";
+
+                    if (shaderType == ShaderType.Fragment)
+                    {
+                        // Generate automatic code, this is mainly for abusing the number of texture units as
+                        // a batching optimization. This may be replaced by a different mechanism later.
+                        code = $"{code}\n\n{GenerateBatchImageMethods()}";
+                    }
+                }
+
                 // Store in map and return
                 return _sources[fragment] = code;
             }
@@ -92,6 +110,84 @@ namespace Heirloom.Drawing
                 throw new FileNotFoundException("Unable to resolve shader path.", path);
             }
         }
+
+        internal static ShaderType GetShaderType(string path)
+        {
+            var extension = Path.GetExtension(path.ToLowerInvariant());
+
+            return extension switch
+            {
+                ".frag" => ShaderType.Fragment,
+                ".vert" => ShaderType.Vertex,
+
+                _ => throw new ArgumentException($"Unknown or unable to compile glsl shader with extension '{extension}'."),
+            };
+        }
+
+        #region Auto Generated GLSL
+
+        private static string GenerateVersionHeader()
+        {
+            // Is OpenGL running on Desktop or ES/Mobile?
+            var version = GraphicsAdapter.Instance.Capabilities.IsMobilePlatform ?
+                "#version 300 es\n" :
+                "#version 330\n";
+
+#if DEBUG
+            // When a debug build, enable debug shader pragma
+            version += "#pragma debug on\n";
+#endif
+
+            return version;
+        }
+
+        private static string GenerateBatchImageMethods()
+        {
+            var maxTextureUnits = GraphicsAdapter.Instance.Capabilities.MaxSupportedShaderImages;
+
+            var code = "";
+
+            // Define uniform
+            code += $"uniform sampler2D uImageUnits[{maxTextureUnits}];\n\n";
+
+            // Define imageUnit
+            // A function to sample the texture specified by index in vertex data
+            code += "vec4 imageUnit(int unit, vec2 uv)\n";
+            code += "{\n";
+            code += "\tswitch (unit)\n";
+            code += "\t{\n";
+            code += "\t\tdefault: // Magenta, failure to sample\n";
+            code += "\t\t\treturn vec4(1.0, 0.0, 0.5, 1.0);\n";
+
+            for (var i = 0; i < maxTextureUnits; i++)
+            {
+                code += $"\t\tcase {i}: return texture(uImageUnits[{i}], uv);\n";
+            }
+
+            code += "\t}\n";
+            code += "}\n\n";
+
+            // Define imageDims
+            // A function to get the dimensions of an image (top level of detail)
+            code += "ivec2 imageUnitSize(int unit)\n";
+            code += "{\n";
+            code += "\tswitch (unit)\n";
+            code += "\t{\n";
+            code += "\t\tdefault: // No texture, no size\n";
+            code += "\t\t\treturn ivec2(0, 0);\n";
+
+            for (var i = 0; i < maxTextureUnits; i++)
+            {
+                code += $"\t\tcase {i}: return textureSize(uImageUnits[{i}], 0);\n";
+            }
+
+            code += "\t}\n";
+            code += "}\n";
+
+            return code;
+        }
+
+        #endregion
 
         private static string ResolvePath(string directory, string path)
         {
@@ -118,25 +214,6 @@ namespace Heirloom.Drawing
 
             // Return with forward slashes
             return Files.NormalizePath(path);
-        }
-
-        private static ShaderKind GetShaderType(string path)
-        {
-            var extension = Path.GetExtension(path);
-
-            return extension switch
-            {
-                ".frag" => ShaderKind.Fragment,
-                ".vert" => ShaderKind.Vertex,
-
-                _ => throw new ArgumentException($"Unknown or unable to compile glsl shader with extension '{extension}'."),
-            };
-        }
-
-        private enum ShaderKind
-        {
-            Vertex,
-            Fragment
         }
     }
 }
