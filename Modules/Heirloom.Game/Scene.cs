@@ -113,7 +113,7 @@ namespace Heirloom.Game
                 // 
                 if (component is DrawableComponent drawable)
                 {
-                    _drawbles.Add(drawable);
+                    lock (_drawbles) { _drawbles.Add(drawable); }
                     NotifyDrawableDepthChange();
                 }
 
@@ -139,7 +139,7 @@ namespace Heirloom.Game
                 // 
                 if (component is DrawableComponent drawable)
                 {
-                    _drawbles.Remove(drawable);
+                    lock (_drawbles) { _drawbles.Remove(drawable); }
                     NotifyDrawableDepthChange();
                 }
 
@@ -271,10 +271,13 @@ namespace Heirloom.Game
             {
                 _hasDrawableDepthChange = false;
 
-                // Sort entities by depth
-                // todo: sort each curated list too!
-                // todo: possibly only sort DrawableComponents once curated?
-                _drawbles.StableSort((a, b) => a.Depth.CompareTo(b.Depth));
+                lock (_drawbles)
+                {
+                    // Sort entities by depth
+                    // todo: sort each curated list too!
+                    // todo: possibly only sort DrawableComponents once curated?
+                    _drawbles.StableSort((a, b) => a.Depth.CompareTo(b.Depth));
+                }
             }
         }
 
@@ -311,13 +314,16 @@ namespace Heirloom.Game
                 // Clear
                 ctx.Clear(clearColor);
 
-                // Process drawbles
-                foreach (var drawable in _drawbles)
+                lock (_drawbles)
                 {
-                    // todo: instead remove from _drawbles when disabled to prevent even having to loop over it
-                    if (drawable.IsEnabled)
+                    // Process drawbles
+                    foreach (var drawable in _drawbles)
                     {
-                        drawable.InternalDraw(ctx);
+                        // todo: instead remove from _drawbles when disabled to prevent even having to loop over it
+                        if (drawable.IsEnabled)
+                        {
+                            drawable.InternalDraw(ctx);
+                        }
                     }
                 }
             }

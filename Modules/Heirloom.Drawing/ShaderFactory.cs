@@ -19,29 +19,19 @@ namespace Heirloom.Drawing
         static ShaderFactory()
         {
             // Populate standard includes
-            ReadSourceCode("embedded/shaders/", "standard/standard.frag");
-            ReadSourceCode("embedded/shaders/", "standard/standard.vert");
-
-            // Load default shader code
-            ReadSourceCode("embedded/shaders/", "default.frag");
-            ReadSourceCode("embedded/shaders/", "default.vert");
+            SetSourceCode("standard/standard.frag", GetSourceCode("embedded/shaders/standard/standard.frag", false));
+            SetSourceCode("standard/standard.vert", GetSourceCode("embedded/shaders/standard/standard.vert", false));
         }
 
-        internal static string GetSource(string path)
+        internal static string GetSourceCode(string path)
         {
-            return ReadSourceCode(string.Empty, path);
+            return GetSourceCode(path, true);
         }
 
-        private static string ReadSourceCode(string root, string fragment, int depth = 0)
+        private static string GetSourceCode(string path, bool generate, int depth = 0)
         {
-            if (depth > 32) { throw new InvalidOperationException("Include directive gone too deep."); }
-            if (depth == 0) { _included.Clear(); }
-
             // Normalize path
-            var path = Path.Combine(root, Files.NormalizePath(fragment));
-
-            // Determines kind of shader by extension
-            var shaderType = GetShaderType(path);
+            path = Files.NormalizePath(path);
 
             // Have we already processed this source/path?
             if (_sources.TryGetValue(path, out var code))
@@ -52,6 +42,9 @@ namespace Heirloom.Drawing
             // Does the path exist?
             else if (Files.Exists(path))
             {
+                if (depth > 32) { throw new InvalidOperationException("Include directive gone too deep."); }
+                if (depth == 0) { _included.Clear(); }
+
                 // Read source text
                 code = Files.ReadText(path);
 
@@ -74,22 +67,19 @@ namespace Heirloom.Drawing
                     // Otherwise it was already included somewhere else
                     if (_included.Add(includePath))
                     {
-                        // Truncate root
-                        if (includePath.StartsWith(root))
-                        {
-                            includePath = includePath.Substring(root.Length);
-                        }
-
                         // Descend and insert included text
-                        var include = ReadSourceCode(root, includePath, depth + 1);
+                        var include = GetSourceCode(includePath, false, depth + 1);
                         code = code.Remove(capture.Index, capture.Length);
                         code = code.Insert(capture.Index, include);
                     }
                 }
 
                 // If the root...
-                if (depth == 0)
+                if (generate)
                 {
+                    // Determines kind of shader by extension
+                    var shaderType = GetShaderType(path);
+
                     // Generates the prefered version preprocessor (ie, #version 330)
                     // and prepends generated code to ensure version is on top.
                     code = $"{GenerateVersionHeader()}\n{code.TrimEnd()}";
@@ -103,12 +93,24 @@ namespace Heirloom.Drawing
                 }
 
                 // Store in map and return
-                return _sources[fragment] = code;
+                SetSourceCode(path, code);
+
+                return code;
             }
             else
             {
                 throw new FileNotFoundException("Unable to resolve shader path.", path);
             }
+        }
+
+        private static void SetSourceCode(string path, string code)
+        {
+            if (_sources.ContainsKey(path))
+            {
+                throw new InvalidOperationException($"Unable to store shader source code, '{path}' already exists in map.");
+            }
+
+            _sources[path] = code;
         }
 
         internal static ShaderType GetShaderType(string path)

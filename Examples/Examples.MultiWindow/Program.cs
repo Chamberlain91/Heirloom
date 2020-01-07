@@ -36,7 +36,7 @@ namespace Examples.MultiWindow
                 Window = window ?? throw new ArgumentNullException(nameof(window));
                 Graphics.EnableFPSOverlay = true;
             }
-
+             
             public Window Window { get; }
 
             public Color Color { get; }

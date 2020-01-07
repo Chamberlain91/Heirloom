@@ -2,7 +2,7 @@
 
 namespace Heirloom.Drawing
 {
-    public sealed class Shader
+    public sealed class Shader : IDrawingResource
     {
         private readonly string[] _paths;
         private readonly object _native;
@@ -11,8 +11,8 @@ namespace Heirloom.Drawing
 
         static Shader()
         {
-            // Compile default shader
-            Default = new Shader("default.vert", "default.frag");
+            // Loadn and compile the default shader
+            Default = new Shader("embedded/shaders/default.vert", "embedded/shaders/default.frag");
         }
 
         public Shader(params string[] paths)
@@ -39,7 +39,7 @@ namespace Heirloom.Drawing
             foreach (var path in paths)
             {
                 var type = ShaderFactory.GetShaderType(path);
-                var text = ShaderFactory.GetSource(path);
+                var text = ShaderFactory.GetSourceCode(path);
 
                 switch (type)
                 {
@@ -54,11 +54,24 @@ namespace Heirloom.Drawing
             }
 
             // Populate defaults for possibly null strings
-            if (frag == null) { frag = ShaderFactory.GetSource("default.frag"); }
-            if (vert == null) { vert = ShaderFactory.GetSource("default.vert"); }
+            if (frag == null) { frag = ShaderFactory.GetSourceCode("embedded/shaders/default.frag"); }
+            if (vert == null) { vert = ShaderFactory.GetSourceCode("embedded/shaders/default.vert"); }
         }
 
         public void SetUniform<T>(string name, T value) where T : unmanaged
+        {
+            throw new NotImplementedException();
+        }
+
+        object IDrawingResource.NativeObject
+        {
+            get => _native;
+            set => throw new NotImplementedException();
+        }
+
+        uint IDrawingResource.Version => throw new NotImplementedException();
+
+        void IDrawingResource.UpdateVersionNumber()
         {
             throw new NotImplementedException();
         }
