@@ -9,6 +9,8 @@ namespace Heirloom.Drawing
     {
         public Surface Surface;
 
+        public Shader Shader;
+
         public Rectangle Viewport;
 
         public Matrix Transform;

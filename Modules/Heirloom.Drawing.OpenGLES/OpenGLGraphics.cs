@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-
+using System.Threading;
 using Heirloom.Drawing.OpenGLES.Utilities;
 using Heirloom.Math;
 using Heirloom.OpenGLES;
@@ -75,16 +76,6 @@ namespace Heirloom.Drawing.OpenGLES
 
             // Construct the instancing batching renderer
             _renderer = new InstancingRenderer(this);
-
-            // Set the default shader
-            Shader = Shader.Default;
-
-            // Bind uniform buffers
-            foreach (var block in _shaderProgram.GetBlocks())
-            {
-                var buffer = GetUniformBuffer(block);
-                GL.BindBufferBase(BufferTarget.UniformBuffer, block.Index, buffer.Handle);
-            }
 
             // 
             ResetState();
@@ -190,15 +181,16 @@ namespace Heirloom.Drawing.OpenGLES
         {
             if (_shader != shader)
             {
-                _shader = shader;
-
                 Invoke(() =>
                 {
                     // Complete any previous render work
                     Flush();
 
-                    // Use this shader program
+                    // 
                     _shaderProgram = GetNativeObject(shader) as ShaderProgram;
+                    _shader = shader;
+
+                    // Use this shader program
                     GL.UseProgram(_shaderProgram.Handle);
 
                     // Bind uniform buffers
@@ -213,7 +205,16 @@ namespace Heirloom.Drawing.OpenGLES
 
         private void UpdateShaderUniforms()
         {
-            // todo: read mutated uniforms somehow...
+            foreach (var (name, value) in GetMutatedUniforms(_shader))
+            {
+                Console.WriteLine($"Uniform '{name}': {value}");
+
+                if (value is float f)
+                {
+                    var location = _shaderProgram.GetUniformLocation(name);
+                    GL.Uniform1(location, f);
+                }
+            }
         }
 
         public unsafe void SetShaderParameter<T>(string name, T data) where T : struct
@@ -233,7 +234,7 @@ namespace Heirloom.Drawing.OpenGLES
             var buffer = GetUniformBuffer(uniform.BlockInfo);
 
             // Update data in buffer
-            Invoke(() => buffer.Update(data, uniform.Info.Offset + offset, size), false);
+            Invoke(() => buffer.Update(data, uniform.Info.Offset + offset, size), !false);
         }
 
         /// <summary>
@@ -260,6 +261,7 @@ namespace Heirloom.Drawing.OpenGLES
                 // Wasn't the same surface as before, flush everything
                 if (value != _currentSurface)
                 {
+                    // Only flush we have a valid surface
                     Flush();
 
                     _currentSurface = value;
@@ -277,7 +279,7 @@ namespace Heirloom.Drawing.OpenGLES
                             // Bind surface framebuffer
                             ResourceManager.GetFramebuffer(this, value).Bind();
                         }
-                    }, false);
+                    }, !false);
                 }
             }
         }
@@ -334,7 +336,7 @@ namespace Heirloom.Drawing.OpenGLES
                 else
                 {
                     // Nothing to draw, so we will just set the viewport
-                    Invoke(() => SetViewportAndScissor(out var _, out var _), false);
+                    Invoke(() => SetViewportAndScissor(out var _, out var _), !false);
                 }
 
                 _viewport = value;
@@ -403,7 +405,7 @@ namespace Heirloom.Drawing.OpenGLES
                                 GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.Zero);
                                 break;
                         }
-                    }, false);
+                    }, !false);
                 }
             }
         }
@@ -422,13 +424,14 @@ namespace Heirloom.Drawing.OpenGLES
                 // Set color and clear
                 GL.SetClearColor(col.R, col.G, col.B, col.A);
                 GL.Clear(ClearMask.Color);
-            }, false);
+            }, !false);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override void DrawMesh(ImageSource image, Mesh mesh, in Matrix transform)
         {
             _renderer.Submit(image, mesh, in transform, _blendColor);
+            if (HasMutatedUniforms(_shader)) { Flush(); }
         }
 
         #endregion
@@ -476,20 +479,21 @@ namespace Heirloom.Drawing.OpenGLES
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override unsafe void Flush()
         {
-            // If the renderer has batched work
-            if (_renderer?.IsDirty ?? false)
+            // Exit, bad configuration
+            if (_currentSurface == null) { return; }
+
+            // If the renderer has any batched work
+            if (_renderer.IsDirty)
             {
                 Invoke(() =>
                 {
-                    // 
-                    SetViewportAndScissor(out var w, out var h);
-
-                    // Compute view-projection matrix
-                    var projMatrix = Matrix.RectangleProjection(0, 0, w, h);
-                    Matrix.Multiply(in projMatrix, in _viewMatrix, ref projMatrix);
-
                     // Update any mutated uniforms
                     UpdateShaderUniforms();
+
+                    // Compute view-projection matrix
+                    SetViewportAndScissor(out var w, out var h);
+                    var projMatrix = Matrix.RectangleProjection(0, 0, w, h);
+                    Matrix.Multiply(in projMatrix, in _viewMatrix, ref projMatrix);
 
                     // Write into uniform buffer
                     SetShaderParameter("uMatrix", projMatrix);

@@ -172,6 +172,11 @@ namespace Heirloom.Desktop
                     GraphicsFactory = adapter;
                     GraphicsAdapter = adapter;
                 }
+                else
+                {
+                    // Vulkan
+                    throw new NotSupportedException();
+                }
 
                 // Determine if transparent framebuffers are possible
                 SupportsTransparentFramebuffer = Glfw.GetWindowAttribute(ShareContext, WindowAttribute.TransparentFramebuffer) != 0;
