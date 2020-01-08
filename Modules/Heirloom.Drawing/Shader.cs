@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace Heirloom.Drawing
 {
-    public sealed class Shader : IDrawingResource
+    public sealed class Shader
     {
         private readonly string[] _paths;
-        private readonly object _native;
 
         internal readonly Dictionary<string, Uniform> Uniforms;
+        internal readonly object Native;
 
         public static Shader Default { get; }
 
@@ -35,7 +33,7 @@ namespace Heirloom.Drawing
             LoadShaderSource(paths, out var vert, out var frag);
 
             // Compile shader
-            _native = GraphicsAdapter.Instance.CompileShader(vert, frag);
+            Native = GraphicsAdapter.Instance.CompileShader(vert, frag);
         }
 
         public void Scream()
@@ -89,24 +87,6 @@ namespace Heirloom.Drawing
             // Update uniform value
             uniform.IsDirty = true;
             uniform.Value = value;
-        }
-
-        object IDrawingResource.NativeObject
-        {
-            get => _native;
-            set => throw new NotImplementedException();
-        }
-
-        uint IDrawingResource.Version => throw new NotImplementedException();
-
-        void IDrawingResource.UpdateVersionNumber()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override string ToString()
-        {
-            return string.Join('-', _paths.Select(s => Path.GetFileNameWithoutExtension(s)));
         }
 
         internal class Uniform
