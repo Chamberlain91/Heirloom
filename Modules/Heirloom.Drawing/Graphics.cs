@@ -211,6 +211,11 @@ namespace Heirloom.Drawing
 
         #endregion
 
+        protected static object GetNativeObject(Shader shader)
+        {
+            return shader.Native;
+        }
+
         protected static object GetNativeObject(IDrawingResource resource)
         {
             return resource.NativeObject;

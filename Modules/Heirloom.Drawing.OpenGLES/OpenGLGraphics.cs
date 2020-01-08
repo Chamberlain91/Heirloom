@@ -205,15 +205,62 @@ namespace Heirloom.Drawing.OpenGLES
 
         private void UpdateShaderUniforms()
         {
+            // Enumerate each mutated uniform and set 
             foreach (var (name, value) in GetMutatedUniforms(_shader))
             {
-                Console.WriteLine($"Uniform '{name}': {value}");
+                SetUniform(name, value);
+            }
+        }
 
-                if (value is float f)
-                {
-                    var location = _shaderProgram.GetUniformLocation(name);
+        private void SetUniform(string name, object value)
+        {
+            var location = _shaderProgram.GetUniformLocation(name);
+            var uniform = _shaderProgram.GetUniform(name);
+
+            // todo: if float[4] vs vec4 same inputs...
+            // todo: how to get vec2[10] updated for example.
+
+            switch (value)
+            {
+                case float f:
                     GL.Uniform1(location, f);
-                }
+                    break;
+
+                case Vector vec:
+                    GL.Uniform2(location, vec.X, vec.Y);
+                    break;
+
+                case Size size:
+                    GL.Uniform2(location, size.Width, size.Height);
+                    break;
+
+                case int i:
+                    GL.Uniform1(location, i);
+                    break;
+
+                case IntVector vec:
+                    GL.Uniform2(location, vec.X, vec.Y);
+                    break;
+
+                case IntSize size:
+                    GL.Uniform2(location, size.Width, size.Height);
+                    break;
+
+                case Color col:
+                    GL.Uniform4(location, col.R, col.G, col.B, col.A);
+                    break;
+
+                case Rectangle rect:
+                    GL.Uniform4(location, rect.X, rect.Y, rect.Width, rect.Height);
+                    break;
+
+                case IntRectangle rect:
+                    GL.Uniform4(location, rect.X, rect.Y, rect.Width, rect.Height);
+                    break;
+
+                case Matrix matrix:
+                    unsafe { GL.UniformMatrix2x3(location, 1, (float*) &matrix); }
+                    break;
             }
         }
 
