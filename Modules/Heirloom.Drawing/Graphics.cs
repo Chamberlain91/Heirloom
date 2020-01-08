@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-
+using System.Linq;
 using Heirloom.Math;
 
 namespace Heirloom.Drawing
@@ -123,6 +123,7 @@ namespace Heirloom.Drawing
         /// </summary>
         public void ResetState()
         {
+            Shader = Shader.Default;
             Surface = DefaultSurface; // also adjusts viewport?
             Viewport = (0, 0, 1, 1);
 
@@ -138,6 +139,7 @@ namespace Heirloom.Drawing
         {
             _stateStack.Push(new GraphicsState
             {
+                Shader = Shader,
                 Blending = Blending,
                 Color = Color,
                 Surface = Surface,
@@ -161,6 +163,7 @@ namespace Heirloom.Drawing
                 // Recover state values
                 var state = _stateStack.Pop();
 
+                Shader = state.Shader;
                 Surface = state.Surface;
                 Viewport = state.Viewport;
                 GlobalTransform = state.Transform;
@@ -211,6 +214,39 @@ namespace Heirloom.Drawing
         protected static object GetNativeObject(IDrawingResource resource)
         {
             return resource.NativeObject;
+        }
+
+        protected static bool HasMutatedUniforms(Shader shader)
+        {
+            // todo: optimize...
+            return shader.Uniforms.Values.Any(s => s.IsDirty);
+        }
+
+        /// <summary>
+        /// Gets each mutated uniform in this shader, clearing the dirty flags.
+        /// </summary>
+        protected static IEnumerable<(string name, object value)> GetMutatedUniforms(Shader shader)
+        {
+            foreach (var (name, uniform) in shader.Uniforms)
+            {
+                if (uniform.IsDirty)
+                {
+                    yield return (name, uniform.Value);
+                }
+
+                uniform.IsDirty = false;
+            }
+        }
+
+        /// <summary>
+        /// Gets every uniform on this shader.
+        /// </summary>
+        protected static IEnumerable<(string name, object value)> GetUniforms(Shader shader)
+        {
+            foreach (var (name, uniform) in shader.Uniforms)
+            {
+                yield return (name, uniform.Value);
+            }
         }
 
         /// <summary>

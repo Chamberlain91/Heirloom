@@ -55,7 +55,12 @@ namespace Examples.Desktop
             gfx.Clear(Color.DarkGray);
 
             gfx.Shader = InvertShader;
+
+            InvertShader.SetUniform("uStrength", Calc.Random.NextFloat());
             gfx.DrawImage(Image, Matrix.CreateTranslation(230, 30));
+
+            InvertShader.SetUniform("uStrength", 1.0F);
+            gfx.DrawImage(Image, Matrix.CreateTranslation(430, 30));
 
             gfx.Shader = Shader.Default;
             gfx.DrawImage(Image, Matrix.CreateTranslation(30, 30));
