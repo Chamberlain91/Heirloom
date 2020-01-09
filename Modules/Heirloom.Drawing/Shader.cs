@@ -73,7 +73,32 @@ namespace Heirloom.Drawing
             if (vert == null) { vert = ShaderFactory.GetSourceCode("embedded/shaders/default.vert"); }
         }
 
+        public void SetUniform(string name, float[] arr)
+        {
+            SetUniformValue(name, arr);
+        }
+
+        public void SetUniform(string name, int[] arr)
+        {
+            SetUniformValue(name, arr);
+        }
+
+        public void SetUniform(string name, uint[] arr)
+        {
+            SetUniformValue(name, arr);
+        }
+
+        public void SetUniform(string name, bool[] arr)
+        {
+            SetUniformValue(name, arr);
+        }
+
         public void SetUniform<T>(string name, T value) where T : unmanaged
+        {
+            SetUniformValue(name, value);
+        }
+
+        private void SetUniformValue(string name, object value)
         {
             // TODO: Validate uniform exists?
             // TODO: Validate uniform type is an acceptable type.
