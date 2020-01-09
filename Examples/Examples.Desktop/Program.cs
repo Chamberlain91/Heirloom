@@ -19,6 +19,9 @@ namespace Examples.Desktop
             {
                 // Loads the inverted color shader
                 InvertShader = new Shader("files/invert.frag");
+                // InvertShader.SetUniform("kungFoo.Hoo.Meow", Color.Cyan);
+                InvertShader.SetUniform("kungFoo.Boo[0]", Color.Indigo);
+                InvertShader.SetUniform("uStrength", 1.0F);
 
                 // 
                 Image = new Image(Files.OpenStream("files/cardHeartsQ.png"));
@@ -56,10 +59,10 @@ namespace Examples.Desktop
 
             gfx.Shader = InvertShader;
 
-            InvertShader.SetUniform("uStrength", Calc.Random.NextFloat());
+            // InvertShader.SetUniform("uStrength", Calc.Random.NextFloat());
             gfx.DrawImage(Image, Matrix.CreateTranslation(230, 30));
 
-            InvertShader.SetUniform("uStrength", 1.0F);
+            // InvertShader.SetUniform("uStrength", 1.0F);
             gfx.DrawImage(Image, Matrix.CreateTranslation(430, 30));
 
             gfx.Shader = Shader.Default;

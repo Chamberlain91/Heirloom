@@ -4,6 +4,7 @@
     {
         Float = 0x1406,
         Integer = 0x1404,
+        UnsignedInteger = 0x1405,
         Bool = 0x8B56,
 
         FloatVec2 = 0x8B50,
@@ -24,6 +25,10 @@
         IntVec2 = 0x8B53,
         IntVec3 = 0x8B54,
         IntVec4 = 0x8B55,
+
+        UnsignedIntVec2 = 0x8DC6,
+        UnsignedIntVec3 = 0x8DC7,
+        UnsignedIntVec4 = 0x8DC8,
 
         BoolVec2 = 0x8B57,
         BoolVec3 = 0x8B58,

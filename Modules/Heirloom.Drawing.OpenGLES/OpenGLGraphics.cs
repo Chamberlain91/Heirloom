@@ -212,55 +212,289 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        private void SetUniform(string name, object value)
+        unsafe private void SetUniform(string name, object value)
         {
             var location = _shaderProgram.GetUniformLocation(name);
             var uniform = _shaderProgram.GetUniform(name);
 
-            // todo: if float[4] vs vec4 same inputs...
-            // todo: how to get vec2[10] updated for example.
-
-            switch (value)
+            if (uniform.BlockInfo == null)
             {
-                case float f:
-                    GL.Uniform1(location, f);
+                var info = uniform.Info;
+
+                switch (info.Type)
+                {
+                    #region Integer
+
+                    case ActiveUniformType.Integer:
+                    {
+                        if (value is int x)
+                        {
+                            Console.WriteLine($"INTEGER");
+                            GL.Uniform1(location, x);
+                        }
+                        else if (value is int[] arr)
+                        {
+                            Console.WriteLine($"INTEGER ARRAY");
+                            GL.Uniform1(location, arr);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                        }
+                    }
                     break;
 
-                case Vector vec:
-                    GL.Uniform2(location, vec.X, vec.Y);
+                    case ActiveUniformType.IntVec2:
+                    {
+                        if (value is IntVector vec)
+                        {
+                            Console.WriteLine($"INT VEC2");
+                            GL.Uniform2(location, vec.X, vec.Y);
+                        }
+                        else if (value is IntVector[] vecs)
+                        {
+                            fixed (IntVector* ptr = vecs)
+                            {
+                                Console.WriteLine($"INT VEC2 ARRAY");
+                                GL.Uniform2(location, vecs.Length, (int*) ptr);
+                            }
+                        }
+                        else if (value is int[] arr)
+                        {
+                            Console.WriteLine($"INT VEC2 ARRAY");
+                            GL.Uniform2(location, arr);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                        }
+                    }
                     break;
 
-                case Size size:
-                    GL.Uniform2(location, size.Width, size.Height);
+                    case ActiveUniformType.IntVec3:
+                    {
+                        if (value is int[] arr)
+                        {
+                            Console.WriteLine($"INT VEC3 ARRAY");
+                            GL.Uniform3(location, arr);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                        }
+                    }
                     break;
 
-                case int i:
-                    GL.Uniform1(location, i);
+                    case ActiveUniformType.IntVec4:
+                    {
+                        if (value is int[] arr)
+                        {
+                            Console.WriteLine($"INT VEC4 ARRAY");
+                            GL.Uniform4(location, arr);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                        }
+                    }
                     break;
 
-                case IntVector vec:
-                    GL.Uniform2(location, vec.X, vec.Y);
+                    #endregion
+
+                    #region Unsigned Integer
+
+                    case ActiveUniformType.UnsignedInteger:
+                    {
+                        if (value is uint x)
+                        {
+                            Console.WriteLine($"UNSIGNED INTEGER");
+                            GL.Uniform1(location, x);
+                        }
+                        else if (value is uint[] arr)
+                        {
+                            Console.WriteLine($"UNSIGNED INTEGER ARRAY");
+                            GL.Uniform1(location, arr);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                        }
+                    }
                     break;
 
-                case IntSize size:
-                    GL.Uniform2(location, size.Width, size.Height);
+                    case ActiveUniformType.UnsignedIntVec2:
+                    {
+                        if (value is uint[] arr)
+                        {
+                            Console.WriteLine($"UNSIGNED INT VEC2 ARRAY");
+                            GL.Uniform2(location, arr);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                        }
+                    }
                     break;
 
-                case Color col:
-                    GL.Uniform4(location, col.R, col.G, col.B, col.A);
+                    case ActiveUniformType.UnsignedIntVec3:
+                    {
+                        if (value is uint[] arr)
+                        {
+                            Console.WriteLine($"UNSIGNED INT VEC3 ARRAY");
+                            GL.Uniform3(location, arr);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                        }
+                    }
                     break;
 
-                case Rectangle rect:
-                    GL.Uniform4(location, rect.X, rect.Y, rect.Width, rect.Height);
+                    case ActiveUniformType.UnsignedIntVec4:
+                    {
+                        if (value is uint[] arr)
+                        {
+                            Console.WriteLine($"UNSIGNED INT VEC4 ARRAY");
+                            GL.Uniform4(location, arr);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                        }
+                    }
                     break;
 
-                case IntRectangle rect:
-                    GL.Uniform4(location, rect.X, rect.Y, rect.Width, rect.Height);
+                    #endregion
+
+                    #region Float
+
+                    case ActiveUniformType.Float:
+                    {
+                        if (value is float x)
+                        {
+                            Console.WriteLine($"FLOAT");
+                            GL.Uniform1(location, x);
+                        }
+                        else if (value is float[] arr)
+                        {
+                            Console.WriteLine($"FLOAT ARRAY");
+                            GL.Uniform1(location, arr);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                        }
+                    }
                     break;
 
-                case Matrix matrix:
-                    unsafe { GL.UniformMatrix2x3(location, 1, (float*) &matrix); }
+                    case ActiveUniformType.FloatVec2:
+                    {
+                        if (value is Vector vec)
+                        {
+                            Console.WriteLine($"FLOAT VEC2");
+                            GL.Uniform2(location, vec.X, vec.Y);
+                        }
+                        else if (value is Vector[] vecs)
+                        {
+                            fixed (Vector* ptr = vecs)
+                            {
+                                Console.WriteLine($"FLOAT VEC2 ARRAY");
+                                GL.Uniform2(location, vecs.Length, (float*) ptr);
+                            }
+                        }
+                        else if (value is float[] arr)
+                        {
+                            Console.WriteLine($"FLOAT VEC2 ARRAY");
+                            GL.Uniform2(location, arr);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                        }
+                    }
                     break;
+
+                    case ActiveUniformType.FloatVec3:
+                    {
+                        if (value is float[] arr)
+                        {
+                            Console.WriteLine($"FLOAT VEC3 ARRAY");
+                            GL.Uniform3(location, arr);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                        }
+                    }
+                    break;
+
+                    case ActiveUniformType.FloatVec4:
+                    {
+                        if (value is Color col)
+                        {
+                            Console.WriteLine("COLOR VEC4");
+                            GL.Uniform4(location, col.R, col.G, col.B, col.A);
+                        }
+                        else if (value is Color[] cols)
+                        {
+                            fixed (Color* ptr = cols)
+                            {
+                                Console.WriteLine("COLOR VEC4 ARRAY");
+                                GL.Uniform4(location, cols.Length, (float*) ptr);
+                            }
+                        }
+                        else if (value is float[] arr)
+                        {
+                            Console.WriteLine($"FLOAT VEC4 ARRAY");
+                            GL.Uniform4(location, arr);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                        }
+                    }
+                    break;
+
+                    #endregion
+
+                    #region Matrix
+
+                    case ActiveUniformType.Matrix2x3:
+                    {
+                        if (value is Matrix m)
+                        {
+                            Console.WriteLine($"MAT2x3");
+                            GL.UniformMatrix2x3(location, 1, (float*) &m);
+                        }
+                        else if (value is Matrix[] arr)
+                        {
+                            fixed (Matrix* ptr = arr)
+                            {
+                                Console.WriteLine($"MAT2x3 ARRAY");
+                                GL.UniformMatrix2x3(location, arr.Length, (float*) ptr);
+                            }
+                        }
+                        else if (value is float[] xs)
+                        {
+                            fixed (float* ptr = xs)
+                            {
+                                Console.WriteLine($"MAT2x3 ARRAY");
+                                GL.UniformMatrix2x3(location, xs.Length / 6, ptr);
+                            }
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                        }
+                    }
+                    break;
+
+                    #endregion
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException("Unable to set uniform.");
             }
         }
 

@@ -479,6 +479,253 @@ namespace Heirloom.OpenGLES
 
         #endregion
 
+        #region Array Uniforms
+
+        #region Float
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform1(int location, int count, float* arr)
+        {
+            glUniform1fv(location, count, arr);
+            CheckError(nameof(Uniform1));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform2(int location, int count, float* arr)
+        {
+            glUniform2fv(location, count, arr);
+            CheckError(nameof(Uniform2));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform3(int location, int count, float* arr)
+        {
+            glUniform3fv(location, count, arr);
+            CheckError(nameof(Uniform3));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform4(int location, int count, float* arr)
+        {
+            glUniform4fv(location, count, arr);
+            CheckError(nameof(Uniform4));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform1(int location, float[] arr)
+        {
+            fixed (float* ptr = arr)
+            {
+                glUniform1fv(location, arr.Length, ptr);
+                CheckError(nameof(Uniform1));
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform2(int location, float[] arr)
+        {
+            // Ensure the array is appropriate length
+            if ((arr.Length % 2) != 0) { throw new ArgumentException("Array length is not a multiple of 2."); }
+
+            fixed (float* ptr = arr)
+            {
+                glUniform2fv(location, arr.Length / 2, ptr);
+                CheckError(nameof(Uniform2));
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform3(int location, float[] arr)
+        {
+            // Ensure the array is appropriate length
+            if ((arr.Length % 3) != 0) { throw new ArgumentException("Array length is not a multiple of 3."); }
+
+            fixed (float* ptr = arr)
+            {
+                glUniform3fv(location, arr.Length / 3, ptr);
+                CheckError(nameof(Uniform3));
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform4(int location, float[] arr)
+        {
+            // Ensure the array is appropriate length
+            if ((arr.Length % 4) != 0) { throw new ArgumentException("Array length is not a multiple of 4."); }
+
+            fixed (float* ptr = arr)
+            {
+                glUniform4fv(location, arr.Length / 4, ptr);
+                CheckError(nameof(Uniform4));
+            }
+        }
+
+        #endregion
+
+        #region Integer
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform1(int location, int count, int* arr)
+        {
+            glUniform1iv(location, count, arr);
+            CheckError(nameof(Uniform1));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform2(int location, int count, int* arr)
+        {
+            glUniform2iv(location, count, arr);
+            CheckError(nameof(Uniform2));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform3(int location, int count, int* arr)
+        {
+            glUniform3iv(location, count, arr);
+            CheckError(nameof(Uniform3));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform4(int location, int count, int* arr)
+        {
+            glUniform4iv(location, count, arr);
+            CheckError(nameof(Uniform4));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform1(int location, int[] arr)
+        {
+            fixed (int* ptr = arr)
+            {
+                glUniform1iv(location, arr.Length, ptr);
+                CheckError(nameof(Uniform1));
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform2(int location, int[] arr)
+        {
+            // Ensure the array is appropriate length
+            if ((arr.Length % 2) != 0) { throw new ArgumentException("Array length is not a multiple of 2."); }
+
+            fixed (int* ptr = arr)
+            {
+                glUniform2iv(location, arr.Length / 2, ptr);
+                CheckError(nameof(Uniform2));
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform3(int location, int[] arr)
+        {
+            // Ensure the array is appropriate length
+            if ((arr.Length % 3) != 0) { throw new ArgumentException("Array length is not a multiple of 3."); }
+
+            fixed (int* ptr = arr)
+            {
+                glUniform3iv(location, arr.Length / 3, ptr);
+                CheckError(nameof(Uniform3));
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform4(int location, int[] arr)
+        {
+            // Ensure the array is appropriate length
+            if ((arr.Length % 4) != 0) { throw new ArgumentException("Array length is not a multiple of 4."); }
+
+            fixed (int* ptr = arr)
+            {
+                glUniform4iv(location, arr.Length / 4, ptr);
+                CheckError(nameof(Uniform4));
+            }
+        }
+
+        #endregion
+
+        #region Unsigned Integer
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform1(int location, int count, uint* arr)
+        {
+            glUniform1uiv(location, count, arr);
+            CheckError(nameof(Uniform1));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform2(int location, int count, uint* arr)
+        {
+            glUniform2uiv(location, count, arr);
+            CheckError(nameof(Uniform2));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform3(int location, int count, uint* arr)
+        {
+            glUniform3uiv(location, count, arr);
+            CheckError(nameof(Uniform3));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform4(int location, int count, uint* arr)
+        {
+            glUniform4uiv(location, count, arr);
+            CheckError(nameof(Uniform4));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform1(int location, uint[] arr)
+        {
+            fixed (uint* ptr = arr)
+            {
+                glUniform1uiv(location, arr.Length, ptr);
+                CheckError(nameof(Uniform1));
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform2(int location, uint[] arr)
+        {
+            // Ensure the array is appropriate length
+            if ((arr.Length % 2) != 0) { throw new ArgumentException("Array length is not a multiple of 2."); }
+
+            fixed (uint* ptr = arr)
+            {
+                glUniform2uiv(location, arr.Length / 2, ptr);
+                CheckError(nameof(Uniform2));
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform3(int location, uint[] arr)
+        {
+            // Ensure the array is appropriate length
+            if ((arr.Length % 3) != 0) { throw new ArgumentException("Array length is not a multiple of 3."); }
+
+            fixed (uint* ptr = arr)
+            {
+                glUniform3uiv(location, arr.Length / 3, ptr);
+                CheckError(nameof(Uniform3));
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Uniform4(int location, uint[] arr)
+        {
+            // Ensure the array is appropriate length
+            if ((arr.Length % 4) != 0) { throw new ArgumentException("Array length is not a multiple of 4."); }
+
+            fixed (uint* ptr = arr)
+            {
+                glUniform4uiv(location, arr.Length / 4, ptr);
+                CheckError(nameof(Uniform4));
+            }
+        }
+
+        #endregion
+
+        #endregion
+
         #region Matrix Uniforms
 
         #region Array Based
