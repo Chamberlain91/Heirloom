@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Threading;
+
 using Heirloom.Drawing.OpenGLES.Utilities;
 using Heirloom.Math;
 using Heirloom.OpenGLES;
@@ -212,7 +211,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        unsafe private void SetUniform(string name, object value)
+        private unsafe void SetUniform(string name, object value)
         {
             var location = _shaderProgram.GetUniformLocation(name);
             var uniform = _shaderProgram.GetUniform(name);
@@ -454,6 +453,37 @@ namespace Heirloom.Drawing.OpenGLES
                         }
                     }
                     break;
+
+                    #endregion
+
+                    #region Boolean
+
+                    case ActiveUniformType.Bool:
+                    {
+                        if (value is bool x)
+                        {
+                            Console.WriteLine($"BOOLEAN");
+                            GL.Uniform1(location, x ? 1 : 0);
+                        }
+                        else if (value is bool[] arr)
+                        {
+                            throw new NotSupportedException("Boolean arrays not (yet) supported! Poke the developer.");
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                        }
+                    }
+                    break;
+
+                    case ActiveUniformType.BoolVec2:
+                        throw new NotSupportedException("Boolean Vec2 not (yet) supported! Poke the developer.");
+
+                    case ActiveUniformType.BoolVec3:
+                        throw new NotSupportedException("Boolean Vec3 not (yet) supported! Poke the developer.");
+
+                    case ActiveUniformType.BoolVec4:
+                        throw new NotSupportedException("Boolean Vec4 not (yet) supported! Poke the developer.");
 
                     #endregion
 

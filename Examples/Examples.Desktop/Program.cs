@@ -20,7 +20,7 @@ namespace Examples.Desktop
                 // Loads the inverted color shader
                 InvertShader = new Shader("files/invert.frag");
                 // InvertShader.SetUniform("kungFoo.Hoo.Meow", Color.Cyan);
-                InvertShader.SetUniform("kungFoo.Boo[0]", Color.Indigo);
+                InvertShader.SetUniform("kungFoo.Boo[0]", new float[] { 1F, 0.5F, 0F, 0F });
                 InvertShader.SetUniform("uStrength", 1.0F);
 
                 // 
