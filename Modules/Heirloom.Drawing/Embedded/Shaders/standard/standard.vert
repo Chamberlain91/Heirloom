@@ -22,7 +22,7 @@ flat out int  fImageUnit;
 
 // == Uniforms ==
 
-uniform Standard 
+uniform Standard
 {
 	mat2x3 uMatrix;
 };

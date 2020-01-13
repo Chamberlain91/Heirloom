@@ -22,8 +22,10 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Constructors
 
-        internal ShaderProgram(ShaderStage frag, ShaderStage vert)
+        internal ShaderProgram(string name, ShaderStage frag, ShaderStage vert)
         {
+            Name = name;
+
             FragmentShader = frag;
             VertexShader = vert;
 
@@ -91,7 +93,13 @@ namespace Heirloom.Drawing.OpenGLES
 
         internal ShaderStage VertexShader { get; }
 
+        internal string Name { get; }
+
         internal uint Handle { get; }
+
+        public IEnumerable<ActiveUniformBlock> Blocks => _blocks.Values;
+
+        public IEnumerable<Uniform> Uniforms => _uniforms.Values;
 
         #endregion
 
@@ -100,7 +108,7 @@ namespace Heirloom.Drawing.OpenGLES
         [Conditional("DEBUG")]
         private void DebugPrintUniformStructure()
         {
-            Console.WriteLine($"Shader Structure ({VertexShader.Name}, {FragmentShader.Name})");
+            Console.WriteLine($"Shader Structure ({Name})");
 
             // Print raw uniforms
             foreach (var uniform in _uniforms.Values.Where(u => u.BlockInfo == null).Select(u => u.Info))
@@ -170,11 +178,6 @@ namespace Heirloom.Drawing.OpenGLES
             }
 
             throw new ArgumentException($"Unknown uniform block '{name}'.", nameof(name));
-        }
-
-        public IEnumerable<ActiveUniformBlock> GetBlocks()
-        {
-            return _blocks.Values;
         }
 
         public Uniform GetUniform(string name)

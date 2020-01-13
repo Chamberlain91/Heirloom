@@ -25,7 +25,7 @@ namespace Heirloom.Drawing
 
         protected abstract GraphicsCapabilities QueryCapabilities();
 
-        protected internal abstract object CompileShader(string vert, string frag);
+        protected internal abstract object CompileShader(string name, string vert, string frag, out string[] uniforms);
 
         protected virtual void Dispose(bool disposeManaged)
         {
