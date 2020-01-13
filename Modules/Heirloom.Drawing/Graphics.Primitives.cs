@@ -20,14 +20,12 @@ namespace Heirloom.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawLine(in Vector p0, in Vector p1, float width = 1F)
         {
-            var s = ApproximatePixelScale;
-
             var off = p1 - p0;
             var len = off.Length;
             var dir = off * len;
 
             var angle = dir.Angle;
-            var transform = Matrix.CreateTransform(p0, angle, (len, width * s))
+            var transform = Matrix.CreateTransform(p0, angle, (len, width))
                           * _lineOffsetMatrix;
 
             DrawImage(Image.Default, transform);
@@ -176,7 +174,7 @@ namespace Heirloom.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawCircle(in Vector position, float radius)
         {
-            var sides = ComputeCircleSegments(radius, 1F / ApproximatePixelScale);
+            var sides = ComputeCircleSegments(radius);
             DrawPolygon(position, sides, radius);
         }
 
@@ -200,14 +198,19 @@ namespace Heirloom.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawCircleOutline(in Vector position, float radius, float width = 1F)
         {
-            var sides = ComputeCircleSegments(radius, 1F / ApproximatePixelScale);
+            var sides = ComputeCircleSegments(radius);
             DrawPolygonOutline(position, sides, radius, width);
         }
 
-        private static int ComputeCircleSegments(float radius, float objectToPixelScale)
+        private static int ComputeCircleSegments(float radius)
         {
-            // Computes (hopefully), a decent number of segments to approximate a circle with a regular polygon
-            var s = (int) (Calc.Sqrt(radius * objectToPixelScale) * 2.8F);
+            // todo: This is a brutal inaccurate piece of code that can be fixed/replaced with a 
+            //       mathimatically rigid approximation using arc length and linear approximation 
+            //       using a triangle. This is tricky since the number of needed segments depends
+            //       the global transformation and the subsequent scaling between screen space 
+            //       and drawing space.
+
+            var s = (int) (Calc.Sqrt(radius) * 2.8F);
             return Calc.Clamp(s, 3, 64);
         }
 

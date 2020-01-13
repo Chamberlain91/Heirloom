@@ -193,7 +193,7 @@ namespace Heirloom.Drawing.OpenGLES
                     GL.UseProgram(_shaderProgram.Handle);
 
                     // Bind uniform buffers
-                    foreach (var block in _shaderProgram.GetBlocks())
+                    foreach (var block in _shaderProgram.Blocks)
                     {
                         var buffer = GetUniformBuffer(block);
                         GL.BindBufferBase(BufferTarget.UniformBuffer, block.Index, buffer.Handle);
@@ -228,12 +228,10 @@ namespace Heirloom.Drawing.OpenGLES
                     {
                         if (value is int x)
                         {
-                            Console.WriteLine($"INTEGER");
                             GL.Uniform1(location, x);
                         }
                         else if (value is int[] arr)
                         {
-                            Console.WriteLine($"INTEGER ARRAY");
                             GL.Uniform1(location, arr);
                         }
                         else
@@ -247,20 +245,17 @@ namespace Heirloom.Drawing.OpenGLES
                     {
                         if (value is IntVector vec)
                         {
-                            Console.WriteLine($"INT VEC2");
                             GL.Uniform2(location, vec.X, vec.Y);
                         }
                         else if (value is IntVector[] vecs)
                         {
                             fixed (IntVector* ptr = vecs)
                             {
-                                Console.WriteLine($"INT VEC2 ARRAY");
                                 GL.Uniform2(location, vecs.Length, (int*) ptr);
                             }
                         }
                         else if (value is int[] arr)
                         {
-                            Console.WriteLine($"INT VEC2 ARRAY");
                             GL.Uniform2(location, arr);
                         }
                         else
@@ -274,7 +269,6 @@ namespace Heirloom.Drawing.OpenGLES
                     {
                         if (value is int[] arr)
                         {
-                            Console.WriteLine($"INT VEC3 ARRAY");
                             GL.Uniform3(location, arr);
                         }
                         else
@@ -288,7 +282,6 @@ namespace Heirloom.Drawing.OpenGLES
                     {
                         if (value is int[] arr)
                         {
-                            Console.WriteLine($"INT VEC4 ARRAY");
                             GL.Uniform4(location, arr);
                         }
                         else
@@ -306,12 +299,10 @@ namespace Heirloom.Drawing.OpenGLES
                     {
                         if (value is uint x)
                         {
-                            Console.WriteLine($"UNSIGNED INTEGER");
                             GL.Uniform1(location, x);
                         }
                         else if (value is uint[] arr)
                         {
-                            Console.WriteLine($"UNSIGNED INTEGER ARRAY");
                             GL.Uniform1(location, arr);
                         }
                         else
@@ -325,7 +316,6 @@ namespace Heirloom.Drawing.OpenGLES
                     {
                         if (value is uint[] arr)
                         {
-                            Console.WriteLine($"UNSIGNED INT VEC2 ARRAY");
                             GL.Uniform2(location, arr);
                         }
                         else
@@ -339,7 +329,6 @@ namespace Heirloom.Drawing.OpenGLES
                     {
                         if (value is uint[] arr)
                         {
-                            Console.WriteLine($"UNSIGNED INT VEC3 ARRAY");
                             GL.Uniform3(location, arr);
                         }
                         else
@@ -353,7 +342,6 @@ namespace Heirloom.Drawing.OpenGLES
                     {
                         if (value is uint[] arr)
                         {
-                            Console.WriteLine($"UNSIGNED INT VEC4 ARRAY");
                             GL.Uniform4(location, arr);
                         }
                         else
@@ -371,12 +359,10 @@ namespace Heirloom.Drawing.OpenGLES
                     {
                         if (value is float x)
                         {
-                            Console.WriteLine($"FLOAT");
                             GL.Uniform1(location, x);
                         }
                         else if (value is float[] arr)
                         {
-                            Console.WriteLine($"FLOAT ARRAY");
                             GL.Uniform1(location, arr);
                         }
                         else
@@ -390,20 +376,17 @@ namespace Heirloom.Drawing.OpenGLES
                     {
                         if (value is Vector vec)
                         {
-                            Console.WriteLine($"FLOAT VEC2");
                             GL.Uniform2(location, vec.X, vec.Y);
                         }
                         else if (value is Vector[] vecs)
                         {
                             fixed (Vector* ptr = vecs)
                             {
-                                Console.WriteLine($"FLOAT VEC2 ARRAY");
                                 GL.Uniform2(location, vecs.Length, (float*) ptr);
                             }
                         }
                         else if (value is float[] arr)
                         {
-                            Console.WriteLine($"FLOAT VEC2 ARRAY");
                             GL.Uniform2(location, arr);
                         }
                         else
@@ -417,7 +400,6 @@ namespace Heirloom.Drawing.OpenGLES
                     {
                         if (value is float[] arr)
                         {
-                            Console.WriteLine($"FLOAT VEC3 ARRAY");
                             GL.Uniform3(location, arr);
                         }
                         else
@@ -431,20 +413,17 @@ namespace Heirloom.Drawing.OpenGLES
                     {
                         if (value is Color col)
                         {
-                            Console.WriteLine("COLOR VEC4");
                             GL.Uniform4(location, col.R, col.G, col.B, col.A);
                         }
                         else if (value is Color[] cols)
                         {
                             fixed (Color* ptr = cols)
                             {
-                                Console.WriteLine("COLOR VEC4 ARRAY");
                                 GL.Uniform4(location, cols.Length, (float*) ptr);
                             }
                         }
                         else if (value is float[] arr)
                         {
-                            Console.WriteLine($"FLOAT VEC4 ARRAY");
                             GL.Uniform4(location, arr);
                         }
                         else
@@ -462,7 +441,6 @@ namespace Heirloom.Drawing.OpenGLES
                     {
                         if (value is bool x)
                         {
-                            Console.WriteLine($"BOOLEAN");
                             GL.Uniform1(location, x ? 1 : 0);
                         }
                         else if (value is bool[] arr)
@@ -493,14 +471,12 @@ namespace Heirloom.Drawing.OpenGLES
                     {
                         if (value is Matrix m)
                         {
-                            Console.WriteLine($"MAT2x3");
                             GL.UniformMatrix2x3(location, 1, (float*) &m);
                         }
                         else if (value is Matrix[] arr)
                         {
                             fixed (Matrix* ptr = arr)
                             {
-                                Console.WriteLine($"MAT2x3 ARRAY");
                                 GL.UniformMatrix2x3(location, arr.Length, (float*) ptr);
                             }
                         }
@@ -508,7 +484,6 @@ namespace Heirloom.Drawing.OpenGLES
                         {
                             fixed (float* ptr = xs)
                             {
-                                Console.WriteLine($"MAT2x3 ARRAY");
                                 GL.UniformMatrix2x3(location, xs.Length / 6, ptr);
                             }
                         }
@@ -628,8 +603,6 @@ namespace Heirloom.Drawing.OpenGLES
         }
 
         public override Matrix InverseGlobalTransform => _inverseViewMatrix;
-
-        public override float ApproximatePixelScale => _approxPixelScale;
 
         public override Rectangle Viewport
         {

@@ -95,19 +95,14 @@ namespace Heirloom.Drawing
         public abstract Matrix InverseGlobalTransform { get; }
 
         /// <summary>
-        /// Gets the approximate scaling factor that one pixel consumes in world units.
+        /// Gets or sets the current blending mode.
         /// </summary>
-        public abstract float ApproximatePixelScale { get; }
+        public abstract Blending Blending { get; set; }
 
         /// <summary>
         /// Gets or sets the current blending color.
         /// </summary>
         public abstract Color Color { get; set; }
-
-        /// <summary>
-        /// Gets or sets the current blending mode.
-        /// </summary>
-        public abstract Blending Blending { get; set; }
 
         #endregion
 

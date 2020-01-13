@@ -157,9 +157,6 @@ namespace Heirloom.Drawing
         /// <param name="width">Width of the lines screen pixels (not world space).</param>
         public void DrawCross(in Vector center, float size = 2, float width = 1F)
         {
-            // Scale input size by pixel scaling
-            size *= ApproximatePixelScale;
-
             // Draw axis
             DrawLine(center + (Vector.Left * size), center + (Vector.Right * size), width);
             DrawLine(center + (Vector.Up * size), center + (Vector.Down * size), width);

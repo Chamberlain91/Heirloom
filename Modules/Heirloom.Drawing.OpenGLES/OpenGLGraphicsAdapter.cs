@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
@@ -39,15 +40,22 @@ namespace Heirloom.Drawing.OpenGLES
             return embedded;
         }
 
-        protected override object CompileShader(string vert, string frag)
+        protected override object CompileShader(string name, string vert, string frag, out string[] uniforms)
         {
-            return InvokeOnGLThread(() =>
+            var program = InvokeOnGLThread(() =>
             {
-                var vShader = new ShaderStage("vert", ShaderType.Vertex, vert);
-                var fShader = new ShaderStage("frag", ShaderType.Fragment, frag);
+                var vShader = new ShaderStage(ShaderType.Vertex, vert);
+                var fShader = new ShaderStage(ShaderType.Fragment, frag);
 
-                return new ShaderProgram(vShader, fShader);
+                return new ShaderProgram(name, vShader, fShader);
             });
+
+            // Get uniform names
+            uniforms = program.Uniforms.Where(u => u.BlockInfo == null)
+                                       .Select(s => s.Info.Name)
+                                       .ToArray();
+
+            return program;
         }
 
         protected abstract T InvokeOnGLThread<T>(Func<T> action);

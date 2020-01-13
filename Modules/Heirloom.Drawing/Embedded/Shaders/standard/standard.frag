@@ -13,6 +13,13 @@ in vec2 fUV;
 
 out vec4 outColor;
 
+// == Uniforms ==
+
+uniform Standard
+{
+	mat2x3 uMatrix;
+};
+
 // == Functions ==
 
 vec4  imageUnit    (int unit, vec2 uv); // auto-generated

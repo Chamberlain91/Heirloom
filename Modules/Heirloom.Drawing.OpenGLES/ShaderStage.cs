@@ -10,10 +10,8 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Constructors
 
-        public ShaderStage(string name, ShaderType type, string source)
+        public ShaderStage(ShaderType type, string source)
         {
-            Name = name;
-
             Handle = GL.CreateShader(type);
             GL.ShaderSource(Handle, source);
             GL.CompileShader(Handle);
@@ -36,9 +34,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
-        #region Properties
-
-        public string Name { get; }
+        #region Properties 
 
         public uint Handle { get; }
 
