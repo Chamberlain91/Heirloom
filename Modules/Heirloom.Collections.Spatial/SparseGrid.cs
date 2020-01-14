@@ -7,7 +7,7 @@ namespace Heirloom.Collections.Spatial
     /// <summary>
     /// An infinite, sparse grid of values.
     /// </summary>
-    public sealed class SparseGrid<T> : IGrid<T>
+    public sealed class SparseGrid<T> : ISparseGrid<T>
     {
         private readonly Dictionary<IntVector, T> _data;
 
@@ -47,12 +47,46 @@ namespace Heirloom.Collections.Spatial
 
         #endregion
 
+        public IEnumerable<IntVector> Keys => _data.Keys;
+
         /// <summary>
         /// Removes all values in the grid, marking everything as unoccupied.
         /// </summary>
         public void Clear()
         {
             _data.Clear();
+        }
+
+        /// <summary>
+        /// Clears the assigned valueon this cell of the sparse grid.
+        /// </summary>
+        public void ClearValue(in int x, in int y)
+        {
+            ClearValue(new IntVector(x, y));
+        }
+
+        /// <summary>
+        /// Clears the assigned valueon this cell of the sparse grid.
+        /// </summary>
+        public void ClearValue(in IntVector co)
+        {
+            _data.Remove(co);
+        }
+
+        /// <summary>
+        /// Determines if a value has been set on this cell of the sparse grid.
+        /// </summary>
+        public bool HasValue(in int x, in int y)
+        {
+            return HasValue(new IntVector(x, y));
+        }
+
+        /// <summary>
+        /// Determines if a value has been set on this cell of the sparse grid.
+        /// </summary>
+        public bool HasValue(in IntVector co)
+        {
+            return _data.ContainsKey(co);
         }
 
         /// <summary>
