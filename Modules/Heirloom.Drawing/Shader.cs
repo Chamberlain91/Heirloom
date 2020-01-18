@@ -14,6 +14,8 @@ namespace Heirloom.Drawing
         private readonly string[] _paths;
 
         internal readonly Dictionary<string, Uniform> Uniforms;
+        internal bool IsAnyUniformDirty;
+
         internal readonly object Native;
 
         /// <summary>
@@ -152,6 +154,9 @@ namespace Heirloom.Drawing
                 // Update uniform value
                 uniform.IsDirty = true;
                 uniform.Value = value;
+
+                // Mark that there was a change at all
+                IsAnyUniformDirty = true;
             }
             else
             {

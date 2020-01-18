@@ -205,7 +205,7 @@ namespace Heirloom.Drawing.OpenGLES
         private void UpdateShaderUniforms()
         {
             // Enumerate each mutated uniform and set 
-            foreach (var (name, value) in GetMutatedUniforms(_shader))
+            foreach (var (name, value) in EnumerateAndResetDirtyUniforms(_shader))
             {
                 SetUniform(name, value);
             }
@@ -520,7 +520,7 @@ namespace Heirloom.Drawing.OpenGLES
             var buffer = GetUniformBuffer(uniform.BlockInfo);
 
             // Update data in buffer
-            Invoke(() => buffer.Update(data, uniform.Info.Offset + offset, size), !false);
+            Invoke(() => buffer.Update(data, uniform.Info.Offset + offset, size), !!false);
         }
 
         /// <summary>
@@ -565,7 +565,7 @@ namespace Heirloom.Drawing.OpenGLES
                             // Bind surface framebuffer
                             ResourceManager.GetFramebuffer(this, value).Bind();
                         }
-                    }, !false);
+                    }, !!false);
                 }
             }
         }
@@ -620,7 +620,7 @@ namespace Heirloom.Drawing.OpenGLES
                 else
                 {
                     // Nothing to draw, so we will just set the viewport
-                    Invoke(() => SetViewportAndScissor(out var _, out var _), !false);
+                    Invoke(() => SetViewportAndScissor(out var _, out var _), !!false);
                 }
 
                 _viewport = value;
@@ -689,7 +689,7 @@ namespace Heirloom.Drawing.OpenGLES
                                 GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.Zero);
                                 break;
                         }
-                    }, !false);
+                    }, !!false);
                 }
             }
         }
@@ -708,14 +708,14 @@ namespace Heirloom.Drawing.OpenGLES
                 // Set color and clear
                 GL.SetClearColor(col.R, col.G, col.B, col.A);
                 GL.Clear(ClearMask.Color);
-            }, !false);
+            }, !!false);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override void DrawMesh(ImageSource image, Mesh mesh, in Matrix transform)
         {
             _renderer.Submit(image, mesh, in transform, _blendColor);
-            if (HasMutatedUniforms(_shader)) { Flush(); }
+            if (HasDirtyUniform(_shader)) { Flush(); }
         }
 
         #endregion
