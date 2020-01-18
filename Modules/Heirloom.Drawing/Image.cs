@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 using Heirloom.Drawing.Extras;
+using Heirloom.IO;
 using Heirloom.Math;
 
 using StbImageSharp;
@@ -107,10 +108,23 @@ namespace Heirloom.Drawing
             }
         }
 
+        /// <summary>
+        /// Loads an image by a file path resolved by <see cref="Files.OpenStream(string)"/>.
+        /// </summary>
+        public Image(string path)
+            : this(Files.OpenStream(path))
+        { }
+
+        /// <summary>
+        /// Loads an image from a stream.
+        /// </summary>
         public Image(Stream stream)
             : this(ReadAllBytes(stream))
         { }
 
+        /// <summary>
+        /// Loads an image directly from a block of bytes.
+        /// </summary>
         public unsafe Image(byte[] file)
         {
             fixed (byte* buffer = file)

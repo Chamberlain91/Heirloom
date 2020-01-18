@@ -226,7 +226,7 @@ namespace Heirloom.Drawing
         /// </summary>
         protected static IEnumerable<(string name, object value)> EnumerateAndResetDirtyUniforms(Shader shader)
         {
-            foreach (var (name, uniform) in shader.Uniforms)
+            foreach (var (name, uniform) in shader.UniformStorageMap)
             {
                 if (uniform.IsDirty)
                 {
@@ -238,6 +238,17 @@ namespace Heirloom.Drawing
 
             // Mark shaders globally as processed
             shader.IsAnyUniformDirty = false;
+        }
+
+        /// <summary>
+        /// Gets every uniform on this shader.
+        /// </summary>
+        protected static IEnumerable<(string name, object value)> GetUniforms(Shader shader)
+        {
+            foreach (var (name, uniform) in shader.UniformStorageMap)
+            {
+                yield return (name, uniform.Value);
+            }
         }
 
         /// <summary>
