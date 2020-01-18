@@ -216,16 +216,15 @@ namespace Heirloom.Drawing
             return resource.NativeObject;
         }
 
-        protected static bool HasMutatedUniforms(Shader shader)
+        protected static bool HasDirtyUniform(Shader shader)
         {
-            // todo: optimize...
-            return shader.Uniforms.Values.Any(s => s.IsDirty);
+            return shader.IsAnyUniformDirty;
         }
 
         /// <summary>
-        /// Gets each mutated uniform in this shader, clearing the dirty flags.
+        /// Iterates over each mutated uniform in this shader and clears their dirty flag.
         /// </summary>
-        protected static IEnumerable<(string name, object value)> GetMutatedUniforms(Shader shader)
+        protected static IEnumerable<(string name, object value)> EnumerateAndResetDirtyUniforms(Shader shader)
         {
             foreach (var (name, uniform) in shader.Uniforms)
             {
@@ -236,17 +235,9 @@ namespace Heirloom.Drawing
 
                 uniform.IsDirty = false;
             }
-        }
 
-        /// <summary>
-        /// Gets every uniform on this shader.
-        /// </summary>
-        protected static IEnumerable<(string name, object value)> GetUniforms(Shader shader)
-        {
-            foreach (var (name, uniform) in shader.Uniforms)
-            {
-                yield return (name, uniform.Value);
-            }
+            // Mark shaders globally as processed
+            shader.IsAnyUniformDirty = false;
         }
 
         /// <summary>
