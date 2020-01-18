@@ -1,4 +1,5 @@
-﻿#if GL_ES
+﻿//! #version 330
+#if GL_ES
 precision highp float;
 #endif
 
@@ -9,8 +10,10 @@ in vec2 aUV;
 
 // == Per Instance Attributes ==
 
-in vec4   aImageRect; // U, V, sU, sV
-in float  aImageUnit;
+// todo: repeat for each named image
+in vec4   aImageRect; // U, V, sU, sV ... aImageRect_main
+in float  aImageUnit; //              ... aImageUnit_main
+
 in mat2x3 aTransform;
 in vec4   aColor;
 
@@ -29,10 +32,10 @@ uniform Standard
 
 // == Vertex Shader ==
 
-// 
 // Alternative main function to implement when using this standard.frag
-// 
 vec2 vertexProgram(vec2 position);
+
+#include "./standard.glsl"
 
 void main() 
 { 
@@ -42,8 +45,8 @@ void main()
          vPosition = vec3(vPosition * uMatrix, 1.0);
 
 	// Transform UV to atlas space
-	fUV = aUV * aImageRect.zw + aImageRect.xy;
-	if(aImageRect.w < 0.0) { fUV.y += 1.0; }
+	// todo: one each needed input image...?
+	fUV = transformUV(aUV, aImageRect);
 
 	// Emit desired texture slot
 	fImageUnit = int(aImageUnit);
