@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 
 using Heirloom.Drawing.Extras;
+using Heirloom.IO;
 
 namespace Heirloom.Drawing
 {
@@ -35,6 +36,14 @@ namespace Heirloom.Drawing
             // Select default animation
             DefaultAnimation = _animations.FirstOrDefault().Value;
         }
+
+        /// <summary>
+        /// Constructs a new sprite from the specified file path resolved by <see cref="Files.OpenStream(string)"/>.
+        /// </summary>
+        /// <param name="path"></param>
+        public Sprite(string path)
+            : this(Files.OpenStream(path))
+        { }
 
         /// <summary>
         /// Constructs a new sprite from a stream (ie, an Aseprite file or other supported format).

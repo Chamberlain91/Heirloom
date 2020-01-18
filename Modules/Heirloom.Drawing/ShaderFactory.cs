@@ -9,108 +9,11 @@ namespace Heirloom.Drawing
 {
     internal static class ShaderFactory
     {
-        private static readonly Dictionary<string, string> _sources = new Dictionary<string, string>();
-
-        // For expanding include directives
-        private static readonly HashSet<string> _included = new HashSet<string>();
-        private static readonly Regex _includeDirectiveRegex
-            = new Regex("^[ ]*#[ ]*include[ ]+[\"<](.*)[\">].*", RegexOptions.Compiled | RegexOptions.Multiline);
-
         static ShaderFactory()
         {
             // Populate standard includes
-            SetSourceCode("standard/standard.frag", GetSourceCode("embedded/shaders/standard/standard.frag", false));
-            SetSourceCode("standard/standard.vert", GetSourceCode("embedded/shaders/standard/standard.vert", false));
-        }
-
-        internal static string GetSourceCode(string path)
-        {
-            return GetSourceCode(path, true);
-        }
-
-        private static string GetSourceCode(string path, bool generate, int depth = 0)
-        {
-            // Normalize path
-            path = Files.NormalizePath(path);
-
-            // Have we already processed this source/path?
-            if (_sources.TryGetValue(path, out var code))
-            {
-                // Yes, just return the text.
-                return code;
-            }
-            // Does the path exist?
-            else if (Files.Exists(path))
-            {
-                if (depth > 32) { throw new InvalidOperationException("Include directive gone too deep."); }
-                if (depth == 0) { _included.Clear(); }
-
-                // Read source text
-                code = Files.ReadText(path);
-
-                // Process include directives (baking the into stored source)
-                foreach (Match match in _includeDirectiveRegex.Matches(code))
-                {
-                    // Get match information
-                    var capture = match.Captures[0];
-                    var includePath = match.Groups[1].Value;
-
-                    // todo: technically a bug I think with root/fragment vs path
-                    // exists here with getting the directory
-
-                    // Attempt to assemble a relative path
-                    var directory = Path.GetDirectoryName(path);
-                    includePath = ResolvePath(directory, includePath);
-
-                    // Attempt to add the file to the include set,
-                    // if newly inserted, descend and process the include!
-                    // Otherwise it was already included somewhere else
-                    if (_included.Add(includePath))
-                    {
-                        // Descend and insert included text
-                        var include = GetSourceCode(includePath, false, depth + 1);
-                        code = code.Remove(capture.Index, capture.Length);
-                        code = code.Insert(capture.Index, include);
-                    }
-                }
-
-                // If the root...
-                if (generate)
-                {
-                    // Determines kind of shader by extension
-                    var shaderType = GetShaderType(path);
-
-                    // Generates the prefered version preprocessor (ie, #version 330)
-                    // and prepends generated code to ensure version is on top.
-                    code = $"{GenerateVersionHeader()}\n{code.TrimEnd()}";
-
-                    if (shaderType == ShaderType.Fragment)
-                    {
-                        // Generate automatic code, this is mainly for abusing the number of texture units as
-                        // a batching optimization. This may be replaced by a different mechanism later.
-                        code = $"{code}\n\n{GenerateBatchImageMethods()}";
-                    }
-                }
-
-                // Store in map and return
-                SetSourceCode(path, code);
-
-                return code;
-            }
-            else
-            {
-                throw new FileNotFoundException("Unable to resolve shader path.", path);
-            }
-        }
-
-        private static void SetSourceCode(string path, string code)
-        {
-            if (_sources.ContainsKey(path))
-            {
-                throw new InvalidOperationException($"Unable to store shader source code, '{path}' already exists in map.");
-            }
-
-            _sources[path] = code;
+            SourceLoader.Store("standard/standard.frag", SourceLoader.Load("embedded/shaders/standard/standard.frag"));
+            SourceLoader.Store("standard/standard.vert", SourceLoader.Load("embedded/shaders/standard/standard.vert"));
         }
 
         internal static ShaderType GetShaderType(string path)
@@ -189,7 +92,212 @@ namespace Heirloom.Drawing
             return code;
         }
 
+        internal static object LoadAndCompile(string name, string vertPath, string fragPath, out UniformInfo[] uniforms)
+        {
+            // ...
+            var vert = GeneratedShader.Generate(vertPath, SourceLoader.Load(vertPath));
+            var frag = GeneratedShader.Generate(fragPath, SourceLoader.Load(fragPath));
+
+            // Compile shader
+            return GraphicsAdapter.Instance.CompileShader(name, vert, frag, out uniforms);
+        }
+
         #endregion
+
+        internal class ShaderMetadata
+        {
+            private readonly IEnumerable<string> _imageNames;
+
+            public ShaderMetadata(string source, ShaderType type)
+            {
+                Source = source;
+                Type = type;
+
+                // 
+                GeneratedSource = ImagePreprocessor.Process(Source, out _imageNames);
+            }
+
+            public string Source { get; }
+
+            public string GeneratedSource { get; private set; }
+
+            public ShaderType Type { get; }
+
+            public IEnumerable<string> ImageNames => _imageNames;
+        }
+
+        internal class GeneratedShader
+        {
+            public ShaderMetadata Fragment { get; }
+
+            public ShaderMetadata Vertex { get; }
+
+            public GeneratedShader(string vPath, string fPath)
+            {
+                // Shader Processing Algorithm:
+                // Load Frag, Vert (expanding #include)
+                // Extract Metadata (expanding #image)
+                // Generate Frag, Vert
+
+                var vert = SourceLoader.Load(vPath);
+                Vertex = new ShaderMetadata(vert, ShaderType.Vertex);
+
+                var frag = SourceLoader.Load(fPath);
+                Fragment = new ShaderMetadata(frag, ShaderType.Fragment);
+            }
+
+            public static string Generate(string path, string source)
+            {
+                // Determines kind of shader by extension
+                var shaderType = GetShaderType(path);
+
+                // Generates the prefered version preprocessor (ie, #version 300 es)
+                // and prepends generated code to ensure version is on top.
+                source = $"{GenerateVersionHeader()}\n{source.TrimEnd()}";
+
+                // 
+                if (shaderType == ShaderType.Fragment)
+                {
+                    // Generate automatic code, this is mainly for abusing the number of texture units as
+                    // a batching optimization. This may be replaced by a different mechanism later.
+                    source = $"{source}\n\n{GenerateBatchImageMethods()}";
+                }
+
+                // 
+                if (shaderType == ShaderType.Vertex)
+                {
+                    // Generate attributes for each needed image type   
+                }
+
+                return source;
+            }
+        }
+
+        internal static class SourceLoader
+        {
+            private static readonly Dictionary<string, string> _sources = new Dictionary<string, string>();
+
+            private static readonly Regex _regex
+                = new Regex("^\\s*#\\s*include\\s+\"(.*)\".*", RegexOptions.Compiled | RegexOptions.Multiline);
+
+            /// <summary>
+            /// Store GLSL source code.
+            /// </summary>
+            public static void Store(string path, string code)
+            {
+                if (_sources.ContainsKey(path))
+                {
+                    throw new InvalidOperationException($"Unable to store shader source code, '{path}' already exists in map.");
+                }
+
+                _sources[path] = code;
+            }
+
+            /// <summary>
+            /// Load GLSL source code (does not do metadata processing).
+            /// </summary>
+            public static string Load(string path)
+            {
+                // Set to prevent cyclic inclusion
+                var included = new HashSet<string>();
+
+                // Recursively load source files.
+                // Descends on each #include and expand into the parent source
+                // baking the inclusion into the stored source.
+                return RecursiveLoadSource(path, 0);
+
+                // 
+                string RecursiveLoadSource(string path, int depth)
+                {
+                    // Normalize path
+                    // todo: resolve path (ie, collapse '..')
+                    path = Files.NormalizePath(path);
+
+                    // Have we already loaded this source?
+                    if (_sources.TryGetValue(path, out var code))
+                    {
+                        // Yes, just return the text.
+                        return code;
+                    }
+                    // Does the path exist?
+                    else if (Files.Exists(path))
+                    {
+                        // Recursion limits
+                        if (depth > 32) { throw new InvalidOperationException("Include directive gone too deep."); }
+                        if (depth == 0) { included.Clear(); }
+
+                        // Read source text
+                        code = Files.ReadText(path);
+
+                        // Process include directives (baking the into stored source)
+                        foreach (Match match in _regex.Matches(code))
+                        {
+                            // Get match information
+                            var capture = match.Captures[0];
+                            var includePath = match.Groups[1].Value;
+
+                            // todo: technically a bug I think with root/fragment vs path
+                            // exists here with getting the directory
+
+                            // Attempt to assemble a relative path
+                            var directory = Path.GetDirectoryName(path);
+                            includePath = ResolvePath(directory, includePath);
+
+                            // Attempt to add the file to the include set,
+                            // if newly inserted, descend and process the include!
+                            // Otherwise it was already included somewhere else
+                            if (included.Add(includePath))
+                            {
+                                // Remove #include directive
+                                code = code.Remove(capture.Index, capture.Length);
+
+                                // Load requested include and insert into source
+                                var include = RecursiveLoadSource(includePath, depth + 1);
+                                code = code.Insert(capture.Index, include);
+                            }
+                        }
+
+                        // Store in map and return
+                        Store(path, code);
+
+                        // Return include expanded source
+                        return code;
+                    }
+                    else
+                    {
+                        throw new FileNotFoundException("Unable to resolve shader path.", path);
+                    }
+                }
+            }
+        }
+
+        internal static class ImagePreprocessor
+        {
+            private static readonly Regex _regex
+                = new Regex("^\\s*#\\s*image\\s+(\\w+).*", RegexOptions.Compiled | RegexOptions.Multiline);
+
+            public static string Process(string source, out IEnumerable<string> identifiers)
+            {
+                var _identifiers = new List<string>();
+                var offset = 0;
+
+                // Accumulate identifiers
+                foreach (Match match in _regex.Matches(source))
+                {
+                    // Append found image identifier
+                    var identifier = match.Groups[1].Value;
+                    _identifiers.Add(identifier);
+
+                    // Remove match
+                    source = source.Remove(match.Index + offset, match.Length);
+                    offset -= match.Length;
+                }
+
+                // 
+                identifiers = _identifiers;
+                return source;
+            }
+        }
 
         private static string ResolvePath(string directory, string path)
         {

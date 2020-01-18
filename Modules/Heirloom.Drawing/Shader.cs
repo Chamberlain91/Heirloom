@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+
+using Heirloom.IO;
+using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
@@ -13,7 +17,7 @@ namespace Heirloom.Drawing
     {
         private readonly string[] _paths;
 
-        internal readonly Dictionary<string, Uniform> Uniforms;
+        internal readonly Dictionary<string, UniformStorage> UniformStorageMap;
         internal bool IsAnyUniformDirty;
 
         internal readonly object Native;
@@ -43,13 +47,13 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Constructs a new shader from either a vertex shader (.vert), a fragment shader (.frag) or both.
         /// </summary>
-        /// <param name="paths">Must specify at least one path to an asset, resolved using <see cref="IO.Files"/>.</param>
+        /// <param name="paths">Must specify at least one path to an asset, resolved using <see cref="Files.OpenStream(string)"/>.</param>
         public Shader(params string[] paths)
         {
             _paths = paths ?? throw new ArgumentNullException(nameof(paths));
 
             // 
-            Uniforms = new Dictionary<string, Uniform>();
+            UniformStorageMap = new Dictionary<string, UniformStorage>();
 
             // 
             if (_paths.Length == 0) { throw new ArgumentException("Must specify at least one path."); }
@@ -61,17 +65,13 @@ namespace Heirloom.Drawing
             // Creates a name to help identify this shader
             Name = ComposeShaderName(vertPath, fragPath);
 
-            // Load shader sources
-            var vert = ShaderFactory.GetSourceCode(vertPath);
-            var frag = ShaderFactory.GetSourceCode(fragPath);
-
-            // Compile shader
-            Native = GraphicsAdapter.Instance.CompileShader(Name, vert, frag, out var uniformNames);
+            // Compile shader program from vertex and source fragments
+            Native = ShaderFactory.LoadAndCompile(Name, vertPath, fragPath, out var uniforms);
 
             // Create storage for each uniform
-            foreach (var uniform in uniformNames)
+            foreach (var uniform in uniforms)
             {
-                Uniforms[uniform] = new Uniform();
+                UniformStorageMap[uniform.Name] = new UniformStorage();
             }
 
             // todo: Smart alias "myUnform[0]" as "myUnform"?
@@ -88,6 +88,11 @@ namespace Heirloom.Drawing
         }
 
         #endregion
+
+        /// <summary>
+        /// Enumerates the uniforms defined in this shader.
+        /// </summary>
+        public IEnumerable<UniformInfo> Uniforms => UniformStorageMap.Values.Select(x => x.Info);
 
         #region Set Uniform
 
@@ -149,7 +154,7 @@ namespace Heirloom.Drawing
             //       until just before the batch is submitted.
 
             // Attempt to get the uniform storage
-            if (Uniforms.TryGetValue(name, out var uniform))
+            if (UniformStorageMap.TryGetValue(name, out var uniform))
             {
                 // Update uniform value
                 uniform.IsDirty = true;
@@ -193,8 +198,10 @@ namespace Heirloom.Drawing
             if (vert == null) { vert = "embedded/shaders/default.vert"; }
         }
 
-        internal class Uniform
+        internal class UniformStorage
         {
+            public UniformInfo Info;
+
             public object Value;
             public bool IsDirty;
         }
@@ -203,5 +210,53 @@ namespace Heirloom.Drawing
         {
             return Name;
         }
+    }
+
+    public sealed class UniformInfo
+    {
+        public UniformInfo(string name, UniformType type, IntSize dimensions, int arraySize)
+        {
+            Name = name;
+            Type = type;
+            Dimensions = dimensions;
+            ArraySize = arraySize;
+        }
+
+        // ie, uStrength
+        public string Name { get; }
+
+        // ie, float, image, etc
+        public UniformType Type { get; }
+
+        // ie, float 1x3 => vec3
+        public IntSize Dimensions { get; }
+
+        // ie, 2 => float[2]
+        public int ArraySize { get; }
+
+        /// <summary>
+        /// Is this uniform a vector?
+        /// </summary>
+        public bool IsVector => Dimensions.Width == 1 && Dimensions.Height > 1;
+
+        /// <summary>
+        /// Is this uniform a matrix?
+        /// </summary>
+        public bool IsMatrix => Dimensions.Width > 1 && Dimensions.Height > 1;
+
+        /// <summary>
+        /// Is this uniform an array?
+        /// </summary>
+        public bool IsArray => ArraySize > 1;
+    }
+
+    public enum UniformType
+    {
+        Float,
+        Integer,
+        UnsignedInteger,
+        Bool,
+
+        Image
     }
 }

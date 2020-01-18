@@ -21,6 +21,7 @@
     <None Remove="Embedded\Shaders\default.frag" />
     <None Remove="Embedded\Shaders\default.vert" />
     <None Remove="Embedded\Shaders\standard\standard.frag" />
+    <None Remove="Embedded\Shaders\standard\standard.glsl" />
     <None Remove="Embedded\Shaders\standard\standard.vert" />
     <None Include="..\..\LICENSE.md">
       <Pack>True</Pack>
@@ -32,6 +33,7 @@
     <EmbeddedResource Include="Embedded\monogram_extended.ttf" />
     <EmbeddedResource Include="Embedded\Shaders\default.frag" />
     <EmbeddedResource Include="Embedded\Shaders\default.vert" />
+    <EmbeddedResource Include="Embedded\Shaders\standard\standard.glsl" />
     <EmbeddedResource Include="Embedded\Shaders\standard\standard.frag" />
     <EmbeddedResource Include="Embedded\Shaders\standard\standard.vert" />
   </ItemGroup>
