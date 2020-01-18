@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-
+using Heirloom.IO;
 using Heirloom.Math;
 
 using static StbTrueTypeSharp.StbTrueType;
@@ -42,10 +42,23 @@ namespace Heirloom.Drawing
 
         #region Constructors
 
+        /// <summary>
+        /// Loads a font specified by path resolved by <see cref="Files.OpenStream(string)"/>.
+        /// </summary>
+        public Font(string path)
+            : this(Files.OpenStream(path))
+        { }
+
+        /// <summary>
+        /// Loads a font from a stream.
+        /// </summary>
         public Font(Stream stream)
             : this(ReadAllBytes(stream))
         { }
 
+        /// <summary>
+        /// Loads a font from a block of bytes.
+        /// </summary>
         public Font(byte[] file)
         {
             // Keep file around in memory, since the native points directly to it.

@@ -219,7 +219,7 @@ namespace Heirloom.Drawing
         protected static bool HasMutatedUniforms(Shader shader)
         {
             // todo: optimize...
-            return shader.Uniforms.Values.Any(s => s.IsDirty);
+            return shader.UniformStorageMap.Values.Any(s => s.IsDirty);
         }
 
         /// <summary>
@@ -227,7 +227,7 @@ namespace Heirloom.Drawing
         /// </summary>
         protected static IEnumerable<(string name, object value)> GetMutatedUniforms(Shader shader)
         {
-            foreach (var (name, uniform) in shader.Uniforms)
+            foreach (var (name, uniform) in shader.UniformStorageMap)
             {
                 if (uniform.IsDirty)
                 {
@@ -243,7 +243,7 @@ namespace Heirloom.Drawing
         /// </summary>
         protected static IEnumerable<(string name, object value)> GetUniforms(Shader shader)
         {
-            foreach (var (name, uniform) in shader.Uniforms)
+            foreach (var (name, uniform) in shader.UniformStorageMap)
             {
                 yield return (name, uniform.Value);
             }
