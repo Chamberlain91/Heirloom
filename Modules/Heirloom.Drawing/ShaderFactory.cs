@@ -29,6 +29,36 @@ namespace Heirloom.Drawing
             };
         }
 
+        public static (string vert, string frag) GetShaderPaths(string[] paths)
+        {
+            var vert = default(string);
+            var frag = default(string);
+
+            // Load by paths and assign to frag or vert strings. 
+            foreach (var path in paths)
+            {
+                var type = GetShaderType(path);
+
+                switch (type)
+                {
+                    case ShaderType.Vertex:
+                        vert = path;
+                        break;
+
+                    case ShaderType.Fragment:
+                        frag = path;
+                        break;
+                }
+            }
+
+            // Populate defaults for null strings (which should be common for fragment only shaders)
+            if (frag == null) { frag = "embedded/shaders/default.frag"; }
+            if (vert == null) { vert = "embedded/shaders/default.vert"; }
+
+            // Return shader path pair
+            return (vert, frag);
+        }
+
         #region Auto Generated GLSL
 
         private static string GenerateVersionHeader()

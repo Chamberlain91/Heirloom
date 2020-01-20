@@ -1,9 +1,4 @@
-﻿// Bang comments below are to silence the VS extension used to syntax highlight
-// 
-//! #version 300 es
-//! precision highp sampler2DArray;
-//! precision highp float;
-#ifdef GL_ES
+﻿#ifdef GL_ES
 precision highp sampler2DArray;
 #endif
 
@@ -11,8 +6,11 @@ precision highp sampler2DArray;
 
 flat in int fImageUnit;
 
-in vec4 fColor;
-in vec2 fUV;
+in struct {
+	vec4 color;
+	vec2 atlasUV;
+	vec2 UV;
+} frag;
 
 // == Output ==
 
@@ -39,7 +37,7 @@ vec4 fragmentProgram(vec4 color);
 
 void main(void)
 {
-	outColor  = imageUnit(fImageUnit, fUV);
+	outColor  = imageUnit(fImageUnit, frag.atlasUV);
 	outColor  = fragmentProgram(outColor);
-	outColor *= fColor;
+	outColor *= frag.color;
 }
