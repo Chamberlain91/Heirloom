@@ -13,9 +13,10 @@ namespace Heirloom.Drawing.OpenGLES
         private const int LOCATION_IN_BLOCK = -2;
 
         private readonly Dictionary<string, ActiveUniformBlock> _blocks;
-        private readonly Dictionary<string, uint> _binding;
+        private readonly Dictionary<string, uint> _blockBindings;
 
         private readonly Dictionary<string, Uniform> _uniforms;
+        private readonly Dictionary<string, uint> _textureUnits;
         private readonly Dictionary<string, int> _locations;
 
         private bool _isDisposed = false;
@@ -34,26 +35,19 @@ namespace Heirloom.Drawing.OpenGLES
 
             // 
             _blocks = new Dictionary<string, ActiveUniformBlock>();
-            _binding = new Dictionary<string, uint>();
+            _blockBindings = new Dictionary<string, uint>();
 
             _uniforms = new Dictionary<string, Uniform>();
+            _textureUnits = new Dictionary<string, uint>();
             _locations = new Dictionary<string, int>();
 
-            // Cache uniform locations
+            // Create uniforms (global)
             foreach (var uniform in GL.GetActiveUniforms(Handle))
             {
-                // Causes the dictionary to populate with the locations this
-                // won't cover *every* case. Something like the location of an
-                // array with non-zero index will still have to be retrieved
-                // on-demand, but this should prepopulate the location of most
-                // uniforms by a commonly used name.
-                GetUniformLocation(uniform.Name);
-
-                // 
                 _uniforms[uniform.Name] = new Uniform(uniform);
             }
 
-            //
+            // For each block
             foreach (var block in GL.GetActiveUniformBlocks(Handle))
             {
                 // 
@@ -61,9 +55,9 @@ namespace Heirloom.Drawing.OpenGLES
 
                 // 
                 GL.UniformBlockBinding(Handle, block.Index, block.Index);
-                _binding[block.Name] = block.Index;
+                _blockBindings[block.Name] = block.Index;
 
-                // 
+                // Create uniforms (in-block)
                 foreach (var uniform in block.Uniforms)
                 {
                     // Store block information with uniform
@@ -146,28 +140,29 @@ namespace Heirloom.Drawing.OpenGLES
 
         private void ConfigureStandardUniforms()
         {
-            // Query how many image units we can use
-            var maxTextureImageUnits = GL.GetInteger(GetParameter.MaxTextureImageUnits);
-
-            // Set initial uniforms
             GL.UseProgram(Handle);
 
-            // Associate samplers with image units one-to-one
-            var uImage = GetUniformLocation("uImageUnits[0]");
-            for (var i = 0; i < maxTextureImageUnits; i++)
+            // Associate texture units with each sampler
+            var textureUnit = 0u;
+            foreach (var uniform in Uniforms.Where(u => u.BlockInfo == null).Select(u => u.Info)
+                                            .Where(uniform => uniform.Type == ActiveUniformType.Sampler2D))
             {
-                GL.Uniform1(uImage + i, i);
-            }
+                // Store texture unit by name
+                _textureUnits[uniform.Name] = textureUnit;
 
-            // todo: Automatically enumerate image/texture units, tracking how 
-            //       many 'batch units' remain after processing.
+                // Associate uniform location to unit
+                GL.Uniform1(GetUniformLocation(uniform.Name), (int) textureUnit);
+
+                // Increment unit
+                textureUnit++;
+            }
 
             GL.UseProgram(0);
         }
 
         public uint GetBindPoint(string blockName)
         {
-            return _binding[blockName];
+            return _blockBindings[blockName];
         }
 
         public ActiveUniformBlock GetBlock(string name)
@@ -199,6 +194,16 @@ namespace Heirloom.Drawing.OpenGLES
             }
 
             return location;
+        }
+
+        public uint GetTextureUnit(string name)
+        {
+            if (!_textureUnits.TryGetValue(name, out var unit))
+            {
+                throw new InvalidOperationException($"Unable to get texture unit for '{name}'.");
+            }
+
+            return unit;
         }
 
         private static uint CreateAndLinkShaderProgram(ShaderStage frag, ShaderStage vert)

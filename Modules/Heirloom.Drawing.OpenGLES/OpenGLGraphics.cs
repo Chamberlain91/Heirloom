@@ -495,6 +495,23 @@ namespace Heirloom.Drawing.OpenGLES
                     break;
 
                     #endregion
+
+                    case ActiveUniformType.Sampler2D:
+                    {
+                        if (value is ImageSource image)
+                        {
+                            var (texture, textureRect) = ResourceManager.GetTextureInfo(this, image);
+
+                            // Bind texture
+                            GL.ActiveTexture(_shaderProgram.GetTextureUnit(name));
+                            GL.BindTexture(TextureTarget.Texture2D, texture.Handle);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                        }
+                    }
+                    break;
                 }
             }
             else

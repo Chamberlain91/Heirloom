@@ -107,9 +107,6 @@ namespace Heirloom.Drawing.OpenGLES
             [VertexAttribute(VertexAttributeName.Color, Normalize = true)]
             public Color Color; // 16
 
-            [VertexAttribute(VertexAttributeName.ImageUnit)]
-            public int TextureSlot; // 4
-
             [VertexAttribute(VertexAttributeName.ImageRect)]
             public Rectangle TextureRect; // 16
         }

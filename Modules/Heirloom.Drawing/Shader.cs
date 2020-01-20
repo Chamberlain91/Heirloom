@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
 
 using Heirloom.IO;
-using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
@@ -50,37 +47,29 @@ namespace Heirloom.Drawing
             _paths = paths ?? throw new ArgumentNullException(nameof(paths));
 
             // 
-            UniformStorageMap = new Dictionary<string, UniformStorage>();
-
-            // 
             if (_paths.Length == 0) { throw new ArgumentException("Must specify at least one path."); }
             if (_paths.Length >= 3) { throw new ArgumentException("Must at most two paths."); }
 
-            // Resolve vertex and fragment shader paths
-            var (vertShaderPath, fragShaderPath) = ShaderFactory.GetShaderPaths(paths);
-
-            // Creates a name to help identify this shader
-            Name = GetShaderName(vertShaderPath, fragShaderPath);
-
             // Compile shader program from vertex and source fragments
-            Native = ShaderFactory.LoadAndCompile(Name, vertShaderPath, fragShaderPath, out var uniforms);
+            Native = ShaderFactory.LoadAndCompile(paths, out var name, out var uniforms);
 
-            // Create storage objects for each uniform
+            // Store the shader name
+            Name = name;
+
+            // == Create Uniform Storage
+            UniformStorageMap = new Dictionary<string, UniformStorage>();
+
+            // For each detected uniform, create a storage object.
             foreach (var uniform in uniforms)
             {
                 // todo: Smart alias "myUnform[0]" as "myUnform"?
-                UniformStorageMap[uniform.Name] = new UniformStorage();
+                UniformStorageMap[uniform.Name] = new UniformStorage(uniform);
             }
         }
 
-        private static string GetShaderName(string vertShaderPath, string fragShaderPath)
-        {
-            var vname = Path.GetFileNameWithoutExtension(vertShaderPath).ToLowerInvariant();
-            var fname = Path.GetFileNameWithoutExtension(fragShaderPath).ToLowerInvariant();
-            return Regex.Replace($"{vname}-{fname}", "\\s+", "_");
-        }
-
         #endregion
+
+        #region Properties
 
         /// <summary>
         /// The name of the shader (composed from names of input files) for debugging purposes.
@@ -91,6 +80,8 @@ namespace Heirloom.Drawing
         /// Enumerates the uniforms defined in this shader.
         /// </summary>
         public IEnumerable<UniformInfo> Uniforms => UniformStorageMap.Values.Select(x => x.Info);
+
+        #endregion
 
         #region Set Uniform
 
@@ -145,15 +136,28 @@ namespace Heirloom.Drawing
             SetUniformValue(name, value);
         }
 
+        /// <summary>
+        /// Updates one of the shader uniforms by name.
+        /// </summary>
+        /// <param name="name">The name of the uniform.</param>
+        /// <param name="image">An image to assign to the uniform.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void SetUniform(string name, ImageSource image)
+        {
+            SetUniformValue(name, image);
+        }
+
         private void SetUniformValue(string name, object value)
         {
-            // TODO: Validate uniform type is an acceptable type?
-            //       It does this inside the GL implementation, but this deferred 
-            //       until just before the batch is submitted.
-
             // Attempt to get the uniform storage
             if (UniformStorageMap.TryGetValue(name, out var uniform))
             {
+                // Validate the given value is acceptable by the uniform
+                if (!uniform.Info.IsAcceptable(value))
+                {
+                    throw new ArgumentException($"Uniform '{name}' does not have an acceptable type '{Name}'.", nameof(name));
+                }
+
                 // Update uniform value
                 uniform.IsDirty = true;
                 uniform.Value = value;
@@ -171,63 +175,20 @@ namespace Heirloom.Drawing
 
         internal class UniformStorage
         {
-            public UniformInfo Info;
+            public readonly UniformInfo Info;
 
             public object Value;
             public bool IsDirty;
+
+            public UniformStorage(UniformInfo info)
+            {
+                Info = info ?? throw new ArgumentNullException(nameof(info));
+            }
         }
 
         public override string ToString()
         {
             return Name;
         }
-    }
-
-    public sealed class UniformInfo
-    {
-        public UniformInfo(string name, UniformType type, IntSize dimensions, int arraySize)
-        {
-            Name = name;
-            Type = type;
-            Dimensions = dimensions;
-            ArraySize = arraySize;
-        }
-
-        // ie, uStrength
-        public string Name { get; }
-
-        // ie, float, image, etc
-        public UniformType Type { get; }
-
-        // ie, float 1x3 => vec3
-        public IntSize Dimensions { get; }
-
-        // ie, 2 => float[2]
-        public int ArraySize { get; }
-
-        /// <summary>
-        /// Is this uniform a vector?
-        /// </summary>
-        public bool IsVector => Dimensions.Width == 1 && Dimensions.Height > 1;
-
-        /// <summary>
-        /// Is this uniform a matrix?
-        /// </summary>
-        public bool IsMatrix => Dimensions.Width > 1 && Dimensions.Height > 1;
-
-        /// <summary>
-        /// Is this uniform an array?
-        /// </summary>
-        public bool IsArray => ArraySize > 1;
-    }
-
-    public enum UniformType
-    {
-        Float,
-        Integer,
-        UnsignedInteger,
-        Bool,
-
-        Image
     }
 }
