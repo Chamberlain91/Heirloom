@@ -1,6 +1,4 @@
-﻿#ifdef GL_ES
-precision highp float;
-#endif
+﻿#include "./standard.glsl"
 
 // == Per Vertex Attributes ==
 
@@ -10,21 +8,14 @@ in vec2 aUV;
 // == Per Instance Attributes ==
 
 // todo: repeat for each named image
-in vec4   aImageRect; // U, V, sU, sV ... aImageRect_main
-in float  aImageUnit; //              ... aImageUnit_main
+in vec4   aImageRect; // U, V, sU, sV
 
 in mat2x3 aTransform;
 in vec4   aColor;
 
 // == Output (Fragment Shader) ==
 
-flat out int fImageUnit;
-
-out struct {
-	vec4 color;
-	vec2 atlasUV;
-	vec2 UV;
-} frag;
+out PerFragment frag;
 
 // == Uniforms ==
 
@@ -38,8 +29,6 @@ uniform Standard
 // Alternative main function to implement when using this standard.frag
 vec2 vertexProgram(vec2 position);
 
-#include "./standard.glsl"
-
 void main() 
 { 
 	// Transform from object space to projection space
@@ -47,17 +36,15 @@ void main()
 	     vPosition = vec3(vPosition * aTransform, 1.0);
          vPosition = vec3(vPosition * uMatrix, 1.0);
 
-	// Emit desired texture slot
-	fImageUnit = int(aImageUnit);
-
 	// Emit blending color
 	frag.color = aColor;
 	
 	// Emit UV coordinates (atlas space)
-	frag.atlasUV = transformUV(aUV, aImageRect);
+	frag.uvAtlas = transformUV(aUV, aImageRect);
+	frag.atlasRect = aImageRect;
 
 	// Emit UV coordinates (image space)
-	frag.UV = aUV;
+	frag.uv = aUV;
 
 	// Set final vertex position
     gl_Position = vec4(vPosition, 1.0);

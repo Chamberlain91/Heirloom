@@ -1,16 +1,8 @@
-﻿#ifdef GL_ES
-precision highp sampler2DArray;
-#endif
+﻿#include "./standard.glsl"
 
 // == Input ==
 
-flat in int fImageUnit;
-
-in struct {
-	vec4 color;
-	vec2 atlasUV;
-	vec2 UV;
-} frag;
+in PerFragment frag;
 
 // == Output ==
 
@@ -18,26 +10,21 @@ out vec4 outColor;
 
 // == Uniforms ==
 
+uniform sampler2D uMainImage;
+
 uniform Standard
 {
 	mat2x3 uMatrix;
 };
-
-// == Functions ==
-
-vec4  imageUnit    (int unit, vec2 uv); // auto-generated
-ivec2 imageUnitSize(int unit);          // auto-generated
 
 // == Fragment Shader ==
 
 // Alternative main function to implement when using this standard.frag
 vec4 fragmentProgram(vec4 color);
 
-#include "./standard.glsl"
-
 void main(void)
 {
-	outColor  = imageUnit(fImageUnit, frag.atlasUV);
+	outColor  = texture(uMainImage, frag.uvAtlas);
 	outColor  = fragmentProgram(outColor);
 	outColor *= frag.color;
 }
