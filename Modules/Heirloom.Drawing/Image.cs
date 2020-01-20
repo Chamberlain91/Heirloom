@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -760,7 +761,7 @@ namespace Heirloom.Drawing
             var packer = new RectanglePacker<Image>();
 
             // Pack Images
-            foreach (var image in images)
+            foreach (var image in images.OrderByDescending(img => img.Size.Area))
             {
                 packer.Insert(image, image.Size);
             }

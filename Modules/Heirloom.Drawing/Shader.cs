@@ -17,15 +17,12 @@ namespace Heirloom.Drawing
     {
         private readonly string[] _paths;
 
+        // 
         internal readonly Dictionary<string, UniformStorage> UniformStorageMap;
         internal bool IsAnyUniformDirty;
 
+        // 
         internal readonly object Native;
-
-        /// <summary>
-        /// The name of the shader (composed from input files) for debugging purposes.
-        /// </summary>
-        public string Name { get; }
 
         #region Static
 
@@ -60,34 +57,35 @@ namespace Heirloom.Drawing
             if (_paths.Length >= 3) { throw new ArgumentException("Must at most two paths."); }
 
             // Resolve vertex and fragment shader paths
-            GetShaderPaths(paths, out var vertPath, out var fragPath);
+            var (vertShaderPath, fragShaderPath) = ShaderFactory.GetShaderPaths(paths);
 
             // Creates a name to help identify this shader
-            Name = ComposeShaderName(vertPath, fragPath);
+            Name = GetShaderName(vertShaderPath, fragShaderPath);
 
             // Compile shader program from vertex and source fragments
-            Native = ShaderFactory.LoadAndCompile(Name, vertPath, fragPath, out var uniforms);
+            Native = ShaderFactory.LoadAndCompile(Name, vertShaderPath, fragShaderPath, out var uniforms);
 
-            // Create storage for each uniform
+            // Create storage objects for each uniform
             foreach (var uniform in uniforms)
             {
+                // todo: Smart alias "myUnform[0]" as "myUnform"?
                 UniformStorageMap[uniform.Name] = new UniformStorage();
             }
-
-            // todo: Smart alias "myUnform[0]" as "myUnform"?
         }
 
-        private string ComposeShaderName(string vertPath, string fragPath)
+        private static string GetShaderName(string vertShaderPath, string fragShaderPath)
         {
-            if (vertPath is null) { throw new ArgumentNullException(nameof(vertPath)); }
-            if (fragPath is null) { throw new ArgumentNullException(nameof(fragPath)); }
-
-            var vname = Path.GetFileNameWithoutExtension(vertPath).ToLowerInvariant();
-            var fname = Path.GetFileNameWithoutExtension(fragPath).ToLowerInvariant();
+            var vname = Path.GetFileNameWithoutExtension(vertShaderPath).ToLowerInvariant();
+            var fname = Path.GetFileNameWithoutExtension(fragShaderPath).ToLowerInvariant();
             return Regex.Replace($"{vname}-{fname}", "\\s+", "_");
         }
 
         #endregion
+
+        /// <summary>
+        /// The name of the shader (composed from names of input files) for debugging purposes.
+        /// </summary>
+        public string Name { get; }
 
         /// <summary>
         /// Enumerates the uniforms defined in this shader.
@@ -170,33 +168,6 @@ namespace Heirloom.Drawing
         }
 
         #endregion
-
-        private static void GetShaderPaths(string[] paths, out string vert, out string frag)
-        {
-            vert = default;
-            frag = default;
-
-            // Load by paths and assign to frag or vert strings. 
-            foreach (var path in paths)
-            {
-                var type = ShaderFactory.GetShaderType(path);
-
-                switch (type)
-                {
-                    case ShaderType.Vertex:
-                        vert = path;
-                        break;
-
-                    case ShaderType.Fragment:
-                        frag = path;
-                        break;
-                }
-            }
-
-            // Populate defaults for null strings (which should be common for fragment only shaders)
-            if (frag == null) { frag = "embedded/shaders/default.frag"; }
-            if (vert == null) { vert = "embedded/shaders/default.vert"; }
-        }
 
         internal class UniformStorage
         {
