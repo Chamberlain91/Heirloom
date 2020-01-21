@@ -136,8 +136,12 @@ namespace Examples.Game
             // Store player sprite
             AddAsset("player", builder.CreateSprite());
 
+            // Merge sprites into atlas (aka, sprite sheet)
+            var playerSprite = GetAsset<Sprite>("player");
+            Image.CreateAtlas(playerSprite.Frames.Select(s => s.Image));
+
             // Set each frame of the player sprite to center origin
-            foreach (var frame in GetAsset<Sprite>("player").Frames)
+            foreach (var frame in playerSprite.Frames)
             {
                 frame.Image.Origin = frame.Image.Bounds.Center;
             }

@@ -1,6 +1,5 @@
 ﻿using Heirloom.Desktop;
 using Heirloom.Drawing;
-using Heirloom.Desktop;
 using Heirloom.Math;
 
 namespace Examples.Drawing
@@ -20,17 +19,23 @@ namespace Examples.Drawing
             // 
             _demos = new Demo[]
             {
+                // Image / Shader
                 new ImageDemo(),
+                new ShaderDemo(),
+                // Text
                 new TextDemo(),
                 new TextCallbackDemo(),
                 new RichTextDemo(),
+                // Lines
                 new LineThicknessDemo(),
                 new QuadraticCurveDemo(),
                 new CubicCurveDemo(),
+                // Polygon / Mesh
                 new PrimitivesDemo(),
                 new PolygonDemo(),
                 new MeshDemo(),
-                new SurfaceDemo()
+                // Offscreen Rendering
+                new SurfaceDemo(),
             };
 
             // Create window

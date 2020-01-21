@@ -77,7 +77,7 @@ namespace Heirloom.Drawing
                                 modes.Add(new TextMode
                                 {
                                     Name = modeName,
-                                    Range = new IntRange(modeStartMap[modeName], cleanText.Length)
+                                    Range = new IntRange(modeStartMap[modeName], cleanText.Length - 1)
                                 });
 
                                 // Remove mode

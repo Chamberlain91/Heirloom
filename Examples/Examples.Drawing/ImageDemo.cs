@@ -9,7 +9,7 @@ namespace Examples.Drawing
         private readonly Image _image;
 
         public ImageDemo()
-            : base("Image")
+            : base("Simple Image")
         {
             // CC0 from https://pixabay.com/users/nara_kim-279055/
             _image = new Image(Files.OpenStream("files/rabbit.png"));
