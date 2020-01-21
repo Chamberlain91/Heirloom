@@ -1,10 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <RootNamespace>Benchmark</RootNamespace>
     <IsPackable>false</IsPackable>
+    <ApplicationIcon />
+    <StartupObject />
   </PropertyGroup>
 
   <Import Project="..\Benchmark\Benchmark.projitems" Label="Shared" />

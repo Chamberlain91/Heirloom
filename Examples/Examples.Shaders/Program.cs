@@ -7,12 +7,13 @@ namespace Examples.Shaders
 {
     public static class Program
     {
-        public static Shader GrayscaleShader;
-        public static Shader InvertShader;
-        public static Shader DistortShader;
+        private const int Padding = 8;
 
-        public static Image Image;
-        public static Image Noise;
+        public static Shader GrayscaleShader;
+        public static Shader DistortShader;
+        public static Shader InvertShader;
+
+        public static Image Image, Noise;
 
         public static float Time;
 
@@ -22,21 +23,24 @@ namespace Examples.Shaders
             {
                 // Loads the inverted color shader
                 GrayscaleShader = new Shader("files/grayscale.frag");
-                InvertShader = new Shader("files/invert.frag");
                 DistortShader = new Shader("files/distort.frag");
+                InvertShader = new Shader("files/invert.frag");
 
                 // Load queen of hearts image
                 Image = new Image(Files.OpenStream("files/cardHeartsQ.png"));
 
-                // 
-                Noise = Image.CreateNoise(256, 256, 24);
+                // Generate noise image
+                Noise = Image.CreateNoise(256, 256, 24, 6);
 
                 // Set noise image
-                DistortShader.SetUniform("uNoiseImage", Noise);
+                DistortShader.SetUniform("uNoiseImage", Noise, SampleMode.Linear);
 
                 // Create Window and fits it around 3 cards
-                var window = new Window("Window Information and Events");
-                window.Size = (32 + (Image.Width + 32) * 4, Image.Height + 64);
+                var window = new Window("Custom Shader Effects")
+                {
+                    Size = (Padding + (Image.Width + Padding) * 4, Image.Height + Padding * 2),
+                    IsResizable = false
+                };
 
                 // 
                 var loop = RenderLoop.Create(window.Graphics, Update);
@@ -51,28 +55,32 @@ namespace Examples.Shaders
             // Clear the frame
             gfx.Clear(Color.DarkGray);
 
-            // Update grayscale shader to use time.
-            // Its important to note that updating a uniform effectively breaks the batching mechanism.
-            // So you should try to engineer your shaders to minimally update uniforms.
-            GrayscaleShader.SetUniform("uStrength", 0.5F + Calc.Cos(Time * Calc.TwoPi) * 0.5F);
-
+            // Here we update some shader uniforms.
+            GrayscaleShader.SetUniform("uStrength", 0.5F + Calc.Cos(Time * Calc.Pi) * 0.5F);
             DistortShader.SetUniform("uTime", Time * 0.1F);
+
+            // Its important to note that updating a uniform effectively interrupts the batching 
+            // mechanism (once the shader is actually used), causing an unreconcilable state and 
+            // forces a flush (see the documentation on github for further description). Thus it
+            // is good practice to try to engineer your shaders in a way that you can avoid
+            // updating your uniforms multiple times within a single frame. However, sometime
+            // this is difficult to avoid.
 
             // Draws w/ grayscale shader
             gfx.Shader = DistortShader;
-            gfx.DrawImage(Image, Matrix.CreateTranslation(32 + (32 + Image.Width) * 3, 32));
+            gfx.DrawImage(Image, Matrix.CreateTranslation(Padding + (Padding + Image.Width) * 3, Padding));
 
             // Draws w/ grayscale shader
             gfx.Shader = GrayscaleShader;
-            gfx.DrawImage(Image, Matrix.CreateTranslation(32 + (32 + Image.Width) * 2, 32));
+            gfx.DrawImage(Image, Matrix.CreateTranslation(Padding + (Padding + Image.Width) * 2, Padding));
 
             // Draws w/ inversion shader
             gfx.Shader = InvertShader;
-            gfx.DrawImage(Image, Matrix.CreateTranslation(32 + (32 + Image.Width) * 1, 32));
+            gfx.DrawImage(Image, Matrix.CreateTranslation(Padding + (Padding + Image.Width) * 1, Padding));
 
             // Draws w/ default shader
             gfx.Shader = Shader.Default;
-            gfx.DrawImage(Image, Matrix.CreateTranslation(32 + (32 + Image.Width) * 0, 32));
+            gfx.DrawImage(Image, Matrix.CreateTranslation(Padding + (Padding + Image.Width) * 0, Padding));
         }
     }
 }
