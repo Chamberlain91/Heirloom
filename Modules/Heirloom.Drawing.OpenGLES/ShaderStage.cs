@@ -6,8 +6,6 @@ namespace Heirloom.Drawing.OpenGLES
 {
     internal sealed class ShaderStage : IDisposable
     {
-        private bool _isDisposed = false;
-
         #region Constructors
 
         public ShaderStage(ShaderType type, string source)
@@ -42,18 +40,19 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Dispose
 
-        void Dispose(bool disposeManaged)
+        private bool _isDisposed = false;
+
+        private void Dispose(bool disposeManaged)
         {
             if (!_isDisposed)
             {
                 if (disposeManaged)
                 {
-                    // TODO: dispose managed objects.
+                    // ...
                 }
 
-                // TODO: free unmanaged resources
-                // Schedule on *some* context for deletion?
-                Console.WriteLine("WARN: Disposing Shader! OpenGL Resource Not Deleted.");
+                // Schedule for deletion on a GL thread.
+                OpenGLGraphicsAdapter.Invoke(() => GL.DeleteShader(Handle));
 
                 _isDisposed = true;
             }
@@ -64,6 +63,7 @@ namespace Heirloom.Drawing.OpenGLES
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
         #endregion
     }
 }

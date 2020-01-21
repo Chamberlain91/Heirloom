@@ -10,7 +10,7 @@ namespace Heirloom.Drawing
     /// <summary>
     /// Provides GLSL shader support for custom image effects and other visual processing.
     /// </summary>
-    public sealed class Shader
+    public sealed partial class Shader : IDisposable
     {
         private readonly string[] _paths;
 
@@ -51,7 +51,7 @@ namespace Heirloom.Drawing
             if (_paths.Length >= 3) { throw new ArgumentException("Must at most two paths."); }
 
             // Compile shader program from vertex and source fragments
-            Native = ShaderFactory.LoadAndCompile(paths, out var name, out var uniforms);
+            Native = Factory.LoadAndCompile(paths, out var name, out var uniforms);
 
             // Store the shader name
             Name = name;
@@ -65,6 +65,11 @@ namespace Heirloom.Drawing
                 // todo: Smart alias "myUnform[0]" as "myUnform"?
                 UniformStorageMap[uniform.Name] = new UniformStorage(uniform);
             }
+        }
+
+        ~Shader()
+        {
+            Dispose(false);
         }
 
         #endregion
@@ -190,5 +195,35 @@ namespace Heirloom.Drawing
         {
             return Name;
         }
+
+        #region Dispose
+
+        private bool _isDispsoed = false;
+
+        private void Dispose(bool disposing)
+        {
+            if (!_isDispsoed)
+            {
+                if (disposing)
+                {
+                    // todo: Somehow invalidate shader source code in storage to
+                    //       release the memory. I doubt this is a significant 
+                    //       amount of memory, but it feels responsible to do so.
+                }
+
+                // Alert the implementation that this resource has been disposed
+                GraphicsAdapter.ShaderResources.Dispose(Native);
+
+                _isDispsoed = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
     }
 }

@@ -1,4 +1,6 @@
-﻿using Heirloom.Desktop;
+﻿using System;
+
+using Heirloom.Desktop;
 using Heirloom.Drawing;
 using Heirloom.IO;
 using Heirloom.Math;
@@ -27,13 +29,13 @@ namespace Examples.Shaders
                 InvertShader = new Shader("files/invert.frag");
 
                 // Load queen of hearts image
-                Image = new Image(Files.OpenStream("files/cardHeartsQ.png"));
+                Image = new Image("files/cardHeartsQ.png");
 
                 // Generate noise image
                 Noise = Image.CreateNoise(256, 256, 24, 6);
 
                 // Set noise image
-                DistortShader.SetUniform("uNoiseImage", Noise, SampleMode.Linear);
+                DistortShader.SetUniform("uNoiseImage", Noise);
 
                 // Create Window and fits it around 3 cards
                 var window = new Window("Custom Shader Effects")

@@ -507,7 +507,7 @@ namespace Heirloom.Drawing
             switch (mode)
             {
                 default:
-                case SampleMode.Point:
+                case SampleMode.Nearest:
                     return SamplePoint(u, v);
 
                 case SampleMode.Linear:

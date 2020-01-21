@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+
 using Heirloom.Math;
 using Heirloom.OpenGLES;
 
@@ -7,10 +8,18 @@ namespace Heirloom.Drawing.OpenGLES
 {
     public abstract class OpenGLGraphicsAdapter : GraphicsAdapter
     {
+        #region Graphics Features
+
         protected override GraphicsCapabilities QueryCapabilities()
         {
+            var renderer = GL.GetString(StringParameter.Renderer);
+            var vendor = GL.GetString(StringParameter.Vendor);
+
             return new GraphicsCapabilities(
-                maxSupportedTextures: GL.GetInteger(GetParameter.MaxTextureImageUnits),
+                adapterName: renderer,
+                adapterVendor: vendor,
+                maxSupportedVertexImages: GL.GetInteger(GetParameter.MaxVertexTextureImageUnits),
+                maxSupportedFragmentImages: GL.GetInteger(GetParameter.MaxTextureImageUnits),
                 isMobilePlatform: DetectOpenGLES());
         }
 
@@ -41,27 +50,79 @@ namespace Heirloom.Drawing.OpenGLES
             return embedded;
         }
 
-        protected override object CompileShader(string name, string vert, string frag, out UniformInfo[] uniforms)
+        #endregion
+
+        #region Invoke (GL Thread)
+
+        protected internal abstract T InvokeOnGLThread<T>(Func<T> action);
+
+        protected internal abstract void InvokeOnGLThread(Action action);
+
+        internal static T Invoke<T>(Func<T> action)
         {
-            var program = InvokeOnGLThread(() =>
-            {
-                var vShader = new ShaderStage(ShaderType.Vertex, vert);
-                var fShader = new ShaderStage(ShaderType.Fragment, frag);
-
-                return new ShaderProgram(name, vShader, fShader);
-            });
-
-            // Get uniform names
-            uniforms = program.Uniforms.Where(u => u.BlockInfo == null)
-                                       .Select(s => CreateUniformInfo(s.Info))
-                                       .ToArray();
-
-            return program;
+            var adapter = Instance as OpenGLGraphicsAdapter;
+            return adapter.InvokeOnGLThread(action);
         }
 
-        protected abstract T InvokeOnGLThread<T>(Func<T> action);
+        internal static void Invoke(Action action)
+        {
+            var adapter = Instance as OpenGLGraphicsAdapter;
+            adapter.InvokeOnGLThread(action);
+        }
 
-        private UniformInfo CreateUniformInfo(ActiveUniform uniform)
+        #endregion
+
+        protected override IShaderResourceManager CreateShaderResourceManager()
+        {
+            return new ShaderResourceManager(this);
+        }
+
+        #region Resource Managers
+
+        private abstract class ResourceManager
+        {
+            protected ResourceManager(OpenGLGraphicsAdapter adapter)
+            {
+                Adapter = adapter ?? throw new ArgumentNullException(nameof(adapter));
+            }
+
+            public OpenGLGraphicsAdapter Adapter { get; }
+        }
+
+        private sealed class ShaderResourceManager : ResourceManager, IShaderResourceManager
+        {
+            public ShaderResourceManager(OpenGLGraphicsAdapter adapter)
+                : base(adapter)
+            { }
+
+            public object Compile(string name, string vert, string frag, out UniformInfo[] uniforms)
+            {
+                var program = Adapter.InvokeOnGLThread(() =>
+                {
+                    var vShader = new ShaderStage(ShaderType.Vertex, vert);
+                    var fShader = new ShaderStage(ShaderType.Fragment, frag);
+
+                    return new ShaderProgram(name, vShader, fShader);
+                });
+
+                // Get uniform names
+                uniforms = program.Uniforms.Where(u => u.BlockInfo == null)
+                                           .Select(s => CreateUniformInfo(s.Info))
+                                           .ToArray();
+
+                return program;
+            }
+
+            public void Dispose(object native)
+            {
+                // Dispose shader program
+                (native as ShaderProgram)?.Dispose();
+            }
+        }
+
+        #endregion
+
+        private static UniformInfo CreateUniformInfo(ActiveUniform uniform)
         {
             var type = GetUniformType();
             var size = GetUniformSize();

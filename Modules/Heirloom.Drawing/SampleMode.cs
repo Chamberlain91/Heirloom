@@ -5,7 +5,7 @@
         /// <summary>
         /// Color is sampled using rounding to the nearest pixel.
         /// </summary>
-        Point,
+        Nearest,
 
         /// <summary>
         /// Color is sampled using interpolation across nearest pixels.

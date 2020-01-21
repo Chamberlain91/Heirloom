@@ -19,8 +19,6 @@ namespace Heirloom.Drawing.OpenGLES
         private readonly Dictionary<string, uint> _textureUnits;
         private readonly Dictionary<string, int> _locations;
 
-        private bool _isDisposed = false;
-
         #region Constructors
 
         internal ShaderProgram(string name, ShaderStage frag, ShaderStage vert)
@@ -97,12 +95,12 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
-        #region Print Debug
+        #region Print Shader Structure (Debug)
 
         [Conditional("DEBUG")]
         private void DebugPrintUniformStructure()
         {
-            Console.WriteLine($"Shader Structure ({Name})");
+            Log.Debug($"Shader Structure ({Name})");
 
             // Print raw uniforms
             foreach (var uniform in _uniforms.Values.Where(u => u.BlockInfo == null).Select(u => u.Info))
@@ -116,11 +114,11 @@ namespace Heirloom.Drawing.OpenGLES
                 PrintBlock(block, "  ");
             }
 
-            Console.WriteLine();
+            Log.Debug("");
 
             static void PrintBlock(ActiveUniformBlock block, string indent)
             {
-                Console.WriteLine($"{indent}B {block.Index} \"{block.Name}\" ({block.DataSize} bytes)");
+                Log.Debug($"{indent}B {block.Index} \"{block.Name}\" ({block.DataSize} bytes)");
 
                 foreach (var uniform in block.Uniforms)
                 {
@@ -132,7 +130,7 @@ namespace Heirloom.Drawing.OpenGLES
             {
                 var message = $"{indent}U {uniform.Index} \"{uniform.Name}\" ({uniform.Size} x {uniform.Type})";
                 if (uniform.Offset != -1) { message += $" @ {uniform.Offset} bytes"; }
-                Console.WriteLine(message);
+                Log.Debug(message);
             }
         }
 
@@ -238,18 +236,19 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Dispose
 
+        private bool _isDisposed = false;
+
         private void Dispose(bool disposeManaged)
         {
             if (!_isDisposed)
             {
                 if (disposeManaged)
                 {
-                    // TODO: dispose managed objects.
+                    // ...
                 }
 
-                // TODO: free unmanaged resources
-                // Schedule on *some* context for deletion?
-                Console.WriteLine("WARN: Disposing Shader Program! OpenGL Resource Not Deleted.");
+                // Schedule for deletion on a GL thread.
+                OpenGLGraphicsAdapter.Invoke(() => GL.DeleteProgram(Handle));
 
                 _isDisposed = true;
             }

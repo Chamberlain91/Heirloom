@@ -17,7 +17,7 @@ namespace Examples.Drawing
 
             // Load shader
             _shader = new Shader("files/distort.frag");
-            _shader.SetUniform("uNoiseImage", _noise, SampleMode.Linear);
+            _shader.SetUniform("uNoiseImage", _noise);
         }
 
         internal override void Draw(Graphics ctx, Rectangle contentBounds)
