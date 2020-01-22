@@ -57,7 +57,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Physics", "Modules
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Experimental", "Experimental", "{A2345ACB-35FB-4572-ADBA-1652A324778E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.Shaders", "Examples\Examples.Shaders\Examples.Shaders.csproj", "{76D5C95D-2625-4E48-BF08-C6DD3A9E55D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples.Shaders", "Examples\Examples.Shaders\Examples.Shaders.csproj", "{76D5C95D-2625-4E48-BF08-C6DD3A9E55D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Benchmark", "Examples\Heirloom.Benchmark\Heirloom.Benchmark.csproj", "{3D05A242-9187-4E75-A6FF-B1589756AB53}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -156,6 +158,10 @@ Global
 		{76D5C95D-2625-4E48-BF08-C6DD3A9E55D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76D5C95D-2625-4E48-BF08-C6DD3A9E55D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76D5C95D-2625-4E48-BF08-C6DD3A9E55D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D05A242-9187-4E75-A6FF-B1589756AB53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D05A242-9187-4E75-A6FF-B1589756AB53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D05A242-9187-4E75-A6FF-B1589756AB53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D05A242-9187-4E75-A6FF-B1589756AB53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -186,6 +192,7 @@ Global
 		{980C2EF2-4B18-4997-82AE-DC75EA02CCA1} = {A2345ACB-35FB-4572-ADBA-1652A324778E}
 		{A2345ACB-35FB-4572-ADBA-1652A324778E} = {0EBDA45D-4262-4725-B733-3FC90E7F05E4}
 		{76D5C95D-2625-4E48-BF08-C6DD3A9E55D5} = {ED52051C-C8CE-4EFE-ABD1-3D6D5EFCDFFE}
+		{3D05A242-9187-4E75-A6FF-B1589756AB53} = {A6D18C72-D55C-433A-87CE-4AD7C9AC035F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {696A41D8-DF3F-4D16-B3D9-514D627DCCE2}

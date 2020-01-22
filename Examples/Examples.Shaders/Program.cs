@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Runtime.InteropServices;
 using Heirloom.Desktop;
 using Heirloom.Drawing;
 using Heirloom.IO;
@@ -21,6 +21,17 @@ namespace Examples.Shaders
 
         private static void Main(string[] args)
         {
+            Console.WriteLine($"Environment.UserName: '{Environment.UserName}'");
+            Console.WriteLine($"Environment.MachineName: '{Environment.MachineName}'");
+            Console.WriteLine($"Environment.ProcessorCount: '{Environment.ProcessorCount}'");
+            Console.WriteLine($"Environment.OSVersion: '{Environment.OSVersion}'");
+            Console.WriteLine($"Environment.Version: '{Environment.Version}'");
+
+            Console.WriteLine($"RuntimeInformation.FrameworkDescription: '{RuntimeInformation.FrameworkDescription}'");
+            Console.WriteLine($"RuntimeInformation.ProcessArchitecture: '{RuntimeInformation.ProcessArchitecture}'");
+            Console.WriteLine($"RuntimeInformation.OSArchitecture: '{RuntimeInformation.OSArchitecture}'");
+            Console.WriteLine($"RuntimeInformation.OSDescription: '{RuntimeInformation.OSDescription}'");
+
             Application.Run(() =>
             {
                 // Loads the inverted color shader
