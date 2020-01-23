@@ -6,9 +6,9 @@ namespace Heirloom.Benchmark
     {
         static void Main(string[] args)
         {
-            var info = Hardware.GetProcessorInfo();
+            var info = Hardware.ProcessorInfo;
             Console.WriteLine($"Name: {info.Name}");
-            Console.WriteLine($"{info.ProcessorCount} Logical Processors @ {info.ClockSpeed / 1000:N1}GHz");
+            Console.WriteLine($"{info.ProcessorCount} Logical Processors @ {info.ClockSpeed / 1000F:N1}GHz");
         }
     }
 }

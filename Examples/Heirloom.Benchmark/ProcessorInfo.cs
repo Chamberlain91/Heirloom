@@ -23,15 +23,15 @@ namespace Heirloom.Benchmark
         /// <summary>
         /// Gets the default information when properties of CPU are unknown.
         /// </summary>
-        public static ProcessorInfo Unknown { get; } = new ProcessorInfo("Unknown", -1, -1);
+        public static ProcessorInfo Unknown { get; } = new ProcessorInfo("Unknown", 0, 0);
 
         #region Constructors
 
-        public ProcessorInfo(string name, int clockSpeed, int coreCount)
+        public ProcessorInfo(string name, int clockSpeed, int processorCount)
         {
             Name = name;
             ClockSpeed = clockSpeed;
-            ProcessorCount = coreCount;
+            ProcessorCount = processorCount;
         }
 
         #endregion
