@@ -1,39 +1,62 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace Heirloom.Benchmark
 {
     public static class Hardware
     {
-        public static ProcessorInfo GetProcessorInfo()
+        private static ProcessorInfo? _info;
+
+        /// <summary>
+        /// Gets the (best attempt) CPU information for the current computer.
+        /// </summary>
+        public static ProcessorInfo ProcessorInfo
         {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            get
             {
-                // windows 10, windows 7, etc
-                return GetWindowsProcessorInfo();
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                // linux, ubuntu, etc
-                return GetLinuxProcessorInfo();
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                // macOS
-                return GetMacProcessorInfo();
-            }
-            else
-            {
-                // No clue what platform we are on
-                return ProcessorInfo.Unknown;
+                if (!_info.HasValue)
+                {
+                    try
+                    {
+                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                        {
+                            // windows 10, windows 7, etc
+                            _info = GetWindowsProcessorInfo();
+                        }
+                        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                        {
+                            // linux, ubuntu, etc
+                            _info = GetLinuxProcessorInfo();
+                        }
+                        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                        {
+                            // macOS
+                            _info = GetMacProcessorInfo();
+                        }
+                        else
+                        {
+                            // No clue what platform we are on
+                            _info = ProcessorInfo.Unknown;
+                        }
+                    }
+                    catch
+                    {
+                        // Something went wrong when determining information
+                        // todo: log warning?
+                        _info = ProcessorInfo.Unknown;
+                    }
+                }
+
+                return _info.Value;
             }
         }
+
+        #region Windows
 
         private static ProcessorInfo GetWindowsProcessorInfo()
         {
             // 
-            var wmicInfo = QueryProcess("wmic", "cpu get name, maxclockspeed, numberoflogicalprocessors /format:list").Split('\n');
+            var wmicInfo = RunCommandLine("wmic", "cpu get name, maxclockspeed, numberoflogicalprocessors /format:list").Split('\n');
 
             var clockSpeed = ProcessorInfo.Unknown.ClockSpeed;
             var coreCount = ProcessorInfo.Unknown.ProcessorCount;
@@ -63,19 +86,68 @@ namespace Heirloom.Benchmark
             return new ProcessorInfo(name, clockSpeed, coreCount);
         }
 
+        #endregion
+
+        #region Linux
+
         private static ProcessorInfo GetLinuxProcessorInfo()
         {
-            return ProcessorInfo.Unknown;
+            // 
+            var wmicInfo = RunCommandLine("lscpu").Split('\n');
+
+            var clockSpeed = ProcessorInfo.Unknown.ClockSpeed;
+            var coreCount = ProcessorInfo.Unknown.ProcessorCount;
+            var name = ProcessorInfo.Unknown.Name;
+
+            foreach (var line in wmicInfo)
+            {
+                var parts = line.Split(':');
+                var key = parts[0].ToLower();
+                switch (key)
+                {
+                    case "model name":
+                        name = parts[1].Trim();
+                        break;
+
+                    case "cpu max mhz":
+                        clockSpeed = (int) float.Parse(parts[1]);
+                        break;
+
+                    case "cpu(s)":
+                        coreCount = int.Parse(parts[1]);
+                        break;
+                }
+            }
+
+            // Return processor information
+            return new ProcessorInfo(name, clockSpeed, coreCount);
         }
+
+        #endregion
+
+        #region macOS
 
         private static ProcessorInfo GetMacProcessorInfo()
         {
-            // shell -> sysctl - n machdep.cpu.brand_string
-            // "Intel(R) Core(TM) i7 - 3770S CPU @ 3.10GHz"
-            return ProcessorInfo.Unknown;
+            // Query brand string for a human readable name
+            var brand_string = RunCommandLine("sysctl", "-n machdep.cpu.brand_string");
+            // ie, "Intel(R) Core(TM) i7 - 3770S CPU @ 3.10GHz"
+            var name = brand_string.Trim();
+
+            // Query number of logical processors
+            var logical_per_package = RunCommandLine("sysctl", "-n machdep.cpu.logical_per_package");
+            var logical_processors = int.Parse(logical_per_package);
+
+            //  sysctl -n hw.cpufrequency
+            var cpufrequency = RunCommandLine("sysctl", "-n hw.cpufrequency");
+            var clock = float.Parse(cpufrequency) / (1000F * 1000F); // to megahertz
+
+            return new ProcessorInfo(name, (int) clock, logical_processors);
         }
 
-        private static string QueryProcess(string exe, string args)
+        #endregion
+
+        private static string RunCommandLine(string exe, string args = "")
         {
             var p = new Process();
 
