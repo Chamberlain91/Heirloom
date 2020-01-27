@@ -25,9 +25,10 @@ namespace Heirloom.Drawing.OpenGLES
                 // 
                 GL.TexStorage2D(TextureImageTarget.Texture2D, levels, TextureSizedFormat.RGBA8, size.Width, size.Height);
 
+                // 
+                SetTextureFilter(InterpolationMode.Linear);
+
                 // TODO: Somehow configurable?
-                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MagFilter, (int) TextureMagFilter.Linear);
-                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MinFilter, (int) TextureMinFilter.LinearMipNearest);
                 GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.WrapS, (int) TextureWrap.Repeat);
                 GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.WrapT, (int) TextureWrap.Repeat);
 
@@ -40,6 +41,20 @@ namespace Heirloom.Drawing.OpenGLES
 
                 return handle;
             });
+        }
+
+        private static void SetTextureFilter(InterpolationMode mode)
+        {
+            if (mode == InterpolationMode.Linear)
+            {
+                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MagFilter, (int) TextureMagFilter.Linear);
+                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MinFilter, (int) TextureMinFilter.LinearMipNearest);
+            }
+            else
+            {
+                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MagFilter, (int) TextureMagFilter.Nearest);
+                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MinFilter, (int) TextureMinFilter.LinearMipNearest);
+            }
         }
 
         ~Texture()
@@ -86,7 +101,7 @@ namespace Heirloom.Drawing.OpenGLES
         /// <summary>
         /// Update the GPU representation of this texture with the given image data.
         /// </summary>
-        internal void Update(OpenGLGraphics gfx, Image image)
+        internal void UpdateByImage(OpenGLGraphics gfx, Image image)
         {
             // Validate we were provide a non-null image.
             if (image == null) { throw new ArgumentNullException(nameof(image)); }
@@ -108,6 +123,8 @@ namespace Heirloom.Drawing.OpenGLES
                     TexturePixelFormat.RGBA, TexturePixelType.UnsignedByte,
                     image.GetPixels());
 
+                SetTextureFilter(image.InterpolationMode);
+
                 // Generate mips
                 GL.GenerateMipmap(TextureTarget.Texture2D);
                 GL.BindTexture(TextureTarget.Texture2D, 0);
@@ -117,14 +134,18 @@ namespace Heirloom.Drawing.OpenGLES
             Version = image.Version;
         }
 
-        internal void GenerateMips(uint version)
+        internal void UpdateBySurface(Surface surface)
         {
             GL.BindTexture(TextureTarget.Texture2D, Handle);
-            GL.GenerateMipmap(TextureTarget.Texture2D);
+
+            SetTextureFilter(surface.InterpolationMode);
+
+            // Generate mips
+            GL.GenerateMipmap(TextureTarget.Texture2D); 
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
             // Store version to mark as updated
-            Version = version;
+            Version = surface.Version;
         }
 
         #region Dispose

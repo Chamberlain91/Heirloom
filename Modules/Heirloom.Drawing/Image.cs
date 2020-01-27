@@ -492,25 +492,43 @@ namespace Heirloom.Drawing
         #region Sample
 
         /// <summary>
-        /// Samples the image via normalized coordinates.
+        /// Gets the color of the image at the specified point in normalized image space.
         /// </summary>
-        public Color Sample(Vector uv, SampleMode mode = SampleMode.Linear)
+        public Color Sample(Vector uv)
+        {
+            return Sample(uv.X, uv.Y, InterpolationMode);
+        }
+
+        /// <summary>
+        /// Gets the color of the image at the specified point in normalized image space.
+        /// </summary>
+        public Color Sample(Vector uv, InterpolationMode mode)
         {
             return Sample(uv.X, uv.Y, mode);
         }
 
         /// <summary>
-        /// Samples the image via normalized coordinates.
+        /// Gets the color of the image at the specified point in normalized image space.
         /// </summary>
-        public Color Sample(float u, float v, SampleMode mode = SampleMode.Linear)
+        public Color Sample(float u, float v)
+        {
+            return Sample(u, v, InterpolationMode);
+        }
+
+        /// <summary>
+        /// Gets the color of the image at the specified point in normalized image space.
+        /// </summary>
+        public Color Sample(float u, float v, InterpolationMode mode)
         {
             switch (mode)
             {
                 default:
-                case SampleMode.Nearest:
+                    throw new InvalidOperationException("Unknown sampling mode.");
+
+                case InterpolationMode.Nearest:
                     return SamplePoint(u, v);
 
-                case SampleMode.Linear:
+                case InterpolationMode.Linear:
                     return SampleLinear(u, v);
             }
         }

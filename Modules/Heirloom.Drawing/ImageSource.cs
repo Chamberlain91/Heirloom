@@ -4,6 +4,7 @@ namespace Heirloom.Drawing
 {
     public abstract class ImageSource : IDrawingResource
     {
+        private InterpolationMode _sampleMode = InterpolationMode.Linear;
         private object _native;
 
         internal ImageSource()
@@ -31,6 +32,21 @@ namespace Heirloom.Drawing
         /// The local bounds of the image.
         /// </summary>
         public Rectangle Bounds => new Rectangle(-Origin, Size);
+
+        /// <summary>
+        /// Gets or sets sampling mode.
+        /// </summary>
+        public InterpolationMode InterpolationMode
+        {
+            get => _sampleMode;
+            set
+            {
+                _sampleMode = value;
+                UpdateVersionNumber();
+            }
+        }
+
+        // todo: repeat mode
 
         internal void UpdateVersionNumber()
         {
