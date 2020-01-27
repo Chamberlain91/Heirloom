@@ -76,7 +76,7 @@ namespace Heirloom.Benchmark
                         break;
 
                     case "name":
-                        name = parts[1];
+                        name = parts[1].Trim();
                         break;
 
                 }

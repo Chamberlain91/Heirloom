@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Heirloom.IO
 {
@@ -157,7 +158,7 @@ namespace Heirloom.IO
             return GetFile(identifier) != null;
         }
 
-        private static string NormalizeManifestPath(string name)
+        internal static string NormalizeManifestPath(string name)
         {
             name = name.Replace('/', '.');
             name = name.Replace('\\', '.');
@@ -167,6 +168,8 @@ namespace Heirloom.IO
             name = name.Replace('-', '_');
             name = name.Replace("(", string.Empty);
             name = name.Replace(")", string.Empty);
+
+            name = Regex.Replace(name, "_+", "_"); // Collapse '_' characters into one
 
             return name.ToLowerInvariant();
         }

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 
 using Heirloom.Desktop;
 using Heirloom.Drawing;
+using Heirloom.IO;
 using Heirloom.Math;
 
 namespace Heirloom.Benchmark
@@ -10,17 +12,13 @@ namespace Heirloom.Benchmark
     {
         private static void Main(string[] args)
         {
-            // var info = Hardware.ProcessorInfo;
-            // Console.WriteLine($"Name: {info.Name}");
-            // Console.WriteLine($"{info.ProcessorCount} Logical Processors @ {info.ClockSpeed / 1000F:N1}GHz");
-
             // 
             var benchmarkIndex = 0;
             var benchmarks = new Benchmark[]
             {
-                 new AdventureBenchmark(),
+                 //new AdventureBenchmark(),
                  new EmoteIconBenchmark(),
-                 new CasinoBenchmark()
+                 //new CasinoBenchmark()
             };
 
             var bounds = new Rectangle(0, 0, 0, 0);
@@ -29,7 +27,7 @@ namespace Heirloom.Benchmark
             {
                 // Create fullscreen window
                 var window = new Window("Heirloom Benchmark", new WindowCreationSettings { VSync = false });
-                // window.SetFullscreen(Application.DefaultMonitor);
+                window.SetFullscreen(Application.DefaultMonitor);
 
                 // Compute bounds and initialize first benchmark
                 bounds = (0, 0, window.FramebufferSize.Width, window.FramebufferSize.Height);
@@ -60,6 +58,21 @@ namespace Heirloom.Benchmark
                     var benchmark = benchmarks[benchmarkIndex];
                     benchmark.Initialize(in bounds);
                 }
+                else
+                {
+                    var gpu = GraphicsAdapter.Capabilities.AdapterName;
+                    var speed = $"{Hardware.ProcessorInfo.ClockSpeed / 1000F:N2}ghz";
+                    var cpu = Hardware.ProcessorInfo.Name;
+
+                    var identifier = $"benchmark_{gpu}_{cpu}".AsIdentifier();
+
+                    using var fs = new FileStream($"{identifier}.txt", FileMode.Create);
+                    using var wr = new StreamWriter(fs);
+
+                    // Hit the end, save results text
+                    var text = GetResultsText(benchmarks);
+                    wr.WriteLine(text);
+                }
             }
 
             void Update(Graphics gfx, float dt)
@@ -89,16 +102,31 @@ namespace Heirloom.Benchmark
                 }
                 else
                 {
-                    var results = "";
-                    foreach (var benchmark in benchmarks)
-                    {
-                        results += $"{benchmark.Name}: {benchmark.Score}\n";
-                    }
+                    var results = GetResultsText(benchmarks);
 
                     // Draw Results Stage
                     DrawInformation(gfx, results);
                 }
             }
+        }
+
+        private static string GetResultsText(Benchmark[] benchmarks)
+        {
+            var results = "";
+
+            // Machine info
+            results += GraphicsAdapter.Capabilities.AdapterVendor + " - " + GraphicsAdapter.Capabilities.AdapterName + "\n";
+            results += Hardware.ProcessorInfo.Name + "\n";
+            results += Hardware.ProcessorInfo.ProcessorCount + " threads @ " + Hardware.ProcessorInfo.ClockSpeed + "mhz\n";
+            results += "\n";
+
+            // Results
+            foreach (var benchmark in benchmarks)
+            {
+                results += $"{benchmark.Name}: {benchmark.Score}\n";
+            }
+
+            return results;
         }
 
         private static void DrawInformation(Graphics gfx, string text)
