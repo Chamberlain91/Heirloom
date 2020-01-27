@@ -82,7 +82,7 @@ namespace Heirloom.Drawing.OpenGLES
             if (image.Version != texture.Version)
             {
                 // Update texture (image data and mips)
-                texture.Update(gfx, image);
+                texture.UpdateByImage(gfx, image);
             }
 
             return texture;
