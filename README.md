@@ -1,8 +1,8 @@
 # Heirloom
 
-A collection of C# libraries (Drawing, Sound, Collections, Math and more) for 
-prototyping and the implementation of games and other graphical applications on 
-**Windows**, **Linux** and **macOS**.
+A set of *C# libraries that provide drawing, audio playback, mathematics and more*. Useful for quick prototyping and implementating games and other graphical applications. Heirloom currently is supported on *Windows, Linux and macOS*.
+
+Current the libraries target: **NET Standard 2.1**.
  
 ---
 
@@ -12,46 +12,36 @@ prototyping and the implementation of games and other graphical applications on
 
 I've been developing this framework (or whatever you would call it) with
 **Visual Studio 2019**, another IDE may work to open and develop the projects 
-with but I am entirely unfamiliar with them. Using the `dotnet` CLI on Windows
-and Linux seemed straight forward enough to build and run the examples, so a
-combination of `VS Code` and a terminal might suffice on devices without
-Visual Studio.
+with but I am entirely unfamiliar with them. Using the `dotnet` CLI is straight
+forward enough to build and run the examples, so a combination of `VS Code` and
+basic comprehension on using a terminal might suffice on devices without 
+`Visual Studio`.
 
-Libraries are `NET Standard 2.0` and examples run on `NET Core 2.1`. 
+Libraries are `NET Standard 2.1` compiant and examples run on `NET Core 3.0`. 
 
-**Note**: *Android is partially supported!* The drawing features are available, 
-but audio currently is unavailable (anyone want to help?). To use `Heirloom` on 
-Android and/or run the relevant examples you'll need to have the `Xamarin SDK` 
-installed and `Android SDK` API Level 22 or higher.
-
-## Nuget (Windows, Linux and macOS)
+## Nuget
 
 I've compiled most of the projects and created nuget packages and put them up 
-on [Nuget](https://www.nuget.org/packages?q=heirloom). They may be out of date 
+on [Nuget][nuget_search]. They may be out of date 
 with respect to the repository, but I will try to keep them relevant.
 
 ## Building
 
-### Windows 10
+### Using Visual Studio
 
 1. Clone this repository.
 2. Open the `Heirloom.sln` in Visual Studio.
+3. Build
 
-### Non-Windows Platforms
+### Using Command Line
 
 1. Clone this repository.
 2. Build Solution or Run Examples
    * Run `dotnet build -c Release` in the solution folder
    * Run `dotnet run -c Release` in any example project folder
 
-Essentially, it is required to use `dotnet` CLI. Technically the runtime must
-support `.Net Standard 2.0` for the libraries and `.Net Core 2.1` for the
-examples. Tested with `dotnet` on Windows 10 and Linux. Executing *already*
-compiled examples with  `mono` on Linux (via WSL) things did appear to "work",
-but don't seem to terminate the threads nicely.
-
-**The projects are set to the standard `AnyCpu` platform, but its important to
-note I've only ever used *64 bit* binaries.**
+*The projects are set to the standard `AnyCpu` platform, but it is important to
+note GLFW binaries are 64 bit.*
 
 ## Overview
 
@@ -69,30 +59,23 @@ A hardware accelerated 2D drawing library.
     + JPEG and PNG image encode and decode
     + Partial support for Aseprite format
 * Text Rendering w/ Truetype Fonts
-* Offscreen Rendering (Render Targets)
+* Offscreen Rendering
 * Composition
-    + Various Blending (Alpha, Additive, Multiply, etc)
-    + Configurable Effects / Shader **(Not Implemented)**
+    + Blending Operations (Alpha, Additive, Multiply, etc)
+    + GLSL based Vertex and Fragment Shaders
 * Image Atlas / Rectangle Packing
-    + Assist with drawing performance (via improved batched rendering)
-    + To pack animated sprites or tilesets
+    + Improves rendering performance by batching images.
 
 **Note:** *Image and font support is implemented by a [C to C# machine-port of
-STB][stbcsharp], additional functionality or unexpected quirks might exist. For
-example loading additional image formats not listed above.*
+STB][stbcsharp].
 
-### Audio (Beta)
+### Audio
 
-A cross platform audio library (both a high and low level wrapper on 
-`miniaudio.dll`).
+A cross platform audio library (built on top of `miniaudio.dll`).
 
 * Supports Decoding MP3, Vorbis, FLAC and WAV
 * Streaming Audio Sources
 * In-Memory Audio Clips
-* Custom AudioSourceProvider
-  * Ie, Synthesized Sound!
-
-**Note:** In theory, `miniaudio` should support Android via `OpenSL|ES` or `AAudio`. My attempts to compile, and run this code in a `Xamarin` based app have been unsucessful thus far.
 
 ### Math
 
@@ -109,10 +92,10 @@ A collection of mathematical data types and functions useful for 2D math.
     * Triangle
     * Polygons (Simple and Convex)
     * Line Segment
-* Polygon Tools (Beta)
+* Polygon Tools
     * Polygon Convex Decomposition
     * Polygon Triangulation
-* Collision Detection (Alpha)
+* Collision Detection
     * Overlap Detection
     * Contact Manifolds
 
@@ -121,7 +104,7 @@ A collection of mathematical data types and functions useful for 2D math.
 A collection of data structures and other algorithms.
 
 * Heap (Min and Max)
-* Graph **(Not Implemented)**
+* Graph
 * Search
     + Heuristic
     + Depth First
@@ -130,7 +113,7 @@ A collection of data structures and other algorithms.
 * Type Dictionary
 * Extension Methods
 
-### Collections.Spatial (Alpha)
+### Collections.Spatial
 
 A collection of data structures for spatially accelerated queries, such as
 grids.
@@ -139,7 +122,7 @@ grids.
 * Broad Phase (Bounding Box Spatial Query)
 * etc
 
-### IO (Beta)
+### IO
 
 Utilities for file access or other useful mechanisms for data manipulation.
 
@@ -148,33 +131,9 @@ Utilities for file access or other useful mechanisms for data manipulation.
   * Assembly Embedded Files
   * Files on Disk
 
-### Networking (Alpha)
-
-Utilities for simple message based networking.
-
-* Message style Networking
-  * NetworkListener
-  * NetworkConnection
-
-### Extras (Alpha)
-
-Utilities for that just felt like they don't warrant a specific library and didn't fit in another existing project.
-
-* Time
-    + Convert between time units
-    + Get human readable durations (ie, '2.3 minutes')
-* String Extensions
-    + Shortened string (ie, 'this is a long string' to 'this i...string')
-    + Convert identifier to title (ie, 'myExample' to 'My Example')
-
 ## License
 
-I haven't fully settled on a license for Heirloom yet, so I wouldn't 
-recommended using these libraries commercial use. *However*, I am tentatively 
-releasing Heirloom under a modified zlib/libpng license requiring attribution
-and only for non-commercial use. Please be aware that this may change once I
-properly review licensing options, in particular the non-commercial clause will 
-likely be removed.
+See [LICENSE.md](./LICENSE.md) for complete details.
 
 ### Special Thanks
 
@@ -189,6 +148,6 @@ Software
 * https://github.com/nothings/stb
 * https://github.com/rds1983/StbSharp
 * https://github.com/dr-soft/miniaudio
-* https://github.com/RandyGaul/cute_headers (partial port)
 
 [stbcsharp]: https://github.com/rds1983/StbSharp
+[nuget_search]: https://www.nuget.org/packages?q=heirloom
