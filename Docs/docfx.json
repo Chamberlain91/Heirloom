@@ -8,6 +8,11 @@
             "**/Heirloom.**.csproj"
           ],
           "exclude": [
+            "**/Heirloom.Android.csproj",
+            "**/Heirloom.Benchmark.csproj",
+            "**/Heirloom.Game.csproj",
+            "**/Heirloom.Game.Desktop.csproj",
+            "**/Heirloom.EGL.csproj",
             "**/Heirloom.**.Testing.csproj"
           ]
         }
