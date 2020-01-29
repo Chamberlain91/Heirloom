@@ -110,10 +110,10 @@ namespace Heirloom.Benchmark
                     {
                         if (fps > FramerateTarget)
                         {
+                            Console.WriteLine($"{_particleCount} ({fps:N2}fps)");
+
                             // Increase (double)
                             _particleCount *= 2;
-
-                            Console.WriteLine($"{_particleCount} ({fps:N2}fps)");
                         }
                         else
                         {
