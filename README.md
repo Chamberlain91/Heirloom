@@ -69,7 +69,7 @@ A hardware accelerated 2D drawing library.
 **Note:** *Image and font support is implemented by a [C to C# machine-port of
 STB][stbcsharp].
 
-### Audio
+### Sound
 
 A cross platform audio library (built on top of `miniaudio.dll`).
 
@@ -130,6 +130,20 @@ Utilities for file access or other useful mechanisms for data manipulation.
 * Unified File Access
   * Assembly Embedded Files
   * Files on Disk
+
+### Desktop
+
+Provides tools for managing windows, monitors and user input.
+
+* Windows
+  * Drawing
+  * Events
+  * User Input
+    * Keyboard
+    * Mouse
+  * Configurable Cursors and Icons
+* Monitors
+  * Fullscreen Windows
 
 ## License
 
