@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
+
 using Heirloom.Math;
 
 namespace Heirloom.Drawing
@@ -19,7 +19,7 @@ namespace Heirloom.Drawing
         private readonly Stopwatch _stopwatch;
         private float _fpsTime;
         private int _fpsCount;
-
+          
         #region Constructors
 
         protected Graphics(GraphicsAdapter graphicsAdapter, MultisampleQuality multisample)
@@ -263,7 +263,7 @@ namespace Heirloom.Drawing
             // Low level swap buffers
             SwapBuffers();
         }
-
+         
         protected abstract void SwapBuffers();
 
         /// <summary>

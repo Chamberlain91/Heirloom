@@ -8,9 +8,9 @@ namespace Heirloom.Desktop
 {
     internal sealed class OpenGLWindowGraphicsAdapter : OpenGLGraphicsAdapter, IWindowGraphicsFactory
     {
-        public Graphics CreateGraphics(Window window)
+        public Graphics CreateGraphics(Window window, bool vsync)
         {
-            return new OpenGLWindowGraphics(this, window);
+            return new OpenGLWindowGraphics(this, window, vsync);
         }
 
         protected override T InvokeOnGLThread<T>(Func<T> function)
@@ -51,31 +51,36 @@ namespace Heirloom.Desktop
 
         private sealed class OpenGLWindowGraphics : OpenGLGraphics
         {
-            public OpenGLWindowGraphics(GraphicsAdapter graphicsAdapter, Window window)
-                : base(graphicsAdapter, window.Multisample)
-            {
-                Window = window;
+            private readonly Window _window;
+            private readonly bool _vsync;
 
-                // Set initial size, and whenever the window is resized, also set the default surface size
-                Window.FramebufferResized += _ => SetDefaultSurfaceSize(Window.FramebufferSize);
-                SetDefaultSurfaceSize(Window.FramebufferSize);
+            public OpenGLWindowGraphics(GraphicsAdapter adapter, Window window, bool vsync)
+                : base(adapter, window.Multisample)
+            {
+                _window = window;
+                _vsync = vsync;
+
+                // 
+                _window.FramebufferResized += _ => SetDefaultSurfaceSize(_window.FramebufferSize);
+                SetDefaultSurfaceSize(_window.FramebufferSize);
             }
 
-            public Window Window { get; }
-
-            protected override void PrepareContext()
+            protected override void MakeCurrent()
             {
-                // Wait for window to be set to help avoid the race condition, since the context thread is a different thread.
-                SpinWait.SpinUntil(() => Window != null);
+                // Waits until window reference is known
+                SpinWait.SpinUntil(() => _window != null);
 
-                // Make context current on context thread
-                Glfw.MakeContextCurrent(Window.WindowHandle);
-                Glfw.SetSwapInterval(Window.VSync ? 1 : 0);
+                // Makes context current on calling thread
+                Glfw.MakeContextCurrent(_window.Handle);
+
+                // Configure swap interval
+                Glfw.SetSwapInterval(_vsync ? 1 : 0);
             }
 
             protected override void SwapBuffers()
             {
-                Invoke(() => Glfw.SwapBuffers(Window.WindowHandle), false);
+                // Swap buffers (on the gl thread)
+                Invoke(() => Glfw.SwapBuffers(_window.Handle), false);
             }
         }
     }

@@ -25,8 +25,9 @@ namespace Examples.MultiWindow
         private class WindowExample : RenderLoop
         {
             public WindowExample(int index, Color color)
-                : this(new Window($"Window {index}", new WindowCreationSettings { Size = (512, 240), VSync = false }))
+                : this(new Window($"Window {index}", vsync: false))
             {
+                Window.Size = (512, 240);
                 Color = color;
             }
 
@@ -36,7 +37,7 @@ namespace Examples.MultiWindow
                 Window = window ?? throw new ArgumentNullException(nameof(window));
                 Graphics.EnableFPSOverlay = true;
             }
-             
+
             public Window Window { get; }
 
             public Color Color { get; }

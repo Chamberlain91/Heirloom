@@ -40,6 +40,7 @@ namespace Examples.Drawing
 
             // Create window
             Window = new Window("Heirloom - Drawing Examples", MultisampleQuality.High);
+            Window.Size = (1280, 720);
 
             // 
             Window.Graphics.EnableFPSOverlay = true;
