@@ -64,7 +64,7 @@ namespace Heirloom.Benchmark
                     var speed = $"{Hardware.ProcessorInfo.ClockSpeed / 1000F:N2}ghz";
                     var cpu = Hardware.ProcessorInfo.Name;
 
-                    var identifier = $"benchmark_{gpu}_{cpu}".AsIdentifier();
+                    var identifier = $"benchmark_{gpu}_{cpu}".ToIdentifier();
 
                     using var fs = new FileStream($"{identifier}.txt", FileMode.Create);
                     using var wr = new StreamWriter(fs);
@@ -123,7 +123,7 @@ namespace Heirloom.Benchmark
             // Results
             foreach (var benchmark in benchmarks)
             {
-                results += $"{benchmark.Name}: {benchmark.Score}\n";
+                results += $"{benchmark.Name.ToIdentifier()}: {benchmark.Score}\n";
             }
 
             return results;

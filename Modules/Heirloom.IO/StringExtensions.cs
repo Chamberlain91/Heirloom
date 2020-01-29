@@ -2,7 +2,7 @@
 {
     public static class StringExtensions
     {
-        public static string AsIdentifier(this string path)
+        public static string ToIdentifier(this string path)
         {
             return EmbeddedFiles.NormalizeManifestPath(path);
         }
