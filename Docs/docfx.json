@@ -9,11 +9,13 @@
           ],
           "exclude": [
             "**/Heirloom.Android.csproj",
-            "**/Heirloom.Benchmark.csproj",
             "**/Heirloom.Game.csproj",
             "**/Heirloom.Game.Desktop.csproj",
+            "**/Heirloom.Physics.csproj",
             "**/Heirloom.EGL.csproj",
-            "**/Heirloom.**.Testing.csproj"
+            "**/Heirloom.**.Testing.csproj",
+            "**/Heirloom.Benchmark.csproj",
+            "**/Heirloom.OpenGLES.csproj"
           ]
         }
       ],
