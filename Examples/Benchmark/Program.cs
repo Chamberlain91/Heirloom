@@ -16,9 +16,9 @@ namespace Heirloom.Benchmark
             var benchmarkIndex = 0;
             var benchmarks = new Benchmark[]
             {
-                 //new AdventureBenchmark(),
                  new EmoteIconBenchmark(),
-                 //new CasinoBenchmark()
+                 new AdventureBenchmark(),
+                 new CasinoBenchmark()
             };
 
             var bounds = new Rectangle(0, 0, 0, 0);
