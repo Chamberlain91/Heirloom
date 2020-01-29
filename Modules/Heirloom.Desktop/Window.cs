@@ -18,6 +18,8 @@ namespace Heirloom.Desktop
         private Vector _mousePosition;
         private Vector _mouseDelta;
 
+        private CursorHandle _cursorHandle;
+
         private readonly WindowCloseCallback _windowCloseCallback;
         private readonly WindowPositionCallback _windowPositionCallback;
         private readonly FramebufferSizeCallback _framebufferSizeCallback;
@@ -32,72 +34,48 @@ namespace Heirloom.Desktop
         private readonly ScrollCallback _scrollCallback;
 
         private Image[] _icons = Array.Empty<Image>();
-        private CursorHandle _cursorHandle;
 
         /// <summary>
         /// Gets the default window icon set.
         /// </summary>
         private static readonly Image[] _defaultWindowIcons = LoadDefaultIcons();
 
-        private static Image[] LoadDefaultIcons()
-        {
-            return new Image[] {
-                new Image(GetStream("Files.icon_128.png")),
-                new Image(GetStream("Files.icon_64.png")),
-                new Image(GetStream("Files.icon_32.png")),
-                new Image(GetStream("Files.icon_16.png"))
-            };
-
-            static Stream GetStream(string file)
-            {
-                var type = typeof(Window);
-
-                // Return stream
-                return type.Assembly.GetManifestResourceStream($"{type.Namespace}.{file}");
-            }
-        }
-
         #region Constructors
 
         /// <summary>
-        /// Constructs a new window with default settings.
+        /// Constructs a new window.
         /// </summary>
-        public Window(string title)
-            : this(title, WindowCreationSettings.Default)
+        /// <param name="title">The text in the titlebar of the window.</param>
+        /// <param name="vsync">Enable VSync on this window.</param>
+        /// <param name="transparent">Enable transparent framebuffer (if OS supports it).</param>
+        public Window(string title, bool vsync = true, bool transparent = false)
+            : this(title, MultisampleQuality.None, vsync, transparent)
         { }
 
         /// <summary>
-        /// Constructs a new window with specified multisample quality and otherwise default settings.
+        /// Constructs a new window.
         /// </summary>
-        public Window(string title, MultisampleQuality multisample)
-            : this(title, new WindowCreationSettings { Multisample = multisample })
-        { }
-
-        /// <summary>
-        /// Constructs a new window with the specified settings.
-        /// </summary>
-        public Window(string title, WindowCreationSettings settings)
+        /// <param name="title">The text in the titlebar of the window.</param>
+        /// <param name="multisample">What level of MSAA to use.</param>
+        /// <param name="vsync">Enable VSync on this window.</param>
+        /// <param name="transparent">Enable transparent framebuffer (if OS supports it).</param>
+        public Window(string title, MultisampleQuality multisample, bool vsync = true, bool transparent = false)
         {
-            // Watch window
-            Application.AddWindow(this);
+            _title = title ?? throw new ArgumentNullException(nameof(title));
+
+            // Extract 
+            HasTransparentFramebuffer = transparent && Application.SupportsTransparentFramebuffer;
+            Multisample = multisample;
 
             // 
-            WindowCreationSettings.FillDefaults(ref settings);
-
-            // 
-            Transparent = settings.UseTransparentFramebuffer.Value && Application.SupportsTransparentFramebuffer;
-            Multisample = settings.Multisample.Value;
-            VSync = settings.VSync.Value;
-
-            // 
-            WindowHandle = Application.Invoke(() =>
+            Handle = Application.Invoke(() =>
             {
                 // 
                 Glfw.SetWindowCreationHint(WindowCreationHint.Samples, (int) Multisample);
 
                 // Create window
-                Glfw.SetWindowCreationHint(WindowAttribute.TransparentFramebuffer, Transparent);
-                var handle = Glfw.CreateWindow(settings.Size.Value.Width, settings.Size.Value.Height, title, MonitorHandle.None, Application.ShareContext);
+                Glfw.SetWindowCreationHint(WindowAttribute.TransparentFramebuffer, HasTransparentFramebuffer);
+                var handle = Glfw.CreateWindow(512, 512, title, MonitorHandle.None, Application.ShareContext);
 
                 // Query intial window properties
                 Glfw.GetWindowSize(handle, out _bounds.Width, out _bounds.Height);
@@ -108,15 +86,12 @@ namespace Heirloom.Desktop
                 return handle;
             });
 
-            // 
-            _title = title;
-
             // == Bind Callbacks
 
-            Glfw.SetWindowCloseCallback(WindowHandle, _windowCloseCallback = _ =>
+            Glfw.SetWindowCloseCallback(Handle, _windowCloseCallback = _ =>
             {
                 IsClosed = OnClosing();
-                Glfw.SetWindowShouldClose(WindowHandle, IsClosed);
+                Glfw.SetWindowShouldClose(Handle, IsClosed);
 
                 if (IsClosed)
                 {
@@ -125,45 +100,48 @@ namespace Heirloom.Desktop
                 }
             });
 
-            Glfw.SetFramebufferSizeCallback(WindowHandle, _framebufferSizeCallback = (_, w, h) =>
+            Glfw.SetFramebufferSizeCallback(Handle, _framebufferSizeCallback = (_, w, h) =>
             {
                 _framebufferSize = (w, h);
                 OnFramebufferResized(w, h);
             });
 
-            Glfw.SetWindowSizeCallback(WindowHandle, _windowSizeCallback = (_, w, h) =>
+            Glfw.SetWindowSizeCallback(Handle, _windowSizeCallback = (_, w, h) =>
             {
                 _bounds.Size = (w, h);
                 OnWindowResized(w, h);
             });
 
-            Glfw.SetWindowPositionCallback(WindowHandle, _windowPositionCallback = (_, x, y) =>
+            Glfw.SetWindowPositionCallback(Handle, _windowPositionCallback = (_, x, y) =>
             {
                 _bounds.Position = (x, y);
                 OnWindowMoved(x, y);
             });
 
-            Glfw.SetWindowContentScaleCallback(WindowHandle, _windowContentScaleCallback = (_, xs, ys) =>
+            Glfw.SetWindowContentScaleCallback(Handle, _windowContentScaleCallback = (_, xs, ys) =>
             {
                 _contentScale = (xs, ys);
                 OnContentScaleChanged(xs, ys);
             });
 
             // Key callbacks
-            Glfw.SetCharCallback(WindowHandle, _charCallback = (_, cp) => OnCharTyped((UnicodeCharacter) cp));
-            Glfw.SetKeyCallback(WindowHandle, _keyCallback = (_, k, c, a, m) => OnKeyPressed(k, c, a, m));
+            Glfw.SetCharCallback(Handle, _charCallback = (_, cp) => OnCharTyped((UnicodeCharacter) cp));
+            Glfw.SetKeyCallback(Handle, _keyCallback = (_, k, c, a, m) => OnKeyPressed(k, c, a, m));
 
             // Mouse callbacks
-            Glfw.SetCursorPositionCallback(WindowHandle, _cursorPositionCallback = (_, x, y) => OnMouseMove((float) x, (float) y));
-            Glfw.SetMouseButtonCallback(WindowHandle, _mouseButtonCallback = (_, b, a, m) => OnMousePressed(b, a, m));
-            Glfw.SetScrollCallback(WindowHandle, _scrollCallback = (_, x, y) => OnMouseScroll((float) x, (float) y));
+            Glfw.SetCursorPositionCallback(Handle, _cursorPositionCallback = (_, x, y) => OnMouseMove((float) x, (float) y));
+            Glfw.SetMouseButtonCallback(Handle, _mouseButtonCallback = (_, b, a, m) => OnMousePressed(b, a, m));
+            Glfw.SetScrollCallback(Handle, _scrollCallback = (_, x, y) => OnMouseScroll((float) x, (float) y));
 
             // Set the default icons
             SetIcons(_defaultWindowIcons);
 
+            // Inform system to track this window
+            Application.AddWindow(this);
+
             // == Construct Graphics Context
 
-            Graphics = Application.GraphicsFactory.CreateGraphics(this);
+            Graphics = Application.GraphicsFactory.CreateGraphics(this, vsync);
         }
 
         ~Window()
@@ -175,72 +153,70 @@ namespace Heirloom.Desktop
 
         #region Properties
 
-        internal WindowHandle WindowHandle;
+        /// <summary>
+        /// Gets the handle to the underlying GLFW window.
+        /// </summary>
+        internal WindowHandle Handle { get; }
 
         /// <summary>
-        /// Has this window been disposed?
+        /// Gets a value that determines if this window been disposed.
         /// </summary>
         public bool IsDisposed { get; private set; }
 
         /// <summary>
-        /// Has this window been closed?
+        /// Gets a value that determines if this window been closed.
         /// </summary>
         public bool IsClosed { get; private set; }
 
         /// <summary>
-        /// Is vsync enabled on this window?
+        /// Gets a value that determines if this window supports a transparent framebuffer.
         /// </summary>
-        public bool VSync { get; private set; }
+        public bool HasTransparentFramebuffer { get; private set; }
 
         /// <summary>
-        /// Does this window have a transparent framebuffer?
-        /// </summary>
-        public bool Transparent { get; private set; }
-
-        /// <summary>
-        /// The multisampling level configured on this window.
+        /// Gets the multisampling level configured on this window.
         /// </summary>
         public MultisampleQuality Multisample { get; private set; }
 
         /// <summary>
-        /// The graphics context for drawing onto this window.
+        /// Gets the graphics context associated with this window.
         /// </summary>
         public Graphics Graphics { get; }
 
         /// <summary>
-        /// Is the window visible?
+        /// Gets a value that determines if the window is visible.
         /// </summary>
-        public bool IsVisible => Application.Invoke(() => Glfw.GetWindowAttribute(WindowHandle, WindowAttribute.Visible) != 0);
+        public bool IsVisible => Application.Invoke(() => Glfw.GetWindowAttribute(Handle, WindowAttribute.Visible) != 0);
 
         /// <summary>
-        /// Is the window decorated? (ie, window chrome)
+        /// Gets a value that determines if the window is decorated.
         /// </summary>
         public bool IsDecorated
         {
-            get => Application.Invoke(() => Glfw.GetWindowAttribute(WindowHandle, WindowAttribute.Decorated) != 0);
-            set => Application.Invoke(() => Glfw.SetWindowAttribute(WindowHandle, WindowAttribute.Decorated, value));
+            get => Application.Invoke(() => Glfw.GetWindowAttribute(Handle, WindowAttribute.Decorated) != 0);
+            set => Application.Invoke(() => Glfw.SetWindowAttribute(Handle, WindowAttribute.Decorated, value));
         }
 
         /// <summary>
-        /// Can the window be resized?
+        /// Gets a value that determines if the window be resized.
         /// </summary>
         public bool IsResizable
         {
-            get => Application.Invoke(() => Glfw.GetWindowAttribute(WindowHandle, WindowAttribute.Resizable) != 0);
-            set => Application.Invoke(() => Glfw.SetWindowAttribute(WindowHandle, WindowAttribute.Resizable, value));
+            get => Application.Invoke(() => Glfw.GetWindowAttribute(Handle, WindowAttribute.Resizable) != 0);
+            set => Application.Invoke(() => Glfw.SetWindowAttribute(Handle, WindowAttribute.Resizable, value));
         }
 
         /// <summary>
-        /// Is the window "always on top"?
+        /// Gets a value that determines if the window "always on top".
         /// </summary>
         public bool IsFloating
         {
-            get => Application.Invoke(() => Glfw.GetWindowAttribute(WindowHandle, WindowAttribute.Floating) != 0);
-            set => Application.Invoke(() => Glfw.SetWindowAttribute(WindowHandle, WindowAttribute.Floating, value));
+            get => Application.Invoke(() => Glfw.GetWindowAttribute(Handle, WindowAttribute.Floating) != 0);
+            set => Application.Invoke(() => Glfw.SetWindowAttribute(Handle, WindowAttribute.Floating, value));
         }
 
         /// <summary>
-        /// Get or set the window title text.
+        /// Gets or set the window title text.
         /// </summary>
         public string Title
         {
@@ -248,7 +224,7 @@ namespace Heirloom.Desktop
 
             set => Application.Invoke(() =>
             {
-                Glfw.SetWindowTitle(WindowHandle, value);
+                Glfw.SetWindowTitle(Handle, value);
                 _title = value;
             });
         }
@@ -262,8 +238,8 @@ namespace Heirloom.Desktop
 
             set => Application.Invoke(() =>
             {
-                Glfw.SetWindowSize(WindowHandle, value.Width, value.Height);
-                Glfw.SetWindowPosition(WindowHandle, value.X, value.Y);
+                Glfw.SetWindowSize(Handle, value.Width, value.Height);
+                Glfw.SetWindowPosition(Handle, value.X, value.Y);
                 _bounds = value;
             });
         }
@@ -277,7 +253,7 @@ namespace Heirloom.Desktop
 
             set => Application.Invoke(() =>
             {
-                Glfw.SetWindowPosition(WindowHandle, value.X, value.Y);
+                Glfw.SetWindowPosition(Handle, value.X, value.Y);
                 _bounds.Position = value;
             });
         }
@@ -291,7 +267,7 @@ namespace Heirloom.Desktop
 
             set => Application.Invoke(() =>
             {
-                Glfw.SetWindowSize(WindowHandle, value.Width, value.Height);
+                Glfw.SetWindowSize(Handle, value.Width, value.Height);
                 _bounds.Size = value;
             });
         }
@@ -312,18 +288,18 @@ namespace Heirloom.Desktop
         public WindowState State => Application.Invoke(() =>
         {
             // Is the window in an iconified state?
-            if (Glfw.GetWindowAttribute(WindowHandle, WindowAttribute.Iconified) != 0)
+            if (Glfw.GetWindowAttribute(Handle, WindowAttribute.Iconified) != 0)
             {
                 return WindowState.Minimized;
             }
             // Is the window in a maximized state?
-            else if (Glfw.GetWindowAttribute(WindowHandle, WindowAttribute.Maximized) != 0)
+            else if (Glfw.GetWindowAttribute(Handle, WindowAttribute.Maximized) != 0)
             {
                 // Window was maximized
                 return WindowState.Maximized;
             }
             // Is the window in a maximized state?
-            else if (Glfw.GetWindowMonitor(WindowHandle) != MonitorHandle.None)
+            else if (Glfw.GetWindowMonitor(Handle) != MonitorHandle.None)
             {
                 // Window is fullscreen
                 return WindowState.Fullscreen;
@@ -499,12 +475,12 @@ namespace Heirloom.Desktop
 
         public void Show()
         {
-            Application.Invoke(() => Glfw.ShowWindow(WindowHandle));
+            Application.Invoke(() => Glfw.ShowWindow(Handle));
         }
 
         public void Hide()
         {
-            Application.Invoke(() => Glfw.HideWindow(WindowHandle));
+            Application.Invoke(() => Glfw.HideWindow(Handle));
         }
 
         public void Close()
@@ -515,7 +491,7 @@ namespace Heirloom.Desktop
 
         public void Focus()
         {
-            Application.Invoke(() => Glfw.FocusWindow(WindowHandle));
+            Application.Invoke(() => Glfw.FocusWindow(Handle));
         }
 
         /// <summary>
@@ -523,7 +499,7 @@ namespace Heirloom.Desktop
         /// </summary>
         public void Maximize()
         {
-            Application.Invoke(() => Glfw.MaximizeWindow(WindowHandle));
+            Application.Invoke(() => Glfw.MaximizeWindow(Handle));
         }
 
         /// <summary>
@@ -531,7 +507,7 @@ namespace Heirloom.Desktop
         /// </summary>
         public void Minimize()
         {
-            Application.Invoke(() => Glfw.IconifyWindow(WindowHandle));
+            Application.Invoke(() => Glfw.IconifyWindow(Handle));
         }
 
         /// <summary>
@@ -539,7 +515,7 @@ namespace Heirloom.Desktop
         /// </summary>
         public void Restore()
         {
-            Application.Invoke(() => Glfw.RestoreWindow(WindowHandle));
+            Application.Invoke(() => Glfw.RestoreWindow(Handle));
         }
 
         #endregion
@@ -581,7 +557,7 @@ namespace Heirloom.Desktop
                 if (monitor == null)
                 {
                     // Disable fullscreen, and restore bounds to pre-fullscreen bounds
-                    Glfw.SetWindowMonitor(WindowHandle, MonitorHandle.None, _restoreBounds.X, _restoreBounds.Y, _restoreBounds.Width, _restoreBounds.Height, -1);
+                    Glfw.SetWindowMonitor(Handle, MonitorHandle.None, _restoreBounds.X, _restoreBounds.Y, _restoreBounds.Width, _restoreBounds.Height, -1);
                 }
                 else
                 {
@@ -589,7 +565,7 @@ namespace Heirloom.Desktop
                     if (State != WindowState.Fullscreen) { _restoreBounds = _bounds; }
 
                     // Enable fullscreen
-                    Glfw.SetWindowMonitor(WindowHandle, monitor.MonitorHandle, 0, 0, mode.Width, mode.Height, mode.RefreshRate);
+                    Glfw.SetWindowMonitor(Handle, monitor.MonitorHandle, 0, 0, mode.Width, mode.Height, mode.RefreshRate);
                 }
             });
         }
@@ -651,7 +627,7 @@ namespace Heirloom.Desktop
                 }
 
                 _icons = icons;
-                Glfw.SetWindowIcons(WindowHandle, data);
+                Glfw.SetWindowIcons(Handle, data);
 
                 // Free GC Pins
                 for (var i = 0; i < icons.Length; i++)
@@ -685,7 +661,7 @@ namespace Heirloom.Desktop
 
                 // Construct and set a new cursor
                 _cursorHandle = Glfw.CreateCursor(cursor);
-                Glfw.SetCursor(WindowHandle, _cursorHandle);
+                Glfw.SetCursor(Handle, _cursorHandle);
             });
         }
 
@@ -728,13 +704,31 @@ namespace Heirloom.Desktop
 
                         // Construct and set a new cursor
                         _cursorHandle = Glfw.CreateCursor(data, hotspot.X, hotspot.Y);
-                        Glfw.SetCursor(WindowHandle, _cursorHandle);
+                        Glfw.SetCursor(Handle, _cursorHandle);
                     }
                 }
             });
         }
 
         #endregion
+
+        private static Image[] LoadDefaultIcons()
+        {
+            return new Image[] {
+                new Image(GetStream("Files.icon_128.png")),
+                new Image(GetStream("Files.icon_64.png")),
+                new Image(GetStream("Files.icon_32.png")),
+                new Image(GetStream("Files.icon_16.png"))
+            };
+
+            static Stream GetStream(string file)
+            {
+                var type = typeof(Window);
+
+                // Return stream
+                return type.Assembly.GetManifestResourceStream($"{type.Namespace}.{file}");
+            }
+        }
 
         #region Dispose
 
@@ -753,7 +747,7 @@ namespace Heirloom.Desktop
                 }
 
                 // Destroy window
-                Application.Invoke(() => Glfw.DestroyWindow(WindowHandle));
+                Application.Invoke(() => Glfw.DestroyWindow(Handle));
                 Application.RemoveWindow(this);
 
                 // 

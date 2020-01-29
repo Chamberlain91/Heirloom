@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-
+using System.Threading;
 using Heirloom.Drawing.OpenGLES.Utilities;
 using Heirloom.Math;
 using Heirloom.OpenGLES;
@@ -39,7 +39,29 @@ namespace Heirloom.Drawing.OpenGLES
 
             // Create and start new task runner
             _thread = new ConsumerThread("GL Consumer");
-            _thread.InvokeLater(InitializeContext);
+            _thread.InvokeLater(() =>
+            {
+                MakeCurrent();
+
+                //  
+                Version = ParseVersion();
+                Log.Info(Version);
+
+                // 
+                GL.Enable(EnableCap.ScissorTest);
+                GL.Enable(EnableCap.Blend);
+
+                // TODO: Share buffers in ResourceManager?
+                _uniformBuffers = new Dictionary<string, Buffer>();
+
+                // Construct the instancing batching renderer
+                _renderer = new InstancingRenderer(this);
+
+                // 
+                ResetState();
+            });
+
+            // Begin consumer thread
             _thread.Start();
         }
 
@@ -56,29 +78,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Thread Callbacks
 
-        protected abstract void PrepareContext();    // make current, etc
-
-        private unsafe void InitializeContext()
-        {
-            // Make current, etc
-            PrepareContext();
-
-            //  
-            Console.WriteLine(Version = ParseVersion());
-
-            // 
-            GL.Enable(EnableCap.ScissorTest);
-            GL.Enable(EnableCap.Blend);
-
-            // TODO: Share buffers in ResourceManager?
-            _uniformBuffers = new Dictionary<string, Buffer>();
-
-            // Construct the instancing batching renderer
-            _renderer = new InstancingRenderer(this);
-
-            // 
-            ResetState();
-        }
+        protected abstract void MakeCurrent();
 
         private OpenGLVersion ParseVersion()
         // ref: https://hackage.haskell.org/package/bindings-GLFW-3.1.2.2/src/glfw/src/context.c

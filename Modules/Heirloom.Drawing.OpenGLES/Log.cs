@@ -26,5 +26,10 @@ namespace Heirloom.Drawing.OpenGLES
             Console.WriteLine(message);
             Console.ResetColor();
         }
+
+        public static void Info(object message)
+        {
+            Console.WriteLine(message);
+        }
     }
 }

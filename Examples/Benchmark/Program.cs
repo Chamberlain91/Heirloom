@@ -26,11 +26,17 @@ namespace Heirloom.Benchmark
             Application.Run(() =>
             {
                 // Create fullscreen window
-                var window = new Window("Heirloom Benchmark", new WindowCreationSettings { VSync = false });
+                var window = new Window("Heirloom Benchmark", vsync: false);
                 window.SetFullscreen(Application.DefaultMonitor);
 
-                // Compute bounds and initialize first benchmark
+                // Compute world bounds
                 bounds = (0, 0, window.FramebufferSize.Width, window.FramebufferSize.Height);
+
+                // When the framebuffer size changes, resize the application bounds.
+                window.FramebufferResized += _ =>
+                    bounds = (0, 0, window.FramebufferSize.Width, window.FramebufferSize.Height);
+
+                // Initialize first benchmark
                 benchmarks[0].Initialize(in bounds);
 
                 // Launch render loop

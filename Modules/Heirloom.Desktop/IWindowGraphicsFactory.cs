@@ -1,5 +1,4 @@
-﻿
-using Heirloom.Drawing;
+﻿using Heirloom.Drawing;
 
 namespace Heirloom.Desktop
 {
@@ -8,6 +7,6 @@ namespace Heirloom.Desktop
         /// <summary>
         /// Creates a graphics context associated with the specified window.
         /// </summary>
-        Graphics CreateGraphics(Window window);
+        Graphics CreateGraphics(Window window, bool vsync);
     }
 }
