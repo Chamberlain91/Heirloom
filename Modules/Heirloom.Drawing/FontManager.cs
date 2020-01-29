@@ -14,16 +14,19 @@ namespace Heirloom.Drawing
         // TODO: Dynamic character cache atlas
         public static FontAtlas GetAtlas(Font face, int size)
         {
-            var key = (face, size);
+            lock (_fonts)
+            {
+                var key = (face, size);
 
-            if (_fonts.ContainsKey(key))
-            {
-                return _fonts[key];
-            }
-            else
-            {
-                var font = new FontAtlas(face, size);
-                return _fonts[key] = font;
+                if (_fonts.ContainsKey(key))
+                {
+                    return _fonts[key];
+                }
+                else
+                {
+                    var font = new FontAtlas(face, size);
+                    return _fonts[key] = font;
+                }
             }
         }
     }

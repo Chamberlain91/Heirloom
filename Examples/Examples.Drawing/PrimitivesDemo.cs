@@ -11,7 +11,7 @@ namespace Examples.Drawing
             : base("Primitives")
         { }
 
-        internal override void Draw(RenderContext ctx, Rectangle contentBounds)
+        internal override void Draw(Graphics ctx, Rectangle contentBounds)
         {
             // Two rows (outline and filled)
             for (var j = 0; j < 2; j++)
@@ -19,7 +19,7 @@ namespace Examples.Drawing
                 // Draws a circle, polygon and regular polygon in each row
                 for (var i = 0; i < 3; i++)
                 {
-                    ctx.SaveState();
+                    ctx.PushState();
 
                     var w = contentBounds.Width / 3;
                     var h = contentBounds.Height / 2;
@@ -34,7 +34,7 @@ namespace Examples.Drawing
 
                     DrawPrimitive(i, box, j == 1);
 
-                    ctx.RestoreState();
+                    ctx.PopState();
                 }
             }
 

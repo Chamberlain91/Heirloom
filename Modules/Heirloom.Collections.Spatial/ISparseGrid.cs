@@ -1,16 +1,40 @@
-﻿using Heirloom.Math;
+﻿using System.Collections.Generic;
+
+using Heirloom.Math;
 
 namespace Heirloom.Collections.Spatial
 {
     /// <summary>
-    /// Represents an infinite sparse grid.
+    /// A sparse 2D grid of values.
     /// </summary>
-    public interface ISparseGrid<T> : IGrid<T>
+    public interface IReadOnlySparseGrid<T> : IReadOnlyGrid<T>
     {
-        bool TryGetValue(IntVector co, out T value);
+        IEnumerable<IntVector> Keys { get; }
 
-        bool ContainsAt(IntVector co);
+        /// <summary>
+        /// Determines if a value has been set on this cell of the sparse grid.
+        /// </summary>
+        bool HasValue(in int x, in int y);
 
-        bool Remove(IntVector co);
+        /// <summary>
+        /// Determines if a value has been set on this cell of the sparse grid.
+        /// </summary>
+        bool HasValue(in IntVector co);
+    }
+
+    /// <summary>
+    /// A sparse 2D grid of values.
+    /// </summary>
+    public interface ISparseGrid<T> : IReadOnlySparseGrid<T>, IGrid<T>
+    {
+        /// <summary>
+        /// Clears the assigned valueon this cell of the sparse grid.
+        /// </summary>
+        void ClearValue(in int x, in int y);
+
+        /// <summary>
+        /// Clears the assigned valueon this cell of the sparse grid.
+        /// </summary>
+        void ClearValue(in IntVector co);
     }
 }

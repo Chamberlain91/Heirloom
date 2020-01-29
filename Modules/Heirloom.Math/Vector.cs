@@ -4,25 +4,52 @@ using System.Runtime.InteropServices;
 
 namespace Heirloom.Math
 {
+    /// <summary>
+    /// Represents a vector with two single-precision floating-point values.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 4, Size = 8)]
     public struct Vector : IEquatable<Vector>
     {
+        /// <summary>
+        /// The x-coordinate of this vector.
+        /// </summary>
         public float X;
 
+        /// <summary>
+        /// The y-coordinate of this vector.
+        /// </summary>
         public float Y;
 
         #region Constants
 
+        /// <summary>
+        /// A vector with value (0, 0).
+        /// </summary>
         public static readonly Vector Zero = new Vector(0, 0);
 
+        /// <summary>
+        /// A vector with value (1, 1).
+        /// </summary>
         public static readonly Vector One = new Vector(1, 1);
 
+        /// <summary>
+        /// A vector with value (1, 0).
+        /// </summary>
         public static readonly Vector Right = new Vector(1, 0);
 
+        /// <summary>
+        /// A vector with value (0, -1).
+        /// </summary>
         public static readonly Vector Up = new Vector(0, -1);
 
+        /// <summary>
+        /// A vector with value (-1, 0).
+        /// </summary>
         public static readonly Vector Left = new Vector(-1, 0);
 
+        /// <summary>
+        /// A vector with value (0, 1).
+        /// </summary>
         public static readonly Vector Down = new Vector(0, 1);
 
         #endregion
@@ -39,6 +66,9 @@ namespace Heirloom.Math
 
         #region Properties
 
+        /// <summary>
+        /// Gets the magnitude of this vector.
+        /// </summary>
         public float Length
         {
             get
@@ -48,12 +78,24 @@ namespace Heirloom.Math
             }
         }
 
+        /// <summary>
+        /// Gets the squared magnitude of this vector.
+        /// </summary>
         public float LengthSquared => Dot(in this, in this);
 
+        /// <summary>
+        /// Gets a normalized copy of this vector.
+        /// </summary>
         public Vector Normalized => Normalize(this);
 
-        public Vector Perpendicular => new Vector(Y, -X); // ie, Vector.Cross(this, 1.0f)
+        /// <summary>
+        /// Gets a perpendicular copy of this vector.
+        /// </summary>
+        public Vector Perpendicular => Cross(this, 1.0f);
 
+        /// <summary>
+        /// Gets the angle this vector is pointing with reference to <see cref="Right"/>.
+        /// </summary>
         public float Angle
         {
             get
@@ -74,6 +116,9 @@ namespace Heirloom.Math
 
         #endregion
 
+        /// <summary>
+        /// Sets the components of this vector.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Set(float x, float y)
         {
@@ -81,11 +126,114 @@ namespace Heirloom.Math
             Y = y;
         }
 
+        #region Min / Max / Abs
+
+        /// <summary>
+        /// Gets the maximal component in the input vector.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float GetMaxComponent(Vector vec)
+        {
+            return Calc.Max(vec.X, vec.Y);
+        }
+
+        /// <summary>
+        /// Gets the minimal component in the input vector.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float GetMinComponent(Vector vec)
+        {
+            return Calc.Min(vec.X, vec.Y);
+        }
+
+        /// <summary>
+        /// Computes a new vector where each component is the minimum component in each respective input vector.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector Min(Vector a, Vector b)
+        {
+            var x = Calc.Min(a.X, b.X);
+            var y = Calc.Min(a.Y, b.Y);
+
+            return new Vector(x, y);
+        }
+
+        /// <summary>
+        /// Computes a new vector where each component is the maximum component in each respective input vector.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector Max(Vector a, Vector b)
+        {
+            var x = Calc.Max(a.X, b.X);
+            var y = Calc.Max(a.Y, b.Y);
+
+            return new Vector(x, y);
+        }
+
+        /// <summary>
+        /// Computes a new vector where each component is the absolute value of each component in the input vector.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector Abs(Vector vec)
+        {
+            var x = Calc.Abs(vec.X);
+            var y = Calc.Abs(vec.Y);
+
+            return new Vector(x, y);
+        }
+
+        #endregion
+
+        #region Distance
+
+        /// <summary>
+        /// Computes the euclidean distance between any two vectors.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Distance(in Vector a, in Vector b)
+        {
+            return Calc.Sqrt(DistanceSquared(a, b));
+        }
+
+        /// <summary>
+        /// Computes the squared euclidean distance between any two vectors.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float DistanceSquared(in Vector a, in Vector b)
+        {
+            var dx = a.X - b.X;
+            var dy = a.Y - b.Y;
+
+            return (dx * dx) + (dy * dy);
+        }
+
+        /// <summary>
+        /// Computes the manhattan distance between any two vectors.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float ManhattanDistance(in Vector a, in Vector b)
+        {
+            var dx = Calc.Abs(a.X - b.X);
+            var dy = Calc.Abs(a.Y - b.Y);
+            return dx + dy;
+        }
+
+        #endregion
+
         #region Normalize
 
+        /// <summary>
+        /// Normalize this vector.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Normalize() { Normalize(ref this); }
+        public void Normalize()
+        {
+            Normalize(ref this);
+        }
 
+        /// <summary>
+        /// Normalizes the input vector and return it.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector Normalize(Vector vec)
         {
@@ -93,10 +241,12 @@ namespace Heirloom.Math
             return vec;
         }
 
+        /// <summary>
+        /// Normalizes the input vector.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Normalize(ref Vector vec)
         {
-            // 
             var length = vec.Length;
 
             // Avoid divide by zero
@@ -126,51 +276,6 @@ namespace Heirloom.Math
             var y = Calc.Lerp(from.Y, to.Y, t);
 
             return new Vector(x, y);
-        }
-
-        #endregion
-
-        #region Distance
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Distance(Vector a, Vector b)
-        {
-            return Distance(in a, in b);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Distance(in Vector a, in Vector b)
-        {
-            return Calc.Sqrt(DistanceSquared(a, b));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float DistanceSquared(Vector a, Vector b)
-        {
-            return DistanceSquared(in a, in b);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float DistanceSquared(in Vector a, in Vector b)
-        {
-            var dx = a.X - b.X;
-            var dy = a.Y - b.Y;
-
-            return dx * dx + dy * dy;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float ManhattanDistance(Vector a, Vector b)
-        {
-            return ManhattanDistance(in a, in b);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float ManhattanDistance(in Vector a, in Vector b)
-        {
-            var dx = Calc.Abs(a.X - b.X);
-            var dy = Calc.Abs(a.Y - b.Y);
-            return dx + dy;
         }
 
         #endregion
@@ -222,14 +327,9 @@ namespace Heirloom.Math
             };
         }
 
-        /// <summary>
-        /// Computes the dot-product of two vectors.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Dot(Vector a, Vector b)
-        {
-            return Dot(in a, in b);
-        }
+        #endregion
+
+        #region Dot (Scalar) Product 
 
         /// <summary>
         /// Computes the dot-product of two vectors.
@@ -240,14 +340,9 @@ namespace Heirloom.Math
             return a.X * b.X + a.Y * b.Y;
         }
 
-        /// <summary>
-        /// Computes the cross-product of two vectors.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Cross(Vector a, Vector b)
-        {
-            return Cross(in a, in b);
-        }
+        #endregion
+
+        #region Cross Product 
 
         /// <summary>
         /// Computes the cross-product of two vectors.
@@ -258,16 +353,13 @@ namespace Heirloom.Math
             return a.X * b.Y - a.Y * b.X;
         }
 
+        /// <summary>
+        /// Computes the cross-product of a vector and a magnitude.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector Cross(in Vector a, float s)
         {
             return new Vector(s * a.Y, -s * a.X);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector Cross(float s, in Vector a)
-        {
-            return new Vector(-s * a.Y, s * a.X);
         }
 
         #endregion
@@ -289,12 +381,12 @@ namespace Heirloom.Math
         /// <summary>
         /// Projects a point onto a line segment.
         /// </summary>
-        /// <param name="point">Point to project.</param>
         /// <param name="start">Starting point of the line segment.</param>
         /// <param name="end">Ending point of the line segment.</param>
+        /// <param name="point">Point to project.</param>
         /// <param name="clamp">Should we clamp to the ends of the line segment?</param>
         /// <returns>The 'progress' along the line segment.</returns>
-        public static float Project(in Vector point, in Vector start, in Vector end, bool clamp = true)
+        public static float Project(in Vector start, in Vector end, in Vector point, bool clamp = true)
         {
             var v = point - start;
             var e = end - start;
@@ -315,7 +407,10 @@ namespace Heirloom.Math
 
         #region Reflection
 
-        public static Vector Reflect(Vector v, Vector axis)
+        /// <summary>
+        /// Computes the reflection of the input vector about the specified axis.
+        /// </summary>
+        public static Vector Reflect(in Vector v, in Vector axis)
         {
             Vector result;
             var val = Dot(v, axis) * 2.0f;
@@ -326,51 +421,12 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Min / Max / Abs
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float MaxComponent(Vector vec)
-        {
-            return Calc.Max(vec.X, vec.Y);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float MinComponent(Vector vec)
-        {
-            return Calc.Min(vec.X, vec.Y);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector Min(Vector a, Vector b)
-        {
-            var x = Calc.Min(a.X, b.X);
-            var y = Calc.Min(a.Y, b.Y);
-
-            return new Vector(x, y);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector Max(Vector a, Vector b)
-        {
-            var x = Calc.Max(a.X, b.X);
-            var y = Calc.Max(a.Y, b.Y);
-
-            return new Vector(x, y);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector Abs(Vector vec)
-        {
-            var x = Calc.Abs(vec.X);
-            var y = Calc.Abs(vec.Y);
-
-            return new Vector(x, y);
-        }
-
-        #endregion
-
         #region Rounding
 
+        /// <summary>
+        /// Computes a new vector with the floor of each component of the input vector.
+        /// </summary>
+        /// <see cref="Calc.Floor(float)"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector Floor(Vector v)
         {
@@ -379,6 +435,10 @@ namespace Heirloom.Math
             return v;
         }
 
+        /// <summary>
+        /// Computes a new vector with the ceiling of each component of the input vector.
+        /// </summary>
+        /// <see cref="Calc.Ceil(float)"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector Ceil(Vector v)
         {
@@ -387,6 +447,10 @@ namespace Heirloom.Math
             return v;
         }
 
+        /// <summary>
+        /// Computes a new vector with the rounded value of each component of the input vector.
+        /// </summary>
+        /// <see cref="Calc.Round(float)"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector Round(Vector v)
         {
@@ -395,6 +459,10 @@ namespace Heirloom.Math
             return v;
         }
 
+        /// <summary>
+        /// Computes a new vector with the fractional portion of each component of the input vector.
+        /// </summary>
+        /// <see cref="Calc.Fraction(float)"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector Fraction(Vector v)
         {

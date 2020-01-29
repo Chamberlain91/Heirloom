@@ -8,7 +8,14 @@
             "**/Heirloom.**.csproj"
           ],
           "exclude": [
-            "**/Heirloom.**.Testing.csproj"
+            "**/Heirloom.Android.csproj",
+            "**/Heirloom.Game.csproj",
+            "**/Heirloom.Game.Desktop.csproj",
+            "**/Heirloom.Physics.csproj",
+            "**/Heirloom.EGL.csproj",
+            "**/Heirloom.**.Testing.csproj",
+            "**/Heirloom.Benchmark.csproj",
+            "**/Heirloom.OpenGLES.csproj"
           ]
         }
       ],

@@ -10,10 +10,8 @@ namespace Heirloom.IO
         /// </summary>
         public static string ReadAllText(this Stream stream)
         {
-            using (var reader = new StreamReader(stream))
-            {
-                return reader.ReadToEnd();
-            }
+            using var reader = new StreamReader(stream);
+            return reader.ReadToEnd();
         }
 
         /// <summary>
@@ -21,13 +19,11 @@ namespace Heirloom.IO
         /// </summary>
         public static IEnumerable<string> ReadLines(this Stream stream)
         {
-            using (var reader = new StreamReader(stream))
+            using var reader = new StreamReader(stream);
+            var line = null as string;
+            while ((line = reader.ReadLine()) != null)
             {
-                var line = null as string;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    yield return line;
-                }
+                yield return line;
             }
         }
 
@@ -36,11 +32,9 @@ namespace Heirloom.IO
         /// </summary>
         public static byte[] ReadAllBytes(this Stream stream)
         {
-            using (var memory = new MemoryStream())
-            {
-                stream.CopyTo(memory);
-                return memory.ToArray();
-            }
+            using var memory = new MemoryStream();
+            stream.CopyTo(memory);
+            return memory.ToArray();
         }
     }
 }

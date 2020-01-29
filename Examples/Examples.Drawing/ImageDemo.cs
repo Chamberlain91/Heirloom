@@ -9,13 +9,13 @@ namespace Examples.Drawing
         private readonly Image _image;
 
         public ImageDemo()
-            : base("Image")
+            : base("Simple Image")
         {
             // CC0 from https://pixabay.com/users/nara_kim-279055/
             _image = new Image(Files.OpenStream("files/rabbit.png"));
         }
 
-        internal override void Draw(RenderContext ctx, Rectangle contentBounds)
+        internal override void Draw(Graphics ctx, Rectangle contentBounds)
         {
             // Compute image centering
             var yScale = contentBounds.Height / _image.Height;

@@ -1,14 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Heirloom.Math
 {
+    /// <summary>
+    /// Represents a circle via center position and radius.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    public struct Circle
+    public struct Circle : IShape, IEquatable<Circle>
     {
+        /// <summary>
+        /// The center position of the circle.
+        /// </summary>
         public Vector Position;
 
+        /// <summary>
+        /// The radius of the circle.
+        /// </summary>
         public float Radius;
 
         #region Constructors
@@ -23,8 +33,14 @@ namespace Heirloom.Math
 
         #region Properties
 
+        /// <summary>
+        /// Gets the area of the circle.
+        /// </summary>
         public float Area => Calc.Pi * (Radius * Radius);
 
+        /// <summary>
+        /// Gets the bounding rectangle of this circle.
+        /// </summary>
         public Rectangle Bounds
         {
             get
@@ -38,44 +54,179 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Contains / Overlaps / Closest Point
+        /// <summary>
+        /// Create a polygon from this rectangle.
+        /// </summary>
+        public Polygon ToPolygon()
+        {
+            // Approximates a circle with an icositetragon (24 point) regular polygon
+            return Polygon.CreateRegularPolygon(Position, 24, Radius);
+        }
 
-        public bool Contains(in Vector point)
+        #region Closest Point
+
+        /// <summary>
+        /// Gets the nearest point on the circle to the specified point.
+        /// </summary>
+        public Vector GetClosestPoint(in Vector point)
+        {
+            var offset = Vector.Normalize(point - Position);
+            return Position + (offset * Radius);
+        }
+
+        #endregion
+
+        #region Contains (Point, Circle)
+
+        /// <summary>
+        /// Determines if the specified point is contained by the circle.
+        /// </summary>
+        public bool ContainsPoint(in Vector point)
         {
             return Vector.DistanceSquared(Position, point) < (Radius * Radius);
         }
 
+        /// <summary>
+        /// Determines if this circle contains another circle.
+        /// </summary>
         public bool Contains(in Circle circle)
         {
-            throw new NotImplementedException();
+            var d = Vector.DistanceSquared(in Position, in circle.Position);
+            return Radius > (d + circle.Radius);
         }
 
+        #endregion
+
+        #region Overlaps
+
+        /// <summary>
+        /// Determines if this circle overlaps another shape.
+        /// </summary>
+        public bool Overlaps(IShape shape)
+        {
+            return shape switch
+            {
+                Circle cir => Overlaps(in cir),
+                Triangle tri => Overlaps(in tri),
+                Rectangle rec => Overlaps(in rec),
+                Polygon pol => Overlaps(pol),
+
+                // Unknown shape
+                _ => throw new InvalidOperationException("Unable to determine overlap, shape was not a known type."),
+            };
+        }
+
+        /// <summary>
+        /// Determines if this circle overlaps another circle.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Overlaps(in Circle b)
         {
             var c = b.Position - Position;
             var r = Radius + b.Radius;
 
-            return Vector.Dot(c, c) < (r * r);
+            return Vector.Dot(in c, in c) < (r * r);
         }
 
-        public Vector ClosestPoint(in Vector point)
+        /// <summary>
+        /// Determines if this circle overlaps the specified rectangle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(in Rectangle rectangle)
         {
-            var off = point - Position;
-            return off * (Radius / off.Length);
+            // Assembly temporary polygon representation of the rectangle
+            var polygon = PolygonTools.RequestTempPolygon(in rectangle);
+
+            // Test overlap with temp polygon
+            var overlap = SeparatingAxis.Overlaps(polygon, in this);
+
+            // Recycle temporary polygon and return overlap status
+            PolygonTools.RecycleTempPolygon(polygon);
+            return overlap;
+        }
+
+        /// <summary>
+        /// Determines if this circle overlaps the specified triangle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(in Triangle triangle)
+        {
+            // Assembly temporary polygon representation of the triangle
+            var polygon = PolygonTools.RequestTempPolygon(in triangle);
+
+            // Test overlap with temp polygon
+            var overlap = SeparatingAxis.Overlaps(polygon, in this);
+
+            // Recycle temporary polygon and return overlap status
+            PolygonTools.RecycleTempPolygon(polygon);
+            return overlap;
+        }
+
+        /// <summary>
+        /// Determines if this circle overlaps the specified simple polygon.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(Polygon polygon)
+        {
+            if (polygon is null) { throw new ArgumentNullException(nameof(polygon)); }
+
+            // For each convex partition on this polygon,
+            foreach (var partition in polygon.ConvexPartitions)
+            {
+                // check if this partition overlaps the circle.
+                if (SeparatingAxis.Overlaps(partition, in this))
+                {
+                    // An overlap was detected
+                    return true;
+                }
+            }
+
+            // No overlap was detected
+            return false;
+        }
+
+        /// <summary>
+        /// Determines if this circle overlaps the specified convex polygon.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(IReadOnlyList<Vector> polygon)
+        {
+            return SeparatingAxis.Overlaps(polygon, in this);
+        }
+
+        #endregion
+
+        #region Axis Projection
+
+        /// <summary>
+        /// Project this circle onto the specified axis.
+        /// </summary>
+        public Range Project(in Vector axis)
+        {
+            var t = Vector.Project(in Position, in axis);
+            return new Range(t - Radius, t + Radius);
         }
 
         #endregion
 
         #region Raycast
 
+        /// <summary>
+        /// Peforms a raycast onto this circle, returning true upon intersection.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Raycast(in Ray ray)
         {
             return Raycast(in ray, out _);
         }
 
-        public bool Raycast(in Ray ray, out Contact hit)
+        /// <summary>
+        /// Peforms a raycast onto this circle, returning true upon intersection.
+        /// </summary>
+        /// <param name="ray">Some ray.</param>
+        /// <param name="contact">Ray intersection information.</param>
+        /// <returns></returns>
+        public bool Raycast(in Ray ray, out RayContact contact)
         {
             var v = ray.Origin - Position;
             var c = Vector.Dot(v, v) - (Radius * Radius);
@@ -85,7 +236,7 @@ namespace Heirloom.Math
             // ...? Ray origin inside circle?
             if (disc < 0)
             {
-                hit = default;
+                contact = default;
                 return false;
             }
 
@@ -97,7 +248,7 @@ namespace Heirloom.Math
             {
                 var impact = ray.Origin + (ray.Direction * t);
                 var normal = Vector.Normalize(impact - Position);
-                hit = new Contact(impact, normal, t);
+                contact = new RayContact(impact, normal, t);
                 return true;
             }
             // Negative `time` (behind on line)
@@ -107,8 +258,40 @@ namespace Heirloom.Math
                 // I feel inspired to create a line shape as well
             }
 
-            hit = default;
+            contact = default;
             return false;
+        }
+
+        #endregion
+
+        #region Equality
+
+        public override bool Equals(object obj)
+        {
+            return obj is Circle circle && Equals(circle);
+        }
+
+        public bool Equals(Circle other)
+        {
+            return Position.Equals(other.Position) &&
+                   Radius == other.Radius &&
+                   Area == other.Area &&
+                   Bounds.Equals(other.Bounds);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Position, Radius, Area, Bounds);
+        }
+
+        public static bool operator ==(Circle left, Circle right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Circle left, Circle right)
+        {
+            return !(left == right);
         }
 
         #endregion

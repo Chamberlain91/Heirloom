@@ -153,7 +153,7 @@ namespace Heirloom.Drawing.OpenGLES
 
             return attributes.ToArray();
 
-            int OffsetOf(FieldInfo field)
+            static int OffsetOf(FieldInfo field)
             {
                 return (int) Marshal.OffsetOf(field.DeclaringType, field.Name);
             }
@@ -204,7 +204,7 @@ namespace Heirloom.Drawing.OpenGLES
                 return VertexAttributeType.Byte;
             }
             else
-            if (type == typeof(byte) || type == typeof(Pixel))
+            if (type == typeof(byte) || type == typeof(ColorBytes))
             {
                 return VertexAttributeType.UnsignedByte;
             }

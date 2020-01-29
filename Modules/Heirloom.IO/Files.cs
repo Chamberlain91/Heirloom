@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Heirloom.IO
 {
@@ -9,6 +10,22 @@ namespace Heirloom.IO
     /// </summary>
     public static class Files
     {
+        static private readonly Regex _removeDoubles = new Regex("/+", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Normalizes a path (forward slades, removing doubles, etc)
+        /// </summary>
+        public static string NormalizePath(string path)
+        {
+            // normalize to foward slash
+            path = path.Replace('\\', '/');
+
+            // replace any doubles "a//b" to "a/b"
+            path = _removeDoubles.Replace(path, "/");
+
+            return path;
+        }
+
         /// <summary>
         /// Opens a read-only stream to a file, first found by disk, then by embedded files.
         /// </summary>
@@ -79,10 +96,8 @@ namespace Heirloom.IO
         /// <seealso cref="OpenStream(string)"/>
         public static string ReadText(string path)
         {
-            using (var stream = OpenStream(path))
-            {
-                return stream.ReadAllText();
-            }
+            using var stream = OpenStream(path);
+            return stream.ReadAllText();
         }
 
         /// <summary>
@@ -93,10 +108,8 @@ namespace Heirloom.IO
         /// <seealso cref="OpenStream(string)"/>
         public static byte[] ReadBytes(string path)
         {
-            using (var stream = OpenStream(path))
-            {
-                return stream.ReadAllBytes();
-            }
+            using var stream = OpenStream(path);
+            return stream.ReadAllBytes();
         }
 
         #endregion

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Heirloom.IO
 {
@@ -57,40 +58,48 @@ namespace Heirloom.IO
             // 
             if (_assemblies.Add(assembly))
             {
-                // Find namespace prefixes
-                var namespaces = GetNamespaces(assembly);
-
-                // Look at each file and alias any starting with a namespace
-                foreach (var manifestName in assembly.GetManifestResourceNames())
+                try
                 {
-                    // Create list default identifier
-                    var identifiers = new List<string> { NormalizeManifestPath(manifestName) };
+                    // Find namespace prefixes
+                    var namespaces = GetNamespaces(assembly);
 
-                    // Find a shorter alias
-                    foreach (var prefix in namespaces)
+                    // Look at each file and alias any starting with a namespace
+                    foreach (var manifestName in assembly.GetManifestResourceNames())
                     {
-                        // Starts with a namespace prefix?
-                        if (manifestName.StartsWith(prefix))
-                        {
-                            // Chop off the prefix and renormalize
-                            var identifier = manifestName.Substring(prefix.Length + 1);
-                            identifier = NormalizeManifestPath(identifier);
+                        // Create list default identifier
+                        var identifiers = new List<string> { NormalizeManifestPath(manifestName) };
 
-                            // Store the aliased reference to the embedded file
-                            identifiers.Add(identifier);
-                            break;
+                        // Find a shorter alias
+                        foreach (var prefix in namespaces)
+                        {
+                            // Starts with a namespace prefix?
+                            if (manifestName.StartsWith(prefix))
+                            {
+                                // Chop off the prefix and renormalize
+                                var identifier = manifestName.Substring(prefix.Length + 1);
+                                identifier = NormalizeManifestPath(identifier);
+
+                                // Store the aliased reference to the embedded file
+                                identifiers.Add(identifier);
+                                break;
+                            }
+                        }
+
+                        // Create file access object
+                        var file = new EmbeddedFile(assembly, manifestName, identifiers);
+                        _files.Add(file);
+
+                        // Store file by known identifiers
+                        foreach (var identifier in file.Identifiers)
+                        {
+                            _aliasMap[identifier] = file;
                         }
                     }
-
-                    // Create file access object
-                    var file = new EmbeddedFile(assembly, manifestName, identifiers);
-                    _files.Add(file);
-
-                    // Store file by known identifiers
-                    foreach (var identifier in file.Identifiers)
-                    {
-                        _aliasMap[identifier] = file;
-                    }
+                }
+                catch
+                {
+                    Console.WriteLine($"Unable to discover embedded files in '{assembly.GetName().Name}'.");
+                    // Oh no!
                 }
             }
         }
@@ -149,7 +158,7 @@ namespace Heirloom.IO
             return GetFile(identifier) != null;
         }
 
-        private static string NormalizeManifestPath(string name)
+        internal static string NormalizeManifestPath(string name)
         {
             name = name.Replace('/', '.');
             name = name.Replace('\\', '.');
@@ -159,6 +168,8 @@ namespace Heirloom.IO
             name = name.Replace('-', '_');
             name = name.Replace("(", string.Empty);
             name = name.Replace(")", string.Empty);
+
+            name = Regex.Replace(name, "_+", "_"); // Collapse '_' characters into one
 
             return name.ToLowerInvariant();
         }

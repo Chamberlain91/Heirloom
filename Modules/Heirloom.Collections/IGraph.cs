@@ -5,14 +5,9 @@ namespace Heirloom.Collections
     public interface IGraph<TKey, TValue, TGraph> where TGraph : IGraph<TKey, TValue, TGraph>
     {
         /// <summary>
-        /// Is this graph weighted?
+        /// Is this graph undirected?
         /// </summary>
-        bool IsWeighted { get; }
-
-        /// <summary>
-        /// Is this graph directed?
-        /// </summary>
-        bool IsDirected { get; }
+        bool IsUndirected { get; }
 
         /// <summary>
         /// Are self looping edges allowed?
@@ -20,19 +15,9 @@ namespace Heirloom.Collections
         bool AllowSelfLoops { get; }
 
         /// <summary>
-        /// Are two or more parallel edges allowed?
-        /// </summary>
-        bool AllowParallelEdges { get; }
-
-        /// <summary>
         /// Are edges allowed to have a negative weight?
         /// </summary>
         bool AllowNegativeWeight { get; }
-
-        /// <summary>
-        /// The configuration governing behavior of this graph.
-        /// </summary>
-        GraphConfiguration Configuration { get; }
 
         /// <summary>
         /// The number of vertices within this graph.

@@ -8,7 +8,6 @@ namespace Heirloom.Math
     /// A 2x3 transformation matrix.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = 4 * 6, Pack = 4)]
-    // todo: expose _m0 etc? The indexer seems *way* too slow.
     public struct Matrix
     {
         // row 0
@@ -29,6 +28,9 @@ namespace Heirloom.Math
 
         #region Constants
 
+        /// <summary>
+        /// The identity matrix.
+        /// </summary>
         public static readonly Matrix Identity = new Matrix(1f, 0f, 0f, 0f, 1f, 0f);
 
         #endregion
@@ -139,22 +141,20 @@ namespace Heirloom.Math
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the inverse of this matrix.
+        /// </summary>
+        public Matrix Inverted => Inverse(in this);
+
+        #endregion
+
         #region Inverse
 
-        public static void Inverse(in Matrix a, ref Matrix inv)
-        {
-            inv = Identity;
-
-            var invdet = 1F / (a.M0 * a.M4 - a.M3 * a.M1);
-
-            inv.M0 = a.M4 * invdet;
-            inv.M1 = -a.M1 * invdet;
-            inv.M2 = (a.M1 * a.M5 - a.M2 * a.M4) * invdet;
-            inv.M3 = -a.M3 * invdet;
-            inv.M4 = a.M0 * invdet;
-            inv.M5 = -(a.M0 * a.M5 - a.M2 * a.M3) * invdet;
-        }
-
+        /// <summary>
+        /// Computes the inverse of this matrix.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix Inverse(in Matrix a)
         {
@@ -163,12 +163,45 @@ namespace Heirloom.Math
             return inv;
         }
 
+        /// <summary>
+        /// Computes the inverse of the matrix and stores the resulting matrix into <paramref name="dest"/>.
+        /// </summary>
+        public static void Inverse(in Matrix a, ref Matrix dest)
+        {
+            dest = Identity;
+
+            var invdet = 1F / (a.M0 * a.M4 - a.M3 * a.M1);
+
+            // Computes into temporary locals to prevent error when 
+            // input and dest matrices are the same reference.
+
+            var m0 = a.M4 * invdet;
+            var m1 = -a.M1 * invdet;
+            var m2 = (a.M1 * a.M5 - a.M2 * a.M4) * invdet;
+            var m3 = -a.M3 * invdet;
+            var m4 = a.M0 * invdet;
+            var m5 = -(a.M0 * a.M5 - a.M2 * a.M3) * invdet;
+
+            dest.M0 = m0;
+            dest.M1 = m1;
+            dest.M2 = m2;
+            dest.M3 = m3;
+            dest.M4 = m4;
+            dest.M5 = m5;
+        }
+
         #endregion
 
         #region Multiply (M * M)
 
+        /// <summary>
+        /// Multiply two matrices together and store the result in <paramref name="dest"/>.
+        /// </summary>
         public static void Multiply(in Matrix a, in Matrix b, ref Matrix dest)
         {
+            // Computes into temporary locals to prevent error when 
+            // input and dest matrices are the same reference.
+
             // row 0
             var m0 = (a.M0 * b.M0) + (a.M1 * b.M3);
             var m1 = (a.M0 * b.M1) + (a.M1 * b.M4);
@@ -187,6 +220,9 @@ namespace Heirloom.Math
             dest.M5 = m5;
         }
 
+        /// <summary>
+        /// Multiply two matrices together.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix Multiply(in Matrix a, in Matrix b)
         {
@@ -199,16 +235,47 @@ namespace Heirloom.Math
 
         #region Multiply (M * V)
 
+        /// <summary>
+        /// Multiplies a vector against this matrix.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Multiply(in Matrix a, in Vector v, ref Vector r)
+        public Vector Multiply(in Vector v)
         {
+            var c = default(Vector);
+            Multiply(in this, in v, ref c);
+            return c;
+        }
+
+        /// <summary>
+        /// Multiplies a vector against this matrix ignoring the translational components.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector MultiplyVector(in Vector v)
+        {
+            var c = default(Vector);
+            MultiplyVector(in this, in v, ref c);
+            return c;
+        }
+
+        /// <summary>
+        /// Multiplies a vector and matrix together and stores the resulting vector into <paramref name="dest"/>.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Multiply(in Matrix a, in Vector v, ref Vector dest)
+        {
+            // Computes into temporary locals to prevent error when 
+            // input and dest vectors are the same reference.
+
             var x = (a.M0 * v.X) + (a.M1 * v.Y) + a.M2;
             var y = (a.M3 * v.X) + (a.M4 * v.Y) + a.M5;
 
-            r.X = x;
-            r.Y = y;
+            dest.X = x;
+            dest.Y = y;
         }
 
+        /// <summary>
+        /// Multiplies a vector and matrix together ignoring the translational components and stores the resulting vector into <paramref name="dest"/>.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void MultiplyVector(in Matrix a, in Vector v, ref Vector r)
         {
@@ -219,6 +286,9 @@ namespace Heirloom.Math
             r.Y = y;
         }
 
+        /// <summary>
+        /// Multiplies a vector and matrix together.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector Multiply(in Matrix a, in Vector v)
         {
@@ -227,6 +297,9 @@ namespace Heirloom.Math
             return c;
         }
 
+        /// <summary>
+        /// Multiplies a vector and matrix together ignoring the translational components.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector MultiplyVector(in Matrix a, in Vector v)
         {
@@ -235,48 +308,13 @@ namespace Heirloom.Math
             return c;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector Multiply(in Vector v)
-        {
-            var c = default(Vector);
-            Multiply(in this, in v, ref c);
-            return c;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector MultiplyVector(in Vector v)
-        {
-            var c = default(Vector);
-            MultiplyVector(in this, in v, ref c);
-            return c;
-        }
-
         #endregion
 
-        #region Create Rotation
+        #region Set Matrix
 
-        public static Matrix CreateRotation(float angle)
-        {
-            var m = Identity;
-
-            var c = Calc.Cos(angle);
-            var s = Calc.Sin(angle);
-
-            m.M0 = +c;
-            m.M1 = -s;
-            m.M2 = 0F;
-
-            m.M3 = +s;
-            m.M4 = +c;
-            m.M5 = 0F;
-
-            return m;
-        }
-
-        #endregion
-
-        #region Create Scale
-
+        /// <summary>
+        /// Configures this matrix as a scaling matrix.
+        /// </summary>
         public void SetScale(float sx, float sy)
         {
             M0 = sx;
@@ -288,6 +326,72 @@ namespace Heirloom.Math
             M5 = 0F;
         }
 
+        /// <summary>
+        /// Configures this matrix as a shearing matrix.
+        /// </summary>
+        public void SetShear(float sx, float sy)
+        {
+            M0 = 1F;
+            M1 = sx;
+            M2 = 0F;
+
+            M3 = sy;
+            M4 = 1F;
+            M5 = 0F;
+        }
+
+        /// <summary>
+        /// Configures this matrix as a rotation matrix.
+        /// </summary>
+        public void SetRotation(float angle)
+        {
+            var c = Calc.Cos(angle);
+            var s = Calc.Sin(angle);
+
+            M0 = +c;
+            M1 = -s;
+            M2 = 0F;
+
+            M3 = +s;
+            M4 = +c;
+            M5 = 0F;
+        }
+
+        /// <summary>
+        /// Configures this matrix as a translation matrix.
+        /// </summary>
+        public void SetTranslation(float x, float y)
+        {
+            M0 = 1F;
+            M1 = 0F;
+            M2 = +x;
+
+            M3 = 0F;
+            M4 = 1F;
+            M5 = +y;
+        }
+
+        #endregion
+
+        #region Create Rotation
+
+        /// <summary>
+        /// Constructs a new rotation matrix.
+        /// </summary>
+        public static Matrix CreateRotation(float angle)
+        {
+            var m = Identity;
+            m.SetRotation(angle);
+            return m;
+        }
+
+        #endregion
+
+        #region Create Scale
+
+        /// <summary>
+        /// Constructs a new scaling matrix.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix CreateScale(float sx, float sy)
         {
@@ -296,18 +400,27 @@ namespace Heirloom.Math
             return m;
         }
 
+        /// <summary>
+        /// Constructs a new scaling matrix.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Matrix CreateScale(Size scale)
+        public static Matrix CreateScale(in Size scale)
         {
             return CreateScale(scale.Width, scale.Height);
         }
 
+        /// <summary>
+        /// Constructs a new scaling matrix.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Matrix CreateScale(Vector scale)
+        public static Matrix CreateScale(in Vector scale)
         {
             return CreateScale(scale.X, scale.Y);
         }
 
+        /// <summary>
+        /// Constructs a new uniform scaling matrix.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix CreateScale(float scale)
         {
@@ -316,23 +429,45 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Create Translation
+        #region Create Shear
 
-        public static Matrix CreateTranslation(in float x, in float y)
+        /// <summary>
+        /// Constructs a new shearing matrix.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix CreateShear(in Vector shear)
+        {
+            return CreateShear(shear.X, shear.Y);
+        }
+
+        /// <summary>
+        /// Constructs a new shearing matrix.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix CreateShear(float sx, float sy)
         {
             var m = Identity;
-
-            m.M0 = 1F;
-            m.M1 = 0F;
-            m.M2 = +x;
-
-            m.M3 = 0F;
-            m.M4 = 1F;
-            m.M5 = +y;
-
+            m.SetShear(sx, sy);
             return m;
         }
 
+        #endregion
+
+        #region Create Translation
+
+        /// <summary>
+        /// Constructs a new translation matrix.
+        /// </summary>
+        public static Matrix CreateTranslation(float x, float y)
+        {
+            var m = Identity;
+            m.SetTranslation(x, y);
+            return m;
+        }
+
+        /// <summary>
+        /// Constructs a new translation matrix.
+        /// </summary>
         public static Matrix CreateTranslation(in Vector vec)
         {
             return CreateTranslation(vec.X, vec.Y);
@@ -376,12 +511,20 @@ namespace Heirloom.Math
             return CreateTransform(position.X, position.Y, angle, scale.X, scale.Y);
         }
 
+        /// <summary>
+        /// Creates a transform matrix with postion, rotation and scale.
+        /// </summary>
+        public static Matrix CreateTransform(in Vector position, float angle, in float scale)
+        {
+            return CreateTransform(position.X, position.Y, angle, scale, scale);
+        }
+
         #endregion
 
         #region Create Rectangle Projection
 
         /// <summary>
-        /// Transforms a rectangular region to the viewport.
+        /// Constructs a matrix that transforms a rectangular region to normalized screen coordinates.
         /// </summary>
         public static Matrix RectangleProjection(float left, float top, float right, float bottom)
         {
@@ -391,13 +534,23 @@ namespace Heirloom.Math
             var ty = -(top + bottom) / (top - bottom);
 
             return new Matrix(sx, 0F, tx, 0F, sy, ty);
-            // return CreateTranslation(tx, ty) * CreateScale(sx, sy);
         }
 
         #endregion
 
-        #region Extract Affine Components
+        #region Deconstruct / Extrat Affine Components
 
+        public void Deconstruct(out Vector position, out float rotation, out Vector scale)
+        // ref: https://stackoverflow.com/questions/4361242/extract-rotation-scale-values-from-2d-transformation-matrix
+        {
+            position = GetAffineTranslation();
+            rotation = GetAffineRotation();
+            scale = GetAffineScale();
+        }
+
+        /// <summary>
+        /// Extracts affine scaling components from this matrix.
+        /// </summary>
         public Vector GetAffineScale()
         {
             // todo: Get scale with negatives?
@@ -410,12 +563,18 @@ namespace Heirloom.Math
             return new Vector(sx, sy);
         }
 
+        /// <summary>
+        /// Extracts affine translational components from this matrix.
+        /// </summary>
         public Vector GetAffineTranslation()
         {
             // Extract translation
             return new Vector(M2, M5);
         }
 
+        /// <summary>
+        /// Extracts affine rotational component (the angle) from this matrix.
+        /// </summary>
         public float GetAffineRotation()
         {
             // Extract rotation
@@ -426,14 +585,6 @@ namespace Heirloom.Math
         }
 
         #endregion
-
-        public void Deconstruct(out Vector position, out float rotation, out Vector scale)
-        // ref: https://stackoverflow.com/questions/4361242/extract-rotation-scale-values-from-2d-transformation-matrix
-        {
-            position = GetAffineTranslation();
-            rotation = GetAffineRotation();
-            scale = GetAffineScale();
-        }
 
         #region Arithmetic Operators
 

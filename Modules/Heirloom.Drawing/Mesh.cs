@@ -148,6 +148,17 @@ namespace Heirloom.Drawing
         /// </summary>
         /// <param name="polygon">Some polygon.</param>
         /// <returns>A new mesh representign the 'filled' space of the polygon.</returns>
+        public static Mesh CreateFromPolygon(Polygon polygon)
+        {
+            return CreateFromPolygon(polygon.Vertices);
+        }
+
+        /// <summary>
+        /// Constructs a mesh from the given polygon via <see cref="Polygon.Triangulate()"/>. <para/>
+        /// UV coordinates are the normalized polygon within its own bounds.
+        /// </summary>
+        /// <param name="polygon">Some polygon.</param>
+        /// <returns>A new mesh representign the 'filled' space of the polygon.</returns>
         public static Mesh CreateFromPolygon(IReadOnlyList<Vector> polygon)
         {
             if (polygon is null) { throw new ArgumentNullException(nameof(polygon)); }
@@ -165,7 +176,7 @@ namespace Heirloom.Drawing
             }
 
             // Add triangle indices
-            foreach (var (a, b, c) in Polygon.DecomposeTrianglesIndices(polygon))
+            foreach (var (a, b, c) in PolygonTools.TriangulateIndices(polygon))
             {
                 mesh._indices.Add((ushort) a);
                 mesh._indices.Add((ushort) b);
@@ -202,19 +213,6 @@ namespace Heirloom.Drawing
             }
 
             return mesh;
-        }
-
-        /// <summary>
-        /// Constructs a mesh from a regular polygon.
-        /// </summary>
-        /// <param name="sides">Number of sides.</param>
-        /// <param name="radius">Radius if the regular polygon.</param> 
-        /// <returns>A new mesh representign the 'filled' space of the polygon.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Mesh CreateRegularPolygon(int sides, float radius)
-        {
-            var regularPolygon = Polygon.GetRegularPolygonPoints(Vector.Zero, sides, radius);
-            return CreateFromConvexPolygon(regularPolygon);
         }
 
         /// <summary>

@@ -309,7 +309,7 @@ namespace Heirloom.Collections
         }
 
         /// <summary>
-        /// Gets, removes and returns the next item in the heap.
+        /// Removes and returns the next priority item in the heap.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public T Remove()

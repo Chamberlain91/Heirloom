@@ -1,19 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 using Heirloom.Drawing.Extras;
+using Heirloom.IO;
 using Heirloom.Math;
 
-using StbSharp;
+using StbImageSharp;
+
+using static StbImageSharp.StbImage;
+using static StbImageWriteSharp.StbImageWrite;
 
 namespace Heirloom.Drawing
 {
     public sealed partial class Image : ImageSource
     {
-        private Pixel[] _pixels;
+        private ColorBytes[] _pixels;
 
         private Image _source;
         private Image _root;
@@ -90,7 +95,7 @@ namespace Heirloom.Drawing
             if (clone || source == null)
             {
                 // Create pixel data
-                _pixels = new Pixel[Width * Height];
+                _pixels = new ColorBytes[Width * Height];
 
                 if (clone)
                 {
@@ -104,27 +109,40 @@ namespace Heirloom.Drawing
             }
         }
 
+        /// <summary>
+        /// Loads an image by a file path resolved by <see cref="Files.OpenStream(string)"/>.
+        /// </summary>
+        public Image(string path)
+            : this(Files.OpenStream(path))
+        { }
+
+        /// <summary>
+        /// Loads an image from a stream.
+        /// </summary>
         public Image(Stream stream)
             : this(ReadAllBytes(stream))
         { }
 
+        /// <summary>
+        /// Loads an image directly from a block of bytes.
+        /// </summary>
         public unsafe Image(byte[] file)
         {
             fixed (byte* buffer = file)
             {
                 // Decode from file to raw RGBA bytes
                 int width, height, comp;
-                var pResult = Stb.stbi_load_from_memory(buffer, file.Length, &width, &height, &comp, 4);
+                var pResult = stbi_load_from_memory(buffer, file.Length, &width, &height, &comp, 4);
 
                 // Copy from unmanaged to managed
                 var pixels = new byte[width * height * 4];
                 Marshal.Copy((IntPtr) pResult, pixels, 0, pixels.Length);
 
                 // Free stb bitmap
-                Stb.stbi_image_free(pResult);
+                CRuntime.free(pResult);
 
                 // Fully occupied and no parenting image
-                _pixels = new Pixel[width * height];
+                _pixels = new ColorBytes[width * height];
                 Region = new IntRectangle(0, 0, width, height);
                 Source = null;
 
@@ -220,13 +238,13 @@ namespace Heirloom.Drawing
 
         #region Indexers
 
-        public Pixel this[int x, int y]
+        public ColorBytes this[int x, int y]
         {
             get => GetPixel(x, y);
             set => SetPixel(x, y, value);
         }
 
-        public Pixel this[IntVector coord]
+        public ColorBytes this[IntVector coord]
         {
             get => GetPixel(coord);
             set => SetPixel(coord, value);
@@ -239,7 +257,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Sets all pixels in the image to the specified color.
         /// </summary>
-        public unsafe void Clear(Pixel pixel)
+        public unsafe void Clear(ColorBytes pixel)
         {
             if (IsSubImage)
             {
@@ -251,7 +269,7 @@ namespace Heirloom.Drawing
             }
             else
             {
-                fixed (Pixel* ptr = _pixels)
+                fixed (ColorBytes* ptr = _pixels)
                 {
                     // Fill entire data buffer
                     for (var i = 0; i < _pixels.Length; i++)
@@ -269,7 +287,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Get some pixel within the image.
         /// </summary>
-        public Pixel GetPixel(IntVector coord)
+        public ColorBytes GetPixel(IntVector coord)
         {
             return GetPixel(coord.X, coord.Y);
         }
@@ -277,7 +295,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Set some pixel within the image.
         /// </summary>
-        public void SetPixel(IntVector coord, Pixel pixel)
+        public void SetPixel(IntVector coord, ColorBytes pixel)
         {
             SetPixel(coord.X, coord.Y, pixel);
         }
@@ -285,7 +303,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Get some pixel within the image.
         /// </summary>
-        public Pixel GetPixel(int x, int y)
+        public ColorBytes GetPixel(int x, int y)
         {
             if (IsSubImage)
             {
@@ -296,12 +314,12 @@ namespace Heirloom.Drawing
             {
                 if (x >= Width || y >= Height)
                 {
-                    return Pixel.Black;
+                    return ColorBytes.Black;
                 }
 
                 if (x < 0 || y < 0)
                 {
-                    return Pixel.Black;
+                    return ColorBytes.Black;
                 }
 
                 // TODO: Validate coordinate within image
@@ -312,7 +330,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Set some pixel within the image.
         /// </summary>
-        public void SetPixel(int x, int y, Pixel pixel)
+        public void SetPixel(int x, int y, ColorBytes pixel)
         {
             // 
             if (IsSubImage)
@@ -343,7 +361,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Replace all pixels in this image.
         /// </summary>
-        public unsafe void SetPixels(Pixel[] pixels)
+        public unsafe void SetPixels(ColorBytes[] pixels)
         {
             if (pixels.Length != (Width * Height))
             {
@@ -361,8 +379,8 @@ namespace Heirloom.Drawing
             }
             else
             {
-                fixed (Pixel* src = pixels)
-                fixed (Pixel* dst = _pixels)
+                fixed (ColorBytes* src = pixels)
+                fixed (ColorBytes* dst = _pixels)
                 {
                     var len = _pixels.Length * 4;
                     Buffer.MemoryCopy((void*) src, (void*) dst, len, len);
@@ -391,7 +409,7 @@ namespace Heirloom.Drawing
                         var i = (co.Y * Width) + co.X;
 
                         // 
-                        var addr = (Pixel*) &pPixels[i];
+                        var addr = (ColorBytes*) &pPixels[i];
                         SetPixel(Region.Min + co, *addr);
                     }
                 }
@@ -399,7 +417,7 @@ namespace Heirloom.Drawing
             else
             {
                 fixed (uint* src = pixels)
-                fixed (Pixel* dst = _pixels)
+                fixed (ColorBytes* dst = _pixels)
                 {
                     Buffer.MemoryCopy((void*) src, (void*) dst, 4 * pixels.Length, 4 * pixels.Length);
                     UpdateVersionNumber();
@@ -427,7 +445,7 @@ namespace Heirloom.Drawing
                         var i = (co.Y * Width) + co.X;
 
                         // 
-                        var addr = (Pixel*) &pPixels[i * 4];
+                        var addr = (ColorBytes*) &pPixels[i * 4];
                         SetPixel(Region.Min + co, *addr);
                     }
                 }
@@ -435,7 +453,7 @@ namespace Heirloom.Drawing
             else
             {
                 fixed (byte* src = pixels)
-                fixed (Pixel* dst = _pixels)
+                fixed (ColorBytes* dst = _pixels)
                 {
                     Buffer.MemoryCopy((void*) src, (void*) dst, pixels.Length, pixels.Length);
                     UpdateVersionNumber();
@@ -446,11 +464,11 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Returns a copy of the pixels in this image.
         /// </summary>
-        public Pixel[] GetPixels()
+        public ColorBytes[] GetPixels()
         {
             if (IsSubImage)
             {
-                var pixels = new Pixel[Width * Height];
+                var pixels = new ColorBytes[Width * Height];
 
                 // TODO: Can probably optimize with processing pointers + stride
                 foreach (var co in Rasterizer.Rectangle(0, 0, Width, Height))
@@ -463,7 +481,7 @@ namespace Heirloom.Drawing
             }
             else
             {
-                var pixels = new Pixel[_pixels.Length];
+                var pixels = new ColorBytes[_pixels.Length];
                 Array.Copy(_pixels, pixels, _pixels.Length);
                 return pixels;
             }
@@ -474,25 +492,43 @@ namespace Heirloom.Drawing
         #region Sample
 
         /// <summary>
-        /// Samples the image via normalized coordinates.
+        /// Gets the color of the image at the specified point in normalized image space.
         /// </summary>
-        public Color Sample(Vector uv, SampleMode mode = SampleMode.Linear)
+        public Color Sample(Vector uv)
+        {
+            return Sample(uv.X, uv.Y, InterpolationMode);
+        }
+
+        /// <summary>
+        /// Gets the color of the image at the specified point in normalized image space.
+        /// </summary>
+        public Color Sample(Vector uv, InterpolationMode mode)
         {
             return Sample(uv.X, uv.Y, mode);
         }
 
         /// <summary>
-        /// Samples the image via normalized coordinates.
+        /// Gets the color of the image at the specified point in normalized image space.
         /// </summary>
-        public Color Sample(float u, float v, SampleMode mode = SampleMode.Linear)
+        public Color Sample(float u, float v)
+        {
+            return Sample(u, v, InterpolationMode);
+        }
+
+        /// <summary>
+        /// Gets the color of the image at the specified point in normalized image space.
+        /// </summary>
+        public Color Sample(float u, float v, InterpolationMode mode)
         {
             switch (mode)
             {
                 default:
-                case SampleMode.Point:
+                    throw new InvalidOperationException("Unknown sampling mode.");
+
+                case InterpolationMode.Nearest:
                     return SamplePoint(u, v);
 
-                case SampleMode.Linear:
+                case InterpolationMode.Linear:
                     return SampleLinear(u, v);
             }
         }
@@ -507,7 +543,7 @@ namespace Heirloom.Drawing
             var y1 = Calc.Floor(yf);
 
             // Read pixels
-            return (Color) GetPixel(x1, y1);
+            return GetPixel(x1, y1);
         }
 
         private Color SampleLinear(float u, float v)
@@ -531,10 +567,10 @@ namespace Heirloom.Drawing
             var c01 = GetPixel(x1, y2);
 
             // 
-            var q1 = Pixel.Lerp(c00, c10, xt);
-            var q2 = Pixel.Lerp(c01, c11, xt);
+            var q1 = ColorBytes.Lerp(c00, c10, xt);
+            var q2 = ColorBytes.Lerp(c01, c11, xt);
 
-            return (Color) Pixel.Lerp(q1, q2, yt);
+            return ColorBytes.Lerp(q1, q2, yt);
         }
 
         #endregion
@@ -547,9 +583,9 @@ namespace Heirloom.Drawing
         /// Copies pixel data to the image.
         /// The data must be contiguous and the same size of the image.
         /// </summary>
-        public unsafe void CopyFrom(Pixel* src, bool swapBGRA = true)
+        public unsafe void CopyFrom(ColorBytes* src, bool swapBGRA = true)
         {
-            var len = Width * Height * sizeof(Pixel);
+            var len = Width * Height * sizeof(ColorBytes);
 
             if (IsSubImage)
             {
@@ -561,12 +597,12 @@ namespace Heirloom.Drawing
             }
             else
             {
-                fixed (Pixel* dst = _pixels)
+                fixed (ColorBytes* dst = _pixels)
                 {
                     if (swapBGRA)
                     {
                         // Copy per-pixel (RGBA)
-                        for (var i = 0; i < len / sizeof(Pixel); i++)
+                        for (var i = 0; i < len / sizeof(ColorBytes); i++)
                         {
                             var p = src[i];
                             if (swapBGRA) { Calc.Swap(ref p.R, ref p.B); }
@@ -588,7 +624,7 @@ namespace Heirloom.Drawing
         /// </summary>
         public unsafe void CopyFrom(IntPtr src, bool swapBGRA = true)
         {
-            CopyFrom((Pixel*) src, swapBGRA);
+            CopyFrom((ColorBytes*) src, swapBGRA);
         }
 
         /// <summary>
@@ -597,14 +633,14 @@ namespace Heirloom.Drawing
         /// </summary>
         public unsafe void CopyTo(IntPtr dst, bool swapBGRA = true)
         {
-            CopyTo((Pixel*) dst, swapBGRA);
+            CopyTo((ColorBytes*) dst, swapBGRA);
         }
 
         /// <summary>
         /// Copies image data from the image to destination.
         /// The data must be contiguous and the same size of the image.
         /// </summary>
-        public unsafe void CopyTo(Pixel* dst, bool swapBGRA = true)
+        public unsafe void CopyTo(ColorBytes* dst, bool swapBGRA = true)
         {
             var len = Width * Height * 4; // Number of bytes in the pixel data
 
@@ -619,12 +655,12 @@ namespace Heirloom.Drawing
             }
             else
             {
-                fixed (Pixel* src = _pixels)
+                fixed (ColorBytes* src = _pixels)
                 {
                     if (swapBGRA)
                     {
                         // Copy per-pixel (RGBA)
-                        for (var i = 0; i < len / sizeof(Pixel); i++)
+                        for (var i = 0; i < len / sizeof(ColorBytes); i++)
                         {
                             var p = *(src + i);
                             if (swapBGRA) { Calc.Swap(ref p.R, ref p.B); }
@@ -656,9 +692,9 @@ namespace Heirloom.Drawing
                 // StbSharp is out of date...?
                 // Stb.stbi_flip_vertically_on_write(1);
 
-                fixed (Pixel* pPixels = _pixels)
+                fixed (ColorBytes* pPixels = _pixels)
                 {
-                    if (Stb.stbi_write_png_to_func(WriteImageCallback, null, Width, Height, 4, pPixels, Width * 4) == 0)
+                    if (stbi_write_png_to_func(WriteImageCallback, null, Width, Height, 4, pPixels, Width * 4) == 0)
                     {
                         throw new InvalidOperationException("Unable to write png image to stream.");
                     }
@@ -680,9 +716,9 @@ namespace Heirloom.Drawing
                 // StbSharp is out of date...?
                 // Stb.stbi_flip_vertically_on_write(1);
 
-                fixed (Pixel* pPixels = _pixels)
+                fixed (ColorBytes* pPixels = _pixels)
                 {
-                    if (Stb.stbi_write_jpg_to_func(WriteImageCallback, null, Width, Height, 4, pPixels, quality) == 0)
+                    if (stbi_write_jpg_to_func(WriteImageCallback, null, Width, Height, 4, pPixels, quality) == 0)
                     {
                         throw new InvalidOperationException("Unable to write jpg image to stream.");
                     }
@@ -743,14 +779,14 @@ namespace Heirloom.Drawing
             var packer = new RectanglePacker<Image>();
 
             // Pack Images
-            foreach (var image in images)
+            foreach (var image in images.OrderByDescending(img => img.Size.Area))
             {
                 packer.Insert(image, image.Size);
             }
 
             // Create image (atlas)
             var atlas = new Image(packer.Bounds.Width, packer.Bounds.Height);
-            atlas.Clear(Pixel.Red);
+            atlas.Clear(ColorBytes.Red);
 
             // Insert images into atlas
             foreach (var image in packer.Keys)
@@ -863,7 +899,7 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        #region Procedural Textures
+        #region Procedural Images
 
         /// <summary>
         /// Create an image with checkerboard pattern.
@@ -881,14 +917,14 @@ namespace Heirloom.Drawing
             foreach (var p in Rasterizer.Rectangle(0, 0, im.Width, im.Height))
             {
                 var flag = ((p.Y & cellSize) == 0) ^ (p.X & cellSize) == 0;
-                var pixel = (Pixel) ((flag ? Color.LightGray : Color.White) * color);
+                var pixel = (ColorBytes) ((flag ? Color.LightGray : Color.White) * color);
                 im.SetPixel(p.X, p.Y, pixel);
             }
 
             // Draw border
             foreach (var edge in Rasterizer.RectangleOutline(0, 0, width, height))
             {
-                var pixel = (Pixel) (Color.Gray * color);
+                var pixel = (ColorBytes) (Color.Gray * color);
                 im.SetPixel(edge.X, edge.Y, pixel);
             }
 
@@ -896,54 +932,26 @@ namespace Heirloom.Drawing
         }
 
         /// <summary>
-        /// Creates an image with a radial gradient.
+        /// Create an image with a grid pattern.
         /// </summary>
-        public static Image CreateRadialGradient(IntSize size, Color inner, Color outer)
+        /// <param name="width">Width of the image in pixels.</param>
+        /// <param name="height">Height of the image in pixels.</param>
+        /// <param name="color">Color to base the grid pattern on.</param>
+        /// <param name="borderWidth">Size of the line between each cell.</param>
+        /// <returns>An image filled with the grid pattern.</returns>
+        public static Image CreateGridPattern(int width, int height, Color color, int cellSize, int borderWidth = 1)
         {
-            var image = new Image(size);
-            foreach (var co in Rasterizer.Rectangle(image.Size))
+            var im = new Image(width, height);
+
+            // Compute checkerboard texture
+            foreach (var p in Rasterizer.Rectangle(0, 0, im.Width, im.Height))
             {
-                var nco = (co / (Vector) size * 2F) - Vector.One;
-                var distance = Vector.Distance(nco, Vector.Zero);
-                if (distance <= 1) { image.SetPixel(co, (Pixel) Color.Lerp(inner, outer, distance)); }
-                else { image.SetPixel(co, (Pixel) outer); }
-            }
-            return image;
-        }
-
-        /// <summary>
-        /// Creates an image with a radial gradient.
-        /// </summary>
-        public static Image CreateCircle(int size, Color color, Color edge, float edgeWidth = 1)
-        {
-            var image = new Image(size, size);
-
-            foreach (var co in Rasterizer.Rectangle(image.Size))
-            {
-                var normCo = ((Vector) co / size * 2F) - Vector.One;
-                var distance = Vector.Distance(normCo, Vector.Zero);
-
-                if (distance <= 1)
-                {
-                    if (distance >= 1 - (edgeWidth / size))
-                    {
-                        // Set edge color
-                        image.SetPixel(co, (Pixel) edge);
-                    }
-                    else
-                    {
-                        // Set fill color
-                        image.SetPixel(co, (Pixel) color);
-                    }
-                }
-                else
-                {
-                    // Outside circle
-                    image.SetPixel(co, Pixel.Transparent);
-                }
+                var flag = ((p.X % cellSize) < borderWidth) || ((p.Y % cellSize) < borderWidth);
+                var pixel = (ColorBytes) ((flag ? Color.LightGray : Color.White) * color);
+                im.SetPixel(p.X, p.Y, pixel);
             }
 
-            return image;
+            return im;
         }
 
         /// <summary>
@@ -957,7 +965,7 @@ namespace Heirloom.Drawing
         {
             var im = new Image(width, height);
 
-            var pixel = (Pixel) color;
+            var pixel = (ColorBytes) color;
 
             // Draw border
             foreach (var p in Rasterizer.Rectangle(0, 0, width, height))
@@ -1015,7 +1023,7 @@ namespace Heirloom.Drawing
                 var n3 = (noise.Sample(p3, octaves, persistence) + 1F) / 2F;
 
                 // 
-                var color = (Pixel) new Color(n0, n1, n2, n3);
+                var color = (ColorBytes) new Color(n0, n1, n2, n3);
                 im.SetPixel(co.X, co.Y, color);
             });
 
@@ -1026,11 +1034,10 @@ namespace Heirloom.Drawing
 
         private static byte[] ReadAllBytes(Stream stream)
         {
-            using (var ms = new MemoryStream())
-            {
-                stream.CopyTo(ms);
-                return ms.ToArray();
-            }
+            using var ms = new MemoryStream();
+
+            stream.CopyTo(ms);
+            return ms.ToArray();
         }
     }
 }

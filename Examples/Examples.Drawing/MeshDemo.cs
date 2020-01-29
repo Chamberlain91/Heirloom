@@ -25,16 +25,15 @@ namespace Examples.Drawing
             StarMesh = Mesh.CreateFromPolygon(Star);
         }
 
-        internal override void Draw(RenderContext ctx, Rectangle contentBounds)
+        internal override void Draw(Graphics ctx, Rectangle contentBounds)
         {
-            var s = new Vector(1.1F, 1);
             DrawStar(ctx, contentBounds.Center, 1F);
             DrawStar(ctx, contentBounds.Min + new Vector(100, 100), 0.2F);
             DrawStar(ctx, contentBounds.Min + new Vector(64, 180), 0.075F);
             DrawStar(ctx, contentBounds.Max - new Vector(110, 110), 0.3F);
         }
 
-        private void DrawStar(RenderContext ctx, Vector position, float scale)
+        private void DrawStar(Graphics ctx, Vector position, float scale)
         {
             var transform = Matrix.CreateTransform(position, Calc.Sin(position.X + Time * 3) * 0.2F, (scale, scale));
 
@@ -46,7 +45,7 @@ namespace Examples.Drawing
             ctx.DrawMesh(Image, StarMesh, transform);
 
             // Draw polygon outline
-            ctx.Color = Colors.FlatUI.BelizeHole;
+            ctx.Color = (Color.Blue + Color.Cyan) / 2F;
             ctx.DrawPolygonOutline(Star, transform, 1);
         }
     }

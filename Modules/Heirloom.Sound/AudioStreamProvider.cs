@@ -1,33 +1,35 @@
 ﻿using System.IO;
 
-using Heirloom.Sound.LowLevel;
-
 namespace Heirloom.Sound
 {
-    internal sealed class AudioStreamProvider : AudioSourceProvider
+    internal sealed class AudioStreamProvider : IAudioProvider
     {
         private readonly AudioDecoder _decoder;
         private readonly Stream _stream;
 
         public AudioStreamProvider(Stream stream)
         {
-            _decoder = new AudioDecoder(stream, SampleRate);
+            _decoder = new AudioDecoder(stream);
             _stream = stream;
         }
 
-        protected internal override bool CanSeek => _stream.CanSeek;
+        public int Length => _decoder.Length;
 
-        protected internal override uint Length => (uint) _decoder.Length;
+        public bool CanSeek => _stream.CanSeek;
 
-        protected internal override int ReadFrames(short[] samples, int offset, int count)
+        public int Position { get; private set; }
+
+        public int ReadSamples(short[] samples, int offset, int count)
         {
-            // decoder works in pcm frame coordinates
-            return (int) _decoder.DecodeFrames(samples, (ulong) offset, (ulong) count);
+            count = _decoder.Decode(samples, offset, count);
+            Position += count;
+            return count;
         }
 
-        protected internal override void SeekToFrame(int offset)
+        public void Seek(int offset)
         {
-            _decoder.SeekToFrame((ulong) offset);
+            _decoder.Seek(offset);
+            Position = offset;
         }
     }
 }

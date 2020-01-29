@@ -2,47 +2,42 @@
 
 namespace Heirloom.Sound
 {
-    internal sealed class AudioClipProvider : AudioSourceProvider // todo: evaluate name
+    internal sealed class AudioClipProvider : IAudioProvider
     {
-        public readonly AudioClip Clip;
-
-        private int _cursor = 0;
-
         public AudioClipProvider(AudioClip clip)
         {
             Clip = clip ?? throw new ArgumentNullException(nameof(clip));
         }
 
-        // a clip can always seek as its raw data in memory
-        protected internal override bool CanSeek => true;
+        public AudioClip Clip { get; }
 
-        protected internal override uint Length => Clip.Length;
+        public int Position { get; private set; }
 
-        protected internal override int ReadFrames(short[] samples, int frameOffset, int frameCount)
+        public int Length => Clip.Length;
+
+        public bool CanSeek => true;
+
+        public int ReadSamples(short[] samples, int offset, int count)
         {
-            // moves value into stereo sample coordinates
-            var sampleCount = frameCount * 2;
-            var sampleOffset = frameOffset * 2;
-
             // Compute how much can actually be read
-            var remaining = Math.Max(0, Clip.Samples.Length - _cursor);
-            var samplesToRead = Math.Min(remaining, sampleCount);
+            var remaining = Length - Position;
+            var samplesToRead = Math.Min(remaining, count);
 
             // Copy from clip array to samples array
             for (var i = 0; i < samplesToRead; i++)
             {
-                samples[sampleOffset + i] = Clip.Samples[_cursor + i];
+                samples[offset + i] = Clip[Position + i];
             }
 
             // Move clip cursor along
-            _cursor += samplesToRead;
-            return samplesToRead / 2; // move back into frame coordinates
+            Position += samplesToRead;
+            return samplesToRead;
         }
 
-        protected internal override void SeekToFrame(int frameOffset)
+        public void Seek(int frameOffset)
         {
             // todo: validate cursor is within a valid range
-            _cursor = frameOffset * 2;
+            Position = frameOffset;
         }
     }
 }

@@ -1,35 +1,16 @@
 # Getting Started
 
-Let us begin by creating a very simple application that simply opens a window 
-and draws the infamous text of *"Hello World"*.
+In this tutorial we will create a very simple application that opens a window and draws the world famous string: `"Hello World"`.
 
-## Visual Studio
+These tutorials are written assuming that the program is running on `NET Core 3.0`. The libraries themselves are `NET Standard 2.1` compliant. If you don't have .NET Core 3.0 (or newer), then you can [download it here](https://dotnet.microsoft.com/download/dotnet-core/).
 
-Create a new project called "HelloWorld":
+## Using Visual Studio
 
-![](../images/ide_new_project_1.png)
-![](../images/ide_new_project_2.png)
+To get started, lets create a new C# project. Choose `Console App (.NET Core)`, name it "HelloWorld" and put it somewhere on your computer:
 
-These tutorials are written assuming that the program is running on 
-`NET Core 2.1`. The libraries themselves are `NET Standard 2.0` compliant. They 
-should work on `NET Framework 4.7.X` projects as well, but aren't part of these 
-tutorials and any unexpected behaviour is unsupported at the time of writing.
+Once created right click the project in the `Solution Explorer` and click on `Manage NuGet Packages... > Browse` and search for `Heirloom`. You should see several projects with the naming pattern of `Heirloom.XYZ` where the `XYZ` part is the project name. I will typically refer to projects like `Heirloom.Math` just as `Math` to be concise.
 
-Once created right click the project in the `Solution Explorer` and click on 
-`Manage NuGet Packages... > Browse` and search for "Heirloom". You should see 
-several projects with the naming pattern of `Heirloom.XYZ` where *XYZ* is the 
-project name. I will refer to projects like `Heirloom.Math` just as `Math` to 
-be concise.
-
-![](../images/ide_new_project_3.png)
-
-For desktop applications using `Heirloom` we need to include the
-`Desktop` package. We will also include additional packages for future
-tutorials. Select `Desktop`, `IO` and `Sound`. By the nature of packages in 
-`NET Core 2.1`  (and later), `Math`, `Drawing`, `Drawing.OpenGLES`, `OpenGLES`, 
-and `GLFW` are transitively included with `Desktop`. If you're trying to use  
-Heirloom in a `NET Framework 4.7.X` project, then you will need to include all 
-manually.
+To create any desktop application using `Heirloom` we will need to include `Heirloom.Desktop`. This will automatically include all dependancies that `Heirloom.Desktop` requires. Thus it will also install `Heirloom.Drawing`, `Heirloom.IO` and `Heirloom.Math`.
 
 ## Command Line
 
@@ -41,35 +22,17 @@ $ dotnet new console
 ```
 
 This will create a C# project file in the `HelloWorld/` directory called 
-`HelloWorld.csproj`. It should also create a simple *"Hello World"* example app 
-in `Program.cs`.
+`HelloWorld.csproj`. It should also create a simple *"Hello World"* example app in `Program.cs`.
 
-These tutorials are written assuming that the program is running on 
-`NET Core 2.1`. The libraries themselves are `NET Standard 2.0` compliant.
-
-For desktop applications using `Heirloom` we need to include the
-`Heirloom.Desktop` package. We also include additional packages for future
-tutorials.
+To create any desktop application using `Heirloom` we will need to include `Heirloom.Desktop`. This will automatically include all dependancies that `Heirloom.Desktop` requires. Thus it will also install `Heirloom.Drawing`, `Heirloom.IO` and `Heirloom.Math`.
 
 ```sh
 $ dotnet add package Heirloom.Desktop
-$ dotnet add package Heirloom.Sound
-$ dotnet add package Heirloom.IO
 ```
-
-You may want to use a pre-release version. Append `-v 1.1.1-beta` or whatever
-version string you desire. See the projects on [NuGet](https://www.nuget.org/packages?q=heirloom) 
-for their version numbers.
-
-By the nature of packages in `NET Core 2.1` (and later), `Math`, `Drawing`, 
-`Drawing.OpenGLES`, `OpenGLES`,  and `GLFW` are transitively included with 
-`Desktop`.
 
 ## Hello World
 
-At this point, the **Command Line** or **Visual Studio** experience should be 
-more or less the same. There are obviously differences in text editing and 
-other utilities but we will mostly be looking at the code. 
+At this point, the **Command Line** or **Visual Studio** experience should be more or less the same. There are obviously differences in how to go about editing code and other utilities but we will mostly be looking at the code. 
 
 Now, lets open `Program.cs`. You should see something like this:
 
@@ -93,6 +56,7 @@ Now change the program to match the following:
 ```cs
 using Heirloom.Desktop;
 using Heirloom.Drawing;
+using Heirloom.Math;
 
 namespace HelloWorld
 {
@@ -110,15 +74,14 @@ namespace HelloWorld
 
 ```
 
-On desktop platforms, an Heirloom application **must** execute`Application.Run` 
-in the main method, and should probably be the very first thing the application 
-does. This is a blocking call that sets up the window system and will continue to block until all windows are closed. The delegate passed into `Run` is where we can create a window and perform drawing operations.
+*Note:* Due to quirks in the underlying windowing library, applications using `Heirloom.Desktop` **must call** `Application.Run` in the main method **before** using any windowing features to establish the window thread. This is a blocking call that sets up the window system and will continue to block until all windows are closed. The function passed into `Run` can be considered a pseduo main function. The function is called once the windowing system has been intitialized and you can then create a window and begin drawing on it.
 
-So, lets create a window and clear it with a dark gray color.
+So, let's create a window and clear it with a dark gray color.
 
 ```cs
 using Heirloom.Desktop;
 using Heirloom.Drawing;
+using Heirloom.Math;
 
 namespace HelloWorld
 {
@@ -128,40 +91,42 @@ namespace HelloWorld
         {
             Application.Run(() =>
             {
-                // Create a new window
-                var win = new Window(400, 225, "Example");
-                
-                // Get the window rendering context
-                var ctx = win.RenderContext;
-                ctx.ResetState(); // known bug: should not need to reset here
-                
-                // Clear the window
-                ctx.Clear(Color.DarkGray);
-                ctx.SwapBuffers();
+                // Create a window
+                var window = new Window("Konnichiwa Sekai") { Size = (400, 200) };
+
+                // Creates a render loop, calls OnDraw each frame.
+                var loop = RenderLoop.Create(window.Graphics, OnDraw);
+                loop.Start(); // Go!
             });
         }
     }
 }
 ```
 
-Lets run this program! Assuming you're using `Visual Studio`, right click the project and select `Set as StartUp Project` (if it wasn't already). Then press 
-`Ctrl + F5` to build and run the program. If you're using the `Command Line`, execute `dotnet run -c Release` from the project folder.
+This creates a window (which is visible by default) and additionally sets up a render loop thread. This loop invokes `OnDraw` for each rendered frame. We currently have not defined the behaviour of `OnDraw` so let's do that now.
+
+```cs
+private static void OnDraw(Graphics gfx, float dt)
+{
+    gfx.Clear(Color.DarkGray);
+}
+```
+
+Lets run this program! Assuming you're using `Visual Studio`, right click the project and select `Set as StartUp Project` (if it wasn't already). Then press `Ctrl + F5` to build and run the program. If you're using the `Command Line`, execute `dotnet run -c Release` from the project folder.
 
 You should see a window like the following:
 
 ![](../images/getting_started_window_1.png)
 
-Great! Albeit boring. So lets draw some text to spice it up:
+Great! Albeit boring. So lets draw some text to spice it up. In your `OnDraw` function, add the following lines:
 
 ```cs
-using Heirloom.Math;
-...
-// after ctx.Clear...
-var pos = new Vector(ctx.Surface.Width / 2, 88);
-ctx.DrawText("Hello World", pos, Font.Default, 48, TextAlign.Center);
+var pos = new Vector(gfx.Surface.Width / 2, 78);
+gfx.DrawText("Hello World", pos, Font.Default, 48, TextAlign.Center);
 ```
 
 ![](../images/getting_started_window_2.png)
 
-Success! In the next part, we will modify this example to show the system time 
-using `GameWindow` for animated drawing.
+*Success!* 
+
+In the next part, we will modify this example to draw an image and some basic shapes to the screen.

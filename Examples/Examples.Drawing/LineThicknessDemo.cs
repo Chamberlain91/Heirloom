@@ -9,7 +9,7 @@ namespace Examples.Drawing
             : base("Line Thickness")
         { }
 
-        internal override void Draw(RenderContext ctx, Rectangle contentBounds)
+        internal override void Draw(Graphics ctx, Rectangle contentBounds)
         {
             var min = contentBounds.Min;
             var max = contentBounds.Max;

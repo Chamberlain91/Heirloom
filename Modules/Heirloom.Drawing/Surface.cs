@@ -1,25 +1,53 @@
-﻿using Heirloom.Math;
+﻿using System;
+
+using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
+    /// <summary>
+    /// Represents a surface drawing onto.
+    /// </summary>
     public sealed class Surface : ImageSource
     {
         #region Constructors
 
-        public Surface(int width, int height)
+        /// <summary>
+        /// Creates a new surface.
+        /// </summary>
+        /// <param name="width">Width of the surface in pixels.</param>
+        /// <param name="height">Height of the surface in pixels.</param>
+        /// <param name="multisample">MSAA to use on the surface</param>
+        public Surface(int width, int height, MultisampleQuality multisample = MultisampleQuality.None)
         {
+            if (width <= 0 || height <= 0) { throw new ArgumentException("Surface dimensions must be greater than zero."); }
+
             Size = new IntSize(width, height);
+            Multisample = multisample;
         }
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Gets size of the surface in pixels.
+        /// </summary>
         public override IntSize Size { get; protected set; }
 
+        /// <summary>
+        /// Gets the surface width in pixels.
+        /// </summary>
         public int Width => Size.Width;
 
+        /// <summary>
+        /// Gets the surface height in pixels.
+        /// </summary>
         public int Height => Size.Height;
+
+        /// <summary>
+        /// Gets the multisampling quality set on this surface.
+        /// </summary>
+        public MultisampleQuality Multisample { get; }
 
         #endregion
 

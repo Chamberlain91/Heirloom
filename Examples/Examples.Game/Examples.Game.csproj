@@ -1,0 +1,200 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <ApplicationIcon />
+    <StartupObject />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="data\Characters\platformChar_climb1.png" />
+    <None Remove="data\Characters\platformChar_climb2.png" />
+    <None Remove="data\Characters\platformChar_duck.png" />
+    <None Remove="data\Characters\platformChar_happy.png" />
+    <None Remove="data\Characters\platformChar_idle.png" />
+    <None Remove="data\Characters\platformChar_jump.png" />
+    <None Remove="data\Characters\platformChar_walk1.png" />
+    <None Remove="data\Characters\platformChar_walk2.png" />
+    <None Remove="data\Items\platformPack_item001.png" />
+    <None Remove="data\Items\platformPack_item002.png" />
+    <None Remove="data\Items\platformPack_item003.png" />
+    <None Remove="data\Items\platformPack_item004.png" />
+    <None Remove="data\Items\platformPack_item006.png" />
+    <None Remove="data\Items\platformPack_item007.png" />
+    <None Remove="data\Items\platformPack_item008.png" />
+    <None Remove="data\Items\platformPack_item009.png" />
+    <None Remove="data\Items\platformPack_item010.png" />
+    <None Remove="data\Items\platformPack_item012.png" />
+    <None Remove="data\Items\platformPack_item013.png" />
+    <None Remove="data\Items\platformPack_item014.png" />
+    <None Remove="data\Items\platformPack_item015.png" />
+    <None Remove="data\Items\platformPack_item016.png" />
+    <None Remove="data\Items\platformPack_item018.png" />
+    <None Remove="data\level.txt" />
+    <None Remove="data\Tiles\platformPack_tile001.png" />
+    <None Remove="data\Tiles\platformPack_tile002.png" />
+    <None Remove="data\Tiles\platformPack_tile003.png" />
+    <None Remove="data\Tiles\platformPack_tile004.png" />
+    <None Remove="data\Tiles\platformPack_tile005.png" />
+    <None Remove="data\Tiles\platformPack_tile006.png" />
+    <None Remove="data\Tiles\platformPack_tile007.png" />
+    <None Remove="data\Tiles\platformPack_tile008.png" />
+    <None Remove="data\Tiles\platformPack_tile009.png" />
+    <None Remove="data\Tiles\platformPack_tile010.png" />
+    <None Remove="data\Tiles\platformPack_tile011.png" />
+    <None Remove="data\Tiles\platformPack_tile012.png" />
+    <None Remove="data\Tiles\platformPack_tile013.png" />
+    <None Remove="data\Tiles\platformPack_tile014.png" />
+    <None Remove="data\Tiles\platformPack_tile015.png" />
+    <None Remove="data\Tiles\platformPack_tile016.png" />
+    <None Remove="data\Tiles\platformPack_tile017.png" />
+    <None Remove="data\Tiles\platformPack_tile018.png" />
+    <None Remove="data\Tiles\platformPack_tile019.png" />
+    <None Remove="data\Tiles\platformPack_tile020.png" />
+    <None Remove="data\Tiles\platformPack_tile021.png" />
+    <None Remove="data\Tiles\platformPack_tile022.png" />
+    <None Remove="data\Tiles\platformPack_tile023.png" />
+    <None Remove="data\Tiles\platformPack_tile024.png" />
+    <None Remove="data\Tiles\platformPack_tile025.png" />
+    <None Remove="data\Tiles\platformPack_tile026.png" />
+    <None Remove="data\Tiles\platformPack_tile027.png" />
+    <None Remove="data\Tiles\platformPack_tile028.png" />
+    <None Remove="data\Tiles\platformPack_tile029.png" />
+    <None Remove="data\Tiles\platformPack_tile030.png" />
+    <None Remove="data\Tiles\platformPack_tile031.png" />
+    <None Remove="data\Tiles\platformPack_tile032.png" />
+    <None Remove="data\Tiles\platformPack_tile033.png" />
+    <None Remove="data\Tiles\platformPack_tile034.png" />
+    <None Remove="data\Tiles\platformPack_tile035.png" />
+    <None Remove="data\Tiles\platformPack_tile036.png" />
+    <None Remove="data\Tiles\platformPack_tile037.png" />
+    <None Remove="data\Tiles\platformPack_tile038.png" />
+    <None Remove="data\Tiles\platformPack_tile039.png" />
+    <None Remove="data\Tiles\platformPack_tile040.png" />
+    <None Remove="data\Tiles\platformPack_tile041.png" />
+    <None Remove="data\Tiles\platformPack_tile042.png" />
+    <None Remove="data\Tiles\platformPack_tile043.png" />
+    <None Remove="data\Tiles\platformPack_tile044.png" />
+    <None Remove="data\Tiles\platformPack_tile045.png" />
+    <None Remove="data\Tiles\platformPack_tile046.png" />
+    <None Remove="data\Tiles\platformPack_tile047.png" />
+    <None Remove="data\Tiles\platformPack_tile048.png" />
+    <None Remove="data\Tiles\platformPack_tile049.png" />
+    <None Remove="data\Tiles\platformPack_tile050.png" />
+    <None Remove="data\Tiles\platformPack_tile051.png" />
+    <None Remove="data\Tiles\platformPack_tile052.png" />
+    <None Remove="data\Tiles\platformPack_tile053.png" />
+    <None Remove="data\Tiles\platformPack_tile054.png" />
+    <None Remove="data\Tiles\platformPack_tile055.png" />
+    <None Remove="data\Tiles\platformPack_tile056.png" />
+    <None Remove="data\Tiles\platformPack_tile057.png" />
+    <None Remove="data\Tiles\platformPack_tile058.png" />
+    <None Remove="data\Tiles\platformPack_tile059.png" />
+    <None Remove="data\Tiles\platformPack_tile060.png" />
+    <None Remove="data\Tiles\platformPack_tile061.png" />
+    <None Remove="data\Tiles\platformPack_tile062.png" />
+    <None Remove="data\Tiles\platformPack_tile063.png" />
+    <None Remove="data\Tiles\platformPack_tile064.png" />
+    <None Remove="data\Tiles\platformPack_tile065.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="data\Characters\platformChar_climb1.png" />
+    <EmbeddedResource Include="data\Characters\platformChar_climb2.png" />
+    <EmbeddedResource Include="data\Characters\platformChar_duck.png" />
+    <EmbeddedResource Include="data\Characters\platformChar_happy.png" />
+    <EmbeddedResource Include="data\Characters\platformChar_idle.png" />
+    <EmbeddedResource Include="data\Characters\platformChar_jump.png" />
+    <EmbeddedResource Include="data\Characters\platformChar_walk1.png" />
+    <EmbeddedResource Include="data\Characters\platformChar_walk2.png" />
+    <EmbeddedResource Include="data\Items\platformPack_item001.png" />
+    <EmbeddedResource Include="data\Items\platformPack_item002.png" />
+    <EmbeddedResource Include="data\Items\platformPack_item003.png" />
+    <EmbeddedResource Include="data\Items\platformPack_item004.png" />
+    <EmbeddedResource Include="data\Items\platformPack_item006.png" />
+    <EmbeddedResource Include="data\Items\platformPack_item007.png" />
+    <EmbeddedResource Include="data\Items\platformPack_item008.png" />
+    <EmbeddedResource Include="data\Items\platformPack_item009.png" />
+    <EmbeddedResource Include="data\Items\platformPack_item010.png" />
+    <EmbeddedResource Include="data\Items\platformPack_item012.png" />
+    <EmbeddedResource Include="data\Items\platformPack_item013.png" />
+    <EmbeddedResource Include="data\Items\platformPack_item014.png" />
+    <EmbeddedResource Include="data\Items\platformPack_item015.png" />
+    <EmbeddedResource Include="data\Items\platformPack_item016.png" />
+    <EmbeddedResource Include="data\Items\platformPack_item018.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile001.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile002.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile003.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile004.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile005.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile006.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile007.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile008.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile009.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile010.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile011.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile012.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile013.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile014.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile015.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile016.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile017.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile018.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile019.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile020.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile021.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile022.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile023.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile024.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile025.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile026.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile027.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile028.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile029.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile030.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile031.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile032.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile033.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile034.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile035.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile036.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile037.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile038.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile039.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile040.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile041.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile042.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile043.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile044.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile045.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile046.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile047.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile048.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile049.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile050.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile051.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile052.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile053.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile054.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile055.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile056.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile057.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile058.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile059.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile060.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile061.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile062.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile063.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile064.png" />
+    <EmbeddedResource Include="data\Tiles\platformPack_tile065.png" />
+    <EmbeddedResource Include="data\level.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Heirloom.Collections.Spatial\Heirloom.Collections.Spatial.csproj" />
+    <ProjectReference Include="..\..\Modules\Heirloom.Game.Desktop\Heirloom.Game.Desktop.csproj" />
+  </ItemGroup>
+
+</Project>

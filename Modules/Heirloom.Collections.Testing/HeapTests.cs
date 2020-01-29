@@ -4,14 +4,18 @@ using System.Linq;
 
 using NUnit.Framework;
 
+using static Heirloom.Collections.Testing.Utilities;
+
 namespace Heirloom.Collections.Testing
 {
     [TestFixture]
-    public class HeapTests : CollectionTests
+    public class HeapTests
     {
         [Test]
         public void ContainedMutated()
         {
+            var rnd = new Random(223);
+
             for (var i = 0; i < 10; i++) // 10 attempts
             {
                 var sortables = CreateRandomSortableArray(10);
@@ -23,8 +27,8 @@ namespace Heirloom.Collections.Testing
                 // Mark a random item with a new value, changing its comparable state
                 for (var q = 0; q < 5; q++)
                 {
-                    var _i = Random.Next(0, sortables.Length);
-                    var _r = Random.Next(0, sortables.Length);
+                    var _i = rnd.Next(0, sortables.Length);
+                    var _r = rnd.Next(0, sortables.Length);
                     sortables[_i].Number = _r;
 
                     // Update the items position within the heap

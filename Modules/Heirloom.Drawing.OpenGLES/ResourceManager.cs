@@ -9,49 +9,33 @@ namespace Heirloom.Drawing.OpenGLES
     {
         private static readonly Rectangle _surfaceUVRect = new Rectangle(0, 0, 1, -1);
 
-        private static readonly ConditionalWeakTable<Texture, Framebuffer> _framebuffers;
+        private static readonly ConditionalWeakTable<Surface, Framebuffer> _framebuffers;
 
         static ResourceManager()
         {
-            _framebuffers = new ConditionalWeakTable<Texture, Framebuffer>();
+            _framebuffers = new ConditionalWeakTable<Surface, Framebuffer>();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static (Texture, Rectangle) GetTextureInfo(OpenGLRenderContext context, ImageSource source)
+        internal static (Texture, Rectangle) GetTextureInfo(OpenGLGraphics gfx, ImageSource source)
         {
             // If an image
             if (source is Image image)
             {
-                // Get root image
-                var root = image.Root;
-                var texture = GetTexture(context, root);
+                // Get texture for root image
+                var texture = GetTexture(gfx, image.Root);
 
-                // Is the root image out of date?
-                if (root.Version != texture.Version)
-                {
-                    // Update texture by root image
-                    context.Invoke(() => texture.Update(root));
-                }
-
-                // 
+                // Return texture information
                 return (texture, image.UVRect);
             }
             // If a surface
             else if (source is Surface surface)
             {
-                var texture = GetTexture(context, surface);
+                // Get the associated framebuffer
+                var framebuffer = GetFramebuffer(gfx, surface);
 
-                // Is the root image out of date?
-                if (surface.Version != texture.Version)
-                {
-                    // Surface was newer than texture knew about, update mip maps
-                    // todo: configurable/avoid when not really needed?
-                    // todo: maybe texture stores ImageSource so it can update version numbers internally
-                    context.Invoke(() => texture.GenerateMips(surface.Version));
-                }
-
-                // Framebuffer, texture already exists
-                return (texture, _surfaceUVRect);
+                // Return texture information
+                return (framebuffer.Texture, _surfaceUVRect);
             }
             // 
             else
@@ -61,37 +45,44 @@ namespace Heirloom.Drawing.OpenGLES
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static Framebuffer GetFramebuffer(OpenGLRenderContext context, Texture texture)
+        internal static Framebuffer GetFramebuffer(OpenGLGraphics gfx, Surface surface)
         {
-            // This framebuffer is not configured, need to initialize
-            if (_framebuffers.TryGetValue(texture, out var framebuffer) == false)
-            {
-                // Generate and bind framebuffer
-                framebuffer = new Framebuffer(context, texture);
+            var resource = surface as IDrawingResource;
 
-                // Store newly created framebuffer
-                _framebuffers.Add(texture, framebuffer);
+            // Try to get framebuffer
+            if (!(resource.NativeObject is Framebuffer framebuffer))
+            {
+                framebuffer = new Framebuffer(gfx, surface);
+                resource.NativeObject = framebuffer;
+            }
+
+            // Is the framebuffer out of date?
+            if (framebuffer.Version != surface.Version)
+            {
+                // Update texture (msaa blit and mips)
+                framebuffer.Update(gfx);
             }
 
             return framebuffer;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static Texture GetTexture(OpenGLRenderContext context, ImageSource source)
+        internal static Texture GetTexture(OpenGLGraphics gfx, Image image)
         {
-            return GetTextureFromResource(context, source, source.Size);
-        }
+            var resource = image as IDrawingResource;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static Texture GetTextureFromResource(OpenGLRenderContext context, IDrawingResource resource, IntSize size)
-        {
+            // Try to get the native texture
             if (!(resource.NativeObject is Texture texture))
             {
-                // Generate and bind framebuffer
-                texture = new Texture(context, size);
-
-                // Store newly created framebuffer
+                texture = new Texture(gfx, image.Size);
                 resource.NativeObject = texture;
+            }
+
+            // Is the root image out of date?
+            if (image.Version != texture.Version)
+            {
+                // Update texture (image data and mips)
+                texture.UpdateByImage(gfx, image);
             }
 
             return texture;

@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 
-using Heirloom.Sound.LowLevel;
-
 namespace Heirloom.Sound
 {
     /// <summary>
-    /// An object to contain (and decode) audio data into raw PCM samples.
+    /// An object to contain (and decode) audio data into raw samples.
     /// </summary>
     public sealed class AudioClip
     {
-        internal readonly short[] Samples;
+        private readonly short[] _samples;
 
         #region Constructors
 
@@ -41,7 +39,7 @@ namespace Heirloom.Sound
         /// <param name="samples">Raw PCM samples interleved.</param>
         public AudioClip(short[] samples)
         {
-            Samples = samples;
+            _samples = samples;
         }
 
         #endregion
@@ -49,108 +47,105 @@ namespace Heirloom.Sound
         #region Properties
 
         /// <summary>
-        /// The device used in constructing this audio clip.
+        /// Gets a specific sample.
         /// </summary>
-        internal AudioDevice Device => AudioDevice.Instance;
+        public short this[int index] => _samples[index];
 
         /// <summary>
-        /// The number of samples processed per second.
+        /// Gets the duration of the clip in seconds.
         /// </summary>
-        public uint SampleRate => Device.SampleRate;
+        public float Duration => Length / (float) (AudioContext.SampleRate * AudioContext.Channels);
 
         /// <summary>
-        /// The length of this clip in samples.
+        /// Gets the length of the clip in samples.
         /// </summary>
-        public uint Length => (uint) Samples.Length;
+        public int Length => _samples.Length;
 
         #endregion
 
-        /// <summary>
-        /// Gets a single sample of the raw audio data, audio is encoded as interleved stereo audio.
-        /// </summary>
-        public short GetSample(int offset)
-        {
-            return Samples[offset];
-        }
-
         private static short[] DecodeFiniteStream(Stream stream)
         {
-            using (var decoder = new AudioDecoder(stream, AudioDevice.Instance.SampleRate))
+            using var decoder = new AudioDecoder(stream);
+
+            // Does the decoder report audio length?
+            if (decoder.Length > 0)
             {
-                // Does the decoder report audio length?
-                if (decoder.Length > 0)
+                var samples = new short[decoder.Length];
+
+                // Read all samples from decoder in one go
+                var read = decoder.Decode(samples, 0, decoder.Length);
+                if (read != decoder.Length)
                 {
-                    // Compute how many samples are needed
-                    var samples = new short[decoder.Length * decoder.Channels];
-
-                    // Read all samples from decoder in one go
-                    var read = decoder.DecodeFrames(samples, 0, decoder.Length);
-                    if (read != decoder.Length)
-                    {
-                        throw new InvalidOperationException($"Error when decoding, read {read} frames but expected {decoder.Length}.");
-                    }
-
-                    return samples;
+                    throw new InvalidOperationException($"Error when decoding, read {read} samples but expected {decoder.Length}.");
                 }
-                else
+
+                return samples;
+            }
+            else
+            {
+                // 
+                // The size of the content is unknown, as long as its not infinite this will
+                // attempt to decode the content by reading a finite block of samples one at
+                // a time until exhausted.
+                // 
+                // How am I to guard against an infinite stream and warn the user?
+                // 
+                //   Probably detect something considered an absurd amount of time/samples
+                //   and terminate reading and throw exception with relevant exception?
+                // 
+
+                const long BLOCK_SIZE = 22050;
+
+                long count, total = 0;
+                var blocks = new List<short[]>();
+
+                do
                 {
-                    // 
-                    // The size of the content is unknown, as long as its not infinite this will
-                    // attempt to decode the content by reading a finite block of samples one at
-                    // a time until exhausted.
-                    // 
-                    // How am I to guard against an infinite stream and warn the user?
-                    // 
-                    //   Probably detect something considered an absurd amount of time/samples
-                    //   and terminate reading and throw exception with relevant exception?
-                    // 
+                    // Allocate next block
+                    var block = new short[BLOCK_SIZE * AudioContext.Channels];
 
-                    const ulong FRAME_BLOCK_SIZE = 22050;
-
-                    ulong readFrames, totalFrames = 0;
-                    var blocks = new List<short[]>();
-
-                    do
+                    // Read samples into block
+                    count = decoder.Decode(block, 0, BLOCK_SIZE);
+                    if (count > 0)
                     {
-                        // Allocate next block
-                        var block = new short[FRAME_BLOCK_SIZE * AudioDevice.Instance.Channels];
-
-                        // Read samples into block
-                        readFrames = decoder.DecodeFrames(block, 0, FRAME_BLOCK_SIZE);
-                        if (readFrames > 0)
+                        // Far too much data, probably was a infinite stream (ie, internet radio)
+                        if (total >= (int.MaxValue - count))
                         {
-                            // accumulate total frame count
-                            totalFrames += readFrames;
-
-                            // Append block
-                            blocks.Add(block);
+                            // Reaching this exception would require over 13 hours of audio at 44.1K sample rate
+                            throw new InvalidOperationException($"Error when decoding, too many samples! Stream may be infinite length.");
                         }
 
-                    } while (readFrames == FRAME_BLOCK_SIZE);
+                        // accumulate total number of samples read
+                        total += count;
 
-                    // Concatinate blocks into total length array
-                    var samples = new short[totalFrames * AudioDevice.Instance.Channels];
-
-                    var i = 0;
-                    foreach (var block in blocks)
-                    {
-                        // Each block is the same size
-                        var blockSize = block.Length;
-
-                        // On the final block, we have to compute how many
-                        // sample are actually occupying the block via totalFrames
-                        if (i == (blocks.Count - 1))
-                        {
-                            blockSize = (int) (totalFrames * AudioDevice.Instance.Channels) % block.Length;
-                        }
-
-                        // Copy block into final samples array
-                        Array.Copy(block, 0, samples, i * block.Length, blockSize);
-                        i++;
+                        // Append block
+                        blocks.Add(block);
                     }
 
-                    return samples;
+                } while (count == BLOCK_SIZE);
+
+                // Concatinate blocks into total length array
+                var samples = new short[total * AudioContext.Channels];
+
+                var i = 0;
+                foreach (var block in blocks)
+                {
+                    // Each block is the same size
+                    var blockSize = block.Length;
+
+                    // On the final block, we have to compute how many
+                    // sample are actually occupying the block via total
+                    if (i == (blocks.Count - 1))
+                    {
+                        blockSize = (int) (total * AudioContext.Channels) % block.Length;
+                    }
+
+                    // Copy block into final samples array
+                    Array.Copy(block, 0, samples, i * block.Length, blockSize);
+                    i++;
                 }
+
+                return samples;
             }
         }
     }

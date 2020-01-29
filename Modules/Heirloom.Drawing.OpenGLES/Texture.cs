@@ -11,19 +11,11 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Constructors
 
-        public Texture(OpenGLRenderContext context, IntSize size)
+        public Texture(OpenGLGraphics context, IntSize size)
         {
             Size = size;
 
-            var levels = 1;
-            var w = size.Width;
-            var h = size.Height;
-            while (w > 1 && h > 1)
-            {
-                levels++;
-                w /= 2;
-                h /= 2;
-            }
+            var levels = ComputeMipLevels(size);
 
             Handle = context.Invoke(() =>
             {
@@ -33,11 +25,12 @@ namespace Heirloom.Drawing.OpenGLES
                 // 
                 GL.TexStorage2D(TextureImageTarget.Texture2D, levels, TextureSizedFormat.RGBA8, size.Width, size.Height);
 
+                // 
+                SetTextureFilter(InterpolationMode.Linear);
+
                 // TODO: Somehow configurable?
-                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MagFilter, (int) TextureMagFilter.Nearest);
-                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MinFilter, (int) TextureMinFilter.LinearMipNearest);
-                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.WrapS, (int) TextureWrap.Clamp);
-                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.WrapT, (int) TextureWrap.Clamp);
+                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.WrapS, (int) TextureWrap.Repeat);
+                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.WrapT, (int) TextureWrap.Repeat);
 
                 // GL_TEXTURE_MAX_ANISOTROPY
                 // GL.SetTextureParameter(TextureTarget.Texture2D, (TextureParameter) 0x84FE, 16F);
@@ -48,6 +41,20 @@ namespace Heirloom.Drawing.OpenGLES
 
                 return handle;
             });
+        }
+
+        private static void SetTextureFilter(InterpolationMode mode)
+        {
+            if (mode == InterpolationMode.Linear)
+            {
+                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MagFilter, (int) TextureMagFilter.Linear);
+                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MinFilter, (int) TextureMinFilter.LinearMipNearest);
+            }
+            else
+            {
+                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MagFilter, (int) TextureMagFilter.Nearest);
+                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MinFilter, (int) TextureMinFilter.LinearMipNearest);
+            }
         }
 
         ~Texture()
@@ -72,60 +79,73 @@ namespace Heirloom.Drawing.OpenGLES
         #endregion
 
         /// <summary>
+        /// Computes the number of mip levels for a texture of the given size.
+        /// </summary>
+        private static int ComputeMipLevels(IntSize size)
+        {
+            var levels = 1;
+
+            var w = size.Width;
+            var h = size.Height;
+
+            while (w > 1 && h > 1)
+            {
+                levels++;
+                w /= 2;
+                h /= 2;
+            }
+
+            return levels;
+        }
+
+        /// <summary>
         /// Update the GPU representation of this texture with the given image data.
         /// </summary>
-        /// <param name="image"></param>
-        public void Update(Image image)
+        internal void UpdateByImage(OpenGLGraphics gfx, Image image)
         {
             // Validate we were provide a non-null image.
-            if (image == null)
-            {
-                throw new ArgumentNullException(nameof(image));
-            }
+            if (image == null) { throw new ArgumentNullException(nameof(image)); }
 
             // Image provided must be a 'top level' image.
-            if (image.Source != null)
-            {
-                throw new ArgumentException($"Image provided to {nameof(Update)} in {nameof(Texture)} must be a base image.", nameof(image));
-            }
+            if (image.Source != null) { throw new ArgumentException($"Image must be the root image", nameof(image)); }
 
             // Ensure the image provided has matching dimensions to the texture
-            if (image.Width != Width || image.Height != Height)
+            if (image.Width != Width || image.Height != Height) { throw new ArgumentException($"Image did not match texture dimensions", nameof(image)); }
+
+            gfx.Invoke(() =>
             {
-                throw new ArgumentException($"Image provided to {nameof(Update)} in {nameof(Texture)} did not match texture dimensions." +
-                    $"{image.Size} vs {Size}", nameof(image));
-            }
+                // 
+                GL.BindTexture(TextureTarget.Texture2D, Handle);
 
-            // 
-            GL.BindTexture(TextureTarget.Texture2D, Handle);
+                // Update entire image region
+                GL.TexSubImage2D(TextureImageTarget.Texture2D, 0,
+                    0, 0, Width, Height, // Sub Region
+                    TexturePixelFormat.RGBA, TexturePixelType.UnsignedByte,
+                    image.GetPixels());
 
-            // TODO: Consider how to implement optimization to mutate only where sub
-            // images update thus only needing to call GL.TexSubImage2D? Is this really
-            // that much of an optimization? I could see it being maybe useful in a
-            // dynamic atlas or something.
+                SetTextureFilter(image.InterpolationMode);
 
-            // Update entire image region
-            GL.TexSubImage2D(TextureImageTarget.Texture2D, 0,
-                0, 0, Width, Height, // Sub Region
-                TexturePixelFormat.RGBA, TexturePixelType.UnsignedByte,
-                image.GetPixels());
-
-            // Generate mips
-            GL.GenerateMipmap(TextureTarget.Texture2D);
-            GL.BindTexture(TextureTarget.Texture2D, 0);
+                // Generate mips
+                GL.GenerateMipmap(TextureTarget.Texture2D);
+                GL.BindTexture(TextureTarget.Texture2D, 0);
+            }, false);
 
             // Store version to mark as updated
             Version = image.Version;
         }
 
-        internal void GenerateMips(uint version)
+        internal void UpdateBySurface(Surface surface)
         {
             GL.BindTexture(TextureTarget.Texture2D, Handle);
-            GL.GenerateMipmap(TextureTarget.Texture2D);
+
+            SetTextureFilter(surface.InterpolationMode);
+
+            // Generate mips
+            GL.GenerateMipmap(TextureTarget.Texture2D); 
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
             // Store version to mark as updated
-            Version = version;
+            Version = surface.Version;
         }
 
         #region Dispose

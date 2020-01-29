@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Authors>Chris Chamberlain</Authors>
+    <Version>0.1.0-beta</Version>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageOutputPath>../../Nuget/$(Configuration)</PackageOutputPath>
+    <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Heirloom.Collections\Heirloom.Collections.csproj" />
+    <ProjectReference Include="..\Heirloom.Drawing\Heirloom.Drawing.csproj" />
+    <ProjectReference Include="..\Heirloom.IO\Heirloom.IO.csproj" />
+    <ProjectReference Include="..\Heirloom.Math\Heirloom.Math.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

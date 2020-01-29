@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Files\cardHeartsQ.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Heirloom.Game.Desktop\Heirloom.Game.Desktop.csproj" />
+    <ProjectReference Include="..\..\Modules\Heirloom.IO\Heirloom.IO.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Files\cardHeartsQ.png" />
+  </ItemGroup>
+
+</Project>

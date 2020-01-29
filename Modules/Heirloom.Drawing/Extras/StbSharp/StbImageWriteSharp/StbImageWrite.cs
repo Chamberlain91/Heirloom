@@ -1,11 +1,18 @@
 ﻿using System.Text;
 
-namespace StbSharp
+namespace StbImageWriteSharp
 {
-    internal static unsafe partial class Stb
-    {
 #pragma warning disable IDE1006 // Naming Styles
+#pragma warning disable CS0649  // Default value null
+#pragma warning disable CS0169  // Unassigned
 
+#if !STBSHARP_INTERNAL
+	public
+#else
+    internal
+#endif
+    static unsafe partial class StbImageWrite
+    {
         public static int stbi_write_tga_with_rle = 1;
 
         public delegate int WriteCallback(void* context, void* data, int size);
@@ -180,7 +187,9 @@ namespace StbSharp
             CRuntime.free(scratch);
             return 1;
         }
+    }
 
 #pragma warning restore IDE1006 // Naming Styles
-    }
+#pragma warning restore CS0649  // Default value null
+#pragma warning restore CS0169  // Unassigned
 }

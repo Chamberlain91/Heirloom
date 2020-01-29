@@ -13,17 +13,18 @@ namespace Heirloom.Drawing.OpenGLES
         private const int LOCATION_IN_BLOCK = -2;
 
         private readonly Dictionary<string, ActiveUniformBlock> _blocks;
-        private readonly Dictionary<string, uint> _binding;
+        private readonly Dictionary<string, uint> _blockBindings;
 
         private readonly Dictionary<string, Uniform> _uniforms;
+        private readonly Dictionary<string, uint> _textureUnits;
         private readonly Dictionary<string, int> _locations;
-
-        private bool _isDisposed = false;
 
         #region Constructors
 
-        internal ShaderProgram(Shader frag, Shader vert)
+        internal ShaderProgram(string name, ShaderStage frag, ShaderStage vert)
         {
+            Name = name;
+
             FragmentShader = frag;
             VertexShader = vert;
 
@@ -32,26 +33,19 @@ namespace Heirloom.Drawing.OpenGLES
 
             // 
             _blocks = new Dictionary<string, ActiveUniformBlock>();
-            _binding = new Dictionary<string, uint>();
+            _blockBindings = new Dictionary<string, uint>();
 
             _uniforms = new Dictionary<string, Uniform>();
+            _textureUnits = new Dictionary<string, uint>();
             _locations = new Dictionary<string, int>();
 
-            // Cache uniform locations
+            // Create uniforms (global)
             foreach (var uniform in GL.GetActiveUniforms(Handle))
             {
-                // Causes the dictionary to populate with the locations this
-                // won't cover *every* case. Something like the location of an
-                // array with non-zero index will still have to be retrieved
-                // on-demand, but this should prepopulate the location of most
-                // uniforms by a commonly used name.
-                GetUniformLocation(uniform.Name);
-
-                // 
                 _uniforms[uniform.Name] = new Uniform(uniform);
             }
 
-            //
+            // For each block
             foreach (var block in GL.GetActiveUniformBlocks(Handle))
             {
                 // 
@@ -59,9 +53,9 @@ namespace Heirloom.Drawing.OpenGLES
 
                 // 
                 GL.UniformBlockBinding(Handle, block.Index, block.Index);
-                _binding[block.Name] = block.Index;
+                _blockBindings[block.Name] = block.Index;
 
-                // 
+                // Create uniforms (in-block)
                 foreach (var uniform in block.Uniforms)
                 {
                     // Store block information with uniform
@@ -87,20 +81,26 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Properties
 
-        internal Shader FragmentShader { get; }
+        internal ShaderStage FragmentShader { get; }
 
-        internal Shader VertexShader { get; }
+        internal ShaderStage VertexShader { get; }
+
+        internal string Name { get; }
 
         internal uint Handle { get; }
 
+        public IEnumerable<ActiveUniformBlock> Blocks => _blocks.Values;
+
+        public IEnumerable<Uniform> Uniforms => _uniforms.Values;
+
         #endregion
 
-        #region Print Debug
+        #region Print Shader Structure (Debug)
 
         [Conditional("DEBUG")]
         private void DebugPrintUniformStructure()
         {
-            Console.WriteLine($"Shader Structure ({VertexShader.Name}, {FragmentShader.Name})");
+            Log.Debug($"Shader Structure ({Name})");
 
             // Print raw uniforms
             foreach (var uniform in _uniforms.Values.Where(u => u.BlockInfo == null).Select(u => u.Info))
@@ -114,11 +114,11 @@ namespace Heirloom.Drawing.OpenGLES
                 PrintBlock(block, "  ");
             }
 
-            Console.WriteLine();
+            Log.Debug("");
 
-            void PrintBlock(ActiveUniformBlock block, string indent)
+            static void PrintBlock(ActiveUniformBlock block, string indent)
             {
-                Console.WriteLine($"{indent}B {block.Index} \"{block.Name}\" ({block.DataSize} bytes)");
+                Log.Debug($"{indent}B {block.Index} \"{block.Name}\" ({block.DataSize} bytes)");
 
                 foreach (var uniform in block.Uniforms)
                 {
@@ -126,11 +126,11 @@ namespace Heirloom.Drawing.OpenGLES
                 }
             }
 
-            void PrintUniform(ActiveUniform uniform, string indent)
+            static void PrintUniform(ActiveUniform uniform, string indent)
             {
                 var message = $"{indent}U {uniform.Index} \"{uniform.Name}\" ({uniform.Size} x {uniform.Type})";
                 if (uniform.Offset != -1) { message += $" @ {uniform.Offset} bytes"; }
-                Console.WriteLine(message);
+                Log.Debug(message);
             }
         }
 
@@ -138,17 +138,21 @@ namespace Heirloom.Drawing.OpenGLES
 
         private void ConfigureStandardUniforms()
         {
-            // Query how many image units we can use
-            var maxTextureImageUnits = GL.GetInteger(GetParameter.MaxTextureImageUnits);
-
-            // Set initial uniforms
             GL.UseProgram(Handle);
 
-            // Associate samplers with image units one-to-one
-            var uImage = GetUniformLocation("uImage[0]");
-            for (var i = 0; i < maxTextureImageUnits; i++)
+            // Associate texture units with each sampler
+            var textureUnit = 0u;
+            foreach (var uniform in Uniforms.Where(u => u.BlockInfo == null).Select(u => u.Info)
+                                            .Where(uniform => uniform.Type == ActiveUniformType.Sampler2D))
             {
-                GL.Uniform1(uImage + i, i);
+                // Store texture unit by name
+                _textureUnits[uniform.Name] = textureUnit;
+
+                // Associate uniform location to unit
+                GL.Uniform1(GetUniformLocation(uniform.Name), (int) textureUnit);
+
+                // Increment unit
+                textureUnit++;
             }
 
             GL.UseProgram(0);
@@ -156,7 +160,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         public uint GetBindPoint(string blockName)
         {
-            return _binding[blockName];
+            return _blockBindings[blockName];
         }
 
         public ActiveUniformBlock GetBlock(string name)
@@ -167,11 +171,6 @@ namespace Heirloom.Drawing.OpenGLES
             }
 
             throw new ArgumentException($"Unknown uniform block '{name}'.", nameof(name));
-        }
-
-        public IEnumerable<ActiveUniformBlock> GetBlocks()
-        {
-            return _blocks.Values;
         }
 
         public Uniform GetUniform(string name)
@@ -195,7 +194,17 @@ namespace Heirloom.Drawing.OpenGLES
             return location;
         }
 
-        private static uint CreateAndLinkShaderProgram(Shader frag, Shader vert)
+        public uint GetTextureUnit(string name)
+        {
+            if (!_textureUnits.TryGetValue(name, out var unit))
+            {
+                throw new InvalidOperationException($"Unable to get texture unit for '{name}'.");
+            }
+
+            return unit;
+        }
+
+        private static uint CreateAndLinkShaderProgram(ShaderStage frag, ShaderStage vert)
         {
             var handle = GL.CreateProgram();
 
@@ -227,18 +236,19 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Dispose
 
+        private bool _isDisposed = false;
+
         private void Dispose(bool disposeManaged)
         {
             if (!_isDisposed)
             {
                 if (disposeManaged)
                 {
-                    // TODO: dispose managed objects.
+                    // ...
                 }
 
-                // TODO: free unmanaged resources
-                // Schedule on *some* context for deletion?
-                Console.WriteLine("WARN: Disposing Shader Program! OpenGL Resource Not Deleted.");
+                // Schedule for deletion on a GL thread.
+                OpenGLGraphicsAdapter.Invoke(() => GL.DeleteProgram(Handle));
 
                 _isDisposed = true;
             }

@@ -3,27 +3,51 @@ using System.Runtime.InteropServices;
 
 namespace Heirloom.Math
 {
+    /// <summary>
+    /// Represents a size or dimensions defined with integer fields.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct IntSize : IEquatable<IntSize>, IComparable<IntSize>
     {
+        /// <summary>
+        /// The width (horizontal size measure).
+        /// </summary>
         public int Width;
 
+        /// <summary>
+        /// The height (vertical size measure).
+        /// </summary>
         public int Height;
 
         #region Constants
 
+        /// <summary>
+        /// The maximum representable size possible.
+        /// </summary>
         public static readonly IntSize Max = new IntSize(int.MaxValue, int.MaxValue);
 
+        /// <summary>
+        /// A 0x0 size.
+        /// </summary>
         public static readonly IntSize Zero = new IntSize(0, 0);
 
+        /// <summary>
+        /// A 1x1 size.
+        /// </summary>
         public static readonly IntSize One = new IntSize(1, 1);
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Gets the area of this size as if it was a rectangle at the origin.
+        /// </summary>
         public int Area => Width * Height;
 
+        /// <summary>
+        /// Gets the aspect ratio of this size.
+        /// </summary>
         public float Aspect => Width / (float) Height;
 
         #endregion
@@ -79,7 +103,7 @@ namespace Heirloom.Math
             return new IntSize(size.width, size.height);
         }
 
-        public static implicit operator (int width, int height) (IntSize size)
+        public static implicit operator (int width, int height)(IntSize size)
         {
             return (size.Width, size.Height);
         }
@@ -204,14 +228,33 @@ namespace Heirloom.Math
 
         #endregion
 
-        public static bool operator ==(IntSize a, IntSize b)
+        #endregion
+
+        #region Comparison Operators
+
+        public int CompareTo(IntSize other)
         {
-            return a.Equals(b);
+            return Area.CompareTo(other.Area);
         }
 
-        public static bool operator !=(IntSize a, IntSize b)
+        public static bool operator <(IntSize left, IntSize right)
         {
-            return !(a == b);
+            return left.CompareTo(right) < 0;
+        }
+
+        public static bool operator <=(IntSize left, IntSize right)
+        {
+            return left.CompareTo(right) <= 0;
+        }
+
+        public static bool operator >(IntSize left, IntSize right)
+        {
+            return left.CompareTo(right) > 0;
+        }
+
+        public static bool operator >=(IntSize left, IntSize right)
+        {
+            return left.CompareTo(right) >= 0;
         }
 
         #endregion
@@ -238,12 +281,17 @@ namespace Heirloom.Math
             return hashCode;
         }
 
-        #endregion
-
-        public int CompareTo(IntSize other)
+        public static bool operator ==(IntSize a, IntSize b)
         {
-            return Area.CompareTo(other.Area);
+            return a.Equals(b);
         }
+
+        public static bool operator !=(IntSize a, IntSize b)
+        {
+            return !(a == b);
+        }
+
+        #endregion
 
         public override string ToString()
         {

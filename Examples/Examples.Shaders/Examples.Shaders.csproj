@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Files\cardHeartsQ.png" />
+    <None Remove="Files\distort.frag" />
+    <None Remove="Files\grayscale.frag" />
+    <None Remove="Files\invert.frag" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Files\cardHeartsQ.png" />
+    <EmbeddedResource Include="Files\grayscale.frag" />
+    <EmbeddedResource Include="Files\distort.frag" />
+    <EmbeddedResource Include="Files\invert.frag" />
+  </ItemGroup>
+ 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Heirloom.Desktop\Heirloom.Desktop.csproj" />
+    <ProjectReference Include="..\..\Modules\Heirloom.Drawing\Heirloom.Drawing.csproj" />
+  </ItemGroup>
+
+</Project>

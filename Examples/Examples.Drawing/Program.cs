@@ -1,80 +1,95 @@
-﻿using System;
-using Heirloom.Desktop;
+﻿using Heirloom.Desktop;
 using Heirloom.Drawing;
-using Heirloom.Extras;
-using Heirloom.GLFW;
 using Heirloom.Math;
 
 namespace Examples.Drawing
 {
-    internal class Program : GameWindow
+    internal class Program
     {
         private int _demoIndex = 0;
         private readonly Demo[] _demos;
 
         public Demo CurrentDemo => _demos[_demoIndex];
 
-        public Program()
-            : base("Heirloom - Drawing Examples", multisample: MultisampleLevel.High)
-        {
-            ShowFPSOverlay = true;
-            IsResizable = false;
+        public RenderLoop Loop;
+        public Window Window;
 
+        public Program()
+        {
             // 
             _demos = new Demo[]
             {
+                // Image / Shader
                 new ImageDemo(),
+                new ShaderDemo(),
+                // Text
                 new TextDemo(),
                 new TextCallbackDemo(),
+                new RichTextDemo(),
+                // Lines
                 new LineThicknessDemo(),
                 new QuadraticCurveDemo(),
                 new CubicCurveDemo(),
+                // Polygon / Mesh
                 new PrimitivesDemo(),
                 new PolygonDemo(),
                 new MeshDemo(),
-                new SurfaceDemo()
+                // Offscreen Rendering
+                new SurfaceDemo(),
             };
-        }
 
-        protected override void Update(float dt)
-        {
-            CurrentDemo.Update(dt);
-        }
-
-        protected override void Draw(RenderContext ctx, float dt)
-        {
-            ctx.Clear(Color.DarkGray);
+            // Create window
+            Window = new Window("Heirloom - Drawing Examples", MultisampleQuality.High);
+            Window.Size = (1280, 720);
 
             // 
-            var contentBounds = new Rectangle(256, 32, ctx.Surface.Width - 288, ctx.Surface.Height - 160);
-            ctx.Color = Color.Lerp(Color.DarkGray, Color.Black, 0.1F);
-            ctx.DrawRect(contentBounds);
+            Window.Graphics.EnableFPSOverlay = true;
+            Window.IsResizable = false;
 
-            ctx.ResetState();
-            CurrentDemo.Draw(ctx, contentBounds.Inflate(-16));
+            // Create render loop
+            Loop = RenderLoop.Create(Window.Graphics, Update);
+            Loop.Start();
+
+            // Register key events
+            Window.KeyPress += Window_KeyPress;
+        }
+
+        private void Update(Graphics gfx, float dt)
+        {
+            gfx.Clear(Color.DarkGray);
+
+            CurrentDemo.Update(dt);
+
+            // 
+            var contentBounds = new Rectangle(256, 32, gfx.Surface.Width - 288, gfx.Surface.Height - 160);
+            gfx.Color = Color.Lerp(Color.DarkGray, Color.Black, 0.1F);
+            gfx.DrawRect(contentBounds);
+
+            gfx.ResetState();
+            CurrentDemo.Draw(gfx, Rectangle.Inflate(contentBounds, -16));
 
             //
-            ctx.ResetState();
+            gfx.ResetState();
 
-            var bottomText = new Vector(ctx.Surface.Width / 2F, ctx.Surface.Height - 96);
-            ctx.DrawText($"Use arrow keys to change demo\nDemo {_demoIndex + 1} of {_demos.Length}", bottomText, Font.Default, 32, TextAlign.Center);
+            var bottomText = new Vector(gfx.Surface.Width / 2F, gfx.Surface.Height - 96);
+            gfx.DrawText($"Use arrow keys to change demo\nDemo {_demoIndex + 1} of {_demos.Length}", bottomText, Font.Default, 32, TextAlign.Center);
 
             for (var i = 0; i < _demos.Length; i++)
             {
                 var menuPosition = new Vector(32, 32 + i * 32);
 
-                if (i == _demoIndex) { ctx.Color = Color.Pink; }
-                else { ctx.Color = Color.White; }
+                if (i == _demoIndex) { gfx.Color = Color.Pink; }
+                else { gfx.Color = Color.White; }
 
-                ctx.DrawText(_demos[i].Name, menuPosition, Font.Default, 32, TextAlign.Left);
+                gfx.DrawText(_demos[i].Name, menuPosition, Font.Default, 32, TextAlign.Left);
             }
         }
 
-        protected override void OnKeyPressed(Key key, int scancode, ButtonAction action, KeyModifiers modifiers)
+        private void Window_KeyPress(Window win, KeyEvent ev)
         {
-            if (action == ButtonAction.Press)
+            if (ev.Action == ButtonAction.Press)
             {
-                if (key == Key.Up)
+                if (ev.Key == Key.Up)
                 {
                     _demoIndex--;
 
@@ -84,7 +99,7 @@ namespace Examples.Drawing
                     }
                 }
 
-                if (key == Key.Down)
+                if (ev.Key == Key.Down)
                 {
                     _demoIndex++;
 

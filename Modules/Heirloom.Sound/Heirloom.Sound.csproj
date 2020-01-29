@@ -1,27 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Platforms>AnyCPU</Platforms>
-    <Configurations>Debug;Release</Configurations>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.1.0-beta</Version>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>Chris Chamberlain</Authors>
+    <Version>1.0.0-alpha</Version>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <Description>Audio input, output and decoding from standard audio formats.</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageOutputPath>../../Nuget/$(Configuration)</PackageOutputPath>
     <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
+    <Description>Audio input and output with support for decoding/loading of some standard audio formats. Software effects are available such as Reverb or Lowpass. Custom effect implementations are possible.</Description>
     <PackageTags>audio, sound, ogg, mp3, miniaudio</PackageTags>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

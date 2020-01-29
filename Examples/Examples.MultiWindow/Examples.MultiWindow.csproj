@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <RootNamespace>Examples.MultiWindow</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <ApplicationIcon />
+    <StartupObject />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Heirloom.Desktop\Heirloom.Desktop.csproj" />
+  </ItemGroup>
+
+</Project>

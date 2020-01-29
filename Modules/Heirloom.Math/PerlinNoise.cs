@@ -5,6 +5,9 @@ using static Heirloom.Math.Calc;
 
 namespace Heirloom.Math
 {
+    /// <summary>
+    /// Implements methods for sampling 1D, 2D and 3D perlin noise.
+    /// </summary>
     public class PerlinNoise : INoise1D, INoise2D, INoise3D
     {
         private readonly int[] _p;

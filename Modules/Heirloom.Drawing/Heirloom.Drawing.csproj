@@ -1,36 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Platforms>AnyCPU</Platforms>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageLicenseExpression></PackageLicenseExpression>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>Chris Chamberlain</Authors>
-    <Version>1.1.1-beta</Version>
-    <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>drawing, graphics, 2D</PackageTags>
+    <Version>1.0.0-alpha</Version>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageOutputPath>../../Nuget/$(Configuration)</PackageOutputPath>
+    <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
     <Description>Hardware accelerated 2D graphics.</Description>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PackageTags>drawing, graphics, 2D</PackageTags>
+    <LangVersion>latest</LangVersion>
+    <DefineConstants>STBSHARP_INTERNAL</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DefineConstants>TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath></OutputPath>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <OutputPath></OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Embedded\monogram_extended.ttf" />
+    <None Remove="Embedded\Shaders\default.frag" />
+    <None Remove="Embedded\Shaders\default.vert" />
+    <None Remove="Embedded\Shaders\standard\standard.frag" />
+    <None Remove="Embedded\Shaders\standard\standard.glsl" />
+    <None Remove="Embedded\Shaders\standard\standard.vert" />
     <None Include="..\..\LICENSE.md">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -39,9 +31,15 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Embedded\monogram_extended.ttf" />
+    <EmbeddedResource Include="Embedded\Shaders\default.frag" />
+    <EmbeddedResource Include="Embedded\Shaders\default.vert" />
+    <EmbeddedResource Include="Embedded\Shaders\standard\standard.glsl" />
+    <EmbeddedResource Include="Embedded\Shaders\standard\standard.frag" />
+    <EmbeddedResource Include="Embedded\Shaders\standard\standard.vert" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Heirloom.IO\Heirloom.IO.csproj" />
     <ProjectReference Include="..\Heirloom.Math\Heirloom.Math.csproj" />
   </ItemGroup>
 

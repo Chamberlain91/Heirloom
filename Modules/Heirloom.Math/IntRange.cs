@@ -2,15 +2,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Heirloom.Math
 {
+    /// <summary>
+    /// Represents a range of integers from <see cref="Min"/> to <see cref="Max"/>.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct IntRange : IEquatable<IntRange>, IEnumerable<int>
     {
+        /// <summary>
+        /// The minimum value in the range.
+        /// </summary>
         public int Min;
 
+        /// <summary>
+        /// The maximum value in the range.
+        /// </summary>
         public int Max;
 
         #region Constants
@@ -34,16 +44,35 @@ namespace Heirloom.Math
 
         #region Properties
 
-        public int Random => Calc.Lerp(Min, Max, Calc.Random.NextFloat());
+        /// <summary>
+        /// Gets a random integer value between <see cref="Min"/> and <see cref="Max"/>.
+        /// </summary>
+        public int Random => Calc.Random.Next(Min, Max);
 
+        /// <summary>
+        /// Gets the mean of <see cref="Min"/> and <see cref="Max"/>.
+        /// </summary>
         public int Average => (Min + Max) / 2;
 
+        /// <summary>
+        /// Gets the size of the range.
+        /// </summary>
         public int Size => Max - Min;
+
+        /// <summary>
+        /// Gets a value that determines if the range is valid (ie, <c><see cref="Max"/> >= <see cref="Min"/></c>).
+        /// </summary>
+        public bool IsValid => Max >= Min;
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs a new <see cref="IntRange"/>.
+        /// </summary>
+        /// <param name="min">The minimum value.</param>
+        /// <param name="max">The maximum value.</param>
         public IntRange(int min, int max)
         {
             Min = min;
@@ -54,6 +83,9 @@ namespace Heirloom.Math
 
         #region Contains, Overlaps
 
+        /// <summary>
+        /// Determines if this range contains the specified value.
+        /// </summary>
         public bool Contains(in int x)
         {
             if (x < Min) { return false; }
@@ -61,6 +93,9 @@ namespace Heirloom.Math
             return true;
         }
 
+        /// <summary>
+        /// Determines if this range overlaps another integer range.
+        /// </summary>
         public bool Overlaps(in IntRange other)
         {
             return Min < other.Max && Max > other.Min;
@@ -70,30 +105,22 @@ namespace Heirloom.Math
 
         #region Include
 
+        /// <summary>
+        /// Mutate this range (by expansion) to include the specified value.
+        /// </summary>
         public void Include(int val)
         {
             Min = Calc.Min(Min, val);
             Max = Calc.Max(Max, val);
         }
 
+        /// <summary>
+        /// Mutate this range (by expansion) to include the specified range.
+        /// </summary>
         public void Include(IntRange range)
         {
             Min = Calc.Min(Min, range.Min);
             Max = Calc.Max(Max, range.Max);
-        }
-
-        #endregion
-
-        #region Order / Swap
-
-        public void Order()
-        {
-            if (Max < Min) { Swap(); }
-        }
-
-        public void Swap()
-        {
-            Calc.Swap(ref Min, ref Max);
         }
 
         #endregion
@@ -184,6 +211,8 @@ namespace Heirloom.Math
 
         #endregion
 
+        #region IEnumerable<int>
+
         public IEnumerator<int> GetEnumerator()
         {
             return Enumerable.Range(Min, Max - Min).GetEnumerator();
@@ -193,6 +222,8 @@ namespace Heirloom.Math
         {
             return GetEnumerator();
         }
+
+        #endregion
 
         public override string ToString()
         {

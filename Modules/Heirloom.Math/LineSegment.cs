@@ -1,14 +1,27 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Heirloom.Math
 {
-    public struct LineSegment
+    /// <summary>
+    /// Represents a line segment defined by two <see cref="Vector"/>.
+    /// </summary>
+    public struct LineSegment : IEquatable<LineSegment>
     {
+        /// <summary>
+        /// A value to adjust the intersection tolerance to compensate for floating-point error.
+        /// </summary>
+        public static float IntersectionTolerance = 0.001F;
+
+        /// <summary>
+        /// The first end-point.
+        /// </summary>
         public Vector A;
 
+        /// <summary>
+        /// The second end-point.
+        /// </summary>
         public Vector B;
-
-        public static float Tolerance = 0.001F;
 
         #region Constructors
 
@@ -85,14 +98,14 @@ namespace Heirloom.Math
 
         // Find the point of intersection between
         // the lines p1 --> p2 and q1 --> q2.
-        internal static void Intersects(
+        private static void Intersects(
             Vector p1, Vector p2, Vector q1, Vector q2,
             out bool lines_intersect, out bool segments_intersect, out bool parallel,
             out Vector intersection,
             out Vector close_p1, out Vector close_p2)
         // http://csharphelper.com/blog/2014/08/determine-where-two-lines-intersect-in-c/
         {
-            // todo: Model as Ray-Ray intersection
+            // todo: Model as Ray-Ray intersection to simplify/reduce code-duplication
 
             // Get the segments' parameters.
             var dx12 = p2.X - p1.X;
@@ -129,8 +142,8 @@ namespace Heirloom.Math
 
             // The segments intersect if t1 and t2 are between 0 and 1.
             // Modified to have a better tolerance for segment edges
-            segments_intersect = (t1 > (0 + Tolerance)) && (t1 < (1 - Tolerance)) &&
-                                 (t2 > (0 + Tolerance)) && (t2 < (1 - Tolerance));
+            segments_intersect = (t1 > (0 + IntersectionTolerance)) && (t1 < (1 - IntersectionTolerance)) &&
+                                 (t2 > (0 + IntersectionTolerance)) && (t2 < (1 - IntersectionTolerance));
 
             // Clamp intersection times in order to
             // find the closest points on the segments.
@@ -140,6 +153,68 @@ namespace Heirloom.Math
             // ie, ray.GetPoint(t1)
             close_p1 = new Vector(p1.X + (dx12 * t1), p1.Y + (dy12 * t1));
             close_p2 = new Vector(q1.X + (dx34 * t2), q1.Y + (dy34 * t2));
+        }
+
+        #endregion
+
+        #region Closest Point
+
+        /// <summary>
+        /// Gets the closest point on the line segment to the specified point.
+        /// </summary>
+        public Vector GetClosestPoint(Vector p)
+        {
+            return GetClosestPoint(A, B, p);
+        }
+
+        /// <summary>
+        /// Gets the closest point on a line segment to the specified point.
+        /// </summary>
+        public static Vector GetClosestPoint(Vector a, Vector b, Vector p)
+        {
+            var t = Vector.Project(a, b, p, true);
+            return a + (b - a) * t;
+        }
+
+        /// <summary>
+        /// Gets the closest point on a line segment to the specified point.
+        /// </summary>
+        public static Vector ClosestPoint(Vector a, Vector b, Vector p, out float distance)
+        {
+            // todo: possibly extract distance from the projection itself to avoid the sqrt
+            var q = GetClosestPoint(a, b, p);
+            distance = Vector.Distance(q, p);
+            return q;
+        }
+
+        #endregion
+
+        #region Equality
+
+        public override bool Equals(object obj)
+        {
+            return obj is LineSegment segment && Equals(segment);
+        }
+
+        public bool Equals(LineSegment other)
+        {
+            return A.Equals(other.A) &&
+                   B.Equals(other.B);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(A, B);
+        }
+
+        public static bool operator ==(LineSegment left, LineSegment right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(LineSegment left, LineSegment right)
+        {
+            return !(left == right);
         }
 
         #endregion

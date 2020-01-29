@@ -4,10 +4,20 @@ using static Heirloom.Math.Calc;
 
 namespace Heirloom.Math
 {
+    /// <summary>
+    /// Provides utilities for working with Quadratic and Cubic curves.
+    /// </summary>
     public static class Curves
     {
         #region Quadratic
 
+        /// <summary>
+        /// Computes the interpolated point on a quadratic curve defined by <paramref name="a"/>, <paramref name="b"/>, <paramref name="c"/>.
+        /// </summary>
+        /// <param name="a">The curve starting point.</param>
+        /// <param name="b">The curve middle (handle).</param>
+        /// <param name="c">The curve ending point.</param>
+        /// <param name="t">The interpolation factor along the curve.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector Quadratic(in Vector a, in Vector b, in Vector c, in float t)
         {
@@ -15,12 +25,25 @@ namespace Heirloom.Math
             return (r * r * a) + (2 * r * t * b) + (t * t * c);
         }
 
+        /// <summary>
+        /// Computes the interpolated point on the derivative of a quadratic curve defined by <paramref name="a"/>, <paramref name="b"/>, <paramref name="c"/>.
+        /// </summary>
+        /// <param name="a">The curve starting point.</param>
+        /// <param name="b">The curve middle (handle).</param>
+        /// <param name="c">The curve ending point.</param>
+        /// <param name="t">The interpolation factor along the curve.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector QuadraticDerivative(in Vector a, in Vector b, in Vector c, in float t)
         {
             return 2 * ((-a * (1 - t)) - (2 * b * t) + b + (c * t));
         }
 
+        /// <summary>
+        /// Computes the approximate arc length of the quadratic curve using line segments.
+        /// </summary>
+        /// <param name="a">The curve starting point.</param>
+        /// <param name="b">The curve middle (handle).</param>
+        /// <param name="c">The curve ending point.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float QuadraticApproximateLength(in Vector a, in Vector b, in Vector c)
         {
@@ -30,6 +53,12 @@ namespace Heirloom.Math
                    Vector.Distance(p, c);
         }
 
+        /// <summary>
+        /// Computes the approximate arc length of the derivative of a quadratic curve using line segments.
+        /// </summary>
+        /// <param name="a">The curve starting point.</param>
+        /// <param name="b">The curve middle (handle).</param>
+        /// <param name="c">The curve ending point.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float QuadraticDerivativeApproximateLength(in Vector a, in Vector b, in Vector c)
         {
@@ -47,6 +76,14 @@ namespace Heirloom.Math
 
         #region Cubic
 
+        /// <summary>
+        /// Computes the interpolated point on a cubic curve defined by <paramref name="a"/>, <paramref name="b"/>, <paramref name="c"/>, <paramref name="d"/>.
+        /// </summary>
+        /// <param name="a">The curve's starting point.</param>
+        /// <param name="b">The curve's first handle.</param>
+        /// <param name="c">The curve's second handle.</param>
+        /// <param name="d">The curve's ending point.</param>
+        /// <param name="t">The interpolation factor along the curve.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector Cubic(in Vector a, in Vector b, in Vector c, in Vector d, in float t)
         {
@@ -54,6 +91,14 @@ namespace Heirloom.Math
             return (Pow(r, 3) * a) + (3 * Pow(r, 2) * t * b) + (3 * r * Pow(t, 2) * c) + (Pow(t, 3) * d);
         }
 
+        /// <summary>
+        /// Computes the interpolated point on the derivative of a cubic curve defined by <paramref name="a"/>, <paramref name="b"/>, <paramref name="c"/>, <paramref name="d"/>.
+        /// </summary>
+        /// <param name="a">The curve's starting point.</param>
+        /// <param name="b">The curve's first handle.</param>
+        /// <param name="c">The curve's second handle.</param>
+        /// <param name="d">The curve's ending point.</param>
+        /// <param name="t">The interpolation factor along the curve.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector CubicDerivative(in Vector a, in Vector b, in Vector c, in Vector d, in float t)
         {
@@ -64,6 +109,13 @@ namespace Heirloom.Math
             return (-3 * a * r2) + (3 * b * r2) - (6 * b * t * r) - (3 * c * t2) + (6 * c * t * r) + (3 * d * t2);
         }
 
+        /// <summary>
+        /// Computes the approximate arc length of the cubic curve using line segments.
+        /// </summary>
+        /// <param name="a">The curve's starting point.</param>
+        /// <param name="b">The curve's first handle.</param>
+        /// <param name="c">The curve's second handle.</param>
+        /// <param name="d">The curve's ending point.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float CubicApproximateLength(in Vector a, in Vector b, in Vector c, in Vector d)
         {
@@ -73,6 +125,13 @@ namespace Heirloom.Math
             return Vector.Distance(a, p) + Vector.Distance(p, q) + Vector.Distance(q, d);
         }
 
+        /// <summary>
+        /// Computes the approximate arc length of the cubic curve using line segments.
+        /// </summary>
+        /// <param name="a">The curve's starting point.</param>
+        /// <param name="b">The curve's first handle.</param>
+        /// <param name="c">The curve's second handle.</param>
+        /// <param name="d">The curve's ending point.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float CubicDerivativeApproximateLength(in Vector a, in Vector b, in Vector c, in Vector d)
         {

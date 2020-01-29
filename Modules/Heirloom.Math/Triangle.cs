@@ -1,13 +1,24 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Heirloom.Math
 {
-    public struct Triangle
+    public struct Triangle : IShape, IEquatable<Triangle>
     {
+        /// <summary>
+        /// The first point.
+        /// </summary>
         public Vector A;
 
+        /// <summary>
+        /// The second point.
+        /// </summary>
         public Vector B;
 
+        /// <summary>
+        /// The third point.
+        /// </summary>
         public Vector C;
 
         #region Constructors
@@ -21,65 +32,230 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Contains
+        #region Properties
 
-        public bool Contains(Vector point)
+        /// <summary>
+        /// Gets the bounds of this triangle.
+        /// </summary>
+        public Rectangle Bounds => Rectangle.FromPoints(A, B, C);
+
+        /// <summary>
+        /// Gets the area of this triangle.
+        /// </summary>
+        public float Area => Vector.Cross(B - A, C - A) / 2F;
+
+        #endregion
+
+        /// <summary>
+        /// Create a polygon from this triangle.
+        /// </summary>
+        public Polygon ToPolygon()
         {
-            return ContainsPoint(in A, in B, in C, point);
+            // Clone this rectangle as a polygon
+            var vertices = PolygonTools.RequestTempPolygon(in this);
+            var polygon = new Polygon(vertices);
+
+            // Recycle temp poylgon and return clone.
+            PolygonTools.RecycleTempPolygon(vertices);
+            return polygon;
         }
 
-        public static bool ContainsPoint(in Vector a, in Vector b, in Vector c, in Vector point)
-        // todo: source?
+        #region Closest Point
+
+        /// <summary>
+        /// Gets the closest point on the triangle to the specified point.
+        /// </summary>
+        public Vector GetClosestPoint(in Vector point)
         {
-            //return true if the point to test is one of the vertices
-            if (point.Equals(a) || point.Equals(b) || point.Equals(c))
-            {
-                return true;
-            }
+            // Get temporary polygon representation
+            var polygon = PolygonTools.RequestTempPolygon(in this);
 
-            var oddNodes = false;
+            // Check for overlap
+            var result = PolygonTools.GetClosestPoint(polygon, point);
 
-            if (CheckPointToSegment(c, a, point))
-            {
-                oddNodes = !oddNodes;
-            }
-
-            if (CheckPointToSegment(a, b, point))
-            {
-                oddNodes = !oddNodes;
-            }
-
-            if (CheckPointToSegment(b, c, point))
-            {
-                oddNodes = !oddNodes;
-            }
-
-            return oddNodes;
-
-            bool CheckPointToSegment(Vector sA, Vector sB, Vector sP)
-            {
-                if ((sA.Y < sP.Y && sB.Y >= sP.Y) ||
-                    (sB.Y < sP.Y && sA.Y >= sP.Y))
-                {
-                    var x =
-                        sA.X +
-                        ((sP.Y - sA.Y) /
-                        (sB.Y - sA.Y) *
-                        (sB.X - sA.X));
-
-                    if (x < sP.X)
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
+            // Recycle temporary polygon and return overlap status
+            PolygonTools.RecycleTempPolygon(polygon);
+            return result;
         }
 
         #endregion
 
-        // Raycast?
+        #region Contains
+
+        /// <summary>
+        /// Determines if this triangle contains the specified point.
+        /// </summary>
+        public bool ContainsPoint(in Vector point)
+        {
+            return ContainsPoint(in A, in B, in C, point);
+        }
+
+        /// <summary>
+        /// Determines if the triangle defined by <paramref name="a"/>, <paramref name="b"/>, <paramref name="c"/> contains the specified point.
+        /// </summary>
+        public static bool ContainsPoint(in Vector a, in Vector b, in Vector c, in Vector point)
+        {
+            // Get temporary polygon representation
+            var polygon = PolygonTools.RequestTempPolygon(3);
+
+            // Configure temp polygon to input points
+            polygon[0] = a;
+            polygon[1] = b;
+            polygon[2] = c;
+
+            // Checks if the polygon contains the point
+            var result = PolygonTools.ContainsPoint(polygon, in point);
+
+            // Recycle temporary polygon and return containment status
+            PolygonTools.RecycleTempPolygon(polygon);
+            return result;
+        }
+
+        #endregion
+
+        #region Overlaps
+
+        /// <summary>
+        /// Determines if this triangle overlaps another shape.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(IShape shape)
+        {
+            return shape switch
+            {
+                Circle cir => Overlaps(in cir),
+                Triangle tri => Overlaps(in tri),
+                Rectangle rec => Overlaps(in rec),
+                Polygon pol => Overlaps(pol),
+
+                // Unknown shape
+                _ => throw new InvalidOperationException("Unable to determine overlap, shape was not a known type."),
+            };
+        }
+
+        /// <summary>
+        /// Determines if this triangle overlaps the specified circle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(in Circle circle)
+        {
+            // circle has the implementation
+            return circle.Overlaps(in this);
+        }
+
+        /// <summary>
+        /// Determines if this triangle overlaps another triangle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(in Triangle triangle)
+        {
+            // Get temporary polygon representation
+            var polygon = PolygonTools.RequestTempPolygon(in this);
+
+            // Check for overlap
+            var result = triangle.Overlaps(polygon);
+
+            // Recycle temporary polygon and return overlap status
+            PolygonTools.RecycleTempPolygon(polygon);
+            return result;
+        }
+
+        /// <summary>
+        /// Determines if this triangle overlaps the specified rectangle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(in Rectangle rectangle)
+        {
+            // Get temporary polygon representation
+            var polygon = PolygonTools.RequestTempPolygon(in this);
+
+            // Check for overlap
+            var result = rectangle.Overlaps(polygon);
+
+            // Recycle temporary polygon and return overlap status
+            PolygonTools.RecycleTempPolygon(polygon);
+            return result;
+        }
+
+        /// <summary>
+        /// Determines if this triangle overlaps the specified convex polygon.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(IReadOnlyList<Vector> polygon)
+        {
+            // Get temporary polygon representation
+            var other = PolygonTools.RequestTempPolygon(in this);
+
+            // Check for overlap
+            var result = SeparatingAxis.Overlaps(polygon, other);
+
+            // Recycle temporary polygon and return overlap status
+            PolygonTools.RecycleTempPolygon(other);
+            return result;
+        }
+
+        /// <summary>
+        /// Determines if this triangle overlaps the specified simple polygon.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Overlaps(Polygon polygon)
+        {
+            // polygon has the implementation
+            return polygon.Overlaps(in this);
+        }
+
+        #endregion
+
+        #region Axis Projection
+
+        /// <summary>
+        /// Project this polygon onto the specified axis.
+        /// </summary>
+        public Range Project(in Vector axis)
+        {
+            // Get temporary polygon representation
+            var polygon = PolygonTools.RequestTempPolygon(in this);
+
+            // Project polygon onto axis
+            var result = PolygonTools.Project(polygon, in axis);
+
+            // Recycle temporary polygon and return overlap status
+            PolygonTools.RecycleTempPolygon(polygon);
+            return result;
+        }
+
+        #endregion
+
+        #region Raycast
+
+        /// <summary>
+        /// Peforms a raycast onto this rectangle, returning true upon intersection.
+        /// </summary>
+        /// <param name="ray">Some ray.</param>
+        public bool Raycast(in Ray ray)
+        {
+            return Raycast(in ray, out _);
+        }
+
+        /// <summary>
+        /// Peforms a raycast onto this rectangle, returning true upon intersection.
+        /// </summary>
+        /// <param name="ray">Some ray.</param>
+        /// <param name="contact">Ray intersection information.</param>
+        public bool Raycast(in Ray ray, out RayContact contact)
+        {
+            // Get temporary polygon representation
+            var polygon = PolygonTools.RequestTempPolygon(in this);
+
+            // Raycast against polygon
+            var status = PolygonTools.Raycast(polygon, in ray, out contact);
+
+            // Recycle temporary polygon and return overlap status
+            PolygonTools.RecycleTempPolygon(polygon);
+            return status;
+        }
+
+        #endregion
 
         #region Barycentric Coordinates
 
@@ -125,5 +301,43 @@ namespace Heirloom.Math
         }
 
         #endregion
+
+        #region Equality
+
+        public override bool Equals(object obj)
+        {
+            return obj is Triangle triangle && Equals(triangle);
+        }
+
+        public bool Equals(Triangle other)
+        {
+            return A.Equals(other.A) &&
+                   B.Equals(other.B) &&
+                   C.Equals(other.C) &&
+                   Bounds.Equals(other.Bounds) &&
+                   Area == other.Area;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(A, B, C, Bounds, Area);
+        }
+
+        public static bool operator ==(Triangle left, Triangle right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Triangle left, Triangle right)
+        {
+            return !(left == right);
+        }
+
+        #endregion
+
+        public override string ToString()
+        {
+            return $"(Triangle, {A}, {B}, {C})";
+        }
     }
 }

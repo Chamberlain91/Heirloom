@@ -12,12 +12,12 @@ namespace Examples.Drawing
         private readonly RichText _richText;
 
         public TextCallbackDemo()
-            : base("Custom Text")
+            : base("Text Callback")
         {
             _richText = new RichText(Files.ReadText("files/alice.txt"));
         }
 
-        internal override void Draw(RenderContext ctx, Rectangle contentBounds)
+        internal override void Draw(Graphics ctx, Rectangle contentBounds)
         {
             ctx.DrawText(_richText.Text, contentBounds, Font.Default, 32, TextAlign.Left, _richText.CharacterCallback);
         }
@@ -99,7 +99,7 @@ namespace Examples.Drawing
 
             public string Text { get; }
 
-            internal void CharacterCallback(string _, int index, ref CharacterDrawState state)
+            internal void CharacterCallback(string _, int index, ref TextDrawState state)
             {
                 switch (_states[index])
                 {
@@ -114,9 +114,9 @@ namespace Examples.Drawing
                     case State.Quote:
 
                         // Set color
-                        state.Color = Colors.FlatUI.BelizeHole;
+                        state.Color = (Color.Blue + Color.Cyan) / 2F;
 
-                        // Animated quotes
+                        // Animated up and down wobble
                         var now = (float) _stopwatch.Elapsed.TotalSeconds;
                         state.Position.Y += Calc.Sin(index / 2F + now * 8F) * 2;
 

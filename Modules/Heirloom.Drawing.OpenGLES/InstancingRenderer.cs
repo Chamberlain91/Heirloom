@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 using Heirloom.Math;
@@ -8,35 +7,25 @@ using Heirloom.OpenGLES;
 namespace Heirloom.Drawing.OpenGLES
 {
     internal unsafe class InstancingRenderer : Renderer
+    // todo: better design, weird coupling between Renderer and Graphics
+    // could probably create a "gl state" tracker and move rendering impl into OpenGLGraphics itself
     {
-        private readonly OpenGLRenderContext _renderingContext;
+        private readonly OpenGLGraphics _context;
         private readonly VertexArray _vertexArray;
-
-        private readonly Dictionary<Texture, int> _textures;
-        private readonly Texture[] _texturesState;
-        private readonly int _maxTextureUnits;
 
         private Mesh _mesh;
         private uint _meshVersion;
 
+        private Texture _texture;
+
         #region Constructors
 
-        public InstancingRenderer(OpenGLRenderContext renderingContext, int maxTextureUnits)
+        public InstancingRenderer(OpenGLGraphics context)
         {
-            _renderingContext = renderingContext;
-
-            // Query for maximum textures
-            _maxTextureUnits = maxTextureUnits;
-            _texturesState = new Texture[_maxTextureUnits];
-            _textures = new Dictionary<Texture, int>(_maxTextureUnits);
+            _context = context;
 
             // Create buffer sets
             _vertexArray = new VertexArray();
-        }
-
-        ~InstancingRenderer()
-        {
-            // TODO: Dispose BufferSets
         }
 
         #endregion
@@ -54,7 +43,7 @@ namespace Heirloom.Drawing.OpenGLES
             if (!ReferenceEquals(_mesh, mesh) || _meshVersion != mesh.Version)
             {
                 // Render previous
-                Flush();
+                _context.Flush();
 
                 // Set quad template
                 SetTemplate(mesh);
@@ -63,31 +52,17 @@ namespace Heirloom.Drawing.OpenGLES
             // Unable to append another instance
             if (_vertexArray.InstanceCount == _vertexArray.InstanceElements.Length)
             {
-                Flush();
+                _context.Flush();
             }
 
             // Get OpenGL texture and packed rect
-            var (texture, textureRect) = ResourceManager.GetTextureInfo(_renderingContext, image);
+            var (texture, textureRect) = ResourceManager.GetTextureInfo(_context, image);
 
-            int textureSlot;
-
-            // Determine texture slot
-            if (!_textures.ContainsKey(texture))
+            // Different texture, flush
+            if (_texture != texture)
             {
-                // Texture mechanism is full, emit batched drawing
-                if (_textures.Count == _maxTextureUnits)
-                {
-                    Flush();
-                }
-
-                // Unknown texture, assign new slot
-                textureSlot = _textures.Count;
-                _textures[texture] = textureSlot;
-            }
-            else
-            {
-                // Already known texture
-                textureSlot = _textures[texture];
+                _context.Flush();
+                _texture = texture;
             }
 
             // 
@@ -95,7 +70,6 @@ namespace Heirloom.Drawing.OpenGLES
 
             vtx.Transform = transform;
             vtx.TextureRect = textureRect;
-            vtx.TextureSlot = textureSlot;
             vtx.Color = color;
         }
 
@@ -128,28 +102,20 @@ namespace Heirloom.Drawing.OpenGLES
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override void Flush()
+        public override void FlushPendingBatch()
         {
             if (_vertexArray.InstanceCount > 0)
             {
                 // Perform on the rendering thread
-                _renderingContext.Invoke(() =>
+                // todo: make invoke non-blocking but we need a vertex array ring buffer
+                _context.Invoke(() =>
                 {
                     // Update GPU side buffers
                     _vertexArray.Update();
 
-                    // Bind textures
-                    foreach (var kv in _textures)
-                    {
-                        var slot = (uint) kv.Value;
-
-                        // 
-                        if (_texturesState[slot] != kv.Key)
-                        {
-                            GL.ActiveTexture(slot);
-                            GL.BindTexture(TextureTarget.Texture2D, kv.Key.Handle);
-                        }
-                    }
+                    // Bind texture
+                    GL.ActiveTexture(0);
+                    GL.BindTexture(TextureTarget.Texture2D, _texture.Handle);
 
                     // Draw elements
                     GL.BindVertexArray(_vertexArray.Handle);
@@ -162,11 +128,11 @@ namespace Heirloom.Drawing.OpenGLES
                 });
 
                 // Update current surface version number, as we have mutated it
-                _renderingContext.MarkSurfaceDirty();
+                _context.MarkSurfaceDirty();
 
                 // 
                 _vertexArray.InstanceCount = 0;
-                _textures.Clear();
+                _texture = null;
             }
         }
     }

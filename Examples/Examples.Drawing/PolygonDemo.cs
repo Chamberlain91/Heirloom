@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 using Heirloom.Drawing;
 using Heirloom.Math;
 
@@ -6,10 +7,8 @@ namespace Examples.Drawing
 {
     public sealed class PolygonDemo : Demo
     {
-        public Polygon Polygon;
-        public IEnumerable<Polygon> Triangles;
-        public IEnumerable<Polygon> Convexes;
-        public Polygon PolygonHull;
+        public Polygon Polygon, PolygonHull;
+        public IEnumerable<Triangle> Triangles;
 
         public PolygonDemo()
             : base("Polygon")
@@ -18,21 +17,18 @@ namespace Examples.Drawing
             Polygon = Polygon.CreateStar(5, 1);
 
             // Construct the convex hull
-            PolygonHull = Polygon.CreateConvexHull(Polygon);
+            PolygonHull = Polygon.CreateConvexHull(Polygon.Vertices);
 
             // Decompose the polygon into triangles
-            Triangles = Polygon.DecomposeTriangles(Polygon);
-
-            // Decompose the polygon into triangles
-            Convexes = Polygon.DecomposeConvex(Polygon);
+            Triangles = Polygon.Triangulate();
         }
 
-        internal override void Draw(RenderContext ctx, Rectangle contentBounds)
+        internal override void Draw(Graphics ctx, Rectangle contentBounds)
         {
             // Draws a circle, polygon and regular polygon in each row
             for (var i = 0; i < 4; i++)
             {
-                ctx.SaveState();
+                ctx.PushState();
 
                 var w = contentBounds.Width / 3;
                 var h = contentBounds.Height / 2;
@@ -47,7 +43,7 @@ namespace Examples.Drawing
 
                 DrawPolygon(i, box);
 
-                ctx.RestoreState();
+                ctx.PopState();
             }
 
             void DrawPolygon(int index, Rectangle bounds)
@@ -66,7 +62,13 @@ namespace Examples.Drawing
                     case 1:
                         foreach (var triangle in Triangles)
                         {
-                            ctx.DrawPolygonOutline(triangle, transform, 1);
+                            var a = transform * triangle.A;
+                            var b = transform * triangle.B;
+                            var c = transform * triangle.C;
+
+                            ctx.DrawLine(a, b);
+                            ctx.DrawLine(b, c);
+                            ctx.DrawLine(c, a);
                         }
                         break;
 
@@ -75,7 +77,7 @@ namespace Examples.Drawing
                         break;
 
                     case 3:
-                        foreach (var convex in Convexes)
+                        foreach (var convex in Polygon.ConvexPartitions)
                         {
                             ctx.DrawPolygonOutline(convex, transform, 1);
                         }

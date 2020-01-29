@@ -9,7 +9,7 @@ namespace Examples.Drawing
             : base("Cubic Curve")
         { }
 
-        internal override void Draw(RenderContext ctx, Rectangle contentBounds)
+        internal override void Draw(Graphics ctx, Rectangle contentBounds)
         {
             var a = contentBounds.Min + new Vector(0 / 3F, (Calc.Sin(Time * 1) + 1F) * 0.5F) * (Vector) contentBounds.Size;
             var b = contentBounds.Min + new Vector(1 / 3F, (Calc.Sin(Time * 2) + 1F) * 0.5F) * (Vector) contentBounds.Size;
