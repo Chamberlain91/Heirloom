@@ -10,6 +10,8 @@ Current the libraries target: **NET Standard 2.1**.
 
 ---
 
+![screenshots](screenshots.png)
+
 I've been developing this framework (or whatever you would call it) with
 **Visual Studio 2019**, another IDE may work to open and develop the projects 
 with but I am entirely unfamiliar with them. Using the `dotnet` CLI is straight
@@ -18,8 +20,6 @@ basic comprehension on using a terminal might suffice on devices without
 `Visual Studio`.
 
 Libraries are `NET Standard 2.1` compiant and examples run on `NET Core 3.0`. 
-
-![screenshots](screenshots.png)
 
 ## Nuget
 
