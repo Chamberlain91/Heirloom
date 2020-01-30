@@ -577,6 +577,50 @@ namespace Heirloom.Drawing
 
         #endregion
 
+        #region Flip by Axis
+
+        /// <summary>
+        /// Flips the image on the specified axis.
+        /// </summary>
+        /// <param name="axis"></param>
+        public void Flip(Axis axis)
+        {
+            if (axis == Axis.Vertical) { FlipVertical(); }
+            else { FlipHorizontal(); }
+        }
+
+        private void FlipVertical()
+        {
+            for (var y = 0; y < Height / 2; y++)
+            {
+                for (var x = 0; x < Width; x++)
+                {
+                    var i0 = x + (y * Width);
+                    var i1 = x + ((Height - y - 1) * Width);
+
+                    // 
+                    Calc.Swap(ref _pixels[i0], ref _pixels[i1]);
+                }
+            }
+        }
+
+        private void FlipHorizontal()
+        {
+            for (var y = 0; y < Height; y++)
+            {
+                for (var x = 0; x < Width / 2; x++)
+                {
+                    var i0 = x + 0 + (y * Width);
+                    var i1 = (Width - x - 1) + (y * Width);
+
+                    // 
+                    Calc.Swap(ref _pixels[i0], ref _pixels[i1]);
+                }
+            }
+        }
+
+        #endregion
+
         #region Copy Data
 
         /// <summary>
