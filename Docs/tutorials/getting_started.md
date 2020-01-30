@@ -30,6 +30,14 @@ To create any desktop application using `Heirloom` we will need to include `Heir
 $ dotnet add package Heirloom.Desktop
 ```
 
+You may want to use a pre-release version (ie, alpha or beta). If you choose to do this, you'll need to use:
+
+```sh
+dotnet add package Heirloom.Desktop --version 0.9.0-alpha
+```
+
+You can find the exact version on [Nuget](https://www.nuget.org/packages?q=Heirloom).
+
 ## Hello World
 
 At this point, the **Command Line** or **Visual Studio** experience should be more or less the same. There are obviously differences in how to go about editing code and other utilities but we will mostly be looking at the code. 
