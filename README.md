@@ -19,6 +19,8 @@ basic comprehension on using a terminal might suffice on devices without
 
 Libraries are `NET Standard 2.1` compiant and examples run on `NET Core 3.0`. 
 
+![screenshots](screenshots.png)
+
 ## Nuget
 
 I've compiled most of the projects and created nuget packages and put them up 
