@@ -35,6 +35,14 @@ namespace Heirloom.Drawing.Extras
         /// <summary>
         /// Rasterize a rectangular region.
         /// </summary>
+        public static IEnumerable<IntVector> Rectangle(IntVector position, IntSize size)
+        {
+            return Rectangle(position.X, position.Y, size.Width, size.Height);
+        }
+
+        /// <summary>
+        /// Rasterize a rectangular region.
+        /// </summary>
         public static IEnumerable<IntVector> Rectangle(IntSize size)
         {
             return Rectangle(0, 0, size.Width, size.Height);
