@@ -6,7 +6,7 @@ using Heirloom.Math;
 
 namespace StreamingAtlas
 {
-    public class BinPacker<TElement>
+    public class MaxrectsPacker<TElement> : IRectanglePacker<TElement>
     {
         private readonly Dictionary<TElement, IntRectangle> _elements = new Dictionary<TElement, IntRectangle>();
         private readonly HashSet<IntRectangle> _freeRects = new HashSet<IntRectangle>();
@@ -17,11 +17,11 @@ namespace StreamingAtlas
 
         #region Constructor
 
-        public BinPacker(int width, int height)
+        public MaxrectsPacker(int width, int height)
             : this(new IntSize(width, height))
         { }
 
-        public BinPacker(IntSize size)
+        public MaxrectsPacker(IntSize size)
         {
             // Store master bounds
             _bounds = new IntRectangle(IntVector.Zero, size);
@@ -34,6 +34,8 @@ namespace StreamingAtlas
 
         public IEnumerable<TElement> Elements => _elements.Keys;
 
+        public IntSize Size => _bounds.Size;
+
         public void Clear()
         {
             // Purge existing storage
@@ -44,20 +46,9 @@ namespace StreamingAtlas
             _freeRects.Add(_bounds);
         }
 
-        public bool Add(TElement element, IntSize itemSize, out IntRectangle packedRect)
-        {
-            if (Add(element, itemSize))
-            {
-                packedRect = GetRectangle(element);
-                return true;
-            }
-            else
-            {
-                packedRect = default;
-                return false;
-            }
-        }
-
+        /// <summary>
+        /// Inserts an element into the packing.
+        /// </summary>
         public bool Add(TElement element, IntSize itemSize)
         {
             // Try to find suitable rectangle for item
@@ -79,9 +70,14 @@ namespace StreamingAtlas
             }
         }
 
-        public bool TryGetRectangle(TElement key, out IntRectangle rectangle)
+        public bool Contains(TElement element)
         {
-            return _elements.TryGetValue(key, out rectangle);
+            return _elements.ContainsKey(element);
+        }
+
+        public bool TryGetRectangle(TElement element, out IntRectangle rectangle)
+        {
+            return _elements.TryGetValue(element, out rectangle);
         }
 
         public IntRectangle GetRectangle(TElement key)
@@ -96,33 +92,6 @@ namespace StreamingAtlas
             }
         }
 
-        public bool Repack()
-        {
-            // Clone current configuration
-            var oldElements = _elements.Select(e => (e.Key, Rect: e.Value)).ToArray();
-            var oldFreeRects = _freeRects.ToArray();
-
-            // Purge configuration
-            Clear();
-
-            // Insert elements
-            foreach (var (element, rect) in oldElements.OrderByDescending(e => e.Rect.Width + e.Rect.Height))
-            {
-                if (!Add(element, rect.Size))
-                {
-                    // Restore previous configuration
-                    foreach (var (oldElement, oldRect) in oldElements) { _elements[oldElement] = oldRect; }
-                    foreach (var oldRect in oldFreeRects) { _freeRects.Add(oldRect); }
-
-                    // Repack was unsuccessful
-                    return false;
-                }
-            }
-
-            // Repack was successful
-            return true;
-        }
-
         private void Partition(IntRectangle itemRect)
         {
             _rems.Clear();
@@ -134,19 +103,17 @@ namespace StreamingAtlas
                 // If the free rect overlaps the item rect
                 if (freeRect.Overlaps(itemRect))
                 {
-                    // Remove the free rect
-                    _rems.Add(freeRect);
-
                     // Generate the new partitions
                     _adds.AddRange(GeneratePartitions(freeRect, itemRect));
+
+                    // Remove the free rect
+                    _rems.Add(freeRect);
                 }
 
                 // Remove other free rects that fully contained
                 foreach (var other in _freeRects)
                 {
                     if (freeRect == other) { continue; }
-
-                    // If the current free rect contains the other rect
                     if (freeRect.Contains(other)) { _rems.Add(other); }
                 }
             }

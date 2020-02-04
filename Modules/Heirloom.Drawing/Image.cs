@@ -105,7 +105,6 @@ namespace Heirloom.Drawing
                         SetPixel(co, source.GetPixel(co - region.Position));
                     }
                 }
-
             }
         }
 
@@ -717,6 +716,40 @@ namespace Heirloom.Drawing
                         Buffer.MemoryCopy(src, (void*) dst, len, len);
                     }
                 }
+            }
+        }
+
+        public unsafe void CopyTo(ColorBytes* dst, IntSize dstSize, IntVector dstOffset)
+        {
+            fixed (ColorBytes* src = _pixels)
+            {
+                var wBytes = Width * sizeof(ColorBytes);
+
+                for (var y = 0; y < Height; y++)
+                {
+                    var srcRow = src + (Width * y);
+                    var dstRow = dst + ((dstSize.Width * (y + dstOffset.Y)) + dstOffset.X);
+                    Buffer.MemoryCopy(srcRow, dstRow, wBytes, wBytes);
+                }
+            }
+        }
+
+        public unsafe void CopyTo(Image target, IntVector offset)
+        {
+            fixed (ColorBytes* src = _pixels)
+            fixed (ColorBytes* dst = target._pixels)
+            {
+                var wBytes = Width * sizeof(ColorBytes);
+
+                for (var y = 0; y < Height; y++)
+                {
+                    var srcRow = src + (Width * y);
+                    var dstRow = dst + ((target.Width * (y + offset.Y)) + offset.X);
+                    Buffer.MemoryCopy(srcRow, dstRow, wBytes, wBytes);
+                }
+
+                // 
+                target.UpdateVersionNumber();
             }
         }
 
