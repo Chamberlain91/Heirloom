@@ -14,6 +14,15 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Creates a new surface.
         /// </summary>
+        /// <param name="size">Size of the surface in pixels.</param>
+        /// <param name="multisample">MSAA to use on the surface</param>
+        public Surface(IntSize size, MultisampleQuality multisample = MultisampleQuality.None)
+            : this(size.Width, size.Height, multisample)
+        { }
+
+        /// <summary>
+        /// Creates a new surface.
+        /// </summary>
         /// <param name="width">Width of the surface in pixels.</param>
         /// <param name="height">Height of the surface in pixels.</param>
         /// <param name="multisample">MSAA to use on the surface</param>

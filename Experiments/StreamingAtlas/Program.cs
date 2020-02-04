@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using Heirloom.Desktop;
 using Heirloom.Drawing;
 using Heirloom.Math;
@@ -11,22 +13,15 @@ namespace StreamingAtlas
         public IReadOnlyList<Image> Sprites { get; }
         public int SpriteIndex;
 
-        public IRectanglePacker<Image> Packer { get; }
-
-        public Image[] AtlasImages;
-        public int AtlasIndex;
+        public Atlas Atlas;
 
         public Program()
             : base("Streaming Atlas", false)
         {
-            Packer = new ShelfPacker<Image>(1024, 1024);
-            AtlasImages = new Image[3]
-            {
-                new Image(1024, 1024),
-                new Image(1024, 1024),
-                new Image(1024, 1024)
-            };
+            // 
+            Atlas = new Atlas(1024, 1024);
 
+            // 
             Sprites = GenerateImages(1000);
 
             // 
@@ -49,76 +44,32 @@ namespace StreamingAtlas
         {
             // 
             gfx.Clear(Color.DarkGray);
-
-            // Console.WriteLine("---------");
-
-            var x = 0;
-            var y = 0;
-
-            const float CellSize = 768 / 3F;
-
-            // Attempt to pack images
-            for (var i = 0; i < 100; i++)
+            gfx.PushState();
             {
-                // Unable to pack (batching barrier)
-                if (!Register(Sprites[SpriteIndex]))
+                // Attempt to pack images
+                for (var i = 0; i < 100; i++)
                 {
-                    var atlas = AtlasImages[AtlasIndex];
+                    // Unable to pack (batching barrier)
+                    Atlas.Register(Sprites[SpriteIndex], out var _);
 
-                    // Write image data
-                    Parallel.ForEach(Packer.Elements, image =>
-                    {
-                        var rectangle = Packer.GetRectangle(image);
-                        image.CopyTo(atlas, rectangle.Position);
-                    });
-
-                    // Draw texture
-                    gfx.DrawImage(atlas, Matrix.CreateTransform((x * CellSize, y * CellSize), 0, CellSize / atlas.Width));
-                    gfx.Flush(); // BUG: Changing the image pixels should cause this when DrawImage is called
-
-                    // 
-                    AtlasIndex = (AtlasIndex + 1) % AtlasImages.Length;
-
-                    // Clear packing (couldn't hold more anyway)
-                    Packer.Clear();
-
-                    // Insert again
-                    Register(Sprites[SpriteIndex]);
-
-                    x++;
-                    if (x >= (Window.FramebufferSize.Width / CellSize))
-                    {
-                        x = 0;
-                        y++;
-                    }
+                    // Rotate through sprites
+                    SpriteIndex = (SpriteIndex + 1) % Sprites.Count;
                 }
 
-                SpriteIndex++;
-                if (SpriteIndex >= Sprites.Count) { SpriteIndex = 0; }
+                // Called before glDrawElements/glFlush
+                Atlas.CommitChanges(gfx);
             }
-        }
-
-        public bool Register(Image image)
-        {
-            if (Packer.Contains(image)) { return true; } // contained
-            // Try to insert
-            else if (Packer.Add(image, image.Size))
-            {
-                // inserted
-                return true;
-            }
-            else
-            {
-                // failure
-                return false;
-            }
+            
+            // Draw w/ atlas texture
+            gfx.PopState();
+            gfx.DrawImage(Atlas.Surface, Matrix.CreateScale(Window.FramebufferSize.Width / Atlas.Surface.Width));
         }
 
         private static List<Image> GenerateImages(int count)
         {
             var images = new List<Image>();
 
-            for (var i = 0; i < count; i++)
+            Parallel.For(0, count, i =>
             {
                 // Generate randomized boxes that are "generally square"
                 var scale = Calc.Random.Next(1, 12);
@@ -131,7 +82,7 @@ namespace StreamingAtlas
                 // Create image
                 var image = Image.CreateCheckerboardPattern(width, height, color);
                 images.Add(image);
-            }
+            });
 
             return images;
         }
