@@ -1,26 +1,38 @@
-﻿
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Heirloom.Desktop;
 using Heirloom.Drawing;
-using Heirloom.Drawing.Extras;
 using Heirloom.Math;
 
 namespace StreamingAtlas
 {
     internal class Program : SimpleApplication
     {
-        public readonly BinPacker<Image> Packer;
-        public readonly Image Storage;
+        public IReadOnlyList<Image> Sprites { get; }
+        public int SpriteIndex;
+
+        public IRectanglePacker<Image> Packer { get; }
+
+        public Image[] AtlasImages;
+        public int AtlasIndex;
 
         public Program()
-            : base("Streaming Atlas")
+            : base("Streaming Atlas", false)
         {
-            Storage = new Image(512, 512);
-            Storage.Clear(Color.Black);
+            Packer = new ShelfPacker<Image>(1024, 1024);
+            AtlasImages = new Image[3]
+            {
+                new Image(1024, 1024),
+                new Image(1024, 1024),
+                new Image(1024, 1024)
+            };
 
-            Packer = new BinPacker<Image>(Storage.Size);
+            Sprites = GenerateImages(1000);
 
             // 
+            Window.Graphics.EnableFPSOverlay = true;
             Window.IsResizable = false;
+            Window.Size = (768, 768);
         }
 
         protected override void OnMouseButtonEvent(MouseButtonEvent e)
@@ -30,47 +42,7 @@ namespace StreamingAtlas
 
         protected override void OnKeyEvent(KeyEvent e)
         {
-            if (e.Action != ButtonAction.Release)
-            {
-                lock (Packer)
-                {
-                    if (e.Key == Key.Space)
-                    {
-                        var w = Calc.Random.Next(8, 256);
-                        var h = Calc.Random.Next(8, 256);
-                        InsertColoredRect(w, h);
-                    }
-
-                    if (e.Key == Key.R)
-                    {
-                        // Repack (might optimize space)
-                        Packer.Repack();
-
-                        // Copy images back in to atlas
-                        Storage.Clear(Color.Black);
-                        foreach (var image in Packer.Elements)
-                        {
-                            var rect = Packer.GetRectangle(image);
-                            CopyToStorage(image, rect.Min);
-                        }
-                    }
-                }
-            }
-        }
-
-        private void InsertColoredRect(int w, int h)
-        {
-            var color = Color.FromHSV(Calc.Random.Next(0, 360), 0.7F, 0.8F);
-            var image = Image.CreateCheckerboardPattern(w, h, color);
-
-            if (Packer.Add(image, image.Size, out var rect))
-            {
-                CopyToStorage(image, rect.Position);
-            }
-            else
-            {
-                // throw new InvalidOperationException("Unable to fit");
-            }
+            // 
         }
 
         protected override void OnFrameUpdate(Graphics gfx, float dt)
@@ -78,16 +50,90 @@ namespace StreamingAtlas
             // 
             gfx.Clear(Color.DarkGray);
 
-            // 
-            gfx.DrawImage(Storage, Matrix.Identity);
+            // Console.WriteLine("---------");
+
+            var x = 0;
+            var y = 0;
+
+            const float CellSize = 768 / 3F;
+
+            // Attempt to pack images
+            for (var i = 0; i < 100; i++)
+            {
+                // Unable to pack (batching barrier)
+                if (!Register(Sprites[SpriteIndex]))
+                {
+                    var atlas = AtlasImages[AtlasIndex];
+
+                    // Write image data
+                    Parallel.ForEach(Packer.Elements, image =>
+                    {
+                        var rectangle = Packer.GetRectangle(image);
+                        image.CopyTo(atlas, rectangle.Position);
+                    });
+
+                    // Draw texture
+                    gfx.DrawImage(atlas, Matrix.CreateTransform((x * CellSize, y * CellSize), 0, CellSize / atlas.Width));
+                    gfx.Flush(); // BUG: Changing the image pixels should cause this when DrawImage is called
+
+                    // 
+                    AtlasIndex = (AtlasIndex + 1) % AtlasImages.Length;
+
+                    // Clear packing (couldn't hold more anyway)
+                    Packer.Clear();
+
+                    // Insert again
+                    Register(Sprites[SpriteIndex]);
+
+                    x++;
+                    if (x >= (Window.FramebufferSize.Width / CellSize))
+                    {
+                        x = 0;
+                        y++;
+                    }
+                }
+
+                SpriteIndex++;
+                if (SpriteIndex >= Sprites.Count) { SpriteIndex = 0; }
+            }
         }
 
-        private void CopyToStorage(Image image, IntVector offset)
+        public bool Register(Image image)
         {
-            foreach (var (x, y) in Rasterizer.Rectangle(image.Size))
+            if (Packer.Contains(image)) { return true; } // contained
+            // Try to insert
+            else if (Packer.Add(image, image.Size))
             {
-                Storage.SetPixel(offset.X + x, offset.Y + y, image.GetPixel(x, y));
+                // inserted
+                return true;
             }
+            else
+            {
+                // failure
+                return false;
+            }
+        }
+
+        private static List<Image> GenerateImages(int count)
+        {
+            var images = new List<Image>();
+
+            for (var i = 0; i < count; i++)
+            {
+                // Generate randomized boxes that are "generally square"
+                var scale = Calc.Random.Next(1, 12);
+                var width = Calc.Random.Next(16, 32) * scale;
+                var height = Calc.Random.Next(16, 32) * scale;
+
+                // Generate a random color
+                var color = Color.FromHSV(Calc.Random.Next(0, 360), 0.7F, 0.5F);
+
+                // Create image
+                var image = Image.CreateCheckerboardPattern(width, height, color);
+                images.Add(image);
+            }
+
+            return images;
         }
 
         private static void Main(string[] args)
