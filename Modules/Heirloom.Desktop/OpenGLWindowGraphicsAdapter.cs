@@ -13,7 +13,7 @@ namespace Heirloom.Desktop
             return new OpenGLWindowGraphics(this, window, vsync);
         }
 
-        protected override T InvokeOnGLThread<T>(Func<T> function)
+        protected override T Invoke<T>(Func<T> function)
         {
             return Application.Invoke(() =>
             {
@@ -32,7 +32,7 @@ namespace Heirloom.Desktop
             });
         }
 
-        protected override void InvokeOnGLThread(Action function)
+        protected override void Invoke(Action function)
         {
             Application.Invoke(() =>
             {

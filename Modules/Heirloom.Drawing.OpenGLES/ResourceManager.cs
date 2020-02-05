@@ -6,6 +6,7 @@ using Heirloom.Math;
 namespace Heirloom.Drawing.OpenGLES
 {
     internal static class ResourceManager
+    // todo: See about merging w/ OpenGLGraphicsAdapter
     {
         private static readonly Rectangle _surfaceUVRect = new Rectangle(0, 0, 1, -1);
 
