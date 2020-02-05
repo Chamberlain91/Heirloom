@@ -1,114 +1,45 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
-using Heirloom.Math;
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
     internal unsafe class VertexArray
     {
-        // Instance Buffer
-        // todo: GLVertexBuffer<InstanceData> ...?
-        public readonly Buffer InstanceBuffer;
-        public readonly VertexAttribute[] InstanceAttributes;
-        public readonly InstanceData[] InstanceElements;
-        public int InstanceCount;
-
-        public readonly Buffer VertexBuffer;
-        public readonly VertexAttribute[] VertexAttributes;
-        public readonly VertexData[] VertexElements;
-        public int VertexCount;
-
-        public readonly Buffer IndexBuffer;
-        public readonly ushort[] IndexElements;
-        public int IndexCount;
+        public readonly VertexBuffer[] VertexBuffers;
+        public readonly IndexBuffer IndexBuffer;
 
         public readonly uint Handle;
 
-        public VertexArray()
+        public VertexArray(IndexBuffer indexBuffer, params VertexBuffer[] vertexBuffers)
         {
-            // Client buffer storage
-            InstanceElements = new InstanceData[ushort.MaxValue];
-            VertexElements = new VertexData[ushort.MaxValue];
-            IndexElements = new ushort[ushort.MaxValue];
+            VertexBuffers = vertexBuffers ?? throw new ArgumentNullException(nameof(vertexBuffers));
+            IndexBuffer = indexBuffer;
 
-            // Construct buffers
-            InstanceBuffer = new Buffer(BufferTarget.Array, (uint) (sizeof(InstanceData) * InstanceElements.Length));
-            VertexBuffer = new Buffer(BufferTarget.Array, (uint) (sizeof(VertexData) * VertexElements.Length));
-            IndexBuffer = new Buffer(BufferTarget.ElementArray, (uint) (sizeof(ushort) * IndexElements.Length));
-
-            // Create Attributes
-            InstanceAttributes = VertexAttribute.GenerateAttributes(typeof(InstanceData));
-            VertexAttributes = VertexAttribute.GenerateAttributes(typeof(VertexData));
+            if (VertexBuffers.Length == 0)
+            {
+                throw new ArgumentException("Must specify at least one vertex buffer.");
+            }
 
             // Construct VAO
             Handle = GL.GenVertexArray();
             GL.BindVertexArray(Handle);
             {
-                // Binds vertex buffer (per vertex) to vao
-                VertexBuffer.Bind();
-                ConfigureAttributes(VertexAttributes, false);
+                // Bind the vertex buffers
+                foreach (var buffer in VertexBuffers)
+                {
+                    buffer.Bind();
+                }
 
-                // Binds vertex buffer (per instance) to vao
-                InstanceBuffer.Bind();
-                ConfigureAttributes(InstanceAttributes, true);
-
-                // Bind index buffer (triangles) to vao
-                IndexBuffer.Bind();
+                // If given, bind the index buffer
+                IndexBuffer?.Bind();
             }
             GL.BindVertexArray(0);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void ConfigureAttributes(VertexAttribute[] attributes, bool instanced)
+        internal void Bind()
         {
-            var stride = 0; // 
-            foreach (var attr in attributes)
-            {
-                stride += VertexAttribute.GetSizeInBytes(attr.Type, attr.Size);
-            }
-
-            var offset = 0; // 
-            foreach (var attr in attributes)
-            {
-                attr.SetAttributePointer(offset, stride, instanced ? 1 : 0);
-                offset += VertexAttribute.GetSizeInBytes(attr.Type, attr.Size);
-            }
-        }
-
-        internal void Update()
-        {
-            // Update instance buffer
-            InstanceBuffer.Update(InstanceElements, InstanceCount, 0);
-
-            // Update template mesh
-            VertexBuffer.Update(VertexElements, VertexCount, 0);
-            IndexBuffer.Update(IndexElements, IndexCount, 0);
-        }
-
-        [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct VertexData // 16 bytes
-        {
-            [VertexAttribute(VertexAttributeName.Position)]
-            public Vector Position;
-
-            [VertexAttribute(VertexAttributeName.UV)]
-            public Vector UV;
-        }
-
-        [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        internal struct InstanceData // 72 bytes
-        {
-            [VertexAttribute(VertexAttributeName.Transform)]
-            public Matrix Transform; // 36
-
-            [VertexAttribute(VertexAttributeName.Color, Normalize = true)]
-            public Color Color; // 16
-
-            [VertexAttribute(VertexAttributeName.ImageRect)]
-            public Rectangle TextureRect; // 16
+            GL.BindVertexArray(Handle);
         }
     }
 }
