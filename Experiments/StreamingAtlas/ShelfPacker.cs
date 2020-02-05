@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Heirloom.Math;
+﻿using Heirloom.Math;
 
 namespace StreamingAtlas
 {
-    public class ShelfPacker<TElement> : IRectanglePacker<TElement>
+    public class ShelfPacker<TElement> : RectanglePacker<TElement>
     {
-        private readonly Dictionary<TElement, IntRectangle> _elements = new Dictionary<TElement, IntRectangle>();
-        private readonly IntRectangle _bounds;
-
         private int _shelf, _x, _y;
-
-        [ThreadStatic] private static readonly List<IntRectangle> _rems = new List<IntRectangle>(128);
-        [ThreadStatic] private static readonly List<IntRectangle> _adds = new List<IntRectangle>(128);
 
         #region Constructor
 
@@ -23,77 +13,41 @@ namespace StreamingAtlas
         { }
 
         public ShelfPacker(IntSize size)
-        {
-            // Store master bounds
-            _bounds = new IntRectangle(IntVector.Zero, size);
-
-            // Start clean
-            Clear();
-        }
+            : base(size)
+        { }
 
         #endregion
 
-        public IEnumerable<TElement> Elements => _elements.Keys;
-
-        public IntSize Size => _bounds.Size;
-
-        public void Clear()
+        public override void Clear()
         {
             _x = _y = _shelf = 0;
-            _elements.Clear();
+            base.Clear();
         }
 
-        /// <summary>
-        /// Inserts an element into the packing.
-        /// </summary>
-        public bool Add(TElement element, IntSize itemSize)
+        protected override bool Insert(IntSize size, out IntRectangle rectangle)
         {
             // If beyond the right
-            if (_x + itemSize.Width >= _bounds.Width)
+            if (_x + size.Width >= Size.Width)
             {
                 _x = 0;
                 _y = _shelf;
             }
 
             // If beyond the bottom
-            if (_y + itemSize.Height >= _bounds.Height)
+            if (_y + size.Height >= Size.Height)
             {
                 // Cannot fit
+                rectangle = default;
                 return false;
             }
 
             // Adjust shelf
-            _shelf = Calc.Max(_y + itemSize.Height, _shelf);
+            _shelf = Calc.Max(_y + size.Height, _shelf);
+            _x += size.Width;
 
-            // Insert rectangle
-            var rect = new IntRectangle(_x, _y, itemSize.Width, itemSize.Height);
-            _elements[element] = rect;
-
-            _x += itemSize.Width;
-
+            // Found a location to insert the rectangle
+            rectangle = new IntRectangle(_x, _y, size.Width, size.Height);
             return true;
-        }
-
-        public bool Contains(TElement element)
-        {
-            return _elements.ContainsKey(element);
-        }
-
-        public bool TryGetRectangle(TElement key, out IntRectangle rectangle)
-        {
-            return _elements.TryGetValue(key, out rectangle);
-        }
-
-        public IntRectangle GetRectangle(TElement key)
-        {
-            if (TryGetRectangle(key, out var rectangle))
-            {
-                return rectangle;
-            }
-            else
-            {
-                throw new KeyNotFoundException();
-            }
         }
     }
 }

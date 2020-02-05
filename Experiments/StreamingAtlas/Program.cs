@@ -15,6 +15,8 @@ namespace StreamingAtlas
 
         public Atlas Atlas;
 
+        readonly private LinkedList<DrawCommand> _commands = new LinkedList<DrawCommand>();
+
         public Program()
             : base("Streaming Atlas", false)
         {
@@ -42,27 +44,64 @@ namespace StreamingAtlas
 
         protected override void OnFrameUpdate(Graphics gfx, float dt)
         {
+            // Attempt to pack images
+            for (var i = 0; i < 200; i++)
+            {
+                // Simulate drawing something
+                var sprite = Sprites[(SpriteIndex + i) % Sprites.Count];
+                SubmitDraw(sprite, Vector.Zero);
+            }
+
+            // Rotate through sprites (advance 33 images are ~133 temporally consistent)
+            SpriteIndex = (SpriteIndex + 33) % Sprites.Count;
+
             // 
             gfx.Clear(Color.DarkGray);
             gfx.PushState();
             {
-                // Attempt to pack images
-                for (var i = 0; i < 100; i++)
+                // Process draw commands
+                while (_commands.Count > 0)
                 {
-                    // Unable to pack (batching barrier)
-                    Atlas.Register(Sprites[SpriteIndex], out var _);
+                    var command = _commands.First.Value;
 
-                    // Rotate through sprites
-                    SpriteIndex = (SpriteIndex + 1) % Sprites.Count;
+                    // Register image with atlas
+                    if (Atlas.Register(command.Image))
+                    {
+                        // Command accepted remove from list
+                        _commands.RemoveFirst();
+
+                        // Submit to batch
+                    }
+                    else
+                    {
+                        // Render into atlas
+                        Atlas.CommitChanges(gfx);
+
+                        // Draw batched geometry
+
+                        // 
+                        var scale = gfx.Surface.Width / (float) Atlas.Surface.Width;
+                        gfx.DrawImage(Atlas.Surface, Matrix.CreateScale(scale));
+                    }
                 }
-
-                // Called before glDrawElements/glFlush
-                Atlas.CommitChanges(gfx);
             }
-            
-            // Draw w/ atlas texture
             gfx.PopState();
-            gfx.DrawImage(Atlas.Surface, Matrix.CreateScale(Window.FramebufferSize.Width / Atlas.Surface.Width));
+            gfx.DrawImage(Atlas.Surface, Matrix.CreateScale(Window.FramebufferSize.Width / (float) Atlas.Surface.Width));
+        }
+
+        private void SubmitDraw(Image image, Vector position)
+        {
+            _commands.AddLast(new DrawCommand
+            {
+                Image = image,
+                Position = position
+            });
+        }
+
+        struct DrawCommand
+        {
+            public Image Image;
+            public Vector Position;
         }
 
         private static List<Image> GenerateImages(int count)
@@ -72,7 +111,7 @@ namespace StreamingAtlas
             Parallel.For(0, count, i =>
             {
                 // Generate randomized boxes that are "generally square"
-                var scale = Calc.Random.Next(1, 12);
+                var scale = Calc.Random.Next(1, 10);
                 var width = Calc.Random.Next(16, 32) * scale;
                 var height = Calc.Random.Next(16, 32) * scale;
 
