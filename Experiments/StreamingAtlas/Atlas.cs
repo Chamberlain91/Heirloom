@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
 using Heirloom.Drawing;
 using Heirloom.Math;
 
@@ -26,18 +26,17 @@ namespace StreamingAtlas
         /// <summary>
         /// Mark the image as needed in the atlas.
         /// </summary>
-        public bool Register(Image image, out IntRectangle rectangle)
+        public bool Register(Image image)
         {
             if (_entries.TryGetValue(image, out var entry))
             {
-                // Update age as it has been used recently
+                // Update age as it has been used recently.
                 entry.Age = _tick;
 
-                // Version numbers have changed, need to update atlas
+                // Version numbers have changed, need to update atlas.
                 if (entry.IsDirty) { _dirties.Add(entry); }
 
-                // Image was already in the atlas
-                rectangle = entry.Rectangle;
+                // Image was already in the atlas.
                 return true;
             }
             // Try to insert into packer
@@ -47,17 +46,15 @@ namespace StreamingAtlas
                 var atlasRect = _packer.GetRectangle(image);
                 entry = _entries[image] = new Entry(image, atlasRect);
 
-                // Entry is new, put on dirty list
+                // Entry is new, put on dirty list.
                 _dirties.Add(entry);
 
-                // Image was successfuly inserted into atlas
-                rectangle = entry.Rectangle;
+                // Image was successfuly inserted into atlas.
                 return true;
             }
             else
             {
                 // Was not contained nor were we able to insert it.
-                rectangle = default;
                 return false;
             }
         }
@@ -68,8 +65,6 @@ namespace StreamingAtlas
             {
                 gfx.ResetState();
                 gfx.Surface = Surface;
-
-                gfx.DrawText($"_dirties: {_dirties.Count}", (10, 10), Font.Default, 24);
 
                 // Draw dirty images
                 foreach (var entry in _dirties)
