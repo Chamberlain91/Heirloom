@@ -6,9 +6,11 @@ using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
+    using ShaderType = Heirloom.OpenGLES.ShaderType;
+
     public abstract class OpenGLGraphicsAdapter : GraphicsAdapter
     {
-        #region Graphics Features
+        #region Query Capabilities
 
         protected override GraphicsCapabilities QueryCapabilities()
         {
@@ -54,21 +56,9 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Invoke (GL Thread)
 
-        protected internal abstract T InvokeOnGLThread<T>(Func<T> action);
+        protected internal abstract T Invoke<T>(Func<T> action);
 
-        protected internal abstract void InvokeOnGLThread(Action action);
-
-        internal static T Invoke<T>(Func<T> action)
-        {
-            var adapter = Instance as OpenGLGraphicsAdapter;
-            return adapter.InvokeOnGLThread(action);
-        }
-
-        internal static void Invoke(Action action)
-        {
-            var adapter = Instance as OpenGLGraphicsAdapter;
-            adapter.InvokeOnGLThread(action);
-        }
+        protected internal abstract void Invoke(Action action);
 
         #endregion
 
@@ -97,12 +87,12 @@ namespace Heirloom.Drawing.OpenGLES
 
             public object Compile(string name, string vert, string frag, out UniformInfo[] uniforms)
             {
-                var program = Adapter.InvokeOnGLThread(() =>
+                var program = Adapter.Invoke(() =>
                 {
-                    var vShader = new ShaderStage(ShaderType.Vertex, vert);
-                    var fShader = new ShaderStage(ShaderType.Fragment, frag);
+                    var vShader = new ShaderStage(Adapter, ShaderType.Vertex, vert);
+                    var fShader = new ShaderStage(Adapter, ShaderType.Fragment, frag);
 
-                    return new ShaderProgram(name, vShader, fShader);
+                    return new ShaderProgram(Adapter, name, vShader, fShader);
                 });
 
                 // Get uniform names

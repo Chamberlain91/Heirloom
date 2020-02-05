@@ -21,8 +21,9 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Constructors
 
-        internal ShaderProgram(string name, ShaderStage frag, ShaderStage vert)
+        internal ShaderProgram(OpenGLGraphicsAdapter adapter, string name, ShaderStage frag, ShaderStage vert)
         {
+            Adapter = adapter;
             Name = name;
 
             FragmentShader = frag;
@@ -80,6 +81,8 @@ namespace Heirloom.Drawing.OpenGLES
         #endregion
 
         #region Properties
+
+        internal OpenGLGraphicsAdapter Adapter { get; }
 
         internal ShaderStage FragmentShader { get; }
 
@@ -248,7 +251,7 @@ namespace Heirloom.Drawing.OpenGLES
                 }
 
                 // Schedule for deletion on a GL thread.
-                OpenGLGraphicsAdapter.Invoke(() => GL.DeleteProgram(Handle));
+                Adapter.Invoke(() => GL.DeleteProgram(Handle));
 
                 _isDisposed = true;
             }
