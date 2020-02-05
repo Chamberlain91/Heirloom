@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 using Heirloom.Math;
 using Heirloom.OpenGLES;
@@ -11,7 +12,11 @@ namespace Heirloom.Drawing.OpenGLES
     // could probably create a "gl state" tracker and move rendering impl into OpenGLGraphics itself
     {
         private readonly OpenGLGraphics _context;
-        private readonly VertexArray _vertexArray;
+
+        private readonly VertexBuffer<InstanceData> _instances;
+        private readonly VertexBuffer<VertexData> _vertices;
+        private readonly IndexBuffer _indices;
+        private readonly VertexArray _vao;
 
         private Mesh _mesh;
         private uint _meshVersion;
@@ -24,15 +29,20 @@ namespace Heirloom.Drawing.OpenGLES
         {
             _context = context;
 
+            // 
+            _instances = new VertexBuffer<InstanceData>(ushort.MaxValue, false);
+            _vertices = new VertexBuffer<VertexData>(ushort.MaxValue, true);
+            _indices = new IndexBuffer(ushort.MaxValue);
+
             // Create buffer sets
-            _vertexArray = new VertexArray();
+            _vao = new VertexArray(_indices, _instances, _vertices);
         }
 
         #endregion
 
         #region Properties
 
-        public override bool IsDirty => _vertexArray.InstanceCount > 0;
+        public override bool IsDirty => _instances.Count > 0;
 
         #endregion
 
@@ -50,7 +60,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
 
             // Unable to append another instance
-            if (_vertexArray.InstanceCount == _vertexArray.InstanceElements.Length)
+            if (_instances.Count == _instances.Data.Length)
             {
                 _context.Flush();
             }
@@ -66,7 +76,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
 
             // 
-            ref var vtx = ref _vertexArray.InstanceElements[_vertexArray.InstanceCount++];
+            ref var vtx = ref _instances.Data[_instances.Count++];
 
             vtx.Transform = transform;
             vtx.TextureRect = textureRect;
@@ -83,8 +93,8 @@ namespace Heirloom.Drawing.OpenGLES
             // Copy vertex data
             for (var i = 0; i < _mesh.Vertices.Count; i++)
             {
-                _vertexArray.VertexElements[i].Position = _mesh.Vertices[i].Position;
-                _vertexArray.VertexElements[i].UV = _mesh.Vertices[i].UV;
+                _vertices.Data[i].Position = _mesh.Vertices[i].Position;
+                _vertices.Data[i].UV = _mesh.Vertices[i].UV;
             }
 
             // Copy index data
@@ -93,47 +103,79 @@ namespace Heirloom.Drawing.OpenGLES
                 var index = _mesh.Indices[i];
                 if (index >= ushort.MaxValue) { throw new InvalidOperationException($"Mesh must not have indices greater then or equal to {ushort.MaxValue}."); }
 
-                _vertexArray.IndexElements[i] = (ushort) _mesh.Indices[i];
+                _indices.Data[i] = (ushort) _mesh.Indices[i];
             }
 
             // Store vertex and index counts
-            _vertexArray.VertexCount = _mesh.Vertices.Count;
-            _vertexArray.IndexCount = _mesh.Indices.Count;
+            _vertices.Count = _mesh.Vertices.Count;
+            _indices.Count = _mesh.Indices.Count;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override void FlushPendingBatch()
         {
-            if (_vertexArray.InstanceCount > 0)
+            if (_instances.Count > 0)
             {
                 // Perform on the rendering thread
                 // todo: make invoke non-blocking but we need a vertex array ring buffer
                 _context.Invoke(() =>
                 {
                     // Update GPU side buffers
-                    _vertexArray.Update();
+                    _instances.Upload();
+                    _vertices.Upload();
+                    _indices.Upload();
 
                     // Bind texture
                     GL.ActiveTexture(0);
                     GL.BindTexture(TextureTarget.Texture2D, _texture.Handle);
 
-                    // Draw elements
-                    GL.BindVertexArray(_vertexArray.Handle);
+                    // Bind the mesh configuration
+                    // todo: merge w/ Drawing code below?
+                    _vao.Bind();
 
                     // If indices were defined, use them
-                    if (_vertexArray.IndexCount > 0) { GL.DrawElementsInstanced(DrawMode.Triangles, _vertexArray.IndexCount, DrawElementType.UnsignedShort, _vertexArray.InstanceCount); }
-                    else { GL.DrawArraysInstanced(DrawMode.Triangles, _vertexArray.VertexCount, _vertexArray.InstanceCount); }
+                    if (_indices.Count > 0)
+                    {
+                        GL.DrawElementsInstanced(DrawMode.Triangles, _indices.Count, DrawElementType.UnsignedShort, _instances.Count);
+                    }
+                    else
+                    {
+                        GL.DrawArraysInstanced(DrawMode.Triangles, _vertices.Count, _instances.Count);
+                    }
 
-                    GL.BindVertexArray(0);
+                    GL.BindVertexArray(0); // ...
                 });
 
                 // Update current surface version number, as we have mutated it
                 _context.MarkSurfaceDirty();
 
                 // 
-                _vertexArray.InstanceCount = 0;
+                _instances.Count = 0;
                 _texture = null;
             }
+        }
+
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        internal struct VertexData // 16 bytes
+        {
+            [VertexAttribute(VertexAttributeName.Position)]
+            public Vector Position;
+
+            [VertexAttribute(VertexAttributeName.UV)]
+            public Vector UV;
+        }
+
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        internal struct InstanceData // 72 bytes
+        {
+            [VertexAttribute(VertexAttributeName.Transform)]
+            public Matrix Transform; // 36
+
+            [VertexAttribute(VertexAttributeName.Color, Normalize = true)]
+            public Color Color; // 16
+
+            [VertexAttribute(VertexAttributeName.ImageRect)]
+            public Rectangle TextureRect; // 16
         }
     }
 }
