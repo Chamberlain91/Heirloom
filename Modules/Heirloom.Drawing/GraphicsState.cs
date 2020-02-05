@@ -5,7 +5,7 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public struct GraphicsState : IEquatable<GraphicsState>
+    internal struct GraphicsState : IEquatable<GraphicsState>
     {
         public Surface Surface;
 
