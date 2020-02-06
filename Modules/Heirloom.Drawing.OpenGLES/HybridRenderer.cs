@@ -85,7 +85,7 @@ namespace Heirloom.Drawing.OpenGLES
                     // Bind vertex configuration
                     VertexArray.Bind();
 
-                    // 
+                    // Draw the geometry
                     GL.DrawElementsInstanced(DrawMode.Triangles, IndexBuffer.Count, DrawElementType.UnsignedShort, InstanceBuffer.Count);
                     GL.BindVertexArray(0);
                 });

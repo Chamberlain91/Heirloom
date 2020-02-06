@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 using Heirloom.Math;
 using Heirloom.OpenGLES;
@@ -239,6 +240,13 @@ namespace Heirloom.Drawing.OpenGLES
         protected internal abstract T Invoke<T>(Func<T> action);
 
         protected internal abstract void Invoke(Action action);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void Schedule(Action action)
+        {
+            var adapter = Instance as OpenGLGraphicsAdapter;
+            adapter.Invoke(action); // go!
+        }
 
         #endregion
     }

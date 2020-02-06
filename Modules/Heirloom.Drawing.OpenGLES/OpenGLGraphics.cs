@@ -21,7 +21,7 @@ namespace Heirloom.Drawing.OpenGLES
         private bool _viewMatrixInverseDirty;
 
         // TODO: Share buffers in ResourceManager?
-        private readonly Dictionary<string, Buffer> _uniformBuffers = new Dictionary<string, Buffer>();
+        private readonly Dictionary<string, UniformBuffer> _uniformBuffers = new Dictionary<string, UniformBuffer>();
 
         private ShaderProgram _shaderProgram;
         private Shader _shader;
@@ -38,7 +38,7 @@ namespace Heirloom.Drawing.OpenGLES
         protected internal OpenGLGraphics(OpenGLGraphicsAdapter adapter, MultisampleQuality multisample)
             : base(adapter, multisample)
         {
-            _isRunning = true;
+            Adapter = adapter;
 
             // Create and start new task runner
             _thread = new ConsumerThread("GL Consumer");
@@ -59,12 +59,15 @@ namespace Heirloom.Drawing.OpenGLES
             });
 
             // Begin consumer thread
+            _isRunning = true;
             _thread.Start();
         }
 
         #endregion
 
         #region Properties
+
+        public new OpenGLGraphicsAdapter Adapter { get; }
 
         public override Matrix GlobalTransform
         {
@@ -210,13 +213,13 @@ namespace Heirloom.Drawing.OpenGLES
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private Buffer GetUniformBuffer(ActiveUniformBlock block)
+        private UniformBuffer GetUniformBuffer(ActiveUniformBlock block)
         {
             // Try to get uniform buffer for block name
             if (_uniformBuffers.TryGetValue(block.Name, out var buffer) == false)
             {
                 // Create the buffer
-                buffer = Invoke(() => new Buffer(BufferTarget.UniformBuffer, (uint) block.DataSize));
+                buffer = Invoke(() => new UniformBuffer((uint) block.DataSize));
                 _uniformBuffers[block.Name] = buffer;
             }
 

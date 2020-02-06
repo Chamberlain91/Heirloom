@@ -6,21 +6,19 @@ using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    internal class Buffer : IDisposable
+    internal abstract class Buffer : IDisposable
     {
         private bool _isDisposed = false;
 
-        #region Constructors
-
-        public Buffer(BufferTarget target, uint capacity)
+        protected Buffer(BufferTarget target, uint sizeInBytes)
         {
-            Capacity = capacity;
             Target = target;
+            Size = sizeInBytes;
 
             // Create buffer
             Handle = GL.GenBuffer();
             GL.BindBuffer(Target, Handle);
-            GL.BufferData(Target, Capacity, IntPtr.Zero, BufferUsage.Stream);
+            GL.BufferData(Target, sizeInBytes, IntPtr.Zero, BufferUsage.Stream);
             GL.BindBuffer(Target, 0);
         }
 
@@ -29,52 +27,41 @@ namespace Heirloom.Drawing.OpenGLES
             Dispose(false);
         }
 
-        #endregion
+        public BufferTarget Target { get; }
 
-        #region Properties
+        public uint Handle { get; }
 
-        internal uint Handle { get; }
-
-        internal BufferTarget Target { get; }
-
-        internal uint Capacity { get; }
-
-        #endregion
+        public uint Size { get; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Bind()
+        public virtual void Bind()
         {
             GL.BindBuffer(Target, Handle);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe void Update(void* data, int offset, int size)
+        protected unsafe void Update(void* data, int offset, int size)
         {
-            // 
-            Bind();
+            // Bind the buffer...?
+            GL.BindBuffer(Target, Handle);
 
-            // Update data
-            if (offset == 0 && size == Capacity) { GL.BufferData(Target, (uint) size, (IntPtr) data, BufferUsage.Stream); }
+            // Submit new data...
+            if (offset == 0 && size == Size) { GL.BufferData(Target, (uint) size, (IntPtr) data, BufferUsage.Stream); }
             else { GL.BufferSubData(Target, (uint) offset, (uint) size, (IntPtr) data); }
 
-            //var ptr = GL.MapBufferRange(Target, offset, size, MapBufferAccess.Write | MapBufferAccess.InvalidateRange);
-            //Buffer.MemoryCopy(data, ptr, size, size);
-            //GL.UnmapBuffer(Target);
+            // var ptr = GL.MapBufferRange(Target, offset, size, MapBufferAccess.Write | MapBufferAccess.InvalidateRange);
+            // Buffer.MemoryCopy(data, ptr, size, size);
+            // GL.UnmapBuffer(Target);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe void Update<T>(T[] data, int count, int offset) where T : struct
+        protected unsafe void Update<TStruct>(TStruct[] data, int count, int offset = 0)
+            where TStruct : struct
         {
-            var size = Marshal.SizeOf<T>() * count;
+            var size = Marshal.SizeOf<TStruct>() * count;
             var handle = GCHandle.Alloc(data, GCHandleType.Pinned);
             Update((void*) handle.AddrOfPinnedObject(), offset, size);
             handle.Free();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe void Update<T>(T[] data, int offset) where T : struct
-        {
-            Update(data, data.Length, offset);
         }
 
         #region Dispose
@@ -85,12 +72,15 @@ namespace Heirloom.Drawing.OpenGLES
             {
                 if (disposeManaged)
                 {
-                    // TODO: dispose managed objects.
+                    // 
                 }
 
-                // TODO: free unmanaged resources
-                // Schedule on *some* context for deletion?
-                Console.WriteLine("WARN: Disposing Buffer! OpenGL Resource Not Deleted.");
+                // Schedule for deletion on a GL thread.
+                OpenGLGraphicsAdapter.Schedule(() =>
+                {
+                    Log.Debug($"Disposing {GetType().Name}.");
+                    GL.DeleteBuffer(Handle);
+                });
 
                 _isDisposed = true;
             }
