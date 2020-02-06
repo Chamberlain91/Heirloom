@@ -6,12 +6,12 @@ using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    internal sealed class HybridRenderer : Renderer
+    internal sealed class HybridBatcher : GeometryBatcher
     {
         private readonly BatchingTechnique _technique;
         private bool _isDirty;
 
-        public HybridRenderer(OpenGLGraphics graphics)
+        public HybridBatcher(OpenGLGraphics graphics)
             : base(graphics)
         {
             _technique = new InstancingTechnique(graphics);

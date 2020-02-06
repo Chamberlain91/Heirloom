@@ -4,9 +4,9 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    internal abstract class Renderer
+    internal abstract class GeometryBatcher
     {
-        protected Renderer(OpenGLGraphics graphics)
+        protected GeometryBatcher(OpenGLGraphics graphics)
         {
             Graphics = graphics ?? throw new ArgumentNullException(nameof(graphics));
         }
