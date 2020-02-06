@@ -11,23 +11,26 @@ namespace Heirloom.Drawing.OpenGLES
 {
     public abstract class OpenGLGraphics : Graphics
     {
-        private Surface _currentSurface;
-        private Renderer _renderer;
-
         private readonly ConsumerThread _thread;
         private bool _isRunning = false;
+
+        private GeometryBatcher _batch;
+
+        private Matrix _viewMatrix;
+        private Matrix _viewMatrixInverse;
+        private bool _viewMatrixInverseDirty;
+
+        // TODO: Share buffers in ResourceManager?
+        private readonly Dictionary<string, Buffer> _uniformBuffers = new Dictionary<string, Buffer>();
 
         private ShaderProgram _shaderProgram;
         private Shader _shader;
 
-        private Dictionary<string, Buffer> _uniformBuffers;
+        private Surface _currentSurface;
 
         private Rectangle _viewport;
-        private Matrix _viewMatrix;
-        private Matrix _inverseViewMatrix;
-        private float _approxPixelScale = 1;
 
-        private Blending _blendMode;
+        private Blending _blending;
         private Color _blendColor;
 
         #region Constructors
@@ -35,29 +38,21 @@ namespace Heirloom.Drawing.OpenGLES
         protected internal OpenGLGraphics(OpenGLGraphicsAdapter adapter, MultisampleQuality multisample)
             : base(adapter, multisample)
         {
-            Adapter = adapter;
-
             _isRunning = true;
 
             // Create and start new task runner
             _thread = new ConsumerThread("GL Consumer");
             _thread.InvokeLater(() =>
             {
+                // Assign the GL context to this thread.
                 MakeCurrent();
 
-                //  
-                Version = ParseVersion();
-                Log.Info(Version);
-
-                // 
+                // Set default OpenGL state
                 GL.Enable(EnableCap.ScissorTest);
                 GL.Enable(EnableCap.Blend);
 
-                // TODO: Share buffers in ResourceManager?
-                _uniformBuffers = new Dictionary<string, Buffer>();
-
-                // Construct the instancing batching renderer
-                _renderer = new HybridRenderer(this);
+                // Construct the geometry batcher
+                _batch = new HybridBatcher(this);
 
                 // 
                 ResetState();
@@ -69,65 +64,89 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
-        #region Properties 
+        #region Properties
 
-        public OpenGLGraphicsAdapter Adapter { get; }
-
-        /// <summary>
-        /// Gets the detected OpenGL version of this platform.
-        /// </summary>
-        public OpenGLVersion Version { get; private set; }
-
-        #endregion
-
-        #region Thread Callbacks
-
-        protected abstract void MakeCurrent();
-
-        private OpenGLVersion ParseVersion()
-        // ref: https://hackage.haskell.org/package/bindings-GLFW-3.1.2.2/src/glfw/src/context.c
+        public override Matrix GlobalTransform
         {
-            var vendor = GL.GetString(StringParameter.Vendor);
-            var renderer = GL.GetString(StringParameter.Renderer);
-            var version = GL.GetString(StringParameter.Version);
-            var embedded = false;
+            get => _viewMatrix;
 
-            var embeddedPrefixes = new[]
+            set
             {
-                "OpenGL ES ",
-                "OpenGL ES-CM ",
-                "OpenGL ES-CL "
-            };
+                // Forced flush (mutating global state)
+                Flush();
 
-            // Try to detect OpenGL ES
-            foreach (var prefix in embeddedPrefixes)
-            {
-                if (version.StartsWith(prefix))
-                {
-                    // Strip prefix
-                    version = version.Substring(prefix.Length);
-                    embedded = true;
-                    break;
-                }
+                // Store view matrix
+                _viewMatrixInverseDirty = true;
+                _viewMatrix = value;
             }
+        }
 
-            //
-            var split = version.IndexOf(" ");
-            if (split >= 0) { version = version.Substring(0, split); }
+        public override Matrix InverseGlobalTransform
+        {
+            get
+            {
+                if (_viewMatrixInverseDirty)
+                {
+                    // Compute inverted view matrix
+                    Matrix.Inverse(in _viewMatrix, ref _viewMatrixInverse);
+                    _viewMatrixInverseDirty = false;
+                }
 
-            // Find dots (A.B.C or A.B)
-            var minDot = version.IndexOf('.');
-            var revDot = version.IndexOf('.', minDot + 1);
-            if (revDot < 0) { revDot = version.Length; }
+                return _viewMatrixInverse;
+            }
+        }
 
-            // Extract and parse version number substrings
-            var major = int.Parse(version.Substring(0, minDot));
-            var minor = int.Parse(version.Substring(minDot + 1, revDot - minDot - 1));
+        public override Rectangle Viewport
+        // todo: viewport mechanism needs radical improvment
+        {
+            get => _viewport;
 
-            return new OpenGLVersion(vendor, renderer, major, minor, embedded);
+            set
+            {
+                // if dirty, flush
+                if (_batch.IsDirty)
+                {
+                    // This will complete anything to draw, and
+                    // then adjust viewports.
+                    Flush();
+                }
+                else
+                {
+                    // Nothing to draw, so we will just set the viewport
+                    Invoke(() => SetViewportAndScissor(out var _, out var _), false);
+                }
+
+                _viewport = value;
+            }
+        }
+
+        public override Blending Blending
+        {
+            get => _blending;
+            set => UseBlending(value);
+        }
+
+        public override Surface Surface
+        {
+            get => _currentSurface;
+            set => UseSurface(value);
+        }
+
+        public override Shader Shader
+        {
+            get => _shader;
+            set => UseShader(value);
+        }
+
+        public override Color Color
+        {
+            get => _blendColor;
+            set => _blendColor = value;
         }
 
         #endregion
+
+        #region Invoke
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected internal void Invoke(Action action, bool blocking = true)
@@ -144,19 +163,9 @@ namespace Heirloom.Drawing.OpenGLES
             return _thread.Invoke(action);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private Buffer GetUniformBuffer(ActiveUniformBlock block)
-        {
-            // Try to get uniform buffer for block name
-            if (_uniformBuffers.TryGetValue(block.Name, out var buffer) == false)
-            {
-                // Create the buffer
-                buffer = Invoke(() => new Buffer(BufferTarget.UniformBuffer, (uint) block.DataSize));
-                _uniformBuffers[block.Name] = buffer;
-            }
+        #endregion
 
-            return buffer;
-        }
+        protected abstract void MakeCurrent();
 
         private unsafe void SetViewportAndScissor(out int w, out int h)
         {
@@ -172,13 +181,7 @@ namespace Heirloom.Drawing.OpenGLES
             GL.SetScissor(x, y, w, h);
         }
 
-        #region Shaders
-
-        public override Shader Shader
-        {
-            get => _shader;
-            set => UseShader(value);
-        }
+        #region Shader
 
         private void UseShader(Shader shader)
         {
@@ -204,6 +207,20 @@ namespace Heirloom.Drawing.OpenGLES
                     }
                 });
             }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private Buffer GetUniformBuffer(ActiveUniformBlock block)
+        {
+            // Try to get uniform buffer for block name
+            if (_uniformBuffers.TryGetValue(block.Name, out var buffer) == false)
+            {
+                // Create the buffer
+                buffer = Invoke(() => new Buffer(BufferTarget.UniformBuffer, (uint) block.DataSize));
+                _uniformBuffers[block.Name] = buffer;
+            }
+
+            return buffer;
         }
 
         private void UpdateShaderUniforms()
@@ -541,7 +558,7 @@ namespace Heirloom.Drawing.OpenGLES
             var buffer = GetUniformBuffer(uniform.BlockInfo);
 
             // Update data in buffer
-            Invoke(() => buffer.Update(data, uniform.Info.Offset + offset, size), !!false);
+            Invoke(() => buffer.Update(data, uniform.Info.Offset + offset, size), false);
         }
 
         /// <summary>
@@ -559,35 +576,30 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Surface
 
-        public override Surface Surface
+        private void UseSurface(Surface value)
         {
-            get => _currentSurface;
-
-            set
+            // Wasn't the same surface as before, flush everything
+            if (value != _currentSurface)
             {
-                // Wasn't the same surface as before, flush everything
-                if (value != _currentSurface)
+                // Only flush we have a valid surface
+                Flush();
+
+                _currentSurface = value;
+
+                Invoke(() =>
                 {
-                    // Only flush we have a valid surface
-                    Flush();
-
-                    _currentSurface = value;
-
-                    Invoke(() =>
+                    // Set and prepare the surface (ie, bind framebuffer)
+                    if (value == DefaultSurface)
                     {
-                        // Set and prepare the surface (ie, bind framebuffer)
-                        if (value == DefaultSurface)
-                        {
-                            // Bind window surface (default for context)
-                            GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, 0);
-                        }
-                        else
-                        {
-                            // Bind surface framebuffer
-                            ResourceManager.GetFramebuffer(this, value).Bind();
-                        }
-                    }, !!false);
-                }
+                        // Bind window surface (default for context)
+                        GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, 0);
+                    }
+                    else
+                    {
+                        // Bind surface framebuffer
+                        ResourceManager.GetFramebuffer(this, value).Bind();
+                    }
+                }, false);
             }
         }
 
@@ -601,147 +613,62 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
-        #region View State
+        #region Blending
 
-        public override Matrix GlobalTransform
+        private void UseBlending(Blending blending)
         {
-            get => _viewMatrix;
-
-            set
+            if (_blending != blending)
             {
-                Flush(); // if different, draw
-
-                // store view matrix
-                _viewMatrix = value;
-
-                // compute inverted view matrix
-                Matrix.Inverse(in value, ref _inverseViewMatrix);
-
-                // approximation for pixel scale
-                var invViewScale = _inverseViewMatrix.GetAffineScale();
-                _approxPixelScale = (invViewScale.X + invViewScale.Y) / 2F;
-            }
-        }
-
-        public override Matrix InverseGlobalTransform => _inverseViewMatrix;
-
-        public override Rectangle Viewport
-        {
-            get => _viewport;
-
-            set
-            {
-                // if dirty, flush
-                if (_renderer.IsDirty)
+                Invoke(() =>
                 {
-                    // This will complete anything to draw, and
-                    // then adjust viewports.
                     Flush();
-                }
-                else
-                {
-                    // Nothing to draw, so we will just set the viewport
-                    Invoke(() => SetViewportAndScissor(out var _, out var _), !!false);
-                }
 
-                _viewport = value;
-            }
-        }
+                    // Store mode
+                    _blending = blending;
 
-        #endregion
-
-        #region Blending and Color
-
-        public override Color Color
-        {
-            get => _blendColor;
-            set => _blendColor = value;
-        }
-
-        public override Blending Blending
-        {
-            get => _blendMode;
-
-            set
-            {
-                if (_blendMode != value)
-                {
-                    Invoke(() =>
+                    // 
+                    switch (_blending)
                     {
-                        // 
-                        Flush();
+                        default:
+                            throw new InvalidOperationException("Unable to set unknown blend mode.");
 
-                        // Store mode
-                        _blendMode = value;
+                        case Blending.Opaque:
+                            GL.SetBlendEquation(BlendEquation.Add);
+                            GL.SetBlendFunction(BlendFunction.One, BlendFunction.Zero);
+                            break;
 
-                        // 
-                        switch (_blendMode)
-                        {
-                            default:
-                                throw new InvalidOperationException("Unable to set unknown blend mode.");
+                        case Blending.Alpha:
+                            GL.SetBlendEquation(BlendEquation.Add, BlendEquation.Add);
+                            GL.SetBlendFunction(BlendFunction.SourceAlpha, BlendFunction.OneMinusSourceAlpha, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
+                            break;
 
-                            case Blending.Opaque:
-                                GL.SetBlendEquation(BlendEquation.Add);
-                                GL.SetBlendFunction(BlendFunction.One, BlendFunction.Zero);
-                                break;
+                        case Blending.Additive:
+                            GL.SetBlendEquation(BlendEquation.Add);
+                            GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
+                            break;
 
-                            case Blending.Alpha:
-                                GL.SetBlendEquation(BlendEquation.Add, BlendEquation.Add);
-                                GL.SetBlendFunction(BlendFunction.SourceAlpha, BlendFunction.OneMinusSourceAlpha, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
-                                break;
+                        case Blending.Subtractive: // Opposite of Additive (DST - SRC)
+                            GL.SetBlendEquation(BlendEquation.ReverseSubtract);
+                            GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha, BlendFunction.One);
+                            break;
 
-                            case Blending.Additive:
-                                GL.SetBlendEquation(BlendEquation.Add);
-                                GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
-                                break;
+                        case Blending.Multiply:
+                            GL.SetBlendEquation(BlendEquation.Add);
+                            GL.SetBlendFunction(BlendFunction.DestinationColor, BlendFunction.OneMinusSourceAlpha);
+                            break;
 
-                            case Blending.Subtractive: // Opposite of Additive (DST - SRC)
-                                GL.SetBlendEquation(BlendEquation.ReverseSubtract);
-                                GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha, BlendFunction.One);
-                                break;
-
-                            case Blending.Multiply:
-                                GL.SetBlendEquation(BlendEquation.Add);
-                                GL.SetBlendFunction(BlendFunction.DestinationColor, BlendFunction.OneMinusSourceAlpha);
-                                break;
-
-                            case Blending.Invert:
-                                GL.SetBlendEquation(BlendEquation.Subtract);
-                                GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.Zero);
-                                break;
-                        }
-                    }, !!false);
-                }
+                        case Blending.Invert:
+                            GL.SetBlendEquation(BlendEquation.Subtract);
+                            GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.Zero);
+                            break;
+                    }
+                }, false);
             }
         }
 
         #endregion
 
-        #region Draw
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override void Clear(in Color color)
-        {
-            var col = color;
-
-            Invoke(() =>
-            {
-                // Set color and clear
-                GL.SetClearColor(col.R, col.G, col.B, col.A);
-                GL.Clear(ClearMask.Color);
-            }, !!false);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override void DrawMesh(ImageSource image, Mesh mesh, in Matrix transform)
-        {
-            _renderer.Submit(image, mesh, in transform, _blendColor);
-            if (HasDirtyUniform(_shader)) { Flush(); }
-        }
-
-        #endregion
-
-        #region Capture
+        #region Read Pixels
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override unsafe Image GrabPixels(in IntRectangle region)
@@ -779,6 +706,30 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
+        #region Draw
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override void Clear(in Color color)
+        {
+            var col = color;
+
+            Invoke(() =>
+            {
+                // Set color and clear
+                GL.SetClearColor(col.R, col.G, col.B, col.A);
+                GL.Clear(ClearMask.Color);
+            }, false);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override void DrawMesh(ImageSource image, Mesh mesh, in Matrix transform)
+        {
+            _batch.Submit(image, mesh, in transform, _blendColor);
+            if (HasDirtyUniform(_shader)) { Flush(); }
+        }
+
+        #endregion
+
         #region Flush
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -788,7 +739,7 @@ namespace Heirloom.Drawing.OpenGLES
             if (_currentSurface == null) { return; }
 
             // If the renderer has any batched work
-            if (_renderer.IsDirty)
+            if (_batch.IsDirty)
             {
                 Invoke(() =>
                 {
@@ -803,13 +754,8 @@ namespace Heirloom.Drawing.OpenGLES
                     // Write into uniform buffer
                     SetShaderParameter("uMatrix", projMatrix);
 
-                    //// Synchronize GPU with operations before drawing
-                    //var sync = GL.FenceSync(SyncFenceCondition.SyncGpuCommandsComplete, 0);
-                    //GL.WaitSync(sync, 0); // Wait GPU for buffer writes, etc
-                    //GL.DeleteSync(sync);  // Remove sync object
-
                     // Flush pending batch
-                    _renderer.FlushBatch();
+                    _batch.FlushBatch();
                 });
             }
         }
