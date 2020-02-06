@@ -11,7 +11,7 @@ namespace Heirloom.Drawing.OpenGLES
     // todo: better design, weird coupling between Renderer and Graphics
     // could probably create a "gl state" tracker and move rendering impl into OpenGLGraphics itself
     {
-        private readonly OpenGLGraphics _context;
+        private readonly OpenGLGraphics _gfx;
 
         private readonly VertexBuffer<InstanceData> _instances;
         private readonly VertexBuffer<VertexData> _vertices;
@@ -25,9 +25,9 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Constructors
 
-        public InstancingRenderer(OpenGLGraphics context)
+        public InstancingRenderer(OpenGLGraphics gfx)
         {
-            _context = context;
+            _gfx = gfx;
 
             // 
             _instances = new VertexBuffer<InstanceData>(ushort.MaxValue, false);
@@ -53,7 +53,7 @@ namespace Heirloom.Drawing.OpenGLES
             if (!ReferenceEquals(_mesh, mesh) || _meshVersion != mesh.Version)
             {
                 // Render previous
-                _context.Flush();
+                _gfx.Flush();
 
                 // Set quad template
                 SetTemplate(mesh);
@@ -62,16 +62,16 @@ namespace Heirloom.Drawing.OpenGLES
             // Unable to append another instance
             if (_instances.Count == _instances.Data.Length)
             {
-                _context.Flush();
+                _gfx.Flush();
             }
 
             // Get OpenGL texture and packed rect
-            var (texture, textureRect) = ResourceManager.GetTextureInfo(_context, image);
+            var (texture, textureRect) = ResourceManager.GetTextureInfo(_gfx, image);
 
             // Different texture, flush
             if (_texture != texture)
             {
-                _context.Flush();
+                _gfx.Flush();
                 _texture = texture;
             }
 
@@ -118,7 +118,7 @@ namespace Heirloom.Drawing.OpenGLES
             {
                 // Perform on the rendering thread
                 // todo: make invoke non-blocking but we need a vertex array ring buffer
-                _context.Invoke(() =>
+                _gfx.Invoke(() =>
                 {
                     // Update GPU side buffers
                     _instances.Upload();
@@ -147,7 +147,7 @@ namespace Heirloom.Drawing.OpenGLES
                 });
 
                 // Update current surface version number, as we have mutated it
-                _context.MarkSurfaceDirty();
+                _gfx.MarkSurfaceDirty();
 
                 // 
                 _instances.Count = 0;

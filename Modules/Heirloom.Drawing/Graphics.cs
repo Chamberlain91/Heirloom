@@ -19,12 +19,12 @@ namespace Heirloom.Drawing
         private readonly Stopwatch _stopwatch;
         private float _fpsTime;
         private int _fpsCount;
-          
+
         #region Constructors
 
-        protected Graphics(GraphicsAdapter graphicsAdapter, MultisampleQuality multisample)
+        protected Graphics(GraphicsAdapter adapter, MultisampleQuality multisample)
         {
-            GraphicsAdapter = graphicsAdapter;
+            Adapter = adapter;
 
             _stateStack = new Stack<GraphicsState>();
             _stopwatch = Stopwatch.StartNew();
@@ -42,7 +42,7 @@ namespace Heirloom.Drawing
 
         #region Properties
 
-        internal GraphicsAdapter GraphicsAdapter { get; }
+        protected internal GraphicsAdapter Adapter { get; }
 
         /// <summary>
         /// Gets the queried capabilities (ie, limits) for the current device.
@@ -211,11 +211,6 @@ namespace Heirloom.Drawing
             return shader.Native;
         }
 
-        protected static object GetNativeObject(IDrawingResource resource)
-        {
-            return resource.NativeObject;
-        }
-
         protected static bool HasDirtyUniform(Shader shader)
         {
             return shader.IsAnyUniformDirty;
@@ -263,7 +258,7 @@ namespace Heirloom.Drawing
             // Low level swap buffers
             SwapBuffers();
         }
-         
+
         protected abstract void SwapBuffers();
 
         /// <summary>
