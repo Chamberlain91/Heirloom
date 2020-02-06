@@ -10,13 +10,6 @@ namespace Heirloom.Drawing.OpenGLES
     {
         private static readonly Rectangle _surfaceUVRect = new Rectangle(0, 0, 1, -1);
 
-        private static readonly ConditionalWeakTable<Surface, Framebuffer> _framebuffers;
-
-        static ResourceManager()
-        {
-            _framebuffers = new ConditionalWeakTable<Surface, Framebuffer>();
-        }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static (Texture, Rectangle) GetTextureInfo(OpenGLGraphics gfx, ImageSource source)
         {
@@ -83,7 +76,7 @@ namespace Heirloom.Drawing.OpenGLES
             if (image.Version != texture.Version)
             {
                 // Update texture (image data and mips)
-                texture.UpdateByImage(gfx, image);
+                gfx.Invoke(() => texture.UpdateByImage(image));
             }
 
             return texture;

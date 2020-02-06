@@ -189,7 +189,7 @@ namespace Heirloom.Drawing.OpenGLES
                     // Complete any previous render work
                     Flush();
 
-                    // 
+                    //
                     _shaderProgram = GetNativeObject(shader) as ShaderProgram;
                     _shader = shader;
 
