@@ -6,7 +6,7 @@ using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    internal sealed class HybridBatcher : GeometryBatcher
+    internal sealed class HybridBatcher : Renderer
     {
         private readonly BatchingTechnique _technique;
         private bool _isDirty;

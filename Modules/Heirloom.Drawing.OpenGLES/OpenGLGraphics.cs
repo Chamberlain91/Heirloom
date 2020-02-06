@@ -14,7 +14,7 @@ namespace Heirloom.Drawing.OpenGLES
         private readonly ConsumerThread _thread;
         private bool _isRunning = false;
 
-        private GeometryBatcher _batch;
+        private Renderer _renderer;
 
         private Matrix _viewMatrix;
         private Matrix _viewMatrixInverse;
@@ -52,7 +52,7 @@ namespace Heirloom.Drawing.OpenGLES
                 GL.Enable(EnableCap.Blend);
 
                 // Construct the geometry batcher
-                _batch = new HybridBatcher(this);
+                _renderer = new HybridBatcher(this);
 
                 // 
                 ResetState();
@@ -104,7 +104,7 @@ namespace Heirloom.Drawing.OpenGLES
             set
             {
                 // if dirty, flush
-                if (_batch.IsDirty)
+                if (_renderer.IsDirty)
                 {
                     // This will complete anything to draw, and
                     // then adjust viewports.
@@ -724,7 +724,7 @@ namespace Heirloom.Drawing.OpenGLES
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override void DrawMesh(ImageSource image, Mesh mesh, in Matrix transform)
         {
-            _batch.Submit(image, mesh, in transform, _blendColor);
+            _renderer.Submit(image, mesh, in transform, _blendColor);
             if (HasDirtyUniform(_shader)) { Flush(); }
         }
 
@@ -739,7 +739,7 @@ namespace Heirloom.Drawing.OpenGLES
             if (_currentSurface == null) { return; }
 
             // If the renderer has any batched work
-            if (_batch.IsDirty)
+            if (_renderer.IsDirty)
             {
                 Invoke(() =>
                 {
@@ -755,7 +755,7 @@ namespace Heirloom.Drawing.OpenGLES
                     SetShaderParameter("uMatrix", projMatrix);
 
                     // Flush pending batch
-                    _batch.FlushBatch();
+                    _renderer.FlushBatch();
                 });
             }
         }
