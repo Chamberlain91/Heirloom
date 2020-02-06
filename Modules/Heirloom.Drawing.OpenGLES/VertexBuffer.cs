@@ -1,12 +1,17 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    internal abstract class VertexBuffer
+    internal abstract class VertexBuffer : Buffer
     {
-        public abstract void Bind();
+        protected VertexBuffer(uint sizeInBytes)
+            : base(BufferTarget.Array, sizeInBytes)
+        { }
+
         public abstract void Upload();
     }
 
@@ -15,37 +20,44 @@ namespace Heirloom.Drawing.OpenGLES
     {
         // Attribute Layout
         public readonly VertexAttribute[] Attributes;
+        public readonly bool IsPerVertex;
         public readonly int ByteStride;
 
-        // GPU
-        public readonly Buffer Buffer;
+        public readonly int Capacity;
 
-        // CPU
+        // CPU Buffer
         public readonly TStruct[] Data;
-        public int Capacity => Data.Length;
         public int Count;
 
-        public readonly bool IsPerVertex;
-
         public VertexBuffer(int capacity, bool isPerVertex)
+            : base((uint) (capacity * Marshal.SizeOf<TStruct>()))
         {
             Attributes = VertexAttribute.GenerateAttributes(typeof(TStruct));
-            Buffer = new Buffer(BufferTarget.Array, (uint) (capacity * Marshal.SizeOf<TStruct>()));
-            Data = new TStruct[capacity];
-
+            ByteStride = ComputeAttributeStride(Attributes);
             IsPerVertex = isPerVertex;
 
-            // Compute stride
-            foreach (var attr in Attributes)
+            // 
+            Data = new TStruct[capacity];
+            Capacity = capacity;
+            Count = 0;
+        }
+
+        private static int ComputeAttributeStride(IEnumerable<VertexAttribute> attributes)
+        {
+            var stride = 0;
+
+            foreach (var attr in attributes)
             {
-                ByteStride += VertexAttribute.GetSizeInBytes(attr.Type, attr.Size);
+                stride += VertexAttribute.GetSizeInBytes(attr.Type, attr.Size);
             }
+
+            return stride;
         }
 
         public override void Bind()
         {
             // == Bind Buffer
-            Buffer.Bind();
+            base.Bind();
 
             // == Configure Pointers
             var offset = 0;
@@ -56,9 +68,10 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override void Upload()
         {
-            Buffer.Update(Data, Count, 0);
+            Update(Data, Count);
         }
     }
 }

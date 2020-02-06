@@ -1,30 +1,27 @@
-﻿using System.Runtime.CompilerServices;
-using Heirloom.OpenGLES;
+﻿using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    internal sealed unsafe class IndexBuffer
+    /// <summary>
+    /// Represents indices of a mesh.
+    /// </summary>
+    internal sealed unsafe class IndexBuffer : Buffer
     {
-        public readonly Buffer Buffer;
+        // CPU Buffer
         public readonly ushort[] Data;
+        public readonly int Capacity;
         public int Count;
 
         public IndexBuffer(int capacity)
+            : base(BufferTarget.ElementArray, (uint) capacity)
         {
-            Buffer = new Buffer(BufferTarget.ElementArray, (uint) (capacity * sizeof(ushort)));
             Data = new ushort[capacity];
+            Capacity = capacity;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Bind()
-        {
-            Buffer.Bind();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Upload()
         {
-            Buffer.Update(Data, Count, 0);
+            Update(Data, Count);
         }
     }
 }
