@@ -79,7 +79,7 @@ namespace Heirloom.Drawing.OpenGLES
         #endregion
 
         /// <summary>
-        /// Computes the number of mip levels for a texture of the given size.
+        /// Computes the number of mip levels possible for a texture of the given size.
         /// </summary>
         private static int ComputeMipLevels(IntSize size)
         {
@@ -101,7 +101,7 @@ namespace Heirloom.Drawing.OpenGLES
         /// <summary>
         /// Update the GPU representation of this texture with the given image data.
         /// </summary>
-        internal void UpdateByImage(OpenGLGraphics gfx, Image image)
+        internal void UpdateByImage(Image image)
         {
             // Validate we were provide a non-null image.
             if (image == null) { throw new ArgumentNullException(nameof(image)); }
@@ -112,23 +112,20 @@ namespace Heirloom.Drawing.OpenGLES
             // Ensure the image provided has matching dimensions to the texture
             if (image.Width != Width || image.Height != Height) { throw new ArgumentException($"Image did not match texture dimensions", nameof(image)); }
 
-            gfx.Invoke(() =>
-            {
-                // 
-                GL.BindTexture(TextureTarget.Texture2D, Handle);
+            // 
+            GL.BindTexture(TextureTarget.Texture2D, Handle);
 
-                // Update entire image region
-                GL.TexSubImage2D(TextureImageTarget.Texture2D, 0,
-                    0, 0, Width, Height, // Sub Region
-                    TexturePixelFormat.RGBA, TexturePixelType.UnsignedByte,
-                    image.GetPixels());
+            // Update entire image region
+            GL.TexSubImage2D(TextureImageTarget.Texture2D, 0,
+                0, 0, Width, Height, // Sub Region
+                TexturePixelFormat.RGBA, TexturePixelType.UnsignedByte,
+                image.GetPixels());
 
-                SetTextureFilter(image.InterpolationMode);
+            SetTextureFilter(image.InterpolationMode);
 
-                // Generate mips
-                GL.GenerateMipmap(TextureTarget.Texture2D);
-                GL.BindTexture(TextureTarget.Texture2D, 0);
-            }, false);
+            // Generate mips
+            GL.GenerateMipmap(TextureTarget.Texture2D);
+            GL.BindTexture(TextureTarget.Texture2D, 0);
 
             // Store version to mark as updated
             Version = image.Version;
@@ -141,7 +138,7 @@ namespace Heirloom.Drawing.OpenGLES
             SetTextureFilter(surface.InterpolationMode);
 
             // Generate mips
-            GL.GenerateMipmap(TextureTarget.Texture2D); 
+            GL.GenerateMipmap(TextureTarget.Texture2D);
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
             // Store version to mark as updated

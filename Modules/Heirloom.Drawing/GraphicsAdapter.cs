@@ -19,7 +19,7 @@ namespace Heirloom.Drawing
             Capabilities = QueryCapabilities();
 
             // Construct resource managers
-            ShaderResources = CreateShaderResourceManager();
+            ShaderResources = CreateShaderManager();
         }
 
         #endregion
@@ -36,7 +36,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Implementation of shader resources.
         /// </summary>
-        internal static IShaderResourceManager ShaderResources { get; private set; }
+        internal static IShaderManager ShaderResources { get; private set; }
 
         #endregion
 
@@ -46,7 +46,7 @@ namespace Heirloom.Drawing
 
         protected abstract GraphicsCapabilities QueryCapabilities();
 
-        protected abstract IShaderResourceManager CreateShaderResourceManager();
+        protected abstract IShaderManager CreateShaderManager();
 
         #region Dispose
 
@@ -75,7 +75,7 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        protected internal interface IShaderResourceManager
+        protected internal interface IShaderManager
         {
             object Compile(string name, string vert, string frag, out UniformInfo[] uniforms);
 

@@ -6,8 +6,6 @@ using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    using ShaderType = Heirloom.OpenGLES.ShaderType;
-
     public abstract class OpenGLGraphicsAdapter : GraphicsAdapter
     {
         #region Query Capabilities
@@ -22,49 +20,31 @@ namespace Heirloom.Drawing.OpenGLES
                 adapterVendor: vendor,
                 maxSupportedVertexImages: GL.GetInteger(GetParameter.MaxVertexTextureImageUnits),
                 maxSupportedFragmentImages: GL.GetInteger(GetParameter.MaxTextureImageUnits),
-                isMobilePlatform: DetectOpenGLES());
+                isMobilePlatform: DetectEmbeddedOpenGL());
         }
 
-        private static bool DetectOpenGLES()
+        private static bool DetectEmbeddedOpenGL()
         {
+            // Query GL Version
             var version = GL.GetString(StringParameter.Version);
-            var embedded = false;
 
-            var embeddedPrefixes = new[]
+            // Known ES prefixes
+            var prefixes = new[]
             {
                 "OpenGL ES ",
                 "OpenGL ES-CM ",
                 "OpenGL ES-CL "
             };
 
-            // Try to detect OpenGL ES
-            foreach (var prefix in embeddedPrefixes)
-            {
-                if (version.StartsWith(prefix))
-                {
-                    // Strip prefix
-                    version = version.Substring(prefix.Length);
-                    embedded = true;
-                    break;
-                }
-            }
-
-            return embedded;
+            // Does the version string match any known prefix
+            return prefixes.Where(prefix => version.StartsWith(prefix)).Any();
         }
 
         #endregion
 
-        #region Invoke (GL Thread)
-
-        protected internal abstract T Invoke<T>(Func<T> action);
-
-        protected internal abstract void Invoke(Action action);
-
-        #endregion
-
-        protected override IShaderResourceManager CreateShaderResourceManager()
+        protected override IShaderManager CreateShaderManager()
         {
-            return new ShaderResourceManager(this);
+            return new ShaderManager(this);
         }
 
         #region Resource Managers
@@ -79,9 +59,9 @@ namespace Heirloom.Drawing.OpenGLES
             public OpenGLGraphicsAdapter Adapter { get; }
         }
 
-        private sealed class ShaderResourceManager : ResourceManager, IShaderResourceManager
+        private sealed class ShaderManager : ResourceManager, IShaderManager
         {
-            public ShaderResourceManager(OpenGLGraphicsAdapter adapter)
+            public ShaderManager(OpenGLGraphicsAdapter adapter)
                 : base(adapter)
             { }
 
@@ -251,6 +231,14 @@ namespace Heirloom.Drawing.OpenGLES
 
             #endregion
         }
+
+        #endregion
+
+        #region Invoke
+
+        protected internal abstract T Invoke<T>(Func<T> action);
+
+        protected internal abstract void Invoke(Action action);
 
         #endregion
     }

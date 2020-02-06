@@ -8,11 +8,10 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public class Mesh : IDrawingResource
+    public sealed class Mesh
     {
         private readonly List<Vertex> _vertices;
         private readonly List<int> _indices;
-        private object _native;
 
         #region Constructors
 
@@ -237,7 +236,7 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        internal void UpdateVersionNumber()
+        private void UpdateVersionNumber()
         {
             Version++;
 
@@ -246,17 +245,6 @@ namespace Heirloom.Drawing
             {
                 Version = 0;
             }
-        }
-
-        object IDrawingResource.NativeObject
-        {
-            get => _native;
-            set => _native = value;
-        }
-
-        void IDrawingResource.UpdateVersionNumber()
-        {
-            UpdateVersionNumber();
         }
     }
 }

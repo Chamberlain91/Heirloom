@@ -32,8 +32,8 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Constructors
 
-        protected internal OpenGLGraphics(GraphicsAdapter graphicsAdapter, MultisampleQuality multisample)
-            : base(graphicsAdapter, multisample)
+        protected internal OpenGLGraphics(GraphicsAdapter adapter, MultisampleQuality multisample)
+            : base(adapter, multisample)
         {
             _isRunning = true;
 
@@ -185,7 +185,7 @@ namespace Heirloom.Drawing.OpenGLES
                     // Complete any previous render work
                     Flush();
 
-                    // 
+                    //
                     _shaderProgram = GetNativeObject(shader) as ShaderProgram;
                     _shader = shader;
 
