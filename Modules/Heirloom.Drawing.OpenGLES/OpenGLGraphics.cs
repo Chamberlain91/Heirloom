@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Threading;
+
 using Heirloom.Drawing.OpenGLES.Utilities;
 using Heirloom.Math;
 using Heirloom.OpenGLES;
@@ -32,9 +32,11 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Constructors
 
-        protected internal OpenGLGraphics(GraphicsAdapter graphicsAdapter, MultisampleQuality multisample)
-            : base(graphicsAdapter, multisample)
+        protected internal OpenGLGraphics(OpenGLGraphicsAdapter adapter, MultisampleQuality multisample)
+            : base(adapter, multisample)
         {
+            Adapter = adapter;
+
             _isRunning = true;
 
             // Create and start new task runner
@@ -55,7 +57,7 @@ namespace Heirloom.Drawing.OpenGLES
                 _uniformBuffers = new Dictionary<string, Buffer>();
 
                 // Construct the instancing batching renderer
-                _renderer = new InstancingRenderer(this);
+                _renderer = new HybridRenderer(this);
 
                 // 
                 ResetState();
@@ -68,6 +70,8 @@ namespace Heirloom.Drawing.OpenGLES
         #endregion
 
         #region Properties 
+
+        public OpenGLGraphicsAdapter Adapter { get; }
 
         /// <summary>
         /// Gets the detected OpenGL version of this platform.
@@ -805,7 +809,7 @@ namespace Heirloom.Drawing.OpenGLES
                     //GL.DeleteSync(sync);  // Remove sync object
 
                     // Flush pending batch
-                    _renderer.FlushPendingBatch();
+                    _renderer.FlushBatch();
                 });
             }
         }

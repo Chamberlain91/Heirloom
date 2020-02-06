@@ -22,6 +22,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         // CPU
         public readonly TStruct[] Data;
+        public int Capacity => Data.Length;
         public int Count;
 
         public readonly bool IsPerVertex;
