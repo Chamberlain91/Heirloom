@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -15,7 +15,7 @@ namespace Heirloom.Drawing.OpenGLES
         public HybridRenderer(OpenGLGraphics graphics)
             : base(graphics)
         {
-            _technique = new InstancingTechnique(graphics);
+            _technique = new StreamingTechnique(graphics);
         }
 
         public override bool IsDirty => _dirtyFlag;
@@ -91,6 +91,8 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
+        #region Instancing Technique
+
         private class InstancingTechnique : BatchingTechnique<InstancingTechnique.InstanceData, InstancingTechnique.VertexData>
         {
             private uint _templateVersion;
@@ -132,8 +134,6 @@ namespace Heirloom.Drawing.OpenGLES
                     // Copy index data
                     for (var i = 0; i < mesh.Indices.Count; i++)
                     {
-                        var index = mesh.Indices[i];
-                        if (index >= ushort.MaxValue) { throw new InvalidOperationException($"Mesh must not have indices greater then or equal to {ushort.MaxValue}."); }
                         IndexBuffer.Data[i] = (ushort) mesh.Indices[i];
                     }
 
@@ -191,6 +191,86 @@ namespace Heirloom.Drawing.OpenGLES
 
                 [VertexAttribute(VertexAttributeName.ImageRect)]
                 public Rectangle TextureRect; // 16
+            }
+        }
+
+        #endregion
+
+        private class StreamingTechnique : BatchingTechnique<StreamingTechnique.InstanceData, StreamingTechnique.VertexData>
+        {
+            public StreamingTechnique(OpenGLGraphics graphics)
+                : base(graphics)
+            { }
+
+            internal override bool IsDirty => IndexBuffer.Count > 0;
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal override void Submit(Mesh mesh, in Rectangle uvRect, in Matrix transform, in Color color)
+            {
+                // Buffers at capacity (forced flush).
+                if ((VertexBuffer.Count + mesh.Vertices.Count) >= VertexBuffer.Capacity) { Graphics.Flush(); }
+                if ((IndexBuffer.Count + mesh.Indices.Count) >= IndexBuffer.Capacity) { Graphics.Flush(); }
+
+                // Copy vertex data
+                var vOffset = VertexBuffer.Count;
+                for (var i = 0; i < mesh.Vertices.Count; i++)
+                {
+                    ref var vtx = ref VertexBuffer.Data[vOffset + i];
+                    vtx.Position = transform * mesh.Vertices[i].Position;
+                    vtx.UV = uvRect.Position + (mesh.Vertices[i].UV * (Vector) uvRect.Size);
+                    vtx.Color = color;
+                }
+
+                // Copy index data
+                var iOffset = IndexBuffer.Count;
+                for (var i = 0; i < mesh.Indices.Count; i++)
+                {
+                    IndexBuffer.Data[iOffset] = (ushort) mesh.Indices[i];
+                }
+
+                // 
+                VertexBuffer.Count += mesh.Vertices.Count;
+                IndexBuffer.Count += mesh.Indices.Count;
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal override void DrawBatch()
+            {
+                // Set instance buffer to identity values
+                ref var instance = ref InstanceBuffer.Data[0];
+                instance.TextureRect = (0, 0, 1, 1);
+                instance.Transform = Matrix.Identity;
+                InstanceBuffer.Count = 1;
+
+                // 
+                base.DrawBatch();
+
+                // Clear instance count
+                VertexBuffer.Count = 0;
+                IndexBuffer.Count = 0;
+            }
+
+            [StructLayout(LayoutKind.Sequential, Pack = 1)]
+            internal struct VertexData
+            {
+                [VertexAttribute(VertexAttributeName.Position)]
+                public Vector Position;
+
+                [VertexAttribute(VertexAttributeName.UV)]
+                public Vector UV;
+
+                [VertexAttribute(VertexAttributeName.Color)]
+                public Color Color;
+            }
+
+            [StructLayout(LayoutKind.Sequential, Pack = 1)]
+            internal struct InstanceData
+            {
+                [VertexAttribute(VertexAttributeName.Transform)]
+                public Matrix Transform;
+
+                [VertexAttribute(VertexAttributeName.ImageRect)]
+                public Rectangle TextureRect;
             }
         }
     }
