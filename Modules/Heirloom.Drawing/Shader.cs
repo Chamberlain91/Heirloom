@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -30,7 +30,7 @@ namespace Heirloom.Drawing
 
         static Shader()
         {
-            // Loadn and compile the default shader
+            // Load and compile the default shader
             Default = new Shader("embedded/shaders/default.vert", "embedded/shaders/default.frag");
         }
 

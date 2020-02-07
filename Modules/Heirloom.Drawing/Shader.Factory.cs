@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -86,8 +86,8 @@ namespace Heirloom.Drawing
             static Factory()
             {
                 // Populate standard includes
-                Store("standard/standard.frag", Load("embedded/shaders/standard/standard.frag", false));
-                Store("standard/standard.vert", Load("embedded/shaders/standard/standard.vert", false));
+                StoreSource("standard/standard.frag", LoadSource("embedded/shaders/standard/standard.frag", false));
+                StoreSource("standard/standard.vert", LoadSource("embedded/shaders/standard/standard.vert", false));
             }
 
             internal static object LoadAndCompile(string[] paths, out string name, out UniformInfo[] uniforms)
@@ -99,8 +99,8 @@ namespace Heirloom.Drawing
                 name = ComposeName(vertPath, fragPath);
 
                 // ...
-                var vert = Load(vertPath, true);
-                var frag = Load(fragPath, true);
+                var vert = LoadSource(vertPath, true);
+                var frag = LoadSource(fragPath, true);
 
                 // Compile shader
                 return GraphicsAdapter.ShaderResources.Compile(name, vert, frag, out uniforms);
@@ -124,7 +124,7 @@ namespace Heirloom.Drawing
             /// <summary>
             /// Store GLSL source code.
             /// </summary>
-            public static void Store(string path, string code)
+            public static void StoreSource(string path, string code)
             {
                 if (_storage.ContainsKey(path))
                 {
@@ -137,7 +137,7 @@ namespace Heirloom.Drawing
             /// <summary>
             /// Load GLSL source code (does not do metadata processing).
             /// </summary>
-            public static string Load(string path, bool prependVersion)
+            public static string LoadSource(string path, bool prependVersion)
             {
                 // Set to prevent cyclic inclusion
                 var included = new HashSet<string>();
@@ -206,7 +206,7 @@ namespace Heirloom.Drawing
                         }
 
                         // Store in map and return
-                        Store(path, code);
+                        StoreSource(path, code);
 
                         // Return include expanded source
                         return code;
