@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -8,38 +8,16 @@ namespace Heirloom.Drawing.OpenGLES
 {
     internal abstract class VertexBuffer : Buffer
     {
-        protected VertexBuffer(uint sizeInBytes)
-            : base(BufferTarget.Array, sizeInBytes)
-        { }
-
-        public abstract void Upload();
-    }
-
-    internal sealed unsafe class VertexBuffer<TStruct> : VertexBuffer
-        where TStruct : struct
-    {
-        // Attribute Layout
         public readonly VertexAttribute[] Attributes;
         public readonly bool IsPerVertex;
         public readonly int ByteStride;
 
-        public readonly int Capacity;
-
-        // CPU Buffer
-        public readonly TStruct[] Data;
-        public int Count;
-
-        public VertexBuffer(int capacity, bool isPerVertex)
-            : base((uint) (capacity * Marshal.SizeOf<TStruct>()))
+        protected VertexBuffer(VertexAttribute[] attributes, bool isPerVertex, uint sizeInBytes)
+            : base(BufferTarget.Array, sizeInBytes)
         {
-            Attributes = VertexAttribute.GenerateAttributes(typeof(TStruct));
-            ByteStride = ComputeAttributeStride(Attributes);
+            ByteStride = ComputeAttributeStride(attributes);
             IsPerVertex = isPerVertex;
-
-            // 
-            Data = new TStruct[capacity];
-            Capacity = capacity;
-            Count = 0;
+            Attributes = attributes;
         }
 
         private static int ComputeAttributeStride(IEnumerable<VertexAttribute> attributes)
@@ -52,6 +30,26 @@ namespace Heirloom.Drawing.OpenGLES
             }
 
             return stride;
+        }
+
+        public abstract void Upload();
+    }
+
+    internal sealed unsafe class VertexBuffer<TStruct> : VertexBuffer
+        where TStruct : struct
+    {
+        // CPU Buffer
+        public readonly TStruct[] Data;
+        public readonly int Capacity;
+        public int Count;
+
+        public VertexBuffer(int capacity, bool isPerVertex)
+            : base(attributes: VertexAttribute.GenerateAttributes(typeof(TStruct)), isPerVertex,
+                   sizeInBytes: (uint) (capacity * Marshal.SizeOf<TStruct>()))
+        {
+            Data = new TStruct[capacity];
+            Capacity = capacity;
+            Count = 0;
         }
 
         public override void Bind()

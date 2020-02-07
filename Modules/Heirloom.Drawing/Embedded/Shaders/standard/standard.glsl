@@ -4,13 +4,13 @@ precision highp float;
 #endif
 
 // maps 'image space' to 'atlas space'
-vec2 transformUV(in vec2 uv, in vec4 uvScale) {
+vec2 computeAtlasUV(in vec2 uv, in vec4 uvRect) {
 	
 	// Scale and translate into atlas space
-	uv = (uv * uvScale.zw) + uvScale.xy;
+	uv = (uv * uvRect.zw) + uvRect.xy;
 	
 	// If we have a scale height, we need to "y-flip"
-	if(uvScale.w < 0.0) { 
+	if(uvRect.w < 0.0) { 
 		uv.y += 1.0;
 	}
 
@@ -24,8 +24,8 @@ struct PerFragment
 	// Vertex color
 	vec4 color;
 
-	// Encodes atlas mapping
-	vec4 atlasRect;
+	// rect mapping
+	vec4 uvRect;
 
 	// UV coordinates mapped in atlas space
 	vec2 uvAtlas;

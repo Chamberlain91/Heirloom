@@ -6,7 +6,7 @@
         UV,
         Color,
         ImageUnit,
-        ImageRect,
+        AtlasRect,
         Transform
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -253,6 +253,7 @@ namespace Heirloom.Drawing
         {
             ComputeFPS();
             DrawFPSOverlay();
+
             Flush();
 
             // Low level swap buffers

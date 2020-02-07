@@ -1,5 +1,5 @@
-﻿using System;
-
+using System;
+using System.Diagnostics;
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
@@ -21,6 +21,8 @@ namespace Heirloom.Drawing.OpenGLES
                 throw new ArgumentException("Must specify at least one vertex buffer.");
             }
 
+            DebugAttributes();
+
             // Construct VAO
             Handle = GL.GenVertexArray();
             GL.BindVertexArray(Handle);
@@ -40,6 +42,21 @@ namespace Heirloom.Drawing.OpenGLES
         internal void Bind()
         {
             GL.BindVertexArray(Handle);
+        }
+
+        [Conditional("DEBUG")]
+        private void DebugAttributes()
+        {
+            Log.Debug("Vertex Attributes:");
+            foreach (var vertexBuffer in VertexBuffers)
+            {
+                var count = vertexBuffer.Size / vertexBuffer.ByteStride;
+                Log.Debug($"  {(vertexBuffer.IsPerVertex ? "Vertex" : "Instance")} Buffer ({vertexBuffer.Size} / {vertexBuffer.ByteStride} bytes => {count} elements)");
+                foreach (var attr in vertexBuffer.Attributes)
+                {
+                    Log.Debug($"    {attr}");
+                }
+            }
         }
     }
 }

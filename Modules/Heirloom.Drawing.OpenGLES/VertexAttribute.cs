@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -219,5 +219,10 @@ namespace Heirloom.Drawing.OpenGLES
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return $"[{Index}] {Name}: {Size} x {Type} {(Normalized ? "(Normalized)" : "")}";
+        }
     }
 }

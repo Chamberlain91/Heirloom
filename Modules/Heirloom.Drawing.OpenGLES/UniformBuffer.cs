@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
+
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
