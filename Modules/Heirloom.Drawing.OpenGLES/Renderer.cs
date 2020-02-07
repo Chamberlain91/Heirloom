@@ -15,7 +15,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         public abstract bool IsDirty { get; }
 
-        public abstract void Submit(ImageSource image, Mesh mesh, in Matrix transform, in Color color);
+        public abstract void Submit(Mesh mesh, in Rectangle atlasRect, in Matrix transform, in Color color);
 
         public abstract void FlushBatch();
     }

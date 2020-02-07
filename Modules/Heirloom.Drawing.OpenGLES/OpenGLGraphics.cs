@@ -14,7 +14,7 @@ namespace Heirloom.Drawing.OpenGLES
         private readonly ConsumerThread _thread;
         private bool _isRunning = false;
 
-        private Renderer _renderer;
+        private Renderer _batch;
 
         private Matrix _viewMatrix;
         private Matrix _viewMatrixInverse;
@@ -27,6 +27,7 @@ namespace Heirloom.Drawing.OpenGLES
         private Shader _shader;
 
         private Surface _currentSurface;
+        private Texture _texture;
 
         private Rectangle _viewport;
 
@@ -38,8 +39,6 @@ namespace Heirloom.Drawing.OpenGLES
         protected internal OpenGLGraphics(OpenGLGraphicsAdapter adapter, MultisampleQuality multisample)
             : base(adapter, multisample)
         {
-            Adapter = adapter;
-
             // Create and start new task runner
             _thread = new ConsumerThread("GL Consumer");
             _thread.InvokeLater(() =>
@@ -52,7 +51,7 @@ namespace Heirloom.Drawing.OpenGLES
                 GL.Enable(EnableCap.Blend);
 
                 // Construct the geometry batcher
-                _renderer = new HybridBatcher(this);
+                _batch = new HybridBatcher(this);
 
                 // 
                 ResetState();
@@ -66,8 +65,6 @@ namespace Heirloom.Drawing.OpenGLES
         #endregion
 
         #region Properties
-
-        public new OpenGLGraphicsAdapter Adapter { get; }
 
         public override Matrix GlobalTransform
         {
@@ -107,7 +104,7 @@ namespace Heirloom.Drawing.OpenGLES
             set
             {
                 // if dirty, flush
-                if (_renderer.IsDirty)
+                if (_batch.IsDirty)
                 {
                     // This will complete anything to draw, and
                     // then adjust viewports.
@@ -727,8 +724,40 @@ namespace Heirloom.Drawing.OpenGLES
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override void DrawMesh(ImageSource image, Mesh mesh, in Matrix transform)
         {
-            _renderer.Submit(image, mesh, in transform, _blendColor);
-            if (HasDirtyUniform(_shader)) { Flush(); }
+            // Put image into atlas
+            UseAtlasImage(image, out var uvRect);
+
+            // Submit to batching
+            _batch.Submit(mesh, in uvRect, in transform, _blendColor);
+
+            // Did the shader change?
+            if (HasDirtyUniform(_shader))
+            {
+                Flush();
+            }
+        }
+
+        protected void UseAtlasImage(ImageSource image, out Rectangle uvRect)
+        {
+            // todo: replace with requesting from atlas
+            var (texture, rect) = ResourceManager.GetTextureInfo(this, image);
+
+            // Inconsistent texture, flush and update state
+            if (texture != _texture)
+            {
+                // Complete pending work
+                Flush();
+
+                // Store new texture reference
+                _texture = texture;
+
+                // Bind texture
+                GL.ActiveTexture(0);
+                GL.BindTexture(TextureTarget.Texture2D, texture.Handle);
+            }
+
+            // Emit uv-space atlas packed rectangle
+            uvRect = rect;
         }
 
         #endregion
@@ -742,7 +771,7 @@ namespace Heirloom.Drawing.OpenGLES
             if (_currentSurface == null) { return; }
 
             // If the renderer has any batched work
-            if (_renderer.IsDirty)
+            if (_batch.IsDirty)
             {
                 Invoke(() =>
                 {
@@ -758,7 +787,7 @@ namespace Heirloom.Drawing.OpenGLES
                     SetShaderParameter("uMatrix", projMatrix);
 
                     // Flush pending batch
-                    _renderer.FlushBatch();
+                    _batch.FlushBatch();
                 });
             }
         }

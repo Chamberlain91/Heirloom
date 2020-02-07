@@ -19,10 +19,10 @@ namespace Heirloom.Drawing.OpenGLES
 
         public override bool IsDirty => _isDirty;
 
-        public override void Submit(ImageSource image, Mesh mesh, in Matrix transform, in Color color)
+        public override void Submit(Mesh mesh, in Rectangle atlasRect, in Matrix transform, in Color color)
         {
             // todo: buffer calls and then selectively choose between "streaming" an "instancing" techniques.
-            _technique.Submit(image, mesh, in transform, in color);
+            _technique.Submit(mesh, in atlasRect, in transform, in color);
             _isDirty = true;
         }
 
@@ -43,7 +43,7 @@ namespace Heirloom.Drawing.OpenGLES
 
             internal abstract bool IsDirty { get; }
 
-            internal abstract void Submit(ImageSource image, Mesh mesh, in Matrix transform, in Color color);
+            internal abstract void Submit(Mesh mesh, in Rectangle atlasRect, in Matrix transform, in Color color);
             internal abstract void DrawBatch();
         }
 
@@ -56,8 +56,6 @@ namespace Heirloom.Drawing.OpenGLES
             internal readonly VertexBuffer<TPerInstance> InstanceBuffer;
             internal readonly VertexBuffer<TPerVertex> VertexBuffer;
             internal readonly IndexBuffer IndexBuffer;
-
-            private Texture _texture;
 
             protected BatchingTechnique(OpenGLGraphics graphics)
                 : base(graphics)
@@ -78,10 +76,6 @@ namespace Heirloom.Drawing.OpenGLES
                     VertexBuffer.Upload();
                     IndexBuffer.Upload();
 
-                    // Bind texture
-                    GL.ActiveTexture(0);
-                    GL.BindTexture(TextureTarget.Texture2D, _texture.Handle);
-
                     // Bind vertex configuration
                     VertexArray.Bind();
 
@@ -92,25 +86,6 @@ namespace Heirloom.Drawing.OpenGLES
 
                 // Inform the graphics something was drawn
                 Graphics.MarkSurfaceDirty();
-            }
-
-            protected void UseImage(ImageSource image, out Rectangle uvRect)
-            {
-                // todo: replace with requesting from atlas
-                var (texture, rect) = ResourceManager.GetTextureInfo(Graphics, image);
-
-                // Inconsistent texture, flush and update state
-                if (texture != _texture)
-                {
-                    // Complete pending work
-                    Graphics.Flush();
-
-                    // Store new texture reference
-                    _texture = texture;
-                }
-
-                // Emit uv-space atlas packed rectangle
-                uvRect = rect;
             }
         }
 
@@ -125,10 +100,9 @@ namespace Heirloom.Drawing.OpenGLES
 
             internal override bool IsDirty => InstanceBuffer.Count > 0;
 
-            internal override void Submit(ImageSource image, Mesh mesh, in Matrix transform, in Color color)
+            internal override void Submit(Mesh mesh, in Rectangle atlasRect, in Matrix transform, in Color color)
             {
                 UseMesh(mesh);
-                UseImage(image, out var atlasRect);
                 AppendInstance(in transform, in color, in atlasRect);
             }
 
