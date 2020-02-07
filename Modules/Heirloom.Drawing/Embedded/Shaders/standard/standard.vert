@@ -8,7 +8,7 @@ in vec2 aUV;
 // == Per Instance Attributes ==
 
 // todo: repeat for each named image
-in vec4   aImageRect; // U, V, sU, sV
+in vec4   aAtlasRect; // U, V, sU, sV
 
 in mat2x3 aTransform;
 in vec4   aColor;
@@ -39,9 +39,11 @@ void main()
 	// Emit blending color
 	frag.color = aColor;
 	
+	// Emit atlas transform rect
+	frag.uvRect = aAtlasRect;
+	
 	// Emit UV coordinates (atlas space)
-	frag.uvAtlas = transformUV(aUV, aImageRect);
-	frag.atlasRect = aImageRect;
+	frag.uvAtlas = computeAtlasUV(aUV, aAtlasRect);
 
 	// Emit UV coordinates (image space)
 	frag.uv = aUV;

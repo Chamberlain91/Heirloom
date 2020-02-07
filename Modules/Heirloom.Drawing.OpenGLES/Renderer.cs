@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 
 using Heirloom.Math;
@@ -22,7 +22,13 @@ namespace Heirloom.Drawing.OpenGLES
 
         public abstract bool IsDirty { get; }
 
-        protected Rectangle UVRect { get; private set; }
+        protected Rectangle UVRect { get; set; }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected abstract void Submit(Mesh mesh, in Matrix transform, in Color color);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected abstract void DrawBatch();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Submit(ImageSource image, Mesh mesh, in Matrix transform, in Color color)
@@ -37,6 +43,7 @@ namespace Heirloom.Drawing.OpenGLES
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Flush()
         {
+            // Update texture
             if (_updateTextureBind)
             {
                 GL.ActiveTexture(0);
@@ -45,15 +52,9 @@ namespace Heirloom.Drawing.OpenGLES
                 _updateTextureBind = false;
             }
 
-            // 
-            Draw();
+            // Draw batched
+            DrawBatch();
         }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected abstract void Submit(Mesh mesh, in Matrix transform, in Color color);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected abstract void Draw();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void UseImage(ImageSource imageSource)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -14,7 +14,7 @@ namespace Heirloom.Drawing.OpenGLES
         private readonly ConsumerThread _thread;
         private bool _isRunning = false;
 
-        private Renderer _batch;
+        private Renderer _renderer;
 
         private Matrix _viewMatrix;
         private Matrix _viewMatrixInverse;
@@ -50,7 +50,7 @@ namespace Heirloom.Drawing.OpenGLES
                 GL.Enable(EnableCap.Blend);
 
                 // Construct the geometry batcher
-                _batch = new HybridRenderer(this);
+                _renderer = new HybridRenderer(this);
 
                 // 
                 ResetState();
@@ -103,7 +103,7 @@ namespace Heirloom.Drawing.OpenGLES
             set
             {
                 // if dirty, flush
-                if (_batch.IsDirty)
+                if (_renderer.IsDirty)
                 {
                     // This will complete anything to draw, and
                     // then adjust viewports.
@@ -724,7 +724,7 @@ namespace Heirloom.Drawing.OpenGLES
         public override void DrawMesh(ImageSource image, Mesh mesh, in Matrix transform)
         {
             // Submit to batching
-            _batch.Submit(image, mesh, in transform, _blendColor);
+            _renderer.Submit(image, mesh, in transform, _blendColor);
 
             // Did the shader change?
             if (HasDirtyUniform(_shader))
@@ -744,7 +744,7 @@ namespace Heirloom.Drawing.OpenGLES
             if (_currentSurface == null) { return; }
 
             // If the renderer has any batched work
-            if (_batch.IsDirty)
+            if (_renderer.IsDirty)
             {
                 Invoke(() =>
                 {
@@ -760,7 +760,7 @@ namespace Heirloom.Drawing.OpenGLES
                     SetShaderParameter("uMatrix", projMatrix);
 
                     // Flush pending batch
-                    _batch.Flush();
+                    _renderer.Flush();
                 });
             }
         }

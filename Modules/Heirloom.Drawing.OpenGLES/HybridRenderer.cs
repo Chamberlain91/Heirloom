@@ -29,7 +29,7 @@ namespace Heirloom.Drawing.OpenGLES
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override void Draw()
+        protected override void DrawBatch()
         {
             _technique.DrawBatch();
             _dirtyFlag = false;
@@ -81,6 +81,8 @@ namespace Heirloom.Drawing.OpenGLES
 
                 // Bind vertex configuration
                 VertexArray.Bind();
+
+                // Log.Info($"Drawing {IndexBuffer.Count / 3} triangles.");
 
                 // Draw the geometry
                 GL.DrawElementsInstanced(DrawMode.Triangles, IndexBuffer.Count, DrawElementType.UnsignedShort, InstanceBuffer.Count);
@@ -189,35 +191,53 @@ namespace Heirloom.Drawing.OpenGLES
                 [VertexAttribute(VertexAttributeName.Color, Normalize = true)]
                 public Color Color; // 16
 
-                [VertexAttribute(VertexAttributeName.ImageRect)]
+                [VertexAttribute(VertexAttributeName.AtlasRect)]
                 public Rectangle TextureRect; // 16
             }
         }
 
         #endregion
 
+        #region Streaming Technique
+
         private class StreamingTechnique : BatchingTechnique<StreamingTechnique.InstanceData, StreamingTechnique.VertexData>
         {
             public StreamingTechnique(OpenGLGraphics graphics)
                 : base(graphics)
-            { }
+            {
+                for (var i = 0; i < 1; i++)
+                {
+                    // Set instance buffer to identity values
+                    ref var instance = ref InstanceBuffer.Data[i];
+                    instance.Transform = Matrix.Identity;
+                    instance.AtlasRect = Rectangle.One;
+                }
+
+                InstanceBuffer.Count = 1;
+            }
 
             internal override bool IsDirty => IndexBuffer.Count > 0;
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal override void Submit(Mesh mesh, in Rectangle uvRect, in Matrix transform, in Color color)
             {
-                // Buffers at capacity (forced flush).
-                if ((VertexBuffer.Count + mesh.Vertices.Count) >= VertexBuffer.Capacity) { Graphics.Flush(); }
-                if ((IndexBuffer.Count + mesh.Indices.Count) >= IndexBuffer.Capacity) { Graphics.Flush(); }
+                // Buffers will exceed capacity (force flush).
+                if ((VertexBuffer.Count + mesh.Vertices.Count) >= VertexBuffer.Capacity ||
+                    (IndexBuffer.Count + mesh.Indices.Count) >= IndexBuffer.Capacity)
+                {
+                    // Render previous batch
+                    Graphics.Flush();
+                }
 
                 // Copy vertex data
                 var vOffset = VertexBuffer.Count;
                 for (var i = 0; i < mesh.Vertices.Count; i++)
                 {
                     ref var vtx = ref VertexBuffer.Data[vOffset + i];
-                    vtx.Position = transform * mesh.Vertices[i].Position;
-                    vtx.UV = uvRect.Position + (mesh.Vertices[i].UV * (Vector) uvRect.Size);
+                    var mVtx = mesh.Vertices[i];
+
+                    vtx.Position = transform * mVtx.Position;
+                    vtx.UV = uvRect.Position + (mVtx.UV * (Vector) uvRect.Size);
                     vtx.Color = color;
                 }
 
@@ -225,7 +245,7 @@ namespace Heirloom.Drawing.OpenGLES
                 var iOffset = IndexBuffer.Count;
                 for (var i = 0; i < mesh.Indices.Count; i++)
                 {
-                    IndexBuffer.Data[iOffset] = (ushort) mesh.Indices[i];
+                    IndexBuffer.Data[iOffset + i] = (ushort) (vOffset + mesh.Indices[i]);
                 }
 
                 // 
@@ -236,16 +256,10 @@ namespace Heirloom.Drawing.OpenGLES
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal override void DrawBatch()
             {
-                // Set instance buffer to identity values
-                ref var instance = ref InstanceBuffer.Data[0];
-                instance.TextureRect = (0, 0, 1, 1);
-                instance.Transform = Matrix.Identity;
-                InstanceBuffer.Count = 1;
-
-                // 
+                // Perform drawing
                 base.DrawBatch();
 
-                // Clear instance count
+                // Clear counts
                 VertexBuffer.Count = 0;
                 IndexBuffer.Count = 0;
             }
@@ -266,12 +280,14 @@ namespace Heirloom.Drawing.OpenGLES
             [StructLayout(LayoutKind.Sequential, Pack = 1)]
             internal struct InstanceData
             {
+                [VertexAttribute(VertexAttributeName.AtlasRect)]
+                public Rectangle AtlasRect;
+
                 [VertexAttribute(VertexAttributeName.Transform)]
                 public Matrix Transform;
-
-                [VertexAttribute(VertexAttributeName.ImageRect)]
-                public Rectangle TextureRect;
             }
         }
+
+        #endregion
     }
 }

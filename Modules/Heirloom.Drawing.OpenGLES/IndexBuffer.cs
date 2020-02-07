@@ -1,4 +1,4 @@
-﻿using Heirloom.OpenGLES;
+using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
@@ -13,7 +13,7 @@ namespace Heirloom.Drawing.OpenGLES
         public int Count;
 
         public IndexBuffer(int capacity)
-            : base(BufferTarget.ElementArray, (uint) capacity)
+            : base(BufferTarget.ElementArray, (uint) (capacity * sizeof(ushort)))
         {
             Data = new ushort[capacity];
             Capacity = capacity;
