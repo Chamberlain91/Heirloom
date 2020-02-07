@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 using Heirloom.Math;
@@ -6,30 +7,32 @@ using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    internal sealed class HybridBatcher : Renderer
+    internal sealed class HybridRenderer : Renderer
     {
         private readonly BatchingTechnique _technique;
-        private bool _isDirty;
+        private bool _dirtyFlag;
 
-        public HybridBatcher(OpenGLGraphics graphics)
+        public HybridRenderer(OpenGLGraphics graphics)
             : base(graphics)
         {
             _technique = new InstancingTechnique(graphics);
         }
 
-        public override bool IsDirty => _isDirty;
+        public override bool IsDirty => _dirtyFlag;
 
-        public override void Submit(Mesh mesh, in Rectangle atlasRect, in Matrix transform, in Color color)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected override void Submit(Mesh mesh, in Matrix transform, in Color color)
         {
             // todo: buffer calls and then selectively choose between "streaming" an "instancing" techniques.
-            _technique.Submit(mesh, in atlasRect, in transform, in color);
-            _isDirty = true;
+            _technique.Submit(mesh, UVRect, in transform, in color);
+            _dirtyFlag = true;
         }
 
-        public override void FlushBatch()
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected override void Draw()
         {
             _technique.DrawBatch();
-            _isDirty = false;
+            _dirtyFlag = false;
         }
 
         private abstract class BatchingTechnique
@@ -44,6 +47,7 @@ namespace Heirloom.Drawing.OpenGLES
             internal abstract bool IsDirty { get; }
 
             internal abstract void Submit(Mesh mesh, in Rectangle atlasRect, in Matrix transform, in Color color);
+
             internal abstract void DrawBatch();
         }
 
@@ -67,22 +71,20 @@ namespace Heirloom.Drawing.OpenGLES
                 VertexArray = new VertexArray(IndexBuffer, InstanceBuffer, VertexBuffer);
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal override void DrawBatch()
             {
-                Graphics.Invoke(() =>
-                {
-                    // Upload buffers to GPU
-                    InstanceBuffer.Upload();
-                    VertexBuffer.Upload();
-                    IndexBuffer.Upload();
+                // Upload buffers to GPU
+                InstanceBuffer.Upload();
+                VertexBuffer.Upload();
+                IndexBuffer.Upload();
 
-                    // Bind vertex configuration
-                    VertexArray.Bind();
+                // Bind vertex configuration
+                VertexArray.Bind();
 
-                    // Draw the geometry
-                    GL.DrawElementsInstanced(DrawMode.Triangles, IndexBuffer.Count, DrawElementType.UnsignedShort, InstanceBuffer.Count);
-                    GL.BindVertexArray(0);
-                });
+                // Draw the geometry
+                GL.DrawElementsInstanced(DrawMode.Triangles, IndexBuffer.Count, DrawElementType.UnsignedShort, InstanceBuffer.Count);
+                GL.BindVertexArray(0);
 
                 // Inform the graphics something was drawn
                 Graphics.MarkSurfaceDirty();
@@ -100,20 +102,14 @@ namespace Heirloom.Drawing.OpenGLES
 
             internal override bool IsDirty => InstanceBuffer.Count > 0;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal override void Submit(Mesh mesh, in Rectangle atlasRect, in Matrix transform, in Color color)
             {
                 UseMesh(mesh);
                 AppendInstance(in transform, in color, in atlasRect);
             }
 
-            internal override void DrawBatch()
-            {
-                base.DrawBatch();
-
-                // Clear instance count
-                InstanceBuffer.Count = 0;
-            }
-
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private void UseMesh(Mesh mesh)
             {
                 // Different mesh or out-of-date.
@@ -147,6 +143,7 @@ namespace Heirloom.Drawing.OpenGLES
                 }
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private void AppendInstance(in Matrix transform, in Color color, in Rectangle atlasRect)
             {
                 // Get the next available instance
@@ -161,6 +158,16 @@ namespace Heirloom.Drawing.OpenGLES
                 {
                     Graphics.Flush();
                 }
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            internal override void DrawBatch()
+            {
+                // 
+                base.DrawBatch();
+
+                // Clear instance count
+                InstanceBuffer.Count = 0;
             }
 
             [StructLayout(LayoutKind.Sequential, Pack = 1)]
