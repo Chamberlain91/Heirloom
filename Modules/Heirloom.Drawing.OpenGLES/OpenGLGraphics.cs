@@ -27,7 +27,6 @@ namespace Heirloom.Drawing.OpenGLES
         private Shader _shader;
 
         private Surface _currentSurface;
-        private Texture _texture;
 
         private Rectangle _viewport;
 
@@ -51,7 +50,7 @@ namespace Heirloom.Drawing.OpenGLES
                 GL.Enable(EnableCap.Blend);
 
                 // Construct the geometry batcher
-                _batch = new HybridBatcher(this);
+                _batch = new HybridRenderer(this);
 
                 // 
                 ResetState();
@@ -724,40 +723,14 @@ namespace Heirloom.Drawing.OpenGLES
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override void DrawMesh(ImageSource image, Mesh mesh, in Matrix transform)
         {
-            // Put image into atlas
-            UseAtlasImage(image, out var uvRect);
-
             // Submit to batching
-            _batch.Submit(mesh, in uvRect, in transform, _blendColor);
+            _batch.Submit(image, mesh, in transform, _blendColor);
 
             // Did the shader change?
             if (HasDirtyUniform(_shader))
             {
                 Flush();
             }
-        }
-
-        protected void UseAtlasImage(ImageSource image, out Rectangle uvRect)
-        {
-            // todo: replace with requesting from atlas
-            var (texture, rect) = ResourceManager.GetTextureInfo(this, image);
-
-            // Inconsistent texture, flush and update state
-            if (texture != _texture)
-            {
-                // Complete pending work
-                Flush();
-
-                // Store new texture reference
-                _texture = texture;
-
-                // Bind texture
-                GL.ActiveTexture(0);
-                GL.BindTexture(TextureTarget.Texture2D, texture.Handle);
-            }
-
-            // Emit uv-space atlas packed rectangle
-            uvRect = rect;
         }
 
         #endregion
@@ -787,7 +760,7 @@ namespace Heirloom.Drawing.OpenGLES
                     SetShaderParameter("uMatrix", projMatrix);
 
                     // Flush pending batch
-                    _batch.FlushBatch();
+                    _batch.Flush();
                 });
             }
         }

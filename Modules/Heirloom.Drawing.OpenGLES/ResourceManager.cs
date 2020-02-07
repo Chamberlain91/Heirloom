@@ -63,6 +63,8 @@ namespace Heirloom.Drawing.OpenGLES
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static Texture GetTexture(OpenGLGraphics gfx, Image image)
         {
+            image = image.Root; // 
+
             var resource = image as IDrawingResource;
 
             // Try to get the native texture
