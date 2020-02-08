@@ -50,7 +50,7 @@ namespace Heirloom.Drawing.OpenGLES
                 GL.Enable(EnableCap.Blend);
 
                 // Construct the geometry batcher
-                _renderer = new HybridRenderer(this);
+                _renderer = new InstancingRenderer(this);
 
                 // 
                 ResetState();
