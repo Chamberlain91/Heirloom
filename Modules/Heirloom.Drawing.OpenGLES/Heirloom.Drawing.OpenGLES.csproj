@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Heirloom.Collections\Heirloom.Collections.csproj" />
     <ProjectReference Include="..\Heirloom.Drawing\Heirloom.Drawing.csproj" />
     <ProjectReference Include="..\Heirloom.OpenGLES\Heirloom.OpenGLES.csproj" />
   </ItemGroup>

@@ -68,17 +68,20 @@ namespace Heirloom.Drawing.OpenGLES
 
         protected internal override void DrawBatch()
         {
-            // Upload buffers to GPU
-            _instanceBuffer.Upload();
-            _vertexBuffer.Upload();
-            _indexBuffer.Upload();
+            if (IsDirty)
+            {
+                // Upload buffers to GPU
+                _instanceBuffer.Upload();
+                _vertexBuffer.Upload();
+                _indexBuffer.Upload();
 
-            // Log.Info($"Drawing {IndexBuffer.Count / 3} triangles.");
+                // Log.Info($"Drawing {IndexBuffer.Count / 3} triangles.");
 
-            // Draw the geometry
-            GL.BindVertexArray(_vertexArray.Handle);
-            GL.DrawElementsInstanced(DrawMode.Triangles, _indexBuffer.Count, DrawElementType.UnsignedShort, _instanceBuffer.Count);
-            GL.BindVertexArray(0);
+                // Draw the geometry
+                GL.BindVertexArray(_vertexArray.Handle);
+                GL.DrawElementsInstanced(DrawMode.Triangles, _indexBuffer.Count, DrawElementType.UnsignedShort, _instanceBuffer.Count);
+                GL.BindVertexArray(0);
+            }
 
             // Clear counts
             _vertexBuffer.Count = 0;
