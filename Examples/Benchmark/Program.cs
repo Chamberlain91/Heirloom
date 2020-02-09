@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 
 using Heirloom.Desktop;
@@ -16,17 +16,21 @@ namespace Heirloom.Benchmark
             var benchmarkIndex = 0;
             var benchmarks = new Benchmark[]
             {
-                 new EmoteIconBenchmark(),
-                 new AdventureBenchmark(),
-                 new CasinoBenchmark()
+                new DynamicTriangulation(),
+                new StaticTriangulation(),
+                new EmoteIconBenchmark(),
+                new AdventureBenchmark(),
+                new CasinoBenchmark()
             };
 
             var bounds = new Rectangle(0, 0, 0, 0);
 
+            Window window;
+
             Application.Run(() =>
             {
                 // Create fullscreen window
-                var window = new Window("Heirloom Benchmark", vsync: false);
+                window = new Window("Heirloom Benchmark", vsync: false);
                 window.SetFullscreen(Application.DefaultMonitor);
 
                 // Compute world bounds
@@ -78,6 +82,13 @@ namespace Heirloom.Benchmark
                     // Hit the end, save results text
                     var text = GetResultsText(benchmarks);
                     wr.WriteLine(text);
+
+                    // Leave fullscreen
+                    window.SetFullscreen(null);
+
+                    // Size window
+                    var rect = TextLayout.Measure(text, Font.Default, 32);
+                    window.Size = (IntSize) rect.Size + (32, 32);
                 }
             }
 
@@ -104,7 +115,7 @@ namespace Heirloom.Benchmark
                     }
 
                     // 
-                    DrawInformation(gfx, $"\"{benchmark.Name}\" - {benchmark.Progress * 100F:N2}%");
+                    DrawInformation(gfx, $"\"{benchmark.Name}\" - {benchmark.Progress * 100F:N2}% - {gfx.CurrentFPS:N0} FPS");
                 }
                 else
                 {
@@ -129,7 +140,7 @@ namespace Heirloom.Benchmark
             // Results
             foreach (var benchmark in benchmarks)
             {
-                results += $"{benchmark.Name.ToIdentifier()}: {benchmark.Score}\n";
+                results += $"{benchmark.Name.ToIdentifier()}: {benchmark.Score} {benchmark.Units}\n";
             }
 
             return results;

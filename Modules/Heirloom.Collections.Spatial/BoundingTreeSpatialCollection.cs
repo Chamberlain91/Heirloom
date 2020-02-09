@@ -151,7 +151,7 @@ namespace Heirloom.Collections.Spatial
                 {
                     var node = _queryQueue.Dequeue();
 
-                    if (node.Bounds.ContainsPoint(point))
+                    if (node.Bounds.Contains(point))
                     {
                         // 
                         if (node.IsLeaf) { yield return node.Item; }

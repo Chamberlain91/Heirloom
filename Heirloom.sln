@@ -63,7 +63,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{C708452E-0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{987BD84A-505B-4E35-9A27-2D5C3548092F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamingAtlas", "Experiments\StreamingAtlas\StreamingAtlas.csproj", "{3F070893-7CD0-4987-BB4D-2B7E13527EB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreamingAtlas", "Experiments\StreamingAtlas\StreamingAtlas.csproj", "{3F070893-7CD0-4987-BB4D-2B7E13527EB5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Experiments", "Experiments", "{7FA3DCDF-6361-4E73-9ECB-4897048DD9FD}"
 EndProject

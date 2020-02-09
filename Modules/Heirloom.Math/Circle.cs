@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -22,6 +22,10 @@ namespace Heirloom.Math
         public float Radius;
 
         #region Constructors
+
+        public Circle(float x, float y, float radius)
+            : this((x, y), radius)
+        { }
 
         public Circle(Vector position, float radius)
         {
@@ -81,7 +85,7 @@ namespace Heirloom.Math
         /// <summary>
         /// Determines if the specified point is contained by the circle.
         /// </summary>
-        public bool ContainsPoint(in Vector point)
+        public bool Contains(in Vector point)
         {
             return Vector.DistanceSquared(Position, point) < (Radius * Radius);
         }
@@ -274,14 +278,12 @@ namespace Heirloom.Math
         public bool Equals(Circle other)
         {
             return Position.Equals(other.Position) &&
-                   Radius == other.Radius &&
-                   Area == other.Area &&
-                   Bounds.Equals(other.Bounds);
+                   Calc.NearEquals(Radius, other.Radius);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Position, Radius, Area, Bounds);
+            return HashCode.Combine(Position, Radius);
         }
 
         public static bool operator ==(Circle left, Circle right)

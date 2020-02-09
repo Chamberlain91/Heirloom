@@ -1,4 +1,4 @@
-﻿using Heirloom.Drawing;
+using Heirloom.Drawing;
 using Heirloom.Math;
 
 namespace Heirloom.Benchmark
@@ -17,6 +17,8 @@ namespace Heirloom.Benchmark
         public bool IsComplete { get; protected set; }
 
         public float Progress { get; protected set; }
+
+        public string Units { get; protected set; }
 
         public float Score { get; protected set; }
 

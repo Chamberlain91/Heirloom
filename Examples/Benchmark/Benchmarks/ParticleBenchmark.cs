@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,7 +12,7 @@ namespace Heirloom.Benchmark
         private const int MaxParticleCount = 500000;
         private const int MinParticleCount = 128;
 
-        private const float NominalEvaluationDuration = 5F;
+        private const float NominalEvaluationDuration = 4F;
 
         private const int FramerateTarget = 60;
 
@@ -52,6 +52,8 @@ namespace Heirloom.Benchmark
             {
                 Particles[i] = new Particle(Calc.Random.Choose(Images));
             }
+
+            Units = "images";
         }
 
         public override void Initialize(in Rectangle bounds)
@@ -110,7 +112,7 @@ namespace Heirloom.Benchmark
                     {
                         if (fps > FramerateTarget)
                         {
-                            Console.WriteLine($"{_particleCount} ({fps:N2}fps)");
+                            // Console.WriteLine($"{_particleCount} ({fps:N2}fps)");
 
                             // Increase (double)
                             _particleCount *= 2;
@@ -143,7 +145,7 @@ namespace Heirloom.Benchmark
                         var steps = Calc.Log((_particleCapacity - _particleLowerCapacity) / _particleCountTolerance, 2);
                         Progress = Calc.Min(_currentStep / steps, 1F);
 
-                        Console.WriteLine($"{fps:N2}fps w/ {_particleCount} -> {_currentStep} / {steps} | {_particleRange} [{_particleCountTolerance}]");
+                        // Console.WriteLine($"{fps:N2}fps w/ {_particleCount} -> {_currentStep} / {steps} | {_particleRange} [{_particleCountTolerance}]");
 
                         // If all conditions are satisfied, we are complete
                         if (satisfyParticleTolerance)

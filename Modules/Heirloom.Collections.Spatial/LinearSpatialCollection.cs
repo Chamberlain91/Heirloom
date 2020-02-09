@@ -105,7 +105,7 @@ namespace Heirloom.Collections.Spatial
         public IEnumerable<T> Query(Vector point)
         {
             // Every rect that contains the query point
-            return _items.Where((b, i) => _bounds[i].ContainsPoint(point));
+            return _items.Where((b, i) => _bounds[i].Contains(point));
         }
 
         public IEnumerable<T> Query(Ray ray, float maxDistance = float.PositiveInfinity)

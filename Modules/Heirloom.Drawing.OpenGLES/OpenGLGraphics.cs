@@ -20,7 +20,7 @@ namespace Heirloom.Drawing.OpenGLES
         private Matrix _viewMatrixInverse;
         private bool _viewMatrixInverseDirty;
 
-        // TODO: Share buffers in ResourceManager?
+        // TODO: Share buffers in Adapter/ResourceManager?
         private readonly Dictionary<string, UniformBuffer> _uniformBuffers = new Dictionary<string, UniformBuffer>();
 
         private ShaderProgram _shaderProgram;
