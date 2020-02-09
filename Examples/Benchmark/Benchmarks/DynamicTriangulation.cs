@@ -8,7 +8,7 @@ namespace Heirloom.Benchmark
         private const int MaxPointCount = 500;
         private const int Padding = 32;
 
-        private const float EvaluationDuration = 20F;
+        private const float EvaluationDuration = 10F;
 
         private readonly Vector[] _positions = new Vector[MaxPointCount];
         private readonly Vector[] _velocities = new Vector[MaxPointCount];

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
+
 using Heirloom.Drawing;
 using Heirloom.Math;
 
@@ -7,10 +7,10 @@ namespace Heirloom.Benchmark
 {
     public sealed class StaticTriangulation : Benchmark
     {
-        private const int MaxPointCount = 1000;
+        private const int MaxPointCount = 1500;
         private const int Padding = 32;
 
-        private const float EvaluationDuration = 20F;
+        private const float EvaluationDuration = 10F;
 
         private readonly Vector[] _positions = new Vector[MaxPointCount];
 
