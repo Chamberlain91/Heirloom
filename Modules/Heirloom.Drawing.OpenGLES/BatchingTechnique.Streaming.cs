@@ -24,7 +24,7 @@ namespace Heirloom.Drawing.OpenGLES
             // Set instance buffer to identity values
             ref var instance = ref _instanceBuffer.Data[0];
             instance.Transform = Matrix.Identity;
-            instance.AtlasRect = Rectangle.One;
+            // instance.AtlasRect = Rectangle.One;
 
             // Set instance count exactly one
             _instanceBuffer.Count = 1;
@@ -47,7 +47,8 @@ namespace Heirloom.Drawing.OpenGLES
                 var mVtx = mesh.Vertices[i];
 
                 vtx.Position = transform * mVtx.Position;
-                vtx.UV = uvRect.Position + (mVtx.UV * (Vector) uvRect.Size);
+                vtx.AtlasRect = uvRect;
+                vtx.UV = mVtx.UV;
                 vtx.Color = color;
             }
 
@@ -97,6 +98,9 @@ namespace Heirloom.Drawing.OpenGLES
             [VertexAttribute(VertexAttributeName.UV)]
             public Vector UV;
 
+            [VertexAttribute(VertexAttributeName.AtlasRect)]
+            public Rectangle AtlasRect;
+
             [VertexAttribute(VertexAttributeName.Color)]
             public Color Color;
         }
@@ -104,9 +108,6 @@ namespace Heirloom.Drawing.OpenGLES
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         private struct InstanceData
         {
-            [VertexAttribute(VertexAttributeName.AtlasRect)]
-            public Rectangle AtlasRect;
-
             [VertexAttribute(VertexAttributeName.Transform)]
             public Matrix Transform;
         }

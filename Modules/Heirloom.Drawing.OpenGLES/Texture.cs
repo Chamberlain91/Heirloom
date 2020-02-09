@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using Heirloom.Math;
 using Heirloom.OpenGLES;
@@ -15,7 +15,7 @@ namespace Heirloom.Drawing.OpenGLES
         {
             Size = size;
 
-            var levels = ComputeMipLevels(size);
+            var levels = 1; // ComputeMipLevels(size);
 
             Handle = context.Invoke(() =>
             {
@@ -24,6 +24,8 @@ namespace Heirloom.Drawing.OpenGLES
 
                 // 
                 GL.TexStorage2D(TextureImageTarget.Texture2D, levels, TextureSizedFormat.RGBA8, size.Width, size.Height);
+
+                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MaxLod, 1);
 
                 // 
                 SetTextureFilter(InterpolationMode.Linear);
@@ -48,12 +50,12 @@ namespace Heirloom.Drawing.OpenGLES
             if (mode == InterpolationMode.Linear)
             {
                 GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MagFilter, (int) TextureMagFilter.Linear);
-                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MinFilter, (int) TextureMinFilter.LinearMipNearest);
+                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MinFilter, (int) TextureMinFilter.NearestMipNearest);
             }
             else
             {
                 GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MagFilter, (int) TextureMagFilter.Nearest);
-                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MinFilter, (int) TextureMinFilter.LinearMipNearest);
+                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MinFilter, (int) TextureMinFilter.NearestMipNearest);
             }
         }
 

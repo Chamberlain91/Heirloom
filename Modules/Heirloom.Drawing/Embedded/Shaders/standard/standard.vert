@@ -26,6 +26,11 @@ uniform Standard
 
 // == Vertex Shader ==
 
+// maps 'image space' to 'atlas space'
+vec2 getAtlasUV(in vec2 uv) {
+	return __computeAtlasUV(uv, aAtlasRect);
+}
+
 // Alternative main function to implement when using this standard.frag
 vec2 vertexProgram(vec2 position);
 
@@ -42,10 +47,7 @@ void main()
 	// Emit atlas transform rect
 	frag.uvRect = aAtlasRect;
 	
-	// Emit UV coordinates (atlas space)
-	frag.uvAtlas = computeAtlasUV(aUV, aAtlasRect);
-
-	// Emit UV coordinates (image space)
+	// Emit UV coordinates
 	frag.uv = aUV;
 
 	// Set final vertex position
