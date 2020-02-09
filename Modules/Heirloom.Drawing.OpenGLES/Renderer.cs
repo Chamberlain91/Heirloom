@@ -6,38 +6,38 @@ using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    internal abstract class Renderer
+    internal sealed class Renderer
     {
         private ImageSource _imageSource;
 
         private bool _updateTextureBind;
         private Texture _texture;
 
-        protected Renderer(OpenGLGraphics graphics)
+        public Renderer(OpenGLGraphics graphics)
         {
             Graphics = graphics ?? throw new ArgumentNullException(nameof(graphics));
+            BatchingTechnique = new HybridBatchingTechnique();
         }
 
-        protected OpenGLGraphics Graphics { get; }
+        private OpenGLGraphics Graphics { get; }
 
-        public abstract bool IsDirty { get; }
+        private BatchingTechnique BatchingTechnique { get; }
 
-        protected Rectangle UVRect { get; set; }
+        public bool IsDirty => BatchingTechnique.IsDirty;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected abstract void Submit(Mesh mesh, in Matrix transform, in Color color);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected abstract void DrawBatch();
+        public Rectangle UVRect { get; set; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Submit(ImageSource image, Mesh mesh, in Matrix transform, in Color color)
         {
-            // 
+            // Configure to use image (texture)
             UseImage(image);
 
-            // 
-            Submit(mesh, in transform, in color);
+            // Submit to batch
+            while (!BatchingTechnique.Submit(mesh, UVRect, in transform, in color))
+            {
+                Graphics.Flush();
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -52,8 +52,9 @@ namespace Heirloom.Drawing.OpenGLES
                 _updateTextureBind = false;
             }
 
-            // Draw batched
-            DrawBatch();
+            // Draw batched geometry
+            BatchingTechnique.DrawBatch();
+            Graphics.MarkSurfaceDirty();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

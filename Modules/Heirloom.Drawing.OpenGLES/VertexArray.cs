@@ -38,12 +38,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
             GL.BindVertexArray(0);
         }
-
-        internal void Bind()
-        {
-            GL.BindVertexArray(Handle);
-        }
-
+         
         [Conditional("DEBUG")]
         private void DebugAttributes()
         {
