@@ -23,7 +23,7 @@
         /// <summary>
         /// Determines if this shape contains the specified point.
         /// </summary>
-        bool ContainsPoint(in Vector point);
+        bool Contains(in Vector point);
 
         /// <summary>
         /// Determines if this shape overlaps the specified shape.

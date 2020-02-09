@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -44,6 +44,11 @@ namespace Heirloom.Math
         /// </summary>
         public float Area => Vector.Cross(B - A, C - A) / 2F;
 
+        /// <summary>
+        /// Gets the center of triangle (mean of corner points).
+        /// </summary>
+        public Vector Centroid => (A + B + C) / 3F;
+
         #endregion
 
         /// <summary>
@@ -85,7 +90,7 @@ namespace Heirloom.Math
         /// <summary>
         /// Determines if this triangle contains the specified point.
         /// </summary>
-        public bool ContainsPoint(in Vector point)
+        public bool Contains(in Vector point)
         {
             return ContainsPoint(in A, in B, in C, point);
         }
@@ -287,6 +292,57 @@ namespace Heirloom.Math
             v = (d11 * d20 - d01 * d21) / denom;
             w = (d00 * d21 - d01 * d20) / denom;
             u = 1.0f - v - w;
+        }
+
+        #endregion
+
+        #region Circumcircle (Static)
+
+        /// <summary>
+        /// Computes the circumcircle for the specified triangle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Circle CreateCircumcircle(in Triangle tri)
+        {
+            return CreateCircumcircle(in tri.A, in tri.B, in tri.C);
+        }
+
+        /// <summary>
+        /// Computes the circumcircle for the specified triangle.
+        /// </summary>
+        public static Circle CreateCircumcircle(in Vector a, in Vector b, in Vector c)
+        // https://gist.github.com/mutoo/5617691
+        {
+            var A = b.X - a.X;
+            var B = b.Y - a.Y;
+            var C = c.X - a.X;
+            var D = c.Y - a.Y;
+            var E = A * (a.X + b.X) + B * (a.Y + b.Y);
+            var F = C * (a.X + c.X) + D * (a.Y + c.Y);
+            var G = 2 * (A * (c.Y - b.Y) - B * (c.X - b.X));
+
+            // If the points of the triangle are collinear, then just find the
+            // extremes and use the midpoint as the center of the circumcircle.
+            if (Calc.NearZero(G))
+            {
+                var minx = Calc.Min(a.X, b.X, c.X);
+                var miny = Calc.Min(a.Y, b.Y, c.Y);
+
+                var dx = (Calc.Max(a.X, b.X, c.X) - minx) * 0.5F;
+                var dy = (Calc.Max(a.Y, b.Y, c.Y) - miny) * 0.5F;
+
+                var x = minx + dx;
+                var y = miny + dy;
+
+                return new Circle(x, y, Calc.Sqrt((dx * dx) + (dy * dy)));
+            }
+            else
+            {
+                var x = ((D * E) - (B * F)) / G;
+                var y = ((A * F) - (C * E)) / G;
+
+                return new Circle(x, y, Calc.Distance(x, y, a.X, a.Y));
+            }
         }
 
         #endregion
