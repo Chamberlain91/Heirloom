@@ -22,10 +22,12 @@ namespace Heirloom.Drawing.OpenGLES
         private bool _viewMatrixInverseDirty;
 
         // Surface State
-        private bool _viewportDirty;
-        private IntRectangle _viewportActual;
-        private Rectangle _viewport;
         private Surface _surface;
+
+        // Viewport state
+        private IntRectangle _viewportRect;
+        private Rectangle _viewport;
+        private bool _viewportDirty;
 
         // Shader State
         // TODO: Share buffers in Adapter?
@@ -132,6 +134,23 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Viewport
 
+        public override IntRectangle ViewportScreen
+        {
+            get => _viewportRect;
+
+            set
+            {
+                // Compute normalized viewport rect
+                var x = value.X / (float) Surface.Width;
+                var y = value.Y / (float) Surface.Height;
+                var w = value.Width / (float) Surface.Width;
+                var h = value.Height / (float) Surface.Height;
+
+                // Assign normalized viewport
+                Viewport = new Rectangle(x, y, w, h);
+            }
+        }
+
         public override Rectangle Viewport
         {
             get => _viewport;
@@ -141,30 +160,43 @@ namespace Heirloom.Drawing.OpenGLES
                 // Complete previous work
                 Flush();
 
-                // Assign viewport values and 
-                _viewportDirty = true;
+                // Assign normalzied viewprot
                 _viewport = value;
+
+                // Compute viewport rect
+                ComputeViewportRect();
             }
         }
 
-        private void UpdateViewport()
+        private void ComputeViewportRect()
         {
+            // Set viewport and scissor box
+            var w = (int) (_viewport.Width * Surface.Width);
+            var h = (int) (_viewport.Height * Surface.Height);
+            var x = (int) (_viewport.X * Surface.Width);
+            var y = (int) (_viewport.Y * Surface.Height);
+            y = Surface.Height - h - y; // todo: is this correct...?
+
+            // Store actual computed viewport and mark as dirty to update GL counter part
+            _viewportRect = new IntRectangle(x, y, w, h);
+            _viewportDirty = true;
+        }
+
+        private unsafe void UpdateViewportScissor()
+        {
+            // Update viewport and scissor
             if (_viewportDirty)
             {
-                // Set viewport and scissor box
-                var w = (int) (_viewport.Width * Surface.Width);
-                var h = (int) (_viewport.Height * Surface.Height);
-                var x = (int) (_viewport.X * Surface.Width);
-                var y = (int) (_viewport.Y * Surface.Height);
-                y = Surface.Height - h - y; // todo: is this correct...? top flip from BL zero to TL zero
-
-                // Store actual viewport computed
-                _viewportActual = new IntRectangle(x, y, w, h);
+                var x = _viewportRect.X;
+                var y = _viewportRect.Y;
+                var w = _viewportRect.Width;
+                var h = _viewportRect.Height;
 
                 // 
                 GL.SetViewport(x, y, w, h);
                 GL.SetScissor(x, y, w, h);
 
+                // 
                 _viewportDirty = false;
             }
         }
@@ -601,8 +633,8 @@ namespace Heirloom.Drawing.OpenGLES
                 // Set new surface
                 _surface = surface;
 
-                // We will need to recompute viewport
-                _viewportDirty = true;
+                // We will need to recompute viewport size
+                ComputeViewportRect();
 
                 Invoke(blocking: false, action: () =>
                 {
@@ -735,8 +767,8 @@ namespace Heirloom.Drawing.OpenGLES
         {
             Invoke(() =>
             {
-                // 
-                UpdateViewport();
+                // Update viewport and scissor
+                UpdateViewportScissor();
 
                 // Set color and clear
                 GL.SetClearColor(color.R, color.G, color.B, color.A);
@@ -776,10 +808,10 @@ namespace Heirloom.Drawing.OpenGLES
                 Invoke(() =>
                 {
                     // Update viewport and scissor
-                    UpdateViewport();
+                    UpdateViewportScissor();
 
                     // Compute view-projection matrix
-                    var projMatrix = Matrix.RectangleProjection(0, 0, _viewportActual.Width, _viewportActual.Height);
+                    var projMatrix = Matrix.RectangleProjection(0, 0, _viewportRect.Width, _viewportRect.Height);
                     Matrix.Multiply(in projMatrix, in _viewMatrix, ref projMatrix);
 
                     // Write into uniform buffer
