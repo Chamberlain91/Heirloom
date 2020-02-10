@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -7,6 +7,8 @@ using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
+    using GLShaderType = Heirloom.OpenGLES.ShaderType;
+
     public abstract class OpenGLGraphicsAdapter : GraphicsAdapter
     {
         #region Query Capabilities
@@ -43,16 +45,21 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
-        protected override IShaderManager CreateShaderManager()
+        protected override IShaderFactory CreateShaderFactory()
         {
-            return new ShaderManager(this);
+            return new GLShaderFactory(this);
         }
 
-        #region Resource Managers
-
-        private abstract class ResourceManager
+        protected override ISurfaceFactory CreateSurfaceFactory()
         {
-            protected ResourceManager(OpenGLGraphicsAdapter adapter)
+            return new GLSurfaceFactory(this);
+        }
+
+        #region Resource Factories
+
+        private abstract class Factory
+        {
+            protected Factory(OpenGLGraphicsAdapter adapter)
             {
                 Adapter = adapter ?? throw new ArgumentNullException(nameof(adapter));
             }
@@ -60,9 +67,39 @@ namespace Heirloom.Drawing.OpenGLES
             public OpenGLGraphicsAdapter Adapter { get; }
         }
 
-        private sealed class ShaderManager : ResourceManager, IShaderManager
+        private sealed class GLSurfaceFactory : Factory, ISurfaceFactory
         {
-            public ShaderManager(OpenGLGraphicsAdapter adapter)
+            private readonly int _maxSupportedSamples;
+
+            public GLSurfaceFactory(OpenGLGraphicsAdapter adapter)
+                : base(adapter)
+            {
+                _maxSupportedSamples = adapter.Invoke(() =>
+                {
+                    // Query platform for multisample capabilities
+                    var allowableSamplesCount = GL.GetInternalformat(RenderbufferFormat.RGBA8, InternalFormatParameter.NUM_SAMPLE_COUNTS, 1)[0];
+                    var allowableSamples = GL.GetInternalformat(RenderbufferFormat.RGBA8, InternalFormatParameter.SAMPLES, allowableSamplesCount);
+
+                    // Get intended max samples, and compare against max allowed on this platform
+                    return allowableSamples[0];
+                });
+            }
+
+            public object Create(IntSize size, MultisampleQuality multisample)
+            {
+                var samples = Calc.Min((int) multisample, _maxSupportedSamples);
+                return Adapter.Invoke(() => new FramebufferStorage(size, samples));
+            }
+
+            public void Dispose(object native)
+            {
+                // Whoop
+            }
+        }
+
+        private sealed class GLShaderFactory : Factory, IShaderFactory
+        {
+            public GLShaderFactory(OpenGLGraphicsAdapter adapter)
                 : base(adapter)
             { }
 
@@ -70,8 +107,8 @@ namespace Heirloom.Drawing.OpenGLES
             {
                 var program = Adapter.Invoke(() =>
                 {
-                    var vShader = new ShaderStage(Adapter, ShaderType.Vertex, vert);
-                    var fShader = new ShaderStage(Adapter, ShaderType.Fragment, frag);
+                    var vShader = new ShaderStage(Adapter, GLShaderType.Vertex, vert);
+                    var fShader = new ShaderStage(Adapter, GLShaderType.Fragment, frag);
 
                     return new ShaderProgram(Adapter, name, vShader, fShader);
                 });

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -18,6 +18,16 @@ namespace Heirloom.Drawing.OpenGLES
         private readonly Dictionary<string, Uniform> _uniforms;
         private readonly Dictionary<string, uint> _textureUnits;
         private readonly Dictionary<string, int> _locations;
+
+        internal readonly OpenGLGraphicsAdapter Adapter;
+
+        internal readonly uint Handle;
+
+        internal readonly string Name;
+
+        internal readonly ShaderStage FragmentShader;
+
+        internal readonly ShaderStage VertexShader;
 
         #region Constructors
 
@@ -81,16 +91,6 @@ namespace Heirloom.Drawing.OpenGLES
         #endregion
 
         #region Properties
-
-        internal OpenGLGraphicsAdapter Adapter { get; }
-
-        internal ShaderStage FragmentShader { get; }
-
-        internal ShaderStage VertexShader { get; }
-
-        internal string Name { get; }
-
-        internal uint Handle { get; }
 
         public IEnumerable<ActiveUniformBlock> Blocks => _blocks.Values;
 

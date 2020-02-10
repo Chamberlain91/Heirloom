@@ -38,7 +38,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
             GL.BindVertexArray(0);
         }
-         
+
         [Conditional("DEBUG")]
         private void DebugAttributes()
         {
@@ -52,6 +52,7 @@ namespace Heirloom.Drawing.OpenGLES
                     Log.Debug($"    {attr}");
                 }
             }
+            Log.Debug("");
         }
     }
 }

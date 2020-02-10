@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -9,6 +9,23 @@ namespace Heirloom.Drawing.OpenGLES
     internal abstract class Buffer : IDisposable
     {
         private bool _isDisposed = false;
+
+        /// <summary>
+        /// The buffer target.
+        /// </summary>
+        public readonly BufferTarget Target;
+
+        /// <summary>
+        /// The buffer handle (or name).
+        /// </summary>
+        public readonly uint Handle;
+
+        /// <summary>
+        /// The size of the buffer in bytes.
+        /// </summary>
+        public readonly uint Size;
+
+        #region Constructors
 
         protected Buffer(BufferTarget target, uint sizeInBytes)
         {
@@ -27,11 +44,7 @@ namespace Heirloom.Drawing.OpenGLES
             Dispose(false);
         }
 
-        public BufferTarget Target { get; }
-
-        public uint Handle { get; }
-
-        public uint Size { get; }
+        #endregion
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public virtual void Bind()

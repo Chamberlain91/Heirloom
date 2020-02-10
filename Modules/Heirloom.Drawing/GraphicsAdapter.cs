@@ -1,4 +1,6 @@
-﻿using System;
+using System;
+
+using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
@@ -19,7 +21,8 @@ namespace Heirloom.Drawing
             Capabilities = QueryCapabilities();
 
             // Construct resource managers
-            ShaderResources = CreateShaderManager();
+            SurfaceFactory = CreateSurfaceFactory();
+            ShaderFactory = CreateShaderFactory();
         }
 
         #endregion
@@ -36,17 +39,20 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Implementation of shader resources.
         /// </summary>
-        internal static IShaderManager ShaderResources { get; private set; }
+        protected internal static IShaderFactory ShaderFactory { get; private set; }
 
-        #endregion
-
-        #region Properties
+        /// <summary>
+        /// Implementation of shader resources.
+        /// </summary>
+        protected internal static ISurfaceFactory SurfaceFactory { get; private set; }
 
         #endregion
 
         protected abstract GraphicsCapabilities QueryCapabilities();
 
-        protected abstract IShaderManager CreateShaderManager();
+        protected abstract ISurfaceFactory CreateSurfaceFactory();
+
+        protected abstract IShaderFactory CreateShaderFactory();
 
         #region Dispose
 
@@ -62,7 +68,7 @@ namespace Heirloom.Drawing
                     Instance = null;
                 }
 
-                // native
+                // todo: dispose native?
 
                 _isDisposed = true;
             }
@@ -75,9 +81,16 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        protected internal interface IShaderManager
+        protected internal interface IShaderFactory
         {
             object Compile(string name, string vert, string frag, out UniformInfo[] uniforms);
+
+            void Dispose(object native);
+        }
+
+        protected internal interface ISurfaceFactory
+        {
+            object Create(IntSize size, MultisampleQuality multisample);
 
             void Dispose(object native);
         }
