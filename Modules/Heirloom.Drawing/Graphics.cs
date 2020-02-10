@@ -8,7 +8,7 @@ namespace Heirloom.Drawing
 {
     public abstract partial class Graphics
     {
-        private const float FpsSampleDuration = 1F;
+        private const float FpsSampleDuration = 0.5F;
 
         private static readonly Mesh _quadMesh = Mesh.CreateQuad(1, 1);
 
@@ -84,6 +84,11 @@ namespace Heirloom.Drawing
         /// Gets or sets the viewport in normalized coordinates.
         /// </summary>
         public abstract Rectangle Viewport { get; set; }
+
+        /// <summary>
+        /// Gets the size of viewport in pixel coordinates.
+        /// </summary>
+        public abstract IntRectangle ViewportScreen { get; set; }
 
         /// <summary>
         /// Get or sets the global transform.
@@ -203,6 +208,15 @@ namespace Heirloom.Drawing
         #endregion
 
         /// <summary>
+        /// Sets <see cref="GlobalTransform"/> to mimic a 2D camera.
+        /// </summary>
+        public void SetCameraTransform(Vector center, float scale = 1F)
+        {
+            var offset = (Vector) ViewportScreen.Size / 2F;
+            GlobalTransform = Matrix.CreateTransform(offset - center, 0, scale);
+        }
+
+        /// <summary>
         /// Present the drawing operations to the screen.
         /// </summary>
         public void RefreshScreen()
@@ -223,14 +237,6 @@ namespace Heirloom.Drawing
         /// Note: Currently untested for said synchronization.
         /// </summary>
         public abstract void Flush();
-
-        /// <summary>
-        /// Updates the current surfaces version number.
-        /// </summary>
-        protected void UpdateSurfaceVersionNumber()
-        {
-            Surface.IncrementVersion();
-        }
 
         private void DrawFPSOverlay()
         {
