@@ -21,7 +21,7 @@ uniform Standard
 
 // maps 'image space' to 'atlas space'
 vec2 getAtlasUV(in vec2 uv) {
-	return __computeAtlasUV(uv, frag.uvRect);
+	return computeAtlasUV(uv, frag.uvRect);
 }
 
 // Alternative main function to implement when using this standard.frag
