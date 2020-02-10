@@ -16,7 +16,7 @@ namespace Heirloom.Drawing
 
         // 
         internal readonly Dictionary<string, UniformStorage> UniformStorageMap;
-        internal bool IsAnyUniformDirty;
+        internal bool IsDirty;
 
         // 
         internal readonly object Native;
@@ -168,7 +168,7 @@ namespace Heirloom.Drawing
                 uniform.Value = value;
 
                 // Mark that there was a change at all
-                IsAnyUniformDirty = true;
+                IsDirty = true;
             }
             else
             {
@@ -212,7 +212,7 @@ namespace Heirloom.Drawing
                 }
 
                 // Alert the implementation that this resource has been disposed
-                GraphicsAdapter.ShaderResources.Dispose(Native);
+                GraphicsAdapter.ShaderFactory.Dispose(Native);
 
                 _isDispsoed = true;
             }

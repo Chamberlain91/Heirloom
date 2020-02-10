@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -177,6 +177,11 @@ namespace Heirloom.Drawing
         }
 
         /// <summary>
+        /// The local bounds of the image.
+        /// </summary>
+        public Rectangle Bounds => new Rectangle(-Origin, Size);
+
+        /// <summary>
         /// The images aspect ratio.
         /// </summary>
         public float Aspect => Width / (float) Height;
@@ -278,7 +283,7 @@ namespace Heirloom.Drawing
                 }
             }
 
-            UpdateVersionNumber();
+            IncrementVersion();
         }
 
         #region Get/SetPixel
@@ -354,7 +359,7 @@ namespace Heirloom.Drawing
             }
 
             // 
-            UpdateVersionNumber();
+            IncrementVersion();
         }
 
         /// <summary>
@@ -383,7 +388,7 @@ namespace Heirloom.Drawing
                 {
                     var len = _pixels.Length * 4;
                     Buffer.MemoryCopy((void*) src, (void*) dst, len, len);
-                    UpdateVersionNumber();
+                    IncrementVersion();
                 }
             }
         }
@@ -419,7 +424,7 @@ namespace Heirloom.Drawing
                 fixed (ColorBytes* dst = _pixels)
                 {
                     Buffer.MemoryCopy((void*) src, (void*) dst, 4 * pixels.Length, 4 * pixels.Length);
-                    UpdateVersionNumber();
+                    IncrementVersion();
                 }
             }
         }
@@ -455,7 +460,7 @@ namespace Heirloom.Drawing
                 fixed (ColorBytes* dst = _pixels)
                 {
                     Buffer.MemoryCopy((void*) src, (void*) dst, pixels.Length, pixels.Length);
-                    UpdateVersionNumber();
+                    IncrementVersion();
                 }
             }
         }
@@ -749,7 +754,7 @@ namespace Heirloom.Drawing
                 }
 
                 // 
-                target.UpdateVersionNumber();
+                target.IncrementVersion();
             }
         }
 

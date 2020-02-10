@@ -1,14 +1,16 @@
-﻿using System;
+using System;
 
 using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
     /// <summary>
-    /// Represents a surface drawing onto.
+    /// Represents a surface a <see cref="Graphics"/> object can draw on.
     /// </summary>
     public sealed class Surface : ImageSource
     {
+        internal readonly object Native;
+
         #region Constructors
 
         /// <summary>
@@ -27,11 +29,20 @@ namespace Heirloom.Drawing
         /// <param name="height">Height of the surface in pixels.</param>
         /// <param name="multisample">MSAA to use on the surface</param>
         public Surface(int width, int height, MultisampleQuality multisample = MultisampleQuality.None)
+            : this(width, height, multisample, true)
+        { }
+
+        internal Surface(int width, int height, MultisampleQuality multisample, bool createNative)
         {
             if (width <= 0 || height <= 0) { throw new ArgumentException("Surface dimensions must be greater than zero."); }
 
             Size = new IntSize(width, height);
             Multisample = multisample;
+
+            if (createNative)
+            {
+                Native = GraphicsAdapter.SurfaceFactory.Create(Size, multisample);
+            }
         }
 
         #endregion

@@ -1,4 +1,4 @@
-﻿using Heirloom.Math;
+using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
@@ -29,11 +29,6 @@ namespace Heirloom.Drawing
         public Vector Origin { get; set; }
 
         /// <summary>
-        /// The local bounds of the image.
-        /// </summary>
-        public Rectangle Bounds => new Rectangle(-Origin, Size);
-
-        /// <summary>
         /// Gets or sets sampling mode.
         /// </summary>
         public InterpolationMode InterpolationMode
@@ -42,13 +37,13 @@ namespace Heirloom.Drawing
             set
             {
                 _sampleMode = value;
-                UpdateVersionNumber();
+                IncrementVersion();
             }
         }
 
         // todo: repeat mode
 
-        internal void UpdateVersionNumber()
+        internal void IncrementVersion()
         {
             Version++;
 
@@ -67,7 +62,7 @@ namespace Heirloom.Drawing
 
         void IDrawingResource.UpdateVersionNumber()
         {
-            UpdateVersionNumber();
+            IncrementVersion();
         }
     }
 }

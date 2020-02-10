@@ -65,8 +65,8 @@ namespace Heirloom.Desktop
                 _vsync = vsync;
 
                 // 
-                _window.FramebufferResized += _ => SetDefaultSurfaceSize(_window.FramebufferSize);
-                SetDefaultSurfaceSize(_window.FramebufferSize);
+                _window.FramebufferResized += _ => DefaultSurface.SetSize(_window.FramebufferSize);
+                DefaultSurface.SetSize(_window.FramebufferSize);
             }
 
             protected override void MakeCurrent()

@@ -29,7 +29,8 @@ namespace Heirloom.Drawing
             _stateStack = new Stack<GraphicsState>();
             _stopwatch = Stopwatch.StartNew();
 
-            DefaultSurface = new Surface(1, 1, multisample);
+            // Creates a dummy surface to represent the window surface
+            DefaultSurface = new Surface(1, 1, multisample, false);
         }
 
         ~Graphics()
@@ -106,11 +107,6 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        protected void SetDefaultSurfaceSize(IntSize size)
-        {
-            DefaultSurface.SetSize(size);
-        }
-
         #region State Methods
 
         /// <summary>
@@ -174,7 +170,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Clears the current surface with the specified color.
         /// </summary>
-        public abstract void Clear(in Color color);
+        public abstract void Clear(Color color);
 
         /// <summary>
         /// Draws a mesh with the given image to the current surface.
@@ -193,7 +189,7 @@ namespace Heirloom.Drawing
         /// </summary>
         /// <param name="region">A region within the currently set surface.</param>
         /// <returns>An image with a copy of the pixels on the surface.</returns>
-        public abstract Image GrabPixels(in IntRectangle region);
+        public abstract Image GrabPixels(IntRectangle region);
 
         /// <summary>
         /// Grab the pixels from the current surface and return that image. (ie, a screenshot)
@@ -205,46 +201,6 @@ namespace Heirloom.Drawing
         }
 
         #endregion
-
-        protected static object GetNativeObject(Shader shader)
-        {
-            return shader.Native;
-        }
-
-        protected static bool HasDirtyUniform(Shader shader)
-        {
-            return shader.IsAnyUniformDirty;
-        }
-
-        /// <summary>
-        /// Iterates over each mutated uniform in this shader and clears their dirty flag.
-        /// </summary>
-        protected static IEnumerable<(string name, object value)> EnumerateAndResetDirtyUniforms(Shader shader)
-        {
-            foreach (var (name, uniform) in shader.UniformStorageMap)
-            {
-                if (uniform.IsDirty)
-                {
-                    yield return (name, uniform.Value);
-                }
-
-                uniform.IsDirty = false;
-            }
-
-            // Mark shaders globally as processed
-            shader.IsAnyUniformDirty = false;
-        }
-
-        /// <summary>
-        /// Gets every uniform on this shader.
-        /// </summary>
-        protected static IEnumerable<(string name, object value)> GetUniforms(Shader shader)
-        {
-            foreach (var (name, uniform) in shader.UniformStorageMap)
-            {
-                yield return (name, uniform.Value);
-            }
-        }
 
         /// <summary>
         /// Present the drawing operations to the screen.
@@ -273,7 +229,7 @@ namespace Heirloom.Drawing
         /// </summary>
         protected void UpdateSurfaceVersionNumber()
         {
-            Surface.UpdateVersionNumber();
+            Surface.IncrementVersion();
         }
 
         private void DrawFPSOverlay()

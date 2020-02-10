@@ -103,7 +103,7 @@ namespace Heirloom.Drawing
                 var frag = LoadSource(fragPath, true);
 
                 // Compile shader
-                return GraphicsAdapter.ShaderResources.Compile(name, vert, frag, out uniforms);
+                return GraphicsAdapter.ShaderFactory.Compile(name, vert, frag, out uniforms);
             }
 
             private static string GenerateVersionHeader()
