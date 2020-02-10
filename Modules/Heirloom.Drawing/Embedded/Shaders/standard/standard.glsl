@@ -9,7 +9,7 @@ float luminance(vec3 rgb) {
 }
 
 // maps 'image space' to 'atlas space'
-vec2 __computeAtlasUV(in vec2 uv, in vec4 uvRect) {
+vec2 computeAtlasUV(in vec2 uv, in vec4 uvRect) {
 
 	// Wrap UV coordinates
 	uv = mod(uv, 1.0);
