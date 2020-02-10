@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -522,6 +522,14 @@ namespace Heirloom.Math
         #endregion
 
         #region Create Rectangle Projection
+
+        /// <summary>
+        /// Constructs a matrix that transforms a rectangular region to normalized screen coordinates.
+        /// </summary>
+        public static Matrix RectangleProjection(Rectangle rectangle)
+        {
+            return RectangleProjection(rectangle.Left, rectangle.Top, rectangle.Right, rectangle.Bottom);
+        }
 
         /// <summary>
         /// Constructs a matrix that transforms a rectangular region to normalized screen coordinates.
