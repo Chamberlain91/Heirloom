@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Heirloom.Math
@@ -277,7 +277,7 @@ namespace Heirloom.Math
 
         public override string ToString()
         {
-            return $"({Width} by {Height})";
+            return $"{Width} x {Height}";
         }
     }
 }
