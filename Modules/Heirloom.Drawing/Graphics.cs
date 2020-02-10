@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 using Heirloom.Math;
 
@@ -8,17 +7,13 @@ namespace Heirloom.Drawing
 {
     public abstract partial class Graphics
     {
-        private const float FpsSampleDuration = 0.5F;
-
         private static readonly Mesh _quadMesh = Mesh.CreateQuad(1, 1);
 
         // graphics state stack
         private readonly Stack<GraphicsState> _stateStack;
 
         // framerate tracking
-        private readonly Stopwatch _stopwatch;
-        private float _fpsTime;
-        private int _fpsCount;
+        private readonly FrequencyCounter _framerateCounter = new FrequencyCounter(1 / 4F);
 
         #region Constructors
 
@@ -27,7 +22,6 @@ namespace Heirloom.Drawing
             Adapter = adapter;
 
             _stateStack = new Stack<GraphicsState>();
-            _stopwatch = Stopwatch.StartNew();
 
             // Creates a dummy surface to represent the window surface
             DefaultSurface = new Surface(1, 1, multisample, false);
@@ -58,7 +52,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Gets how often the default surface is presented to the screen per second.
         /// </summary>
-        public float CurrentFPS { get; private set; }
+        public float CurrentFPS => _framerateCounter.Average;
 
         /// <summary>
         /// Gets or sets a value that will enable or disable drawing the FPS overlay.
@@ -221,9 +215,11 @@ namespace Heirloom.Drawing
         /// </summary>
         public void RefreshScreen()
         {
-            ComputeFPS();
-            DrawFPSOverlay();
+            // 
+            _framerateCounter.Tick();
 
+            // Draw overlay and flush
+            DrawFPSOverlay();
             Flush();
 
             // Low level swap buffers
@@ -252,25 +248,6 @@ namespace Heirloom.Drawing
 
                 Color = Color.Pink;
                 DrawText(text, new Vector(Surface.Width - 8, 8), Font.Default, 16, TextAlign.Right);
-            }
-        }
-
-        private void ComputeFPS()
-        {
-            // Get elapsed time
-            var delta = (float) _stopwatch.Elapsed.TotalSeconds;
-            _stopwatch.Restart();
-
-            _fpsTime += delta;
-            _fpsCount++;
-
-            if (_fpsTime >= FpsSampleDuration)
-            {
-                // hz, events/time
-                CurrentFPS = _fpsCount / _fpsTime;
-
-                _fpsCount = 0;
-                _fpsTime = 0;
             }
         }
 
