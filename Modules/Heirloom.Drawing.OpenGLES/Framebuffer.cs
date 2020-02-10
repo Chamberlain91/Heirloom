@@ -8,11 +8,18 @@ namespace Heirloom.Drawing.OpenGLES
     {
         private readonly FramebufferStorage _storage;
         private readonly Surface _surface;
+        private uint _version;
 
         private bool _isDisposed = false;
 
+        /// <summary>
+        /// The framebuffer associated with the multisampled renderbuffer.
+        /// </summary>
         public readonly RenderbufferTarget RenderbufferFBO;
 
+        /// <summary>
+        /// The framebuffer associated with the surface texture.
+        /// </summary>
         public readonly TextureTarget TextureFBO;
 
         #region Constructors
@@ -39,10 +46,14 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
+        /// <summary>
+        /// Does this framebuffer support multisampling?
+        /// </summary>
         public bool HasRenderbuffer => RenderbufferFBO != null;
 
-        public uint Version { get; private set; }
-
+        /// <summary>
+        /// Binds the framebuffer.
+        /// </summary>
         internal void Bind()
         {
             if (HasRenderbuffer)
@@ -57,17 +68,16 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        public void Update()
+        /// <summary>
+        /// Blits the renderbuffer to the texture (if needed/exists) and updates the texture.
+        /// </summary>
+        public void BlitAndUpdate()
         {
-            if (Version != _surface.Version)
+            if (_version != _surface.Version)
             {
                 // Copy and resolve renderbuffer (if exists) to texture
                 if (HasRenderbuffer)
                 {
-                    var tex = TextureFBO.Texture;
-
-                    // todo: Do this lazily with a dirty flag?
-
                     // Get current draw framebuffer
                     var drawBuffer = (uint) GL.GetInteger(GetParameter.DrawFramebufferBinding);
 
@@ -76,7 +86,9 @@ namespace Heirloom.Drawing.OpenGLES
                     GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, TextureFBO.Handle);
 
                     // Blit from multisampled buffer to texture buffer
-                    GL.BlitFramebuffer(0, 0, tex.Width, tex.Height, 0, 0, tex.Width, tex.Height, FramebufferBlitMask.Color, FramebufferBlitFilter.Nearest);
+                    GL.BlitFramebuffer(0, 0, TextureFBO.Texture.Width, TextureFBO.Texture.Height,
+                                       0, 0, TextureFBO.Texture.Width, TextureFBO.Texture.Height,
+                                       FramebufferBlitMask.Color, FramebufferBlitFilter.Nearest);
 
                     // Restore draw framebuffer
                     GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, drawBuffer);
@@ -87,7 +99,7 @@ namespace Heirloom.Drawing.OpenGLES
                 texture.Update(_surface);
 
                 // We should be up to date with the surface now
-                Version = _surface.Version;
+                _version = _surface.Version;
             }
         }
 
