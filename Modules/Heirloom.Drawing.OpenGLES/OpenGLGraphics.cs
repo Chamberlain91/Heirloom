@@ -22,19 +22,21 @@ namespace Heirloom.Drawing.OpenGLES
         private bool _viewMatrixInverseDirty;
 
         // Surface State
+        private bool _viewportDirty;
+        private IntRectangle _viewportActual;
         private Rectangle _viewport;
         private Surface _surface;
 
         // Shader State
-        // TODO: Share buffers in Adapter/ResourceManager?
+        // TODO: Share buffers in Adapter?
         private readonly Dictionary<string, UniformBuffer> _uniformBuffers = new Dictionary<string, UniformBuffer>();
         private ShaderProgram _shaderProgram;
         private Shader _shader;
 
         // Texture State
-        private Texture _texture;
+        private bool _textureBindDirty;
         private ImageSource _imageSource;
-        private bool _updateTextureBind;
+        private Texture _texture;
         private Rectangle _uvRect;
 
         // Blending State
@@ -73,9 +75,28 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
-        #region Properties
+        #region Invoke
 
-        public new OpenGLGraphicsAdapter Adapter => base.Adapter as OpenGLGraphicsAdapter;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected internal void Invoke(Action action, bool blocking = true)
+        {
+            if (!_isRunning) { throw new InvalidOperationException("Unable to invoke, thread not started."); }
+            if (blocking) { _thread.Invoke(action); }
+            else { _thread.InvokeLater(action); }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected internal T Invoke<T>(Func<T> action)
+        {
+            if (!_isRunning) { throw new InvalidOperationException("Unable to invoke, thread not started."); }
+            return _thread.Invoke(action);
+        }
+
+        #endregion
+
+        protected abstract void MakeCurrent();
+
+        #region Global Transform
 
         public override Matrix GlobalTransform
         {
@@ -83,7 +104,7 @@ namespace Heirloom.Drawing.OpenGLES
 
             set
             {
-                // Forced flush (mutating global state)
+                // Complete previous work
                 Flush();
 
                 // Store view matrix
@@ -107,92 +128,56 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
+        #endregion
+
+        #region Viewport
+
         public override Rectangle Viewport
-        // todo: viewport mechanism needs radical improvment
         {
             get => _viewport;
 
             set
             {
-                // if dirty, flush
-                if (_batchingTechnique.IsDirty)
-                {
-                    // This will complete anything to draw, and
-                    // then adjust viewports.
-                    Flush();
-                }
-                else
-                {
-                    // Nothing to draw, so we will just set the viewport
-                    Invoke(() => SetViewportAndScissor(out var _, out var _), false);
-                }
+                // Complete previous work
+                Flush();
 
+                // Assign viewport values and 
+                _viewportDirty = true;
                 _viewport = value;
             }
         }
 
-        public override Blending Blending
+        private void UpdateViewport()
         {
-            get => _blendMode;
-            set => UseBlending(value);
+            if (_viewportDirty)
+            {
+                // Set viewport and scissor box
+                var w = (int) (_viewport.Width * Surface.Width);
+                var h = (int) (_viewport.Height * Surface.Height);
+                var x = (int) (_viewport.X * Surface.Width);
+                var y = (int) (_viewport.Y * Surface.Height);
+                y = Surface.Height - h - y; // todo: is this correct...? top flip from BL zero to TL zero
+
+                // Store actual viewport computed
+                _viewportActual = new IntRectangle(x, y, w, h);
+
+                // 
+                GL.SetViewport(x, y, w, h);
+                GL.SetScissor(x, y, w, h);
+
+                _viewportDirty = false;
+            }
         }
 
-        public override Surface Surface
-        {
-            get => _surface;
-            set => UseSurface(value);
-        }
+        #endregion
+
+        #region Shader
 
         public override Shader Shader
         {
             get => _shader;
             set => UseShader(value);
         }
-
-        public override Color Color
-        {
-            get => _blendColor;
-            set => _blendColor = value;
-        }
-
-        #endregion
-
-        #region Invoke
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected internal void Invoke(Action action, bool blocking = true)
-        {
-            if (!_isRunning) { throw new InvalidOperationException("Unable to invoke, thread not started."); }
-            if (blocking) { _thread.Invoke(action); }
-            else { _thread.InvokeLater(action); }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected internal T Invoke<T>(Func<T> action)
-        {
-            if (!_isRunning) { throw new InvalidOperationException("Unable to invoke, thread not started."); }
-            return _thread.Invoke(action);
-        }
-
-        #endregion
-
-        protected abstract void MakeCurrent();
-
-        private unsafe void SetViewportAndScissor(out int w, out int h)
-        {
-            // Set viewport and scissor box
-            // todo: only set if a viewport dirty flag was set to prevent calling this on every flush
-            w = (int) (_viewport.Width * Surface.Width);
-            h = (int) (_viewport.Height * Surface.Height);
-            var x = (int) (_viewport.X * Surface.Width);
-            var y = (int) (_viewport.Y * Surface.Height);
-            y = Surface.Height - h - y;
-
-            GL.SetViewport(x, y, w, h);
-            GL.SetScissor(x, y, w, h);
-        }
-
-        #region Shader
 
         private void UseShader(Shader shader)
         {
@@ -564,15 +549,15 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        public unsafe void SetShaderParameter<T>(string name, T data) where T : struct
+        public unsafe void SetBufferUniform<T>(string name, T data) where T : struct
         {
             var pin = GCHandle.Alloc(data, GCHandleType.Pinned);
             var size = Marshal.SizeOf<T>();
-            SetShaderParameter(name, (void*) pin.AddrOfPinnedObject(), 0, size);
+            SetBufferUniform(name, (void*) pin.AddrOfPinnedObject(), 0, size);
             pin.Free();
         }
 
-        public unsafe void SetShaderParameter(string name, void* data, int offset, int size)
+        public unsafe void SetBufferUniform(string name, void* data, int offset, int size)
         {
             // Get uniform
             var uniform = _shaderProgram.GetUniform(name);
@@ -588,16 +573,22 @@ namespace Heirloom.Drawing.OpenGLES
         /// Writes a matrix to the given address with each row aligned to 16 bytes.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe void SetShaderParameter(string name, Matrix matrix)
+        public unsafe void SetBufferUniform(string name, Matrix matrix)
         {
             var p = (float*) &matrix;
-            SetShaderParameter(name, p + 0, 0, 12);
-            SetShaderParameter(name, p + 3, 16, 12);
+            SetBufferUniform(name, p + 0, 0, 12);
+            SetBufferUniform(name, p + 3, 16, 12);
         }
 
         #endregion
 
         #region Surface
+
+        public override Surface Surface
+        {
+            get => _surface;
+            set => UseSurface(value);
+        }
 
         private void UseSurface(Surface surface)
         {
@@ -609,6 +600,9 @@ namespace Heirloom.Drawing.OpenGLES
 
                 // Set new surface
                 _surface = surface;
+
+                // We will need to recompute viewport
+                _viewportDirty = true;
 
                 Invoke(blocking: false, action: () =>
                 {
@@ -632,12 +626,25 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Blending
 
+        public override Blending Blending
+        {
+            get => _blendMode;
+            set => UseBlending(value);
+        }
+
+        public override Color Color
+        {
+            get => _blendColor;
+            set => _blendColor = value;
+        }
+
         private void UseBlending(Blending blending)
         {
             if (_blendMode != blending)
             {
                 Invoke(() =>
                 {
+                    // Complete previous work
                     Flush();
 
                     // Store mode
@@ -721,13 +728,16 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
-        #region Draw
+        #region Clear & Draw
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override void Clear(Color color)
         {
-            Invoke(blocking: false, action: () =>
+            Invoke(() =>
             {
+                // 
+                UpdateViewport();
+
                 // Set color and clear
                 GL.SetClearColor(color.R, color.G, color.B, color.A);
                 GL.Clear(ClearMask.Color);
@@ -765,24 +775,26 @@ namespace Heirloom.Drawing.OpenGLES
             {
                 Invoke(() =>
                 {
-                    // Update any mutated uniforms
-                    UpdateShaderUniforms();
+                    // Update viewport and scissor
+                    UpdateViewport();
 
                     // Compute view-projection matrix
-                    SetViewportAndScissor(out var w, out var h);
-                    var projMatrix = Matrix.RectangleProjection(0, 0, w, h);
+                    var projMatrix = Matrix.RectangleProjection(0, 0, _viewportActual.Width, _viewportActual.Height);
                     Matrix.Multiply(in projMatrix, in _viewMatrix, ref projMatrix);
 
                     // Write into uniform buffer
-                    SetShaderParameter("uMatrix", projMatrix);
+                    SetBufferUniform("uMatrix", projMatrix);
+
+                    // Update any mutated uniforms
+                    UpdateShaderUniforms();
 
                     // Update texture
-                    if (_updateTextureBind)
+                    if (_textureBindDirty)
                     {
                         GL.ActiveTexture(0);
                         GL.BindTexture(TextureTarget.Texture2D, _texture.Handle);
 
-                        _updateTextureBind = false;
+                        _textureBindDirty = false;
                     }
 
                     // Draw batched geometry
@@ -793,6 +805,8 @@ namespace Heirloom.Drawing.OpenGLES
         }
 
         #endregion
+
+        #region Texture & Framebuffer
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void UseImage(ImageSource imageSource)
@@ -811,7 +825,7 @@ namespace Heirloom.Drawing.OpenGLES
                     Flush();
 
                     // Mark that we need to update the texture binding
-                    _updateTextureBind = true;
+                    _textureBindDirty = true;
 
                     // Store new texture reference
                     _texture = texture;
@@ -875,15 +889,13 @@ namespace Heirloom.Drawing.OpenGLES
         internal Texture GetTexture(Image image)
         // todo: Put in adapter?
         {
-            image = image.Root; // 
-
-            var resource = image as IDrawingResource;
+            image = image.Root; // Get root image (aka, atlas)
 
             // Try to get the native texture
-            if (!(resource.NativeObject is Texture texture))
+            if (!(image.Native is Texture texture))
             {
                 texture = Invoke(() => new Texture(image.Size));
-                resource.NativeObject = texture;
+                image.Native = texture;
             }
 
             // Is the root image out of date?
@@ -895,6 +907,8 @@ namespace Heirloom.Drawing.OpenGLES
 
             return texture;
         }
+
+        #endregion
 
         #region Dispose
 

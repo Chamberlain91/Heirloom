@@ -23,6 +23,8 @@ namespace Heirloom.Drawing
         private Image _source;
         private Image _root;
 
+        internal object Native;
+
         #region Constants
 
         /// <summary>
