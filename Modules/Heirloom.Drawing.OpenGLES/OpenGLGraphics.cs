@@ -699,24 +699,20 @@ namespace Heirloom.Drawing.OpenGLES
                 if (Surface != DefaultSurface)
                 {
                     // Get the associated framebuffer of the current surface
+                    // and ensure it is up to date.
                     var framebuffer = GetFramebuffer(_surface);
+                    framebuffer.BlitAndUpdate();
 
-                    // Blit the content of the renderbuffer to the texture
-                    if (framebuffer.HasRenderbuffer)
-                    {
-                        framebuffer.Update();
-                    }
-
-                    // Read pixels from texture framebuffer
+                    // Set the read buffer to the texture framebuffer
                     GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, framebuffer.TextureFBO.Handle);
                 }
                 else
                 {
-                    // Read from default framebuffer (window, etc)
+                    // Set the read buffer to the default framebuffer (window, etc)
                     GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, 0);
                 }
 
-                // Grab pixels from framebuffer
+                // Grab pixels from read buffer
                 var image = new Image(region.Width, region.Height);
                 image.SetPixels(GL.ReadPixels(region.X, region.Y, region.Width, region.Height));
                 return image;
@@ -862,7 +858,7 @@ namespace Heirloom.Drawing.OpenGLES
 
                 // Get framebuffer
                 var framebuffer = GetFramebuffer(surface);
-                Invoke(() => framebuffer.Update());
+                Invoke(() => framebuffer.BlitAndUpdate());
 
                 // Emit texture and atlas rectangle (full inverted)
                 texture = framebuffer.TextureFBO.Texture;
