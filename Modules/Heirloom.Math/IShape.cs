@@ -1,4 +1,4 @@
-﻿namespace Heirloom.Math
+namespace Heirloom.Math
 {
     /// <summary>
     /// Represents the general interface of a shape and common operators each shape should support.

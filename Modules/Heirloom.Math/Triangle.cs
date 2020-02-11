@@ -1,10 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace Heirloom.Math
 {
-    public struct Triangle : IShape, IEquatable<Triangle>
+    public struct Triangle : IShape, IEquatable<Triangle>, IEnumerable<Vector>
     {
         /// <summary>
         /// The first point.
@@ -48,6 +49,39 @@ namespace Heirloom.Math
         /// Gets the center of triangle (mean of corner points).
         /// </summary>
         public Vector Centroid => (A + B + C) / 3F;
+
+        #endregion
+
+        #region Indexer
+
+        public Vector this[int index]
+        {
+            get
+            {
+                switch (index)
+                {
+                    case 0: return A;
+                    case 1: return B;
+                    case 2: return C;
+
+                    default:
+                        throw new IndexOutOfRangeException("Index must be 0, 1 or 2 on a triangle.");
+                }
+            }
+
+            set
+            {
+                switch (index)
+                {
+                    case 0: A = value; break;
+                    case 1: B = value; break;
+                    case 2: C = value; break;
+
+                    default:
+                        throw new IndexOutOfRangeException("Index must be 0, 1 or 2 on a triangle.");
+                }
+            }
+        }
 
         #endregion
 
@@ -296,6 +330,23 @@ namespace Heirloom.Math
 
         #endregion
 
+        #region Get Edge
+
+        public LineSegment GetEdge(int index)
+        {
+            switch (index)
+            {
+                case 0: return new LineSegment(A, B);
+                case 1: return new LineSegment(B, C);
+                case 2: return new LineSegment(C, A);
+
+                default:
+                    throw new IndexOutOfRangeException("Edge index must be 0, 1 or 2 on a triangle.");
+            }
+        }
+
+        #endregion
+
         #region Circumcircle (Static)
 
         /// <summary>
@@ -354,6 +405,22 @@ namespace Heirloom.Math
             a = A;
             b = B;
             c = C;
+        }
+
+        #endregion
+
+        #region Enumerator
+
+        public IEnumerator<Vector> GetEnumerator()
+        {
+            yield return A;
+            yield return B;
+            yield return C;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         #endregion

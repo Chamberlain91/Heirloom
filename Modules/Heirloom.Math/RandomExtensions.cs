@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -40,6 +40,28 @@ namespace Heirloom.Math
 
         #endregion
 
+        #region Range / IntRange
+
+        /// <summary> 
+        /// Returns a random floating-point number that is within the specified range.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float NextFloat(this Random @this, Range range)
+        {
+            return NextFloat(@this, range.Min, range.Max);
+        }
+
+        /// <summary> 
+        /// Returns a random integer number that is within the specified range.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Next(this Random @this, IntRange range)
+        {
+            return @this.Next(range.Min, range.Max);
+        }
+
+        #endregion
+
         #region Random Vectors
 
         /// <summary>
@@ -62,9 +84,10 @@ namespace Heirloom.Math
             var rho = r * Calc.Sqrt(NextFloat(@this));
 
             // 
-            return new Vector(
-                rho * Calc.Cos(theta),
-                rho * Calc.Sin(theta));
+            var x = rho * Calc.Cos(theta);
+            var y = rho * Calc.Sin(theta);
+
+            return new Vector(x, y);
         }
 
         /// <summary>
