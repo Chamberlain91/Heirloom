@@ -11,8 +11,7 @@ namespace Heirloom.Math
     {
         [ThreadStatic] private static readonly HashSet<Triangle> _invalidTriangles = new HashSet<Triangle>();
         [ThreadStatic] private static readonly HashSet<Triangle> _triangles = new HashSet<Triangle>();
-        [ThreadStatic] private static readonly List<Edge> _polygon = new List<Edge>();
-        [ThreadStatic] private static readonly List<Edge> _edges = new List<Edge>();
+        [ThreadStatic] private static readonly HashSet<LineSegment> _edges = new HashSet<LineSegment>();
 
         /// <summary>
         /// Constructs the Delaunay triangulation of a set of points.
@@ -28,7 +27,6 @@ namespace Heirloom.Math
         /// Constructs the Delaunay triangulation of a set of points.
         /// </summary>
         public static void Triangulate(IEnumerable<Vector> points, List<Triangle> triangles)
-        // Implements the Boywer-Watson algorithm, but seeminly worse time complexity...?
         {
             // Create super triangle
             var bounds = Rectangle.FromPoints(points);
@@ -42,10 +40,9 @@ namespace Heirloom.Math
             foreach (var point in points)
             {
                 _invalidTriangles.Clear();
-                _polygon.Clear();
                 _edges.Clear();
 
-                // == Invalidate and remove triangles
+                // == Invalidate and Remove triangles
 
                 foreach (var triangle in _triangles)
                 {
@@ -65,39 +62,28 @@ namespace Heirloom.Math
 
                 // == Find Polygon Hole
 
-                // Construct list of triangle edges
                 foreach (var triangle in _invalidTriangles)
                 {
-                    _edges.Add(new Edge(triangle.A, triangle.B));
-                    _edges.Add(new Edge(triangle.B, triangle.C));
-                    _edges.Add(new Edge(triangle.C, triangle.A));
+                    // For each edge A->B, B->C then C->A
+                    for (var i = 0; i < 3; i++)
+                    {
+                        // Get the ith edge
+                        var edge = triangle.GetEdge(i);
+
+                        // Insert into edge set. If we receive a duplicate edge,
+                        // we will remove the duplicate edge. Since an edge can only
+                        // share a max of two triangles (on each side), this is a safe.
+                        if (!_edges.Add(edge)) { _edges.Remove(edge); }
+                    }
                 }
 
-                // Discover unique edges (ignore duplicate edges) and triangulate hole
-                // -- This nested loop might be hurting the time complexity of the implementation
-                for (var i = 0; i < _edges.Count; i++)
+                // == Fill Polygon Hole
+
+                foreach (var edge in _edges)
                 {
-                    var generateTriangle = true;
-                    var edge = _edges[i];
-
-                    // Check for duplicate edge
-                    for (var j = 0; j < _edges.Count; j++)
-                    {
-                        if (i != j && Equals(edge, _edges[j]))
-                        {
-                            // not unique
-                            generateTriangle = false;
-                            break;
-                        }
-                    }
-
-                    // Edge was unique
-                    if (generateTriangle)
-                    {
-                        // Constructs one of the triangles to fill the hole
-                        var triangle = new Triangle(edge.A, edge.B, point);
-                        _triangles.Add(triangle);
-                    }
+                    // Constructs one of the triangles to fill the hole
+                    var triangle = new Triangle(edge.A, edge.B, point);
+                    _triangles.Add(triangle);
                 }
             }
 
@@ -139,47 +125,47 @@ namespace Heirloom.Math
             return new Triangle(v0, v1, v2);
         }
 
-        private struct Edge : IEquatable<Edge>
-        {
-            public Vector A;
+        //private struct Edge : IEquatable<Edge>
+        //{
+        //    public Vector A;
 
-            public Vector B;
+        //    public Vector B;
 
-            public Edge(Vector a, Vector b)
-            {
-                A = a;
-                B = b;
-            }
+        //    public Edge(Vector a, Vector b)
+        //    {
+        //        A = a;
+        //        B = b;
+        //    }
 
-            #region Equality
+        //    #region Equality
 
-            public override bool Equals(object obj)
-            {
-                return obj is Edge edge && Equals(edge);
-            }
+        //    public override bool Equals(object obj)
+        //    {
+        //        return obj is Edge edge && Equals(edge);
+        //    }
 
-            public bool Equals(Edge other)
-            {
-                return (Equals(A, other.A) && Equals(B, other.B))
-                    || (Equals(A, other.B) && Equals(B, other.A));
-            }
+        //    public bool Equals(Edge other)
+        //    {
+        //        return (A.Equals(other.A) && B.Equals(other.B))
+        //            || (A.Equals(other.B) && B.Equals(other.A));
+        //    }
 
-            public override int GetHashCode()
-            {
-                return HashCode.Combine(A, B);
-            }
+        //    public override int GetHashCode()
+        //    {
+        //        return A.GetHashCode() ^ B.GetHashCode();
+        //    }
 
-            public static bool operator ==(Edge left, Edge right)
-            {
-                return left.Equals(right);
-            }
+        //    public static bool operator ==(Edge left, Edge right)
+        //    {
+        //        return left.Equals(right);
+        //    }
 
-            public static bool operator !=(Edge left, Edge right)
-            {
-                return !(left == right);
-            }
+        //    public static bool operator !=(Edge left, Edge right)
+        //    {
+        //        return !(left == right);
+        //    }
 
-            #endregion
-        }
+        //    #endregion
+        //}
     }
 }

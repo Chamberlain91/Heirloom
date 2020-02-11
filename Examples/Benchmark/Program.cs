@@ -35,7 +35,8 @@ namespace Heirloom.Benchmark
                     vsync: false);
 
                 // Go fullscreen!
-                window.SetFullscreen(Application.DefaultMonitor);
+                // window.SetFullscreen(Application.DefaultMonitor);
+                window.Maximize();
 
                 // Compute world bounds
                 bounds = (0, 0, window.FramebufferSize.Width, window.FramebufferSize.Height);
