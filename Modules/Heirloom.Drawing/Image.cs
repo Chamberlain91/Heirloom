@@ -829,6 +829,26 @@ namespace Heirloom.Drawing
 
         #endregion
 
+        #region Clone
+
+        /// <summary>
+        /// Creates a clone of this image (an orphan in terms of <see cref="Source"/> and <see cref="Root"/>).
+        /// </summary>
+        public Image Clone()
+        {
+            var clone = new Image(Size);
+
+            // Copy each pixel from this to clone
+            Parallel.ForEach(Rasterizer.Rectangle(Size), co =>
+            {
+                clone.SetPixel(co, GetPixel(co));
+            });
+
+            return clone;
+        }
+
+        #endregion
+
         #region Atlas Utilities
 
         /// <summary>
