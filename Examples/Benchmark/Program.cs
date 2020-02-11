@@ -30,13 +30,11 @@ namespace Heirloom.Benchmark
             Application.Run(() =>
             {
                 // Create fullscreen window
-                window = new Window("Heirloom Benchmark",
-                    multisample: MultisampleQuality.Medium,
-                    vsync: false);
+                window = new Window("Heirloom Benchmark", vsync: false);
 
                 // Go fullscreen!
-                // window.SetFullscreen(Application.DefaultMonitor);
-                window.Maximize();
+                window.SetFullscreen(Application.DefaultMonitor);
+                // window.Maximize();
 
                 // Compute world bounds
                 bounds = (0, 0, window.FramebufferSize.Width, window.FramebufferSize.Height);
