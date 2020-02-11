@@ -36,6 +36,10 @@ namespace Heirloom.Drawing
 
         #region Constructors
 
+        public Image2(IntSize size)
+            : this(size.Width, size.Height)
+        { }
+
         public Image2(int width, int height)
         {
             Width = width;
@@ -204,6 +208,20 @@ namespace Heirloom.Drawing
         public void CopyTo(Image2 target, in IntVector targetOffset)
         {
             Copy(this, (0, 0, Width, Height), target, in targetOffset);
+        }
+
+        #endregion
+
+        #region Clone
+
+        /// <summary>
+        /// Creates a clone of this image.
+        /// </summary>
+        public Image2 Clone()
+        {
+            var clone = new Image2(Size);
+            CopyTo(clone, (0, 0));
+            return clone;
         }
 
         #endregion
