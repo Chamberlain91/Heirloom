@@ -890,7 +890,7 @@ namespace Heirloom.Drawing
 
             // Create image (atlas)
             var atlas = new Image(packer.Bounds.Width, packer.Bounds.Height);
-            atlas.Clear(ColorBytes.Red);
+            atlas.Clear(ColorBytes.Transparent);
 
             // Insert images into atlas
             foreach (var image in packer.Keys)
