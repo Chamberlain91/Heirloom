@@ -73,24 +73,26 @@ namespace Heirloom.Benchmark
                 }
                 else
                 {
-                    var gpu = GraphicsAdapter.Capabilities.AdapterName;
-                    var speed = $"{Hardware.ProcessorInfo.ClockSpeed / 1000F:N2}ghz";
-                    var cpu = Hardware.ProcessorInfo.Name;
+                    var cpu = Application.CpuInfo;
+                    var gpu = Application.GpuInfo;
 
-                    var identifier = $"benchmark_{gpu}_{cpu}".ToIdentifier();
+                    // Results
+                    var results = new BenchmarkResults(gpu, cpu);
+                    foreach (var benchmark in benchmarks)
+                    {
+                        results.Scores[benchmark.Name.ToIdentifier()] = benchmark.Score;
+                    }
 
-                    using var fs = new FileStream($"{identifier}.txt", FileMode.Create);
+                    // Write
+                    using var fs = new FileStream(results.GenerateFilename(), FileMode.Create);
                     using var wr = new StreamWriter(fs);
-
-                    // Hit the end, save results text
-                    var text = GetResultsText(benchmarks);
-                    wr.WriteLine(text);
+                    wr.Write(BenchmarkResults.ToJson(results));
 
                     // Leave fullscreen
                     window.SetFullscreen(null);
 
                     // Size window
-                    var rect = TextLayout.Measure(text, Font.Default, 32);
+                    var rect = TextLayout.Measure(GetResultsText(benchmarks), Font.Default, 32);
                     window.Size = (IntSize) rect.Size + (32, 32);
                 }
             }
@@ -135,9 +137,8 @@ namespace Heirloom.Benchmark
             var results = "";
 
             // Machine info
-            results += GraphicsAdapter.Capabilities.AdapterVendor + " - " + GraphicsAdapter.Capabilities.AdapterName + "\n";
-            results += Hardware.ProcessorInfo.Name + "\n";
-            results += Hardware.ProcessorInfo.ProcessorCount + " threads @ " + Hardware.ProcessorInfo.ClockSpeed + "mhz\n";
+            results += Application.GpuInfo + "\n";
+            results += Application.CpuInfo + "\n";
             results += "\n";
 
             // Results
