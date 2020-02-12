@@ -1,5 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+
+using Heirloom.Desktop.Hardware;
 using Heirloom.Drawing;
 using Heirloom.OpenGLES;
 
@@ -125,6 +127,20 @@ namespace Heirloom.Desktop
 
         #endregion
 
+        #region Hardware
+
+        /// <summary>
+        /// Gets detected information about the CPU.
+        /// </summary>
+        public static CpuInfo CpuInfo { get; private set; }
+
+        /// <summary>
+        /// Gets detected information about the GPU.
+        /// </summary>
+        public static GpuInfo GpuInfo { get; private set; }
+
+        #endregion
+
         /// <summary>
         /// Initializes windowing utilities, executes <paramref name="initialize"/> and 
         /// then continuously processes window events until all windows are closed. This is a blocking function.
@@ -177,6 +193,13 @@ namespace Heirloom.Desktop
                     // Vulkan
                     throw new NotSupportedException();
                 }
+
+                CpuInfo = HardwareDetector.DetectCpuInfo();
+                Console.WriteLine(CpuInfo);
+
+                // Query hardware information
+                GpuInfo = HardwareDetector.DetectGpuInfo();
+                Console.WriteLine(GpuInfo);
 
                 // Determine if transparent framebuffers are possible
                 SupportsTransparentFramebuffer = Glfw.GetWindowAttribute(ShareContext, WindowAttribute.TransparentFramebuffer) != 0;
