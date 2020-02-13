@@ -35,7 +35,7 @@ namespace Examples.MultiWindow
                 : base(window.Graphics)
             {
                 Window = window ?? throw new ArgumentNullException(nameof(window));
-                Graphics.EnableFPSOverlay = true;
+                Graphics.EnableStatisticsOverlay = true;
             }
 
             public Window Window { get; }

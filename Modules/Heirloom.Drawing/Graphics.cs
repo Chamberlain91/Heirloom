@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 using Heirloom.Math;
 
@@ -12,19 +14,26 @@ namespace Heirloom.Drawing
         // graphics state stack
         private readonly Stack<GraphicsState> _stateStack;
 
-        // framerate tracking
-        private readonly FrequencyCounter _framerateCounter = new FrequencyCounter(1 / 4F);
+        // statistics
+        private readonly FrequencyCounter _framerate = new FrequencyCounter(1F);
+        private readonly Stopwatch _statisticsStopwatch = new Stopwatch();
+        private float _statisticsTimer;
+
+        private FrameStatistics<float> _avgStatistics;
+        private FrameStatistics<int> _accStatistics;
+        private FrameStatistics<int> _statistics;
 
         #region Constructors
 
-        protected Graphics(GraphicsAdapter adapter, MultisampleQuality multisample)
+        protected Graphics(MultisampleQuality multisample)
         {
-            Adapter = adapter;
-
             _stateStack = new Stack<GraphicsState>();
 
             // Creates a dummy surface to represent the window surface
             DefaultSurface = new Surface(1, 1, multisample, false);
+
+            // Begin measuring time.
+            _statisticsStopwatch.Start();
         }
 
         ~Graphics()
@@ -37,27 +46,29 @@ namespace Heirloom.Drawing
 
         #region Properties
 
-        protected internal GraphicsAdapter Adapter { get; }
-
         /// <summary>
         /// Gets the queried capabilities (ie, limits) for the current device.
         /// </summary>
         public GraphicsCapabilities Capabilities => GraphicsAdapter.Capabilities;
 
-        /// <summary>
-        /// Gets a value determining if this <see cref="Graphics"/> was disposed.
-        /// </summary>
-        public bool IsDisposed { get; private set; } = false;
+        public FrameStatistics<float> AverageStatistics => _avgStatistics;
+
+        public FrameStatistics<int> Statistics => _statistics;
 
         /// <summary>
         /// Gets how often the default surface is presented to the screen per second.
         /// </summary>
-        public float CurrentFPS => _framerateCounter.Average;
+        public float CurrentFPS => _framerate.Average;
 
         /// <summary>
         /// Gets or sets a value that will enable or disable drawing the FPS overlay.
         /// </summary>
-        public bool EnableFPSOverlay { get; set; } = false;
+        public bool EnableStatisticsOverlay { get; set; } = false;
+
+        /// <summary>
+        /// Gets a value determining if this <see cref="Graphics"/> was disposed.
+        /// </summary>
+        public bool IsDisposed { get; private set; } = false;
 
         /// <summary>
         /// Gets the default surface (ie, window) of this render context.
@@ -216,13 +227,12 @@ namespace Heirloom.Drawing
         public void RefreshScreen()
         {
             // 
-            _framerateCounter.Tick();
+            ProcessStatistics();
 
-            // Draw overlay and flush
-            DrawFPSOverlay();
+            // Commit all pending work
             Flush();
 
-            // Low level swap buffers
+            // Causes the image to appear on screen
             SwapBuffers();
         }
 
@@ -234,22 +244,103 @@ namespace Heirloom.Drawing
         /// </summary>
         public abstract void Flush();
 
-        private void DrawFPSOverlay()
+        #region Frame Statistics
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void ProcessStatistics()
         {
-            if (EnableFPSOverlay)
+            // Gets the number of things drawn this frame
+            GetFrameStatistics(ref _statistics);
+
+            // Compute statistics (fps, batch count, etc)
+            ComputeStatistics();
+
+            // Draw the statistics overlay
+            DrawStatisticsOverlay();
+
+            // Reset this frames statistics
+            ResetFrameStatistics();
+        }
+
+        protected abstract void GetFrameStatistics(ref FrameStatistics<int> statistics);
+
+        protected abstract void ResetFrameStatistics();
+
+        private void ComputeStatistics()
+        {
+            // Track Framerate
+            _framerate.Tick();
+
+            // Get the amount of time between frames
+            var delta = _statisticsStopwatch.ElapsedTicks / (float) Stopwatch.Frequency;
+            _statisticsStopwatch.Restart();
+
+            // Accumulate statistics for average
+            _accStatistics.BatchCount += _statistics.BatchCount;
+            _accStatistics.DrawCount += _statistics.DrawCount;
+            _accStatistics.TriCount += _statistics.TriCount;
+
+            // Advance timer
+            _statisticsTimer += delta;
+
+            // If enough time has passed, compute average
+            if (_statisticsTimer >= 1F)
+            {
+                // We want to wait another second
+                _statisticsTimer = (_statisticsTimer - 1F) % 1F;
+
+                // Computes average statistics
+                _avgStatistics.BatchCount = _accStatistics.BatchCount / (float) _framerate.Samples;
+                _avgStatistics.DrawCount = _accStatistics.DrawCount / (float) _framerate.Samples;
+                _avgStatistics.TriCount = _accStatistics.TriCount / (float) _framerate.Samples;
+
+                // Reset accumulated statistics
+                _accStatistics.Reset();
+            }
+        }
+
+        private void DrawStatisticsOverlay()
+        {
+            if (EnableStatisticsOverlay)
             {
                 ResetState();
 
-                var text = $"FPS: {CurrentFPS.ToString("0.00")}";
-                var size = TextLayout.Measure(text, Font.Default, 16);
+                // == Measure Step
 
-                Color = Color.DarkGray;
-                DrawRect(new Rectangle(Surface.Width - 8 - size.Width - 3, 8, size.Width + 4, size.Height + 1));
+                // Statistics overlay text
+                // todo: Perhaps humanize the numbers such that "215,123" becomes "215K"
+                //       to keep things short and easy to read.
+                var text = $"Draws   : {Statistics.DrawCount:N0}\n" +
+                           $"Batches : {Statistics.BatchCount:N0}\n" +
+                           $"FPS     : {CurrentFPS:N2}";
 
-                Color = Color.Pink;
-                DrawText(text, new Vector(Surface.Width - 8, 8), Font.Default, 16, TextAlign.Right);
+                // Measure the rect needed to fit the text
+                var textSize = TextLayout.Measure(text, Font.Default, 16);
+                textSize.Inflate(8, 4);
+
+                // Compute the text box at the top right of the screen
+                var textBox = new Rectangle(Surface.Width - textSize.Width - 8, 8, textSize.Width, textSize.Height);
+
+                // == Draw Step
+
+                Color = CurrentFPS < 30 ? Color.Red : Color.DarkGray;
+
+                // Draw textbox background
+                DrawRect(textBox);
+
+                Color = CurrentFPS < 30 ? Color.Black : Color.Pink;
+
+                // Draw textbox border
+                DrawRectOutline(textBox, 2);
+
+                Color = CurrentFPS < 30 ? Color.Black : Color.Pink;
+
+                // Draw text
+                DrawText(text, new Vector(Surface.Width - textSize.Width, 12), Font.Default, 16);
             }
         }
+
+        #endregion
 
         #region IDisposable Support
 
@@ -277,6 +368,6 @@ namespace Heirloom.Drawing
             GC.SuppressFinalize(this);
         }
 
-        #endregion
+        #endregion 
     }
 }

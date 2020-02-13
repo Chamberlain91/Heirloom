@@ -27,7 +27,7 @@ namespace StreamingAtlas
             Sprites = GenerateImages(1000);
 
             // 
-            Window.Graphics.EnableFPSOverlay = true;
+            Window.Graphics.EnableStatisticsOverlay = true;
             Window.IsResizable = false;
             Window.Size = (768, 768);
         }
