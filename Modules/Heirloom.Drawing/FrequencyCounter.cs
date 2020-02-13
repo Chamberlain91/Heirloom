@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 
 namespace Heirloom.Drawing
 {
@@ -41,7 +41,7 @@ namespace Heirloom.Drawing
                 Samples = _counter;
 
                 // Reset for next sampling period
-                _time -= _samplingDuration;
+                _time = (_time - _samplingDuration) % _samplingDuration;
                 _counter = 0;
             }
         }

@@ -24,7 +24,6 @@ namespace Heirloom.Drawing.OpenGLES
             // Set instance buffer to identity values
             ref var instance = ref _instanceBuffer.Data[0];
             instance.Transform = Matrix.Identity;
-            // instance.AtlasRect = Rectangle.One;
 
             // Set instance count exactly one
             _instanceBuffer.Count = 1;
@@ -63,6 +62,9 @@ namespace Heirloom.Drawing.OpenGLES
             _vertexBuffer.Count += mesh.Vertices.Count;
             _indexBuffer.Count += mesh.Indices.Count;
 
+            // Count this item
+            DrawCount++;
+
             // Successfully submitted mesh
             return true;
         }
@@ -76,12 +78,16 @@ namespace Heirloom.Drawing.OpenGLES
                 _vertexBuffer.Upload();
                 _indexBuffer.Upload();
 
-                // Log.Info($"Drawing {IndexBuffer.Count / 3} triangles.");
+                // Log.Info($"Drawing {_indexBuffer.Count / 3} triangles.");
 
                 // Draw the geometry
                 GL.BindVertexArray(_vertexArray.Handle);
                 GL.DrawElementsInstanced(DrawMode.Triangles, _indexBuffer.Count, DrawElementType.UnsignedShort, _instanceBuffer.Count);
                 GL.BindVertexArray(0);
+
+                // Count triangles and batch
+                TriCount += _indexBuffer.Count / 3;
+                BatchCount++;
             }
 
             // Clear counts

@@ -10,7 +10,7 @@ namespace Heirloom.Desktop
     {
         public Graphics CreateGraphics(Window window, bool vsync)
         {
-            return new OpenGLWindowGraphics(this, window, vsync);
+            return new OpenGLWindowGraphics(window, vsync);
         }
 
         #region Invoke
@@ -58,8 +58,8 @@ namespace Heirloom.Desktop
             private readonly Window _window;
             private readonly bool _vsync;
 
-            public OpenGLWindowGraphics(OpenGLWindowGraphicsAdapter adapter, Window window, bool vsync)
-                : base(adapter, window.Multisample)
+            public OpenGLWindowGraphics(Window window, bool vsync)
+                : base(window.Multisample)
             {
                 _window = window;
                 _vsync = vsync;

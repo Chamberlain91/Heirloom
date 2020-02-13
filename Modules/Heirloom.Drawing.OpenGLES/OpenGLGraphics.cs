@@ -47,8 +47,8 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Constructors
 
-        protected internal OpenGLGraphics(OpenGLGraphicsAdapter adapter, MultisampleQuality multisample)
-            : base(adapter, multisample)
+        protected internal OpenGLGraphics(MultisampleQuality multisample)
+            : base(multisample)
         {
             _framebuffers = new ConditionalWeakTable<Surface, Framebuffer>();
 
@@ -797,7 +797,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
-        #region Flush
+        #region Flush & Statistics
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override unsafe void Flush()
@@ -834,6 +834,18 @@ namespace Heirloom.Drawing.OpenGLES
                     _surface.IncrementVersion();
                 });
             }
+        }
+
+        protected override void GetFrameStatistics(ref FrameStatistics<int> statistics)
+        {
+            statistics.BatchCount = _batchingTechnique.BatchCount;
+            statistics.DrawCount = _batchingTechnique.DrawCount;
+            statistics.TriCount = _batchingTechnique.TriCount;
+        }
+
+        protected override void ResetFrameStatistics()
+        {
+            _batchingTechnique.ResetCounts();
         }
 
         #endregion

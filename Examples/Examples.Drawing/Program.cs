@@ -43,7 +43,7 @@ namespace Examples.Drawing
             Window.Size = (1280, 720);
 
             // 
-            Window.Graphics.EnableFPSOverlay = true;
+            Window.Graphics.EnableStatisticsOverlay = true;
             Window.IsResizable = false;
 
             // Create render loop

@@ -108,6 +108,11 @@ namespace Heirloom.Drawing.OpenGLES
                 GL.BindVertexArray(_vertexArray.Handle);
                 GL.DrawElementsInstanced(DrawMode.Triangles, _indexBuffer.Count, DrawElementType.UnsignedShort, _instanceBuffer.Count);
                 GL.BindVertexArray(0);
+
+                // Count items, triangles and batch
+                TriCount += _instanceBuffer.Count * (_indexBuffer.Count / 3);
+                DrawCount += _instanceBuffer.Count;
+                BatchCount++;
             }
 
             // Clear instance count

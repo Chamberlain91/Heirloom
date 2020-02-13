@@ -133,6 +133,19 @@ namespace Heirloom.Drawing.OpenGLES
             // Clear known mesh
             _baseMeshVersion = 0;
             _baseMesh = null;
+
+            // Accumulate scores of each renderer
+            BatchCount = _instancingTechnique.BatchCount + _streamingTechnique.BatchCount;
+            DrawCount = _instancingTechnique.DrawCount + _streamingTechnique.DrawCount;
+            TriCount = _instancingTechnique.TriCount + _streamingTechnique.TriCount;
+        }
+
+        internal override void ResetCounts()
+        {
+            // Reset each sub technique
+            _instancingTechnique.ResetCounts();
+            _streamingTechnique.ResetCounts();
+            base.ResetCounts();
         }
 
         private int CountInstances(int i, Mesh mesh)

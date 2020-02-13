@@ -9,7 +9,7 @@ namespace Heirloom.Benchmark
 {
     public abstract class ParticleBenchmark : Benchmark
     {
-        private const int MaxParticleCount = 500000;
+        private const int MaxParticleCount = 1000000; // million
         private const int MinParticleCount = 128;
 
         private const float NominalEvaluationDuration = 4F;
@@ -110,14 +110,35 @@ namespace Heirloom.Benchmark
                     // If finding upper limit
                     if (_evaluationPhase == EvaluationPhase.FindUpperLimit)
                     {
+                        bool converge;
                         if (fps > FramerateTarget)
                         {
                             // Console.WriteLine($"{_particleCount} ({fps:N2}fps)");
 
                             // Increase (double)
                             _particleCount *= 2;
+
+                            // 
+                            if (_particleCount > MaxParticleCount)
+                            {
+                                // Hit the ceiling, clamp and print warning
+                                Console.WriteLine("Warn: Hit the particle ceiling.");
+                                _particleCount = MaxParticleCount;
+                                converge = true;
+                            }
+                            else
+                            {
+                                // Keep finding upper limit
+                                converge = false;
+                            }
                         }
                         else
+                        {
+                            // FPS fell below target
+                            converge = true;
+                        }
+
+                        if (converge)
                         {
                             // Goto Balance Phase
                             _evaluationPhase = EvaluationPhase.ConvergeTarget;
