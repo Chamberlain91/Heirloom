@@ -836,14 +836,17 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        protected override void GetFrameStatistics(ref FrameStatistics<int> statistics)
+        protected override DrawCounts GetDrawCounts()
         {
-            statistics.BatchCount = _batchingTechnique.BatchCount;
-            statistics.DrawCount = _batchingTechnique.DrawCount;
-            statistics.TriCount = _batchingTechnique.TriCount;
+            return new DrawCounts
+            {
+                TriangleCount = _batchingTechnique.TriCount,
+                BatchCount = _batchingTechnique.BatchCount,
+                DrawCount = _batchingTechnique.DrawCount
+            };
         }
 
-        protected override void ResetFrameStatistics()
+        protected override void EndFrame()
         {
             _batchingTechnique.ResetCounts();
         }
