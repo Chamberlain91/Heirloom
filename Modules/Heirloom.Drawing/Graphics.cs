@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 using Heirloom.Math;
+
+using Range = Heirloom.Math.Range;
 
 namespace Heirloom.Drawing
 {
@@ -11,29 +12,20 @@ namespace Heirloom.Drawing
     {
         private static readonly Mesh _quadMesh = Mesh.CreateQuad(1, 1);
 
-        // graphics state stack
         private readonly Stack<GraphicsState> _stateStack;
-
-        // statistics
-        private readonly FrequencyCounter _framerate = new FrequencyCounter(1F);
-        private readonly Stopwatch _statisticsStopwatch = new Stopwatch();
-        private float _statisticsTimer;
-
-        private FrameStatistics<float> _avgStatistics;
-        private FrameStatistics<int> _accStatistics;
-        private FrameStatistics<int> _statistics;
 
         #region Constructors
 
         protected Graphics(MultisampleQuality multisample)
         {
+            // 
             _stateStack = new Stack<GraphicsState>();
+
+            // Create performance tracking object
+            Performance = new DrawingPerformance();
 
             // Creates a dummy surface to represent the window surface
             DefaultSurface = new Surface(1, 1, multisample, false);
-
-            // Begin measuring time.
-            _statisticsStopwatch.Start();
         }
 
         ~Graphics()
@@ -51,19 +43,20 @@ namespace Heirloom.Drawing
         /// </summary>
         public GraphicsCapabilities Capabilities => GraphicsAdapter.Capabilities;
 
-        public FrameStatistics<float> AverageStatistics => _avgStatistics;
-
-        public FrameStatistics<int> Statistics => _statistics;
-
         /// <summary>
         /// Gets how often the default surface is presented to the screen per second.
         /// </summary>
-        public float CurrentFPS => _framerate.Average;
+        public float CurrentFPS => Performance.FrameRate.Average;
 
         /// <summary>
-        /// Gets or sets a value that will enable or disable drawing the FPS overlay.
+        /// Gets or sets a value that will enable or disable drawing the performance overlay.
         /// </summary>
-        public bool EnableStatisticsOverlay { get; set; } = false;
+        public bool EnablePerformanceOverlay { get; set; } = false;
+
+        /// <summary>
+        /// Gets drawing performance information.
+        /// </summary>
+        public DrawingPerformance Performance { get; }
 
         /// <summary>
         /// Gets a value determining if this <see cref="Graphics"/> was disposed.
@@ -213,13 +206,10 @@ namespace Heirloom.Drawing
         #endregion
 
         /// <summary>
-        /// Sets <see cref="GlobalTransform"/> to mimic a 2D camera.
+        /// Force pending drawing operations to complete, useful for synchronization between contexts. <para/>
+        /// Note: Currently untested for said synchronization.
         /// </summary>
-        public void SetCameraTransform(Vector center, float scale = 1F)
-        {
-            var offset = (Vector) ViewportScreen.Size / 2F;
-            GlobalTransform = Matrix.CreateTransform(offset - center, 0, scale);
-        }
+        public abstract void Flush();
 
         /// <summary>
         /// Present the drawing operations to the screen.
@@ -234,74 +224,28 @@ namespace Heirloom.Drawing
 
             // Causes the image to appear on screen
             SwapBuffers();
+
+            // Mark the end of a frame
+            EndFrame();
         }
-
-        protected abstract void SwapBuffers();
-
-        /// <summary>
-        /// Force pending drawing operations to complete, useful for synchronization between contexts. <para/>
-        /// Note: Currently untested for said synchronization.
-        /// </summary>
-        public abstract void Flush();
 
         #region Frame Statistics
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ProcessStatistics()
         {
-            // Gets the number of things drawn this frame
-            GetFrameStatistics(ref _statistics);
-
             // Compute statistics (fps, batch count, etc)
-            ComputeStatistics();
+            Performance.ComputeStatistics(GetDrawCounts());
 
             // Draw the statistics overlay
             DrawStatisticsOverlay();
-
-            // Reset this frames statistics
-            ResetFrameStatistics();
         }
 
-        protected abstract void GetFrameStatistics(ref FrameStatistics<int> statistics);
-
-        protected abstract void ResetFrameStatistics();
-
-        private void ComputeStatistics()
-        {
-            // Track Framerate
-            _framerate.Tick();
-
-            // Get the amount of time between frames
-            var delta = _statisticsStopwatch.ElapsedTicks / (float) Stopwatch.Frequency;
-            _statisticsStopwatch.Restart();
-
-            // Accumulate statistics for average
-            _accStatistics.BatchCount += _statistics.BatchCount;
-            _accStatistics.DrawCount += _statistics.DrawCount;
-            _accStatistics.TriCount += _statistics.TriCount;
-
-            // Advance timer
-            _statisticsTimer += delta;
-
-            // If enough time has passed, compute average
-            if (_statisticsTimer >= 1F)
-            {
-                // We want to wait another second
-                _statisticsTimer = (_statisticsTimer - 1F) % 1F;
-
-                // Computes average statistics
-                _avgStatistics.BatchCount = _accStatistics.BatchCount / (float) _framerate.Samples;
-                _avgStatistics.DrawCount = _accStatistics.DrawCount / (float) _framerate.Samples;
-                _avgStatistics.TriCount = _accStatistics.TriCount / (float) _framerate.Samples;
-
-                // Reset accumulated statistics
-                _accStatistics.Reset();
-            }
-        }
+        protected abstract DrawCounts GetDrawCounts();
 
         private void DrawStatisticsOverlay()
         {
-            if (EnableStatisticsOverlay)
+            if (EnablePerformanceOverlay)
             {
                 ResetState();
 
@@ -310,9 +254,9 @@ namespace Heirloom.Drawing
                 // Statistics overlay text
                 // todo: Perhaps humanize the numbers such that "215,123" becomes "215K"
                 //       to keep things short and easy to read.
-                var text = $"Draws   : {Statistics.DrawCount:N0}\n" +
-                           $"Batches : {Statistics.BatchCount:N0}\n" +
-                           $"FPS     : {CurrentFPS:N2}";
+                var text = $"Draws   : {Performance.DrawCount.Average:N0}\n" +
+                           $"Batches : {Performance.BatchCount.Average:N0}\n" +
+                           $"FPS     : {Performance.FrameRate.Average:N0}";
 
                 // Measure the rect needed to fit the text
                 var textSize = TextLayout.Measure(text, Font.Default, 16);
@@ -342,6 +286,10 @@ namespace Heirloom.Drawing
 
         #endregion
 
+        protected abstract void SwapBuffers();
+
+        protected abstract void EndFrame();
+
         #region IDisposable Support
 
         protected virtual void Dispose(bool disposing)
@@ -368,6 +316,112 @@ namespace Heirloom.Drawing
             GC.SuppressFinalize(this);
         }
 
-        #endregion 
+        #endregion
+
+        /// <summary>
+        /// Sets <see cref="GlobalTransform"/> to mimic a 2D camera.
+        /// </summary>
+        public void SetCameraTransform(Vector center, float scale = 1F)
+        {
+            var offset = (Vector) ViewportScreen.Size / 2F;
+            GlobalTransform = Matrix.CreateTransform(offset - center, 0, scale);
+        }
+
+        protected internal struct DrawCounts
+        {
+            public int BatchCount;
+            public int DrawCount;
+            public int TriangleCount;
+        }
+    }
+
+    public sealed class DrawingPerformance
+    {
+        private readonly Timer _timer;
+
+        private readonly StatisticsHelper _triangleCount;
+        private readonly StatisticsHelper _batchCount;
+        private readonly StatisticsHelper _drawCount;
+        private readonly StatisticsHelper _frameRate;
+
+        internal DrawingPerformance()
+        {
+            // 
+            _triangleCount = new StatisticsHelper();
+            _batchCount = new StatisticsHelper();
+            _drawCount = new StatisticsHelper();
+            _frameRate = new StatisticsHelper();
+
+            // 
+            _timer = new Timer(1F);
+        }
+
+        public Statistics TriangleCount { get; private set; }
+
+        public Statistics BatchCount { get; private set; }
+
+        public Statistics DrawCount { get; private set; }
+
+        public Statistics FrameRate { get; private set; }
+
+        internal void ComputeStatistics(Graphics.DrawCounts info)
+        {
+            // If enough time has passed, compute average
+            if (_timer.Tick(out _))
+            {
+                // Compute statistics
+                TriangleCount = _triangleCount.Compute();
+                BatchCount = _batchCount.Compute();
+                DrawCount = _drawCount.Compute();
+                FrameRate = _frameRate.Compute();
+
+                // Clear samples
+                _triangleCount.ClearSamples();
+                _batchCount.ClearSamples();
+                _drawCount.ClearSamples();
+                _frameRate.ClearSamples();
+            }
+
+            // Record sample
+            _triangleCount.AddSample(info.TriangleCount);
+            _batchCount.AddSample(info.BatchCount);
+            _drawCount.AddSample(info.DrawCount);
+            _frameRate.AddSample(1F / _timer.Delta);
+        }
+
+        private sealed class StatisticsHelper
+        {
+            private float _sum, _squareSum;
+            private Range _range;
+            private int _count;
+
+            public StatisticsHelper()
+            {
+                ClearSamples();
+            }
+
+            public void AddSample(float value)
+            {
+                // Accumulate value (sum values)
+                _range.Include(value);
+                _squareSum += value * value;
+                _sum += value;
+
+                // Count sample 
+                _count++;
+            }
+
+            public void ClearSamples()
+            {
+                _range = Range.Indeterminate;
+                _squareSum = _sum = 0;
+                _count = 0;
+            }
+
+            public Statistics Compute()
+            {
+                return Statistics.Compute(_sum, _squareSum, _range, _count);
+            }
+        }
     }
 }
