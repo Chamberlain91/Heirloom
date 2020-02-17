@@ -49,11 +49,6 @@ namespace Heirloom.Drawing
         public float CurrentFPS => Performance.FrameRate.Average;
 
         /// <summary>
-        /// Gets or sets a value that will enable or disable drawing the performance overlay.
-        /// </summary>
-        public bool EnablePerformanceOverlay { get; set; } = false;
-
-        /// <summary>
         /// Gets drawing performance information.
         /// </summary>
         public DrawingPerformance Performance { get; }
@@ -216,11 +211,11 @@ namespace Heirloom.Drawing
         /// </summary>
         public void RefreshScreen()
         {
-            // 
-            ProcessStatistics();
-
             // Commit all pending work
             Flush();
+
+            // Computes statistics (possibly drawing overlay)
+            ProcessStatistics();
 
             // Causes the image to appear on screen
             SwapBuffers();
@@ -245,18 +240,14 @@ namespace Heirloom.Drawing
 
         private void DrawStatisticsOverlay()
         {
-            if (EnablePerformanceOverlay)
+            if (Performance.OverlayMode != PerformanceOverlayMode.Disabled)
             {
                 ResetState();
 
                 // == Measure Step
 
                 // Statistics overlay text
-                // todo: Perhaps humanize the numbers such that "215,123" becomes "215K"
-                //       to keep things short and easy to read.
-                var text = $"Draws   : {Performance.DrawCount.Average:N0}\n" +
-                           $"Batches : {Performance.BatchCount.Average:N0}\n" +
-                           $"FPS     : {Performance.FrameRate.Average:N0}";
+                var text = GetPerformanceOverlayText();
 
                 // Measure the rect needed to fit the text
                 var textSize = TextLayout.Measure(text, Font.Default, 16);
@@ -281,7 +272,33 @@ namespace Heirloom.Drawing
 
                 // Draw text
                 DrawText(text, new Vector(Surface.Width - textSize.Width, 12), Font.Default, 16);
+
+                // Have to flush again...
+                Flush();
             }
+        }
+
+        private string GetPerformanceOverlayText()
+        {
+            // todo: Perhaps humanize the numbers such that "215,123" becomes "215K"
+            //       to keep things short and easy to read.
+            return Performance.OverlayMode switch
+            {
+                PerformanceOverlayMode.Simple =>
+                    $"FPS : {Performance.FrameRate.Average:N0} ({Performance.BatchCount.Average})",
+
+                PerformanceOverlayMode.Standard =>
+                    $"Draws   : {Performance.DrawCount.Average,8:N0}\n" +
+                    $"Batches : {Performance.BatchCount.Average,8:N0}\n" +
+                    $"FPS     : {Performance.FrameRate.Average,8:N0}",
+
+                PerformanceOverlayMode.Full =>
+                    $"Draws   : {Performance.DrawCount.Average,8:N0} ± {Performance.DrawCount.Deviation,-8:N0}\n" +
+                    $"Batches : {Performance.BatchCount.Average,8:N0} ± {Performance.BatchCount.Deviation,-8:N0}\n" +
+                    $"FPS     : {Performance.FrameRate.Average,8:N0} ± {Performance.FrameRate.Deviation,-8:N0}",
+
+                _ => throw new InvalidOperationException(),
+            };
         }
 
         #endregion
@@ -355,6 +372,11 @@ namespace Heirloom.Drawing
             // 
             _timer = new Timer(1F);
         }
+
+        /// <summary>
+        /// Gets or sets a value that will enable or disable drawing the performance overlay.
+        /// </summary>
+        public PerformanceOverlayMode OverlayMode { get; set; } = PerformanceOverlayMode.Disabled;
 
         public Statistics TriangleCount { get; private set; }
 

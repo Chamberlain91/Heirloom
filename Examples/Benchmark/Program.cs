@@ -31,7 +31,7 @@ namespace Heirloom.Benchmark
             {
                 // Create fullscreen window
                 window = new Window("Heirloom Benchmark", vsync: false);
-                window.Graphics.EnablePerformanceOverlay = true;
+                window.Graphics.Performance.OverlayMode = PerformanceOverlayMode.Simple;
 
                 // Go fullscreen!
                 window.SetFullscreen(Application.DefaultMonitor);
@@ -90,7 +90,7 @@ namespace Heirloom.Benchmark
                     wr.Write(BenchmarkResults.ToJson(results));
 
                     // Leave fullscreen
-                    window.Graphics.EnablePerformanceOverlay = false;
+                    window.Graphics.Performance.OverlayMode = PerformanceOverlayMode.Disabled;
                     window.SetFullscreen(null);
 
                     // Size window
