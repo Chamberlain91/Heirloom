@@ -1,4 +1,4 @@
-﻿using Heirloom.Desktop;
+using Heirloom.Desktop;
 using Heirloom.Drawing;
 using Heirloom.Math;
 
@@ -43,7 +43,7 @@ namespace Examples.Drawing
             Window.Size = (1280, 720);
 
             // 
-            Window.Graphics.EnablePerformanceOverlay = true;
+            Window.Graphics.Performance.OverlayMode = PerformanceOverlayMode.Simple;
             Window.IsResizable = false;
 
             // Create render loop
