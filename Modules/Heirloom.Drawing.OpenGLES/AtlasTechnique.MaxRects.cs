@@ -19,8 +19,8 @@ namespace Heirloom.Drawing.OpenGLES
         public MaxRectsAtlasTechnique(OpenGLGraphics graphics)
             : base(graphics)
         {
-            // 
-            var pageSize = GraphicsAdapter.Capabilities.MaxImageSize;
+            // At most 256 megabytes
+            var pageSize = Calc.Min(8192, GraphicsAdapter.Capabilities.MaxImageSize);
 
             // 
             _entries = new ConditionalWeakTable<Image, AtlasEntry>();

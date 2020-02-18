@@ -69,7 +69,7 @@ namespace Heirloom.Drawing.OpenGLES
                 var instances = CountInstances(i, command.Mesh);
 
                 // Are there enough instances detected to batch draw via instancing?
-                if (instances > 100) // 20 is an arbitrary number I picked
+                if (instances > 100) // an arbitrary number I picked
                 {
                     // If streaming had anything batched, draw that now to keep order of operations
                     _streamingTechnique.DrawBatch();

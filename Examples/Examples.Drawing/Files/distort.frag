@@ -1,7 +1,6 @@
 #include "standard/standard.frag"
 
 uniform sampler2D uNoiseImage;
-uniform vec4 uNoiseImage_UVRect;
 
 uniform float uTime;
 
