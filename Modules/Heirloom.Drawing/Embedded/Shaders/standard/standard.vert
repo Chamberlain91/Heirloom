@@ -15,6 +15,7 @@ in vec4   aColor;
 
 // == Output (Fragment Shader) ==
 
+out vec4 uMainImage_UVRect;
 out PerFragment frag;
 
 // == Uniforms ==
@@ -26,11 +27,6 @@ uniform Standard
 
 // == Vertex Shader ==
 
-// maps 'image space' to 'atlas space'
-vec2 getAtlasUV(in vec2 uv) {
-	return computeAtlasUV(uv, aAtlasRect);
-}
-
 // Alternative main function to implement when using this standard.frag
 vec2 vertexProgram(vec2 position);
 
@@ -40,14 +36,12 @@ void main()
 	vec3 vPosition = vec3(vertexProgram(aPosition), 1.0);
 	     vPosition = vec3(vPosition * aTransform, 1.0);
          vPosition = vec3(vPosition * uMatrix, 1.0);
-
-	// Emit blending color
-	frag.color = aColor;
 	
 	// Emit atlas transform rect
-	frag.uvRect = aAtlasRect;
-	
-	// Emit UV coordinates
+	uMainImage_UVRect = aAtlasRect;
+
+	// Emit per fragment values
+	frag.color = aColor; 
 	frag.uv = aUV;
 
 	// Set final vertex position

@@ -14,5 +14,7 @@ namespace Heirloom.Drawing.OpenGLES
         }
 
         internal abstract void GetTextureInformation(Image image, out Texture texture, out Rectangle uvRect);
+
+        internal abstract void CommitChanges();
     }
 }

@@ -28,7 +28,7 @@ namespace Heirloom.Drawing
             var transform = Matrix.CreateTransform(p0, angle, (len, width))
                           * _lineOffsetMatrix;
 
-            DrawImage(Image.WhitePixel, transform);
+            DrawImage(Image.Default, transform);
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace Heirloom.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawRect(in Rectangle rectangle)
         {
-            DrawImage(Image.WhitePixel, in rectangle);
+            DrawImage(Image.Default, in rectangle);
         }
 
         /// <summary>
@@ -268,7 +268,7 @@ namespace Heirloom.Drawing
             _temporaryMesh.AddIndices(2);
 
             // Draw mesh
-            DrawMesh(Image.WhitePixel, _temporaryMesh, Matrix.Identity);
+            DrawMesh(Image.Default, _temporaryMesh, Matrix.Identity);
         }
 
         /// <summary>
@@ -328,7 +328,7 @@ namespace Heirloom.Drawing
             }
 
             // 
-            DrawMesh(Image.WhitePixel, _temporaryMesh, Matrix.Identity);
+            DrawMesh(Image.Default, _temporaryMesh, Matrix.Identity);
         }
 
         /// <summary>
@@ -407,7 +407,7 @@ namespace Heirloom.Drawing
                 }
 
                 // Draw mesh
-                DrawMesh(Image.WhitePixel, _temporaryMesh, transform);
+                DrawMesh(Image.Default, _temporaryMesh, transform);
             }
         }
 

@@ -25,9 +25,9 @@ namespace Heirloom.Drawing.OpenGLES
                 GL.TexStorage2D(TextureImageTarget.Texture2D, 1, TextureSizedFormat.RGBA8, size.Width, size.Height);
                 GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MaxLod, 1);
 
-                // Configure with bilinear filtering and repeating UVs
-                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MinFilter, (int) TextureMinFilter.NearestMipLinear);
-                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MagFilter, (int) TextureMagFilter.Linear);
+                // Configure with point filtering and repeating UVs
+                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MinFilter, (int) TextureMinFilter.NearestMipNearest);
+                GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.MagFilter, (int) TextureMagFilter.Nearest);
                 GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.WrapS, (int) TextureWrap.Repeat);
                 GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.WrapT, (int) TextureWrap.Repeat);
             }

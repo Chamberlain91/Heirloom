@@ -18,9 +18,12 @@ namespace Heirloom.Drawing.OpenGLES
             var renderer = GL.GetString(StringParameter.Renderer);
             var vendor = GL.GetString(StringParameter.Vendor);
 
+            var maxTextureSize = GL.GetInteger(GetParameter.MaxTextureSize);
+
             return new GraphicsCapabilities(
                 adapterName: renderer,
                 adapterVendor: vendor,
+                maxImageSize: maxTextureSize,
                 maxSupportedVertexImages: GL.GetInteger(GetParameter.MaxVertexTextureImageUnits),
                 maxSupportedFragmentImages: GL.GetInteger(GetParameter.MaxTextureImageUnits),
                 isMobilePlatform: DetectEmbeddedOpenGL());

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Heirloom.Drawing
 {
@@ -13,11 +13,15 @@ namespace Heirloom.Drawing
 
         public readonly int MaxSupportedVertexImages;
 
+        public readonly int MaxImageSize;
+
         public readonly string AdapterVendor;
 
         public readonly string AdapterName;
 
-        public GraphicsCapabilities(string adapterName, string adapterVendor, bool isMobilePlatform, int maxSupportedFragmentImages, int maxSupportedVertexImages)
+        public GraphicsCapabilities(string adapterName, string adapterVendor, bool isMobilePlatform,
+                                    int maxSupportedFragmentImages, int maxSupportedVertexImages,
+                                    int maxImageSize)
         {
             AdapterName = adapterName;
             AdapterVendor = adapterVendor;
@@ -26,6 +30,7 @@ namespace Heirloom.Drawing
 
             MaxSupportedFragmentImages = maxSupportedFragmentImages;
             MaxSupportedVertexImages = maxSupportedVertexImages;
+            MaxImageSize = maxImageSize;
         }
 
         #region Equality
@@ -40,13 +45,15 @@ namespace Heirloom.Drawing
             return IsMobilePlatform == other.IsMobilePlatform &&
                    MaxSupportedFragmentImages == other.MaxSupportedFragmentImages &&
                    MaxSupportedVertexImages == other.MaxSupportedVertexImages &&
+                   MaxImageSize == other.MaxImageSize &&
                    AdapterVendor == other.AdapterVendor &&
                    AdapterName == other.AdapterName;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(IsMobilePlatform, MaxSupportedFragmentImages, MaxSupportedVertexImages, AdapterName, AdapterVendor);
+            return HashCode.Combine(IsMobilePlatform, MaxSupportedFragmentImages, MaxSupportedVertexImages,
+                                    MaxImageSize, AdapterName, AdapterVendor);
         }
 
         public static bool operator ==(GraphicsCapabilities left, GraphicsCapabilities right)

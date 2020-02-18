@@ -27,7 +27,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// A 1x1 solid white image.
         /// </summary>
-        internal static Image WhitePixel = CreateColor(1, 1, Color.White);
+        internal static Image Default = CreateColor(1, 1, Color.White);
 
         #endregion
 
