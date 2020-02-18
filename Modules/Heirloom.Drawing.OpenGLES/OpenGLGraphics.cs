@@ -107,12 +107,15 @@ namespace Heirloom.Drawing.OpenGLES
 
             set
             {
-                // Complete previous work
-                Flush();
+                if (!Equals(_viewMatrix, value))
+                {
+                    // Complete previous work
+                    Flush();
 
-                // Store view matrix
-                _viewMatrixInverseDirty = true;
-                _viewMatrix = value;
+                    // Store view matrix
+                    _viewMatrixInverseDirty = true;
+                    _viewMatrix = value;
+                }
             }
         }
 
@@ -158,14 +161,17 @@ namespace Heirloom.Drawing.OpenGLES
 
             set
             {
-                // Complete previous work
-                Flush();
+                if (!Equals(_viewport, value))
+                {
+                    // Complete previous work
+                    Flush();
 
-                // Assign normalzied viewprot
-                _viewport = value;
+                    // Assign normalzied viewprot
+                    _viewport = value;
 
-                // Compute viewport rect
-                ComputeViewportRect();
+                    // Compute viewport rect
+                    ComputeViewportRect();
+                }
             }
         }
 
