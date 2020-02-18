@@ -12,15 +12,12 @@ namespace Heirloom.Drawing
     {
         private static readonly Mesh _quadMesh = Mesh.CreateQuad(1, 1);
 
-        private readonly Stack<GraphicsState> _stateStack;
+        private readonly Stack<GraphicsState> _stateStack = new Stack<GraphicsState>();
 
         #region Constructors
 
         protected Graphics(MultisampleQuality multisample)
         {
-            // 
-            _stateStack = new Stack<GraphicsState>();
-
             // Create performance tracking object
             Performance = new DrawingPerformance();
 
@@ -205,30 +202,6 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        /// <summary>
-        /// Force pending drawing operations to complete, useful for synchronization between contexts. <para/>
-        /// Note: Currently untested for said synchronization.
-        /// </summary>
-        public abstract void Flush();
-
-        /// <summary>
-        /// Present the drawing operations to the screen.
-        /// </summary>
-        public void RefreshScreen()
-        {
-            // Commit all pending work
-            Flush();
-
-            // Computes statistics (possibly drawing overlay)
-            ProcessStatistics();
-
-            // Causes the image to appear on screen
-            SwapBuffers();
-
-            // Mark the end of a frame
-            EndFrame();
-        }
-
         #region Frame Statistics
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -271,7 +244,7 @@ namespace Heirloom.Drawing
                 Color = CurrentFPS < 30 ? Color.Black : Color.Pink;
 
                 // Draw textbox border
-                DrawRectOutline(textBox, 2);
+                DrawRectOutline(textBox, 1);
 
                 Color = CurrentFPS < 30 ? Color.Black : Color.Pink;
 
@@ -290,7 +263,7 @@ namespace Heirloom.Drawing
             return Performance.OverlayMode switch
             {
                 PerformanceOverlayMode.Simple =>
-                    $"FPS : {Performance.FrameRate.Average:N0} ({Performance.BatchCount.Average})",
+                    $"FPS : {Performance.FrameRate.Average:N0}",
 
                 PerformanceOverlayMode.Standard =>
                     $"Draws   : {Performance.DrawCount.Average,8:N0}\n" +
@@ -308,9 +281,32 @@ namespace Heirloom.Drawing
 
         #endregion
 
+        /// <summary>
+        /// Present the drawing operations to the screen.
+        /// </summary>
+        public void RefreshScreen()
+        {
+            // Commit all pending work
+            Flush();
+
+            // Computes statistics (possibly drawing overlay)
+            ProcessStatistics();
+
+            // Causes the image to appear on screen
+            SwapBuffers();
+
+            // Mark the end of a frame
+            EndFrame();
+        }
+
         protected abstract void SwapBuffers();
 
         protected abstract void EndFrame();
+
+        /// <summary>
+        /// Force any pending drawing operations to complete.
+        /// </summary>
+        public abstract void Flush();
 
         #region IDisposable Support
 

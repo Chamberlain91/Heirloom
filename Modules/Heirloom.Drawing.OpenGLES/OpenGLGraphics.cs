@@ -17,7 +17,7 @@ namespace Heirloom.Drawing.OpenGLES
         private readonly ConditionalWeakTable<Surface, Framebuffer> _framebuffers;
 
         private BatchingTechnique _batchingTechnique;
-        private AtlasTechnique _atlasTechnique;
+        private AtlasTechnique _atlasTechnique; // TODO: Share across contexts?
 
         private Matrix _viewMatrix;
         private Matrix _viewMatrixInverse;
@@ -31,13 +31,18 @@ namespace Heirloom.Drawing.OpenGLES
         private Rectangle _viewport;
         private bool _viewportDirty;
 
-        // Shader State
-        // TODO: Share buffers in Adapter?
+        // TODO: Share across contexts?
         private readonly Dictionary<string, UniformBuffer> _uniformBuffers = new Dictionary<string, UniformBuffer>();
+
+        // Shader State
         private ShaderProgram _shaderProgram;
         private Shader _shader;
 
-        // Texture state
+        // Sampler State
+        private Sampler _samplerLinear, _samplerNearest;
+        private InterpolationMode _interpolation;
+
+        // Texture State
         private bool _textureBindDirty;
         private Texture _texture;
 
@@ -62,6 +67,11 @@ namespace Heirloom.Drawing.OpenGLES
                 // Set default OpenGL state
                 GL.Enable(EnableCap.ScissorTest);
                 GL.Enable(EnableCap.Blend);
+
+                // 
+                _samplerNearest = new Sampler(InterpolationMode.Nearest);
+                _samplerLinear = new Sampler(InterpolationMode.Linear);
+                _samplerLinear.Bind(0); // default...?
 
                 // Create
                 _batchingTechnique = new HybridBatchingTechnique();
@@ -210,11 +220,27 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
+        #region Interpolation
+
         public override InterpolationMode InterpolationMode
         {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
+            get => _interpolation;
+
+            set
+            {
+                if (_interpolation != value)
+                {
+                    // 
+                    if (value == InterpolationMode.Linear) { _samplerLinear.Bind(0); }
+                    else { _samplerNearest.Bind(0); }
+
+                    // 
+                    _interpolation = value;
+                }
+            }
         }
+
+        #endregion
 
         #region Blending
 
@@ -688,9 +714,15 @@ namespace Heirloom.Drawing.OpenGLES
                             // Find texture for the current image source
                             GetTextureInformation(image, out var texture, out var uvRect);
 
+                            // Get texture unit for sampler2D uniform.
+                            var unit = _shaderProgram.GetTextureUnit(name);
+
                             // Bind texture
-                            GL.ActiveTexture(_shaderProgram.GetTextureUnit(name));
+                            GL.ActiveTexture(unit);
                             GL.BindTexture(TextureTarget.Texture2D, texture.Handle);
+
+                            // Bind sampler (interpolation properties)
+                            _samplerLinear.Bind(unit);
 
                             // Check if associated uvRect exists then set that as well.
                             var uvRectUniform = $"{name}_UVRect";
@@ -902,10 +934,13 @@ namespace Heirloom.Drawing.OpenGLES
                 case Surface surface:
                     // Get framebuffer (possibly blitting)
                     var framebuffer = GetFramebuffer(surface);
-                    if (framebuffer.IsDirty) { Invoke(() => framebuffer.BlitAndUpdate()); }
+                    if (framebuffer.IsDirty)
+                    {
+                        Invoke(() => framebuffer.BlitToTexture());
+                    }
 
                     // Emit surface texture
-                    texture = framebuffer.TextureFBO.Texture;
+                    texture = framebuffer.Texture;
                     uvRect = (0, 0, 1, -1);
                     break;
 

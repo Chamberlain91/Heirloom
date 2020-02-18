@@ -48,26 +48,11 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
-        protected override IShaderFactory CreateShaderFactory()
-        {
-            return new GLShaderFactory(this);
-        }
+        #region Surface Factory
 
         protected override ISurfaceFactory CreateSurfaceFactory()
         {
             return new GLSurfaceFactory(this);
-        }
-
-        #region Resource Factories
-
-        private abstract class Factory
-        {
-            protected Factory(OpenGLGraphicsAdapter adapter)
-            {
-                Adapter = adapter ?? throw new ArgumentNullException(nameof(adapter));
-            }
-
-            public OpenGLGraphicsAdapter Adapter { get; }
         }
 
         private sealed class GLSurfaceFactory : Factory, ISurfaceFactory
@@ -100,6 +85,15 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
+        #endregion
+
+        #region Shader Factory
+
+        protected override IShaderFactory CreateShaderFactory()
+        {
+            return new GLShaderFactory(this);
+        }
+
         private sealed class GLShaderFactory : Factory, IShaderFactory
         {
             public GLShaderFactory(OpenGLGraphicsAdapter adapter)
@@ -110,10 +104,10 @@ namespace Heirloom.Drawing.OpenGLES
             {
                 var program = Adapter.Invoke(() =>
                 {
-                    var vShader = new ShaderStage(Adapter, GLShaderType.Vertex, vert);
-                    var fShader = new ShaderStage(Adapter, GLShaderType.Fragment, frag);
+                    var vShader = new ShaderStage(GLShaderType.Vertex, vert);
+                    var fShader = new ShaderStage(GLShaderType.Fragment, frag);
 
-                    return new ShaderProgram(Adapter, name, vShader, fShader);
+                    return new ShaderProgram(name, vShader, fShader);
                 });
 
                 // Get uniform names
@@ -274,6 +268,16 @@ namespace Heirloom.Drawing.OpenGLES
         }
 
         #endregion
+
+        private abstract class Factory
+        {
+            protected Factory(OpenGLGraphicsAdapter adapter)
+            {
+                Adapter = adapter ?? throw new ArgumentNullException(nameof(adapter));
+            }
+
+            public OpenGLGraphicsAdapter Adapter { get; }
+        }
 
         #region Invoke
 

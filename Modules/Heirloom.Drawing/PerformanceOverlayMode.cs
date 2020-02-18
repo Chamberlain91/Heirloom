@@ -11,7 +11,7 @@ namespace Heirloom.Drawing
         Disabled,
 
         /// <summary>
-        /// Displays FPS and batch count as a short string.
+        /// Displays FPS as a short string.
         /// </summary>
         Simple,
 

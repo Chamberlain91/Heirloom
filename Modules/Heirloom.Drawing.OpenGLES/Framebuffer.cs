@@ -22,6 +22,11 @@ namespace Heirloom.Drawing.OpenGLES
         /// </summary>
         public readonly TextureTarget TextureFBO;
 
+        /// <summary>
+        /// The texture associated with <see cref="TextureFBO"/>.
+        /// </summary>
+        public Texture Texture => TextureFBO.Texture;
+
         #region Constructors
 
         public Framebuffer(Surface surface)
@@ -60,6 +65,8 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
+        #region Bind (Draw & Read)
+
         /// <summary>
         /// Binds the framebuffer for drawing.
         /// </summary>
@@ -83,16 +90,18 @@ namespace Heirloom.Drawing.OpenGLES
         internal void BindToRead()
         {
             // Transfer renderbuffer FBO to texture FBO
-            BlitAndUpdate();
+            BlitToTexture();
 
             // Read from texture
             GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, TextureFBO.Handle);
         }
 
+        #endregion
+
         /// <summary>
-        /// Blits the renderbuffer to the texture (if needed/exists) and updates the texture.
+        /// Blits the renderbuffer to the texture (if needed/exists).
         /// </summary>
-        public void BlitAndUpdate()
+        public void BlitToTexture()
         {
             if (IsDirty)
             {
@@ -107,8 +116,8 @@ namespace Heirloom.Drawing.OpenGLES
                     GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, TextureFBO.Handle);
 
                     // Blit from multisampled buffer to texture buffer
-                    GL.BlitFramebuffer(0, 0, TextureFBO.Texture.Width, TextureFBO.Texture.Height,
-                                       0, 0, TextureFBO.Texture.Width, TextureFBO.Texture.Height,
+                    GL.BlitFramebuffer(0, 0, Texture.Width, Texture.Height,
+                                       0, 0, Texture.Width, Texture.Height,
                                        FramebufferBlitMask.Color, FramebufferBlitFilter.Nearest);
 
                     // Restore draw framebuffer
@@ -116,7 +125,7 @@ namespace Heirloom.Drawing.OpenGLES
                 }
 
                 // We should be up to date with the surface now
-                TextureFBO.Texture.Version = _surface.Version;
+                Texture.Version = _surface.Version;
                 _version = _surface.Version;
             }
         }

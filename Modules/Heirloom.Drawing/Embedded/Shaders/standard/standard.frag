@@ -11,12 +11,7 @@ out vec4 outColor;
 // == Uniforms ==
 
 uniform sampler2D uMainImage;
-in vec4 uMainImage_UVRect;
-
-uniform Standard
-{
-	mat2x3 uMatrix;
-};
+in vec4 uMainImage_UVRect; 
 
 // == Fragment Shader ==
 
