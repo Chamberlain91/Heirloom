@@ -15,7 +15,9 @@ namespace Heirloom.Drawing.OpenGLES
         private bool _isRunning = false;
 
         private readonly ConditionalWeakTable<Surface, Framebuffer> _framebuffers;
+
         private BatchingTechnique _batchingTechnique;
+        private AtlasTechnique _textureTechnique;
 
         private Matrix _viewMatrix;
         private Matrix _viewMatrixInverse;
@@ -63,8 +65,9 @@ namespace Heirloom.Drawing.OpenGLES
                 GL.Enable(EnableCap.ScissorTest);
                 GL.Enable(EnableCap.Blend);
 
-                // 
+                // Create
                 _batchingTechnique = new HybridBatchingTechnique();
+                _textureTechnique = new SimpleAtlasTechnique();
 
                 // 
                 ResetState();
@@ -782,17 +785,14 @@ namespace Heirloom.Drawing.OpenGLES
             // Configure to use image (texture)
             UseImage(image);
 
-            // Submit to batch
-            while (!_batchingTechnique.Submit(mesh, _uvRect, in transform, in _blendColor))
-            {
-                Flush();
-            }
+            Rectangle uvRect; // Submit image source to draw with
+            while (!_textureTechnique.Submit(image, out uvRect)) { Flush(); }
 
-            // Did the shader state change?
-            if (_shader.IsDirty)
-            {
-                Flush();
-            }
+            // Submit the mesh to draw
+            while (!_batchingTechnique.Submit(mesh, uvRect, in transform, in _blendColor)) { Flush(); }
+
+            // If the shader's state has changed, we need to forcefully flush.
+            if (_shader.IsDirty) { Flush(); }
         }
 
         #endregion
@@ -820,14 +820,17 @@ namespace Heirloom.Drawing.OpenGLES
                     // Update any mutated uniforms
                     UpdateShaderUniforms();
 
-                    // Update texture
-                    if (_textureBindDirty)
-                    {
-                        GL.ActiveTexture(0);
-                        GL.BindTexture(TextureTarget.Texture2D, _texture.Handle);
+                    //// Update texture
+                    //if (_textureBindDirty)
+                    //{
+                    //    GL.ActiveTexture(0);
+                    //    GL.BindTexture(TextureTarget.Texture2D, _texture.Handle);
 
-                        _textureBindDirty = false;
-                    }
+                    //    _textureBindDirty = false;
+                    //}
+
+                    // 
+                    _textureTechnique.ApplyTextures();
 
                     // Draw batched geometry
                     _batchingTechnique.DrawBatch();
@@ -855,53 +858,9 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Texture & Framebuffer
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void UseImage(ImageSource imageSource)
-        {
-            if (_imageSource != imageSource)
-            {
-                _imageSource = imageSource;
-
-                // Request texture information for the given input image
-                GetTextureInformation(imageSource, out var texture, out _uvRect);
-
-                // Inconsistent texture, flush and update state
-                if (_texture != texture)
-                {
-                    // Complete pending work
-                    Flush();
-
-                    // Mark that we need to update the texture binding
-                    _textureBindDirty = true;
-
-                    // Store new texture reference
-                    _texture = texture;
-                }
-            }
-        }
-
-        private Framebuffer GetFramebuffer(Surface surface)
-        {
-            return Invoke(() =>
-            {
-                // Try to get known framebuffer instance
-                if (!_framebuffers.TryGetValue(surface, out var framebuffer))
-                {
-                    // Was not known, we will now create it 
-                    framebuffer = new Framebuffer(surface);
-
-                    // Store framebuffer
-                    _framebuffers.Add(surface, framebuffer);
-                }
-
-                // Return framebuffer associated with surface
-                return framebuffer;
-            });
-        }
-
         private void GetTextureInformation(ImageSource imageSource, out Texture texture, out Rectangle uvRect)
         {
-            // If source is an image (atlas)
+            // If source is an image (image atlas)
             if (imageSource is Image image)
             {
                 // Emit texture and atlas rectangle
@@ -917,12 +876,8 @@ namespace Heirloom.Drawing.OpenGLES
                     throw new InvalidOperationException("Unable to read from surface while we may write to it.");
                 }
 
-                // Get framebuffer
-                var framebuffer = GetFramebuffer(surface);
-                Invoke(() => framebuffer.BlitAndUpdate());
-
-                // Emit texture and atlas rectangle (full inverted)
-                texture = framebuffer.TextureFBO.Texture;
+                // Emit texture and atlas rectangle
+                texture = GetTexture(surface);
                 uvRect = (0, 0, 1, -1);
             }
             // Source type was unknown, whoops!
@@ -930,6 +885,30 @@ namespace Heirloom.Drawing.OpenGLES
             {
                 throw new InvalidOperationException("Image source was not a valid type");
             }
+        }
+
+        private Framebuffer GetFramebuffer(Surface surface)
+        {
+            // Try to get known framebuffer instance
+            if (!_framebuffers.TryGetValue(surface, out var framebuffer))
+            {
+                // Was not known, we will now create it 
+                framebuffer = Invoke(() => new Framebuffer(surface));
+
+                // Store framebuffer
+                _framebuffers.Add(surface, framebuffer);
+            }
+
+            // Return framebuffer associated with surface
+            return framebuffer;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal Texture GetTexture(Surface surface)
+        {
+            var framebuffer = GetFramebuffer(surface);
+            if (framebuffer.IsDirty) { Invoke(() => framebuffer.BlitAndUpdate()); }
+            return framebuffer.TextureFBO.Texture;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

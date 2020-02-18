@@ -52,6 +52,11 @@ namespace Heirloom.Drawing.OpenGLES
         public bool HasRenderbuffer => RenderbufferFBO != null;
 
         /// <summary>
+        /// Is this framebuffer out of date?
+        /// </summary>
+        public bool IsDirty => _version != _surface.Version;
+
+        /// <summary>
         /// Binds the framebuffer.
         /// </summary>
         internal void Bind()
@@ -73,7 +78,7 @@ namespace Heirloom.Drawing.OpenGLES
         /// </summary>
         public void BlitAndUpdate()
         {
-            if (_version != _surface.Version)
+            if (IsDirty)
             {
                 // Copy and resolve renderbuffer (if exists) to texture
                 if (HasRenderbuffer)
