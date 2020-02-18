@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 
 using Heirloom.Math;
@@ -207,7 +207,6 @@ namespace Heirloom.Drawing
             {
                 var character = text.GetCharacter(i);
                 var breakCategory = GetBreakCategory(character);
-                var glyph = atlas.GetGlyph(character);
 
                 // Add kerning
                 var kerning = atlas.Font.GetKerning(previous, character, atlas.FontSize);
@@ -228,7 +227,7 @@ namespace Heirloom.Drawing
                     opportunity = i;
                 }
 
-                if (glyph != null)
+                if (atlas.TryGetGlyph(character, out var glyph))
                 {
                     // Advance right edge
                     var metrics = glyph.GetMetrics(atlas.FontSize);

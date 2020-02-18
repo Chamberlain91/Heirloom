@@ -1,7 +1,6 @@
 using System;
-using System.Collections.Generic;
+using System.Buffers;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -16,99 +15,23 @@ using static StbImageWriteSharp.StbImageWrite;
 
 namespace Heirloom.Drawing
 {
-    public sealed partial class Image : ImageSource
+    public sealed class Image : ImageSource
     {
-        private ColorBytes[] _pixels;
-
-        private Image _source;
-        private Image _root;
-
-        internal object Native;
+        /// <summary>
+        /// The underlying pixel data.
+        /// </summary>
+        internal readonly ColorBytes[] Pixels;
 
         #region Constants
 
         /// <summary>
         /// A 1x1 solid white image.
         /// </summary>
-        public static Image Default = CreateColor(1, 1, Color.White);
+        internal static Image WhitePixel = CreateColor(1, 1, Color.White);
 
         #endregion
 
         #region Constructors
-
-        /// <summary>
-        /// Constructs a new image with the given dimensions.
-        /// </summary>
-        /// <param name="size">Dimensions in pixels.</param>
-        public Image(IntSize size)
-            : this(size.Width, size.Height)
-        { }
-
-        /// <summary>
-        /// Constructs a new image with the given dimensions.
-        /// </summary>
-        /// <param name="width">Width in pixels.</param>
-        /// <param name="height">Height in pixels.</param>
-        public Image(int width, int height)
-            : this(null, new IntRectangle(0, 0, width, height), false, false)
-        { }
-
-        /// <summary>
-        /// Constructs an image backed by a region of the given image. <para/>
-        /// If <paramref name="clone"/> is true, this will fully duplicate image data from the specified region of the given image.
-        /// </summary>
-        /// <param name="source">The base image.</param>
-        /// <param name="region"></param>
-        /// <param name="clone"></param>
-        public Image(Image source, IntRectangle region, bool clone = false)
-            : this(source, region, clone, true)
-        { }
-
-        internal Image(Image source, IntRectangle region, bool clone, bool noSourceNoCloneException)
-        {
-            // Constraint disallowing using the (source,region,clone) constructor to mimic
-            // the (width, height) constructor.
-            if (noSourceNoCloneException && source == null && !clone)
-            {
-                throw new ArgumentException();
-            }
-
-            // Region must be positioned at zero when not sourced from another image, because
-            // we will occupy the complete pixel region as base image.
-            if (source == null && (Region.X != 0 || Region.Y != 0))
-            {
-                throw new ArgumentException("Creating an non-subimage image with offset in region.");
-            }
-
-            // Unable to clone image from nothing
-            if (source == null && clone)
-            {
-                throw new ArgumentNullException(nameof(source), "Unable to create clone image from null base image");
-            }
-
-            // Set region and source
-            Source = clone ? null : source;
-            Region = region;
-
-            // 
-            ComputeUVRectangle();
-
-            // If we are cloning data or not sourcing an image, create data.
-            if (clone || source == null)
-            {
-                // Create pixel data
-                _pixels = new ColorBytes[Width * Height];
-
-                if (clone)
-                {
-                    // Copies data from source into this image
-                    foreach (var co in Rasterizer.Rectangle(region))
-                    {
-                        SetPixel(co, source.GetPixel(co - region.Position));
-                    }
-                }
-            }
-        }
 
         /// <summary>
         /// Loads an image by a file path resolved by <see cref="Files.OpenStream(string)"/>.
@@ -121,7 +44,7 @@ namespace Heirloom.Drawing
         /// Loads an image from a stream.
         /// </summary>
         public Image(Stream stream)
-            : this(ReadAllBytes(stream))
+            : this(stream.ReadAllBytes())
         { }
 
         /// <summary>
@@ -135,24 +58,29 @@ namespace Heirloom.Drawing
                 int width, height, comp;
                 var pResult = stbi_load_from_memory(buffer, file.Length, &width, &height, &comp, 4);
 
-                // Copy from unmanaged to managed
-                var pixels = new byte[width * height * 4];
-                Marshal.Copy((IntPtr) pResult, pixels, 0, pixels.Length);
+                // Allocate pixels
+                Pixels = new ColorBytes[width * height];
+                Height = height;
+                Width = width;
+
+                // Copy grabbed pixels to image 
+                Copy((ColorBytes*) pResult, width, (0, 0, width, height), this, IntVector.Zero);
 
                 // Free stb bitmap
                 CRuntime.free(pResult);
-
-                // Fully occupied and no parenting image
-                _pixels = new ColorBytes[width * height];
-                Region = new IntRectangle(0, 0, width, height);
-                Source = null;
-
-                // Allocate pixel storage, and set from decoded pixels
-                SetPixels(pixels);
-
-                // 
-                ComputeUVRectangle();
             }
+        }
+
+        public Image(IntSize size)
+            : this(size.Width, size.Height)
+        { }
+
+        public Image(int width, int height)
+        {
+            // Allocate pixels
+            Pixels = new ColorBytes[width * height];
+            Height = height;
+            Width = width;
         }
 
         #endregion
@@ -160,430 +88,90 @@ namespace Heirloom.Drawing
         #region Properties
 
         /// <summary>
-        /// The width of the image in pixels.
+        /// The width of the image (in pixels).
         /// </summary>
-        public int Width => Region.Width;
+        public int Width { get; }
 
         /// <summary>
-        /// The height of the image in pixels.
+        /// The height of the image (in pixels).
         /// </summary>
-        public int Height => Region.Height;
+        public int Height { get; }
 
-        /// <summary>
-        /// The size of the image in pixels.
-        /// </summary>
         public override IntSize Size
         {
-            get => Region.Size;
-            protected set => throw new InvalidOperationException();
+            get => new IntSize(Width, Height);
+            protected set => throw new NotSupportedException();
         }
 
-        /// <summary>
-        /// The local bounds of the image.
-        /// </summary>
-        public Rectangle Bounds => new Rectangle(-Origin, Size);
+        #endregion
 
-        /// <summary>
-        /// The images aspect ratio.
-        /// </summary>
-        public float Aspect => Width / (float) Height;
+        #region Get or Set Pixels
 
-        /// <summary>
-        /// This is image instance a subregion of another?
-        /// </summary>
-        public bool IsSubImage => Source != null;
-
-        /// <summary>
-        /// The region this image occupies in the root image.
-        /// </summary>
-        public IntRectangle Region { get; private set; }
-
-        /// <summary>
-        /// The normalized region this image occupies in the root image.
-        /// </summary>
-        public Rectangle UVRect { get; private set; }
-
-        /// <summary>
-        /// The source image where this image object references its pixels from.
-        /// If null, this image actually contains its own pixel data.
-        /// </summary>
-        /// TODO: Make it reference itself if self-contained?
-        public Image Source
+        public ColorBytes GetPixel(int x, int y)
         {
-            get => _source;
+            return Pixels[x + (y * Width)];
+        }
 
-            private set
+        public ColorBytes GetPixel(IntVector co)
+        {
+            return GetPixel(co.X, co.Y);
+        }
+
+        public ColorBytes[] GetPixels()
+        {
+            var pixels = new ColorBytes[Pixels.Length];
+            Array.Copy(Pixels, pixels, Pixels.Length);
+            return pixels;
+        }
+
+        public void SetPixel(int x, int y, in ColorBytes color)
+        {
+            Pixels[x + (y * Width)] = color;
+            IncrementVersion();
+        }
+
+        public void SetPixel(IntVector co, in ColorBytes color)
+        {
+            SetPixel(co, in color);
+        }
+
+        public unsafe void SetPixels(ColorBytes[] pixels)
+        {
+            if (Pixels.Length != pixels.Length) { throw new ArgumentException("Incoming pixel array must be the same size as image."); }
+
+            fixed (ColorBytes* src = pixels)
+            fixed (ColorBytes* dst = Pixels)
             {
-                // Assign source
-                _source = value;
-
-                // No source (image is self contained)
-                if (_source == null) { _root = this; }
-                // Has a source, so walk up to the true root
-                else
-                {
-                    // Assign root
-                    _root = _source;
-
-                    // Walk to root image
-                    while (_root._source != null)
-                    {
-                        _root = _root._source;
-                    }
-                }
+                var len = Pixels.Length * 4;
+                Buffer.MemoryCopy((void*) src, (void*) dst, len, len);
+                IncrementVersion();
             }
         }
 
-        /// <summary>
-        /// The root source image where this image data is stored.
-        /// This is the top reference in a chain of <see cref="Source"/> links.
-        /// </summary>
-        public Image Root => _root;
-
         #endregion
 
-        #region Indexers
-
-        public ColorBytes this[int x, int y]
-        {
-            get => GetPixel(x, y);
-            set => SetPixel(x, y, value);
-        }
-
-        public ColorBytes this[IntVector coord]
-        {
-            get => GetPixel(coord);
-            set => SetPixel(coord, value);
-        }
-
-        #endregion
-
-        #region Access / Mutators
+        #region Clear Pixels
 
         /// <summary>
         /// Sets all pixels in the image to the specified color.
         /// </summary>
         public unsafe void Clear(ColorBytes pixel)
         {
-            if (IsSubImage)
+            fixed (ColorBytes* ptr = Pixels)
             {
-                // 
-                foreach (var co in Rasterizer.Rectangle(0, 0, Width, Height))
+                // Fill entire data buffer
+                for (var i = 0; i < Pixels.Length; i++)
                 {
-                    SetPixel(co, pixel);
-                }
-            }
-            else
-            {
-                fixed (ColorBytes* ptr = _pixels)
-                {
-                    // Fill entire data buffer
-                    for (var i = 0; i < _pixels.Length; i++)
-                    {
-                        *(ptr + i) = pixel;
-                    }
+                    *(ptr + i) = pixel;
                 }
             }
 
             IncrementVersion();
         }
 
-        #region Get/SetPixel
-
-        /// <summary>
-        /// Get some pixel within the image.
-        /// </summary>
-        public ColorBytes GetPixel(IntVector coord)
-        {
-            return GetPixel(coord.X, coord.Y);
-        }
-
-        /// <summary>
-        /// Set some pixel within the image.
-        /// </summary>
-        public void SetPixel(IntVector coord, ColorBytes pixel)
-        {
-            SetPixel(coord.X, coord.Y, pixel);
-        }
-
-        /// <summary>
-        /// Get some pixel within the image.
-        /// </summary>
-        public ColorBytes GetPixel(int x, int y)
-        {
-            if (IsSubImage)
-            {
-                // TODO: Validate coordinate within region
-                return Source.GetPixel(Region.X + x, Region.Y + y);
-            }
-            else
-            {
-                if (x >= Width || y >= Height)
-                {
-                    return ColorBytes.Black;
-                }
-
-                if (x < 0 || y < 0)
-                {
-                    return ColorBytes.Black;
-                }
-
-                // TODO: Validate coordinate within image
-                return _pixels[(y * Width) + x];
-            }
-        }
-
-        /// <summary>
-        /// Set some pixel within the image.
-        /// </summary>
-        public void SetPixel(int x, int y, ColorBytes pixel)
-        {
-            // 
-            if (IsSubImage)
-            {
-                // TODO: Validate coordinate within region
-                Source.SetPixel(Region.X + x, Region.Y + y, pixel);
-            }
-            else
-            {
-                if (x >= Width || y >= Height)
-                {
-                    return;
-                }
-
-                if (x < 0 || y < 0)
-                {
-                    return;
-                }
-
-                // TODO: Validate coordinate within image
-                _pixels[(y * Width) + x] = pixel;
-            }
-
-            // 
-            IncrementVersion();
-        }
-
-        /// <summary>
-        /// Replace all pixels in this image.
-        /// </summary>
-        public unsafe void SetPixels(ColorBytes[] pixels)
-        {
-            if (pixels.Length != (Width * Height))
-            {
-                throw new ArgumentException("Must specify same number of pixels as image.");
-            }
-
-            if (IsSubImage)
-            {
-                // TODO: Can probably optimize with processing pointers + stride
-                foreach (var co in Rasterizer.Rectangle(0, 0, Width, Height))
-                {
-                    var i = (co.Y * Width) + co.X;
-                    SetPixel(Region.Min + co, pixels[i]);
-                }
-            }
-            else
-            {
-                fixed (ColorBytes* src = pixels)
-                fixed (ColorBytes* dst = _pixels)
-                {
-                    var len = _pixels.Length * 4;
-                    Buffer.MemoryCopy((void*) src, (void*) dst, len, len);
-                    IncrementVersion();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Replace all pixels in this image, assumes uints are RGBA encoded.
-        /// </summary>
-        public unsafe void SetPixels(uint[] pixels)
-        {
-            if (pixels.Length != (Width * Height))
-            {
-                throw new ArgumentException("Must specify same number of pixels as image.");
-            }
-
-            if (IsSubImage)
-            {
-                fixed (uint* pPixels = pixels)
-                {
-                    // TODO: Can probably optimize with processing pointers + stride
-                    foreach (var co in Rasterizer.Rectangle(0, 0, Width, Height))
-                    {
-                        var i = (co.Y * Width) + co.X;
-
-                        // 
-                        var addr = (ColorBytes*) &pPixels[i];
-                        SetPixel(Region.Min + co, *addr);
-                    }
-                }
-            }
-            else
-            {
-                fixed (uint* src = pixels)
-                fixed (ColorBytes* dst = _pixels)
-                {
-                    Buffer.MemoryCopy((void*) src, (void*) dst, 4 * pixels.Length, 4 * pixels.Length);
-                    IncrementVersion();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Replace all pixels in this image, assumes bytes are 8-bit interleved RGBA encoded and correct dimensions.
-        /// </summary>
-        public unsafe void SetPixels(byte[] pixels)
-        {
-            if (pixels.Length != (4 * Width * Height))
-            {
-                throw new ArgumentException("Must specify same number of pixels as image.");
-            }
-
-            if (IsSubImage)
-            {
-                fixed (byte* pPixels = pixels)
-                {
-                    // TODO: Can probably optimize with processing pointers + stride
-                    foreach (var co in Rasterizer.Rectangle(0, 0, Width, Height))
-                    {
-                        var i = (co.Y * Width) + co.X;
-
-                        // 
-                        var addr = (ColorBytes*) &pPixels[i * 4];
-                        SetPixel(Region.Min + co, *addr);
-                    }
-                }
-            }
-            else
-            {
-                fixed (byte* src = pixels)
-                fixed (ColorBytes* dst = _pixels)
-                {
-                    Buffer.MemoryCopy((void*) src, (void*) dst, pixels.Length, pixels.Length);
-                    IncrementVersion();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Returns a copy of the pixels in this image.
-        /// </summary>
-        public ColorBytes[] GetPixels()
-        {
-            if (IsSubImage)
-            {
-                var pixels = new ColorBytes[Width * Height];
-
-                // TODO: Can probably optimize with processing pointers + stride
-                foreach (var co in Rasterizer.Rectangle(0, 0, Width, Height))
-                {
-                    var i = (co.Y * Width) + co.X;
-                    pixels[i] = GetPixel(Region.Min + co);
-                }
-
-                return pixels;
-            }
-            else
-            {
-                var pixels = new ColorBytes[_pixels.Length];
-                Array.Copy(_pixels, pixels, _pixels.Length);
-                return pixels;
-            }
-        }
-
         #endregion
 
-        #region Sample
-
-        /// <summary>
-        /// Gets the color of the image at the specified point in normalized image space.
-        /// </summary>
-        public Color Sample(Vector uv)
-        {
-            return Sample(uv.X, uv.Y, InterpolationMode);
-        }
-
-        /// <summary>
-        /// Gets the color of the image at the specified point in normalized image space.
-        /// </summary>
-        public Color Sample(Vector uv, InterpolationMode mode)
-        {
-            return Sample(uv.X, uv.Y, mode);
-        }
-
-        /// <summary>
-        /// Gets the color of the image at the specified point in normalized image space.
-        /// </summary>
-        public Color Sample(float u, float v)
-        {
-            return Sample(u, v, InterpolationMode);
-        }
-
-        /// <summary>
-        /// Gets the color of the image at the specified point in normalized image space.
-        /// </summary>
-        public Color Sample(float u, float v, InterpolationMode mode)
-        {
-            switch (mode)
-            {
-                default:
-                    throw new InvalidOperationException("Unknown sampling mode.");
-
-                case InterpolationMode.Nearest:
-                    return SamplePoint(u, v);
-
-                case InterpolationMode.Linear:
-                    return SampleLinear(u, v);
-            }
-        }
-
-        private Color SamplePoint(float u, float v)
-        {
-            var xf = u * Width;
-            var yf = v * Height;
-
-            // Bilinear interpolation
-            var x1 = Calc.Floor(xf);
-            var y1 = Calc.Floor(yf);
-
-            // Read pixels
-            return GetPixel(x1, y1);
-        }
-
-        private Color SampleLinear(float u, float v)
-        {
-            var xf = u * Width;
-            var yf = v * Height;
-
-            var xt = Calc.Fraction(xf);
-            var yt = Calc.Fraction(yf);
-
-            // Bilinear interpolation
-            var x1 = Calc.Floor(xf);
-            var y1 = Calc.Floor(yf);
-            var x2 = Calc.Ceil(xf);
-            var y2 = Calc.Ceil(yf);
-
-            // Read pixels
-            var c00 = GetPixel(x1, y1);
-            var c10 = GetPixel(x2, y1);
-            var c11 = GetPixel(x2, y2);
-            var c01 = GetPixel(x1, y2);
-
-            // 
-            var q1 = ColorBytes.Lerp(c00, c10, xt);
-            var q2 = ColorBytes.Lerp(c01, c11, xt);
-
-            return ColorBytes.Lerp(q1, q2, yt);
-        }
-
-        #endregion
-
-        #endregion
-
-        #region Flip by Axis
+        #region Flip Pixels
 
         /// <summary>
         /// Flips the image on the specified axis.
@@ -605,7 +193,7 @@ namespace Heirloom.Drawing
                     var i1 = x + ((Height - y - 1) * Width);
 
                     // 
-                    Calc.Swap(ref _pixels[i0], ref _pixels[i1]);
+                    Calc.Swap(ref Pixels[i0], ref Pixels[i1]);
                 }
             }
         }
@@ -620,211 +208,23 @@ namespace Heirloom.Drawing
                     var i1 = (Width - x - 1) + (y * Width);
 
                     // 
-                    Calc.Swap(ref _pixels[i0], ref _pixels[i1]);
+                    Calc.Swap(ref Pixels[i0], ref Pixels[i1]);
                 }
             }
         }
 
         #endregion
 
-        #region Copy Data
+        #region Copy To
 
-        /// <summary>
-        /// Copies pixel data to the image.
-        /// The data must be contiguous and the same size of the image.
-        /// </summary>
-        public unsafe void CopyFrom(ColorBytes* src, bool swapBGRA = true)
+        public void CopyTo(in IntRectangle region, Image target, in IntVector targetOffset)
         {
-            var len = Width * Height * sizeof(ColorBytes);
-
-            if (IsSubImage)
-            {
-                foreach (var co in Rasterizer.Rectangle(0, 0, Width, Height))
-                {
-                    var i = (co.Y * Width) + co.X;
-                    SetPixel(Region.Min + co, src[i]);
-                }
-            }
-            else
-            {
-                fixed (ColorBytes* dst = _pixels)
-                {
-                    if (swapBGRA)
-                    {
-                        // Copy per-pixel (RGBA)
-                        for (var i = 0; i < len / sizeof(ColorBytes); i++)
-                        {
-                            var p = src[i];
-                            if (swapBGRA) { Calc.Swap(ref p.R, ref p.B); }
-                            dst[i] = p;
-                        }
-                    }
-                    else
-                    {
-                        // Copy block (BGRA)
-                        Buffer.MemoryCopy(src, dst, len, len);
-                    }
-                }
-            }
+            Copy(this, in region, target, in targetOffset);
         }
 
-        /// <summary>
-        /// Copies pixel data to the image.
-        /// The data must be contiguous and the same size of the image.
-        /// </summary>
-        public unsafe void CopyFrom(IntPtr src, bool swapBGRA = true)
+        public void CopyTo(Image target, in IntVector targetOffset)
         {
-            CopyFrom((ColorBytes*) src, swapBGRA);
-        }
-
-        /// <summary>
-        /// Copies image data from the image to destination.
-        /// The data must be contiguous and the same size of the image.
-        /// </summary>
-        public unsafe void CopyTo(IntPtr dst, bool swapBGRA = true)
-        {
-            CopyTo((ColorBytes*) dst, swapBGRA);
-        }
-
-        /// <summary>
-        /// Copies image data from the image to destination.
-        /// The data must be contiguous and the same size of the image.
-        /// </summary>
-        public unsafe void CopyTo(ColorBytes* dst, bool swapBGRA = true)
-        {
-            var len = Width * Height * 4; // Number of bytes in the pixel data
-
-            if (IsSubImage)
-            {
-                foreach (var co in Rasterizer.Rectangle(0, 0, Width, Height))
-                {
-                    var i = (co.Y * Width) + co.X;
-                    var p = GetPixel(Region.Min + co);
-                    *(dst + i) = p;
-                }
-            }
-            else
-            {
-                fixed (ColorBytes* src = _pixels)
-                {
-                    if (swapBGRA)
-                    {
-                        // Copy per-pixel (RGBA)
-                        for (var i = 0; i < len / sizeof(ColorBytes); i++)
-                        {
-                            var p = *(src + i);
-                            if (swapBGRA) { Calc.Swap(ref p.R, ref p.B); }
-                            *(dst + i) = p;
-                        }
-                    }
-                    else
-                    {
-                        // Copy block (BGRA)
-                        Buffer.MemoryCopy(src, (void*) dst, len, len);
-                    }
-                }
-            }
-        }
-
-        public unsafe void CopyTo(ColorBytes* dst, IntSize dstSize, IntVector dstOffset)
-        {
-            fixed (ColorBytes* src = _pixels)
-            {
-                var wBytes = Width * sizeof(ColorBytes);
-
-                for (var y = 0; y < Height; y++)
-                {
-                    var srcRow = src + (Width * y);
-                    var dstRow = dst + ((dstSize.Width * (y + dstOffset.Y)) + dstOffset.X);
-                    Buffer.MemoryCopy(srcRow, dstRow, wBytes, wBytes);
-                }
-            }
-        }
-
-        public unsafe void CopyTo(Image target, IntVector offset)
-        {
-            fixed (ColorBytes* src = _pixels)
-            fixed (ColorBytes* dst = target._pixels)
-            {
-                var wBytes = Width * sizeof(ColorBytes);
-
-                for (var y = 0; y < Height; y++)
-                {
-                    var srcRow = src + (Width * y);
-                    var dstRow = dst + ((target.Width * (y + offset.Y)) + offset.X);
-                    Buffer.MemoryCopy(srcRow, dstRow, wBytes, wBytes);
-                }
-
-                // 
-                target.IncrementVersion();
-            }
-        }
-
-        #endregion
-
-        #region Write
-
-        [ThreadStatic] private static Stream _writeStream;
-        [ThreadStatic] private static byte[] _buffer = new byte[0];
-
-        public unsafe void WriteToPng(Stream stream)
-        {
-            lock (_pixels)
-            {
-                _writeStream = stream;
-
-                // StbSharp is out of date...?
-                // Stb.stbi_flip_vertically_on_write(1);
-
-                fixed (ColorBytes* pPixels = _pixels)
-                {
-                    if (stbi_write_png_to_func(WriteImageCallback, null, Width, Height, 4, pPixels, Width * 4) == 0)
-                    {
-                        throw new InvalidOperationException("Unable to write png image to stream.");
-                    }
-                }
-            }
-        }
-
-        public unsafe void WriteToJpg(Stream stream, int quality = 80)
-        {
-            lock (_pixels)
-            {
-                if (quality < 1 || quality > 100)
-                {
-                    throw new ArgumentException("Jpeg quality must be from 1 - 100.", nameof(quality));
-                }
-
-                _writeStream = stream;
-
-                // StbSharp is out of date...?
-                // Stb.stbi_flip_vertically_on_write(1);
-
-                fixed (ColorBytes* pPixels = _pixels)
-                {
-                    if (stbi_write_jpg_to_func(WriteImageCallback, null, Width, Height, 4, pPixels, quality) == 0)
-                    {
-                        throw new InvalidOperationException("Unable to write jpg image to stream.");
-                    }
-                }
-            }
-        }
-
-        private static unsafe int WriteImageCallback(void* context, void* data, int size)
-        {
-            if (data == null || size <= 0)
-            {
-                return 0;
-            }
-
-            // Ensure buffer is large enough
-            if (_buffer.Length < size) { Array.Resize(ref _buffer, size * 2); }
-
-            // Copy from unmanaged memory into buffer and then into stream
-            Marshal.Copy((IntPtr) data, _buffer, 0, size);
-            _writeStream.Write(_buffer, 0, size);
-
-            return size;
+            Copy(this, (0, 0, Width, Height), target, in targetOffset);
         }
 
         #endregion
@@ -832,178 +232,18 @@ namespace Heirloom.Drawing
         #region Clone
 
         /// <summary>
-        /// Creates a clone of this image (an orphan in terms of <see cref="Source"/> and <see cref="Root"/>).
+        /// Creates a clone of this image.
         /// </summary>
         public Image Clone()
         {
             var clone = new Image(Size);
-
-            // Copy each pixel from this to clone
-            Parallel.ForEach(Rasterizer.Rectangle(Size), co =>
-            {
-                clone.SetPixel(co, GetPixel(co));
-            });
-
+            CopyTo(clone, (0, 0));
             return clone;
         }
 
-        #endregion
+        #endregion 
 
-        #region Atlas Utilities
-
-        /// <summary>
-        /// Inserts the given image into the region of this image.
-        /// The given image data is subsequently backed by this image.
-        /// This is a feature to construct or create texture atlases.
-        /// </summary>
-        /// <seealso cref="CreateAtlas(IEnumerable{Image})"/>
-        public void Insert(Image image, IntVector position)
-        {
-            if (image == null) { throw new ArgumentNullException(nameof(image)); }
-
-            // Copy pixels from image (other) to atlas (self)
-            foreach (var co in Rasterizer.Rectangle(image.Size))
-            {
-                SetPixel(position + co, image.GetPixel(co));
-            }
-
-            // Assign image as new sub image
-            image._pixels = null; // Clear buffer, now backed by the base image
-            image.Region = new IntRectangle(position, image.Size);
-            image.Source = this;
-
-            image.ComputeUVRectangle();
-        }
-
-        /// <summary>
-        /// Combines the given input into a new atlas image, reassigning each image's source image to be the atlas.
-        /// </summary>
-        public static Image CreateAtlas(IEnumerable<Image> images)
-        {
-            var packer = new RectanglePacker<Image>();
-
-            // Pack Images
-            foreach (var image in images.OrderByDescending(img => img.Size.Area))
-            {
-                packer.Insert(image, image.Size);
-            }
-
-            // Create image (atlas)
-            var atlas = new Image(packer.Bounds.Width, packer.Bounds.Height);
-            atlas.Clear(ColorBytes.Transparent);
-
-            // Insert images into atlas
-            foreach (var image in packer.Keys)
-            {
-                // Copies the image into the atlas, removing its personal data
-                // The image is now a sub-image of the atlas.
-                var region = packer.GetRectangle(image);
-                atlas.Insert(image, region.Position);
-            }
-
-            return atlas;
-        }
-
-        private void ComputeUVRectangle()
-        {
-            if (Source == null)
-            {
-                // Full image
-                UVRect = (0F, 0F, 1F, 1F);
-            }
-            else
-            {
-                // Compute uv rectangle
-                const float edgeErrorN = 0.1F;
-                const float edgeErrorF = 2 * edgeErrorN;
-
-                // 
-                UVRect = new Rectangle
-                {
-                    X = (Region.X + edgeErrorN) / _root.Size.Width,
-                    Y = (Region.Y + edgeErrorN) / _root.Size.Height,
-                    Width = (Region.Width - edgeErrorF) / _root.Size.Width,
-                    Height = (Region.Height - edgeErrorF) / _root.Size.Height
-                };
-            }
-        }
-
-        #endregion
-
-        #region Split / Slice / Sprite Sheet Utilities
-
-        /// <summary>
-        /// Splits the image into cells of the specified size.
-        /// The image dimensions must match perfectly.
-        /// </summary>
-        public Image[] SplitByCells(int width, int height)
-        {
-            if (Width % width != 0 || Height % height != 0)
-            {
-                throw new ArgumentException("Unable to split image, grid size mismatch.");
-            }
-
-            var wc = Width / width;
-            var hc = Height / height;
-
-            var images = new Image[wc * hc];
-            for (var y = 0; y < hc; y++)
-            {
-                for (var x = 0; x < wc; x++)
-                {
-                    images[x + y * width] = new Image(this, new IntRectangle(x * width, y * height, width, height));
-                }
-            }
-
-            return images;
-        }
-
-        /// <summary>
-        /// Splits the image into segments along the given axis.
-        /// The segments must divide the image perfectly.
-        /// </summary>
-        public Image[] SplitBySegments(int segments, Axis axis)
-        {
-            // 
-            if (segments <= 1) { throw new ArgumentException("Unable to split image, must specify more than one segment."); }
-
-            // 
-            var images = new Image[segments];
-
-            // 
-            if (axis == Axis.Horizontal)
-            {
-                if (Width % segments != 0)
-                {
-                    throw new ArgumentException("Unable to split image horizontally, segments must divide image perfectly.");
-                }
-
-                var width = Width / segments;
-                for (var i = 0; i < segments; i++)
-                {
-                    images[i] = new Image(this, new IntRectangle(i * width, 0, width, Height));
-                }
-            }
-            else
-            {
-                if (Height % segments != 0)
-                {
-                    throw new ArgumentException("Unable to split image vetically, segments must divide image perfectly.");
-                }
-
-                var height = Height / segments;
-                for (var i = 0; i < segments; i++)
-                {
-                    images[i] = new Image(this, new IntRectangle(0, i * height, height, Height));
-                }
-            }
-
-            return images;
-        }
-
-        #endregion
-
-        #region Procedural Images
+        #region Procedural Images (Static)
 
         /// <summary>
         /// Create an image with checkerboard pattern.
@@ -1113,7 +353,7 @@ namespace Heirloom.Drawing
             // 
             scale = 1F / scale;
 
-            // Draw border
+            // Write pixels in parallel
             Parallel.ForEach(Rasterizer.Rectangle(0, 0, width, height), co =>
             {
                 var p0 = ((Vector) co + new Vector(0, 0)) * scale;
@@ -1136,12 +376,162 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        private static byte[] ReadAllBytes(Stream stream)
-        {
-            using var ms = new MemoryStream();
+        #region Copy (Static)
 
-            stream.CopyTo(ms);
-            return ms.ToArray();
+        public static unsafe void Copy(Image source, in IntRectangle sourceRegion,
+                                       Image target, in IntVector targetOffset)
+        {
+            if (source == target) { throw new ArgumentException("Unable to copy from self to self."); }
+
+            fixed (ColorBytes* sourcePtr = source.Pixels)
+            fixed (ColorBytes* targetPtr = target.Pixels)
+            {
+                Copy(sourcePtr, source.Width, in sourceRegion,
+                     targetPtr, target.Width, in targetOffset);
+
+                // Notify target of mutation
+                target.IncrementVersion();
+            }
         }
+
+        public static unsafe void Copy(Image source, in IntRectangle sourceRegion,
+                                       ColorBytes* target, int targetWidth, in IntVector targetOffset)
+        {
+            fixed (ColorBytes* sourcePtr = source.Pixels)
+            {
+                Copy(sourcePtr, source.Width, in sourceRegion,
+                     target, targetWidth, in targetOffset);
+            }
+        }
+
+        public static unsafe void Copy(ColorBytes* sourcePtr, int sourceWidth, in IntRectangle sourceRegion,
+                                       Image target, in IntVector targetOffset)
+        {
+            fixed (ColorBytes* targetPtr = target.Pixels)
+            {
+                Copy(sourcePtr, sourceWidth, in sourceRegion,
+                     targetPtr, target.Width, in targetOffset);
+
+                // Notify target of mutation
+                target.IncrementVersion();
+            }
+        }
+
+        public static unsafe void Copy(ColorBytes* source, int sourceWidth, in IntRectangle sourceRegion,
+                                       ColorBytes* target, int targetWidth, in IntVector targetOffset)
+        {
+            if (source == target) { throw new ArgumentException("Unable to copy from self to self."); }
+
+            // Compute the number of bytes to copy per row.
+            var rowByteLength = sourceRegion.Width * sizeof(ColorBytes);
+
+            // todo: Validate regions are sane with information given.
+
+            for (var y = 0; y < sourceRegion.Height; y++)
+            {
+                var sourceRow = source + (sourceWidth * (y + sourceRegion.Y)) + sourceRegion.X;
+                var targetRow = target + (targetWidth * (y + targetOffset.Y)) + targetOffset.X;
+                Buffer.MemoryCopy(sourceRow, targetRow, rowByteLength, rowByteLength);
+            }
+        }
+
+        #endregion
+
+        #region Write (Static)
+
+        [ThreadStatic] private static Stream _writeStream;
+
+        public static unsafe void WriteAsPng(Image image, Stream stream)
+        {
+            lock (image.Pixels)
+            {
+                _writeStream = stream;
+
+                // StbSharp is out of date...?
+                // Stb.stbi_flip_vertically_on_write(1);
+
+                fixed (ColorBytes* pPixels = image.Pixels)
+                {
+                    if (stbi_write_png_to_func(WriteImageCallback, null, image.Width, image.Height, 4, pPixels, image.Width * 4) == 0)
+                    {
+                        throw new InvalidOperationException("Unable to write png image to stream.");
+                    }
+                }
+            }
+        }
+
+        public static unsafe void WriteAsJpg(Image image, Stream stream, int quality = 85)
+        {
+            lock (image.Pixels)
+            {
+                if (quality < 1 || quality > 100)
+                {
+                    throw new ArgumentException("Jpeg quality must be from 1 - 100.", nameof(quality));
+                }
+
+                _writeStream = stream;
+
+                // StbSharp is out of date...?
+                // Stb.stbi_flip_vertically_on_write(1);
+
+                fixed (ColorBytes* pPixels = image.Pixels)
+                {
+                    if (stbi_write_jpg_to_func(WriteImageCallback, null, image.Width, image.Height, 4, pPixels, quality) == 0)
+                    {
+                        throw new InvalidOperationException("Unable to write jpg image to stream.");
+                    }
+                }
+            }
+        }
+
+        private static unsafe int WriteImageCallback(void* context, void* data, int size)
+        {
+            if (data == null || size <= 0)
+            {
+                return 0;
+            }
+
+            // Copy bytes into temporary buffer
+            var buffer = ArrayPool<byte>.Shared.Rent(size);
+            Marshal.Copy((IntPtr) data, buffer, 0, size);
+
+            // Write buffer into stream
+            _writeStream.Write(buffer, 0, size);
+
+            // Return temporary buffer
+            ArrayPool<byte>.Shared.Return(buffer);
+
+            return size;
+        }
+
+        #endregion
+
+        #region Load (Static)
+
+        public static unsafe Image Load(Stream stream)
+        {
+            return Load(stream.ReadAllBytes());
+        }
+
+        public static unsafe Image Load(byte[] file)
+        {
+            fixed (byte* filePtr = file)
+            {
+                // Decode from file to raw RGBA bytes
+                int width, height, comp;
+                var imagePtr = stbi_load_from_memory(filePtr, file.Length, &width, &height, &comp, 4);
+
+                var data = new Image(width, height);
+                Copy((ColorBytes*) imagePtr, width, (0, 0, width, height), data, (0, 0));
+
+                // Free stb image
+                CRuntime.free(imagePtr);
+
+                // Return image data
+                return data;
+            }
+        }
+
+        #endregion
     }
 }

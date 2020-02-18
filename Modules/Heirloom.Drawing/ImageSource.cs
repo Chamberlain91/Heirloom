@@ -1,22 +1,14 @@
+using System;
 using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public abstract class ImageSource : IDrawingResource
+    public abstract class ImageSource
     {
-        private InterpolationMode _sampleMode = InterpolationMode.Linear;
-        private object _native;
-
         internal ImageSource()
         {
-            // Only visible in Heirloom.Drawing
+            // Only visible in Heirloom.Drawing and friends
         }
-
-        /// <summary>
-        /// The version number of the image.
-        /// Modifications to the image increment this number.
-        /// </summary>
-        public uint Version { get; private set; }
 
         /// <summary>
         /// The size of this image.
@@ -29,19 +21,9 @@ namespace Heirloom.Drawing
         public Vector Origin { get; set; }
 
         /// <summary>
-        /// Gets or sets sampling mode.
+        /// Version number to track changes against the image data.
         /// </summary>
-        public InterpolationMode InterpolationMode
-        {
-            get => _sampleMode;
-            set
-            {
-                _sampleMode = value;
-                IncrementVersion();
-            }
-        }
-
-        // todo: repeat mode
+        internal uint Version { get; private set; }
 
         internal void IncrementVersion()
         {
@@ -52,17 +34,6 @@ namespace Heirloom.Drawing
             {
                 Version = 0;
             }
-        }
-
-        object IDrawingResource.NativeObject
-        {
-            get => _native;
-            set => _native = value;
-        }
-
-        void IDrawingResource.UpdateVersionNumber()
-        {
-            IncrementVersion();
         }
     }
 }

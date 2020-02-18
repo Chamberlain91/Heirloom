@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -28,7 +28,7 @@ namespace Heirloom.Drawing
             var transform = Matrix.CreateTransform(p0, angle, (len, width))
                           * _lineOffsetMatrix;
 
-            DrawImage(Image.Default, transform);
+            DrawImage(Image.WhitePixel, transform);
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace Heirloom.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawRect(in Rectangle rectangle)
         {
-            DrawImage(Image.Default, in rectangle);
+            DrawImage(Image.WhitePixel, in rectangle);
         }
 
         /// <summary>
@@ -150,6 +150,23 @@ namespace Heirloom.Drawing
             DrawLine(rectangle.TopRight, rectangle.BottomRight, width);
             DrawLine(rectangle.TopLeft, rectangle.TopRight, width);
             DrawLine(rectangle.BottomLeft, rectangle.BottomRight, width);
+        }
+
+        #endregion
+
+        #region Draw Cross
+
+        /// <summary>
+        /// Draws a simple axis aligned 'cross' or 'plus' shape, useful for debugging positions.
+        /// </summary> 
+        /// <param name="center">The position of the cross.</param>
+        /// <param name="size">Size in screen pixels (not world space).</param>
+        /// <param name="width">Width of the lines screen pixels (not world space).</param>
+        public void DrawCross(in Vector center, float size = 2, float width = 1F)
+        {
+            // Draw axis
+            DrawLine(center + (Vector.Left * size), center + (Vector.Right * size), width);
+            DrawLine(center + (Vector.Up * size), center + (Vector.Down * size), width);
         }
 
         #endregion
@@ -251,7 +268,7 @@ namespace Heirloom.Drawing
             _temporaryMesh.AddIndices(2);
 
             // Draw mesh
-            DrawMesh(Image.Default, _temporaryMesh, Matrix.Identity);
+            DrawMesh(Image.WhitePixel, _temporaryMesh, Matrix.Identity);
         }
 
         /// <summary>
@@ -311,7 +328,7 @@ namespace Heirloom.Drawing
             }
 
             // 
-            DrawMesh(Image.Default, _temporaryMesh, Matrix.Identity);
+            DrawMesh(Image.WhitePixel, _temporaryMesh, Matrix.Identity);
         }
 
         /// <summary>
@@ -390,7 +407,7 @@ namespace Heirloom.Drawing
                 }
 
                 // Draw mesh
-                DrawMesh(Image.Default, _temporaryMesh, transform);
+                DrawMesh(Image.WhitePixel, _temporaryMesh, transform);
             }
         }
 

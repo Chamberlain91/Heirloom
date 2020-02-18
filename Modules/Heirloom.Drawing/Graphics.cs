@@ -94,6 +94,11 @@ namespace Heirloom.Drawing
         public abstract Matrix InverseGlobalTransform { get; }
 
         /// <summary>
+        /// Gets or sets the interpolation mode.
+        /// </summary>
+        public abstract InterpolationMode InterpolationMode { get; set; }
+
+        /// <summary>
         /// Gets or sets the current blending mode.
         /// </summary>
         public abstract Blending Blending { get; set; }

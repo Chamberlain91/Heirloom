@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 using Heirloom.Math;
 
@@ -101,65 +101,6 @@ namespace Heirloom.Drawing
             DrawImage(frame.Image, in transform);
         }
 
-        #endregion
-
-        #region Draw Nine Slice
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawNineSlice(NineSlice nine, in Rectangle rectangle)
-        {
-            // Compute stretch factors
-            var w = (rectangle.Width - nine.TopLeftImage.Width - nine.TopRightImage.Width) / nine.MiddleImage.Width;
-            var h = (rectangle.Height - nine.TopLeftImage.Height - nine.BottomLeftImage.Height) / nine.MiddleImage.Height;
-
-            var x0 = rectangle.X + 0;
-            var x1 = x0 + nine.TopLeftImage.Width;
-            var x2 = x1 + nine.MiddleImage.Width * w;
-
-            var y0 = rectangle.Y + 0;
-            var y1 = y0 + nine.TopLeftImage.Height;
-            var y2 = y1 + nine.MiddleImage.Height * h;
-
-            // Corners
-            DrawImage(nine.TopLeftImage, Matrix.CreateTranslation(x0, y0));
-            DrawImage(nine.TopRightImage, Matrix.CreateTranslation(x2, y0));
-            DrawImage(nine.BottomLeftImage, Matrix.CreateTranslation(x0, y2));
-            DrawImage(nine.BottomRightImage, Matrix.CreateTranslation(x2, y2));
-
-            if (w > 0)
-            {
-                // Horizontal
-                DrawImage(nine.TopMiddleImage, Matrix.CreateTransform(x1, y0, 0, w, 1));
-                DrawImage(nine.BottomMiddleImage, Matrix.CreateTransform(x1, y2, 0, w, 1));
-            }
-
-            if (h > 0)
-            {
-                // Vertical
-                DrawImage(nine.MiddleLeftImage, Matrix.CreateTransform(x0, y1, 0, 1, h));
-                DrawImage(nine.MiddleRightImage, Matrix.CreateTransform(x2, y1, 0, 1, h));
-            }
-
-            if (w > 0 && h > 0)
-            {
-                // Middle
-                DrawImage(nine.MiddleImage, Matrix.CreateTransform(x1, y1, 0, w, h));
-            }
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Draws a simple axis aligned 'cross' or 'plus' shape, useful for debugging positions.
-        /// </summary> 
-        /// <param name="center">The position of the cross.</param>
-        /// <param name="size">Size in screen pixels (not world space).</param>
-        /// <param name="width">Width of the lines screen pixels (not world space).</param>
-        public void DrawCross(in Vector center, float size = 2, float width = 1F)
-        {
-            // Draw axis
-            DrawLine(center + (Vector.Left * size), center + (Vector.Right * size), width);
-            DrawLine(center + (Vector.Up * size), center + (Vector.Down * size), width);
-        }
+        #endregion 
     }
 }

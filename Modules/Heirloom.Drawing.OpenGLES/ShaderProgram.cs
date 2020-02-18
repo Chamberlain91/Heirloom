@@ -176,6 +176,11 @@ namespace Heirloom.Drawing.OpenGLES
             throw new ArgumentException($"Unknown uniform block '{name}'.", nameof(name));
         }
 
+        public bool HasUniform(string name)
+        {
+            return _uniforms.ContainsKey(name);
+        }
+
         public Uniform GetUniform(string name)
         {
             if (_uniforms.TryGetValue(name, out var uniform))

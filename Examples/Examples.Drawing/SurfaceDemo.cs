@@ -11,7 +11,6 @@ namespace Examples.Drawing
             : base("Surface")
         {
             LowResSurface = new Surface(350, 200, MultisampleQuality.None);
-            LowResSurface.InterpolationMode = InterpolationMode.Nearest;
         }
 
         internal override void Draw(Graphics ctx, Rectangle contentBounds)
@@ -45,6 +44,7 @@ namespace Examples.Drawing
             var rect = new Rectangle(contentBounds.X + offset, contentBounds.Y, newWidth, newHeight);
 
             ctx.Surface = ctx.DefaultSurface;
+            // ctx.InterpolationMode = InterpolationMode.Nearest;
             ctx.DrawImage(LowResSurface, rect);
         }
     }

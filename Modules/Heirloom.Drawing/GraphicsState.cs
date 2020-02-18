@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 
 using Heirloom.Math;
 
@@ -15,6 +14,8 @@ namespace Heirloom.Drawing
 
         public Matrix Transform;
 
+        public InterpolationMode Interpolation;
+
         public Blending Blending;
 
         public Color Color;
@@ -28,16 +29,17 @@ namespace Heirloom.Drawing
 
         public bool Equals(GraphicsState other)
         {
-            return EqualityComparer<Surface>.Default.Equals(Surface, other.Surface) &&
-                   Viewport.Equals(other.Viewport) &&
-                   EqualityComparer<Matrix>.Default.Equals(Transform, other.Transform) &&
+            return Surface == other.Surface &&
+                   Interpolation == other.Interpolation &&
                    Blending == other.Blending &&
+                   Viewport.Equals(other.Viewport) &&
+                   Transform.Equals(other.Transform) &&
                    Color.Equals(other.Color);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Surface, Viewport, Transform, Blending, Color);
+            return HashCode.Combine(Surface, Interpolation, Viewport, Transform, Blending, Color);
         }
 
         public static bool operator ==(GraphicsState left, GraphicsState right)

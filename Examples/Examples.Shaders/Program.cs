@@ -34,9 +34,6 @@ namespace Examples.Shaders
                     new Image("files/cardHeartsQ.png")
                 };
 
-                // Compile images into atlas
-                Image.CreateAtlas(Images);
-
                 // Generate noise image
                 Noise = Image.CreateNoise(32, 32, 8, 6);
 

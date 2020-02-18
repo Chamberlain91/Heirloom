@@ -17,7 +17,7 @@ namespace Heirloom.Drawing.OpenGLES
         private readonly ConditionalWeakTable<Surface, Framebuffer> _framebuffers;
 
         private BatchingTechnique _batchingTechnique;
-        private AtlasTechnique _textureTechnique;
+        private AtlasTechnique _atlasTechnique;
 
         private Matrix _viewMatrix;
         private Matrix _viewMatrixInverse;
@@ -37,11 +37,10 @@ namespace Heirloom.Drawing.OpenGLES
         private ShaderProgram _shaderProgram;
         private Shader _shader;
 
-        // Texture State
+        // Texture state
         private bool _textureBindDirty;
-        private ImageSource _imageSource;
+        private Rectangle _textureRect;
         private Texture _texture;
-        private Rectangle _uvRect;
 
         // Blending State
         private Blending _blendMode;
@@ -67,7 +66,7 @@ namespace Heirloom.Drawing.OpenGLES
 
                 // Create
                 _batchingTechnique = new HybridBatchingTechnique();
-                _textureTechnique = new SimpleAtlasTechnique();
+                _atlasTechnique = new SimpleAtlasTechnique(this);
 
                 // 
                 ResetState();
@@ -201,6 +200,122 @@ namespace Heirloom.Drawing.OpenGLES
 
                 // 
                 _viewportDirty = false;
+            }
+        }
+
+        #endregion
+
+        public override InterpolationMode InterpolationMode
+        {
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
+
+        #region Blending
+
+        public override Blending Blending
+        {
+            get => _blendMode;
+            set => UseBlending(value);
+        }
+
+        public override Color Color
+        {
+            get => _blendColor;
+            set => _blendColor = value;
+        }
+
+        private void UseBlending(Blending blending)
+        {
+            if (_blendMode != blending)
+            {
+                Invoke(() =>
+                {
+                    // Complete previous work
+                    Flush();
+
+                    // Store mode
+                    _blendMode = blending;
+
+                    // 
+                    switch (_blendMode)
+                    {
+                        default:
+                            throw new InvalidOperationException("Unable to set unknown blend mode.");
+
+                        case Blending.Opaque:
+                            GL.SetBlendEquation(BlendEquation.Add);
+                            GL.SetBlendFunction(BlendFunction.One, BlendFunction.Zero);
+                            break;
+
+                        case Blending.Alpha:
+                            GL.SetBlendEquation(BlendEquation.Add, BlendEquation.Add);
+                            GL.SetBlendFunction(BlendFunction.SourceAlpha, BlendFunction.OneMinusSourceAlpha, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
+                            break;
+
+                        case Blending.Additive:
+                            GL.SetBlendEquation(BlendEquation.Add);
+                            GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
+                            break;
+
+                        case Blending.Subtractive: // Opposite of Additive (DST - SRC)
+                            GL.SetBlendEquation(BlendEquation.ReverseSubtract);
+                            GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha, BlendFunction.One);
+                            break;
+
+                        case Blending.Multiply:
+                            GL.SetBlendEquation(BlendEquation.Add);
+                            GL.SetBlendFunction(BlendFunction.DestinationColor, BlendFunction.OneMinusSourceAlpha);
+                            break;
+
+                        case Blending.Invert:
+                            GL.SetBlendEquation(BlendEquation.Subtract);
+                            GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.Zero);
+                            break;
+                    }
+                }, false);
+            }
+        }
+
+        #endregion
+
+        #region Surface
+
+        public override Surface Surface
+        {
+            get => _surface;
+            set => UseSurface(value);
+        }
+
+        private void UseSurface(Surface surface)
+        {
+            // Wasn't the same surface as before, flush everything
+            if (_surface != surface)
+            {
+                // Complete pending work
+                Flush();
+
+                // Set new surface
+                _surface = surface;
+
+                // We will need to recompute viewport size
+                ComputeViewportRect();
+
+                Invoke(blocking: false, action: () =>
+                {
+                    // Set and prepare the surface (ie, bind framebuffer)
+                    if (_surface == DefaultSurface)
+                    {
+                        // The current surface is the default (ie, window) framebuffer.
+                        GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, 0);
+                    }
+                    else
+                    {
+                        // Bind the associated framebuffer of the current surface.
+                        var framebuffer = GetFramebuffer(_surface);
+                        framebuffer.BindToDraw();
+                    }
+                });
             }
         }
 
@@ -562,13 +677,18 @@ namespace Heirloom.Drawing.OpenGLES
                         if (value is ImageSource image)
                         {
                             // Find texture for the current image source
-                            // todo: somehow inteligently specify/update the rectangle?
-                            //       perhaps via "uImageUniform_UVRect" pattern?
-                            GetTextureInformation(image, out var texture, out _);
+                            GetTextureInformation(image, out var texture, out var uvRect);
 
                             // Bind texture
                             GL.ActiveTexture(_shaderProgram.GetTextureUnit(name));
                             GL.BindTexture(TextureTarget.Texture2D, texture.Handle);
+
+                            // Check if associated uvRect exists then set that as well.
+                            var uvRectUniform = $"{name}_UVRect";
+                            if (_shaderProgram.HasUniform(uvRectUniform))
+                            {
+                                SetUniform(uvRectUniform, uvRect);
+                            }
                         }
                         else
                         {
@@ -617,116 +737,6 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
-        #region Surface
-
-        public override Surface Surface
-        {
-            get => _surface;
-            set => UseSurface(value);
-        }
-
-        private void UseSurface(Surface surface)
-        {
-            // Wasn't the same surface as before, flush everything
-            if (_surface != surface)
-            {
-                // Complete pending work
-                Flush();
-
-                // Set new surface
-                _surface = surface;
-
-                // We will need to recompute viewport size
-                ComputeViewportRect();
-
-                Invoke(blocking: false, action: () =>
-                {
-                    // Set and prepare the surface (ie, bind framebuffer)
-                    if (surface == DefaultSurface)
-                    {
-                        // Bind window surface (ie, the context default)
-                        GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
-                    }
-                    else
-                    {
-                        // Bind surface framebuffer
-                        var framebuffer = GetFramebuffer(surface);
-                        framebuffer.Bind();
-                    }
-                });
-            }
-        }
-
-        #endregion
-
-        #region Blending
-
-        public override Blending Blending
-        {
-            get => _blendMode;
-            set => UseBlending(value);
-        }
-
-        public override Color Color
-        {
-            get => _blendColor;
-            set => _blendColor = value;
-        }
-
-        private void UseBlending(Blending blending)
-        {
-            if (_blendMode != blending)
-            {
-                Invoke(() =>
-                {
-                    // Complete previous work
-                    Flush();
-
-                    // Store mode
-                    _blendMode = blending;
-
-                    // 
-                    switch (_blendMode)
-                    {
-                        default:
-                            throw new InvalidOperationException("Unable to set unknown blend mode.");
-
-                        case Blending.Opaque:
-                            GL.SetBlendEquation(BlendEquation.Add);
-                            GL.SetBlendFunction(BlendFunction.One, BlendFunction.Zero);
-                            break;
-
-                        case Blending.Alpha:
-                            GL.SetBlendEquation(BlendEquation.Add, BlendEquation.Add);
-                            GL.SetBlendFunction(BlendFunction.SourceAlpha, BlendFunction.OneMinusSourceAlpha, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
-                            break;
-
-                        case Blending.Additive:
-                            GL.SetBlendEquation(BlendEquation.Add);
-                            GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
-                            break;
-
-                        case Blending.Subtractive: // Opposite of Additive (DST - SRC)
-                            GL.SetBlendEquation(BlendEquation.ReverseSubtract);
-                            GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha, BlendFunction.One);
-                            break;
-
-                        case Blending.Multiply:
-                            GL.SetBlendEquation(BlendEquation.Add);
-                            GL.SetBlendFunction(BlendFunction.DestinationColor, BlendFunction.OneMinusSourceAlpha);
-                            break;
-
-                        case Blending.Invert:
-                            GL.SetBlendEquation(BlendEquation.Subtract);
-                            GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.Zero);
-                            break;
-                    }
-                }, false);
-            }
-        }
-
-        #endregion
-
         #region Read Pixels
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -737,27 +747,28 @@ namespace Heirloom.Drawing.OpenGLES
                 // Complete pending work
                 Flush();
 
-                // If not the default surface and multisampled
-                if (Surface != DefaultSurface)
+                // If the current surface is the default surface.
+                if (_surface == DefaultSurface)
                 {
-                    // Get the associated framebuffer of the current surface
-                    // and ensure it is up to date.
-                    var framebuffer = GetFramebuffer(_surface);
-                    framebuffer.BlitAndUpdate();
-
-                    // Set the read buffer to the texture framebuffer
-                    GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, framebuffer.TextureFBO.Handle);
+                    // The current surface is the default (ie, window) framebuffer.
+                    GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, 0);
                 }
                 else
                 {
-                    // Set the read buffer to the default framebuffer (window, etc)
-                    GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, 0);
+                    // Bind the associated framebuffer of the current surface.
+                    var framebuffer = GetFramebuffer(_surface);
+                    framebuffer.BindToRead();
                 }
 
                 // Grab pixels from read buffer
-                var image = new Image(region.Width, region.Height);
-                image.SetPixels(GL.ReadPixels(region.X, region.Y, region.Width, region.Height));
-                return image;
+                var pixels = GL.ReadPixels(region.X, region.Y, region.Width, region.Height);
+                fixed (uint* ptrPixels = pixels)
+                {
+                    // Copy grabbed pixels to image
+                    var image = new Image(region.Width, region.Height);
+                    Image.Copy((ColorBytes*) ptrPixels, region.Width, (IntVector.Zero, region.Size), image, IntVector.Zero);
+                    return image;
+                }
             });
         }
 
@@ -782,14 +793,24 @@ namespace Heirloom.Drawing.OpenGLES
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override void DrawMesh(ImageSource image, Mesh mesh, in Matrix transform)
         {
-            // Configure to use image (texture)
-            UseImage(image);
+            // Request texture information for the given input image
+            GetTextureInformation(image, out var texture, out _textureRect);
 
-            Rectangle uvRect; // Submit image source to draw with
-            while (!_textureTechnique.Submit(image, out uvRect)) { Flush(); }
+            // Inconsistent texture, flush and update state
+            if (_texture != texture)
+            {
+                // Complete pending work
+                Flush();
+
+                // Mark that we need to update the texture binding
+                _textureBindDirty = true;
+
+                // Store new texture reference
+                _texture = texture;
+            }
 
             // Submit the mesh to draw
-            while (!_batchingTechnique.Submit(mesh, uvRect, in transform, in _blendColor)) { Flush(); }
+            while (!_batchingTechnique.Submit(mesh, _textureRect, in transform, in _blendColor)) { Flush(); }
 
             // If the shader's state has changed, we need to forcefully flush.
             if (_shader.IsDirty) { Flush(); }
@@ -820,20 +841,19 @@ namespace Heirloom.Drawing.OpenGLES
                     // Update any mutated uniforms
                     UpdateShaderUniforms();
 
-                    //// Update texture
-                    //if (_textureBindDirty)
-                    //{
-                    //    GL.ActiveTexture(0);
-                    //    GL.BindTexture(TextureTarget.Texture2D, _texture.Handle);
-
-                    //    _textureBindDirty = false;
-                    //}
-
                     // 
-                    _textureTechnique.ApplyTextures();
+                    if (_textureBindDirty)
+                    {
+                        GL.ActiveTexture(0);
+                        GL.BindTexture(TextureTarget.Texture2D, _texture.Handle);
 
-                    // Draw batched geometry
+                        _textureBindDirty = false;
+                    }
+
+                    // Draw batched geometry 
                     _batchingTechnique.DrawBatch();
+
+                    // Mark surface as dirty
                     _surface.IncrementVersion();
                 });
             }
@@ -858,38 +878,34 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Texture & Framebuffer
 
-        private void GetTextureInformation(ImageSource imageSource, out Texture texture, out Rectangle uvRect)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void GetTextureInformation(ImageSource source, out Texture texture, out Rectangle uvRect)
         {
-            // If source is an image (image atlas)
-            if (imageSource is Image image)
+            switch (source)
             {
-                // Emit texture and atlas rectangle
-                texture = GetTexture(image);
-                uvRect = image.UVRect;
-            }
-            // If source is a surface (framebuffer)
-            else if (imageSource is Surface surface)
-            {
-                // 
-                if (ReferenceEquals(surface, _surface))
-                {
-                    throw new InvalidOperationException("Unable to read from surface while we may write to it.");
-                }
+                case Image image:
+                    _atlasTechnique.GetTextureInformation(image, out texture, out uvRect);
+                    break;
 
-                // Emit texture and atlas rectangle
-                texture = GetTexture(surface);
-                uvRect = (0, 0, 1, -1);
-            }
-            // Source type was unknown, whoops!
-            else
-            {
-                throw new InvalidOperationException("Image source was not a valid type");
+                case Surface surface:
+                    // Get framebuffer (possibly blitting)
+                    var framebuffer = GetFramebuffer(surface);
+                    if (framebuffer.IsDirty) { Invoke(() => framebuffer.BlitAndUpdate()); }
+
+                    // Emit surface texture
+                    texture = framebuffer.TextureFBO.Texture;
+                    uvRect = (0, 0, 1, -1);
+                    break;
+
+                default:
+                    throw new InvalidOperationException("Image source was not a valid type");
             }
         }
 
         private Framebuffer GetFramebuffer(Surface surface)
         {
-            // Try to get known framebuffer instance
+            // Try to get known framebuffer instance. Framebuffers are "container objects" and
+            // need to be uniquely created for each graphics context.
             if (!_framebuffers.TryGetValue(surface, out var framebuffer))
             {
                 // Was not known, we will now create it 
@@ -901,37 +917,6 @@ namespace Heirloom.Drawing.OpenGLES
 
             // Return framebuffer associated with surface
             return framebuffer;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal Texture GetTexture(Surface surface)
-        {
-            var framebuffer = GetFramebuffer(surface);
-            if (framebuffer.IsDirty) { Invoke(() => framebuffer.BlitAndUpdate()); }
-            return framebuffer.TextureFBO.Texture;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal Texture GetTexture(Image image)
-        // todo: Put in adapter?
-        {
-            image = image.Root; // Get root image (aka, atlas)
-
-            // Try to get the native texture
-            if (!(image.Native is Texture texture))
-            {
-                texture = Invoke(() => new Texture(image.Size));
-                image.Native = texture;
-            }
-
-            // Is the root image out of date?
-            if (image.Version != texture.Version)
-            {
-                // Update texture (image data and mips)
-                Invoke(() => texture.Update(image));
-            }
-
-            return texture;
         }
 
         #endregion
