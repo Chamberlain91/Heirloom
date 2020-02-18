@@ -44,5 +44,10 @@ namespace Heirloom.Drawing.OpenGLES
             uvRect = (0, 0, 1, 1);
             texture = texture_;
         }
+
+        internal override void CommitChanges()
+        {
+            // Nothing to do since it already forcefully happens above
+        }
     }
 }

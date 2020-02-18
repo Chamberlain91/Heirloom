@@ -39,7 +39,6 @@ namespace Heirloom.Drawing.OpenGLES
 
         // Texture state
         private bool _textureBindDirty;
-        private Rectangle _textureRect;
         private Texture _texture;
 
         // Blending State
@@ -66,7 +65,7 @@ namespace Heirloom.Drawing.OpenGLES
 
                 // Create
                 _batchingTechnique = new HybridBatchingTechnique();
-                _atlasTechnique = new SimpleAtlasTechnique(this);
+                _atlasTechnique = new MaxRectsAtlasTechnique(this);
 
                 // 
                 ResetState();
@@ -602,6 +601,10 @@ namespace Heirloom.Drawing.OpenGLES
                         {
                             GL.Uniform4(location, arr);
                         }
+                        else if (value is Rectangle rect)
+                        {
+                            GL.Uniform4(location, rect.X, rect.Y, rect.Width, rect.Height);
+                        }
                         else
                         {
                             throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
@@ -791,10 +794,10 @@ namespace Heirloom.Drawing.OpenGLES
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override void DrawMesh(ImageSource image, Mesh mesh, in Matrix transform)
+        public override void DrawMesh(ImageSource source, Mesh mesh, in Matrix transform)
         {
             // Request texture information for the given input image
-            GetTextureInformation(image, out var texture, out _textureRect);
+            GetTextureInformation(source, out var texture, out var textureRect);
 
             // Inconsistent texture, flush and update state
             if (_texture != texture)
@@ -810,7 +813,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
 
             // Submit the mesh to draw
-            while (!_batchingTechnique.Submit(mesh, _textureRect, in transform, in _blendColor)) { Flush(); }
+            while (!_batchingTechnique.Submit(mesh, textureRect, in transform, in _blendColor)) { Flush(); }
 
             // If the shader's state has changed, we need to forcefully flush.
             if (_shader.IsDirty) { Flush(); }
@@ -840,6 +843,9 @@ namespace Heirloom.Drawing.OpenGLES
 
                     // Update any mutated uniforms
                     UpdateShaderUniforms();
+
+                    // Commit changes to textures
+                    _atlasTechnique.CommitChanges();
 
                     // 
                     if (_textureBindDirty)

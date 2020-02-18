@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -36,7 +36,7 @@ namespace Heirloom.Benchmark
                 }
             }
 
-            Image.CreateAtlas(images);
+            // Image.CreateAtlas(images);
             return images;
         }
 
