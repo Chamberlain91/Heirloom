@@ -46,6 +46,8 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
+        #region Properties
+
         /// <summary>
         /// Does this framebuffer support multisampling?
         /// </summary>
@@ -56,10 +58,12 @@ namespace Heirloom.Drawing.OpenGLES
         /// </summary>
         public bool IsDirty => _version != _surface.Version;
 
+        #endregion
+
         /// <summary>
-        /// Binds the framebuffer.
+        /// Binds the framebuffer for drawing.
         /// </summary>
-        internal void Bind()
+        internal void BindToDraw()
         {
             if (HasRenderbuffer)
             {
@@ -71,6 +75,18 @@ namespace Heirloom.Drawing.OpenGLES
                 // Render directly into texture buffer
                 GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, TextureFBO.Handle);
             }
+        }
+
+        /// <summary>
+        /// Binds the framebuffer for reading.
+        /// </summary>
+        internal void BindToRead()
+        {
+            // Transfer renderbuffer FBO to texture FBO
+            BlitAndUpdate();
+
+            // Read from texture
+            GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, TextureFBO.Handle);
         }
 
         /// <summary>
@@ -99,11 +115,8 @@ namespace Heirloom.Drawing.OpenGLES
                     GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, drawBuffer);
                 }
 
-                // Generate mips (also updates texture version)
-                var texture = TextureFBO.Texture;
-                texture.Update(_surface);
-
                 // We should be up to date with the surface now
+                TextureFBO.Texture.Version = _surface.Version;
                 _version = _surface.Version;
             }
         }

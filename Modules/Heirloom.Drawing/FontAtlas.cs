@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 using Heirloom.Drawing.Extras;
@@ -14,10 +14,8 @@ namespace Heirloom.Drawing
 
         public float FontSize { get; }
 
-        public Image Atlas { get; }
-
+        private readonly Dictionary<UnicodeCharacter, Image> _images = new Dictionary<UnicodeCharacter, Image>();
         private readonly Dictionary<UnicodeCharacter, Glyph> _glyphs;
-        private readonly Dictionary<UnicodeCharacter, Image> _images;
 
         // TODO: Keep a glyph life time counter, to know when its safe to recycle space.
         // TODO: Keep track of recycled space, if too fragmented, reconstruct atlas.
@@ -49,33 +47,6 @@ namespace Heirloom.Drawing
 
             // Get all valid glyphs in character set
             _glyphs = GetValidGlyphs(font, size, characters);
-
-            // Pack each glyph
-            var packer = new RectanglePacker<UnicodeCharacter>();
-            foreach (var kv in _glyphs) // TODO: Sort by size?
-            {
-                packer.Insert(kv.Key, kv.Value.GetMetrics(FontSize).Size + (2, 2));
-            }
-
-            // Create image with the bounding of all packed glyphs
-            Atlas = new Image(packer.Bounds.Size);
-
-            // For each glyph, render into atlas
-            _images = new Dictionary<UnicodeCharacter, Image>();
-            foreach (var c in packer.Keys)
-            {
-                // Render each glyph in the packed region for this character
-                _images[c] = RenderGlyph(Atlas, packer.GetRectangle(c), _glyphs[c], FontSize);
-            }
-        }
-
-        private static Image RenderGlyph(Image atlas, IntRectangle region, Glyph glyph, float size)
-        {
-            // Create a sub-image for the packed region and render to it
-            var cell = new Image(atlas, new IntRectangle(region.Position + (1, 1), region.Size - (2, 2)));
-            cell.Origin = cell.Bounds.Center;
-            glyph.RenderTo(cell, 0, 0, size);
-            return cell;
         }
 
         private static Dictionary<UnicodeCharacter, Glyph> GetValidGlyphs(Font font, float size, IEnumerable<UnicodeCharacter> characters)
@@ -110,37 +81,53 @@ namespace Heirloom.Drawing
             return glyphs;
         }
 
-        // TODO: Might not be useful, have to evaluate how stb works 
+        // TODO: Perhaps the font itself can cache this...!
         public bool TryGetGlyph(UnicodeCharacter character, out Glyph glyph)
         {
-            glyph = GetGlyph(character);
-            return glyph != null;
-        }
-
-        // TODO: Might be redundant? Just a cache on the font?
-        public Glyph GetGlyph(UnicodeCharacter ch)
-        {
             // Do we already know about this glyph?
-            if (_glyphs.ContainsKey(ch)) { return _glyphs[ch]; }
-            else
+            if (_glyphs.TryGetValue(character, out glyph) == false)
             {
                 // Get the glyph and store
-                var glyph = Font.GetGlyph(ch);
-                _glyphs[ch] = glyph;
-                return glyph;
+                glyph = Font.GetGlyph(character);
+                _glyphs[character] = glyph;
             }
+
+            // If the cached glyph was
+            return glyph != null;
         }
 
         public Image GetImage(UnicodeCharacter ch)
         {
-            // TODO: On Demand Glyph Rendering with Dynamic Atlas
-
+            // If we already have the glyph, return it
             if (_images.TryGetValue(ch, out var image))
             {
                 return image;
             }
 
+            // We did not have the glyph, so we will now render it
+            if (TryGetGlyph(ch, out var glyph) && glyph.CanBeRendered)
+            {
+                lock (_images)
+                {
+                    image = RenderGlyph(glyph, FontSize);
+                    _images[ch] = image;
+                    return image;
+                }
+            }
+
+            // Glyph was not know and could not be rendered
             return null;
+        }
+
+        private static Image RenderGlyph(Glyph glyph, float size)
+        {
+            // Creates an image to store the rendered glyph
+            var imageSize = glyph.GetMetrics(size).Size;
+            var image = new Image(imageSize) { Origin = (Vector) imageSize / 2F };
+
+            // Render glyph and return
+            glyph.RenderTo(image, 0, 0, size);
+            return image;
         }
     }
 }

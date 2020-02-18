@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 using Heirloom.Math;
 using Heirloom.OpenGLES;
 
@@ -5,40 +7,42 @@ namespace Heirloom.Drawing.OpenGLES
 {
     internal class SimpleAtlasTechnique : AtlasTechnique
     {
-        internal override void ApplyTextures()
-        {
-            // Update texture
-            if (_textureBindDirty)
-            {
-                GL.ActiveTexture(0);
-                GL.BindTexture(TextureTarget.Texture2D, _texture.Handle);
+        private readonly ConditionalWeakTable<Image, Texture> _textures;
 
-                _textureBindDirty = false;
-            }
+        public SimpleAtlasTechnique(OpenGLGraphics graphics)
+            : base(graphics)
+        {
+            _textures = new ConditionalWeakTable<Image, Texture>();
         }
 
-        internal override bool Submit(ImageSource image, out Rectangle uvRect)
+        internal override void GetTextureInformation(Image image, out Texture texture, out Rectangle uvRect)
         {
-            if (_imageSource != imageSource)
+            // Try to get known framebuffer instance. Framebuffers are "container objects" and
+            // need to be uniquely created for each graphics context.
+            if (!_textures.TryGetValue(image, out var texture_))
             {
-                _imageSource = imageSource;
+                // Was not known, we will now create it 
+                texture_ = Graphics.Invoke(() => new Texture(image.Size));
 
-                // Request texture information for the given input image
-                GetTextureInformation(imageSource, out var texture, out _uvRect);
-
-                // Inconsistent texture, flush and update state
-                if (_texture != texture)
-                {
-                    // Complete pending work
-                    Flush();
-
-                    // Mark that we need to update the texture binding
-                    _textureBindDirty = true;
-
-                    // Store new texture reference
-                    _texture = texture;
-                }
+                // Store texture
+                _textures.Add(image, texture_);
             }
+
+            // Image and texture are out of sync, write image to texture
+            if (image.Version != texture_.Version)
+            {
+                Graphics.Invoke(() =>
+                {
+                    GL.BindTexture(TextureTarget.Texture2D, texture_.Handle);
+                    texture_.Update(0, 0, image);
+                });
+
+                texture_.Version = image.Version;
+            }
+
+            // Emit
+            uvRect = (0, 0, 1, 1);
+            texture = texture_;
         }
     }
 }

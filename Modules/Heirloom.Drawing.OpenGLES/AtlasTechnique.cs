@@ -1,11 +1,18 @@
+using System;
+
 using Heirloom.Math;
 
 namespace Heirloom.Drawing.OpenGLES
 {
     public abstract class AtlasTechnique
     {
-        internal abstract bool Submit(ImageSource image, out Rectangle uvRect);
+        internal readonly OpenGLGraphics Graphics;
 
-        internal abstract void ApplyTextures();
+        protected AtlasTechnique(OpenGLGraphics graphics)
+        {
+            Graphics = graphics ?? throw new ArgumentNullException(nameof(graphics));
+        }
+
+        internal abstract void GetTextureInformation(Image image, out Texture texture, out Rectangle uvRect);
     }
 }

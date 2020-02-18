@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -127,7 +127,8 @@ namespace Heirloom.Drawing.Extras
             }
 
             // Merge images into atlas
-            Image.CreateAtlas(Frames.Select(f => f.Image));
+            // Image.CreateAtlas(Frames.Select(f => f.Image));
+            // TODO: REMOVE
         }
 
         private Frame ReadFrame()
@@ -644,7 +645,7 @@ namespace Heirloom.Drawing.Extras
                             var i = q.X + q.Y * cel.Width;
 
                             // 
-                            Image[p] = BlendColor(cel.Pixels[i], Image[p], cel.Opacity, blend);
+                            Image.SetPixel(p, BlendColor(cel.Pixels[i], Image.GetPixel(p), cel.Opacity, blend));
                         }
                     }
                 }
@@ -652,11 +653,11 @@ namespace Heirloom.Drawing.Extras
                 // Pre-Multiply Composed Image
                 foreach (var co in Rasterizer.Rectangle(Image.Size))
                 {
-                    var pixel = Image[co];
+                    var pixel = Image.GetPixel(co);
                     pixel.R = MultiplyU8(pixel.R, pixel.A);
                     pixel.B = MultiplyU8(pixel.B, pixel.A);
                     pixel.G = MultiplyU8(pixel.G, pixel.A);
-                    Image[co] = pixel;
+                    Image.SetPixel(co, pixel);
                 }
             }
 
