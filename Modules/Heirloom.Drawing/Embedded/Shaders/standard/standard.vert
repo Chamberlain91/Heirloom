@@ -20,10 +20,7 @@ out PerFragment frag;
 
 // == Uniforms ==
 
-uniform Standard
-{
-	mat2x3 uMatrix;
-};
+// -- NO UNIFORMS
 
 // == Vertex Shader ==
 

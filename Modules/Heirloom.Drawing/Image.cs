@@ -25,7 +25,7 @@ namespace Heirloom.Drawing
         #region Constants
 
         /// <summary>
-        /// A 1x1 solid white image.
+        /// A small solid white image.
         /// </summary>
         internal static Image Default = CreateColor(1, 1, Color.White);
 

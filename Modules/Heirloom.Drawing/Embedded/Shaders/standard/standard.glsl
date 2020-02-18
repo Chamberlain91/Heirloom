@@ -13,6 +13,13 @@ struct PerFragment
 	vec2 uv;
 };
 
+// == Uniforms ==
+
+uniform Standard
+{
+	mat2x3 uMatrix;
+};
+
 // Basically "redefine" texture calls to use atlas function
 #define texture(img, uv) \
 	texture(img, computeAtlasUV(uv, img ## _UVRect))

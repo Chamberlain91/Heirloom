@@ -55,6 +55,9 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
+        /// <summary>
+        /// Submits new image data to the texture.
+        /// </summary>
         public unsafe void Update(int x, int y, Image image)
         {
             // Validate we were provide a non-null image.
@@ -84,7 +87,7 @@ namespace Heirloom.Drawing.OpenGLES
             {
                 if (disposeManaged)
                 {
-                    // TODO: dispose managed objects.
+                    // nothing
                 }
 
                 // Schedule deleting the GL texture resource
