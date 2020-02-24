@@ -1,4 +1,3 @@
-using System;
 using Heirloom.Math;
 
 namespace Heirloom.Drawing
@@ -24,6 +23,16 @@ namespace Heirloom.Drawing
         /// Version number to track changes against the image data.
         /// </summary>
         internal uint Version { get; private set; }
+
+        /// <summary>
+        /// Interpolation mode.
+        /// </summary>
+        public InterpolationMode Interpolation { get; set; } = InterpolationMode.Nearest;
+
+        /// <summary>
+        /// Repeat mode.
+        /// </summary>
+        public RepeatMode Repeat { get; set; } = RepeatMode.Clamp;
 
         internal void IncrementVersion()
         {

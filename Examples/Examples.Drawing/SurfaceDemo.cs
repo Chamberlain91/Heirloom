@@ -11,6 +11,7 @@ namespace Examples.Drawing
             : base("Surface")
         {
             LowResSurface = new Surface(350, 200, MultisampleQuality.None);
+            LowResSurface.Interpolation = InterpolationMode.Linear;
         }
 
         internal override void Draw(Graphics ctx, Rectangle contentBounds)

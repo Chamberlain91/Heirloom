@@ -26,7 +26,7 @@ vec2 wrap(in vec2 uv, in vec2 offset, in vec2 size, in vec4 rect) {
 }
 
 // nearest sampling (no interpolation)
-vec4 sampleAtlasNearest(sampler2D img, vec2 uv, vec4 rect)
+vec4 _H_SampleAtlasNearest(sampler2D img, vec2 uv, vec4 rect)
 {
 	// Acquire image size
 	ivec2 size = textureSize(img, 0);
@@ -52,7 +52,7 @@ vec4 sampleAtlasNearest(sampler2D img, vec2 uv, vec4 rect)
 }
 
 // linear sampling
-vec4 sampleAtlasLinear(sampler2D img, vec2 uv, vec4 rect)
+vec4 _H_SampleAtlasLinear(sampler2D img, vec2 uv, vec4 rect)
 {
 	// Acquire image size
 	ivec2 size = textureSize(img, 0);
@@ -87,16 +87,55 @@ vec4 sampleAtlasLinear(sampler2D img, vec2 uv, vec4 rect)
 	vec4 t10 = texelFetch(img, ivec2(st10), 0);
 	vec4 t01 = texelFetch(img, ivec2(st01), 0);
 	vec4 t11 = texelFetch(img, ivec2(st11), 0);
-	
+
 	// Interpolate
 	vec4 t0 = mix(t00, t10, fst.x);
 	vec4 t1 = mix(t01, t11, fst.x);
 	return mix(t0, t1, fst.y);
 }
 
+vec4 _H_SampleAtlas(sampler2D img, vec2 uv, vec4 rect)
+{
+	// Parameter 'rect' has special encoding with negative
+	// values. The encoding is as follows
+	// - X means "linear interpolation"
+	// - Y means "repeat"
+	// - Z ----
+	// - W means "y-flip"
+
+	// Select Repeat Mode
+	if (rect.y >= 0)
+	{
+		// Clamp Mode
+		uv = clamp(uv, vec2(0.0), vec2(1.0));
+	}
+	else
+	{
+		// Repeat Mode
+		
+		// Remove encoded value
+		rect.y = 1.0 + rect.y;
+	}
+
+	// Select Filtering
+	if (rect.x >= 0)
+	{
+		// Nearest Filtering
+		return _H_SampleAtlasNearest(img, uv, rect);
+	}
+	else
+	{
+		// Remove encoded value
+		rect.x = 1.0 + rect.x;
+
+		// Linear Interpolation
+		return _H_SampleAtlasLinear(img, uv, rect);
+	}
+}
+
 // Cause replacement of texture() calls to use atlas function...
 #define texture(img, uv) \
-    sampleAtlasLinear(img, uv, img ## _UVRect)
+    _H_SampleAtlas(img, uv, img ## _UVRect)
 
 // computes the luminance of a color
 float luminance(vec3 rgb) {
