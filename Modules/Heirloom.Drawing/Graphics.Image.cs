@@ -6,10 +6,6 @@ namespace Heirloom.Drawing
 {
     public abstract partial class Graphics
     {
-        // used to center the line within the 1x1 pixel image to anchor at left-center
-        private static readonly Matrix _lineOffsetMatrix = Matrix.CreateTranslation(0, -1 / 2F);
-        private static readonly Mesh _temporaryMesh = new Mesh();
-
         #region Draw Image
 
         /// <summary>

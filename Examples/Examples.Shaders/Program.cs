@@ -36,6 +36,8 @@ namespace Examples.Shaders
 
                 // Generate noise image
                 Noise = Image.CreateNoise(32, 32, 8, 6);
+                Noise.Interpolation = InterpolationMode.Linear;
+                Noise.Repeat = RepeatMode.Repeat;
 
                 // Set noise image
                 DistortShader.SetUniform("uNoiseImage", Noise);

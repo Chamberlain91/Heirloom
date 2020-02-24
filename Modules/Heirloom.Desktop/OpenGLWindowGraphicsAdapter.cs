@@ -64,9 +64,16 @@ namespace Heirloom.Desktop
                 _window = window;
                 _vsync = vsync;
 
-                // 
-                _window.FramebufferResized += _ => DefaultSurface.SetSize(_window.FramebufferSize);
+                // Set initial default surface size
                 DefaultSurface.SetSize(_window.FramebufferSize);
+
+                // Whenever the window framebuffer is resized, also update the
+                // viewport and default surface.
+                _window.FramebufferResized += _ =>
+                {
+                    DefaultSurface.SetSize(_window.FramebufferSize);
+                    if (Surface != null) { ComputeViewportRect(); }
+                };
             }
 
             protected override void MakeCurrent()

@@ -38,10 +38,6 @@ namespace Heirloom.Drawing.OpenGLES
         private ShaderProgram _shaderProgram;
         private Shader _shader;
 
-        // Sampler State
-        private Sampler _samplerLinear, _samplerNearest;
-        private InterpolationMode _interpolation;
-
         // Texture State
         private bool _textureBindDirty;
         private Texture _texture;
@@ -67,11 +63,6 @@ namespace Heirloom.Drawing.OpenGLES
                 // Set default OpenGL state
                 GL.Enable(EnableCap.ScissorTest);
                 GL.Enable(EnableCap.Blend);
-
-                // 
-                _samplerNearest = new Sampler(InterpolationMode.Nearest);
-                _samplerLinear = new Sampler(InterpolationMode.Linear);
-                _samplerLinear.Bind(0); // default...?
 
                 // Create
                 _batchingTechnique = new HybridBatchingTechnique();
@@ -185,7 +176,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        private void ComputeViewportRect()
+        protected void ComputeViewportRect()
         {
             // Set viewport and scissor box
             var w = (int) (_viewport.Width * Surface.Width);
@@ -215,28 +206,6 @@ namespace Heirloom.Drawing.OpenGLES
 
                 // 
                 _viewportDirty = false;
-            }
-        }
-
-        #endregion
-
-        #region Interpolation
-
-        public override InterpolationMode InterpolationMode
-        {
-            get => _interpolation;
-
-            set
-            {
-                if (_interpolation != value)
-                {
-                    // 
-                    if (value == InterpolationMode.Linear) { _samplerLinear.Bind(0); }
-                    else { _samplerNearest.Bind(0); }
-
-                    // 
-                    _interpolation = value;
-                }
             }
         }
 
@@ -709,10 +678,10 @@ namespace Heirloom.Drawing.OpenGLES
 
                     case ActiveUniformType.Sampler2D:
                     {
-                        if (value is ImageSource image)
+                        if (value is ImageSource source)
                         {
                             // Find texture for the current image source
-                            GetTextureInformation(image, out var texture, out var uvRect);
+                            GetTextureInformation(source, out var texture, out var uvRect);
 
                             // Get texture unit for sampler2D uniform.
                             var unit = _shaderProgram.GetTextureUnit(name);
@@ -720,9 +689,6 @@ namespace Heirloom.Drawing.OpenGLES
                             // Bind texture
                             GL.ActiveTexture(unit);
                             GL.BindTexture(TextureTarget.Texture2D, texture.Handle);
-
-                            // Bind sampler (interpolation properties)
-                            _samplerLinear.Bind(unit);
 
                             // Check if associated uvRect exists then set that as well.
                             var uvRectUniform = $"{name}_UVRect";
@@ -835,7 +801,7 @@ namespace Heirloom.Drawing.OpenGLES
         public override void DrawMesh(ImageSource source, Mesh mesh, in Matrix transform)
         {
             // Request texture information for the given input image
-            GetTextureInformation(source, out var texture, out var textureRect);
+            GetTextureInformation(source, out var texture, out var uvRect);
 
             // Inconsistent texture, flush and update state
             if (_texture != texture)
@@ -851,7 +817,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
 
             // Submit the mesh to draw
-            while (!_batchingTechnique.Submit(mesh, textureRect, in transform, in _blendColor)) { Flush(); }
+            while (!_batchingTechnique.Submit(mesh, in uvRect, in transform, in _blendColor)) { Flush(); }
 
             // If the shader's state has changed, we need to forcefully flush.
             if (_shader.IsDirty) { Flush(); }
@@ -947,6 +913,10 @@ namespace Heirloom.Drawing.OpenGLES
                 default:
                     throw new InvalidOperationException("Image source was not a valid type");
             }
+
+            // We encode special meaning into negative values
+            if (source.Interpolation == InterpolationMode.Linear) { uvRect.X -= 1; }
+            if (source.Repeat == RepeatMode.Repeat) { uvRect.Y -= 1; }
         }
 
         private Framebuffer GetFramebuffer(Surface surface)

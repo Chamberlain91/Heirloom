@@ -11,6 +11,7 @@ namespace Heirloom.Drawing
     public abstract partial class Graphics
     {
         private static readonly Mesh _quadMesh = Mesh.CreateQuad(1, 1);
+        private static readonly Mesh _temporaryMesh = new Mesh();
 
         private readonly Stack<GraphicsState> _stateStack = new Stack<GraphicsState>();
 
@@ -89,12 +90,7 @@ namespace Heirloom.Drawing
         /// Gets the inverse of the current global transform.
         /// </summary>
         public abstract Matrix InverseGlobalTransform { get; }
-
-        /// <summary>
-        /// Gets or sets the interpolation mode.
-        /// </summary>
-        public abstract InterpolationMode InterpolationMode { get; set; }
-
+         
         /// <summary>
         /// Gets or sets the current blending mode.
         /// </summary>

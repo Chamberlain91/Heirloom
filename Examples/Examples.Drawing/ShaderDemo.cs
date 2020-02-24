@@ -13,7 +13,10 @@ namespace Examples.Drawing
         {
             // Photo by Random Sky on Unsplash
             _image = new Image("files/rabbit.png");
+
             _noise = Image.CreateNoise(32, 32, 6);
+            _noise.Interpolation = InterpolationMode.Linear;
+            _noise.Repeat = RepeatMode.Repeat;
 
             // Load shader
             _shader = new Shader("files/distort.frag");
