@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 
 using Heirloom.Drawing;
+using Heirloom.Sound;
 
 namespace SharpDoc
 {
@@ -14,7 +15,7 @@ namespace SharpDoc
     {
         private static void Main(string[] args)
         {
-            var assembly = typeof(Graphics).Assembly;
+            var assembly = typeof(AudioClip).Assembly;
 
             // 
             var markdownFile = Path.ChangeExtension(assembly.Location, "md");
@@ -241,7 +242,8 @@ namespace SharpDoc
                 {
                     if (el is XmlElement member)
                     {
-                        var summary = member["summary"].InnerXml.Trim();
+                        // todo: construct summary better via concating and evaluating <see> <para> etc...?
+                        var summary = member["summary"].InnerXml.Trim().Replace("<", "\\<");
                         var name = member.Attributes["name"].Value;
 
                         _loadedXmlDocumentation[name] = summary;
