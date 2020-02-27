@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Heirloom.Drawing\Heirloom.Drawing.csproj" />
+    <ProjectReference Include="..\..\Modules\Heirloom.IO\Heirloom.IO.csproj" />
     <ProjectReference Include="..\..\Modules\Heirloom.Sound\Heirloom.Sound.csproj" />
   </ItemGroup>
 
