@@ -24,7 +24,7 @@ namespace SharpDoc
         public static string GenerateMarkdown(Type type)
         {
             // Emit type
-            var markdown = $"## {GetHumanName(type)} ({GetTypeKindString(type)})\n\n";
+            var markdown = $"## {GetHumanName(type)} ({GetTypeAccess(type)})\n\n";
             var typeSummary = type.GetDocumentation();
             if (typeSummary?.Length > 0)
             {
@@ -159,7 +159,7 @@ namespace SharpDoc
             return markdown;
         }
 
-        private static string GetTypeKindString(Type type)
+        private static string GetTypeAccess(Type type)
         {
             var pre = "";
 
@@ -183,12 +183,15 @@ namespace SharpDoc
 
         public static string GetHumanName(this Type type)
         {
-            if (type.IsArray)
+            var pre = "";
+            if (type.IsNested && !type.IsGenericParameter && !type.IsGenericTypeParameter && !type.IsGenericMethodParameter)
             {
-                var c = new string(',', type.GetArrayRank() - 1);
-                return $"{GetHumanName(type.GetElementType())}[{c}]";
+                pre += GetHumanName(type.DeclaringType);
+                pre += ".";
             }
-            else if (type == typeof(bool)) { return "bool"; }
+
+            // Primitive Types
+            if (type == typeof(bool)) { return "bool"; }
             else if (type == typeof(int)) { return "int"; }
             else if (type == typeof(uint)) { return "uint"; }
             else if (type == typeof(short)) { return "short"; }
@@ -204,28 +207,34 @@ namespace SharpDoc
             else if (type == typeof(string)) { return "string"; }
             else if (type == typeof(object)) { return "object"; }
             else if (type == typeof(void)) { return "void"; }
-            else
-            {
-                if (type.IsGenericType)
-                {
-                    var name = type.Name;
-                    name = name.Substring(0, name.IndexOf("`"));
 
-                    if (type.IsConstructedGenericType)
-                    {
-                        var genericTypes = type.GenericTypeArguments.Select(t => GetHumanName(t));
-                        return $"{name}<{string.Join("|", genericTypes)}>";
-                    }
-                    else
-                    {
-                        var genericArgs = type.GetGenericArguments().Select(t => GetHumanName(t));
-                        return $"{name}<{string.Join("|", genericArgs)}>";
-                    }
+            // Array
+            if (type.IsArray)
+            {
+                var c = new string(',', type.GetArrayRank() - 1);
+                return $"{pre}{GetHumanName(type.GetElementType())}[{c}]";
+            }
+            // Generic
+            else if (type.IsGenericType)
+            {
+                var name = type.Name;
+                name = name.Substring(0, name.IndexOf("`"));
+
+                if (type.IsConstructedGenericType)
+                {
+                    var genericTypes = type.GenericTypeArguments.Select(t => GetHumanName(t));
+                    return $"{pre}{name}<{string.Join("|", genericTypes)}>";
                 }
                 else
                 {
-                    return type.Name;
+                    var genericArgs = type.GetGenericArguments().Select(t => GetHumanName(t));
+                    return $"{pre}{name}<{string.Join("|", genericArgs)}>";
                 }
+            }
+            // 
+            else
+            {
+                return $"{pre}{type.Name}";
             }
         }
 
