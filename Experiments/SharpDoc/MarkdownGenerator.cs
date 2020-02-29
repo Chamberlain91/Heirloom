@@ -175,7 +175,7 @@ namespace SharpDoc
             var parameters = methodInfo.GetParameters();
             if (parameters.Length > 0)
             {
-                return $"( {string.Join(", ", parameters.Select(p => $"{GetSignature(p)}"))} )";
+                return $" ({string.Join(", ", parameters.Select(p => $"{GetSignature(p)}"))})";
             }
             else
             {
