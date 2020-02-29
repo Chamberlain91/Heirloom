@@ -6,25 +6,22 @@ namespace SharpDoc
 {
     public static class MarkdownGenerator
     {
-        public static string GenerateMarkdown(Assembly assembly)
+        private const BindingFlags PublicDeclared = BindingFlags.Public | BindingFlags.DeclaredOnly;
+        private const BindingFlags InstanceBinding = BindingFlags.Instance | PublicDeclared;
+        private const BindingFlags StaticBinding = BindingFlags.Static | PublicDeclared;
+
+        public static bool IsIgnoredMethodName(string name)
         {
-            // 
-            var assemblyName = assembly.GetName().Name;
-            var markdown = $"{assemblyName}\n";
-            markdown += $"{new string('-', 60)}\n\n";
-
-            foreach (var type in assembly.ExportedTypes)
-            {
-                markdown += GenerateMarkdown(type);
-            }
-
-            return markdown;
+            // return name == "Equals" || name == "ToString" || name == "GetHashCode";
+            return false;
         }
 
         public static string GenerateMarkdown(Type type)
         {
             // Emit type
-            var markdown = $"## {GetHumanName(type)} ({GetTypeAccess(type)})\n\n";
+            var markdown = $"## {type.GetHumanName()} ({type.GetTypeAccess()})\n";
+            markdown += $"<sub>Namespace: {type.Namespace}</sub>\n\n";
+
             var typeSummary = type.GetDocumentation();
             if (typeSummary?.Length > 0)
             {
@@ -33,20 +30,77 @@ namespace SharpDoc
 
             if (type.IsEnum)
             {
+                markdown += $"\n";
+
                 // todo: special emission of enum
+                foreach (var name in type.GetEnumNames())
+                {
+                    var value = Convert.ToInt64(Enum.Parse(type, name));
+                    markdown += $"#### {name} = 0x{value.ToString("X")}\n";
+                    markdown += Documentation.GetDocumentation($"F:{type.FullName}.{name}");
+                    markdown += "\n\n";
+                }
             }
 
             // If not a delegate (may need more?), emit properties, methods, etc
             if (!type.IsSubclassOf(typeof(Delegate)))
             {
-                var fields = type.GetFields().Where(m => !m.IsSpecialName && m.DeclaringType == type).ToArray();
-                var properties = type.GetProperties().Where(m => !m.IsSpecialName && m.DeclaringType == type).ToArray();
-                var methods = type.GetMethods().Where(m =>
+                // Query instance members
+                var fields = type.GetFields(InstanceBinding).Where(m => !m.IsSpecialName).ToArray();
+                var properties = type.GetProperties(InstanceBinding).Where(m => !m.IsSpecialName).ToArray();
+                var methods = type.GetMethods(InstanceBinding).Where(m => !m.IsSpecialName && !IsIgnoredMethodName(m.Name)).ToArray();
+                var events = type.GetEvents(InstanceBinding).Where(m => !m.IsSpecialName).ToArray();
+
+                // Query static members
+                var staticFields = type.GetFields(StaticBinding).Where(m => !m.IsSpecialName).ToArray();
+                var staticProperties = type.GetProperties(StaticBinding).Where(m => !m.IsSpecialName).ToArray();
+                var staticMethods = type.GetMethods(StaticBinding).Where(m => !m.IsSpecialName && !IsIgnoredMethodName(m.Name)).ToArray();
+                var staticEvents = type.GetEvents(StaticBinding).Where(m => !m.IsSpecialName).ToArray();
+
+                // Emit Static Fields
+                if (staticFields.Length > 0)
                 {
-                    if (m.IsSpecialName || m.Name == "Equals" || m.Name == "ToString" || m.Name == "GetHashCode") { return false; }
-                    return m.DeclaringType == type;
-                }).ToArray();
-                var events = type.GetEvents().Where(m => !m.IsSpecialName && m.DeclaringType == type).ToArray();
+                    markdown += $"### Static Fields\n\n";
+                    foreach (var fieldInfo in staticFields)
+                    {
+                        markdown += $"#### {fieldInfo.GetHumanName()}";
+                        markdown += " : " + fieldInfo.FieldType.GetHumanName();
+                        markdown += "\n";
+
+                        // 
+                        var summary = fieldInfo.GetDocumentation();
+                        if (summary?.Length > 0)
+                        {
+                            markdown += $"{summary}\n\n";
+                        }
+                    }
+                }
+
+                // Emit Static Properties
+                if (staticProperties.Length > 0)
+                {
+                    markdown += $"### Static Properties\n\n";
+                    foreach (var propertyInfo in staticProperties)
+                    {
+                        markdown += $"#### {propertyInfo.Name}";
+
+                        var getset = "";
+                        getset += " { ";
+                        if (propertyInfo.CanRead) { getset += "get; "; }
+                        if (propertyInfo.CanWrite) { getset += "set; "; }
+                        markdown += getset.TrimEnd() + " }";
+
+                        markdown += " : " + propertyInfo.PropertyType.GetHumanName();
+                        markdown += "\n";
+
+                        // 
+                        var summary = propertyInfo.GetDocumentation();
+                        if (summary?.Length > 0)
+                        {
+                            markdown += $"{summary}\n\n";
+                        }
+                    }
+                }
 
                 // Emit Fields
                 if (fields.Length > 0)
@@ -54,8 +108,8 @@ namespace SharpDoc
                     markdown += $"### Fields\n\n";
                     foreach (var fieldInfo in fields)
                     {
-                        markdown += $"#### {fieldInfo.Name}";
-                        markdown += " : " + GetHumanName(fieldInfo.FieldType);
+                        markdown += $"#### {fieldInfo.GetHumanName()}";
+                        markdown += " : " + fieldInfo.FieldType.GetHumanName();
                         markdown += "\n";
 
                         // 
@@ -81,7 +135,7 @@ namespace SharpDoc
                         if (propertyInfo.CanWrite) { getset += "set; "; }
                         markdown += getset.TrimEnd() + " }";
 
-                        markdown += " : " + GetHumanName(propertyInfo.PropertyType);
+                        markdown += " : " + propertyInfo.PropertyType.GetHumanName();
                         markdown += "\n";
 
                         // 
@@ -116,7 +170,7 @@ namespace SharpDoc
                     markdown += $"### Methods\n\n";
                     foreach (var methodInfo in methods)
                     {
-                        markdown += $"#### {GetHumanName(methodInfo)}";
+                        markdown += $"#### {methodInfo.GetHumanName()}";
 
                         var parameters = methodInfo.GetParameters();
                         if (parameters.Length > 0)
@@ -130,7 +184,7 @@ namespace SharpDoc
                             markdown += "()";
                         }
 
-                        markdown += $" : {GetHumanName(methodInfo.ReturnType)}";
+                        markdown += $" : {methodInfo.ReturnType.GetHumanName()}";
                         markdown += "\n";
 
                         // 
@@ -157,114 +211,6 @@ namespace SharpDoc
             }
 
             return markdown;
-        }
-
-        private static string GetTypeAccess(Type type)
-        {
-            var pre = "";
-
-            // 
-            if (type.IsEnum) { return $"{pre}Enum"; }
-            else if (type.IsClass)
-            {
-                if (type.IsSubclassOf(typeof(Delegate))) { return "Delegate"; }
-                else
-                {
-                    // 
-                    if (type.IsAbstract) { pre += "Abstract "; }
-                    if (type.IsSealed) { pre += "Sealed "; }
-
-                    return $"{pre}Class";
-                }
-            }
-            else if (type.IsValueType) { return $"{pre}Struct"; }
-            else { return "WHAT"; }
-        }
-
-        public static string GetHumanName(this Type type)
-        {
-            var pre = "";
-            if (type.IsNested && !type.IsGenericParameter && !type.IsGenericTypeParameter && !type.IsGenericMethodParameter)
-            {
-                pre += GetHumanName(type.DeclaringType);
-                pre += ".";
-            }
-
-            // Primitive Types
-            if (type == typeof(bool)) { return "bool"; }
-            else if (type == typeof(int)) { return "int"; }
-            else if (type == typeof(uint)) { return "uint"; }
-            else if (type == typeof(short)) { return "short"; }
-            else if (type == typeof(ushort)) { return "ushort"; }
-            else if (type == typeof(byte)) { return " byte"; }
-            else if (type == typeof(sbyte)) { return "sbyte"; }
-            else if (type == typeof(long)) { return "long"; }
-            else if (type == typeof(ulong)) { return "ulong"; }
-            else if (type == typeof(float)) { return "float"; }
-            else if (type == typeof(double)) { return "double"; }
-            else if (type == typeof(decimal)) { return "decimal"; }
-            else if (type == typeof(char)) { return "char"; }
-            else if (type == typeof(string)) { return "string"; }
-            else if (type == typeof(object)) { return "object"; }
-            else if (type == typeof(void)) { return "void"; }
-
-            // Array
-            if (type.IsArray)
-            {
-                var c = new string(',', type.GetArrayRank() - 1);
-                return $"{pre}{GetHumanName(type.GetElementType())}[{c}]";
-            }
-            // Generic
-            else if (type.IsGenericType)
-            {
-                var name = type.Name;
-                name = name.Substring(0, name.IndexOf("`"));
-
-                if (type.IsConstructedGenericType)
-                {
-                    var genericTypes = type.GenericTypeArguments.Select(t => GetHumanName(t));
-                    return $"{pre}{name}<{string.Join("|", genericTypes)}>";
-                }
-                else
-                {
-                    var genericArgs = type.GetGenericArguments().Select(t => GetHumanName(t));
-                    return $"{pre}{name}<{string.Join("|", genericArgs)}>";
-                }
-            }
-            // 
-            else
-            {
-                return $"{pre}{type.Name}";
-            }
-        }
-
-        public static string GetHumanName(this MethodInfo method)
-        {
-            if (method.IsGenericMethod)
-            {
-                var name = method.Name;
-                var indTick = name.IndexOf("`");
-                if (indTick >= 0) { name = name.Substring(0, indTick); }
-
-                var genericTypes = method.GetGenericArguments().Select(t => GetHumanName(t));
-                return $"{name}<{string.Join("|", genericTypes)}>";
-            }
-            else
-            {
-                return method.Name;
-            }
-        }
-
-        public static string GetHumanSignature(this ParameterInfo p)
-        {
-            var pre = "";
-            if (p.IsIn) { pre += "in "; }
-            return $"{pre}{GetHumanName(p.ParameterType)} {p.GetHumanName()}";
-        }
-
-        public static string GetHumanName(this ParameterInfo p)
-        {
-            return p.Name;
         }
     }
 }

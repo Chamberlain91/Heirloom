@@ -59,6 +59,12 @@ namespace SharpDoc
             _loadedXmlDocumentation.Clear();
         }
 
+        public static string GetDocumentation(string key)
+        {
+            _loadedXmlDocumentation.TryGetValue(key, out var documentation);
+            return documentation;
+        }
+
         /// <summary>Gets the XML documentation on a type.</summary>
         /// <param name="type">The type to get the XML documentation of.</param>
         /// <returns>The XML documentation on the type.</returns>
