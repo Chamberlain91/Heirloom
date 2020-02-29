@@ -1,157 +1,122 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
 namespace SharpDoc
 {
-    public static class MarkdownGenerator
+    public class MarkdownGenerator : DocumentationGenerator
     {
-        private const BindingFlags PublicDeclared = BindingFlags.Public | BindingFlags.DeclaredOnly;
-        private const BindingFlags InstanceBinding = BindingFlags.Instance | PublicDeclared;
-        private const BindingFlags StaticBinding = BindingFlags.Static | PublicDeclared;
+        public MarkdownGenerator()
+            : base("md")
+        { }
 
-        public static bool IsIgnoredMethodName(string name)
+        protected override string EscapeCharacters(string text)
         {
-            // return name == "Equals" || name == "ToString" || name == "GetHashCode";
-            return false;
+            return text.Replace("<", "\\<");
         }
 
-        public static string GenerateMarkdown(Type type)
+        protected override string GenerateDocument(Type type)
         {
-            // Emit type
-            var markdown = $"## {type.GetHumanName()} ({type.GetTypeAccess()})\n";
-            markdown += $"<sub>Namespace: {type.Namespace}</sub>\n\n";
+            // Emit header
+            var markdown = $"{type.Assembly.GetName().Name} - {GetName(type)} ({GetTypeAccess(type)})\n";
+            markdown += $"{new string('-', markdown.Length - 2)}\n\n";
 
+            // Emit Summary
             var typeSummary = type.GetDocumentation();
             if (typeSummary?.Length > 0)
             {
                 markdown += $"{typeSummary}\n\n";
             }
 
+            // Emit
+            markdown += $"<sub>**Namespace**: {type.Namespace}</sub>  \n";
+            var inherits = WalkInheritedTypes(type).Select(t => GetName(t));
+            if (inherits.Any()) { markdown += $"<sub>**Inherits**: {string.Join(", ", inherits)}</sub>  \n"; }
+            var interfaces = type.GetInterfaces().Select(t => GetName(t));
+            if (interfaces.Any()) { markdown += $"<sub>**Interfaces**: {string.Join(", ", interfaces)}</sub>  \n"; }
+
+            // Emit Divider
+            markdown += "\n---\n\n";
+
+            // Emit Enum
             if (type.IsEnum)
             {
-                markdown += $"\n";
-
-                // todo: special emission of enum
                 foreach (var name in type.GetEnumNames())
                 {
-                    var value = Convert.ToInt64(Enum.Parse(type, name));
-                    markdown += $"#### {name} = 0x{value.ToString("X")}\n";
+                    // Emit Enum Field
+                    markdown += $"### {name}\n";
                     markdown += Documentation.GetDocumentation($"F:{type.FullName}.{name}");
                     markdown += "\n\n";
                 }
             }
-
             // If not a delegate (may need more?), emit properties, methods, etc
-            if (!type.IsSubclassOf(typeof(Delegate)))
+            else if (!IsDelegate)
             {
-                // Query instance members
-                var fields = type.GetFields(InstanceBinding).Where(m => !m.IsSpecialName).ToArray();
-                var properties = type.GetProperties(InstanceBinding).Where(m => !m.IsSpecialName).ToArray();
-                var methods = type.GetMethods(InstanceBinding).Where(m => !m.IsSpecialName && !IsIgnoredMethodName(m.Name)).ToArray();
-                var events = type.GetEvents(InstanceBinding).Where(m => !m.IsSpecialName).ToArray();
-
-                // Query static members
-                var staticFields = type.GetFields(StaticBinding).Where(m => !m.IsSpecialName).ToArray();
-                var staticProperties = type.GetProperties(StaticBinding).Where(m => !m.IsSpecialName).ToArray();
-                var staticMethods = type.GetMethods(StaticBinding).Where(m => !m.IsSpecialName && !IsIgnoredMethodName(m.Name)).ToArray();
-                var staticEvents = type.GetEvents(StaticBinding).Where(m => !m.IsSpecialName).ToArray();
-
-                // Emit Static Fields
-                if (staticFields.Length > 0)
+                //
+                if (Fields.Count > 0)
                 {
-                    markdown += $"### Static Fields\n\n";
-                    foreach (var fieldInfo in staticFields)
-                    {
-                        markdown += $"#### {fieldInfo.GetHumanName()}";
-                        markdown += " : " + fieldInfo.FieldType.GetHumanName();
-                        markdown += "\n";
-
-                        // 
-                        var summary = fieldInfo.GetDocumentation();
-                        if (summary?.Length > 0)
-                        {
-                            markdown += $"{summary}\n\n";
-                        }
-                    }
+                    markdown += "| Field | Summary |\n";
+                    markdown += "|-------|---------|\n";
+                    foreach (var m in Fields) { markdown += $"| {GetName(m)} | {GetSummary(m)} |\n"; }
+                    markdown += "\n";
                 }
 
-                // Emit Static Properties
-                if (staticProperties.Length > 0)
+                if (Properties.Count > 0)
                 {
-                    markdown += $"### Static Properties\n\n";
-                    foreach (var propertyInfo in staticProperties)
-                    {
-                        markdown += $"#### {propertyInfo.Name}";
+                    markdown += "| Properties | Summary |\n";
+                    markdown += "|------------|---------|\n";
+                    foreach (var m in Properties) { markdown += $"| {GetName(m)} | {GetSummary(m)} |\n"; }
+                    markdown += "\n";
+                }
 
-                        var getset = "";
-                        getset += " { ";
-                        if (propertyInfo.CanRead) { getset += "get; "; }
-                        if (propertyInfo.CanWrite) { getset += "set; "; }
-                        markdown += getset.TrimEnd() + " }";
+                if (Events.Count > 0)
+                {
+                    markdown += "| Events | Summary |\n";
+                    markdown += "|--------|---------|\n";
+                    foreach (var m in Events) { markdown += $"| {GetName(m)} | {GetSummary(m)} |\n"; }
+                    markdown += "\n";
+                }
 
-                        markdown += " : " + propertyInfo.PropertyType.GetHumanName();
-                        markdown += "\n";
-
-                        // 
-                        var summary = propertyInfo.GetDocumentation();
-                        if (summary?.Length > 0)
-                        {
-                            markdown += $"{summary}\n\n";
-                        }
-                    }
+                if (Methods.Count > 0)
+                {
+                    markdown += "| Methods | Summary |\n";
+                    markdown += "|---------|---------|\n";
+                    foreach (var m in Methods) { markdown += $"| {GetMethodSignature(m)} | {GetSummary(m)} |\n"; }
+                    markdown += "\n";
                 }
 
                 // Emit Fields
-                if (fields.Length > 0)
+                if (Fields.Count > 0)
                 {
                     markdown += $"### Fields\n\n";
-                    foreach (var fieldInfo in fields)
+                    foreach (var fieldInfo in Fields)
                     {
-                        markdown += $"#### {fieldInfo.GetHumanName()}";
-                        markdown += " : " + fieldInfo.FieldType.GetHumanName();
-                        markdown += "\n";
-
-                        // 
-                        var summary = fieldInfo.GetDocumentation();
-                        if (summary?.Length > 0)
-                        {
-                            markdown += $"{summary}\n\n";
-                        }
+                        markdown += GenerateField(fieldInfo, false);
                     }
                 }
 
                 // Emit Properties
-                if (properties.Length > 0)
+                if (Properties.Count > 0)
                 {
                     markdown += $"### Properties\n\n";
-                    foreach (var propertyInfo in properties)
+
+                    foreach (var prop in InstanceProperties)
                     {
-                        markdown += $"#### {propertyInfo.Name}";
+                        markdown += GenerateProperty(prop, false);
+                    }
 
-                        var getset = "";
-                        getset += " { ";
-                        if (propertyInfo.CanRead) { getset += "get; "; }
-                        if (propertyInfo.CanWrite) { getset += "set; "; }
-                        markdown += getset.TrimEnd() + " }";
-
-                        markdown += " : " + propertyInfo.PropertyType.GetHumanName();
-                        markdown += "\n";
-
-                        // 
-                        var summary = propertyInfo.GetDocumentation();
-                        if (summary?.Length > 0)
-                        {
-                            markdown += $"{summary}\n\n";
-                        }
+                    foreach (var prop in StaticProperties)
+                    {
+                        markdown += GenerateProperty(prop, true);
                     }
                 }
 
                 // Emit Events
-                if (events.Length > 0)
+                if (Events.Count > 0)
                 {
                     markdown += $"### Events\n\n";
-                    foreach (var eventInfo in events)
+                    foreach (var eventInfo in Events)
                     {
                         markdown += $"#### {eventInfo.Name}\n";
 
@@ -165,26 +130,12 @@ namespace SharpDoc
                 }
 
                 // Emit Methods
-                if (methods.Length > 0)
+                if (Methods.Count > 0)
                 {
                     markdown += $"### Methods\n\n";
-                    foreach (var methodInfo in methods)
+                    foreach (var methodInfo in Methods)
                     {
-                        markdown += $"#### {methodInfo.GetHumanName()}";
-
-                        var parameters = methodInfo.GetParameters();
-                        if (parameters.Length > 0)
-                        {
-                            markdown += "( ";
-                            markdown += string.Join(", ", parameters.Select(p => $"{p.GetHumanSignature()}"));
-                            markdown += " )";
-                        }
-                        else
-                        {
-                            markdown += "()";
-                        }
-
-                        markdown += $" : {methodInfo.ReturnType.GetHumanName()}";
+                        markdown += $"#### {GetMethodSignature(methodInfo)}";
                         markdown += "\n";
 
                         // 
@@ -194,14 +145,15 @@ namespace SharpDoc
                             markdown += $"{summary}\n";
                         }
 
-                        if (parameters.Length > 0)
+                        var ps = methodInfo.GetParameters();
+                        if (ps.Length > 0)
                         {
                             markdown += "\n";
 
-                            foreach (var p in parameters)
+                            foreach (var p in ps)
                             {
                                 var pSummary = p.GetDocumentation();
-                                if (pSummary != null) { markdown += $"<sub>**{p.GetHumanName()}**: {pSummary}</sub><br/>\n"; }
+                                if (pSummary != null) { markdown += $"<sub>**{GetName(p)}**: {pSummary}</sub><br/>\n"; }
                             }
                         }
 
@@ -211,6 +163,83 @@ namespace SharpDoc
             }
 
             return markdown;
+        }
+
+        private string GetMethodSignature(MethodInfo methodInfo)
+        {
+            return $"{GetName(methodInfo)}{GetParameterSignature(methodInfo)} : {GetName(methodInfo.ReturnType)}";
+        }
+
+        private string GetParameterSignature(MethodInfo methodInfo)
+        {
+            var parameters = methodInfo.GetParameters();
+            if (parameters.Length > 0)
+            {
+                return $"( {string.Join(", ", parameters.Select(p => $"{GetSignature(p)}"))} )";
+            }
+            else
+            {
+                return "()";
+            }
+        }
+
+        private string GenerateField(FieldInfo fieldInfo, bool isStatic)
+        {
+            var output = $"#### {GetName(fieldInfo)} : {GetName(fieldInfo.FieldType)}";
+            if (isStatic) { output += " `Static`"; }
+            output += "\n";
+
+            // 
+            var summary = fieldInfo.GetDocumentation();
+            if (summary?.Length > 0)
+            {
+                output += $"{summary}\n\n";
+            }
+
+            return output;
+        }
+
+        private string GenerateProperty(PropertyInfo property, bool isStatic)
+        {
+            // Emit Name
+            var output = $"#### {GetName(property)} : {GetName(property.PropertyType)}";
+
+            var badges = new List<string>();
+
+            // Emit Static
+            if (isStatic) { badges.Add("Static"); }
+
+            // Emit GET 
+            if (property.CanRead && (property.GetMethod.IsPublic || property.GetMethod.IsFamily))
+            {
+                badges.Add("Get");
+            }
+
+            // Emit SET
+            if (property.CanWrite && (property.SetMethod.IsPublic || property.SetMethod.IsFamily))
+            {
+                badges.Add("Set");
+            }
+
+            // 
+            output += GenerateBadgeList(badges);
+            output += $"\n";
+
+            // 
+            var summary = property.GetDocumentation();
+            if (summary?.Length > 0)
+            {
+                output += $"{summary}\n\n";
+            }
+
+            return output;
+        }
+
+        private string GenerateBadgeList(IEnumerable<string> tokens)
+        {
+            return tokens.Any()
+                ? $" <small>{string.Join(" ", tokens.Select(s => $"`{s}`")).Trim()}</small>"
+                : string.Empty;
         }
     }
 }
