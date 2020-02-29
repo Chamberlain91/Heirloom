@@ -1,8 +1,6 @@
-using System;
 using System.IO;
+
 using Heirloom.Drawing;
-using Heirloom.IO;
-using Heirloom.Sound;
 
 namespace SharpDoc
 {
@@ -20,10 +18,11 @@ namespace SharpDoc
             // Emit files for each type
             foreach (var type in assembly.ExportedTypes)
             {
+                // Emit File Header
                 var markdown = $"{type.Namespace}\n";
-                markdown += $"{new string('-', 60)}\n\n";
+                markdown += $"{new string('-', type.Namespace.Length)}\n\n";
 
-                // 
+                // Emit Type
                 markdown += MarkdownGenerator.GenerateMarkdown(type);
 
                 // Write to disk
