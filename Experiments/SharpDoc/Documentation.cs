@@ -38,11 +38,18 @@ namespace SharpDoc
                 {
                     if (el is XmlElement member)
                     {
-                        // todo: construct summary better via concating and evaluating <see> <para> etc...?
-                        var summary = member.InnerXml.Trim();
-                        var name = member.Attributes["name"].Value;
+                        if (member["inheritdoc"] != null)
+                        {
+                            // Inherited...
+                        }
+                        else
+                        {
+                            // todo: construct summary better via concating and evaluating <see> <para> etc...?
+                            var summary = member.InnerXml.Trim();
+                            var name = member.Attributes["name"].Value;
 
-                        _loadedXmlDocumentation[name] = summary;
+                            _loadedXmlDocumentation[name] = summary;
+                        }
                     }
                 }
             }
