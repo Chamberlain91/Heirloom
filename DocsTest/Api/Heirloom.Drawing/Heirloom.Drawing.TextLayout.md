@@ -1,0 +1,60 @@
+# Heirloom.Drawing
+
+<small>**Framework**: .NETStandard,Version=v2.1</small>  
+<small>**Assembly**: [Heirloom.Drawing](../Heirloom.Drawing/Heirloom.Drawing.md)</small>  
+<small>**Internals Visible To**: [Heirloom.Drawing.OpenGLES](../Heirloom.Drawing.OpenGLES/Heirloom.Drawing.OpenGLES.md), [Heirloom.Desktop](../Heirloom.Desktop/Heirloom.Desktop.md)</small>  
+<small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
+
+## TextLayout (Static Class)
+<small>**Namespace**: Heirloom.Drawing</sub></small>  
+
+Utility to measure text and manually invoke the text layout function.   
+ Internally used by `Heirloom.Drawing.Graphics.DrawText(System.String,Heirloom.Math.Rectangle@,Heirloom.Drawing.Font,System.Int32,Heirloom.Drawing.TextAlign,Heirloom.Drawing.DrawTextCallback)` and its variants.
+
+| Methods                    | Summary                                                                                                                         |
+|----------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| [Measure](#MEAS22C8)       | Computes the bounding box that the specified text will occupy within an infinite layout size.                                   |
+| [Measure](#MEAS22C8)       | Computes the bounding box that the specified text will occupy within the given layout size.                                     |
+| [Measure](#MEAS22C8)       | Computes the bounding box that the specified text will occupy within the given layout size.                                     |
+| [PerformLayout](#PERFD99A) | Performs the layout of text around the given position with the specified font and size, invoking the callback at each location. |
+| [PerformLayout](#PERFD99A) | Performs the layout of text within the given bounds with the specified font and size, invoking the callback at each location.   |
+
+### Methods
+
+#### <a name="MEASF604"></a> Measure(string text, [Font](Heirloom.Drawing.Font.md) font, int fontSize) : [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md)
+<small>`Static`</small>
+
+Computes the bounding box that the specified text will occupy within an infinite layout size.
+
+<small>**text**: <param name="text">The text to layout and measure.</param></small>  
+<small>**fontSize**: <param name="fontSize">The font size to use.</param></small>  
+
+#### <a name="MEASDB2A"></a> Measure(string text, in [Size](../Heirloom.Math/Heirloom.Math.Size.md) layoutSize, [Font](Heirloom.Drawing.Font.md) font, int fontSize) : [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md)
+<small>`Static`</small>
+
+Computes the bounding box that the specified text will occupy within the given layout size.
+
+<small>**text**: <param name="text">The text to layout and measure.</param></small>  
+<small>**layoutSize**: <param name="layoutSize">The size of the layout box.</param></small>  
+<small>**fontSize**: <param name="fontSize">The font size to use.</param></small>  
+
+#### <a name="MEAS6FE8"></a> Measure(string text, in [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md) layoutBox, [Font](Heirloom.Drawing.Font.md) font, int fontSize) : [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md)
+<small>`Static`</small>
+
+Computes the bounding box that the specified text will occupy within the given layout size.
+
+<small>**text**: <param name="text">The text to layout and measure.</param></small>  
+<small>**fontSize**: <param name="fontSize">The font size to use.</param></small>  
+
+#### <a name="PERFEE26"></a> PerformLayout(string text, [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, [Font](Heirloom.Drawing.Font.md) font, int size, [TextAlign](Heirloom.Drawing.TextAlign.md) align, [TextLayoutCallback](Heirloom.Drawing.TextLayoutCallback.md) layoutCallback) : void
+<small>`Static`</small>
+
+Performs the layout of text around the given position with the specified font and size, invoking the callback at each location.
+
+
+#### <a name="PERF7C47"></a> PerformLayout(string text, [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md) bounds, [Font](Heirloom.Drawing.Font.md) font, int size, [TextAlign](Heirloom.Drawing.TextAlign.md) align, [TextLayoutCallback](Heirloom.Drawing.TextLayoutCallback.md) layoutCallback) : void
+<small>`Static`</small>
+
+Performs the layout of text within the given bounds with the specified font and size, invoking the callback at each location.
+
+
