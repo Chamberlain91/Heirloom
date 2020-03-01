@@ -5,6 +5,7 @@
 
 ## FreeList\<T> (Sealed Class)
 <small>**Namespace**: Heirloom.Collections</sub></small>  
+<small>`DefaultMemberAttribute`</small>
 
 A free list an allocation-centric data structure that allows insertion and removal of elements in O(1) time, but does not behave like a typical "list" data type.
 

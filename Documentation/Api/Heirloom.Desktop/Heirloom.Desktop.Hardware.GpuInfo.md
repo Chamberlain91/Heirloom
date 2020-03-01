@@ -7,6 +7,7 @@
 ## GpuInfo (Struct)
 <small>**Namespace**: Heirloom.Desktop.Hardware</sub></small>  
 <small>**Interfaces**: IEquatable\<GpuInfo></small>  
+<small>`IsReadOnlyAttribute`</small>
 
 | Properties              | Summary                                                      |
 |-------------------------|--------------------------------------------------------------|

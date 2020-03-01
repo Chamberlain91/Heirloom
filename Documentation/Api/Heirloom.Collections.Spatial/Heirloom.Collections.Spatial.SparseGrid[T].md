@@ -7,6 +7,7 @@
 ## SparseGrid\<T> (Sealed Class)
 <small>**Namespace**: Heirloom.Collections.Spatial</sub></small>  
 <small>**Interfaces**: [ISparseGrid\<T>](Heirloom.Collections.Spatial.ISparseGrid[T].md), [IReadOnlySparseGrid\<T>](Heirloom.Collections.Spatial.IReadOnlySparseGrid[T].md), [IReadOnlyGrid\<T>](Heirloom.Collections.Spatial.IReadOnlyGrid[T].md), [IGrid\<T>](Heirloom.Collections.Spatial.IGrid[T].md)</small>  
+<small>`DefaultMemberAttribute`</small>
 
 An infinite, sparse grid of values.
 

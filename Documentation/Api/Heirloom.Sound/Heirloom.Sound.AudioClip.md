@@ -5,6 +5,7 @@
 
 ## AudioClip (Sealed Class)
 <small>**Namespace**: Heirloom.Sound</sub></small>  
+<small>`DefaultMemberAttribute`</small>
 
 An object to contain (and decode) audio data into raw samples.
 

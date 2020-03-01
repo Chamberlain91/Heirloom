@@ -5,6 +5,7 @@
 
 ## MergeSort (Static Class)
 <small>**Namespace**: Heirloom.Collections</sub></small>  
+<small>`ExtensionAttribute`</small>
 
 | Methods                       | Summary                                             |
 |-------------------------------|-----------------------------------------------------|

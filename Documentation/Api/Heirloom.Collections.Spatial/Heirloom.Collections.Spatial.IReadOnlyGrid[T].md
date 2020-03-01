@@ -6,6 +6,7 @@
 
 ## IReadOnlyGrid\<T> (Interface)
 <small>**Namespace**: Heirloom.Collections.Spatial</sub></small>  
+<small>`DefaultMemberAttribute`</small>
 
 A read-only view of a 2D grid of values.
 

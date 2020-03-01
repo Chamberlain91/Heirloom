@@ -5,6 +5,7 @@
 
 ## NoiseExtensions (Static Class)
 <small>**Namespace**: Heirloom.Math</sub></small>  
+<small>`ExtensionAttribute`</small>
 
 | Methods                | Summary                                |
 |------------------------|----------------------------------------|

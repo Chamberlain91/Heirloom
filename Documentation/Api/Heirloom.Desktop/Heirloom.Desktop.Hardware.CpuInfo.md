@@ -7,6 +7,7 @@
 ## CpuInfo (Struct)
 <small>**Namespace**: Heirloom.Desktop.Hardware</sub></small>  
 <small>**Interfaces**: IEquatable\<CpuInfo></small>  
+<small>`IsReadOnlyAttribute`</small>
 
 | Properties                  | Summary                                                      |
 |-----------------------------|--------------------------------------------------------------|
