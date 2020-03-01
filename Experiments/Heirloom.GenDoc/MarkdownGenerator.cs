@@ -144,6 +144,47 @@ namespace Heirloom.GenDoc
             return markdown;
         }
 
+        private static string GenerateTable(string headerLeft, string headerRight, IEnumerable<(string left, string right)> rows)
+        {
+            if (rows.Any())
+            {
+                int lSize = headerLeft.Length, rSize = headerRight.Length;
+
+                // Measure Rows
+                foreach (var (left, right) in rows)
+                {
+                    lSize = Math.Max(lSize, left.Length);
+                    rSize = Math.Max(rSize, right.Length);
+                }
+
+                var markdown = "";
+                markdown += $"| {Str(headerLeft, lSize)} | {Str(headerRight, rSize)} |\n";
+                markdown += $"|{Rep('-', lSize + 2)}|{Rep('-', rSize + 2)}|\n";
+
+                foreach (var (left, right) in rows)
+                {
+                    markdown += $"| {Str(left, lSize)} | {Str(right, rSize)} |\n";
+                }
+
+                markdown += "\n";
+                return markdown;
+            }
+            else
+            {
+                return string.Empty;
+            }
+
+            static string Rep(char chr, int num)
+            {
+                return new string(chr, num);
+            }
+
+            static string Str(string txt, int num)
+            {
+                return txt + Rep(' ', num - txt.Length);
+            }
+        }
+
         protected override string GenerateMembersTable()
         {
             var markdown = "";
@@ -151,34 +192,29 @@ namespace Heirloom.GenDoc
             //
             if (Fields.Count > 0)
             {
-                markdown += "| Fields | Summary |\n";
-                markdown += "|-------|---------|\n";
-                foreach (var m in Fields) { markdown += $"| {AnchorLink(GetName(m))} | {NormalizeSpaces(GetSummary(m))} |\n"; }
-                markdown += "\n";
+                var rows = Fields.Select(m => (AnchorLink(GetName(m)), NormalizeSpaces(GetSummary(m))));
+                markdown += GenerateTable("Fields", "Summary", rows);
             }
 
+            //
             if (Properties.Count > 0)
             {
-                markdown += "| Properties | Summary |\n";
-                markdown += "|------------|---------|\n";
-                foreach (var m in Properties) { markdown += $"| {AnchorLink(GetName(m))} | {NormalizeSpaces(GetSummary(m))} |\n"; }
-                markdown += "\n";
+                var rows = Properties.Select(m => (AnchorLink(GetName(m)), NormalizeSpaces(GetSummary(m))));
+                markdown += GenerateTable("Properties", "Summary", rows);
             }
 
+            //
             if (Events.Count > 0)
             {
-                markdown += "| Events | Summary |\n";
-                markdown += "|--------|---------|\n";
-                foreach (var m in Events) { markdown += $"| {AnchorLink(GetName(m))} | {NormalizeSpaces(GetSummary(m))} |\n"; }
-                markdown += "\n";
+                var rows = Events.Select(m => (AnchorLink(GetName(m)), NormalizeSpaces(GetSummary(m))));
+                markdown += GenerateTable("Events", "Summary", rows);
             }
 
+            //
             if (Methods.Count > 0)
             {
-                markdown += "| Methods | Summary |\n";
-                markdown += "|---------|---------|\n";
-                foreach (var m in Methods) { markdown += $"| {AnchorLink(GetName(m), GetSignature(m))} | {NormalizeSpaces(GetSummary(m))} |\n"; }
-                markdown += "\n";
+                var rows = Methods.Select(m => (AnchorLink(GetName(m)), NormalizeSpaces(GetSummary(m))));
+                markdown += GenerateTable("Methods", "Summary", rows);
             }
 
             return markdown;
@@ -268,7 +304,6 @@ namespace Heirloom.GenDoc
         private string GenerateSummary(MethodInfo method, bool isStatic)
         {
             var markdown = Header(Anchor(GetSignature(method)), 4);
-            markdown += "\n";
 
             // Generate Badges
             markdown += GenerateBadges(method, isStatic);
@@ -290,8 +325,8 @@ namespace Heirloom.GenDoc
                     var paramSummary = Documentation.GetDocumentation(param);
                     if (paramSummary != null)
                     {
-                        var text = $"{Bold(GetName(param))}: {paramSummary}  \n";
-                        markdown += $"{Small(text)}\n";
+                        var text = $"{Bold(GetName(param))}: {paramSummary}";
+                        markdown += $"{Small(text)}  \n";
                     }
                 }
             }
@@ -401,13 +436,13 @@ namespace Heirloom.GenDoc
                 ? GetLinkIdentifier(text)
                 : GetLinkIdentifier(target);
 
-            return $"<a name=\"{link}\"></a>{text}";
+            return $"<a name=\"{link}\"></a> {text}";
         }
 
         private static string GetLinkIdentifier(string text)
         {
-            var hash = GetDeterministicHashCode(text).ToString("X");
-            var key = text[0..Math.Min(text.Length, 3)].ToUpper();
+            var hash = GetDeterministicHashCode(text).ToString("X").Substring(0, 4);
+            var key = text[0..Math.Min(text.Length, 4)].ToUpper();
             return key + hash;
         }
 
