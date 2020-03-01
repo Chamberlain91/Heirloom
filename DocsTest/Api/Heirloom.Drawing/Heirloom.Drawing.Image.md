@@ -17,30 +17,30 @@
 
 | Methods                                   | Summary                                              |
 |-------------------------------------------|------------------------------------------------------|
-| [GetPixel](#GETE29B594E)                  |                                                      |
-| [GetPixel](#GETE29B594E)                  |                                                      |
-| [GetPixels](#GET6329001D)                 |                                                      |
-| [SetPixel](#SETE2A5A6C2)                  |                                                      |
-| [SetPixel](#SETE2A5A6C2)                  |                                                      |
-| [SetPixels](#SET647CFC31)                 |                                                      |
-| [Clear](#CLE3BB23EF9)                     | Sets all pixels in the image to the specified color. |
-| [Flip](#FLI1AC52787)                      | Flips the image on the specified axis.               |
-| [CopyTo](#COP3AB2DCEE)                    |                                                      |
-| [CopyTo](#COP3AB2DCEE)                    |                                                      |
-| [Clone](#CLODE59B3CF)                     | Creates a clone of this image.                       |
-| [CreateCheckerboardPattern](#CREA37B84CB) | Create an image with checkerboard pattern.           |
-| [CreateGridPattern](#CREF7852C00)         | Create an image with a grid pattern.                 |
-| [CreateColor](#CREF1DE7129)               |                                                      |
-| [CreateNoise](#CRE7C7C6F40)               |                                                      |
-| [CreateNoise](#CRE7C7C6F40)               |                                                      |
-| [Copy](#COP982BDC35)                      |                                                      |
-| [Copy](#COP982BDC35)                      |                                                      |
-| [Copy](#COP982BDC35)                      |                                                      |
-| [Copy](#COP982BDC35)                      |                                                      |
-| [WriteAsPng](#WRI8540866C)                |                                                      |
-| [WriteAsJpg](#WRIFA395168)                |                                                      |
-| [Load](#LOAC57123CE)                      |                                                      |
-| [Load](#LOAC57123CE)                      |                                                      |
+| [GetPixel](#GET6D6C5BDB)                  |                                                      |
+| [GetPixel](#GETB152AD22)                  |                                                      |
+| [GetPixels](#GET33DBF793)                 |                                                      |
+| [SetPixel](#SET65ACED49)                  |                                                      |
+| [SetPixel](#SET695E975E)                  |                                                      |
+| [SetPixels](#SET839EE26E)                 |                                                      |
+| [Clear](#CLEE2064C99)                     | Sets all pixels in the image to the specified color. |
+| [Flip](#FLI52E46586)                      | Flips the image on the specified axis.               |
+| [CopyTo](#COP6964DB6F)                    |                                                      |
+| [CopyTo](#COPBC09C414)                    |                                                      |
+| [Clone](#CLOA49B4FCB)                     | Creates a clone of this image.                       |
+| [CreateCheckerboardPattern](#CRE6BF39FAE) | Create an image with checkerboard pattern.           |
+| [CreateGridPattern](#CRE54163986)         | Create an image with a grid pattern.                 |
+| [CreateColor](#CRE9126DF94)               |                                                      |
+| [CreateNoise](#CREBAD66DF9)               |                                                      |
+| [CreateNoise](#CRE97042461)               |                                                      |
+| [Copy](#COPA37F06B)                       |                                                      |
+| [Copy](#COPDA107945)                      |                                                      |
+| [Copy](#COPABF7383)                       |                                                      |
+| [Copy](#COPE53B3007)                      |                                                      |
+| [WriteAsPng](#WRI21543049)                |                                                      |
+| [WriteAsJpg](#WRID1C95C6F)                |                                                      |
+| [Load](#LOA93FA19CA)                      |                                                      |
+| [Load](#LOA8A003EFE)                      |                                                      |
 
 ### Constructors
 

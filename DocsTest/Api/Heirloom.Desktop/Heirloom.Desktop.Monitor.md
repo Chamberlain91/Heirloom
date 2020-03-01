@@ -21,7 +21,7 @@ Represents a physical display on the current device.
 
 | Methods                       | Summary                                     |
 |-------------------------------|---------------------------------------------|
-| [GetVideoModes](#GET38C50993) | Gets all known video modes on this monitor. |
+| [GetVideoModes](#GET218AAA2F) | Gets all known video modes on this monitor. |
 
 ### Constructors
 

@@ -20,17 +20,17 @@
 
 | Methods                        | Summary                                                                |
 |--------------------------------|------------------------------------------------------------------------|
-| [Clear](#CLE3BB23EF9)          | Removes all vertices and edges from the graph.                         |
-| [ClearEdges](#CLEE20C634D)     | Disconnects all edges from all vertices.                               |
-| [ContainsVertex](#CON8BA51147) | Determine if a vertex with the given name/key exists within the graph. |
-| [ContainsEdge](#CON518111E)    | Determine if an edge exists between two existing vertices.             |
-| [ContainsValue](#CONDC3C4948)  | Determines if the graph contains the value.                            |
-| [AddVertex](#ADDA40B49)        | Adds a vertex to the graph.                                            |
-| [RemoveVertex](#REMCBD2C17C)   | Removes a vertex from the graph.                                       |
-| [GetVertex](#GET659D2C24)      | Returns the vertex with the given name/key.                            |
-| [AddEdge](#ADD814EE3F0)        | Connects two vertices by an edge in the graph.                         |
-| [RemoveEdge](#REM67FD8045)     | Removes an edge between two vertices in the graph.                     |
-| [GetEdge](#GETC1CA31E1)        | Returns the edge between two vertices.                                 |
+| [Clear](#CLE4538C554)          | Removes all vertices and edges from the graph.                         |
+| [ClearEdges](#CLEC3B6A45C)     | Disconnects all edges from all vertices.                               |
+| [ContainsVertex](#CONEACA2150) | Determine if a vertex with the given name/key exists within the graph. |
+| [ContainsEdge](#CON79C21D1A)   | Determine if an edge exists between two existing vertices.             |
+| [ContainsValue](#CONEEF76259)  | Determines if the graph contains the value.                            |
+| [AddVertex](#ADD75B09E92)      | Adds a vertex to the graph.                                            |
+| [RemoveVertex](#REM489B3DD3)   | Removes a vertex from the graph.                                       |
+| [GetVertex](#GETFD3DEC7E)      | Returns the vertex with the given name/key.                            |
+| [AddEdge](#ADD9F66EC1A)        | Connects two vertices by an edge in the graph.                         |
+| [RemoveEdge](#REMDD74603F)     | Removes an edge between two vertices in the graph.                     |
+| [GetEdge](#GET7B3DE88F)        | Returns the edge between two vertices.                                 |
 
 ### Properties
 

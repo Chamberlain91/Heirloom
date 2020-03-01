@@ -30,33 +30,33 @@ Represents a vector with two single-precision floating-point values.
 
 | Methods                           | Summary                                                                                                 |
 |-----------------------------------|---------------------------------------------------------------------------------------------------------|
-| [Set](#SET5F786982)               | Sets the components of this vector.                                                                     |
-| [Normalize](#NOR155E4A29)         | Normalize this vector.                                                                                  |
-| [Deconstruct](#DECC1884FDA)       |                                                                                                         |
-| [GetMaxComponent](#GET45DCC999)   | Gets the maximal component in the input vector.                                                         |
-| [GetMinComponent](#GETA14AFEBB)   | Gets the minimal component in the input vector.                                                         |
-| [Min](#MINBF9EF002)               | Computes a new vector where each component is the minimum component in each respective input vector.    |
-| [Max](#MAXD4DA94E4)               | Computes a new vector where each component is the maximum component in each respective input vector.    |
-| [Abs](#ABSECE4369A)               | Computes a new vector where each component is the absolute value of each component in the input vector. |
-| [Distance](#DIS3A367EAF)          | Computes the euclidean distance between any two vectors.                                                |
-| [DistanceSquared](#DIS66C8121E)   | Computes the squared euclidean distance between any two vectors.                                        |
-| [ManhattanDistance](#MANC65C6C67) | Computes the manhattan distance between any two vectors.                                                |
-| [Normalize](#NOR155E4A29)         | Normalizes the input vector and return it.                                                              |
-| [Normalize](#NOR155E4A29)         | Normalizes the input vector.                                                                            |
-| [Lerp](#LER252E49EB)              | Interpolate two vectors.                                                                                |
-| [FromAngle](#FRO9C6B7947)         | Creates a unit length vector with the given angle from the x-axis.                                      |
-| [AngleBetween](#ANGC045F7D3)      | Computes the angle (in radians) between two vectors (using dot product).                                |
-| [Rotate](#ROTC750141D)            | Rotates a vector by the specified angle.                                                                |
-| [Dot](#DOT4EDD927)                | Computes the dot-product of two vectors.                                                                |
-| [Cross](#CROCD89B4EE)             | Computes the cross-product of two vectors.                                                              |
-| [Cross](#CROCD89B4EE)             | Computes the cross-product of a vector and a magnitude.                                                 |
-| [Project](#PROAD473221)           | Projects the first vector onto the second.                                                              |
-| [Project](#PROAD473221)           | Projects a point onto a line segment.                                                                   |
-| [Reflect](#REF3A0C346B)           | Computes the reflection of the input vector about the specified axis.                                   |
-| [Floor](#FLO810114BC)             | Computes a new vector with the floor of each component of the input vector.                             |
-| [Ceil](#CEIAFCC1BAB)              | Computes a new vector with the ceiling of each component of the input vector.                           |
-| [Round](#ROU73CA46FA)             | Computes a new vector with the rounded value of each component of the input vector.                     |
-| [Fraction](#FRA1E836A58)          | Computes a new vector with the fractional portion of each component of the input vector.                |
+| [Set](#SET61D5DB24)               | Sets the components of this vector.                                                                     |
+| [Normalize](#NORF1B1D952)         | Normalize this vector.                                                                                  |
+| [Deconstruct](#DECC77F132C)       |                                                                                                         |
+| [GetMaxComponent](#GET22695431)   | Gets the maximal component in the input vector.                                                         |
+| [GetMinComponent](#GET5870AAA3)   | Gets the minimal component in the input vector.                                                         |
+| [Min](#MINFA9DC5A1)               | Computes a new vector where each component is the minimum component in each respective input vector.    |
+| [Max](#MAX90EC9843)               | Computes a new vector where each component is the maximum component in each respective input vector.    |
+| [Abs](#ABS68763C3B)               | Computes a new vector where each component is the absolute value of each component in the input vector. |
+| [Distance](#DIS8C9D050B)          | Computes the euclidean distance between any two vectors.                                                |
+| [DistanceSquared](#DISBA9532A2)   | Computes the squared euclidean distance between any two vectors.                                        |
+| [ManhattanDistance](#MAN9EDD023B) | Computes the manhattan distance between any two vectors.                                                |
+| [Normalize](#NORE4E65A8E)         | Normalizes the input vector and return it.                                                              |
+| [Normalize](#NOR3BED518E)         | Normalizes the input vector.                                                                            |
+| [Lerp](#LERD952CD56)              | Interpolate two vectors.                                                                                |
+| [FromAngle](#FROE114BB80)         | Creates a unit length vector with the given angle from the x-axis.                                      |
+| [AngleBetween](#ANGFB6C8DB7)      | Computes the angle (in radians) between two vectors (using dot product).                                |
+| [Rotate](#ROTE095D261)            | Rotates a vector by the specified angle.                                                                |
+| [Dot](#DOT31B7F993)               | Computes the dot-product of two vectors.                                                                |
+| [Cross](#CROE54DA882)             | Computes the cross-product of two vectors.                                                              |
+| [Cross](#CRO2759AEA2)             | Computes the cross-product of a vector and a magnitude.                                                 |
+| [Project](#PRO9EB265E1)           | Projects the first vector onto the second.                                                              |
+| [Project](#PRO9DBF61B7)           | Projects a point onto a line segment.                                                                   |
+| [Reflect](#REF86804C70)           | Computes the reflection of the input vector about the specified axis.                                   |
+| [Floor](#FLO4BDBEB51)             | Computes a new vector with the floor of each component of the input vector.                             |
+| [Ceil](#CEI7F611184)              | Computes a new vector with the ceiling of each component of the input vector.                           |
+| [Round](#ROUBDFB082F)             | Computes a new vector with the rounded value of each component of the input vector.                     |
+| [Fraction](#FRAFD1789EF)          | Computes a new vector with the fractional portion of each component of the input vector.                |
 
 ### Fields
 

@@ -38,30 +38,30 @@ Represents a rectangle defined with integer coordinates.
 | [One](#ONE62466566)              | A 1x1 rectangle that is positioned at the origin.                                                                                 |
 | [Zero](#ZERC7D5C0B8)             | A 0x0 rectangle that is positioned at the origin.                                                                                 |
 
-| Methods                      | Summary                                                            |
-|------------------------------|--------------------------------------------------------------------|
-| [ToPolygon](#TOP44DCF963)    | Create a polygon from this rectangle.                              |
-| [Offset](#OFF1FA8EDD)        | Translates this rectangle.                                         |
-| [Offset](#OFF1FA8EDD)        | Translates this rectangle.                                         |
-| [Include](#INC2EBA9B2E)      | Mutates this rectangle to accommodate the given point.             |
-| [Include](#INC2EBA9B2E)      | Mutates this rectangle to accommodate the given rectangle.         |
-| [Inflate](#INF44343AD)       | Expands (or shrinks) the rectangle by a factor on both axis.       |
-| [Inflate](#INF44343AD)       | Expands (or shrinks) the rectangle by a factor on each axis.       |
-| [ClosestPoint](#CLOC5B56A4D) | Returns the nearest point on the rectangle to the given point.     |
-| [Contains](#COND0AE797B)     | Determines if this rectangle contains the given point?             |
-| [Contains](#COND0AE797B)     | Determines if this rectangle contains the given point?             |
-| [Contains](#COND0AE797B)     | Determines if this rectangle contains another rectangle?           |
-| [Overlaps](#OVE7F2D7C32)     | Determines if this rectangle overlaps another rectangle.           |
-| [Deconstruct](#DECC1884FDA)  |                                                                    |
-| [Deconstruct](#DECC1884FDA)  |                                                                    |
-| [Offset](#OFF1FA8EDD)        | Copies and translates the given rectangle.                         |
-| [Offset](#OFF1FA8EDD)        | Copies and translates the given rectangle.                         |
-| [Merge](#MER30DFB5A2)        | Merges the given rectangles into one potentially larger rectangle. |
-| [Merge](#MER30DFB5A2)        | Merges the given rectangles into one potentially larger rectangle. |
-| [Inflate](#INF44343AD)       | Expands (or shrinks) the input rectangle by a factor on both axis. |
-| [Inflate](#INF44343AD)       | Expands (or shrinks) the input rectangle by a factor on each axis. |
-| [FromPoints](#FRO77DF8609)   | Computes the bounding rectangle of the given set of points.        |
-| [FromPoints](#FRO77DF8609)   | Computes the bounding rectangle of the given set of points.        |
+| Methods                     | Summary                                                            |
+|-----------------------------|--------------------------------------------------------------------|
+| [ToPolygon](#TOP74E314EF)   | Create a polygon from this rectangle.                              |
+| [Offset](#OFFE1B0A55B)      | Translates this rectangle.                                         |
+| [Offset](#OFFCA7AF18E)      | Translates this rectangle.                                         |
+| [Include](#INCE62B0D30)     | Mutates this rectangle to accommodate the given point.             |
+| [Include](#INC8A77FFFF)     | Mutates this rectangle to accommodate the given rectangle.         |
+| [Inflate](#INF68BECCD2)     | Expands (or shrinks) the rectangle by a factor on both axis.       |
+| [Inflate](#INF43C5F36B)     | Expands (or shrinks) the rectangle by a factor on each axis.       |
+| [ClosestPoint](#CLO8A3F00D) | Returns the nearest point on the rectangle to the given point.     |
+| [Contains](#CON33387C1A)    | Determines if this rectangle contains the given point?             |
+| [Contains](#CONC965D5FA)    | Determines if this rectangle contains the given point?             |
+| [Contains](#CONB7D08672)    | Determines if this rectangle contains another rectangle?           |
+| [Overlaps](#OVE58E7EB96)    | Determines if this rectangle overlaps another rectangle.           |
+| [Deconstruct](#DEC3AA0C4F1) |                                                                    |
+| [Deconstruct](#DECAD541BCF) |                                                                    |
+| [Offset](#OFF886E255B)      | Copies and translates the given rectangle.                         |
+| [Offset](#OFF3BAEDB92)      | Copies and translates the given rectangle.                         |
+| [Merge](#MERF77E122B)       | Merges the given rectangles into one potentially larger rectangle. |
+| [Merge](#MER3F1A9762)       | Merges the given rectangles into one potentially larger rectangle. |
+| [Inflate](#INFE3C98146)     | Expands (or shrinks) the input rectangle by a factor on both axis. |
+| [Inflate](#INF1642C30B)     | Expands (or shrinks) the input rectangle by a factor on each axis. |
+| [FromPoints](#FROD23D7A77)  | Computes the bounding rectangle of the given set of points.        |
+| [FromPoints](#FRO7E8915A5)  | Computes the bounding rectangle of the given set of points.        |
 
 ### Fields
 

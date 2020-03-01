@@ -10,24 +10,24 @@ Provides several operations for polygons represented as a read-only list of vect
 
 | Methods                                | Summary                                                                                                                               |
 |----------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
-| [GetClosestPoint](#GET53DD1DC3)        | Gets the closest point on the polygon to the specified point. If the point is contained by the polygon, the point itself is returned. |
-| [GetClosestPointOutline](#GET99348117) | Gets the closest point on the polygon outline to the specified point.                                                                 |
-| [ContainsPoint](#CON881CB3C3)          | Assuming the polygon is convex, checks if the point is contained.                                                                     |
-| [Overlaps](#OVE7F2D7C32)               | Tests if a (convex) polygon overlaps the specified shape.                                                                             |
-| [Raycast](#RAY408E945F)                | Checks if a ray intersects this polygon.                                                                                              |
-| [Raycast](#RAY408E945F)                | Checks if a ray intersects this polygon.                                                                                              |
-| [Raycast](#RAY408E945F)                | Checks if a ray intersects this polygon and outputs information on the contact point.                                                 |
-| [Raycast](#RAY408E945F)                | Checks if a ray intersects this polygon and outputs information on the contact point.                                                 |
-| [Project](#PROAD473221)                | Project a polygon onto the specified axis.                                                                                            |
-| [DecomposeConvex](#DECD5C63F18)        | Converts a simple polygon into one or more convex polygons. If the polygon is already convex, this simply clones it.                  |
-| [DecomposeConvexIndices](#DEC1BF9D083) | Converts a simple polygon into one or more convex polygons enumerated by indices of the original polygon.                             |
-| [Triangulate](#TRI86AB1534)            | Decomposes a simple polygon into constituent triangles.                                                                               |
-| [TriangulateIndices](#TRI1E4F7709)     | Decomposes a simple polygon into constituent triangles enumerated by indices of the original polygon.                                 |
-| [IsConvexVertex](#ISC39BC929B)         | Determines if the ith vertex is a convex (clockwise) vertex.                                                                          |
-| [IsConvexPolygon](#ISC197C78B7)        | Determines if the polygon is considered convex (non-concave and oriented clockwise).                                                  |
-| [IsConvexVertex](#ISC39BC929B)         | Determines if the vertex '`vCurr`' is convex (clockwise).                                                                             |
-| [ComputeMetrics](#COM8EB5C2F0)         |                                                                                                                                       |
-| [GetNormal](#GET3AF6BF49)              | Vector perpendicular to the i-th edge.                                                                                                |
+| [GetClosestPoint](#GETB151C47D)        | Gets the closest point on the polygon to the specified point. If the point is contained by the polygon, the point itself is returned. |
+| [GetClosestPointOutline](#GETB6050D89) | Gets the closest point on the polygon outline to the specified point.                                                                 |
+| [ContainsPoint](#CON45F666FA)          | Assuming the polygon is convex, checks if the point is contained.                                                                     |
+| [Overlaps](#OVE3D4308CF)               | Tests if a (convex) polygon overlaps the specified shape.                                                                             |
+| [Raycast](#RAY30673858)                | Checks if a ray intersects this polygon.                                                                                              |
+| [Raycast](#RAY848FA55D)                | Checks if a ray intersects this polygon.                                                                                              |
+| [Raycast](#RAY406214DB)                | Checks if a ray intersects this polygon and outputs information on the contact point.                                                 |
+| [Raycast](#RAY52A47FBA)                | Checks if a ray intersects this polygon and outputs information on the contact point.                                                 |
+| [Project](#PRO11EC2108)                | Project a polygon onto the specified axis.                                                                                            |
+| [DecomposeConvex](#DECEF17F732)        | Converts a simple polygon into one or more convex polygons. If the polygon is already convex, this simply clones it.                  |
+| [DecomposeConvexIndices](#DEC97B32AE0) | Converts a simple polygon into one or more convex polygons enumerated by indices of the original polygon.                             |
+| [Triangulate](#TRI22656356)            | Decomposes a simple polygon into constituent triangles.                                                                               |
+| [TriangulateIndices](#TRI80731139)     | Decomposes a simple polygon into constituent triangles enumerated by indices of the original polygon.                                 |
+| [IsConvexVertex](#ISC7B85044)          | Determines if the ith vertex is a convex (clockwise) vertex.                                                                          |
+| [IsConvexPolygon](#ISC64A2C0E)         | Determines if the polygon is considered convex (non-concave and oriented clockwise).                                                  |
+| [IsConvexVertex](#ISCB20F457E)         | Determines if the vertex '`vCurr`' is convex (clockwise).                                                                             |
+| [ComputeMetrics](#COMDDEECE05)         |                                                                                                                                       |
+| [GetNormal](#GET6318F2B1)              | Vector perpendicular to the i-th edge.                                                                                                |
 
 ### Methods
 

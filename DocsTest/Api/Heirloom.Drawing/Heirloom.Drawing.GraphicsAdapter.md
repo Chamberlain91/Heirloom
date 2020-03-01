@@ -18,11 +18,11 @@
 
 | Methods                              | Summary |
 |--------------------------------------|---------|
-| [QueryCapabilities](#QUE2836B3D8)    |         |
-| [CreateSurfaceFactory](#CRE3B6F8485) |         |
-| [CreateShaderFactory](#CRE430C2925)  |         |
-| [Dispose](#DIS8A0D80C3)              |         |
-| [Dispose](#DIS8A0D80C3)              |         |
+| [QueryCapabilities](#QUE7FAB208E)    |         |
+| [CreateSurfaceFactory](#CREF26AA94D) |         |
+| [CreateShaderFactory](#CRE73D93191)  |         |
+| [Dispose](#DISFDE72264)              |         |
+| [Dispose](#DIS4E62D250)              |         |
 
 ### Constructors
 

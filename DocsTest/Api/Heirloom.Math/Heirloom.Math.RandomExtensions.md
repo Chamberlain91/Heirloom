@@ -10,20 +10,20 @@ Provides extension methods for `System.Random` and other related random operatio
 
 | Methods                        | Summary                                                                                         |
 |--------------------------------|-------------------------------------------------------------------------------------------------|
-| [NextFloat](#NEXE2BBABAB)      | Returns a random floating-point number that is greater than or equal to 0.0, and less than 1.0. |
-| [NextFloat](#NEXE2BBABAB)      | Returns a random floating-point number that is within the specified range.                      |
-| [NextDouble](#NEXF1EEB0FA)     | Returns a random floating-point number that is within the specified range.                      |
-| [NextFloat](#NEXE2BBABAB)      | Returns a random floating-point number that is within the specified range.                      |
-| [Next](#NEX9A907737)           | Returns a random integer number that is within the specified range.                             |
-| [NextVectorDisk](#NEX8BC37A07) | Returns a random point within a unit circle.                                                    |
-| [NextVectorDisk](#NEX8BC37A07) | Returns a random point within a circle.                                                         |
-| [NextUnitVector](#NEXECA9ABD6) | Returns a random unit vector (point on edge of unit circle).                                    |
-| [NextVector](#NEXB4AACA7C)     | Returns a random point within the specified rectangular domain.                                 |
-| [Chance](#CHA6203B22)          | Randomly return true for occurrences with the specified probability.                            |
-| [Choose<T>](#CHO16E1D157)      | Randomly select one of the specified items.                                                     |
-| [Choose<T>](#CHO16E1D157)      | Randomly select one of the specified items.                                                     |
-| [Shuffle<T>](#SHUB92EBACD)     | Shuffles all elements in the list randomly.                                                     |
-| [Shuffle<T>](#SHUB92EBACD)     | Shuffles all elements in the list randomly.                                                     |
+| [NextFloat](#NEXDC2B233D)      | Returns a random floating-point number that is greater than or equal to 0.0, and less than 1.0. |
+| [NextFloat](#NEXDA61B1EF)      | Returns a random floating-point number that is within the specified range.                      |
+| [NextDouble](#NEXEFCA8567)     | Returns a random floating-point number that is within the specified range.                      |
+| [NextFloat](#NEX34949485)      | Returns a random floating-point number that is within the specified range.                      |
+| [Next](#NEXFDB7F181)           | Returns a random integer number that is within the specified range.                             |
+| [NextVectorDisk](#NEX211E62B0) | Returns a random point within a unit circle.                                                    |
+| [NextVectorDisk](#NEX63ECDA00) | Returns a random point within a circle.                                                         |
+| [NextUnitVector](#NEXCF7602C1) | Returns a random unit vector (point on edge of unit circle).                                    |
+| [NextVector](#NEX9D3451B7)     | Returns a random point within the specified rectangular domain.                                 |
+| [Chance](#CHA4F5BB1DF)         | Randomly return true for occurrences with the specified probability.                            |
+| [Choose<T>](#CHO35D979BA)      | Randomly select one of the specified items.                                                     |
+| [Choose<T>](#CHOAA1704A7)      | Randomly select one of the specified items.                                                     |
+| [Shuffle<T>](#SHU79DAFD52)     | Shuffles all elements in the list randomly.                                                     |
+| [Shuffle<T>](#SHU28E3FA21)     | Shuffles all elements in the list randomly.                                                     |
 
 ### Methods
 

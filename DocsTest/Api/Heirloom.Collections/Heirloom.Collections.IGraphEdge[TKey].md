@@ -16,7 +16,7 @@ An edge between two vertices.
 
 | Methods                     | Summary                |
 |-----------------------------|------------------------|
-| [GetOtherKey](#GET2E8209A5) | Returns the other key. |
+| [GetOtherKey](#GET2FB41C95) | Returns the other key. |
 
 ### Properties
 

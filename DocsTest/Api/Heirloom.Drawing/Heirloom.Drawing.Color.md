@@ -46,11 +46,11 @@ Color encoded as 4 component floats.
 
 | Methods                  | Summary                                                                                                                                 |
 |--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| [ToHSV](#TOH70FC404C)    | Extracts the HSV values from this color.                                                                                                |
-| [Parse](#PARB2AE6A55)    | Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'. |
-| [TryParse](#TRYB6E4194A) | Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'. |
-| [FromHSV](#FRO5B1AAFFF)  | Converts HSV values into a RGBA color.                                                                                                  |
-| [Lerp](#LER252E49EB)     | Interpolate two colors together.                                                                                                        |
+| [ToHSV](#TOH917B084C)    | Extracts the HSV values from this color.                                                                                                |
+| [Parse](#PARC735922D)    | Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'. |
+| [TryParse](#TRY24767EF5) | Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'. |
+| [FromHSV](#FRO114990E)   | Converts HSV values into a RGBA color.                                                                                                  |
+| [Lerp](#LER5DCDA93B)     | Interpolate two colors together.                                                                                                        |
 
 ### Fields
 

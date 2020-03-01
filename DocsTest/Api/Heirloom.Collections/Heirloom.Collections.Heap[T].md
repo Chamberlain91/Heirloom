@@ -19,15 +19,15 @@ The heap always acts like a min-heap but inverts the result of comparison for ma
 
 | Methods                       | Summary                                                                     |
 |-------------------------------|-----------------------------------------------------------------------------|
-| [Add](#ADDBCD0F225)           | Adds an item to the heap.                                                   |
-| [AddRange](#ADD15375A3E)      | Adds multiple items to the heap.                                            |
-| [Peek](#PEE52739267)          | Gets the next item in the heap to be removed.                               |
-| [Remove](#REMF10744DE)        | Removes and returns the next priority item in the heap.                     |
-| [Remove](#REMF10744DE)        | Removes a specific item from the heap.                                      |
-| [Update](#UPDD1771A75)        | Alerts the heap to update the position the element within the heap.         |
-| [Contains](#COND0AE797B)      |                                                                             |
-| [ToArray](#TOAF17D74F8)       | Clones the heap, and returns an array of the elements in priority ordering. |
-| [GetEnumerator](#GETF1F90828) | Enumerates the values in the heap (in no particular order)                  |
+| [Add](#ADD9453EEA5)           | Adds an item to the heap.                                                   |
+| [AddRange](#ADD964BA200)      | Adds multiple items to the heap.                                            |
+| [Peek](#PEE599BAF94)          | Gets the next item in the heap to be removed.                               |
+| [Remove](#REMF63FEEE5)        | Removes and returns the next priority item in the heap.                     |
+| [Remove](#REM291D149A)        | Removes a specific item from the heap.                                      |
+| [Update](#UPD9BB09A13)        | Alerts the heap to update the position the element within the heap.         |
+| [Contains](#CON50B6A9F)       |                                                                             |
+| [ToArray](#TOA1C8FFB1)        | Clones the heap, and returns an array of the elements in priority ordering. |
+| [GetEnumerator](#GETDDD17E2E) | Enumerates the values in the heap (in no particular order)                  |
 
 ### Constructors
 

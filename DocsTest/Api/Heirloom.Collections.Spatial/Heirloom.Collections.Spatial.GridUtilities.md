@@ -11,12 +11,12 @@ Provides extra utilities for interacting with a grid.
 
 | Methods                                   | Summary                                                                        |
 |-------------------------------------------|--------------------------------------------------------------------------------|
-| [GetNeighbors<T>](#GET28C4FD09)           | Gets the specified cell's neighbors.                                           |
-| [GetNeighbors<T>](#GET28C4FD09)           | Gets the specified cell's neighbors.                                           |
-| [GetNeighborCoordinates<T>](#GET861B7DFF) | Gets the specified cell's neighbor coordinates.                                |
-| [GetNeighborCoordinates<T>](#GET861B7DFF) | Gets the specified cell's neighbor coordinates.                                |
-| [GetNeighborCoordinates](#GETC4098B39)    | Gets neighboring grid coordinates relative to the specified input coordinates. |
-| [GetNeighborCoordinates](#GETC4098B39)    | Gets neighboring grid coordinates relative to the specified input coordinates. |
+| [GetNeighbors<T>](#GET4A714195)           | Gets the specified cell's neighbors.                                           |
+| [GetNeighbors<T>](#GET6537BD34)           | Gets the specified cell's neighbors.                                           |
+| [GetNeighborCoordinates<T>](#GETE578E7E8) | Gets the specified cell's neighbor coordinates.                                |
+| [GetNeighborCoordinates<T>](#GET5E76C37D) | Gets the specified cell's neighbor coordinates.                                |
+| [GetNeighborCoordinates](#GETB5329BCB)    | Gets neighboring grid coordinates relative to the specified input coordinates. |
+| [GetNeighborCoordinates](#GETFFBC511E)    | Gets neighboring grid coordinates relative to the specified input coordinates. |
 
 ### Methods
 

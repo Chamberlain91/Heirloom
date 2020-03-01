@@ -10,8 +10,8 @@ An implementation of delaunay triangulation.
 
 | Methods                     | Summary                                                   |
 |-----------------------------|-----------------------------------------------------------|
-| [Triangulate](#TRI86AB1534) | Constructs the Delaunay triangulation of a set of points. |
-| [Triangulate](#TRI86AB1534) | Constructs the Delaunay triangulation of a set of points. |
+| [Triangulate](#TRID625DE96) | Constructs the Delaunay triangulation of a set of points. |
+| [Triangulate](#TRIB7A53FD1) | Constructs the Delaunay triangulation of a set of points. |
 
 ### Methods
 

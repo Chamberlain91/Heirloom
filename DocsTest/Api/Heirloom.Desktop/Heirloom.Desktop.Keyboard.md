@@ -9,8 +9,8 @@
 
 | Methods                             | Summary                                                 |
 |-------------------------------------|---------------------------------------------------------|
-| [GetPrintableKeyName](#GET52556CED) | Gets the printable name of a key.                       |
-| [GetPrintableKeyName](#GET52556CED) | Gets the printable name of a key specified by scancode. |
+| [GetPrintableKeyName](#GET7D43A45)  | Gets the printable name of a key.                       |
+| [GetPrintableKeyName](#GET84CEE258) | Gets the printable name of a key specified by scancode. |
 
 ### Methods
 

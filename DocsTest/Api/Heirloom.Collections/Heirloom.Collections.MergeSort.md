@@ -8,8 +8,8 @@
 
 | Methods                       | Summary                                             |
 |-------------------------------|-----------------------------------------------------|
-| [StableSort<T>](#STADCF2B775) | Sorts the elements of the list using a stable sort. |
-| [StableSort<T>](#STADCF2B775) | Sorts the elements of the list using a stable sort. |
+| [StableSort<T>](#STA3C51666D) | Sorts the elements of the list using a stable sort. |
+| [StableSort<T>](#STADFEC8C93) | Sorts the elements of the list using a stable sort. |
 
 ### Methods
 

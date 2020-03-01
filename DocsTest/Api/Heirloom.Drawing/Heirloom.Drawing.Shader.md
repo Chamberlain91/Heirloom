@@ -19,13 +19,13 @@ Provides GLSL shader support for custom image effects and other visual processin
 
 | Methods                       | Summary                                     |
 |-------------------------------|---------------------------------------------|
-| [SetUniform](#SETFC59916E)    | Updates one of the shader uniforms by name. |
-| [SetUniform](#SETFC59916E)    | Updates one of the shader uniforms by name. |
-| [SetUniform](#SETFC59916E)    | Updates one of the shader uniforms by name. |
-| [SetUniform](#SETFC59916E)    | Updates one of the shader uniforms by name. |
-| [SetUniform<T>](#SETE7B4050C) | Updates one of the shader uniforms by name. |
-| [SetUniform](#SETFC59916E)    | Updates one of the shader uniforms by name. |
-| [Dispose](#DIS8A0D80C3)       |                                             |
+| [SetUniform](#SET888E387E)    | Updates one of the shader uniforms by name. |
+| [SetUniform](#SET62D3E459)    | Updates one of the shader uniforms by name. |
+| [SetUniform](#SET7BB5BD90)    | Updates one of the shader uniforms by name. |
+| [SetUniform](#SET5E636ABC)    | Updates one of the shader uniforms by name. |
+| [SetUniform<T>](#SETB88E5AFC) | Updates one of the shader uniforms by name. |
+| [SetUniform](#SETDB9B094B)    | Updates one of the shader uniforms by name. |
+| [Dispose](#DIS4E62D250)       |                                             |
 
 ### Constructors
 

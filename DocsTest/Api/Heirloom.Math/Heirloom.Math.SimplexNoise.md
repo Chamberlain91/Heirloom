@@ -11,8 +11,8 @@ Implements methods for sampling 2D and 3D simplex noise.
 
 | Methods                | Summary |
 |------------------------|---------|
-| [Sample](#SAMB4A361CC) |         |
-| [Sample](#SAMB4A361CC) |         |
+| [Sample](#SAMB43AC0AA) |         |
+| [Sample](#SAM96EA574)  |         |
 
 ### Constructors
 

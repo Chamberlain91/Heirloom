@@ -25,40 +25,40 @@ A 2x3 transformation matrix.
 | [Item](#ITE8B5A2F95)     |                                  |
 | [Inverted](#INVDE5124E3) | Gets the inverse of this matrix. |
 
-| Methods                              | Summary                                                                                                                    |
-|--------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
-| [Multiply](#MULD34B4AA2)             | Multiplies a vector against this matrix.                                                                                   |
-| [MultiplyVector](#MULA8AB5E1)        | Multiplies a vector against this matrix ignoring the translational components.                                             |
-| [SetScale](#SETAD4C1420)             | Configures this matrix as a scaling matrix.                                                                                |
-| [SetShear](#SET6BFF6EFF)             | Configures this matrix as a shearing matrix.                                                                               |
-| [SetRotation](#SET3CEB9E5C)          | Configures this matrix as a rotation matrix.                                                                               |
-| [SetTranslation](#SET8706F609)       | Configures this matrix as a translation matrix.                                                                            |
-| [Deconstruct](#DECC1884FDA)          |                                                                                                                            |
-| [GetAffineScale](#GETC2509749)       | Extracts affine scaling components from this matrix.                                                                       |
-| [GetAffineTranslation](#GET86F730A4) | Extracts affine translational components from this matrix.                                                                 |
-| [GetAffineRotation](#GETD96D4299)    | Extracts affine rotational component (the angle) from this matrix.                                                         |
-| [Inverse](#INVAD55C89E)              | Computes the inverse of this matrix.                                                                                       |
-| [Inverse](#INVAD55C89E)              | Computes the inverse of the matrix and stores the resulting matrix into `dest`.                                            |
-| [Multiply](#MULD34B4AA2)             | Multiply two matrices together and store the result in `dest`.                                                             |
-| [Multiply](#MULD34B4AA2)             | Multiply two matrices together.                                                                                            |
-| [Multiply](#MULD34B4AA2)             | Multiplies a vector and matrix together and stores the resulting vector into `dest`.                                       |
-| [MultiplyVector](#MULA8AB5E1)        | Multiplies a vector and matrix together ignoring the translational components and stores the resulting vector into `dest`. |
-| [Multiply](#MULD34B4AA2)             | Multiplies a vector and matrix together.                                                                                   |
-| [MultiplyVector](#MULA8AB5E1)        | Multiplies a vector and matrix together ignoring the translational components.                                             |
-| [CreateRotation](#CREF5925A8C)       | Constructs a new rotation matrix.                                                                                          |
-| [CreateScale](#CRE3529FB8C)          | Constructs a new scaling matrix.                                                                                           |
-| [CreateScale](#CRE3529FB8C)          | Constructs a new scaling matrix.                                                                                           |
-| [CreateScale](#CRE3529FB8C)          | Constructs a new scaling matrix.                                                                                           |
-| [CreateScale](#CRE3529FB8C)          | Constructs a new uniform scaling matrix.                                                                                   |
-| [CreateShear](#CRE2A5B6875)          | Constructs a new shearing matrix.                                                                                          |
-| [CreateShear](#CRE2A5B6875)          | Constructs a new shearing matrix.                                                                                          |
-| [CreateTranslation](#CREFC0CD68F)    | Constructs a new translation matrix.                                                                                       |
-| [CreateTranslation](#CREFC0CD68F)    | Constructs a new translation matrix.                                                                                       |
-| [CreateTransform](#CRE8DAF75FA)      | Creates a transform matrix with postion, rotation and scale.                                                               |
-| [CreateTransform](#CRE8DAF75FA)      | Creates a transform matrix with postion, rotation and scale.                                                               |
-| [CreateTransform](#CRE8DAF75FA)      | Creates a transform matrix with postion, rotation and scale.                                                               |
-| [RectangleProjection](#REC6922F69E)  | Constructs a matrix that transforms a rectangular region to normalized screen coordinates.                                 |
-| [RectangleProjection](#REC6922F69E)  | Constructs a matrix that transforms a rectangular region to normalized screen coordinates.                                 |
+| Methods                             | Summary                                                                                                                    |
+|-------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| [Multiply](#MULA01B3C26)            | Multiplies a vector against this matrix.                                                                                   |
+| [MultiplyVector](#MUL344EEFCB)      | Multiplies a vector against this matrix ignoring the translational components.                                             |
+| [SetScale](#SETB8F3AE82)            | Configures this matrix as a scaling matrix.                                                                                |
+| [SetShear](#SET1455197D)            | Configures this matrix as a shearing matrix.                                                                               |
+| [SetRotation](#SET629A8C2C)         | Configures this matrix as a rotation matrix.                                                                               |
+| [SetTranslation](#SET9C40E643)      | Configures this matrix as a translation matrix.                                                                            |
+| [Deconstruct](#DECE7BF1534)         |                                                                                                                            |
+| [GetAffineScale](#GET6E6D9161)      | Extracts affine scaling components from this matrix.                                                                       |
+| [GetAffineTranslation](#GETA3108D8) | Extracts affine translational components from this matrix.                                                                 |
+| [GetAffineRotation](#GETFC5A2BF0)   | Extracts affine rotational component (the angle) from this matrix.                                                         |
+| [Inverse](#INV15CA99E1)             | Computes the inverse of this matrix.                                                                                       |
+| [Inverse](#INVD9F20D2A)             | Computes the inverse of the matrix and stores the resulting matrix into `dest`.                                            |
+| [Multiply](#MUL2EE9291A)            | Multiply two matrices together and store the result in `dest`.                                                             |
+| [Multiply](#MULE5544DFB)            | Multiply two matrices together.                                                                                            |
+| [Multiply](#MULA47B6226)            | Multiplies a vector and matrix together and stores the resulting vector into `dest`.                                       |
+| [MultiplyVector](#MUL97F9D4D)       | Multiplies a vector and matrix together ignoring the translational components and stores the resulting vector into `dest`. |
+| [Multiply](#MULF160C86F)            | Multiplies a vector and matrix together.                                                                                   |
+| [MultiplyVector](#MULC9427D0A)      | Multiplies a vector and matrix together ignoring the translational components.                                             |
+| [CreateRotation](#CREFEEBBF99)      | Constructs a new rotation matrix.                                                                                          |
+| [CreateScale](#CRED808600D)         | Constructs a new scaling matrix.                                                                                           |
+| [CreateScale](#CREAED1C584)         | Constructs a new scaling matrix.                                                                                           |
+| [CreateScale](#CREA9915924)         | Constructs a new scaling matrix.                                                                                           |
+| [CreateScale](#CRED84425C8)         | Constructs a new uniform scaling matrix.                                                                                   |
+| [CreateShear](#CRE449942A2)         | Constructs a new shearing matrix.                                                                                          |
+| [CreateShear](#CRE9A8AF65E)         | Constructs a new shearing matrix.                                                                                          |
+| [CreateTranslation](#CRE5F85B0FC)   | Constructs a new translation matrix.                                                                                       |
+| [CreateTranslation](#CREAB8C7C8B)   | Constructs a new translation matrix.                                                                                       |
+| [CreateTransform](#CRE453BC4C2)     | Creates a transform matrix with postion, rotation and scale.                                                               |
+| [CreateTransform](#CREA464B8A4)     | Creates a transform matrix with postion, rotation and scale.                                                               |
+| [CreateTransform](#CREC6CA49EB)     | Creates a transform matrix with postion, rotation and scale.                                                               |
+| [RectangleProjection](#REC4A6C6C04) | Constructs a matrix that transforms a rectangular region to normalized screen coordinates.                                 |
+| [RectangleProjection](#REC1B4A2103) | Constructs a matrix that transforms a rectangular region to normalized screen coordinates.                                 |
 
 ### Fields
 

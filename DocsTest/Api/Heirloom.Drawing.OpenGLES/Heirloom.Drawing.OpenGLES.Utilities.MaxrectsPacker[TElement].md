@@ -10,8 +10,8 @@
 
 | Methods                | Summary |
 |------------------------|---------|
-| [Clear](#CLE3BB23EF9)  |         |
-| [Insert](#INSC7B161AF) |         |
+| [Clear](#CLE4538C554)  |         |
+| [Insert](#INS945E8471) |         |
 
 ### Constructors
 

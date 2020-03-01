@@ -21,120 +21,120 @@ Math operations for `System.Single` and a other data types including `System.Int
 | [ToDegree](#TODE6B6954F)  | 180.0 / Pi                                                                              |
 | [Epsilon](#EPSB247C6F0)   | A small number almost considered zero, greatly differs from `System.Single.Epsilon`.    |
 
-| Methods                            | Summary                                                                                                                                       |
-|------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| [Lerp](#LER252E49EB)               | Computes the linear interpolation from `x1` to `x2` by factor `t`.                                                                            |
-| [Lerp](#LER252E49EB)               | Computes the linear interpolation from `x1` to `x2` by factor `t`.                                                                            |
-| [AngleLerp](#ANGC5CFDC70)          | Computes the linear interpolation of two angles across the shorter distance.                                                                  |
-| [AngleLerp](#ANGC5CFDC70)          | Computes the linear interpolation of two angles across the shorter distance.                                                                  |
-| [Between](#BET1EFF1D2)             | Computes the interpolation factor (0.0 to 1.0) of `x` between `min` and `max`.                                                                |
-| [IsBetween](#ISB589ADA16)          | Computes the interpolation factor (0.0 to 1.0) of `x` between `min` and `max`.                                                                |
-| [Rescale](#RES8C920C4B)            | Rescales a value with domain `min1` to `max1` to a new domain `min2` to `max2`.                                                               |
-| [Rescale](#RES8C920C4B)            | Rescales a value from the source domain a target domain.                                                                                      |
-| [CosineInterpolation](#COS1808F0F) | Computes a cosine based interpolation from `x1` to `x2`.                                                                                      |
-| [SmoothStep](#SMO5EC2B192)         | Computes the smooth-step of `x` between `min` and `max`.                                                                                      |
-| [SmootherStep](#SMO363D4C9B)       | Computes the smoother smooth-step of `x` between `min` and `max`.                                                                             |
-| [NearestPowerOfTwo](#NEA785D09DE)  | Computes the nearest power of 2 to a number. This is done by computing both lower and upper power of 2, and then comparing the distance to x. |
-| [NearestPowerOfTwo](#NEA785D09DE)  | Computes the nearest power of 2 to a number. This is done by computing both lower and upper power of 2, and then comparing the distance to x. |
-| [LowerPowerOfTwo](#LOWC50A5F89)    | Computes the lower power of 2 nearest to x.                                                                                                   |
-| [LowerPowerOfTwo](#LOWC50A5F89)    | Computes the lower power of 2 nearest to x.                                                                                                   |
-| [UpperPowerOfTwo](#UPPEB7C9D30)    | Computes the upper power of 2 nearest to x.                                                                                                   |
-| [UpperPowerOfTwo](#UPPEB7C9D30)    | Computes the upper power of 2 nearest to x.                                                                                                   |
-| [IsPowerOfTwo](#ISPCF2151F0)       | Determines if the given integer is a power of 2.                                                                                              |
-| [IsPowerOfTwo](#ISPCF2151F0)       | Determines if the given integer is a power of 2.                                                                                              |
-| [IsPowerOfTwo](#ISPCF2151F0)       | Determines if the given integer is a power of 2.                                                                                              |
-| [Swap<T>](#SWAE745DFE3)            | Swaps two references.                                                                                                                         |
-| [Swap<T>](#SWAE745DFE3)            | Swaps two positions within the given list.                                                                                                    |
-| [Order<T>](#ORD797EB8)             | Orders the two given references so they are in comparable order.                                                                              |
-| [Wrap](#WRA91C4FFD6)               | Wraps (loops) a number within a zero to n range.                                                                                              |
-| [Wrap](#WRA91C4FFD6)               | Wraps (loops) a number within a range.                                                                                                        |
-| [Wrap](#WRA91C4FFD6)               | Wraps (loops) a number within a range.                                                                                                        |
-| [Wrap](#WRA91C4FFD6)               | Wraps (loops) a number within a zero to n range.                                                                                              |
-| [Wrap](#WRA91C4FFD6)               | Wraps (loops) a number within a range.                                                                                                        |
-| [Wrap](#WRA91C4FFD6)               | Wraps (loops) a number within a range.                                                                                                        |
-| [DeadZone](#DEA3137E75A)           | Returns `center` if `x` is within `spread` units of `center` otherwise `x`.                                                                   |
-| [Osc](#OSC651462B7)                | The function sine mapped to [0.0, 1.0].                                                                                                       |
-| [Sin](#SINBF9EF254)                | The function sine.                                                                                                                            |
-| [Asin](#ASI6FB7ABE5)               | Ihe inverse of the function sine.                                                                                                             |
-| [Cos](#COS4EDD987)                 | The function cosine.                                                                                                                          |
-| [Acos](#ACOA6973FB4)               | The inverse of the function cosine.                                                                                                           |
-| [Tan](#TAND4DA96D3)                | The tangent function.                                                                                                                         |
-| [Atan](#ATAA363D0C0)               | The inverse of the tangent function.                                                                                                          |
-| [Atan2](#ATAF7321152)              | Computes the angle whose tangent is quotient to `x` and `y`.                                                                                  |
-| [Distance](#DIS3A367EAF)           | Computes the distance between a pair of one-dimensional points.                                                                               |
-| [Distance](#DIS3A367EAF)           | Computes the distance between a pair of two-dimensional points.                                                                               |
-| [Pow](#POW4EDDB94)                 | Computes `x` raised to the power of `y`.                                                                                                      |
-| [Pow](#POW4EDDB94)                 | Computes `x` raised to the power of `y`.                                                                                                      |
-| [Log](#LOG4EDDA20)                 | Computes the natural logarithm of `x`.                                                                                                        |
-| [Log](#LOG4EDDA20)                 | Computes the natural logarithm of `x`.                                                                                                        |
-| [Log](#LOG4EDDA20)                 | Computes the logarithm of `x` with base `b`.                                                                                                  |
-| [Log](#LOG4EDDA20)                 | Computes the logarithm of `x` with base `b`.                                                                                                  |
-| [Sqrt](#SQRAD021164)               | Computes the square root of `x`.                                                                                                              |
-| [Sqrt](#SQRAD021164)               | Computes the square root of `x`.                                                                                                              |
-| [Factorial](#FAC74CF4FF9)          | Computes the factorial of `x`.                                                                                                                |
-| [Factorial](#FAC74CF4FF9)          | Computes the factorial of `x`.                                                                                                                |
-| [Min](#MINBF9EF002)                | Returns the minimum value between `x` and `y`.                                                                                                |
-| [Max](#MAXD4DA94E4)                | Returns the maximum value between `x` and `y`.                                                                                                |
-| [Clamp](#CLAC65011EB)              | Returns the value `x` clamped to the specified range.                                                                                         |
-| [Abs](#ABSECE4369A)                | Computes the absolute value of `x`.                                                                                                           |
-| [Sign](#SIGF27C33B)                | Returns the sign of `x` as if compared against zero (-1, 0 or +1)                                                                             |
-| [Fraction](#FRA1E836A58)           | Compute the fractional (decimal) portion of the number `x`.                                                                                   |
-| [Min](#MINBF9EF002)                | Returns the minimum value between `x` and `y`.                                                                                                |
-| [Max](#MAXD4DA94E4)                | Returns the maximum value between `x` and `y`.                                                                                                |
-| [Clamp](#CLAC65011EB)              | Returns the value `x` clamped to the specified range.                                                                                         |
-| [Abs](#ABSECE4369A)                | Computes the absolute value of `x`.                                                                                                           |
-| [Sign](#SIGF27C33B)                | Returns the sign of `x` as if compared against zero (-1, 0 or +1)                                                                             |
-| [Fraction](#FRA1E836A58)           | Compute the fractional (decimal) portion of the number `x`.                                                                                   |
-| [Min](#MINBF9EF002)                | Returns the minimum value between `x` and `y`.                                                                                                |
-| [Max](#MAXD4DA94E4)                | Returns the maximum value between `x` and `y`.                                                                                                |
-| [Clamp](#CLAC65011EB)              | Returns the value `x` clamped to the specified range.                                                                                         |
-| [Abs](#ABSECE4369A)                | Computes the absolute value of `x`.                                                                                                           |
-| [Sign](#SIGF27C33B)                | Returns the sign of `x` as if compared against zero (-1, 0 or +1)                                                                             |
-| [Min](#MINBF9EF002)                | Returns the minimum value between `x` and `y`.                                                                                                |
-| [Max](#MAXD4DA94E4)                | Returns the maximum value between `x` and `y`.                                                                                                |
-| [Clamp](#CLAC65011EB)              | Returns the value `x` clamped to the specified range.                                                                                         |
-| [Min](#MINBF9EF002)                | Returns the minimum value between `x` and `y`.                                                                                                |
-| [Max](#MAXD4DA94E4)                | Returns the maximum value between `x` and `y`.                                                                                                |
-| [Clamp](#CLAC65011EB)              | Returns the value `x` clamped to the specified range.                                                                                         |
-| [Abs](#ABSECE4369A)                | Computes the absolute value of `x`.                                                                                                           |
-| [Sign](#SIGF27C33B)                | Returns the sign of `x` as if compared against zero (-1, 0 or +1)                                                                             |
-| [Min](#MINBF9EF002)                | Returns the minimum value between `x` and `y`.                                                                                                |
-| [Max](#MAXD4DA94E4)                | Returns the maximum value between `x` and `y`.                                                                                                |
-| [Clamp](#CLAC65011EB)              | Returns the value `x` clamped to the specified range.                                                                                         |
-| [Min](#MINBF9EF002)                | Returns the minimum value between `x` and `y`.                                                                                                |
-| [Max](#MAXD4DA94E4)                | Returns the maximum value between `x` and `y`.                                                                                                |
-| [Clamp](#CLAC65011EB)              | Returns the value `x` clamped to the specified range.                                                                                         |
-| [Abs](#ABSECE4369A)                | Computes the absolute value of `x`.                                                                                                           |
-| [Sign](#SIGF27C33B)                | Returns the sign of `x` as if compared against zero (-1, 0 or +1)                                                                             |
-| [Min](#MINBF9EF002)                | Returns the minimum value between `x` and `y`.                                                                                                |
-| [Max](#MAXD4DA94E4)                | Returns the maximum value between `x` and `y`.                                                                                                |
-| [Clamp](#CLAC65011EB)              | Returns the value `x` clamped to the specified range.                                                                                         |
-| [Min](#MINBF9EF002)                | Returns the minimum value in the given set of numbers.                                                                                        |
-| [Max](#MAXD4DA94E4)                | Returns the maximum value in the given set of numbers.                                                                                        |
-| [Min](#MINBF9EF002)                | Returns the minimum value in the given set of numbers.                                                                                        |
-| [Max](#MAXD4DA94E4)                | Returns the maximum value in the given set of numbers.                                                                                        |
-| [Min<T>](#MIN1EA6ECD8)             | Finds the comparably minimum value from the set of value.                                                                                     |
-| [Min<T>](#MIN1EA6ECD8)             | Finds the comparably minimum value from the set of value.                                                                                     |
-| [Max<T>](#MAX2275F362)             | Finds the comparably maximum value from the set of value.                                                                                     |
-| [Max<T>](#MAX2275F362)             | Finds the comparably maximum value from the set of value.                                                                                     |
-| [Floor](#FLO810114BC)              | Computes the floor integer (rounding down) of the value `x`.                                                                                  |
-| [Ceil](#CEIAFCC1BAB)               | Computes the ceiling integer (rounding up) of the value `x`.                                                                                  |
-| [Round](#ROU73CA46FA)              | Computes the nearest integer of the value `x`.                                                                                                |
-| [Floor](#FLO810114BC)              | Computes the floor integer (rounding down) of the value `x`.                                                                                  |
-| [Ceil](#CEIAFCC1BAB)               | Computes the ceiling integer (rounding up) of the value `x`.                                                                                  |
-| [Round](#ROU73CA46FA)              | Computes the nearest integer of the value `x`.                                                                                                |
-| [NearEquals](#NEA350D3DAB)         | Determines if the two values are nearly equal comparing equality within a `Heirloom.Math.Calc.Epsilon` threshold.                             |
-| [NearEquals](#NEA350D3DAB)         | Determines if the two values are nearly equal comparing equality within a threshold.                                                          |
-| [NearZero](#NEAB3B21DBA)           | Determines if the value is nearly equal to zero by comparing equality within a `Heirloom.Math.Calc.Epsilon` threshold.                        |
-| [NearEquals](#NEA350D3DAB)         | Determines if the two values are nearly equal comparing equality within a `Heirloom.Math.Calc.Epsilon` threshold.                             |
-| [NearEquals](#NEA350D3DAB)         | Determines if the two values are nearly equal comparing equality within a threshold.                                                          |
-| [NearZero](#NEAB3B21DBA)           | Determines if the value is nearly equal to zero by comparing equality within a `Heirloom.Math.Calc.Epsilon` threshold.                        |
-| [Lerp](#LER252E49EB)               | Computes the linear interpolation from `x1` to `x2` by factor `t`.                                                                            |
-| [Lerp](#LER252E49EB)               | Computes the linear interpolation from `x1` to `x2` by factor `t`.                                                                            |
-| [Lerp](#LER252E49EB)               | Computes the linear interpolation from `x1` to `x2` by factor `t`.                                                                            |
-| [Lerp](#LER252E49EB)               | Computes the linear interpolation from `x1` to `x2` by factor `t`.                                                                            |
-| [Lerp](#LER252E49EB)               | Computes the linear interpolation from `x1` to `x2` by factor `t`.                                                                            |
-| [Lerp](#LER252E49EB)               | Computes the linear interpolation from `x1` to `x2` by factor `t`.                                                                            |
+| Methods                             | Summary                                                                                                                                       |
+|-------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| [Lerp](#LER1E32ABA1)                | Computes the linear interpolation from `x1` to `x2` by factor `t`.                                                                            |
+| [Lerp](#LER4C636FF9)                | Computes the linear interpolation from `x1` to `x2` by factor `t`.                                                                            |
+| [AngleLerp](#ANG142CA73E)           | Computes the linear interpolation of two angles across the shorter distance.                                                                  |
+| [AngleLerp](#ANGB785B7AC)           | Computes the linear interpolation of two angles across the shorter distance.                                                                  |
+| [Between](#BET198DC48C)             | Computes the interpolation factor (0.0 to 1.0) of `x` between `min` and `max`.                                                                |
+| [IsBetween](#ISBD461C5F6)           | Computes the interpolation factor (0.0 to 1.0) of `x` between `min` and `max`.                                                                |
+| [Rescale](#RES24BC2AB3)             | Rescales a value with domain `min1` to `max1` to a new domain `min2` to `max2`.                                                               |
+| [Rescale](#RES88F32950)             | Rescales a value from the source domain a target domain.                                                                                      |
+| [CosineInterpolation](#COSA5D83C23) | Computes a cosine based interpolation from `x1` to `x2`.                                                                                      |
+| [SmoothStep](#SMO4183BCC1)          | Computes the smooth-step of `x` between `min` and `max`.                                                                                      |
+| [SmootherStep](#SMOF6A04A40)        | Computes the smoother smooth-step of `x` between `min` and `max`.                                                                             |
+| [NearestPowerOfTwo](#NEA66788BDF)   | Computes the nearest power of 2 to a number. This is done by computing both lower and upper power of 2, and then comparing the distance to x. |
+| [NearestPowerOfTwo](#NEA89ECBB2F)   | Computes the nearest power of 2 to a number. This is done by computing both lower and upper power of 2, and then comparing the distance to x. |
+| [LowerPowerOfTwo](#LOW9781B988)     | Computes the lower power of 2 nearest to x.                                                                                                   |
+| [LowerPowerOfTwo](#LOWEBAC5A48)     | Computes the lower power of 2 nearest to x.                                                                                                   |
+| [UpperPowerOfTwo](#UPP6E59B0D1)     | Computes the upper power of 2 nearest to x.                                                                                                   |
+| [UpperPowerOfTwo](#UPPE7C7FFD5)     | Computes the upper power of 2 nearest to x.                                                                                                   |
+| [IsPowerOfTwo](#ISP9095B2A2)        | Determines if the given integer is a power of 2.                                                                                              |
+| [IsPowerOfTwo](#ISPF1B2047)         | Determines if the given integer is a power of 2.                                                                                              |
+| [IsPowerOfTwo](#ISP19811CD6)        | Determines if the given integer is a power of 2.                                                                                              |
+| [Swap<T>](#SWAFD4B5953)             | Swaps two references.                                                                                                                         |
+| [Swap<T>](#SWA30647658)             | Swaps two positions within the given list.                                                                                                    |
+| [Order<T>](#ORDE448E4D8)            | Orders the two given references so they are in comparable order.                                                                              |
+| [Wrap](#WRABCD6B4CE)                | Wraps (loops) a number within a zero to n range.                                                                                              |
+| [Wrap](#WRAD3CAA971)                | Wraps (loops) a number within a range.                                                                                                        |
+| [Wrap](#WRAB05E993)                 | Wraps (loops) a number within a range.                                                                                                        |
+| [Wrap](#WRA8FAF8DA9)                | Wraps (loops) a number within a zero to n range.                                                                                              |
+| [Wrap](#WRAF3544011)                | Wraps (loops) a number within a range.                                                                                                        |
+| [Wrap](#WRA1179C81F)                | Wraps (loops) a number within a range.                                                                                                        |
+| [DeadZone](#DEA59C907BB)            | Returns `center` if `x` is within `spread` units of `center` otherwise `x`.                                                                   |
+| [Osc](#OSCC703CDB2)                 | The function sine mapped to [0.0, 1.0].                                                                                                       |
+| [Sin](#SIN7B139DD3)                 | The function sine.                                                                                                                            |
+| [Asin](#ASIB4E9E3D6)                | Ihe inverse of the function sine.                                                                                                             |
+| [Cos](#COS637C3FC2)                 | The function cosine.                                                                                                                          |
+| [Acos](#ACO3E5E8CB1)                | The inverse of the function cosine.                                                                                                           |
+| [Tan](#TAN2AE1A1A2)                 | The tangent function.                                                                                                                         |
+| [Atan](#ATAE0337541)                | The inverse of the tangent function.                                                                                                          |
+| [Atan2](#ATA5850F146)               | Computes the angle whose tangent is quotient to `x` and `y`.                                                                                  |
+| [Distance](#DISED845EB)             | Computes the distance between a pair of one-dimensional points.                                                                               |
+| [Distance](#DISC594BAAA)            | Computes the distance between a pair of two-dimensional points.                                                                               |
+| [Pow](#POW6B12C656)                 | Computes `x` raised to the power of `y`.                                                                                                      |
+| [Pow](#POW912ACCF7)                 | Computes `x` raised to the power of `y`.                                                                                                      |
+| [Log](#LOGFC9271CB)                 | Computes the natural logarithm of `x`.                                                                                                        |
+| [Log](#LOG46505B5F)                 | Computes the natural logarithm of `x`.                                                                                                        |
+| [Log](#LOG5B15651D)                 | Computes the logarithm of `x` with base `b`.                                                                                                  |
+| [Log](#LOG2BFB8F5C)                 | Computes the logarithm of `x` with base `b`.                                                                                                  |
+| [Sqrt](#SQR996D4597)                | Computes the square root of `x`.                                                                                                              |
+| [Sqrt](#SQR4A846713)                | Computes the square root of `x`.                                                                                                              |
+| [Factorial](#FAC871EAF8)            | Computes the factorial of `x`.                                                                                                                |
+| [Factorial](#FAC6888BE58)           | Computes the factorial of `x`.                                                                                                                |
+| [Min](#MIN80FBF4A5)                 | Returns the minimum value between `x` and `y`.                                                                                                |
+| [Max](#MAX5215748B)                 | Returns the maximum value between `x` and `y`.                                                                                                |
+| [Clamp](#CLA18B2C116)               | Returns the value `x` clamped to the specified range.                                                                                         |
+| [Abs](#ABS1CB4F8D7)                 | Computes the absolute value of `x`.                                                                                                           |
+| [Sign](#SIGBB29DCDC)                | Returns the sign of `x` as if compared against zero (-1, 0 or +1)                                                                             |
+| [Fraction](#FRAF6A62D09)            | Compute the fractional (decimal) portion of the number `x`.                                                                                   |
+| [Min](#MIN19D5C3C)                  | Returns the minimum value between `x` and `y`.                                                                                                |
+| [Max](#MAX3D06836A)                 | Returns the maximum value between `x` and `y`.                                                                                                |
+| [Clamp](#CLAF484BE34)               | Returns the value `x` clamped to the specified range.                                                                                         |
+| [Abs](#ABS1A291AFB)                 | Computes the absolute value of `x`.                                                                                                           |
+| [Sign](#SIG971B9727)                | Returns the sign of `x` as if compared against zero (-1, 0 or +1)                                                                             |
+| [Fraction](#FRAC290B5D9)            | Compute the fractional (decimal) portion of the number `x`.                                                                                   |
+| [Min](#MIN183B67DF)                 | Returns the minimum value between `x` and `y`.                                                                                                |
+| [Max](#MAX522369C9)                 | Returns the maximum value between `x` and `y`.                                                                                                |
+| [Clamp](#CLAF45DDA14)               | Returns the value `x` clamped to the specified range.                                                                                         |
+| [Abs](#ABSB887ECA7)                 | Computes the absolute value of `x`.                                                                                                           |
+| [Sign](#SIG586B56E6)                | Returns the sign of `x` as if compared against zero (-1, 0 or +1)                                                                             |
+| [Min](#MIN5446703A)                 | Returns the minimum value between `x` and `y`.                                                                                                |
+| [Max](#MAX6E703F64)                 | Returns the maximum value between `x` and `y`.                                                                                                |
+| [Clamp](#CLA58FC0476)               | Returns the value `x` clamped to the specified range.                                                                                         |
+| [Min](#MIND7646754)                 | Returns the minimum value between `x` and `y`.                                                                                                |
+| [Max](#MAX51973356)                 | Returns the maximum value between `x` and `y`.                                                                                                |
+| [Clamp](#CLA37C3A8B4)               | Returns the value `x` clamped to the specified range.                                                                                         |
+| [Abs](#ABSE601A6E3)                 | Computes the absolute value of `x`.                                                                                                           |
+| [Sign](#SIG38E0C2F9)                | Returns the sign of `x` as if compared against zero (-1, 0 or +1)                                                                             |
+| [Min](#MINA647BDF7)                 | Returns the minimum value between `x` and `y`.                                                                                                |
+| [Max](#MAX7EA54539)                 | Returns the maximum value between `x` and `y`.                                                                                                |
+| [Clamp](#CLA248D39D6)               | Returns the value `x` clamped to the specified range.                                                                                         |
+| [Min](#MIN16B10631)                 | Returns the minimum value between `x` and `y`.                                                                                                |
+| [Max](#MAXC2F8C3BB)                 | Returns the maximum value between `x` and `y`.                                                                                                |
+| [Clamp](#CLA4445FDB4)               | Returns the value `x` clamped to the specified range.                                                                                         |
+| [Abs](#ABSBED4D5AF)                 | Computes the absolute value of `x`.                                                                                                           |
+| [Sign](#SIG77555888)                | Returns the sign of `x` as if compared against zero (-1, 0 or +1)                                                                             |
+| [Min](#MIN85D4B86C)                 | Returns the minimum value between `x` and `y`.                                                                                                |
+| [Max](#MAX3B1057CE)                 | Returns the maximum value between `x` and `y`.                                                                                                |
+| [Clamp](#CLAFA076B5E)               | Returns the value `x` clamped to the specified range.                                                                                         |
+| [Min](#MINF5193F1)                  | Returns the minimum value in the given set of numbers.                                                                                        |
+| [Max](#MAX819873FB)                 | Returns the maximum value in the given set of numbers.                                                                                        |
+| [Min](#MIN2179CF51)                 | Returns the minimum value in the given set of numbers.                                                                                        |
+| [Max](#MAX864DE05B)                 | Returns the maximum value in the given set of numbers.                                                                                        |
+| [Min<T>](#MIN2BBFC41F)              | Finds the comparably minimum value from the set of value.                                                                                     |
+| [Min<T>](#MIN40586098)              | Finds the comparably minimum value from the set of value.                                                                                     |
+| [Max<T>](#MAX29D3D31D)              | Finds the comparably maximum value from the set of value.                                                                                     |
+| [Max<T>](#MAXE9A325EA)              | Finds the comparably maximum value from the set of value.                                                                                     |
+| [Floor](#FLO3657C8DD)               | Computes the floor integer (rounding down) of the value `x`.                                                                                  |
+| [Ceil](#CEI3335BBF4)                | Computes the ceiling integer (rounding up) of the value `x`.                                                                                  |
+| [Round](#ROU922EA54F)               | Computes the nearest integer of the value `x`.                                                                                                |
+| [Floor](#FLOB207416)                | Computes the floor integer (rounding down) of the value `x`.                                                                                  |
+| [Ceil](#CEI69B78787)                | Computes the ceiling integer (rounding up) of the value `x`.                                                                                  |
+| [Round](#ROUD05B43F8)               | Computes the nearest integer of the value `x`.                                                                                                |
+| [NearEquals](#NEA95EA6ECD)          | Determines if the two values are nearly equal comparing equality within a `Heirloom.Math.Calc.Epsilon` threshold.                             |
+| [NearEquals](#NEA6E2C607C)          | Determines if the two values are nearly equal comparing equality within a threshold.                                                          |
+| [NearZero](#NEA186BBBDE)            | Determines if the value is nearly equal to zero by comparing equality within a `Heirloom.Math.Calc.Epsilon` threshold.                        |
+| [NearEquals](#NEAB9BA714D)          | Determines if the two values are nearly equal comparing equality within a `Heirloom.Math.Calc.Epsilon` threshold.                             |
+| [NearEquals](#NEAA94E237C)          | Determines if the two values are nearly equal comparing equality within a threshold.                                                          |
+| [NearZero](#NEA5D5B8D89)            | Determines if the value is nearly equal to zero by comparing equality within a `Heirloom.Math.Calc.Epsilon` threshold.                        |
+| [Lerp](#LER27CDA8B0)                | Computes the linear interpolation from `x1` to `x2` by factor `t`.                                                                            |
+| [Lerp](#LERB99D5C4E)                | Computes the linear interpolation from `x1` to `x2` by factor `t`.                                                                            |
+| [Lerp](#LERA070D99F)                | Computes the linear interpolation from `x1` to `x2` by factor `t`.                                                                            |
+| [Lerp](#LERB0760236)                | Computes the linear interpolation from `x1` to `x2` by factor `t`.                                                                            |
+| [Lerp](#LER161420F8)                | Computes the linear interpolation from `x1` to `x2` by factor `t`.                                                                            |
+| [Lerp](#LER5F1F5667)                | Computes the linear interpolation from `x1` to `x2` by factor `t`.                                                                            |
 
 ### Fields
 

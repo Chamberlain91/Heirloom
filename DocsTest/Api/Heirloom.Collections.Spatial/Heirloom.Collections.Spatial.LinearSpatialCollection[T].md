@@ -18,15 +18,15 @@ DO NOT USE!
 
 | Methods                       | Summary |
 |-------------------------------|---------|
-| [Clear](#CLE3BB23EF9)         |         |
-| [Add](#ADDBCD0F225)           |         |
-| [Update](#UPDD1771A75)        |         |
-| [Remove](#REMF10744DE)        |         |
-| [Contains](#COND0AE797B)      |         |
-| [Query](#QUEF3BF732)          |         |
-| [Query](#QUEF3BF732)          |         |
-| [Query](#QUEF3BF732)          |         |
-| [GetEnumerator](#GETF1F90828) |         |
+| [Clear](#CLE4538C554)         |         |
+| [Add](#ADD873258A8)           |         |
+| [Update](#UPDC8E3D6DE)        |         |
+| [Remove](#REM1E1AE509)        |         |
+| [Contains](#CONC6E9849A)      |         |
+| [Query](#QUEA1C7943F)         |         |
+| [Query](#QUEF49A009C)         |         |
+| [Query](#QUEC52C85A8)         |         |
+| [GetEnumerator](#GETDDD17E2E) |         |
 
 ### Constructors
 

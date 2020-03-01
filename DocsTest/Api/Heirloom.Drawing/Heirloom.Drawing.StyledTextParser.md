@@ -12,7 +12,7 @@ Provides an ability to parse text with some sort of markup into [StyledText](Hei
 
 | Methods               | Summary               |
 |-----------------------|-----------------------|
-| [Parse](#PARB2AE6A55) | Parse the input text. |
+| [Parse](#PAR88BCC0BA) | Parse the input text. |
 
 ### Constructors
 

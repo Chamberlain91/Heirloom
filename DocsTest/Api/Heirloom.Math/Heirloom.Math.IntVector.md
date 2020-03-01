@@ -28,16 +28,16 @@ Represents a vector with two integer values.
 
 | Methods                           | Summary                                                                                                 |
 |-----------------------------------|---------------------------------------------------------------------------------------------------------|
-| [Set](#SET5F786982)               | Sets the components of this vector.                                                                     |
-| [Deconstruct](#DECC1884FDA)       |                                                                                                         |
-| [GetMaxComponent](#GET45DCC999)   | Gets the maximal component in the input vector.                                                         |
-| [GetMinComponent](#GETA14AFEBB)   | Gets the minimal component in the input vector.                                                         |
-| [Min](#MINBF9EF002)               | Computes a new vector where each component is the minimum component in each respective input vector.    |
-| [Max](#MAXD4DA94E4)               | Computes a new vector where each component is the maximum component in each respective input vector.    |
-| [Abs](#ABSECE4369A)               | Computes a new vector where each component is the absolute value of each component in the input vector. |
-| [Distance](#DIS3A367EAF)          | Computes the euclidean distance between any two vectors.                                                |
-| [DistanceSquared](#DIS66C8121E)   | Computes the squared euclidean distance between any two vectors.                                        |
-| [ManhattanDistance](#MANC65C6C67) | Computes the manhattan distance between any two vectors.                                                |
+| [Set](#SETB9EBD57E)               | Sets the components of this vector.                                                                     |
+| [Deconstruct](#DEC47DB9CE)        |                                                                                                         |
+| [GetMaxComponent](#GET47CD3B80)   | Gets the maximal component in the input vector.                                                         |
+| [GetMinComponent](#GET20EAC022)   | Gets the minimal component in the input vector.                                                         |
+| [Min](#MIN36492141)               | Computes a new vector where each component is the minimum component in each respective input vector.    |
+| [Max](#MAXD88455D3)               | Computes a new vector where each component is the maximum component in each respective input vector.    |
+| [Abs](#ABS7AA7B07B)               | Computes a new vector where each component is the absolute value of each component in the input vector. |
+| [Distance](#DISED56852B)          | Computes the euclidean distance between any two vectors.                                                |
+| [DistanceSquared](#DIS1DC98031)   | Computes the squared euclidean distance between any two vectors.                                        |
+| [ManhattanDistance](#MAND397BB96) | Computes the manhattan distance between any two vectors.                                                |
 
 ### Fields
 

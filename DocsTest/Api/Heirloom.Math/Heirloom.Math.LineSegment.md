@@ -17,16 +17,16 @@ Represents a line segment defined by two [Vector](Heirloom.Math.Vector.md).
 
 | Methods                         | Summary                                                            |
 |---------------------------------|--------------------------------------------------------------------|
-| [GetPoint](#GET894901F8)        | Gets a intermediate point along the line segment.                  |
-| [Intersects](#INT62E2083C)      | Checks if this line segment intersects another.                    |
-| [Intersects](#INT62E2083C)      | Checks if this line segment intersects another.                    |
-| [GetClosestPoint](#GET53DD1DC3) | Gets the closest point on the line segment to the specified point. |
-| [Intersects](#INT62E2083C)      | Checks if two line segments intersect.                             |
-| [Intersects](#INT62E2083C)      | Checks if two line segments intersect.                             |
-| [Intersects](#INT62E2083C)      | Checks if two line segments intersect.                             |
-| [Intersects](#INT62E2083C)      | Checks if two line segments intersect.                             |
-| [GetClosestPoint](#GET53DD1DC3) | Gets the closest point on a line segment to the specified point.   |
-| [ClosestPoint](#CLOC5B56A4D)    | Gets the closest point on a line segment to the specified point.   |
+| [GetPoint](#GETE0E17AE2)        | Gets a intermediate point along the line segment.                  |
+| [Intersects](#INT800903E6)      | Checks if this line segment intersects another.                    |
+| [Intersects](#INT61BB38B5)      | Checks if this line segment intersects another.                    |
+| [GetClosestPoint](#GETBC363A60) | Gets the closest point on the line segment to the specified point. |
+| [Intersects](#INT2AE0750E)      | Checks if two line segments intersect.                             |
+| [Intersects](#INT97F198C9)      | Checks if two line segments intersect.                             |
+| [Intersects](#INTFA3AEBEB)      | Checks if two line segments intersect.                             |
+| [Intersects](#INTD0254790)      | Checks if two line segments intersect.                             |
+| [GetClosestPoint](#GET942232F7) | Gets the closest point on a line segment to the specified point.   |
+| [ClosestPoint](#CLOB3D1E9C6)    | Gets the closest point on a line segment to the specified point.   |
 
 ### Fields
 

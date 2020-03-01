@@ -14,9 +14,9 @@ Represents a node in the audio mixing tree.
 | [Volume](#VOL84D30C54)  | Gets or sets the volume (gain) of the audio.                                                      |
 | [Balance](#BAL2345F2DE) | Gets or sets the balance (panning) of the audio. (ie, -1.0 for left, and +1.0 for right )         |
 
-| Methods                      | Summary |
-|------------------------------|---------|
-| [PopulateBuffer](#POP7E079E) |         |
+| Methods                        | Summary |
+|--------------------------------|---------|
+| [PopulateBuffer](#POP1FA582B7) |         |
 
 ### Constructors
 

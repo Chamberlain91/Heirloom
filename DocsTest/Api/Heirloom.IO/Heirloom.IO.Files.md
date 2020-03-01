@@ -10,13 +10,13 @@ A utility to unify access of embedded files and files on disk.
 
 | Methods                          | Summary                                                                          |
 |----------------------------------|----------------------------------------------------------------------------------|
-| [NormalizePath](#NORC3AEA446)    | Normalizes a path (forward slades, removing doubles, etc)                        |
-| [OpenStream](#OPE8064E612)       | Opens a read-only stream to a file, first found by disk, then by embedded files. |
-| [Exists](#EXIECE7266E)           | Checks if a file exists, first by disk, then by embedded files.                  |
-| [GetEmbeddedFiles](#GETB847098D) | Gets all known embedded files.                                                   |
-| [GetEmbeddedInfo](#GETE5A0DD4C)  | Gets information about the embedded file.                                        |
-| [ReadText](#REA63B9B063)         | Reads all text in a given file.                                                  |
-| [ReadBytes](#REAB3796EAB)        | Reads all bytes in a given file.                                                 |
+| [NormalizePath](#NOR9EC63B5C)    | Normalizes a path (forward slades, removing doubles, etc)                        |
+| [OpenStream](#OPEE2974FDB)       | Opens a read-only stream to a file, first found by disk, then by embedded files. |
+| [Exists](#EXI579B48CD)           | Checks if a file exists, first by disk, then by embedded files.                  |
+| [GetEmbeddedFiles](#GET37B7E4B9) | Gets all known embedded files.                                                   |
+| [GetEmbeddedInfo](#GET942341FA)  | Gets information about the embedded file.                                        |
+| [ReadText](#REA5D446B3D)         | Reads all text in a given file.                                                  |
+| [ReadBytes](#REA7862D928)        | Reads all bytes in a given file.                                                 |
 
 ### Methods
 

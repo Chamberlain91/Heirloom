@@ -8,9 +8,9 @@
 
 | Methods                      | Summary                                                     |
 |------------------------------|-------------------------------------------------------------|
-| [ReadAllText](#REA7C4D64FE)  | Reads the entire contents of the stream as a block of text. |
-| [ReadLines](#REA2CD9F98F)    | Reads the entire contents of the stream line by line.       |
-| [ReadAllBytes](#REA5A9E7B28) | Reads the entire contents of the stream as blob of bytes.   |
+| [ReadAllText](#REA85A277A8)  | Reads the entire contents of the stream as a block of text. |
+| [ReadLines](#READ9B8AF9C)    | Reads the entire contents of the stream line by line.       |
+| [ReadAllBytes](#REA83F9F21F) | Reads the entire contents of the stream as blob of bytes.   |
 
 ### Methods
 

@@ -16,7 +16,7 @@ Represents an embedded file.
 
 | Methods                    | Summary                              |
 |----------------------------|--------------------------------------|
-| [OpenStream](#OPE8064E612) | Opens a stream to the embedded file. |
+| [OpenStream](#OPEF0FC28BF) | Opens a stream to the embedded file. |
 
 ### Constructors
 

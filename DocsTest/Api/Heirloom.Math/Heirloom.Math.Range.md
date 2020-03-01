@@ -25,13 +25,13 @@ Represents a range of single-precision floating point numbers from `Heirloom.Mat
 
 | Methods                     | Summary                                                          |
 |-----------------------------|------------------------------------------------------------------|
-| [Contains](#COND0AE797B)    | Determines if this range contains the specified value.           |
-| [Overlaps](#OVE7F2D7C32)    | Determines if this range overlaps another range.                 |
-| [Include](#INC2EBA9B2E)     | Mutate this range (by expansion) to include the specified value. |
-| [Include](#INC2EBA9B2E)     | Mutate this range (by expansion) to include the specified range. |
-| [Rescale](#RES8C920C4B)     | Scales `x` from input domain (this range) to output range.       |
-| [Rescale](#RES8C920C4B)     | Scales `x` from input domain (this range) to output range.       |
-| [Deconstruct](#DECC1884FDA) |                                                                  |
+| [Contains](#CON86E7517D)    | Determines if this range contains the specified value.           |
+| [Overlaps](#OVE16A02ECD)    | Determines if this range overlaps another range.                 |
+| [Include](#INC1CBF6203)     | Mutate this range (by expansion) to include the specified value. |
+| [Include](#INC5B673B0E)     | Mutate this range (by expansion) to include the specified range. |
+| [Rescale](#RES23D760E5)     | Scales `x` from input domain (this range) to output range.       |
+| [Rescale](#RESF69634AC)     | Scales `x` from input domain (this range) to output range.       |
+| [Deconstruct](#DECBB6397C9) |                                                                  |
 
 ### Fields
 

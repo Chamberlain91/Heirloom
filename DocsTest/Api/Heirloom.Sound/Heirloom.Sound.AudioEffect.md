@@ -10,7 +10,7 @@ An audio effect. Implementations of this class mutate the audio for various effe
 
 | Methods                 | Summary |
 |-------------------------|---------|
-| [Process](#PRO9CD8B3AF) |         |
+| [Process](#PRO1C94C308) |         |
 
 ### Constructors
 

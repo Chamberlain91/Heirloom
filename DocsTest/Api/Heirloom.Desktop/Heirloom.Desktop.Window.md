@@ -47,37 +47,37 @@
 
 | Methods                               | Summary                                                                                                       |
 |---------------------------------------|---------------------------------------------------------------------------------------------------------------|
-| [Dispose](#DIS8A0D80C3)               |                                                                                                               |
-| [Dispose](#DIS8A0D80C3)               |                                                                                                               |
-| [OnWindowResized](#ONW697E5F5B)       |                                                                                                               |
-| [OnFramebufferResized](#ONF1CBA31F2)  |                                                                                                               |
-| [OnContentScaleChanged](#ONC5E0948AA) |                                                                                                               |
-| [OnWindowMoved](#ONW49815EEA)         |                                                                                                               |
-| [OnKeyPressed](#ONKD4A20838)          |                                                                                                               |
-| [OnCharTyped](#ONC89C6B529)           |                                                                                                               |
-| [OnMousePressed](#ONM2CAD721C)        |                                                                                                               |
-| [OnMouseMove](#ONMFD91C99)            |                                                                                                               |
-| [OnMouseScroll](#ONM7AE82679)         |                                                                                                               |
-| [OnClosing](#ONC1A4DA92A)             |                                                                                                               |
-| [OnClosed](#ONCF3B87D33)              |                                                                                                               |
-| [Show](#SHO2463681B)                  |                                                                                                               |
-| [Hide](#HID9C939216)                  |                                                                                                               |
-| [Close](#CLOCBEC0C4E)                 |                                                                                                               |
-| [Focus](#FOC4C20A86E)                 |                                                                                                               |
-| [Maximize](#MAXF775118C)              | Sets the window to a maximized state.                                                                         |
-| [Minimize](#MIN79C535BE)              | Sets the window to a minimized state.                                                                         |
-| [Restore](#RES4A7A846C)               | Sets the window to a default size state.                                                                      |
-| [SetFullscreen](#SET261B2C99)         | Sets the window to fullscreen using the nearest monitor and existing video mode.                              |
-| [SetFullscreen](#SET261B2C99)         | Sets the window to fullscreen using the nearest monitor and specified video mode.                             |
-| [SetFullscreen](#SET261B2C99)         | Sets the window to fullscreen using the specified monitor and existing video mode.                            |
-| [SetFullscreen](#SET261B2C99)         | Sets the window to fullscreen using the specified monitor and video mode.                                     |
-| [MoveToCenter](#MOV67538631)          | Moves the window to the center of the nearest monitor.                                                        |
-| [MoveToCenter](#MOV67538631)          | Moves the window to the center of the specified monitor.                                                      |
-| [SetIcons](#SET4A959498)              | Assigns a set of icon images to the window (the image with the most desireable szie by the system is chosen). |
-| [SetIcon](#SETE37C600D)               | Assigns a new icon image to the window.                                                                       |
-| [SetCursor](#SET93B0CD6C)             | Changes the appearance of the cursor on this window.                                                          |
-| [SetCursor](#SET93B0CD6C)             | Changes the appearance of the cursor on this window.                                                          |
-| [SetCursor](#SET93B0CD6C)             | Changes the appearance of the cursor on this window.                                                          |
+| [Dispose](#DISFDE72264)               |                                                                                                               |
+| [Dispose](#DIS4E62D250)               |                                                                                                               |
+| [OnWindowResized](#ONW7DF3BE07)       |                                                                                                               |
+| [OnFramebufferResized](#ONFB8A80CBE)  |                                                                                                               |
+| [OnContentScaleChanged](#ONC23CF4CE6) |                                                                                                               |
+| [OnWindowMoved](#ONW215EF2BA)         |                                                                                                               |
+| [OnKeyPressed](#ONKA5B288DA)          |                                                                                                               |
+| [OnCharTyped](#ONC36938009)           |                                                                                                               |
+| [OnMousePressed](#ONMEEB7474C)        |                                                                                                               |
+| [OnMouseMove](#ONMB2BE1B4B)           |                                                                                                               |
+| [OnMouseScroll](#ONM7CADC1BF)         |                                                                                                               |
+| [OnClosing](#ONC8411C28B)             |                                                                                                               |
+| [OnClosed](#ONCC72060AC)              |                                                                                                               |
+| [Show](#SHO1079DE88)                  |                                                                                                               |
+| [Hide](#HID3FBBD103)                  |                                                                                                               |
+| [Close](#CLO859B0F7D)                 |                                                                                                               |
+| [Focus](#FOC5146D98B)                 |                                                                                                               |
+| [Maximize](#MAXEC7F5085)              | Sets the window to a maximized state.                                                                         |
+| [Minimize](#MINDD275FAB)              | Sets the window to a minimized state.                                                                         |
+| [Restore](#RESFDC25B1B)               | Sets the window to a default size state.                                                                      |
+| [SetFullscreen](#SETFFC84E20)         | Sets the window to fullscreen using the nearest monitor and existing video mode.                              |
+| [SetFullscreen](#SETFA033BCA)         | Sets the window to fullscreen using the nearest monitor and specified video mode.                             |
+| [SetFullscreen](#SET7FFA35E3)         | Sets the window to fullscreen using the specified monitor and existing video mode.                            |
+| [SetFullscreen](#SET784B1995)         | Sets the window to fullscreen using the specified monitor and video mode.                                     |
+| [MoveToCenter](#MOVB25EA6CC)          | Moves the window to the center of the nearest monitor.                                                        |
+| [MoveToCenter](#MOV2D6F769B)          | Moves the window to the center of the specified monitor.                                                      |
+| [SetIcons](#SET2CD64DF9)              | Assigns a set of icon images to the window (the image with the most desireable szie by the system is chosen). |
+| [SetIcon](#SET54FD11A3)               | Assigns a new icon image to the window.                                                                       |
+| [SetCursor](#SETE04E5BD2)             | Changes the appearance of the cursor on this window.                                                          |
+| [SetCursor](#SETB32EF7A3)             | Changes the appearance of the cursor on this window.                                                          |
+| [SetCursor](#SET691F1218)             | Changes the appearance of the cursor on this window.                                                          |
 
 ### Constructors
 

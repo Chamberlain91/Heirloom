@@ -13,7 +13,7 @@ Represents a single 32 bit Unicode character.
 
 | Methods                   | Summary                                        |
 |---------------------------|------------------------------------------------|
-| [CompareTo](#COMD590B82C) | Compares this instance to the specified value. |
+| [CompareTo](#COM9AF05C5B) | Compares this instance to the specified value. |
 
 ### Constructors
 

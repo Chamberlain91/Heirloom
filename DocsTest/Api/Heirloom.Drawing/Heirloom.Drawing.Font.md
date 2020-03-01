@@ -15,12 +15,12 @@
 
 | Methods                    | Summary                                                               |
 |----------------------------|-----------------------------------------------------------------------|
-| [GetMetrics](#GET3646C3B1) | Get the vertical metrics of the this font at the specified size.      |
-| [GetKerning](#GETCB2D7F66) | Gets the spacing adjustment (ie, kerning) between any two characters. |
-| [GetGlyph](#GETB5C64B98)   | Gets the information about a particular glyph in this font.           |
-| [GetGlyph](#GETB5C64B98)   | Gets the information about a particular glyph in this font.           |
-| [Dispose](#DIS8A0D80C3)    |                                                                       |
-| [Dispose](#DIS8A0D80C3)    |                                                                       |
+| [GetMetrics](#GET2E9B56DE) | Get the vertical metrics of the this font at the specified size.      |
+| [GetKerning](#GET148475B5) | Gets the spacing adjustment (ie, kerning) between any two characters. |
+| [GetGlyph](#GET4AD77693)   | Gets the information about a particular glyph in this font.           |
+| [GetGlyph](#GET2101D662)   | Gets the information about a particular glyph in this font.           |
+| [Dispose](#DISFDE72264)    |                                                                       |
+| [Dispose](#DIS4E62D250)    |                                                                       |
 
 ### Constructors
 

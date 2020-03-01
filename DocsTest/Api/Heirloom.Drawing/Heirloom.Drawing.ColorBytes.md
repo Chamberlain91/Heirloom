@@ -43,10 +43,10 @@ Color encoded as 4 component bytes.
 
 | Methods                  | Summary                                                                                                                                 |
 |--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| [Parse](#PARB2AE6A55)    | Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'. |
-| [TryParse](#TRYB6E4194A) | Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'. |
-| [Lerp](#LER252E49EB)     | Interpolate two colors together.                                                                                                        |
-| [Multiply](#MULD34B4AA2) | Multiplies two [ColorBytes](Heirloom.Drawing.ColorBytes.md) together. Behaves the same as [Color](Heirloom.Drawing.Color.md).           |
+| [Parse](#PAR50D6FF39)    | Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'. |
+| [TryParse](#TRY99E0F751) | Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'. |
+| [Lerp](#LERDF0BF6B4)     | Interpolate two colors together.                                                                                                        |
+| [Multiply](#MULBEBFA083) | Multiplies two [ColorBytes](Heirloom.Drawing.ColorBytes.md) together. Behaves the same as [Color](Heirloom.Drawing.Color.md).           |
 
 ### Fields
 

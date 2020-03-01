@@ -23,33 +23,33 @@ Represents a simple polygon.
 
 | Methods                              | Summary                                                                                |
 |--------------------------------------|----------------------------------------------------------------------------------------|
-| [Clear](#CLE3BB23EF9)                |                                                                                        |
-| [Add](#ADDBCD0F225)                  |                                                                                        |
-| [Insert](#INSC7B161AF)               |                                                                                        |
-| [RemoveAt](#REM7EC3163)              |                                                                                        |
-| [GetClosestPoint](#GET53DD1DC3)      | Gets the nearest point on the polygon to the specified point.                          |
-| [Contains](#COND0AE797B)             | Determines if the specified point is contained by this polygon.                        |
-| [Overlaps](#OVE7F2D7C32)             | Checks for an overlap between this polygon and another shape.                          |
-| [Overlaps](#OVE7F2D7C32)             | Determines if this polygon overlaps the specified rectangle.                           |
-| [Overlaps](#OVE7F2D7C32)             | Determines if this polygon overlaps the specified circle.                              |
-| [Overlaps](#OVE7F2D7C32)             | Determines if this polygon overlaps the specified triangle.                            |
-| [Overlaps](#OVE7F2D7C32)             | Determines if this polygon overlaps the specified triangle.                            |
-| [Project](#PROAD473221)              | Project this polygon onto the specified axis.                                          |
-| [Raycast](#RAY408E945F)              | Checks if a ray intersects this polygon.                                               |
-| [Raycast](#RAY408E945F)              | Checks if a ray intersects this polygon and outputs information on the contact point.  |
-| [Triangulate](#TRI86AB1534)          | Decompose this polygon into triangles.                                                 |
-| [CreateFromShape](#CREBBB92C8D)      | Constructs a polygon representation of the specified shape.                            |
-| [CreateFromShape](#CREBBB92C8D)      | Constructs a polygon representation of the specified triangle.                         |
-| [CreateFromShape](#CREBBB92C8D)      | Constructs a polygon representation of the specified rectangle.                        |
-| [CreateFromShape](#CREBBB92C8D)      | Constructs a polygon representation of the specified circle.                           |
-| [CreateConvexHull](#CREC184CDF2)     | Constructs a convex polygon representing the convex hull of the specified point cloud. |
-| [CreateRegularPolygon](#CREF803FC78) | Construct a regular polygon.                                                           |
-| [CreateRegularPolygon](#CREF803FC78) | Construct a regular polygon.                                                           |
-| [CreateStar](#CRE60A3E2AE)           | Creates a polygon shaped like a standard 5 point star centered on the origin.          |
-| [CreateStar](#CRE60A3E2AE)           | Creates a polygon shaped like a standard 5 point star.                                 |
-| [CreateStar](#CRE60A3E2AE)           | Creates a polygon shaped like a star centered on the origin.                           |
-| [CreateStar](#CRE60A3E2AE)           | Creates a polygon shaped like a star.                                                  |
-| [CreateStar](#CRE60A3E2AE)           | Creates a polygon shaped like a star.                                                  |
+| [Clear](#CLE4538C554)                |                                                                                        |
+| [Add](#ADD26190842)                  |                                                                                        |
+| [Insert](#INSEF0217B3)               |                                                                                        |
+| [RemoveAt](#REMC3C2E61D)             |                                                                                        |
+| [GetClosestPoint](#GETDAC09B5B)      | Gets the nearest point on the polygon to the specified point.                          |
+| [Contains](#CON33387C1A)             | Determines if the specified point is contained by this polygon.                        |
+| [Overlaps](#OVE450AB809)             | Checks for an overlap between this polygon and another shape.                          |
+| [Overlaps](#OVE5BEF9A70)             | Determines if this polygon overlaps the specified rectangle.                           |
+| [Overlaps](#OVEE125CFD7)             | Determines if this polygon overlaps the specified circle.                              |
+| [Overlaps](#OVEB6714E43)             | Determines if this polygon overlaps the specified triangle.                            |
+| [Overlaps](#OVE89F258A7)             | Determines if this polygon overlaps the specified triangle.                            |
+| [Project](#PRODD6295AA)              | Project this polygon onto the specified axis.                                          |
+| [Raycast](#RAYACE7FDBA)              | Checks if a ray intersects this polygon.                                               |
+| [Raycast](#RAY575B4078)              | Checks if a ray intersects this polygon and outputs information on the contact point.  |
+| [Triangulate](#TRI3315CB9A)          | Decompose this polygon into triangles.                                                 |
+| [CreateFromShape](#CRE36F297CD)      | Constructs a polygon representation of the specified shape.                            |
+| [CreateFromShape](#CREB147874F)      | Constructs a polygon representation of the specified triangle.                         |
+| [CreateFromShape](#CRE77B4EFDC)      | Constructs a polygon representation of the specified rectangle.                        |
+| [CreateFromShape](#CREDF0CEABB)      | Constructs a polygon representation of the specified circle.                           |
+| [CreateConvexHull](#CRE4AA9EF2F)     | Constructs a convex polygon representing the convex hull of the specified point cloud. |
+| [CreateRegularPolygon](#CRE7F099341) | Construct a regular polygon.                                                           |
+| [CreateRegularPolygon](#CRE641015A5) | Construct a regular polygon.                                                           |
+| [CreateStar](#CRE93929A76)           | Creates a polygon shaped like a standard 5 point star centered on the origin.          |
+| [CreateStar](#CREB647B390)           | Creates a polygon shaped like a standard 5 point star.                                 |
+| [CreateStar](#CRE56D02DA0)           | Creates a polygon shaped like a star centered on the origin.                           |
+| [CreateStar](#CRE47D7F7BA)           | Creates a polygon shaped like a star.                                                  |
+| [CreateStar](#CRE684E0EBD)           | Creates a polygon shaped like a star.                                                  |
 
 ### Constructors
 

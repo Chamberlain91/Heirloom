@@ -8,10 +8,10 @@
 
 | Methods                              | Summary                                                                                                         |
 |--------------------------------------|-----------------------------------------------------------------------------------------------------------------|
-| [ToHeap<T>](#TOH22AF631)             | Constructs a new [Heap\<T>](Heirloom.Collections.Heap[T].md) from an `System.Collections.Generic.IEnumerable`1` |
-| [ToHeap<T>](#TOH22AF631)             | Constructs a new [Heap\<T>](Heirloom.Collections.Heap[T].md) from an `System.Collections.Generic.IEnumerable`1` |
-| [IsAscendingOrder<T>](#ISA91DF567E)  | Checks if the sequence is in ascending order (sequential equivalent items are considered in order).             |
-| [IsDescendingOrder<T>](#ISDDCEC97D2) | Checks if the sequence is in descending order (sequential equivalent items are considered in order).            |
+| [ToHeap<T>](#TOHC6F435F2)            | Constructs a new [Heap\<T>](Heirloom.Collections.Heap[T].md) from an `System.Collections.Generic.IEnumerable`1` |
+| [ToHeap<T>](#TOH85477C02)            | Constructs a new [Heap\<T>](Heirloom.Collections.Heap[T].md) from an `System.Collections.Generic.IEnumerable`1` |
+| [IsAscendingOrder<T>](#ISA1C30EC9B)  | Checks if the sequence is in ascending order (sequential equivalent items are considered in order).             |
+| [IsDescendingOrder<T>](#ISDD260EDD7) | Checks if the sequence is in descending order (sequential equivalent items are considered in order).            |
 
 ### Methods
 

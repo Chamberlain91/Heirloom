@@ -39,37 +39,37 @@
 
 | Methods                         | Summary                                                                                           |
 |---------------------------------|---------------------------------------------------------------------------------------------------|
-| [ToPolygon](#TOP44DCF963)       | Create a polygon from this rectangle.                                                             |
-| [Offset](#OFF1FA8EDD)           | Translates this rectangle.                                                                        |
-| [Offset](#OFF1FA8EDD)           | Translates this rectangle.                                                                        |
-| [Transform](#TRA97DF3302)       | Transforms the four corners of this rectangle and updates itself to bound these points.           |
-| [Include](#INC2EBA9B2E)         | Mutates this rectangle to accommodate the given point.                                            |
-| [Include](#INC2EBA9B2E)         | Mutates this rectangle to accommodate the given rectangle.                                        |
-| [Inflate](#INF44343AD)          | Expands (or shrinks) the rectangle by a factor on both axis.                                      |
-| [Inflate](#INF44343AD)          | Expands (or shrinks) the rectangle by a factor on each axis.                                      |
-| [GetClosestPoint](#GET53DD1DC3) | Returns the nearest point on the rectangle to the given point.                                    |
-| [Contains](#COND0AE797B)        | Determines if this rectangle contains the given point?                                            |
-| [Contains](#COND0AE797B)        | Determines if this rectangle contains another rectangle?                                          |
-| [Overlaps](#OVE7F2D7C32)        | Determines if this rectangle overlaps another shape.                                              |
-| [Overlaps](#OVE7F2D7C32)        | Determines if this rectangle overlaps the specified circle.                                       |
-| [Overlaps](#OVE7F2D7C32)        | Determines if this rectangle overlaps the specified triangle.                                     |
-| [Overlaps](#OVE7F2D7C32)        | Determines if this rectangle overlaps another rectangle.                                          |
-| [Overlaps](#OVE7F2D7C32)        | Determines if this rectangle overlaps the specified convex polygon.                               |
-| [Overlaps](#OVE7F2D7C32)        | Determines if this rectangle overlaps the specified simple polygon.                               |
-| [Project](#PROAD473221)         | Project this rectangle onto the specified axis.                                                   |
-| [Raycast](#RAY408E945F)         | Peforms a raycast onto this rectangle, returning true upon intersection.                          |
-| [Raycast](#RAY408E945F)         | Peforms a raycast onto this circle, returning true upon intersection.                             |
-| [Deconstruct](#DECC1884FDA)     |                                                                                                   |
-| [Deconstruct](#DECC1884FDA)     |                                                                                                   |
-| [Offset](#OFF1FA8EDD)           | Copies and translates the given rectangle.                                                        |
-| [Offset](#OFF1FA8EDD)           | Copies and translates the given rectangle.                                                        |
-| [Transform](#TRA97DF3302)       | Transforms the four corners of this rectangle and returns the bounding rectangle of these points. |
-| [Merge](#MER30DFB5A2)           | Merges the given rectangles into one potentially larger rectangle.                                |
-| [Merge](#MER30DFB5A2)           | Merges the given rectangles into one potentially larger rectangle.                                |
-| [Inflate](#INF44343AD)          | Expands (or shrinks) the input rectangle by a factor on both axis.                                |
-| [Inflate](#INF44343AD)          | Expands (or shrinks) the input rectangle by a factor on each axis.                                |
-| [FromPoints](#FRO77DF8609)      | Computes the bounding rectangle of the given set of points.                                       |
-| [FromPoints](#FRO77DF8609)      | Computes the bounding rectangle of the given set of points.                                       |
+| [ToPolygon](#TOP74E314EF)       | Create a polygon from this rectangle.                                                             |
+| [Offset](#OFF4948B8EF)          | Translates this rectangle.                                                                        |
+| [Offset](#OFFA44B506E)          | Translates this rectangle.                                                                        |
+| [Transform](#TRA5849DF97)       | Transforms the four corners of this rectangle and updates itself to bound these points.           |
+| [Include](#INC4DBFDA50)         | Mutates this rectangle to accommodate the given point.                                            |
+| [Include](#INC8D0BD7E3)         | Mutates this rectangle to accommodate the given rectangle.                                        |
+| [Inflate](#INF28D34C57)         | Expands (or shrinks) the rectangle by a factor on both axis.                                      |
+| [Inflate](#INF9C2C923F)         | Expands (or shrinks) the rectangle by a factor on each axis.                                      |
+| [GetClosestPoint](#GETDAC09B5B) | Returns the nearest point on the rectangle to the given point.                                    |
+| [Contains](#CON33387C1A)        | Determines if this rectangle contains the given point?                                            |
+| [Contains](#CONDF22FE60)        | Determines if this rectangle contains another rectangle?                                          |
+| [Overlaps](#OVE450AB809)        | Determines if this rectangle overlaps another shape.                                              |
+| [Overlaps](#OVEE125CFD7)        | Determines if this rectangle overlaps the specified circle.                                       |
+| [Overlaps](#OVEB6714E43)        | Determines if this rectangle overlaps the specified triangle.                                     |
+| [Overlaps](#OVEB68BDCC9)        | Determines if this rectangle overlaps another rectangle.                                          |
+| [Overlaps](#OVE89F258A7)        | Determines if this rectangle overlaps the specified convex polygon.                               |
+| [Overlaps](#OVE90B1A9F6)        | Determines if this rectangle overlaps the specified simple polygon.                               |
+| [Project](#PRODD6295AA)         | Project this rectangle onto the specified axis.                                                   |
+| [Raycast](#RAYACE7FDBA)         | Peforms a raycast onto this rectangle, returning true upon intersection.                          |
+| [Raycast](#RAY4B66C4A9)         | Peforms a raycast onto this circle, returning true upon intersection.                             |
+| [Deconstruct](#DEC7AB8A711)     |                                                                                                   |
+| [Deconstruct](#DEC2C8278F7)     |                                                                                                   |
+| [Offset](#OFF8A69213F)          | Copies and translates the given rectangle.                                                        |
+| [Offset](#OFFD620F9A2)          | Copies and translates the given rectangle.                                                        |
+| [Transform](#TRAB319FCDD)       | Transforms the four corners of this rectangle and returns the bounding rectangle of these points. |
+| [Merge](#MER8FBD7147)           | Merges the given rectangles into one potentially larger rectangle.                                |
+| [Merge](#MER53763ED2)           | Merges the given rectangles into one potentially larger rectangle.                                |
+| [Inflate](#INF7C81AA37)         | Expands (or shrinks) the input rectangle by a factor on both axis.                                |
+| [Inflate](#INF45D1582F)         | Expands (or shrinks) the input rectangle by a factor on each axis.                                |
+| [FromPoints](#FROC7F5F8BB)      | Computes the bounding rectangle of the given set of points.                                       |
+| [FromPoints](#FROCDF0BA98)      | Computes the bounding rectangle of the given set of points.                                       |
 
 ### Fields
 

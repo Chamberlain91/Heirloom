@@ -10,14 +10,14 @@ Provides utilities for working with Quadratic and Cubic curves.
 
 | Methods                                              | Summary                                                                                           |
 |------------------------------------------------------|---------------------------------------------------------------------------------------------------|
-| [Quadratic](#QUAF5DAABDC)                            | Computes the interpolated point on a quadratic curve defined by `a`, `b`, `c`.                    |
-| [QuadraticDerivative](#QUA6D2C7CC7)                  | Computes the interpolated point on the derivative of a quadratic curve defined by `a`, `b`, `c`.  |
-| [QuadraticApproximateLength](#QUAB62A333E)           | Computes the approximate arc length of the quadratic curve using line segments.                   |
-| [QuadraticDerivativeApproximateLength](#QUAAE61AE27) | Computes the approximate arc length of the derivative of a quadratic curve using line segments.   |
-| [Cubic](#CUB72305224)                                | Computes the interpolated point on a cubic curve defined by `a`, `b`, `c`, `d`.                   |
-| [CubicDerivative](#CUB976A8B8D)                      | Computes the interpolated point on the derivative of a cubic curve defined by `a`, `b`, `c`, `d`. |
-| [CubicApproximateLength](#CUB99EFEF72)               | Computes the approximate arc length of the cubic curve using line segments.                       |
-| [CubicDerivativeApproximateLength](#CUB6D7AE51D)     | Computes the approximate arc length of the cubic curve using line segments.                       |
+| [Quadratic](#QUA26890E67)                            | Computes the interpolated point on a quadratic curve defined by `a`, `b`, `c`.                    |
+| [QuadraticDerivative](#QUA752123C)                   | Computes the interpolated point on the derivative of a quadratic curve defined by `a`, `b`, `c`.  |
+| [QuadraticApproximateLength](#QUA7C69076B)           | Computes the approximate arc length of the quadratic curve using line segments.                   |
+| [QuadraticDerivativeApproximateLength](#QUACE96FD14) | Computes the approximate arc length of the derivative of a quadratic curve using line segments.   |
+| [Cubic](#CUB236F6845)                                | Computes the interpolated point on a cubic curve defined by `a`, `b`, `c`, `d`.                   |
+| [CubicDerivative](#CUB8C9CA66E)                      | Computes the interpolated point on the derivative of a cubic curve defined by `a`, `b`, `c`, `d`. |
+| [CubicApproximateLength](#CUB7333FA1D)               | Computes the approximate arc length of the cubic curve using line segments.                       |
+| [CubicDerivativeApproximateLength](#CUBB892D932)     | Computes the approximate arc length of the cubic curve using line segments.                       |
 
 ### Methods
 

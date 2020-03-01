@@ -11,8 +11,8 @@ Manages objects by their type hierarchy up to the base type, allowing access by 
 
 | Methods                | Summary                                    |
 |------------------------|--------------------------------------------|
-| [Add](#ADDBCD0F225)    | Add a new object to the type dictionary.   |
-| [Remove](#REMF10744DE) | Remove an object from the type dictionary. |
+| [Add](#ADD882735FB)    | Add a new object to the type dictionary.   |
+| [Remove](#REMA46A9FF0) | Remove an object from the type dictionary. |
 
 ### Methods
 

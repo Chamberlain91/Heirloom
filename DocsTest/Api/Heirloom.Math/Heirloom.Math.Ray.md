@@ -16,12 +16,12 @@ Represents a ray by orgin and direction vectors.
 
 | Methods                         | Summary                                                                |
 |---------------------------------|------------------------------------------------------------------------|
-| [GetPoint](#GET894901F8)        | Gets a point along the ray.                                            |
-| [Deconstruct](#DECC1884FDA)     |                                                                        |
-| [FromLineSegment](#FROB22C579B) | Creates a ray from a line segment.                                     |
-| [FromLineSegment](#FROB22C579B) | Creates a ray from a line segment.                                     |
-| [FromAngle](#FRO9C6B7947)       | Creates a ray pointed along the specified angle from the origin given. |
-| [Intersects](#INT62E2083C)      | Computes the intersection of two rays.                                 |
+| [GetPoint](#GET3C443BA5)        | Gets a point along the ray.                                            |
+| [Deconstruct](#DEC1943369C)     |                                                                        |
+| [FromLineSegment](#FRO3D5915DC) | Creates a ray from a line segment.                                     |
+| [FromLineSegment](#FRO3497ACD6) | Creates a ray from a line segment.                                     |
+| [FromAngle](#FRO9C3DECF5)       | Creates a ray pointed along the specified angle from the origin given. |
+| [Intersects](#INT4939C76B)      | Computes the intersection of two rays.                                 |
 
 ### Fields
 

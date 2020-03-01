@@ -30,7 +30,7 @@ Represents a range of unicode 32 bit code points.
 
 | Methods                       | Summary |
 |-------------------------------|---------|
-| [GetEnumerator](#GETF1F90828) |         |
+| [GetEnumerator](#GET2D4D64BC) |         |
 
 ### Fields
 

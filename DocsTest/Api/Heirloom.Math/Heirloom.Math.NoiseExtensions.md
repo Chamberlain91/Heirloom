@@ -8,11 +8,11 @@
 
 | Methods                | Summary                                |
 |------------------------|----------------------------------------|
-| [Sample](#SAMB4A361CC) | Sample one-dimensional octave noise.   |
-| [Sample](#SAMB4A361CC) | Sample two-dimensional noise.          |
-| [Sample](#SAMB4A361CC) | Sample two-dimensional octave noise.   |
-| [Sample](#SAMB4A361CC) | Sample two-dimensional octave noise.   |
-| [Sample](#SAMB4A361CC) | Sample three-dimensional octave noise. |
+| [Sample](#SAMC21A4033) | Sample one-dimensional octave noise.   |
+| [Sample](#SAMA32AB961) | Sample two-dimensional noise.          |
+| [Sample](#SAM9FDDDEB2) | Sample two-dimensional octave noise.   |
+| [Sample](#SAMA101C516) | Sample two-dimensional octave noise.   |
+| [Sample](#SAMBD90BAB2) | Sample three-dimensional octave noise. |
 
 ### Methods
 

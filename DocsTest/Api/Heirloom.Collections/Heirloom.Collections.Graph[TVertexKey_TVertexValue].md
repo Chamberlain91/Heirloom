@@ -23,17 +23,17 @@ A configurable adjacency list based graph.
 
 | Methods                        | Summary                                                                        |
 |--------------------------------|--------------------------------------------------------------------------------|
-| [Clear](#CLE3BB23EF9)          | Removes all vertices and edges from the graph.                                 |
-| [ClearEdges](#CLEE20C634D)     | Removes all edges from the graph.                                              |
-| [AddVertex](#ADDA40B49)        | Adds a vertex to the given graph via the given name/key.                       |
-| [AddEdge](#ADD814EE3F0)        | Add an edge between two nodes in the graph.                                    |
-| [RemoveEdge](#REM67FD8045)     | Removes an edge between two vertices in the graph.                             |
-| [RemoveVertex](#REMCBD2C17C)   | Removes the given vertex from the graph ( also disconnects associated edges ). |
-| [GetVertex](#GET659D2C24)      | Gets a vertex identified with the given key.                                   |
-| [GetEdge](#GETC1CA31E1)        | Gets an edge in the graph.                                                     |
-| [ContainsVertex](#CON8BA51147) | Determines if this graph contains the element ( by name ) requested.           |
-| [ContainsEdge](#CON518111E)    | Determines if the graph contains an edge bewtween source and target vertices.  |
-| [ContainsValue](#CONDC3C4948)  | Determines if this graph contains the element requested.                       |
+| [Clear](#CLE4538C554)          | Removes all vertices and edges from the graph.                                 |
+| [ClearEdges](#CLEC3B6A45C)     | Removes all edges from the graph.                                              |
+| [AddVertex](#ADD5AA17499)      | Adds a vertex to the given graph via the given name/key.                       |
+| [AddEdge](#ADDC1D4A1D3)        | Add an edge between two nodes in the graph.                                    |
+| [RemoveEdge](#REM469A9FCE)     | Removes an edge between two vertices in the graph.                             |
+| [RemoveVertex](#REM577B1CC7)   | Removes the given vertex from the graph ( also disconnects associated edges ). |
+| [GetVertex](#GET58F3FBE0)      | Gets a vertex identified with the given key.                                   |
+| [GetEdge](#GET142350CA)        | Gets an edge in the graph.                                                     |
+| [ContainsVertex](#CONFF61E272) | Determines if this graph contains the element ( by name ) requested.           |
+| [ContainsEdge](#CON4B1518D5)   | Determines if the graph contains an edge bewtween source and target vertices.  |
+| [ContainsValue](#CON35FD79FD)  | Determines if this graph contains the element requested.                       |
 
 ### Constructors
 

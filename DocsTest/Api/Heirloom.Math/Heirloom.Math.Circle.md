@@ -21,19 +21,19 @@ Represents a circle via center position and radius.
 
 | Methods                         | Summary                                                               |
 |---------------------------------|-----------------------------------------------------------------------|
-| [ToPolygon](#TOP44DCF963)       | Create a polygon from this rectangle.                                 |
-| [GetClosestPoint](#GET53DD1DC3) | Gets the nearest point on the circle to the specified point.          |
-| [Contains](#COND0AE797B)        | Determines if the specified point is contained by the circle.         |
-| [Contains](#COND0AE797B)        | Determines if this circle contains another circle.                    |
-| [Overlaps](#OVE7F2D7C32)        | Determines if this circle overlaps another shape.                     |
-| [Overlaps](#OVE7F2D7C32)        | Determines if this circle overlaps another circle.                    |
-| [Overlaps](#OVE7F2D7C32)        | Determines if this circle overlaps the specified rectangle.           |
-| [Overlaps](#OVE7F2D7C32)        | Determines if this circle overlaps the specified triangle.            |
-| [Overlaps](#OVE7F2D7C32)        | Determines if this circle overlaps the specified simple polygon.      |
-| [Overlaps](#OVE7F2D7C32)        | Determines if this circle overlaps the specified convex polygon.      |
-| [Project](#PROAD473221)         | Project this circle onto the specified axis.                          |
-| [Raycast](#RAY408E945F)         | Peforms a raycast onto this circle, returning true upon intersection. |
-| [Raycast](#RAY408E945F)         | Peforms a raycast onto this circle, returning true upon intersection. |
+| [ToPolygon](#TOP74E314EF)       | Create a polygon from this rectangle.                                 |
+| [GetClosestPoint](#GETDAC09B5B) | Gets the nearest point on the circle to the specified point.          |
+| [Contains](#CON33387C1A)        | Determines if the specified point is contained by the circle.         |
+| [Contains](#CON78E57F16)        | Determines if this circle contains another circle.                    |
+| [Overlaps](#OVE450AB809)        | Determines if this circle overlaps another shape.                     |
+| [Overlaps](#OVEF01FC2EF)        | Determines if this circle overlaps another circle.                    |
+| [Overlaps](#OVE5BEF9A70)        | Determines if this circle overlaps the specified rectangle.           |
+| [Overlaps](#OVEB6714E43)        | Determines if this circle overlaps the specified triangle.            |
+| [Overlaps](#OVE90B1A9F6)        | Determines if this circle overlaps the specified simple polygon.      |
+| [Overlaps](#OVE89F258A7)        | Determines if this circle overlaps the specified convex polygon.      |
+| [Project](#PRODD6295AA)         | Project this circle onto the specified axis.                          |
+| [Raycast](#RAYACE7FDBA)         | Peforms a raycast onto this circle, returning true upon intersection. |
+| [Raycast](#RAY4B66C4A9)         | Peforms a raycast onto this circle, returning true upon intersection. |
 
 ### Fields
 

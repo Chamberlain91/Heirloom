@@ -13,11 +13,11 @@ Utility to measure text and manually invoke the text layout function.
 
 | Methods                       | Summary                                                                                                                         |
 |-------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
-| [Measure](#MEA22C8447E)       | Computes the bounding box that the specified text will occupy within an infinite layout size.                                   |
-| [Measure](#MEA22C8447E)       | Computes the bounding box that the specified text will occupy within the given layout size.                                     |
-| [Measure](#MEA22C8447E)       | Computes the bounding box that the specified text will occupy within the given layout size.                                     |
-| [PerformLayout](#PERD99ADF43) | Performs the layout of text around the given position with the specified font and size, invoking the callback at each location. |
-| [PerformLayout](#PERD99ADF43) | Performs the layout of text within the given bounds with the specified font and size, invoking the callback at each location.   |
+| [Measure](#MEAF6045C6)        | Computes the bounding box that the specified text will occupy within an infinite layout size.                                   |
+| [Measure](#MEADB2ACB9C)       | Computes the bounding box that the specified text will occupy within the given layout size.                                     |
+| [Measure](#MEA6FE8E546)       | Computes the bounding box that the specified text will occupy within the given layout size.                                     |
+| [PerformLayout](#PEREE2634A7) | Performs the layout of text around the given position with the specified font and size, invoking the callback at each location. |
+| [PerformLayout](#PER7C4785FB) | Performs the layout of text within the given bounds with the specified font and size, invoking the callback at each location.   |
 
 ### Methods
 

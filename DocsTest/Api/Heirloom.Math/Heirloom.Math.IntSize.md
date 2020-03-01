@@ -24,8 +24,8 @@ Represents a size or dimensions defined with integer fields.
 
 | Methods                     | Summary |
 |-----------------------------|---------|
-| [Deconstruct](#DECC1884FDA) |         |
-| [CompareTo](#COMD590B82C)   |         |
+| [Deconstruct](#DEC55B0AADE) |         |
+| [CompareTo](#COMC972259B)   |         |
 
 ### Fields
 

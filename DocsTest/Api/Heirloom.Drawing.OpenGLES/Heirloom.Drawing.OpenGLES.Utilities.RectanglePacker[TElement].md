@@ -12,14 +12,14 @@
 | [Elements](#ELE97486ED1) |         |
 | [Size](#SIZ9C9392F9)     |         |
 
-| Methods                        | Summary |
-|--------------------------------|---------|
-| [Clear](#CLE3BB23EF9)          |         |
-| [Contains](#COND0AE797B)       |         |
-| [Add](#ADDBCD0F225)            |         |
-| [TryGetRectangle](#TRY2475D72) |         |
-| [GetRectangle](#GET3189F53F)   |         |
-| [Insert](#INSC7B161AF)         |         |
+| Methods                         | Summary |
+|---------------------------------|---------|
+| [Clear](#CLE4538C554)           |         |
+| [Contains](#CONDA66F8F2)        |         |
+| [Add](#ADD23C591B2)             |         |
+| [TryGetRectangle](#TRY1EA416E4) |         |
+| [GetRectangle](#GETF916A676)    |         |
+| [Insert](#INSFD6B51FA)          |         |
 
 ### Constructors
 

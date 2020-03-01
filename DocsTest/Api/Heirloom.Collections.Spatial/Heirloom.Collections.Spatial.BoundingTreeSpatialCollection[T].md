@@ -16,15 +16,15 @@ A spatial collection to store and query elements in 2D space, implemented as a B
 
 | Methods                       | Summary                                                                                                   |
 |-------------------------------|-----------------------------------------------------------------------------------------------------------|
-| [Clear](#CLE3BB23EF9)         | Clears all elements from this spatial collection.                                                         |
-| [Add](#ADDBCD0F225)           | Adds an element with rectangle bounds into this spatial collection.                                       |
-| [Update](#UPDD1771A75)        | Updates an exising element with new bounds in the collection.                                             |
-| [Remove](#REMF10744DE)        | Removes an element from this spatial collection.                                                          |
-| [Contains](#COND0AE797B)      | Determines if the specified element exists in this collection.                                            |
-| [Query](#QUEF3BF732)          | Queries the spatial collection and returns the elements with bounds that overlap the specified point.     |
-| [Query](#QUEF3BF732)          | Queries the spatial collection and returns the elements with bounds that overlap the specified rectangle. |
-| [Query](#QUEF3BF732)          | Queries the spatial collection and returns the elements with bounds that intersect the specified ray.     |
-| [GetEnumerator](#GETF1F90828) |                                                                                                           |
+| [Clear](#CLE4538C554)         | Clears all elements from this spatial collection.                                                         |
+| [Add](#ADD873258A8)           | Adds an element with rectangle bounds into this spatial collection.                                       |
+| [Update](#UPDC8E3D6DE)        | Updates an exising element with new bounds in the collection.                                             |
+| [Remove](#REM1E1AE509)        | Removes an element from this spatial collection.                                                          |
+| [Contains](#CONC6E9849A)      | Determines if the specified element exists in this collection.                                            |
+| [Query](#QUEF49A009C)         | Queries the spatial collection and returns the elements with bounds that overlap the specified point.     |
+| [Query](#QUEA1C7943F)         | Queries the spatial collection and returns the elements with bounds that overlap the specified rectangle. |
+| [Query](#QUEC52C85A8)         | Queries the spatial collection and returns the elements with bounds that intersect the specified ray.     |
+| [GetEnumerator](#GETDDD17E2E) |                                                                                                           |
 
 ### Constructors
 
