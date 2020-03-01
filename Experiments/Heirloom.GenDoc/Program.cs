@@ -16,7 +16,13 @@ namespace Heirloom.GenDoc
             Console.WriteLine("Discovering assemblies and generating documentation!");
             var assemblies = FindAndLoadDocumentedAssemblies(directory);
 
-            // 
+            // Load xml documentation for assemblies
+            foreach (var assembly in assemblies)
+            {
+                Documentation.LoadDocumentation(assembly);
+            }
+
+            // Generate documenation
             var generator = new MarkdownGenerator();
             foreach (var assembly in assemblies)
             {

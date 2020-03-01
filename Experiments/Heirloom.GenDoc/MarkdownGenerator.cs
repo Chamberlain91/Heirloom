@@ -16,20 +16,28 @@ namespace Heirloom.GenDoc
             // Emit header
             var markdown = Header($"{GetName(CurrentType)} ({GetTypeAccess(CurrentType)})", 2);
 
-            // Emit Summary
-            var typeSummary = EscapeCharacters(CurrentType.GetDocumentation());
-            if (typeSummary?.Length > 0)
-            {
-                markdown += $"{typeSummary}\n\n";
-            }
-
             // Emit
             markdown += Small($"**Namespace**: {CurrentType.Namespace}</sub>") + "  \n";
-            var inherits = WalkInheritedTypes(CurrentType).Select(t => GetLink(t));
+            var inherits = WalkTypeInheritance(CurrentType).Select(t => TypeLink(t));
             if (inherits.Any()) { markdown += Small($"**Inherits**: {string.Join(", ", inherits)}") + "  \n"; }
-            var interfaces = CurrentType.GetInterfaces().Select(t => GetName(t));
+            var interfaces = CurrentType.GetInterfaces().Select(t => TypeLink(t));
             if (interfaces.Any()) { markdown += Small($"**Interfaces**: {string.Join(", ", interfaces)}") + "  \n"; }
 
+            // Emit Summary
+            var summary = GetSummary(CurrentType);
+            if (summary.Length > 0)
+            {
+                markdown += $"\n{summary}\n";
+            }
+
+            // Generate Remarks
+            var remarks = GetRemarks(CurrentType);
+            if (remarks?.Length > 0)
+            {
+                markdown += $"\n{remarks}\n";
+            }
+
+            markdown += "\n";
             return markdown;
         }
 
@@ -98,13 +106,13 @@ namespace Heirloom.GenDoc
             if (Events.Count > 0)
             {
                 markdown += $"### Events\n\n";
-                foreach (var eventInfo in Events)
+                foreach (var @event in Events)
                 {
-                    markdown += $"#### {GetName(eventInfo)}\n";
+                    markdown += $"#### {GetName(@event)}\n";
 
                     // 
-                    var summary = eventInfo.GetDocumentation();
-                    if (summary?.Length > 0)
+                    var summary = GetSummary(@event);
+                    if (summary != null)
                     {
                         markdown += $"{summary}\n\n";
                     }
@@ -115,9 +123,9 @@ namespace Heirloom.GenDoc
             if (Methods.Count > 0)
             {
                 markdown += $"### Methods\n\n";
-                foreach (var methodInfo in InstanceMethods)
+                foreach (var method in InstanceMethods)
                 {
-                    markdown += GenerateSummary(methodInfo, false);
+                    markdown += GenerateSummary(method, false);
                 }
 
                 foreach (var methodInfo in StaticMethods)
@@ -138,7 +146,7 @@ namespace Heirloom.GenDoc
             {
                 markdown += "| Fields | Summary |\n";
                 markdown += "|-------|---------|\n";
-                foreach (var m in Fields) { markdown += $"| {AnchorLink(GetName(m))} | {Shorten(GetSummary(m))} |\n"; }
+                foreach (var m in Fields) { markdown += $"| {AnchorLink(GetName(m))} | {NormalizeSpaces(GetSummary(m))} |\n"; }
                 markdown += "\n";
             }
 
@@ -146,7 +154,7 @@ namespace Heirloom.GenDoc
             {
                 markdown += "| Properties | Summary |\n";
                 markdown += "|------------|---------|\n";
-                foreach (var m in Properties) { markdown += $"| {AnchorLink(GetName(m))} | {Shorten(GetSummary(m))} |\n"; }
+                foreach (var m in Properties) { markdown += $"| {AnchorLink(GetName(m))} | {NormalizeSpaces(GetSummary(m))} |\n"; }
                 markdown += "\n";
             }
 
@@ -154,7 +162,7 @@ namespace Heirloom.GenDoc
             {
                 markdown += "| Events | Summary |\n";
                 markdown += "|--------|---------|\n";
-                foreach (var m in Events) { markdown += $"| {AnchorLink(GetName(m))} | {Shorten(GetSummary(m))} |\n"; }
+                foreach (var m in Events) { markdown += $"| {AnchorLink(GetName(m))} | {NormalizeSpaces(GetSummary(m))} |\n"; }
                 markdown += "\n";
             }
 
@@ -162,7 +170,7 @@ namespace Heirloom.GenDoc
             {
                 markdown += "| Methods | Summary |\n";
                 markdown += "|---------|---------|\n";
-                foreach (var m in Methods) { markdown += $"| {AnchorLink(GetName(m), GetSignature(m))} | {Shorten(GetSummary(m))} |\n"; }
+                foreach (var m in Methods) { markdown += $"| {AnchorLink(GetName(m), GetSignature(m))} | {NormalizeSpaces(GetSummary(m))} |\n"; }
                 markdown += "\n";
             }
 
@@ -194,7 +202,7 @@ namespace Heirloom.GenDoc
 
         private string GenerateSummary(FieldInfo field, bool isStatic)
         {
-            var markdown = Header($"{GetName(field)} : {GetLink(field.FieldType)}", 4);
+            var markdown = Header($"{GetName(field)} : {TypeLink(field.FieldType)}", 4);
 
             // Generate Badges
             markdown += GenerateBadges(field, isStatic);
@@ -213,7 +221,7 @@ namespace Heirloom.GenDoc
         private string GenerateSummary(PropertyInfo property, bool isStatic)
         {
             // Emit Name
-            var markdown = Header($"{Anchor(GetName(property))} : {GetLink(property.PropertyType)}\n", 4);
+            var markdown = Header($"{Anchor(GetName(property))} : {TypeLink(property.PropertyType)}\n", 4);
 
             // Generate Badges
             markdown += GenerateBadges(property, isStatic);
@@ -252,13 +260,20 @@ namespace Heirloom.GenDoc
 
                 foreach (var param in parameters)
                 {
-                    var paramSummary = param.GetDocumentation();
+                    var paramSummary = Documentation.GetDocumentation(param);
                     if (paramSummary != null)
                     {
                         var text = $"{Bold(GetName(param))}: {paramSummary}  \n";
                         markdown += $"{Small(text)}\n";
                     }
                 }
+            }
+
+            // Generate Remarks
+            var remarks = GetRemarks(method);
+            if (remarks?.Length > 0)
+            {
+                markdown += $"{remarks}\n";
             }
 
             return markdown;
@@ -392,7 +407,7 @@ namespace Heirloom.GenDoc
 
         #endregion
 
-        protected override string GetLink(string text, string target)
+        protected override string Link(string text, string target)
         {
             // return $"[{GetName(type)}]({GetPath(GetSimpleType(type))})";
             return $"[{text}]({target})";
@@ -432,6 +447,7 @@ namespace Heirloom.GenDoc
 
         protected override string EscapeCharacters(string text)
         {
+            text = text?.Replace("\\<", "<");
             return text?.Replace("<", "\\<");
         }
     }
