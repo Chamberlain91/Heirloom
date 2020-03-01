@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-using Heirloom.IO;
-
 namespace SharpDoc
 {
     public class MarkdownGenerator : DocumentationGenerator
@@ -16,8 +14,7 @@ namespace SharpDoc
         protected override string GenerateTypeSummary()
         {
             // Emit header
-            var markdown = $"{CurrentType.Assembly.GetName().Name} - {GetName(CurrentType)} ({GetTypeAccess(CurrentType)})\n";
-            markdown += $"{new string('-', markdown.Length - 2)}\n\n";
+            var markdown = Header($"{GetName(CurrentType)} ({GetTypeAccess(CurrentType)})", 2);
 
             // Emit Summary
             var typeSummary = EscapeCharacters(CurrentType.GetDocumentation());
@@ -174,7 +171,7 @@ namespace SharpDoc
 
         protected override string GenerateSeparator()
         {
-            return "\n--------------------------------------------------------------------------------\n\n";
+            return "--------------------------------------------------------------------------------\n\n";
         }
 
         private string GenerateSummary(ConstructorInfo constructor)
@@ -258,7 +255,7 @@ namespace SharpDoc
                     var paramSummary = param.GetDocumentation();
                     if (paramSummary != null)
                     {
-                        var text = $"**{GetName(param)}**: {paramSummary}  \n";
+                        var text = $"{Bold(GetName(param))}: {paramSummary}  \n";
                         markdown += $"{Small(text)}\n";
                     }
                 }
@@ -395,9 +392,10 @@ namespace SharpDoc
 
         #endregion
 
-        protected override string GenerateLink(Type type)
+        protected override string GetLink(string text, string target)
         {
-            return $"[{GetName(type)}]({GetPath(GetSimpleType(type))})";
+            // return $"[{GetName(type)}]({GetPath(GetSimpleType(type))})";
+            return $"[{text}]({target})";
         }
 
         protected override string Header(string text, int level)
@@ -420,6 +418,11 @@ namespace SharpDoc
         protected override string Badge(string text)
         {
             return $"`{text}`";
+        }
+
+        protected override string Bold(string text)
+        {
+            return $"**{text}**";
         }
 
         protected override string Small(string text)
