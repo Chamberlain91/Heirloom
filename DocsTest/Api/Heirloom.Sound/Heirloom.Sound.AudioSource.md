@@ -9,29 +9,29 @@
 
 An instance of playable audio.
 
-| Properties                      | Summary                                                                                                                                                   |
-|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Group](#GROU12D8)              | Gets or sets which audio group this source is part of (default is `Heirloom.Sound.AudioGroup.Default`).                                                   |
-| [IsLooping](#ISLOBA98)          | Should this clip loop when finished playing?                                                                                                              |
-| [CanSeek](#CANS2744)            | Is it possible seek through this sources audio data to change playback position.                                                                          |
-| [Time](#TIME9C93)               | Gets the current playback time (position) in seconds.                                                                                                     |
-| [Duration](#DURAAF85)           | The duration of the audio in seconds. May report zero if the length of the source cannot be determined (ie, some streams or a format limitation).         |
-| [Position](#POSIF46C)           | Gets the current playback position (time) in samples.                                                                                                     |
-| [Length](#LENG6B36)             | The length of the audio source in PCM frames. May report zero if the length of the source cannot be determined (ie, some streams or a format limitation). |
-| [IsPlaybackFinished](#ISPLD02E) | Gets a value that determines if playback has finished.                                                                                                    |
+| Properties                         | Summary                                                                                                                                                   |
+|------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Group](#GRO12D88E27)              | Gets or sets which audio group this source is part of (default is `Heirloom.Sound.AudioGroup.Default`).                                                   |
+| [IsLooping](#ISLBA98A384)          | Should this clip loop when finished playing?                                                                                                              |
+| [CanSeek](#CAN2744B0C0)            | Is it possible seek through this sources audio data to change playback position.                                                                          |
+| [Time](#TIM9C9392A9)               | Gets the current playback time (position) in seconds.                                                                                                     |
+| [Duration](#DURAF856856)           | The duration of the audio in seconds. May report zero if the length of the source cannot be determined (ie, some streams or a format limitation).         |
+| [Position](#POSF46C3C91)           | Gets the current playback position (time) in samples.                                                                                                     |
+| [Length](#LEN6B366D7E)             | The length of the audio source in PCM frames. May report zero if the length of the source cannot be determined (ie, some streams or a format limitation). |
+| [IsPlaybackFinished](#ISPD02EF1FB) | Gets a value that determines if playback has finished.                                                                                                    |
 
-| Events                     | Summary                                                              |
-|----------------------------|----------------------------------------------------------------------|
-| [PlaybackEnded](#PLAY38F1) | An event invoked when this source reaches the end of playable audio. |
+| Events                        | Summary                                                              |
+|-------------------------------|----------------------------------------------------------------------|
+| [PlaybackEnded](#PLA38F157E5) | An event invoked when this source reaches the end of playable audio. |
 
-| Methods                     | Summary                                                                                                                                               |
-|-----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Play](#PLAYD2A8)           | Begin playing audio.                                                                                                                                  |
-| [Pause](#PAUSB2AE)          | Pause playing audio.                                                                                                                                  |
-| [Stop](#STOPB303)           | Pause playing audio and seeks to the beginning in the audio data. If seek is not supported, this is equivalent to `Heirloom.Sound.AudioSource.Pause`. |
-| [Seek](#SEEK5273)           | Seek playback position to some time in samples.                                                                                                       |
-| [Seek](#SEEK5273)           | Seek playback position to some time in seconds.                                                                                                       |
-| [PopulateBuffer](#POPU7E07) |                                                                                                                                                       |
+| Methods                      | Summary                                                                                                                                               |
+|------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Play](#PLAD2A843C4)         | Begin playing audio.                                                                                                                                  |
+| [Pause](#PAUB2AE6938)        | Pause playing audio.                                                                                                                                  |
+| [Stop](#STOB3037DBE)         | Pause playing audio and seeks to the beginning in the audio data. If seek is not supported, this is equivalent to `Heirloom.Sound.AudioSource.Pause`. |
+| [Seek](#SEE5273924A)         | Seek playback position to some time in samples.                                                                                                       |
+| [Seek](#SEE5273924A)         | Seek playback position to some time in seconds.                                                                                                       |
+| [PopulateBuffer](#POP7E079E) |                                                                                                                                                       |
 
 ### Constructors
 
@@ -55,49 +55,49 @@ Create an audio source for the given stream in the specified audio group.
 
 ### Properties
 
-#### <a name="GROU12D8"></a> Group : [AudioGroup](Heirloom.Sound.AudioGroup.md)
+#### <a name="GRO12D88E27"></a>Group : [AudioGroup](Heirloom.Sound.AudioGroup.md)
 
 
 Gets or sets which audio group this source is part of (default is `Heirloom.Sound.AudioGroup.Default`).
 
-#### <a name="ISLOBA98"></a> IsLooping : bool
+#### <a name="ISLBA98A384"></a>IsLooping : bool
 
 
 Should this clip loop when finished playing?
 
-#### <a name="CANS2744"></a> CanSeek : bool
+#### <a name="CAN2744B0C0"></a>CanSeek : bool
 
 <small>`Read Only`</small>
 
 Is it possible seek through this sources audio data to change playback position.
 
-#### <a name="TIME9C93"></a> Time : float
+#### <a name="TIM9C9392A9"></a>Time : float
 
 <small>`Read Only`</small>
 
 Gets the current playback time (position) in seconds.
 
-#### <a name="DURAAF85"></a> Duration : float
+#### <a name="DURAF856856"></a>Duration : float
 
 <small>`Read Only`</small>
 
 The duration of the audio in seconds.   
  May report zero if the length of the source cannot be determined (ie, some streams or a format limitation).
 
-#### <a name="POSIF46C"></a> Position : int
+#### <a name="POSF46C3C91"></a>Position : int
 
 <small>`Read Only`</small>
 
 Gets the current playback position (time) in samples.
 
-#### <a name="LENG6B36"></a> Length : int
+#### <a name="LEN6B366D7E"></a>Length : int
 
 <small>`Read Only`</small>
 
 The length of the audio source in PCM frames.   
  May report zero if the length of the source cannot be determined (ie, some streams or a format limitation).
 
-#### <a name="ISPLD02E"></a> IsPlaybackFinished : bool
+#### <a name="ISPD02EF1FB"></a>IsPlaybackFinished : bool
 
 <small>`Read Only`</small>
 
@@ -110,29 +110,29 @@ Gets a value that determines if playback has finished.
 An event invoked when this source reaches the end of playable audio.
 ### Methods
 
-#### <a name="PLAY2D77"></a> Play() : void
+#### <a name="PLA2D77C0A3"></a>Play() : void
 
 Begin playing audio.
 
-#### <a name="PAUSC78D"></a> Pause() : void
+#### <a name="PAUC78D044D"></a>Pause() : void
 
 Pause playing audio.
 
-#### <a name="STOP4AE1"></a> Stop() : void
+#### <a name="STO4AE17E3B"></a>Stop() : void
 
 Pause playing audio and seeks to the beginning in the audio data. If seek is not supported, this is equivalent to `Heirloom.Sound.AudioSource.Pause`.
 
-#### <a name="SEEKEF91"></a> Seek(int offset) : void
+#### <a name="SEEEF91C34D"></a>Seek(int offset) : void
 
 Seek playback position to some time in samples.
 
 
-#### <a name="SEEK3F39"></a> Seek(float time) : void
+#### <a name="SEE3F393E40"></a>Seek(float time) : void
 
 Seek playback position to some time in seconds.
 
 
-#### <a name="POPU1F4E"></a> PopulateBuffer(Span\<float> output) : void
+#### <a name="POP1F4E4746"></a>PopulateBuffer(Span\<float> output) : void
 <small>`Virtual`, `Protected`</small>
 
 

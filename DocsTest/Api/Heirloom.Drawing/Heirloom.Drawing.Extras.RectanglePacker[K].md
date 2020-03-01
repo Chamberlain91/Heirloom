@@ -8,17 +8,17 @@
 ## RectanglePacker\<K> (Sealed Class)
 <small>**Namespace**: Heirloom.Drawing.Extras</sub></small>  
 
-| Properties          | Summary                                         |
-|---------------------|-------------------------------------------------|
-| [Bounds](#BOUNBCFE) | Gets the total bounds of the packed rectangles. |
-| [Keys](#KEYS3D37)   | Gets the identifiers of each packed rectangle.  |
+| Properties            | Summary                                         |
+|-----------------------|-------------------------------------------------|
+| [Bounds](#BOUBCFE829) | Gets the total bounds of the packed rectangles. |
+| [Keys](#KEY3D37EC76)  | Gets the identifiers of each packed rectangle.  |
 
-| Methods                   | Summary                                                                                    |
-|---------------------------|--------------------------------------------------------------------------------------------|
-| [Insert](#INSEC7B1)       | Insert and pack a rectangle of the specified size.                                         |
-| [Contains](#CONTD0AE)     | Does this packer have a rectangle with the specified key?                                  |
-| [GetRectangle](#GETR3189) | Returns the packed rectangle for the specified key.                                        |
-| [Pack](#PACK741B)         | Packs the given rectangle sizes and returns one-to-one ordering of their packed positions. |
+| Methods                      | Summary                                                                                    |
+|------------------------------|--------------------------------------------------------------------------------------------|
+| [Insert](#INSC7B161AF)       | Insert and pack a rectangle of the specified size.                                         |
+| [Contains](#COND0AE797B)     | Does this packer have a rectangle with the specified key?                                  |
+| [GetRectangle](#GET3189F53F) | Returns the packed rectangle for the specified key.                                        |
+| [Pack](#PAC741B7281)         | Packs the given rectangle sizes and returns one-to-one ordering of their packed positions. |
 
 ### Constructors
 
@@ -26,13 +26,13 @@
 
 ### Properties
 
-#### <a name="BOUNBCFE"></a> Bounds : [IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md)
+#### <a name="BOUBCFE829"></a>Bounds : [IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md)
 
 <small>`Read Only`</small>
 
 Gets the total bounds of the packed rectangles.
 
-#### <a name="KEYS3D37"></a> Keys : IEnumerable\<K>
+#### <a name="KEY3D37EC76"></a>Keys : IEnumerable\<K>
 
 <small>`Read Only`</small>
 
@@ -40,24 +40,24 @@ Gets the identifiers of each packed rectangle.
 
 ### Methods
 
-#### <a name="INSEA0D0"></a> Insert(K key, [IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md) size) : void
+#### <a name="INSA0D098FB"></a>Insert(K key, [IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md) size) : void
 
 Insert and pack a rectangle of the specified size.
 
 <small>**key**: <param name="key">Some key to identify the rectangle.</param></small>  
 <small>**size**: <param name="size">The size of the rectangle to insert.</param></small>  
 
-#### <a name="CONT5E61"></a> Contains(K key) : bool
+#### <a name="CON5E610AA"></a>Contains(K key) : bool
 
 Does this packer have a rectangle with the specified key?
 
 
-#### <a name="GETRA721"></a> GetRectangle(K key) : [IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md)
+#### <a name="GETA721B7DE"></a>GetRectangle(K key) : [IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md)
 
 Returns the packed rectangle for the specified key.
 
 
-#### <a name="PACK1A0E"></a> Pack([IntSize[]](../Heirloom.Math/Heirloom.Math.IntSize.md) rectangles) : [IntRectangle[]](../Heirloom.Math/Heirloom.Math.IntRectangle.md)
+#### <a name="PAC1A0E4940"></a>Pack([IntSize[]](../Heirloom.Math/Heirloom.Math.IntSize.md) rectangles) : [IntRectangle[]](../Heirloom.Math/Heirloom.Math.IntRectangle.md)
 <small>`Static`</small>
 
 Packs the given rectangle sizes and returns one-to-one ordering of their packed positions.

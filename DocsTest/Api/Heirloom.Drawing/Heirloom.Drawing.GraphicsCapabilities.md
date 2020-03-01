@@ -9,35 +9,35 @@
 <small>**Namespace**: Heirloom.Drawing</sub></small>  
 <small>**Interfaces**: IEquatable\<GraphicsCapabilities></small>  
 
-| Fields                                  | Summary                                                                                                |
-|-----------------------------------------|--------------------------------------------------------------------------------------------------------|
-| [IsMobilePlatform](#ISMO8E79)           | Gets a value that determines if this application has been detected to be running on a mobile platform. |
-| [MaxSupportedFragmentImages](#MAXSA0D5) |                                                                                                        |
-| [MaxSupportedVertexImages](#MAXSB719)   |                                                                                                        |
-| [MaxImageSize](#MAXIF2A2)               |                                                                                                        |
-| [AdapterVendor](#ADAP6819)              |                                                                                                        |
-| [AdapterName](#ADAPAF80)                |                                                                                                        |
+| Fields                                     | Summary                                                                                                |
+|--------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| [IsMobilePlatform](#ISM8E791415)           | Gets a value that determines if this application has been detected to be running on a mobile platform. |
+| [MaxSupportedFragmentImages](#MAXA0D55BE4) |                                                                                                        |
+| [MaxSupportedVertexImages](#MAXB719BE96)   |                                                                                                        |
+| [MaxImageSize](#MAXF2A23E2C)               |                                                                                                        |
+| [AdapterVendor](#ADA6819B9FF)              |                                                                                                        |
+| [AdapterName](#ADAAF80D05A)                |                                                                                                        |
 
 ### Fields
 
-#### <a name="ISMO8E79"></a> IsMobilePlatform : bool
+#### <a name="ISM8E791415"></a>IsMobilePlatform : bool
 <small>`Read Only`</small>
 
 Gets a value that determines if this application has been detected to be running on a mobile platform.
 
-#### <a name="MAXSA0D5"></a> MaxSupportedFragmentImages : int
+#### <a name="MAXA0D55BE4"></a>MaxSupportedFragmentImages : int
 <small>`Read Only`</small>
 
-#### <a name="MAXSB719"></a> MaxSupportedVertexImages : int
+#### <a name="MAXB719BE96"></a>MaxSupportedVertexImages : int
 <small>`Read Only`</small>
 
-#### <a name="MAXIF2A2"></a> MaxImageSize : int
+#### <a name="MAXF2A23E2C"></a>MaxImageSize : int
 <small>`Read Only`</small>
 
-#### <a name="ADAP6819"></a> AdapterVendor : string
+#### <a name="ADA6819B9FF"></a>AdapterVendor : string
 <small>`Read Only`</small>
 
-#### <a name="ADAPAF80"></a> AdapterName : string
+#### <a name="ADAAF80D05A"></a>AdapterName : string
 <small>`Read Only`</small>
 
 ### Constructors

@@ -7,19 +7,19 @@
 ## RectanglePacker\<TElement> (Abstract Class)
 <small>**Namespace**: Heirloom.Drawing.OpenGLES.Utilities</sub></small>  
 
-| Properties            | Summary |
-|-----------------------|---------|
-| [Elements](#ELEM9748) |         |
-| [Size](#SIZE9C93)     |         |
+| Properties               | Summary |
+|--------------------------|---------|
+| [Elements](#ELE97486ED1) |         |
+| [Size](#SIZ9C9392F9)     |         |
 
-| Methods                      | Summary |
-|------------------------------|---------|
-| [Clear](#CLEA3BB2)           |         |
-| [Contains](#CONTD0AE)        |         |
-| [Add](#ADDBCD0)              |         |
-| [TryGetRectangle](#TRYG2475) |         |
-| [GetRectangle](#GETR3189)    |         |
-| [Insert](#INSEC7B1)          |         |
+| Methods                        | Summary |
+|--------------------------------|---------|
+| [Clear](#CLE3BB23EF9)          |         |
+| [Contains](#COND0AE797B)       |         |
+| [Add](#ADDBCD0F225)            |         |
+| [TryGetRectangle](#TRY2475D72) |         |
+| [GetRectangle](#GET3189F53F)   |         |
+| [Insert](#INSC7B161AF)         |         |
 
 ### Constructors
 
@@ -27,32 +27,32 @@
 
 ### Properties
 
-#### <a name="ELEM9748"></a> Elements : IEnumerable\<TElement>
+#### <a name="ELE97486ED1"></a>Elements : IEnumerable\<TElement>
 
 <small>`Read Only`</small>
 
-#### <a name="SIZE9C93"></a> Size : [IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md)
+#### <a name="SIZ9C9392F9"></a>Size : [IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md)
 
 <small>`Read Only`</small>
 
 ### Methods
 
-#### <a name="CLEA4538"></a> Clear() : void
+#### <a name="CLE4538C554"></a>Clear() : void
 <small>`Virtual`</small>
 
-#### <a name="CONTDA66"></a> Contains(TElement element) : bool
+#### <a name="CONDA66F8F2"></a>Contains(TElement element) : bool
 
 
-#### <a name="ADD(23C5"></a> Add(TElement element, [IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md) itemSize) : bool
+#### <a name="ADD23C591B2"></a>Add(TElement element, [IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md) itemSize) : bool
 
 
-#### <a name="TRYG1EA4"></a> TryGetRectangle(TElement element, out [IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md) rectangle) : bool
+#### <a name="TRY1EA416E4"></a>TryGetRectangle(TElement element, out [IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md) rectangle) : bool
 
 
-#### <a name="GETRF916"></a> GetRectangle(TElement element) : [IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md)
+#### <a name="GETF916A676"></a>GetRectangle(TElement element) : [IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md)
 
 
-#### <a name="INSEFD6B"></a> Insert([IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md) size, out [IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md) rectangle) : bool
+#### <a name="INSFD6B51FA"></a>Insert([IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md) size, out [IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md) rectangle) : bool
 <small>`Abstract`, `Protected`</small>
 
 

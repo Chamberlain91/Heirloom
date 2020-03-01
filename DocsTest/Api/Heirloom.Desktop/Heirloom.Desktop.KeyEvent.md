@@ -7,25 +7,25 @@
 ## KeyEvent (Struct)
 <small>**Namespace**: Heirloom.Desktop</sub></small>  
 
-| Fields                 | Summary |
-|------------------------|---------|
-| [Key](#KEY5F78)        |         |
-| [ScanCode](#SCAN8BC7)  |         |
-| [Action](#ACTI811A)    |         |
-| [Modifiers](#MODIBFF7) |         |
+| Fields                    | Summary |
+|---------------------------|---------|
+| [Key](#KEY5F786897)       |         |
+| [ScanCode](#SCA8BC750DA)  |         |
+| [Action](#ACT811A5B04)    |         |
+| [Modifiers](#MODBFF75FD4) |         |
 
 ### Fields
 
-#### <a name="KEY5F78"></a> Key : [Key](Heirloom.Desktop.Key.md)
+#### <a name="KEY5F786897"></a>Key : [Key](Heirloom.Desktop.Key.md)
 <small>`Read Only`</small>
 
-#### <a name="SCAN8BC7"></a> ScanCode : int
+#### <a name="SCA8BC750DA"></a>ScanCode : int
 <small>`Read Only`</small>
 
-#### <a name="ACTI811A"></a> Action : [ButtonAction](Heirloom.Desktop.ButtonAction.md)
+#### <a name="ACT811A5B04"></a>Action : [ButtonAction](Heirloom.Desktop.ButtonAction.md)
 <small>`Read Only`</small>
 
-#### <a name="MODIBFF7"></a> Modifiers : [KeyModifiers](Heirloom.Desktop.KeyModifiers.md)
+#### <a name="MODBFF75FD4"></a>Modifiers : [KeyModifiers](Heirloom.Desktop.KeyModifiers.md)
 <small>`Read Only`</small>
 
 ### Constructors

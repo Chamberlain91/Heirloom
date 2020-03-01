@@ -7,13 +7,13 @@
 ## CharacterEvent (Struct)
 <small>**Namespace**: Heirloom.Desktop</sub></small>  
 
-| Fields                 | Summary |
-|------------------------|---------|
-| [Character](#CHAR601A) |         |
+| Fields                    | Summary |
+|---------------------------|---------|
+| [Character](#CHA601A43FD) |         |
 
 ### Fields
 
-#### <a name="CHAR601A"></a> Character : [UnicodeCharacter](../Heirloom.Drawing/Heirloom.Drawing.UnicodeCharacter.md)
+#### <a name="CHA601A43FD"></a>Character : [UnicodeCharacter](../Heirloom.Drawing/Heirloom.Drawing.UnicodeCharacter.md)
 <small>`Read Only`</small>
 
 ### Constructors

@@ -8,15 +8,15 @@
 ## UniformInfo (Sealed Class)
 <small>**Namespace**: Heirloom.Drawing</sub></small>  
 
-| Properties              | Summary                   |
-|-------------------------|---------------------------|
-| [Name](#NAME5943)       |                           |
-| [Type](#TYPE2333)       |                           |
-| [Dimensions](#DIMEA327) |                           |
-| [ArraySize](#ARRAE189)  |                           |
-| [IsVector](#ISVE79DF)   | Is this uniform a vector? |
-| [IsMatrix](#ISMA9737)   | Is this uniform a matrix? |
-| [IsArray](#ISARE825)    | Is this uniform an array? |
+| Properties                 | Summary                   |
+|----------------------------|---------------------------|
+| [Name](#NAM5943D12B)       |                           |
+| [Type](#TYP233312DE)       |                           |
+| [Dimensions](#DIMA3278683) |                           |
+| [ArraySize](#ARRE1891CFE)  |                           |
+| [IsVector](#ISV79DF967F)   | Is this uniform a vector? |
+| [IsMatrix](#ISM973708CD)   | Is this uniform a matrix? |
+| [IsArray](#ISAE8254ADF)    | Is this uniform an array? |
 
 ### Constructors
 
@@ -24,35 +24,35 @@
 
 ### Properties
 
-#### <a name="NAME5943"></a> Name : string
+#### <a name="NAM5943D12B"></a>Name : string
 
 <small>`Read Only`</small>
 
-#### <a name="TYPE2333"></a> Type : [UniformType](Heirloom.Drawing.UniformType.md)
+#### <a name="TYP233312DE"></a>Type : [UniformType](Heirloom.Drawing.UniformType.md)
 
 <small>`Read Only`</small>
 
-#### <a name="DIMEA327"></a> Dimensions : [IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md)
+#### <a name="DIMA3278683"></a>Dimensions : [IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md)
 
 <small>`Read Only`</small>
 
-#### <a name="ARRAE189"></a> ArraySize : int
+#### <a name="ARRE1891CFE"></a>ArraySize : int
 
 <small>`Read Only`</small>
 
-#### <a name="ISVE79DF"></a> IsVector : bool
+#### <a name="ISV79DF967F"></a>IsVector : bool
 
 <small>`Read Only`</small>
 
 Is this uniform a vector?
 
-#### <a name="ISMA9737"></a> IsMatrix : bool
+#### <a name="ISM973708CD"></a>IsMatrix : bool
 
 <small>`Read Only`</small>
 
 Is this uniform a matrix?
 
-#### <a name="ISARE825"></a> IsArray : bool
+#### <a name="ISAE8254ADF"></a>IsArray : bool
 
 <small>`Read Only`</small>
 

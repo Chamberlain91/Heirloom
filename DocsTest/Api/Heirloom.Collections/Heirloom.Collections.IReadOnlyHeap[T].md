@@ -9,18 +9,18 @@
 
 Represents a read-only view of a [Heap\<T>](Heirloom.Collections.Heap[T].md).
 
-| Properties            | Summary                                     |
-|-----------------------|---------------------------------------------|
-| [Comparer](#COMP4526) | The comparer used to compare item priority. |
+| Properties               | Summary                                     |
+|--------------------------|---------------------------------------------|
+| [Comparer](#COM45265051) | The comparer used to compare item priority. |
 
-| Methods               | Summary                                       |
-|-----------------------|-----------------------------------------------|
-| [Contains](#CONTD0AE) | Does this heap contain the specified item?    |
-| [Peek](#PEEK5273)     | Gets the next item in the heap to be removed. |
+| Methods                  | Summary                                       |
+|--------------------------|-----------------------------------------------|
+| [Contains](#COND0AE797B) | Does this heap contain the specified item?    |
+| [Peek](#PEE52739267)     | Gets the next item in the heap to be removed. |
 
 ### Properties
 
-#### <a name="COMP4526"></a> Comparer : Comparer\<T>
+#### <a name="COM45265051"></a>Comparer : Comparer\<T>
 
 <small>`Read Only`</small>
 
@@ -28,14 +28,14 @@ The comparer used to compare item priority.
 
 ### Methods
 
-#### <a name="CONT50B6"></a> Contains(T item) : bool
+#### <a name="CON50B6A9F"></a>Contains(T item) : bool
 <small>`Abstract`</small>
 
 Does this heap contain the specified item?
 
 <small>**item**: <param name="item">Some object.</param></small>  
 
-#### <a name="PEEK599B"></a> Peek() : T
+#### <a name="PEE599BAF94"></a>Peek() : T
 <small>`Abstract`</small>
 
 Gets the next item in the heap to be removed.

@@ -9,18 +9,18 @@
 
 Manages objects by their type hierarchy up to the base type, allowing access and enumeration of objects by type.
 
-| Properties         | Summary |
-|--------------------|---------|
-| [Count](#COUN73CA) |         |
+| Properties            | Summary |
+|-----------------------|---------|
+| [Count](#COU73CA0BBB) |         |
 
-| Methods                        | Summary |
-|--------------------------------|---------|
-| [Add](#ADDBCD0)                |         |
-| [Remove](#REMOF107)            |         |
-| [Contains](#CONTD0AE)          |         |
-| [ContainsType<X>](#CONT7AD5)   |         |
-| [GetItemsByType<X>](#GETI6B56) |         |
-| [GetEnumerator](#GETEF1F9)     |         |
+| Methods                           | Summary |
+|-----------------------------------|---------|
+| [Add](#ADDBCD0F225)               |         |
+| [Remove](#REMF10744DE)            |         |
+| [Contains](#COND0AE797B)          |         |
+| [ContainsType<X>](#CON7AD5C721)   |         |
+| [GetItemsByType<X>](#GET6B563695) |         |
+| [GetEnumerator](#GETF1F90828)     |         |
 
 ### Constructors
 
@@ -28,30 +28,30 @@ Manages objects by their type hierarchy up to the base type, allowing access and
 
 ### Properties
 
-#### <a name="COUN73CA"></a> Count : int
+#### <a name="COU73CA0BBB"></a>Count : int
 
 <small>`Read Only`</small>
 
 ### Methods
 
-#### <a name="ADD(9453"></a> Add(T item) : bool
+#### <a name="ADD9453EEA5"></a>Add(T item) : bool
 <small>`Virtual`</small>
 
 
-#### <a name="REMO291D"></a> Remove(T item) : bool
+#### <a name="REM291D149A"></a>Remove(T item) : bool
 <small>`Virtual`</small>
 
 
-#### <a name="CONT50B6"></a> Contains(T item) : bool
+#### <a name="CON50B6A9F"></a>Contains(T item) : bool
 <small>`Virtual`</small>
 
 
-#### <a name="CONT93D1"></a> ContainsType<X>() : bool
+#### <a name="CON93D1CDF6"></a>ContainsType<X>() : bool
 <small>`Virtual`</small>
 
-#### <a name="GETIBA34"></a> GetItemsByType<X>() : IEnumerable\<X>
+#### <a name="GETBA3442D3"></a>GetItemsByType<X>() : IEnumerable\<X>
 <small>`Virtual`, `IteratorStateMachineAttribute`</small>
 
-#### <a name="GETEDDD1"></a> GetEnumerator() : IEnumerator\<T>
+#### <a name="GETDDD17E2E"></a>GetEnumerator() : IEnumerator\<T>
 <small>`Virtual`</small>
 

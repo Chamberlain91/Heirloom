@@ -8,10 +8,10 @@
 <small>**Namespace**: Heirloom.Drawing.OpenGLES.Utilities</sub></small>  
 <small>**Inherits**: [RectanglePacker\<TElement>](Heirloom.Drawing.OpenGLES.Utilities.RectanglePacker[TElement].md)</small>  
 
-| Methods             | Summary |
-|---------------------|---------|
-| [Clear](#CLEA3BB2)  |         |
-| [Insert](#INSEC7B1) |         |
+| Methods                | Summary |
+|------------------------|---------|
+| [Clear](#CLE3BB23EF9)  |         |
+| [Insert](#INSC7B161AF) |         |
 
 ### Constructors
 
@@ -21,10 +21,10 @@
 
 ### Methods
 
-#### <a name="CLEA4538"></a> Clear() : void
+#### <a name="CLE4538C554"></a>Clear() : void
 <small>`Virtual`</small>
 
-#### <a name="INSE945E"></a> Insert([IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md) itemSize, out [IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md) itemRect) : bool
+#### <a name="INS945E8471"></a>Insert([IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md) itemSize, out [IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md) itemRect) : bool
 <small>`Virtual`, `Protected`</small>
 
 

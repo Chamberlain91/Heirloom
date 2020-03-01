@@ -11,30 +11,30 @@
 
 Represents information of any particular glyph during text layout.
 
-| Fields                | Summary                                                     |
-|-----------------------|-------------------------------------------------------------|
-| [Position](#POSIF46C) | The position of top left corner of the current glyph image. |
+| Fields                   | Summary                                                     |
+|--------------------------|-------------------------------------------------------------|
+| [Position](#POSF46C3C91) | The position of top left corner of the current glyph image. |
 
-| Properties             | Summary                                  |
-|------------------------|------------------------------------------|
-| [Character](#CHAR601A) | The current character.                   |
-| [Metrics](#METR4AD7)   | The metrics of the glyph being rendered. |
+| Properties                | Summary                                  |
+|---------------------------|------------------------------------------|
+| [Character](#CHA601A43FD) | The current character.                   |
+| [Metrics](#MET4AD7589B)   | The metrics of the glyph being rendered. |
 
 ### Fields
 
-#### <a name="POSIF46C"></a> Position : [Vector](../Heirloom.Math/Heirloom.Math.Vector.md)
+#### <a name="POSF46C3C91"></a>Position : [Vector](../Heirloom.Math/Heirloom.Math.Vector.md)
 
 The position of top left corner of the current glyph image.
 
 ### Properties
 
-#### <a name="CHAR601A"></a> Character : [UnicodeCharacter](Heirloom.Drawing.UnicodeCharacter.md)
+#### <a name="CHA601A43FD"></a>Character : [UnicodeCharacter](Heirloom.Drawing.UnicodeCharacter.md)
 
 <small>`Read Only`</small>
 
 The current character.
 
-#### <a name="METR4AD7"></a> Metrics : [GlyphMetrics](Heirloom.Drawing.GlyphMetrics.md)
+#### <a name="MET4AD7589B"></a>Metrics : [GlyphMetrics](Heirloom.Drawing.GlyphMetrics.md)
 
 <small>`Read Only`</small>
 

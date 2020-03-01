@@ -10,21 +10,21 @@
 
 An infinite, sparse grid of values.
 
-| Properties        | Summary |
-|-------------------|---------|
-| [Item](#ITEM8B5A) |         |
-| [Item](#ITEM8B5A) |         |
-| [Keys](#KEYS3D37) |         |
+| Properties           | Summary |
+|----------------------|---------|
+| [Item](#ITE8B5A2F95) |         |
+| [Item](#ITE8B5A2F95) |         |
+| [Keys](#KEY3D37EC76) |         |
 
-| Methods                        | Summary                                                             |
-|--------------------------------|---------------------------------------------------------------------|
-| [Clear](#CLEA3BB2)             | Removes all values in the grid, marking everything as unoccupied.   |
-| [ClearValue](#CLEA6B29)        | Clears the assigned valueon this cell of the sparse grid.           |
-| [ClearValue](#CLEA6B29)        | Clears the assigned valueon this cell of the sparse grid.           |
-| [HasValue](#HASVB314)          | Determines if a value has been set on this cell of the sparse grid. |
-| [HasValue](#HASVB314)          | Determines if a value has been set on this cell of the sparse grid. |
-| [IsValidCoordinate](#ISVA6716) | Is the specified coordinate valid on this grid?                     |
-| [IsValidCoordinate](#ISVA6716) | Is the specified coordinate valid on this grid?                     |
+| Methods                           | Summary                                                             |
+|-----------------------------------|---------------------------------------------------------------------|
+| [Clear](#CLE3BB23EF9)             | Removes all values in the grid, marking everything as unoccupied.   |
+| [ClearValue](#CLE6B298B8)         | Clears the assigned valueon this cell of the sparse grid.           |
+| [ClearValue](#CLE6B298B8)         | Clears the assigned valueon this cell of the sparse grid.           |
+| [HasValue](#HASB31488F1)          | Determines if a value has been set on this cell of the sparse grid. |
+| [HasValue](#HASB31488F1)          | Determines if a value has been set on this cell of the sparse grid. |
+| [IsValidCoordinate](#ISV67165E1E) | Is the specified coordinate valid on this grid?                     |
+| [IsValidCoordinate](#ISV67165E1E) | Is the specified coordinate valid on this grid?                     |
 
 ### Constructors
 
@@ -32,49 +32,49 @@ An infinite, sparse grid of values.
 
 ### Properties
 
-#### <a name="ITEM8B5A"></a> Item : T
+#### <a name="ITE8B5A2F95"></a>Item : T
 
 
-#### <a name="ITEM8B5A"></a> Item : T
+#### <a name="ITE8B5A2F95"></a>Item : T
 
 
-#### <a name="KEYS3D37"></a> Keys : IEnumerable\<IntVector>
+#### <a name="KEY3D37EC76"></a>Keys : IEnumerable\<IntVector>
 
 <small>`Read Only`</small>
 
 ### Methods
 
-#### <a name="CLEA4538"></a> Clear() : void
+#### <a name="CLE4538C554"></a>Clear() : void
 <small>`Virtual`</small>
 
 Removes all values in the grid, marking everything as unoccupied.
 
-#### <a name="CLEAFB28"></a> ClearValue(in int x, in int y) : void
+#### <a name="CLEFB28FAFA"></a>ClearValue(in int x, in int y) : void
 
 Clears the assigned valueon this cell of the sparse grid.
 
 
-#### <a name="CLEAA463"></a> ClearValue(in [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) co) : void
+#### <a name="CLEA46312EA"></a>ClearValue(in [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) co) : void
 
 Clears the assigned valueon this cell of the sparse grid.
 
 
-#### <a name="HASV1E7B"></a> HasValue(in int x, in int y) : bool
+#### <a name="HAS1E7B500D"></a>HasValue(in int x, in int y) : bool
 
 Determines if a value has been set on this cell of the sparse grid.
 
 
-#### <a name="HASV93C6"></a> HasValue(in [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) co) : bool
+#### <a name="HAS93C63DAD"></a>HasValue(in [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) co) : bool
 
 Determines if a value has been set on this cell of the sparse grid.
 
 
-#### <a name="ISVAB586"></a> IsValidCoordinate(in int x, in int y) : bool
+#### <a name="ISVB586DBEE"></a>IsValidCoordinate(in int x, in int y) : bool
 
 Is the specified coordinate valid on this grid?
 
 
-#### <a name="ISVACA35"></a> IsValidCoordinate(in [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) co) : bool
+#### <a name="ISVCA356546"></a>IsValidCoordinate(in [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) co) : bool
 
 Is the specified coordinate valid on this grid?
 

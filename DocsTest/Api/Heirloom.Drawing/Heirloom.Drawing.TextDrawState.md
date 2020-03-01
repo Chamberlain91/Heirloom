@@ -11,23 +11,23 @@
 
 Represents information of any particular glyph when drawing text.
 
-| Fields                 | Summary                                                                                                         |
-|------------------------|-----------------------------------------------------------------------------------------------------------------|
-| [Transform](#TRAN97DF) | The relative transform to apply to the current glyph image (set to `Heirloom.Math.Matrix.Identity` by default). |
-| [Position](#POSIF46C)  | The position of top left corner of the current glyph image.                                                     |
-| [Color](#COLOD122)     | The color of the current glyph.                                                                                 |
+| Fields                    | Summary                                                                                                         |
+|---------------------------|-----------------------------------------------------------------------------------------------------------------|
+| [Transform](#TRA97DF3302) | The relative transform to apply to the current glyph image (set to `Heirloom.Math.Matrix.Identity` by default). |
+| [Position](#POSF46C3C91)  | The position of top left corner of the current glyph image.                                                     |
+| [Color](#COLD1229651)     | The color of the current glyph.                                                                                 |
 
 ### Fields
 
-#### <a name="TRAN97DF"></a> Transform : [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md)
+#### <a name="TRA97DF3302"></a>Transform : [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md)
 
 The relative transform to apply to the current glyph image (set to `Heirloom.Math.Matrix.Identity` by default).
 
-#### <a name="POSIF46C"></a> Position : [Vector](../Heirloom.Math/Heirloom.Math.Vector.md)
+#### <a name="POSF46C3C91"></a>Position : [Vector](../Heirloom.Math/Heirloom.Math.Vector.md)
 
 The position of top left corner of the current glyph image.
 
-#### <a name="COLOD122"></a> Color : [Color](Heirloom.Drawing.Color.md)
+#### <a name="COLD1229651"></a>Color : [Color](Heirloom.Drawing.Color.md)
 
 The color of the current glyph.
 

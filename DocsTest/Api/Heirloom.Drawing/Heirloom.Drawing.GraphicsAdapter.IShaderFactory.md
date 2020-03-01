@@ -8,18 +8,18 @@
 ## GraphicsAdapter.IShaderFactory (Interface)
 <small>**Namespace**: Heirloom.Drawing</sub></small>  
 
-| Methods              | Summary |
-|----------------------|---------|
-| [Compile](#COMPDBD5) |         |
-| [Dispose](#DISP8A0D) |         |
+| Methods                 | Summary |
+|-------------------------|---------|
+| [Compile](#COMDBD5F155) |         |
+| [Dispose](#DIS8A0D80C3) |         |
 
 ### Methods
 
-#### <a name="COMPA9F1"></a> Compile(string name, string vert, string frag, out [UniformInfo[]](Heirloom.Drawing.UniformInfo[].md) uniforms) : object
+#### <a name="COMA9F12628"></a>Compile(string name, string vert, string frag, out [UniformInfo[]](Heirloom.Drawing.UniformInfo[].md) uniforms) : object
 <small>`Abstract`</small>
 
 
-#### <a name="DISP2F22"></a> Dispose(object native) : void
+#### <a name="DIS2F22B63C"></a>Dispose(object native) : void
 <small>`Abstract`</small>
 
 

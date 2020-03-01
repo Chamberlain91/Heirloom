@@ -436,13 +436,13 @@ namespace Heirloom.GenDoc
                 ? GetLinkIdentifier(text)
                 : GetLinkIdentifier(target);
 
-            return $"<a name=\"{link}\"></a> {text}";
+            return $"<a name=\"{link}\"></a>{text}";
         }
 
         private static string GetLinkIdentifier(string text)
         {
-            var hash = GetDeterministicHashCode(text).ToString("X").Substring(0, 4);
-            var key = text[0..Math.Min(text.Length, 4)].ToUpper();
+            var hash = GetDeterministicHashCode(text).ToString("X");
+            var key = text[0..Math.Min(text.Length, 3)].ToUpper();
             return key + hash;
         }
 

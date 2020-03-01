@@ -9,48 +9,48 @@
 
 Provides extra utilities for interacting with a grid.
 
-| Methods                                | Summary                                                                        |
-|----------------------------------------|--------------------------------------------------------------------------------|
-| [GetNeighbors<T>](#GETN28C4)           | Gets the specified cell's neighbors.                                           |
-| [GetNeighbors<T>](#GETN28C4)           | Gets the specified cell's neighbors.                                           |
-| [GetNeighborCoordinates<T>](#GETN861B) | Gets the specified cell's neighbor coordinates.                                |
-| [GetNeighborCoordinates<T>](#GETN861B) | Gets the specified cell's neighbor coordinates.                                |
-| [GetNeighborCoordinates](#GETNC409)    | Gets neighboring grid coordinates relative to the specified input coordinates. |
-| [GetNeighborCoordinates](#GETNC409)    | Gets neighboring grid coordinates relative to the specified input coordinates. |
+| Methods                                   | Summary                                                                        |
+|-------------------------------------------|--------------------------------------------------------------------------------|
+| [GetNeighbors<T>](#GET28C4FD09)           | Gets the specified cell's neighbors.                                           |
+| [GetNeighbors<T>](#GET28C4FD09)           | Gets the specified cell's neighbors.                                           |
+| [GetNeighborCoordinates<T>](#GET861B7DFF) | Gets the specified cell's neighbor coordinates.                                |
+| [GetNeighborCoordinates<T>](#GET861B7DFF) | Gets the specified cell's neighbor coordinates.                                |
+| [GetNeighborCoordinates](#GETC4098B39)    | Gets neighboring grid coordinates relative to the specified input coordinates. |
+| [GetNeighborCoordinates](#GETC4098B39)    | Gets neighboring grid coordinates relative to the specified input coordinates. |
 
 ### Methods
 
-#### <a name="GETN4A71"></a> GetNeighbors<T>([IGrid\<T>](Heirloom.Collections.Spatial.IGrid[T].md) grid, [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) co, [GridNeighborType](Heirloom.Collections.Spatial.GridNeighborType.md) neighborType = Axis) : IEnumerable\<T>
+#### <a name="GET4A714195"></a>GetNeighbors<T>([IGrid\<T>](Heirloom.Collections.Spatial.IGrid[T].md) grid, [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) co, [GridNeighborType](Heirloom.Collections.Spatial.GridNeighborType.md) neighborType = Axis) : IEnumerable\<T>
 <small>`Static`, `ExtensionAttribute`</small>
 
 Gets the specified cell's neighbors.
 
 
-#### <a name="GETN6537"></a> GetNeighbors<T>([IGrid\<T>](Heirloom.Collections.Spatial.IGrid[T].md) grid, int x, int y, [GridNeighborType](Heirloom.Collections.Spatial.GridNeighborType.md) neighborType = Axis) : IEnumerable\<T>
+#### <a name="GET6537BD34"></a>GetNeighbors<T>([IGrid\<T>](Heirloom.Collections.Spatial.IGrid[T].md) grid, int x, int y, [GridNeighborType](Heirloom.Collections.Spatial.GridNeighborType.md) neighborType = Axis) : IEnumerable\<T>
 <small>`Static`, `IteratorStateMachineAttribute`, `ExtensionAttribute`</small>
 
 Gets the specified cell's neighbors.
 
 
-#### <a name="GETNE578"></a> GetNeighborCoordinates<T>([IGrid\<T>](Heirloom.Collections.Spatial.IGrid[T].md) grid, int x, int y, [GridNeighborType](Heirloom.Collections.Spatial.GridNeighborType.md) neighborType = Axis) : IEnumerable\<IntVector>
+#### <a name="GETE578E7E8"></a>GetNeighborCoordinates<T>([IGrid\<T>](Heirloom.Collections.Spatial.IGrid[T].md) grid, int x, int y, [GridNeighborType](Heirloom.Collections.Spatial.GridNeighborType.md) neighborType = Axis) : IEnumerable\<IntVector>
 <small>`Static`, `IteratorStateMachineAttribute`, `ExtensionAttribute`</small>
 
 Gets the specified cell's neighbor coordinates.
 
 
-#### <a name="GETN5E76"></a> GetNeighborCoordinates<T>([IGrid\<T>](Heirloom.Collections.Spatial.IGrid[T].md) grid, [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) co, [GridNeighborType](Heirloom.Collections.Spatial.GridNeighborType.md) neighborType = Axis) : IEnumerable\<IntVector>
+#### <a name="GET5E76C37D"></a>GetNeighborCoordinates<T>([IGrid\<T>](Heirloom.Collections.Spatial.IGrid[T].md) grid, [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) co, [GridNeighborType](Heirloom.Collections.Spatial.GridNeighborType.md) neighborType = Axis) : IEnumerable\<IntVector>
 <small>`Static`, `ExtensionAttribute`</small>
 
 Gets the specified cell's neighbor coordinates.
 
 
-#### <a name="GETNB532"></a> GetNeighborCoordinates([IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) co, [GridNeighborType](Heirloom.Collections.Spatial.GridNeighborType.md) neighborType) : IEnumerable\<IntVector>
+#### <a name="GETB5329BCB"></a>GetNeighborCoordinates([IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) co, [GridNeighborType](Heirloom.Collections.Spatial.GridNeighborType.md) neighborType) : IEnumerable\<IntVector>
 <small>`Static`</small>
 
 Gets neighboring grid coordinates relative to the specified input coordinates.
 
 
-#### <a name="GETNFFBC"></a> GetNeighborCoordinates(int x, int y, [GridNeighborType](Heirloom.Collections.Spatial.GridNeighborType.md) neighborType) : IEnumerable\<IntVector>
+#### <a name="GETFFBC511E"></a>GetNeighborCoordinates(int x, int y, [GridNeighborType](Heirloom.Collections.Spatial.GridNeighborType.md) neighborType) : IEnumerable\<IntVector>
 <small>`Static`, `IteratorStateMachineAttribute`</small>
 
 Gets neighboring grid coordinates relative to the specified input coordinates.

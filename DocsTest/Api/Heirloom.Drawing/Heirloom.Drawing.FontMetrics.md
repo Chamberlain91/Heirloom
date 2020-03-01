@@ -10,30 +10,30 @@
 
 Contains information about a font (ie, the vertical metrics).
 
-| Fields               | Summary                                                   |
-|----------------------|-----------------------------------------------------------|
-| [Ascent](#ASCE3163)  | The measure from the baseline to the top of any glyphs.   |
-| [Descent](#DESCD1D7) | The measure from the baseline to the bottom of any glyph. |
-| [LineGap](#LINEF437) | The spacing between lines.                                |
+| Fields                  | Summary                                                   |
+|-------------------------|-----------------------------------------------------------|
+| [Ascent](#ASC316359EC)  | The measure from the baseline to the top of any glyphs.   |
+| [Descent](#DESD1D79FC4) | The measure from the baseline to the bottom of any glyph. |
+| [LineGap](#LINF437CC38) | The spacing between lines.                                |
 
-| Properties               | Summary                                          |
-|--------------------------|--------------------------------------------------|
-| [Height](#HEIGE098)      | The height of the line.                          |
-| [LineAdvance](#LINEFB1B) | The spacing between baselines of multiline text. |
+| Properties                  | Summary                                          |
+|-----------------------------|--------------------------------------------------|
+| [Height](#HEIE098AAEB)      | The height of the line.                          |
+| [LineAdvance](#LINFB1BC226) | The spacing between baselines of multiline text. |
 
 ### Fields
 
-#### <a name="ASCE3163"></a> Ascent : float
+#### <a name="ASC316359EC"></a>Ascent : float
 <small>`Read Only`</small>
 
 The measure from the baseline to the top of any glyphs.
 
-#### <a name="DESCD1D7"></a> Descent : float
+#### <a name="DESD1D79FC4"></a>Descent : float
 <small>`Read Only`</small>
 
 The measure from the baseline to the bottom of any glyph.
 
-#### <a name="LINEF437"></a> LineGap : float
+#### <a name="LINF437CC38"></a>LineGap : float
 <small>`Read Only`</small>
 
 The spacing between lines.
@@ -44,13 +44,13 @@ The spacing between lines.
 
 ### Properties
 
-#### <a name="HEIGE098"></a> Height : float
+#### <a name="HEIE098AAEB"></a>Height : float
 
 <small>`Read Only`</small>
 
 The height of the line.
 
-#### <a name="LINEFB1B"></a> LineAdvance : float
+#### <a name="LINFB1BC226"></a>LineAdvance : float
 
 <small>`Read Only`</small>
 

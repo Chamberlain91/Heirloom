@@ -9,20 +9,20 @@
 <small>**Namespace**: Heirloom.Drawing</sub></small>  
 <small>**Interfaces**: IDisposable</small>  
 
-| Properties                  | Summary                                                                         |
-|-----------------------------|---------------------------------------------------------------------------------|
-| [Instance](#INST4FAA)       |                                                                                 |
-| [Capabilities](#CAPAE766)   | Gets the capabilities of the graphics adapter associated with this application. |
-| [ShaderFactory](#SHADDBDB)  | Implementation of shader resources.                                             |
-| [SurfaceFactory](#SURF5A90) | Implementation of shader resources.                                             |
+| Properties                     | Summary                                                                         |
+|--------------------------------|---------------------------------------------------------------------------------|
+| [Instance](#INS4FAA4721)       |                                                                                 |
+| [Capabilities](#CAPE7660DA4)   | Gets the capabilities of the graphics adapter associated with this application. |
+| [ShaderFactory](#SHADBDB3BCD)  | Implementation of shader resources.                                             |
+| [SurfaceFactory](#SUR5A900AE5) | Implementation of shader resources.                                             |
 
-| Methods                           | Summary |
-|-----------------------------------|---------|
-| [QueryCapabilities](#QUER2836)    |         |
-| [CreateSurfaceFactory](#CREA3B6F) |         |
-| [CreateShaderFactory](#CREA430C)  |         |
-| [Dispose](#DISP8A0D)              |         |
-| [Dispose](#DISP8A0D)              |         |
+| Methods                              | Summary |
+|--------------------------------------|---------|
+| [QueryCapabilities](#QUE2836B3D8)    |         |
+| [CreateSurfaceFactory](#CRE3B6F8485) |         |
+| [CreateShaderFactory](#CRE430C2925)  |         |
+| [Dispose](#DIS8A0D80C3)              |         |
+| [Dispose](#DIS8A0D80C3)              |         |
 
 ### Constructors
 
@@ -30,23 +30,23 @@
 
 ### Properties
 
-#### <a name="INST4FAA"></a> Instance : [GraphicsAdapter](Heirloom.Drawing.GraphicsAdapter.md)
+#### <a name="INS4FAA4721"></a>Instance : [GraphicsAdapter](Heirloom.Drawing.GraphicsAdapter.md)
 
 <small>`Static`, `Read Only`</small>
 
-#### <a name="CAPAE766"></a> Capabilities : [GraphicsCapabilities](Heirloom.Drawing.GraphicsCapabilities.md)
+#### <a name="CAPE7660DA4"></a>Capabilities : [GraphicsCapabilities](Heirloom.Drawing.GraphicsCapabilities.md)
 
 <small>`Static`, `Read Only`</small>
 
 Gets the capabilities of the graphics adapter associated with this application.
 
-#### <a name="SHADDBDB"></a> ShaderFactory : [GraphicsAdapter.IShaderFactory](Heirloom.Drawing.GraphicsAdapter.IShaderFactory.md)
+#### <a name="SHADBDB3BCD"></a>ShaderFactory : [GraphicsAdapter.IShaderFactory](Heirloom.Drawing.GraphicsAdapter.IShaderFactory.md)
 
 <small>`Static`</small>
 
 Implementation of shader resources.
 
-#### <a name="SURF5A90"></a> SurfaceFactory : [GraphicsAdapter.ISurfaceFactory](Heirloom.Drawing.GraphicsAdapter.ISurfaceFactory.md)
+#### <a name="SUR5A900AE5"></a>SurfaceFactory : [GraphicsAdapter.ISurfaceFactory](Heirloom.Drawing.GraphicsAdapter.ISurfaceFactory.md)
 
 <small>`Static`</small>
 
@@ -54,19 +54,19 @@ Implementation of shader resources.
 
 ### Methods
 
-#### <a name="QUER7FAB"></a> QueryCapabilities() : [GraphicsCapabilities](Heirloom.Drawing.GraphicsCapabilities.md)
+#### <a name="QUE7FAB208E"></a>QueryCapabilities() : [GraphicsCapabilities](Heirloom.Drawing.GraphicsCapabilities.md)
 <small>`Abstract`, `Protected`</small>
 
-#### <a name="CREAF26A"></a> CreateSurfaceFactory() : [GraphicsAdapter.ISurfaceFactory](Heirloom.Drawing.GraphicsAdapter.ISurfaceFactory.md)
+#### <a name="CREF26AA94D"></a>CreateSurfaceFactory() : [GraphicsAdapter.ISurfaceFactory](Heirloom.Drawing.GraphicsAdapter.ISurfaceFactory.md)
 <small>`Abstract`, `Protected`</small>
 
-#### <a name="CREA73D9"></a> CreateShaderFactory() : [GraphicsAdapter.IShaderFactory](Heirloom.Drawing.GraphicsAdapter.IShaderFactory.md)
+#### <a name="CRE73D93191"></a>CreateShaderFactory() : [GraphicsAdapter.IShaderFactory](Heirloom.Drawing.GraphicsAdapter.IShaderFactory.md)
 <small>`Abstract`, `Protected`</small>
 
-#### <a name="DISPFDE7"></a> Dispose(bool disposeManaged) : void
+#### <a name="DISFDE72264"></a>Dispose(bool disposeManaged) : void
 <small>`Virtual`, `Protected`</small>
 
 
-#### <a name="DISP4E62"></a> Dispose() : void
+#### <a name="DIS4E62D250"></a>Dispose() : void
 <small>`Virtual`</small>
 

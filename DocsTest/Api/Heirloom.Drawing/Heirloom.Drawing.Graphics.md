@@ -8,75 +8,75 @@
 ## Graphics (Abstract Class)
 <small>**Namespace**: Heirloom.Drawing</sub></small>  
 
-| Properties                          | Summary                                                                                 |
-|-------------------------------------|-----------------------------------------------------------------------------------------|
-| [Capabilities](#CAPAE766)           | Gets the queried capabilities (ie, limits) for the current device.                      |
-| [CurrentFPS](#CURR70FD)             | Gets how often the default surface is presented to the screen per second.               |
-| [Performance](#PERFD985)            | Gets drawing performance information.                                                   |
-| [IsDisposed](#ISDI6187)             | Gets a value determining if this [Graphics](Heirloom.Drawing.Graphics.md) was disposed. |
-| [DefaultSurface](#DEFA465E)         | Gets the default surface (ie, window) of this render context.                           |
-| [Surface](#SURF4078)                | Gets or sets the current surface.                                                       |
-| [Shader](#SHAD5D12)                 | Gets or sets the active shader.                                                         |
-| [Viewport](#VIEW365B)               | Gets or sets the viewport in normalized coordinates.                                    |
-| [ViewportScreen](#VIEW9EEF)         | Gets the size of viewport in pixel coordinates.                                         |
-| [GlobalTransform](#GLOB9D3F)        | Get or sets the global transform.                                                       |
-| [InverseGlobalTransform](#INVE9F06) | Gets the inverse of the current global transform.                                       |
-| [Blending](#BLENF02A)               | Gets or sets the current blending mode.                                                 |
-| [Color](#COLOD122)                  | Gets or sets the current blending color.                                                |
+| Properties                             | Summary                                                                                 |
+|----------------------------------------|-----------------------------------------------------------------------------------------|
+| [Capabilities](#CAPE7660DA4)           | Gets the queried capabilities (ie, limits) for the current device.                      |
+| [CurrentFPS](#CUR70FDB632)             | Gets how often the default surface is presented to the screen per second.               |
+| [Performance](#PERD985221C)            | Gets drawing performance information.                                                   |
+| [IsDisposed](#ISD61874DA9)             | Gets a value determining if this [Graphics](Heirloom.Drawing.Graphics.md) was disposed. |
+| [DefaultSurface](#DEF465EF61E)         | Gets the default surface (ie, window) of this render context.                           |
+| [Surface](#SUR40785EE9)                | Gets or sets the current surface.                                                       |
+| [Shader](#SHA5D122CB9)                 | Gets or sets the active shader.                                                         |
+| [Viewport](#VIE365B3434)               | Gets or sets the viewport in normalized coordinates.                                    |
+| [ViewportScreen](#VIE9EEFEE58)         | Gets the size of viewport in pixel coordinates.                                         |
+| [GlobalTransform](#GLO9D3F3F33)        | Get or sets the global transform.                                                       |
+| [InverseGlobalTransform](#INV9F065FB7) | Gets the inverse of the current global transform.                                       |
+| [Blending](#BLEF02A3CD5)               | Gets or sets the current blending mode.                                                 |
+| [Color](#COLD1229651)                  | Gets or sets the current blending color.                                                |
 
-| Methods                          | Summary                                                                                                        |
-|----------------------------------|----------------------------------------------------------------------------------------------------------------|
-| [ResetState](#RESEE0A0)          | Reset current context state to defaults (default surface, full viewport, no transform, alpha and white).       |
-| [PushState](#PUSH86E2)           | Save the context state (push it on the state stack).                                                           |
-| [PopState](#POPSC33B)            | Restore the context state (pop from the state stack).                                                          |
-| [Clear](#CLEA3BB2)               | Clears the current surface with the specified color.                                                           |
-| [DrawMesh](#DRAWDBE2)            | Draws a mesh with the given image to the current surface.                                                      |
-| [GrabPixels](#GRAB1D23)          | Grab the pixels from a subregion of the current surface and return that image. (ie, a screenshot)              |
-| [GrabPixels](#GRAB1D23)          | Grab the pixels from the current surface and return that image. (ie, a screenshot)                             |
-| [GetDrawCounts](#GETDC2CC)       |                                                                                                                |
-| [RefreshScreen](#REFRBE57)       | Present the drawing operations to the screen.                                                                  |
-| [SwapBuffers](#SWAPEFBA)         |                                                                                                                |
-| [EndFrame](#ENDFD6AD)            |                                                                                                                |
-| [Flush](#FLUSCBEB)               | Force any pending drawing operations to complete.                                                              |
-| [Dispose](#DISP8A0D)             |                                                                                                                |
-| [Dispose](#DISP8A0D)             | Dispose this graphics context, freeing any resources occupied by it.                                           |
-| [SetCameraTransform](#SETCB80D)  | Sets `Heirloom.Drawing.Graphics.GlobalTransform` to mimic a 2D camera.                                         |
-| [DrawImage](#DRAW9CF5)           | Draws an image to the current surface.                                                                         |
-| [DrawImage](#DRAW9CF5)           | Draws an image to the current surface.                                                                         |
-| [DrawImage](#DRAW9CF5)           | Draws an image to the current surface.                                                                         |
-| [DrawImage](#DRAW9CF5)           | Draws an image stretched to fill a rectangular region to the current surface ignoring the image origin offset. |
-| [DrawImage](#DRAW9CF5)           | Draws an image to the current surface.                                                                         |
-| [DrawSprite](#DRAW8041)          | Draw a sprite to the current surface.                                                                          |
-| [DrawLine](#DRAW2AD0)            | Draws a line segment between two points to the current surface.                                                |
-| [DrawCurve](#DRAW6814)           | Draws a quadratic curve using three control points to the current surface.                                     |
-| [DrawCurve](#DRAW6814)           | Draws a cubic curve using four control points to the current surface.                                          |
-| [DrawRect](#DRAW5145)            | Draws a rectangle to the current surface.                                                                      |
-| [DrawRectOutline](#DRAW5314)     | Draws the outline of a rectangel to the current surface.                                                       |
-| [DrawCross](#DRAW560C)           | Draws a simple axis aligned 'cross' or 'plus' shape, useful for debugging positions.                           |
-| [DrawCircle](#DRAW4586)          | Draws a circle to the current surface.                                                                         |
-| [DrawCircle](#DRAW4586)          | Draws a circle to the current surface.                                                                         |
-| [DrawCircleOutline](#DRAWFE41)   | Draws the outline of a circle to the current surface.                                                          |
-| [DrawCircleOutline](#DRAWFE41)   | Draws the outline of a circle to the current surface.                                                          |
-| [DrawTriangle](#DRAW749E)        | Draw a triangle to the current surface.                                                                        |
-| [DrawTriangle](#DRAW749E)        | Draw a triangle outline to the current surface.                                                                |
-| [DrawTriangleOutline](#DRAW7869) | Draw a triangle outline to the current surface.                                                                |
-| [DrawTriangleOutline](#DRAW7869) | Draw a triangle outline to the current surface.                                                                |
-| [DrawPolygon](#DRAWB32A)         | Draws a regular polygon to the current surface.                                                                |
-| [DrawPolygonOutline](#DRAW4EDC)  | Draws the outline of a regular polygon to the current surface.                                                 |
-| [DrawPolygon](#DRAWB32A)         | Draws a simple polygon to the current surface.                                                                 |
-| [DrawPolygon](#DRAWB32A)         | Draws a simple polygon to the current surface.                                                                 |
-| [DrawPolygon](#DRAWB32A)         | Draws a simple polygon to the current surface.                                                                 |
-| [DrawPolygon](#DRAWB32A)         | Draws a simple polygon to the current surface.                                                                 |
-| [DrawPolygonOutline](#DRAW4EDC)  | Draws the outline of a simple polygon to the current surface.                                                  |
-| [DrawPolygonOutline](#DRAW4EDC)  | Draws the outline of a simple polygon to the current surface.                                                  |
-| [DrawPolygonOutline](#DRAW4EDC)  | Draws the outline of a simple polygon to the current surface.                                                  |
-| [DrawPolygonOutline](#DRAW4EDC)  | Draws the outline of a simple polygon to the current surface.                                                  |
-| [DrawText](#DRAW5145)            | Draws rich text to the current surface.                                                                        |
-| [DrawText](#DRAW5145)            | Draws rich text to the current surface.                                                                        |
-| [DrawText](#DRAW5145)            | Draws text to the current surface.                                                                             |
-| [DrawText](#DRAW5145)            | Draws text to the current surface.                                                                             |
-| [DrawText](#DRAW5145)            | Draws text to the current surface.                                                                             |
-| [DrawText](#DRAW5145)            | Draws text to the current surface.                                                                             |
+| Methods                             | Summary                                                                                                        |
+|-------------------------------------|----------------------------------------------------------------------------------------------------------------|
+| [ResetState](#RESE0A0644A)          | Reset current context state to defaults (default surface, full viewport, no transform, alpha and white).       |
+| [PushState](#PUS86E2D29)            | Save the context state (push it on the state stack).                                                           |
+| [PopState](#POPC33B51B6)            | Restore the context state (pop from the state stack).                                                          |
+| [Clear](#CLE3BB23EF9)               | Clears the current surface with the specified color.                                                           |
+| [DrawMesh](#DRADBE2F57F)            | Draws a mesh with the given image to the current surface.                                                      |
+| [GrabPixels](#GRA1D233CB9)          | Grab the pixels from a subregion of the current surface and return that image. (ie, a screenshot)              |
+| [GrabPixels](#GRA1D233CB9)          | Grab the pixels from the current surface and return that image. (ie, a screenshot)                             |
+| [GetDrawCounts](#GETC2CC16A4)       |                                                                                                                |
+| [RefreshScreen](#REFBE576BED)       | Present the drawing operations to the screen.                                                                  |
+| [SwapBuffers](#SWAEFBA9D34)         |                                                                                                                |
+| [EndFrame](#ENDD6AD7C68)            |                                                                                                                |
+| [Flush](#FLUCBEBF960)               | Force any pending drawing operations to complete.                                                              |
+| [Dispose](#DIS8A0D80C3)             |                                                                                                                |
+| [Dispose](#DIS8A0D80C3)             | Dispose this graphics context, freeing any resources occupied by it.                                           |
+| [SetCameraTransform](#SETB80DAA67)  | Sets `Heirloom.Drawing.Graphics.GlobalTransform` to mimic a 2D camera.                                         |
+| [DrawImage](#DRA9CF51CDF)           | Draws an image to the current surface.                                                                         |
+| [DrawImage](#DRA9CF51CDF)           | Draws an image to the current surface.                                                                         |
+| [DrawImage](#DRA9CF51CDF)           | Draws an image to the current surface.                                                                         |
+| [DrawImage](#DRA9CF51CDF)           | Draws an image stretched to fill a rectangular region to the current surface ignoring the image origin offset. |
+| [DrawImage](#DRA9CF51CDF)           | Draws an image to the current surface.                                                                         |
+| [DrawSprite](#DRA8041D001)          | Draw a sprite to the current surface.                                                                          |
+| [DrawLine](#DRA2AD01C9E)            | Draws a line segment between two points to the current surface.                                                |
+| [DrawCurve](#DRA6814AB43)           | Draws a quadratic curve using three control points to the current surface.                                     |
+| [DrawCurve](#DRA6814AB43)           | Draws a cubic curve using four control points to the current surface.                                          |
+| [DrawRect](#DRA51452366)            | Draws a rectangle to the current surface.                                                                      |
+| [DrawRectOutline](#DRA53141FA4)     | Draws the outline of a rectangel to the current surface.                                                       |
+| [DrawCross](#DRA560C7404)           | Draws a simple axis aligned 'cross' or 'plus' shape, useful for debugging positions.                           |
+| [DrawCircle](#DRA458618E8)          | Draws a circle to the current surface.                                                                         |
+| [DrawCircle](#DRA458618E8)          | Draws a circle to the current surface.                                                                         |
+| [DrawCircleOutline](#DRAFE41B7C2)   | Draws the outline of a circle to the current surface.                                                          |
+| [DrawCircleOutline](#DRAFE41B7C2)   | Draws the outline of a circle to the current surface.                                                          |
+| [DrawTriangle](#DRA749E58B4)        | Draw a triangle to the current surface.                                                                        |
+| [DrawTriangle](#DRA749E58B4)        | Draw a triangle outline to the current surface.                                                                |
+| [DrawTriangleOutline](#DRA7869EEE6) | Draw a triangle outline to the current surface.                                                                |
+| [DrawTriangleOutline](#DRA7869EEE6) | Draw a triangle outline to the current surface.                                                                |
+| [DrawPolygon](#DRAB32A8112)         | Draws a regular polygon to the current surface.                                                                |
+| [DrawPolygonOutline](#DRA4EDC7FC8)  | Draws the outline of a regular polygon to the current surface.                                                 |
+| [DrawPolygon](#DRAB32A8112)         | Draws a simple polygon to the current surface.                                                                 |
+| [DrawPolygon](#DRAB32A8112)         | Draws a simple polygon to the current surface.                                                                 |
+| [DrawPolygon](#DRAB32A8112)         | Draws a simple polygon to the current surface.                                                                 |
+| [DrawPolygon](#DRAB32A8112)         | Draws a simple polygon to the current surface.                                                                 |
+| [DrawPolygonOutline](#DRA4EDC7FC8)  | Draws the outline of a simple polygon to the current surface.                                                  |
+| [DrawPolygonOutline](#DRA4EDC7FC8)  | Draws the outline of a simple polygon to the current surface.                                                  |
+| [DrawPolygonOutline](#DRA4EDC7FC8)  | Draws the outline of a simple polygon to the current surface.                                                  |
+| [DrawPolygonOutline](#DRA4EDC7FC8)  | Draws the outline of a simple polygon to the current surface.                                                  |
+| [DrawText](#DRA51452421)            | Draws rich text to the current surface.                                                                        |
+| [DrawText](#DRA51452421)            | Draws rich text to the current surface.                                                                        |
+| [DrawText](#DRA51452421)            | Draws text to the current surface.                                                                             |
+| [DrawText](#DRA51452421)            | Draws text to the current surface.                                                                             |
+| [DrawText](#DRA51452421)            | Draws text to the current surface.                                                                             |
+| [DrawText](#DRA51452421)            | Draws text to the current surface.                                                                             |
 
 ### Constructors
 
@@ -84,98 +84,98 @@
 
 ### Properties
 
-#### <a name="CAPAE766"></a> Capabilities : [GraphicsCapabilities](Heirloom.Drawing.GraphicsCapabilities.md)
+#### <a name="CAPE7660DA4"></a>Capabilities : [GraphicsCapabilities](Heirloom.Drawing.GraphicsCapabilities.md)
 
 <small>`Read Only`</small>
 
 Gets the queried capabilities (ie, limits) for the current device.
 
-#### <a name="CURR70FD"></a> CurrentFPS : float
+#### <a name="CUR70FDB632"></a>CurrentFPS : float
 
 <small>`Read Only`</small>
 
 Gets how often the default surface is presented to the screen per second.
 
-#### <a name="PERFD985"></a> Performance : [DrawingPerformance](Heirloom.Drawing.DrawingPerformance.md)
+#### <a name="PERD985221C"></a>Performance : [DrawingPerformance](Heirloom.Drawing.DrawingPerformance.md)
 
 <small>`Read Only`</small>
 
 Gets drawing performance information.
 
-#### <a name="ISDI6187"></a> IsDisposed : bool
+#### <a name="ISD61874DA9"></a>IsDisposed : bool
 
 <small>`Read Only`</small>
 
 Gets a value determining if this [Graphics](Heirloom.Drawing.Graphics.md) was disposed.
 
-#### <a name="DEFA465E"></a> DefaultSurface : [Surface](Heirloom.Drawing.Surface.md)
+#### <a name="DEF465EF61E"></a>DefaultSurface : [Surface](Heirloom.Drawing.Surface.md)
 
 <small>`Read Only`</small>
 
 Gets the default surface (ie, window) of this render context.
 
-#### <a name="SURF4078"></a> Surface : [Surface](Heirloom.Drawing.Surface.md)
+#### <a name="SUR40785EE9"></a>Surface : [Surface](Heirloom.Drawing.Surface.md)
 
 
 Gets or sets the current surface.
 
-#### <a name="SHAD5D12"></a> Shader : [Shader](Heirloom.Drawing.Shader.md)
+#### <a name="SHA5D122CB9"></a>Shader : [Shader](Heirloom.Drawing.Shader.md)
 
 
 Gets or sets the active shader.
 
-#### <a name="VIEW365B"></a> Viewport : [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md)
+#### <a name="VIE365B3434"></a>Viewport : [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md)
 
 
 Gets or sets the viewport in normalized coordinates.
 
-#### <a name="VIEW9EEF"></a> ViewportScreen : [IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md)
+#### <a name="VIE9EEFEE58"></a>ViewportScreen : [IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md)
 
 
 Gets the size of viewport in pixel coordinates.
 
-#### <a name="GLOB9D3F"></a> GlobalTransform : [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md)
+#### <a name="GLO9D3F3F33"></a>GlobalTransform : [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md)
 
 
 Get or sets the global transform.
 
-#### <a name="INVE9F06"></a> InverseGlobalTransform : [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md)
+#### <a name="INV9F065FB7"></a>InverseGlobalTransform : [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md)
 
 <small>`Read Only`</small>
 
 Gets the inverse of the current global transform.
 
-#### <a name="BLENF02A"></a> Blending : [Blending](Heirloom.Drawing.Blending.md)
+#### <a name="BLEF02A3CD5"></a>Blending : [Blending](Heirloom.Drawing.Blending.md)
 
 
 Gets or sets the current blending mode.
 
-#### <a name="COLOD122"></a> Color : [Color](Heirloom.Drawing.Color.md)
+#### <a name="COLD1229651"></a>Color : [Color](Heirloom.Drawing.Color.md)
 
 
 Gets or sets the current blending color.
 
 ### Methods
 
-#### <a name="RESEA704"></a> ResetState() : void
+#### <a name="RESA7048869"></a>ResetState() : void
 
 Reset current context state to defaults (default surface, full viewport, no transform, alpha and white).
 
-#### <a name="PUSHDD33"></a> PushState() : void
+#### <a name="PUSDD336044"></a>PushState() : void
 
 Save the context state (push it on the state stack).
 
-#### <a name="POPS630D"></a> PopState() : void
+#### <a name="POP630D10FB"></a>PopState() : void
 
 Restore the context state (pop from the state stack).
 
-#### <a name="CLEA5D92"></a> Clear([Color](Heirloom.Drawing.Color.md) color) : void
+#### <a name="CLE5D92D22C"></a>Clear([Color](Heirloom.Drawing.Color.md) color) : void
 <small>`Abstract`</small>
 
 Clears the current surface with the specified color.
 
 
-#### <a name="DRAW95B1"></a> DrawMesh([ImageSource](Heirloom.Drawing.ImageSource.md) image, [Mesh](Heirloom.Drawing.Mesh.md) mesh, in [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md) transform) : void
+#### <a name="DRA95B1E3F1"></a>DrawMesh([ImageSource](Heirloom.Drawing.ImageSource.md) image, [Mesh](Heirloom.Drawing.Mesh.md) mesh, in [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md) transform) : void
 <small>`Abstract`</small>
 
 Draws a mesh with the given image to the current surface.
@@ -184,56 +184,56 @@ Draws a mesh with the given image to the current surface.
 <small>**mesh**: <param name="mesh">Some mesh.</param></small>  
 <small>**transform**: <param name="transform">Some transform.</param></small>  
 
-#### <a name="GRABEDDD"></a> GrabPixels([IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md) region) : [Image](Heirloom.Drawing.Image.md)
+#### <a name="GRAEDDDAE23"></a>GrabPixels([IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md) region) : [Image](Heirloom.Drawing.Image.md)
 <small>`Abstract`</small>
 
 Grab the pixels from a subregion of the current surface and return that image. (ie, a screenshot)
 
 <small>**region**: <param name="region">A region within the currently set surface.</param></small>  
 
-#### <a name="GRABF748"></a> GrabPixels() : [Image](Heirloom.Drawing.Image.md)
+#### <a name="GRAF748E6A9"></a>GrabPixels() : [Image](Heirloom.Drawing.Image.md)
 
 Grab the pixels from the current surface and return that image. (ie, a screenshot)
 
-#### <a name="GETD41AD"></a> GetDrawCounts() : [Graphics.DrawCounts](Heirloom.Drawing.Graphics.DrawCounts.md)
+#### <a name="GET41ADC268"></a>GetDrawCounts() : [Graphics.DrawCounts](Heirloom.Drawing.Graphics.DrawCounts.md)
 <small>`Abstract`, `Protected`</small>
 
-#### <a name="REFRB28D"></a> RefreshScreen() : void
+#### <a name="REFB28DEE96"></a>RefreshScreen() : void
 
 Present the drawing operations to the screen.
 
-#### <a name="SWAPBF25"></a> SwapBuffers() : void
+#### <a name="SWABF25FF09"></a>SwapBuffers() : void
 <small>`Abstract`, `Protected`</small>
 
-#### <a name="ENDFE202"></a> EndFrame() : void
+#### <a name="ENDE20271D1"></a>EndFrame() : void
 <small>`Abstract`, `Protected`</small>
 
-#### <a name="FLUS2F0E"></a> Flush() : void
+#### <a name="FLU2F0EB18F"></a>Flush() : void
 <small>`Abstract`</small>
 
 Force any pending drawing operations to complete.
 
-#### <a name="DISPD833"></a> Dispose(bool disposing) : void
+#### <a name="DISD833FA7A"></a>Dispose(bool disposing) : void
 <small>`Virtual`, `Protected`</small>
 
 
-#### <a name="DISP4E62"></a> Dispose() : void
+#### <a name="DIS4E62D250"></a>Dispose() : void
 
 Dispose this graphics context, freeing any resources occupied by it.
 
-#### <a name="SETC55A7"></a> SetCameraTransform([Vector](../Heirloom.Math/Heirloom.Math.Vector.md) center, float scale = 1) : void
+#### <a name="SET55A77415"></a>SetCameraTransform([Vector](../Heirloom.Math/Heirloom.Math.Vector.md) center, float scale = 1) : void
 
 Sets `Heirloom.Drawing.Graphics.GlobalTransform` to mimic a 2D camera.
 
 
-#### <a name="DRAW5AEC"></a> DrawImage([ImageSource](Heirloom.Drawing.ImageSource.md) image, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position) : void
+#### <a name="DRA5AECA746"></a>DrawImage([ImageSource](Heirloom.Drawing.ImageSource.md) image, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position) : void
 
 Draws an image to the current surface.
 
 <small>**image**: <param name="image">Some image.</param></small>  
 <small>**position**: <param name="position">The position of the image.</param></small>  
 
-#### <a name="DRAWCC3C"></a> DrawImage([ImageSource](Heirloom.Drawing.ImageSource.md) image, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, float rotation) : void
+#### <a name="DRACC3CC47E"></a>DrawImage([ImageSource](Heirloom.Drawing.ImageSource.md) image, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, float rotation) : void
 
 Draws an image to the current surface.
 
@@ -241,7 +241,7 @@ Draws an image to the current surface.
 <small>**position**: <param name="position">The position of the image.</param></small>  
 <small>**rotation**: <param name="rotation">The rotation applied to the image.</param></small>  
 
-#### <a name="DRAWAA1F"></a> DrawImage([ImageSource](Heirloom.Drawing.ImageSource.md) image, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, float rotation, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) scale) : void
+#### <a name="DRAAA1FB811"></a>DrawImage([ImageSource](Heirloom.Drawing.ImageSource.md) image, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, float rotation, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) scale) : void
 
 Draws an image to the current surface.
 
@@ -250,21 +250,21 @@ Draws an image to the current surface.
 <small>**rotation**: <param name="rotation">The rotation applied to the image.</param></small>  
 <small>**scale**: <param name="scale">The scale applied to the image.</param></small>  
 
-#### <a name="DRAW2104"></a> DrawImage([ImageSource](Heirloom.Drawing.ImageSource.md) image, in [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md) rectangle) : void
+#### <a name="DRA2104C49C"></a>DrawImage([ImageSource](Heirloom.Drawing.ImageSource.md) image, in [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md) rectangle) : void
 
 Draws an image stretched to fill a rectangular region to the current surface ignoring the image origin offset.
 
 <small>**image**: <param name="image">Some image.</param></small>  
 <small>**rectangle**: <param name="rectangle">The bounds of the drawn image.</param></small>  
 
-#### <a name="DRAWCC91"></a> DrawImage([ImageSource](Heirloom.Drawing.ImageSource.md) image, in [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md) transform) : void
+#### <a name="DRACC91BF51"></a>DrawImage([ImageSource](Heirloom.Drawing.ImageSource.md) image, in [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md) transform) : void
 
 Draws an image to the current surface.
 
 <small>**image**: <param name="image">Some image.</param></small>  
 <small>**transform**: <param name="transform">Some transform.</param></small>  
 
-#### <a name="DRAW3D4F"></a> DrawSprite([Sprite](Heirloom.Drawing.Sprite.md) sprite, int index, in [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md) transform) : void
+#### <a name="DRA3D4FFB62"></a>DrawSprite([Sprite](Heirloom.Drawing.Sprite.md) sprite, int index, in [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md) transform) : void
 
 Draw a sprite to the current surface.
 
@@ -272,7 +272,7 @@ Draw a sprite to the current surface.
 <small>**index**: <param name="index">Some valid frame number within the sprite.</param></small>  
 <small>**transform**: <param name="transform">Some transform to draw the sprite.</param></small>  
 
-#### <a name="DRAW5FD3"></a> DrawLine(in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) p0, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) p1, float width = 1) : void
+#### <a name="DRA5FD38818"></a>DrawLine(in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) p0, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) p1, float width = 1) : void
 
 Draws a line segment between two points to the current surface.
 
@@ -280,7 +280,7 @@ Draws a line segment between two points to the current surface.
 <small>**p1**: <param name="p1">The end point.</param></small>  
 <small>**width**: <param name="width">The thickness of the line in pixels.</param></small>  
 
-#### <a name="DRAW1479"></a> DrawCurve(in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) p0, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) p1, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) p2, float width = 1) : void
+#### <a name="DRA1479E674"></a>DrawCurve(in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) p0, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) p1, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) p2, float width = 1) : void
 
 Draws a quadratic curve using three control points to the current surface.
 
@@ -289,7 +289,7 @@ Draws a quadratic curve using three control points to the current surface.
 <small>**p2**: <param name="p2">The third control point.</param></small>  
 <small>**width**: <param name="width">The thickness of the line in pixels.</param></small>  
 
-#### <a name="DRAW6002"></a> DrawCurve(in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) p0, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) p1, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) p2, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) p3, float width = 1) : void
+#### <a name="DRA600226C8"></a>DrawCurve(in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) p0, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) p1, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) p2, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) p3, float width = 1) : void
 
 Draws a cubic curve using four control points to the current surface.
 
@@ -299,20 +299,20 @@ Draws a cubic curve using four control points to the current surface.
 <small>**p3**: <param name="p3">The fourth control point.</param></small>  
 <small>**width**: <param name="width">The thickness of the line in pixels.</param></small>  
 
-#### <a name="DRAWA953"></a> DrawRect(in [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md) rectangle) : void
+#### <a name="DRAA9530853"></a>DrawRect(in [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md) rectangle) : void
 
 Draws a rectangle to the current surface.
 
 <small>**rectangle**: <param name="rectangle">The rectangular region of the rectangle.</param></small>  
 
-#### <a name="DRAWFE42"></a> DrawRectOutline(in [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md) rectangle, float width = 1) : void
+#### <a name="DRAFE423E7D"></a>DrawRectOutline(in [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md) rectangle, float width = 1) : void
 
 Draws the outline of a rectangel to the current surface.
 
 <small>**rectangle**: <param name="rectangle">The rectangular region of the rectangle.</param></small>  
 <small>**width**: <param name="width">Width of the outline in pixels.</param></small>  
 
-#### <a name="DRAWF5B1"></a> DrawCross(in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) center, float size = 2, float width = 1) : void
+#### <a name="DRAF5B1CCE3"></a>DrawCross(in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) center, float size = 2, float width = 1) : void
 
 Draws a simple axis aligned 'cross' or 'plus' shape, useful for debugging positions.
 
@@ -320,27 +320,27 @@ Draws a simple axis aligned 'cross' or 'plus' shape, useful for debugging positi
 <small>**size**: <param name="size">Size in screen pixels (not world space).</param></small>  
 <small>**width**: <param name="width">Width of the lines screen pixels (not world space).</param></small>  
 
-#### <a name="DRAW5A37"></a> DrawCircle(in [Circle](../Heirloom.Math/Heirloom.Math.Circle.md) circle) : void
+#### <a name="DRA5A371506"></a>DrawCircle(in [Circle](../Heirloom.Math/Heirloom.Math.Circle.md) circle) : void
 
 Draws a circle to the current surface.
 
 <small>**circle**: <param name="circle">The circle to draw.</param></small>  
 
-#### <a name="DRAW1B07"></a> DrawCircle(in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, float radius) : void
+#### <a name="DRA1B07AE29"></a>DrawCircle(in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, float radius) : void
 
 Draws a circle to the current surface.
 
 <small>**position**: <param name="position">The center of the circle.</param></small>  
 <small>**radius**: <param name="radius">The radius of the circle.</param></small>  
 
-#### <a name="DRAWBDDF"></a> DrawCircleOutline(in [Circle](../Heirloom.Math/Heirloom.Math.Circle.md) circle, float width = 1) : void
+#### <a name="DRABDDF3480"></a>DrawCircleOutline(in [Circle](../Heirloom.Math/Heirloom.Math.Circle.md) circle, float width = 1) : void
 
 Draws the outline of a circle to the current surface.
 
 <small>**circle**: <param name="circle">The circle to draw.</param></small>  
 <small>**width**: <param name="width">Width of the outline in pixels.</param></small>  
 
-#### <a name="DRAWF367"></a> DrawCircleOutline(in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, float radius, float width = 1) : void
+#### <a name="DRAF367D6B"></a>DrawCircleOutline(in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, float radius, float width = 1) : void
 
 Draws the outline of a circle to the current surface.
 
@@ -348,13 +348,13 @@ Draws the outline of a circle to the current surface.
 <small>**radius**: <param name="radius">The radius of the circle.</param></small>  
 <small>**width**: <param name="width">Width of the outline in pixels.</param></small>  
 
-#### <a name="DRAW5123"></a> DrawTriangle(in [Triangle](../Heirloom.Math/Heirloom.Math.Triangle.md) triangle) : void
+#### <a name="DRA51237C46"></a>DrawTriangle(in [Triangle](../Heirloom.Math/Heirloom.Math.Triangle.md) triangle) : void
 
 Draw a triangle to the current surface.
 
 <small>**triangle**: <param name="triangle">The triangle to draw.</param></small>  
 
-#### <a name="DRAWF3C0"></a> DrawTriangle(in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) a, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) b, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) c) : void
+#### <a name="DRAF3C0F560"></a>DrawTriangle(in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) a, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) b, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) c) : void
 
 Draw a triangle outline to the current surface.
 
@@ -362,14 +362,14 @@ Draw a triangle outline to the current surface.
 <small>**b**: <param name="b">The second point.</param></small>  
 <small>**c**: <param name="c">The third point.</param></small>  
 
-#### <a name="DRAW2E39"></a> DrawTriangleOutline(in [Triangle](../Heirloom.Math/Heirloom.Math.Triangle.md) triangle, float width = 1) : void
+#### <a name="DRA2E3976E8"></a>DrawTriangleOutline(in [Triangle](../Heirloom.Math/Heirloom.Math.Triangle.md) triangle, float width = 1) : void
 
 Draw a triangle outline to the current surface.
 
 <small>**triangle**: <param name="triangle">The triangle to draw.</param></small>  
 <small>**width**: <param name="width">The thickness of the line in pixels.</param></small>  
 
-#### <a name="DRAW6968"></a> DrawTriangleOutline(in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) a, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) b, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) c, float width = 1) : void
+#### <a name="DRA69688A8E"></a>DrawTriangleOutline(in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) a, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) b, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) c, float width = 1) : void
 
 Draw a triangle outline to the current surface.
 
@@ -378,14 +378,14 @@ Draw a triangle outline to the current surface.
 <small>**c**: <param name="c">The third point.</param></small>  
 <small>**width**: <param name="width">The thickness of the line in pixels.</param></small>  
 
-#### <a name="DRAWFC9E"></a> DrawPolygon(in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, int sides, float radius) : void
+#### <a name="DRAFC9E988"></a>DrawPolygon(in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, int sides, float radius) : void
 
 Draws a regular polygon to the current surface.
 
 <small>**sides**: <param name="sides">The number of sides in the regular polygon.</param></small>  
 <small>**radius**: <param name="radius">The radius of the regular polygon.</param></small>  
 
-#### <a name="DRAW1105"></a> DrawPolygonOutline(in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, int sides, float radius, float width = 1) : void
+#### <a name="DRA11055056"></a>DrawPolygonOutline(in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, int sides, float radius, float width = 1) : void
 
 Draws the outline of a regular polygon to the current surface.
 
@@ -393,55 +393,40 @@ Draws the outline of a regular polygon to the current surface.
 <small>**radius**: <param name="radius">The radius of the regular polygon.</param></small>  
 <small>**width**: <param name="width">Width of the outline in pixels.</param></small>  
 
-#### <a name="DRAWF6BA"></a> DrawPolygon([Polygon](../Heirloom.Math/Heirloom.Math.Polygon.md) polygon) : void
+#### <a name="DRAF6BAE1ED"></a>DrawPolygon([Polygon](../Heirloom.Math/Heirloom.Math.Polygon.md) polygon) : void
 
 Draws a simple polygon to the current surface.
 
 <small>**polygon**: <param name="polygon">Some polygon.</param></small>  
 
-#### <a name="DRAWFD16"></a> DrawPolygon([Polygon](../Heirloom.Math/Heirloom.Math.Polygon.md) polygon, in [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md) transform) : void
-
-Draws a simple polygon to the current surface.
-
-<small>**polygon**: <param name="polygon">Some polygon.</param></small>  
-<small>**transform**: <param name="transform">Some transform.</param></small>  
-
-#### <a name="DRAW2980"></a> DrawPolygon(IEnumerable\<Vector> polygon) : void
-
-Draws a simple polygon to the current surface.
-
-<small>**polygon**: <param name="polygon">Some polygon.</param></small>  
-
-#### <a name="DRAW192E"></a> DrawPolygon(IEnumerable\<Vector> polygon, in [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md) transform) : void
+#### <a name="DRAFD160EA8"></a>DrawPolygon([Polygon](../Heirloom.Math/Heirloom.Math.Polygon.md) polygon, in [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md) transform) : void
 
 Draws a simple polygon to the current surface.
 
 <small>**polygon**: <param name="polygon">Some polygon.</param></small>  
 <small>**transform**: <param name="transform">Some transform.</param></small>  
 
-#### <a name="DRAWEEB1"></a> DrawPolygonOutline([Polygon](../Heirloom.Math/Heirloom.Math.Polygon.md) polygon, float width = 1) : void
+#### <a name="DRA2980A4EB"></a>DrawPolygon(IEnumerable\<Vector> polygon) : void
 
-Draws the outline of a simple polygon to the current surface.
+Draws a simple polygon to the current surface.
 
 <small>**polygon**: <param name="polygon">Some polygon.</param></small>  
-<small>**width**: <param name="width">Width of the outline in pixels.</param></small>  
 
-#### <a name="DRAW3814"></a> DrawPolygonOutline([Polygon](../Heirloom.Math/Heirloom.Math.Polygon.md) polygon, in [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md) transform, float width = 1) : void
+#### <a name="DRA192EC12E"></a>DrawPolygon(IEnumerable\<Vector> polygon, in [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md) transform) : void
 
-Draws the outline of a simple polygon to the current surface.
+Draws a simple polygon to the current surface.
 
 <small>**polygon**: <param name="polygon">Some polygon.</param></small>  
 <small>**transform**: <param name="transform">Some transform.</param></small>  
-<small>**width**: <param name="width">Width of the outline in pixels.</param></small>  
 
-#### <a name="DRAW1EDF"></a> DrawPolygonOutline(IEnumerable\<Vector> polygon, float width = 1) : void
+#### <a name="DRAEEB1914F"></a>DrawPolygonOutline([Polygon](../Heirloom.Math/Heirloom.Math.Polygon.md) polygon, float width = 1) : void
 
 Draws the outline of a simple polygon to the current surface.
 
 <small>**polygon**: <param name="polygon">Some polygon.</param></small>  
 <small>**width**: <param name="width">Width of the outline in pixels.</param></small>  
 
-#### <a name="DRAWDC31"></a> DrawPolygonOutline(IEnumerable\<Vector> polygon, in [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md) transform, float width = 1) : void
+#### <a name="DRA3814BD0E"></a>DrawPolygonOutline([Polygon](../Heirloom.Math/Heirloom.Math.Polygon.md) polygon, in [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md) transform, float width = 1) : void
 
 Draws the outline of a simple polygon to the current surface.
 
@@ -449,7 +434,22 @@ Draws the outline of a simple polygon to the current surface.
 <small>**transform**: <param name="transform">Some transform.</param></small>  
 <small>**width**: <param name="width">Width of the outline in pixels.</param></small>  
 
-#### <a name="DRAW87C3"></a> DrawText([StyledText](Heirloom.Drawing.StyledText.md) styledText, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, [Font](Heirloom.Drawing.Font.md) font, int size, [TextAlign](Heirloom.Drawing.TextAlign.md) align = Left) : void
+#### <a name="DRA1EDFEE5"></a>DrawPolygonOutline(IEnumerable\<Vector> polygon, float width = 1) : void
+
+Draws the outline of a simple polygon to the current surface.
+
+<small>**polygon**: <param name="polygon">Some polygon.</param></small>  
+<small>**width**: <param name="width">Width of the outline in pixels.</param></small>  
+
+#### <a name="DRADC317460"></a>DrawPolygonOutline(IEnumerable\<Vector> polygon, in [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md) transform, float width = 1) : void
+
+Draws the outline of a simple polygon to the current surface.
+
+<small>**polygon**: <param name="polygon">Some polygon.</param></small>  
+<small>**transform**: <param name="transform">Some transform.</param></small>  
+<small>**width**: <param name="width">Width of the outline in pixels.</param></small>  
+
+#### <a name="DRA87C34A5"></a>DrawText([StyledText](Heirloom.Drawing.StyledText.md) styledText, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, [Font](Heirloom.Drawing.Font.md) font, int size, [TextAlign](Heirloom.Drawing.TextAlign.md) align = Left) : void
 
 Draws rich text to the current surface.
 
@@ -459,7 +459,7 @@ Draws rich text to the current surface.
 <small>**size**: <param name="size">The font size to render with.</param></small>  
 <small>**align**: <param name="align">The text alignment.</param></small>  
 
-#### <a name="DRAW2587"></a> DrawText([StyledText](Heirloom.Drawing.StyledText.md) styledText, in [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md) bounds, [Font](Heirloom.Drawing.Font.md) font, int size, [TextAlign](Heirloom.Drawing.TextAlign.md) align = Left) : void
+#### <a name="DRA258730C9"></a>DrawText([StyledText](Heirloom.Drawing.StyledText.md) styledText, in [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md) bounds, [Font](Heirloom.Drawing.Font.md) font, int size, [TextAlign](Heirloom.Drawing.TextAlign.md) align = Left) : void
 
 Draws rich text to the current surface.
 
@@ -469,7 +469,7 @@ Draws rich text to the current surface.
 <small>**size**: <param name="size">The font size to render with.</param></small>  
 <small>**align**: <param name="align">The text alignment.</param></small>  
 
-#### <a name="DRAWB686"></a> DrawText(string text, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, [Font](Heirloom.Drawing.Font.md) font, int size, [DrawTextCallback](Heirloom.Drawing.DrawTextCallback.md) callback) : void
+#### <a name="DRAB686520E"></a>DrawText(string text, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, [Font](Heirloom.Drawing.Font.md) font, int size, [DrawTextCallback](Heirloom.Drawing.DrawTextCallback.md) callback) : void
 
 Draws text to the current surface.
 
@@ -479,7 +479,7 @@ Draws text to the current surface.
 <small>**size**: <param name="size">The font size to render with.</param></small>  
 <small>**callback**: <param name="callback">A callback for manipulating the style of the rendered text.</param></small>  
 
-#### <a name="DRAW8F4C"></a> DrawText(string text, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, [Font](Heirloom.Drawing.Font.md) font, int size, [TextAlign](Heirloom.Drawing.TextAlign.md) align = Left, [DrawTextCallback](Heirloom.Drawing.DrawTextCallback.md) callback = "null") : void
+#### <a name="DRA8F4C378A"></a>DrawText(string text, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, [Font](Heirloom.Drawing.Font.md) font, int size, [TextAlign](Heirloom.Drawing.TextAlign.md) align = Left, [DrawTextCallback](Heirloom.Drawing.DrawTextCallback.md) callback = "null") : void
 
 Draws text to the current surface.
 
@@ -490,7 +490,7 @@ Draws text to the current surface.
 <small>**align**: <param name="align">The text alignment.</param></small>  
 <small>**callback**: <param name="callback">A callback for manipulating the style of the rendered text.</param></small>  
 
-#### <a name="DRAW6A2D"></a> DrawText(string text, in [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md) bounds, [Font](Heirloom.Drawing.Font.md) font, int size, [DrawTextCallback](Heirloom.Drawing.DrawTextCallback.md) callback) : void
+#### <a name="DRA6A2DA0DC"></a>DrawText(string text, in [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md) bounds, [Font](Heirloom.Drawing.Font.md) font, int size, [DrawTextCallback](Heirloom.Drawing.DrawTextCallback.md) callback) : void
 
 Draws text to the current surface.
 
@@ -500,7 +500,7 @@ Draws text to the current surface.
 <small>**size**: <param name="size">The font size to render with.</param></small>  
 <small>**callback**: <param name="callback">A callback for manipulating the style of the rendered text.</param></small>  
 
-#### <a name="DRAW7B95"></a> DrawText(string text, in [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md) bounds, [Font](Heirloom.Drawing.Font.md) font, int size, [TextAlign](Heirloom.Drawing.TextAlign.md) align = Left, [DrawTextCallback](Heirloom.Drawing.DrawTextCallback.md) callback = "null") : void
+#### <a name="DRA7B95AC0C"></a>DrawText(string text, in [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md) bounds, [Font](Heirloom.Drawing.Font.md) font, int size, [TextAlign](Heirloom.Drawing.TextAlign.md) align = Left, [DrawTextCallback](Heirloom.Drawing.DrawTextCallback.md) callback = "null") : void
 
 Draws text to the current surface.
 

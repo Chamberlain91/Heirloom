@@ -9,40 +9,40 @@
 
 Represents a heap data structure. Allowing the access and removal of items by a priority ordering.
 
-| Methods               | Summary                                                             |
-|-----------------------|---------------------------------------------------------------------|
-| [Add](#ADDBCD0)       | Adds an item to the heap.                                           |
-| [AddRange](#ADDR1537) | Adds multiple items to the heap.                                    |
-| [Remove](#REMOF107)   | Removes a specific item from the heap.                              |
-| [Remove](#REMOF107)   | Removes and returns the next priority item in the heap.             |
-| [Update](#UPDAD177)   | Alerts the heap to update the position the element within the heap. |
+| Methods                  | Summary                                                             |
+|--------------------------|---------------------------------------------------------------------|
+| [Add](#ADDBCD0F225)      | Adds an item to the heap.                                           |
+| [AddRange](#ADD15375A3E) | Adds multiple items to the heap.                                    |
+| [Remove](#REMF10744DE)   | Removes a specific item from the heap.                              |
+| [Remove](#REMF10744DE)   | Removes and returns the next priority item in the heap.             |
+| [Update](#UPDD1771A75)   | Alerts the heap to update the position the element within the heap. |
 
 ### Methods
 
-#### <a name="ADD(9453"></a> Add(T item) : bool
+#### <a name="ADD9453EEA5"></a>Add(T item) : bool
 <small>`Abstract`</small>
 
 Adds an item to the heap.
 
 
-#### <a name="ADDR964B"></a> AddRange(IEnumerable\<T> items) : void
+#### <a name="ADD964BA200"></a>AddRange(IEnumerable\<T> items) : void
 <small>`Abstract`</small>
 
 Adds multiple items to the heap.
 
 
-#### <a name="REMO291D"></a> Remove(T item) : bool
+#### <a name="REM291D149A"></a>Remove(T item) : bool
 <small>`Abstract`</small>
 
 Removes a specific item from the heap.
 
 
-#### <a name="REMOF63F"></a> Remove() : T
+#### <a name="REMF63FEEE5"></a>Remove() : T
 <small>`Abstract`</small>
 
 Removes and returns the next priority item in the heap.
 
-#### <a name="UPDA9BB0"></a> Update(T item) : void
+#### <a name="UPD9BB09A13"></a>Update(T item) : void
 <small>`Abstract`</small>
 
 Alerts the heap to update the position the element within the heap.

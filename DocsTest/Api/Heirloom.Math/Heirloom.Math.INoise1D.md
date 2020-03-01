@@ -8,13 +8,13 @@
 
 Provides an interface for sampling one-dimensional noise.
 
-| Methods             | Summary                       |
-|---------------------|-------------------------------|
-| [Sample](#SAMPB4A3) | Sample one-dimensional noise. |
+| Methods                | Summary                       |
+|------------------------|-------------------------------|
+| [Sample](#SAMB4A361CC) | Sample one-dimensional noise. |
 
 ### Methods
 
-#### <a name="SAMPBBAB"></a> Sample(float x) : float
+#### <a name="SAMBBABD6D9"></a>Sample(float x) : float
 <small>`Abstract`</small>
 
 Sample one-dimensional noise.

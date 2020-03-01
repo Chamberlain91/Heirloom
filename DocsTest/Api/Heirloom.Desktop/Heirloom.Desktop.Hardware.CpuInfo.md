@@ -8,13 +8,13 @@
 <small>**Namespace**: Heirloom.Desktop.Hardware</sub></small>  
 <small>**Interfaces**: IEquatable\<CpuInfo></small>  
 
-| Properties               | Summary                                                      |
-|--------------------------|--------------------------------------------------------------|
-| [Vendor](#VENDA14B)      |                                                              |
-| [Name](#NAME5943)        |                                                              |
-| [ThreadCount](#THRE4107) |                                                              |
-| [ClockSpeed](#CLOCF5A0)  |                                                              |
-| [Unknown](#UNKNA484)     | Gets default information when properties of CPU are unknown. |
+| Properties                  | Summary                                                      |
+|-----------------------------|--------------------------------------------------------------|
+| [Vendor](#VENA14B39A0)      |                                                              |
+| [Name](#NAM5943D12B)        |                                                              |
+| [ThreadCount](#THR4107A6E1) |                                                              |
+| [ClockSpeed](#CLOF5A035AF)  |                                                              |
+| [Unknown](#UNKA4848C14)     | Gets default information when properties of CPU are unknown. |
 
 ### Constructors
 
@@ -24,23 +24,23 @@
 
 ### Properties
 
-#### <a name="VENDA14B"></a> Vendor : [CpuVendor](Heirloom.Desktop.Hardware.CpuVendor.md)
+#### <a name="VENA14B39A0"></a>Vendor : [CpuVendor](Heirloom.Desktop.Hardware.CpuVendor.md)
 
 <small>`Read Only`</small>
 
-#### <a name="NAME5943"></a> Name : string
+#### <a name="NAM5943D12B"></a>Name : string
 
 <small>`Read Only`</small>
 
-#### <a name="THRE4107"></a> ThreadCount : int
+#### <a name="THR4107A6E1"></a>ThreadCount : int
 
 <small>`Read Only`</small>
 
-#### <a name="CLOCF5A0"></a> ClockSpeed : int
+#### <a name="CLOF5A035AF"></a>ClockSpeed : int
 
 <small>`Read Only`</small>
 
-#### <a name="UNKNA484"></a> Unknown : [CpuInfo](Heirloom.Desktop.Hardware.CpuInfo.md)
+#### <a name="UNKA4848C14"></a>Unknown : [CpuInfo](Heirloom.Desktop.Hardware.CpuInfo.md)
 
 <small>`Static`</small>
 

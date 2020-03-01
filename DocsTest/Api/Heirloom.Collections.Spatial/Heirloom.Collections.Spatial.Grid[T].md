@@ -10,18 +10,18 @@
 
 A finite grid (bounded by size) of values.
 
-| Properties          | Summary                  |
-|---------------------|--------------------------|
-| [Width](#WIDT6892)  | The width of this grid.  |
-| [Height](#HEIGE098) | The height of this grid. |
-| [Item](#ITEM8B5A)   |                          |
-| [Item](#ITEM8B5A)   |                          |
+| Properties             | Summary                  |
+|------------------------|--------------------------|
+| [Width](#WID68924896)  | The width of this grid.  |
+| [Height](#HEIE098AAEB) | The height of this grid. |
+| [Item](#ITE8B5A2F95)   |                          |
+| [Item](#ITE8B5A2F95)   |                          |
 
-| Methods                        | Summary                                                                       |
-|--------------------------------|-------------------------------------------------------------------------------|
-| [Clear](#CLEA3BB2)             | Sets all values in the grid to default for type \<typeparamref name="T" />.   |
-| [IsValidCoordinate](#ISVA6716) | Determines if the specified coordinate is a valid coordinate within the grid. |
-| [IsValidCoordinate](#ISVA6716) | Determines if the specified coordinate is a valid coordinate within the grid. |
+| Methods                           | Summary                                                                       |
+|-----------------------------------|-------------------------------------------------------------------------------|
+| [Clear](#CLE3BB23EF9)             | Sets all values in the grid to default for type \<typeparamref name="T" />.   |
+| [IsValidCoordinate](#ISV67165E1E) | Determines if the specified coordinate is a valid coordinate within the grid. |
+| [IsValidCoordinate](#ISV67165E1E) | Determines if the specified coordinate is a valid coordinate within the grid. |
 
 ### Constructors
 
@@ -29,37 +29,37 @@ A finite grid (bounded by size) of values.
 
 ### Properties
 
-#### <a name="WIDT6892"></a> Width : int
+#### <a name="WID68924896"></a>Width : int
 
 <small>`Read Only`</small>
 
 The width of this grid.
 
-#### <a name="HEIGE098"></a> Height : int
+#### <a name="HEIE098AAEB"></a>Height : int
 
 <small>`Read Only`</small>
 
 The height of this grid.
 
-#### <a name="ITEM8B5A"></a> Item : T
+#### <a name="ITE8B5A2F95"></a>Item : T
 
 
-#### <a name="ITEM8B5A"></a> Item : T
+#### <a name="ITE8B5A2F95"></a>Item : T
 
 
 ### Methods
 
-#### <a name="CLEA4538"></a> Clear() : void
+#### <a name="CLE4538C554"></a>Clear() : void
 <small>`Virtual`</small>
 
 Sets all values in the grid to default for type \<typeparamref name="T" />.
 
-#### <a name="ISVAB586"></a> IsValidCoordinate(in int x, in int y) : bool
+#### <a name="ISVB586DBEE"></a>IsValidCoordinate(in int x, in int y) : bool
 
 Determines if the specified coordinate is a valid coordinate within the grid.
 
 
-#### <a name="ISVACA35"></a> IsValidCoordinate(in [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) co) : bool
+#### <a name="ISVCA356546"></a>IsValidCoordinate(in [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) co) : bool
 
 Determines if the specified coordinate is a valid coordinate within the grid.
 

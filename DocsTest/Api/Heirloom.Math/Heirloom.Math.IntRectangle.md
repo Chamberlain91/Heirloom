@@ -9,75 +9,75 @@
 
 Represents a rectangle defined with integer coordinates.
 
-| Fields              | Summary                             |
-|---------------------|-------------------------------------|
-| [X](#XCDCA)         | The x-coordinate of this rectangle. |
-| [Y](#YCDCA)         | The y-coordinate of this rectangle. |
-| [Width](#WIDT6892)  | The width of this rectangle.        |
-| [Height](#HEIGE098) | The height of this rectangle.       |
+| Fields                 | Summary                             |
+|------------------------|-------------------------------------|
+| [X](#XCDCAB7F6)        | The x-coordinate of this rectangle. |
+| [Y](#YCDCAB7F5)        | The y-coordinate of this rectangle. |
+| [Width](#WID68924896)  | The width of this rectangle.        |
+| [Height](#HEIE098AAEB) | The height of this rectangle.       |
 
-| Properties                    | Summary                                                                                                                           |
-|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
-| [Area](#AREA9F52)             | Gets the area of this rectangle.                                                                                                  |
-| [Size](#SIZE9C93)             | Gets or sets the size of this rectangle.                                                                                          |
-| [Position](#POSIF46C)         | Gets or sets the position of this rectangle.                                                                                      |
-| [Center](#CENT7CD9)           | Gets or sets the center position of this rectangle.                                                                               |
-| [Min](#MINBF9E)               | Gets the minimum corner of this rectangle.                                                                                        |
-| [Max](#MAXD4DA)               | Gets the maximum corner of this rectangle.                                                                                        |
-| [Left](#LEFT9A90)             | Gets the left extent of this rectangle.                                                                                           |
-| [Top](#TOP4EDD)               | Gets the top extent of this rectangle.                                                                                            |
-| [Right](#RIGH1DA7)            | Gets the right extent of this rectangle.                                                                                          |
-| [Bottom](#BOTTA278)           | Gets the bottom extent of this rectangle.                                                                                         |
-| [TopLeft](#TOPLC1C8)          | Gets the top left corner of this rectangle.                                                                                       |
-| [BottomLeft](#BOTTFF35)       | Gets the bottom left corner of this rectangle.                                                                                    |
-| [BottomRight](#BOTT19A5)      | Gets the bottom right corner of this rectangle.                                                                                   |
-| [TopRight](#TOPREDB8)         | Gets the top right corner of this rectangle.                                                                                      |
-| [IsValid](#ISVAE38F)          | Determines if the values of this rectangle are considered to be valid or in other words that left &lt; right and top &lt; bottom. |
-| [InvertedInfinite](#INVEBAFD) | A rectangle that spans the entire 2D integer plane (but inverted, with min and max reversed).                                     |
-| [Infinite](#INFIDABE)         | A rectangle that spans the entire 2D integer plane.                                                                               |
-| [One](#ONE6246)               | A 1x1 rectangle that is positioned at the origin.                                                                                 |
-| [Zero](#ZEROC7D5)             | A 0x0 rectangle that is positioned at the origin.                                                                                 |
+| Properties                       | Summary                                                                                                                           |
+|----------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| [Area](#ARE9F5286F)              | Gets the area of this rectangle.                                                                                                  |
+| [Size](#SIZ9C9392F9)             | Gets or sets the size of this rectangle.                                                                                          |
+| [Position](#POSF46C3C91)         | Gets or sets the position of this rectangle.                                                                                      |
+| [Center](#CEN7CD91D4B)           | Gets or sets the center position of this rectangle.                                                                               |
+| [Min](#MINBF9EF002)              | Gets the minimum corner of this rectangle.                                                                                        |
+| [Max](#MAXD4DA94E4)              | Gets the maximum corner of this rectangle.                                                                                        |
+| [Left](#LEF9A907773)             | Gets the left extent of this rectangle.                                                                                           |
+| [Top](#TOP4EDDB13)               | Gets the top extent of this rectangle.                                                                                            |
+| [Right](#RIG1DA76FF8)            | Gets the right extent of this rectangle.                                                                                          |
+| [Bottom](#BOTA278763B)           | Gets the bottom extent of this rectangle.                                                                                         |
+| [TopLeft](#TOPC1C81AF0)          | Gets the top left corner of this rectangle.                                                                                       |
+| [BottomLeft](#BOTFF353200)       | Gets the bottom left corner of this rectangle.                                                                                    |
+| [BottomRight](#BOT19A55B57)      | Gets the bottom right corner of this rectangle.                                                                                   |
+| [TopRight](#TOPEDB84AB7)         | Gets the top right corner of this rectangle.                                                                                      |
+| [IsValid](#ISVE38FCA8)           | Determines if the values of this rectangle are considered to be valid or in other words that left &lt; right and top &lt; bottom. |
+| [InvertedInfinite](#INVBAFDB881) | A rectangle that spans the entire 2D integer plane (but inverted, with min and max reversed).                                     |
+| [Infinite](#INFDABEDF6)          | A rectangle that spans the entire 2D integer plane.                                                                               |
+| [One](#ONE62466566)              | A 1x1 rectangle that is positioned at the origin.                                                                                 |
+| [Zero](#ZERC7D5C0B8)             | A 0x0 rectangle that is positioned at the origin.                                                                                 |
 
-| Methods                   | Summary                                                            |
-|---------------------------|--------------------------------------------------------------------|
-| [ToPolygon](#TOPO44DC)    | Create a polygon from this rectangle.                              |
-| [Offset](#OFFS1FA8)       | Translates this rectangle.                                         |
-| [Offset](#OFFS1FA8)       | Translates this rectangle.                                         |
-| [Include](#INCL2EBA)      | Mutates this rectangle to accommodate the given point.             |
-| [Include](#INCL2EBA)      | Mutates this rectangle to accommodate the given rectangle.         |
-| [Inflate](#INFL4434)      | Expands (or shrinks) the rectangle by a factor on both axis.       |
-| [Inflate](#INFL4434)      | Expands (or shrinks) the rectangle by a factor on each axis.       |
-| [ClosestPoint](#CLOSC5B5) | Returns the nearest point on the rectangle to the given point.     |
-| [Contains](#CONTD0AE)     | Determines if this rectangle contains the given point?             |
-| [Contains](#CONTD0AE)     | Determines if this rectangle contains the given point?             |
-| [Contains](#CONTD0AE)     | Determines if this rectangle contains another rectangle?           |
-| [Overlaps](#OVER7F2D)     | Determines if this rectangle overlaps another rectangle.           |
-| [Deconstruct](#DECOC188)  |                                                                    |
-| [Deconstruct](#DECOC188)  |                                                                    |
-| [Offset](#OFFS1FA8)       | Copies and translates the given rectangle.                         |
-| [Offset](#OFFS1FA8)       | Copies and translates the given rectangle.                         |
-| [Merge](#MERG30DF)        | Merges the given rectangles into one potentially larger rectangle. |
-| [Merge](#MERG30DF)        | Merges the given rectangles into one potentially larger rectangle. |
-| [Inflate](#INFL4434)      | Expands (or shrinks) the input rectangle by a factor on both axis. |
-| [Inflate](#INFL4434)      | Expands (or shrinks) the input rectangle by a factor on each axis. |
-| [FromPoints](#FROM77DF)   | Computes the bounding rectangle of the given set of points.        |
-| [FromPoints](#FROM77DF)   | Computes the bounding rectangle of the given set of points.        |
+| Methods                      | Summary                                                            |
+|------------------------------|--------------------------------------------------------------------|
+| [ToPolygon](#TOP44DCF963)    | Create a polygon from this rectangle.                              |
+| [Offset](#OFF1FA8EDD)        | Translates this rectangle.                                         |
+| [Offset](#OFF1FA8EDD)        | Translates this rectangle.                                         |
+| [Include](#INC2EBA9B2E)      | Mutates this rectangle to accommodate the given point.             |
+| [Include](#INC2EBA9B2E)      | Mutates this rectangle to accommodate the given rectangle.         |
+| [Inflate](#INF44343AD)       | Expands (or shrinks) the rectangle by a factor on both axis.       |
+| [Inflate](#INF44343AD)       | Expands (or shrinks) the rectangle by a factor on each axis.       |
+| [ClosestPoint](#CLOC5B56A4D) | Returns the nearest point on the rectangle to the given point.     |
+| [Contains](#COND0AE797B)     | Determines if this rectangle contains the given point?             |
+| [Contains](#COND0AE797B)     | Determines if this rectangle contains the given point?             |
+| [Contains](#COND0AE797B)     | Determines if this rectangle contains another rectangle?           |
+| [Overlaps](#OVE7F2D7C32)     | Determines if this rectangle overlaps another rectangle.           |
+| [Deconstruct](#DECC1884FDA)  |                                                                    |
+| [Deconstruct](#DECC1884FDA)  |                                                                    |
+| [Offset](#OFF1FA8EDD)        | Copies and translates the given rectangle.                         |
+| [Offset](#OFF1FA8EDD)        | Copies and translates the given rectangle.                         |
+| [Merge](#MER30DFB5A2)        | Merges the given rectangles into one potentially larger rectangle. |
+| [Merge](#MER30DFB5A2)        | Merges the given rectangles into one potentially larger rectangle. |
+| [Inflate](#INF44343AD)       | Expands (or shrinks) the input rectangle by a factor on both axis. |
+| [Inflate](#INF44343AD)       | Expands (or shrinks) the input rectangle by a factor on each axis. |
+| [FromPoints](#FRO77DF8609)   | Computes the bounding rectangle of the given set of points.        |
+| [FromPoints](#FRO77DF8609)   | Computes the bounding rectangle of the given set of points.        |
 
 ### Fields
 
-#### <a name="XCDCA"></a> X : int
+#### <a name="XCDCAB7F6"></a>X : int
 
 The x-coordinate of this rectangle.
 
-#### <a name="YCDCA"></a> Y : int
+#### <a name="YCDCAB7F5"></a>Y : int
 
 The y-coordinate of this rectangle.
 
-#### <a name="WIDT6892"></a> Width : int
+#### <a name="WID68924896"></a>Width : int
 
 The width of this rectangle.
 
-#### <a name="HEIGE098"></a> Height : int
+#### <a name="HEIE098AAEB"></a>Height : int
 
 The height of this rectangle.
 
@@ -91,112 +91,112 @@ The height of this rectangle.
 
 ### Properties
 
-#### <a name="AREA9F52"></a> Area : int
+#### <a name="ARE9F5286F"></a>Area : int
 
 <small>`Read Only`</small>
 
 Gets the area of this rectangle.
 
-#### <a name="SIZE9C93"></a> Size : [IntSize](Heirloom.Math.IntSize.md)
+#### <a name="SIZ9C9392F9"></a>Size : [IntSize](Heirloom.Math.IntSize.md)
 
 
 Gets or sets the size of this rectangle.
 
-#### <a name="POSIF46C"></a> Position : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="POSF46C3C91"></a>Position : [IntVector](Heirloom.Math.IntVector.md)
 
 
 Gets or sets the position of this rectangle.
 
-#### <a name="CENT7CD9"></a> Center : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="CEN7CD91D4B"></a>Center : [IntVector](Heirloom.Math.IntVector.md)
 
 
 Gets or sets the center position of this rectangle.
 
-#### <a name="MINBF9E"></a> Min : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="MINBF9EF002"></a>Min : [IntVector](Heirloom.Math.IntVector.md)
 
 <small>`Read Only`</small>
 
 Gets the minimum corner of this rectangle.
 
-#### <a name="MAXD4DA"></a> Max : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="MAXD4DA94E4"></a>Max : [IntVector](Heirloom.Math.IntVector.md)
 
 <small>`Read Only`</small>
 
 Gets the maximum corner of this rectangle.
 
-#### <a name="LEFT9A90"></a> Left : int
+#### <a name="LEF9A907773"></a>Left : int
 
 <small>`Read Only`</small>
 
 Gets the left extent of this rectangle.
 
-#### <a name="TOP4EDD"></a> Top : int
+#### <a name="TOP4EDDB13"></a>Top : int
 
 <small>`Read Only`</small>
 
 Gets the top extent of this rectangle.
 
-#### <a name="RIGH1DA7"></a> Right : int
+#### <a name="RIG1DA76FF8"></a>Right : int
 
 <small>`Read Only`</small>
 
 Gets the right extent of this rectangle.
 
-#### <a name="BOTTA278"></a> Bottom : int
+#### <a name="BOTA278763B"></a>Bottom : int
 
 <small>`Read Only`</small>
 
 Gets the bottom extent of this rectangle.
 
-#### <a name="TOPLC1C8"></a> TopLeft : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="TOPC1C81AF0"></a>TopLeft : [IntVector](Heirloom.Math.IntVector.md)
 
 <small>`Read Only`</small>
 
 Gets the top left corner of this rectangle.
 
-#### <a name="BOTTFF35"></a> BottomLeft : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="BOTFF353200"></a>BottomLeft : [IntVector](Heirloom.Math.IntVector.md)
 
 <small>`Read Only`</small>
 
 Gets the bottom left corner of this rectangle.
 
-#### <a name="BOTT19A5"></a> BottomRight : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="BOT19A55B57"></a>BottomRight : [IntVector](Heirloom.Math.IntVector.md)
 
 <small>`Read Only`</small>
 
 Gets the bottom right corner of this rectangle.
 
-#### <a name="TOPREDB8"></a> TopRight : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="TOPEDB84AB7"></a>TopRight : [IntVector](Heirloom.Math.IntVector.md)
 
 <small>`Read Only`</small>
 
 Gets the top right corner of this rectangle.
 
-#### <a name="ISVAE38F"></a> IsValid : bool
+#### <a name="ISVE38FCA8"></a>IsValid : bool
 
 <small>`Read Only`</small>
 
 Determines if the values of this rectangle are considered to be valid or in other words that left &lt; right and top &lt; bottom.
 
-#### <a name="INVEBAFD"></a> InvertedInfinite : [IntRectangle](Heirloom.Math.IntRectangle.md)
+#### <a name="INVBAFDB881"></a>InvertedInfinite : [IntRectangle](Heirloom.Math.IntRectangle.md)
 
 <small>`Static`, `Read Only`</small>
 
 A rectangle that spans the entire 2D integer plane (but inverted, with min and max reversed).
 
-#### <a name="INFIDABE"></a> Infinite : [IntRectangle](Heirloom.Math.IntRectangle.md)
+#### <a name="INFDABEDF6"></a>Infinite : [IntRectangle](Heirloom.Math.IntRectangle.md)
 
 <small>`Static`, `Read Only`</small>
 
 A rectangle that spans the entire 2D integer plane.
 
-#### <a name="ONE6246"></a> One : [IntRectangle](Heirloom.Math.IntRectangle.md)
+#### <a name="ONE62466566"></a>One : [IntRectangle](Heirloom.Math.IntRectangle.md)
 
 <small>`Static`, `Read Only`</small>
 
 A 1x1 rectangle that is positioned at the origin.
 
-#### <a name="ZEROC7D5"></a> Zero : [IntRectangle](Heirloom.Math.IntRectangle.md)
+#### <a name="ZERC7D5C0B8"></a>Zero : [IntRectangle](Heirloom.Math.IntRectangle.md)
 
 <small>`Static`, `Read Only`</small>
 
@@ -204,21 +204,21 @@ A 0x0 rectangle that is positioned at the origin.
 
 ### Methods
 
-#### <a name="TOPO74E3"></a> ToPolygon() : [Polygon](Heirloom.Math.Polygon.md)
+#### <a name="TOP74E314EF"></a>ToPolygon() : [Polygon](Heirloom.Math.Polygon.md)
 
 Create a polygon from this rectangle.
 
-#### <a name="OFFSE1B0"></a> Offset(int x, int y) : void
+#### <a name="OFFE1B0A55B"></a>Offset(int x, int y) : void
 
 Translates this rectangle.
 
 
-#### <a name="OFFSCA7A"></a> Offset([IntVector](Heirloom.Math.IntVector.md) offset) : void
+#### <a name="OFFCA7AF18E"></a>Offset([IntVector](Heirloom.Math.IntVector.md) offset) : void
 
 Translates this rectangle.
 
 
-#### <a name="INCLE62B"></a> Include([IntVector](Heirloom.Math.IntVector.md) point) : void
+#### <a name="INCE62B0D30"></a>Include([IntVector](Heirloom.Math.IntVector.md) point) : void
 
 Mutates this rectangle to accommodate the given point.
 
@@ -226,7 +226,7 @@ Mutates this rectangle to accommodate the given point.
 
 Useful for computing a bounding rectangle.
 
-#### <a name="INCL8A77"></a> Include(in [IntRectangle](Heirloom.Math.IntRectangle.md) rect) : void
+#### <a name="INC8A77FFFF"></a>Include(in [IntRectangle](Heirloom.Math.IntRectangle.md) rect) : void
 
 Mutates this rectangle to accommodate the given rectangle.
 
@@ -234,60 +234,60 @@ Mutates this rectangle to accommodate the given rectangle.
 
 Useful for computing a bounding rectangle.
 
-#### <a name="INFL68BE"></a> Inflate(int factor) : void
+#### <a name="INF68BECCD2"></a>Inflate(int factor) : void
 
 Expands (or shrinks) the rectangle by a factor on both axis.
 
 
-#### <a name="INFL43C5"></a> Inflate(int xFactor, int yFactor) : void
+#### <a name="INF43C5F36B"></a>Inflate(int xFactor, int yFactor) : void
 
 Expands (or shrinks) the rectangle by a factor on each axis.
 
 
-#### <a name="CLOS8A3F"></a> ClosestPoint(in [IntVector](Heirloom.Math.IntVector.md) point) : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="CLO8A3F00D"></a>ClosestPoint(in [IntVector](Heirloom.Math.IntVector.md) point) : [IntVector](Heirloom.Math.IntVector.md)
 
 Returns the nearest point on the rectangle to the given point.
 
 
-#### <a name="CONT3338"></a> Contains(in [Vector](Heirloom.Math.Vector.md) point) : bool
+#### <a name="CON33387C1A"></a>Contains(in [Vector](Heirloom.Math.Vector.md) point) : bool
 
 Determines if this rectangle contains the given point?
 
 
-#### <a name="CONTC965"></a> Contains(in [IntVector](Heirloom.Math.IntVector.md) point) : bool
+#### <a name="CONC965D5FA"></a>Contains(in [IntVector](Heirloom.Math.IntVector.md) point) : bool
 
 Determines if this rectangle contains the given point?
 
 
-#### <a name="CONTB7D0"></a> Contains(in [IntRectangle](Heirloom.Math.IntRectangle.md) other) : bool
+#### <a name="CONB7D08672"></a>Contains(in [IntRectangle](Heirloom.Math.IntRectangle.md) other) : bool
 
 Determines if this rectangle contains another rectangle?
 
 
-#### <a name="OVER58E7"></a> Overlaps([IntRectangle](Heirloom.Math.IntRectangle.md) other) : bool
+#### <a name="OVE58E7EB96"></a>Overlaps([IntRectangle](Heirloom.Math.IntRectangle.md) other) : bool
 
 Determines if this rectangle overlaps another rectangle.
 
 
-#### <a name="DECO3AA0"></a> Deconstruct(out int x, out int y, out int w, out int h) : void
+#### <a name="DEC3AA0C4F1"></a>Deconstruct(out int x, out int y, out int w, out int h) : void
 
 
-#### <a name="DECOAD54"></a> Deconstruct(out [IntVector](Heirloom.Math.IntVector.md) position, out [IntSize](Heirloom.Math.IntSize.md) size) : void
+#### <a name="DECAD541BCF"></a>Deconstruct(out [IntVector](Heirloom.Math.IntVector.md) position, out [IntSize](Heirloom.Math.IntSize.md) size) : void
 
 
-#### <a name="OFFS886E"></a> Offset([IntRectangle](Heirloom.Math.IntRectangle.md) rect, int x, int y) : [IntRectangle](Heirloom.Math.IntRectangle.md)
+#### <a name="OFF886E255B"></a>Offset([IntRectangle](Heirloom.Math.IntRectangle.md) rect, int x, int y) : [IntRectangle](Heirloom.Math.IntRectangle.md)
 <small>`Static`</small>
 
 Copies and translates the given rectangle.
 
 
-#### <a name="OFFS3BAE"></a> Offset([IntRectangle](Heirloom.Math.IntRectangle.md) rect, [IntVector](Heirloom.Math.IntVector.md) offset) : [IntRectangle](Heirloom.Math.IntRectangle.md)
+#### <a name="OFF3BAEDB92"></a>Offset([IntRectangle](Heirloom.Math.IntRectangle.md) rect, [IntVector](Heirloom.Math.IntVector.md) offset) : [IntRectangle](Heirloom.Math.IntRectangle.md)
 <small>`Static`</small>
 
 Copies and translates the given rectangle.
 
 
-#### <a name="MERGF77E"></a> Merge(in [IntRectangle](Heirloom.Math.IntRectangle.md) a, in [IntRectangle](Heirloom.Math.IntRectangle.md) b) : [IntRectangle](Heirloom.Math.IntRectangle.md)
+#### <a name="MERF77E122B"></a>Merge(in [IntRectangle](Heirloom.Math.IntRectangle.md) a, in [IntRectangle](Heirloom.Math.IntRectangle.md) b) : [IntRectangle](Heirloom.Math.IntRectangle.md)
 <small>`Static`</small>
 
 Merges the given rectangles into one potentially larger rectangle.
@@ -297,7 +297,7 @@ Merges the given rectangles into one potentially larger rectangle.
 
 Useful for computing a bounding rectangle.
 
-#### <a name="MERG3F1A"></a> Merge(params [IntRectangle[]](Heirloom.Math.IntRectangle.md) rects) : [IntRectangle](Heirloom.Math.IntRectangle.md)
+#### <a name="MER3F1A9762"></a>Merge(params [IntRectangle[]](Heirloom.Math.IntRectangle.md) rects) : [IntRectangle](Heirloom.Math.IntRectangle.md)
 <small>`Static`</small>
 
 Merges the given rectangles into one potentially larger rectangle.
@@ -306,25 +306,25 @@ Merges the given rectangles into one potentially larger rectangle.
 
 Useful for computing a bounding rectangle.
 
-#### <a name="INFLE3C9"></a> Inflate([IntRectangle](Heirloom.Math.IntRectangle.md) rect, int factor) : [IntRectangle](Heirloom.Math.IntRectangle.md)
+#### <a name="INFE3C98146"></a>Inflate([IntRectangle](Heirloom.Math.IntRectangle.md) rect, int factor) : [IntRectangle](Heirloom.Math.IntRectangle.md)
 <small>`Static`</small>
 
 Expands (or shrinks) the input rectangle by a factor on both axis.
 
 
-#### <a name="INFL1642"></a> Inflate([IntRectangle](Heirloom.Math.IntRectangle.md) rect, int xFactor, int yFactor) : [IntRectangle](Heirloom.Math.IntRectangle.md)
+#### <a name="INF1642C30B"></a>Inflate([IntRectangle](Heirloom.Math.IntRectangle.md) rect, int xFactor, int yFactor) : [IntRectangle](Heirloom.Math.IntRectangle.md)
 <small>`Static`</small>
 
 Expands (or shrinks) the input rectangle by a factor on each axis.
 
 
-#### <a name="FROMD23D"></a> FromPoints(params [IntVector[]](Heirloom.Math.IntVector.md) points) : [IntRectangle](Heirloom.Math.IntRectangle.md)
+#### <a name="FROD23D7A77"></a>FromPoints(params [IntVector[]](Heirloom.Math.IntVector.md) points) : [IntRectangle](Heirloom.Math.IntRectangle.md)
 <small>`Static`</small>
 
 Computes the bounding rectangle of the given set of points.
 
 
-#### <a name="FROM7E89"></a> FromPoints(IEnumerable\<IntVector> points) : [IntRectangle](Heirloom.Math.IntRectangle.md)
+#### <a name="FRO7E8915A5"></a>FromPoints(IEnumerable\<IntVector> points) : [IntRectangle](Heirloom.Math.IntRectangle.md)
 <small>`Static`</small>
 
 Computes the bounding rectangle of the given set of points.

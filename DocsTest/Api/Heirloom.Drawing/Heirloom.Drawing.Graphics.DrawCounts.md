@@ -8,17 +8,17 @@
 ## Graphics.DrawCounts (Struct)
 <small>**Namespace**: Heirloom.Drawing</sub></small>  
 
-| Fields                     | Summary |
-|----------------------------|---------|
-| [BatchCount](#BATC27B6)    |         |
-| [DrawCount](#DRAW5740)     |         |
-| [TriangleCount](#TRIAFB92) |         |
+| Fields                        | Summary |
+|-------------------------------|---------|
+| [BatchCount](#BAT27B69C73)    |         |
+| [DrawCount](#DRA5740BB87)     |         |
+| [TriangleCount](#TRIFB928221) |         |
 
 ### Fields
 
-#### <a name="BATC27B6"></a> BatchCount : int
+#### <a name="BAT27B69C73"></a>BatchCount : int
 
-#### <a name="DRAW5740"></a> DrawCount : int
+#### <a name="DRA5740BB87"></a>DrawCount : int
 
-#### <a name="TRIAFB92"></a> TriangleCount : int
+#### <a name="TRIFB928221"></a>TriangleCount : int
 

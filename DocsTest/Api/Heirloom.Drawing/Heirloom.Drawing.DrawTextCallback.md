@@ -16,15 +16,15 @@
 
 ### Methods
 
-#### <a name="INVOF51A"></a> Invoke(string text, int index, ref [TextDrawState](Heirloom.Drawing.TextDrawState.md) state) : void
+#### <a name="INVF51AD57"></a>Invoke(string text, int index, ref [TextDrawState](Heirloom.Drawing.TextDrawState.md) state) : void
 <small>`Virtual`</small>
 
 
-#### <a name="BEGI6760"></a> BeginInvoke(string text, int index, ref [TextDrawState](Heirloom.Drawing.TextDrawState.md) state, AsyncCallback callback, object object) : IAsyncResult
+#### <a name="BEG6760AD30"></a>BeginInvoke(string text, int index, ref [TextDrawState](Heirloom.Drawing.TextDrawState.md) state, AsyncCallback callback, object object) : IAsyncResult
 <small>`Virtual`</small>
 
 
-#### <a name="ENDI2643"></a> EndInvoke(ref [TextDrawState](Heirloom.Drawing.TextDrawState.md) state, IAsyncResult result) : void
+#### <a name="END2643118"></a>EndInvoke(ref [TextDrawState](Heirloom.Drawing.TextDrawState.md) state, IAsyncResult result) : void
 <small>`Virtual`</small>
 
 

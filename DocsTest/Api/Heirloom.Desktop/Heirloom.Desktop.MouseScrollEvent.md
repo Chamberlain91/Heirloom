@@ -7,13 +7,13 @@
 ## MouseScrollEvent (Struct)
 <small>**Namespace**: Heirloom.Desktop</sub></small>  
 
-| Fields              | Summary |
-|---------------------|---------|
-| [Scroll](#SCROA05A) |         |
+| Fields                 | Summary |
+|------------------------|---------|
+| [Scroll](#SCRA05A0801) |         |
 
 ### Fields
 
-#### <a name="SCROA05A"></a> Scroll : [Vector](../Heirloom.Math/Heirloom.Math.Vector.md)
+#### <a name="SCRA05A0801"></a>Scroll : [Vector](../Heirloom.Math/Heirloom.Math.Vector.md)
 <small>`Read Only`</small>
 
 ### Constructors

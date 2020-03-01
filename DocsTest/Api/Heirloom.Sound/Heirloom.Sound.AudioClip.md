@@ -8,11 +8,11 @@
 
 An object to contain (and decode) audio data into raw samples.
 
-| Properties            | Summary                                   |
-|-----------------------|-------------------------------------------|
-| [Item](#ITEM8B5A)     |                                           |
-| [Duration](#DURAAF85) | Gets the duration of the clip in seconds. |
-| [Length](#LENG6B36)   | Gets the length of the clip in samples.   |
+| Properties               | Summary                                   |
+|--------------------------|-------------------------------------------|
+| [Item](#ITE8B5A2F95)     |                                           |
+| [Duration](#DURAF856856) | Gets the duration of the clip in seconds. |
+| [Length](#LEN6B366D7E)   | Gets the length of the clip in samples.   |
 
 ### Constructors
 
@@ -30,17 +30,17 @@ Constructs a new audio clip from existing samples decoded or generated elsewhere
 
 ### Properties
 
-#### <a name="ITEM8B5A"></a> Item : short
+#### <a name="ITE8B5A2F95"></a>Item : short
 
 <small>`Read Only`</small>
 
-#### <a name="DURAAF85"></a> Duration : float
+#### <a name="DURAF856856"></a>Duration : float
 
 <small>`Read Only`</small>
 
 Gets the duration of the clip in seconds.
 
-#### <a name="LENG6B36"></a> Length : int
+#### <a name="LEN6B366D7E"></a>Length : int
 
 <small>`Read Only`</small>
 

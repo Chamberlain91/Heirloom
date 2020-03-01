@@ -8,33 +8,33 @@
 
 A vertex representing a node on a graph.
 
-| Properties                 | Summary                                                                       |
-|----------------------------|-------------------------------------------------------------------------------|
-| [Key](#KEY5F78)            | The name/key of this vertex.                                                  |
-| [Value](#VALU829B)         | The data/value of this vertex.                                                |
-| [IncomingEdges](#INCO2F61) | The list incoming edges in a directed graph ( no edges when undirected ).     |
-| [Edges](#EDGE6DC4)         | The list of outgoing edges in a directed graph ( all edges when undirected ). |
+| Properties                    | Summary                                                                       |
+|-------------------------------|-------------------------------------------------------------------------------|
+| [Key](#KEY5F786897)           | The name/key of this vertex.                                                  |
+| [Value](#VAL829B10CF)         | The data/value of this vertex.                                                |
+| [IncomingEdges](#INC2F618154) | The list incoming edges in a directed graph ( no edges when undirected ).     |
+| [Edges](#EDG6DC48328)         | The list of outgoing edges in a directed graph ( all edges when undirected ). |
 
 ### Properties
 
-#### <a name="KEY5F78"></a> Key : TKey
+#### <a name="KEY5F786897"></a>Key : TKey
 
 <small>`Read Only`</small>
 
 The name/key of this vertex.
 
-#### <a name="VALU829B"></a> Value : TValue
+#### <a name="VAL829B10CF"></a>Value : TValue
 
 
 The data/value of this vertex.
 
-#### <a name="INCO2F61"></a> IncomingEdges : IReadOnlyList\<IGraphEdge\<TKey>>
+#### <a name="INC2F618154"></a>IncomingEdges : IReadOnlyList\<IGraphEdge\<TKey>>
 
 <small>`Read Only`</small>
 
 The list incoming edges in a directed graph ( no edges when undirected ).
 
-#### <a name="EDGE6DC4"></a> Edges : IReadOnlyList\<IGraphEdge\<TKey>>
+#### <a name="EDG6DC48328"></a>Edges : IReadOnlyList\<IGraphEdge\<TKey>>
 
 <small>`Read Only`</small>
 

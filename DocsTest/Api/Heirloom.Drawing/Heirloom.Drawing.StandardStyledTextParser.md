@@ -11,10 +11,10 @@
 
 Provides implementation of a BBCode-esque text markup parser.
 
-| Methods                 | Summary                                                                                 |
-|-------------------------|-----------------------------------------------------------------------------------------|
-| [AddKeyword](#ADDKF8DA) |                                                                                         |
-| [Parse](#PARSB2AE)      | Parse the input text and returns a [StyledText](Heirloom.Drawing.StyledText.md) object. |
+| Methods                    | Summary                                                                                 |
+|----------------------------|-----------------------------------------------------------------------------------------|
+| [AddKeyword](#ADDF8DA6D18) |                                                                                         |
+| [Parse](#PARB2AE6A55)      | Parse the input text and returns a [StyledText](Heirloom.Drawing.StyledText.md) object. |
 
 ### Constructors
 
@@ -22,11 +22,11 @@ Provides implementation of a BBCode-esque text markup parser.
 
 ### Methods
 
-#### <a name="ADDKB92D"></a> AddKeyword(string keyword, [DrawTextCallback](Heirloom.Drawing.DrawTextCallback.md) callback) : void
+#### <a name="ADDB92DC801"></a>AddKeyword(string keyword, [DrawTextCallback](Heirloom.Drawing.DrawTextCallback.md) callback) : void
 <small>`Protected`</small>
 
 
-#### <a name="PARSD4D4"></a> Parse(string markup) : [StyledText](Heirloom.Drawing.StyledText.md)
+#### <a name="PARD4D42BB2"></a>Parse(string markup) : [StyledText](Heirloom.Drawing.StyledText.md)
 <small>`Virtual`</small>
 
 Parse the input text and returns a [StyledText](Heirloom.Drawing.StyledText.md) object.

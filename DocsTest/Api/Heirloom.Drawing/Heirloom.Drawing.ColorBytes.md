@@ -11,58 +11,58 @@
 
 Color encoded as 4 component bytes.
 
-| Fields      | Summary                           |
-|-------------|-----------------------------------|
-| [R](#RCDCA) | The red component.                |
-| [G](#GCDCA) | The green component.              |
-| [B](#BCDCA) | The blue component.               |
-| [A](#ACDCA) | The alpha/transparency component. |
+| Fields          | Summary                           |
+|-----------------|-----------------------------------|
+| [R](#RCDCAB7F0) | The red component.                |
+| [G](#GCDCAB7DB) | The green component.              |
+| [B](#BCDCAB7E0) | The blue component.               |
+| [A](#ACDCAB7DD) | The alpha/transparency component. |
 
-| Properties               | Summary                                      |
-|--------------------------|----------------------------------------------|
-| [Luminosity](#LUMI2714)  | Computes a luminosity component (grayscale). |
-| [Inverted](#INVEDE51)    | The inversion of this color.                 |
-| [Red](#RED5F78)          |                                              |
-| [Green](#GREEE861)       |                                              |
-| [Blue](#BLUE5D46)        |                                              |
-| [Yellow](#YELLCC91)      |                                              |
-| [Cyan](#CYAN95C7)        |                                              |
-| [Magenta](#MAGEEF2F)     |                                              |
-| [White](#WHIT1AD9)       |                                              |
-| [Black](#BLACF663)       |                                              |
-| [Gray](#GRAY1F30)        |                                              |
-| [DarkGray](#DARK69CE)    |                                              |
-| [LightGray](#LIGH2E3D)   |                                              |
-| [Orange](#ORAN78AD)      |                                              |
-| [Indigo](#INDI5613)      |                                              |
-| [Violet](#VIOLD948)      |                                              |
-| [Pink](#PINKE1E2)        |                                              |
-| [Transparent](#TRAN9621) |                                              |
-| [Rainbow](#RAINC72A)     |                                              |
-| [Random](#RANDE1E4)      |                                              |
+| Properties                  | Summary                                      |
+|-----------------------------|----------------------------------------------|
+| [Luminosity](#LUM27143E8B)  | Computes a luminosity component (grayscale). |
+| [Inverted](#INVDE5124E3)    | The inversion of this color.                 |
+| [Red](#RED5F786973)         |                                              |
+| [Green](#GREE8614423)       |                                              |
+| [Blue](#BLU5D4613EE)        |                                              |
+| [Yellow](#YELCC917366)      |                                              |
+| [Cyan](#CYA95C74181)        |                                              |
+| [Magenta](#MAGEF2FDA29)     |                                              |
+| [White](#WHI1AD967BB)       |                                              |
+| [Black](#BLAF663517F)       |                                              |
+| [Gray](#GRA1F30CD89)        |                                              |
+| [DarkGray](#DAR69CE9AE9)    |                                              |
+| [LightGray](#LIG2E3D3CFB)   |                                              |
+| [Orange](#ORA78ADA558)      |                                              |
+| [Indigo](#IND56133F0)       |                                              |
+| [Violet](#VIOD94877FD)      |                                              |
+| [Pink](#PINE1E27C5E)        |                                              |
+| [Transparent](#TRA962107FC) |                                              |
+| [Rainbow](#RAIC72A67E4)     |                                              |
+| [Random](#RANE1E4B317)      |                                              |
 
-| Methods               | Summary                                                                                                                                 |
-|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| [Parse](#PARSB2AE)    | Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'. |
-| [TryParse](#TRYPB6E4) | Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'. |
-| [Lerp](#LERP252E)     | Interpolate two colors together.                                                                                                        |
-| [Multiply](#MULTD34B) | Multiplies two [ColorBytes](Heirloom.Drawing.ColorBytes.md) together. Behaves the same as [Color](Heirloom.Drawing.Color.md).           |
+| Methods                  | Summary                                                                                                                                 |
+|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| [Parse](#PARB2AE6A55)    | Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'. |
+| [TryParse](#TRYB6E4194A) | Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'. |
+| [Lerp](#LER252E49EB)     | Interpolate two colors together.                                                                                                        |
+| [Multiply](#MULD34B4AA2) | Multiplies two [ColorBytes](Heirloom.Drawing.ColorBytes.md) together. Behaves the same as [Color](Heirloom.Drawing.Color.md).           |
 
 ### Fields
 
-#### <a name="RCDCA"></a> R :  byte
+#### <a name="RCDCAB7F0"></a>R :  byte
 
 The red component.
 
-#### <a name="GCDCA"></a> G :  byte
+#### <a name="GCDCAB7DB"></a>G :  byte
 
 The green component.
 
-#### <a name="BCDCA"></a> B :  byte
+#### <a name="BCDCAB7E0"></a>B :  byte
 
 The blue component.
 
-#### <a name="ACDCA"></a> A :  byte
+#### <a name="ACDCAB7DD"></a>A :  byte
 
 The alpha/transparency component.
 
@@ -72,100 +72,100 @@ The alpha/transparency component.
 
 ### Properties
 
-#### <a name="LUMI2714"></a> Luminosity :  byte
+#### <a name="LUM27143E8B"></a>Luminosity :  byte
 
 <small>`Read Only`</small>
 
 Computes a luminosity component (grayscale).
 
-#### <a name="INVEDE51"></a> Inverted : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
+#### <a name="INVDE5124E3"></a>Inverted : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
 
 <small>`Read Only`</small>
 
 The inversion of this color.
 
-#### <a name="RED5F78"></a> Red : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
+#### <a name="RED5F786973"></a>Red : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
 
 <small>`Static`, `Read Only`</small>
 
-#### <a name="GREEE861"></a> Green : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
+#### <a name="GREE8614423"></a>Green : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
 
 <small>`Static`, `Read Only`</small>
 
-#### <a name="BLUE5D46"></a> Blue : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
+#### <a name="BLU5D4613EE"></a>Blue : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
 
 <small>`Static`, `Read Only`</small>
 
-#### <a name="YELLCC91"></a> Yellow : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
+#### <a name="YELCC917366"></a>Yellow : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
 
 <small>`Static`, `Read Only`</small>
 
-#### <a name="CYAN95C7"></a> Cyan : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
+#### <a name="CYA95C74181"></a>Cyan : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
 
 <small>`Static`, `Read Only`</small>
 
-#### <a name="MAGEEF2F"></a> Magenta : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
+#### <a name="MAGEF2FDA29"></a>Magenta : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
 
 <small>`Static`, `Read Only`</small>
 
-#### <a name="WHIT1AD9"></a> White : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
+#### <a name="WHI1AD967BB"></a>White : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
 
 <small>`Static`, `Read Only`</small>
 
-#### <a name="BLACF663"></a> Black : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
+#### <a name="BLAF663517F"></a>Black : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
 
 <small>`Static`, `Read Only`</small>
 
-#### <a name="GRAY1F30"></a> Gray : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
+#### <a name="GRA1F30CD89"></a>Gray : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
 
 <small>`Static`, `Read Only`</small>
 
-#### <a name="DARK69CE"></a> DarkGray : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
+#### <a name="DAR69CE9AE9"></a>DarkGray : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
 
 <small>`Static`, `Read Only`</small>
 
-#### <a name="LIGH2E3D"></a> LightGray : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
+#### <a name="LIG2E3D3CFB"></a>LightGray : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
 
 <small>`Static`, `Read Only`</small>
 
-#### <a name="ORAN78AD"></a> Orange : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
+#### <a name="ORA78ADA558"></a>Orange : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
 
 <small>`Static`, `Read Only`</small>
 
-#### <a name="INDI5613"></a> Indigo : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
+#### <a name="IND56133F0"></a>Indigo : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
 
 <small>`Static`, `Read Only`</small>
 
-#### <a name="VIOLD948"></a> Violet : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
+#### <a name="VIOD94877FD"></a>Violet : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
 
 <small>`Static`, `Read Only`</small>
 
-#### <a name="PINKE1E2"></a> Pink : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
+#### <a name="PINE1E27C5E"></a>Pink : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
 
 <small>`Static`, `Read Only`</small>
 
-#### <a name="TRAN9621"></a> Transparent : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
+#### <a name="TRA962107FC"></a>Transparent : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
 
 <small>`Static`, `Read Only`</small>
 
-#### <a name="RAINC72A"></a> Rainbow : IReadOnlyList\<ColorBytes>
+#### <a name="RAIC72A67E4"></a>Rainbow : IReadOnlyList\<ColorBytes>
 
 <small>`Static`, `Read Only`</small>
 
-#### <a name="RANDE1E4"></a> Random : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
+#### <a name="RANE1E4B317"></a>Random : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
 
 <small>`Static`, `Read Only`</small>
 
 ### Methods
 
-#### <a name="PARS50D6"></a> Parse(string color) : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
+#### <a name="PAR50D6FF39"></a>Parse(string color) : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
 <small>`Static`</small>
 
 Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'.
 
 <small>**color**: <param name="color">The hex-encoded string.</param></small>  
 
-#### <a name="TRYP99E0"></a> TryParse(string color, out [ColorBytes](Heirloom.Drawing.ColorBytes.md) outColor) : bool
+#### <a name="TRY99E0F751"></a>TryParse(string color, out [ColorBytes](Heirloom.Drawing.ColorBytes.md) outColor) : bool
 <small>`Static`</small>
 
 Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'.
@@ -173,7 +173,7 @@ Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA'
 <small>**color**: <param name="color">The hex-encoded string.</param></small>  
 <small>**outColor**: <param name="outColor">Outputs the parsed color.</param></small>  
 
-#### <a name="LERPDF0B"></a> Lerp([ColorBytes](Heirloom.Drawing.ColorBytes.md) source, [ColorBytes](Heirloom.Drawing.ColorBytes.md) target, float factor) : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
+#### <a name="LERDF0BF6B4"></a>Lerp([ColorBytes](Heirloom.Drawing.ColorBytes.md) source, [ColorBytes](Heirloom.Drawing.ColorBytes.md) target, float factor) : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
 <small>`Static`</small>
 
 Interpolate two colors together.
@@ -182,7 +182,7 @@ Interpolate two colors together.
 <small>**target**: <param name="target">Target color.</param></small>  
 <small>**factor**: <param name="factor">Blending factor (0.0 to 1.0)</param></small>  
 
-#### <a name="MULTBEBF"></a> Multiply(in [ColorBytes](Heirloom.Drawing.ColorBytes.md) c1, in [ColorBytes](Heirloom.Drawing.ColorBytes.md) c2, ref [ColorBytes](Heirloom.Drawing.ColorBytes.md) target) : void
+#### <a name="MULBEBFA083"></a>Multiply(in [ColorBytes](Heirloom.Drawing.ColorBytes.md) c1, in [ColorBytes](Heirloom.Drawing.ColorBytes.md) c2, ref [ColorBytes](Heirloom.Drawing.ColorBytes.md) target) : void
 <small>`Static`</small>
 
 Multiplies two [ColorBytes](Heirloom.Drawing.ColorBytes.md) together. Behaves the same as [Color](Heirloom.Drawing.Color.md).

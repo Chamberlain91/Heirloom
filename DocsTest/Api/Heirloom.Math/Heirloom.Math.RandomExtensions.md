@@ -8,104 +8,104 @@
 
 Provides extension methods for `System.Random` and other related random operations.
 
-| Methods                     | Summary                                                                                         |
-|-----------------------------|-------------------------------------------------------------------------------------------------|
-| [NextFloat](#NEXTE2BB)      | Returns a random floating-point number that is greater than or equal to 0.0, and less than 1.0. |
-| [NextFloat](#NEXTE2BB)      | Returns a random floating-point number that is within the specified range.                      |
-| [NextDouble](#NEXTF1EE)     | Returns a random floating-point number that is within the specified range.                      |
-| [NextFloat](#NEXTE2BB)      | Returns a random floating-point number that is within the specified range.                      |
-| [Next](#NEXT9A90)           | Returns a random integer number that is within the specified range.                             |
-| [NextVectorDisk](#NEXT8BC3) | Returns a random point within a unit circle.                                                    |
-| [NextVectorDisk](#NEXT8BC3) | Returns a random point within a circle.                                                         |
-| [NextUnitVector](#NEXTECA9) | Returns a random unit vector (point on edge of unit circle).                                    |
-| [NextVector](#NEXTB4AA)     | Returns a random point within the specified rectangular domain.                                 |
-| [Chance](#CHAN6203)         | Randomly return true for occurrences with the specified probability.                            |
-| [Choose<T>](#CHOO16E1)      | Randomly select one of the specified items.                                                     |
-| [Choose<T>](#CHOO16E1)      | Randomly select one of the specified items.                                                     |
-| [Shuffle<T>](#SHUFB92E)     | Shuffles all elements in the list randomly.                                                     |
-| [Shuffle<T>](#SHUFB92E)     | Shuffles all elements in the list randomly.                                                     |
+| Methods                        | Summary                                                                                         |
+|--------------------------------|-------------------------------------------------------------------------------------------------|
+| [NextFloat](#NEXE2BBABAB)      | Returns a random floating-point number that is greater than or equal to 0.0, and less than 1.0. |
+| [NextFloat](#NEXE2BBABAB)      | Returns a random floating-point number that is within the specified range.                      |
+| [NextDouble](#NEXF1EEB0FA)     | Returns a random floating-point number that is within the specified range.                      |
+| [NextFloat](#NEXE2BBABAB)      | Returns a random floating-point number that is within the specified range.                      |
+| [Next](#NEX9A907737)           | Returns a random integer number that is within the specified range.                             |
+| [NextVectorDisk](#NEX8BC37A07) | Returns a random point within a unit circle.                                                    |
+| [NextVectorDisk](#NEX8BC37A07) | Returns a random point within a circle.                                                         |
+| [NextUnitVector](#NEXECA9ABD6) | Returns a random unit vector (point on edge of unit circle).                                    |
+| [NextVector](#NEXB4AACA7C)     | Returns a random point within the specified rectangular domain.                                 |
+| [Chance](#CHA6203B22)          | Randomly return true for occurrences with the specified probability.                            |
+| [Choose<T>](#CHO16E1D157)      | Randomly select one of the specified items.                                                     |
+| [Choose<T>](#CHO16E1D157)      | Randomly select one of the specified items.                                                     |
+| [Shuffle<T>](#SHUB92EBACD)     | Shuffles all elements in the list randomly.                                                     |
+| [Shuffle<T>](#SHUB92EBACD)     | Shuffles all elements in the list randomly.                                                     |
 
 ### Methods
 
-#### <a name="NEXTDC2B"></a> NextFloat(Random this) : float
+#### <a name="NEXDC2B233D"></a>NextFloat(Random this) : float
 <small>`Static`, `ExtensionAttribute`</small>
 
 Returns a random floating-point number that is greater than or equal to 0.0, and less than 1.0.
 
 
-#### <a name="NEXTDA61"></a> NextFloat(Random this, float min, float max) : float
+#### <a name="NEXDA61B1EF"></a>NextFloat(Random this, float min, float max) : float
 <small>`Static`, `ExtensionAttribute`</small>
 
 Returns a random floating-point number that is within the specified range.
 
 
-#### <a name="NEXTEFCA"></a> NextDouble(Random this, double min, double max) : double
+#### <a name="NEXEFCA8567"></a>NextDouble(Random this, double min, double max) : double
 <small>`Static`, `ExtensionAttribute`</small>
 
 Returns a random floating-point number that is within the specified range.
 
 
-#### <a name="NEXT3494"></a> NextFloat(Random this, [Range](Heirloom.Math.Range.md) range) : float
+#### <a name="NEX34949485"></a>NextFloat(Random this, [Range](Heirloom.Math.Range.md) range) : float
 <small>`Static`, `ExtensionAttribute`</small>
 
 Returns a random floating-point number that is within the specified range.
 
 
-#### <a name="NEXTFDB7"></a> Next(Random this, [IntRange](Heirloom.Math.IntRange.md) range) : float
+#### <a name="NEXFDB7F181"></a>Next(Random this, [IntRange](Heirloom.Math.IntRange.md) range) : float
 <small>`Static`, `ExtensionAttribute`</small>
 
 Returns a random integer number that is within the specified range.
 
 
-#### <a name="NEXT211E"></a> NextVectorDisk(Random this) : [Vector](Heirloom.Math.Vector.md)
+#### <a name="NEX211E62B0"></a>NextVectorDisk(Random this) : [Vector](Heirloom.Math.Vector.md)
 <small>`Static`, `ExtensionAttribute`</small>
 
 Returns a random point within a unit circle.
 
 
-#### <a name="NEXT63EC"></a> NextVectorDisk(Random this, float r) : [Vector](Heirloom.Math.Vector.md)
+#### <a name="NEX63ECDA00"></a>NextVectorDisk(Random this, float r) : [Vector](Heirloom.Math.Vector.md)
 <small>`Static`, `ExtensionAttribute`</small>
 
 Returns a random point within a circle.
 
 
-#### <a name="NEXTCF76"></a> NextUnitVector(Random this) : [Vector](Heirloom.Math.Vector.md)
+#### <a name="NEXCF7602C1"></a>NextUnitVector(Random this) : [Vector](Heirloom.Math.Vector.md)
 <small>`Static`, `ExtensionAttribute`</small>
 
 Returns a random unit vector (point on edge of unit circle).
 
 
-#### <a name="NEXT9D34"></a> NextVector(Random this, in [Rectangle](Heirloom.Math.Rectangle.md) domain) : [Vector](Heirloom.Math.Vector.md)
+#### <a name="NEX9D3451B7"></a>NextVector(Random this, in [Rectangle](Heirloom.Math.Rectangle.md) domain) : [Vector](Heirloom.Math.Vector.md)
 <small>`Static`, `ExtensionAttribute`</small>
 
 Returns a random point within the specified rectangular domain.
 
 
-#### <a name="CHAN4F5B"></a> Chance(Random this, float probability) : bool
+#### <a name="CHA4F5BB1DF"></a>Chance(Random this, float probability) : bool
 <small>`Static`, `ExtensionAttribute`</small>
 
 Randomly return true for occurrences with the specified probability.
 
 
-#### <a name="CHOO35D9"></a> Choose<T>(Random this, IReadOnlyList\<T> items) : T
+#### <a name="CHO35D979BA"></a>Choose<T>(Random this, IReadOnlyList\<T> items) : T
 <small>`Static`, `ExtensionAttribute`</small>
 
 Randomly select one of the specified items.
 
 
-#### <a name="CHOOAA17"></a> Choose<T>(Random this, params T items) : T
+#### <a name="CHOAA1704A7"></a>Choose<T>(Random this, params T items) : T
 <small>`Static`, `ExtensionAttribute`</small>
 
 Randomly select one of the specified items.
 
 
-#### <a name="SHUF79DA"></a> Shuffle<T>(Random this, IList\<T> items) : void
+#### <a name="SHU79DAFD52"></a>Shuffle<T>(Random this, IList\<T> items) : void
 <small>`Static`, `ExtensionAttribute`</small>
 
 Shuffles all elements in the list randomly.
 
 
-#### <a name="SHUF28E3"></a> Shuffle<T>(IList\<T> this, Random random) : void
+#### <a name="SHU28E3FA21"></a>Shuffle<T>(IList\<T> this, Random random) : void
 <small>`Static`, `ExtensionAttribute`</small>
 
 Shuffles all elements in the list randomly.

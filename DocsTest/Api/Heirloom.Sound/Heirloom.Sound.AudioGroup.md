@@ -9,15 +9,15 @@
 
 An [AudioNode](Heirloom.Sound.AudioNode.md) to mix and apply effects to a group of other nodes.
 
-| Properties            | Summary                                                           |
-|-----------------------|-------------------------------------------------------------------|
-| [Parent](#PARE2197)   | Gets or sets the parent audio group.                              |
-| [Children](#CHILA28E) |                                                                   |
-| [Default](#DEFACF6E)  | Gets the default audio group (ie, the speakers, headphones, etc). |
+| Properties               | Summary                                                           |
+|--------------------------|-------------------------------------------------------------------|
+| [Parent](#PAR2197A792)   | Gets or sets the parent audio group.                              |
+| [Children](#CHIA28E397F) |                                                                   |
+| [Default](#DEFCF6EDD47)  | Gets the default audio group (ie, the speakers, headphones, etc). |
 
-| Methods                     | Summary |
-|-----------------------------|---------|
-| [PopulateBuffer](#POPU7E07) |         |
+| Methods                      | Summary |
+|------------------------------|---------|
+| [PopulateBuffer](#POP7E079E) |         |
 
 ### Constructors
 
@@ -33,15 +33,15 @@ Construct a new audio group that is connected to the specified parent group.
 
 ### Properties
 
-#### <a name="PARE2197"></a> Parent : [AudioGroup](Heirloom.Sound.AudioGroup.md)
+#### <a name="PAR2197A792"></a>Parent : [AudioGroup](Heirloom.Sound.AudioGroup.md)
 
 
 Gets or sets the parent audio group.
 
-#### <a name="CHILA28E"></a> Children : IEnumerable\<AudioNode>
+#### <a name="CHIA28E397F"></a>Children : IEnumerable\<AudioNode>
 
 
-#### <a name="DEFACF6E"></a> Default : [AudioGroup](Heirloom.Sound.AudioGroup.md)
+#### <a name="DEFCF6EDD47"></a>Default : [AudioGroup](Heirloom.Sound.AudioGroup.md)
 
 <small>`Static`, `Read Only`</small>
 
@@ -49,7 +49,7 @@ Gets the default audio group (ie, the speakers, headphones, etc).
 
 ### Methods
 
-#### <a name="POPU1F4E"></a> PopulateBuffer(Span\<float> output) : void
+#### <a name="POP1F4E4746"></a>PopulateBuffer(Span\<float> output) : void
 <small>`Virtual`, `Protected`</small>
 
 

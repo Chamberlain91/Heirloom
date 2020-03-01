@@ -7,21 +7,21 @@
 ## ContentScaleEvent (Struct)
 <small>**Namespace**: Heirloom.Desktop</sub></small>  
 
-| Fields              | Summary |
-|---------------------|---------|
-| [XScale](#XSCAD13B) |         |
-| [YScale](#YSCAD13B) |         |
+| Fields                 | Summary |
+|------------------------|---------|
+| [XScale](#XSCD13B79AC) |         |
+| [YScale](#YSCD13B5C6D) |         |
 
-| Properties                | Summary |
-|---------------------------|---------|
-| [ContentScale](#CONT84D7) |         |
+| Properties                   | Summary |
+|------------------------------|---------|
+| [ContentScale](#CON84D7B879) |         |
 
 ### Fields
 
-#### <a name="XSCAD13B"></a> XScale : float
+#### <a name="XSCD13B79AC"></a>XScale : float
 <small>`Read Only`</small>
 
-#### <a name="YSCAD13B"></a> YScale : float
+#### <a name="YSCD13B5C6D"></a>YScale : float
 <small>`Read Only`</small>
 
 ### Constructors
@@ -30,7 +30,7 @@
 
 ### Properties
 
-#### <a name="CONT84D7"></a> ContentScale : [Vector](../Heirloom.Math/Heirloom.Math.Vector.md)
+#### <a name="CON84D7B879"></a>ContentScale : [Vector](../Heirloom.Math/Heirloom.Math.Vector.md)
 
 <small>`Read Only`</small>
 

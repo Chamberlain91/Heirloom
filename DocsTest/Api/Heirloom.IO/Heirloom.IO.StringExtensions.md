@@ -6,13 +6,13 @@
 ## StringExtensions (Static Class)
 <small>**Namespace**: Heirloom.IO</sub></small>  
 
-| Methods                   | Summary |
-|---------------------------|---------|
-| [ToIdentifier](#TOIDE0F6) |         |
+| Methods                      | Summary |
+|------------------------------|---------|
+| [ToIdentifier](#TOIE0F6BE44) |         |
 
 ### Methods
 
-#### <a name="TOID6120"></a> ToIdentifier(string path) : string
+#### <a name="TOI61203AA6"></a>ToIdentifier(string path) : string
 <small>`Static`, `ExtensionAttribute`</small>
 
 

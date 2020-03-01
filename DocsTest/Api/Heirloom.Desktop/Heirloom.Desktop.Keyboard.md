@@ -7,20 +7,20 @@
 ## Keyboard (Static Class)
 <small>**Namespace**: Heirloom.Desktop</sub></small>  
 
-| Methods                          | Summary                                                 |
-|----------------------------------|---------------------------------------------------------|
-| [GetPrintableKeyName](#GETP5255) | Gets the printable name of a key.                       |
-| [GetPrintableKeyName](#GETP5255) | Gets the printable name of a key specified by scancode. |
+| Methods                             | Summary                                                 |
+|-------------------------------------|---------------------------------------------------------|
+| [GetPrintableKeyName](#GET52556CED) | Gets the printable name of a key.                       |
+| [GetPrintableKeyName](#GET52556CED) | Gets the printable name of a key specified by scancode. |
 
 ### Methods
 
-#### <a name="GETP7D43"></a> GetPrintableKeyName([Key](Heirloom.Desktop.Key.md) key) : string
+#### <a name="GET7D43A45"></a>GetPrintableKeyName([Key](Heirloom.Desktop.Key.md) key) : string
 <small>`Static`</small>
 
 Gets the printable name of a key.
 
 
-#### <a name="GETP84CE"></a> GetPrintableKeyName(int scancode) : string
+#### <a name="GET84CEE258"></a>GetPrintableKeyName(int scancode) : string
 <small>`Static`</small>
 
 Gets the printable name of a key specified by scancode.

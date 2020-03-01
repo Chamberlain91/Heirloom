@@ -8,13 +8,13 @@
 
 Provides an interface for sampling three-dimensional noise.
 
-| Methods             | Summary                         |
-|---------------------|---------------------------------|
-| [Sample](#SAMPB4A3) | Sample three-dimensional noise. |
+| Methods                | Summary                         |
+|------------------------|---------------------------------|
+| [Sample](#SAMB4A361CC) | Sample three-dimensional noise. |
 
 ### Methods
 
-#### <a name="SAMP96EA"></a> Sample(float x, float y, float z) : float
+#### <a name="SAM96EA574"></a>Sample(float x, float y, float z) : float
 <small>`Abstract`</small>
 
 Sample three-dimensional noise.
