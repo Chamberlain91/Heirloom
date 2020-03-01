@@ -139,7 +139,7 @@ namespace SharpDoc
             //
             if (Fields.Count > 0)
             {
-                markdown += "| Field | Summary |\n";
+                markdown += "| Fields | Summary |\n";
                 markdown += "|-------|---------|\n";
                 foreach (var m in Fields) { markdown += $"| {AnchorLink(GetName(m))} | {Shorten(GetSummary(m))} |\n"; }
                 markdown += "\n";
@@ -258,7 +258,7 @@ namespace SharpDoc
                     var paramSummary = param.GetDocumentation();
                     if (paramSummary != null)
                     {
-                        var text = $"**{GetName(param)}**: {paramSummary}";
+                        var text = $"**{GetName(param)}**: {paramSummary}  \n";
                         markdown += $"{Small(text)}\n";
                     }
                 }
@@ -344,6 +344,8 @@ namespace SharpDoc
 
         #endregion
 
+        #region Anchor/Link
+
         private static string AnchorLink(string text, string target = null)
         {
             var link = target == null
@@ -390,6 +392,8 @@ namespace SharpDoc
                 return hash1 + (hash2 * 1566083941);
             }
         }
+
+        #endregion
 
         protected override string GenerateLink(Type type)
         {
