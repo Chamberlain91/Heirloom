@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.Versioning;
 
 namespace SharpDoc
 {
@@ -44,25 +46,54 @@ namespace SharpDoc
 
         protected string Extension { get; }
 
-        public IEnumerable<(string path, string text)> Generate(Assembly assembly, string dir)
+        public void Generate(Assembly assembly, string dir)
         {
             CurrentAssembly = assembly;
 
-            // Emit files for each type
-            foreach (var type in assembly.ExportedTypes)
+            // Generate TOC
             {
-                QueryTypeInformation(type);
-                CurrentType = type;
-
-                // Emit Type
-                var text = GenerateDocument();
-
-                // Emit filename + text pair
-                var path = Path.Combine(dir, GetPath(type));
-
-                // 
-                yield return (path, text);
+                var text = GenerateAssemblySummary();
+                var path = Path.Combine(dir, $"{GetName(assembly)}.{Extension}");
+                File.WriteAllText(path, text);
             }
+
+            // Emit files for each type
+            foreach (var type in GetTypes(assembly))
+            {
+                var text = GenerateDocument(type);
+                var path = Path.Combine(dir, GetTypePath(type));
+                File.WriteAllText(path, text);
+            }
+        }
+
+        protected string GenerateDocument(Type type)
+        {
+            CurrentType = type;
+            QueryTypeInformation(type);
+
+            // Emit Assembly Header
+            var text = GenerateAssemblyHeader();
+
+            // Emit Type Summary
+            text += GenerateTypeSummary();
+
+            // Emit Enum
+            if (CurrentType.IsEnum)
+            {
+                text += GenerateEnumBody();
+            }
+            else if (IsDelegate)
+            {
+                text += GenerateObjectBody();
+            }
+            else
+            {
+                text += GenerateMembersTable();
+                text += GenerateObjectBody();
+            }
+
+            // 
+            return text;
 
             void QueryTypeInformation(Type type)
             {
@@ -91,38 +122,87 @@ namespace SharpDoc
             }
         }
 
-        protected virtual string GenerateDocument()
-        {
-            var document = GenerateTypeSummary();
-
-            // Emit Divider
-            document += GenerateSeparator();
-
-            // Emit Enum
-            if (CurrentType.IsEnum)
-            {
-                document += GenerateEnumBody();
-            }
-            else if (IsDelegate)
-            {
-                document += GenerateObjectBody();
-            }
-            else
-            {
-                document += GenerateMembersTable();
-                document += GenerateObjectBody();
-            }
-
-            // 
-            return document;
-        }
-
         protected static bool IsIgnoredMethodName(string name)
         {
             return name == "Equals"
                 || name == "ToString"
                 || name == "GetHashCode"
                 || name == "Finalize";
+        }
+
+        protected string GenerateAssemblyHeader()
+        {
+            // Emit header
+            var text = Header(GetName(CurrentAssembly), 1);
+            text += "\n";
+
+            // Emit Framework Text
+            {
+                var framework = CurrentAssembly.GetCustomAttribute<TargetFrameworkAttribute>();
+                var displayName = framework.FrameworkDisplayName;
+                if (string.IsNullOrWhiteSpace(displayName)) { displayName = framework.FrameworkName; }
+                text += Small(Bold("Framework") + ": " + displayName) + "  \n";
+            }
+
+            // Emit Assembly Link
+            {
+                var path = GetAssemblyPath(CurrentAssembly);
+                var link = GetLink(GetName(CurrentAssembly), path);
+                text += Small(Bold("Assembly") + ": " + link) + "  \n";
+            }
+
+            // Emit assembly names where internals are visible
+            var internalVisibleAttrs = CurrentAssembly.GetCustomAttributes<InternalsVisibleToAttribute>();
+            if (internalVisibleAttrs.Any())
+            {
+                var list = new List<string>();
+                foreach (var attr in internalVisibleAttrs)
+                {
+                    var path = GetAssemblyPath(attr.AssemblyName);
+                    var link = GetLink(attr.AssemblyName, path);
+                    list.Add(link);
+                }
+
+                text += Small(Bold("Internals Visible To") + $": {string.Join(", ", list)}");
+                text += "  \n";
+            }
+
+            // Emit assembly names where internals are visible
+            var references = CurrentAssembly.GetReferencedAssemblies();
+            if (references.Length > 1)
+            {
+                var list = new List<string>();
+                foreach (var referenceName in references)
+                {
+                    if (referenceName.Name == "netstandard") { continue; }
+
+                    var path = GetAssemblyPath(referenceName.Name);
+                    var link = GetLink(referenceName.Name, path);
+                    list.Add(link);
+                }
+
+                text += Small(Bold("Dependancies") + $": {string.Join(", ", list)}");
+                text += "  \n";
+            }
+
+            text += "\n";
+            return text;
+        }
+
+        protected string GenerateAssemblySummary()
+        {
+            var text = GenerateAssemblyHeader();
+
+            // 
+            text += GenerateSeparator();
+
+            // 
+            foreach (var type in GetTypes(CurrentAssembly))
+            {
+                text += $"{GetLink(type)}  \n";
+            }
+
+            return text;
         }
 
         protected abstract string GenerateTypeSummary();
@@ -146,6 +226,8 @@ namespace SharpDoc
         protected abstract string Code(string text);
 
         protected abstract string Small(string text);
+
+        protected abstract string Bold(string text);
 
         #region Get Documentation Parts
 
@@ -266,13 +348,14 @@ namespace SharpDoc
 
         #region Type Link
 
-        protected abstract string GenerateLink(Type type);
+        protected abstract string GetLink(string text, string target);
 
         protected string GetLink(Type type)
         {
             if (type.Assembly == typeof(int).Assembly) { return GetName(type); }
             if (type.IsGenericParameter) { return GetName(type); }
-            return GenerateLink(type);
+
+            return GetLink(GetName(type), GetTypePath(GetSimpleType(type)));
         }
 
         #endregion
@@ -426,7 +509,12 @@ namespace SharpDoc
             }
         }
 
-        public string GetPath(Type type)
+        private IEnumerable<Type> GetTypes(Assembly assembly)
+        {
+            return assembly.DefinedTypes.Where(t => t.IsPublic || t.IsNestedFamORAssem);
+        }
+
+        public string GetTypePath(Type type)
         {
             var path = $"{type.Namespace}.{GetName(type)}.txt";
             path = Path.ChangeExtension(path, Extension);
@@ -435,13 +523,24 @@ namespace SharpDoc
             if (type.Assembly != CurrentAssembly)
             {
                 // ie, ../Heirloom.Math/Heirloom.Math.Matrix.md
-                return $"../{GetName(type.Assembly)}/{path}";
+                var dir = Path.GetDirectoryName(GetAssemblyPath(type.Assembly));
+                return SanitizePath(Path.Combine(dir, path));
             }
             else
             {
                 // ie, Heirloom.Drawing.Graphics.md
                 return path;
             }
+        }
+
+        public string GetAssemblyPath(Assembly assembly)
+        {
+            return GetAssemblyPath(GetName(assembly));
+        }
+
+        public string GetAssemblyPath(string assemblyName)
+        {
+            return $"../{assemblyName}/{assemblyName}.{Extension}";
         }
 
         protected static string Shorten(string text, int maxLength = 100)
@@ -479,7 +578,8 @@ namespace SharpDoc
             }
 
             // 
-            return Path.Combine(dirname, filename);
+            return Path.Combine(dirname, filename)
+                       .Replace("\\", "/");
         }
     }
 }
