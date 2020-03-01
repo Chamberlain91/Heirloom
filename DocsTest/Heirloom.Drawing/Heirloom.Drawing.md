@@ -1,0 +1,53 @@
+# Heirloom.Drawing
+
+<small>**Framework**: .NETStandard,Version=v2.1</small>  
+<small>**Assembly**: [Heirloom.Drawing](../Heirloom.Drawing/Heirloom.Drawing.md)</small>  
+<small>**Internals Visible To**: [Heirloom.Drawing.OpenGLES](../Heirloom.Drawing.OpenGLES/Heirloom.Drawing.OpenGLES.md), [Heirloom.Desktop](../Heirloom.Desktop/Heirloom.Desktop.md)</small>  
+<small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
+
+--------------------------------------------------------------------------------
+
+[Axis](Heirloom.Drawing.Axis.md)  
+[Blending](Heirloom.Drawing.Blending.md)  
+[Color](Heirloom.Drawing.Color.md)  
+[ColorBytes](Heirloom.Drawing.ColorBytes.md)  
+[DrawingPerformance](Heirloom.Drawing.DrawingPerformance.md)  
+[Font](Heirloom.Drawing.Font.md)  
+[FontMetrics](Heirloom.Drawing.FontMetrics.md)  
+[Glyph](Heirloom.Drawing.Glyph.md)  
+[GlyphMetrics](Heirloom.Drawing.GlyphMetrics.md)  
+[Graphics](Heirloom.Drawing.Graphics.md)  
+[DrawTextCallback](Heirloom.Drawing.DrawTextCallback.md)  
+[GraphicsAdapter](Heirloom.Drawing.GraphicsAdapter.md)  
+[GraphicsCapabilities](Heirloom.Drawing.GraphicsCapabilities.md)  
+[Image](Heirloom.Drawing.Image.md)  
+[ImageSource](Heirloom.Drawing.ImageSource.md)  
+[InterpolationMode](Heirloom.Drawing.InterpolationMode.md)  
+[Mesh](Heirloom.Drawing.Mesh.md)  
+[MultisampleQuality](Heirloom.Drawing.MultisampleQuality.md)  
+[PerformanceOverlayMode](Heirloom.Drawing.PerformanceOverlayMode.md)  
+[RenderLoop](Heirloom.Drawing.RenderLoop.md)  
+[RepeatMode](Heirloom.Drawing.RepeatMode.md)  
+[Shader](Heirloom.Drawing.Shader.md)  
+[Sprite](Heirloom.Drawing.Sprite.md)  
+[SpriteBuilder](Heirloom.Drawing.SpriteBuilder.md)  
+[StandardStyledTextParser](Heirloom.Drawing.StandardStyledTextParser.md)  
+[StringExtensions](Heirloom.Drawing.StringExtensions.md)  
+[StyledText](Heirloom.Drawing.StyledText.md)  
+[StyledTextParser](Heirloom.Drawing.StyledTextParser.md)  
+[Surface](Heirloom.Drawing.Surface.md)  
+[TextAlign](Heirloom.Drawing.TextAlign.md)  
+[TextDrawState](Heirloom.Drawing.TextDrawState.md)  
+[TextLayoutCallback](Heirloom.Drawing.TextLayoutCallback.md)  
+[TextLayout](Heirloom.Drawing.TextLayout.md)  
+[TextLayoutState](Heirloom.Drawing.TextLayoutState.md)  
+[UnicodeCharacter](Heirloom.Drawing.UnicodeCharacter.md)  
+[UnicodeRange](Heirloom.Drawing.UnicodeRange.md)  
+[UniformInfo](Heirloom.Drawing.UniformInfo.md)  
+[UniformType](Heirloom.Drawing.UniformType.md)  
+[Vertex](Heirloom.Drawing.Vertex.md)  
+[Rasterizer](Heirloom.Drawing.Extras.Rasterizer.md)  
+[RectanglePacker\<K>](Heirloom.Drawing.Extras.RectanglePacker[K].md)  
+[Graphics.DrawCounts](Heirloom.Drawing.Graphics.DrawCounts.md)  
+[GraphicsAdapter.IShaderFactory](Heirloom.Drawing.GraphicsAdapter.IShaderFactory.md)  
+[GraphicsAdapter.ISurfaceFactory](Heirloom.Drawing.GraphicsAdapter.ISurfaceFactory.md)  
