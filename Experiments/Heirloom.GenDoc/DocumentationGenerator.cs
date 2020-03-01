@@ -57,7 +57,7 @@ namespace Heirloom.GenDoc
             // Generate TOC
             {
                 var text = GenerateAssemblySummary();
-                var path = Path.Combine(dir, $"{GetName(assembly)}.{Extension}");
+                var path = Path.Combine(dir, $"{GetName(assembly)}.{Extension}").ToLower();
                 File.WriteAllText(path, text);
             }
 
@@ -65,7 +65,7 @@ namespace Heirloom.GenDoc
             foreach (var type in GetTypes(assembly))
             {
                 var text = GenerateDocument(type);
-                var path = Path.Combine(dir, GetTypePath(type));
+                var path = Path.Combine(dir, GetTypePath(type)).ToLower();
                 File.WriteAllText(path, text);
             }
         }
@@ -81,7 +81,7 @@ namespace Heirloom.GenDoc
             }
 
             // 
-            var path = Path.Combine(dir, $"Documentation.{Extension}");
+            var path = Path.Combine(dir, $"documentation.{Extension}").ToLower();
             File.WriteAllText(path, text);
         }
 
@@ -309,7 +309,7 @@ namespace Heirloom.GenDoc
 
         public string GetAssemblyPath(Assembly assembly)
         {
-            return GetAssemblyPath(GetName(assembly));
+            return GetAssemblyPath(GetName(assembly)).ToLower();
         }
 
         protected string GetName(Assembly assembly)
@@ -479,12 +479,12 @@ namespace Heirloom.GenDoc
             {
                 // ie, ../Heirloom.Math/Heirloom.Math.Matrix.md
                 var dir = Path.GetDirectoryName(GetAssemblyPath(type.Assembly));
-                return SanitizePath(Path.Combine(dir, path));
+                return SanitizePath(Path.Combine(dir, path)).ToLower();
             }
             else
             {
                 // ie, Heirloom.Drawing.Graphics.md
-                return path;
+                return path.ToLower();
             }
         }
 

@@ -1,0 +1,53 @@
+# Heirloom.Drawing
+
+<small>**Framework**: .NETStandard,Version=v2.1</small>  
+<small>**Assembly**: [Heirloom.Drawing](../heirloom.drawing/heirloom.drawing.md)</small>  
+<small>**Internals Visible To**: [Heirloom.Drawing.OpenGLES](../Heirloom.Drawing.OpenGLES/Heirloom.Drawing.OpenGLES.md), [Heirloom.Desktop](../Heirloom.Desktop/Heirloom.Desktop.md)</small>  
+<small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
+
+--------------------------------------------------------------------------------
+
+[Axis](heirloom.drawing.axis.md)  
+[Blending](heirloom.drawing.blending.md)  
+[Color](heirloom.drawing.color.md)  
+[ColorBytes](heirloom.drawing.colorbytes.md)  
+[DrawingPerformance](heirloom.drawing.drawingperformance.md)  
+[Font](heirloom.drawing.font.md)  
+[FontMetrics](heirloom.drawing.fontmetrics.md)  
+[Glyph](heirloom.drawing.glyph.md)  
+[GlyphMetrics](heirloom.drawing.glyphmetrics.md)  
+[Graphics](heirloom.drawing.graphics.md)  
+[DrawTextCallback](heirloom.drawing.drawtextcallback.md)  
+[GraphicsAdapter](heirloom.drawing.graphicsadapter.md)  
+[GraphicsCapabilities](heirloom.drawing.graphicscapabilities.md)  
+[Image](heirloom.drawing.image.md)  
+[ImageSource](heirloom.drawing.imagesource.md)  
+[InterpolationMode](heirloom.drawing.interpolationmode.md)  
+[Mesh](heirloom.drawing.mesh.md)  
+[MultisampleQuality](heirloom.drawing.multisamplequality.md)  
+[PerformanceOverlayMode](heirloom.drawing.performanceoverlaymode.md)  
+[RenderLoop](heirloom.drawing.renderloop.md)  
+[RepeatMode](heirloom.drawing.repeatmode.md)  
+[Shader](heirloom.drawing.shader.md)  
+[Sprite](heirloom.drawing.sprite.md)  
+[SpriteBuilder](heirloom.drawing.spritebuilder.md)  
+[StandardStyledTextParser](heirloom.drawing.standardstyledtextparser.md)  
+[StringExtensions](heirloom.drawing.stringextensions.md)  
+[StyledText](heirloom.drawing.styledtext.md)  
+[StyledTextParser](heirloom.drawing.styledtextparser.md)  
+[Surface](heirloom.drawing.surface.md)  
+[TextAlign](heirloom.drawing.textalign.md)  
+[TextDrawState](heirloom.drawing.textdrawstate.md)  
+[TextLayoutCallback](heirloom.drawing.textlayoutcallback.md)  
+[TextLayout](heirloom.drawing.textlayout.md)  
+[TextLayoutState](heirloom.drawing.textlayoutstate.md)  
+[UnicodeCharacter](heirloom.drawing.unicodecharacter.md)  
+[UnicodeRange](heirloom.drawing.unicoderange.md)  
+[UniformInfo](heirloom.drawing.uniforminfo.md)  
+[UniformType](heirloom.drawing.uniformtype.md)  
+[Vertex](heirloom.drawing.vertex.md)  
+[Rasterizer](heirloom.drawing.extras.rasterizer.md)  
+[RectanglePacker\<K>](heirloom.drawing.extras.rectanglepacker[k].md)  
+[Graphics.DrawCounts](heirloom.drawing.graphics.drawcounts.md)  
+[GraphicsAdapter.IShaderFactory](heirloom.drawing.graphicsadapter.ishaderfactory.md)  
+[GraphicsAdapter.ISurfaceFactory](heirloom.drawing.graphicsadapter.isurfacefactory.md)  
