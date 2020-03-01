@@ -57,7 +57,7 @@ namespace Heirloom.GenDoc
             // Generate TOC
             {
                 var text = GenerateAssemblySummary();
-                var path = Path.Combine(dir, $"{GetName(assembly)}.{Extension}").ToLower();
+                var path = Path.Combine(dir, $"{GetName(assembly)}.{Extension}");
                 File.WriteAllText(path, text);
             }
 
@@ -65,7 +65,7 @@ namespace Heirloom.GenDoc
             foreach (var type in GetTypes(assembly))
             {
                 var text = GenerateDocument(type);
-                var path = Path.Combine(dir, GetTypePath(type)).ToLower();
+                var path = Path.Combine(dir, GetTypePath(type));
                 File.WriteAllText(path, text);
             }
         }
@@ -77,11 +77,11 @@ namespace Heirloom.GenDoc
             foreach (var assembly in assemblies)
             {
                 var name = GetName(assembly);
-                text += Link(name, $"./{name}/{name}.{Extension}") + "  \n";
+                text += Link(name, GetAssemblyPath(assembly, false)) + "  \n";
             }
 
             // 
-            var path = Path.Combine(dir, $"documentation.{Extension}").ToLower();
+            var path = Path.Combine(dir, $"Documentation.{Extension}");
             File.WriteAllText(path, text);
         }
 
@@ -302,14 +302,15 @@ namespace Heirloom.GenDoc
 
         #region Assembly
 
-        public string GetAssemblyPath(string assemblyName)
+        public string GetAssemblyPath(string assemblyName, bool back = true)
         {
-            return $"../{assemblyName}/{assemblyName}.{Extension}";
+            var oath = $"{assemblyName}/{assemblyName}.{Extension}";
+            return back ? $"../{oath}" : $"./{oath}";
         }
 
-        public string GetAssemblyPath(Assembly assembly)
+        public string GetAssemblyPath(Assembly assembly, bool back = true)
         {
-            return GetAssemblyPath(GetName(assembly)).ToLower();
+            return GetAssemblyPath(GetName(assembly), back);
         }
 
         protected string GetName(Assembly assembly)
@@ -479,12 +480,12 @@ namespace Heirloom.GenDoc
             {
                 // ie, ../Heirloom.Math/Heirloom.Math.Matrix.md
                 var dir = Path.GetDirectoryName(GetAssemblyPath(type.Assembly));
-                return SanitizePath(Path.Combine(dir, path)).ToLower();
+                return SanitizePath(Path.Combine(dir, path));
             }
             else
             {
                 // ie, Heirloom.Drawing.Graphics.md
-                return path.ToLower();
+                return path;
             }
         }
 
@@ -603,7 +604,9 @@ namespace Heirloom.GenDoc
             // Optional
             if (p.IsOptional)
             {
-                var defval = p.RawDefaultValue;
+                var defval = p.DefaultValue;
+                if (defval == null) { defval = "null"; }
+                if (defval is string) { defval = $"\"{defval}\""; }
                 pos += $" = {defval}";
             }
 
