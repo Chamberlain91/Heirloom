@@ -70,6 +70,21 @@ namespace Heirloom.GenDoc
             }
         }
 
+        public void GenerateIndex(IEnumerable<Assembly> assemblies, string dir)
+        {
+            var text = Header("Documentation", 1);
+
+            foreach (var assembly in assemblies)
+            {
+                var name = GetName(assembly);
+                text += Link(name, $"./{name}/{name}.{Extension}") + "  \n";
+            }
+
+            // 
+            var path = Path.Combine(dir, $"documentation.{Extension}");
+            File.WriteAllText(path, text);
+        }
+
         protected string GenerateDocument(Type type)
         {
             CurrentType = type;

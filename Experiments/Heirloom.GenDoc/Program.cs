@@ -10,11 +10,11 @@ namespace Heirloom.GenDoc
         private static void Main(string[] args)
         {
             // 
-            var directory = ParseInputArgs(args);
+            var searchDirectory = ParseInputArgs(args);
 
             // 
             Console.WriteLine("Discovering assemblies and generating documentation!");
-            var assemblies = FindAndLoadDocumentedAssemblies(directory);
+            var assemblies = FindAndLoadDocumentedAssemblies(searchDirectory);
 
             // Load xml documentation for assemblies
             foreach (var assembly in assemblies)
@@ -22,26 +22,25 @@ namespace Heirloom.GenDoc
                 Documentation.LoadDocumentation(assembly);
             }
 
-            // Generate documenation
+            // Generate documentation per assembly
             var generator = new MarkdownGenerator();
             foreach (var assembly in assemblies)
             {
                 Console.WriteLine(" - " + Path.GetFileName(assembly.Location));
-                GenerateDocumentation(generator, assembly);
+
+                // Delete directory (if exists) and regenerate
+                var dir = assembly.GetName().Name;
+                if (Directory.Exists(dir)) { Directory.Delete(dir, true); }
+                Directory.CreateDirectory(dir);
+
+                // Generate Markdown Documentation
+                generator.Generate(assembly, dir);
             }
 
+            // Generate Main TOC
+            generator.GenerateIndex(assemblies, ".");
+
             Console.WriteLine("Complete!");
-        }
-
-        private static void GenerateDocumentation(MarkdownGenerator generator, Assembly assembly)
-        {
-            // Delete directory (if exists) and regenerate
-            var dir = assembly.GetName().Name;
-            if (Directory.Exists(dir)) { Directory.Delete(dir, true); }
-            Directory.CreateDirectory(dir);
-
-            // Generate Markdown Documentation
-            generator.Generate(assembly, dir);
         }
 
         private static HashSet<Assembly> FindAndLoadDocumentedAssemblies(string directory)
