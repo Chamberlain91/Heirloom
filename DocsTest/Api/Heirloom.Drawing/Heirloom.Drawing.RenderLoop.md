@@ -17,10 +17,10 @@ Provides a thread to manage invoking a render/update function continuously.
 
 | Methods                | Summary                                                                                                            |
 |------------------------|--------------------------------------------------------------------------------------------------------------------|
-| [Update](#UPDD1771A75) |                                                                                                                    |
-| [Start](#STAC1832F72)  | Start the render thread. This thread will automatically terminate when the associated graphics object is disposed. |
-| [Stop](#STOB3037DBE)   | Stop the render thread.                                                                                            |
-| [Create](#CRE31C4F336) | Creates a render loop instance from the given context and method reference.                                        |
+| [Update](#UPD833E6A6C) |                                                                                                                    |
+| [Start](#STADBEC304F)  | Start the render thread. This thread will automatically terminate when the associated graphics object is disposed. |
+| [Stop](#STO4AE17E3B)   | Stop the render thread.                                                                                            |
+| [Create](#CREE4D21C3C) | Creates a render loop instance from the given context and method reference.                                        |
 
 ### Constructors
 

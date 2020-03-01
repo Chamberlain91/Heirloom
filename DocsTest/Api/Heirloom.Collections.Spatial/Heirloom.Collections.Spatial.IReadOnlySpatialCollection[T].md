@@ -12,7 +12,7 @@ A read-only view of a spatial collection to query elements in 2D space.
 
 | Methods                  | Summary                                                        |
 |--------------------------|----------------------------------------------------------------|
-| [Contains](#COND0AE797B) | Determines if the specified element exists in this collection. |
+| [Contains](#CONC6E9849A) | Determines if the specified element exists in this collection. |
 
 ### Methods
 

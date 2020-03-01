@@ -18,9 +18,9 @@ Represents statistics of some data.
 
 | Methods                 | Summary |
 |-------------------------|---------|
-| [Compute](#COMF11199C1) |         |
-| [Compute](#COMF11199C1) |         |
-| [Compute](#COMF11199C1) |         |
+| [Compute](#COM4784E1C3) |         |
+| [Compute](#COM6B725764) |         |
+| [Compute](#COM52793202) |         |
 
 ### Fields
 

@@ -213,7 +213,7 @@ namespace Heirloom.GenDoc
             //
             if (Methods.Count > 0)
             {
-                var rows = Methods.Select(m => (AnchorLink(GetName(m)), NormalizeSpaces(GetSummary(m))));
+                var rows = Methods.Select(m => (AnchorLink(GetName(m), GetSignature(m)), NormalizeSpaces(GetSummary(m))));
                 markdown += GenerateTable("Methods", "Summary", rows);
             }
 

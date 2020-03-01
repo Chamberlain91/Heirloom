@@ -19,12 +19,12 @@
 
 | Methods                          | Summary                                                         |
 |----------------------------------|-----------------------------------------------------------------|
-| [GetEnglishTime](#GETB2CC7FC9)   | Gets a human readable format for the time specified in seconds. |
-| [GetShortTimeName](#GETE4D4A1F6) | Gets a short name of the time unit (or its plural).             |
-| [GetTimeName](#GET2327DD20)      | Gets the name of the time unit (or its plural).                 |
-| [GetTimeString](#GET29B4FD8E)    | Gets a human readable format for the given time and unit.       |
-| [GetDuration](#GET2C612406)      | Gets the duration of a time unit in seconds.                    |
-| [Convert](#CON9AEEA93F)          | Converts time from unit to another.                             |
+| [GetEnglishTime](#GET6BFD015B)   | Gets a human readable format for the time specified in seconds. |
+| [GetShortTimeName](#GET394CEAF5) | Gets a short name of the time unit (or its plural).             |
+| [GetTimeName](#GET83E3260B)      | Gets the name of the time unit (or its plural).                 |
+| [GetTimeString](#GET61852783)    | Gets a human readable format for the given time and unit.       |
+| [GetDuration](#GET6B270B02)      | Gets the duration of a time unit in seconds.                    |
+| [Convert](#CON27782F2F)          | Converts time from unit to another.                             |
 
 ### Fields
 

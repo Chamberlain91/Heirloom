@@ -13,10 +13,10 @@ Represents a read-only view of a [Heap\<T>](Heirloom.Collections.Heap[T].md).
 |--------------------------|---------------------------------------------|
 | [Comparer](#COM45265051) | The comparer used to compare item priority. |
 
-| Methods                  | Summary                                       |
-|--------------------------|-----------------------------------------------|
-| [Contains](#COND0AE797B) | Does this heap contain the specified item?    |
-| [Peek](#PEE52739267)     | Gets the next item in the heap to be removed. |
+| Methods                 | Summary                                       |
+|-------------------------|-----------------------------------------------|
+| [Contains](#CON50B6A9F) | Does this heap contain the specified item?    |
+| [Peek](#PEE599BAF94)    | Gets the next item in the heap to be removed. |
 
 ### Properties
 

@@ -16,10 +16,10 @@ A free list an allocation-centric data structure that allows insertion and remov
 
 | Methods                | Summary                                                                                                                                                           |
 |------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Clear](#CLE3BB23EF9)  | Clears the free list, invalidating all indices and clearing element data.                                                                                         |
-| [Insert](#INSC7B161AF) | Inserts an element into the free list and returns its index.                                                                                                      |
-| [Remove](#REMF10744DE) | Removes an element from the free list by an index returned by `Heirloom.Collections.FreeList`1.Insert(`0)`. This index is not validated, you must be responsible. |
-| [Resize](#RESFD0A1B3A) | Resize the free list with an increased capacity.                                                                                                                  |
+| [Clear](#CLE4538C554)  | Clears the free list, invalidating all indices and clearing element data.                                                                                         |
+| [Insert](#INS5BA4EBFA) | Inserts an element into the free list and returns its index.                                                                                                      |
+| [Remove](#REM37A8443A) | Removes an element from the free list by an index returned by `Heirloom.Collections.FreeList`1.Insert(`0)`. This index is not validated, you must be responsible. |
+| [Resize](#RES3BF62E34) | Resize the free list with an increased capacity.                                                                                                                  |
 
 ### Constructors
 

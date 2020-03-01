@@ -26,57 +26,57 @@
 
 | Methods                             | Summary                                                                                                        |
 |-------------------------------------|----------------------------------------------------------------------------------------------------------------|
-| [ResetState](#RESE0A0644A)          | Reset current context state to defaults (default surface, full viewport, no transform, alpha and white).       |
-| [PushState](#PUS86E2D29)            | Save the context state (push it on the state stack).                                                           |
-| [PopState](#POPC33B51B6)            | Restore the context state (pop from the state stack).                                                          |
-| [Clear](#CLE3BB23EF9)               | Clears the current surface with the specified color.                                                           |
-| [DrawMesh](#DRADBE2F57F)            | Draws a mesh with the given image to the current surface.                                                      |
-| [GrabPixels](#GRA1D233CB9)          | Grab the pixels from a subregion of the current surface and return that image. (ie, a screenshot)              |
-| [GrabPixels](#GRA1D233CB9)          | Grab the pixels from the current surface and return that image. (ie, a screenshot)                             |
-| [GetDrawCounts](#GETC2CC16A4)       |                                                                                                                |
-| [RefreshScreen](#REFBE576BED)       | Present the drawing operations to the screen.                                                                  |
-| [SwapBuffers](#SWAEFBA9D34)         |                                                                                                                |
-| [EndFrame](#ENDD6AD7C68)            |                                                                                                                |
-| [Flush](#FLUCBEBF960)               | Force any pending drawing operations to complete.                                                              |
-| [Dispose](#DIS8A0D80C3)             |                                                                                                                |
-| [Dispose](#DIS8A0D80C3)             | Dispose this graphics context, freeing any resources occupied by it.                                           |
-| [SetCameraTransform](#SETB80DAA67)  | Sets `Heirloom.Drawing.Graphics.GlobalTransform` to mimic a 2D camera.                                         |
-| [DrawImage](#DRA9CF51CDF)           | Draws an image to the current surface.                                                                         |
-| [DrawImage](#DRA9CF51CDF)           | Draws an image to the current surface.                                                                         |
-| [DrawImage](#DRA9CF51CDF)           | Draws an image to the current surface.                                                                         |
-| [DrawImage](#DRA9CF51CDF)           | Draws an image stretched to fill a rectangular region to the current surface ignoring the image origin offset. |
-| [DrawImage](#DRA9CF51CDF)           | Draws an image to the current surface.                                                                         |
-| [DrawSprite](#DRA8041D001)          | Draw a sprite to the current surface.                                                                          |
-| [DrawLine](#DRA2AD01C9E)            | Draws a line segment between two points to the current surface.                                                |
-| [DrawCurve](#DRA6814AB43)           | Draws a quadratic curve using three control points to the current surface.                                     |
-| [DrawCurve](#DRA6814AB43)           | Draws a cubic curve using four control points to the current surface.                                          |
-| [DrawRect](#DRA51452366)            | Draws a rectangle to the current surface.                                                                      |
-| [DrawRectOutline](#DRA53141FA4)     | Draws the outline of a rectangel to the current surface.                                                       |
-| [DrawCross](#DRA560C7404)           | Draws a simple axis aligned 'cross' or 'plus' shape, useful for debugging positions.                           |
-| [DrawCircle](#DRA458618E8)          | Draws a circle to the current surface.                                                                         |
-| [DrawCircle](#DRA458618E8)          | Draws a circle to the current surface.                                                                         |
-| [DrawCircleOutline](#DRAFE41B7C2)   | Draws the outline of a circle to the current surface.                                                          |
-| [DrawCircleOutline](#DRAFE41B7C2)   | Draws the outline of a circle to the current surface.                                                          |
-| [DrawTriangle](#DRA749E58B4)        | Draw a triangle to the current surface.                                                                        |
-| [DrawTriangle](#DRA749E58B4)        | Draw a triangle outline to the current surface.                                                                |
-| [DrawTriangleOutline](#DRA7869EEE6) | Draw a triangle outline to the current surface.                                                                |
-| [DrawTriangleOutline](#DRA7869EEE6) | Draw a triangle outline to the current surface.                                                                |
-| [DrawPolygon](#DRAB32A8112)         | Draws a regular polygon to the current surface.                                                                |
-| [DrawPolygonOutline](#DRA4EDC7FC8)  | Draws the outline of a regular polygon to the current surface.                                                 |
-| [DrawPolygon](#DRAB32A8112)         | Draws a simple polygon to the current surface.                                                                 |
-| [DrawPolygon](#DRAB32A8112)         | Draws a simple polygon to the current surface.                                                                 |
-| [DrawPolygon](#DRAB32A8112)         | Draws a simple polygon to the current surface.                                                                 |
-| [DrawPolygon](#DRAB32A8112)         | Draws a simple polygon to the current surface.                                                                 |
-| [DrawPolygonOutline](#DRA4EDC7FC8)  | Draws the outline of a simple polygon to the current surface.                                                  |
-| [DrawPolygonOutline](#DRA4EDC7FC8)  | Draws the outline of a simple polygon to the current surface.                                                  |
-| [DrawPolygonOutline](#DRA4EDC7FC8)  | Draws the outline of a simple polygon to the current surface.                                                  |
-| [DrawPolygonOutline](#DRA4EDC7FC8)  | Draws the outline of a simple polygon to the current surface.                                                  |
-| [DrawText](#DRA51452421)            | Draws rich text to the current surface.                                                                        |
-| [DrawText](#DRA51452421)            | Draws rich text to the current surface.                                                                        |
-| [DrawText](#DRA51452421)            | Draws text to the current surface.                                                                             |
-| [DrawText](#DRA51452421)            | Draws text to the current surface.                                                                             |
-| [DrawText](#DRA51452421)            | Draws text to the current surface.                                                                             |
-| [DrawText](#DRA51452421)            | Draws text to the current surface.                                                                             |
+| [ResetState](#RESA7048869)          | Reset current context state to defaults (default surface, full viewport, no transform, alpha and white).       |
+| [PushState](#PUSDD336044)           | Save the context state (push it on the state stack).                                                           |
+| [PopState](#POP630D10FB)            | Restore the context state (pop from the state stack).                                                          |
+| [Clear](#CLE5D92D22C)               | Clears the current surface with the specified color.                                                           |
+| [DrawMesh](#DRA95B1E3F1)            | Draws a mesh with the given image to the current surface.                                                      |
+| [GrabPixels](#GRAEDDDAE23)          | Grab the pixels from a subregion of the current surface and return that image. (ie, a screenshot)              |
+| [GrabPixels](#GRAF748E6A9)          | Grab the pixels from the current surface and return that image. (ie, a screenshot)                             |
+| [GetDrawCounts](#GET41ADC268)       |                                                                                                                |
+| [RefreshScreen](#REFB28DEE96)       | Present the drawing operations to the screen.                                                                  |
+| [SwapBuffers](#SWABF25FF09)         |                                                                                                                |
+| [EndFrame](#ENDE20271D1)            |                                                                                                                |
+| [Flush](#FLU2F0EB18F)               | Force any pending drawing operations to complete.                                                              |
+| [Dispose](#DISD833FA7A)             |                                                                                                                |
+| [Dispose](#DIS4E62D250)             | Dispose this graphics context, freeing any resources occupied by it.                                           |
+| [SetCameraTransform](#SET55A77415)  | Sets `Heirloom.Drawing.Graphics.GlobalTransform` to mimic a 2D camera.                                         |
+| [DrawImage](#DRA5AECA746)           | Draws an image to the current surface.                                                                         |
+| [DrawImage](#DRACC3CC47E)           | Draws an image to the current surface.                                                                         |
+| [DrawImage](#DRAAA1FB811)           | Draws an image to the current surface.                                                                         |
+| [DrawImage](#DRA2104C49C)           | Draws an image stretched to fill a rectangular region to the current surface ignoring the image origin offset. |
+| [DrawImage](#DRACC91BF51)           | Draws an image to the current surface.                                                                         |
+| [DrawSprite](#DRA3D4FFB62)          | Draw a sprite to the current surface.                                                                          |
+| [DrawLine](#DRA5FD38818)            | Draws a line segment between two points to the current surface.                                                |
+| [DrawCurve](#DRA1479E674)           | Draws a quadratic curve using three control points to the current surface.                                     |
+| [DrawCurve](#DRA600226C8)           | Draws a cubic curve using four control points to the current surface.                                          |
+| [DrawRect](#DRAA9530853)            | Draws a rectangle to the current surface.                                                                      |
+| [DrawRectOutline](#DRAFE423E7D)     | Draws the outline of a rectangel to the current surface.                                                       |
+| [DrawCross](#DRAF5B1CCE3)           | Draws a simple axis aligned 'cross' or 'plus' shape, useful for debugging positions.                           |
+| [DrawCircle](#DRA5A371506)          | Draws a circle to the current surface.                                                                         |
+| [DrawCircle](#DRA1B07AE29)          | Draws a circle to the current surface.                                                                         |
+| [DrawCircleOutline](#DRABDDF3480)   | Draws the outline of a circle to the current surface.                                                          |
+| [DrawCircleOutline](#DRAF367D6B)    | Draws the outline of a circle to the current surface.                                                          |
+| [DrawTriangle](#DRA51237C46)        | Draw a triangle to the current surface.                                                                        |
+| [DrawTriangle](#DRAF3C0F560)        | Draw a triangle outline to the current surface.                                                                |
+| [DrawTriangleOutline](#DRA2E3976E8) | Draw a triangle outline to the current surface.                                                                |
+| [DrawTriangleOutline](#DRA69688A8E) | Draw a triangle outline to the current surface.                                                                |
+| [DrawPolygon](#DRAFC9E988)          | Draws a regular polygon to the current surface.                                                                |
+| [DrawPolygonOutline](#DRA11055056)  | Draws the outline of a regular polygon to the current surface.                                                 |
+| [DrawPolygon](#DRAF6BAE1ED)         | Draws a simple polygon to the current surface.                                                                 |
+| [DrawPolygon](#DRAFD160EA8)         | Draws a simple polygon to the current surface.                                                                 |
+| [DrawPolygon](#DRA2980A4EB)         | Draws a simple polygon to the current surface.                                                                 |
+| [DrawPolygon](#DRA192EC12E)         | Draws a simple polygon to the current surface.                                                                 |
+| [DrawPolygonOutline](#DRAEEB1914F)  | Draws the outline of a simple polygon to the current surface.                                                  |
+| [DrawPolygonOutline](#DRA3814BD0E)  | Draws the outline of a simple polygon to the current surface.                                                  |
+| [DrawPolygonOutline](#DRA1EDFEE5)   | Draws the outline of a simple polygon to the current surface.                                                  |
+| [DrawPolygonOutline](#DRADC317460)  | Draws the outline of a simple polygon to the current surface.                                                  |
+| [DrawText](#DRA87C34A5)             | Draws rich text to the current surface.                                                                        |
+| [DrawText](#DRA258730C9)            | Draws rich text to the current surface.                                                                        |
+| [DrawText](#DRAB686520E)            | Draws text to the current surface.                                                                             |
+| [DrawText](#DRA8F4C378A)            | Draws text to the current surface.                                                                             |
+| [DrawText](#DRA6A2DA0DC)            | Draws text to the current surface.                                                                             |
+| [DrawText](#DRA7B95AC0C)            | Draws text to the current surface.                                                                             |
 
 ### Constructors
 

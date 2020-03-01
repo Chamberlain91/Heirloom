@@ -21,18 +21,18 @@
 
 | Methods                             | Summary                                                                 |
 |-------------------------------------|-------------------------------------------------------------------------|
-| [MakeCurrent](#MAKB77DA8AB)         |                                                                         |
-| [ComputeViewportRect](#COM2FD01CD5) |                                                                         |
-| [SetBufferUniform<T>](#SETE4FE6AD2) |                                                                         |
-| [SetBufferUniform](#SET46AC8614)    |                                                                         |
-| [SetBufferUniform](#SET46AC8614)    | Writes a matrix to the given address with each row aligned to 16 bytes. |
-| [GrabPixels](#GRA1D233CB9)          |                                                                         |
-| [Clear](#CLE3BB23EF9)               |                                                                         |
-| [DrawMesh](#DRADBE2F57F)            |                                                                         |
-| [Flush](#FLUCBEBF960)               |                                                                         |
-| [GetDrawCounts](#GETC2CC16A4)       |                                                                         |
-| [EndFrame](#ENDD6AD7C68)            |                                                                         |
-| [Dispose](#DIS8A0D80C3)             |                                                                         |
+| [MakeCurrent](#MAK22754DC6)         |                                                                         |
+| [ComputeViewportRect](#COMCF9BB544) |                                                                         |
+| [SetBufferUniform<T>](#SET365DDD71) |                                                                         |
+| [SetBufferUniform](#SET4B0F835B)    |                                                                         |
+| [SetBufferUniform](#SETD1D1FF1A)    | Writes a matrix to the given address with each row aligned to 16 bytes. |
+| [GrabPixels](#GRA28C2314)           |                                                                         |
+| [Clear](#CLEC8B242F1)               |                                                                         |
+| [DrawMesh](#DRA846D072B)            |                                                                         |
+| [Flush](#FLU2F0EB18F)               |                                                                         |
+| [GetDrawCounts](#GETF0B9C7EF)       |                                                                         |
+| [EndFrame](#ENDE20271D1)            |                                                                         |
+| [Dispose](#DISFDE72264)             |                                                                         |
 
 ### Constructors
 

@@ -9,11 +9,11 @@
 
 Provides methods for querying elements in 2D space.
 
-| Methods              | Summary                                                      |
-|----------------------|--------------------------------------------------------------|
-| [Query](#QUEF3BF732) | Finds spatial elements that overlap the specified point.     |
-| [Query](#QUEF3BF732) | Finds spatial elements that overlap the specified rectangle. |
-| [Query](#QUEF3BF732) | Finds spatial elements that intersect the specified ray.     |
+| Methods               | Summary                                                      |
+|-----------------------|--------------------------------------------------------------|
+| [Query](#QUEF49A009C) | Finds spatial elements that overlap the specified point.     |
+| [Query](#QUEA1C7943F) | Finds spatial elements that overlap the specified rectangle. |
+| [Query](#QUEC52C85A8) | Finds spatial elements that intersect the specified ray.     |
 
 ### Methods
 

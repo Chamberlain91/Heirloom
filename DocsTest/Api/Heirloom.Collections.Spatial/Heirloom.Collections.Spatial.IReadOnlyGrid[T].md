@@ -16,8 +16,8 @@ A read-only view of a 2D grid of values.
 
 | Methods                           | Summary                                         |
 |-----------------------------------|-------------------------------------------------|
-| [IsValidCoordinate](#ISV67165E1E) | Is the specified coordinate valid on this grid? |
-| [IsValidCoordinate](#ISV67165E1E) | Is the specified coordinate valid on this grid? |
+| [IsValidCoordinate](#ISVB586DBEE) | Is the specified coordinate valid on this grid? |
+| [IsValidCoordinate](#ISVCA356546) | Is the specified coordinate valid on this grid? |
 
 ### Properties
 

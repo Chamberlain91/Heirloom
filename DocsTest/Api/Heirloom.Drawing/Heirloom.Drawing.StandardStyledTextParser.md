@@ -13,8 +13,8 @@ Provides implementation of a BBCode-esque text markup parser.
 
 | Methods                    | Summary                                                                                 |
 |----------------------------|-----------------------------------------------------------------------------------------|
-| [AddKeyword](#ADDF8DA6D18) |                                                                                         |
-| [Parse](#PARB2AE6A55)      | Parse the input text and returns a [StyledText](Heirloom.Drawing.StyledText.md) object. |
+| [AddKeyword](#ADDB92DC801) |                                                                                         |
+| [Parse](#PARD4D42BB2)      | Parse the input text and returns a [StyledText](Heirloom.Drawing.StyledText.md) object. |
 
 ### Constructors
 

@@ -8,9 +8,9 @@
 
 Provides an interface for sampling three-dimensional noise.
 
-| Methods                | Summary                         |
-|------------------------|---------------------------------|
-| [Sample](#SAMB4A361CC) | Sample three-dimensional noise. |
+| Methods               | Summary                         |
+|-----------------------|---------------------------------|
+| [Sample](#SAM96EA574) | Sample three-dimensional noise. |
 
 ### Methods
 

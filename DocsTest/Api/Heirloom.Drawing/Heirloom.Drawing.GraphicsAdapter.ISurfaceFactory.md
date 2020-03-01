@@ -10,8 +10,8 @@
 
 | Methods                 | Summary |
 |-------------------------|---------|
-| [Create](#CRE31C4F336)  |         |
-| [Dispose](#DIS8A0D80C3) |         |
+| [Create](#CRE1F854001)  |         |
+| [Dispose](#DIS2F22B63C) |         |
 
 ### Methods
 

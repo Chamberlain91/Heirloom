@@ -11,9 +11,9 @@ A read-only view of [ITypeDictionary\<T>](Heirloom.Collections.ITypeDictionary[T
 
 | Methods                           | Summary                                                                       |
 |-----------------------------------|-------------------------------------------------------------------------------|
-| [Contains](#COND0AE797B)          | Does this type dictionary contain this object?                                |
-| [ContainsType<X>](#CON7AD5C721)   | Does the dictionary contain any object that inherits from the specified type. |
-| [GetItemsByType<X>](#GET6B563695) | Enumerates any object that inherits from the specified type.                  |
+| [Contains](#CONFC14FF81)          | Does this type dictionary contain this object?                                |
+| [ContainsType<X>](#CON93D1CDF6)   | Does the dictionary contain any object that inherits from the specified type. |
+| [GetItemsByType<X>](#GETBA3442D3) | Enumerates any object that inherits from the specified type.                  |
 
 ### Methods
 

@@ -15,12 +15,12 @@ Manages objects by their type hierarchy up to the base type, allowing access and
 
 | Methods                           | Summary |
 |-----------------------------------|---------|
-| [Add](#ADDBCD0F225)               |         |
-| [Remove](#REMF10744DE)            |         |
-| [Contains](#COND0AE797B)          |         |
-| [ContainsType<X>](#CON7AD5C721)   |         |
-| [GetItemsByType<X>](#GET6B563695) |         |
-| [GetEnumerator](#GETF1F90828)     |         |
+| [Add](#ADD9453EEA5)               |         |
+| [Remove](#REM291D149A)            |         |
+| [Contains](#CON50B6A9F)           |         |
+| [ContainsType<X>](#CON93D1CDF6)   |         |
+| [GetItemsByType<X>](#GETBA3442D3) |         |
+| [GetEnumerator](#GETDDD17E2E)     |         |
 
 ### Constructors
 

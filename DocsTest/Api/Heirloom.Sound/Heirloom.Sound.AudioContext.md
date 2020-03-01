@@ -21,10 +21,10 @@
 
 | Methods                    | Summary                                                                                           |
 |----------------------------|---------------------------------------------------------------------------------------------------|
-| [Dispose](#DIS8A0D80C3)    |                                                                                                   |
-| [Dispose](#DIS8A0D80C3)    |                                                                                                   |
-| [Initialize](#INIDC05F914) | Initialize the audio system with a sample rate of 44100 and optionally enabling audio capture.    |
-| [Initialize](#INIDC05F914) | Initialize the audio system with the specified sample rate and optionally enabling audio capture. |
+| [Dispose](#DISD833FA7A)    |                                                                                                   |
+| [Dispose](#DIS4E62D250)    |                                                                                                   |
+| [Initialize](#INI50E87BC2) | Initialize the audio system with a sample rate of 44100 and optionally enabling audio capture.    |
+| [Initialize](#INI6EC6B529) | Initialize the audio system with the specified sample rate and optionally enabling audio capture. |
 
 ### Constructors
 

@@ -23,8 +23,8 @@
 
 | Methods                     | Summary |
 |-----------------------------|---------|
-| [Deconstruct](#DECC1884FDA) |         |
-| [CompareTo](#COMD590B82C)   |         |
+| [Deconstruct](#DEC9B367A2C) |         |
+| [CompareTo](#COM474EB48B)   |         |
 
 ### Fields
 

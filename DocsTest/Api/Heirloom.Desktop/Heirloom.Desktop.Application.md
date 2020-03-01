@@ -21,7 +21,7 @@
 
 | Methods             | Summary                                                                                                                                                         |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Run](#RUN35011FC9) | Initializes windowing utilities, executes `initialize` and then continuously processes window events until all windows are closed. This is a blocking function. |
+| [Run](#RUNFF6AF058) | Initializes windowing utilities, executes `initialize` and then continuously processes window events until all windows are closed. This is a blocking function. |
 
 ### Properties
 

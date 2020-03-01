@@ -18,13 +18,13 @@ An infinite, sparse grid of values.
 
 | Methods                           | Summary                                                             |
 |-----------------------------------|---------------------------------------------------------------------|
-| [Clear](#CLE3BB23EF9)             | Removes all values in the grid, marking everything as unoccupied.   |
-| [ClearValue](#CLE6B298B8)         | Clears the assigned valueon this cell of the sparse grid.           |
-| [ClearValue](#CLE6B298B8)         | Clears the assigned valueon this cell of the sparse grid.           |
-| [HasValue](#HASB31488F1)          | Determines if a value has been set on this cell of the sparse grid. |
-| [HasValue](#HASB31488F1)          | Determines if a value has been set on this cell of the sparse grid. |
-| [IsValidCoordinate](#ISV67165E1E) | Is the specified coordinate valid on this grid?                     |
-| [IsValidCoordinate](#ISV67165E1E) | Is the specified coordinate valid on this grid?                     |
+| [Clear](#CLE4538C554)             | Removes all values in the grid, marking everything as unoccupied.   |
+| [ClearValue](#CLEFB28FAFA)        | Clears the assigned valueon this cell of the sparse grid.           |
+| [ClearValue](#CLEA46312EA)        | Clears the assigned valueon this cell of the sparse grid.           |
+| [HasValue](#HAS1E7B500D)          | Determines if a value has been set on this cell of the sparse grid. |
+| [HasValue](#HAS93C63DAD)          | Determines if a value has been set on this cell of the sparse grid. |
+| [IsValidCoordinate](#ISVB586DBEE) | Is the specified coordinate valid on this grid?                     |
+| [IsValidCoordinate](#ISVCA356546) | Is the specified coordinate valid on this grid?                     |
 
 ### Constructors
 

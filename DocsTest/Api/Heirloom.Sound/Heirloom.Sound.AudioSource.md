@@ -24,14 +24,14 @@ An instance of playable audio.
 |-------------------------------|----------------------------------------------------------------------|
 | [PlaybackEnded](#PLA38F157E5) | An event invoked when this source reaches the end of playable audio. |
 
-| Methods                      | Summary                                                                                                                                               |
-|------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Play](#PLAD2A843C4)         | Begin playing audio.                                                                                                                                  |
-| [Pause](#PAUB2AE6938)        | Pause playing audio.                                                                                                                                  |
-| [Stop](#STOB3037DBE)         | Pause playing audio and seeks to the beginning in the audio data. If seek is not supported, this is equivalent to `Heirloom.Sound.AudioSource.Pause`. |
-| [Seek](#SEE5273924A)         | Seek playback position to some time in samples.                                                                                                       |
-| [Seek](#SEE5273924A)         | Seek playback position to some time in seconds.                                                                                                       |
-| [PopulateBuffer](#POP7E079E) |                                                                                                                                                       |
+| Methods                        | Summary                                                                                                                                               |
+|--------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Play](#PLA2D77C0A3)           | Begin playing audio.                                                                                                                                  |
+| [Pause](#PAUC78D044D)          | Pause playing audio.                                                                                                                                  |
+| [Stop](#STO4AE17E3B)           | Pause playing audio and seeks to the beginning in the audio data. If seek is not supported, this is equivalent to `Heirloom.Sound.AudioSource.Pause`. |
+| [Seek](#SEEEF91C34D)           | Seek playback position to some time in samples.                                                                                                       |
+| [Seek](#SEE3F393E40)           | Seek playback position to some time in seconds.                                                                                                       |
+| [PopulateBuffer](#POP1F4E4746) |                                                                                                                                                       |
 
 ### Constructors
 

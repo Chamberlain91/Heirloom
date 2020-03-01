@@ -25,12 +25,12 @@ Represents a range of integers from `Heirloom.Math.IntRange.Min` to `Heirloom.Ma
 
 | Methods                       | Summary                                                          |
 |-------------------------------|------------------------------------------------------------------|
-| [Contains](#COND0AE797B)      | Determines if this range contains the specified value.           |
-| [Overlaps](#OVE7F2D7C32)      | Determines if this range overlaps another integer range.         |
-| [Include](#INC2EBA9B2E)       | Mutate this range (by expansion) to include the specified value. |
-| [Include](#INC2EBA9B2E)       | Mutate this range (by expansion) to include the specified range. |
-| [Deconstruct](#DECC1884FDA)   |                                                                  |
-| [GetEnumerator](#GETF1F90828) |                                                                  |
+| [Contains](#CON6D86EFB8)      | Determines if this range contains the specified value.           |
+| [Overlaps](#OVE878BA259)      | Determines if this range overlaps another integer range.         |
+| [Include](#INCF9EE613B)       | Mutate this range (by expansion) to include the specified value. |
+| [Include](#INC76080F77)       | Mutate this range (by expansion) to include the specified range. |
+| [Deconstruct](#DECFF7EBA59)   |                                                                  |
+| [GetEnumerator](#GET32A42BED) |                                                                  |
 
 ### Fields
 

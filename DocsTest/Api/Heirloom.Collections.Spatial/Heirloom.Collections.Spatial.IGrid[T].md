@@ -12,7 +12,7 @@ A 2D grid of values.
 
 | Methods               | Summary                                                                      |
 |-----------------------|------------------------------------------------------------------------------|
-| [Clear](#CLE3BB23EF9) | Clear the grid (ie, set each cell to the default value of the element type). |
+| [Clear](#CLE4538C554) | Clear the grid (ie, set each cell to the default value of the element type). |
 
 ### Methods
 

@@ -15,9 +15,9 @@ An [AudioNode](Heirloom.Sound.AudioNode.md) to mix and apply effects to a group 
 | [Children](#CHIA28E397F) |                                                                   |
 | [Default](#DEFCF6EDD47)  | Gets the default audio group (ie, the speakers, headphones, etc). |
 
-| Methods                      | Summary |
-|------------------------------|---------|
-| [PopulateBuffer](#POP7E079E) |         |
+| Methods                        | Summary |
+|--------------------------------|---------|
+| [PopulateBuffer](#POP1F4E4746) |         |
 
 ### Constructors
 

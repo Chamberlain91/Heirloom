@@ -16,8 +16,8 @@ A sparse 2D grid of values.
 
 | Methods                  | Summary                                                             |
 |--------------------------|---------------------------------------------------------------------|
-| [HasValue](#HASB31488F1) | Determines if a value has been set on this cell of the sparse grid. |
-| [HasValue](#HASB31488F1) | Determines if a value has been set on this cell of the sparse grid. |
+| [HasValue](#HAS1E7B500D) | Determines if a value has been set on this cell of the sparse grid. |
+| [HasValue](#HAS93C63DAD) | Determines if a value has been set on this cell of the sparse grid. |
 
 ### Properties
 

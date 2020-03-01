@@ -11,9 +11,9 @@ Implements methods for sampling 1D, 2D and 3D perlin noise.
 
 | Methods                | Summary |
 |------------------------|---------|
-| [Sample](#SAMB4A361CC) |         |
-| [Sample](#SAMB4A361CC) |         |
-| [Sample](#SAMB4A361CC) |         |
+| [Sample](#SAMBBABD6D9) |         |
+| [Sample](#SAMB43AC0AA) |         |
+| [Sample](#SAM96EA574)  |         |
 
 ### Constructors
 

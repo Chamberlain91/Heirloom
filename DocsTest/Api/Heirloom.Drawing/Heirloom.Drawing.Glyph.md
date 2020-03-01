@@ -19,8 +19,8 @@ A glyph represents the metrics and rendering of a character from the associated 
 
 | Methods                    | Summary                                                             |
 |----------------------------|---------------------------------------------------------------------|
-| [GetMetrics](#GET3646C3B1) | Get the horizontal metrics of the this glyph at the specified size. |
-| [RenderTo](#RENE3F26725)   | Renders the glyph into the image.                                   |
+| [GetMetrics](#GET8C5581DC) | Get the horizontal metrics of the this glyph at the specified size. |
+| [RenderTo](#REN5B264EAC)   | Renders the glyph into the image.                                   |
 
 ### Constructors
 

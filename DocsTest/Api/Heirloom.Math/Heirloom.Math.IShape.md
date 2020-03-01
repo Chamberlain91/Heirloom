@@ -15,12 +15,12 @@ Represents the general interface of a shape and common operators each shape shou
 
 | Methods                         | Summary                                                     |
 |---------------------------------|-------------------------------------------------------------|
-| [GetClosestPoint](#GET53DD1DC3) | Gets the nearest point on the shape to the specified point. |
-| [Contains](#COND0AE797B)        | Determines if this shape contains the specified point.      |
-| [Overlaps](#OVE7F2D7C32)        | Determines if this shape overlaps the specified shape.      |
-| [Raycast](#RAY408E945F)         | Performs a raycast against this shape.                      |
-| [Raycast](#RAY408E945F)         | Performs a raycast against this shape.                      |
-| [Project](#PROAD473221)         | Project this shape onto the specified axis.                 |
+| [GetClosestPoint](#GETDAC09B5B) | Gets the nearest point on the shape to the specified point. |
+| [Contains](#CON33387C1A)        | Determines if this shape contains the specified point.      |
+| [Overlaps](#OVE450AB809)        | Determines if this shape overlaps the specified shape.      |
+| [Raycast](#RAY4B66C4A9)         | Performs a raycast against this shape.                      |
+| [Raycast](#RAYACE7FDBA)         | Performs a raycast against this shape.                      |
+| [Project](#PRODD6295AA)         | Project this shape onto the specified axis.                 |
 
 ### Properties
 

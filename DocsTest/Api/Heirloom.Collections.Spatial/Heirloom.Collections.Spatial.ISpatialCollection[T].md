@@ -12,10 +12,10 @@ A spatial collection to store and query elements in 2D space.
 
 | Methods                | Summary                                                             |
 |------------------------|---------------------------------------------------------------------|
-| [Clear](#CLE3BB23EF9)  | Clears all elements from this spatial collection.                   |
-| [Add](#ADDBCD0F225)    | Adds an element with rectangle bounds into this spatial collection. |
-| [Update](#UPDD1771A75) | Updates an exising element with new bounds in the collection.       |
-| [Remove](#REMF10744DE) | Removes an element from this spatial collection.                    |
+| [Clear](#CLE4538C554)  | Clears all elements from this spatial collection.                   |
+| [Add](#ADD873258A8)    | Adds an element with rectangle bounds into this spatial collection. |
+| [Update](#UPDC8E3D6DE) | Updates an exising element with new bounds in the collection.       |
+| [Remove](#REM1E1AE509) | Removes an element from this spatial collection.                    |
 
 ### Methods
 

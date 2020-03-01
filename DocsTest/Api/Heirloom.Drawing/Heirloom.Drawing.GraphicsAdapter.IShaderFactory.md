@@ -10,8 +10,8 @@
 
 | Methods                 | Summary |
 |-------------------------|---------|
-| [Compile](#COMDBD5F155) |         |
-| [Dispose](#DIS8A0D80C3) |         |
+| [Compile](#COMA9F12628) |         |
+| [Dispose](#DIS2F22B63C) |         |
 
 ### Methods
 

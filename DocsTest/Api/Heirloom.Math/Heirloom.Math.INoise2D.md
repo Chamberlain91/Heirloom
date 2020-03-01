@@ -10,7 +10,7 @@ Provides an interface for sampling two-dimensional noise.
 
 | Methods                | Summary                       |
 |------------------------|-------------------------------|
-| [Sample](#SAMB4A361CC) | Sample two-dimensional noise. |
+| [Sample](#SAMB43AC0AA) | Sample two-dimensional noise. |
 
 ### Methods
 

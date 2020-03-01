@@ -17,17 +17,17 @@
 
 | Methods                                 | Summary                                                                                                                                            |
 |-----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Clear](#CLE3BB23EF9)                   | Clears the mesh data.                                                                                                                              |
-| [AddVertex](#ADDA40B49)                 | Appends a vertex to this mesh.                                                                                                                     |
-| [AddVertices](#ADD60DF2DCE)             | Appends multiple vertices to this mesh.                                                                                                            |
-| [AddVertices](#ADD60DF2DCE)             | Appends multiple vertices to this mesh.                                                                                                            |
-| [AddIndex](#ADDEB343CCF)                | Appends a triangle index to this mesh. Until `Heirloom.Drawing.Mesh.Clear` is called, this mesh becomes indexed.                                   |
-| [AddIndices](#ADDE65D582E)              | Appends a triangle index to this mesh. Until `Heirloom.Drawing.Mesh.Clear` is called, this mesh becomes indexed.                                   |
-| [AddIndices](#ADDE65D582E)              | Appends a triangle index to this mesh. Until `Heirloom.Drawing.Mesh.Clear` is called, this mesh becomes indexed.                                   |
-| [CreateFromPolygon](#CREA1128314)       | Constructs a mesh from the given polygon via `Heirloom.Math.Polygon.Triangulate`. UV coordinates are the normalized polygon within its own bounds. |
-| [CreateFromPolygon](#CREA1128314)       | Constructs a mesh from the given polygon via `Heirloom.Math.Polygon.Triangulate`. UV coordinates are the normalized polygon within its own bounds. |
-| [CreateFromConvexPolygon](#CRE9A01C527) | Constructs a mesh from the given convex polygon. UV coordinates are the normalized polygon within its own bounds.                                  |
-| [CreateQuad](#CREC5979291)              | Creates a simple quad mesh.                                                                                                                        |
+| [Clear](#CLE4538C554)                   | Clears the mesh data.                                                                                                                              |
+| [AddVertex](#ADD16B64495)               | Appends a vertex to this mesh.                                                                                                                     |
+| [AddVertices](#ADD43612F17)             | Appends multiple vertices to this mesh.                                                                                                            |
+| [AddVertices](#ADDD003481B)             | Appends multiple vertices to this mesh.                                                                                                            |
+| [AddIndex](#ADD822885DD)                | Appends a triangle index to this mesh. Until `Heirloom.Drawing.Mesh.Clear` is called, this mesh becomes indexed.                                   |
+| [AddIndices](#ADDA703B231)              | Appends a triangle index to this mesh. Until `Heirloom.Drawing.Mesh.Clear` is called, this mesh becomes indexed.                                   |
+| [AddIndices](#ADD9A18089A)              | Appends a triangle index to this mesh. Until `Heirloom.Drawing.Mesh.Clear` is called, this mesh becomes indexed.                                   |
+| [CreateFromPolygon](#CRE5F92A686)       | Constructs a mesh from the given polygon via `Heirloom.Math.Polygon.Triangulate`. UV coordinates are the normalized polygon within its own bounds. |
+| [CreateFromPolygon](#CREAC2ED974)       | Constructs a mesh from the given polygon via `Heirloom.Math.Polygon.Triangulate`. UV coordinates are the normalized polygon within its own bounds. |
+| [CreateFromConvexPolygon](#CREE4C0310F) | Constructs a mesh from the given convex polygon. UV coordinates are the normalized polygon within its own bounds.                                  |
+| [CreateQuad](#CRE3F182D02)              | Creates a simple quad mesh.                                                                                                                        |
 
 ### Constructors
 

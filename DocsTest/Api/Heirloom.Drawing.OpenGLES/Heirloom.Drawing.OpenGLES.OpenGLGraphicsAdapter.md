@@ -11,9 +11,9 @@
 
 | Methods                              | Summary |
 |--------------------------------------|---------|
-| [QueryCapabilities](#QUE2836B3D8)    |         |
-| [CreateSurfaceFactory](#CRE3B6F8485) |         |
-| [CreateShaderFactory](#CRE430C2925)  |         |
+| [QueryCapabilities](#QUE5759C575)    |         |
+| [CreateSurfaceFactory](#CRE8B7043E6) |         |
+| [CreateShaderFactory](#CRE4D2ACE82)  |         |
 
 ### Constructors
 

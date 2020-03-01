@@ -12,16 +12,16 @@ Contains rasterization methods for rendering on the CPU.
 
 | Methods                          | Summary                                        |
 |----------------------------------|------------------------------------------------|
-| [Rectangle](#RECCDED25C5)        | Rasterize a rectangular region.                |
-| [Rectangle](#RECCDED25C5)        | Rasterize a rectangular region.                |
-| [Rectangle](#RECCDED25C5)        | Rasterize a rectangular region.                |
-| [Rectangle](#RECCDED25C5)        | Rasterize a rectangular region.                |
-| [RectangleOutline](#REC47F42B45) | Rasterize the outline of a rectangular region. |
-| [Line](#LIN9C939194)             | Rasterize along a line.                        |
-| [Line](#LIN9C939194)             | Rasterize along a line.                        |
-| [Line](#LIN9C939194)             | Rasterize along a line.                        |
-| [Line](#LIN9C939194)             | Rasterize along a line.                        |
-| [Triangle](#TRI72D4817E)         | Rasterize a triangle.                          |
+| [Rectangle](#RECDECA78E1)        | Rasterize a rectangular region.                |
+| [Rectangle](#RECD028156F)        | Rasterize a rectangular region.                |
+| [Rectangle](#REC28237985)        | Rasterize a rectangular region.                |
+| [Rectangle](#RECC6025A58)        | Rasterize a rectangular region.                |
+| [RectangleOutline](#REC44029BC9) | Rasterize the outline of a rectangular region. |
+| [Line](#LINFBC9F047)             | Rasterize along a line.                        |
+| [Line](#LIN5B58C631)             | Rasterize along a line.                        |
+| [Line](#LIN6A6A37CE)             | Rasterize along a line.                        |
+| [Line](#LIN56286E65)             | Rasterize along a line.                        |
+| [Triangle](#TRID0579333)         | Rasterize a triangle.                          |
 
 ### Methods
 

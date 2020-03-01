@@ -19,9 +19,9 @@ A finite grid (bounded by size) of values.
 
 | Methods                           | Summary                                                                       |
 |-----------------------------------|-------------------------------------------------------------------------------|
-| [Clear](#CLE3BB23EF9)             | Sets all values in the grid to default for type \<typeparamref name="T" />.   |
-| [IsValidCoordinate](#ISV67165E1E) | Determines if the specified coordinate is a valid coordinate within the grid. |
-| [IsValidCoordinate](#ISV67165E1E) | Determines if the specified coordinate is a valid coordinate within the grid. |
+| [Clear](#CLE4538C554)             | Sets all values in the grid to default for type \<typeparamref name="T" />.   |
+| [IsValidCoordinate](#ISVB586DBEE) | Determines if the specified coordinate is a valid coordinate within the grid. |
+| [IsValidCoordinate](#ISVCA356546) | Determines if the specified coordinate is a valid coordinate within the grid. |
 
 ### Constructors
 

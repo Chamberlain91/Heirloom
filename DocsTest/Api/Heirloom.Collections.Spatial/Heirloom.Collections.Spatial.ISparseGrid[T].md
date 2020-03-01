@@ -10,10 +10,10 @@
 
 A sparse 2D grid of values.
 
-| Methods                   | Summary                                                   |
-|---------------------------|-----------------------------------------------------------|
-| [ClearValue](#CLE6B298B8) | Clears the assigned valueon this cell of the sparse grid. |
-| [ClearValue](#CLE6B298B8) | Clears the assigned valueon this cell of the sparse grid. |
+| Methods                    | Summary                                                   |
+|----------------------------|-----------------------------------------------------------|
+| [ClearValue](#CLEFB28FAFA) | Clears the assigned valueon this cell of the sparse grid. |
+| [ClearValue](#CLEA46312EA) | Clears the assigned valueon this cell of the sparse grid. |
 
 ### Methods
 

@@ -16,7 +16,7 @@ An audio effect that implements a band pass filter.
 
 | Methods                 | Summary |
 |-------------------------|---------|
-| [Process](#PRO9CD8B3AF) |         |
+| [Process](#PRO1C94C308) |         |
 
 ### Constructors
 

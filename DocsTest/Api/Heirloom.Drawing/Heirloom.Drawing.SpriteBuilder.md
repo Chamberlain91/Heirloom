@@ -11,15 +11,15 @@
 
 Utility object for manually constructing a sprite and its animations from images.
 
-| Methods                      | Summary                                                   |
-|------------------------------|-----------------------------------------------------------|
-| [Clear](#CLE3BB23EF9)        | Clears all frames and animations.                         |
-| [Add](#ADDBCD0F225)          | Add a single image animation.                             |
-| [Add](#ADDBCD0F225)          | Add an animation from several images.                     |
-| [Add](#ADDBCD0F225)          | Adds a new animation to the builder from multiple images. |
-| [Add](#ADDBCD0F225)          | Adds a new animation to the builder from multiple images. |
-| [Add](#ADDBCD0F225)          | Adds a new animation to the builder from multiple images. |
-| [CreateSprite](#CRE6162B54D) | Create a sprite the current state of the builder.         |
+| Methods                     | Summary                                                   |
+|-----------------------------|-----------------------------------------------------------|
+| [Clear](#CLE4538C554)       | Clears all frames and animations.                         |
+| [Add](#ADD63BA3DA2)         | Add a single image animation.                             |
+| [Add](#ADDC795849B)         | Add an animation from several images.                     |
+| [Add](#ADDD4DD1480)         | Adds a new animation to the builder from multiple images. |
+| [Add](#ADD8E087869)         | Adds a new animation to the builder from multiple images. |
+| [Add](#ADD734B2382)         | Adds a new animation to the builder from multiple images. |
+| [CreateSprite](#CRE75443AD) | Create a sprite the current state of the builder.         |
 
 ### Constructors
 

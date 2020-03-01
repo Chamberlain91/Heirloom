@@ -11,11 +11,11 @@ Represents a heap data structure. Allowing the access and removal of items by a 
 
 | Methods                  | Summary                                                             |
 |--------------------------|---------------------------------------------------------------------|
-| [Add](#ADDBCD0F225)      | Adds an item to the heap.                                           |
-| [AddRange](#ADD15375A3E) | Adds multiple items to the heap.                                    |
-| [Remove](#REMF10744DE)   | Removes a specific item from the heap.                              |
-| [Remove](#REMF10744DE)   | Removes and returns the next priority item in the heap.             |
-| [Update](#UPDD1771A75)   | Alerts the heap to update the position the element within the heap. |
+| [Add](#ADD9453EEA5)      | Adds an item to the heap.                                           |
+| [AddRange](#ADD964BA200) | Adds multiple items to the heap.                                    |
+| [Remove](#REM291D149A)   | Removes a specific item from the heap.                              |
+| [Remove](#REMF63FEEE5)   | Removes and returns the next priority item in the heap.             |
+| [Update](#UPD9BB09A13)   | Alerts the heap to update the position the element within the heap. |
 
 ### Methods
 

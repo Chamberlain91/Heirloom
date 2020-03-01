@@ -15,10 +15,10 @@
 
 | Methods                      | Summary                                                                                    |
 |------------------------------|--------------------------------------------------------------------------------------------|
-| [Insert](#INSC7B161AF)       | Insert and pack a rectangle of the specified size.                                         |
-| [Contains](#COND0AE797B)     | Does this packer have a rectangle with the specified key?                                  |
-| [GetRectangle](#GET3189F53F) | Returns the packed rectangle for the specified key.                                        |
-| [Pack](#PAC741B7281)         | Packs the given rectangle sizes and returns one-to-one ordering of their packed positions. |
+| [Insert](#INSA0D098FB)       | Insert and pack a rectangle of the specified size.                                         |
+| [Contains](#CON5E610AA)      | Does this packer have a rectangle with the specified key?                                  |
+| [GetRectangle](#GETA721B7DE) | Returns the packed rectangle for the specified key.                                        |
+| [Pack](#PAC1A0E4940)         | Packs the given rectangle sizes and returns one-to-one ordering of their packed positions. |
 
 ### Constructors
 

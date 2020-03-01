@@ -16,9 +16,9 @@ A structured byte to configure the 8 individual bits as a method of storing 'com
 
 | Methods                       | Summary                               |
 |-------------------------------|---------------------------------------|
-| [GetBit](#GETE7C6484D)        | Gets the bit value at `index` offset. |
-| [SetBit](#SETE7C69839)        | Sets the bit value at `index` offset. |
-| [GetEnumerator](#GETF1F90828) |                                       |
+| [GetBit](#GETADBE54DD)        | Gets the bit value at `index` offset. |
+| [SetBit](#SET69B76502)        | Sets the bit value at `index` offset. |
+| [GetEnumerator](#GETE8195C76) |                                       |
 
 ### Constructors
 

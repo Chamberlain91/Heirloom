@@ -22,26 +22,26 @@
 
 | Methods                            | Summary                                                                                   |
 |------------------------------------|-------------------------------------------------------------------------------------------|
-| [ToPolygon](#TOP44DCF963)          | Create a polygon from this triangle.                                                      |
-| [GetClosestPoint](#GET53DD1DC3)    | Gets the closest point on the triangle to the specified point.                            |
-| [Contains](#COND0AE797B)           | Determines if this triangle contains the specified point.                                 |
-| [Overlaps](#OVE7F2D7C32)           | Determines if this triangle overlaps another shape.                                       |
-| [Overlaps](#OVE7F2D7C32)           | Determines if this triangle overlaps the specified circle.                                |
-| [Overlaps](#OVE7F2D7C32)           | Determines if this triangle overlaps another triangle.                                    |
-| [Overlaps](#OVE7F2D7C32)           | Determines if this triangle overlaps the specified rectangle.                             |
-| [Overlaps](#OVE7F2D7C32)           | Determines if this triangle overlaps the specified convex polygon.                        |
-| [Overlaps](#OVE7F2D7C32)           | Determines if this triangle overlaps the specified simple polygon.                        |
-| [Project](#PROAD473221)            | Project this polygon onto the specified axis.                                             |
-| [Raycast](#RAY408E945F)            | Peforms a raycast onto this rectangle, returning true upon intersection.                  |
-| [Raycast](#RAY408E945F)            | Peforms a raycast onto this rectangle, returning true upon intersection.                  |
-| [Barycentric](#BARFD9343E2)        | Computes the barycentric coefficients of the point `p` within the triangle.               |
-| [GetEdge](#GETC1CA31E1)            |                                                                                           |
-| [Deconstruct](#DECC1884FDA)        |                                                                                           |
-| [GetEnumerator](#GETF1F90828)      |                                                                                           |
-| [ContainsPoint](#CON881CB3C3)      | Determines if the triangle defined by `a`, `b`, `c` contains the specified point.         |
-| [Barycentric](#BARFD9343E2)        | Computes the barycentric coefficients of the point `p` within the triangle `a`, `b`, `c`. |
-| [CreateCircumcircle](#CRE2E1240D5) | Computes the circumcircle for the specified triangle.                                     |
-| [CreateCircumcircle](#CRE2E1240D5) | Computes the circumcircle for the specified triangle.                                     |
+| [ToPolygon](#TOP74E314EF)          | Create a polygon from this triangle.                                                      |
+| [GetClosestPoint](#GETDAC09B5B)    | Gets the closest point on the triangle to the specified point.                            |
+| [Contains](#CON33387C1A)           | Determines if this triangle contains the specified point.                                 |
+| [Overlaps](#OVE450AB809)           | Determines if this triangle overlaps another shape.                                       |
+| [Overlaps](#OVEE125CFD7)           | Determines if this triangle overlaps the specified circle.                                |
+| [Overlaps](#OVEB6714E43)           | Determines if this triangle overlaps another triangle.                                    |
+| [Overlaps](#OVE5BEF9A70)           | Determines if this triangle overlaps the specified rectangle.                             |
+| [Overlaps](#OVE89F258A7)           | Determines if this triangle overlaps the specified convex polygon.                        |
+| [Overlaps](#OVE90B1A9F6)           | Determines if this triangle overlaps the specified simple polygon.                        |
+| [Project](#PRODD6295AA)            | Project this polygon onto the specified axis.                                             |
+| [Raycast](#RAYACE7FDBA)            | Peforms a raycast onto this rectangle, returning true upon intersection.                  |
+| [Raycast](#RAY4B66C4A9)            | Peforms a raycast onto this rectangle, returning true upon intersection.                  |
+| [Barycentric](#BAR12B7451)         | Computes the barycentric coefficients of the point `p` within the triangle.               |
+| [GetEdge](#GETDC025800)            |                                                                                           |
+| [Deconstruct](#DEC6E47A108)        |                                                                                           |
+| [GetEnumerator](#GETE15EECC3)      |                                                                                           |
+| [ContainsPoint](#CONBCA85FE8)      | Determines if the triangle defined by `a`, `b`, `c` contains the specified point.         |
+| [Barycentric](#BARD70755F5)        | Computes the barycentric coefficients of the point `p` within the triangle `a`, `b`, `c`. |
+| [CreateCircumcircle](#CRE786283F6) | Computes the circumcircle for the specified triangle.                                     |
+| [CreateCircumcircle](#CRE92BAA96D) | Computes the circumcircle for the specified triangle.                                     |
 
 ### Fields
 

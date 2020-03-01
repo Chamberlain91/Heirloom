@@ -18,7 +18,7 @@ A representation of single animated sprite. May also contains per-frame and anim
 
 | Methods                      | Summary                             |
 |------------------------------|-------------------------------------|
-| [GetAnimation](#GET51312CD4) | Gets an animation sequence by name. |
+| [GetAnimation](#GET67687A6E) | Gets an animation sequence by name. |
 
 ### Constructors
 

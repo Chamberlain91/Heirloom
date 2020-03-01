@@ -8,12 +8,12 @@
 
 | Methods                            | Summary                                                                                                                                                          |
 |------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [HeuristicSearch<T>](#HEUD6DC7114) | Finds a path between two known states.                                                                                                                           |
-| [HeuristicSearch<T>](#HEUD6DC7114) | Finds a path between two known states.                                                                                                                           |
-| [HeuristicSearch<T>](#HEUD6DC7114) | Search a problem space from some starting state until the search predicate is satified. A common application of a heuristic search is implementing path finding. |
-| [DepthFirst<T>](#DEPCC2204E1)      | Traverses elements in depth-first ordering.                                                                                                                      |
-| [BreadthFirst<T>](#BRE73CAE2E4)    | Traverse elements in breadth-first ordering.                                                                                                                     |
-| [IsAcyclicGraph<T>](#ISA85082994)  | Determines if the specified graph is acyclic. Do not use on infinite graphs.                                                                                     |
+| [HeuristicSearch<T>](#HEU170D32C0) | Finds a path between two known states.                                                                                                                           |
+| [HeuristicSearch<T>](#HEU1C5A8970) | Finds a path between two known states.                                                                                                                           |
+| [HeuristicSearch<T>](#HEU73668FF9) | Search a problem space from some starting state until the search predicate is satified. A common application of a heuristic search is implementing path finding. |
+| [DepthFirst<T>](#DEP348808B1)      | Traverses elements in depth-first ordering.                                                                                                                      |
+| [BreadthFirst<T>](#BRE31612DF4)    | Traverse elements in breadth-first ordering.                                                                                                                     |
+| [IsAcyclicGraph<T>](#ISA5FBFA081)  | Determines if the specified graph is acyclic. Do not use on infinite graphs.                                                                                     |
 
 ### Methods
 
