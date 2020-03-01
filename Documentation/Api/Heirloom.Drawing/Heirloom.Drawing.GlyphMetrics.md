@@ -7,6 +7,7 @@
 
 ## GlyphMetrics (Struct)
 <small>**Namespace**: Heirloom.Drawing</sub></small>  
+<small>`IsReadOnlyAttribute`</small>
 
 Contains information about a glyph (ie, the horizontal metrics).
 

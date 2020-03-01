@@ -6,6 +6,7 @@
 ## Matrix (Struct)
 <small>**Namespace**: Heirloom.Math</sub></small>  
 <small>**Interfaces**: IEquatable\<Matrix></small>  
+<small>`DefaultMemberAttribute`</small>
 
 A 2x3 transformation matrix.
 

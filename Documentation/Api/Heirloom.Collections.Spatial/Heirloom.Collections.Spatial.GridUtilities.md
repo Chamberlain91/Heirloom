@@ -6,6 +6,7 @@
 
 ## GridUtilities (Static Class)
 <small>**Namespace**: Heirloom.Collections.Spatial</sub></small>  
+<small>`ExtensionAttribute`</small>
 
 Provides extra utilities for interacting with a grid.
 

@@ -7,6 +7,7 @@
 ## Grid\<T> (Sealed Class)
 <small>**Namespace**: Heirloom.Collections.Spatial</sub></small>  
 <small>**Interfaces**: [IFiniteGrid\<T>](Heirloom.Collections.Spatial.IFiniteGrid[T].md), [IGrid\<T>](Heirloom.Collections.Spatial.IGrid[T].md), [IReadOnlyGrid\<T>](Heirloom.Collections.Spatial.IReadOnlyGrid[T].md)</small>  
+<small>`DefaultMemberAttribute`</small>
 
 A finite grid (bounded by size) of values.
 

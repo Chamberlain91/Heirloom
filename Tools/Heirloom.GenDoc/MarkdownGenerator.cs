@@ -23,6 +23,9 @@ namespace Heirloom.GenDoc
             var interfaces = CurrentType.GetInterfaces().Select(t => Link(t));
             if (interfaces.Any()) { markdown += Small($"**Interfaces**: {string.Join(", ", interfaces)}") + "  \n"; }
 
+            // Generate Badges
+            markdown += GenerateBadges(CurrentType);
+
             // Emit Summary
             var summary = GetSummary(CurrentType);
             if (summary.Length > 0)
@@ -344,6 +347,13 @@ namespace Heirloom.GenDoc
 
         #region Badges
 
+        private string GenerateBadges(Type type)
+        {
+            var badges = new List<string>();
+            badges.AddRange(GetTypeBadges(type));
+            return GetBadgeText(badges);
+        }
+
         private string GenerateBadges(ConstructorInfo constructor)
         {
             var badges = new List<string>();
@@ -407,6 +417,12 @@ namespace Heirloom.GenDoc
         private IEnumerable<string> GetMemberBadges(MemberInfo info)
         {
             return info.GetCustomAttributes(true)
+                       .Select(s => GetName(s.GetType()));
+        }
+
+        private IEnumerable<string> GetTypeBadges(Type type)
+        {
+            return type.GetCustomAttributes(true)
                        .Select(s => GetName(s.GetType()));
         }
 

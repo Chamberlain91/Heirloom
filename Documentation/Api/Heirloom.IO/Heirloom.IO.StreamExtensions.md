@@ -5,6 +5,7 @@
 
 ## StreamExtensions (Static Class)
 <small>**Namespace**: Heirloom.IO</sub></small>  
+<small>`ExtensionAttribute`</small>
 
 | Methods                      | Summary                                                     |
 |------------------------------|-------------------------------------------------------------|

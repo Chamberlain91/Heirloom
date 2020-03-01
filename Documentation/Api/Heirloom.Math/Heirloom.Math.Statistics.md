@@ -6,6 +6,7 @@
 ## Statistics (Struct)
 <small>**Namespace**: Heirloom.Math</sub></small>  
 <small>**Interfaces**: IEquatable\<Statistics></small>  
+<small>`IsReadOnlyAttribute`</small>
 
 Represents statistics of some data.
 

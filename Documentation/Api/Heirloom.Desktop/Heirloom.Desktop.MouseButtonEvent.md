@@ -6,6 +6,7 @@
 
 ## MouseButtonEvent (Struct)
 <small>**Namespace**: Heirloom.Desktop</sub></small>  
+<small>`IsReadOnlyAttribute`</small>
 
 | Fields                    | Summary |
 |---------------------------|---------|

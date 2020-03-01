@@ -7,6 +7,7 @@
 
 ## FontMetrics (Struct)
 <small>**Namespace**: Heirloom.Drawing</sub></small>  
+<small>`IsReadOnlyAttribute`</small>
 
 Contains information about a font (ie, the vertical metrics).
 

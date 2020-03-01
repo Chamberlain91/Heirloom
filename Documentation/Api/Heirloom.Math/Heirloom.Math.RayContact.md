@@ -6,6 +6,7 @@
 ## RayContact (Struct)
 <small>**Namespace**: Heirloom.Math</sub></small>  
 <small>**Interfaces**: IEquatable\<RayContact></small>  
+<small>`IsReadOnlyAttribute`</small>
 
 Represents the result of a ray-shape intersection.
 

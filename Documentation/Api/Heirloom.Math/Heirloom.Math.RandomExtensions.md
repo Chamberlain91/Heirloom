@@ -5,6 +5,7 @@
 
 ## RandomExtensions (Static Class)
 <small>**Namespace**: Heirloom.Math</sub></small>  
+<small>`ExtensionAttribute`</small>
 
 Provides extension methods for `System.Random` and other related random operations.
 

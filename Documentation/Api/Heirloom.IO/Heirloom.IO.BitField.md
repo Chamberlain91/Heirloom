@@ -6,6 +6,7 @@
 ## BitField (Struct)
 <small>**Namespace**: Heirloom.IO</sub></small>  
 <small>**Interfaces**: IEquatable\<BitField>, IReadOnlyList\<bool>, IReadOnlyCollection\<bool>, IEnumerable\<bool>, IEnumerable</small>  
+<small>`SerializableAttribute`, `DefaultMemberAttribute`</small>
 
 A structured byte to configure the 8 individual bits as a method of storing 'compressed' boolean values.
 

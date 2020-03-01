@@ -8,6 +8,7 @@
 ## GraphicsCapabilities (Struct)
 <small>**Namespace**: Heirloom.Drawing</sub></small>  
 <small>**Interfaces**: IEquatable\<GraphicsCapabilities></small>  
+<small>`IsReadOnlyAttribute`</small>
 
 | Fields                                     | Summary                                                                                                |
 |--------------------------------------------|--------------------------------------------------------------------------------------------------------|

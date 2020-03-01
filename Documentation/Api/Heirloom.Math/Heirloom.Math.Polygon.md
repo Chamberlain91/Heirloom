@@ -6,6 +6,7 @@
 ## Polygon (Class)
 <small>**Namespace**: Heirloom.Math</sub></small>  
 <small>**Interfaces**: [IShape](Heirloom.Math.IShape.md)</small>  
+<small>`DefaultMemberAttribute`</small>
 
 Represents a simple polygon.
 

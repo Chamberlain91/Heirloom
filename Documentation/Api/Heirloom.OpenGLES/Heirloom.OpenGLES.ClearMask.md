@@ -6,6 +6,7 @@
 ## ClearMask (Enum)
 <small>**Namespace**: Heirloom.OpenGLES</sub></small>  
 <small>**Interfaces**: IComparable, IFormattable, IConvertible</small>  
+<small>`FlagsAttribute`</small>
 
 ### Values
 

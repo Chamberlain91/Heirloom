@@ -1,6 +1,6 @@
 # Documentation
-[Heirloom.Collections.Spatial](./Heirloom.Collections.Spatial/Heirloom.Collections.Spatial.md)  
 [Heirloom.Collections](./Heirloom.Collections/Heirloom.Collections.md)  
+[Heirloom.Collections.Spatial](./Heirloom.Collections.Spatial/Heirloom.Collections.Spatial.md)  
 [Heirloom.Math](./Heirloom.Math/Heirloom.Math.md)  
 [Heirloom.IO](./Heirloom.IO/Heirloom.IO.md)  
 [Heirloom.Desktop](./Heirloom.Desktop/Heirloom.Desktop.md)  

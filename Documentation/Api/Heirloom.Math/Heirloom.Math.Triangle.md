@@ -6,6 +6,7 @@
 ## Triangle (Struct)
 <small>**Namespace**: Heirloom.Math</sub></small>  
 <small>**Interfaces**: [IShape](Heirloom.Math.IShape.md), IEquatable\<Triangle>, IEnumerable\<Vector>, IEnumerable</small>  
+<small>`DefaultMemberAttribute`</small>
 
 | Fields          | Summary           |
 |-----------------|-------------------|
