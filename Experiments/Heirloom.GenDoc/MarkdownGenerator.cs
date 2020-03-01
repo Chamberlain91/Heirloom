@@ -216,7 +216,7 @@ namespace Heirloom.GenDoc
 
         private string GenerateSummary(FieldInfo field, bool isStatic)
         {
-            var markdown = Header($"{GetName(field)} : {Link(field.FieldType)}", 4);
+            var markdown = Header($"{Anchor(GetName(field))} : {Link(field.FieldType)}", 4);
 
             // Generate Badges
             markdown += GenerateBadges(field, isStatic);
@@ -437,7 +437,6 @@ namespace Heirloom.GenDoc
 
         protected override string Link(string text, string target)
         {
-            // return $"[{GetName(type)}]({GetPath(GetSimpleType(type))})";
             return $"[{text}]({target})";
         }
 
