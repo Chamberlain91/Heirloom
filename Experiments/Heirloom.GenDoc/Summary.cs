@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace SharpDoc
+namespace Heirloom.GenDoc
 {
     public abstract class Element
     // https://docs.microsoft.com/en-us/dotnet/csharp/codedoc

@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Versioning;
 
-namespace SharpDoc
+namespace Heirloom.GenDoc
 {
     public abstract class DocumentationGenerator
     {

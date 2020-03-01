@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Xml;
 
-namespace SharpDoc
+namespace Heirloom.GenDoc
 {
     internal static class Documentation
     {
