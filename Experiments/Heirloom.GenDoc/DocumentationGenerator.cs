@@ -5,6 +5,8 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Versioning;
+using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace Heirloom.GenDoc
 {
@@ -13,6 +15,8 @@ namespace Heirloom.GenDoc
         private const BindingFlags Declared = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
         private const BindingFlags InstanceBinding = BindingFlags.Instance | Declared;
         private const BindingFlags StaticBinding = BindingFlags.Static | Declared;
+
+        private static readonly Regex _spaces = new Regex(@"\s+", RegexOptions.Compiled);
 
         protected DocumentationGenerator(string extension)
         {
@@ -147,7 +151,7 @@ namespace Heirloom.GenDoc
             // Emit Assembly Link
             {
                 var path = GetAssemblyPath(CurrentAssembly);
-                var link = GetLink(GetName(CurrentAssembly), path);
+                var link = Link(GetName(CurrentAssembly), path);
                 text += Small(Bold("Assembly") + ": " + link) + "  \n";
             }
 
@@ -159,7 +163,7 @@ namespace Heirloom.GenDoc
                 foreach (var attr in internalVisibleAttrs)
                 {
                     var path = GetAssemblyPath(attr.AssemblyName);
-                    var link = GetLink(attr.AssemblyName, path);
+                    var link = Link(attr.AssemblyName, path);
                     list.Add(link);
                 }
 
@@ -177,7 +181,7 @@ namespace Heirloom.GenDoc
                     if (referenceName.Name == "netstandard") { continue; }
 
                     var path = GetAssemblyPath(referenceName.Name);
-                    var link = GetLink(referenceName.Name, path);
+                    var link = Link(referenceName.Name, path);
                     list.Add(link);
                 }
 
@@ -199,7 +203,7 @@ namespace Heirloom.GenDoc
             // 
             foreach (var type in GetTypes(CurrentAssembly))
             {
-                text += $"{GetLink(type)}  \n";
+                text += $"{TypeLink(type)}  \n";
             }
 
             return text;
@@ -215,6 +219,10 @@ namespace Heirloom.GenDoc
 
         protected abstract string GenerateEnumBody();
 
+        #region Generate Elements
+
+        protected abstract string Link(string text, string target);
+
         protected abstract string EscapeCharacters(string text);
 
         protected abstract string Badge(string text);
@@ -229,54 +237,79 @@ namespace Heirloom.GenDoc
 
         protected abstract string Bold(string text);
 
+        #endregion
+
         #region Get Documentation Parts
+
+        protected string GetSummary(Type type)
+        {
+            var summary = Documentation.GetDocumentation(type)?.Element("summary");
+            return ExtractText(summary);
+        }
+
+        protected string GetRemarks(Type type)
+        {
+            var remarks = Documentation.GetDocumentation(type)?.Element("remarks"); 
+            return ExtractText(remarks);
+        }
+
+        protected string GetSummary(MemberInfo member)
+        {
+            var summary = Documentation.GetDocumentation(member)?.Element("summary");
+            return ExtractText(summary);
+        }
+
+        protected string GetRemarks(MemberInfo member)
+        {
+            var remarks = Documentation.GetDocumentation(member)?.Element("remarks");
+            return ExtractText(remarks);
+        }
+
+        private string ExtractText(XElement element)
+        {
+            if (element != null)
+            {
+                var text = "";
+
+                foreach (var node in element.Nodes())
+                {
+                    text += EscapeCharacters(GetNodeText(node));
+                }
+
+                return text.Trim();
+            }
+            else
+            {
+                // No documentation found
+                return string.Empty;
+            }
+        }
+
+        #region Assembly
+
+        public string GetAssemblyPath(string assemblyName)
+        {
+            return $"../{assemblyName}/{assemblyName}.{Extension}";
+        }
+
+        public string GetAssemblyPath(Assembly assembly)
+        {
+            return GetAssemblyPath(GetName(assembly));
+        }
 
         protected string GetName(Assembly assembly)
         {
             return assembly.GetName().Name;
         }
 
-        protected string GetSummary(MemberInfo member)
+        private IEnumerable<Type> GetTypes(Assembly assembly)
         {
-            return EscapeCharacters(member.GetDocumentation() ?? string.Empty);
+            return assembly.DefinedTypes.Where(t => t.IsPublic || t.IsNestedFamORAssem);
         }
 
-        #region Type Info
+        #endregion
 
-        protected string GetTypeAccess(Type type)
-        {
-            var pre = "";
-
-            // Class
-            if (type.IsClass)
-            {
-                // Delegate
-                if (type.IsSubclassOf(typeof(Delegate))) { return "Delegate"; }
-                else
-                {
-                    //
-                    if (type.IsAbstract && type.IsSealed) { pre += "Static "; }
-                    else
-                    {
-                        if (type.IsAbstract) { pre += "Abstract "; }
-                        if (type.IsSealed) { pre += "Sealed "; }
-                    }
-
-                    return $"{pre}Class";
-                }
-            }
-            // Enum
-            else if (type.IsEnum) { return $"{pre}Enum"; }
-            // Interface
-            else if (type.IsInterface) { return $"{pre}Interface"; }
-            // Struct
-            else if (type.IsValueType) { return $"{pre}Struct"; }
-            // ???
-            else
-            {
-                throw new InvalidOperationException();
-            }
-        }
+        #region Types
 
         protected string GetName(Type type)
         {
@@ -346,21 +379,103 @@ namespace Heirloom.GenDoc
             }
         }
 
-        #region Type Link
-
-        protected abstract string GetLink(string text, string target);
-
-        protected string GetLink(Type type)
+        protected string GetTypeAccess(Type type)
         {
-            if (type.Assembly == typeof(int).Assembly) { return GetName(type); }
-            if (type.IsGenericParameter) { return GetName(type); }
+            var pre = "";
 
-            return GetLink(GetName(type), GetTypePath(GetSimpleType(type)));
+            // Class
+            if (type.IsClass)
+            {
+                // Delegate
+                if (type.IsSubclassOf(typeof(Delegate))) { return "Delegate"; }
+                else
+                {
+                    //
+                    if (type.IsAbstract && type.IsSealed) { pre += "Static "; }
+                    else
+                    {
+                        if (type.IsAbstract) { pre += "Abstract "; }
+                        if (type.IsSealed) { pre += "Sealed "; }
+                    }
+
+                    return $"{pre}Class";
+                }
+            }
+            // Enum
+            else if (type.IsEnum) { return $"{pre}Enum"; }
+            // Interface
+            else if (type.IsInterface) { return $"{pre}Interface"; }
+            // Struct
+            else if (type.IsValueType) { return $"{pre}Struct"; }
+            // ???
+            else
+            {
+                throw new InvalidOperationException();
+            }
+        }
+
+        protected string TypeLink(Type type)
+        {
+            var sType = GetSimpleType(type);
+
+            if (sType.Assembly == typeof(int).Assembly) { return GetName(sType); }
+            if (sType.IsGenericParameter) { return GetName(sType); } 
+
+            return Link(GetName(type), GetTypePath(sType));
+        }
+
+        protected static IEnumerable<Type> WalkTypeInheritance(Type type)
+        {
+            while (true)
+            {
+                type = type.BaseType;
+                if (type == typeof(object)
+                 || type == typeof(ValueType)
+                 || type == typeof(Enum)
+                 || type == null)
+                {
+                    // Reached the top of the inherits
+                    break;
+                }
+
+                yield return type;
+            }
+        }
+
+        protected Type GetSimpleType(Type type)
+        {
+            if (type.IsArray || type.IsByRef || type.IsPointer)
+            {
+                return type.GetElementType();
+            }
+            else
+            {
+                return type.UnderlyingSystemType;
+            }
+        }
+
+        public string GetTypePath(Type type)
+        {
+            var path = $"{type.Namespace}.{GetName(type)}.txt";
+            path = Path.ChangeExtension(path, Extension);
+            path = SanitizePath(path);
+
+            if (type.Assembly != CurrentAssembly)
+            {
+                // ie, ../Heirloom.Math/Heirloom.Math.Matrix.md
+                var dir = Path.GetDirectoryName(GetAssemblyPath(type.Assembly));
+                return SanitizePath(Path.Combine(dir, path));
+            }
+            else
+            {
+                // ie, Heirloom.Drawing.Graphics.md
+                return path;
+            }
         }
 
         #endregion
 
-        #endregion
+        #region Constructor
 
         protected string GetName(ConstructorInfo p)
         {
@@ -380,20 +495,34 @@ namespace Heirloom.GenDoc
             }
         }
 
+        #endregion
+
+        #region Field
+
         protected string GetName(FieldInfo p)
         {
             return p.Name;
         }
+
+        #endregion
+
+        #region Property
 
         protected string GetName(PropertyInfo p)
         {
             return p.Name;
         }
 
+        #endregion
+
+        #region Event
+
         protected string GetName(EventInfo p)
         {
             return p.Name;
         }
+
+        #endregion
 
         #region Method Info
 
@@ -416,7 +545,7 @@ namespace Heirloom.GenDoc
 
         protected string GetSignature(MethodInfo method)
         {
-            return $"{GetName(method)}{GetParameterSignature(method)} : {GetLink(method.ReturnType)}";
+            return $"{GetName(method)}{GetParameterSignature(method)} : {TypeLink(method.ReturnType)}";
 
         }
 
@@ -470,77 +599,87 @@ namespace Heirloom.GenDoc
             }
 
             // 
-            var paramTypeName = GetLink(p.ParameterType);
+            var paramTypeName = TypeLink(p.ParameterType);
             if (paramTypeName.EndsWith('&')) { paramTypeName = paramTypeName[0..^1]; }
             return $"{pre}{paramTypeName} {GetName(p)}{pos}";
         }
 
         #endregion
 
-        #endregion
-
-        protected Type GetSimpleType(Type type)
+        private string GetNodeText(XNode node)
         {
-            if (type.IsArray || type.IsByRef || type.IsPointer)
+            if (node is XElement element)
             {
-                return type.GetElementType();
+                if (element.Name == "para")
+                {
+                    if (element.IsEmpty)
+                    {
+                        return "  \n";
+                    }
+                    else
+                    {
+                        var text = NormalizeSpaces(GetNodeText(element.FirstNode));
+                        return $"{text}  \n";
+                    }
+                }
+                else if (element.Name == "see")
+                {
+                    var cref = element.Attribute("cref").Value;
+                    return KeyLink(cref);
+                }
+                else if (element.Name == "paramref")
+                {
+                    var name = element.Attribute("name")?.Value ?? string.Empty;
+                    // var text = NormalizeSpaces(element.Value);
+                    return Code(name);
+                }
             }
-            else
-            {
-                return type.UnderlyingSystemType;
-            }
+
+            // No other known extraction path.
+            return NormalizeSpaces(node.ToString());
         }
 
-        protected static IEnumerable<Type> WalkInheritedTypes(Type type)
+        private string KeyLink(string xmlKey)
         {
-            while (true)
+            var parts = xmlKey.Split(":");
+            var k = parts[0];
+            var p = parts[1];
+
+            switch (k)
             {
-                type = type.BaseType;
-                if (type == typeof(object)
-                 || type == typeof(ValueType)
-                 || type == typeof(Enum)
-                 || type == null)
+                case "T":
                 {
-                    // Reached the top of the inherits
+                    if (Documentation.TryGetType(p, out var type))
+                    {
+                        return TypeLink(type);
+                    }
+
                     break;
                 }
 
-                yield return type;
+                case "F":
+                    break;
+
+                case "P":
+                    break;
+
+                case "M":
+                    break;
+
+                case "E":
+                    break;
             }
+
+            // 
+            return Code(p);
+
         }
 
-        private IEnumerable<Type> GetTypes(Assembly assembly)
-        {
-            return assembly.DefinedTypes.Where(t => t.IsPublic || t.IsNestedFamORAssem);
-        }
+        #endregion
 
-        public string GetTypePath(Type type)
+        protected static string NormalizeSpaces(string text)
         {
-            var path = $"{type.Namespace}.{GetName(type)}.txt";
-            path = Path.ChangeExtension(path, Extension);
-            path = SanitizePath(path);
-
-            if (type.Assembly != CurrentAssembly)
-            {
-                // ie, ../Heirloom.Math/Heirloom.Math.Matrix.md
-                var dir = Path.GetDirectoryName(GetAssemblyPath(type.Assembly));
-                return SanitizePath(Path.Combine(dir, path));
-            }
-            else
-            {
-                // ie, Heirloom.Drawing.Graphics.md
-                return path;
-            }
-        }
-
-        public string GetAssemblyPath(Assembly assembly)
-        {
-            return GetAssemblyPath(GetName(assembly));
-        }
-
-        public string GetAssemblyPath(string assemblyName)
-        {
-            return $"../{assemblyName}/{assemblyName}.{Extension}";
+            return _spaces.Replace(text, " ");
         }
 
         protected static string Shorten(string text, int maxLength = 100)
