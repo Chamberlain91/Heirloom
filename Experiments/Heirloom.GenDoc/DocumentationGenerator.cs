@@ -81,7 +81,7 @@ namespace Heirloom.GenDoc
             }
 
             // 
-            var path = Path.Combine(dir, $"documentation.{Extension}");
+            var path = Path.Combine(dir, $"Documentation.{Extension}");
             File.WriteAllText(path, text);
         }
 
