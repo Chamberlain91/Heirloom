@@ -9,77 +9,77 @@
 
 A 2x3 transformation matrix.
 
-| Fields                | Summary              |
-|-----------------------|----------------------|
-| [M0](#M0FCA2)         |                      |
-| [M1](#M19F49)         |                      |
-| [M2](#M2B753)         |                      |
-| [M3](#M359FA)         |                      |
-| [M4](#M48740)         |                      |
-| [M5](#M529E7)         |                      |
-| [Identity](#IDEN5E3B) | The identity matrix. |
+| Fields                   | Summary              |
+|--------------------------|----------------------|
+| [M0](#M0FCA240B1)        |                      |
+| [M1](#M19F49B54C)        |                      |
+| [M2](#M2B753577B)        |                      |
+| [M3](#M359FACC16)        |                      |
+| [M4](#M48740131D)        |                      |
+| [M5](#M529E787B8)        |                      |
+| [Identity](#IDE5E3BFAE4) | The identity matrix. |
 
-| Properties            | Summary                          |
-|-----------------------|----------------------------------|
-| [Item](#ITEM8B5A)     |                                  |
-| [Item](#ITEM8B5A)     |                                  |
-| [Inverted](#INVEDE51) | Gets the inverse of this matrix. |
+| Properties               | Summary                          |
+|--------------------------|----------------------------------|
+| [Item](#ITE8B5A2F95)     |                                  |
+| [Item](#ITE8B5A2F95)     |                                  |
+| [Inverted](#INVDE5124E3) | Gets the inverse of this matrix. |
 
-| Methods                           | Summary                                                                                                                    |
-|-----------------------------------|----------------------------------------------------------------------------------------------------------------------------|
-| [Multiply](#MULTD34B)             | Multiplies a vector against this matrix.                                                                                   |
-| [MultiplyVector](#MULTA8AB)       | Multiplies a vector against this matrix ignoring the translational components.                                             |
-| [SetScale](#SETSAD4C)             | Configures this matrix as a scaling matrix.                                                                                |
-| [SetShear](#SETS6BFF)             | Configures this matrix as a shearing matrix.                                                                               |
-| [SetRotation](#SETR3CEB)          | Configures this matrix as a rotation matrix.                                                                               |
-| [SetTranslation](#SETT8706)       | Configures this matrix as a translation matrix.                                                                            |
-| [Deconstruct](#DECOC188)          |                                                                                                                            |
-| [GetAffineScale](#GETAC250)       | Extracts affine scaling components from this matrix.                                                                       |
-| [GetAffineTranslation](#GETA86F7) | Extracts affine translational components from this matrix.                                                                 |
-| [GetAffineRotation](#GETAD96D)    | Extracts affine rotational component (the angle) from this matrix.                                                         |
-| [Inverse](#INVEAD55)              | Computes the inverse of this matrix.                                                                                       |
-| [Inverse](#INVEAD55)              | Computes the inverse of the matrix and stores the resulting matrix into `dest`.                                            |
-| [Multiply](#MULTD34B)             | Multiply two matrices together and store the result in `dest`.                                                             |
-| [Multiply](#MULTD34B)             | Multiply two matrices together.                                                                                            |
-| [Multiply](#MULTD34B)             | Multiplies a vector and matrix together and stores the resulting vector into `dest`.                                       |
-| [MultiplyVector](#MULTA8AB)       | Multiplies a vector and matrix together ignoring the translational components and stores the resulting vector into `dest`. |
-| [Multiply](#MULTD34B)             | Multiplies a vector and matrix together.                                                                                   |
-| [MultiplyVector](#MULTA8AB)       | Multiplies a vector and matrix together ignoring the translational components.                                             |
-| [CreateRotation](#CREAF592)       | Constructs a new rotation matrix.                                                                                          |
-| [CreateScale](#CREA3529)          | Constructs a new scaling matrix.                                                                                           |
-| [CreateScale](#CREA3529)          | Constructs a new scaling matrix.                                                                                           |
-| [CreateScale](#CREA3529)          | Constructs a new scaling matrix.                                                                                           |
-| [CreateScale](#CREA3529)          | Constructs a new uniform scaling matrix.                                                                                   |
-| [CreateShear](#CREA2A5B)          | Constructs a new shearing matrix.                                                                                          |
-| [CreateShear](#CREA2A5B)          | Constructs a new shearing matrix.                                                                                          |
-| [CreateTranslation](#CREAFC0C)    | Constructs a new translation matrix.                                                                                       |
-| [CreateTranslation](#CREAFC0C)    | Constructs a new translation matrix.                                                                                       |
-| [CreateTransform](#CREA8DAF)      | Creates a transform matrix with postion, rotation and scale.                                                               |
-| [CreateTransform](#CREA8DAF)      | Creates a transform matrix with postion, rotation and scale.                                                               |
-| [CreateTransform](#CREA8DAF)      | Creates a transform matrix with postion, rotation and scale.                                                               |
-| [RectangleProjection](#RECT6922)  | Constructs a matrix that transforms a rectangular region to normalized screen coordinates.                                 |
-| [RectangleProjection](#RECT6922)  | Constructs a matrix that transforms a rectangular region to normalized screen coordinates.                                 |
+| Methods                              | Summary                                                                                                                    |
+|--------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| [Multiply](#MULD34B4AA2)             | Multiplies a vector against this matrix.                                                                                   |
+| [MultiplyVector](#MULA8AB5E1)        | Multiplies a vector against this matrix ignoring the translational components.                                             |
+| [SetScale](#SETAD4C1420)             | Configures this matrix as a scaling matrix.                                                                                |
+| [SetShear](#SET6BFF6EFF)             | Configures this matrix as a shearing matrix.                                                                               |
+| [SetRotation](#SET3CEB9E5C)          | Configures this matrix as a rotation matrix.                                                                               |
+| [SetTranslation](#SET8706F609)       | Configures this matrix as a translation matrix.                                                                            |
+| [Deconstruct](#DECC1884FDA)          |                                                                                                                            |
+| [GetAffineScale](#GETC2509749)       | Extracts affine scaling components from this matrix.                                                                       |
+| [GetAffineTranslation](#GET86F730A4) | Extracts affine translational components from this matrix.                                                                 |
+| [GetAffineRotation](#GETD96D4299)    | Extracts affine rotational component (the angle) from this matrix.                                                         |
+| [Inverse](#INVAD55C89E)              | Computes the inverse of this matrix.                                                                                       |
+| [Inverse](#INVAD55C89E)              | Computes the inverse of the matrix and stores the resulting matrix into `dest`.                                            |
+| [Multiply](#MULD34B4AA2)             | Multiply two matrices together and store the result in `dest`.                                                             |
+| [Multiply](#MULD34B4AA2)             | Multiply two matrices together.                                                                                            |
+| [Multiply](#MULD34B4AA2)             | Multiplies a vector and matrix together and stores the resulting vector into `dest`.                                       |
+| [MultiplyVector](#MULA8AB5E1)        | Multiplies a vector and matrix together ignoring the translational components and stores the resulting vector into `dest`. |
+| [Multiply](#MULD34B4AA2)             | Multiplies a vector and matrix together.                                                                                   |
+| [MultiplyVector](#MULA8AB5E1)        | Multiplies a vector and matrix together ignoring the translational components.                                             |
+| [CreateRotation](#CREF5925A8C)       | Constructs a new rotation matrix.                                                                                          |
+| [CreateScale](#CRE3529FB8C)          | Constructs a new scaling matrix.                                                                                           |
+| [CreateScale](#CRE3529FB8C)          | Constructs a new scaling matrix.                                                                                           |
+| [CreateScale](#CRE3529FB8C)          | Constructs a new scaling matrix.                                                                                           |
+| [CreateScale](#CRE3529FB8C)          | Constructs a new uniform scaling matrix.                                                                                   |
+| [CreateShear](#CRE2A5B6875)          | Constructs a new shearing matrix.                                                                                          |
+| [CreateShear](#CRE2A5B6875)          | Constructs a new shearing matrix.                                                                                          |
+| [CreateTranslation](#CREFC0CD68F)    | Constructs a new translation matrix.                                                                                       |
+| [CreateTranslation](#CREFC0CD68F)    | Constructs a new translation matrix.                                                                                       |
+| [CreateTransform](#CRE8DAF75FA)      | Creates a transform matrix with postion, rotation and scale.                                                               |
+| [CreateTransform](#CRE8DAF75FA)      | Creates a transform matrix with postion, rotation and scale.                                                               |
+| [CreateTransform](#CRE8DAF75FA)      | Creates a transform matrix with postion, rotation and scale.                                                               |
+| [RectangleProjection](#REC6922F69E)  | Constructs a matrix that transforms a rectangular region to normalized screen coordinates.                                 |
+| [RectangleProjection](#REC6922F69E)  | Constructs a matrix that transforms a rectangular region to normalized screen coordinates.                                 |
 
 ### Fields
 
-#### <a name="M0FCA2"></a> M0 : float
+#### <a name="M0FCA240B1"></a>M0 : float
 
-#### <a name="M19F49"></a> M1 : float
+#### <a name="M19F49B54C"></a>M1 : float
 
-#### <a name="M2B753"></a> M2 : float
+#### <a name="M2B753577B"></a>M2 : float
 
-#### <a name="M359FA"></a> M3 : float
+#### <a name="M359FACC16"></a>M3 : float
 
-#### <a name="M48740"></a> M4 : float
+#### <a name="M48740131D"></a>M4 : float
 
-#### <a name="M529E7"></a> M5 : float
+#### <a name="M529E787B8"></a>M5 : float
 
-#### <a name="IDEN5E3B"></a> Identity : [Matrix](Heirloom.Math.Matrix.md)
+#### <a name="IDE5E3BFAE4"></a>Identity : [Matrix](Heirloom.Math.Matrix.md)
 <small>`Read Only`</small>
 
 The identity matrix.
 
-#### <a name="IDEN5E3B"></a> Identity : [Matrix](Heirloom.Math.Matrix.md)
+#### <a name="IDE5E3BFAE4"></a>Identity : [Matrix](Heirloom.Math.Matrix.md)
 <small>`Static`, `Read Only`</small>
 
 The identity matrix.
@@ -90,13 +90,13 @@ The identity matrix.
 
 ### Properties
 
-#### <a name="ITEM8B5A"></a> Item : float
+#### <a name="ITE8B5A2F95"></a>Item : float
 
 
-#### <a name="ITEM8B5A"></a> Item : float
+#### <a name="ITE8B5A2F95"></a>Item : float
 
 
-#### <a name="INVEDE51"></a> Inverted : [Matrix](Heirloom.Math.Matrix.md)
+#### <a name="INVDE5124E3"></a>Inverted : [Matrix](Heirloom.Math.Matrix.md)
 
 <small>`Read Only`</small>
 
@@ -104,178 +104,178 @@ Gets the inverse of this matrix.
 
 ### Methods
 
-#### <a name="MULTA01B"></a> Multiply(in [Vector](Heirloom.Math.Vector.md) v) : [Vector](Heirloom.Math.Vector.md)
+#### <a name="MULA01B3C26"></a>Multiply(in [Vector](Heirloom.Math.Vector.md) v) : [Vector](Heirloom.Math.Vector.md)
 
 Multiplies a vector against this matrix.
 
 
-#### <a name="MULT344E"></a> MultiplyVector(in [Vector](Heirloom.Math.Vector.md) v) : [Vector](Heirloom.Math.Vector.md)
+#### <a name="MUL344EEFCB"></a>MultiplyVector(in [Vector](Heirloom.Math.Vector.md) v) : [Vector](Heirloom.Math.Vector.md)
 
 Multiplies a vector against this matrix ignoring the translational components.
 
 
-#### <a name="SETSB8F3"></a> SetScale(float sx, float sy) : void
+#### <a name="SETB8F3AE82"></a>SetScale(float sx, float sy) : void
 
 Configures this matrix as a scaling matrix.
 
 
-#### <a name="SETS1455"></a> SetShear(float sx, float sy) : void
+#### <a name="SET1455197D"></a>SetShear(float sx, float sy) : void
 
 Configures this matrix as a shearing matrix.
 
 
-#### <a name="SETR629A"></a> SetRotation(float angle) : void
+#### <a name="SET629A8C2C"></a>SetRotation(float angle) : void
 
 Configures this matrix as a rotation matrix.
 
 
-#### <a name="SETT9C40"></a> SetTranslation(float x, float y) : void
+#### <a name="SET9C40E643"></a>SetTranslation(float x, float y) : void
 
 Configures this matrix as a translation matrix.
 
 
-#### <a name="DECOE7BF"></a> Deconstruct(out [Vector](Heirloom.Math.Vector.md) position, out float rotation, out [Vector](Heirloom.Math.Vector.md) scale) : void
+#### <a name="DECE7BF1534"></a>Deconstruct(out [Vector](Heirloom.Math.Vector.md) position, out float rotation, out [Vector](Heirloom.Math.Vector.md) scale) : void
 
 
-#### <a name="GETA6E6D"></a> GetAffineScale() : [Vector](Heirloom.Math.Vector.md)
+#### <a name="GET6E6D9161"></a>GetAffineScale() : [Vector](Heirloom.Math.Vector.md)
 
 Extracts affine scaling components from this matrix.
 
-#### <a name="GETAA310"></a> GetAffineTranslation() : [Vector](Heirloom.Math.Vector.md)
+#### <a name="GETA3108D8"></a>GetAffineTranslation() : [Vector](Heirloom.Math.Vector.md)
 
 Extracts affine translational components from this matrix.
 
-#### <a name="GETAFC5A"></a> GetAffineRotation() : float
+#### <a name="GETFC5A2BF0"></a>GetAffineRotation() : float
 
 Extracts affine rotational component (the angle) from this matrix.
 
-#### <a name="INVE15CA"></a> Inverse(in [Matrix](Heirloom.Math.Matrix.md) a) : [Matrix](Heirloom.Math.Matrix.md)
+#### <a name="INV15CA99E1"></a>Inverse(in [Matrix](Heirloom.Math.Matrix.md) a) : [Matrix](Heirloom.Math.Matrix.md)
 <small>`Static`</small>
 
 Computes the inverse of this matrix.
 
 
-#### <a name="INVED9F2"></a> Inverse(in [Matrix](Heirloom.Math.Matrix.md) a, ref [Matrix](Heirloom.Math.Matrix.md) dest) : void
+#### <a name="INVD9F20D2A"></a>Inverse(in [Matrix](Heirloom.Math.Matrix.md) a, ref [Matrix](Heirloom.Math.Matrix.md) dest) : void
 <small>`Static`</small>
 
 Computes the inverse of the matrix and stores the resulting matrix into `dest`.
 
 
-#### <a name="MULT2EE9"></a> Multiply(in [Matrix](Heirloom.Math.Matrix.md) a, in [Matrix](Heirloom.Math.Matrix.md) b, ref [Matrix](Heirloom.Math.Matrix.md) dest) : void
+#### <a name="MUL2EE9291A"></a>Multiply(in [Matrix](Heirloom.Math.Matrix.md) a, in [Matrix](Heirloom.Math.Matrix.md) b, ref [Matrix](Heirloom.Math.Matrix.md) dest) : void
 <small>`Static`</small>
 
 Multiply two matrices together and store the result in `dest`.
 
 
-#### <a name="MULTE554"></a> Multiply(in [Matrix](Heirloom.Math.Matrix.md) a, in [Matrix](Heirloom.Math.Matrix.md) b) : [Matrix](Heirloom.Math.Matrix.md)
+#### <a name="MULE5544DFB"></a>Multiply(in [Matrix](Heirloom.Math.Matrix.md) a, in [Matrix](Heirloom.Math.Matrix.md) b) : [Matrix](Heirloom.Math.Matrix.md)
 <small>`Static`</small>
 
 Multiply two matrices together.
 
 
-#### <a name="MULTA47B"></a> Multiply(in [Matrix](Heirloom.Math.Matrix.md) a, in [Vector](Heirloom.Math.Vector.md) v, ref [Vector](Heirloom.Math.Vector.md) dest) : void
+#### <a name="MULA47B6226"></a>Multiply(in [Matrix](Heirloom.Math.Matrix.md) a, in [Vector](Heirloom.Math.Vector.md) v, ref [Vector](Heirloom.Math.Vector.md) dest) : void
 <small>`Static`</small>
 
 Multiplies a vector and matrix together and stores the resulting vector into `dest`.
 
 
-#### <a name="MULT97F9"></a> MultiplyVector(in [Matrix](Heirloom.Math.Matrix.md) a, in [Vector](Heirloom.Math.Vector.md) v, ref [Vector](Heirloom.Math.Vector.md) r) : void
+#### <a name="MUL97F9D4D"></a>MultiplyVector(in [Matrix](Heirloom.Math.Matrix.md) a, in [Vector](Heirloom.Math.Vector.md) v, ref [Vector](Heirloom.Math.Vector.md) r) : void
 <small>`Static`</small>
 
 Multiplies a vector and matrix together ignoring the translational components and stores the resulting vector into `dest`.
 
 
-#### <a name="MULTF160"></a> Multiply(in [Matrix](Heirloom.Math.Matrix.md) a, in [Vector](Heirloom.Math.Vector.md) v) : [Vector](Heirloom.Math.Vector.md)
+#### <a name="MULF160C86F"></a>Multiply(in [Matrix](Heirloom.Math.Matrix.md) a, in [Vector](Heirloom.Math.Vector.md) v) : [Vector](Heirloom.Math.Vector.md)
 <small>`Static`</small>
 
 Multiplies a vector and matrix together.
 
 
-#### <a name="MULTC942"></a> MultiplyVector(in [Matrix](Heirloom.Math.Matrix.md) a, in [Vector](Heirloom.Math.Vector.md) v) : [Vector](Heirloom.Math.Vector.md)
+#### <a name="MULC9427D0A"></a>MultiplyVector(in [Matrix](Heirloom.Math.Matrix.md) a, in [Vector](Heirloom.Math.Vector.md) v) : [Vector](Heirloom.Math.Vector.md)
 <small>`Static`</small>
 
 Multiplies a vector and matrix together ignoring the translational components.
 
 
-#### <a name="CREAFEEB"></a> CreateRotation(float angle) : [Matrix](Heirloom.Math.Matrix.md)
+#### <a name="CREFEEBBF99"></a>CreateRotation(float angle) : [Matrix](Heirloom.Math.Matrix.md)
 <small>`Static`</small>
 
 Constructs a new rotation matrix.
 
 
-#### <a name="CREAD808"></a> CreateScale(float sx, float sy) : [Matrix](Heirloom.Math.Matrix.md)
+#### <a name="CRED808600D"></a>CreateScale(float sx, float sy) : [Matrix](Heirloom.Math.Matrix.md)
 <small>`Static`</small>
 
 Constructs a new scaling matrix.
 
 
-#### <a name="CREAAED1"></a> CreateScale(in [Size](Heirloom.Math.Size.md) scale) : [Matrix](Heirloom.Math.Matrix.md)
+#### <a name="CREAED1C584"></a>CreateScale(in [Size](Heirloom.Math.Size.md) scale) : [Matrix](Heirloom.Math.Matrix.md)
 <small>`Static`</small>
 
 Constructs a new scaling matrix.
 
 
-#### <a name="CREAA991"></a> CreateScale(in [Vector](Heirloom.Math.Vector.md) scale) : [Matrix](Heirloom.Math.Matrix.md)
+#### <a name="CREA9915924"></a>CreateScale(in [Vector](Heirloom.Math.Vector.md) scale) : [Matrix](Heirloom.Math.Matrix.md)
 <small>`Static`</small>
 
 Constructs a new scaling matrix.
 
 
-#### <a name="CREAD844"></a> CreateScale(float scale) : [Matrix](Heirloom.Math.Matrix.md)
+#### <a name="CRED84425C8"></a>CreateScale(float scale) : [Matrix](Heirloom.Math.Matrix.md)
 <small>`Static`</small>
 
 Constructs a new uniform scaling matrix.
 
 
-#### <a name="CREA4499"></a> CreateShear(in [Vector](Heirloom.Math.Vector.md) shear) : [Matrix](Heirloom.Math.Matrix.md)
+#### <a name="CRE449942A2"></a>CreateShear(in [Vector](Heirloom.Math.Vector.md) shear) : [Matrix](Heirloom.Math.Matrix.md)
 <small>`Static`</small>
 
 Constructs a new shearing matrix.
 
 
-#### <a name="CREA9A8A"></a> CreateShear(float sx, float sy) : [Matrix](Heirloom.Math.Matrix.md)
+#### <a name="CRE9A8AF65E"></a>CreateShear(float sx, float sy) : [Matrix](Heirloom.Math.Matrix.md)
 <small>`Static`</small>
 
 Constructs a new shearing matrix.
 
 
-#### <a name="CREA5F85"></a> CreateTranslation(float x, float y) : [Matrix](Heirloom.Math.Matrix.md)
+#### <a name="CRE5F85B0FC"></a>CreateTranslation(float x, float y) : [Matrix](Heirloom.Math.Matrix.md)
 <small>`Static`</small>
 
 Constructs a new translation matrix.
 
 
-#### <a name="CREAAB8C"></a> CreateTranslation(in [Vector](Heirloom.Math.Vector.md) vec) : [Matrix](Heirloom.Math.Matrix.md)
+#### <a name="CREAB8C7C8B"></a>CreateTranslation(in [Vector](Heirloom.Math.Vector.md) vec) : [Matrix](Heirloom.Math.Matrix.md)
 <small>`Static`</small>
 
 Constructs a new translation matrix.
 
 
-#### <a name="CREA453B"></a> CreateTransform(in float tx, in float ty, in float angle, in float sx, in float sy) : [Matrix](Heirloom.Math.Matrix.md)
+#### <a name="CRE453BC4C2"></a>CreateTransform(in float tx, in float ty, in float angle, in float sx, in float sy) : [Matrix](Heirloom.Math.Matrix.md)
 <small>`Static`</small>
 
 Creates a transform matrix with postion, rotation and scale.
 
 
-#### <a name="CREAA464"></a> CreateTransform(in [Vector](Heirloom.Math.Vector.md) position, float angle, in [Vector](Heirloom.Math.Vector.md) scale) : [Matrix](Heirloom.Math.Matrix.md)
+#### <a name="CREA464B8A4"></a>CreateTransform(in [Vector](Heirloom.Math.Vector.md) position, float angle, in [Vector](Heirloom.Math.Vector.md) scale) : [Matrix](Heirloom.Math.Matrix.md)
 <small>`Static`</small>
 
 Creates a transform matrix with postion, rotation and scale.
 
 
-#### <a name="CREAC6CA"></a> CreateTransform(in [Vector](Heirloom.Math.Vector.md) position, float angle, in float scale) : [Matrix](Heirloom.Math.Matrix.md)
+#### <a name="CREC6CA49EB"></a>CreateTransform(in [Vector](Heirloom.Math.Vector.md) position, float angle, in float scale) : [Matrix](Heirloom.Math.Matrix.md)
 <small>`Static`</small>
 
 Creates a transform matrix with postion, rotation and scale.
 
 
-#### <a name="RECT4A6C"></a> RectangleProjection([Rectangle](Heirloom.Math.Rectangle.md) rectangle) : [Matrix](Heirloom.Math.Matrix.md)
+#### <a name="REC4A6C6C04"></a>RectangleProjection([Rectangle](Heirloom.Math.Rectangle.md) rectangle) : [Matrix](Heirloom.Math.Matrix.md)
 <small>`Static`</small>
 
 Constructs a matrix that transforms a rectangular region to normalized screen coordinates.
 
 
-#### <a name="RECT1B4A"></a> RectangleProjection(float left, float top, float right, float bottom) : [Matrix](Heirloom.Math.Matrix.md)
+#### <a name="REC1B4A2103"></a>RectangleProjection(float left, float top, float right, float bottom) : [Matrix](Heirloom.Math.Matrix.md)
 <small>`Static`</small>
 
 Constructs a matrix that transforms a rectangular region to normalized screen coordinates.

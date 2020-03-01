@@ -9,10 +9,10 @@
 
 Implements methods for sampling 2D and 3D simplex noise.
 
-| Methods             | Summary |
-|---------------------|---------|
-| [Sample](#SAMPB4A3) |         |
-| [Sample](#SAMPB4A3) |         |
+| Methods                | Summary |
+|------------------------|---------|
+| [Sample](#SAMB4A361CC) |         |
+| [Sample](#SAMB4A361CC) |         |
 
 ### Constructors
 
@@ -24,11 +24,11 @@ Implements methods for sampling 2D and 3D simplex noise.
 
 ### Methods
 
-#### <a name="SAMPB43A"></a> Sample(float x, float y) : float
+#### <a name="SAMB43AC0AA"></a>Sample(float x, float y) : float
 <small>`Virtual`</small>
 
 
-#### <a name="SAMP96EA"></a> Sample(float x, float y, float z) : float
+#### <a name="SAM96EA574"></a>Sample(float x, float y, float z) : float
 <small>`Virtual`</small>
 
 

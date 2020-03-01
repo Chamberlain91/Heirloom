@@ -11,14 +11,14 @@ An audio effect that implements a Schroeder reverb.
 
 Based on Freeverb
 
-| Properties            | Summary                                                                 |
-|-----------------------|-------------------------------------------------------------------------|
-| [Damping](#DAMPCA57)  | Gets or sets the damping value. Larger values soften the sound earlier. |
-| [RoomSize](#ROOM6318) | Gets or sets the room size. Larger values mean longer reverb.           |
+| Properties               | Summary                                                                 |
+|--------------------------|-------------------------------------------------------------------------|
+| [Damping](#DAMCA57E844)  | Gets or sets the damping value. Larger values soften the sound earlier. |
+| [RoomSize](#ROO6318FE08) | Gets or sets the room size. Larger values mean longer reverb.           |
 
-| Methods              | Summary |
-|----------------------|---------|
-| [Process](#PROC9CD8) |         |
+| Methods                 | Summary |
+|-------------------------|---------|
+| [Process](#PRO9CD8B3AF) |         |
 
 ### Constructors
 
@@ -26,19 +26,19 @@ Based on Freeverb
 
 ### Properties
 
-#### <a name="DAMPCA57"></a> Damping : float
+#### <a name="DAMCA57E844"></a>Damping : float
 
 
 Gets or sets the damping value. Larger values soften the sound earlier.
 
-#### <a name="ROOM6318"></a> RoomSize : float
+#### <a name="ROO6318FE08"></a>RoomSize : float
 
 
 Gets or sets the room size. Larger values mean longer reverb.
 
 ### Methods
 
-#### <a name="PROC1C94"></a> Process(float sample, int channel) : float
+#### <a name="PRO1C94C308"></a>Process(float sample, int channel) : float
 <small>`Virtual`</small>
 
 

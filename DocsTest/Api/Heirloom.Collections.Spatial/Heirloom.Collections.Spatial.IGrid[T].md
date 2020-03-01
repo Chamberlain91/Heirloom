@@ -10,13 +10,13 @@
 
 A 2D grid of values.
 
-| Methods            | Summary                                                                      |
-|--------------------|------------------------------------------------------------------------------|
-| [Clear](#CLEA3BB2) | Clear the grid (ie, set each cell to the default value of the element type). |
+| Methods               | Summary                                                                      |
+|-----------------------|------------------------------------------------------------------------------|
+| [Clear](#CLE3BB23EF9) | Clear the grid (ie, set each cell to the default value of the element type). |
 
 ### Methods
 
-#### <a name="CLEA4538"></a> Clear() : void
+#### <a name="CLE4538C554"></a>Clear() : void
 <small>`Abstract`</small>
 
 Clear the grid (ie, set each cell to the default value of the element type).

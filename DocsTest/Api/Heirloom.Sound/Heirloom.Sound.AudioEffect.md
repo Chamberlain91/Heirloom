@@ -8,9 +8,9 @@
 
 An audio effect. Implementations of this class mutate the audio for various effects.
 
-| Methods              | Summary |
-|----------------------|---------|
-| [Process](#PROC9CD8) |         |
+| Methods                 | Summary |
+|-------------------------|---------|
+| [Process](#PRO9CD8B3AF) |         |
 
 ### Constructors
 
@@ -18,7 +18,7 @@ An audio effect. Implementations of this class mutate the audio for various effe
 
 ### Methods
 
-#### <a name="PROC1C94"></a> Process(float sample, int channel) : float
+#### <a name="PRO1C94C308"></a>Process(float sample, int channel) : float
 <small>`Abstract`</small>
 
 

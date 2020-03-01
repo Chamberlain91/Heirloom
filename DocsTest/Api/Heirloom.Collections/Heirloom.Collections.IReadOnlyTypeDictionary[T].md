@@ -9,27 +9,27 @@
 
 A read-only view of [ITypeDictionary\<T>](Heirloom.Collections.ITypeDictionary[T].md).
 
-| Methods                        | Summary                                                                       |
-|--------------------------------|-------------------------------------------------------------------------------|
-| [Contains](#CONTD0AE)          | Does this type dictionary contain this object?                                |
-| [ContainsType<X>](#CONT7AD5)   | Does the dictionary contain any object that inherits from the specified type. |
-| [GetItemsByType<X>](#GETI6B56) | Enumerates any object that inherits from the specified type.                  |
+| Methods                           | Summary                                                                       |
+|-----------------------------------|-------------------------------------------------------------------------------|
+| [Contains](#COND0AE797B)          | Does this type dictionary contain this object?                                |
+| [ContainsType<X>](#CON7AD5C721)   | Does the dictionary contain any object that inherits from the specified type. |
+| [GetItemsByType<X>](#GET6B563695) | Enumerates any object that inherits from the specified type.                  |
 
 ### Methods
 
-#### <a name="CONTFC14"></a> Contains(T obj) : bool
+#### <a name="CONFC14FF81"></a>Contains(T obj) : bool
 <small>`Abstract`</small>
 
 Does this type dictionary contain this object?
 
 <small>**obj**: <param name="obj">Some object.</param></small>  
 
-#### <a name="CONT93D1"></a> ContainsType<X>() : bool
+#### <a name="CON93D1CDF6"></a>ContainsType<X>() : bool
 <small>`Abstract`</small>
 
 Does the dictionary contain any object that inherits from the specified type.
 
-#### <a name="GETIBA34"></a> GetItemsByType<X>() : IEnumerable\<X>
+#### <a name="GETBA3442D3"></a>GetItemsByType<X>() : IEnumerable\<X>
 <small>`Abstract`</small>
 
 Enumerates any object that inherits from the specified type.

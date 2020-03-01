@@ -7,25 +7,25 @@
 ## MouseButtonEvent (Struct)
 <small>**Namespace**: Heirloom.Desktop</sub></small>  
 
-| Fields                 | Summary |
-|------------------------|---------|
-| [Button](#BUTT1514)    |         |
-| [Action](#ACTI811A)    |         |
-| [Modifiers](#MODIBFF7) |         |
-| [Position](#POSIF46C)  |         |
+| Fields                    | Summary |
+|---------------------------|---------|
+| [Button](#BUT151488AE)    |         |
+| [Action](#ACT811A5B04)    |         |
+| [Modifiers](#MODBFF75FD4) |         |
+| [Position](#POSF46C3C91)  |         |
 
 ### Fields
 
-#### <a name="BUTT1514"></a> Button : int
+#### <a name="BUT151488AE"></a>Button : int
 <small>`Read Only`</small>
 
-#### <a name="ACTI811A"></a> Action : [ButtonAction](Heirloom.Desktop.ButtonAction.md)
+#### <a name="ACT811A5B04"></a>Action : [ButtonAction](Heirloom.Desktop.ButtonAction.md)
 <small>`Read Only`</small>
 
-#### <a name="MODIBFF7"></a> Modifiers : [KeyModifiers](Heirloom.Desktop.KeyModifiers.md)
+#### <a name="MODBFF75FD4"></a>Modifiers : [KeyModifiers](Heirloom.Desktop.KeyModifiers.md)
 <small>`Read Only`</small>
 
-#### <a name="POSIF46C"></a> Position : [Vector](../Heirloom.Math/Heirloom.Math.Vector.md)
+#### <a name="POSF46C3C91"></a>Position : [Vector](../Heirloom.Math/Heirloom.Math.Vector.md)
 <small>`Read Only`</small>
 
 ### Constructors

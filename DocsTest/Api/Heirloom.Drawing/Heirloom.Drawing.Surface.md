@@ -11,12 +11,12 @@
 
 Represents a surface a [Graphics](Heirloom.Drawing.Graphics.md) object can draw on.
 
-| Properties               | Summary                                             |
-|--------------------------|-----------------------------------------------------|
-| [Size](#SIZE9C93)        | Gets size of the surface in pixels.                 |
-| [Width](#WIDT6892)       | Gets the surface width in pixels.                   |
-| [Height](#HEIGE098)      | Gets the surface height in pixels.                  |
-| [Multisample](#MULTD8F2) | Gets the multisampling quality set on this surface. |
+| Properties                 | Summary                                             |
+|----------------------------|-----------------------------------------------------|
+| [Size](#SIZ9C9392F9)       | Gets size of the surface in pixels.                 |
+| [Width](#WID68924896)      | Gets the surface width in pixels.                   |
+| [Height](#HEIE098AAEB)     | Gets the surface height in pixels.                  |
+| [Multisample](#MULD8F2787) | Gets the multisampling quality set on this surface. |
 
 ### Constructors
 
@@ -32,24 +32,24 @@ Creates a new surface.
 
 ### Properties
 
-#### <a name="SIZE9C93"></a> Size : [IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md)
+#### <a name="SIZ9C9392F9"></a>Size : [IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md)
 
 
 Gets size of the surface in pixels.
 
-#### <a name="WIDT6892"></a> Width : int
+#### <a name="WID68924896"></a>Width : int
 
 <small>`Read Only`</small>
 
 Gets the surface width in pixels.
 
-#### <a name="HEIGE098"></a> Height : int
+#### <a name="HEIE098AAEB"></a>Height : int
 
 <small>`Read Only`</small>
 
 Gets the surface height in pixels.
 
-#### <a name="MULTD8F2"></a> Multisample : [MultisampleQuality](Heirloom.Drawing.MultisampleQuality.md)
+#### <a name="MULD8F2787"></a>Multisample : [MultisampleQuality](Heirloom.Drawing.MultisampleQuality.md)
 
 <small>`Read Only`</small>
 

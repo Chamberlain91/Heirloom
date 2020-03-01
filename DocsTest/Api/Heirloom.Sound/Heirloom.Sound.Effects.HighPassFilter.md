@@ -9,13 +9,13 @@
 
 An audio effect that implements a high pass filter.
 
-| Properties             | Summary                                            |
-|------------------------|----------------------------------------------------|
-| [Frequency](#FREQCD27) | Gets or sets the filter cutoff frequency in hertz. |
+| Properties                | Summary                                            |
+|---------------------------|----------------------------------------------------|
+| [Frequency](#FRECD2726E4) | Gets or sets the filter cutoff frequency in hertz. |
 
-| Methods              | Summary |
-|----------------------|---------|
-| [Process](#PROC9CD8) |         |
+| Methods                 | Summary |
+|-------------------------|---------|
+| [Process](#PRO9CD8B3AF) |         |
 
 ### Constructors
 
@@ -23,14 +23,14 @@ An audio effect that implements a high pass filter.
 
 ### Properties
 
-#### <a name="FREQCD27"></a> Frequency : float
+#### <a name="FRECD2726E4"></a>Frequency : float
 
 
 Gets or sets the filter cutoff frequency in hertz.
 
 ### Methods
 
-#### <a name="PROC1C94"></a> Process(float sample, int channel) : float
+#### <a name="PRO1C94C308"></a>Process(float sample, int channel) : float
 <small>`Virtual`</small>
 
 

@@ -6,37 +6,37 @@
 ## ActiveUniform (Class)
 <small>**Namespace**: Heirloom.OpenGLES</sub></small>  
 
-| Fields              | Summary                                   |
-|---------------------|-------------------------------------------|
-| [Size](#SIZE9C93)   | Number of components of the uniform type. |
-| [Type](#TYPE2333)   | The type of uniform.                      |
-| [Index](#INDE6E2E)  | Index of this uniform.                    |
-| [Name](#NAME5943)   | Name of this uniform.                     |
-| [Offset](#OFFS1FA8) | Offset of this uniform within a block.    |
+| Fields                | Summary                                   |
+|-----------------------|-------------------------------------------|
+| [Size](#SIZ9C9392F9)  | Number of components of the uniform type. |
+| [Type](#TYP233312DE)  | The type of uniform.                      |
+| [Index](#IND6E2E1836) | Index of this uniform.                    |
+| [Name](#NAM5943D12B)  | Name of this uniform.                     |
+| [Offset](#OFF1FA8EDD) | Offset of this uniform within a block.    |
 
 ### Fields
 
-#### <a name="SIZE9C93"></a> Size : int
+#### <a name="SIZ9C9392F9"></a>Size : int
 <small>`Read Only`</small>
 
 Number of components of the uniform type.
 
-#### <a name="TYPE2333"></a> Type : [ActiveUniformType](Heirloom.OpenGLES.ActiveUniformType.md)
+#### <a name="TYP233312DE"></a>Type : [ActiveUniformType](Heirloom.OpenGLES.ActiveUniformType.md)
 <small>`Read Only`</small>
 
 The type of uniform.
 
-#### <a name="INDE6E2E"></a> Index : uint
+#### <a name="IND6E2E1836"></a>Index : uint
 <small>`Read Only`</small>
 
 Index of this uniform.
 
-#### <a name="NAME5943"></a> Name : string
+#### <a name="NAM5943D12B"></a>Name : string
 <small>`Read Only`</small>
 
 Name of this uniform.
 
-#### <a name="OFFS1FA8"></a> Offset : int
+#### <a name="OFF1FA8EDD"></a>Offset : int
 <small>`Read Only`</small>
 
 Offset of this uniform within a block.

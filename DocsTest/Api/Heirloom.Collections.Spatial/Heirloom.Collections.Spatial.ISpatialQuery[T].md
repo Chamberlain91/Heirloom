@@ -9,27 +9,27 @@
 
 Provides methods for querying elements in 2D space.
 
-| Methods            | Summary                                                      |
-|--------------------|--------------------------------------------------------------|
-| [Query](#QUERF3BF) | Finds spatial elements that overlap the specified point.     |
-| [Query](#QUERF3BF) | Finds spatial elements that overlap the specified rectangle. |
-| [Query](#QUERF3BF) | Finds spatial elements that intersect the specified ray.     |
+| Methods              | Summary                                                      |
+|----------------------|--------------------------------------------------------------|
+| [Query](#QUEF3BF732) | Finds spatial elements that overlap the specified point.     |
+| [Query](#QUEF3BF732) | Finds spatial elements that overlap the specified rectangle. |
+| [Query](#QUEF3BF732) | Finds spatial elements that intersect the specified ray.     |
 
 ### Methods
 
-#### <a name="QUERF49A"></a> Query([Vector](../Heirloom.Math/Heirloom.Math.Vector.md) point) : IEnumerable\<T>
+#### <a name="QUEF49A009C"></a>Query([Vector](../Heirloom.Math/Heirloom.Math.Vector.md) point) : IEnumerable\<T>
 <small>`Abstract`</small>
 
 Finds spatial elements that overlap the specified point.
 
 
-#### <a name="QUERA1C7"></a> Query([IShape](../Heirloom.Math/Heirloom.Math.IShape.md) queryShape) : IEnumerable\<T>
+#### <a name="QUEA1C7943F"></a>Query([IShape](../Heirloom.Math/Heirloom.Math.IShape.md) queryShape) : IEnumerable\<T>
 <small>`Abstract`</small>
 
 Finds spatial elements that overlap the specified rectangle.
 
 
-#### <a name="QUERC52C"></a> Query([Ray](../Heirloom.Math/Heirloom.Math.Ray.md) ray, float maxDistance = ∞) : IEnumerable\<T>
+#### <a name="QUEC52C85A8"></a>Query([Ray](../Heirloom.Math/Heirloom.Math.Ray.md) ray, float maxDistance = ∞) : IEnumerable\<T>
 <small>`Abstract`</small>
 
 Finds spatial elements that intersect the specified ray.

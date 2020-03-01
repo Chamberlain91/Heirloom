@@ -6,84 +6,84 @@
 ## Time (Static Class)
 <small>**Namespace**: Heirloom.Math</sub></small>  
 
-| Fields                            | Summary |
-|-----------------------------------|---------|
-| [NanosecondAsSeconds](#NANOAB7C)  |         |
-| [MicrosecondAsSeconds](#MICRF645) |         |
-| [MillisecondAsSeconds](#MILL5A8D) |         |
-| [SecondAsSeconds](#SECO7D61)      |         |
-| [MinuteAsSeconds](#MINUA84A)      |         |
-| [HourAsSeconds](#HOURA85F)        |         |
-| [DayAsSeconds](#DAYAF9EF)         |         |
-| [WeekAsSeconds](#WEEKCE31)        |         |
+| Fields                               | Summary |
+|--------------------------------------|---------|
+| [NanosecondAsSeconds](#NANAB7C80EF)  |         |
+| [MicrosecondAsSeconds](#MICF645D1B3) |         |
+| [MillisecondAsSeconds](#MIL5A8D1158) |         |
+| [SecondAsSeconds](#SEC7D61D6C5)      |         |
+| [MinuteAsSeconds](#MINA84AD1C3)      |         |
+| [HourAsSeconds](#HOUA85F810D)        |         |
+| [DayAsSeconds](#DAYF9EF09CD)         |         |
+| [WeekAsSeconds](#WEECE3141C9)        |         |
 
-| Methods                       | Summary                                                         |
-|-------------------------------|-----------------------------------------------------------------|
-| [GetEnglishTime](#GETEB2CC)   | Gets a human readable format for the time specified in seconds. |
-| [GetShortTimeName](#GETSE4D4) | Gets a short name of the time unit (or its plural).             |
-| [GetTimeName](#GETT2327)      | Gets the name of the time unit (or its plural).                 |
-| [GetTimeString](#GETT29B4)    | Gets a human readable format for the given time and unit.       |
-| [GetDuration](#GETD2C61)      | Gets the duration of a time unit in seconds.                    |
-| [Convert](#CONV9AEE)          | Converts time from unit to another.                             |
+| Methods                          | Summary                                                         |
+|----------------------------------|-----------------------------------------------------------------|
+| [GetEnglishTime](#GETB2CC7FC9)   | Gets a human readable format for the time specified in seconds. |
+| [GetShortTimeName](#GETE4D4A1F6) | Gets a short name of the time unit (or its plural).             |
+| [GetTimeName](#GET2327DD20)      | Gets the name of the time unit (or its plural).                 |
+| [GetTimeString](#GET29B4FD8E)    | Gets a human readable format for the given time and unit.       |
+| [GetDuration](#GET2C612406)      | Gets the duration of a time unit in seconds.                    |
+| [Convert](#CON9AEEA93F)          | Converts time from unit to another.                             |
 
 ### Fields
 
-#### <a name="NANOAB7C"></a> NanosecondAsSeconds : float
+#### <a name="NANAB7C80EF"></a>NanosecondAsSeconds : float
 
-#### <a name="MICRF645"></a> MicrosecondAsSeconds : float
+#### <a name="MICF645D1B3"></a>MicrosecondAsSeconds : float
 
-#### <a name="MILL5A8D"></a> MillisecondAsSeconds : float
+#### <a name="MIL5A8D1158"></a>MillisecondAsSeconds : float
 
-#### <a name="SECO7D61"></a> SecondAsSeconds : float
+#### <a name="SEC7D61D6C5"></a>SecondAsSeconds : float
 
-#### <a name="MINUA84A"></a> MinuteAsSeconds : float
+#### <a name="MINA84AD1C3"></a>MinuteAsSeconds : float
 
-#### <a name="HOURA85F"></a> HourAsSeconds : float
+#### <a name="HOUA85F810D"></a>HourAsSeconds : float
 
-#### <a name="DAYAF9EF"></a> DayAsSeconds : float
+#### <a name="DAYF9EF09CD"></a>DayAsSeconds : float
 
-#### <a name="WEEKCE31"></a> WeekAsSeconds : float
+#### <a name="WEECE3141C9"></a>WeekAsSeconds : float
 
-#### <a name="NANOAB7C"></a> NanosecondAsSeconds : float
+#### <a name="NANAB7C80EF"></a>NanosecondAsSeconds : float
 <small>`Static`</small>
 
-#### <a name="MICRF645"></a> MicrosecondAsSeconds : float
+#### <a name="MICF645D1B3"></a>MicrosecondAsSeconds : float
 <small>`Static`</small>
 
-#### <a name="MILL5A8D"></a> MillisecondAsSeconds : float
+#### <a name="MIL5A8D1158"></a>MillisecondAsSeconds : float
 <small>`Static`</small>
 
-#### <a name="SECO7D61"></a> SecondAsSeconds : float
+#### <a name="SEC7D61D6C5"></a>SecondAsSeconds : float
 <small>`Static`</small>
 
-#### <a name="MINUA84A"></a> MinuteAsSeconds : float
+#### <a name="MINA84AD1C3"></a>MinuteAsSeconds : float
 <small>`Static`</small>
 
-#### <a name="HOURA85F"></a> HourAsSeconds : float
+#### <a name="HOUA85F810D"></a>HourAsSeconds : float
 <small>`Static`</small>
 
-#### <a name="DAYAF9EF"></a> DayAsSeconds : float
+#### <a name="DAYF9EF09CD"></a>DayAsSeconds : float
 <small>`Static`</small>
 
-#### <a name="WEEKCE31"></a> WeekAsSeconds : float
+#### <a name="WEECE3141C9"></a>WeekAsSeconds : float
 <small>`Static`</small>
 
 ### Methods
 
-#### <a name="GETE6BFD"></a> GetEnglishTime(float duration, string numberFormat = "0.0") : string
+#### <a name="GET6BFD015B"></a>GetEnglishTime(float duration, string numberFormat = "0.0") : string
 <small>`Static`</small>
 
 Gets a human readable format for the time specified in seconds.
 
 
-#### <a name="GETS394C"></a> GetShortTimeName([TimeUnit](Heirloom.Math.TimeUnit.md) unit) : string
+#### <a name="GET394CEAF5"></a>GetShortTimeName([TimeUnit](Heirloom.Math.TimeUnit.md) unit) : string
 <small>`Static`</small>
 
 Gets a short name of the time unit (or its plural).
 
 <small>**unit**: <param name="unit">Some time unit.</param></small>  
 
-#### <a name="GETT83E3"></a> GetTimeName([TimeUnit](Heirloom.Math.TimeUnit.md) unit, bool plural = False) : string
+#### <a name="GET83E3260B"></a>GetTimeName([TimeUnit](Heirloom.Math.TimeUnit.md) unit, bool plural = False) : string
 <small>`Static`</small>
 
 Gets the name of the time unit (or its plural).
@@ -91,20 +91,20 @@ Gets the name of the time unit (or its plural).
 <small>**unit**: <param name="unit">Some time unit.</param></small>  
 <small>**plural**: <param name="plural">Should it be plural?</param></small>  
 
-#### <a name="GETT6185"></a> GetTimeString(float duration, [TimeUnit](Heirloom.Math.TimeUnit.md) unit) : string
+#### <a name="GET61852783"></a>GetTimeString(float duration, [TimeUnit](Heirloom.Math.TimeUnit.md) unit) : string
 <small>`Static`</small>
 
 Gets a human readable format for the given time and unit.
 
 
-#### <a name="GETD6B27"></a> GetDuration([TimeUnit](Heirloom.Math.TimeUnit.md) unit) : float
+#### <a name="GET6B270B02"></a>GetDuration([TimeUnit](Heirloom.Math.TimeUnit.md) unit) : float
 <small>`Static`</small>
 
 Gets the duration of a time unit in seconds.
 
 <small>**unit**: <param name="unit">Some time unit.</param></small>  
 
-#### <a name="CONV2778"></a> Convert(float value, [TimeUnit](Heirloom.Math.TimeUnit.md) source, [TimeUnit](Heirloom.Math.TimeUnit.md) target) : float
+#### <a name="CON27782F2F"></a>Convert(float value, [TimeUnit](Heirloom.Math.TimeUnit.md) source, [TimeUnit](Heirloom.Math.TimeUnit.md) target) : float
 <small>`Static`</small>
 
 Converts time from unit to another.

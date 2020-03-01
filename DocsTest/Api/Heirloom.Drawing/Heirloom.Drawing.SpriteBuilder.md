@@ -11,15 +11,15 @@
 
 Utility object for manually constructing a sprite and its animations from images.
 
-| Methods                   | Summary                                                   |
-|---------------------------|-----------------------------------------------------------|
-| [Clear](#CLEA3BB2)        | Clears all frames and animations.                         |
-| [Add](#ADDBCD0)           | Add a single image animation.                             |
-| [Add](#ADDBCD0)           | Add an animation from several images.                     |
-| [Add](#ADDBCD0)           | Adds a new animation to the builder from multiple images. |
-| [Add](#ADDBCD0)           | Adds a new animation to the builder from multiple images. |
-| [Add](#ADDBCD0)           | Adds a new animation to the builder from multiple images. |
-| [CreateSprite](#CREA6162) | Create a sprite the current state of the builder.         |
+| Methods                      | Summary                                                   |
+|------------------------------|-----------------------------------------------------------|
+| [Clear](#CLE3BB23EF9)        | Clears all frames and animations.                         |
+| [Add](#ADDBCD0F225)          | Add a single image animation.                             |
+| [Add](#ADDBCD0F225)          | Add an animation from several images.                     |
+| [Add](#ADDBCD0F225)          | Adds a new animation to the builder from multiple images. |
+| [Add](#ADDBCD0F225)          | Adds a new animation to the builder from multiple images. |
+| [Add](#ADDBCD0F225)          | Adds a new animation to the builder from multiple images. |
+| [CreateSprite](#CRE6162B54D) | Create a sprite the current state of the builder.         |
 
 ### Constructors
 
@@ -29,18 +29,18 @@ Construct a new [SpriteBuilder](Heirloom.Drawing.SpriteBuilder.md).
 
 ### Methods
 
-#### <a name="CLEA4538"></a> Clear() : void
+#### <a name="CLE4538C554"></a>Clear() : void
 
 Clears all frames and animations.
 
-#### <a name="ADD(63BA"></a> Add(string name, [Image](Heirloom.Drawing.Image.md) frame) : void
+#### <a name="ADD63BA3DA2"></a>Add(string name, [Image](Heirloom.Drawing.Image.md) frame) : void
 
 Add a single image animation.
 
 <small>**name**: <param name="name">The animation name.</param></small>  
 <small>**frame**: <param name="frame">Some image.</param></small>  
 
-#### <a name="ADD(C795"></a> Add(string name, float frameDelay, params [Image[]](Heirloom.Drawing.Image.md) frames) : void
+#### <a name="ADDC795849B"></a>Add(string name, float frameDelay, params [Image[]](Heirloom.Drawing.Image.md) frames) : void
 
 Add an animation from several images.
 
@@ -48,7 +48,7 @@ Add an animation from several images.
 <small>**frameDelay**: <param name="frameDelay">The delay between frames in seconds.</param></small>  
 <small>**frames**: <param name="frames">The image sequence to animate with.</param></small>  
 
-#### <a name="ADD(D4DD"></a> Add(string name, float frameDelay, IEnumerable\<Image> frames) : void
+#### <a name="ADDD4DD1480"></a>Add(string name, float frameDelay, IEnumerable\<Image> frames) : void
 
 Adds a new animation to the builder from multiple images.
 
@@ -56,16 +56,7 @@ Adds a new animation to the builder from multiple images.
 <small>**frameDelay**: <param name="frameDelay">The delay between frames in seconds.</param></small>  
 <small>**frames**: <param name="frames">The image sequence to animate with.</param></small>  
 
-#### <a name="ADD(8E08"></a> Add(string name, float frameDelay, [Sprite.Direction](Heirloom.Drawing.Sprite.Direction.md) direction, params [Image[]](Heirloom.Drawing.Image.md) frames) : void
-
-Adds a new animation to the builder from multiple images.
-
-<small>**name**: <param name="name">The animation name.</param></small>  
-<small>**frameDelay**: <param name="frameDelay">The delay between frames in seconds.</param></small>  
-<small>**direction**: <param name="direction">Which way the images are cycled.</param></small>  
-<small>**frames**: <param name="frames">The image sequence to animate with.</param></small>  
-
-#### <a name="ADD(734B"></a> Add(string name, float frameDelay, [Sprite.Direction](Heirloom.Drawing.Sprite.Direction.md) direction, IEnumerable\<Image> frames) : void
+#### <a name="ADD8E087869"></a>Add(string name, float frameDelay, [Sprite.Direction](Heirloom.Drawing.Sprite.Direction.md) direction, params [Image[]](Heirloom.Drawing.Image.md) frames) : void
 
 Adds a new animation to the builder from multiple images.
 
@@ -74,7 +65,16 @@ Adds a new animation to the builder from multiple images.
 <small>**direction**: <param name="direction">Which way the images are cycled.</param></small>  
 <small>**frames**: <param name="frames">The image sequence to animate with.</param></small>  
 
-#### <a name="CREA7544"></a> CreateSprite() : [Sprite](Heirloom.Drawing.Sprite.md)
+#### <a name="ADD734B2382"></a>Add(string name, float frameDelay, [Sprite.Direction](Heirloom.Drawing.Sprite.Direction.md) direction, IEnumerable\<Image> frames) : void
+
+Adds a new animation to the builder from multiple images.
+
+<small>**name**: <param name="name">The animation name.</param></small>  
+<small>**frameDelay**: <param name="frameDelay">The delay between frames in seconds.</param></small>  
+<small>**direction**: <param name="direction">Which way the images are cycled.</param></small>  
+<small>**frames**: <param name="frames">The image sequence to animate with.</param></small>  
+
+#### <a name="CRE75443AD"></a>CreateSprite() : [Sprite](Heirloom.Drawing.Sprite.md)
 
 Create a sprite the current state of the builder.
 

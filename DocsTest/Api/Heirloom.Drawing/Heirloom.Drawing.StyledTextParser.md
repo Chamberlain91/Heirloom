@@ -10,9 +10,9 @@
 
 Provides an ability to parse text with some sort of markup into [StyledText](Heirloom.Drawing.StyledText.md).
 
-| Methods            | Summary               |
-|--------------------|-----------------------|
-| [Parse](#PARSB2AE) | Parse the input text. |
+| Methods               | Summary               |
+|-----------------------|-----------------------|
+| [Parse](#PARB2AE6A55) | Parse the input text. |
 
 ### Constructors
 
@@ -20,7 +20,7 @@ Provides an ability to parse text with some sort of markup into [StyledText](Hei
 
 ### Methods
 
-#### <a name="PARS88BC"></a> Parse(string input) : [StyledText](Heirloom.Drawing.StyledText.md)
+#### <a name="PAR88BCC0BA"></a>Parse(string input) : [StyledText](Heirloom.Drawing.StyledText.md)
 <small>`Abstract`</small>
 
 Parse the input text.

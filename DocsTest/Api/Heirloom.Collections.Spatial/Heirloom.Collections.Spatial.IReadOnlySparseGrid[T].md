@@ -10,30 +10,30 @@
 
 A sparse 2D grid of values.
 
-| Properties        | Summary |
-|-------------------|---------|
-| [Keys](#KEYS3D37) |         |
+| Properties           | Summary |
+|----------------------|---------|
+| [Keys](#KEY3D37EC76) |         |
 
-| Methods               | Summary                                                             |
-|-----------------------|---------------------------------------------------------------------|
-| [HasValue](#HASVB314) | Determines if a value has been set on this cell of the sparse grid. |
-| [HasValue](#HASVB314) | Determines if a value has been set on this cell of the sparse grid. |
+| Methods                  | Summary                                                             |
+|--------------------------|---------------------------------------------------------------------|
+| [HasValue](#HASB31488F1) | Determines if a value has been set on this cell of the sparse grid. |
+| [HasValue](#HASB31488F1) | Determines if a value has been set on this cell of the sparse grid. |
 
 ### Properties
 
-#### <a name="KEYS3D37"></a> Keys : IEnumerable\<IntVector>
+#### <a name="KEY3D37EC76"></a>Keys : IEnumerable\<IntVector>
 
 <small>`Read Only`</small>
 
 ### Methods
 
-#### <a name="HASV1E7B"></a> HasValue(in int x, in int y) : bool
+#### <a name="HAS1E7B500D"></a>HasValue(in int x, in int y) : bool
 <small>`Abstract`</small>
 
 Determines if a value has been set on this cell of the sparse grid.
 
 
-#### <a name="HASV93C6"></a> HasValue(in [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) co) : bool
+#### <a name="HAS93C63DAD"></a>HasValue(in [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) co) : bool
 <small>`Abstract`</small>
 
 Determines if a value has been set on this cell of the sparse grid.

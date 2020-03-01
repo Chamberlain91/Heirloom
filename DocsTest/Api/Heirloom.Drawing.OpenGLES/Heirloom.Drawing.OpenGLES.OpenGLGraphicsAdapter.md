@@ -9,11 +9,11 @@
 <small>**Inherits**: [GraphicsAdapter](../Heirloom.Drawing/Heirloom.Drawing.GraphicsAdapter.md)</small>  
 <small>**Interfaces**: IDisposable</small>  
 
-| Methods                           | Summary |
-|-----------------------------------|---------|
-| [QueryCapabilities](#QUER2836)    |         |
-| [CreateSurfaceFactory](#CREA3B6F) |         |
-| [CreateShaderFactory](#CREA430C)  |         |
+| Methods                              | Summary |
+|--------------------------------------|---------|
+| [QueryCapabilities](#QUE2836B3D8)    |         |
+| [CreateSurfaceFactory](#CRE3B6F8485) |         |
+| [CreateShaderFactory](#CRE430C2925)  |         |
 
 ### Constructors
 
@@ -21,12 +21,12 @@
 
 ### Methods
 
-#### <a name="QUER5759"></a> QueryCapabilities() : [GraphicsCapabilities](../Heirloom.Drawing/Heirloom.Drawing.GraphicsCapabilities.md)
+#### <a name="QUE5759C575"></a>QueryCapabilities() : [GraphicsCapabilities](../Heirloom.Drawing/Heirloom.Drawing.GraphicsCapabilities.md)
 <small>`Virtual`, `Protected`</small>
 
-#### <a name="CREA8B70"></a> CreateSurfaceFactory() : [GraphicsAdapter.ISurfaceFactory](../Heirloom.Drawing/Heirloom.Drawing.GraphicsAdapter.ISurfaceFactory.md)
+#### <a name="CRE8B7043E6"></a>CreateSurfaceFactory() : [GraphicsAdapter.ISurfaceFactory](../Heirloom.Drawing/Heirloom.Drawing.GraphicsAdapter.ISurfaceFactory.md)
 <small>`Virtual`, `Protected`</small>
 
-#### <a name="CREA4D2A"></a> CreateShaderFactory() : [GraphicsAdapter.IShaderFactory](../Heirloom.Drawing/Heirloom.Drawing.GraphicsAdapter.IShaderFactory.md)
+#### <a name="CRE4D2ACE82"></a>CreateShaderFactory() : [GraphicsAdapter.IShaderFactory](../Heirloom.Drawing/Heirloom.Drawing.GraphicsAdapter.IShaderFactory.md)
 <small>`Virtual`, `Protected`</small>
 

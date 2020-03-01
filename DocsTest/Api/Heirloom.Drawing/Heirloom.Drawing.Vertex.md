@@ -8,18 +8,18 @@
 ## Vertex (Struct)
 <small>**Namespace**: Heirloom.Drawing</sub></small>  
 
-| Fields                | Summary                       |
-|-----------------------|-------------------------------|
-| [Position](#POSIF46C) | The world-space coordinate.   |
-| [UV](#UV4325)         | The texture-space coordinate. |
+| Fields                   | Summary                       |
+|--------------------------|-------------------------------|
+| [Position](#POSF46C3C91) | The world-space coordinate.   |
+| [UV](#UV43256FCF)        | The texture-space coordinate. |
 
 ### Fields
 
-#### <a name="POSIF46C"></a> Position : [Vector](../Heirloom.Math/Heirloom.Math.Vector.md)
+#### <a name="POSF46C3C91"></a>Position : [Vector](../Heirloom.Math/Heirloom.Math.Vector.md)
 
 The world-space coordinate.
 
-#### <a name="UV4325"></a> UV : [Vector](../Heirloom.Math/Heirloom.Math.Vector.md)
+#### <a name="UV43256FCF"></a>UV : [Vector](../Heirloom.Math/Heirloom.Math.Vector.md)
 
 The texture-space coordinate.
 

@@ -8,15 +8,15 @@
 
 Represents an embedded file.
 
-| Properties               | Summary                                          |
-|--------------------------|--------------------------------------------------|
-| [Assembly](#ASSEBEC4)    | Which assembly did this embedded file originate? |
-| [Path](#PATH5C11)        | The name of this file in the assembly manifest.  |
-| [Identifiers](#IDEN5992) | The known transformed identifiers.               |
+| Properties                  | Summary                                          |
+|-----------------------------|--------------------------------------------------|
+| [Assembly](#ASSBEC4387E)    | Which assembly did this embedded file originate? |
+| [Path](#PAT5C11D03D)        | The name of this file in the assembly manifest.  |
+| [Identifiers](#IDE599211FE) | The known transformed identifiers.               |
 
-| Methods                 | Summary                              |
-|-------------------------|--------------------------------------|
-| [OpenStream](#OPEN8064) | Opens a stream to the embedded file. |
+| Methods                    | Summary                              |
+|----------------------------|--------------------------------------|
+| [OpenStream](#OPE8064E612) | Opens a stream to the embedded file. |
 
 ### Constructors
 
@@ -24,19 +24,19 @@ Represents an embedded file.
 
 ### Properties
 
-#### <a name="ASSEBEC4"></a> Assembly : Assembly
+#### <a name="ASSBEC4387E"></a>Assembly : Assembly
 
 <small>`Read Only`</small>
 
 Which assembly did this embedded file originate?
 
-#### <a name="PATH5C11"></a> Path : string
+#### <a name="PAT5C11D03D"></a>Path : string
 
 <small>`Read Only`</small>
 
 The name of this file in the assembly manifest.
 
-#### <a name="IDEN5992"></a> Identifiers : IReadOnlyList\<string>
+#### <a name="IDE599211FE"></a>Identifiers : IReadOnlyList\<string>
 
 <small>`Read Only`</small>
 
@@ -44,7 +44,7 @@ The known transformed identifiers.
 
 ### Methods
 
-#### <a name="OPENF0FC"></a> OpenStream() : Stream
+#### <a name="OPEF0FC28BF"></a>OpenStream() : Stream
 
 Opens a stream to the embedded file.
 

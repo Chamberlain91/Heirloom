@@ -10,20 +10,20 @@
 
 A finite grid (bounded by `Heirloom.Collections.Spatial.IFiniteGrid`1.Width` and `Heirloom.Collections.Spatial.IFiniteGrid`1.Height`).
 
-| Properties          | Summary                  |
-|---------------------|--------------------------|
-| [Width](#WIDT6892)  | The width of this grid.  |
-| [Height](#HEIGE098) | The height of this grid. |
+| Properties             | Summary                  |
+|------------------------|--------------------------|
+| [Width](#WID68924896)  | The width of this grid.  |
+| [Height](#HEIE098AAEB) | The height of this grid. |
 
 ### Properties
 
-#### <a name="WIDT6892"></a> Width : int
+#### <a name="WID68924896"></a>Width : int
 
 <small>`Read Only`</small>
 
 The width of this grid.
 
-#### <a name="HEIGE098"></a> Height : int
+#### <a name="HEIE098AAEB"></a>Height : int
 
 <small>`Read Only`</small>
 

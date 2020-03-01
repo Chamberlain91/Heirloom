@@ -9,16 +9,16 @@
 
 A structured byte to configure the 8 individual bits as a method of storing 'compressed' boolean values.
 
-| Properties         | Summary |
-|--------------------|---------|
-| [Item](#ITEM8B5A)  |         |
-| [Count](#COUN73CA) |         |
+| Properties            | Summary |
+|-----------------------|---------|
+| [Item](#ITE8B5A2F95)  |         |
+| [Count](#COU73CA0BBB) |         |
 
-| Methods                    | Summary                               |
-|----------------------------|---------------------------------------|
-| [GetBit](#GETBE7C6)        | Gets the bit value at `index` offset. |
-| [SetBit](#SETBE7C6)        | Sets the bit value at `index` offset. |
-| [GetEnumerator](#GETEF1F9) |                                       |
+| Methods                       | Summary                               |
+|-------------------------------|---------------------------------------|
+| [GetBit](#GETE7C6484D)        | Gets the bit value at `index` offset. |
+| [SetBit](#SETE7C69839)        | Sets the bit value at `index` offset. |
+| [GetEnumerator](#GETF1F90828) |                                       |
 
 ### Constructors
 
@@ -26,25 +26,25 @@ A structured byte to configure the 8 individual bits as a method of storing 'com
 
 ### Properties
 
-#### <a name="ITEM8B5A"></a> Item : bool
+#### <a name="ITE8B5A2F95"></a>Item : bool
 
 
-#### <a name="COUN73CA"></a> Count : int
+#### <a name="COU73CA0BBB"></a>Count : int
 
 <small>`Read Only`</small>
 
 ### Methods
 
-#### <a name="GETBADBE"></a> GetBit(int index) : bool
+#### <a name="GETADBE54DD"></a>GetBit(int index) : bool
 
 Gets the bit value at `index` offset.
 
 
-#### <a name="SETB69B7"></a> SetBit(int index, bool bit) : void
+#### <a name="SET69B76502"></a>SetBit(int index, bool bit) : void
 
 Sets the bit value at `index` offset.
 
 
-#### <a name="GETEE819"></a> GetEnumerator() : IEnumerator\<bool>
+#### <a name="GETE8195C76"></a>GetEnumerator() : IEnumerator\<bool>
 <small>`Virtual`</small>
 

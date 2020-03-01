@@ -9,47 +9,47 @@
 
 Represents a simple polygon.
 
-| Properties                    | Summary                                                                                                                                           |
-|-------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Item](#ITEM8B5A)             |                                                                                                                                                   |
-| [Vertices](#VERT648B)         | Gets a read-only view of this polygon's vertices.                                                                                                 |
-| [Count](#COUN73CA)            | Gets the number of vertices in this polygon.                                                                                                      |
-| [Area](#AREA9F52)             | Gets the area of the polygon.                                                                                                                     |
-| [Center](#CENT7CD9)           | Gets the center (point mean) of the polygon.                                                                                                      |
-| [Centroid](#CENTE921)         | Gets the centroid (area weighted) of the polygon.                                                                                                 |
-| [Bounds](#BOUNBCFE)           | Gets the bounding rectangle of this polygon.                                                                                                      |
-| [IsConvex](#ISCO654C)         | Gets a value determining if this polygon is convex (in clockwise ordering).                                                                       |
-| [ConvexPartitions](#CONV8A0F) | Gets the list of convex partitions. If this polygon is already convex, there is only one convex partition that maps one-to-one with the original. |
+| Properties                       | Summary                                                                                                                                           |
+|----------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Item](#ITE8B5A2F95)             |                                                                                                                                                   |
+| [Vertices](#VER648B0F21)         | Gets a read-only view of this polygon's vertices.                                                                                                 |
+| [Count](#COU73CA0BBB)            | Gets the number of vertices in this polygon.                                                                                                      |
+| [Area](#ARE9F5286F)              | Gets the area of the polygon.                                                                                                                     |
+| [Center](#CEN7CD91D4B)           | Gets the center (point mean) of the polygon.                                                                                                      |
+| [Centroid](#CENE921BA8E)         | Gets the centroid (area weighted) of the polygon.                                                                                                 |
+| [Bounds](#BOUBCFE829)            | Gets the bounding rectangle of this polygon.                                                                                                      |
+| [IsConvex](#ISC654C4E97)         | Gets a value determining if this polygon is convex (in clockwise ordering).                                                                       |
+| [ConvexPartitions](#CON8A0F44BE) | Gets the list of convex partitions. If this polygon is already convex, there is only one convex partition that maps one-to-one with the original. |
 
-| Methods                           | Summary                                                                                |
-|-----------------------------------|----------------------------------------------------------------------------------------|
-| [Clear](#CLEA3BB2)                |                                                                                        |
-| [Add](#ADDBCD0)                   |                                                                                        |
-| [Insert](#INSEC7B1)               |                                                                                        |
-| [RemoveAt](#REMO7EC3)             |                                                                                        |
-| [GetClosestPoint](#GETC53DD)      | Gets the nearest point on the polygon to the specified point.                          |
-| [Contains](#CONTD0AE)             | Determines if the specified point is contained by this polygon.                        |
-| [Overlaps](#OVER7F2D)             | Checks for an overlap between this polygon and another shape.                          |
-| [Overlaps](#OVER7F2D)             | Determines if this polygon overlaps the specified rectangle.                           |
-| [Overlaps](#OVER7F2D)             | Determines if this polygon overlaps the specified circle.                              |
-| [Overlaps](#OVER7F2D)             | Determines if this polygon overlaps the specified triangle.                            |
-| [Overlaps](#OVER7F2D)             | Determines if this polygon overlaps the specified triangle.                            |
-| [Project](#PROJAD47)              | Project this polygon onto the specified axis.                                          |
-| [Raycast](#RAYC408E)              | Checks if a ray intersects this polygon.                                               |
-| [Raycast](#RAYC408E)              | Checks if a ray intersects this polygon and outputs information on the contact point.  |
-| [Triangulate](#TRIA86AB)          | Decompose this polygon into triangles.                                                 |
-| [CreateFromShape](#CREABBB9)      | Constructs a polygon representation of the specified shape.                            |
-| [CreateFromShape](#CREABBB9)      | Constructs a polygon representation of the specified triangle.                         |
-| [CreateFromShape](#CREABBB9)      | Constructs a polygon representation of the specified rectangle.                        |
-| [CreateFromShape](#CREABBB9)      | Constructs a polygon representation of the specified circle.                           |
-| [CreateConvexHull](#CREAC184)     | Constructs a convex polygon representing the convex hull of the specified point cloud. |
-| [CreateRegularPolygon](#CREAF803) | Construct a regular polygon.                                                           |
-| [CreateRegularPolygon](#CREAF803) | Construct a regular polygon.                                                           |
-| [CreateStar](#CREA60A3)           | Creates a polygon shaped like a standard 5 point star centered on the origin.          |
-| [CreateStar](#CREA60A3)           | Creates a polygon shaped like a standard 5 point star.                                 |
-| [CreateStar](#CREA60A3)           | Creates a polygon shaped like a star centered on the origin.                           |
-| [CreateStar](#CREA60A3)           | Creates a polygon shaped like a star.                                                  |
-| [CreateStar](#CREA60A3)           | Creates a polygon shaped like a star.                                                  |
+| Methods                              | Summary                                                                                |
+|--------------------------------------|----------------------------------------------------------------------------------------|
+| [Clear](#CLE3BB23EF9)                |                                                                                        |
+| [Add](#ADDBCD0F225)                  |                                                                                        |
+| [Insert](#INSC7B161AF)               |                                                                                        |
+| [RemoveAt](#REM7EC3163)              |                                                                                        |
+| [GetClosestPoint](#GET53DD1DC3)      | Gets the nearest point on the polygon to the specified point.                          |
+| [Contains](#COND0AE797B)             | Determines if the specified point is contained by this polygon.                        |
+| [Overlaps](#OVE7F2D7C32)             | Checks for an overlap between this polygon and another shape.                          |
+| [Overlaps](#OVE7F2D7C32)             | Determines if this polygon overlaps the specified rectangle.                           |
+| [Overlaps](#OVE7F2D7C32)             | Determines if this polygon overlaps the specified circle.                              |
+| [Overlaps](#OVE7F2D7C32)             | Determines if this polygon overlaps the specified triangle.                            |
+| [Overlaps](#OVE7F2D7C32)             | Determines if this polygon overlaps the specified triangle.                            |
+| [Project](#PROAD473221)              | Project this polygon onto the specified axis.                                          |
+| [Raycast](#RAY408E945F)              | Checks if a ray intersects this polygon.                                               |
+| [Raycast](#RAY408E945F)              | Checks if a ray intersects this polygon and outputs information on the contact point.  |
+| [Triangulate](#TRI86AB1534)          | Decompose this polygon into triangles.                                                 |
+| [CreateFromShape](#CREBBB92C8D)      | Constructs a polygon representation of the specified shape.                            |
+| [CreateFromShape](#CREBBB92C8D)      | Constructs a polygon representation of the specified triangle.                         |
+| [CreateFromShape](#CREBBB92C8D)      | Constructs a polygon representation of the specified rectangle.                        |
+| [CreateFromShape](#CREBBB92C8D)      | Constructs a polygon representation of the specified circle.                           |
+| [CreateConvexHull](#CREC184CDF2)     | Constructs a convex polygon representing the convex hull of the specified point cloud. |
+| [CreateRegularPolygon](#CREF803FC78) | Construct a regular polygon.                                                           |
+| [CreateRegularPolygon](#CREF803FC78) | Construct a regular polygon.                                                           |
+| [CreateStar](#CRE60A3E2AE)           | Creates a polygon shaped like a standard 5 point star centered on the origin.          |
+| [CreateStar](#CRE60A3E2AE)           | Creates a polygon shaped like a standard 5 point star.                                 |
+| [CreateStar](#CRE60A3E2AE)           | Creates a polygon shaped like a star centered on the origin.                           |
+| [CreateStar](#CRE60A3E2AE)           | Creates a polygon shaped like a star.                                                  |
+| [CreateStar](#CRE60A3E2AE)           | Creates a polygon shaped like a star.                                                  |
 
 ### Constructors
 
@@ -63,52 +63,52 @@ Constructs a new simple polygon (assumes points are defined clockwise and descri
 
 ### Properties
 
-#### <a name="ITEM8B5A"></a> Item : [Vector](Heirloom.Math.Vector.md)
+#### <a name="ITE8B5A2F95"></a>Item : [Vector](Heirloom.Math.Vector.md)
 
 
-#### <a name="VERT648B"></a> Vertices : IReadOnlyList\<Vector>
+#### <a name="VER648B0F21"></a>Vertices : IReadOnlyList\<Vector>
 
 <small>`Read Only`</small>
 
 Gets a read-only view of this polygon's vertices.
 
-#### <a name="COUN73CA"></a> Count : int
+#### <a name="COU73CA0BBB"></a>Count : int
 
 <small>`Read Only`</small>
 
 Gets the number of vertices in this polygon.
 
-#### <a name="AREA9F52"></a> Area : float
+#### <a name="ARE9F5286F"></a>Area : float
 
 <small>`Read Only`</small>
 
 Gets the area of the polygon.
 
-#### <a name="CENT7CD9"></a> Center : [Vector](Heirloom.Math.Vector.md)
+#### <a name="CEN7CD91D4B"></a>Center : [Vector](Heirloom.Math.Vector.md)
 
 <small>`Read Only`</small>
 
 Gets the center (point mean) of the polygon.
 
-#### <a name="CENTE921"></a> Centroid : [Vector](Heirloom.Math.Vector.md)
+#### <a name="CENE921BA8E"></a>Centroid : [Vector](Heirloom.Math.Vector.md)
 
 <small>`Read Only`</small>
 
 Gets the centroid (area weighted) of the polygon.
 
-#### <a name="BOUNBCFE"></a> Bounds : [Rectangle](Heirloom.Math.Rectangle.md)
+#### <a name="BOUBCFE829"></a>Bounds : [Rectangle](Heirloom.Math.Rectangle.md)
 
 <small>`Read Only`</small>
 
 Gets the bounding rectangle of this polygon.
 
-#### <a name="ISCO654C"></a> IsConvex : bool
+#### <a name="ISC654C4E97"></a>IsConvex : bool
 
 <small>`Read Only`</small>
 
 Gets a value determining if this polygon is convex (in clockwise ordering).
 
-#### <a name="CONV8A0F"></a> ConvexPartitions : IReadOnlyList\<IReadOnlyList\<Vector>>
+#### <a name="CON8A0F44BE"></a>ConvexPartitions : IReadOnlyList\<IReadOnlyList\<Vector>>
 
 <small>`Read Only`</small>
 
@@ -116,139 +116,139 @@ Gets the list of convex partitions. If this polygon is already convex, there is 
 
 ### Methods
 
-#### <a name="CLEA4538"></a> Clear() : void
+#### <a name="CLE4538C554"></a>Clear() : void
 
-#### <a name="ADD(2619"></a> Add([Vector](Heirloom.Math.Vector.md) item) : void
-
-
-#### <a name="INSEEF02"></a> Insert(int index, [Vector](Heirloom.Math.Vector.md) item) : void
+#### <a name="ADD26190842"></a>Add([Vector](Heirloom.Math.Vector.md) item) : void
 
 
-#### <a name="REMOC3C2"></a> RemoveAt(int index) : void
+#### <a name="INSEF0217B3"></a>Insert(int index, [Vector](Heirloom.Math.Vector.md) item) : void
 
 
-#### <a name="GETCDAC0"></a> GetClosestPoint(in [Vector](Heirloom.Math.Vector.md) point) : [Vector](Heirloom.Math.Vector.md)
+#### <a name="REMC3C2E61D"></a>RemoveAt(int index) : void
+
+
+#### <a name="GETDAC09B5B"></a>GetClosestPoint(in [Vector](Heirloom.Math.Vector.md) point) : [Vector](Heirloom.Math.Vector.md)
 
 Gets the nearest point on the polygon to the specified point.
 
 
-#### <a name="CONT3338"></a> Contains(in [Vector](Heirloom.Math.Vector.md) point) : bool
+#### <a name="CON33387C1A"></a>Contains(in [Vector](Heirloom.Math.Vector.md) point) : bool
 
 Determines if the specified point is contained by this polygon.
 
 
-#### <a name="OVER450A"></a> Overlaps([IShape](Heirloom.Math.IShape.md) shape) : bool
+#### <a name="OVE450AB809"></a>Overlaps([IShape](Heirloom.Math.IShape.md) shape) : bool
 <small>`Virtual`</small>
 
 Checks for an overlap between this polygon and another shape.
 
 
-#### <a name="OVER5BEF"></a> Overlaps(in [Rectangle](Heirloom.Math.Rectangle.md) rectangle) : bool
+#### <a name="OVE5BEF9A70"></a>Overlaps(in [Rectangle](Heirloom.Math.Rectangle.md) rectangle) : bool
 
 Determines if this polygon overlaps the specified rectangle.
 
 
-#### <a name="OVERE125"></a> Overlaps(in [Circle](Heirloom.Math.Circle.md) circle) : bool
+#### <a name="OVEE125CFD7"></a>Overlaps(in [Circle](Heirloom.Math.Circle.md) circle) : bool
 
 Determines if this polygon overlaps the specified circle.
 
 
-#### <a name="OVERB671"></a> Overlaps(in [Triangle](Heirloom.Math.Triangle.md) triangle) : bool
+#### <a name="OVEB6714E43"></a>Overlaps(in [Triangle](Heirloom.Math.Triangle.md) triangle) : bool
 
 Determines if this polygon overlaps the specified triangle.
 
 
-#### <a name="OVER89F2"></a> Overlaps(IReadOnlyList\<Vector> polygon) : bool
+#### <a name="OVE89F258A7"></a>Overlaps(IReadOnlyList\<Vector> polygon) : bool
 
 Determines if this polygon overlaps the specified triangle.
 
 
-#### <a name="PROJDD62"></a> Project(in [Vector](Heirloom.Math.Vector.md) axis) : [Range](Heirloom.Math.Range.md)
+#### <a name="PRODD6295AA"></a>Project(in [Vector](Heirloom.Math.Vector.md) axis) : [Range](Heirloom.Math.Range.md)
 
 Project this polygon onto the specified axis.
 
 
-#### <a name="RAYCACE7"></a> Raycast(in [Ray](Heirloom.Math.Ray.md) ray) : bool
+#### <a name="RAYACE7FDBA"></a>Raycast(in [Ray](Heirloom.Math.Ray.md) ray) : bool
 
 Checks if a ray intersects this polygon.
 
 
-#### <a name="RAYC575B"></a> Raycast(in [Ray](Heirloom.Math.Ray.md) ray, out [RayContact](Heirloom.Math.RayContact.md) hit) : bool
+#### <a name="RAY575B4078"></a>Raycast(in [Ray](Heirloom.Math.Ray.md) ray, out [RayContact](Heirloom.Math.RayContact.md) hit) : bool
 
 Checks if a ray intersects this polygon and outputs information on the contact point.
 
 
-#### <a name="TRIA3315"></a> Triangulate() : IEnumerable\<Triangle>
+#### <a name="TRI3315CB9A"></a>Triangulate() : IEnumerable\<Triangle>
 
 Decompose this polygon into triangles.
 
-#### <a name="CREA36F2"></a> CreateFromShape([IShape](Heirloom.Math.IShape.md) shape) : [Polygon](Heirloom.Math.Polygon.md)
+#### <a name="CRE36F297CD"></a>CreateFromShape([IShape](Heirloom.Math.IShape.md) shape) : [Polygon](Heirloom.Math.Polygon.md)
 <small>`Static`</small>
 
 Constructs a polygon representation of the specified shape.
 
 
-#### <a name="CREAB147"></a> CreateFromShape(in [Triangle](Heirloom.Math.Triangle.md) triangle) : [Polygon](Heirloom.Math.Polygon.md)
+#### <a name="CREB147874F"></a>CreateFromShape(in [Triangle](Heirloom.Math.Triangle.md) triangle) : [Polygon](Heirloom.Math.Polygon.md)
 <small>`Static`</small>
 
 Constructs a polygon representation of the specified triangle.
 
 
-#### <a name="CREA77B4"></a> CreateFromShape(in [Rectangle](Heirloom.Math.Rectangle.md) rectangle) : [Polygon](Heirloom.Math.Polygon.md)
+#### <a name="CRE77B4EFDC"></a>CreateFromShape(in [Rectangle](Heirloom.Math.Rectangle.md) rectangle) : [Polygon](Heirloom.Math.Polygon.md)
 <small>`Static`</small>
 
 Constructs a polygon representation of the specified rectangle.
 
 
-#### <a name="CREADF0C"></a> CreateFromShape(in [Circle](Heirloom.Math.Circle.md) circle) : [Polygon](Heirloom.Math.Polygon.md)
+#### <a name="CREDF0CEABB"></a>CreateFromShape(in [Circle](Heirloom.Math.Circle.md) circle) : [Polygon](Heirloom.Math.Polygon.md)
 <small>`Static`</small>
 
 Constructs a polygon representation of the specified circle.
 
 
-#### <a name="CREA4AA9"></a> CreateConvexHull(IEnumerable\<Vector> points) : [Polygon](Heirloom.Math.Polygon.md)
+#### <a name="CRE4AA9EF2F"></a>CreateConvexHull(IEnumerable\<Vector> points) : [Polygon](Heirloom.Math.Polygon.md)
 <small>`Static`</small>
 
 Constructs a convex polygon representing the convex hull of the specified point cloud.
 
 
-#### <a name="CREA7F09"></a> CreateRegularPolygon([Vector](Heirloom.Math.Vector.md) center, int segments, float radius) : [Polygon](Heirloom.Math.Polygon.md)
+#### <a name="CRE7F099341"></a>CreateRegularPolygon([Vector](Heirloom.Math.Vector.md) center, int segments, float radius) : [Polygon](Heirloom.Math.Polygon.md)
 <small>`Static`</small>
 
 Construct a regular polygon.
 
 
-#### <a name="CREA6410"></a> CreateRegularPolygon(int segments, float radius) : [Polygon](Heirloom.Math.Polygon.md)
+#### <a name="CRE641015A5"></a>CreateRegularPolygon(int segments, float radius) : [Polygon](Heirloom.Math.Polygon.md)
 <small>`Static`</small>
 
 Construct a regular polygon.
 
 
-#### <a name="CREA9392"></a> CreateStar(float radius) : [Polygon](Heirloom.Math.Polygon.md)
+#### <a name="CRE93929A76"></a>CreateStar(float radius) : [Polygon](Heirloom.Math.Polygon.md)
 <small>`Static`</small>
 
 Creates a polygon shaped like a standard 5 point star centered on the origin.
 
 
-#### <a name="CREAB647"></a> CreateStar([Vector](Heirloom.Math.Vector.md) center, float radius) : [Polygon](Heirloom.Math.Polygon.md)
+#### <a name="CREB647B390"></a>CreateStar([Vector](Heirloom.Math.Vector.md) center, float radius) : [Polygon](Heirloom.Math.Polygon.md)
 <small>`Static`</small>
 
 Creates a polygon shaped like a standard 5 point star.
 
 
-#### <a name="CREA56D0"></a> CreateStar(int numPoints, float radius) : [Polygon](Heirloom.Math.Polygon.md)
+#### <a name="CRE56D02DA0"></a>CreateStar(int numPoints, float radius) : [Polygon](Heirloom.Math.Polygon.md)
 <small>`Static`</small>
 
 Creates a polygon shaped like a star centered on the origin.
 
 
-#### <a name="CREA47D7"></a> CreateStar([Vector](Heirloom.Math.Vector.md) center, int numPoints, float radius) : [Polygon](Heirloom.Math.Polygon.md)
+#### <a name="CRE47D7F7BA"></a>CreateStar([Vector](Heirloom.Math.Vector.md) center, int numPoints, float radius) : [Polygon](Heirloom.Math.Polygon.md)
 <small>`Static`</small>
 
 Creates a polygon shaped like a star.
 
 
-#### <a name="CREA684E"></a> CreateStar([Vector](Heirloom.Math.Vector.md) center, int numPoints, float innerRadius, float outerRadius) : [Polygon](Heirloom.Math.Polygon.md)
+#### <a name="CRE684E0EBD"></a>CreateStar([Vector](Heirloom.Math.Vector.md) center, int numPoints, float innerRadius, float outerRadius) : [Polygon](Heirloom.Math.Polygon.md)
 <small>`Static`</small>
 
 Creates a polygon shaped like a star.

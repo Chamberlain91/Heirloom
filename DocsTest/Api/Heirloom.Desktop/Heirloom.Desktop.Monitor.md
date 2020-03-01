@@ -9,19 +9,19 @@
 
 Represents a physical display on the current device.
 
-| Properties               | Summary                                                                                                             |
-|--------------------------|---------------------------------------------------------------------------------------------------------------------|
-| [Name](#NAME5943)        | Gets the human-readable name of the monitor.                                                                        |
-| [Width](#WIDT6892)       | Gets the width (in pixels) of the monitor (in the current video mode).                                              |
-| [Height](#HEIGE098)      | Gets the width (in pixels) of the monitor (in the current video mode).                                              |
-| [RefreshRate](#REFRCFA5) | Gets the refresh rate of the monitor (in the current video mode).                                                   |
-| [Position](#POSIF46C)    | Gets the virtual position of the monitor (in screen units).                                                         |
-| [Workarea](#WORK837E)    | Gets the work area (in screen units) of the monitor. This is the monitor bounds minus any global task or menu bars. |
-| [CurrentMode](#CURR65B9) | Gets the current video mode on this monitor.                                                                        |
+| Properties                  | Summary                                                                                                             |
+|-----------------------------|---------------------------------------------------------------------------------------------------------------------|
+| [Name](#NAM5943D12B)        | Gets the human-readable name of the monitor.                                                                        |
+| [Width](#WID68924896)       | Gets the width (in pixels) of the monitor (in the current video mode).                                              |
+| [Height](#HEIE098AAEB)      | Gets the width (in pixels) of the monitor (in the current video mode).                                              |
+| [RefreshRate](#REFCFA57A9B) | Gets the refresh rate of the monitor (in the current video mode).                                                   |
+| [Position](#POSF46C3C91)    | Gets the virtual position of the monitor (in screen units).                                                         |
+| [Workarea](#WOR837EBBDE)    | Gets the work area (in screen units) of the monitor. This is the monitor bounds minus any global task or menu bars. |
+| [CurrentMode](#CUR65B9D688) | Gets the current video mode on this monitor.                                                                        |
 
-| Methods                    | Summary                                     |
-|----------------------------|---------------------------------------------|
-| [GetVideoModes](#GETV38C5) | Gets all known video modes on this monitor. |
+| Methods                       | Summary                                     |
+|-------------------------------|---------------------------------------------|
+| [GetVideoModes](#GET38C50993) | Gets all known video modes on this monitor. |
 
 ### Constructors
 
@@ -29,43 +29,43 @@ Represents a physical display on the current device.
 
 ### Properties
 
-#### <a name="NAME5943"></a> Name : string
+#### <a name="NAM5943D12B"></a>Name : string
 
 <small>`Read Only`</small>
 
 Gets the human-readable name of the monitor.
 
-#### <a name="WIDT6892"></a> Width : int
+#### <a name="WID68924896"></a>Width : int
 
 <small>`Read Only`</small>
 
 Gets the width (in pixels) of the monitor (in the current video mode).
 
-#### <a name="HEIGE098"></a> Height : int
+#### <a name="HEIE098AAEB"></a>Height : int
 
 <small>`Read Only`</small>
 
 Gets the width (in pixels) of the monitor (in the current video mode).
 
-#### <a name="REFRCFA5"></a> RefreshRate : int
+#### <a name="REFCFA57A9B"></a>RefreshRate : int
 
 <small>`Read Only`</small>
 
 Gets the refresh rate of the monitor (in the current video mode).
 
-#### <a name="POSIF46C"></a> Position : [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md)
+#### <a name="POSF46C3C91"></a>Position : [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md)
 
 <small>`Read Only`</small>
 
 Gets the virtual position of the monitor (in screen units).
 
-#### <a name="WORK837E"></a> Workarea : [IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md)
+#### <a name="WOR837EBBDE"></a>Workarea : [IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md)
 
 <small>`Read Only`</small>
 
 Gets the work area (in screen units) of the monitor. This is the monitor bounds minus any global task or menu bars.
 
-#### <a name="CURR65B9"></a> CurrentMode : [VideoMode](Heirloom.Desktop.VideoMode.md)
+#### <a name="CUR65B9D688"></a>CurrentMode : [VideoMode](Heirloom.Desktop.VideoMode.md)
 
 <small>`Read Only`</small>
 
@@ -73,7 +73,7 @@ Gets the current video mode on this monitor.
 
 ### Methods
 
-#### <a name="GETV218A"></a> GetVideoModes() : [VideoMode[]](Heirloom.Desktop.VideoMode.md)
+#### <a name="GET218AAA2F"></a>GetVideoModes() : [VideoMode[]](Heirloom.Desktop.VideoMode.md)
 
 Gets all known video modes on this monitor.
 

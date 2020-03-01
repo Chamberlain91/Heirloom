@@ -8,18 +8,18 @@
 
 A free list an allocation-centric data structure that allows insertion and removal of elements in O(1) time, but does not behave like a typical "list" data type.
 
-| Properties            | Summary                                                                                                           |
-|-----------------------|-------------------------------------------------------------------------------------------------------------------|
-| [Item](#ITEM8B5A)     |                                                                                                                   |
-| [Capacity](#CAPA30F4) | Gets the total number of elements that can be stored in this [FreeList\<T>](Heirloom.Collections.FreeList[T].md). |
-| [Count](#COUN73CA)    | Gets the number of elements stored in this [FreeList\<T>](Heirloom.Collections.FreeList[T].md).                   |
+| Properties               | Summary                                                                                                           |
+|--------------------------|-------------------------------------------------------------------------------------------------------------------|
+| [Item](#ITE8B5A2F95)     |                                                                                                                   |
+| [Capacity](#CAP30F47D6A) | Gets the total number of elements that can be stored in this [FreeList\<T>](Heirloom.Collections.FreeList[T].md). |
+| [Count](#COU73CA0BBB)    | Gets the number of elements stored in this [FreeList\<T>](Heirloom.Collections.FreeList[T].md).                   |
 
-| Methods             | Summary                                                                                                                                                           |
-|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Clear](#CLEA3BB2)  | Clears the free list, invalidating all indices and clearing element data.                                                                                         |
-| [Insert](#INSEC7B1) | Inserts an element into the free list and returns its index.                                                                                                      |
-| [Remove](#REMOF107) | Removes an element from the free list by an index returned by `Heirloom.Collections.FreeList`1.Insert(`0)`. This index is not validated, you must be responsible. |
-| [Resize](#RESIFD0A) | Resize the free list with an increased capacity.                                                                                                                  |
+| Methods                | Summary                                                                                                                                                           |
+|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Clear](#CLE3BB23EF9)  | Clears the free list, invalidating all indices and clearing element data.                                                                                         |
+| [Insert](#INSC7B161AF) | Inserts an element into the free list and returns its index.                                                                                                      |
+| [Remove](#REMF10744DE) | Removes an element from the free list by an index returned by `Heirloom.Collections.FreeList`1.Insert(`0)`. This index is not validated, you must be responsible. |
+| [Resize](#RESFD0A1B3A) | Resize the free list with an increased capacity.                                                                                                                  |
 
 ### Constructors
 
@@ -29,17 +29,17 @@ Constructs a new free list instance.
 
 ### Properties
 
-#### <a name="ITEM8B5A"></a> Item : T
+#### <a name="ITE8B5A2F95"></a>Item : T
 
 <small>`Read Only`</small>
 
-#### <a name="CAPA30F4"></a> Capacity : int
+#### <a name="CAP30F47D6A"></a>Capacity : int
 
 <small>`Read Only`</small>
 
 Gets the total number of elements that can be stored in this [FreeList\<T>](Heirloom.Collections.FreeList[T].md).
 
-#### <a name="COUN73CA"></a> Count : int
+#### <a name="COU73CA0BBB"></a>Count : int
 
 <small>`Read Only`</small>
 
@@ -47,22 +47,22 @@ Gets the number of elements stored in this [FreeList\<T>](Heirloom.Collections.F
 
 ### Methods
 
-#### <a name="CLEA4538"></a> Clear() : void
+#### <a name="CLE4538C554"></a>Clear() : void
 
 Clears the free list, invalidating all indices and clearing element data.
 
-#### <a name="INSE5BA4"></a> Insert(T value) : int
+#### <a name="INS5BA4EBFA"></a>Insert(T value) : int
 
 Inserts an element into the free list and returns its index.
 
 
-#### <a name="REMO37A8"></a> Remove(int index) : void
+#### <a name="REM37A8443A"></a>Remove(int index) : void
 
 Removes an element from the free list by an index returned by `Heirloom.Collections.FreeList`1.Insert(`0)`.   
  This index is not validated, you must be responsible.
 
 
-#### <a name="RESI3BF6"></a> Resize(int newCapacity) : void
+#### <a name="RES3BF62E34"></a>Resize(int newCapacity) : void
 
 Resize the free list with an increased capacity.
 

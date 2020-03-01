@@ -10,13 +10,13 @@
 
 A read-only view of a spatial collection to query elements in 2D space.
 
-| Methods               | Summary                                                        |
-|-----------------------|----------------------------------------------------------------|
-| [Contains](#CONTD0AE) | Determines if the specified element exists in this collection. |
+| Methods                  | Summary                                                        |
+|--------------------------|----------------------------------------------------------------|
+| [Contains](#COND0AE797B) | Determines if the specified element exists in this collection. |
 
 ### Methods
 
-#### <a name="CONTC6E9"></a> Contains(in T item) : bool
+#### <a name="CONC6E9849A"></a>Contains(in T item) : bool
 <small>`Abstract`</small>
 
 Determines if the specified element exists in this collection.

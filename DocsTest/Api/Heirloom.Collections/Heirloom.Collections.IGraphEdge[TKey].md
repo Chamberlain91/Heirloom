@@ -8,38 +8,38 @@
 
 An edge between two vertices.
 
-| Properties          | Summary                            |
-|---------------------|------------------------------------|
-| [Source](#SOUR993F) | The name/key of the source vertex. |
-| [Target](#TARGDEB1) | The name/key of the target vertex. |
-| [Weight](#WEIGE098) | The cost/weight of this edge.      |
+| Properties             | Summary                            |
+|------------------------|------------------------------------|
+| [Source](#SOU993FEDB1) | The name/key of the source vertex. |
+| [Target](#TARDEB13919) | The name/key of the target vertex. |
+| [Weight](#WEIE098BAB2) | The cost/weight of this edge.      |
 
-| Methods                  | Summary                |
-|--------------------------|------------------------|
-| [GetOtherKey](#GETO2E82) | Returns the other key. |
+| Methods                     | Summary                |
+|-----------------------------|------------------------|
+| [GetOtherKey](#GET2E8209A5) | Returns the other key. |
 
 ### Properties
 
-#### <a name="SOUR993F"></a> Source : TKey
+#### <a name="SOU993FEDB1"></a>Source : TKey
 
 <small>`Read Only`</small>
 
 The name/key of the source vertex.
 
-#### <a name="TARGDEB1"></a> Target : TKey
+#### <a name="TARDEB13919"></a>Target : TKey
 
 <small>`Read Only`</small>
 
 The name/key of the target vertex.
 
-#### <a name="WEIGE098"></a> Weight : float
+#### <a name="WEIE098BAB2"></a>Weight : float
 
 
 The cost/weight of this edge.
 
 ### Methods
 
-#### <a name="GETO2FB4"></a> GetOtherKey(TKey key) : TKey
+#### <a name="GET2FB41C95"></a>GetOtherKey(TKey key) : TKey
 <small>`Abstract`</small>
 
 Returns the other key.

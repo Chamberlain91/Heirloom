@@ -9,39 +9,39 @@
 
 Represents a circle via center position and radius.
 
-| Fields                | Summary                            |
-|-----------------------|------------------------------------|
-| [Position](#POSIF46C) | The center position of the circle. |
-| [Radius](#RADI6E85)   | The radius of the circle.          |
+| Fields                   | Summary                            |
+|--------------------------|------------------------------------|
+| [Position](#POSF46C3C91) | The center position of the circle. |
+| [Radius](#RAD6E859F5C)   | The radius of the circle.          |
 
-| Properties          | Summary                                     |
-|---------------------|---------------------------------------------|
-| [Area](#AREA9F52)   | Gets the area of the circle.                |
-| [Bounds](#BOUNBCFE) | Gets the bounding rectangle of this circle. |
+| Properties            | Summary                                     |
+|-----------------------|---------------------------------------------|
+| [Area](#ARE9F5286F)   | Gets the area of the circle.                |
+| [Bounds](#BOUBCFE829) | Gets the bounding rectangle of this circle. |
 
-| Methods                      | Summary                                                               |
-|------------------------------|-----------------------------------------------------------------------|
-| [ToPolygon](#TOPO44DC)       | Create a polygon from this rectangle.                                 |
-| [GetClosestPoint](#GETC53DD) | Gets the nearest point on the circle to the specified point.          |
-| [Contains](#CONTD0AE)        | Determines if the specified point is contained by the circle.         |
-| [Contains](#CONTD0AE)        | Determines if this circle contains another circle.                    |
-| [Overlaps](#OVER7F2D)        | Determines if this circle overlaps another shape.                     |
-| [Overlaps](#OVER7F2D)        | Determines if this circle overlaps another circle.                    |
-| [Overlaps](#OVER7F2D)        | Determines if this circle overlaps the specified rectangle.           |
-| [Overlaps](#OVER7F2D)        | Determines if this circle overlaps the specified triangle.            |
-| [Overlaps](#OVER7F2D)        | Determines if this circle overlaps the specified simple polygon.      |
-| [Overlaps](#OVER7F2D)        | Determines if this circle overlaps the specified convex polygon.      |
-| [Project](#PROJAD47)         | Project this circle onto the specified axis.                          |
-| [Raycast](#RAYC408E)         | Peforms a raycast onto this circle, returning true upon intersection. |
-| [Raycast](#RAYC408E)         | Peforms a raycast onto this circle, returning true upon intersection. |
+| Methods                         | Summary                                                               |
+|---------------------------------|-----------------------------------------------------------------------|
+| [ToPolygon](#TOP44DCF963)       | Create a polygon from this rectangle.                                 |
+| [GetClosestPoint](#GET53DD1DC3) | Gets the nearest point on the circle to the specified point.          |
+| [Contains](#COND0AE797B)        | Determines if the specified point is contained by the circle.         |
+| [Contains](#COND0AE797B)        | Determines if this circle contains another circle.                    |
+| [Overlaps](#OVE7F2D7C32)        | Determines if this circle overlaps another shape.                     |
+| [Overlaps](#OVE7F2D7C32)        | Determines if this circle overlaps another circle.                    |
+| [Overlaps](#OVE7F2D7C32)        | Determines if this circle overlaps the specified rectangle.           |
+| [Overlaps](#OVE7F2D7C32)        | Determines if this circle overlaps the specified triangle.            |
+| [Overlaps](#OVE7F2D7C32)        | Determines if this circle overlaps the specified simple polygon.      |
+| [Overlaps](#OVE7F2D7C32)        | Determines if this circle overlaps the specified convex polygon.      |
+| [Project](#PROAD473221)         | Project this circle onto the specified axis.                          |
+| [Raycast](#RAY408E945F)         | Peforms a raycast onto this circle, returning true upon intersection. |
+| [Raycast](#RAY408E945F)         | Peforms a raycast onto this circle, returning true upon intersection. |
 
 ### Fields
 
-#### <a name="POSIF46C"></a> Position : [Vector](Heirloom.Math.Vector.md)
+#### <a name="POSF46C3C91"></a>Position : [Vector](Heirloom.Math.Vector.md)
 
 The center position of the circle.
 
-#### <a name="RADI6E85"></a> Radius : float
+#### <a name="RAD6E859F5C"></a>Radius : float
 
 The radius of the circle.
 
@@ -53,13 +53,13 @@ The radius of the circle.
 
 ### Properties
 
-#### <a name="AREA9F52"></a> Area : float
+#### <a name="ARE9F5286F"></a>Area : float
 
 <small>`Read Only`</small>
 
 Gets the area of the circle.
 
-#### <a name="BOUNBCFE"></a> Bounds : [Rectangle](Heirloom.Math.Rectangle.md)
+#### <a name="BOUBCFE829"></a>Bounds : [Rectangle](Heirloom.Math.Rectangle.md)
 
 <small>`Read Only`</small>
 
@@ -67,67 +67,67 @@ Gets the bounding rectangle of this circle.
 
 ### Methods
 
-#### <a name="TOPO74E3"></a> ToPolygon() : [Polygon](Heirloom.Math.Polygon.md)
+#### <a name="TOP74E314EF"></a>ToPolygon() : [Polygon](Heirloom.Math.Polygon.md)
 
 Create a polygon from this rectangle.
 
-#### <a name="GETCDAC0"></a> GetClosestPoint(in [Vector](Heirloom.Math.Vector.md) point) : [Vector](Heirloom.Math.Vector.md)
+#### <a name="GETDAC09B5B"></a>GetClosestPoint(in [Vector](Heirloom.Math.Vector.md) point) : [Vector](Heirloom.Math.Vector.md)
 
 Gets the nearest point on the circle to the specified point.
 
 
-#### <a name="CONT3338"></a> Contains(in [Vector](Heirloom.Math.Vector.md) point) : bool
+#### <a name="CON33387C1A"></a>Contains(in [Vector](Heirloom.Math.Vector.md) point) : bool
 
 Determines if the specified point is contained by the circle.
 
 
-#### <a name="CONT78E5"></a> Contains(in [Circle](Heirloom.Math.Circle.md) circle) : bool
+#### <a name="CON78E57F16"></a>Contains(in [Circle](Heirloom.Math.Circle.md) circle) : bool
 
 Determines if this circle contains another circle.
 
 
-#### <a name="OVER450A"></a> Overlaps([IShape](Heirloom.Math.IShape.md) shape) : bool
+#### <a name="OVE450AB809"></a>Overlaps([IShape](Heirloom.Math.IShape.md) shape) : bool
 <small>`Virtual`</small>
 
 Determines if this circle overlaps another shape.
 
 
-#### <a name="OVERF01F"></a> Overlaps(in [Circle](Heirloom.Math.Circle.md) b) : bool
+#### <a name="OVEF01FC2EF"></a>Overlaps(in [Circle](Heirloom.Math.Circle.md) b) : bool
 
 Determines if this circle overlaps another circle.
 
 
-#### <a name="OVER5BEF"></a> Overlaps(in [Rectangle](Heirloom.Math.Rectangle.md) rectangle) : bool
+#### <a name="OVE5BEF9A70"></a>Overlaps(in [Rectangle](Heirloom.Math.Rectangle.md) rectangle) : bool
 
 Determines if this circle overlaps the specified rectangle.
 
 
-#### <a name="OVERB671"></a> Overlaps(in [Triangle](Heirloom.Math.Triangle.md) triangle) : bool
+#### <a name="OVEB6714E43"></a>Overlaps(in [Triangle](Heirloom.Math.Triangle.md) triangle) : bool
 
 Determines if this circle overlaps the specified triangle.
 
 
-#### <a name="OVER90B1"></a> Overlaps([Polygon](Heirloom.Math.Polygon.md) polygon) : bool
+#### <a name="OVE90B1A9F6"></a>Overlaps([Polygon](Heirloom.Math.Polygon.md) polygon) : bool
 
 Determines if this circle overlaps the specified simple polygon.
 
 
-#### <a name="OVER89F2"></a> Overlaps(IReadOnlyList\<Vector> polygon) : bool
+#### <a name="OVE89F258A7"></a>Overlaps(IReadOnlyList\<Vector> polygon) : bool
 
 Determines if this circle overlaps the specified convex polygon.
 
 
-#### <a name="PROJDD62"></a> Project(in [Vector](Heirloom.Math.Vector.md) axis) : [Range](Heirloom.Math.Range.md)
+#### <a name="PRODD6295AA"></a>Project(in [Vector](Heirloom.Math.Vector.md) axis) : [Range](Heirloom.Math.Range.md)
 
 Project this circle onto the specified axis.
 
 
-#### <a name="RAYCACE7"></a> Raycast(in [Ray](Heirloom.Math.Ray.md) ray) : bool
+#### <a name="RAYACE7FDBA"></a>Raycast(in [Ray](Heirloom.Math.Ray.md) ray) : bool
 
 Peforms a raycast onto this circle, returning true upon intersection.
 
 
-#### <a name="RAYC4B66"></a> Raycast(in [Ray](Heirloom.Math.Ray.md) ray, out [RayContact](Heirloom.Math.RayContact.md) contact) : bool
+#### <a name="RAY4B66C4A9"></a>Raycast(in [Ray](Heirloom.Math.Ray.md) ray, out [RayContact](Heirloom.Math.RayContact.md) contact) : bool
 
 Peforms a raycast onto this circle, returning true upon intersection.
 

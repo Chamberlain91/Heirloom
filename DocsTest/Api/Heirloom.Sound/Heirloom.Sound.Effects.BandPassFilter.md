@@ -9,14 +9,14 @@
 
 An audio effect that implements a band pass filter.
 
-| Properties                | Summary                                  |
-|---------------------------|------------------------------------------|
-| [MinFrequency](#MINFDFD8) | Gets or sets the filter cutoff in hertz. |
-| [Cutoff](#CUTOEE3E)       | Gets or sets the filter cutoff in hertz. |
+| Properties                   | Summary                                  |
+|------------------------------|------------------------------------------|
+| [MinFrequency](#MINDFD88324) | Gets or sets the filter cutoff in hertz. |
+| [Cutoff](#CUTEE3E05B1)       | Gets or sets the filter cutoff in hertz. |
 
-| Methods              | Summary |
-|----------------------|---------|
-| [Process](#PROC9CD8) |         |
+| Methods                 | Summary |
+|-------------------------|---------|
+| [Process](#PRO9CD8B3AF) |         |
 
 ### Constructors
 
@@ -24,19 +24,19 @@ An audio effect that implements a band pass filter.
 
 ### Properties
 
-#### <a name="MINFDFD8"></a> MinFrequency : float
+#### <a name="MINDFD88324"></a>MinFrequency : float
 
 
 Gets or sets the filter cutoff in hertz.
 
-#### <a name="CUTOEE3E"></a> Cutoff : float
+#### <a name="CUTEE3E05B1"></a>Cutoff : float
 
 
 Gets or sets the filter cutoff in hertz.
 
 ### Methods
 
-#### <a name="PROC1C94"></a> Process(float sample, int channel) : float
+#### <a name="PRO1C94C308"></a>Process(float sample, int channel) : float
 <small>`Virtual`</small>
 
 

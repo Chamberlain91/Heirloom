@@ -10,17 +10,17 @@
 
 Provides a thread to manage invoking a render/update function continuously.
 
-| Properties             | Summary                             |
-|------------------------|-------------------------------------|
-| [Graphics](#GRAPD884)  | Gets the associated render context. |
-| [IsRunning](#ISRUECDE) | Is the render thread active?        |
+| Properties                | Summary                             |
+|---------------------------|-------------------------------------|
+| [Graphics](#GRAD884C619)  | Gets the associated render context. |
+| [IsRunning](#ISRECDE47CD) | Is the render thread active?        |
 
-| Methods             | Summary                                                                                                            |
-|---------------------|--------------------------------------------------------------------------------------------------------------------|
-| [Update](#UPDAD177) |                                                                                                                    |
-| [Start](#STARC183)  | Start the render thread. This thread will automatically terminate when the associated graphics object is disposed. |
-| [Stop](#STOPB303)   | Stop the render thread.                                                                                            |
-| [Create](#CREA31C4) | Creates a render loop instance from the given context and method reference.                                        |
+| Methods                | Summary                                                                                                            |
+|------------------------|--------------------------------------------------------------------------------------------------------------------|
+| [Update](#UPDD1771A75) |                                                                                                                    |
+| [Start](#STAC1832F72)  | Start the render thread. This thread will automatically terminate when the associated graphics object is disposed. |
+| [Stop](#STOB3037DBE)   | Stop the render thread.                                                                                            |
+| [Create](#CRE31C4F336) | Creates a render loop instance from the given context and method reference.                                        |
 
 ### Constructors
 
@@ -28,13 +28,13 @@ Provides a thread to manage invoking a render/update function continuously.
 
 ### Properties
 
-#### <a name="GRAPD884"></a> Graphics : [Graphics](Heirloom.Drawing.Graphics.md)
+#### <a name="GRAD884C619"></a>Graphics : [Graphics](Heirloom.Drawing.Graphics.md)
 
 <small>`Read Only`</small>
 
 Gets the associated render context.
 
-#### <a name="ISRUECDE"></a> IsRunning : bool
+#### <a name="ISRECDE47CD"></a>IsRunning : bool
 
 <small>`Read Only`</small>
 
@@ -42,19 +42,19 @@ Is the render thread active?
 
 ### Methods
 
-#### <a name="UPDA833E"></a> Update([Graphics](Heirloom.Drawing.Graphics.md) gfx, float dt) : void
+#### <a name="UPD833E6A6C"></a>Update([Graphics](Heirloom.Drawing.Graphics.md) gfx, float dt) : void
 <small>`Abstract`, `Protected`</small>
 
 
-#### <a name="STARDBEC"></a> Start() : void
+#### <a name="STADBEC304F"></a>Start() : void
 
 Start the render thread. This thread will automatically terminate when the associated graphics object is disposed.
 
-#### <a name="STOP4AE1"></a> Stop() : void
+#### <a name="STO4AE17E3B"></a>Stop() : void
 
 Stop the render thread.
 
-#### <a name="CREAE4D2"></a> Create([Graphics](Heirloom.Drawing.Graphics.md) gfx, [RenderLoop.UpdateFunction](Heirloom.Drawing.RenderLoop.UpdateFunction.md) update) : [RenderLoop](Heirloom.Drawing.RenderLoop.md)
+#### <a name="CREE4D21C3C"></a>Create([Graphics](Heirloom.Drawing.Graphics.md) gfx, [RenderLoop.UpdateFunction](Heirloom.Drawing.RenderLoop.UpdateFunction.md) update) : [RenderLoop](Heirloom.Drawing.RenderLoop.md)
 <small>`Static`</small>
 
 Creates a render loop instance from the given context and method reference.

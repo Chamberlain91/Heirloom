@@ -9,33 +9,33 @@
 
 A read-only view of a 2D grid of values.
 
-| Properties        | Summary |
-|-------------------|---------|
-| [Item](#ITEM8B5A) |         |
-| [Item](#ITEM8B5A) |         |
+| Properties           | Summary |
+|----------------------|---------|
+| [Item](#ITE8B5A2F95) |         |
+| [Item](#ITE8B5A2F95) |         |
 
-| Methods                        | Summary                                         |
-|--------------------------------|-------------------------------------------------|
-| [IsValidCoordinate](#ISVA6716) | Is the specified coordinate valid on this grid? |
-| [IsValidCoordinate](#ISVA6716) | Is the specified coordinate valid on this grid? |
+| Methods                           | Summary                                         |
+|-----------------------------------|-------------------------------------------------|
+| [IsValidCoordinate](#ISV67165E1E) | Is the specified coordinate valid on this grid? |
+| [IsValidCoordinate](#ISV67165E1E) | Is the specified coordinate valid on this grid? |
 
 ### Properties
 
-#### <a name="ITEM8B5A"></a> Item : T
+#### <a name="ITE8B5A2F95"></a>Item : T
 
 
-#### <a name="ITEM8B5A"></a> Item : T
+#### <a name="ITE8B5A2F95"></a>Item : T
 
 
 ### Methods
 
-#### <a name="ISVAB586"></a> IsValidCoordinate(in int x, in int y) : bool
+#### <a name="ISVB586DBEE"></a>IsValidCoordinate(in int x, in int y) : bool
 <small>`Abstract`</small>
 
 Is the specified coordinate valid on this grid?
 
 
-#### <a name="ISVACA35"></a> IsValidCoordinate(in [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) co) : bool
+#### <a name="ISVCA356546"></a>IsValidCoordinate(in [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) co) : bool
 <small>`Abstract`</small>
 
 Is the specified coordinate valid on this grid?

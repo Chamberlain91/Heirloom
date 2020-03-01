@@ -8,20 +8,20 @@
 
 Provides utilities for working with Quadratic and Cubic curves.
 
-| Methods                                           | Summary                                                                                           |
-|---------------------------------------------------|---------------------------------------------------------------------------------------------------|
-| [Quadratic](#QUADF5DA)                            | Computes the interpolated point on a quadratic curve defined by `a`, `b`, `c`.                    |
-| [QuadraticDerivative](#QUAD6D2C)                  | Computes the interpolated point on the derivative of a quadratic curve defined by `a`, `b`, `c`.  |
-| [QuadraticApproximateLength](#QUADB62A)           | Computes the approximate arc length of the quadratic curve using line segments.                   |
-| [QuadraticDerivativeApproximateLength](#QUADAE61) | Computes the approximate arc length of the derivative of a quadratic curve using line segments.   |
-| [Cubic](#CUBI7230)                                | Computes the interpolated point on a cubic curve defined by `a`, `b`, `c`, `d`.                   |
-| [CubicDerivative](#CUBI976A)                      | Computes the interpolated point on the derivative of a cubic curve defined by `a`, `b`, `c`, `d`. |
-| [CubicApproximateLength](#CUBI99EF)               | Computes the approximate arc length of the cubic curve using line segments.                       |
-| [CubicDerivativeApproximateLength](#CUBI6D7A)     | Computes the approximate arc length of the cubic curve using line segments.                       |
+| Methods                                              | Summary                                                                                           |
+|------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| [Quadratic](#QUAF5DAABDC)                            | Computes the interpolated point on a quadratic curve defined by `a`, `b`, `c`.                    |
+| [QuadraticDerivative](#QUA6D2C7CC7)                  | Computes the interpolated point on the derivative of a quadratic curve defined by `a`, `b`, `c`.  |
+| [QuadraticApproximateLength](#QUAB62A333E)           | Computes the approximate arc length of the quadratic curve using line segments.                   |
+| [QuadraticDerivativeApproximateLength](#QUAAE61AE27) | Computes the approximate arc length of the derivative of a quadratic curve using line segments.   |
+| [Cubic](#CUB72305224)                                | Computes the interpolated point on a cubic curve defined by `a`, `b`, `c`, `d`.                   |
+| [CubicDerivative](#CUB976A8B8D)                      | Computes the interpolated point on the derivative of a cubic curve defined by `a`, `b`, `c`, `d`. |
+| [CubicApproximateLength](#CUB99EFEF72)               | Computes the approximate arc length of the cubic curve using line segments.                       |
+| [CubicDerivativeApproximateLength](#CUB6D7AE51D)     | Computes the approximate arc length of the cubic curve using line segments.                       |
 
 ### Methods
 
-#### <a name="QUAD2689"></a> Quadratic(in [Vector](Heirloom.Math.Vector.md) a, in [Vector](Heirloom.Math.Vector.md) b, in [Vector](Heirloom.Math.Vector.md) c, in float t) : [Vector](Heirloom.Math.Vector.md)
+#### <a name="QUA26890E67"></a>Quadratic(in [Vector](Heirloom.Math.Vector.md) a, in [Vector](Heirloom.Math.Vector.md) b, in [Vector](Heirloom.Math.Vector.md) c, in float t) : [Vector](Heirloom.Math.Vector.md)
 <small>`Static`</small>
 
 Computes the interpolated point on a quadratic curve defined by `a`, `b`, `c`.
@@ -31,7 +31,7 @@ Computes the interpolated point on a quadratic curve defined by `a`, `b`, `c`.
 <small>**c**: <param name="c">The curve ending point.</param></small>  
 <small>**t**: <param name="t">The interpolation factor along the curve.</param></small>  
 
-#### <a name="QUAD7521"></a> QuadraticDerivative(in [Vector](Heirloom.Math.Vector.md) a, in [Vector](Heirloom.Math.Vector.md) b, in [Vector](Heirloom.Math.Vector.md) c, in float t) : [Vector](Heirloom.Math.Vector.md)
+#### <a name="QUA752123C"></a>QuadraticDerivative(in [Vector](Heirloom.Math.Vector.md) a, in [Vector](Heirloom.Math.Vector.md) b, in [Vector](Heirloom.Math.Vector.md) c, in float t) : [Vector](Heirloom.Math.Vector.md)
 <small>`Static`</small>
 
 Computes the interpolated point on the derivative of a quadratic curve defined by `a`, `b`, `c`.
@@ -41,7 +41,7 @@ Computes the interpolated point on the derivative of a quadratic curve defined b
 <small>**c**: <param name="c">The curve ending point.</param></small>  
 <small>**t**: <param name="t">The interpolation factor along the curve.</param></small>  
 
-#### <a name="QUAD7C69"></a> QuadraticApproximateLength(in [Vector](Heirloom.Math.Vector.md) a, in [Vector](Heirloom.Math.Vector.md) b, in [Vector](Heirloom.Math.Vector.md) c) : float
+#### <a name="QUA7C69076B"></a>QuadraticApproximateLength(in [Vector](Heirloom.Math.Vector.md) a, in [Vector](Heirloom.Math.Vector.md) b, in [Vector](Heirloom.Math.Vector.md) c) : float
 <small>`Static`</small>
 
 Computes the approximate arc length of the quadratic curve using line segments.
@@ -50,7 +50,7 @@ Computes the approximate arc length of the quadratic curve using line segments.
 <small>**b**: <param name="b">The curve middle (handle).</param></small>  
 <small>**c**: <param name="c">The curve ending point.</param></small>  
 
-#### <a name="QUADCE96"></a> QuadraticDerivativeApproximateLength(in [Vector](Heirloom.Math.Vector.md) a, in [Vector](Heirloom.Math.Vector.md) b, in [Vector](Heirloom.Math.Vector.md) c) : float
+#### <a name="QUACE96FD14"></a>QuadraticDerivativeApproximateLength(in [Vector](Heirloom.Math.Vector.md) a, in [Vector](Heirloom.Math.Vector.md) b, in [Vector](Heirloom.Math.Vector.md) c) : float
 <small>`Static`</small>
 
 Computes the approximate arc length of the derivative of a quadratic curve using line segments.
@@ -59,7 +59,7 @@ Computes the approximate arc length of the derivative of a quadratic curve using
 <small>**b**: <param name="b">The curve middle (handle).</param></small>  
 <small>**c**: <param name="c">The curve ending point.</param></small>  
 
-#### <a name="CUBI236F"></a> Cubic(in [Vector](Heirloom.Math.Vector.md) a, in [Vector](Heirloom.Math.Vector.md) b, in [Vector](Heirloom.Math.Vector.md) c, in [Vector](Heirloom.Math.Vector.md) d, in float t) : [Vector](Heirloom.Math.Vector.md)
+#### <a name="CUB236F6845"></a>Cubic(in [Vector](Heirloom.Math.Vector.md) a, in [Vector](Heirloom.Math.Vector.md) b, in [Vector](Heirloom.Math.Vector.md) c, in [Vector](Heirloom.Math.Vector.md) d, in float t) : [Vector](Heirloom.Math.Vector.md)
 <small>`Static`</small>
 
 Computes the interpolated point on a cubic curve defined by `a`, `b`, `c`, `d`.
@@ -70,7 +70,7 @@ Computes the interpolated point on a cubic curve defined by `a`, `b`, `c`, `d`.
 <small>**d**: <param name="d">The curve's ending point.</param></small>  
 <small>**t**: <param name="t">The interpolation factor along the curve.</param></small>  
 
-#### <a name="CUBI8C9C"></a> CubicDerivative(in [Vector](Heirloom.Math.Vector.md) a, in [Vector](Heirloom.Math.Vector.md) b, in [Vector](Heirloom.Math.Vector.md) c, in [Vector](Heirloom.Math.Vector.md) d, in float t) : [Vector](Heirloom.Math.Vector.md)
+#### <a name="CUB8C9CA66E"></a>CubicDerivative(in [Vector](Heirloom.Math.Vector.md) a, in [Vector](Heirloom.Math.Vector.md) b, in [Vector](Heirloom.Math.Vector.md) c, in [Vector](Heirloom.Math.Vector.md) d, in float t) : [Vector](Heirloom.Math.Vector.md)
 <small>`Static`</small>
 
 Computes the interpolated point on the derivative of a cubic curve defined by `a`, `b`, `c`, `d`.
@@ -81,7 +81,7 @@ Computes the interpolated point on the derivative of a cubic curve defined by `a
 <small>**d**: <param name="d">The curve's ending point.</param></small>  
 <small>**t**: <param name="t">The interpolation factor along the curve.</param></small>  
 
-#### <a name="CUBI7333"></a> CubicApproximateLength(in [Vector](Heirloom.Math.Vector.md) a, in [Vector](Heirloom.Math.Vector.md) b, in [Vector](Heirloom.Math.Vector.md) c, in [Vector](Heirloom.Math.Vector.md) d) : float
+#### <a name="CUB7333FA1D"></a>CubicApproximateLength(in [Vector](Heirloom.Math.Vector.md) a, in [Vector](Heirloom.Math.Vector.md) b, in [Vector](Heirloom.Math.Vector.md) c, in [Vector](Heirloom.Math.Vector.md) d) : float
 <small>`Static`</small>
 
 Computes the approximate arc length of the cubic curve using line segments.
@@ -91,7 +91,7 @@ Computes the approximate arc length of the cubic curve using line segments.
 <small>**c**: <param name="c">The curve's second handle.</param></small>  
 <small>**d**: <param name="d">The curve's ending point.</param></small>  
 
-#### <a name="CUBIB892"></a> CubicDerivativeApproximateLength(in [Vector](Heirloom.Math.Vector.md) a, in [Vector](Heirloom.Math.Vector.md) b, in [Vector](Heirloom.Math.Vector.md) c, in [Vector](Heirloom.Math.Vector.md) d) : float
+#### <a name="CUBB892D932"></a>CubicDerivativeApproximateLength(in [Vector](Heirloom.Math.Vector.md) a, in [Vector](Heirloom.Math.Vector.md) b, in [Vector](Heirloom.Math.Vector.md) c, in [Vector](Heirloom.Math.Vector.md) d) : float
 <small>`Static`</small>
 
 Computes the approximate arc length of the cubic curve using line segments.

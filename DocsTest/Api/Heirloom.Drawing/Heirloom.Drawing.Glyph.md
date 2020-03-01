@@ -10,17 +10,17 @@
 
 A glyph represents the metrics and rendering of a character from the associated [Font](Heirloom.Drawing.Font.md).
 
-| Properties                 | Summary                                                    |
-|----------------------------|------------------------------------------------------------|
-| [Font](#FONT9AF9)          | Gets the associated font.                                  |
-| [Character](#CHAR601A)     | Gets the character this glyph represents.                  |
-| [HasCodepoint](#HASC859D)  |                                                            |
-| [CanBeRendered](#CANB2821) | Get a value that determines if this glyph can be rendered. |
+| Properties                    | Summary                                                    |
+|-------------------------------|------------------------------------------------------------|
+| [Font](#FON9AF9D8E3)          | Gets the associated font.                                  |
+| [Character](#CHA601A43FD)     | Gets the character this glyph represents.                  |
+| [HasCodepoint](#HAS859D7D5B)  |                                                            |
+| [CanBeRendered](#CAN2821D71C) | Get a value that determines if this glyph can be rendered. |
 
-| Methods                 | Summary                                                             |
-|-------------------------|---------------------------------------------------------------------|
-| [GetMetrics](#GETM3646) | Get the horizontal metrics of the this glyph at the specified size. |
-| [RenderTo](#RENDE3F2)   | Renders the glyph into the image.                                   |
+| Methods                    | Summary                                                             |
+|----------------------------|---------------------------------------------------------------------|
+| [GetMetrics](#GET3646C3B1) | Get the horizontal metrics of the this glyph at the specified size. |
+| [RenderTo](#RENE3F26725)   | Renders the glyph into the image.                                   |
 
 ### Constructors
 
@@ -28,22 +28,22 @@ A glyph represents the metrics and rendering of a character from the associated 
 
 ### Properties
 
-#### <a name="FONT9AF9"></a> Font : [Font](Heirloom.Drawing.Font.md)
+#### <a name="FON9AF9D8E3"></a>Font : [Font](Heirloom.Drawing.Font.md)
 
 <small>`Read Only`</small>
 
 Gets the associated font.
 
-#### <a name="CHAR601A"></a> Character : [UnicodeCharacter](Heirloom.Drawing.UnicodeCharacter.md)
+#### <a name="CHA601A43FD"></a>Character : [UnicodeCharacter](Heirloom.Drawing.UnicodeCharacter.md)
 
 <small>`Read Only`</small>
 
 Gets the character this glyph represents.
 
-#### <a name="HASC859D"></a> HasCodepoint : bool
+#### <a name="HAS859D7D5B"></a>HasCodepoint : bool
 
 
-#### <a name="CANB2821"></a> CanBeRendered : bool
+#### <a name="CAN2821D71C"></a>CanBeRendered : bool
 
 <small>`Read Only`</small>
 
@@ -51,13 +51,13 @@ Get a value that determines if this glyph can be rendered.
 
 ### Methods
 
-#### <a name="GETM8C55"></a> GetMetrics(float size) : [GlyphMetrics](Heirloom.Drawing.GlyphMetrics.md)
+#### <a name="GET8C5581DC"></a>GetMetrics(float size) : [GlyphMetrics](Heirloom.Drawing.GlyphMetrics.md)
 
 Get the horizontal metrics of the this glyph at the specified size.
 
 <small>**size**: <param name="size">The size of the font.</param></small>  
 
-#### <a name="REND5B26"></a> RenderTo([Image](Heirloom.Drawing.Image.md) image, int x, int y, float size) : void
+#### <a name="REN5B264EAC"></a>RenderTo([Image](Heirloom.Drawing.Image.md) image, int x, int y, float size) : void
 
 Renders the glyph into the image.
 

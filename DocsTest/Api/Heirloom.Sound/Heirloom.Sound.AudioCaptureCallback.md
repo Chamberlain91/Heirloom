@@ -14,15 +14,15 @@
 
 ### Methods
 
-#### <a name="INVOBBB4"></a> Invoke(Span\<float> inputSamples) : void
+#### <a name="INVBBB4B46C"></a>Invoke(Span\<float> inputSamples) : void
 <small>`Virtual`</small>
 
 
-#### <a name="BEGIAACD"></a> BeginInvoke(Span\<float> inputSamples, AsyncCallback callback, object object) : IAsyncResult
+#### <a name="BEGAACD16A1"></a>BeginInvoke(Span\<float> inputSamples, AsyncCallback callback, object object) : IAsyncResult
 <small>`Virtual`</small>
 
 
-#### <a name="ENDI139F"></a> EndInvoke(IAsyncResult result) : void
+#### <a name="END139F5A23"></a>EndInvoke(IAsyncResult result) : void
 <small>`Virtual`</small>
 
 

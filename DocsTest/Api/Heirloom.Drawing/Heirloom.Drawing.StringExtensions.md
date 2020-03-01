@@ -8,17 +8,17 @@
 ## StringExtensions (Static Class)
 <small>**Namespace**: Heirloom.Drawing</sub></small>  
 
-| Methods                         | Summary                                                                                                                                                                          |
-|---------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Shorten](#SHORD495)            | Shortens a string by removing the center portion and replacing with "..." dependant on the given max length. This ensures the shortened string has maxLength or less characters. |
-| [GetCharacter](#GETC64B8)       |                                                                                                                                                                                  |
-| [ToSnakeCase](#TOSNABE0)        | Transforms a variable name like string into sname case (ie, "myExampleString" into "my_example_string").                                                                         |
-| [ToShoutingCase](#TOSHF298)     | Transforms a variable name like string into sname case (ie, "myExampleString" into "MY_EXAMPLE_STRING").                                                                         |
-| [ToSmartDisplayName](#TOSMBAF9) | Transform a variable name like string to an improved display string (akin to Unity's NicifyVariableName). Ie, "myExampleString" becomes "My Example String"                      |
+| Methods                            | Summary                                                                                                                                                                          |
+|------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Shorten](#SHOD4953605)            | Shortens a string by removing the center portion and replacing with "..." dependant on the given max length. This ensures the shortened string has maxLength or less characters. |
+| [GetCharacter](#GET64B8783)        |                                                                                                                                                                                  |
+| [ToSnakeCase](#TOSABE0D4FD)        | Transforms a variable name like string into sname case (ie, "myExampleString" into "my_example_string").                                                                         |
+| [ToShoutingCase](#TOSF2987B58)     | Transforms a variable name like string into sname case (ie, "myExampleString" into "MY_EXAMPLE_STRING").                                                                         |
+| [ToSmartDisplayName](#TOSBAF99BAB) | Transform a variable name like string to an improved display string (akin to Unity's NicifyVariableName). Ie, "myExampleString" becomes "My Example String"                      |
 
 ### Methods
 
-#### <a name="SHORA525"></a> Shorten(string this, int maxLength = 15) : string
+#### <a name="SHOA525DB18"></a>Shorten(string this, int maxLength = 15) : string
 <small>`Static`, `ExtensionAttribute`</small>
 
 Shortens a string by removing the center portion and replacing with "..." dependant on the given max length. This ensures the shortened string has maxLength or less characters.
@@ -26,23 +26,23 @@ Shortens a string by removing the center portion and replacing with "..." depend
 <small>**this**: <param name="this"></param></small>  
 <small>**maxLength**: <param name="maxLength"></param></small>  
 
-#### <a name="GETCD5A9"></a> GetCharacter(string text, int i) : [UnicodeCharacter](Heirloom.Drawing.UnicodeCharacter.md)
+#### <a name="GETD5A92C9D"></a>GetCharacter(string text, int i) : [UnicodeCharacter](Heirloom.Drawing.UnicodeCharacter.md)
 <small>`Static`, `ExtensionAttribute`</small>
 
 
-#### <a name="TOSNE961"></a> ToSnakeCase(string this) : string
+#### <a name="TOSE9613E68"></a>ToSnakeCase(string this) : string
 <small>`Static`, `ExtensionAttribute`</small>
 
 Transforms a variable name like string into sname case (ie, "myExampleString" into "my_example_string").
 
 
-#### <a name="TOSHBEC3"></a> ToShoutingCase(string this) : string
+#### <a name="TOSBEC33733"></a>ToShoutingCase(string this) : string
 <small>`Static`, `ExtensionAttribute`</small>
 
 Transforms a variable name like string into sname case (ie, "myExampleString" into "MY_EXAMPLE_STRING").
 
 
-#### <a name="TOSM27D9"></a> ToSmartDisplayName(string this) : string
+#### <a name="TOS27D9F010"></a>ToSmartDisplayName(string this) : string
 <small>`Static`, `ExtensionAttribute`</small>
 
 Transform a variable name like string to an improved display string (akin to Unity's NicifyVariableName).   

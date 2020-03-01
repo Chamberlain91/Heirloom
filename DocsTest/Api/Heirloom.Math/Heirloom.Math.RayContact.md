@@ -9,25 +9,25 @@
 
 Represents the result of a ray-shape intersection.
 
-| Fields                | Summary                                            |
-|-----------------------|----------------------------------------------------|
-| [Position](#POSIF46C) | The point of contact from a collision or ray.      |
-| [Normal](#NORM3009)   | The normal direction of the contacted surface.     |
-| [Distance](#DIST3A36) | The separating distance from the point of contact. |
+| Fields                   | Summary                                            |
+|--------------------------|----------------------------------------------------|
+| [Position](#POSF46C3C91) | The point of contact from a collision or ray.      |
+| [Normal](#NOR300902F)    | The normal direction of the contacted surface.     |
+| [Distance](#DIS3A367EAF) | The separating distance from the point of contact. |
 
 ### Fields
 
-#### <a name="POSIF46C"></a> Position : [Vector](Heirloom.Math.Vector.md)
+#### <a name="POSF46C3C91"></a>Position : [Vector](Heirloom.Math.Vector.md)
 <small>`Read Only`</small>
 
 The point of contact from a collision or ray.
 
-#### <a name="NORM3009"></a> Normal : [Vector](Heirloom.Math.Vector.md)
+#### <a name="NOR300902F"></a>Normal : [Vector](Heirloom.Math.Vector.md)
 <small>`Read Only`</small>
 
 The normal direction of the contacted surface.
 
-#### <a name="DIST3A36"></a> Distance : float
+#### <a name="DIS3A367EAF"></a>Distance : float
 <small>`Read Only`</small>
 
 The separating distance from the point of contact.

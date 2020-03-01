@@ -9,102 +9,102 @@
 
 Represents a vector with two integer values.
 
-| Fields             | Summary                          |
-|--------------------|----------------------------------|
-| [X](#XCDCA)        | The x-coordinate of this vector. |
-| [Y](#YCDCA)        | The y-coordinate of this vector. |
-| [Zero](#ZEROC7D5)  | A vector with value (0, 0).      |
-| [One](#ONE6246)    | A vector with value (1, 1).      |
-| [Right](#RIGH1DA7) | A vector with value (1, 0).      |
-| [Up](#UP52C5)      | A vector with value (0, -1).     |
-| [Left](#LEFT9A90)  | A vector with value (-1, 0).     |
-| [Down](#DOWN1FFB)  | A vector with value (0, 1).      |
+| Fields                | Summary                          |
+|-----------------------|----------------------------------|
+| [X](#XCDCAB7F6)       | The x-coordinate of this vector. |
+| [Y](#YCDCAB7F5)       | The y-coordinate of this vector. |
+| [Zero](#ZERC7D5C0B8)  | A vector with value (0, 0).      |
+| [One](#ONE62466566)   | A vector with value (1, 1).      |
+| [Right](#RIG1DA76FF8) | A vector with value (1, 0).      |
+| [Up](#UP52C519F9)     | A vector with value (0, -1).     |
+| [Left](#LEF9A907773)  | A vector with value (-1, 0).     |
+| [Down](#DOW1FFBB0EA)  | A vector with value (0, 1).      |
 
-| Properties                 | Summary                                    |
-|----------------------------|--------------------------------------------|
-| [Length](#LENG6B36)        | Gets the magnitude of this vector.         |
-| [LengthSquared](#LENG3BB9) | Gets the squared magnitude of this vector. |
-| [Perpendicular](#PERP9428) | Gets a perpendicular copy of this vector.  |
+| Properties                    | Summary                                    |
+|-------------------------------|--------------------------------------------|
+| [Length](#LEN6B366D7E)        | Gets the magnitude of this vector.         |
+| [LengthSquared](#LEN3BB93C25) | Gets the squared magnitude of this vector. |
+| [Perpendicular](#PER94285E6A) | Gets a perpendicular copy of this vector.  |
 
-| Methods                        | Summary                                                                                                 |
-|--------------------------------|---------------------------------------------------------------------------------------------------------|
-| [Set](#SET5F78)                | Sets the components of this vector.                                                                     |
-| [Deconstruct](#DECOC188)       |                                                                                                         |
-| [GetMaxComponent](#GETM45DC)   | Gets the maximal component in the input vector.                                                         |
-| [GetMinComponent](#GETMA14A)   | Gets the minimal component in the input vector.                                                         |
-| [Min](#MINBF9E)                | Computes a new vector where each component is the minimum component in each respective input vector.    |
-| [Max](#MAXD4DA)                | Computes a new vector where each component is the maximum component in each respective input vector.    |
-| [Abs](#ABSECE4)                | Computes a new vector where each component is the absolute value of each component in the input vector. |
-| [Distance](#DIST3A36)          | Computes the euclidean distance between any two vectors.                                                |
-| [DistanceSquared](#DIST66C8)   | Computes the squared euclidean distance between any two vectors.                                        |
-| [ManhattanDistance](#MANHC65C) | Computes the manhattan distance between any two vectors.                                                |
+| Methods                           | Summary                                                                                                 |
+|-----------------------------------|---------------------------------------------------------------------------------------------------------|
+| [Set](#SET5F786982)               | Sets the components of this vector.                                                                     |
+| [Deconstruct](#DECC1884FDA)       |                                                                                                         |
+| [GetMaxComponent](#GET45DCC999)   | Gets the maximal component in the input vector.                                                         |
+| [GetMinComponent](#GETA14AFEBB)   | Gets the minimal component in the input vector.                                                         |
+| [Min](#MINBF9EF002)               | Computes a new vector where each component is the minimum component in each respective input vector.    |
+| [Max](#MAXD4DA94E4)               | Computes a new vector where each component is the maximum component in each respective input vector.    |
+| [Abs](#ABSECE4369A)               | Computes a new vector where each component is the absolute value of each component in the input vector. |
+| [Distance](#DIS3A367EAF)          | Computes the euclidean distance between any two vectors.                                                |
+| [DistanceSquared](#DIS66C8121E)   | Computes the squared euclidean distance between any two vectors.                                        |
+| [ManhattanDistance](#MANC65C6C67) | Computes the manhattan distance between any two vectors.                                                |
 
 ### Fields
 
-#### <a name="XCDCA"></a> X : int
+#### <a name="XCDCAB7F6"></a>X : int
 
 The x-coordinate of this vector.
 
-#### <a name="YCDCA"></a> Y : int
+#### <a name="YCDCAB7F5"></a>Y : int
 
 The y-coordinate of this vector.
 
-#### <a name="ZEROC7D5"></a> Zero : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="ZERC7D5C0B8"></a>Zero : [IntVector](Heirloom.Math.IntVector.md)
 <small>`Read Only`</small>
 
 A vector with value (0, 0).
 
-#### <a name="ONE6246"></a> One : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="ONE62466566"></a>One : [IntVector](Heirloom.Math.IntVector.md)
 <small>`Read Only`</small>
 
 A vector with value (1, 1).
 
-#### <a name="RIGH1DA7"></a> Right : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="RIG1DA76FF8"></a>Right : [IntVector](Heirloom.Math.IntVector.md)
 <small>`Read Only`</small>
 
 A vector with value (1, 0).
 
-#### <a name="UP52C5"></a> Up : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="UP52C519F9"></a>Up : [IntVector](Heirloom.Math.IntVector.md)
 <small>`Read Only`</small>
 
 A vector with value (0, -1).
 
-#### <a name="LEFT9A90"></a> Left : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="LEF9A907773"></a>Left : [IntVector](Heirloom.Math.IntVector.md)
 <small>`Read Only`</small>
 
 A vector with value (-1, 0).
 
-#### <a name="DOWN1FFB"></a> Down : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="DOW1FFBB0EA"></a>Down : [IntVector](Heirloom.Math.IntVector.md)
 <small>`Read Only`</small>
 
 A vector with value (0, 1).
 
-#### <a name="ZEROC7D5"></a> Zero : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="ZERC7D5C0B8"></a>Zero : [IntVector](Heirloom.Math.IntVector.md)
 <small>`Static`, `Read Only`</small>
 
 A vector with value (0, 0).
 
-#### <a name="ONE6246"></a> One : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="ONE62466566"></a>One : [IntVector](Heirloom.Math.IntVector.md)
 <small>`Static`, `Read Only`</small>
 
 A vector with value (1, 1).
 
-#### <a name="RIGH1DA7"></a> Right : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="RIG1DA76FF8"></a>Right : [IntVector](Heirloom.Math.IntVector.md)
 <small>`Static`, `Read Only`</small>
 
 A vector with value (1, 0).
 
-#### <a name="UP52C5"></a> Up : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="UP52C519F9"></a>Up : [IntVector](Heirloom.Math.IntVector.md)
 <small>`Static`, `Read Only`</small>
 
 A vector with value (0, -1).
 
-#### <a name="LEFT9A90"></a> Left : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="LEF9A907773"></a>Left : [IntVector](Heirloom.Math.IntVector.md)
 <small>`Static`, `Read Only`</small>
 
 A vector with value (-1, 0).
 
-#### <a name="DOWN1FFB"></a> Down : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="DOW1FFBB0EA"></a>Down : [IntVector](Heirloom.Math.IntVector.md)
 <small>`Static`, `Read Only`</small>
 
 A vector with value (0, 1).
@@ -115,19 +115,19 @@ A vector with value (0, 1).
 
 ### Properties
 
-#### <a name="LENG6B36"></a> Length : float
+#### <a name="LEN6B366D7E"></a>Length : float
 
 <small>`Read Only`</small>
 
 Gets the magnitude of this vector.
 
-#### <a name="LENG3BB9"></a> LengthSquared : float
+#### <a name="LEN3BB93C25"></a>LengthSquared : float
 
 <small>`Read Only`</small>
 
 Gets the squared magnitude of this vector.
 
-#### <a name="PERP9428"></a> Perpendicular : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="PER94285E6A"></a>Perpendicular : [IntVector](Heirloom.Math.IntVector.md)
 
 <small>`Read Only`</small>
 
@@ -135,57 +135,57 @@ Gets a perpendicular copy of this vector.
 
 ### Methods
 
-#### <a name="SET(B9EB"></a> Set(int x, int y) : void
+#### <a name="SETB9EBD57E"></a>Set(int x, int y) : void
 
 Sets the components of this vector.
 
 
-#### <a name="DECO47DB"></a> Deconstruct(out int x, out int y) : void
+#### <a name="DEC47DB9CE"></a>Deconstruct(out int x, out int y) : void
 
 
-#### <a name="GETM47CD"></a> GetMaxComponent([IntVector](Heirloom.Math.IntVector.md) vec) : int
+#### <a name="GET47CD3B80"></a>GetMaxComponent([IntVector](Heirloom.Math.IntVector.md) vec) : int
 <small>`Static`</small>
 
 Gets the maximal component in the input vector.
 
 
-#### <a name="GETM20EA"></a> GetMinComponent([IntVector](Heirloom.Math.IntVector.md) vec) : int
+#### <a name="GET20EAC022"></a>GetMinComponent([IntVector](Heirloom.Math.IntVector.md) vec) : int
 <small>`Static`</small>
 
 Gets the minimal component in the input vector.
 
 
-#### <a name="MIN(3649"></a> Min([IntVector](Heirloom.Math.IntVector.md) a, [IntVector](Heirloom.Math.IntVector.md) b) : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="MIN36492141"></a>Min([IntVector](Heirloom.Math.IntVector.md) a, [IntVector](Heirloom.Math.IntVector.md) b) : [IntVector](Heirloom.Math.IntVector.md)
 <small>`Static`</small>
 
 Computes a new vector where each component is the minimum component in each respective input vector.
 
 
-#### <a name="MAX(D884"></a> Max([IntVector](Heirloom.Math.IntVector.md) a, [IntVector](Heirloom.Math.IntVector.md) b) : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="MAXD88455D3"></a>Max([IntVector](Heirloom.Math.IntVector.md) a, [IntVector](Heirloom.Math.IntVector.md) b) : [IntVector](Heirloom.Math.IntVector.md)
 <small>`Static`</small>
 
 Computes a new vector where each component is the maximum component in each respective input vector.
 
 
-#### <a name="ABS(7AA7"></a> Abs([IntVector](Heirloom.Math.IntVector.md) vec) : [IntVector](Heirloom.Math.IntVector.md)
+#### <a name="ABS7AA7B07B"></a>Abs([IntVector](Heirloom.Math.IntVector.md) vec) : [IntVector](Heirloom.Math.IntVector.md)
 <small>`Static`</small>
 
 Computes a new vector where each component is the absolute value of each component in the input vector.
 
 
-#### <a name="DISTED56"></a> Distance(in [IntVector](Heirloom.Math.IntVector.md) a, in [IntVector](Heirloom.Math.IntVector.md) b) : float
+#### <a name="DISED56852B"></a>Distance(in [IntVector](Heirloom.Math.IntVector.md) a, in [IntVector](Heirloom.Math.IntVector.md) b) : float
 <small>`Static`</small>
 
 Computes the euclidean distance between any two vectors.
 
 
-#### <a name="DIST1DC9"></a> DistanceSquared(in [IntVector](Heirloom.Math.IntVector.md) a, in [IntVector](Heirloom.Math.IntVector.md) b) : int
+#### <a name="DIS1DC98031"></a>DistanceSquared(in [IntVector](Heirloom.Math.IntVector.md) a, in [IntVector](Heirloom.Math.IntVector.md) b) : int
 <small>`Static`</small>
 
 Computes the squared euclidean distance between any two vectors.
 
 
-#### <a name="MANHD397"></a> ManhattanDistance(in [IntVector](Heirloom.Math.IntVector.md) a, in [IntVector](Heirloom.Math.IntVector.md) b) : int
+#### <a name="MAND397BB96"></a>ManhattanDistance(in [IntVector](Heirloom.Math.IntVector.md) a, in [IntVector](Heirloom.Math.IntVector.md) b) : int
 <small>`Static`</small>
 
 Computes the manhattan distance between any two vectors.

@@ -11,9 +11,9 @@
 
 Represents a single 32 bit Unicode character.
 
-| Methods                | Summary                                        |
-|------------------------|------------------------------------------------|
-| [CompareTo](#COMPD590) | Compares this instance to the specified value. |
+| Methods                   | Summary                                        |
+|---------------------------|------------------------------------------------|
+| [CompareTo](#COMD590B82C) | Compares this instance to the specified value. |
 
 ### Constructors
 
@@ -31,7 +31,7 @@ Initializes a new instance of the [UnicodeCharacter](Heirloom.Drawing.UnicodeCha
 
 ### Methods
 
-#### <a name="COMP9AF0"></a> CompareTo([UnicodeCharacter](Heirloom.Drawing.UnicodeCharacter.md) other) : int
+#### <a name="COM9AF05C5B"></a>CompareTo([UnicodeCharacter](Heirloom.Drawing.UnicodeCharacter.md) other) : int
 <small>`Virtual`</small>
 
 Compares this instance to the specified value.

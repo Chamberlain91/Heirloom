@@ -10,10 +10,10 @@
 
 Styled text compiled by a [StyledTextParser](Heirloom.Drawing.StyledTextParser.md).
 
-| Properties            | Summary                                                                             |
-|-----------------------|-------------------------------------------------------------------------------------|
-| [Text](#TEXT9A90)     | Gets the plain text component of this [StyledText](Heirloom.Drawing.StyledText.md). |
-| [Callback](#CALLD822) | Gets the text styling callback.                                                     |
+| Properties               | Summary                                                                             |
+|--------------------------|-------------------------------------------------------------------------------------|
+| [Text](#TEX9A90786D)     | Gets the plain text component of this [StyledText](Heirloom.Drawing.StyledText.md). |
+| [Callback](#CALD822FBD5) | Gets the text styling callback.                                                     |
 
 ### Constructors
 
@@ -21,13 +21,13 @@ Styled text compiled by a [StyledTextParser](Heirloom.Drawing.StyledTextParser.m
 
 ### Properties
 
-#### <a name="TEXT9A90"></a> Text : string
+#### <a name="TEX9A90786D"></a>Text : string
 
 <small>`Read Only`</small>
 
 Gets the plain text component of this [StyledText](Heirloom.Drawing.StyledText.md).
 
-#### <a name="CALLD822"></a> Callback : [DrawTextCallback](Heirloom.Drawing.DrawTextCallback.md)
+#### <a name="CALD822FBD5"></a>Callback : [DrawTextCallback](Heirloom.Drawing.DrawTextCallback.md)
 
 
 Gets the text styling callback.

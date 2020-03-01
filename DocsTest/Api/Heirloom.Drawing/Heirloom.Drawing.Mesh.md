@@ -8,26 +8,26 @@
 ## Mesh (Sealed Class)
 <small>**Namespace**: Heirloom.Drawing</sub></small>  
 
-| Properties             | Summary                                                                               |
-|------------------------|---------------------------------------------------------------------------------------|
-| [Vertices](#VERT648B)  | Gets the vertices contained by this mesh.                                             |
-| [Indices](#INDIA2E8)   | Gets the (optional) indices defining triangles by index of the vertex list.           |
-| [IsIndexed](#ISIN97FB) | Is this mesh constructed triangles specified by indexed?                              |
-| [Version](#VERSFB25)   | The version number of the mesh. Modifications to the mesh data increment this number. |
+| Properties                | Summary                                                                               |
+|---------------------------|---------------------------------------------------------------------------------------|
+| [Vertices](#VER648B0F21)  | Gets the vertices contained by this mesh.                                             |
+| [Indices](#INDA2E87CDB)   | Gets the (optional) indices defining triangles by index of the vertex list.           |
+| [IsIndexed](#ISI97FBDC75) | Is this mesh constructed triangles specified by indexed?                              |
+| [Version](#VERFB25B632)   | The version number of the mesh. Modifications to the mesh data increment this number. |
 
-| Methods                              | Summary                                                                                                                                            |
-|--------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Clear](#CLEA3BB2)                   | Clears the mesh data.                                                                                                                              |
-| [AddVertex](#ADDVA40B)               | Appends a vertex to this mesh.                                                                                                                     |
-| [AddVertices](#ADDV60DF)             | Appends multiple vertices to this mesh.                                                                                                            |
-| [AddVertices](#ADDV60DF)             | Appends multiple vertices to this mesh.                                                                                                            |
-| [AddIndex](#ADDIEB34)                | Appends a triangle index to this mesh. Until `Heirloom.Drawing.Mesh.Clear` is called, this mesh becomes indexed.                                   |
-| [AddIndices](#ADDIE65D)              | Appends a triangle index to this mesh. Until `Heirloom.Drawing.Mesh.Clear` is called, this mesh becomes indexed.                                   |
-| [AddIndices](#ADDIE65D)              | Appends a triangle index to this mesh. Until `Heirloom.Drawing.Mesh.Clear` is called, this mesh becomes indexed.                                   |
-| [CreateFromPolygon](#CREAA112)       | Constructs a mesh from the given polygon via `Heirloom.Math.Polygon.Triangulate`. UV coordinates are the normalized polygon within its own bounds. |
-| [CreateFromPolygon](#CREAA112)       | Constructs a mesh from the given polygon via `Heirloom.Math.Polygon.Triangulate`. UV coordinates are the normalized polygon within its own bounds. |
-| [CreateFromConvexPolygon](#CREA9A01) | Constructs a mesh from the given convex polygon. UV coordinates are the normalized polygon within its own bounds.                                  |
-| [CreateQuad](#CREAC597)              | Creates a simple quad mesh.                                                                                                                        |
+| Methods                                 | Summary                                                                                                                                            |
+|-----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Clear](#CLE3BB23EF9)                   | Clears the mesh data.                                                                                                                              |
+| [AddVertex](#ADDA40B49)                 | Appends a vertex to this mesh.                                                                                                                     |
+| [AddVertices](#ADD60DF2DCE)             | Appends multiple vertices to this mesh.                                                                                                            |
+| [AddVertices](#ADD60DF2DCE)             | Appends multiple vertices to this mesh.                                                                                                            |
+| [AddIndex](#ADDEB343CCF)                | Appends a triangle index to this mesh. Until `Heirloom.Drawing.Mesh.Clear` is called, this mesh becomes indexed.                                   |
+| [AddIndices](#ADDE65D582E)              | Appends a triangle index to this mesh. Until `Heirloom.Drawing.Mesh.Clear` is called, this mesh becomes indexed.                                   |
+| [AddIndices](#ADDE65D582E)              | Appends a triangle index to this mesh. Until `Heirloom.Drawing.Mesh.Clear` is called, this mesh becomes indexed.                                   |
+| [CreateFromPolygon](#CREA1128314)       | Constructs a mesh from the given polygon via `Heirloom.Math.Polygon.Triangulate`. UV coordinates are the normalized polygon within its own bounds. |
+| [CreateFromPolygon](#CREA1128314)       | Constructs a mesh from the given polygon via `Heirloom.Math.Polygon.Triangulate`. UV coordinates are the normalized polygon within its own bounds. |
+| [CreateFromConvexPolygon](#CRE9A01C527) | Constructs a mesh from the given convex polygon. UV coordinates are the normalized polygon within its own bounds.                                  |
+| [CreateQuad](#CREC5979291)              | Creates a simple quad mesh.                                                                                                                        |
 
 ### Constructors
 
@@ -35,25 +35,25 @@
 
 ### Properties
 
-#### <a name="VERT648B"></a> Vertices : IReadOnlyList\<Vertex>
+#### <a name="VER648B0F21"></a>Vertices : IReadOnlyList\<Vertex>
 
 <small>`Read Only`</small>
 
 Gets the vertices contained by this mesh.
 
-#### <a name="INDIA2E8"></a> Indices : IReadOnlyList\<int>
+#### <a name="INDA2E87CDB"></a>Indices : IReadOnlyList\<int>
 
 <small>`Read Only`</small>
 
 Gets the (optional) indices defining triangles by index of the vertex list.
 
-#### <a name="ISIN97FB"></a> IsIndexed : bool
+#### <a name="ISI97FBDC75"></a>IsIndexed : bool
 
 <small>`Read Only`</small>
 
 Is this mesh constructed triangles specified by indexed?
 
-#### <a name="VERSFB25"></a> Version : uint
+#### <a name="VERFB25B632"></a>Version : uint
 
 <small>`Read Only`</small>
 
@@ -61,41 +61,41 @@ The version number of the mesh. Modifications to the mesh data increment this nu
 
 ### Methods
 
-#### <a name="CLEA4538"></a> Clear() : void
+#### <a name="CLE4538C554"></a>Clear() : void
 
 Clears the mesh data.
 
-#### <a name="ADDV16B6"></a> AddVertex([Vertex](Heirloom.Drawing.Vertex.md) vertex) : void
+#### <a name="ADD16B64495"></a>AddVertex([Vertex](Heirloom.Drawing.Vertex.md) vertex) : void
 
 Appends a vertex to this mesh.
 
 
-#### <a name="ADDV4361"></a> AddVertices(IEnumerable\<Vertex> vertices) : void
+#### <a name="ADD43612F17"></a>AddVertices(IEnumerable\<Vertex> vertices) : void
 
 Appends multiple vertices to this mesh.
 
 
-#### <a name="ADDVD003"></a> AddVertices(params [Vertex[]](Heirloom.Drawing.Vertex.md) vertices) : void
+#### <a name="ADDD003481B"></a>AddVertices(params [Vertex[]](Heirloom.Drawing.Vertex.md) vertices) : void
 
 Appends multiple vertices to this mesh.
 
 
-#### <a name="ADDI8228"></a> AddIndex(int index) : void
+#### <a name="ADD822885DD"></a>AddIndex(int index) : void
 
 Appends a triangle index to this mesh. Until `Heirloom.Drawing.Mesh.Clear` is called, this mesh becomes indexed.
 
 
-#### <a name="ADDIA703"></a> AddIndices(params int indices) : void
+#### <a name="ADDA703B231"></a>AddIndices(params int indices) : void
 
 Appends a triangle index to this mesh. Until `Heirloom.Drawing.Mesh.Clear` is called, this mesh becomes indexed.
 
 
-#### <a name="ADDI9A18"></a> AddIndices(IEnumerable\<int> indices) : void
+#### <a name="ADD9A18089A"></a>AddIndices(IEnumerable\<int> indices) : void
 
 Appends a triangle index to this mesh. Until `Heirloom.Drawing.Mesh.Clear` is called, this mesh becomes indexed.
 
 
-#### <a name="CREA5F92"></a> CreateFromPolygon([Polygon](../Heirloom.Math/Heirloom.Math.Polygon.md) polygon) : [Mesh](Heirloom.Drawing.Mesh.md)
+#### <a name="CRE5F92A686"></a>CreateFromPolygon([Polygon](../Heirloom.Math/Heirloom.Math.Polygon.md) polygon) : [Mesh](Heirloom.Drawing.Mesh.md)
 <small>`Static`</small>
 
 Constructs a mesh from the given polygon via `Heirloom.Math.Polygon.Triangulate`.   
@@ -103,7 +103,7 @@ Constructs a mesh from the given polygon via `Heirloom.Math.Polygon.Triangulate`
 
 <small>**polygon**: <param name="polygon">Some polygon.</param></small>  
 
-#### <a name="CREAAC2E"></a> CreateFromPolygon(IReadOnlyList\<Vector> polygon) : [Mesh](Heirloom.Drawing.Mesh.md)
+#### <a name="CREAC2ED974"></a>CreateFromPolygon(IReadOnlyList\<Vector> polygon) : [Mesh](Heirloom.Drawing.Mesh.md)
 <small>`Static`</small>
 
 Constructs a mesh from the given polygon via `Heirloom.Math.Polygon.Triangulate`.   
@@ -111,7 +111,7 @@ Constructs a mesh from the given polygon via `Heirloom.Math.Polygon.Triangulate`
 
 <small>**polygon**: <param name="polygon">Some polygon.</param></small>  
 
-#### <a name="CREAE4C0"></a> CreateFromConvexPolygon(IEnumerable\<Vector> polygon) : [Mesh](Heirloom.Drawing.Mesh.md)
+#### <a name="CREE4C0310F"></a>CreateFromConvexPolygon(IEnumerable\<Vector> polygon) : [Mesh](Heirloom.Drawing.Mesh.md)
 <small>`Static`</small>
 
 Constructs a mesh from the given convex polygon.   
@@ -119,7 +119,7 @@ Constructs a mesh from the given convex polygon.
 
 <small>**polygon**: <param name="polygon">Some convex polygon.</param></small>  
 
-#### <a name="CREA3F18"></a> CreateQuad(float w, float h) : [Mesh](Heirloom.Drawing.Mesh.md)
+#### <a name="CRE3F182D02"></a>CreateQuad(float w, float h) : [Mesh](Heirloom.Drawing.Mesh.md)
 <small>`Static`</small>
 
 Creates a simple quad mesh.

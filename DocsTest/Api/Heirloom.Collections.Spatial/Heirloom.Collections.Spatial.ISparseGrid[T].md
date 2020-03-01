@@ -10,20 +10,20 @@
 
 A sparse 2D grid of values.
 
-| Methods                 | Summary                                                   |
-|-------------------------|-----------------------------------------------------------|
-| [ClearValue](#CLEA6B29) | Clears the assigned valueon this cell of the sparse grid. |
-| [ClearValue](#CLEA6B29) | Clears the assigned valueon this cell of the sparse grid. |
+| Methods                   | Summary                                                   |
+|---------------------------|-----------------------------------------------------------|
+| [ClearValue](#CLE6B298B8) | Clears the assigned valueon this cell of the sparse grid. |
+| [ClearValue](#CLE6B298B8) | Clears the assigned valueon this cell of the sparse grid. |
 
 ### Methods
 
-#### <a name="CLEAFB28"></a> ClearValue(in int x, in int y) : void
+#### <a name="CLEFB28FAFA"></a>ClearValue(in int x, in int y) : void
 <small>`Abstract`</small>
 
 Clears the assigned valueon this cell of the sparse grid.
 
 
-#### <a name="CLEAA463"></a> ClearValue(in [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) co) : void
+#### <a name="CLEA46312EA"></a>ClearValue(in [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) co) : void
 <small>`Abstract`</small>
 
 Clears the assigned valueon this cell of the sparse grid.

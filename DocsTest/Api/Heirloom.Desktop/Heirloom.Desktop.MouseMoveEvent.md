@@ -7,17 +7,17 @@
 ## MouseMoveEvent (Struct)
 <small>**Namespace**: Heirloom.Desktop</sub></small>  
 
-| Fields                | Summary |
-|-----------------------|---------|
-| [Position](#POSIF46C) |         |
-| [Delta](#DELTEE5E)    |         |
+| Fields                   | Summary |
+|--------------------------|---------|
+| [Position](#POSF46C3C91) |         |
+| [Delta](#DELEE5EC470)    |         |
 
 ### Fields
 
-#### <a name="POSIF46C"></a> Position : [Vector](../Heirloom.Math/Heirloom.Math.Vector.md)
+#### <a name="POSF46C3C91"></a>Position : [Vector](../Heirloom.Math/Heirloom.Math.Vector.md)
 <small>`Read Only`</small>
 
-#### <a name="DELTEE5E"></a> Delta : [Vector](../Heirloom.Math/Heirloom.Math.Vector.md)
+#### <a name="DELEE5EC470"></a>Delta : [Vector](../Heirloom.Math/Heirloom.Math.Vector.md)
 <small>`Read Only`</small>
 
 ### Constructors

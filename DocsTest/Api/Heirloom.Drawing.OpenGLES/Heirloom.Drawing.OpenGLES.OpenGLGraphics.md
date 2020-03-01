@@ -8,31 +8,31 @@
 <small>**Namespace**: Heirloom.Drawing.OpenGLES</sub></small>  
 <small>**Inherits**: [Graphics](../Heirloom.Drawing/Heirloom.Drawing.Graphics.md)</small>  
 
-| Properties                          | Summary |
-|-------------------------------------|---------|
-| [GlobalTransform](#GLOB9D3F)        |         |
-| [InverseGlobalTransform](#INVE9F06) |         |
-| [ViewportScreen](#VIEW9EEF)         |         |
-| [Viewport](#VIEW365B)               |         |
-| [Blending](#BLENF02A)               |         |
-| [Color](#COLOD122)                  |         |
-| [Surface](#SURF4078)                |         |
-| [Shader](#SHAD5D12)                 |         |
+| Properties                             | Summary |
+|----------------------------------------|---------|
+| [GlobalTransform](#GLO9D3F3F33)        |         |
+| [InverseGlobalTransform](#INV9F065FB7) |         |
+| [ViewportScreen](#VIE9EEFEE58)         |         |
+| [Viewport](#VIE365B3434)               |         |
+| [Blending](#BLEF02A3CD5)               |         |
+| [Color](#COLD1229651)                  |         |
+| [Surface](#SUR40785EE9)                |         |
+| [Shader](#SHA5D122CB9)                 |         |
 
-| Methods                          | Summary                                                                 |
-|----------------------------------|-------------------------------------------------------------------------|
-| [MakeCurrent](#MAKEB77D)         |                                                                         |
-| [ComputeViewportRect](#COMP2FD0) |                                                                         |
-| [SetBufferUniform<T>](#SETBE4FE) |                                                                         |
-| [SetBufferUniform](#SETB46AC)    |                                                                         |
-| [SetBufferUniform](#SETB46AC)    | Writes a matrix to the given address with each row aligned to 16 bytes. |
-| [GrabPixels](#GRAB1D23)          |                                                                         |
-| [Clear](#CLEA3BB2)               |                                                                         |
-| [DrawMesh](#DRAWDBE2)            |                                                                         |
-| [Flush](#FLUSCBEB)               |                                                                         |
-| [GetDrawCounts](#GETDC2CC)       |                                                                         |
-| [EndFrame](#ENDFD6AD)            |                                                                         |
-| [Dispose](#DISP8A0D)             |                                                                         |
+| Methods                             | Summary                                                                 |
+|-------------------------------------|-------------------------------------------------------------------------|
+| [MakeCurrent](#MAKB77DA8AB)         |                                                                         |
+| [ComputeViewportRect](#COM2FD01CD5) |                                                                         |
+| [SetBufferUniform<T>](#SETE4FE6AD2) |                                                                         |
+| [SetBufferUniform](#SET46AC8614)    |                                                                         |
+| [SetBufferUniform](#SET46AC8614)    | Writes a matrix to the given address with each row aligned to 16 bytes. |
+| [GrabPixels](#GRA1D233CB9)          |                                                                         |
+| [Clear](#CLE3BB23EF9)               |                                                                         |
+| [DrawMesh](#DRADBE2F57F)            |                                                                         |
+| [Flush](#FLUCBEBF960)               |                                                                         |
+| [GetDrawCounts](#GETC2CC16A4)       |                                                                         |
+| [EndFrame](#ENDD6AD7C68)            |                                                                         |
+| [Dispose](#DIS8A0D80C3)             |                                                                         |
 
 ### Constructors
 
@@ -40,72 +40,72 @@
 
 ### Properties
 
-#### <a name="GLOB9D3F"></a> GlobalTransform : [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md)
+#### <a name="GLO9D3F3F33"></a>GlobalTransform : [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md)
 
 
-#### <a name="INVE9F06"></a> InverseGlobalTransform : [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md)
+#### <a name="INV9F065FB7"></a>InverseGlobalTransform : [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md)
 
 <small>`Read Only`</small>
 
-#### <a name="VIEW9EEF"></a> ViewportScreen : [IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md)
+#### <a name="VIE9EEFEE58"></a>ViewportScreen : [IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md)
 
 
-#### <a name="VIEW365B"></a> Viewport : [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md)
+#### <a name="VIE365B3434"></a>Viewport : [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md)
 
 
-#### <a name="BLENF02A"></a> Blending : [Blending](../Heirloom.Drawing/Heirloom.Drawing.Blending.md)
+#### <a name="BLEF02A3CD5"></a>Blending : [Blending](../Heirloom.Drawing/Heirloom.Drawing.Blending.md)
 
 
-#### <a name="COLOD122"></a> Color : [Color](../Heirloom.Drawing/Heirloom.Drawing.Color.md)
+#### <a name="COLD1229651"></a>Color : [Color](../Heirloom.Drawing/Heirloom.Drawing.Color.md)
 
 
-#### <a name="SURF4078"></a> Surface : [Surface](../Heirloom.Drawing/Heirloom.Drawing.Surface.md)
+#### <a name="SUR40785EE9"></a>Surface : [Surface](../Heirloom.Drawing/Heirloom.Drawing.Surface.md)
 
 
-#### <a name="SHAD5D12"></a> Shader : [Shader](../Heirloom.Drawing/Heirloom.Drawing.Shader.md)
+#### <a name="SHA5D122CB9"></a>Shader : [Shader](../Heirloom.Drawing/Heirloom.Drawing.Shader.md)
 
 
 ### Methods
 
-#### <a name="MAKE2275"></a> MakeCurrent() : void
+#### <a name="MAK22754DC6"></a>MakeCurrent() : void
 <small>`Abstract`, `Protected`</small>
 
-#### <a name="COMPCF9B"></a> ComputeViewportRect() : void
+#### <a name="COMCF9BB544"></a>ComputeViewportRect() : void
 <small>`Protected`</small>
 
-#### <a name="SETB365D"></a> SetBufferUniform<T>(string name, T data) : void
+#### <a name="SET365DDD71"></a>SetBufferUniform<T>(string name, T data) : void
 
 
-#### <a name="SETB4B0F"></a> SetBufferUniform(string name, void data, int offset, int size) : void
+#### <a name="SET4B0F835B"></a>SetBufferUniform(string name, void data, int offset, int size) : void
 
 
-#### <a name="SETBD1D1"></a> SetBufferUniform(string name, [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md) matrix) : void
+#### <a name="SETD1D1FF1A"></a>SetBufferUniform(string name, [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md) matrix) : void
 
 Writes a matrix to the given address with each row aligned to 16 bytes.
 
 
-#### <a name="GRAB28C2"></a> GrabPixels([IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md) region) : [Image](../Heirloom.Drawing/Heirloom.Drawing.Image.md)
+#### <a name="GRA28C2314"></a>GrabPixels([IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md) region) : [Image](../Heirloom.Drawing/Heirloom.Drawing.Image.md)
 <small>`Virtual`</small>
 
 
-#### <a name="CLEAC8B2"></a> Clear([Color](../Heirloom.Drawing/Heirloom.Drawing.Color.md) color) : void
+#### <a name="CLEC8B242F1"></a>Clear([Color](../Heirloom.Drawing/Heirloom.Drawing.Color.md) color) : void
 <small>`Virtual`</small>
 
 
-#### <a name="DRAW846D"></a> DrawMesh([ImageSource](../Heirloom.Drawing/Heirloom.Drawing.ImageSource.md) source, [Mesh](../Heirloom.Drawing/Heirloom.Drawing.Mesh.md) mesh, in [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md) transform) : void
+#### <a name="DRA846D072B"></a>DrawMesh([ImageSource](../Heirloom.Drawing/Heirloom.Drawing.ImageSource.md) source, [Mesh](../Heirloom.Drawing/Heirloom.Drawing.Mesh.md) mesh, in [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md) transform) : void
 <small>`Virtual`</small>
 
 
-#### <a name="FLUS2F0E"></a> Flush() : void
+#### <a name="FLU2F0EB18F"></a>Flush() : void
 <small>`Virtual`</small>
 
-#### <a name="GETDF0B9"></a> GetDrawCounts() : [Graphics.DrawCounts](../Heirloom.Drawing/Heirloom.Drawing.Graphics.DrawCounts.md)
+#### <a name="GETF0B9C7EF"></a>GetDrawCounts() : [Graphics.DrawCounts](../Heirloom.Drawing/Heirloom.Drawing.Graphics.DrawCounts.md)
 <small>`Virtual`, `Protected`</small>
 
-#### <a name="ENDFE202"></a> EndFrame() : void
+#### <a name="ENDE20271D1"></a>EndFrame() : void
 <small>`Virtual`, `Protected`</small>
 
-#### <a name="DISPFDE7"></a> Dispose(bool disposeManaged) : void
+#### <a name="DISFDE72264"></a>Dispose(bool disposeManaged) : void
 <small>`Virtual`, `Protected`</small>
 
 

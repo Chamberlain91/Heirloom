@@ -10,24 +10,24 @@
 
 Contains information about a glyph (ie, the horizontal metrics).
 
-| Fields                    | Summary                                                                                               |
-|---------------------------|-------------------------------------------------------------------------------------------------------|
-| [AdvanceWidth](#ADVAD761) | The advance width of the glyph. This is the spacing between the glyph's left edge and the next glyph. |
-| [Bearing](#BEAR4DA5)      | The bearing of this glyph.                                                                            |
+| Fields                       | Summary                                                                                               |
+|------------------------------|-------------------------------------------------------------------------------------------------------|
+| [AdvanceWidth](#ADVD761AEDC) | The advance width of the glyph. This is the spacing between the glyph's left edge and the next glyph. |
+| [Bearing](#BEA4DA56914)      | The bearing of this glyph.                                                                            |
 
-| Properties          | Summary                                 |
-|---------------------|-----------------------------------------|
-| [Offset](#OFFS1FA8) | The glyph offset from the pen position. |
-| [Size](#SIZE9C93)   | The glyph bounds size.                  |
+| Properties            | Summary                                 |
+|-----------------------|-----------------------------------------|
+| [Offset](#OFF1FA8EDD) | The glyph offset from the pen position. |
+| [Size](#SIZ9C9392F9)  | The glyph bounds size.                  |
 
 ### Fields
 
-#### <a name="ADVAD761"></a> AdvanceWidth : float
+#### <a name="ADVD761AEDC"></a>AdvanceWidth : float
 <small>`Read Only`</small>
 
 The advance width of the glyph. This is the spacing between the glyph's left edge and the next glyph.
 
-#### <a name="BEAR4DA5"></a> Bearing : float
+#### <a name="BEA4DA56914"></a>Bearing : float
 <small>`Read Only`</small>
 
 The bearing of this glyph.
@@ -38,13 +38,13 @@ The bearing of this glyph.
 
 ### Properties
 
-#### <a name="OFFS1FA8"></a> Offset : [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md)
+#### <a name="OFF1FA8EDD"></a>Offset : [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md)
 
 <small>`Read Only`</small>
 
 The glyph offset from the pen position.
 
-#### <a name="SIZE9C93"></a> Size : [IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md)
+#### <a name="SIZ9C9392F9"></a>Size : [IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md)
 
 <small>`Read Only`</small>
 

@@ -8,11 +8,11 @@
 <small>**Namespace**: Heirloom.Desktop.Hardware</sub></small>  
 <small>**Interfaces**: IEquatable\<GpuInfo></small>  
 
-| Properties           | Summary                                                      |
-|----------------------|--------------------------------------------------------------|
-| [Vendor](#VENDA14B)  |                                                              |
-| [Name](#NAME5943)    |                                                              |
-| [Unknown](#UNKNA484) | Gets default information when properties of GPU are unknown. |
+| Properties              | Summary                                                      |
+|-------------------------|--------------------------------------------------------------|
+| [Vendor](#VENA14B39A0)  |                                                              |
+| [Name](#NAM5943D12B)    |                                                              |
+| [Unknown](#UNKA4848C14) | Gets default information when properties of GPU are unknown. |
 
 ### Constructors
 
@@ -22,15 +22,15 @@
 
 ### Properties
 
-#### <a name="VENDA14B"></a> Vendor : [GpuVendor](Heirloom.Desktop.Hardware.GpuVendor.md)
+#### <a name="VENA14B39A0"></a>Vendor : [GpuVendor](Heirloom.Desktop.Hardware.GpuVendor.md)
 
 <small>`Read Only`</small>
 
-#### <a name="NAME5943"></a> Name : string
+#### <a name="NAM5943D12B"></a>Name : string
 
 <small>`Read Only`</small>
 
-#### <a name="UNKNA484"></a> Unknown : [GpuInfo](Heirloom.Desktop.Hardware.GpuInfo.md)
+#### <a name="UNKA4848C14"></a>Unknown : [GpuInfo](Heirloom.Desktop.Hardware.GpuInfo.md)
 
 <small>`Static`</small>
 

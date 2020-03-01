@@ -8,18 +8,18 @@
 ## GraphicsAdapter.ISurfaceFactory (Interface)
 <small>**Namespace**: Heirloom.Drawing</sub></small>  
 
-| Methods              | Summary |
-|----------------------|---------|
-| [Create](#CREA31C4)  |         |
-| [Dispose](#DISP8A0D) |         |
+| Methods                 | Summary |
+|-------------------------|---------|
+| [Create](#CRE31C4F336)  |         |
+| [Dispose](#DIS8A0D80C3) |         |
 
 ### Methods
 
-#### <a name="CREA1F85"></a> Create([IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md) size, [MultisampleQuality](Heirloom.Drawing.MultisampleQuality.md) multisample) : object
+#### <a name="CRE1F854001"></a>Create([IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md) size, [MultisampleQuality](Heirloom.Drawing.MultisampleQuality.md) multisample) : object
 <small>`Abstract`</small>
 
 
-#### <a name="DISP2F22"></a> Dispose(object native) : void
+#### <a name="DIS2F22B63C"></a>Dispose(object native) : void
 <small>`Abstract`</small>
 
 

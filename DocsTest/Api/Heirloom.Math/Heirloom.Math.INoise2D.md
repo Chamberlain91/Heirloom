@@ -8,13 +8,13 @@
 
 Provides an interface for sampling two-dimensional noise.
 
-| Methods             | Summary                       |
-|---------------------|-------------------------------|
-| [Sample](#SAMPB4A3) | Sample two-dimensional noise. |
+| Methods                | Summary                       |
+|------------------------|-------------------------------|
+| [Sample](#SAMB4A361CC) | Sample two-dimensional noise. |
 
 ### Methods
 
-#### <a name="SAMPB43A"></a> Sample(float x, float y) : float
+#### <a name="SAMB43AC0AA"></a>Sample(float x, float y) : float
 <small>`Abstract`</small>
 
 Sample two-dimensional noise.

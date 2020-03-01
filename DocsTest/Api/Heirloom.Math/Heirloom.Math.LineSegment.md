@@ -9,40 +9,40 @@
 
 Represents a line segment defined by two [Vector](Heirloom.Math.Vector.md).
 
-| Fields                             | Summary                                                                              |
-|------------------------------------|--------------------------------------------------------------------------------------|
-| [A](#ACDCA)                        | The first end-point.                                                                 |
-| [B](#BCDCA)                        | The second end-point.                                                                |
-| [IntersectionTolerance](#INTEB65A) | A value to adjust the intersection tolerance to compensate for floating-point error. |
+| Fields                                | Summary                                                                              |
+|---------------------------------------|--------------------------------------------------------------------------------------|
+| [A](#ACDCAB7DD)                       | The first end-point.                                                                 |
+| [B](#BCDCAB7E0)                       | The second end-point.                                                                |
+| [IntersectionTolerance](#INTB65AA64A) | A value to adjust the intersection tolerance to compensate for floating-point error. |
 
-| Methods                      | Summary                                                            |
-|------------------------------|--------------------------------------------------------------------|
-| [GetPoint](#GETP8949)        | Gets a intermediate point along the line segment.                  |
-| [Intersects](#INTE62E2)      | Checks if this line segment intersects another.                    |
-| [Intersects](#INTE62E2)      | Checks if this line segment intersects another.                    |
-| [GetClosestPoint](#GETC53DD) | Gets the closest point on the line segment to the specified point. |
-| [Intersects](#INTE62E2)      | Checks if two line segments intersect.                             |
-| [Intersects](#INTE62E2)      | Checks if two line segments intersect.                             |
-| [Intersects](#INTE62E2)      | Checks if two line segments intersect.                             |
-| [Intersects](#INTE62E2)      | Checks if two line segments intersect.                             |
-| [GetClosestPoint](#GETC53DD) | Gets the closest point on a line segment to the specified point.   |
-| [ClosestPoint](#CLOSC5B5)    | Gets the closest point on a line segment to the specified point.   |
+| Methods                         | Summary                                                            |
+|---------------------------------|--------------------------------------------------------------------|
+| [GetPoint](#GET894901F8)        | Gets a intermediate point along the line segment.                  |
+| [Intersects](#INT62E2083C)      | Checks if this line segment intersects another.                    |
+| [Intersects](#INT62E2083C)      | Checks if this line segment intersects another.                    |
+| [GetClosestPoint](#GET53DD1DC3) | Gets the closest point on the line segment to the specified point. |
+| [Intersects](#INT62E2083C)      | Checks if two line segments intersect.                             |
+| [Intersects](#INT62E2083C)      | Checks if two line segments intersect.                             |
+| [Intersects](#INT62E2083C)      | Checks if two line segments intersect.                             |
+| [Intersects](#INT62E2083C)      | Checks if two line segments intersect.                             |
+| [GetClosestPoint](#GET53DD1DC3) | Gets the closest point on a line segment to the specified point.   |
+| [ClosestPoint](#CLOC5B56A4D)    | Gets the closest point on a line segment to the specified point.   |
 
 ### Fields
 
-#### <a name="ACDCA"></a> A : [Vector](Heirloom.Math.Vector.md)
+#### <a name="ACDCAB7DD"></a>A : [Vector](Heirloom.Math.Vector.md)
 
 The first end-point.
 
-#### <a name="BCDCA"></a> B : [Vector](Heirloom.Math.Vector.md)
+#### <a name="BCDCAB7E0"></a>B : [Vector](Heirloom.Math.Vector.md)
 
 The second end-point.
 
-#### <a name="INTEB65A"></a> IntersectionTolerance : float
+#### <a name="INTB65AA64A"></a>IntersectionTolerance : float
 
 A value to adjust the intersection tolerance to compensate for floating-point error.
 
-#### <a name="INTEB65A"></a> IntersectionTolerance : float
+#### <a name="INTB65AA64A"></a>IntersectionTolerance : float
 <small>`Static`</small>
 
 A value to adjust the intersection tolerance to compensate for floating-point error.
@@ -53,57 +53,57 @@ A value to adjust the intersection tolerance to compensate for floating-point er
 
 ### Methods
 
-#### <a name="GETPE0E1"></a> GetPoint(float t) : [Vector](Heirloom.Math.Vector.md)
+#### <a name="GETE0E17AE2"></a>GetPoint(float t) : [Vector](Heirloom.Math.Vector.md)
 
 Gets a intermediate point along the line segment.
 
 
-#### <a name="INTE8009"></a> Intersects([LineSegment](Heirloom.Math.LineSegment.md) other) : bool
+#### <a name="INT800903E6"></a>Intersects([LineSegment](Heirloom.Math.LineSegment.md) other) : bool
 
 Checks if this line segment intersects another.
 
 
-#### <a name="INTE61BB"></a> Intersects([LineSegment](Heirloom.Math.LineSegment.md) other, out [Vector](Heirloom.Math.Vector.md) point) : bool
+#### <a name="INT61BB38B5"></a>Intersects([LineSegment](Heirloom.Math.LineSegment.md) other, out [Vector](Heirloom.Math.Vector.md) point) : bool
 
 Checks if this line segment intersects another.
 
 
-#### <a name="GETCBC36"></a> GetClosestPoint([Vector](Heirloom.Math.Vector.md) p) : [Vector](Heirloom.Math.Vector.md)
+#### <a name="GETBC363A60"></a>GetClosestPoint([Vector](Heirloom.Math.Vector.md) p) : [Vector](Heirloom.Math.Vector.md)
 
 Gets the closest point on the line segment to the specified point.
 
 
-#### <a name="INTE2AE0"></a> Intersects([LineSegment](Heirloom.Math.LineSegment.md) s1, [LineSegment](Heirloom.Math.LineSegment.md) s2) : bool
+#### <a name="INT2AE0750E"></a>Intersects([LineSegment](Heirloom.Math.LineSegment.md) s1, [LineSegment](Heirloom.Math.LineSegment.md) s2) : bool
 <small>`Static`</small>
 
 Checks if two line segments intersect.
 
 
-#### <a name="INTE97F1"></a> Intersects([LineSegment](Heirloom.Math.LineSegment.md) s1, [LineSegment](Heirloom.Math.LineSegment.md) s2, out [Vector](Heirloom.Math.Vector.md) point) : bool
+#### <a name="INT97F198C9"></a>Intersects([LineSegment](Heirloom.Math.LineSegment.md) s1, [LineSegment](Heirloom.Math.LineSegment.md) s2, out [Vector](Heirloom.Math.Vector.md) point) : bool
 <small>`Static`</small>
 
 Checks if two line segments intersect.
 
 
-#### <a name="INTEFA3A"></a> Intersects([Vector](Heirloom.Math.Vector.md) p1, [Vector](Heirloom.Math.Vector.md) p2, [Vector](Heirloom.Math.Vector.md) q1, [Vector](Heirloom.Math.Vector.md) q2) : bool
+#### <a name="INTFA3AEBEB"></a>Intersects([Vector](Heirloom.Math.Vector.md) p1, [Vector](Heirloom.Math.Vector.md) p2, [Vector](Heirloom.Math.Vector.md) q1, [Vector](Heirloom.Math.Vector.md) q2) : bool
 <small>`Static`</small>
 
 Checks if two line segments intersect.
 
 
-#### <a name="INTED025"></a> Intersects([Vector](Heirloom.Math.Vector.md) p1, [Vector](Heirloom.Math.Vector.md) p2, [Vector](Heirloom.Math.Vector.md) p3, [Vector](Heirloom.Math.Vector.md) p4, out [Vector](Heirloom.Math.Vector.md) point) : bool
+#### <a name="INTD0254790"></a>Intersects([Vector](Heirloom.Math.Vector.md) p1, [Vector](Heirloom.Math.Vector.md) p2, [Vector](Heirloom.Math.Vector.md) p3, [Vector](Heirloom.Math.Vector.md) p4, out [Vector](Heirloom.Math.Vector.md) point) : bool
 <small>`Static`</small>
 
 Checks if two line segments intersect.
 
 
-#### <a name="GETC9422"></a> GetClosestPoint([Vector](Heirloom.Math.Vector.md) a, [Vector](Heirloom.Math.Vector.md) b, [Vector](Heirloom.Math.Vector.md) p) : [Vector](Heirloom.Math.Vector.md)
+#### <a name="GET942232F7"></a>GetClosestPoint([Vector](Heirloom.Math.Vector.md) a, [Vector](Heirloom.Math.Vector.md) b, [Vector](Heirloom.Math.Vector.md) p) : [Vector](Heirloom.Math.Vector.md)
 <small>`Static`</small>
 
 Gets the closest point on a line segment to the specified point.
 
 
-#### <a name="CLOSB3D1"></a> ClosestPoint([Vector](Heirloom.Math.Vector.md) a, [Vector](Heirloom.Math.Vector.md) b, [Vector](Heirloom.Math.Vector.md) p, out float distance) : [Vector](Heirloom.Math.Vector.md)
+#### <a name="CLOB3D1E9C6"></a>ClosestPoint([Vector](Heirloom.Math.Vector.md) a, [Vector](Heirloom.Math.Vector.md) b, [Vector](Heirloom.Math.Vector.md) p, out float distance) : [Vector](Heirloom.Math.Vector.md)
 <small>`Static`</small>
 
 Gets the closest point on a line segment to the specified point.
