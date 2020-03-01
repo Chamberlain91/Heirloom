@@ -203,7 +203,7 @@ namespace Heirloom.GenDoc
             // 
             foreach (var type in GetTypes(CurrentAssembly))
             {
-                text += $"{TypeLink(type)}  \n";
+                text += $"{Link(type)}  \n";
             }
 
             return text;
@@ -249,7 +249,7 @@ namespace Heirloom.GenDoc
 
         protected string GetRemarks(Type type)
         {
-            var remarks = Documentation.GetDocumentation(type)?.Element("remarks"); 
+            var remarks = Documentation.GetDocumentation(type)?.Element("remarks");
             return ExtractText(remarks);
         }
 
@@ -414,12 +414,12 @@ namespace Heirloom.GenDoc
             }
         }
 
-        protected string TypeLink(Type type)
+        protected string Link(Type type)
         {
             var sType = GetSimpleType(type);
 
             if (sType.Assembly == typeof(int).Assembly) { return GetName(sType); }
-            if (sType.IsGenericParameter) { return GetName(sType); } 
+            if (sType.IsGenericParameter) { return GetName(sType); }
 
             return Link(GetName(type), GetTypePath(sType));
         }
@@ -545,7 +545,7 @@ namespace Heirloom.GenDoc
 
         protected string GetSignature(MethodInfo method)
         {
-            return $"{GetName(method)}{GetParameterSignature(method)} : {TypeLink(method.ReturnType)}";
+            return $"{GetName(method)}{GetParameterSignature(method)} : {Link(method.ReturnType)}";
 
         }
 
@@ -599,7 +599,7 @@ namespace Heirloom.GenDoc
             }
 
             // 
-            var paramTypeName = TypeLink(p.ParameterType);
+            var paramTypeName = Link(p.ParameterType);
             if (paramTypeName.EndsWith('&')) { paramTypeName = paramTypeName[0..^1]; }
             return $"{pre}{paramTypeName} {GetName(p)}{pos}";
         }
@@ -651,7 +651,7 @@ namespace Heirloom.GenDoc
                 {
                     if (Documentation.TryGetType(p, out var type))
                     {
-                        return TypeLink(type);
+                        return Link(type);
                     }
 
                     break;

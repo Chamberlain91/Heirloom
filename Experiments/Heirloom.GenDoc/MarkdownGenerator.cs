@@ -18,9 +18,9 @@ namespace Heirloom.GenDoc
 
             // Emit
             markdown += Small($"**Namespace**: {CurrentType.Namespace}</sub>") + "  \n";
-            var inherits = WalkTypeInheritance(CurrentType).Select(t => TypeLink(t));
+            var inherits = WalkTypeInheritance(CurrentType).Select(t => Link(t));
             if (inherits.Any()) { markdown += Small($"**Inherits**: {string.Join(", ", inherits)}") + "  \n"; }
-            var interfaces = CurrentType.GetInterfaces().Select(t => TypeLink(t));
+            var interfaces = CurrentType.GetInterfaces().Select(t => Link(t));
             if (interfaces.Any()) { markdown += Small($"**Interfaces**: {string.Join(", ", interfaces)}") + "  \n"; }
 
             // Emit Summary
@@ -110,11 +110,18 @@ namespace Heirloom.GenDoc
                 {
                     markdown += $"#### {GetName(@event)}\n";
 
-                    // 
+                    // Generate Summary
                     var summary = GetSummary(@event);
-                    if (summary != null)
+                    if (summary?.Length > 0)
                     {
-                        markdown += $"{summary}\n\n";
+                        markdown += $"\n{summary}\n";
+                    }
+
+                    // Generate Remarks
+                    var remarks = GetRemarks(@event);
+                    if (remarks?.Length > 0)
+                    {
+                        markdown += $"\n{remarks}\n";
                     }
                 }
             }
@@ -188,53 +195,74 @@ namespace Heirloom.GenDoc
 
             // Generate Badges
             markdown += GenerateBadges(constructor);
-            markdown += "\n";
 
             // Generate Summary
             var summary = GetSummary(constructor);
             if (summary?.Length > 0)
             {
-                markdown += $"{summary}\n\n";
+                markdown += $"\n{summary}\n";
             }
 
+            // Generate Remarks
+            var remarks = GetRemarks(constructor);
+            if (remarks?.Length > 0)
+            {
+                markdown += $"\n{remarks}\n";
+            }
+
+            markdown += "\n";
             return markdown;
         }
 
         private string GenerateSummary(FieldInfo field, bool isStatic)
         {
-            var markdown = Header($"{GetName(field)} : {TypeLink(field.FieldType)}", 4);
+            var markdown = Header($"{GetName(field)} : {Link(field.FieldType)}", 4);
 
             // Generate Badges
             markdown += GenerateBadges(field, isStatic);
-            markdown += "\n";
 
             // Generate Summary
             var summary = GetSummary(field);
             if (summary?.Length > 0)
             {
-                markdown += $"{summary}\n\n";
+                markdown += $"\n{summary}\n";
             }
 
+            // Generate Remarks
+            var remarks = GetRemarks(field);
+            if (remarks?.Length > 0)
+            {
+                markdown += $"\n{remarks}\n";
+            }
+
+            markdown += "\n";
             return markdown;
         }
 
         private string GenerateSummary(PropertyInfo property, bool isStatic)
         {
             // Emit Name
-            var markdown = Header($"{Anchor(GetName(property))} : {TypeLink(property.PropertyType)}\n", 4);
+            var markdown = Header($"{Anchor(GetName(property))} : {Link(property.PropertyType)}\n", 4);
 
             // Generate Badges
             markdown += GenerateBadges(property, isStatic);
-            markdown += "\n";
 
-            // 
+            // Generate Summary
             var summary = GetSummary(property);
             if (summary?.Length > 0)
             {
-                markdown += $"{summary}\n\n";
+                markdown += $"\n{summary}\n";
             }
 
-            return markdown + "\n";
+            // Generate Remarks
+            var remarks = GetRemarks(property);
+            if (remarks?.Length > 0)
+            {
+                markdown += $"\n{remarks}\n";
+            }
+
+            markdown += "\n";
+            return markdown;
         }
 
         private string GenerateSummary(MethodInfo method, bool isStatic)
@@ -244,13 +272,12 @@ namespace Heirloom.GenDoc
 
             // Generate Badges
             markdown += GenerateBadges(method, isStatic);
-            markdown += "\n";
 
             // Generate Summary
             var summary = GetSummary(method);
             if (summary?.Length > 0)
             {
-                markdown += $"{summary}\n";
+                markdown += $"\n{summary}\n";
             }
 
             var parameters = method.GetParameters();
@@ -273,9 +300,10 @@ namespace Heirloom.GenDoc
             var remarks = GetRemarks(method);
             if (remarks?.Length > 0)
             {
-                markdown += $"{remarks}\n";
+                markdown += $"\n{remarks}\n";
             }
 
+            markdown += "\n";
             return markdown;
         }
 
