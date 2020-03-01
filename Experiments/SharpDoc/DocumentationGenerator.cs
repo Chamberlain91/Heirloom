@@ -8,9 +8,9 @@ namespace SharpDoc
 {
     public abstract class DocumentationGenerator
     {
-        private const BindingFlags PublicDeclared = BindingFlags.Public | BindingFlags.DeclaredOnly;
-        private const BindingFlags InstanceBinding = BindingFlags.Instance | PublicDeclared;
-        private const BindingFlags StaticBinding = BindingFlags.Static | PublicDeclared;
+        private const BindingFlags Declared = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
+        private const BindingFlags InstanceBinding = BindingFlags.Instance | Declared;
+        private const BindingFlags StaticBinding = BindingFlags.Static | Declared;
 
         protected DocumentationGenerator(string extension)
         {
@@ -18,6 +18,8 @@ namespace SharpDoc
             if (extension.StartsWith('.')) { extension = extension.Substring(1); }
             Extension = extension;
         }
+
+        protected IReadOnlyList<ConstructorInfo> Constructors { get; private set; }
 
         protected IReadOnlyList<FieldInfo> InstanceFields { get; private set; }
         protected IReadOnlyList<PropertyInfo> InstanceProperties { get; private set; }
@@ -36,127 +38,128 @@ namespace SharpDoc
 
         protected bool IsDelegate { get; private set; }
 
+        protected Assembly CurrentAssembly { get; private set; }
+
+        protected Type CurrentType { get; private set; }
+
         protected string Extension { get; }
 
         public IEnumerable<(string path, string text)> Generate(Assembly assembly, string dir)
         {
+            CurrentAssembly = assembly;
+
             // Emit files for each type
             foreach (var type in assembly.ExportedTypes)
             {
-                // Emit Type
                 QueryTypeInformation(type);
-                var text = GenerateDocument(type);
+                CurrentType = type;
+
+                // Emit Type
+                var text = GenerateDocument();
 
                 // Emit filename + text pair
-                var path = Path.Combine(dir, GetFileName(type, Extension));
+                var path = Path.Combine(dir, GetPath(type));
+
+                // 
                 yield return (path, text);
             }
-        }
 
-        protected abstract string GenerateDocument(Type type);
-
-        public string GetFileName(Type type, string ext)
-        {
-            var path = $"{type.Namespace}.{GetName(type)}.txt";
-            path = Path.ChangeExtension(path, ext);
-            return SanitizePath(path);
-        }
-
-        private static string SanitizePath(string path)
-        {
-            // 
-            path = path.Replace("\\<", "[");
-            path = path.Replace('<', '[');
-            path = path.Replace('>', ']');
-
-            // 
-            var filename = Path.GetFileName(path);
-            foreach (var ch in Path.GetInvalidFileNameChars())
+            void QueryTypeInformation(Type type)
             {
-                filename = filename.Replace(ch, '_');
-            }
+                Constructors = type.GetConstructors(InstanceBinding).ToArray();
 
-            // 
-            var dirname = Path.GetDirectoryName(path);
-            foreach (var ch in Path.GetInvalidPathChars())
-            {
-                dirname = dirname.Replace(ch, '_');
-            }
+                // Query instance members
+                InstanceFields = type.GetFields(InstanceBinding).Where(m => !m.IsSpecialName && (m.IsFamily || m.IsPublic)).ToArray();
+                InstanceProperties = type.GetProperties(InstanceBinding).Where(m => !m.IsSpecialName).ToArray();
+                InstanceMethods = type.GetMethods(InstanceBinding).Where(m => !m.IsSpecialName && (m.IsFamily || m.IsPublic) && !IsIgnoredMethodName(m.Name)).ToArray();
+                InstanceEvents = type.GetEvents(InstanceBinding).Where(m => !m.IsSpecialName).ToArray();
 
-            // 
-            return Path.Combine(dirname, filename);
-        }
+                // Query static members
+                StaticFields = type.GetFields(StaticBinding).Where(m => !m.IsSpecialName && (m.IsFamily || m.IsPublic)).ToArray();
+                StaticProperties = type.GetProperties(StaticBinding).Where(m => !m.IsSpecialName).ToArray();
+                StaticMethods = type.GetMethods(StaticBinding).Where(m => !m.IsSpecialName && (m.IsFamily || m.IsPublic) && !IsIgnoredMethodName(m.Name)).ToArray();
+                StaticEvents = type.GetEvents(StaticBinding).Where(m => !m.IsSpecialName).ToArray();
 
-        protected static IEnumerable<Type> WalkInheritedTypes(Type type)
-        {
-            while (true)
-            {
-                type = type.BaseType;
-                if (type == typeof(object)
-                 || type == typeof(ValueType)
-                 || type == typeof(Enum)
-                 || type == null)
-                {
-                    // Reached the top of the inherits
-                    break;
-                }
+                // Combine instance and static members
+                Fields = InstanceFields.Concat(StaticFields).ToArray();
+                Properties = InstanceProperties.Concat(StaticProperties).ToArray();
+                Methods = InstanceMethods.Concat(StaticMethods).ToArray();
+                Events = InstanceEvents.Concat(StaticEvents).ToArray();
 
-                yield return type;
+                // 
+                IsDelegate = type.IsSubclassOf(typeof(Delegate));
             }
         }
 
-        protected abstract string EscapeCharacters(string text);
-
-        private void QueryTypeInformation(Type type)
+        protected virtual string GenerateDocument()
         {
-            // Query instance members
-            InstanceFields = type.GetFields(InstanceBinding).Where(m => !m.IsSpecialName).ToArray();
-            InstanceProperties = type.GetProperties(InstanceBinding).Where(m => !m.IsSpecialName).ToArray();
-            InstanceMethods = type.GetMethods(InstanceBinding).Where(m => !m.IsSpecialName && !IsIgnoredMethodName(m.Name)).ToArray();
-            InstanceEvents = type.GetEvents(InstanceBinding).Where(m => !m.IsSpecialName).ToArray();
+            var document = GenerateTypeSummary();
 
-            // Query static members
-            StaticFields = type.GetFields(StaticBinding).Where(m => !m.IsSpecialName).ToArray();
-            StaticProperties = type.GetProperties(StaticBinding).Where(m => !m.IsSpecialName).ToArray();
-            StaticMethods = type.GetMethods(StaticBinding).Where(m => !m.IsSpecialName && !IsIgnoredMethodName(m.Name)).ToArray();
-            StaticEvents = type.GetEvents(StaticBinding).Where(m => !m.IsSpecialName).ToArray();
+            // Emit Divider
+            document += GenerateSeparator();
 
-            // Combine instance and static members
-            Fields = InstanceFields.Concat(StaticFields).ToArray();
-            Properties = InstanceProperties.Concat(StaticProperties).ToArray();
-            Methods = InstanceMethods.Concat(StaticMethods).ToArray();
-            Events = InstanceEvents.Concat(StaticEvents).ToArray();
+            // Emit Enum
+            if (CurrentType.IsEnum)
+            {
+                document += GenerateEnumBody();
+            }
+            else if (IsDelegate)
+            {
+                document += GenerateObjectBody();
+            }
+            else
+            {
+                document += GenerateMembersTable();
+                document += GenerateObjectBody();
+            }
 
             // 
-            IsDelegate = type.IsSubclassOf(typeof(Delegate));
+            return document;
         }
 
         protected static bool IsIgnoredMethodName(string name)
         {
-            // return name == "Equals" || name == "ToString" || name == "GetHashCode";
-            return false;
+            return name == "Equals"
+                || name == "ToString"
+                || name == "GetHashCode"
+                || name == "Finalize";
         }
+
+        protected abstract string GenerateTypeSummary();
+
+        protected abstract string GenerateSeparator();
+
+        protected abstract string GenerateMembersTable();
+
+        protected abstract string GenerateObjectBody();
+
+        protected abstract string GenerateEnumBody();
+
+        protected abstract string EscapeCharacters(string text);
+
+        protected abstract string Badge(string text);
+
+        protected abstract string Header(string text, int level);
+
+        protected abstract string CodeBlock(string text);
+
+        protected abstract string Code(string text);
+
+        protected abstract string Small(string text);
 
         #region Get Documentation Parts
 
+        protected string GetName(Assembly assembly)
+        {
+            return assembly.GetName().Name;
+        }
+
         protected string GetSummary(MemberInfo member)
         {
-            var escaped = EscapeCharacters(member.GetDocumentation() ?? string.Empty);
-            return Summarize(escaped, 100);
+            return EscapeCharacters(member.GetDocumentation() ?? string.Empty);
         }
 
-        private string Summarize(string summary, int len)
-        {
-            summary = summary.Replace("\r", " ");
-            summary = summary.Replace("\n", " ");
-            if (summary.Length > len)
-            {
-                summary = $"{summary.Substring(0, len - 3)}...";
-            }
-            return summary;
-        }
-
-        #endregion
+        #region Type Info
 
         protected string GetTypeAccess(Type type)
         {
@@ -221,24 +224,27 @@ namespace SharpDoc
                 pre += ".";
             }
 
-            // Pointer or reference
+            // Pointer or Reference
             if (type.IsByRef)
             {
                 return GetName(type.GetElementType());
             }
             else
-            // Array
+            // Array of Type
             if (type.IsArray)
             {
                 var c = new string(',', type.GetArrayRank() - 1);
                 return EscapeCharacters($"{pre}{GetName(type.GetElementType())}[{c}]");
             }
             else
-            // Generic
+            // Generic Type
             if (type.IsGenericType)
             {
-                var name = type.Name; // Get name and strip grave character
-                name = name.Substring(0, name.IndexOf("`"));
+                var name = type.Name;
+
+                // Strip generic grave character
+                var index = name.IndexOf("`");
+                if (index >= 0) { name = name.Substring(0, index); }
 
                 if (type.IsConstructedGenericType)
                 {
@@ -251,10 +257,43 @@ namespace SharpDoc
                     return EscapeCharacters($"{pre}{name}<{string.Join("|", genericArgs)}>");
                 }
             }
-            // 
+            // Simple Type
             else
             {
                 return EscapeCharacters($"{pre}{type.Name}");
+            }
+        }
+
+        #region Type Link
+
+        protected abstract string GenerateLink(Type type);
+
+        protected string GetLink(Type type)
+        {
+            if (type.Assembly == typeof(int).Assembly) { return GetName(type); }
+            if (type.IsGenericParameter) { return GetName(type); }
+            return GenerateLink(type);
+        }
+
+        #endregion
+
+        #endregion
+
+        protected string GetName(ConstructorInfo p)
+        {
+            var name = p.DeclaringType.Name;
+
+            if (p.DeclaringType.IsGenericType)
+            {
+                // Strip generic grave character
+                var index = name.IndexOf("`");
+                if (index >= 0) { name = name.Substring(0, index); }
+                return name;
+            }
+            else
+            {
+                // 
+                return name;
             }
         }
 
@@ -273,6 +312,8 @@ namespace SharpDoc
             return p.Name;
         }
 
+        #region Method Info
+
         protected string GetName(MethodInfo method)
         {
             if (method.IsGenericMethod)
@@ -290,9 +331,37 @@ namespace SharpDoc
             }
         }
 
+        protected string GetSignature(MethodInfo method)
+        {
+            return $"{GetName(method)}{GetParameterSignature(method)} : {GetLink(method.ReturnType)}";
+
+        }
+
+        protected string GetParameterSignature(MethodInfo method)
+        {
+            var parameters = method.GetParameters();
+            return $"({string.Join(", ", parameters.Select(param => $"{GetSignature(param)}")).Trim()})";
+        }
+
+        protected string GetParameterSignature(ConstructorInfo constructor)
+        {
+            var parameters = constructor.GetParameters();
+            return $"({string.Join(", ", parameters.Select(param => $"{GetSignature(param)}")).Trim()})";
+        }
+
+        #endregion
+
+        #region Parameter Info
+
+        protected string GetName(ParameterInfo p)
+        {
+            return p.Name;
+        }
+
         protected string GetSignature(ParameterInfo p)
         {
             var pre = "";
+            var pos = "";
 
             // Is Ref
             if (p.ParameterType.IsByRef)
@@ -302,18 +371,115 @@ namespace SharpDoc
                 else { pre += "ref "; }
             }
 
-            // 
-            if (p.IsOptional) { pre += "optional "; }
+            // Pointer?
+
+            // Optional
+            if (p.IsOptional)
+            {
+                var defval = p.RawDefaultValue;
+                pos += $" = {defval}";
+            }
+
+            // Params
+            if (p.GetCustomAttribute<ParamArrayAttribute>() != null)
+            {
+                pre += "params ";
+            }
 
             // 
-            var paramTypeName = GetName(p.ParameterType);
+            var paramTypeName = GetLink(p.ParameterType);
             if (paramTypeName.EndsWith('&')) { paramTypeName = paramTypeName[0..^1]; }
-            return $"{pre}{paramTypeName} {GetName(p)}";
+            return $"{pre}{paramTypeName} {GetName(p)}{pos}";
         }
 
-        protected string GetName(ParameterInfo p)
+        #endregion
+
+        #endregion
+
+        protected Type GetSimpleType(Type type)
         {
-            return p.Name;
+            if (type.IsArray || type.IsByRef || type.IsPointer)
+            {
+                return type.GetElementType();
+            }
+            else
+            {
+                return type.UnderlyingSystemType;
+            }
+        }
+
+        protected static IEnumerable<Type> WalkInheritedTypes(Type type)
+        {
+            while (true)
+            {
+                type = type.BaseType;
+                if (type == typeof(object)
+                 || type == typeof(ValueType)
+                 || type == typeof(Enum)
+                 || type == null)
+                {
+                    // Reached the top of the inherits
+                    break;
+                }
+
+                yield return type;
+            }
+        }
+
+        public string GetPath(Type type)
+        {
+            var path = $"{type.Namespace}.{GetName(type)}.txt";
+            path = Path.ChangeExtension(path, Extension);
+            path = SanitizePath(path);
+
+            if (type.Assembly != CurrentAssembly)
+            {
+                // ie, ../Heirloom.Math/Heirloom.Math.Matrix.md
+                return $"../{GetName(type.Assembly)}/{path}";
+            }
+            else
+            {
+                // ie, Heirloom.Drawing.Graphics.md
+                return path;
+            }
+        }
+
+        protected static string Shorten(string text, int maxLength = 100)
+        {
+            text = text.Replace("\r", " ");
+            text = text.Replace("\n", " ");
+
+            if (text.Length > maxLength)
+            {
+                text = $"{text.Substring(0, maxLength - 3)}...";
+            }
+
+            return text;
+        }
+
+        private static string SanitizePath(string path)
+        {
+            // 
+            path = path.Replace("\\<", "[");
+            path = path.Replace('<', '[');
+            path = path.Replace('>', ']');
+
+            // 
+            var filename = Path.GetFileName(path);
+            foreach (var ch in Path.GetInvalidFileNameChars())
+            {
+                filename = filename.Replace(ch, '_');
+            }
+
+            // 
+            var dirname = Path.GetDirectoryName(path);
+            foreach (var ch in Path.GetInvalidPathChars())
+            {
+                dirname = dirname.Replace(ch, '_');
+            }
+
+            // 
+            return Path.Combine(dirname, filename);
         }
     }
 }

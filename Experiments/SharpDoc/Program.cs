@@ -12,7 +12,7 @@ namespace SharpDoc
             var assembly = typeof(Graphics).Assembly;
 
             // Delete directory (if exists) and regenerate
-            var dir = Path.GetFileNameWithoutExtension(assembly.Location);
+            var dir = assembly.GetName().Name; // Path.GetFileNameWithoutExtension(assembly.Location);
             if (Directory.Exists(dir)) { Directory.Delete(dir, true); }
             Directory.CreateDirectory(dir);
 

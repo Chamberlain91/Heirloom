@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
+using Heirloom.IO;
+
 namespace SharpDoc
 {
     public class MarkdownGenerator : DocumentationGenerator
@@ -11,153 +13,253 @@ namespace SharpDoc
             : base("md")
         { }
 
-        protected override string EscapeCharacters(string text)
-        {
-            return text.Replace("<", "\\<");
-        }
-
-        protected override string GenerateDocument(Type type)
+        protected override string GenerateTypeSummary()
         {
             // Emit header
-            var markdown = $"{type.Assembly.GetName().Name} - {GetName(type)} ({GetTypeAccess(type)})\n";
+            var markdown = $"{CurrentType.Assembly.GetName().Name} - {GetName(CurrentType)} ({GetTypeAccess(CurrentType)})\n";
             markdown += $"{new string('-', markdown.Length - 2)}\n\n";
 
             // Emit Summary
-            var typeSummary = type.GetDocumentation();
+            var typeSummary = EscapeCharacters(CurrentType.GetDocumentation());
             if (typeSummary?.Length > 0)
             {
                 markdown += $"{typeSummary}\n\n";
             }
 
             // Emit
-            markdown += $"<sub>**Namespace**: {type.Namespace}</sub>  \n";
-            var inherits = WalkInheritedTypes(type).Select(t => GetName(t));
-            if (inherits.Any()) { markdown += $"<sub>**Inherits**: {string.Join(", ", inherits)}</sub>  \n"; }
-            var interfaces = type.GetInterfaces().Select(t => GetName(t));
-            if (interfaces.Any()) { markdown += $"<sub>**Interfaces**: {string.Join(", ", interfaces)}</sub>  \n"; }
+            markdown += Small($"**Namespace**: {CurrentType.Namespace}</sub>") + "  \n";
+            var inherits = WalkInheritedTypes(CurrentType).Select(t => GetLink(t));
+            if (inherits.Any()) { markdown += Small($"**Inherits**: {string.Join(", ", inherits)}") + "  \n"; }
+            var interfaces = CurrentType.GetInterfaces().Select(t => GetName(t));
+            if (interfaces.Any()) { markdown += Small($"**Interfaces**: {string.Join(", ", interfaces)}") + "  \n"; }
 
-            // Emit Divider
-            markdown += "\n---\n\n";
+            return markdown;
+        }
 
-            // Emit Enum
-            if (type.IsEnum)
+        protected override string GenerateEnumBody()
+        {
+            var markdown = "";
+
+            markdown += Header("Values\n", 3);
+            foreach (var name in CurrentType.GetEnumNames())
             {
-                foreach (var name in type.GetEnumNames())
+                // Emit Enum Field
+                markdown += Header(name, 4);
+                markdown += Documentation.GetDocumentation($"F:{CurrentType.FullName}.{name}");
+                markdown += "\n\n";
+            }
+
+            return markdown;
+        }
+
+        protected override string GenerateObjectBody()
+        {
+            var markdown = "";
+
+            // Emit Fields
+            if (Fields.Count > 0)
+            {
+                markdown += Header("Fields\n", 3);
+                foreach (var fieldInfo in Fields)
                 {
-                    // Emit Enum Field
-                    markdown += $"### {name}\n";
-                    markdown += Documentation.GetDocumentation($"F:{type.FullName}.{name}");
-                    markdown += "\n\n";
+                    markdown += GenerateSummary(fieldInfo, false);
+                }
+
+                foreach (var fieldInfo in StaticFields)
+                {
+                    markdown += GenerateSummary(fieldInfo, true);
                 }
             }
-            // If not a delegate (may need more?), emit properties, methods, etc
-            else if (!IsDelegate)
+
+            // Emit Constructors
+            if (Constructors.Count > 0)
             {
-                //
-                if (Fields.Count > 0)
+                markdown += Header("Constructors\n", 3);
+                foreach (var constructor in Constructors)
                 {
-                    markdown += "| Field | Summary |\n";
-                    markdown += "|-------|---------|\n";
-                    foreach (var m in Fields) { markdown += $"| {GetName(m)} | {GetSummary(m)} |\n"; }
-                    markdown += "\n";
+                    markdown += GenerateSummary(constructor);
+                }
+            }
+
+            // Emit Properties
+            if (Properties.Count > 0)
+            {
+                markdown += $"### Properties\n\n";
+
+                foreach (var prop in InstanceProperties)
+                {
+                    markdown += GenerateSummary(prop, false);
                 }
 
-                if (Properties.Count > 0)
+                foreach (var prop in StaticProperties)
                 {
-                    markdown += "| Properties | Summary |\n";
-                    markdown += "|------------|---------|\n";
-                    foreach (var m in Properties) { markdown += $"| {GetName(m)} | {GetSummary(m)} |\n"; }
-                    markdown += "\n";
+                    markdown += GenerateSummary(prop, true);
                 }
+            }
 
-                if (Events.Count > 0)
+            // Emit Events
+            if (Events.Count > 0)
+            {
+                markdown += $"### Events\n\n";
+                foreach (var eventInfo in Events)
                 {
-                    markdown += "| Events | Summary |\n";
-                    markdown += "|--------|---------|\n";
-                    foreach (var m in Events) { markdown += $"| {GetName(m)} | {GetSummary(m)} |\n"; }
-                    markdown += "\n";
-                }
+                    markdown += $"#### {GetName(eventInfo)}\n";
 
-                if (Methods.Count > 0)
-                {
-                    markdown += "| Methods | Summary |\n";
-                    markdown += "|---------|---------|\n";
-                    foreach (var m in Methods) { markdown += $"| {GetMethodSignature(m)} | {GetSummary(m)} |\n"; }
-                    markdown += "\n";
-                }
-
-                // Emit Fields
-                if (Fields.Count > 0)
-                {
-                    markdown += $"### Fields\n\n";
-                    foreach (var fieldInfo in Fields)
+                    // 
+                    var summary = eventInfo.GetDocumentation();
+                    if (summary?.Length > 0)
                     {
-                        markdown += GenerateField(fieldInfo, false);
+                        markdown += $"{summary}\n\n";
                     }
                 }
+            }
 
-                // Emit Properties
-                if (Properties.Count > 0)
+            // Emit Methods
+            if (Methods.Count > 0)
+            {
+                markdown += $"### Methods\n\n";
+                foreach (var methodInfo in InstanceMethods)
                 {
-                    markdown += $"### Properties\n\n";
-
-                    foreach (var prop in InstanceProperties)
-                    {
-                        markdown += GenerateProperty(prop, false);
-                    }
-
-                    foreach (var prop in StaticProperties)
-                    {
-                        markdown += GenerateProperty(prop, true);
-                    }
+                    markdown += GenerateSummary(methodInfo, false);
                 }
 
-                // Emit Events
-                if (Events.Count > 0)
+                foreach (var methodInfo in StaticMethods)
                 {
-                    markdown += $"### Events\n\n";
-                    foreach (var eventInfo in Events)
-                    {
-                        markdown += $"#### {eventInfo.Name}\n";
-
-                        // 
-                        var summary = eventInfo.GetDocumentation();
-                        if (summary?.Length > 0)
-                        {
-                            markdown += $"{summary}\n\n";
-                        }
-                    }
+                    markdown += GenerateSummary(methodInfo, true);
                 }
+            }
 
-                // Emit Methods
-                if (Methods.Count > 0)
+            return markdown;
+        }
+
+        protected override string GenerateMembersTable()
+        {
+            var markdown = "";
+
+            //
+            if (Fields.Count > 0)
+            {
+                markdown += "| Field | Summary |\n";
+                markdown += "|-------|---------|\n";
+                foreach (var m in Fields) { markdown += $"| {AnchorLink(GetName(m))} | {Shorten(GetSummary(m))} |\n"; }
+                markdown += "\n";
+            }
+
+            if (Properties.Count > 0)
+            {
+                markdown += "| Properties | Summary |\n";
+                markdown += "|------------|---------|\n";
+                foreach (var m in Properties) { markdown += $"| {AnchorLink(GetName(m))} | {Shorten(GetSummary(m))} |\n"; }
+                markdown += "\n";
+            }
+
+            if (Events.Count > 0)
+            {
+                markdown += "| Events | Summary |\n";
+                markdown += "|--------|---------|\n";
+                foreach (var m in Events) { markdown += $"| {AnchorLink(GetName(m))} | {Shorten(GetSummary(m))} |\n"; }
+                markdown += "\n";
+            }
+
+            if (Methods.Count > 0)
+            {
+                markdown += "| Methods | Summary |\n";
+                markdown += "|---------|---------|\n";
+                foreach (var m in Methods) { markdown += $"| {AnchorLink(GetName(m), GetSignature(m))} | {Shorten(GetSummary(m))} |\n"; }
+                markdown += "\n";
+            }
+
+            return markdown;
+        }
+
+        protected override string GenerateSeparator()
+        {
+            return "\n--------------------------------------------------------------------------------\n\n";
+        }
+
+        private string GenerateSummary(ConstructorInfo constructor)
+        {
+            var markdown = Header($"{GetName(constructor)}{GetParameterSignature(constructor)}", 4);
+
+            // Generate Badges
+            markdown += GenerateBadges(constructor);
+            markdown += "\n";
+
+            // Generate Summary
+            var summary = GetSummary(constructor);
+            if (summary?.Length > 0)
+            {
+                markdown += $"{summary}\n\n";
+            }
+
+            return markdown;
+        }
+
+        private string GenerateSummary(FieldInfo field, bool isStatic)
+        {
+            var markdown = Header($"{GetName(field)} : {GetLink(field.FieldType)}", 4);
+
+            // Generate Badges
+            markdown += GenerateBadges(field, isStatic);
+            markdown += "\n";
+
+            // Generate Summary
+            var summary = GetSummary(field);
+            if (summary?.Length > 0)
+            {
+                markdown += $"{summary}\n\n";
+            }
+
+            return markdown;
+        }
+
+        private string GenerateSummary(PropertyInfo property, bool isStatic)
+        {
+            // Emit Name
+            var markdown = Header($"{Anchor(GetName(property))} : {GetLink(property.PropertyType)}\n", 4);
+
+            // Generate Badges
+            markdown += GenerateBadges(property, isStatic);
+            markdown += "\n";
+
+            // 
+            var summary = GetSummary(property);
+            if (summary?.Length > 0)
+            {
+                markdown += $"{summary}\n\n";
+            }
+
+            return markdown + "\n";
+        }
+
+        private string GenerateSummary(MethodInfo method, bool isStatic)
+        {
+            var markdown = Header(Anchor(GetSignature(method)), 4);
+            markdown += "\n";
+
+            // Generate Badges
+            markdown += GenerateBadges(method, isStatic);
+            markdown += "\n";
+
+            // Generate Summary
+            var summary = GetSummary(method);
+            if (summary?.Length > 0)
+            {
+                markdown += $"{summary}\n";
+            }
+
+            var parameters = method.GetParameters();
+            if (parameters.Length > 0)
+            {
+                markdown += "\n";
+
+                foreach (var param in parameters)
                 {
-                    markdown += $"### Methods\n\n";
-                    foreach (var methodInfo in Methods)
+                    var paramSummary = param.GetDocumentation();
+                    if (paramSummary != null)
                     {
-                        markdown += $"#### {GetMethodSignature(methodInfo)}";
-                        markdown += "\n";
-
-                        // 
-                        var summary = methodInfo.GetDocumentation();
-                        if (summary?.Length > 0)
-                        {
-                            markdown += $"{summary}\n";
-                        }
-
-                        var ps = methodInfo.GetParameters();
-                        if (ps.Length > 0)
-                        {
-                            markdown += "\n";
-
-                            foreach (var p in ps)
-                            {
-                                var pSummary = p.GetDocumentation();
-                                if (pSummary != null) { markdown += $"<sub>**{GetName(p)}**: {pSummary}</sub><br/>\n"; }
-                            }
-                        }
-
-                        markdown += "\n";
+                        var text = $"**{GetName(param)}**: {paramSummary}";
+                        markdown += $"{Small(text)}\n";
                     }
                 }
             }
@@ -165,81 +267,165 @@ namespace SharpDoc
             return markdown;
         }
 
-        private string GetMethodSignature(MethodInfo methodInfo)
+        #region Badges
+
+        private string GenerateBadges(ConstructorInfo constructor)
         {
-            return $"{GetName(methodInfo)}{GetParameterSignature(methodInfo)} : {GetName(methodInfo.ReturnType)}";
+            var badges = new List<string>();
+            badges.AddRange(GetMemberBadges(constructor));
+            return GetBadgeText(badges);
         }
 
-        private string GetParameterSignature(MethodInfo methodInfo)
+        private string GenerateBadges(PropertyInfo property, bool isStatic)
         {
-            var parameters = methodInfo.GetParameters();
-            if (parameters.Length > 0)
-            {
-                return $" ({string.Join(", ", parameters.Select(p => $"{GetSignature(p)}"))})";
-            }
-            else
-            {
-                return "()";
-            }
-        }
-
-        private string GenerateField(FieldInfo fieldInfo, bool isStatic)
-        {
-            var output = $"#### {GetName(fieldInfo)} : {GetName(fieldInfo.FieldType)}";
-            if (isStatic) { output += " `Static`"; }
-            output += "\n";
-
-            // 
-            var summary = fieldInfo.GetDocumentation();
-            if (summary?.Length > 0)
-            {
-                output += $"{summary}\n\n";
-            }
-
-            return output;
-        }
-
-        private string GenerateProperty(PropertyInfo property, bool isStatic)
-        {
-            // Emit Name
-            var output = $"#### {GetName(property)} : {GetName(property.PropertyType)}";
-
             var badges = new List<string>();
 
-            // Emit Static
+            // Emit Static Badge
             if (isStatic) { badges.Add("Static"); }
 
-            // Emit GET 
-            if (property.CanRead && (property.GetMethod.IsPublic || property.GetMethod.IsFamily))
+            // Emit Get/Set Badges
+            var canRead = property.CanRead && (property.GetMethod.IsPublic || property.GetMethod.IsFamily);
+            var canWrite = property.CanWrite && (property.SetMethod.IsPublic || property.SetMethod.IsFamily);
+            if (!canRead || !canWrite)
             {
-                badges.Add("Get");
-            }
-
-            // Emit SET
-            if (property.CanWrite && (property.SetMethod.IsPublic || property.SetMethod.IsFamily))
-            {
-                badges.Add("Set");
+                if (canRead) { badges.Add("Read Only"); }
+                if (canWrite) { badges.Add("Write Only"); }
             }
 
             // 
-            output += GenerateBadgeList(badges);
-            output += $"\n";
-
-            // 
-            var summary = property.GetDocumentation();
-            if (summary?.Length > 0)
-            {
-                output += $"{summary}\n\n";
-            }
-
-            return output;
+            badges.AddRange(GetMemberBadges(property));
+            return GetBadgeText(badges);
         }
 
-        private string GenerateBadgeList(IEnumerable<string> tokens)
+        private string GenerateBadges(FieldInfo field, bool isStatic)
+        {
+            var badges = new List<string>();
+
+            // Emit Static Badge
+            if (isStatic) { badges.Add("Static"); }
+
+            // Emit Real Only
+            if (field.IsInitOnly) { badges.Add("Read Only"); }
+
+            // 
+            badges.AddRange(GetMemberBadges(field));
+            return GetBadgeText(badges);
+        }
+
+        private string GenerateBadges(MethodInfo method, bool isStatic)
+        {
+            var badges = new List<string>();
+
+            // Emit Static Badge
+            if (isStatic) { badges.Add("Static"); }
+
+            // 
+            if (method.IsAbstract) { badges.Add("Abstract"); }
+            else if (method.IsVirtual) { badges.Add("Virtual"); }
+            if (method.IsFamily) { badges.Add("Protected"); }
+
+            // 
+            badges.AddRange(GetMemberBadges(method));
+            return GetBadgeText(badges);
+        }
+
+        private IEnumerable<string> GetMemberBadges(MemberInfo info)
+        {
+            return info.GetCustomAttributes(true)
+                       .Select(s => GetName(s.GetType()));
+        }
+
+        private string GetBadgeText(IEnumerable<string> tokens)
         {
             return tokens.Any()
-                ? $" <small>{string.Join(" ", tokens.Select(s => $"`{s}`")).Trim()}</small>"
+                ? $"<small>{string.Join(", ", tokens.Select(s => Badge(s))).Trim()}</small>\n"
                 : string.Empty;
+        }
+
+        #endregion
+
+        private static string AnchorLink(string text, string target = null)
+        {
+            var link = target == null
+                ? GetLinkIdentifier(text)
+                : GetLinkIdentifier(target);
+
+            return $"[{text}](#{link})";
+        }
+
+        private static string Anchor(string text, string target = null)
+        {
+            var link = target == null
+                ? GetLinkIdentifier(text)
+                : GetLinkIdentifier(target);
+
+            return $"<a name=\"{link}\"></a>{text}";
+        }
+
+        private static string GetLinkIdentifier(string text)
+        {
+            var hash = GetDeterministicHashCode(text).ToString("X");
+            var key = text[0..Math.Min(text.Length, 3)].ToUpper();
+            return key + hash;
+        }
+
+        private static int GetDeterministicHashCode(string str)
+        // https://andrewlock.net/why-is-string-gethashcode-different-each-time-i-run-my-program-in-net-core/
+        {
+            unchecked
+            {
+                var hash1 = (5381 << 16) + 5381;
+                var hash2 = hash1;
+
+                for (var i = 0; i < str.Length; i += 2)
+                {
+                    hash1 = ((hash1 << 5) + hash1) ^ str[i];
+                    if (i == str.Length - 1)
+                    {
+                        break;
+                    }
+                    hash2 = ((hash2 << 5) + hash2) ^ str[i + 1];
+                }
+
+                return hash1 + (hash2 * 1566083941);
+            }
+        }
+
+        protected override string GenerateLink(Type type)
+        {
+            return $"[{GetName(type)}]({GetPath(GetSimpleType(type))})";
+        }
+
+        protected override string Header(string text, int level)
+        {
+            if (level < 1) { level = 1; }
+            var pre = new string('#', level);
+            return $"{pre} {text}\n";
+        }
+
+        protected override string CodeBlock(string text)
+        {
+            return $"```\n{text}\n```";
+        }
+
+        protected override string Code(string text)
+        {
+            return $"`{text}`";
+        }
+
+        protected override string Badge(string text)
+        {
+            return $"`{text}`";
+        }
+
+        protected override string Small(string text)
+        {
+            return $"<small>{text}</small>";
+        }
+
+        protected override string EscapeCharacters(string text)
+        {
+            return text?.Replace("<", "\\<");
         }
     }
 }
