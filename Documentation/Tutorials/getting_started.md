@@ -1,6 +1,6 @@
 # Getting Started
 
-In this tutorial we will create a very simple application that opens a window and draws the world famous string: `"Hello World"`.
+In this tutorial we will create a very simple application that creates a window and displays: `"Hello World"`.
 
 These tutorials are written assuming that the program is running on `NET Core 3.0`. The libraries themselves are `NET Standard 2.1` compliant. If you don't have .NET Core 3.0 (or newer), then you can [download it here](https://dotnet.microsoft.com/download/dotnet-core/).
 
