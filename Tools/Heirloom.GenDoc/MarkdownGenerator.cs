@@ -5,6 +5,8 @@ using System.Reflection;
 
 namespace Heirloom.GenDoc
 {
+    using Math = System.Math;
+
     public class MarkdownGenerator : DocumentationGenerator
     {
         public MarkdownGenerator()
@@ -17,11 +19,11 @@ namespace Heirloom.GenDoc
             var markdown = Header($"{GetName(CurrentType)} ({GetTypeAccess(CurrentType)})", 2);
 
             // Emit
-            markdown += Small($"**Namespace**: {CurrentType.Namespace}</sub>") + "  \n";
+            markdown += Small(Bold("Namespace") + $": {CurrentType.Namespace}") + "  \n";
             var inherits = WalkTypeInheritance(CurrentType).Select(t => Link(t));
-            if (inherits.Any()) { markdown += Small($"**Inherits**: {string.Join(", ", inherits)}") + "  \n"; }
+            if (inherits.Any()) { markdown += Small(Bold("Inherits") + $": {string.Join(", ", inherits)}") + "  \n"; }
             var interfaces = CurrentType.GetInterfaces().Select(t => Link(t));
-            if (interfaces.Any()) { markdown += Small($"**Interfaces**: {string.Join(", ", interfaces)}") + "  \n"; }
+            if (interfaces.Any()) { markdown += Small(Bold("Interfaces") + $": {string.Join(", ", interfaces)}") + "  \n"; }
 
             // Generate Badges
             markdown += GenerateBadges(CurrentType);

@@ -62,8 +62,11 @@ namespace Heirloom.GenDoc
             }
 
             // Emit files for each type
-            foreach (var type in GetTypes(assembly))
+            foreach (var type in TypeDatabase.GetAssemblyTypes(assembly))
             {
+                TypeDatabase.TryGetType(type.ToString(), out var t);
+                if (t != type) { Console.WriteLine(type.ToString().ToUpper()); }
+
                 var text = GenerateDocument(type);
                 var path = Path.Combine(dir, GetTypePath(type));
                 File.WriteAllText(path, text);
@@ -215,7 +218,7 @@ namespace Heirloom.GenDoc
             // 
             text += GenerateSeparator();
 
-            var types = GetTypes(CurrentAssembly);
+            var types = TypeDatabase.GetAssemblyTypes(CurrentAssembly);
 
             var classes = types.Where(t => t.IsClass && !t.IsSubclassOf(typeof(Delegate)));
             if (classes.Any())
@@ -364,11 +367,6 @@ namespace Heirloom.GenDoc
             return assembly.GetName().Name;
         }
 
-        private IEnumerable<Type> GetTypes(Assembly assembly)
-        {
-            return assembly.DefinedTypes.Where(t => t.IsPublic || t.IsNestedFamORAssem);
-        }
-
         #endregion
 
         #region Types
@@ -426,12 +424,12 @@ namespace Heirloom.GenDoc
                 if (type.IsConstructedGenericType)
                 {
                     var genericTypes = type.GenericTypeArguments.Select(t => GetName(t));
-                    return EscapeCharacters($"{pre}{name}<{string.Join("|", genericTypes)}>");
+                    return EscapeCharacters($"{pre}{name}<{string.Join(", ", genericTypes)}>");
                 }
                 else
                 {
                     var genericArgs = type.GetGenericArguments().Select(t => GetName(t));
-                    return EscapeCharacters($"{pre}{name}<{string.Join("|", genericArgs)}>");
+                    return EscapeCharacters($"{pre}{name}<{string.Join(", ", genericArgs)}>");
                 }
             }
             // Simple Type
@@ -689,12 +687,11 @@ namespace Heirloom.GenDoc
                 else if (element.Name == "see")
                 {
                     var cref = element.Attribute("cref").Value;
-                    return KeyLink(cref);
+                    return TypeKeyLink(cref);
                 }
                 else if (element.Name == "paramref")
                 {
                     var name = element.Attribute("name")?.Value ?? string.Empty;
-                    // var text = NormalizeSpaces(element.Value);
                     return Code(name);
                 }
             }
@@ -703,9 +700,9 @@ namespace Heirloom.GenDoc
             return NormalizeSpaces(node.ToString());
         }
 
-        private string KeyLink(string xmlKey)
+        private string TypeKeyLink(string key)
         {
-            var parts = xmlKey.Split(":");
+            var parts = key.Split(":");
             var k = parts[0];
             var p = parts[1];
 
@@ -713,7 +710,7 @@ namespace Heirloom.GenDoc
             {
                 case "T":
                 {
-                    if (Documentation.TryGetType(p, out var type))
+                    if (TypeDatabase.TryGetType(p, out var type))
                     {
                         return Link(type);
                     }
@@ -765,6 +762,7 @@ namespace Heirloom.GenDoc
             path = path.Replace("\\<", "[");
             path = path.Replace('<', '[');
             path = path.Replace('>', ']');
+            path = path.Replace(" ", string.Empty);
 
             // 
             var filename = Path.GetFileName(path);

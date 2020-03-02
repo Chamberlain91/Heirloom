@@ -3,64 +3,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace Heirloom.GenDoc
 {
     internal static class Documentation
-    // based on: https://github.com/ZacharyPatten/Towel/blob/master/Sources/Towel/Meta.cs 
+    // inspired by: https://github.com/ZacharyPatten/Towel/blob/master/Sources/Towel/Meta.cs 
     {
-        #region XML Code Documentation
-
         private static readonly Dictionary<string, XElement> _documentation = new Dictionary<string, XElement>();
         private static readonly HashSet<Assembly> _assemblies = new HashSet<Assembly>();
 
-        public static IEnumerable<Assembly> Assemblies => _assemblies;
-
-        internal static void LoadDocumentation(Assembly assembly)
-        {
-            if (_assemblies.Contains(assembly))
-            {
-                return;
-            }
-
-            // Get assembly directory and related .xml
-            var dirPath = Path.GetDirectoryName(assembly.Location);
-            var xmlPath = Path.Combine(dirPath, assembly.GetName().Name + ".xml");
-
-            // Does the XML exist?
-            if (File.Exists(xmlPath))
-            {
-                // Load XML Document
-                var xmldoc = XDocument.Parse(File.ReadAllText(xmlPath));
-                var members = xmldoc.Descendants("member");
-
-                // Get child of the members node
-                foreach (var member in members)
-                {
-                    var name = member.Attribute("name").Value;
-                    _documentation[name] = member;
-                }
-            }
-
-            // Mark assembly as visited
-            _assemblies.Add(assembly);
-        }
-
-        public static bool TryGetType(string name, out Type type)
-        {
-            // Find type
-            foreach (var assembly in _assemblies)
-            {
-                type = assembly.GetType(name);
-                if (type != null) { return true; }
-            }
-
-            // Couldn't find type
-            type = default;
-            return false;
-        }
+        #region Get Documentation
 
         /// <summary>
         /// Gets loaded documentation by the key encoded in the XML documentation.
@@ -77,9 +30,7 @@ namespace Heirloom.GenDoc
         public static XElement GetDocumentation(Type type)
         {
             LoadDocumentation(type.Assembly);
-            var key = "T:" + XmlDocumentationKeyHelper(type.FullName, null);
-            _documentation.TryGetValue(key, out var documentation);
-            return documentation;
+            return GetDocumentation($"T:{GetTypeKey(type)}");
         }
 
         /// <summary>
@@ -107,29 +58,15 @@ namespace Heirloom.GenDoc
             {
                 return GetDocumentation(methodInfo);
             }
-            else if (member is Type type) // + TypeInfo
+            else if (member is Type type)
             {
                 return GetDocumentation(type);
             }
-            else if (member.MemberType.HasFlag(MemberTypes.Custom))
-            {
-                // This represents a cutom type that is not part of
-                // the standard .NET languages as far as I'm aware.
-                // This will never be supported so return null.
-                return null;
-            }
             else
             {
-                // Hopefully this will never hit. At the time of writing
-                // this code, I am only aware of the following Member types:
-                // FieldInfo, PropertyInfo, EventInfo, ConstructorInfo,
-                // MethodInfo, and Type.
-                throw new InvalidOperationException(nameof(GetDocumentation)
-                                                    + " encountered an unhandled type ["
-                                                    + member.GetType().FullName
-                                                    + "]. "
-                                                    + "Please submit this issue to the Towel GitHub repository. "
-                                                    + "https://github.com/ZacharyPatten/Towel/issues/new/choose");
+                // Should not happen, but just being thorough
+                var message = $"{nameof(GetDocumentation)} encountered an unhandled type [{member.GetType().FullName}].";
+                throw new InvalidOperationException(message);
             }
         }
 
@@ -139,45 +76,7 @@ namespace Heirloom.GenDoc
         private static XElement GetDocumentation(MethodInfo method)
         {
             LoadDocumentation(method.DeclaringType.Assembly);
-
-            var typeGenericMap = new Dictionary<string, int>();
-            var tempTypeGeneric = 0;
-            Array.ForEach(method.DeclaringType.GetGenericArguments(), x => typeGenericMap[x.Name] = tempTypeGeneric++);
-
-            var methodGenericMap = new Dictionary<string, int>();
-            var tempMethodGeneric = 0;
-            Array.ForEach(method.GetGenericArguments(), x => methodGenericMap.Add(x.Name, tempMethodGeneric++));
-
-            var parameterInfos = method.GetParameters();
-
-            var memberTypePrefix = "M:";
-            var declarationTypeString = GetXmlDocumenationFormattedString(method.DeclaringType, false, typeGenericMap, methodGenericMap);
-            var memberNameString = method.Name;
-            var methodGenericArgumentsString =
-                methodGenericMap.Count > 0 ?
-                "``" + methodGenericMap.Count :
-                string.Empty;
-            var parametersString =
-                parameterInfos.Length > 0 ?
-                "(" + string.Join(",", method.GetParameters().Select(x => GetXmlDocumenationFormattedString(x.ParameterType, true, typeGenericMap, methodGenericMap))) + ")" :
-                string.Empty;
-
-            var key =
-                memberTypePrefix +
-                declarationTypeString +
-                "." +
-                memberNameString +
-                methodGenericArgumentsString +
-                parametersString;
-
-            if (method.Name == "op_Implicit" ||
-                method.Name == "op_Explicit")
-            {
-                key += "~" + GetXmlDocumenationFormattedString(method.ReturnType, true, typeGenericMap, methodGenericMap);
-            }
-
-            _documentation.TryGetValue(key, out var documentation);
-            return documentation;
+            return GetDocumentation($"M:{GetMethodKey(method)}");
         }
 
         /// <summary>
@@ -186,33 +85,7 @@ namespace Heirloom.GenDoc
         private static XElement GetDocumentation(ConstructorInfo constructor)
         {
             LoadDocumentation(constructor.DeclaringType.Assembly);
-
-            var typeGenericMap = new Dictionary<string, int>();
-            var tempTypeGeneric = 0;
-            Array.ForEach(constructor.DeclaringType.GetGenericArguments(), x => typeGenericMap[x.Name] = tempTypeGeneric++);
-
-            // constructors don't support generic types so this will always be empty
-            var methodGenericMap = new Dictionary<string, int>();
-
-            var parameterInfos = constructor.GetParameters();
-
-            var memberTypePrefix = "M:";
-            var declarationTypeString = GetXmlDocumenationFormattedString(constructor.DeclaringType, false, typeGenericMap, methodGenericMap);
-            var memberNameString = "#ctor";
-            var parametersString =
-                parameterInfos.Length > 0 ?
-                "(" + string.Join(",", constructor.GetParameters().Select(x => GetXmlDocumenationFormattedString(x.ParameterType, true, typeGenericMap, methodGenericMap))) + ")" :
-                string.Empty;
-
-            var key =
-                memberTypePrefix +
-                declarationTypeString +
-                "." +
-                memberNameString +
-                parametersString;
-
-            _documentation.TryGetValue(key, out var documentation);
-            return documentation;
+            return GetDocumentation($"M:{GetConstructorKey(constructor)}");
         }
 
         /// <summary>
@@ -221,9 +94,7 @@ namespace Heirloom.GenDoc
         private static XElement GetDocumentation(PropertyInfo property)
         {
             LoadDocumentation(property.DeclaringType.Assembly);
-            var key = "P:" + XmlDocumentationKeyHelper(property.DeclaringType.FullName, property.Name);
-            _documentation.TryGetValue(key, out var documentation);
-            return documentation;
+            return GetDocumentation($"P:{GetPropertyKey(property)}");
         }
 
         /// <summary>
@@ -232,9 +103,7 @@ namespace Heirloom.GenDoc
         private static XElement GetDocumentation(FieldInfo field)
         {
             LoadDocumentation(field.DeclaringType.Assembly);
-            var key = "F:" + XmlDocumentationKeyHelper(field.DeclaringType.FullName, field.Name);
-            _documentation.TryGetValue(key, out var documentation);
-            return documentation;
+            return GetDocumentation($"F:{GetPropertyKey(field)}");
         }
 
         /// <summary>
@@ -243,9 +112,7 @@ namespace Heirloom.GenDoc
         private static XElement GetDocumentation(EventInfo @event)
         {
             LoadDocumentation(@event.DeclaringType.Assembly);
-            var key = "E:" + XmlDocumentationKeyHelper(@event.DeclaringType.FullName, @event.Name);
-            _documentation.TryGetValue(key, out var documentation);
-            return documentation;
+            return GetDocumentation($"E:{GetPropertyKey(@event)}");
         }
 
         /// <summary>
@@ -254,113 +121,165 @@ namespace Heirloom.GenDoc
         public static XElement GetDocumentation(ParameterInfo parameter)
         {
             var member = GetDocumentation(parameter.Member);
+
             if (member != null)
             {
-                var @params = member.Descendants("param")
-                                    .Where(e => e.Attribute("name").Value == parameter.Name);
-
-                // 
-                return @params.FirstOrDefault();
+                return member.Descendants("param")
+                             .Where(e => e.Attribute("name").Value == parameter.Name)
+                             .FirstOrDefault();
             }
 
             // No known documentation for parent member
             return null;
         }
 
-        /// <summary>
-        /// Determines if a MethodInfo is a local function.
-        /// </summary>
-        public static bool IsLocalFunction(MethodInfo methodInfo)
+        #endregion
+
+        #region Reflection Type to XML Key
+
+        public static string GetTypeKey(Type type)
         {
-            return Regex.Match(methodInfo.Name, @"g__.+\|\d+_\d+").Success;
+            return GetTypeKey(type, false);
         }
 
-        internal static string XmlDocumentationKeyHelper(string typeFullNameString, string memberNameString)
+        public static string GetConstructorKey(ConstructorInfo constructor)
         {
-            var key = Regex.Replace(typeFullNameString, @"\[.*\]", string.Empty).Replace('+', '.');
-            if (!(memberNameString is null))
-            {
-                key += "." + memberNameString;
-            }
-            return key;
+            return GetMethodBaseKey(constructor);
         }
 
-        internal static string GetXmlDocumenationFormattedString(
-            Type type,
-            bool isMethodParameter,
-            Dictionary<string, int> typeGenericMap,
-            Dictionary<string, int> methodGenericMap)
+        public static string GetMethodKey(MethodInfo method)
         {
-            if (type.IsGenericParameter)
-            {
-                return methodGenericMap.TryGetValue(type.Name, out var methodIndex)
-                    ? "``" + methodIndex
-                    : "`" + typeGenericMap[type.Name];
-            }
-            else if (type.HasElementType)
-            {
-                var elementTypeString = GetXmlDocumenationFormattedString(
-                    type.GetElementType(),
-                    isMethodParameter,
-                    typeGenericMap,
-                    methodGenericMap);
+            return GetMethodBaseKey(method);
+        }
 
-                if (type.IsPointer)
+        public static string GetPropertyKey(FieldInfo field)
+        {
+            return GetMemberKey(field);
+        }
+
+        public static string GetPropertyKey(PropertyInfo property)
+        {
+            return GetMemberKey(property);
+        }
+
+        public static string GetPropertyKey(EventInfo @event)
+        {
+            return GetMemberKey(@event);
+        }
+
+        private static string GetMemberKey(MemberInfo member)
+        {
+            return $"{GetTypeKey(member.DeclaringType)}.{member.Name}";
+        }
+
+        private static string GetMethodBaseKey(MethodBase method)
+        {
+            var generic = "";
+
+            if (method.IsGenericMethod)
+            {
+                var genericArguments = method.GetGenericArguments();
+                generic += "``" + genericArguments.Length;
+            }
+
+            // 
+            var parameters = string.Join(',', method.GetParameters().Select(p => GetTypeKey(p.ParameterType, true)));
+            if (!string.IsNullOrWhiteSpace(parameters)) { parameters = $"({parameters})"; }
+
+            // 
+            var name = method.Name;
+            if (method is ConstructorInfo) { name = "#ctor"; }
+
+            // 
+            return $"{GetTypeKey(method.DeclaringType)}.{name}{generic}{parameters}";
+        }
+
+        private static string GetTypeKey(Type type, bool isParameterType)
+        {
+            // array, pointer or reference
+            if (type.HasElementType)
+            {
+                // 
+                if (type.IsByRef)
                 {
-                    return elementTypeString + "*";
-                }
-                else if (type.IsArray)
-                {
-                    var rank = type.GetArrayRank();
-                    var arrayDimensionsString = rank > 1
-                        ? "[" + string.Join(",", Enumerable.Repeat("0:", rank)) + "]"
-                        : "[]";
-                    return elementTypeString + arrayDimensionsString;
-                }
-                else if (type.IsByRef)
-                {
-                    return elementTypeString + "@";
+                    // 
+                    type = type.GetElementType();
+                    return $"{GetTypeKey(type, isParameterType)}@";
                 }
                 else
                 {
-                    // Hopefully this will never hit. At the time of writing
-                    // this code, type.HasElementType is only true if the type
-                    // is a pointer, array, or by reference.
-                    throw new InvalidOperationException(nameof(GetXmlDocumenationFormattedString)
-                                                        + " encountered an unhandled element type. "
-                                                        + "Please submit this issue to the Towel GitHub repository. "
-                                                        + "https://github.com/ZacharyPatten/Towel/issues/new/choose");
+                    // 
+                    type = type.GetElementType();
+                    return GetTypeKey(type, isParameterType);
                 }
             }
             else
+            if (type.IsGenericType)
             {
-                var prefaceString = type.IsNested
-                    ? GetXmlDocumenationFormattedString(
-                        type.DeclaringType,
-                        isMethodParameter,
-                        typeGenericMap,
-                        methodGenericMap) + "."
-                    : type.Namespace + ".";
+                // Store by direct type string
+                var key = type.ToString();
 
-                string typeNameString = isMethodParameter
-                    ? typeNameString = Regex.Replace(type.Name, @"`\d+", string.Empty)
-                    : typeNameString = type.Name;
-
-                var genericArgumentsString = type.IsGenericType && isMethodParameter
-                    ? "{" + string.Join(",",
-                        type.GetGenericArguments().Select(argument =>
-                            GetXmlDocumenationFormattedString(
-                                argument,
-                                isMethodParameter,
-                                typeGenericMap,
-                                methodGenericMap))
-                        ) + "}"
-                    : string.Empty;
-
-                return prefaceString + typeNameString + genericArgumentsString;
+                var ixGrave = key.IndexOf('`');
+                if (isParameterType)
+                {
+                    // Trim generic meta data
+                    key = key.Substring(0, ixGrave);
+                    key += "{" + string.Join(',', type.GenericTypeArguments.Select(t => GetTypeKey(t))) + "}";
+                    return key;
+                }
+                else
+                {
+                    // Trim generic meta name data
+                    var ixBrace = key.IndexOf('[', ixGrave);
+                    return key.Substring(0, ixBrace);
+                }
+            }
+            else
+            if (type.IsGenericMethodParameter)
+            {
+                return $"``{type.GenericParameterPosition}";
+            }
+            else
+            if (type.IsGenericTypeParameter)
+            {
+                return $"`{type.GenericParameterPosition}";
+            }
+            else
+            {
+                // Simplest Case...?
+                return type.FullName;
             }
         }
 
         #endregion
+
+        internal static void LoadDocumentation(Assembly assembly)
+        {
+            if (_assemblies.Contains(assembly))
+            {
+                return;
+            }
+
+            // Get assembly directory and related .xml
+            var dirPath = Path.GetDirectoryName(assembly.Location);
+            var xmlPath = Path.Combine(dirPath, assembly.GetName().Name + ".xml");
+
+            // Does the XML exist?
+            if (File.Exists(xmlPath))
+            {
+                // Load XML Document
+                var xml = XDocument.Parse(File.ReadAllText(xmlPath));
+
+                // Get child of the members node
+                foreach (var member in xml.Descendants("member"))
+                {
+                    var name = member.Attribute("name").Value;
+                    _documentation[name] = member;
+                }
+            }
+
+            // Mark assembly as visited
+            _assemblies.Add(assembly);
+        }
     }
 }

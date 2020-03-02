@@ -19,6 +19,11 @@ namespace Heirloom.GenDoc
             // Load xml documentation for assemblies
             foreach (var assembly in assemblies)
             {
+                // Populate Types
+                var assemblyTypes = TypeDatabase.GetAssemblyTypes(assembly);
+                TypeDatabase.PopulateTypes(assemblyTypes);
+
+                // Load XML Documentation
                 Documentation.LoadDocumentation(assembly);
             }
 
