@@ -827,6 +827,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Flush & Statistics
 
+        /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override unsafe void Flush()
         {
@@ -869,6 +870,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
+        /// <inheritdoc/>
         protected override DrawCounts GetDrawCounts()
         {
             return new DrawCounts
@@ -879,6 +881,7 @@ namespace Heirloom.Drawing.OpenGLES
             };
         }
 
+        /// <inheritdoc/>
         protected override void EndFrame()
         {
             _batchingTechnique.ResetCounts();

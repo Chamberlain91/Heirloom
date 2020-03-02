@@ -48,7 +48,9 @@ namespace Heirloom.GenDoc
         {
             var markdown = "";
 
-            markdown += Header("Values\n", 3);
+            markdown += Header("Values", 3);
+            markdown += $"\n";
+
             foreach (var name in CurrentType.GetEnumNames())
             {
                 // Emit Enum Field
@@ -67,7 +69,9 @@ namespace Heirloom.GenDoc
             // Emit Fields
             if (Fields.Count > 0)
             {
-                markdown += Header("Fields\n", 3);
+                markdown += Header("Fields", 3);
+                markdown += $"\n";
+
                 foreach (var fieldInfo in Fields)
                 {
                     markdown += GenerateSummary(fieldInfo, false);
@@ -82,7 +86,9 @@ namespace Heirloom.GenDoc
             // Emit Constructors
             if (Constructors.Count > 0)
             {
-                markdown += Header("Constructors\n", 3);
+                markdown += Header("Constructors", 3);
+                markdown += $"\n";
+
                 foreach (var constructor in Constructors)
                 {
                     markdown += GenerateSummary(constructor);
@@ -92,7 +98,8 @@ namespace Heirloom.GenDoc
             // Emit Properties
             if (Properties.Count > 0)
             {
-                markdown += $"### Properties\n\n";
+                markdown += Header("Properties", 3);
+                markdown += $"\n";
 
                 foreach (var prop in InstanceProperties)
                 {
@@ -108,10 +115,12 @@ namespace Heirloom.GenDoc
             // Emit Events
             if (Events.Count > 0)
             {
-                markdown += $"### Events\n\n";
+                markdown += Header("Events", 3);
+                markdown += $"\n";
+
                 foreach (var @event in Events)
                 {
-                    markdown += $"#### {GetName(@event)}\n";
+                    markdown += Header(GetName(@event), 4);
 
                     // Generate Summary
                     var summary = GetSummary(@event);
@@ -132,15 +141,16 @@ namespace Heirloom.GenDoc
             // Emit Methods
             if (Methods.Count > 0)
             {
-                markdown += $"### Methods\n\n";
+                markdown += Header("Methods", 3) + "\n";
+
                 foreach (var method in InstanceMethods)
                 {
                     markdown += GenerateSummary(method, false);
                 }
 
-                foreach (var methodInfo in StaticMethods)
+                foreach (var method in StaticMethods)
                 {
-                    markdown += GenerateSummary(methodInfo, true);
+                    markdown += GenerateSummary(method, true);
                 }
             }
 

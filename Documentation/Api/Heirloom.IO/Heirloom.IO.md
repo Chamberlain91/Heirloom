@@ -5,8 +5,12 @@
 
 --------------------------------------------------------------------------------
 
-[BitField](Heirloom.IO.BitField.md)  
+#### Classes
 [EmbeddedFile](Heirloom.IO.EmbeddedFile.md)  
 [Files](Heirloom.IO.Files.md)  
 [StreamExtensions](Heirloom.IO.StreamExtensions.md)  
 [StringExtensions](Heirloom.IO.StringExtensions.md)  
+
+#### Structs
+[BitField](Heirloom.IO.BitField.md)  
+
