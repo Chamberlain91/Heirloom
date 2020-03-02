@@ -35,7 +35,7 @@ namespace Heirloom.GenDoc
         public static IEnumerable<Type> GetAssemblyTypes(Assembly assembly)
         {
             // public or protected
-            return assembly.DefinedTypes.Where(t => t.IsPublic || t.IsNestedFamily);
+            return assembly.DefinedTypes.Where(t => t.IsPublic || t.IsNestedFamORAssem);
         }
 
         public static void PopulateTypes(Assembly assembly)
