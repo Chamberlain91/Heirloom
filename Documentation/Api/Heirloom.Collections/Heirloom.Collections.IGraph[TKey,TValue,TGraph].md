@@ -3,8 +3,8 @@
 <small>**Framework**: .NETStandard,Version=v2.1</small>  
 <small>**Assembly**: [Heirloom.Collections](../Heirloom.Collections/Heirloom.Collections.md)</small>  
 
-## IGraph\<TKey|TValue|TGraph> (Interface)
-<small>**Namespace**: Heirloom.Collections</sub></small>  
+## IGraph\<TKey, TValue, TGraph> (Interface)
+<small>**Namespace**: Heirloom.Collections</small>  
 
 | Properties                          | Summary                                                   |
 |-------------------------------------|-----------------------------------------------------------|
@@ -27,7 +27,7 @@
 | [ContainsValue](#CONEEF76259)  | Determines if the graph contains the value.                            |
 | [AddVertex](#ADD75B09E92)      | Adds a vertex to the graph.                                            |
 | [RemoveVertex](#REM489B3DD3)   | Removes a vertex from the graph.                                       |
-| [GetVertex](#GETFD3DEC7E)      | Returns the vertex with the given name/key.                            |
+| [GetVertex](#GET6E0FDD9F)      | Returns the vertex with the given name/key.                            |
 | [AddEdge](#ADD9F66EC1A)        | Connects two vertices by an edge in the graph.                         |
 | [RemoveEdge](#REMDD74603F)     | Removes an edge between two vertices in the graph.                     |
 | [GetEdge](#GET7B3DE88F)        | Returns the edge between two vertices.                                 |
@@ -70,7 +70,7 @@ The number of edges within this graph.
 
 The edges contained within this graph.
 
-#### <a name="VER648B0F21"></a>Vertices : IEnumerable\<IGraphVertex\<TKey|TValue>>
+#### <a name="VER648B0F21"></a>Vertices : IEnumerable\<IGraphVertex\<TKey, TValue>>
 
 <small>`Read Only`</small>
 
@@ -137,7 +137,7 @@ Removes a vertex from the graph.
 
 <small>**key**: <param name="key">The name/key of a vertex.</param></small>  
 
-#### <a name="GETFD3DEC7E"></a>GetVertex(TKey key) : [IGraphVertex\<TKey|TValue>](Heirloom.Collections.IGraphVertex[TKey_TValue].md)
+#### <a name="GET6E0FDD9F"></a>GetVertex(TKey key) : [IGraphVertex\<TKey, TValue>](Heirloom.Collections.IGraphVertex[TKey,TValue].md)
 <small>`Abstract`</small>
 
 Returns the vertex with the given name/key.

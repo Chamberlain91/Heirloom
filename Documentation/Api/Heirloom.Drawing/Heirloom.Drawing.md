@@ -41,7 +41,6 @@
 [UnicodeCharacter](Heirloom.Drawing.UnicodeCharacter.md)  
 [UnicodeRange](Heirloom.Drawing.UnicodeRange.md)  
 [Vertex](Heirloom.Drawing.Vertex.md)  
-[Graphics.DrawCounts](Heirloom.Drawing.Graphics.DrawCounts.md)  
 
 #### Enums
 [Axis](Heirloom.Drawing.Axis.md)  

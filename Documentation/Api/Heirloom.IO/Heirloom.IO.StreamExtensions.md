@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## StreamExtensions (Static Class)
-<small>**Namespace**: Heirloom.IO</sub></small>  
+<small>**Namespace**: Heirloom.IO</small>  
 <small>`ExtensionAttribute`</small>
 
 | Methods                      | Summary                                                     |

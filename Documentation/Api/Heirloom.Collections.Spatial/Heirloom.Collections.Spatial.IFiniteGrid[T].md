@@ -5,7 +5,7 @@
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md)</small>  
 
 ## IFiniteGrid\<T> (Interface)
-<small>**Namespace**: Heirloom.Collections.Spatial</sub></small>  
+<small>**Namespace**: Heirloom.Collections.Spatial</small>  
 <small>**Interfaces**: [IGrid\<T>](Heirloom.Collections.Spatial.IGrid[T].md), [IReadOnlyGrid\<T>](Heirloom.Collections.Spatial.IReadOnlyGrid[T].md)</small>  
 
 A finite grid (bounded by `Heirloom.Collections.Spatial.IFiniteGrid`1.Width` and `Heirloom.Collections.Spatial.IFiniteGrid`1.Height`).

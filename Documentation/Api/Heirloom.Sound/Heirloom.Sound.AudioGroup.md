@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Sound](../Heirloom.Sound/Heirloom.Sound.md)</small>  
 
 ## AudioGroup (Class)
-<small>**Namespace**: Heirloom.Sound</sub></small>  
+<small>**Namespace**: Heirloom.Sound</small>  
 <small>**Inherits**: [AudioNode](Heirloom.Sound.AudioNode.md)</small>  
 
 An [AudioNode](Heirloom.Sound.AudioNode.md) to mix and apply effects to a group of other nodes.

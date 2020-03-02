@@ -8,7 +8,7 @@
 #### Classes
 [Extensions](Heirloom.Collections.Extensions.md)  
 [FreeList\<T>](Heirloom.Collections.FreeList[T].md)  
-[Graph\<TVertexKey|TVertexValue>](Heirloom.Collections.Graph[TVertexKey_TVertexValue].md)  
+[Graph\<TVertexKey, TVertexValue>](Heirloom.Collections.Graph[TVertexKey,TVertexValue].md)  
 [Heap\<T>](Heirloom.Collections.Heap[T].md)  
 [MergeSort](Heirloom.Collections.MergeSort.md)  
 [Search](Heirloom.Collections.Search.md)  

@@ -5,7 +5,7 @@
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md)</small>  
 
 ## SparseGrid\<T> (Sealed Class)
-<small>**Namespace**: Heirloom.Collections.Spatial</sub></small>  
+<small>**Namespace**: Heirloom.Collections.Spatial</small>  
 <small>**Interfaces**: [ISparseGrid\<T>](Heirloom.Collections.Spatial.ISparseGrid[T].md), [IReadOnlySparseGrid\<T>](Heirloom.Collections.Spatial.IReadOnlySparseGrid[T].md), [IReadOnlyGrid\<T>](Heirloom.Collections.Spatial.IReadOnlyGrid[T].md), [IGrid\<T>](Heirloom.Collections.Spatial.IGrid[T].md)</small>  
 <small>`DefaultMemberAttribute`</small>
 

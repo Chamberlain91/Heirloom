@@ -6,7 +6,7 @@
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## Image (Sealed Class)
-<small>**Namespace**: Heirloom.Drawing</sub></small>  
+<small>**Namespace**: Heirloom.Drawing</small>  
 <small>**Inherits**: [ImageSource](Heirloom.Drawing.ImageSource.md)</small>  
 
 | Properties             | Summary                              |
@@ -53,8 +53,6 @@ Loads an image by a file path resolved by `Heirloom.IO.Files.OpenStream(System.S
 Loads an image from a stream.
 
 #### Image(byte file)
-
-Loads an image directly from a block of bytes.
 
 #### Image([IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md) size)
 

@@ -5,7 +5,7 @@
 <small>**Dependancies**: [Heirloom.Drawing](../Heirloom.Drawing/Heirloom.Drawing.md), [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.OpenGLES](../Heirloom.OpenGLES/Heirloom.OpenGLES.md)</small>  
 
 ## MaxrectsPacker\<TElement> (Class)
-<small>**Namespace**: Heirloom.Drawing.OpenGLES.Utilities</sub></small>  
+<small>**Namespace**: Heirloom.Drawing.OpenGLES.Utilities</small>  
 <small>**Inherits**: [RectanglePacker\<TElement>](Heirloom.Drawing.OpenGLES.Utilities.RectanglePacker[TElement].md)</small>  
 
 | Methods                | Summary |

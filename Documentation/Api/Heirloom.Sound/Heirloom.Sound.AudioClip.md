@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Sound](../Heirloom.Sound/Heirloom.Sound.md)</small>  
 
 ## AudioClip (Sealed Class)
-<small>**Namespace**: Heirloom.Sound</sub></small>  
+<small>**Namespace**: Heirloom.Sound</small>  
 <small>`DefaultMemberAttribute`</small>
 
 An object to contain (and decode) audio data into raw samples.
@@ -23,11 +23,7 @@ Constructs a new audio clip from the given stream, fully decoding all samples.
 
 #### AudioClip(byte file)
 
-Constructs a new audio clip from the given in-memory file, fully decoding all samples.
-
 #### AudioClip(short samples)
-
-Constructs a new audio clip from existing samples decoded or generated elsewhere. The samples must be interleved to the number of channels in the device and at the sample rate of the device.
 
 ### Properties
 

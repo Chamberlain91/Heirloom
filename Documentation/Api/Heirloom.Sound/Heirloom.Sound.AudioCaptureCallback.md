@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Sound](../Heirloom.Sound/Heirloom.Sound.md)</small>  
 
 ## AudioCaptureCallback (Delegate)
-<small>**Namespace**: Heirloom.Sound</sub></small>  
+<small>**Namespace**: Heirloom.Sound</small>  
 <small>**Inherits**: MulticastDelegate, Delegate</small>  
 <small>**Interfaces**: ICloneable, ISerializable</small>  
 

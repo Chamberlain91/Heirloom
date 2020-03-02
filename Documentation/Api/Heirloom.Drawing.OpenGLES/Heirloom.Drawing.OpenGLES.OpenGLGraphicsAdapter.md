@@ -5,7 +5,7 @@
 <small>**Dependancies**: [Heirloom.Drawing](../Heirloom.Drawing/Heirloom.Drawing.md), [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.OpenGLES](../Heirloom.OpenGLES/Heirloom.OpenGLES.md)</small>  
 
 ## OpenGLGraphicsAdapter (Abstract Class)
-<small>**Namespace**: Heirloom.Drawing.OpenGLES</sub></small>  
+<small>**Namespace**: Heirloom.Drawing.OpenGLES</small>  
 <small>**Inherits**: [GraphicsAdapter](../Heirloom.Drawing/Heirloom.Drawing.GraphicsAdapter.md)</small>  
 <small>**Interfaces**: IDisposable</small>  
 

@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## BitField (Struct)
-<small>**Namespace**: Heirloom.IO</sub></small>  
+<small>**Namespace**: Heirloom.IO</small>  
 <small>**Interfaces**: IEquatable\<BitField>, IReadOnlyList\<bool>, IReadOnlyCollection\<bool>, IEnumerable\<bool>, IEnumerable</small>  
 <small>`SerializableAttribute`, `DefaultMemberAttribute`</small>
 

@@ -4,10 +4,10 @@
 <small>**Assembly**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md)</small>  
 
 ## RandomExtensions (Static Class)
-<small>**Namespace**: Heirloom.Math</sub></small>  
+<small>**Namespace**: Heirloom.Math</small>  
 <small>`ExtensionAttribute`</small>
 
-Provides extension methods for `System.Random` and other related random operations.
+Provides extension methods for Random and other related random operations.
 
 | Methods                        | Summary                                                                                         |
 |--------------------------------|-------------------------------------------------------------------------------------------------|
@@ -22,7 +22,7 @@ Provides extension methods for `System.Random` and other related random operatio
 | [NextVector](#NEX9D3451B7)     | Returns a random point within the specified rectangular domain.                                 |
 | [Chance](#CHA4F5BB1DF)         | Randomly return true for occurrences with the specified probability.                            |
 | [Choose<T>](#CHO35D979BA)      | Randomly select one of the specified items.                                                     |
-| [Choose<T>](#CHOAA1704A7)      | Randomly select one of the specified items.                                                     |
+| [Choose<T>](#CHOAA1704A7)      |                                                                                                 |
 | [Shuffle<T>](#SHU79DAFD52)     | Shuffles all elements in the list randomly.                                                     |
 | [Shuffle<T>](#SHU28E3FA21)     | Shuffles all elements in the list randomly.                                                     |
 
@@ -96,8 +96,6 @@ Randomly select one of the specified items.
 
 #### <a name="CHOAA1704A7"></a>Choose<T>(Random this, params T items) : T
 <small>`Static`, `ExtensionAttribute`</small>
-
-Randomly select one of the specified items.
 
 
 #### <a name="SHU79DAFD52"></a>Shuffle<T>(Random this, IList\<T> items) : void

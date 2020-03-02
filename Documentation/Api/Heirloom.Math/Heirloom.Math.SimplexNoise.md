@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md)</small>  
 
 ## SimplexNoise (Class)
-<small>**Namespace**: Heirloom.Math</sub></small>  
+<small>**Namespace**: Heirloom.Math</small>  
 <small>**Interfaces**: [INoise2D](Heirloom.Math.INoise2D.md), [INoise3D](Heirloom.Math.INoise3D.md)</small>  
 
 Implements methods for sampling 2D and 3D simplex noise.

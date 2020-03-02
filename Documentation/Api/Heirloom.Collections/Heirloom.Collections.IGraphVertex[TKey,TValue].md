@@ -3,8 +3,8 @@
 <small>**Framework**: .NETStandard,Version=v2.1</small>  
 <small>**Assembly**: [Heirloom.Collections](../Heirloom.Collections/Heirloom.Collections.md)</small>  
 
-## IGraphVertex\<TKey|TValue> (Interface)
-<small>**Namespace**: Heirloom.Collections</sub></small>  
+## IGraphVertex\<TKey, TValue> (Interface)
+<small>**Namespace**: Heirloom.Collections</small>  
 
 A vertex representing a node on a graph.
 

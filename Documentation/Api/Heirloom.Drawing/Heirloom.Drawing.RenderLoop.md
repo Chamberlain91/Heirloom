@@ -6,7 +6,7 @@
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## RenderLoop (Abstract Class)
-<small>**Namespace**: Heirloom.Drawing</sub></small>  
+<small>**Namespace**: Heirloom.Drawing</small>  
 
 Provides a thread to manage invoking a render/update function continuously.
 
@@ -20,7 +20,7 @@ Provides a thread to manage invoking a render/update function continuously.
 | [Update](#UPD833E6A6C) |                                                                                                                    |
 | [Start](#STADBEC304F)  | Start the render thread. This thread will automatically terminate when the associated graphics object is disposed. |
 | [Stop](#STO4AE17E3B)   | Stop the render thread.                                                                                            |
-| [Create](#CREE4D21C3C) | Creates a render loop instance from the given context and method reference.                                        |
+| [Create](#CREE4D21C3C) |                                                                                                                    |
 
 ### Constructors
 
@@ -57,8 +57,4 @@ Stop the render thread.
 #### <a name="CREE4D21C3C"></a>Create([Graphics](Heirloom.Drawing.Graphics.md) gfx, [RenderLoop.UpdateFunction](Heirloom.Drawing.RenderLoop.UpdateFunction.md) update) : [RenderLoop](Heirloom.Drawing.RenderLoop.md)
 <small>`Static`</small>
 
-Creates a render loop instance from the given context and method reference.
-
-<small>**gfx**: <param name="gfx">The relevant graphics context.</param></small>  
-<small>**update**: <param name="update">The relevant update function.</param></small>  
 

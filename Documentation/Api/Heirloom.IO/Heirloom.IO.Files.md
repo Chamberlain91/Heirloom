@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## Files (Static Class)
-<small>**Namespace**: Heirloom.IO</sub></small>  
+<small>**Namespace**: Heirloom.IO</small>  
 
 A utility to unify access of embedded files and files on disk.
 

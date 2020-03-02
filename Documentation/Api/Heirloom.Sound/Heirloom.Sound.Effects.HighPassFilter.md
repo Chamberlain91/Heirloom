@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Sound](../Heirloom.Sound/Heirloom.Sound.md)</small>  
 
 ## HighPassFilter (Class)
-<small>**Namespace**: Heirloom.Sound.Effects</sub></small>  
+<small>**Namespace**: Heirloom.Sound.Effects</small>  
 <small>**Inherits**: [AudioEffect](Heirloom.Sound.AudioEffect.md)</small>  
 
 An audio effect that implements a high pass filter.

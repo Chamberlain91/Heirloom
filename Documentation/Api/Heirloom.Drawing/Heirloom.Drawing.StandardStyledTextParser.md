@@ -6,7 +6,7 @@
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## StandardStyledTextParser (Abstract Class)
-<small>**Namespace**: Heirloom.Drawing</sub></small>  
+<small>**Namespace**: Heirloom.Drawing</small>  
 <small>**Inherits**: [StyledTextParser](Heirloom.Drawing.StyledTextParser.md)</small>  
 
 Provides implementation of a BBCode-esque text markup parser.
