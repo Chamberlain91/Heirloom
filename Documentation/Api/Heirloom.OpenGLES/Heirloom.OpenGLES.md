@@ -5,9 +5,13 @@
 
 --------------------------------------------------------------------------------
 
+#### Classes
 [ActiveAttribute](Heirloom.OpenGLES.ActiveAttribute.md)  
 [ActiveUniform](Heirloom.OpenGLES.ActiveUniform.md)  
 [ActiveUniformBlock](Heirloom.OpenGLES.ActiveUniformBlock.md)  
+[GL](Heirloom.OpenGLES.GL.md)  
+
+#### Enums
 [BufferParameter](Heirloom.OpenGLES.BufferParameter.md)  
 [BufferTarget](Heirloom.OpenGLES.BufferTarget.md)  
 [BufferUsage](Heirloom.OpenGLES.BufferUsage.md)  
@@ -73,4 +77,4 @@
 [TextureSizedFormat](Heirloom.OpenGLES.TextureSizedFormat.md)  
 [TextureTarget](Heirloom.OpenGLES.TextureTarget.md)  
 [TextureWrap](Heirloom.OpenGLES.TextureWrap.md)  
-[GL](Heirloom.OpenGLES.GL.md)  
+

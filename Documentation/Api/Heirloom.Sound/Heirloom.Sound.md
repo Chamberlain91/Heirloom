@@ -5,8 +5,8 @@
 
 --------------------------------------------------------------------------------
 
+#### Classes
 [AudioClip](Heirloom.Sound.AudioClip.md)  
-[AudioCaptureCallback](Heirloom.Sound.AudioCaptureCallback.md)  
 [AudioContext](Heirloom.Sound.AudioContext.md)  
 [AudioEffect](Heirloom.Sound.AudioEffect.md)  
 [AudioGroup](Heirloom.Sound.AudioGroup.md)  
@@ -16,3 +16,6 @@
 [HighPassFilter](Heirloom.Sound.Effects.HighPassFilter.md)  
 [LowPassFilter](Heirloom.Sound.Effects.LowPassFilter.md)  
 [ReverbEffect](Heirloom.Sound.Effects.ReverbEffect.md)  
+
+#### Delegates
+[AudioCaptureCallback](Heirloom.Sound.AudioCaptureCallback.md)  

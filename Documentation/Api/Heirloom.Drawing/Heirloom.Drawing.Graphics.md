@@ -33,12 +33,12 @@
 | [DrawMesh](#DRA95B1E3F1)            | Draws a mesh with the given image to the current surface.                                                      |
 | [GrabPixels](#GRAEDDDAE23)          | Grab the pixels from a subregion of the current surface and return that image. (ie, a screenshot)              |
 | [GrabPixels](#GRAF748E6A9)          | Grab the pixels from the current surface and return that image. (ie, a screenshot)                             |
-| [GetDrawCounts](#GET41ADC268)       |                                                                                                                |
+| [GetDrawCounts](#GET41ADC268)       | Populates and returns drawing metrics.                                                                         |
 | [RefreshScreen](#REFB28DEE96)       | Present the drawing operations to the screen.                                                                  |
-| [SwapBuffers](#SWABF25FF09)         |                                                                                                                |
-| [EndFrame](#ENDE20271D1)            |                                                                                                                |
+| [SwapBuffers](#SWABF25FF09)         | Causes the back and front buffers to be swapped.                                                               |
+| [EndFrame](#ENDE20271D1)            | Called at the end of frame to do any last minute work (resetting metrics, buffers, etc).                       |
 | [Flush](#FLU2F0EB18F)               | Force any pending drawing operations to complete.                                                              |
-| [Dispose](#DISD833FA7A)             |                                                                                                                |
+| [Dispose](#DISFDE72264)             | Dispose and cleanup resources.                                                                                 |
 | [Dispose](#DIS4E62D250)             | Dispose this graphics context, freeing any resources occupied by it.                                           |
 | [SetCameraTransform](#SET55A77415)  | Sets `Heirloom.Drawing.Graphics.GlobalTransform` to mimic a 2D camera.                                         |
 | [DrawImage](#DRA5AECA746)           | Draws an image to the current surface.                                                                         |
@@ -74,13 +74,15 @@
 | [DrawText](#DRA87C34A5)             | Draws rich text to the current surface.                                                                        |
 | [DrawText](#DRA258730C9)            | Draws rich text to the current surface.                                                                        |
 | [DrawText](#DRAB686520E)            | Draws text to the current surface.                                                                             |
-| [DrawText](#DRA8F4C378A)            | Draws text to the current surface.                                                                             |
+| [DrawText](#DRA3336BBF4)            | Draws text to the current surface.                                                                             |
 | [DrawText](#DRA6A2DA0DC)            | Draws text to the current surface.                                                                             |
-| [DrawText](#DRA7B95AC0C)            | Draws text to the current surface.                                                                             |
+| [DrawText](#DRA58EE00B2)            | Draws text to the current surface.                                                                             |
 
 ### Constructors
 
 #### Graphics([MultisampleQuality](Heirloom.Drawing.MultisampleQuality.md) multisample)
+
+Constructs a new graphics instance with the specified multisampling quality.
 
 ### Properties
 
@@ -119,6 +121,8 @@ Gets the default surface (ie, window) of this render context.
 
 Gets or sets the current surface.
 
+When changed, the viewport is automatically reset to the full surface.
+
 #### <a name="SHA5D122CB9"></a>Shader : [Shader](Heirloom.Drawing.Shader.md)
 
 
@@ -129,10 +133,14 @@ Gets or sets the active shader.
 
 Gets or sets the viewport in normalized coordinates.
 
+When `Heirloom.Drawing.Graphics.Surface` is changed, the viewport is automatically reset to the full surface.
+
 #### <a name="VIE9EEFEE58"></a>ViewportScreen : [IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md)
 
 
 Gets the size of viewport in pixel coordinates.
+
+When `Heirloom.Drawing.Graphics.Surface` is changed, the viewport is automatically reset to the full surface.
 
 #### <a name="GLO9D3F3F33"></a>GlobalTransform : [Matrix](../Heirloom.Math/Heirloom.Math.Matrix.md)
 
@@ -198,6 +206,10 @@ Grab the pixels from the current surface and return that image. (ie, a screensho
 #### <a name="GET41ADC268"></a>GetDrawCounts() : [Graphics.DrawCounts](Heirloom.Drawing.Graphics.DrawCounts.md)
 <small>`Abstract`, `Protected`</small>
 
+Populates and returns drawing metrics.
+
+Counts should be reset in the implementation of `Heirloom.Drawing.Graphics.EndFrame`.
+
 #### <a name="REFB28DEE96"></a>RefreshScreen() : void
 
 Present the drawing operations to the screen.
@@ -205,16 +217,22 @@ Present the drawing operations to the screen.
 #### <a name="SWABF25FF09"></a>SwapBuffers() : void
 <small>`Abstract`, `Protected`</small>
 
+Causes the back and front buffers to be swapped.
+
 #### <a name="ENDE20271D1"></a>EndFrame() : void
 <small>`Abstract`, `Protected`</small>
+
+Called at the end of frame to do any last minute work (resetting metrics, buffers, etc).
 
 #### <a name="FLU2F0EB18F"></a>Flush() : void
 <small>`Abstract`</small>
 
 Force any pending drawing operations to complete.
 
-#### <a name="DISD833FA7A"></a>Dispose(bool disposing) : void
+#### <a name="DISFDE72264"></a>Dispose(bool disposeManaged) : void
 <small>`Virtual`, `Protected`</small>
+
+Dispose and cleanup resources.
 
 
 #### <a name="DIS4E62D250"></a>Dispose() : void
@@ -479,7 +497,7 @@ Draws text to the current surface.
 <small>**size**: <param name="size">The font size to render with.</param></small>  
 <small>**callback**: <param name="callback">A callback for manipulating the style of the rendered text.</param></small>  
 
-#### <a name="DRA8F4C378A"></a>DrawText(string text, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, [Font](Heirloom.Drawing.Font.md) font, int size, [TextAlign](Heirloom.Drawing.TextAlign.md) align = Left, [DrawTextCallback](Heirloom.Drawing.DrawTextCallback.md) callback = "null") : void
+#### <a name="DRA3336BBF4"></a>DrawText(string text, in [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, [Font](Heirloom.Drawing.Font.md) font, int size, [TextAlign](Heirloom.Drawing.TextAlign.md) align = Left, [DrawTextCallback](Heirloom.Drawing.DrawTextCallback.md) callback = null) : void
 
 Draws text to the current surface.
 
@@ -500,7 +518,7 @@ Draws text to the current surface.
 <small>**size**: <param name="size">The font size to render with.</param></small>  
 <small>**callback**: <param name="callback">A callback for manipulating the style of the rendered text.</param></small>  
 
-#### <a name="DRA7B95AC0C"></a>DrawText(string text, in [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md) bounds, [Font](Heirloom.Drawing.Font.md) font, int size, [TextAlign](Heirloom.Drawing.TextAlign.md) align = Left, [DrawTextCallback](Heirloom.Drawing.DrawTextCallback.md) callback = "null") : void
+#### <a name="DRA58EE00B2"></a>DrawText(string text, in [Rectangle](../Heirloom.Math/Heirloom.Math.Rectangle.md) bounds, [Font](Heirloom.Drawing.Font.md) font, int size, [TextAlign](Heirloom.Drawing.TextAlign.md) align = Left, [DrawTextCallback](Heirloom.Drawing.DrawTextCallback.md) callback = null) : void
 
 Draws text to the current surface.
 

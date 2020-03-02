@@ -215,10 +215,56 @@ namespace Heirloom.GenDoc
             // 
             text += GenerateSeparator();
 
-            // 
-            foreach (var type in GetTypes(CurrentAssembly))
+            var types = GetTypes(CurrentAssembly);
+
+            var classes = types.Where(t => t.IsClass && !t.IsSubclassOf(typeof(Delegate)));
+            if (classes.Any())
             {
-                text += $"{Link(type)}  \n";
+                text += Header("Classes", 4);
+
+                foreach (var type in classes)
+                {
+                    text += $"{Link(type)}  \n";
+                }
+
+                text += "\n";
+            }
+
+            var structs = types.Where(t => t.IsValueType && !t.IsEnum);
+            if (structs.Any())
+            {
+                text += Header("Structs", 4);
+
+                foreach (var type in structs)
+                {
+                    text += $"{Link(type)}  \n";
+                }
+
+                text += "\n";
+            }
+
+            var enums = types.Where(t => t.IsEnum);
+            if (enums.Any())
+            {
+                text += Header("Enums", 4);
+
+                foreach (var type in enums)
+                {
+                    text += $"{Link(type)}  \n";
+                }
+
+                text += "\n";
+            }
+
+            var delegates = types.Where(t => t.IsSubclassOf(typeof(Delegate)));
+            if (delegates.Any())
+            {
+                text += Header("Delegates", 4);
+
+                foreach (var type in delegates)
+                {
+                    text += $"{Link(type)}  \n";
+                }
             }
 
             return text;
@@ -606,7 +652,7 @@ namespace Heirloom.GenDoc
             {
                 var defval = p.DefaultValue;
                 if (defval == null) { defval = "null"; }
-                if (defval is string) { defval = $"\"{defval}\""; }
+                else if (defval is string) { defval = $"\"{defval}\""; }
                 pos += $" = {defval}";
             }
 

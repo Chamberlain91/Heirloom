@@ -6,24 +6,30 @@
 
 --------------------------------------------------------------------------------
 
+#### Classes
 [Application](Heirloom.Desktop.Application.md)  
-[ButtonAction](Heirloom.Desktop.ButtonAction.md)  
-[GraphicsBackend](Heirloom.Desktop.GraphicsBackend.md)  
-[Key](Heirloom.Desktop.Key.md)  
 [Keyboard](Heirloom.Desktop.Keyboard.md)  
-[KeyModifiers](Heirloom.Desktop.KeyModifiers.md)  
 [Monitor](Heirloom.Desktop.Monitor.md)  
-[StandardCursor](Heirloom.Desktop.StandardCursor.md)  
-[VideoMode](Heirloom.Desktop.VideoMode.md)  
 [Window](Heirloom.Desktop.Window.md)  
+
+#### Structs
+[VideoMode](Heirloom.Desktop.VideoMode.md)  
 [KeyEvent](Heirloom.Desktop.KeyEvent.md)  
 [CharacterEvent](Heirloom.Desktop.CharacterEvent.md)  
 [MouseButtonEvent](Heirloom.Desktop.MouseButtonEvent.md)  
 [MouseMoveEvent](Heirloom.Desktop.MouseMoveEvent.md)  
 [MouseScrollEvent](Heirloom.Desktop.MouseScrollEvent.md)  
 [ContentScaleEvent](Heirloom.Desktop.ContentScaleEvent.md)  
-[WindowState](Heirloom.Desktop.WindowState.md)  
 [CpuInfo](Heirloom.Desktop.Hardware.CpuInfo.md)  
-[CpuVendor](Heirloom.Desktop.Hardware.CpuVendor.md)  
 [GpuInfo](Heirloom.Desktop.Hardware.GpuInfo.md)  
+
+#### Enums
+[ButtonAction](Heirloom.Desktop.ButtonAction.md)  
+[GraphicsBackend](Heirloom.Desktop.GraphicsBackend.md)  
+[Key](Heirloom.Desktop.Key.md)  
+[KeyModifiers](Heirloom.Desktop.KeyModifiers.md)  
+[StandardCursor](Heirloom.Desktop.StandardCursor.md)  
+[WindowState](Heirloom.Desktop.WindowState.md)  
+[CpuVendor](Heirloom.Desktop.Hardware.CpuVendor.md)  
 [GpuVendor](Heirloom.Desktop.Hardware.GpuVendor.md)  
+

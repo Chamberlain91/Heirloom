@@ -15,6 +15,9 @@ namespace Heirloom.Drawing
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs a new graphics instance with the specified multisampling quality.
+        /// </summary>
         protected Graphics(MultisampleQuality multisample)
         {
             // Create performance tracking object
@@ -24,9 +27,11 @@ namespace Heirloom.Drawing
             DefaultSurface = new Surface(1, 1, multisample, false);
         }
 
+        /// <summary>
+        /// Graphics Finalizer.
+        /// </summary>
         ~Graphics()
         {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(false);
         }
 
@@ -62,6 +67,9 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Gets or sets the current surface.
         /// </summary>
+        /// <remarks>
+        /// When changed, the viewport is automatically reset to the full surface.
+        /// </remarks>
         public abstract Surface Surface { get; set; }
 
         /// <summary>
@@ -72,11 +80,17 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Gets or sets the viewport in normalized coordinates.
         /// </summary>
+        /// <remarks>
+        /// When <see cref="Surface"/> is changed, the viewport is automatically reset to the full surface.
+        /// </remarks>
         public abstract Rectangle Viewport { get; set; }
 
         /// <summary>
         /// Gets the size of viewport in pixel coordinates.
         /// </summary>
+        /// <remarks>
+        /// When <see cref="Surface"/> is changed, the viewport is automatically reset to the full surface.
+        /// </remarks>
         public abstract IntRectangle ViewportScreen { get; set; }
 
         /// <summary>
@@ -88,7 +102,7 @@ namespace Heirloom.Drawing
         /// Gets the inverse of the current global transform.
         /// </summary>
         public abstract Matrix InverseGlobalTransform { get; }
-         
+
         /// <summary>
         /// Gets or sets the current blending mode.
         /// </summary>
@@ -208,6 +222,13 @@ namespace Heirloom.Drawing
             DrawStatisticsOverlay();
         }
 
+        /// <summary>
+        /// Populates and returns drawing metrics.
+        /// </summary>
+        /// <seealso cref="EndFrame"/>
+        /// <remarks>
+        /// Counts should be reset in the implementation of <see cref="EndFrame"/>.
+        /// </remarks>
         protected abstract DrawCounts GetDrawCounts();
 
         private void DrawStatisticsOverlay()
@@ -293,8 +314,14 @@ namespace Heirloom.Drawing
             EndFrame();
         }
 
+        /// <summary>
+        /// Causes the back and front buffers to be swapped.
+        /// </summary>
         protected abstract void SwapBuffers();
 
+        /// <summary>
+        /// Called at the end of frame to do any last minute work (resetting metrics, buffers, etc).
+        /// </summary>
         protected abstract void EndFrame();
 
         /// <summary>
@@ -304,11 +331,14 @@ namespace Heirloom.Drawing
 
         #region IDisposable Support
 
-        protected virtual void Dispose(bool disposing)
+        /// <summary>
+        /// Dispose and cleanup resources.
+        /// </summary>
+        protected virtual void Dispose(bool disposeManaged)
         {
             if (!IsDisposed)
             {
-                if (disposing)
+                if (disposeManaged)
                 {
                     // Managed
                 }
@@ -339,10 +369,27 @@ namespace Heirloom.Drawing
             GlobalTransform = Matrix.CreateTransform(offset - center, 0, scale);
         }
 
+        /// <summary>
+        /// A little structure to keep tracking of counts of a drawn frame.
+        /// </summary>
         protected internal struct DrawCounts
         {
+            /// <summary>
+            /// The number of batches.
+            /// </summary>
             public int BatchCount;
+
+            /// <summary>
+            /// The number of 'things' drawn.
+            /// </summary>
             public int DrawCount;
+
+            /// <summary>
+            /// The number of triangles drawn.
+            /// </summary>
+            /// <remarks>
+            /// A simple image (ie, Quad) consists of two triangles.
+            /// </remarks>
             public int TriangleCount;
         }
     }
