@@ -6,7 +6,7 @@
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## Glyph (Class)
-<small>**Namespace**: Heirloom.Drawing</sub></small>  
+<small>**Namespace**: Heirloom.Drawing</small>  
 
 A glyph represents the metrics and rendering of a character from the associated [Font](Heirloom.Drawing.Font.md).
 

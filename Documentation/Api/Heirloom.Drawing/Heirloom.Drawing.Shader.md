@@ -6,7 +6,7 @@
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## Shader (Sealed Class)
-<small>**Namespace**: Heirloom.Drawing</sub></small>  
+<small>**Namespace**: Heirloom.Drawing</small>  
 <small>**Interfaces**: IDisposable</small>  
 
 Provides GLSL shader support for custom image effects and other visual processing.
@@ -19,10 +19,10 @@ Provides GLSL shader support for custom image effects and other visual processin
 
 | Methods                       | Summary                                     |
 |-------------------------------|---------------------------------------------|
-| [SetUniform](#SET888E387E)    | Updates one of the shader uniforms by name. |
-| [SetUniform](#SET62D3E459)    | Updates one of the shader uniforms by name. |
-| [SetUniform](#SET7BB5BD90)    | Updates one of the shader uniforms by name. |
-| [SetUniform](#SET5E636ABC)    | Updates one of the shader uniforms by name. |
+| [SetUniform](#SET888E387E)    |                                             |
+| [SetUniform](#SET62D3E459)    |                                             |
+| [SetUniform](#SET7BB5BD90)    |                                             |
+| [SetUniform](#SET5E636ABC)    |                                             |
 | [SetUniform<T>](#SETB88E5AFC) | Updates one of the shader uniforms by name. |
 | [SetUniform](#SETDB9B094B)    | Updates one of the shader uniforms by name. |
 | [Dispose](#DIS4E62D250)       |                                             |
@@ -30,8 +30,6 @@ Provides GLSL shader support for custom image effects and other visual processin
 ### Constructors
 
 #### Shader(params string paths)
-
-Constructs a new shader from either a vertex shader (.vert), a fragment shader (.frag) or both.
 
 ### Properties
 
@@ -57,27 +55,15 @@ Gets the default (ie, "no effect") shader.
 
 #### <a name="SET888E387E"></a>SetUniform(string name, float arr) : void
 
-Updates one of the shader uniforms by name.
-
-<small>**name**: <param name="name">The name of the uniform.</param></small>  
 
 #### <a name="SET62D3E459"></a>SetUniform(string name, int arr) : void
 
-Updates one of the shader uniforms by name.
-
-<small>**name**: <param name="name">The name of the uniform.</param></small>  
 
 #### <a name="SET7BB5BD90"></a>SetUniform(string name, uint arr) : void
 
-Updates one of the shader uniforms by name.
-
-<small>**name**: <param name="name">The name of the uniform.</param></small>  
 
 #### <a name="SET5E636ABC"></a>SetUniform(string name, bool arr) : void
 
-Updates one of the shader uniforms by name.
-
-<small>**name**: <param name="name">The name of the uniform.</param></small>  
 
 #### <a name="SETB88E5AFC"></a>SetUniform<T>(string name, T value) : void
 

@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.OpenGLES](../Heirloom.OpenGLES/Heirloom.OpenGLES.md)</small>  
 
 ## ActiveUniform (Class)
-<small>**Namespace**: Heirloom.OpenGLES</sub></small>  
+<small>**Namespace**: Heirloom.OpenGLES</small>  
 
 | Fields                | Summary                                   |
 |-----------------------|-------------------------------------------|

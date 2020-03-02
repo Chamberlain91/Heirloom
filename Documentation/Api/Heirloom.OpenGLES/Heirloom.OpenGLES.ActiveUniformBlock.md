@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.OpenGLES](../Heirloom.OpenGLES/Heirloom.OpenGLES.md)</small>  
 
 ## ActiveUniformBlock (Class)
-<small>**Namespace**: Heirloom.OpenGLES</sub></small>  
+<small>**Namespace**: Heirloom.OpenGLES</small>  
 
 | Fields                   | Summary                                       |
 |--------------------------|-----------------------------------------------|
@@ -30,7 +30,7 @@ Index of this block.
 
 Size in bytes of this block.
 
-#### <a name="UNI9C71E6B7"></a>Uniforms : IReadOnlyDictionary\<string|ActiveUniform>
+#### <a name="UNI9C71E6B7"></a>Uniforms : IReadOnlyDictionary\<string, ActiveUniform>
 <small>`Read Only`</small>
 
 Mapping of active uniforms within this block.

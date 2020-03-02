@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md)</small>  
 
 ## IntSize (Struct)
-<small>**Namespace**: Heirloom.Math</sub></small>  
+<small>**Namespace**: Heirloom.Math</small>  
 <small>**Interfaces**: IEquatable\<IntSize>, IComparable\<IntSize></small>  
 
 Represents a size or dimensions defined with integer fields.

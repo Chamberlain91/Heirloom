@@ -5,7 +5,7 @@
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md)</small>  
 
 ## GridUtilities (Static Class)
-<small>**Namespace**: Heirloom.Collections.Spatial</sub></small>  
+<small>**Namespace**: Heirloom.Collections.Spatial</small>  
 <small>`ExtensionAttribute`</small>
 
 Provides extra utilities for interacting with a grid.

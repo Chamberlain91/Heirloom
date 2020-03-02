@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Sound](../Heirloom.Sound/Heirloom.Sound.md)</small>  
 
 ## AudioEffect (Abstract Class)
-<small>**Namespace**: Heirloom.Sound</sub></small>  
+<small>**Namespace**: Heirloom.Sound</small>  
 
 An audio effect. Implementations of this class mutate the audio for various effects.
 

@@ -5,7 +5,7 @@
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md)</small>  
 
 ## GridNeighborType (Enum)
-<small>**Namespace**: Heirloom.Collections.Spatial</sub></small>  
+<small>**Namespace**: Heirloom.Collections.Spatial</small>  
 <small>**Interfaces**: IComparable, IFormattable, IConvertible</small>  
 
 Describes the choice of neighbors in a grid.

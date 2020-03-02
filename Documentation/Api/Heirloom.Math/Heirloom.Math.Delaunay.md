@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md)</small>  
 
 ## Delaunay (Static Class)
-<small>**Namespace**: Heirloom.Math</sub></small>  
+<small>**Namespace**: Heirloom.Math</small>  
 
 An implementation of delaunay triangulation.
 

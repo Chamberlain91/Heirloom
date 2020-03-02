@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md)</small>  
 
 ## PolygonTools (Static Class)
-<small>**Namespace**: Heirloom.Math</sub></small>  
+<small>**Namespace**: Heirloom.Math</small>  
 
 Provides several operations for polygons represented as a read-only list of vectors.
 
@@ -22,7 +22,7 @@ Provides several operations for polygons represented as a read-only list of vect
 | [DecomposeConvex](#DECEF17F732)        | Converts a simple polygon into one or more convex polygons. If the polygon is already convex, this simply clones it.                  |
 | [DecomposeConvexIndices](#DEC97B32AE0) | Converts a simple polygon into one or more convex polygons enumerated by indices of the original polygon.                             |
 | [Triangulate](#TRI22656356)            | Decomposes a simple polygon into constituent triangles.                                                                               |
-| [TriangulateIndices](#TRI80731139)     | Decomposes a simple polygon into constituent triangles enumerated by indices of the original polygon.                                 |
+| [TriangulateIndices](#TRI90C22701)     | Decomposes a simple polygon into constituent triangles enumerated by indices of the original polygon.                                 |
 | [IsConvexVertex](#ISC7B85044)          | Determines if the ith vertex is a convex (clockwise) vertex.                                                                          |
 | [IsConvexPolygon](#ISC64A2C0E)         | Determines if the polygon is considered convex (non-concave and oriented clockwise).                                                  |
 | [IsConvexVertex](#ISCB20F457E)         | Determines if the vertex '`vCurr`' is convex (clockwise).                                                                             |
@@ -103,7 +103,7 @@ Converts a simple polygon into one or more convex polygons enumerated by indices
 Decomposes a simple polygon into constituent triangles.
 
 
-#### <a name="TRI80731139"></a>TriangulateIndices(IEnumerable\<Vector> polygon) : IEnumerable\<ValueTuple\<int|int|int>>
+#### <a name="TRI90C22701"></a>TriangulateIndices(IEnumerable\<Vector> polygon) : IEnumerable\<ValueTuple\<int, int, int>>
 <small>`Static`, `IteratorStateMachineAttribute`</small>
 
 Decomposes a simple polygon into constituent triangles enumerated by indices of the original polygon.

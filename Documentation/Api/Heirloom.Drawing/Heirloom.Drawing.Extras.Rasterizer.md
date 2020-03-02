@@ -6,7 +6,7 @@
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## Rasterizer (Static Class)
-<small>**Namespace**: Heirloom.Drawing.Extras</sub></small>  
+<small>**Namespace**: Heirloom.Drawing.Extras</small>  
 
 Contains rasterization methods for rendering on the CPU.
 

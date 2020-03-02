@@ -4,9 +4,9 @@
 <small>**Assembly**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md)</small>  
 
 ## Calc (Static Class)
-<small>**Namespace**: Heirloom.Math</sub></small>  
+<small>**Namespace**: Heirloom.Math</small>  
 
-Math operations for `System.Single` and a other data types including `System.Int32`.   
+Math operations for float and a other data types including int.   
  Includes a few genric utility functions such as `Heirloom.Math.Calc.Swap``1(``0@,``0@)`
 
 | Fields                    | Summary                                                                                 |
@@ -109,13 +109,13 @@ Math operations for `System.Single` and a other data types including `System.Int
 | [Min](#MIN85D4B86C)                 | Returns the minimum value between `x` and `y`.                                                                                                |
 | [Max](#MAX3B1057CE)                 | Returns the maximum value between `x` and `y`.                                                                                                |
 | [Clamp](#CLAFA076B5E)               | Returns the value `x` clamped to the specified range.                                                                                         |
-| [Min](#MINF5193F1)                  | Returns the minimum value in the given set of numbers.                                                                                        |
-| [Max](#MAX819873FB)                 | Returns the maximum value in the given set of numbers.                                                                                        |
-| [Min](#MIN2179CF51)                 | Returns the minimum value in the given set of numbers.                                                                                        |
-| [Max](#MAX864DE05B)                 | Returns the maximum value in the given set of numbers.                                                                                        |
-| [Min<T>](#MIN2BBFC41F)              | Finds the comparably minimum value from the set of value.                                                                                     |
+| [Min](#MINF5193F1)                  |                                                                                                                                               |
+| [Max](#MAX819873FB)                 |                                                                                                                                               |
+| [Min](#MIN2179CF51)                 |                                                                                                                                               |
+| [Max](#MAX864DE05B)                 |                                                                                                                                               |
+| [Min<T>](#MIN2BBFC41F)              |                                                                                                                                               |
 | [Min<T>](#MIN40586098)              | Finds the comparably minimum value from the set of value.                                                                                     |
-| [Max<T>](#MAX29D3D31D)              | Finds the comparably maximum value from the set of value.                                                                                     |
+| [Max<T>](#MAX29D3D31D)              |                                                                                                                                               |
 | [Max<T>](#MAXE9A325EA)              | Finds the comparably maximum value from the set of value.                                                                                     |
 | [Floor](#FLO3657C8DD)               | Computes the floor integer (rounding down) of the value `x`.                                                                                  |
 | [Ceil](#CEI3335BBF4)                | Computes the ceiling integer (rounding up) of the value `x`.                                                                                  |
@@ -771,31 +771,21 @@ Returns the value `x` clamped to the specified range.
 #### <a name="MINF5193F1"></a>Min(params int vals) : int
 <small>`Static`</small>
 
-Returns the minimum value in the given set of numbers.
-
 
 #### <a name="MAX819873FB"></a>Max(params int vals) : int
 <small>`Static`</small>
-
-Returns the maximum value in the given set of numbers.
 
 
 #### <a name="MIN2179CF51"></a>Min(params float vals) : float
 <small>`Static`</small>
 
-Returns the minimum value in the given set of numbers.
-
 
 #### <a name="MAX864DE05B"></a>Max(params float vals) : float
 <small>`Static`</small>
 
-Returns the maximum value in the given set of numbers.
-
 
 #### <a name="MIN2BBFC41F"></a>Min<T>(params T vals) : T
 <small>`Static`</small>
-
-Finds the comparably minimum value from the set of value.
 
 
 #### <a name="MIN40586098"></a>Min<T>(IList\<T> vals) : T
@@ -806,8 +796,6 @@ Finds the comparably minimum value from the set of value.
 
 #### <a name="MAX29D3D31D"></a>Max<T>(params T vals) : T
 <small>`Static`</small>
-
-Finds the comparably maximum value from the set of value.
 
 
 #### <a name="MAXE9A325EA"></a>Max<T>(IList\<T> vals) : T

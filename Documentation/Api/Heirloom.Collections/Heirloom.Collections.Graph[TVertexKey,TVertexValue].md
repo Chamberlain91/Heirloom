@@ -3,9 +3,9 @@
 <small>**Framework**: .NETStandard,Version=v2.1</small>  
 <small>**Assembly**: [Heirloom.Collections](../Heirloom.Collections/Heirloom.Collections.md)</small>  
 
-## Graph\<TVertexKey|TVertexValue> (Class)
-<small>**Namespace**: Heirloom.Collections</sub></small>  
-<small>**Interfaces**: [IGraph\<TVertexKey|TVertexValue|Graph\<TVertexKey|TVertexValue>>](Heirloom.Collections.IGraph[TVertexKey_TVertexValue_Graph[TVertexKey_TVertexValue]].md)</small>  
+## Graph\<TVertexKey, TVertexValue> (Class)
+<small>**Namespace**: Heirloom.Collections</small>  
+<small>**Interfaces**: [IGraph\<TVertexKey, TVertexValue, Graph\<TVertexKey, TVertexValue>>](Heirloom.Collections.IGraph[TVertexKey,TVertexValue,Graph[TVertexKey,TVertexValue]].md)</small>  
 
 A configurable adjacency list based graph.
 
@@ -29,7 +29,7 @@ A configurable adjacency list based graph.
 | [AddEdge](#ADDC1D4A1D3)        | Add an edge between two nodes in the graph.                                    |
 | [RemoveEdge](#REM469A9FCE)     | Removes an edge between two vertices in the graph.                             |
 | [RemoveVertex](#REM577B1CC7)   | Removes the given vertex from the graph ( also disconnects associated edges ). |
-| [GetVertex](#GET58F3FBE0)      | Gets a vertex identified with the given key.                                   |
+| [GetVertex](#GETC28E073)       | Gets a vertex identified with the given key.                                   |
 | [GetEdge](#GET142350CA)        | Gets an edge in the graph.                                                     |
 | [ContainsVertex](#CONFF61E272) | Determines if this graph contains the element ( by name ) requested.           |
 | [ContainsEdge](#CON4B1518D5)   | Determines if the graph contains an edge bewtween source and target vertices.  |
@@ -65,7 +65,7 @@ Was this graph allowed to have self connecting loops ( Ex, 'A' connected to 'A' 
 
 Is this graph configured to have directed edges?
 
-#### <a name="VER648B0F21"></a>Vertices : IEnumerable\<IGraphVertex\<TVertexKey|TVertexValue>>
+#### <a name="VER648B0F21"></a>Vertices : IEnumerable\<IGraphVertex\<TVertexKey, TVertexValue>>
 
 <small>`Read Only`</small>
 
@@ -145,7 +145,7 @@ Removes the given vertex from the graph ( also disconnects associated edges ).
 
 <small>**key**: <param name="key">Some name of a node within the graph.</param></small>  
 
-#### <a name="GET58F3FBE0"></a>GetVertex(TVertexKey key) : [IGraphVertex\<TVertexKey|TVertexValue>](Heirloom.Collections.IGraphVertex[TVertexKey_TVertexValue].md)
+#### <a name="GETC28E073"></a>GetVertex(TVertexKey key) : [IGraphVertex\<TVertexKey, TVertexValue>](Heirloom.Collections.IGraphVertex[TVertexKey,TVertexValue].md)
 <small>`Virtual`</small>
 
 Gets a vertex identified with the given key.

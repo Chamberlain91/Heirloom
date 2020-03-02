@@ -6,7 +6,7 @@
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## Mesh (Sealed Class)
-<small>**Namespace**: Heirloom.Drawing</sub></small>  
+<small>**Namespace**: Heirloom.Drawing</small>  
 
 | Properties                | Summary                                                                               |
 |---------------------------|---------------------------------------------------------------------------------------|
@@ -20,9 +20,9 @@
 | [Clear](#CLE4538C554)                   | Clears the mesh data.                                                                                                                              |
 | [AddVertex](#ADD16B64495)               | Appends a vertex to this mesh.                                                                                                                     |
 | [AddVertices](#ADD43612F17)             | Appends multiple vertices to this mesh.                                                                                                            |
-| [AddVertices](#ADDD003481B)             | Appends multiple vertices to this mesh.                                                                                                            |
+| [AddVertices](#ADDD003481B)             |                                                                                                                                                    |
 | [AddIndex](#ADD822885DD)                | Appends a triangle index to this mesh. Until `Heirloom.Drawing.Mesh.Clear` is called, this mesh becomes indexed.                                   |
-| [AddIndices](#ADDA703B231)              | Appends a triangle index to this mesh. Until `Heirloom.Drawing.Mesh.Clear` is called, this mesh becomes indexed.                                   |
+| [AddIndices](#ADDA703B231)              |                                                                                                                                                    |
 | [AddIndices](#ADD9A18089A)              | Appends a triangle index to this mesh. Until `Heirloom.Drawing.Mesh.Clear` is called, this mesh becomes indexed.                                   |
 | [CreateFromPolygon](#CRE5F92A686)       | Constructs a mesh from the given polygon via `Heirloom.Math.Polygon.Triangulate`. UV coordinates are the normalized polygon within its own bounds. |
 | [CreateFromPolygon](#CREAC2ED974)       | Constructs a mesh from the given polygon via `Heirloom.Math.Polygon.Triangulate`. UV coordinates are the normalized polygon within its own bounds. |
@@ -77,8 +77,6 @@ Appends multiple vertices to this mesh.
 
 #### <a name="ADDD003481B"></a>AddVertices(params [Vertex[]](Heirloom.Drawing.Vertex.md) vertices) : void
 
-Appends multiple vertices to this mesh.
-
 
 #### <a name="ADD822885DD"></a>AddIndex(int index) : void
 
@@ -86,8 +84,6 @@ Appends a triangle index to this mesh. Until `Heirloom.Drawing.Mesh.Clear` is ca
 
 
 #### <a name="ADDA703B231"></a>AddIndices(params int indices) : void
-
-Appends a triangle index to this mesh. Until `Heirloom.Drawing.Mesh.Clear` is called, this mesh becomes indexed.
 
 
 #### <a name="ADD9A18089A"></a>AddIndices(IEnumerable\<int> indices) : void

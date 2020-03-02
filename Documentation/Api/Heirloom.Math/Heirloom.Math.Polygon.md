@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md)</small>  
 
 ## Polygon (Class)
-<small>**Namespace**: Heirloom.Math</sub></small>  
+<small>**Namespace**: Heirloom.Math</small>  
 <small>**Interfaces**: [IShape](Heirloom.Math.IShape.md)</small>  
 <small>`DefaultMemberAttribute`</small>
 

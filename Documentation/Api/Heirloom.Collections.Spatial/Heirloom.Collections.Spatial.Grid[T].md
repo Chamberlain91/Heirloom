@@ -5,7 +5,7 @@
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md)</small>  
 
 ## Grid\<T> (Sealed Class)
-<small>**Namespace**: Heirloom.Collections.Spatial</sub></small>  
+<small>**Namespace**: Heirloom.Collections.Spatial</small>  
 <small>**Interfaces**: [IFiniteGrid\<T>](Heirloom.Collections.Spatial.IFiniteGrid[T].md), [IGrid\<T>](Heirloom.Collections.Spatial.IGrid[T].md), [IReadOnlyGrid\<T>](Heirloom.Collections.Spatial.IReadOnlyGrid[T].md)</small>  
 <small>`DefaultMemberAttribute`</small>
 

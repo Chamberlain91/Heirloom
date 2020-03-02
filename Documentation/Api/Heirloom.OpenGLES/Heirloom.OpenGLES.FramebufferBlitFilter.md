@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.OpenGLES](../Heirloom.OpenGLES/Heirloom.OpenGLES.md)</small>  
 
 ## FramebufferBlitFilter (Enum)
-<small>**Namespace**: Heirloom.OpenGLES</sub></small>  
+<small>**Namespace**: Heirloom.OpenGLES</small>  
 <small>**Interfaces**: IComparable, IFormattable, IConvertible</small>  
 
 ### Values

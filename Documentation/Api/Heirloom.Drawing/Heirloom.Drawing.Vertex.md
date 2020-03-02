@@ -6,7 +6,7 @@
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## Vertex (Struct)
-<small>**Namespace**: Heirloom.Drawing</sub></small>  
+<small>**Namespace**: Heirloom.Drawing</small>  
 
 | Fields                   | Summary                       |
 |--------------------------|-------------------------------|

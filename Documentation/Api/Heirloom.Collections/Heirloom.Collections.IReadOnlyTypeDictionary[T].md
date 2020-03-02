@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Collections](../Heirloom.Collections/Heirloom.Collections.md)</small>  
 
 ## IReadOnlyTypeDictionary\<T> (Interface)
-<small>**Namespace**: Heirloom.Collections</sub></small>  
+<small>**Namespace**: Heirloom.Collections</small>  
 <small>**Interfaces**: IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable</small>  
 
 A read-only view of [ITypeDictionary\<T>](Heirloom.Collections.ITypeDictionary[T].md).

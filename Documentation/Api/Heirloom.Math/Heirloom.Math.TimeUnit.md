@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md)</small>  
 
 ## TimeUnit (Enum)
-<small>**Namespace**: Heirloom.Math</sub></small>  
+<small>**Namespace**: Heirloom.Math</small>  
 <small>**Interfaces**: IComparable, IFormattable, IConvertible</small>  
 
 Represents units of time, such as a millisecond.

@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.OpenGLES](../Heirloom.OpenGLES/Heirloom.OpenGLES.md)</small>  
 
 ## GL (Static Class)
-<small>**Namespace**: Heirloom.OpenGLES</sub></small>  
+<small>**Namespace**: Heirloom.OpenGLES</small>  
 
 | Properties                         | Summary |
 |------------------------------------|---------|
@@ -69,9 +69,9 @@
 | [SetPolygonOffset](#SET48B4C01C)                  |                                                                                                          |
 | [SetPixelStore](#SET34D9C33)                      |                                                                                                          |
 | [SetReadBuffer](#SET91598148)                     | Changes the read buffer ( where reading operations occur )                                               |
-| [SetDrawBuffers](#SET72E849C5)                    | Changes the read buffer ( where reading operations occur )                                               |
-| [ReadPixels](#REA996E2379)                        | Reads a block of pixels from the frame buffer.                                                           |
-| [ReadPixels](#REAAC076033)                        | Reads a block of pixels from the frame buffer.                                                           |
+| [SetDrawBuffers](#SET72E849C5)                    |                                                                                                          |
+| [ReadPixels](#REA996E2379)                        |                                                                                                          |
+| [ReadPixels](#REAAC076033)                        |                                                                                                          |
 | [ReadPixels](#REA830C853A)                        | Reads a block of pixels from the frame buffer. ( ReadPixelsFormat.RGBA and ReadPixelsType.UnsignedByte ) |
 | [Finish](#FIN18529F62)                            |                                                                                                          |
 | [Flush](#FLU2F0EB18F)                             |                                                                                                          |
@@ -508,20 +508,13 @@ Changes the read buffer ( where reading operations occur )
 #### <a name="SET72E849C5"></a>SetDrawBuffers([FramebufferBuffer[]](Heirloom.OpenGLES.FramebufferBuffer.md) mode) : void
 <small>`Static`</small>
 
-Changes the read buffer ( where reading operations occur )
-
-<small>**mode**: <param name="mode"> The read mode/target </param></small>  
 
 #### <a name="REA996E2379"></a>ReadPixels(int x, int y, int width, int height, [ReadPixelsFormat](Heirloom.OpenGLES.ReadPixelsFormat.md) format, [ReadPixelsType](Heirloom.OpenGLES.ReadPixelsType.md) type, void data) : void
 <small>`Static`</small>
 
-Reads a block of pixels from the frame buffer.
-
 
 #### <a name="REAAC076033"></a>ReadPixels(int x, int y, int width, int height, [ReadPixelsFormat](Heirloom.OpenGLES.ReadPixelsFormat.md) format, [ReadPixelsType](Heirloom.OpenGLES.ReadPixelsType.md) type,  byte data) : void
 <small>`Static`</small>
-
-Reads a block of pixels from the frame buffer.
 
 
 #### <a name="REA830C853A"></a>ReadPixels(int x, int y, int width, int height) : uint

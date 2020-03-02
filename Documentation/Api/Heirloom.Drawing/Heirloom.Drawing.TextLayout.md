@@ -6,7 +6,7 @@
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## TextLayout (Static Class)
-<small>**Namespace**: Heirloom.Drawing</sub></small>  
+<small>**Namespace**: Heirloom.Drawing</small>  
 
 Utility to measure text and manually invoke the text layout function.   
  Internally used by `Heirloom.Drawing.Graphics.DrawText(System.String,Heirloom.Math.Rectangle@,Heirloom.Drawing.Font,System.Int32,Heirloom.Drawing.TextAlign,Heirloom.Drawing.DrawTextCallback)` and its variants.

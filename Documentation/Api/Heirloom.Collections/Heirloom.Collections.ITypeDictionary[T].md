@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Collections](../Heirloom.Collections/Heirloom.Collections.md)</small>  
 
 ## ITypeDictionary\<T> (Interface)
-<small>**Namespace**: Heirloom.Collections</sub></small>  
+<small>**Namespace**: Heirloom.Collections</small>  
 <small>**Interfaces**: [IReadOnlyTypeDictionary\<T>](Heirloom.Collections.IReadOnlyTypeDictionary[T].md), IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable</small>  
 
 Manages objects by their type hierarchy up to the base type, allowing access by enumeration of objects by type.

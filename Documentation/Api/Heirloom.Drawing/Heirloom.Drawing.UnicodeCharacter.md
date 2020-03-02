@@ -6,7 +6,7 @@
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## UnicodeCharacter (Struct)
-<small>**Namespace**: Heirloom.Drawing</sub></small>  
+<small>**Namespace**: Heirloom.Drawing</small>  
 <small>**Interfaces**: IComparable\<UnicodeCharacter>, IEquatable\<UnicodeCharacter></small>  
 
 Represents a single 32 bit Unicode character.

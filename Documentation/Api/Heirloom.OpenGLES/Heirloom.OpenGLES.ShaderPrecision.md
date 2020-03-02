@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.OpenGLES](../Heirloom.OpenGLES/Heirloom.OpenGLES.md)</small>  
 
 ## ShaderPrecision (Enum)
-<small>**Namespace**: Heirloom.OpenGLES</sub></small>  
+<small>**Namespace**: Heirloom.OpenGLES</small>  
 <small>**Interfaces**: IComparable, IFormattable, IConvertible</small>  
 
 ### Values

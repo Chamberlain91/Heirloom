@@ -5,7 +5,7 @@
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md)</small>  
 
 ## ISpatialQuery\<T> (Interface)
-<small>**Namespace**: Heirloom.Collections.Spatial</sub></small>  
+<small>**Namespace**: Heirloom.Collections.Spatial</small>  
 
 Provides methods for querying elements in 2D space.
 

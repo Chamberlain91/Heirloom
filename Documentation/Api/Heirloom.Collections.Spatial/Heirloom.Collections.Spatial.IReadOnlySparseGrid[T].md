@@ -5,7 +5,7 @@
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md)</small>  
 
 ## IReadOnlySparseGrid\<T> (Interface)
-<small>**Namespace**: Heirloom.Collections.Spatial</sub></small>  
+<small>**Namespace**: Heirloom.Collections.Spatial</small>  
 <small>**Interfaces**: [IReadOnlyGrid\<T>](Heirloom.Collections.Spatial.IReadOnlyGrid[T].md)</small>  
 
 A sparse 2D grid of values.

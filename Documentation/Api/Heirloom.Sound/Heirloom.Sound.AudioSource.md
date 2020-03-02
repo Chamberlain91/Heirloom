@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Sound](../Heirloom.Sound/Heirloom.Sound.md)</small>  
 
 ## AudioSource (Sealed Class)
-<small>**Namespace**: Heirloom.Sound</sub></small>  
+<small>**Namespace**: Heirloom.Sound</small>  
 <small>**Inherits**: [AudioNode](Heirloom.Sound.AudioNode.md)</small>  
 
 An instance of playable audio.

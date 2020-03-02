@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Sound](../Heirloom.Sound/Heirloom.Sound.md)</small>  
 
 ## AudioContext (Abstract Class)
-<small>**Namespace**: Heirloom.Sound</sub></small>  
+<small>**Namespace**: Heirloom.Sound</small>  
 <small>**Interfaces**: IDisposable</small>  
 
 | Properties                            | Summary                                                                                                       |

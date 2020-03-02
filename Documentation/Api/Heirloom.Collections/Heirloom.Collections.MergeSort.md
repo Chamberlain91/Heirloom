@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Collections](../Heirloom.Collections/Heirloom.Collections.md)</small>  
 
 ## MergeSort (Static Class)
-<small>**Namespace**: Heirloom.Collections</sub></small>  
+<small>**Namespace**: Heirloom.Collections</small>  
 <small>`ExtensionAttribute`</small>
 
 | Methods                       | Summary                                             |

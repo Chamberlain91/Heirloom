@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## EmbeddedFile (Sealed Class)
-<small>**Namespace**: Heirloom.IO</sub></small>  
+<small>**Namespace**: Heirloom.IO</small>  
 
 Represents an embedded file.
 

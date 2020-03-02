@@ -6,7 +6,7 @@
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## Surface (Sealed Class)
-<small>**Namespace**: Heirloom.Drawing</sub></small>  
+<small>**Namespace**: Heirloom.Drawing</small>  
 <small>**Inherits**: [ImageSource](Heirloom.Drawing.ImageSource.md)</small>  
 
 Represents a surface a [Graphics](Heirloom.Drawing.Graphics.md) object can draw on.

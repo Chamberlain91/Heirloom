@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md)</small>  
 
 ## Matrix (Struct)
-<small>**Namespace**: Heirloom.Math</sub></small>  
+<small>**Namespace**: Heirloom.Math</small>  
 <small>**Interfaces**: IEquatable\<Matrix></small>  
 <small>`DefaultMemberAttribute`</small>
 

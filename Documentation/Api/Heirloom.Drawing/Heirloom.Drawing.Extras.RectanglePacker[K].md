@@ -6,19 +6,19 @@
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## RectanglePacker\<K> (Sealed Class)
-<small>**Namespace**: Heirloom.Drawing.Extras</sub></small>  
+<small>**Namespace**: Heirloom.Drawing.Extras</small>  
 
 | Properties            | Summary                                         |
 |-----------------------|-------------------------------------------------|
 | [Bounds](#BOUBCFE829) | Gets the total bounds of the packed rectangles. |
 | [Keys](#KEY3D37EC76)  | Gets the identifiers of each packed rectangle.  |
 
-| Methods                      | Summary                                                                                    |
-|------------------------------|--------------------------------------------------------------------------------------------|
-| [Insert](#INSA0D098FB)       | Insert and pack a rectangle of the specified size.                                         |
-| [Contains](#CON5E610AA)      | Does this packer have a rectangle with the specified key?                                  |
-| [GetRectangle](#GETA721B7DE) | Returns the packed rectangle for the specified key.                                        |
-| [Pack](#PAC1A0E4940)         | Packs the given rectangle sizes and returns one-to-one ordering of their packed positions. |
+| Methods                      | Summary                                                   |
+|------------------------------|-----------------------------------------------------------|
+| [Insert](#INSA0D098FB)       | Insert and pack a rectangle of the specified size.        |
+| [Contains](#CON5E610AA)      | Does this packer have a rectangle with the specified key? |
+| [GetRectangle](#GETA721B7DE) | Returns the packed rectangle for the specified key.       |
+| [Pack](#PAC1A0E4940)         |                                                           |
 
 ### Constructors
 
@@ -59,7 +59,5 @@ Returns the packed rectangle for the specified key.
 
 #### <a name="PAC1A0E4940"></a>Pack([IntSize[]](../Heirloom.Math/Heirloom.Math.IntSize.md) rectangles) : [IntRectangle[]](../Heirloom.Math/Heirloom.Math.IntRectangle.md)
 <small>`Static`</small>
-
-Packs the given rectangle sizes and returns one-to-one ordering of their packed positions.
 
 

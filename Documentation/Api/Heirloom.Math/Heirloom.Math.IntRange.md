@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md)</small>  
 
 ## IntRange (Struct)
-<small>**Namespace**: Heirloom.Math</sub></small>  
+<small>**Namespace**: Heirloom.Math</small>  
 <small>**Interfaces**: IEquatable\<IntRange>, IEnumerable\<int>, IEnumerable</small>  
 
 Represents a range of integers from `Heirloom.Math.IntRange.Min` to `Heirloom.Math.IntRange.Max`.

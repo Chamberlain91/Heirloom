@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md)</small>  
 
 ## Rectangle (Struct)
-<small>**Namespace**: Heirloom.Math</sub></small>  
+<small>**Namespace**: Heirloom.Math</small>  
 <small>**Interfaces**: [IShape](Heirloom.Math.IShape.md), IEquatable\<Rectangle></small>  
 
 | Fields                 | Summary                             |
@@ -65,10 +65,10 @@
 | [Offset](#OFFD620F9A2)          | Copies and translates the given rectangle.                                                        |
 | [Transform](#TRAB319FCDD)       | Transforms the four corners of this rectangle and returns the bounding rectangle of these points. |
 | [Merge](#MER8FBD7147)           | Merges the given rectangles into one potentially larger rectangle.                                |
-| [Merge](#MER53763ED2)           | Merges the given rectangles into one potentially larger rectangle.                                |
+| [Merge](#MER53763ED2)           |                                                                                                   |
 | [Inflate](#INF7C81AA37)         | Expands (or shrinks) the input rectangle by a factor on both axis.                                |
 | [Inflate](#INF45D1582F)         | Expands (or shrinks) the input rectangle by a factor on each axis.                                |
-| [FromPoints](#FROC7F5F8BB)      | Computes the bounding rectangle of the given set of points.                                       |
+| [FromPoints](#FROC7F5F8BB)      |                                                                                                   |
 | [FromPoints](#FROCDF0BA98)      | Computes the bounding rectangle of the given set of points.                                       |
 
 ### Fields
@@ -360,11 +360,6 @@ Useful for computing a bounding rectangle.
 #### <a name="MER53763ED2"></a>Merge(params [Rectangle[]](Heirloom.Math.Rectangle.md) rects) : [Rectangle](Heirloom.Math.Rectangle.md)
 <small>`Static`</small>
 
-Merges the given rectangles into one potentially larger rectangle.
-
-<small>**rects**: <param name="rects">A collection of rectangles to merge.</param></small>  
-
-Useful for computing a bounding rectangle.
 
 #### <a name="INF7C81AA37"></a>Inflate([Rectangle](Heirloom.Math.Rectangle.md) rect, float factor) : [Rectangle](Heirloom.Math.Rectangle.md)
 <small>`Static`</small>
@@ -380,8 +375,6 @@ Expands (or shrinks) the input rectangle by a factor on each axis.
 
 #### <a name="FROC7F5F8BB"></a>FromPoints(params [Vector[]](Heirloom.Math.Vector.md) points) : [Rectangle](Heirloom.Math.Rectangle.md)
 <small>`Static`</small>
-
-Computes the bounding rectangle of the given set of points.
 
 
 #### <a name="FROCDF0BA98"></a>FromPoints(IEnumerable\<Vector> points) : [Rectangle](Heirloom.Math.Rectangle.md)

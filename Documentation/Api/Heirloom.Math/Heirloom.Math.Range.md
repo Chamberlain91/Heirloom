@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md)</small>  
 
 ## Range (Struct)
-<small>**Namespace**: Heirloom.Math</sub></small>  
+<small>**Namespace**: Heirloom.Math</small>  
 <small>**Interfaces**: IEquatable\<Range></small>  
 
 Represents a range of single-precision floating point numbers from `Heirloom.Math.Range.Min` to `Heirloom.Math.Range.Max`.

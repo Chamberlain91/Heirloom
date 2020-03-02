@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md)</small>  
 
 ## PerlinNoise (Class)
-<small>**Namespace**: Heirloom.Math</sub></small>  
+<small>**Namespace**: Heirloom.Math</small>  
 <small>**Interfaces**: [INoise1D](Heirloom.Math.INoise1D.md), [INoise2D](Heirloom.Math.INoise2D.md), [INoise3D](Heirloom.Math.INoise3D.md)</small>  
 
 Implements methods for sampling 1D, 2D and 3D perlin noise.

@@ -6,7 +6,7 @@
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## Font (Class)
-<small>**Namespace**: Heirloom.Drawing</sub></small>  
+<small>**Namespace**: Heirloom.Drawing</small>  
 <small>**Interfaces**: IDisposable</small>  
 
 | Properties              | Summary                                                                                               |
@@ -33,8 +33,6 @@ Loads a font specified by path resolved by `Heirloom.IO.Files.OpenStream(System.
 Loads a font from a stream.
 
 #### Font(byte file)
-
-Loads a font from a block of bytes.
 
 ### Properties
 

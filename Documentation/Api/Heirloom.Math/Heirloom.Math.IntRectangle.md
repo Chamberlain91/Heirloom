@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md)</small>  
 
 ## IntRectangle (Struct)
-<small>**Namespace**: Heirloom.Math</sub></small>  
+<small>**Namespace**: Heirloom.Math</small>  
 <small>**Interfaces**: IEquatable\<IntRectangle></small>  
 
 Represents a rectangle defined with integer coordinates.
@@ -57,10 +57,10 @@ Represents a rectangle defined with integer coordinates.
 | [Offset](#OFF886E255B)      | Copies and translates the given rectangle.                         |
 | [Offset](#OFF3BAEDB92)      | Copies and translates the given rectangle.                         |
 | [Merge](#MERF77E122B)       | Merges the given rectangles into one potentially larger rectangle. |
-| [Merge](#MER3F1A9762)       | Merges the given rectangles into one potentially larger rectangle. |
+| [Merge](#MER3F1A9762)       |                                                                    |
 | [Inflate](#INFE3C98146)     | Expands (or shrinks) the input rectangle by a factor on both axis. |
 | [Inflate](#INF1642C30B)     | Expands (or shrinks) the input rectangle by a factor on each axis. |
-| [FromPoints](#FROD23D7A77)  | Computes the bounding rectangle of the given set of points.        |
+| [FromPoints](#FROD23D7A77)  |                                                                    |
 | [FromPoints](#FRO7E8915A5)  | Computes the bounding rectangle of the given set of points.        |
 
 ### Fields
@@ -300,11 +300,6 @@ Useful for computing a bounding rectangle.
 #### <a name="MER3F1A9762"></a>Merge(params [IntRectangle[]](Heirloom.Math.IntRectangle.md) rects) : [IntRectangle](Heirloom.Math.IntRectangle.md)
 <small>`Static`</small>
 
-Merges the given rectangles into one potentially larger rectangle.
-
-<small>**rects**: <param name="rects">A collection of rectangles to merge.</param></small>  
-
-Useful for computing a bounding rectangle.
 
 #### <a name="INFE3C98146"></a>Inflate([IntRectangle](Heirloom.Math.IntRectangle.md) rect, int factor) : [IntRectangle](Heirloom.Math.IntRectangle.md)
 <small>`Static`</small>
@@ -320,8 +315,6 @@ Expands (or shrinks) the input rectangle by a factor on each axis.
 
 #### <a name="FROD23D7A77"></a>FromPoints(params [IntVector[]](Heirloom.Math.IntVector.md) points) : [IntRectangle](Heirloom.Math.IntRectangle.md)
 <small>`Static`</small>
-
-Computes the bounding rectangle of the given set of points.
 
 
 #### <a name="FRO7E8915A5"></a>FromPoints(IEnumerable\<IntVector> points) : [IntRectangle](Heirloom.Math.IntRectangle.md)

@@ -6,7 +6,7 @@
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## UnicodeRange (Struct)
-<small>**Namespace**: Heirloom.Drawing</sub></small>  
+<small>**Namespace**: Heirloom.Drawing</small>  
 <small>**Interfaces**: IEnumerable\<UnicodeCharacter>, IEnumerable, IEquatable\<UnicodeRange></small>  
 
 Represents a range of unicode 32 bit code points.

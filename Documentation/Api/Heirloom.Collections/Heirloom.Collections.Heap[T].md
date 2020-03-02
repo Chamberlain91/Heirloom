@@ -4,7 +4,7 @@
 <small>**Assembly**: [Heirloom.Collections](../Heirloom.Collections/Heirloom.Collections.md)</small>  
 
 ## Heap\<T> (Class)
-<small>**Namespace**: Heirloom.Collections</sub></small>  
+<small>**Namespace**: Heirloom.Collections</small>  
 <small>**Interfaces**: [IHeap\<T>](Heirloom.Collections.IHeap[T].md), [IReadOnlyHeap\<T>](Heirloom.Collections.IReadOnlyHeap[T].md), IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable</small>  
 
 Represents a heap data structure. Allows the insertion and removal of items by priority.
