@@ -1,10 +1,12 @@
-
 using Heirloom.Math;
 
 using Range = Heirloom.Math.Range;
 
 namespace Heirloom.Drawing
 {
+    /// <summary>
+    /// Contains information pertaining to draw performance.
+    /// </summary>
     public sealed class DrawingPerformance
     {
         private readonly Timer _timer;
@@ -31,12 +33,24 @@ namespace Heirloom.Drawing
         /// </summary>
         public PerformanceOverlayMode OverlayMode { get; set; } = PerformanceOverlayMode.Disabled;
 
-        public Statistics TriangleCount { get; private set; }
-
+        /// <summary>
+        /// Statistics of the number of batches.
+        /// </summary>
         public Statistics BatchCount { get; private set; }
 
+        /// <summary>
+        /// Statistics of the number of 'things' drawn.
+        /// </summary>
         public Statistics DrawCount { get; private set; }
 
+        /// <summary>
+        /// Statistics of the number of triangles.
+        /// </summary>
+        public Statistics TriangleCount { get; private set; }
+
+        /// <summary>
+        /// Statistics of the frame rate.
+        /// </summary>
         public Statistics FrameRate { get; private set; }
 
         internal void ComputeStatistics(Graphics.DrawCounts info)
