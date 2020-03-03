@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace Heirloom.Math
+namespace Heirloom.Math.Extras
 {
     /// <summary>
     /// An implementation of delaunay triangulation.

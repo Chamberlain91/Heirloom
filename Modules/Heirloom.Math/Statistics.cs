@@ -30,6 +30,12 @@ namespace Heirloom.Math
 
         // todo: quantiles / median, etc?
 
+        /// <summary>
+        /// Constructs a new statistics instance.
+        /// </summary>
+        /// <param name="average">The average or mean value.</param>
+        /// <param name="variance">The variance.</param>
+        /// <param name="range">The extents of the data.</param>
         public Statistics(float average, float variance, Range range)
         {
             Average = average;
@@ -39,11 +45,7 @@ namespace Heirloom.Math
             Deviation = Calc.Sqrt(variance);
         }
 
-        public static implicit operator float(Statistics statistics)
-        {
-            return statistics.Average;
-        }
-
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"{Average:N2} ± {Deviation:N2}";
@@ -51,11 +53,13 @@ namespace Heirloom.Math
 
         #region Equality
 
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             return obj is Statistics statistics && Equals(statistics);
         }
 
+        /// <inheritdoc/>
         public bool Equals(Statistics other)
         {
             return Calc.NearEquals(Average, other.Average) &&
@@ -63,16 +67,19 @@ namespace Heirloom.Math
                    Calc.NearEquals(Deviation, other.Deviation);
         }
 
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             return HashCode.Combine(Average, Variance, Deviation);
         }
 
+        /// <inheritdoc/>
         public static bool operator ==(Statistics left, Statistics right)
         {
             return left.Equals(right);
         }
 
+        /// <inheritdoc/>
         public static bool operator !=(Statistics left, Statistics right)
         {
             return !(left == right);
@@ -82,6 +89,9 @@ namespace Heirloom.Math
 
         #region Compute (Static)
 
+        /// <summary>
+        /// Computes new statistics from a collection of integers.
+        /// </summary>
         public static Statistics Compute(IEnumerable<int> values)
         {
             var sum = 0F;
@@ -102,6 +112,9 @@ namespace Heirloom.Math
             return Compute(sum, squareSum, range, count);
         }
 
+        /// <summary>
+        /// Computes new statistics from a collection of numbers.
+        /// </summary>
         public static Statistics Compute(IEnumerable<float> values)
         {
             var sum = 0F;
@@ -121,6 +134,9 @@ namespace Heirloom.Math
             return Compute(sum, squareSum, range, count);
         }
 
+        /// <summary>
+        /// Computes new statistics from a sum, squared sum, extents and count.
+        /// </summary>
         public static Statistics Compute(float sum, float squareSum, Range range, int count)
         {
             if (count != 0)

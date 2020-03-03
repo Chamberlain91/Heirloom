@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Text;
 
 using Heirloom.Math;
+using Heirloom.Math.Extras;
 
 using DWORD = System.UInt32;
 using FIXED = System.Single;

@@ -4,9 +4,9 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-using Heirloom.Drawing.Extras;
 using Heirloom.IO;
 using Heirloom.Math;
+using Heirloom.Math.Extras;
 
 using StbImageSharp;
 
@@ -132,7 +132,7 @@ namespace Heirloom.Drawing
 
         public void SetPixel(IntVector co, in ColorBytes color)
         {
-            SetPixel(co, in color);
+            SetPixel(co.X, co.Y, in color);
         }
 
         public unsafe void SetPixels(ColorBytes[] pixels)
