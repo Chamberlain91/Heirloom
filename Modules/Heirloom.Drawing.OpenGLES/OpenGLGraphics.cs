@@ -14,11 +14,15 @@ namespace Heirloom.Drawing.OpenGLES
         private readonly ConsumerThread _thread;
         private bool _isRunning = false;
 
+        // == Cross Context Resources - TODO: Share across contexts...
+        private readonly Dictionary<string, UniformBuffer> _uniformBuffers = new Dictionary<string, UniformBuffer>();
+        private AtlasTechnique _atlasTechnique;
+
+        // == Per Context Resources
         private readonly ConditionalWeakTable<Surface, Framebuffer> _framebuffers;
-
         private BatchingTechnique _batchingTechnique;
-        private AtlasTechnique _atlasTechnique; // TODO: Share across contexts?
 
+        // 
         private Matrix _viewMatrix;
         private Matrix _viewMatrixInverse;
         private bool _viewMatrixInverseDirty;
@@ -30,9 +34,6 @@ namespace Heirloom.Drawing.OpenGLES
         private IntRectangle _viewportRect;
         private Rectangle _viewport;
         private bool _viewportDirty;
-
-        // TODO: Share across contexts?
-        private readonly Dictionary<string, UniformBuffer> _uniformBuffers = new Dictionary<string, UniformBuffer>();
 
         // Shader State
         private ShaderProgram _shaderProgram;
@@ -374,7 +375,10 @@ namespace Heirloom.Drawing.OpenGLES
             // Enumerate each mutated uniform and set 
             foreach (var (name, storage) in _shader.UniformStorageMap)
             {
-                if (storage.IsDirty)
+                // Note: We are always updating image uniforms as a "quick fix" to the potential error
+                // that can occur when the atlas restructures or an image somehow gets relocated. There
+                // is probably a better solution to this problem.
+                if (storage.IsDirty || (storage.Info.Type == UniformType.Image && storage.Value != null))
                 {
                     SetUniform(name, storage.Value);
 
@@ -894,6 +898,14 @@ namespace Heirloom.Drawing.OpenGLES
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void GetTextureInformation(ImageSource source, out Texture texture, out Rectangle uvRect)
         {
+            //if (source.Native != null)
+            //{
+            //    var r = source.Native as TextureResidence;
+            //    texture = r.Texture;
+            //    uvRect = r.UVRect;
+            //}
+            //else
+            //{
             switch (source)
             {
                 case Image image:
@@ -920,6 +932,11 @@ namespace Heirloom.Drawing.OpenGLES
             // We encode special meaning into negative values
             if (source.Interpolation == InterpolationMode.Linear) { uvRect.X -= 1; }
             if (source.Repeat == RepeatMode.Repeat) { uvRect.Y -= 1; }
+
+            //// 
+            //var residence = new TextureResidence(texture, uvRect);
+            //source.Native = residence;
+            //}
         }
 
         private Framebuffer GetFramebuffer(Surface surface)
@@ -966,5 +983,17 @@ namespace Heirloom.Drawing.OpenGLES
         }
 
         #endregion
+    }
+
+    internal class TextureResidence
+    {
+        public Texture Texture;
+        public Rectangle UVRect;
+
+        public TextureResidence(Texture texture, Rectangle uVRect)
+        {
+            Texture = texture ?? throw new ArgumentNullException(nameof(texture));
+            UVRect = uVRect;
+        }
     }
 }

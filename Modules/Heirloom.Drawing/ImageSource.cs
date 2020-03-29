@@ -34,6 +34,8 @@ namespace Heirloom.Drawing
         /// </summary>
         public RepeatMode Repeat { get; set; } = RepeatMode.Clamp;
 
+        internal object Native;
+
         internal void IncrementVersion()
         {
             Version++;

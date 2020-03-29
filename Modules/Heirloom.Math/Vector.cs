@@ -7,17 +7,22 @@ namespace Heirloom.Math
     /// <summary>
     /// Represents a vector with two single-precision floating-point values.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 4, Size = 8)]
-    public struct Vector : IEquatable<Vector>
+    [StructLayout(LayoutKind.Explicit, Pack = 4, Size = 8)]
+    public unsafe struct Vector : IEquatable<Vector>
     {
+        [FieldOffset(0)]
+        private fixed float _components[4];
+
         /// <summary>
         /// The x-coordinate of this vector.
         /// </summary>
+        [FieldOffset(0 * 4)]
         public float X;
 
         /// <summary>
         /// The y-coordinate of this vector.
         /// </summary>
+        [FieldOffset(1 * 4)]
         public float Y;
 
         #region Constants
@@ -115,6 +120,12 @@ namespace Heirloom.Math
         }
 
         #endregion
+
+        public float this[int i]
+        {
+            get => _components[i];
+            set => _components[i] = value;
+        }
 
         /// <summary>
         /// Sets the components of this vector.

@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-
+using System.Threading;
 using Heirloom.Desktop;
 using Heirloom.Drawing;
 using Heirloom.IO;
@@ -16,11 +16,11 @@ namespace Heirloom.Benchmark
             var benchmarkIndex = 0;
             var benchmarks = new Benchmark[]
             {
-                new DynamicTriangulation(),
-                new StaticTriangulation(),
+                //new DynamicTriangulation(),
+                //new StaticTriangulation(),
                 new EmoteIconBenchmark(),
-                new AdventureBenchmark(),
-                new CasinoBenchmark()
+                //new AdventureBenchmark(),
+                //new CasinoBenchmark()
             };
 
             var bounds = new Rectangle(0, 0, 0, 0);
@@ -34,8 +34,8 @@ namespace Heirloom.Benchmark
                 window.Graphics.Performance.OverlayMode = PerformanceOverlayMode.Simple;
 
                 // Go fullscreen!
-                window.SetFullscreen(Application.DefaultMonitor);
-                // window.Maximize();
+                // window.SetFullscreen(Application.DefaultMonitor);
+                window.Maximize();
 
                 // Compute world bounds
                 bounds = (0, 0, window.FramebufferSize.Width, window.FramebufferSize.Height);
@@ -130,6 +130,7 @@ namespace Heirloom.Benchmark
 
                     // Draw Results Stage
                     DrawInformation(gfx, results);
+                    Thread.Sleep(2); // force to render slower
                 }
             }
         }

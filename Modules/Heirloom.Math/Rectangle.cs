@@ -5,27 +5,34 @@ using System.Runtime.InteropServices;
 
 namespace Heirloom.Math
 {
-    [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    public struct Rectangle : IShape, IEquatable<Rectangle>
+    [StructLayout(LayoutKind.Explicit, Pack = 4)]
+    public unsafe struct Rectangle : IShape, IEquatable<Rectangle>
     {
+        [FieldOffset(0)]
+        private fixed float _components[4];
+
         /// <summary>
         /// The x-coordinate of this rectangle.
         /// </summary>
+        [FieldOffset(0 * 4)]
         public float X;
 
         /// <summary>
         /// The y-coordinate of this rectangle.
         /// </summary>
+        [FieldOffset(1 * 4)]
         public float Y;
 
         /// <summary>
         /// The width of this rectangle.
         /// </summary>
+        [FieldOffset(2 * 4)]
         public float Width;
 
         /// <summary>
         /// The height of this rectangle.
         /// </summary>
+        [FieldOffset(3 * 4)]
         public float Height;
 
         #region Constants
@@ -175,6 +182,12 @@ namespace Heirloom.Math
         public bool IsValid => Left < Right && Top < Bottom;
 
         #endregion
+
+        public float this[int i]
+        {
+            get => _components[i];
+            set => _components[i] = value;
+        }
 
         /// <summary>
         /// Create a polygon from this rectangle.

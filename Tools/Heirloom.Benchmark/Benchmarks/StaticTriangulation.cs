@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 using Heirloom.Drawing;
 using Heirloom.Math;
+using Heirloom.Math.Extras;
 
 namespace Heirloom.Benchmark
 {
