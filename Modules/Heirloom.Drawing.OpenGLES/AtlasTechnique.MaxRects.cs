@@ -10,7 +10,7 @@ namespace Heirloom.Drawing.OpenGLES
 {
     internal class MaxRectsAtlasTechnique : AtlasTechnique
     {
-        private readonly ConditionalWeakTable<Image, AtlasEntry> _entries;
+        private readonly Dictionary<Image, AtlasEntry> _entries;
         private readonly RectanglePacker<Image> _packer;
         private readonly Texture _texture;
 
@@ -23,8 +23,8 @@ namespace Heirloom.Drawing.OpenGLES
             var pageSize = Calc.Min(8192, GraphicsAdapter.Capabilities.MaxImageSize);
 
             // 
-            _entries = new ConditionalWeakTable<Image, AtlasEntry>();
             _packer = new MaxrectsPacker<Image>(pageSize, pageSize);
+            _entries = new Dictionary<Image, AtlasEntry>();
 
             // Allocate texture (page)
             _texture = Graphics.Invoke(() => new Texture(_packer.Size));
