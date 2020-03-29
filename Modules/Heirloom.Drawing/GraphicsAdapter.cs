@@ -10,26 +10,39 @@ namespace Heirloom.Drawing
 
         protected GraphicsAdapter()
         {
-            if (Instance != null)
+            if (Adapter != null)
             {
                 throw new InvalidOperationException("Unable to create a second instance of GraphicsAdapter. Dispose the first instance.");
             }
 
-            Instance = this;
+            IsInitialized = false;
+            Adapter = this;
+        }
 
+        internal void Initialize()
+        {
             // Query capabilities
             Capabilities = QueryCapabilities();
 
             // Construct resource managers
             SurfaceFactory = CreateSurfaceFactory();
             ShaderFactory = CreateShaderFactory();
+
+            // Initialize drawing resources
+            Shader.Initialize();
+
+            IsInitialized = true;
         }
 
         #endregion
 
+        public bool IsInitialized { get; private set; }
+
+        public bool IsDisposed => _isDisposed;
+
         #region Singleton
 
-        protected static GraphicsAdapter Instance { get; private set; }
+        protected static GraphicsAdapter Adapter { get; private set; }
 
         /// <summary>
         /// Gets the capabilities of the graphics adapter associated with this application.
@@ -65,7 +78,7 @@ namespace Heirloom.Drawing
                 if (disposeManaged)
                 {
                     Capabilities = default;
-                    Instance = null;
+                    Adapter = null;
                 }
 
                 // todo: dispose native?
