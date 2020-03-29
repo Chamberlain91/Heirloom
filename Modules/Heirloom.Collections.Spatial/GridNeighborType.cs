@@ -1,4 +1,4 @@
-﻿namespace Heirloom.Collections.Spatial
+namespace Heirloom.Collections.Spatial
 {
     /// <summary>
     /// Describes the choice of neighbors in a grid.

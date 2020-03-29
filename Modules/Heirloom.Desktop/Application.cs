@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
+
 using Heirloom.Desktop.Hardware;
 using Heirloom.Drawing;
 using Heirloom.OpenGLES;

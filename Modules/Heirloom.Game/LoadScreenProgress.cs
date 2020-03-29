@@ -1,4 +1,4 @@
-﻿namespace Heirloom.Game
+namespace Heirloom.Game
 {
     public class LoadScreenProgress
     {

@@ -1,4 +1,4 @@
-﻿namespace Heirloom.IO
+namespace Heirloom.IO
 {
     public static class StringExtensions
     {

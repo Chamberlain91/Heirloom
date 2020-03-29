@@ -1,4 +1,4 @@
-﻿namespace Heirloom.Collections
+namespace Heirloom.Collections
 {
     /// <summary>
     /// Manages objects by their type hierarchy up to the base type, allowing access by enumeration of objects by type.

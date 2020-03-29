@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using Heirloom.Desktop;
 using Heirloom.Drawing;
-using Heirloom.Desktop;
 using Heirloom.Math;
 
 namespace Heirloom.Game.Desktop

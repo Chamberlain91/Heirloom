@@ -1,4 +1,4 @@
-﻿namespace Heirloom.Benchmark
+namespace Heirloom.Benchmark
 {
     public sealed class EmoteIconBenchmark : ParticleBenchmark
     {

@@ -1,4 +1,4 @@
-﻿namespace Heirloom.OpenGLES
+namespace Heirloom.OpenGLES
 {
     /// <summary>
     /// Enum for <see cref="GL.GetString(StringParameter)"/>

@@ -1,6 +1,6 @@
-﻿namespace Heirloom.OpenGLES
+namespace Heirloom.OpenGLES
 {
     public enum SyncFenceFlags : uint
-    { 
+    {
     }
 }

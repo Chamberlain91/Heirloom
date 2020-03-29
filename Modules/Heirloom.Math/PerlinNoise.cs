@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 
 using static Heirloom.Math.Calc;
@@ -11,9 +11,8 @@ namespace Heirloom.Math
     public class PerlinNoise : INoise1D, INoise2D, INoise3D
     {
         private readonly int[] _p;
-
-        const int SIZE = byte.MaxValue + 1; // must be power 2
-        const int MASK = SIZE - 1;
+        private const int SIZE = byte.MaxValue + 1; // must be power 2
+        private const int MASK = SIZE - 1;
 
         #region Constructors
 

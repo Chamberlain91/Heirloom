@@ -5,8 +5,8 @@ namespace Examples.Drawing
 {
     public sealed class ShaderDemo : Demo
     {
-        private Image _image, _noise;
-        private Shader _shader;
+        private readonly Image _image, _noise;
+        private readonly Shader _shader;
 
         public ShaderDemo()
             : base("Distortion Shader")

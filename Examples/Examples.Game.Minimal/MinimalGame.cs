@@ -1,4 +1,4 @@
-﻿using Heirloom.Desktop;
+using Heirloom.Desktop;
 using Heirloom.Drawing;
 using Heirloom.Game;
 using Heirloom.Game.Desktop;

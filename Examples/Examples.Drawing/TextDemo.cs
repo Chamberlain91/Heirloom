@@ -1,4 +1,4 @@
-﻿using Heirloom.Drawing;
+using Heirloom.Drawing;
 using Heirloom.IO;
 using Heirloom.Math;
 
@@ -6,7 +6,7 @@ namespace Examples.Drawing
 {
     public sealed class TextDemo : Demo
     {
-        private string _text;
+        private readonly string _text;
 
         public TextDemo()
             : base("Simple Text")
