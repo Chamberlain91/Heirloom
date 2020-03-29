@@ -36,7 +36,7 @@ namespace Heirloom.Benchmark
         private int _particleLowerCapacity;
         private int _currentStep;
 
-        readonly private int _initialParticleCount;
+        private readonly int _initialParticleCount;
 
         protected ParticleBenchmark(string name, int initialParticleCount, IEnumerable<Image> images)
             : base(name)

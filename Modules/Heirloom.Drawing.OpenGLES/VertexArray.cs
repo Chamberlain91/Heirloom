@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES

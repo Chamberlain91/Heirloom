@@ -60,7 +60,7 @@ namespace Heirloom.Math
         /// <summary>
         /// Gets the aspect ratio of this size.
         /// </summary>
-        public float Aspect => Width / (float) Height;
+        public float Aspect => Width / Height;
 
         #endregion
 

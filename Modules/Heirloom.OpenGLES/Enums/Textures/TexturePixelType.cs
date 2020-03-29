@@ -1,4 +1,4 @@
-﻿namespace Heirloom.OpenGLES
+namespace Heirloom.OpenGLES
 {
     public enum TexturePixelType : uint
     {
@@ -18,6 +18,6 @@
         HalfFloat = 0x140B,
 
         // DepthStencil
-        UnsignedInteger24_8 = 0x8CAD, 
+        UnsignedInteger24_8 = 0x8CAD,
     }
 }

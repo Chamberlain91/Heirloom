@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -63,8 +62,8 @@ namespace Heirloom.Drawing.OpenGLES.Utilities
 
         private void Partition(IntRectangle itemRect)
         {
-            List<IntRectangle> _rems = new List<IntRectangle>(128);
-            List<IntRectangle> _adds = new List<IntRectangle>(128);
+            var _rems = new List<IntRectangle>(128);
+            var _adds = new List<IntRectangle>(128);
 
             // For all known free rects
             foreach (var freeRect in _freeRects)

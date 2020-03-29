@@ -1,4 +1,4 @@
-﻿namespace StbTrueTypeSharp
+namespace StbTrueTypeSharp
 {
 #pragma warning disable IDE1006 // Naming Styles
 #pragma warning disable CS0649  // Default value null

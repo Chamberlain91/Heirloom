@@ -1,4 +1,4 @@
-﻿namespace Heirloom.Sound
+namespace Heirloom.Sound
 {
     internal interface IAudioProvider
     {

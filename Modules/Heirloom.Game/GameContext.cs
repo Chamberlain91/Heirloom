@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading.Tasks;
+
 using Heirloom.Drawing;
-using Heirloom.IO;
 
 namespace Heirloom.Game
 {

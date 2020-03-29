@@ -1,4 +1,4 @@
-﻿namespace Heirloom.Drawing
+namespace Heirloom.Drawing
 {
     /// <summary>
     /// Represents an axis of the 2D plane.

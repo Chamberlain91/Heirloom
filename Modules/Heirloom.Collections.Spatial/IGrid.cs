@@ -1,4 +1,4 @@
-﻿using Heirloom.Math;
+using Heirloom.Math;
 
 namespace Heirloom.Collections.Spatial
 {

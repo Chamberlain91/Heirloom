@@ -1,4 +1,4 @@
-﻿namespace Heirloom.Desktop
+namespace Heirloom.Desktop
 {
     /// <summary>
     /// Standard GLFW virtual key mapping (standard US keyboard layout).

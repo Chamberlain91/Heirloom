@@ -1,8 +1,6 @@
-﻿using System;
 using System.Collections.Generic;
 
 using Heirloom.Drawing;
-using Heirloom.Drawing.Extras;
 using Heirloom.Game;
 using Heirloom.Math;
 
@@ -13,7 +11,7 @@ namespace Examples.Game
         private readonly TileMapRenderer _mapRenderer;
         private readonly Tile[] _tiles;
 
-        private List<Collider> _colliders;
+        private readonly List<Collider> _colliders;
 
         public Map(int width, int height, int tileSize)
         {

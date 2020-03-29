@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace Heirloom.Sound
 {
     /// <summary>

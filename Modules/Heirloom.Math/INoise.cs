@@ -1,4 +1,4 @@
-﻿namespace Heirloom.Math
+namespace Heirloom.Math
 {
     /// <summary>
     /// Provides an interface for sampling one-dimensional noise.

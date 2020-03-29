@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+
 using Heirloom.Math;
 
 namespace Heirloom.Physics

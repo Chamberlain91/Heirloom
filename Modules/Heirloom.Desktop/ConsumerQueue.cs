@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -19,7 +19,7 @@ namespace Heirloom.Desktop
         {
             _queue = new Queue<Action>();
             _thread = thread;
-        } 
+        }
 
         public void ProcessJobs()
         {
