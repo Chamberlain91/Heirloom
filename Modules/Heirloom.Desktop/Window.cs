@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -46,20 +46,10 @@ namespace Heirloom.Desktop
         /// Constructs a new window.
         /// </summary>
         /// <param name="title">The text in the titlebar of the window.</param>
-        /// <param name="vsync">Enable VSync on this window.</param>
-        /// <param name="transparent">Enable transparent framebuffer (if OS supports it).</param>
-        public Window(string title, bool vsync = true, bool transparent = false)
-            : this(title, MultisampleQuality.None, vsync, transparent)
-        { }
-
-        /// <summary>
-        /// Constructs a new window.
-        /// </summary>
-        /// <param name="title">The text in the titlebar of the window.</param>
         /// <param name="multisample">What level of MSAA to use.</param>
         /// <param name="vsync">Enable VSync on this window.</param>
         /// <param name="transparent">Enable transparent framebuffer (if OS supports it).</param>
-        public Window(string title, MultisampleQuality multisample, bool vsync = true, bool transparent = false)
+        public Window(string title, MultisampleQuality multisample = MultisampleQuality.None, bool vsync = true, bool transparent = false)
         {
             _title = title ?? throw new ArgumentNullException(nameof(title));
 

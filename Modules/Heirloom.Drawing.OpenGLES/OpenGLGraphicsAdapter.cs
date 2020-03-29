@@ -62,7 +62,7 @@ namespace Heirloom.Drawing.OpenGLES
             public GLSurfaceFactory(OpenGLGraphicsAdapter adapter)
                 : base(adapter)
             {
-                _maxSupportedSamples = adapter.Invoke(() =>
+                _maxSupportedSamples = Adapter.Invoke(() =>
                 {
                     // Query platform for multisample capabilities
                     var allowableSamplesCount = GL.GetInternalformat(RenderbufferFormat.RGBA8, InternalFormatParameter.NUM_SAMPLE_COUNTS, 1)[0];
@@ -288,7 +288,7 @@ namespace Heirloom.Drawing.OpenGLES
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void Schedule(Action action)
         {
-            var adapter = Instance as OpenGLGraphicsAdapter;
+            var adapter = Adapter as OpenGLGraphicsAdapter;
             adapter.Invoke(action); // go!
         }
 

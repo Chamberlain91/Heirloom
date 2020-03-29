@@ -26,9 +26,9 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Gets the default (ie, "no effect") shader.
         /// </summary>
-        public static Shader Default { get; }
+        public static Shader Default { get; private set; }
 
-        static Shader()
+        internal static void Initialize()
         {
             // Load and compile the default shader
             Default = new Shader("embedded/shaders/default.vert", "embedded/shaders/default.frag");
