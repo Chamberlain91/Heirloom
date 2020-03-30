@@ -152,7 +152,8 @@ namespace Heirloom.Math
             }
             else
             {
-                throw new InvalidOperationException("Unable to compute statistics of zero samples");
+                // throw new InvalidOperationException("Unable to compute statistics of zero samples");
+                return default;
             }
         }
 

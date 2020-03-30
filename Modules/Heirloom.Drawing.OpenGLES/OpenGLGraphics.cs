@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 using Heirloom.Drawing.OpenGLES.Utilities;
 using Heirloom.Math;
@@ -61,21 +62,35 @@ namespace Heirloom.Drawing.OpenGLES
                 // Assign the GL context to this thread.
                 MakeCurrent();
 
-                // Set default OpenGL state
-                GL.Enable(EnableCap.ScissorTest);
-                GL.Enable(EnableCap.Blend);
-
                 // Create
                 _batchingTechnique = new HybridBatchingTechnique();
                 _atlasTechnique = new MaxRectsAtlasTechnique(this);
 
-                // 
+                // Set default OpenGL state
+                GL.Enable(EnableCap.ScissorTest);
+                GL.Enable(EnableCap.Blend);
                 ResetState();
             });
+        }
 
-            // Begin consumer thread
-            _isRunning = true;
-            _thread.Start();
+        /// <summary>
+        /// Launches the dedicated OpenGL thread associated with this context.
+        /// </summary>
+        protected void StartThread()
+        {
+            if (!_isRunning)
+            {
+                // Begin consumer thread
+                _isRunning = true;
+                _thread.Start();
+
+                // Wait For GL
+                SpinWait.SpinUntil(() => _batchingTechnique != null);
+            }
+            else
+            {
+                throw new InvalidOperationException("OpenGL thread already running.");
+            }
         }
 
         #endregion
