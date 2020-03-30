@@ -61,7 +61,7 @@ namespace Heirloom.Desktop
             public OpenGLWindowGraphics(Window window, bool vsync)
                 : base(window.Multisample)
             {
-                _window = window;
+                _window = window ?? throw new ArgumentNullException(nameof(window));
                 _vsync = vsync;
 
                 // Set initial default surface size
@@ -74,6 +74,9 @@ namespace Heirloom.Desktop
                     DefaultSurface.SetSize(_window.FramebufferSize);
                     if (Surface != null) { ComputeViewportRect(); }
                 };
+
+                // Run OpenGL Consumer Thread
+                StartThread();
             }
 
             protected override void MakeCurrent()

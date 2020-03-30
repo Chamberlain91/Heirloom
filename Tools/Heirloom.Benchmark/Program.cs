@@ -16,11 +16,11 @@ namespace Heirloom.Benchmark
             var benchmarkIndex = 0;
             var benchmarks = new Benchmark[]
             {
-                //new DynamicTriangulation(),
-                //new StaticTriangulation(),
+                new DynamicTriangulation(),
+                new StaticTriangulation(),
                 new EmoteIconBenchmark(),
-                //new AdventureBenchmark(),
-                //new CasinoBenchmark()
+                new AdventureBenchmark(),
+                new CasinoBenchmark()
             };
 
             var bounds = new Rectangle(0, 0, 0, 0);
