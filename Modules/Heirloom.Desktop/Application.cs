@@ -283,6 +283,7 @@ namespace Heirloom.Desktop
         private static WindowHandle CreateSharingWindow()
         {
             // Create "dummy" window, the GL context sharing window
+            Glfw.SetWindowCreationHint(WindowAttribute.TransparentFramebuffer, true);
             Glfw.SetWindowCreationHint(WindowAttribute.Visible, false);
             return Glfw.CreateWindow(256, 256, "GLFW Background Window");
         }

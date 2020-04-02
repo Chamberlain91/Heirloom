@@ -314,8 +314,9 @@ namespace Heirloom.Drawing.OpenGLES
                 // Set new surface
                 _surface = surface;
 
-                // We will need to recompute viewport size
-                ComputeViewportRect();
+                // We are changing surfaces, reset viewport to full surface
+                _viewportRect = new IntRectangle(0, 0, surface.Width, surface.Height);
+                _viewport = new Rectangle(0, 0, 1, 1);
 
                 Invoke(blocking: false, action: () =>
                 {

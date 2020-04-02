@@ -15,6 +15,16 @@ namespace Heirloom.Drawing
         public abstract IntSize Size { get; protected set; }
 
         /// <summary>
+        /// The width of the image (in pixels).
+        /// </summary>
+        public int Width => Size.Width;
+
+        /// <summary>
+        /// The height of the image (in pixels).
+        /// </summary>
+        public int Height => Size.Height;
+         
+        /// <summary>
         /// The offset used to 'center' the image around a non-zero origin.
         /// </summary>
         public Vector Origin { get; set; }

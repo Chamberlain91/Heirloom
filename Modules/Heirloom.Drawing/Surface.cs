@@ -9,8 +9,6 @@ namespace Heirloom.Drawing
     /// </summary>
     public sealed class Surface : ImageSource
     {
-        internal readonly object Native;
-
         #region Constructors
 
         /// <summary>
@@ -53,16 +51,6 @@ namespace Heirloom.Drawing
         /// Gets size of the surface in pixels.
         /// </summary>
         public override IntSize Size { get; protected set; }
-
-        /// <summary>
-        /// Gets the surface width in pixels.
-        /// </summary>
-        public int Width => Size.Width;
-
-        /// <summary>
-        /// Gets the surface height in pixels.
-        /// </summary>
-        public int Height => Size.Height;
 
         /// <summary>
         /// Gets the multisampling quality set on this surface.

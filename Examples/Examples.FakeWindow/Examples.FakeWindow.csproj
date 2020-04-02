@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Files\cardHeartsQ.png" />
+    <None Remove="Files\frame.png" />
+    <None Remove="Files\grey_crossGrey.png" />
+    <None Remove="Files\red_cross.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Files\cardHeartsQ.png" />
+    <EmbeddedResource Include="Files\frame.png" />
+    <EmbeddedResource Include="Files\grey_crossGrey.png" />
+    <EmbeddedResource Include="Files\red_cross.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Heirloom.Desktop\Heirloom.Desktop.csproj" />
+  </ItemGroup>
+
+</Project>
