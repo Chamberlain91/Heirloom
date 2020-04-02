@@ -329,9 +329,9 @@ namespace Heirloom.Drawing
         /// <param name="octaves">Number of noise layers.</param>
         /// <param name="persistence">How persistent each noise layer is.</param>
         /// <returns>A noisy image with noise generated on all four components.</returns>
-        public static Image CreateNoise(int width, int height, float scale = 1, int octaves = 4, float persistence = 0.5F)
+        public static Image CreateNoise(int width, int height, float scale = 1, int octaves = 4, float persistence = 0.5F, Vector offset = default)
         {
-            return CreateNoise(width, height, Calc.Simplex, scale, octaves, persistence);
+            return CreateNoise(width, height, Calc.Simplex, scale, octaves, persistence, offset);
         }
 
         /// <summary>
@@ -344,7 +344,7 @@ namespace Heirloom.Drawing
         /// <param name="octaves">Number of noise layers.</param>
         /// <param name="persistence">How persistent each noise layer is.</param>
         /// <returns>A noisy image with noise generated on all four components.</returns>
-        public static Image CreateNoise(int width, int height, INoise2D noise, float scale = 1, int octaves = 4, float persistence = 0.5F)
+        public static Image CreateNoise(int width, int height, INoise2D noise, float scale = 1, int octaves = 4, float persistence = 0.5F, Vector offset = default)
         {
             if (noise is null) { throw new ArgumentNullException(nameof(noise)); }
 
@@ -356,10 +356,10 @@ namespace Heirloom.Drawing
             // Write pixels in parallel
             Parallel.ForEach(Rasterizer.Rectangle(0, 0, width, height), co =>
             {
-                var p0 = ((Vector) co + new Vector(0, 0)) * scale;
-                var p1 = ((Vector) co + new Vector(10000, 0)) * scale;
-                var p2 = ((Vector) co + new Vector(0, 10000)) * scale;
-                var p3 = ((Vector) co + new Vector(10000, 10000)) * scale;
+                var p0 = ((Vector) co + new Vector(0, 0) + offset) * scale;
+                var p1 = ((Vector) co + new Vector(10000, 0) + offset) * scale;
+                var p2 = ((Vector) co + new Vector(0, 10000) + offset) * scale;
+                var p3 = ((Vector) co + new Vector(10000, 10000) + offset) * scale;
 
                 var n0 = (noise.Sample(p0, octaves, persistence) + 1F) / 2F;
                 var n1 = (noise.Sample(p1, octaves, persistence) + 1F) / 2F;

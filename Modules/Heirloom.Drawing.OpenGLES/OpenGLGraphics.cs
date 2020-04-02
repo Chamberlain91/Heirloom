@@ -62,9 +62,9 @@ namespace Heirloom.Drawing.OpenGLES
                 // Assign the GL context to this thread.
                 MakeCurrent();
 
-                // Create
+                // Create batching utilities
                 _batchingTechnique = new HybridBatchingTechnique();
-                _atlasTechnique = new MaxRectsAtlasTechnique(this);
+                _atlasTechnique = new PackerAtlasTechnique(this, PackerAtlasType.Shelf);
 
                 // Set default OpenGL state
                 GL.Enable(EnableCap.ScissorTest);
@@ -700,7 +700,7 @@ namespace Heirloom.Drawing.OpenGLES
                         if (value is ImageSource source)
                         {
                             // Find texture for the current image source
-                            GetTextureInformation(source, out var texture, out var uvRect);
+                            RequestTextureInformation(source, out var texture, out var uvRect);
 
                             // Get texture unit for sampler2D uniform.
                             var unit = _shaderProgram.GetTextureUnit(name);
@@ -820,7 +820,7 @@ namespace Heirloom.Drawing.OpenGLES
         public override void DrawMesh(ImageSource source, Mesh mesh, in Matrix transform)
         {
             // Request texture information for the given input image
-            GetTextureInformation(source, out var texture, out var uvRect);
+            RequestTextureInformation(source, out var texture, out var uvRect);
 
             // Inconsistent texture, flush and update state
             if (_texture != texture)
@@ -911,7 +911,7 @@ namespace Heirloom.Drawing.OpenGLES
         #region Texture & Framebuffer
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void GetTextureInformation(ImageSource source, out Texture texture, out Rectangle uvRect)
+        private void RequestTextureInformation(ImageSource source, out Texture texture, out Rectangle uvRect)
         {
             //if (source.Native != null)
             //{
@@ -924,7 +924,14 @@ namespace Heirloom.Drawing.OpenGLES
             switch (source)
             {
                 case Image image:
-                    _atlasTechnique.GetTextureInformation(image, out texture, out uvRect);
+                    while (!_atlasTechnique.Submit(image, out texture, out uvRect))
+                    {
+                        //Log.Warning("Encountered an image that cannot take residence in the atlas.");
+                        Flush();
+
+                        //Log.Warning("Evicting Texture Atlas");
+                        _atlasTechnique.Evict();
+                    }
                     break;
 
                 case Surface surface:
