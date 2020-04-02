@@ -5,7 +5,7 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing.OpenGLES.Utilities
 {
-    public class MaxrectsPacker<TElement> : RectanglePacker<TElement>
+    public sealed class MaxrectsPacker<TElement> : RectanglePacker<TElement>
     {
         private readonly HashSet<IntRectangle> _freeRects = new HashSet<IntRectangle>();
         private readonly IntRectangle _bounds;

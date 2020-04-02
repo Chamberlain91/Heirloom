@@ -1,11 +1,8 @@
-using System.Collections.Generic;
-using System.Linq;
-
 using Heirloom.Math;
 
 namespace Heirloom.Drawing.OpenGLES.Utilities
 {
-    public class ShelfPacker<TElement> : RectanglePacker<TElement>
+    public sealed class ShelfPacker<TElement> : RectanglePacker<TElement>
     {
         private readonly IntRectangle _bounds;
 
@@ -36,21 +33,20 @@ namespace Heirloom.Drawing.OpenGLES.Utilities
             base.Clear();
 
             // Reset shelf
-            _y = _next = 0;
-            _x = 0;
+            _x = _y = _next = 0;
         }
 
-        protected override bool Insert(IntSize itemSize, out IntRectangle itemRect)
+        protected override bool Insert(IntSize size, out IntRectangle rect)
         {
             // If too large to ever fit in the packer
-            if (itemSize.Width > _bounds.Width || itemSize.Height > _bounds.Height)
+            if (size.Width > _bounds.Width || size.Height > _bounds.Height)
             {
-                itemRect = default;
+                rect = default;
                 return false;
             }
 
             // Compute right edge
-            var right = _x + itemSize.Width;
+            var right = _x + size.Width;
 
             // Will the insert exceed the right boundary?
             if (right >= _bounds.Width)
@@ -60,24 +56,21 @@ namespace Heirloom.Drawing.OpenGLES.Utilities
                 _x = 0;
             }
 
-            // Compute bottom, pushing next shelf
-            var bottom = _y + itemSize.Height;
+            // Compute bottom edge, pushing next shelf
+            var bottom = _y + size.Height;
             if (bottom > _next) { _next = bottom; }
 
             // Will the image exceed bottom boundary?
             if (bottom > _bounds.Height)
             {
                 // Item could not fit.
-                itemRect = default;
+                rect = default;
                 return false;
             }
 
             // Compute packing rectangle
-            itemRect = new IntRectangle(new IntVector(_x, _y), itemSize);
-
-            // Advance cursor 
-            _x += itemSize.Width;
-
+            rect = new IntRectangle(new IntVector(_x, _y), size);
+            _x += size.Width; // Advance cursor
             return true;
         }
     }
