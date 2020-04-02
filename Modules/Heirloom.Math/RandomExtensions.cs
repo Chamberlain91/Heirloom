@@ -111,7 +111,7 @@ namespace Heirloom.Math
             return new Vector(x, y);
         }
 
-        #endregion
+        #endregion 
 
         #region Chance and Choice
 

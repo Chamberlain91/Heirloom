@@ -13,8 +13,9 @@ namespace Heirloom.Drawing.OpenGLES
             Graphics = graphics ?? throw new ArgumentNullException(nameof(graphics));
         }
 
-        internal abstract void GetTextureInformation(Image image, out Texture texture, out Rectangle uvRect);
+        internal abstract bool Submit(Image image, out Texture texture, out Rectangle uvRect);
 
         internal abstract void CommitChanges();
+        internal abstract void Evict();
     }
 }

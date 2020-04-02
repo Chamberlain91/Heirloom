@@ -15,7 +15,12 @@ namespace Heirloom.Drawing.OpenGLES
             _textures = new ConditionalWeakTable<Image, Texture>();
         }
 
-        internal override void GetTextureInformation(Image image, out Texture texture, out Rectangle uvRect)
+        internal override void Evict()
+        {
+            _textures.Clear();
+        }
+
+        internal override bool Submit(Image image, out Texture texture, out Rectangle uvRect)
         {
             // Try to get known framebuffer instance. Framebuffers are "container objects" and
             // need to be uniquely created for each graphics context.
@@ -43,6 +48,7 @@ namespace Heirloom.Drawing.OpenGLES
             // Emit
             uvRect = (0, 0, 1, 1);
             texture = texture_;
+            return true;
         }
 
         internal override void CommitChanges()
