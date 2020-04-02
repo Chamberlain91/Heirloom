@@ -22,6 +22,8 @@ namespace Heirloom.Drawing
         /// </summary>
         internal readonly ColorBytes[] Pixels;
 
+        readonly private IntSize _size;
+
         #region Constants
 
         /// <summary>
@@ -60,8 +62,7 @@ namespace Heirloom.Drawing
 
                 // Allocate pixels
                 Pixels = new ColorBytes[width * height];
-                Height = height;
-                Width = width;
+                _size = new IntSize(width, height);
 
                 // Copy grabbed pixels to image 
                 Copy((ColorBytes*) pResult, width, (0, 0, width, height), this, IntVector.Zero);
@@ -79,27 +80,16 @@ namespace Heirloom.Drawing
         {
             // Allocate pixels
             Pixels = new ColorBytes[width * height];
-            Height = height;
-            Width = width;
+            _size = new IntSize(width, height);
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// The width of the image (in pixels).
-        /// </summary>
-        public int Width { get; }
-
-        /// <summary>
-        /// The height of the image (in pixels).
-        /// </summary>
-        public int Height { get; }
-
         public override IntSize Size
         {
-            get => new IntSize(Width, Height);
+            get => _size;
             protected set => throw new NotSupportedException();
         }
 

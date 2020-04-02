@@ -235,6 +235,7 @@ namespace Heirloom.Drawing
         {
             if (Performance.OverlayMode != PerformanceOverlayMode.Disabled)
             {
+                var oldColor = Color;
                 ResetState();
 
                 // == Measure Step
@@ -266,7 +267,8 @@ namespace Heirloom.Drawing
                 // Draw text
                 DrawText(text, new Vector(Surface.Width - textSize.Width, 12), Font.Default, 16);
 
-                // Have to flush again...
+                // Restore color and flush
+                Color = oldColor;
                 Flush();
             }
         }
