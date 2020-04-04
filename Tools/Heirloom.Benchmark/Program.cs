@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Threading;
+
 using Heirloom.Desktop;
 using Heirloom.Drawing;
 using Heirloom.IO;
@@ -34,8 +35,8 @@ namespace Heirloom.Benchmark
                 window.Graphics.Performance.OverlayMode = PerformanceOverlayMode.Simple;
 
                 // Go fullscreen!
-                // window.SetFullscreen(Application.DefaultMonitor);
-                window.Maximize();
+                window.SetFullscreen(Application.DefaultMonitor);
+                // window.Maximize();
 
                 // Compute world bounds
                 bounds = (0, 0, window.FramebufferSize.Width, window.FramebufferSize.Height);

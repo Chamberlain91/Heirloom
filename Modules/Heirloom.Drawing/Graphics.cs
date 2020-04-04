@@ -363,7 +363,7 @@ namespace Heirloom.Drawing
         #endregion
 
         /// <summary>
-        /// Sets <see cref="GlobalTransform"/> to mimic a 2D camera.
+        /// Sets <see cref="GlobalTransform"/> to mimic a 2D camera. The center of the camera is set to <paramref name="center"/>.
         /// </summary>
         public void SetCameraTransform(Vector center, float scale = 1F)
         {

@@ -95,7 +95,6 @@ namespace Heirloom.Desktop
             {
                 // Swap buffers (on the gl thread)
                 Invoke(() => Glfw.SwapBuffers(_window.Handle), false);
-                Glfw.PostEmptyEvent();
             }
 
             protected override void Dispose(bool disposeManaged)

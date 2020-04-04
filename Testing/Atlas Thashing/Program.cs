@@ -13,26 +13,28 @@ namespace Atlas_Thashing
         {
             Application.Run(() =>
             {
-                var window = new Window("Atlas Thrashing", vsync: false) { Size = (640, 480), IsResizable = false };
-                window.Graphics.Performance.OverlayMode = PerformanceOverlayMode.Full;
+                var window = new Window("Atlas Thrashing", vsync: false) { Size = (1280, 720) };
+                window.Graphics.Performance.OverlayMode = PerformanceOverlayMode.Simple;
+                window.MoveToCenter();
 
-                var xcount = window.FramebufferSize.Width / 64;
-                var ycount = window.FramebufferSize.Height / 64;
+                var xcount = window.Size.Width / 64;
+                var ycount = window.Size.Height / 64;
 
-                var packer = new ShelfPacker<Image>(window.Size);
+                var packer = new SkylinePacker<Image>(window.Size);
 
                 Task.Run(() =>
                 {
                     while (true)
                     {
-                        window.Graphics.Clear(Color.White);
                         window.Graphics.ResetState();
                         packer.Clear();
 
+                        window.Graphics.Clear(Color.White);
+
                         while (true)
                         {
-                            var w = Calc.Random.Next(16, 64);
-                            var h = Calc.Random.Next(16, 64);
+                            var w = Calc.Random.Next(8, 128);
+                            var h = Calc.Random.Next(8, 128);
 
                             var r = Calc.Random.NextFloat();
                             var g = Calc.Random.NextFloat();
@@ -42,11 +44,11 @@ namespace Atlas_Thashing
                             var image = Image.CreateColor(w, h, new Color(r, g, b));
                             if (!packer.Add(image, image.Size)) { break; }
 
-                            // Acquire packed image and draw to screen
                             var packed = packer.GetRectangle(image);
                             window.Graphics.DrawImage(image, packed.Position);
                         }
 
+                        // 
                         window.Graphics.RefreshScreen();
                     }
                 });
