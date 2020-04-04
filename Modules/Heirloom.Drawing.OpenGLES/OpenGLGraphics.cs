@@ -64,7 +64,7 @@ namespace Heirloom.Drawing.OpenGLES
 
                 // Create batching utilities
                 _batchingTechnique = new HybridBatchingTechnique();
-                _atlasTechnique = new PackerAtlasTechnique(this, PackerAtlasType.Shelf);
+                _atlasTechnique = new PackerAtlasTechnique(this, PackerAtlasType.Skyline);
 
                 // Set default OpenGL state
                 GL.Enable(EnableCap.ScissorTest);

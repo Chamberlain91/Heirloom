@@ -10,7 +10,8 @@ namespace Heirloom.Drawing.OpenGLES
     internal enum PackerAtlasType
     {
         MaxRects,
-        Shelf
+        Shelf,
+        Skyline // "Compact"
     }
 
     internal class PackerAtlasTechnique : AtlasTechnique
@@ -32,6 +33,7 @@ namespace Heirloom.Drawing.OpenGLES
             {
                 PackerAtlasType.MaxRects => new MaxrectsPacker<Image>(pageSize, pageSize),
                 PackerAtlasType.Shelf => new ShelfPacker<Image>(pageSize, pageSize),
+                PackerAtlasType.Skyline => new SkylinePacker<Image>(pageSize, pageSize),
                 _ => throw new NotImplementedException()
             };
 

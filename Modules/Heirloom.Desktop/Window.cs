@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 using Heirloom.Drawing;
 using Heirloom.Math;
@@ -132,6 +133,9 @@ namespace Heirloom.Desktop
             // == Construct Graphics Context
 
             Graphics = Application.GraphicsFactory.CreateGraphics(this, vsync);
+
+            // To help prevent the weird window framebuffer isn't the same size error...?
+            Thread.Sleep(1);
         }
 
         ~Window()

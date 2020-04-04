@@ -17,6 +17,8 @@ namespace Heirloom.Drawing
 {
     public sealed class Image : ImageSource
     {
+        public const int MaxImageDimension = 8192;
+
         /// <summary>
         /// The underlying pixel data.
         /// </summary>
@@ -59,6 +61,7 @@ namespace Heirloom.Drawing
                 // Decode from file to raw RGBA bytes
                 int width, height, comp;
                 var pResult = stbi_load_from_memory(buffer, file.Length, &width, &height, &comp, 4);
+                ValidateImageSize(in width, in height);
 
                 // Allocate pixels
                 Pixels = new ColorBytes[width * height];
@@ -78,6 +81,8 @@ namespace Heirloom.Drawing
 
         public Image(int width, int height)
         {
+            ValidateImageSize(in width, in height);
+
             // Allocate pixels
             Pixels = new ColorBytes[width * height];
             _size = new IntSize(width, height);
@@ -94,6 +99,15 @@ namespace Heirloom.Drawing
         }
 
         #endregion
+
+        private void ValidateImageSize(in int width, in int height)
+        {
+            if (width > MaxImageDimension || height > MaxImageDimension)
+            {
+                var size = new IntSize(width, height);
+                throw new ArgumentException($"Image dimensions must be less than or equal to {MaxImageDimension} (was {size}).");
+            }
+        }
 
         #region Get or Set Pixels
 
