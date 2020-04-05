@@ -4,7 +4,7 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    public abstract class AtlasTechnique
+    internal abstract class AtlasTechnique
     {
         internal readonly OpenGLGraphics Graphics;
 

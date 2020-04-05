@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 using Heirloom.Math;
 
-namespace Heirloom.Drawing.OpenGLES.Utilities
+namespace Heirloom.Drawing.Utilities
 {
     public abstract class RectanglePacker<TElement>
     {
         private readonly Dictionary<TElement, IntRectangle> _elements;
-
+         
         #region Constructors
 
         protected RectanglePacker(IntSize size)

@@ -3,12 +3,11 @@ using System.Linq;
 
 using Heirloom.Math;
 
-namespace Heirloom.Drawing.OpenGLES.Utilities
+namespace Heirloom.Drawing.Utilities
 {
     public sealed class MaxrectsPacker<TElement> : RectanglePacker<TElement>
     {
         private readonly HashSet<IntRectangle> _freeRects = new HashSet<IntRectangle>();
-        private readonly IntRectangle _bounds;
 
         #region Constructor
 
@@ -19,9 +18,6 @@ namespace Heirloom.Drawing.OpenGLES.Utilities
         public MaxrectsPacker(IntSize size)
             : base(size)
         {
-            // Store master bounds
-            _bounds = new IntRectangle(IntVector.Zero, size);
-
             // Start clean
             Clear();
         }
@@ -36,7 +32,7 @@ namespace Heirloom.Drawing.OpenGLES.Utilities
             _freeRects.Clear();
 
             // Insert initial super rectangle    
-            _freeRects.Add(_bounds);
+            _freeRects.Add(new IntRectangle(IntVector.Zero, Size));
         }
 
         protected override bool Insert(IntSize itemSize, out IntRectangle itemRect)

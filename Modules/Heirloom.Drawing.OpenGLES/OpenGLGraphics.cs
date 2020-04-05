@@ -4,13 +4,13 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-using Heirloom.Drawing.OpenGLES.Utilities;
+using Heirloom.IO;
 using Heirloom.Math;
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    public abstract class OpenGLGraphics : Graphics
+    internal abstract class OpenGLGraphics : Graphics
     {
         private readonly ConsumerThread _thread;
         private bool _isRunning = false;
@@ -72,7 +72,7 @@ namespace Heirloom.Drawing.OpenGLES
 
                 // Create batching utilities
                 _batchingTechnique = new HybridBatchingTechnique();
-                _atlasTechnique = new PackerAtlasTechnique(this, PackerAtlasType.Skyline);
+                _atlasTechnique = new PackerAtlasTechnique(this);
 
                 // Set default OpenGL state
                 GL.Enable(EnableCap.ScissorTest);

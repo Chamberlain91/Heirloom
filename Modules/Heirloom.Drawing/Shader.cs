@@ -30,6 +30,7 @@ namespace Heirloom.Drawing
 
         internal static void Initialize()
         {
+            // todo: Grab info like max uniforms or max block size.
             // Load and compile the default shader
             Default = new Shader("embedded/shaders/default.vert", "embedded/shaders/default.frag");
         }
