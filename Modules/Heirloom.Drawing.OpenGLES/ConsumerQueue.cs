@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Heirloom.IO
+namespace Heirloom.Drawing.OpenGLES
 {
-    public class ConsumerQueue
+    internal sealed class ConsumerQueue
     {
         private readonly Queue<Action> _queue;
         private readonly Thread _thread;

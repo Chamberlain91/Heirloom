@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Heirloom.IO
+namespace Heirloom.Desktop
 {
     /// <summary>
     /// This object processes jobs on a its own specific thread.
     /// </summary>
-    public sealed class ConsumerThread
+    internal sealed class ConsumerThread
     {
         private readonly Queue<Action> _queue;
         private readonly Thread _thread;
