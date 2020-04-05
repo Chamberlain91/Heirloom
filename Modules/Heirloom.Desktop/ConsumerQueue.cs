@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Heirloom.Drawing.OpenGLES
+using ThreadMonitor = System.Threading.Monitor;
+
+namespace Heirloom.Desktop
 {
     internal sealed class ConsumerQueue
     {
@@ -38,7 +40,7 @@ namespace Heirloom.Drawing.OpenGLES
                     lock (action)
                     {
                         action(); // 
-                        Monitor.PulseAll(action);
+                        ThreadMonitor.PulseAll(action);
                     }
                 }
             }
@@ -56,7 +58,7 @@ namespace Heirloom.Drawing.OpenGLES
                     InvokeLater(action);
 
                     // Wait for action to complete
-                    Monitor.Wait(action);
+                    ThreadMonitor.Wait(action);
                 }
             }
         }

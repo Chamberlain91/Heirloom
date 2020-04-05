@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Heirloom.Desktop
+namespace Heirloom.Drawing.OpenGLES
 {
     /// <summary>
     /// This object processes jobs on a its own specific thread.
