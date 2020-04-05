@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 using Heirloom.Desktop;
 using Heirloom.Drawing;
-using Heirloom.Drawing.OpenGLES.Utilities;
+using Heirloom.Drawing.Utilities;
 using Heirloom.Math;
 
 namespace Atlas_Thashing

@@ -1,11 +1,9 @@
 using Heirloom.Math;
 
-namespace Heirloom.Drawing.OpenGLES.Utilities
+namespace Heirloom.Drawing.Utilities
 {
     public sealed class ShelfPacker<TElement> : RectanglePacker<TElement>
     {
-        private readonly IntRectangle _bounds;
-
         private int _x;
         private int _next;
         private int _y;
@@ -19,9 +17,6 @@ namespace Heirloom.Drawing.OpenGLES.Utilities
         public ShelfPacker(IntSize size)
             : base(size)
         {
-            // Store master bounds
-            _bounds = new IntRectangle(IntVector.Zero, size);
-
             // Start clean
             Clear();
         }
@@ -39,7 +34,7 @@ namespace Heirloom.Drawing.OpenGLES.Utilities
         protected override bool Insert(IntSize size, out IntRectangle rect)
         {
             // If too large to ever fit in the packer
-            if (size.Width > _bounds.Width || size.Height > _bounds.Height)
+            if (size.Width > Size.Width || size.Height > Size.Height)
             {
                 rect = default;
                 return false;
@@ -49,7 +44,7 @@ namespace Heirloom.Drawing.OpenGLES.Utilities
             var right = _x + size.Width;
 
             // Will the insert exceed the right boundary?
-            if (right >= _bounds.Width)
+            if (right >= Size.Width)
             {
                 // Perform a "newline"
                 _y = _next;
@@ -61,7 +56,7 @@ namespace Heirloom.Drawing.OpenGLES.Utilities
             if (bottom > _next) { _next = bottom; }
 
             // Will the image exceed bottom boundary?
-            if (bottom > _bounds.Height)
+            if (bottom > Size.Height)
             {
                 // Item could not fit.
                 rect = default;

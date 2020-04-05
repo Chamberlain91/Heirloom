@@ -1,19 +1,11 @@
-using System;
 using System.Collections.Generic;
 
-using Heirloom.Drawing.OpenGLES.Utilities;
+using Heirloom.Drawing.Utilities;
 using Heirloom.Math;
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    internal enum PackerAtlasType
-    {
-        MaxRects,
-        Shelf,
-        Skyline // "Compact"
-    }
-
     internal class PackerAtlasTechnique : AtlasTechnique
     {
         private readonly Dictionary<Image, AtlasEntry> _entries;
@@ -22,22 +14,14 @@ namespace Heirloom.Drawing.OpenGLES
 
         private readonly HashSet<Image> _changeSet = new HashSet<Image>();
 
-        public PackerAtlasTechnique(OpenGLGraphics graphics, PackerAtlasType packerType)
+        public PackerAtlasTechnique(OpenGLGraphics graphics)
             : base(graphics)
         {
-            // At most (8192*8192*4) = 256 megabytes
-            var pageSize = Calc.Min(8192, graphics.Capabilities.MaxTextureSize);
-
-            // Create packer
-            _packer = packerType switch
-            {
-                PackerAtlasType.MaxRects => new MaxrectsPacker<Image>(pageSize, pageSize),
-                PackerAtlasType.Shelf => new ShelfPacker<Image>(pageSize, pageSize),
-                PackerAtlasType.Skyline => new SkylinePacker<Image>(pageSize, pageSize),
-                _ => throw new NotImplementedException()
-            };
-
             _entries = new Dictionary<Image, AtlasEntry>();
+
+            // Create packer - it will be at most 256 megabytes (8192^2 * 4 bytes)
+            var pageSize = Calc.Min(8192, graphics.Capabilities.MaxTextureSize);
+            _packer = new SkylinePacker<Image>(pageSize, pageSize);
 
             // Allocate texture (page)
             _texture = Graphics.Invoke(() => new Texture(_packer.Size));

@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Heirloom.Math;
 
-namespace Heirloom.Drawing.OpenGLES.Utilities
+namespace Heirloom.Drawing.Utilities
 {
     public sealed class SkylinePacker<TElement> : RectanglePacker<TElement>
     {
-        private readonly IntRectangle _bounds;
-
         public List<Strip> Strips;
 
         #region Constructor
@@ -20,8 +19,6 @@ namespace Heirloom.Drawing.OpenGLES.Utilities
         public SkylinePacker(IntSize size)
             : base(size)
         {
-            // Store master bounds
-            _bounds = new IntRectangle(IntVector.Zero, size);
             Strips = new List<Strip>();
 
             // Start clean
@@ -35,7 +32,7 @@ namespace Heirloom.Drawing.OpenGLES.Utilities
             base.Clear();
 
             Strips.Clear();
-            Strips.Add(new Strip(0, 0, _bounds.Width));
+            Strips.Add(new Strip(0, 0, Size.Width));
         }
 
         protected override bool Insert(IntSize size, out IntRectangle rect)
@@ -69,7 +66,7 @@ namespace Heirloom.Drawing.OpenGLES.Utilities
         private bool CheckFitShelf(IntSize size, out int shelf)
         {
             shelf = Strips.Where(s => s.X < size.Width).Max(s => s.Y);
-            return _bounds.Height - shelf >= size.Height;
+            return Size.Height - shelf >= size.Height;
         }
 
         private bool CheckFit(int index, in IntSize size)
@@ -85,10 +82,10 @@ namespace Heirloom.Drawing.OpenGLES.Utilities
             var b = y + size.Height;
 
             // Horizontal Bounds Check
-            if (r > _bounds.Width) { return false; }
+            if (r > Size.Width) { return false; }
 
             // Vertical Bounds Check
-            if (b > _bounds.Height) { return false; }
+            if (b > Size.Height) { return false; }
 
             // Can fit in the input strip, accept.
             if (root.Width >= size.Width) { return true; }

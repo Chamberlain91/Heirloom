@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Heirloom.Drawing.OpenGLES.Utilities
+namespace Heirloom.IO
 {
     /// <summary>
-    /// Object to schedule actions onto a dedicated thread, useful for OpenGL as
-    /// all operations must be called on a dedicated thread.
+    /// This object processes jobs on a its own specific thread.
     /// </summary>
-    internal sealed class ConsumerThread
+    public sealed class ConsumerThread
     {
         private readonly Queue<Action> _queue;
         private readonly Thread _thread;
@@ -29,6 +28,9 @@ namespace Heirloom.Drawing.OpenGLES.Utilities
             };
         }
 
+        /// <summary>
+        /// Gets the number of pending jobs.
+        /// </summary>
         public int Pending => _queue.Count;
 
         private void ThreadAction()
