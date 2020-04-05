@@ -4,7 +4,7 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public abstract class GraphicsAdapter : IDisposable
+    internal abstract class GraphicsAdapter : IDisposable
     {
         #region Constructor
 
@@ -21,8 +21,8 @@ namespace Heirloom.Drawing
 
         internal void Initialize()
         {
-            // Query capabilities
-            Capabilities = QueryCapabilities();
+            // Get adapter info
+            Info = GetAdapterInfo();
 
             // Construct resource managers
             SurfaceFactory = CreateSurfaceFactory();
@@ -47,7 +47,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Gets the capabilities of the graphics adapter associated with this application.
         /// </summary>
-        public static GraphicsCapabilities Capabilities { get; private set; }
+        public static GraphicsAdapterInfo Info { get; private set; }
 
         /// <summary>
         /// Implementation of shader resources.
@@ -61,7 +61,7 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        protected abstract GraphicsCapabilities QueryCapabilities();
+        protected abstract GraphicsAdapterInfo GetAdapterInfo();
 
         protected abstract ISurfaceFactory CreateSurfaceFactory();
 
@@ -77,7 +77,7 @@ namespace Heirloom.Drawing
             {
                 if (disposeManaged)
                 {
-                    Capabilities = default;
+                    Info = default;
                     Adapter = null;
                 }
 

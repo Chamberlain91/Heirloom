@@ -40,11 +40,6 @@ namespace Heirloom.Drawing
         #region Properties
 
         /// <summary>
-        /// Gets the queried capabilities (ie, limits) for the current device.
-        /// </summary>
-        public GraphicsCapabilities Capabilities => GraphicsAdapter.Capabilities;
-
-        /// <summary>
         /// Gets how often the default surface is presented to the screen per second.
         /// </summary>
         public float CurrentFPS => Performance.FrameRate.Average;

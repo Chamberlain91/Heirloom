@@ -25,8 +25,8 @@ namespace Heirloom.Desktop.Hardware
         internal static GpuInfo DetectGpuInfo()
         {
             // Query GPU info
-            var deviceName = GraphicsAdapter.Capabilities.AdapterName;
-            var vendor = GetGpuVendor(GraphicsAdapter.Capabilities.AdapterVendor);
+            var deviceName = GraphicsAdapter.Info.Name;
+            var vendor = GetGpuVendor(GraphicsAdapter.Info.Vendor);
 
             return new GpuInfo(vendor, deviceName);
         }

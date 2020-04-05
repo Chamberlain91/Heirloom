@@ -112,7 +112,7 @@ namespace Heirloom.Drawing
             private static string GenerateVersionHeader()
             {
                 // Is OpenGL running on Desktop or ES/Mobile?
-                var version = GraphicsAdapter.Capabilities.IsMobilePlatform ?
+                var version = GraphicsAdapter.Info.IsMobilePlatform ?
                     "#version 300 es\n" :
                     "#version 330\n";
 
