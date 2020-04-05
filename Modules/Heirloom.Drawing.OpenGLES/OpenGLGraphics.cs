@@ -15,6 +15,8 @@ namespace Heirloom.Drawing.OpenGLES
         private readonly ConsumerThread _thread;
         private bool _isRunning = false;
 
+        internal OpenGLCapabilities Capabilities;
+
         // == Cross Context Resources - TODO: Share across contexts...
         private readonly Dictionary<string, UniformBuffer> _uniformBuffers = new Dictionary<string, UniformBuffer>();
         private AtlasTechnique _atlasTechnique;
@@ -61,6 +63,12 @@ namespace Heirloom.Drawing.OpenGLES
             {
                 // Assign the GL context to this thread.
                 MakeCurrent();
+
+                // Query extra capability info
+                Capabilities = new OpenGLCapabilities
+                {
+                    MaxTextureSize = GL.GetInteger(GetParameter.MaxTextureSize)
+                };
 
                 // Create batching utilities
                 _batchingTechnique = new HybridBatchingTechnique();

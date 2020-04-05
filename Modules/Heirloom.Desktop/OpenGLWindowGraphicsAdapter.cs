@@ -15,7 +15,7 @@ namespace Heirloom.Desktop
 
         #region Invoke
 
-        protected override T Invoke<T>(Func<T> function)
+        protected internal override T Invoke<T>(Func<T> function)
         {
             return Application.Invoke(() =>
             {
@@ -34,7 +34,7 @@ namespace Heirloom.Desktop
             });
         }
 
-        protected override void Invoke(Action function)
+        protected internal override void Invoke(Action function)
         {
             Application.Invoke(() =>
             {

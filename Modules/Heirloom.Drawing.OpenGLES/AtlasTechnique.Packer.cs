@@ -26,7 +26,7 @@ namespace Heirloom.Drawing.OpenGLES
             : base(graphics)
         {
             // At most (8192*8192*4) = 256 megabytes
-            var pageSize = Calc.Min(8192, GraphicsAdapter.Capabilities.MaxImageSize);
+            var pageSize = Calc.Min(8192, graphics.Capabilities.MaxTextureSize);
 
             // Create packer
             _packer = packerType switch

@@ -9,24 +9,26 @@ namespace Heirloom.Drawing.OpenGLES
 {
     using GLShaderType = Heirloom.OpenGLES.ShaderType;
 
-    public abstract class OpenGLGraphicsAdapter : GraphicsAdapter
+    internal abstract class OpenGLGraphicsAdapter : GraphicsAdapter
     {
         #region Query Capabilities
 
-        protected override GraphicsCapabilities QueryCapabilities()
+        protected override GraphicsAdapterInfo GetAdapterInfo()
         {
+            // Query adapter info
             var renderer = GL.GetString(StringParameter.Renderer);
             var vendor = GL.GetString(StringParameter.Vendor);
 
-            var maxTextureSize = GL.GetInteger(GetParameter.MaxTextureSize);
+            //var maxTextureSize = GL.GetInteger(GetParameter.MaxTextureSize); 
+            //var maxFragmentUniformVectors = GL.GetInteger(GetParameter.MaxFragmentUniformVectors);
+            //var maxFragmentImages = GL.GetInteger(GetParameter.MaxTextureImageUnits);
+            //var maxVertexUniformVectors = GL.GetInteger(GetParameter.MaxVertexUniformVectors);
+            //var maxVertexImages = GL.GetInteger(GetParameter.MaxVertexTextureImageUnits);
+            //var maxUniformBufferBindings = GL.GetInteger(GetParameter.MaxUniformBufferBindings);
+            //var maxUniformBlockSize = GL.GetInteger(GetParameter.MaxUniformBlockSize);
 
-            return new GraphicsCapabilities(
-                adapterName: renderer,
-                adapterVendor: vendor,
-                maxImageSize: maxTextureSize,
-                maxSupportedVertexImages: GL.GetInteger(GetParameter.MaxVertexTextureImageUnits),
-                maxSupportedFragmentImages: GL.GetInteger(GetParameter.MaxTextureImageUnits),
-                isMobilePlatform: DetectEmbeddedOpenGL());
+            // 
+            return new GraphicsAdapterInfo(DetectEmbeddedOpenGL(), vendor, renderer);
         }
 
         private static bool DetectEmbeddedOpenGL()
