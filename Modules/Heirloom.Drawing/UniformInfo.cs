@@ -38,14 +38,5 @@ namespace Heirloom.Drawing
         /// Is this uniform an array?
         /// </summary>
         public bool IsArray => ArraySize > 1;
-
-        internal bool IsAcceptable(object value)
-        {
-            // TODO: Actually validate uniform type is an acceptable type?
-            //       It does this inside the GL implementation, but this deferred 
-            //       until just before the batch is submitted.
-
-            return true;
-        }
     }
 }

@@ -153,17 +153,12 @@ namespace Heirloom.Drawing
             SetUniformValue(name, image);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void SetUniformValue(string name, object value)
         {
             // Attempt to get the uniform storage
             if (UniformStorageMap.TryGetValue(name, out var uniform))
             {
-                // Validate the given value is acceptable by the uniform
-                if (!uniform.Info.IsAcceptable(value))
-                {
-                    throw new ArgumentException($"Uniform '{name}' does not have an acceptable type '{Name}'.", nameof(name));
-                }
-
                 // Update uniform value
                 uniform.IsDirty = true;
                 uniform.Value = value;
