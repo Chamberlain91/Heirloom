@@ -102,8 +102,6 @@ namespace Heirloom.Drawing
                 var vert = LoadSource(vertPath, true);
                 var frag = LoadSource(fragPath, true);
 
-                Console.WriteLine(frag);
-
                 // Compile shader
                 return GraphicsAdapter.ShaderFactory.Compile(name, vert, frag, out uniforms);
             }
