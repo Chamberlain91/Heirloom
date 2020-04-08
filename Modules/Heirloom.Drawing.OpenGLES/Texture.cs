@@ -91,7 +91,11 @@ namespace Heirloom.Drawing.OpenGLES
                 }
 
                 // Schedule deleting the GL texture resource
-                OpenGLGraphicsAdapter.Schedule(() => GL.DeleteTexture(Handle));
+                OpenGLGraphicsAdapter.Schedule(() =>
+                {
+                    Log.Debug($"Disposing Texture ({Handle})");
+                    GL.DeleteTexture(Handle);
+                });
 
                 _isDisposed = true;
             }

@@ -83,9 +83,6 @@ namespace Heirloom.Drawing
             private static readonly Regex _includeRegex
                 = new Regex(@"^\s*#\s*include\s+""(.*)"".*", RegexOptions.Compiled | RegexOptions.Multiline);
 
-            private static readonly Regex _sampler2DRegex
-                = new Regex(@"uniform\s+sampler2D\s+(\w*)\s*;", RegexOptions.Compiled | RegexOptions.Multiline);
-
             static Factory()
             {
                 // Populate standard includes
@@ -104,6 +101,8 @@ namespace Heirloom.Drawing
                 // ...
                 var vert = LoadSource(vertPath, true);
                 var frag = LoadSource(fragPath, true);
+
+                Console.WriteLine(frag);
 
                 // Compile shader
                 return GraphicsAdapter.ShaderFactory.Compile(name, vert, frag, out uniforms);
@@ -172,17 +171,6 @@ namespace Heirloom.Drawing
 
                         // Read source text
                         code = Files.ReadText(path);
-
-                        // Process "uniform sampler2D" to emit also "_UVRect" metadata
-                        foreach (Match match in _sampler2DRegex.Matches(code))
-                        {
-                            var uniformName = match.Groups[1].Value;
-                            if (uniformName != "uMainImage")
-                            {
-                                var uvRectUniform = $"\nuniform vec4 {uniformName}_UVRect;";
-                                code = code.Insert(match.Index + match.Length, uvRectUniform);
-                            }
-                        }
 
                         // Process include directives (baking the into stored source)
                         foreach (Match match in _includeRegex.Matches(code))
