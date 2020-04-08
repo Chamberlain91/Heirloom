@@ -64,19 +64,28 @@ namespace Heirloom.Desktop
                 _window = window ?? throw new ArgumentNullException(nameof(window));
                 _vsync = vsync;
 
+                var hasThreadStarted = false;
+
                 // Set initial default surface size
                 DefaultSurface.SetSize(_window.FramebufferSize);
 
                 // Whenever the window framebuffer is resized, also update the
-                // viewport and default surface.
+                // viewport and default surface. If the window is first created,
+                // we use this event as a "window is ready" event to launch the
+                // OpenGL thread.
                 _window.FramebufferResized += _ =>
                 {
                     DefaultSurface.SetSize(_window.FramebufferSize);
-                    if (Surface != null) { ComputeViewportRect(); }
-                };
 
-                // Run OpenGL Consumer Thread
-                StartThread();
+                    // If the thread has not started, the framebuffer size is now known
+                    if (!hasThreadStarted)
+                    {
+                        hasThreadStarted = true;
+
+                        // Run OpenGL thread
+                        StartThread();
+                    }
+                };
             }
 
             protected override void MakeCurrent()

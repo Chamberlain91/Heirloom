@@ -23,7 +23,7 @@ namespace Heirloom.Drawing
         /// The height of the image (in pixels).
         /// </summary>
         public int Height => Size.Height;
-         
+
         /// <summary>
         /// The offset used to 'center' the image around a non-zero origin.
         /// </summary>
@@ -42,7 +42,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Repeat mode.
         /// </summary>
-        public RepeatMode Repeat { get; set; } = RepeatMode.Clamp;
+        public RepeatMode Repeat { get; set; } = RepeatMode.Blank;
 
         internal object Native;
 

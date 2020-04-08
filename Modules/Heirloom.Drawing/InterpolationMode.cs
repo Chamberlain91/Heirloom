@@ -5,11 +5,11 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Color is sampled using rounding to the nearest pixel.
         /// </summary>
-        Nearest,
+        Nearest = 0,
 
         /// <summary>
         /// Color is sampled using interpolation across nearest pixels.
         /// </summary>
-        Linear
+        Linear = 1
     }
 }

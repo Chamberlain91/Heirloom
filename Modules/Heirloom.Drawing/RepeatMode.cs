@@ -3,13 +3,18 @@ namespace Heirloom.Drawing
     public enum RepeatMode
     {
         /// <summary>
-        /// Sampling coordinates are clamped to image bounds.
+        /// Sampling coordinates outside image return transparent black.
         /// </summary>
-        Clamp,
+        Blank = 0,
 
         /// <summary>
         /// Sampling coordinates outside image bounds cause the image to be repeated.
         /// </summary>
-        Repeat
+        Repeat = 1,
+
+        /// <summary>
+        /// Sampling coordinates are clamped to image bounds.
+        /// </summary>
+        Clamp = 2
     }
 }
