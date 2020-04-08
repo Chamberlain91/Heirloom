@@ -11,8 +11,7 @@ namespace Examples.Drawing
         public ImageDemo()
             : base("Simple Image")
         {
-            // CC0 from https://pixabay.com/users/nara_kim-279055/
-            _image = new Image(Files.OpenStream("files/rabbit.png"));
+            _image = new Image(Files.OpenStream("files/colored_castle.png"));
         }
 
         internal override void Draw(Graphics ctx, Rectangle contentBounds)

@@ -11,15 +11,15 @@
 
   <ItemGroup>
     <None Remove="Files\alice.txt" />
+    <None Remove="Files\colored_castle.png" />
     <None Remove="Files\distort.frag" />
     <None Remove="Files\example.txt" />
-    <None Remove="Files\rabbit.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Files\colored_castle.png" />
     <EmbeddedResource Include="Files\distort.frag" />
     <EmbeddedResource Include="Files\example.txt" />
-    <EmbeddedResource Include="Files\rabbit.png" />
     <EmbeddedResource Include="Files\alice.txt" />
   </ItemGroup>
 

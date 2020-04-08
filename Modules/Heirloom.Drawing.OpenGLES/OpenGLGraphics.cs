@@ -33,7 +33,7 @@ namespace Heirloom.Drawing.OpenGLES
         private Surface _surface;
 
         // Viewport state
-        private IntRectangle _viewportRect;
+        private IntRectangle _viewportScreen;
         private Rectangle _viewport;
         private bool _viewportDirty;
 
@@ -164,18 +164,21 @@ namespace Heirloom.Drawing.OpenGLES
 
         public override IntRectangle ViewportScreen
         {
-            get => _viewportRect;
+            get => _viewportScreen;
 
             set
             {
-                // Compute normalized viewport rect
-                var x = value.X / (float) Surface.Width;
-                var y = value.Y / (float) Surface.Height;
-                var w = value.Width / (float) Surface.Width;
-                var h = value.Height / (float) Surface.Height;
+                if (_viewportScreen != value)
+                {
+                    // Complete previous work
+                    Flush();
 
-                // Assign normalized viewport
-                Viewport = new Rectangle(x, y, w, h);
+                    // Update viewport
+                    _viewportScreen = value;
+                    _viewport = ComputeNormalizedViewport(in value, _surface.Size);
+
+                    _viewportDirty = true;
+                }
             }
         }
 
@@ -185,32 +188,39 @@ namespace Heirloom.Drawing.OpenGLES
 
             set
             {
-                if (!Equals(_viewport, value))
+                var screen = ComputeScreenViewport(in value, _surface.Size);
+                if (screen != _viewportScreen)
                 {
                     // Complete previous work
                     Flush();
 
-                    // Assign normalzied viewprot
+                    // Update viewport values
+                    _viewportScreen = screen;
                     _viewport = value;
 
-                    // Compute viewport rect
-                    ComputeViewportRect();
+                    _viewportDirty = true;
                 }
             }
         }
 
-        protected void ComputeViewportRect()
+        private static IntRectangle ComputeScreenViewport(in Rectangle viewport, in IntSize screen)
         {
-            // Set viewport and scissor box
-            var w = (int) (_viewport.Width * Surface.Width);
-            var h = (int) (_viewport.Height * Surface.Height);
-            var x = (int) (_viewport.X * Surface.Width);
-            var y = (int) (_viewport.Y * Surface.Height);
-            y = Surface.Height - h - y; // todo: is this correct...?
+            var w = (int) (viewport.Width * screen.Width);
+            var h = (int) (viewport.Height * screen.Height);
+            var x = (int) (viewport.X * screen.Width);
+            var y = (int) (viewport.Y * screen.Height);
 
-            // Store actual computed viewport and mark as dirty to update GL counter part
-            _viewportRect = new IntRectangle(x, y, w, h);
-            _viewportDirty = true;
+            return new IntRectangle(x, y, w, h);
+        }
+
+        private static Rectangle ComputeNormalizedViewport(in IntRectangle viewport, in IntSize screen)
+        {
+            var w = viewport.Width / (float) screen.Width;
+            var h = viewport.Height / (float) screen.Height;
+            var x = viewport.X / (float) screen.Width;
+            var y = viewport.Y / (float) screen.Height;
+
+            return new Rectangle(x, y, w, h);
         }
 
         private unsafe void UpdateViewportScissor()
@@ -218,10 +228,10 @@ namespace Heirloom.Drawing.OpenGLES
             // Update viewport and scissor
             if (_viewportDirty)
             {
-                var x = _viewportRect.X;
-                var y = _viewportRect.Y;
-                var w = _viewportRect.Width;
-                var h = _viewportRect.Height;
+                var x = _viewportScreen.X;
+                var y = _viewportScreen.Y;
+                var w = _viewportScreen.Width;
+                var h = _viewportScreen.Height;
 
                 // 
                 GL.SetViewport(x, y, w, h);
@@ -321,9 +331,8 @@ namespace Heirloom.Drawing.OpenGLES
                 // Set new surface
                 _surface = surface;
 
-                // We are changing surfaces, reset viewport to full surface
-                _viewportRect = new IntRectangle(0, 0, surface.Width, surface.Height);
-                _viewport = new Rectangle(0, 0, 1, 1);
+                // We have changed surfaces, reset viewport to full surface
+                Viewport = (0, 0, 1, 1);
 
                 Invoke(blocking: false, action: () =>
                 {
@@ -990,7 +999,7 @@ namespace Heirloom.Drawing.OpenGLES
                     UpdateViewportScissor();
 
                     // Compute view-projection matrix
-                    var projMatrix = Matrix.RectangleProjection(0, 0, _viewportRect.Width, _viewportRect.Height);
+                    var projMatrix = Matrix.RectangleProjection(0, 0, _viewportScreen.Width, _viewportScreen.Height);
                     Matrix.Multiply(in projMatrix, in _viewMatrix, ref projMatrix);
 
                     // Write into uniform buffer
@@ -1085,9 +1094,15 @@ namespace Heirloom.Drawing.OpenGLES
                     throw new InvalidOperationException("Image source was not a valid type");
             }
 
-            // We encode special meaning into negative values
-            if (source.Interpolation == InterpolationMode.Linear) { uvRect.X -= 1; }
-            if (source.Repeat == RepeatMode.Repeat) { uvRect.Y -= 1; }
+            // A simple meta data encoding trick. Because the UV rectangle describes a
+            // non-negative zero-to-one domain, we can use negative values to encode
+            // special meaning into each component of the rect.
+            // - X component encodes interpolation mode
+            // - Y component encodes repeat mode
+            // - Z component has no encoding currently.
+            // - W component encodes vertical flip (to compensate for framebuffers).
+            uvRect.X -= (float) source.Interpolation;
+            uvRect.Y -= (float) source.Repeat;
 
             //// 
             //var residence = new TextureResidence(texture, uvRect);

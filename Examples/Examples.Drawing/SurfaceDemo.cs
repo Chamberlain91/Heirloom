@@ -11,7 +11,6 @@ namespace Examples.Drawing
             : base("Surface")
         {
             LowResSurface = new Surface(350, 200, MultisampleQuality.None);
-            LowResSurface.Interpolation = InterpolationMode.Linear;
         }
 
         internal override void Draw(Graphics ctx, Rectangle contentBounds)
@@ -20,6 +19,7 @@ namespace Examples.Drawing
 
             ctx.Surface = LowResSurface;
             ctx.Clear(Color.Transparent);
+            ctx.Viewport = (0, 0, 5, 1);
 
             var a = new Vector(0 / 3F, (Calc.Sin(Time * 1) + 1F) * 0.5F) * (Vector) LowResSurface.Size;
             var b = new Vector(1 / 3F, (Calc.Sin(Time * 2) + 1F) * 0.5F) * (Vector) LowResSurface.Size;
@@ -45,7 +45,6 @@ namespace Examples.Drawing
             var rect = new Rectangle(contentBounds.X + offset, contentBounds.Y, newWidth, newHeight);
 
             ctx.Surface = ctx.DefaultSurface;
-            // ctx.InterpolationMode = InterpolationMode.Nearest;
             ctx.DrawImage(LowResSurface, rect);
         }
     }

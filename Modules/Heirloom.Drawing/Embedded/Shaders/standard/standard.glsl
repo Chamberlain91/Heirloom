@@ -3,6 +3,8 @@ precision highp sampler2DArray;
 precision highp float;
 #endif
 
+#define TRANSPARENT vec4(0.0)
+
 // Used to interpolate per-fragment data
 struct PerFragment
 {
@@ -20,12 +22,7 @@ uniform Standard
 	mat2x3 uMatrix;
 };
 
-// maps 'image space' to 'atlas space'
-vec2 wrap(in vec2 uv, in vec2 offset, in vec2 size, in vec4 rect) {
-	return mod((uv * rect.zw) + offset, rect.zw) + rect.xy;
-}
-
-// nearest sampling (no interpolation)
+// nearest sampling
 vec4 _H_SampleAtlasNearest(sampler2D img, vec2 uv, vec4 rect)
 {
 	// Acquire image size
@@ -35,7 +32,6 @@ vec4 _H_SampleAtlasNearest(sampler2D img, vec2 uv, vec4 rect)
 	rect = rect * vec4(size, size);
 
 	// Compute sampling positions (in pixel space)
-	// todo: wrap modes?
 	vec2 st = mod(uv * rect.zw, rect.zw) + rect.xy;
 
 	// We encode 'flip on y' in negative height atlas rectangle.
@@ -61,7 +57,6 @@ vec4 _H_SampleAtlasLinear(sampler2D img, vec2 uv, vec4 rect)
 	rect = rect * vec4(size, size);
 
 	// Compute sampling positions (in pixel space)
-	// todo: wrap modes?
 	vec2 st00 = mod((uv * rect.zw) + vec2(0, 0), rect.zw) + rect.xy;
 	vec2 st10 = mod((uv * rect.zw) + vec2(1, 0), rect.zw) + rect.xy;
 	vec2 st01 = mod((uv * rect.zw) + vec2(0, 1), rect.zw) + rect.xy;
@@ -94,41 +89,76 @@ vec4 _H_SampleAtlasLinear(sampler2D img, vec2 uv, vec4 rect)
 	return mix(t0, t1, fst.y);
 }
 
+bool _H_CheckNegativeEncoding(inout float val, float key) 
+{
+	if (val >= key) 
+	{
+		// Detected encoding
+		val -= key; // remove encoded key
+		return true;
+	} else {
+		// Was not encoded
+		return false;
+	}
+}
+
+bool _H_ApplyRepeatMode(inout vec4 rect, inout vec2 uv)
+{
+	// Repeat mode flags
+	const float REPEAT_BLANK  =  0.0;
+	const float REPEAT_REPEAT = -1.0;
+	const float REPEAT_CLAMP  = -2.0;
+
+	// Note: Flags must be in descending order!
+	if (_H_CheckNegativeEncoding(rect.y, REPEAT_BLANK))
+	{
+		// If outside UV box return blank
+		if (uv != clamp(uv, vec2(0.0), vec2(1.0))) {
+			return false; // discard pixel
+		}
+	}
+	else 
+	if (_H_CheckNegativeEncoding(rect.y, REPEAT_REPEAT))
+	{
+		// Does nothing
+	}
+	else
+	if (_H_CheckNegativeEncoding(rect.y, REPEAT_CLAMP))
+	{
+		// Clamp UV to zero-to-one box
+		uv = clamp(uv, vec2(0.0), vec2(1.0));
+	}
+	
+	// Keep pixel
+	return true;
+}
+
 vec4 atlas(sampler2D img, vec4 rect, vec2 uv)
 {
 	// Parameter 'rect' has special encoding with negative
 	// values. The encoding is as follows:
 	// - X (0: "nearest"  -1: "linear")
-	// - Y (0: "wrap"     -1: "repeat")
+	// - Y (0: "blank"    -1: "repeat"  -2: "clamp")
 	// - Z ----
-	// - W (0: "no-flip"  -1: "y-flip")
+	// - W (0: "none"     -1: "y-flip")
 
-	// Select Repeat Mode
-	if (rect.y >= 0)
-	{
-		// Clamp Mode
-		uv = clamp(uv, vec2(0.0), vec2(1.0));
+	// Apply the repeat modifiers
+	if (_H_ApplyRepeatMode(rect, uv) == false) {
+		return TRANSPARENT; // Effectively discard the texel (blank)
 	}
-	else
-	{
-		// Repeat Mode
-		
-		// Remove encoded value
-		rect.y = 1.0 + rect.y;
-	}
+
+	// Filtering mode flags
+	const float FILTER_NEAREST =  0.0;
+	const float FILTER_LINEAR  = -1.0;
 
 	// Select Filtering
-	if (rect.x >= 0)
+	if (_H_CheckNegativeEncoding(rect.x, FILTER_NEAREST))
 	{
-		// Nearest Filtering
 		return _H_SampleAtlasNearest(img, uv, rect);
 	}
 	else
+	if (_H_CheckNegativeEncoding(rect.x, FILTER_LINEAR))
 	{
-		// Remove encoded value
-		rect.x = 1.0 + rect.x;
-
-		// Linear Interpolation
 		return _H_SampleAtlasLinear(img, uv, rect);
 	}
 }
