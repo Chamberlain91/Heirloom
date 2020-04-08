@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-using Heirloom.IO;
 using Heirloom.Math;
 using Heirloom.OpenGLES;
 
@@ -404,7 +403,7 @@ namespace Heirloom.Drawing.OpenGLES
                 // is probably a better solution to this problem.
                 if (storage.IsDirty || (storage.Info.Type == UniformType.Image && storage.Value != null))
                 {
-                    SetUniform(name, storage.Value);
+                    ApplyUniform(name, storage.Value);
 
                     // Mark as no longer dirty
                     storage.IsDirty = false;
@@ -415,8 +414,10 @@ namespace Heirloom.Drawing.OpenGLES
             _shader.IsDirty = false;
         }
 
-        private unsafe void SetUniform(string name, object value)
+        private unsafe void ApplyUniform(string name, object value)
         {
+            if (value is null) { throw new ArgumentNullException(nameof(value)); }
+
             var location = _shaderProgram.GetUniformLocation(name);
             var uniform = _shaderProgram.GetUniform(name);
 
@@ -430,27 +431,36 @@ namespace Heirloom.Drawing.OpenGLES
 
                     case ActiveUniformType.Integer:
                     {
+                        // Integer
                         if (value is int x)
                         {
                             GL.Uniform1(location, x);
                         }
+                        // Integer Array
                         else if (value is int[] arr)
                         {
                             GL.Uniform1(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
 
                     case ActiveUniformType.IntVec2:
                     {
-                        if (value is IntVector vec)
+                        // Tuple
+                        if (value is (int x, int y))
+                        {
+                            GL.Uniform2(location, x, y);
+                        }
+                        // IntVector
+                        else if (value is IntVector vec)
                         {
                             GL.Uniform2(location, vec.X, vec.Y);
                         }
+                        // IntVector Array
                         else if (value is IntVector[] vecs)
                         {
                             fixed (IntVector* ptr = vecs)
@@ -458,39 +468,52 @@ namespace Heirloom.Drawing.OpenGLES
                                 GL.Uniform2(location, vecs.Length, (int*) ptr);
                             }
                         }
+                        // Integer Array
                         else if (value is int[] arr)
                         {
                             GL.Uniform2(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
 
                     case ActiveUniformType.IntVec3:
                     {
-                        if (value is int[] arr)
+                        // Tuple
+                        if (value is (int x, int y, int z))
+                        {
+                            GL.Uniform3(location, x, y, z);
+                        }
+                        // Integer Array
+                        else if (value is int[] arr)
                         {
                             GL.Uniform3(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
 
                     case ActiveUniformType.IntVec4:
                     {
-                        if (value is int[] arr)
+                        // Tuple
+                        if (value is (int x, int y, int z, int w))
+                        {
+                            GL.Uniform4(location, x, y, z, w);
+                        }
+                        // Integer Array
+                        else if (value is int[] arr)
                         {
                             GL.Uniform4(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
@@ -501,56 +524,76 @@ namespace Heirloom.Drawing.OpenGLES
 
                     case ActiveUniformType.UnsignedInteger:
                     {
+                        // Unsigned Integer
                         if (value is uint x)
                         {
                             GL.Uniform1(location, x);
                         }
+                        // Unsigned Integer Array
                         else if (value is uint[] arr)
                         {
                             GL.Uniform1(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
 
                     case ActiveUniformType.UnsignedIntVec2:
                     {
-                        if (value is uint[] arr)
+                        // Tuple
+                        if (value is (uint x, uint y))
+                        {
+                            GL.Uniform2(location, x, y);
+                        }
+                        // Unsigned Integer Array
+                        else if (value is uint[] arr)
                         {
                             GL.Uniform2(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
 
                     case ActiveUniformType.UnsignedIntVec3:
                     {
-                        if (value is uint[] arr)
+                        // Tuple
+                        if (value is (uint x, uint y, uint z))
+                        {
+                            GL.Uniform3(location, x, y, z);
+                        }
+                        // Unsigned Integer Array
+                        else if (value is uint[] arr)
                         {
                             GL.Uniform3(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
 
                     case ActiveUniformType.UnsignedIntVec4:
                     {
-                        if (value is uint[] arr)
+                        // Tuple
+                        if (value is (uint x, uint y, uint z, uint w))
+                        {
+                            GL.Uniform4(location, x, y, z, w);
+                        }
+                        // Unsigned Integer Array
+                        else if (value is uint[] arr)
                         {
                             GL.Uniform4(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
@@ -561,27 +604,36 @@ namespace Heirloom.Drawing.OpenGLES
 
                     case ActiveUniformType.Float:
                     {
+                        // Float
                         if (value is float x)
                         {
                             GL.Uniform1(location, x);
                         }
+                        // Float Array
                         else if (value is float[] arr)
                         {
                             GL.Uniform1(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
 
                     case ActiveUniformType.FloatVec2:
                     {
-                        if (value is Vector vec)
+                        // Tuple
+                        if (value is (float x, float y))
+                        {
+                            GL.Uniform2(location, x, y);
+                        }
+                        // Vector
+                        else if (value is Vector vec)
                         {
                             GL.Uniform2(location, vec.X, vec.Y);
                         }
+                        // Vector Array
                         else if (value is Vector[] vecs)
                         {
                             fixed (Vector* ptr = vecs)
@@ -589,36 +641,50 @@ namespace Heirloom.Drawing.OpenGLES
                                 GL.Uniform2(location, vecs.Length, (float*) ptr);
                             }
                         }
+                        // Float Array
                         else if (value is float[] arr)
                         {
                             GL.Uniform2(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
 
                     case ActiveUniformType.FloatVec3:
                     {
-                        if (value is float[] arr)
+                        // Tuple
+                        if (value is (float x, float y, float z))
+                        {
+                            GL.Uniform3(location, x, y, z);
+                        }
+                        // Float Array
+                        else if (value is float[] arr)
                         {
                             GL.Uniform3(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
 
                     case ActiveUniformType.FloatVec4:
                     {
-                        if (value is Color col)
+                        // Tuple
+                        if (value is (float x, float y, float z, float w))
+                        {
+                            GL.Uniform4(location, x, y, z, w);
+                        }
+                        // Color
+                        else if (value is Color col)
                         {
                             GL.Uniform4(location, col.R, col.G, col.B, col.A);
                         }
+                        // Color Array
                         else if (value is Color[] cols)
                         {
                             fixed (Color* ptr = cols)
@@ -626,17 +692,27 @@ namespace Heirloom.Drawing.OpenGLES
                                 GL.Uniform4(location, cols.Length, (float*) ptr);
                             }
                         }
-                        else if (value is float[] arr)
-                        {
-                            GL.Uniform4(location, arr);
-                        }
+                        // Rectangle
                         else if (value is Rectangle rect)
                         {
                             GL.Uniform4(location, rect.X, rect.Y, rect.Width, rect.Height);
                         }
+                        // Rectangle Array
+                        else if (value is Rectangle[] rects)
+                        {
+                            fixed (Rectangle* ptr = rects)
+                            {
+                                GL.Uniform4(location, rects.Length, (float*) ptr);
+                            }
+                        }
+                        // Float Array
+                        else if (value is float[] arr)
+                        {
+                            GL.Uniform4(location, arr);
+                        }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
@@ -647,17 +723,20 @@ namespace Heirloom.Drawing.OpenGLES
 
                     case ActiveUniformType.Bool:
                     {
+                        // Boolean
                         if (value is bool x)
                         {
                             GL.Uniform1(location, x ? 1 : 0);
                         }
+                        // Boolean Array
                         else if (value is bool[] arr)
                         {
+                            // todo: ArrayPool<int> and copy...?
                             throw new NotSupportedException("Boolean arrays not (yet) supported! Poke the developer.");
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
@@ -677,10 +756,12 @@ namespace Heirloom.Drawing.OpenGLES
 
                     case ActiveUniformType.Matrix2x3:
                     {
+                        // Matrix
                         if (value is Matrix m)
                         {
                             GL.UniformMatrix2x3(location, 1, (float*) &m);
                         }
+                        // Matrix Array
                         else if (value is Matrix[] arr)
                         {
                             fixed (Matrix* ptr = arr)
@@ -688,6 +769,7 @@ namespace Heirloom.Drawing.OpenGLES
                                 GL.UniformMatrix2x3(location, arr.Length, (float*) ptr);
                             }
                         }
+                        // Float Array
                         else if (value is float[] xs)
                         {
                             fixed (float* ptr = xs)
@@ -697,7 +779,7 @@ namespace Heirloom.Drawing.OpenGLES
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
@@ -708,34 +790,74 @@ namespace Heirloom.Drawing.OpenGLES
                     {
                         if (value is ImageSource source)
                         {
-                            // Find texture for the current image source
+                            // Get the texture information for this image source
                             RequestTextureInformation(source, out var texture, out var uvRect);
 
                             // Get texture unit for sampler2D uniform.
                             var unit = _shaderProgram.GetTextureUnit(name);
 
+                            // Shader should reserve X of the N allowable texture units available
+                            // on the executing hardware. Thus if a shader requires the use of two
+                            // textures it would claim two of the units available and prevent their
+                            // use from the batching mechanism.
+
+                            // todo: Associate uniform with texture unit
+                            // GL.Uniform1(location, 0);
+
                             // Bind texture
+                            // todo: only do this if the texture isn't already mapped
                             GL.ActiveTexture(unit);
                             GL.BindTexture(TextureTarget.Texture2D, texture.Handle);
 
-                            // Check if associated uvRect exists then set that as well.
-                            var uvRectUniform = $"{name}_UVRect";
+                            // Check if associated atlas rectangle (uvrect) exists. If it
+                            // does then we need to set that as well.
+                            var uvRectUniform = GetAtlasRectUniformName(name);
                             if (_shaderProgram.HasUniform(uvRectUniform))
                             {
-                                SetUniform(uvRectUniform, uvRect);
+                                ApplyUniform(uvRectUniform, uvRect);
                             }
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
                 }
+
+                // Uniform state has been updated.
+                // Exit here to prevent falling into the exception below.
+                return;
+
+                // Uniform could not be set, a value of an invalid type was given.
+                BadUniformException:
+                throw new InvalidOperationException($"Unable to set shader uniform '{name}' of '{info.Type}' to mismatched type {value.GetType()}.");
             }
             else
             {
                 throw new InvalidOperationException("Unable to set uniform.");
+            }
+
+            static string GetAtlasRectUniformName(string uniform)
+            {
+                var suffix = "_UVRect";
+
+                // Check if uniform name is an array (ie, 'uImage[2]')
+                var lastBracket = uniform.LastIndexOf('[');
+                if (lastBracket >= 0)
+                {
+                    // Extract non-array name (ie 'uImage' )
+                    var name = uniform.Substring(0, lastBracket);
+                    var index = uniform.Substring(lastBracket);
+
+                    // Combine name with suffix (ie 'uImage_UVRect[2]')
+                    return name + suffix + index;
+                }
+                else
+                {
+                    // Combine name with suffix (ie 'uImage_UVRect')
+                    return uniform + suffix;
+                }
             }
         }
 
@@ -894,6 +1016,9 @@ namespace Heirloom.Drawing.OpenGLES
 
                     // Mark surface as dirty
                     _surface.IncrementVersion();
+
+                    // 
+                    GL.Flush();
                 });
             }
         }
@@ -977,7 +1102,7 @@ namespace Heirloom.Drawing.OpenGLES
             if (!_framebuffers.TryGetValue(surface, out var framebuffer))
             {
                 // Was not known, we will now create it 
-                framebuffer = Invoke(() => new Framebuffer(surface));
+                framebuffer = Invoke(() => new Framebuffer(this, surface));
 
                 // Store framebuffer
                 _framebuffers.Add(surface, framebuffer);

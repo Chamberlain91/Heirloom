@@ -20,7 +20,7 @@ vec4 fragmentProgram(vec4 color);
 
 void main(void)
 {
-	outColor  = texture(uMainImage, frag.uv);
+	outColor  = atlas(uMainImage, uMainImage_UVRect, frag.uv);
 	outColor  = fragmentProgram(outColor);
 	outColor *= frag.color;
 }

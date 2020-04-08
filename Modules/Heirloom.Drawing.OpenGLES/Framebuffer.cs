@@ -29,18 +29,18 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Constructors
 
-        public Framebuffer(Surface surface)
+        public Framebuffer(OpenGLGraphics graphics, Surface surface)
         {
             _storage = surface.Native as FramebufferStorage;
             _surface = surface;
 
             // Construct texture FBO
-            TextureFBO = new TextureTarget(_storage.Texture);
+            TextureFBO = new TextureTarget(graphics, _storage.Texture);
 
             if (_storage.HasRenderbuffer)
             {
                 // Construct renderbuffer FBO (MSAA)
-                RenderbufferFBO = new RenderbufferTarget(_storage.Renderbuffer);
+                RenderbufferFBO = new RenderbufferTarget(graphics, _storage.Renderbuffer);
             }
         }
 
@@ -161,14 +161,18 @@ namespace Heirloom.Drawing.OpenGLES
         {
             private bool _isDisposed = false;
 
+            private readonly OpenGLGraphics _graphics;
+
             public Renderbuffer Renderbuffer;
 
             public uint Handle;
 
             #region Constructor
 
-            public RenderbufferTarget(Renderbuffer renderbuffer)
+            public RenderbufferTarget(OpenGLGraphics graphics, Renderbuffer renderbuffer)
             {
+                _graphics = graphics;
+
                 Renderbuffer = renderbuffer;
 
                 // Generate framebuffer
@@ -208,7 +212,11 @@ namespace Heirloom.Drawing.OpenGLES
                     }
 
                     // Schedule for deletion on a GL thread.
-                    OpenGLGraphicsAdapter.Schedule(() => GL.DeleteFramebuffer(Handle));
+                    _graphics.Invoke(() =>
+                    {
+                        Log.Debug($"Disposing Framebuffer (Renderbuffer {Handle})");
+                        GL.DeleteFramebuffer(Handle);
+                    });
 
                     _isDisposed = true;
                 }
@@ -227,14 +235,18 @@ namespace Heirloom.Drawing.OpenGLES
         {
             private bool _isDisposed = false;
 
+            private readonly OpenGLGraphics _graphics;
+
             public Texture Texture;
 
             public uint Handle;
 
             #region Constructor
 
-            public TextureTarget(Texture texture)
+            public TextureTarget(OpenGLGraphics graphics, Texture texture)
             {
+                _graphics = graphics;
+
                 Texture = texture;
 
                 // Generate framebuffer
@@ -274,7 +286,11 @@ namespace Heirloom.Drawing.OpenGLES
                     }
 
                     // Schedule for deletion on a GL thread.
-                    OpenGLGraphicsAdapter.Schedule(() => GL.DeleteFramebuffer(Handle));
+                    _graphics.Invoke(() =>
+                    {
+                        Log.Debug($"Disposing Framebuffer (Texture {Handle})");
+                        GL.DeleteFramebuffer(Handle);
+                    });
 
                     _isDisposed = true;
                 }

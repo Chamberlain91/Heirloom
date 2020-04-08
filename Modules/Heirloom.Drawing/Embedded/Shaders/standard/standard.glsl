@@ -94,14 +94,14 @@ vec4 _H_SampleAtlasLinear(sampler2D img, vec2 uv, vec4 rect)
 	return mix(t0, t1, fst.y);
 }
 
-vec4 _H_SampleAtlas(sampler2D img, vec2 uv, vec4 rect)
+vec4 atlas(sampler2D img, vec4 rect, vec2 uv)
 {
 	// Parameter 'rect' has special encoding with negative
-	// values. The encoding is as follows
-	// - X means "linear interpolation"
-	// - Y means "repeat"
+	// values. The encoding is as follows:
+	// - X (0: "nearest"  -1: "linear")
+	// - Y (0: "wrap"     -1: "repeat")
 	// - Z ----
-	// - W means "y-flip"
+	// - W (0: "no-flip"  -1: "y-flip")
 
 	// Select Repeat Mode
 	if (rect.y >= 0)
@@ -132,10 +132,6 @@ vec4 _H_SampleAtlas(sampler2D img, vec2 uv, vec4 rect)
 		return _H_SampleAtlasLinear(img, uv, rect);
 	}
 }
-
-// Cause replacement of texture() calls to use atlas function...
-#define texture(img, uv) \
-    _H_SampleAtlas(img, uv, img ## _UVRect)
 
 // computes the luminance of a color
 float luminance(vec3 rgb) {
