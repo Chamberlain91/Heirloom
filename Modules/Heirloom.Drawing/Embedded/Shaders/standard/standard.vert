@@ -8,21 +8,19 @@ in vec2 aUV;
 // == Per Instance Attributes ==
 
 // todo: repeat for each named image
-in vec4   aImageRect; // U, V, sU, sV
+in vec4   aAtlasRect; // U, V, sU, sV
 
 in mat2x3 aTransform;
 in vec4   aColor;
 
 // == Output (Fragment Shader) ==
 
+out vec4 uMainImage_UVRect;
 out PerFragment frag;
 
 // == Uniforms ==
 
-uniform Standard
-{
-	mat2x3 uMatrix;
-};
+// -- NO UNIFORMS
 
 // == Vertex Shader ==
 
@@ -35,15 +33,12 @@ void main()
 	vec3 vPosition = vec3(vertexProgram(aPosition), 1.0);
 	     vPosition = vec3(vPosition * aTransform, 1.0);
          vPosition = vec3(vPosition * uMatrix, 1.0);
-
-	// Emit blending color
-	frag.color = aColor;
 	
-	// Emit UV coordinates (atlas space)
-	frag.uvAtlas = transformUV(aUV, aImageRect);
-	frag.atlasRect = aImageRect;
+	// Emit atlas transform rect
+	uMainImage_UVRect = aAtlasRect;
 
-	// Emit UV coordinates (image space)
+	// Emit per fragment values
+	frag.color = aColor; 
 	frag.uv = aUV;
 
 	// Set final vertex position

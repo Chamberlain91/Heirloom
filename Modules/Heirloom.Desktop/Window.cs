@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 using Heirloom.Drawing;
 using Heirloom.Math;
@@ -46,20 +47,10 @@ namespace Heirloom.Desktop
         /// Constructs a new window.
         /// </summary>
         /// <param name="title">The text in the titlebar of the window.</param>
-        /// <param name="vsync">Enable VSync on this window.</param>
-        /// <param name="transparent">Enable transparent framebuffer (if OS supports it).</param>
-        public Window(string title, bool vsync = true, bool transparent = false)
-            : this(title, MultisampleQuality.None, vsync, transparent)
-        { }
-
-        /// <summary>
-        /// Constructs a new window.
-        /// </summary>
-        /// <param name="title">The text in the titlebar of the window.</param>
         /// <param name="multisample">What level of MSAA to use.</param>
         /// <param name="vsync">Enable VSync on this window.</param>
         /// <param name="transparent">Enable transparent framebuffer (if OS supports it).</param>
-        public Window(string title, MultisampleQuality multisample, bool vsync = true, bool transparent = false)
+        public Window(string title, MultisampleQuality multisample = MultisampleQuality.None, bool vsync = true, bool transparent = false)
         {
             _title = title ?? throw new ArgumentNullException(nameof(title));
 
@@ -142,6 +133,9 @@ namespace Heirloom.Desktop
             // == Construct Graphics Context
 
             Graphics = Application.GraphicsFactory.CreateGraphics(this, vsync);
+
+            // To help prevent the weird window framebuffer isn't the same size error...?
+            Thread.Sleep(1);
         }
 
         ~Window()
@@ -347,7 +341,7 @@ namespace Heirloom.Desktop
 
         public event Action<Window> FramebufferResized;
 
-        public event Action<Window, ContentScaleEvent> ContentScaleChanged;
+        public event Action<Window, WindowEvents> ContentScaleChanged;
 
         public event Action<Window, KeyEvent> KeyPress;
 
@@ -385,7 +379,7 @@ namespace Heirloom.Desktop
 
         protected virtual void OnContentScaleChanged(float xScale, float yScale)
         {
-            var ev = new ContentScaleEvent(xScale, yScale);
+            var ev = new WindowEvents(xScale, yScale);
             ContentScaleChanged?.Invoke(this, ev);
         }
 

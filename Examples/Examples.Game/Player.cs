@@ -1,4 +1,3 @@
-﻿using System;
 using Heirloom.Drawing;
 using Heirloom.Game;
 using Heirloom.Math;

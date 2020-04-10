@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+
 using Heirloom.Game;
 using Heirloom.Math;
 

@@ -1,12 +1,12 @@
-#include "standard/standard.frag"
+	#include "standard/standard.frag"
 
-uniform sampler2D uNoiseImage;
-uniform float uTime;
+	uniform sampler2D uNoiseImage;
+	uniform vec4      uNoiseImage_UVRect;
 
-vec4 fragmentProgram(vec4 color) 
-{ 
-	vec4 noiseTexel = texture(uNoiseImage, vec2(uTime, uTime / 2.0) + frag.uv);
-	vec4 offset = (noiseTexel * 2.0 - 1.0) * 0.05;
+	uniform float uTime;
 
-	return texture(uMainImage, frag.uvAtlas + offset.xy * frag.atlasRect.zw);
-}
+	vec4 fragmentProgram(vec4 color) 
+	{
+		vec2 offset = atlas(uNoiseImage, uNoiseImage_UVRect, vec2(uTime / 5.0, uTime / 2.0) + frag.uv).xy * 2.0 - 1.0;
+		return atlas(uMainImage, uMainImage_UVRect, frag.uv + offset * 0.05);
+	}

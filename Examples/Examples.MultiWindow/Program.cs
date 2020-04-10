@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using Heirloom.Desktop;
 using Heirloom.Drawing;
@@ -35,7 +35,7 @@ namespace Examples.MultiWindow
                 : base(window.Graphics)
             {
                 Window = window ?? throw new ArgumentNullException(nameof(window));
-                Graphics.EnableFPSOverlay = true;
+                Graphics.Performance.OverlayMode = PerformanceOverlayMode.Simple;
             }
 
             public Window Window { get; }

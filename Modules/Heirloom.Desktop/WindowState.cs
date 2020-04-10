@@ -1,4 +1,4 @@
-﻿namespace Heirloom.Desktop
+namespace Heirloom.Desktop
 {
     /// <summary>
     /// Describes the size state a window can be in.

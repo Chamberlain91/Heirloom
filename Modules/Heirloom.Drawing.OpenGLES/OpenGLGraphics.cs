@@ -1,129 +1,108 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Heirloom.Drawing.OpenGLES.Utilities;
+
 using Heirloom.Math;
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    public abstract class OpenGLGraphics : Graphics
+    internal abstract class OpenGLGraphics : Graphics
     {
-        private Surface _currentSurface;
-        private Renderer _renderer;
-
         private readonly ConsumerThread _thread;
         private bool _isRunning = false;
 
+        internal OpenGLCapabilities Capabilities;
+
+        // == Cross Context Resources - TODO: Share across contexts...
+        private readonly Dictionary<string, UniformBuffer> _uniformBuffers = new Dictionary<string, UniformBuffer>();
+        private AtlasTechnique _atlasTechnique;
+
+        // == Per Context Resources
+        private readonly ConditionalWeakTable<Surface, Framebuffer> _framebuffers;
+        private BatchingTechnique _batchingTechnique;
+
+        // 
+        private Matrix _viewMatrix;
+        private Matrix _viewMatrixInverse;
+        private bool _viewMatrixInverseDirty;
+
+        // Surface State
+        private Surface _surface;
+
+        // Viewport state
+        private IntRectangle _viewportScreen;
+        private Rectangle _viewport;
+        private bool _viewportDirty;
+
+        // Shader State
         private ShaderProgram _shaderProgram;
         private Shader _shader;
 
-        private Dictionary<string, Buffer> _uniformBuffers;
+        // Texture State
+        private bool _textureBindDirty;
+        private Texture _texture;
 
-        private Rectangle _viewport;
-        private Matrix _viewMatrix;
-        private Matrix _inverseViewMatrix;
-        private float _approxPixelScale = 1;
-
+        // Blending State
         private Blending _blendMode;
         private Color _blendColor;
 
         #region Constructors
 
-        protected internal OpenGLGraphics(GraphicsAdapter graphicsAdapter, MultisampleQuality multisample)
-            : base(graphicsAdapter, multisample)
+        protected internal OpenGLGraphics(MultisampleQuality multisample)
+            : base(multisample)
         {
-            _isRunning = true;
+            _framebuffers = new ConditionalWeakTable<Surface, Framebuffer>();
 
             // Create and start new task runner
             _thread = new ConsumerThread("GL Consumer");
             _thread.InvokeLater(() =>
             {
+                // Assign the GL context to this thread.
                 MakeCurrent();
 
-                //  
-                Version = ParseVersion();
-                Log.Info(Version);
+                // Query extra capability info
+                Capabilities = new OpenGLCapabilities
+                {
+                    MaxTextureSize = GL.GetInteger(GetParameter.MaxTextureSize)
+                };
 
-                // 
+                // Create batching utilities
+                _batchingTechnique = new HybridBatchingTechnique();
+                _atlasTechnique = new PackerAtlasTechnique(this);
+
+                // Set default OpenGL state
                 GL.Enable(EnableCap.ScissorTest);
                 GL.Enable(EnableCap.Blend);
-
-                // TODO: Share buffers in ResourceManager?
-                _uniformBuffers = new Dictionary<string, Buffer>();
-
-                // Construct the instancing batching renderer
-                _renderer = new InstancingRenderer(this);
-
-                // 
                 ResetState();
             });
-
-            // Begin consumer thread
-            _thread.Start();
         }
-
-        #endregion
-
-        #region Properties 
 
         /// <summary>
-        /// Gets the detected OpenGL version of this platform.
+        /// Launches the dedicated OpenGL thread associated with this context.
         /// </summary>
-        public OpenGLVersion Version { get; private set; }
-
-        #endregion
-
-        #region Thread Callbacks
-
-        protected abstract void MakeCurrent();
-
-        private OpenGLVersion ParseVersion()
-        // ref: https://hackage.haskell.org/package/bindings-GLFW-3.1.2.2/src/glfw/src/context.c
+        protected void StartThread()
         {
-            var vendor = GL.GetString(StringParameter.Vendor);
-            var renderer = GL.GetString(StringParameter.Renderer);
-            var version = GL.GetString(StringParameter.Version);
-            var embedded = false;
-
-            var embeddedPrefixes = new[]
+            if (!_isRunning)
             {
-                "OpenGL ES ",
-                "OpenGL ES-CM ",
-                "OpenGL ES-CL "
-            };
+                // Begin consumer thread
+                _isRunning = true;
+                _thread.Start();
 
-            // Try to detect OpenGL ES
-            foreach (var prefix in embeddedPrefixes)
-            {
-                if (version.StartsWith(prefix))
-                {
-                    // Strip prefix
-                    version = version.Substring(prefix.Length);
-                    embedded = true;
-                    break;
-                }
+                // Wait For GL
+                SpinWait.SpinUntil(() => _batchingTechnique != null);
             }
-
-            //
-            var split = version.IndexOf(" ");
-            if (split >= 0) { version = version.Substring(0, split); }
-
-            // Find dots (A.B.C or A.B)
-            var minDot = version.IndexOf('.');
-            var revDot = version.IndexOf('.', minDot + 1);
-            if (revDot < 0) { revDot = version.Length; }
-
-            // Extract and parse version number substrings
-            var major = int.Parse(version.Substring(0, minDot));
-            var minor = int.Parse(version.Substring(minDot + 1, revDot - minDot - 1));
-
-            return new OpenGLVersion(vendor, renderer, major, minor, embedded);
+            else
+            {
+                throw new InvalidOperationException("OpenGL thread already running.");
+            }
         }
 
         #endregion
+
+        #region Invoke
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected internal void Invoke(Action action, bool blocking = true)
@@ -140,35 +119,242 @@ namespace Heirloom.Drawing.OpenGLES
             return _thread.Invoke(action);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private Buffer GetUniformBuffer(ActiveUniformBlock block)
+        #endregion
+
+        protected abstract void MakeCurrent();
+
+        #region Global Transform
+
+        public override Matrix GlobalTransform
         {
-            // Try to get uniform buffer for block name
-            if (_uniformBuffers.TryGetValue(block.Name, out var buffer) == false)
+            get => _viewMatrix;
+
+            set
             {
-                // Create the buffer
-                buffer = Invoke(() => new Buffer(BufferTarget.UniformBuffer, (uint) block.DataSize));
-                _uniformBuffers[block.Name] = buffer;
+                if (!Equals(_viewMatrix, value))
+                {
+                    // Complete previous work
+                    Flush();
+
+                    // Store view matrix
+                    _viewMatrixInverseDirty = true;
+                    _viewMatrix = value;
+                }
             }
-
-            return buffer;
         }
 
-        private unsafe void SetViewportAndScissor(out int w, out int h)
+        public override Matrix InverseGlobalTransform
         {
-            // Set viewport and scissor box
-            // todo: only set if a viewport dirty flag was set to prevent calling this on every flush
-            w = (int) (_viewport.Width * Surface.Width);
-            h = (int) (_viewport.Height * Surface.Height);
-            var x = (int) (_viewport.X * Surface.Width);
-            var y = (int) (_viewport.Y * Surface.Height);
-            y = Surface.Height - h - y;
+            get
+            {
+                if (_viewMatrixInverseDirty)
+                {
+                    // Compute inverted view matrix
+                    Matrix.Inverse(in _viewMatrix, ref _viewMatrixInverse);
+                    _viewMatrixInverseDirty = false;
+                }
 
-            GL.SetViewport(x, y, w, h);
-            GL.SetScissor(x, y, w, h);
+                return _viewMatrixInverse;
+            }
         }
 
-        #region Shaders
+        #endregion
+
+        #region Viewport
+
+        public override IntRectangle ViewportScreen
+        {
+            get => _viewportScreen;
+
+            set
+            {
+                if (_viewportScreen != value)
+                {
+                    // Complete previous work
+                    Flush();
+
+                    // Update viewport
+                    _viewportScreen = value;
+                    _viewport = ComputeNormalizedViewport(in value, _surface.Size);
+
+                    _viewportDirty = true;
+                }
+            }
+        }
+
+        public override Rectangle Viewport
+        {
+            get => _viewport;
+
+            set
+            {
+                var screen = ComputeScreenViewport(in value, _surface.Size);
+                if (screen != _viewportScreen)
+                {
+                    // Complete previous work
+                    Flush();
+
+                    // Update viewport values
+                    _viewportScreen = screen;
+                    _viewport = value;
+
+                    _viewportDirty = true;
+                }
+            }
+        }
+
+        private static IntRectangle ComputeScreenViewport(in Rectangle viewport, in IntSize screen)
+        {
+            var w = (int) (viewport.Width * screen.Width);
+            var h = (int) (viewport.Height * screen.Height);
+            var x = (int) (viewport.X * screen.Width);
+            var y = (int) (viewport.Y * screen.Height);
+
+            return new IntRectangle(x, y, w, h);
+        }
+
+        private static Rectangle ComputeNormalizedViewport(in IntRectangle viewport, in IntSize screen)
+        {
+            var w = viewport.Width / (float) screen.Width;
+            var h = viewport.Height / (float) screen.Height;
+            var x = viewport.X / (float) screen.Width;
+            var y = viewport.Y / (float) screen.Height;
+
+            return new Rectangle(x, y, w, h);
+        }
+
+        private unsafe void UpdateViewportScissor()
+        {
+            // Update viewport and scissor
+            if (_viewportDirty)
+            {
+                var x = _viewportScreen.X;
+                var y = _viewportScreen.Y;
+                var w = _viewportScreen.Width;
+                var h = _viewportScreen.Height;
+
+                // 
+                GL.SetViewport(x, y, w, h);
+                GL.SetScissor(x, y, w, h);
+
+                // 
+                _viewportDirty = false;
+            }
+        }
+
+        #endregion
+
+        #region Blending
+
+        public override Blending Blending
+        {
+            get => _blendMode;
+            set => UseBlending(value);
+        }
+
+        public override Color Color
+        {
+            get => _blendColor;
+            set => _blendColor = value;
+        }
+
+        private void UseBlending(Blending blending)
+        {
+            if (_blendMode != blending)
+            {
+                Invoke(() =>
+                {
+                    // Complete previous work
+                    Flush();
+
+                    // Store mode
+                    _blendMode = blending;
+
+                    // 
+                    switch (_blendMode)
+                    {
+                        default:
+                            throw new InvalidOperationException("Unable to set unknown blend mode.");
+
+                        case Blending.Opaque:
+                            GL.SetBlendEquation(BlendEquation.Add);
+                            GL.SetBlendFunction(BlendFunction.One, BlendFunction.Zero);
+                            break;
+
+                        case Blending.Alpha:
+                            GL.SetBlendEquation(BlendEquation.Add, BlendEquation.Add);
+                            GL.SetBlendFunction(BlendFunction.SourceAlpha, BlendFunction.OneMinusSourceAlpha, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
+                            break;
+
+                        case Blending.Additive:
+                            GL.SetBlendEquation(BlendEquation.Add);
+                            GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
+                            break;
+
+                        case Blending.Subtractive: // Opposite of Additive (DST - SRC)
+                            GL.SetBlendEquation(BlendEquation.ReverseSubtract);
+                            GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha, BlendFunction.One);
+                            break;
+
+                        case Blending.Multiply:
+                            GL.SetBlendEquation(BlendEquation.Add);
+                            GL.SetBlendFunction(BlendFunction.DestinationColor, BlendFunction.OneMinusSourceAlpha);
+                            break;
+
+                        case Blending.Invert:
+                            GL.SetBlendEquation(BlendEquation.Subtract);
+                            GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.Zero);
+                            break;
+                    }
+                }, false);
+            }
+        }
+
+        #endregion
+
+        #region Surface
+
+        public override Surface Surface
+        {
+            get => _surface;
+            set => UseSurface(value);
+        }
+
+        private void UseSurface(Surface surface)
+        {
+            // Wasn't the same surface as before, flush everything
+            if (_surface != surface)
+            {
+                // Complete pending work
+                Flush();
+
+                // Set new surface
+                _surface = surface;
+
+                // We have changed surfaces, reset viewport to full surface
+                Viewport = (0, 0, 1, 1);
+
+                Invoke(blocking: false, action: () =>
+                {
+                    // Set and prepare the surface (ie, bind framebuffer)
+                    if (_surface == DefaultSurface)
+                    {
+                        // The current surface is the default (ie, window) framebuffer.
+                        GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, 0);
+                    }
+                    else
+                    {
+                        // Bind the associated framebuffer of the current surface.
+                        var framebuffer = GetFramebuffer(_surface);
+                        framebuffer.BindToDraw();
+                    }
+                });
+            }
+        }
+
+        #endregion
+
+        #region Shader
 
         public override Shader Shader
         {
@@ -186,7 +372,7 @@ namespace Heirloom.Drawing.OpenGLES
                     Flush();
 
                     // 
-                    _shaderProgram = GetNativeObject(shader) as ShaderProgram;
+                    _shaderProgram = shader.Native as ShaderProgram;
                     _shader = shader;
 
                     // Use this shader program
@@ -202,17 +388,45 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private UniformBuffer GetUniformBuffer(ActiveUniformBlock block)
+        {
+            // Try to get uniform buffer for block name
+            if (_uniformBuffers.TryGetValue(block.Name, out var buffer) == false)
+            {
+                // Create the buffer
+                buffer = Invoke(() => new UniformBuffer((uint) block.DataSize));
+                _uniformBuffers[block.Name] = buffer;
+            }
+
+            return buffer;
+        }
+
         private void UpdateShaderUniforms()
         {
             // Enumerate each mutated uniform and set 
-            foreach (var (name, value) in EnumerateAndResetDirtyUniforms(_shader))
+            foreach (var (name, storage) in _shader.UniformStorageMap)
             {
-                SetUniform(name, value);
+                // Note: We are always updating image uniforms as a "quick fix" to the potential error
+                // that can occur when the atlas restructures or an image somehow gets relocated. There
+                // is probably a better solution to this problem.
+                if (storage.IsDirty || (storage.Info.Type == UniformType.Image && storage.Value != null))
+                {
+                    ApplyUniform(name, storage.Value);
+
+                    // Mark as no longer dirty
+                    storage.IsDirty = false;
+                }
             }
+
+            // We handled the dirty uniforms
+            _shader.IsDirty = false;
         }
 
-        private unsafe void SetUniform(string name, object value)
+        private unsafe void ApplyUniform(string name, object value)
         {
+            if (value is null) { throw new ArgumentNullException(nameof(value)); }
+
             var location = _shaderProgram.GetUniformLocation(name);
             var uniform = _shaderProgram.GetUniform(name);
 
@@ -226,27 +440,36 @@ namespace Heirloom.Drawing.OpenGLES
 
                     case ActiveUniformType.Integer:
                     {
+                        // Integer
                         if (value is int x)
                         {
                             GL.Uniform1(location, x);
                         }
+                        // Integer Array
                         else if (value is int[] arr)
                         {
                             GL.Uniform1(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
 
                     case ActiveUniformType.IntVec2:
                     {
-                        if (value is IntVector vec)
+                        // Tuple
+                        if (value is (int x, int y))
+                        {
+                            GL.Uniform2(location, x, y);
+                        }
+                        // IntVector
+                        else if (value is IntVector vec)
                         {
                             GL.Uniform2(location, vec.X, vec.Y);
                         }
+                        // IntVector Array
                         else if (value is IntVector[] vecs)
                         {
                             fixed (IntVector* ptr = vecs)
@@ -254,39 +477,52 @@ namespace Heirloom.Drawing.OpenGLES
                                 GL.Uniform2(location, vecs.Length, (int*) ptr);
                             }
                         }
+                        // Integer Array
                         else if (value is int[] arr)
                         {
                             GL.Uniform2(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
 
                     case ActiveUniformType.IntVec3:
                     {
-                        if (value is int[] arr)
+                        // Tuple
+                        if (value is (int x, int y, int z))
+                        {
+                            GL.Uniform3(location, x, y, z);
+                        }
+                        // Integer Array
+                        else if (value is int[] arr)
                         {
                             GL.Uniform3(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
 
                     case ActiveUniformType.IntVec4:
                     {
-                        if (value is int[] arr)
+                        // Tuple
+                        if (value is (int x, int y, int z, int w))
+                        {
+                            GL.Uniform4(location, x, y, z, w);
+                        }
+                        // Integer Array
+                        else if (value is int[] arr)
                         {
                             GL.Uniform4(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
@@ -297,56 +533,76 @@ namespace Heirloom.Drawing.OpenGLES
 
                     case ActiveUniformType.UnsignedInteger:
                     {
+                        // Unsigned Integer
                         if (value is uint x)
                         {
                             GL.Uniform1(location, x);
                         }
+                        // Unsigned Integer Array
                         else if (value is uint[] arr)
                         {
                             GL.Uniform1(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
 
                     case ActiveUniformType.UnsignedIntVec2:
                     {
-                        if (value is uint[] arr)
+                        // Tuple
+                        if (value is (uint x, uint y))
+                        {
+                            GL.Uniform2(location, x, y);
+                        }
+                        // Unsigned Integer Array
+                        else if (value is uint[] arr)
                         {
                             GL.Uniform2(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
 
                     case ActiveUniformType.UnsignedIntVec3:
                     {
-                        if (value is uint[] arr)
+                        // Tuple
+                        if (value is (uint x, uint y, uint z))
+                        {
+                            GL.Uniform3(location, x, y, z);
+                        }
+                        // Unsigned Integer Array
+                        else if (value is uint[] arr)
                         {
                             GL.Uniform3(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
 
                     case ActiveUniformType.UnsignedIntVec4:
                     {
-                        if (value is uint[] arr)
+                        // Tuple
+                        if (value is (uint x, uint y, uint z, uint w))
+                        {
+                            GL.Uniform4(location, x, y, z, w);
+                        }
+                        // Unsigned Integer Array
+                        else if (value is uint[] arr)
                         {
                             GL.Uniform4(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
@@ -357,27 +613,36 @@ namespace Heirloom.Drawing.OpenGLES
 
                     case ActiveUniformType.Float:
                     {
+                        // Float
                         if (value is float x)
                         {
                             GL.Uniform1(location, x);
                         }
+                        // Float Array
                         else if (value is float[] arr)
                         {
                             GL.Uniform1(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
 
                     case ActiveUniformType.FloatVec2:
                     {
-                        if (value is Vector vec)
+                        // Tuple
+                        if (value is (float x, float y))
+                        {
+                            GL.Uniform2(location, x, y);
+                        }
+                        // Vector
+                        else if (value is Vector vec)
                         {
                             GL.Uniform2(location, vec.X, vec.Y);
                         }
+                        // Vector Array
                         else if (value is Vector[] vecs)
                         {
                             fixed (Vector* ptr = vecs)
@@ -385,36 +650,50 @@ namespace Heirloom.Drawing.OpenGLES
                                 GL.Uniform2(location, vecs.Length, (float*) ptr);
                             }
                         }
+                        // Float Array
                         else if (value is float[] arr)
                         {
                             GL.Uniform2(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
 
                     case ActiveUniformType.FloatVec3:
                     {
-                        if (value is float[] arr)
+                        // Tuple
+                        if (value is (float x, float y, float z))
+                        {
+                            GL.Uniform3(location, x, y, z);
+                        }
+                        // Float Array
+                        else if (value is float[] arr)
                         {
                             GL.Uniform3(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
 
                     case ActiveUniformType.FloatVec4:
                     {
-                        if (value is Color col)
+                        // Tuple
+                        if (value is (float x, float y, float z, float w))
+                        {
+                            GL.Uniform4(location, x, y, z, w);
+                        }
+                        // Color
+                        else if (value is Color col)
                         {
                             GL.Uniform4(location, col.R, col.G, col.B, col.A);
                         }
+                        // Color Array
                         else if (value is Color[] cols)
                         {
                             fixed (Color* ptr = cols)
@@ -422,13 +701,27 @@ namespace Heirloom.Drawing.OpenGLES
                                 GL.Uniform4(location, cols.Length, (float*) ptr);
                             }
                         }
+                        // Rectangle
+                        else if (value is Rectangle rect)
+                        {
+                            GL.Uniform4(location, rect.X, rect.Y, rect.Width, rect.Height);
+                        }
+                        // Rectangle Array
+                        else if (value is Rectangle[] rects)
+                        {
+                            fixed (Rectangle* ptr = rects)
+                            {
+                                GL.Uniform4(location, rects.Length, (float*) ptr);
+                            }
+                        }
+                        // Float Array
                         else if (value is float[] arr)
                         {
                             GL.Uniform4(location, arr);
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
@@ -439,17 +732,20 @@ namespace Heirloom.Drawing.OpenGLES
 
                     case ActiveUniformType.Bool:
                     {
+                        // Boolean
                         if (value is bool x)
                         {
                             GL.Uniform1(location, x ? 1 : 0);
                         }
+                        // Boolean Array
                         else if (value is bool[] arr)
                         {
+                            // todo: ArrayPool<int> and copy...?
                             throw new NotSupportedException("Boolean arrays not (yet) supported! Poke the developer.");
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
@@ -469,10 +765,12 @@ namespace Heirloom.Drawing.OpenGLES
 
                     case ActiveUniformType.Matrix2x3:
                     {
+                        // Matrix
                         if (value is Matrix m)
                         {
                             GL.UniformMatrix2x3(location, 1, (float*) &m);
                         }
+                        // Matrix Array
                         else if (value is Matrix[] arr)
                         {
                             fixed (Matrix* ptr = arr)
@@ -480,6 +778,7 @@ namespace Heirloom.Drawing.OpenGLES
                                 GL.UniformMatrix2x3(location, arr.Length, (float*) ptr);
                             }
                         }
+                        // Float Array
                         else if (value is float[] xs)
                         {
                             fixed (float* ptr = xs)
@@ -489,7 +788,7 @@ namespace Heirloom.Drawing.OpenGLES
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
@@ -498,37 +797,88 @@ namespace Heirloom.Drawing.OpenGLES
 
                     case ActiveUniformType.Sampler2D:
                     {
-                        if (value is ImageSource image)
+                        if (value is ImageSource source)
                         {
-                            var (texture, textureRect) = ResourceManager.GetTextureInfo(this, image);
+                            // Get the texture information for this image source
+                            RequestTextureInformation(source, out var texture, out var uvRect);
+
+                            // Get texture unit for sampler2D uniform.
+                            var unit = _shaderProgram.GetTextureUnit(name);
+
+                            // Shader should reserve X of the N allowable texture units available
+                            // on the executing hardware. Thus if a shader requires the use of two
+                            // textures it would claim two of the units available and prevent their
+                            // use from the batching mechanism.
+
+                            // todo: Associate uniform with texture unit
+                            // GL.Uniform1(location, 0);
 
                             // Bind texture
-                            GL.ActiveTexture(_shaderProgram.GetTextureUnit(name));
+                            // todo: only do this if the texture isn't already mapped
+                            GL.ActiveTexture(unit);
                             GL.BindTexture(TextureTarget.Texture2D, texture.Handle);
+
+                            // Check if associated atlas rectangle (uvrect) exists. If it
+                            // does then we need to set that as well.
+                            var uvRectUniform = GetAtlasRectUniformName(name);
+                            if (_shaderProgram.HasUniform(uvRectUniform))
+                            {
+                                ApplyUniform(uvRectUniform, uvRect);
+                            }
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to set shader uniform '{name}' to mismatched type.");
+                            goto BadUniformException;
                         }
                     }
                     break;
                 }
+
+                // Uniform state has been updated.
+                // Exit here to prevent falling into the exception below.
+                return;
+
+                // Uniform could not be set, a value of an invalid type was given.
+                BadUniformException:
+                throw new InvalidOperationException($"Unable to set shader uniform '{name}' of '{info.Type}' to mismatched type {value.GetType()}.");
             }
             else
             {
                 throw new InvalidOperationException("Unable to set uniform.");
             }
+
+            static string GetAtlasRectUniformName(string uniform)
+            {
+                var suffix = "_UVRect";
+
+                // Check if uniform name is an array (ie, 'uImage[2]')
+                var lastBracket = uniform.LastIndexOf('[');
+                if (lastBracket >= 0)
+                {
+                    // Extract non-array name (ie 'uImage' )
+                    var name = uniform.Substring(0, lastBracket);
+                    var index = uniform.Substring(lastBracket);
+
+                    // Combine name with suffix (ie 'uImage_UVRect[2]')
+                    return name + suffix + index;
+                }
+                else
+                {
+                    // Combine name with suffix (ie 'uImage_UVRect')
+                    return uniform + suffix;
+                }
+            }
         }
 
-        public unsafe void SetShaderParameter<T>(string name, T data) where T : struct
+        public unsafe void SetBufferUniform<T>(string name, T data) where T : struct
         {
             var pin = GCHandle.Alloc(data, GCHandleType.Pinned);
             var size = Marshal.SizeOf<T>();
-            SetShaderParameter(name, (void*) pin.AddrOfPinnedObject(), 0, size);
+            SetBufferUniform(name, (void*) pin.AddrOfPinnedObject(), 0, size);
             pin.Free();
         }
 
-        public unsafe void SetShaderParameter(string name, void* data, int offset, int size)
+        public unsafe void SetBufferUniform(string name, void* data, int offset, int size)
         {
             // Get uniform
             var uniform = _shaderProgram.GetUniform(name);
@@ -537,277 +887,244 @@ namespace Heirloom.Drawing.OpenGLES
             var buffer = GetUniformBuffer(uniform.BlockInfo);
 
             // Update data in buffer
-            Invoke(() => buffer.Update(data, uniform.Info.Offset + offset, size), !!false);
+            Invoke(() => buffer.Update(data, uniform.Info.Offset + offset, size), false);
         }
 
         /// <summary>
         /// Writes a matrix to the given address with each row aligned to 16 bytes.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe void SetShaderParameter(string name, Matrix matrix)
+        public unsafe void SetBufferUniform(string name, Matrix matrix)
         {
             var p = (float*) &matrix;
-            SetShaderParameter(name, p + 0, 0, 12);
-            SetShaderParameter(name, p + 3, 16, 12);
+            SetBufferUniform(name, p + 0, 0, 12);
+            SetBufferUniform(name, p + 3, 16, 12);
         }
 
         #endregion
 
-        #region Surface
-
-        public override Surface Surface
-        {
-            get => _currentSurface;
-
-            set
-            {
-                // Wasn't the same surface as before, flush everything
-                if (value != _currentSurface)
-                {
-                    // Only flush we have a valid surface
-                    Flush();
-
-                    _currentSurface = value;
-
-                    Invoke(() =>
-                    {
-                        // Set and prepare the surface (ie, bind framebuffer)
-                        if (value == DefaultSurface)
-                        {
-                            // Bind window surface (default for context)
-                            GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, 0);
-                        }
-                        else
-                        {
-                            // Bind surface framebuffer
-                            ResourceManager.GetFramebuffer(this, value).Bind();
-                        }
-                    }, !!false);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Mark the current surface dirty (increments version number).
-        /// </summary>
-        internal void MarkSurfaceDirty()
-        {
-            UpdateSurfaceVersionNumber();
-        }
-
-        #endregion
-
-        #region View State
-
-        public override Matrix GlobalTransform
-        {
-            get => _viewMatrix;
-
-            set
-            {
-                Flush(); // if different, draw
-
-                // store view matrix
-                _viewMatrix = value;
-
-                // compute inverted view matrix
-                Matrix.Inverse(in value, ref _inverseViewMatrix);
-
-                // approximation for pixel scale
-                var invViewScale = _inverseViewMatrix.GetAffineScale();
-                _approxPixelScale = (invViewScale.X + invViewScale.Y) / 2F;
-            }
-        }
-
-        public override Matrix InverseGlobalTransform => _inverseViewMatrix;
-
-        public override Rectangle Viewport
-        {
-            get => _viewport;
-
-            set
-            {
-                // if dirty, flush
-                if (_renderer.IsDirty)
-                {
-                    // This will complete anything to draw, and
-                    // then adjust viewports.
-                    Flush();
-                }
-                else
-                {
-                    // Nothing to draw, so we will just set the viewport
-                    Invoke(() => SetViewportAndScissor(out var _, out var _), !!false);
-                }
-
-                _viewport = value;
-            }
-        }
-
-        #endregion
-
-        #region Blending and Color
-
-        public override Color Color
-        {
-            get => _blendColor;
-            set => _blendColor = value;
-        }
-
-        public override Blending Blending
-        {
-            get => _blendMode;
-
-            set
-            {
-                if (_blendMode != value)
-                {
-                    Invoke(() =>
-                    {
-                        // 
-                        Flush();
-
-                        // Store mode
-                        _blendMode = value;
-
-                        // 
-                        switch (_blendMode)
-                        {
-                            default:
-                                throw new InvalidOperationException("Unable to set unknown blend mode.");
-
-                            case Blending.Opaque:
-                                GL.SetBlendEquation(BlendEquation.Add);
-                                GL.SetBlendFunction(BlendFunction.One, BlendFunction.Zero);
-                                break;
-
-                            case Blending.Alpha:
-                                GL.SetBlendEquation(BlendEquation.Add, BlendEquation.Add);
-                                GL.SetBlendFunction(BlendFunction.SourceAlpha, BlendFunction.OneMinusSourceAlpha, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
-                                break;
-
-                            case Blending.Additive:
-                                GL.SetBlendEquation(BlendEquation.Add);
-                                GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
-                                break;
-
-                            case Blending.Subtractive: // Opposite of Additive (DST - SRC)
-                                GL.SetBlendEquation(BlendEquation.ReverseSubtract);
-                                GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha, BlendFunction.One);
-                                break;
-
-                            case Blending.Multiply:
-                                GL.SetBlendEquation(BlendEquation.Add);
-                                GL.SetBlendFunction(BlendFunction.DestinationColor, BlendFunction.OneMinusSourceAlpha);
-                                break;
-
-                            case Blending.Invert:
-                                GL.SetBlendEquation(BlendEquation.Subtract);
-                                GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.Zero);
-                                break;
-                        }
-                    }, !!false);
-                }
-            }
-        }
-
-        #endregion
-
-        #region Draw
+        #region Read Pixels
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override void Clear(in Color color)
+        public override unsafe Image GrabPixels(IntRectangle region)
         {
-            var col = color;
-
-            Invoke(() =>
-            {
-                // Set color and clear
-                GL.SetClearColor(col.R, col.G, col.B, col.A);
-                GL.Clear(ClearMask.Color);
-            }, !!false);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override void DrawMesh(ImageSource image, Mesh mesh, in Matrix transform)
-        {
-            _renderer.Submit(image, mesh, in transform, _blendColor);
-            if (HasDirtyUniform(_shader)) { Flush(); }
-        }
-
-        #endregion
-
-        #region Capture
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override unsafe Image GrabPixels(in IntRectangle region)
-        {
-            var rec = region;
-
             return Invoke(() =>
             {
-                // 
+                // Complete pending work
                 Flush();
 
-                // If not the default surface and multisampled
-                if (Surface != DefaultSurface)
+                // If the current surface is the default surface.
+                if (_surface == DefaultSurface)
                 {
-                    var framebuffer = ResourceManager.GetFramebuffer(this, Surface);
-
-                    // If a multisampled surface, cause the framebuffer to blit into texture
-                    if (framebuffer.MultisampleBuffer != null) { framebuffer.Update(this); }
-
-                    // Read pixels from surface texture
-                    GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, framebuffer.TextureBuffer.Handle);
+                    // The current surface is the default (ie, window) framebuffer.
+                    GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, 0);
                 }
                 else
                 {
-                    // Read from default buffer (window, etc)
-                    GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, 0);
+                    // Bind the associated framebuffer of the current surface.
+                    var framebuffer = GetFramebuffer(_surface);
+                    framebuffer.BindToRead();
                 }
 
-                // Grab pixels from framebuffer
-                var image = new Image(rec.Width, rec.Height);
-                image.SetPixels(GL.ReadPixels(rec.X, rec.Y, rec.Width, rec.Height));
-                return image;
+                // Grab pixels from read buffer
+                var pixels = GL.ReadPixels(region.X, region.Y, region.Width, region.Height);
+                fixed (uint* ptrPixels = pixels)
+                {
+                    // Copy grabbed pixels to image
+                    var image = new Image(region.Width, region.Height);
+                    Image.Copy((ColorBytes*) ptrPixels, region.Width, (IntVector.Zero, region.Size), image, IntVector.Zero);
+                    return image;
+                }
             });
         }
 
         #endregion
 
-        #region Flush
+        #region Clear & Draw
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override void Clear(Color color)
+        {
+            Invoke(() =>
+            {
+                // Update viewport and scissor
+                UpdateViewportScissor();
+
+                // Set color and clear
+                GL.SetClearColor(color.R, color.G, color.B, color.A);
+                GL.Clear(ClearMask.Color);
+            });
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override void DrawMesh(ImageSource source, Mesh mesh, in Matrix transform)
+        {
+            // Request texture information for the given input image
+            RequestTextureInformation(source, out var texture, out var uvRect);
+
+            // Inconsistent texture, flush and update state
+            if (_texture != texture)
+            {
+                // Complete pending work
+                Flush();
+
+                // Mark that we need to update the texture binding
+                _textureBindDirty = true;
+
+                // Store new texture reference
+                _texture = texture;
+            }
+
+            // Submit the mesh to draw
+            while (!_batchingTechnique.Submit(mesh, in uvRect, in transform, in _blendColor)) { Flush(); }
+
+            // If the shader's state has changed, we need to forcefully flush.
+            if (_shader.IsDirty) { Flush(); }
+        }
+
+        #endregion
+
+        #region Flush & Statistics
+
+        /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override unsafe void Flush()
         {
-            // Exit, bad configuration
-            if (_currentSurface == null) { return; }
-
             // If the renderer has any batched work
-            if (_renderer.IsDirty)
+            if (_batchingTechnique.IsDirty)
             {
                 Invoke(() =>
                 {
-                    // Update any mutated uniforms
-                    UpdateShaderUniforms();
+                    // Update viewport and scissor
+                    UpdateViewportScissor();
 
                     // Compute view-projection matrix
-                    SetViewportAndScissor(out var w, out var h);
-                    var projMatrix = Matrix.RectangleProjection(0, 0, w, h);
+                    var projMatrix = Matrix.RectangleProjection(0, 0, _viewportScreen.Width, _viewportScreen.Height);
                     Matrix.Multiply(in projMatrix, in _viewMatrix, ref projMatrix);
 
                     // Write into uniform buffer
-                    SetShaderParameter("uMatrix", projMatrix);
+                    SetBufferUniform("uMatrix", projMatrix);
 
-                    //// Synchronize GPU with operations before drawing
-                    //var sync = GL.FenceSync(SyncFenceCondition.SyncGpuCommandsComplete, 0);
-                    //GL.WaitSync(sync, 0); // Wait GPU for buffer writes, etc
-                    //GL.DeleteSync(sync);  // Remove sync object
+                    // Update any mutated uniforms
+                    UpdateShaderUniforms();
 
-                    // Flush pending batch
-                    _renderer.FlushPendingBatch();
+                    // Commit changes to textures
+                    _atlasTechnique.CommitChanges();
+
+                    // 
+                    if (_textureBindDirty)
+                    {
+                        GL.ActiveTexture(0);
+                        GL.BindTexture(TextureTarget.Texture2D, _texture.Handle);
+
+                        _textureBindDirty = false;
+                    }
+
+                    // Draw batched geometry 
+                    _batchingTechnique.DrawBatch();
+
+                    // Mark surface as dirty
+                    _surface.IncrementVersion();
+
+                    // 
+                    GL.Flush();
                 });
             }
+        }
+
+        /// <inheritdoc/>
+        protected override DrawCounts GetDrawCounts()
+        {
+            return new DrawCounts
+            {
+                TriangleCount = _batchingTechnique.TriCount,
+                BatchCount = _batchingTechnique.BatchCount,
+                DrawCount = _batchingTechnique.DrawCount
+            };
+        }
+
+        /// <inheritdoc/>
+        protected override void EndFrame()
+        {
+            _batchingTechnique.ResetCounts();
+        }
+
+        #endregion
+
+        #region Texture & Framebuffer
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void RequestTextureInformation(ImageSource source, out Texture texture, out Rectangle uvRect)
+        {
+            //if (source.Native != null)
+            //{
+            //    var r = source.Native as TextureResidence;
+            //    texture = r.Texture;
+            //    uvRect = r.UVRect;
+            //}
+            //else
+            //{
+            switch (source)
+            {
+                case Image image:
+                    while (!_atlasTechnique.Submit(image, out texture, out uvRect))
+                    {
+                        //Log.Warning("Encountered an image that cannot take residence in the atlas.");
+                        Flush();
+
+                        //Log.Warning("Evicting Texture Atlas");
+                        _atlasTechnique.Evict();
+                    }
+                    break;
+
+                case Surface surface:
+                    // Get framebuffer (possibly blitting)
+                    var framebuffer = GetFramebuffer(surface);
+                    if (framebuffer.IsDirty)
+                    {
+                        Invoke(() => framebuffer.BlitToTexture());
+                    }
+
+                    // Emit surface texture
+                    texture = framebuffer.Texture;
+                    uvRect = (0, 0, 1, -1);
+                    break;
+
+                default:
+                    throw new InvalidOperationException("Image source was not a valid type");
+            }
+
+            // A simple meta data encoding trick. Because the UV rectangle describes a
+            // non-negative zero-to-one domain, we can use negative values to encode
+            // special meaning into each component of the rect.
+            // - X component encodes interpolation mode
+            // - Y component encodes repeat mode
+            // - Z component has no encoding currently.
+            // - W component encodes vertical flip (to compensate for framebuffers).
+            uvRect.X -= (float) source.Interpolation;
+            uvRect.Y -= (float) source.Repeat;
+
+            //// 
+            //var residence = new TextureResidence(texture, uvRect);
+            //source.Native = residence;
+            //}
+        }
+
+        private Framebuffer GetFramebuffer(Surface surface)
+        {
+            // Try to get known framebuffer instance. Framebuffers are "container objects" and
+            // need to be uniquely created for each graphics context.
+            if (!_framebuffers.TryGetValue(surface, out var framebuffer))
+            {
+                // Was not known, we will now create it 
+                framebuffer = Invoke(() => new Framebuffer(this, surface));
+
+                // Store framebuffer
+                _framebuffers.Add(surface, framebuffer);
+            }
+
+            // Return framebuffer associated with surface
+            return framebuffer;
         }
 
         #endregion
@@ -837,5 +1154,17 @@ namespace Heirloom.Drawing.OpenGLES
         }
 
         #endregion
+    }
+
+    internal class TextureResidence
+    {
+        public Texture Texture;
+        public Rectangle UVRect;
+
+        public TextureResidence(Texture texture, Rectangle uVRect)
+        {
+            Texture = texture ?? throw new ArgumentNullException(nameof(texture));
+            UVRect = uVRect;
+        }
     }
 }

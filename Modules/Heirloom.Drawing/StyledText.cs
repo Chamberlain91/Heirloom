@@ -1,4 +1,4 @@
-﻿namespace Heirloom.Drawing
+namespace Heirloom.Drawing
 {
     /// <summary>
     /// Styled text compiled by a <see cref="StyledTextParser"/>.

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -291,7 +291,7 @@ namespace Heirloom.Math
         /// Determines if the specified point is contained by this polygon.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool ContainsPoint(in Vector point)
+        public bool Contains(in Vector point)
         {
             // Check for containment in each convex fragment
             foreach (var convex in ConvexPartitions)

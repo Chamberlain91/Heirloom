@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Heirloom.Desktop\Heirloom.Desktop.csproj" />
+    <ProjectReference Include="..\..\Modules\Heirloom.Drawing\Heirloom.Drawing.csproj" />
+  </ItemGroup>
+
+</Project>

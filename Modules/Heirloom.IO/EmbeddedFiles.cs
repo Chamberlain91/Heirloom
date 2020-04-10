@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -119,6 +119,7 @@ namespace Heirloom.IO
             // Ignore .NET Framework Assemblies
             var productAttribute = assembly.GetCustomAttributes<AssemblyProductAttribute>().FirstOrDefault();
             if (productAttribute?.Product == "Microsoft® .NET Framework") { return true; }
+            if (assembly.FullName.StartsWith("System.")) { return true; }
 
             // Not ignored
             return false;
@@ -164,14 +165,11 @@ namespace Heirloom.IO
             name = name.Replace('\\', '.');
 
             // Should I be doing this?
-            name = name.Replace(' ', '_');
-            name = name.Replace('-', '_');
-            name = name.Replace("(", string.Empty);
-            name = name.Replace(")", string.Empty);
+            name = Regex.Replace(name, @"\s+", "_");
+            name = Regex.Replace(name, @"[^\w\d\.]+", "_");
+            name = Regex.Replace(name, "_+", "_");
 
-            name = Regex.Replace(name, "_+", "_"); // Collapse '_' characters into one
-
-            return name.ToLowerInvariant();
+            return name.ToLowerInvariant().Trim('_');
         }
     }
 }

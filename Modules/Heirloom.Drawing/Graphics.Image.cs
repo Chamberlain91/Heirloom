@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+using System;
+using System.Runtime.CompilerServices;
 
 using Heirloom.Math;
 
@@ -6,10 +7,6 @@ namespace Heirloom.Drawing
 {
     public abstract partial class Graphics
     {
-        // used to center the line within the 1x1 pixel image to anchor at left-center
-        private static readonly Matrix _lineOffsetMatrix = Matrix.CreateTranslation(0, -1 / 2F);
-        private static readonly Mesh _temporaryMesh = new Mesh();
-
         #region Draw Image
 
         /// <summary>
@@ -87,6 +84,81 @@ namespace Heirloom.Drawing
 
         #endregion
 
+        #region Draw SubImage
+
+        /// <summary>
+        /// Draws a sub-region of an image stretched to fill a rectangular region to the current surface ignoring the image origin offset.
+        /// </summary>
+        /// <param name="image">Some image.</param>
+        /// <param name="region">Some subregion of the image.</param>
+        /// <param name="rectangle">The bounds of the drawn image.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void DrawSubImage(ImageSource image, in IntRectangle region, in Rectangle rectangle)
+        {
+            var transform = Matrix.CreateTransform(rectangle.Position, 0, (Vector) rectangle.Size / (Vector) region.Size);
+            DrawSubImage(image, in region, in transform);
+        }
+
+        /// <summary>
+        /// Draws a sub-region of an image to the current surface ignoring the image origin offset.
+        /// </summary>
+        /// <param name="image">Some image.</param>
+        /// <param name="region">Some subregion of the image.</param>
+        /// <param name="position">The position of the image.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void DrawSubImage(ImageSource image, in IntRectangle region, in Vector position)
+        {
+            var transform = Matrix.CreateTranslation(position);
+            DrawSubImage(image, in region, in transform);
+        }
+
+        /// <summary>
+        /// Draws a sub-region of an image to the current surface ignoring the image origin offset.
+        /// </summary>
+        /// <param name="image">Some image.</param>
+        /// <param name="region">Some subregion of the image.</param>
+        /// <param name="transform">Some transform.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void DrawSubImage(ImageSource image, in IntRectangle region, in Matrix transform)
+        {
+            // Subregion exceeds bounds
+            if (region.X < 0 || region.Y < 0 || region.Right > image.Size.Width || region.Bottom > image.Size.Height)
+            {
+                throw new ArgumentException("Subregion exceeds image bounds.");
+            }
+
+            var a = new Vector(0, 0);
+            var b = new Vector(region.Width, 0);
+            var c = new Vector(region.Width, region.Height);
+            var d = new Vector(0, region.Height);
+
+            var size = (Vector) image.Size;
+            var ua = region.TopLeft / size;
+            var ub = region.TopRight / size;
+            var uc = region.BottomRight / size;
+            var ud = region.BottomLeft / size;
+
+            _temporaryMesh.Clear();
+
+            // Append vertices
+            _temporaryMesh.AddVertex(new Vertex(a, ua));
+            _temporaryMesh.AddVertex(new Vertex(b, ub));
+            _temporaryMesh.AddVertex(new Vertex(c, uc));
+            _temporaryMesh.AddVertex(new Vertex(d, ud));
+
+            // Append indices
+            _temporaryMesh.AddIndices(0);
+            _temporaryMesh.AddIndices(1);
+            _temporaryMesh.AddIndices(2);
+            _temporaryMesh.AddIndices(0);
+            _temporaryMesh.AddIndices(2);
+            _temporaryMesh.AddIndices(3);
+
+            DrawMesh(image, _temporaryMesh, in transform);
+        }
+
+        #endregion
+
         #region Draw Sprite
 
         /// <summary>
@@ -105,61 +177,45 @@ namespace Heirloom.Drawing
 
         #region Draw Nine Slice
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawNineSlice(NineSlice nine, in Rectangle rectangle)
+        public void DrawNineSlice(NineSlice slice, Rectangle rectangle)
         {
-            // Compute stretch factors
-            var w = (rectangle.Width - nine.TopLeftImage.Width - nine.TopRightImage.Width) / nine.MiddleImage.Width;
-            var h = (rectangle.Height - nine.TopLeftImage.Height - nine.BottomLeftImage.Height) / nine.MiddleImage.Height;
-
-            var x0 = rectangle.X + 0;
-            var x1 = x0 + nine.TopLeftImage.Width;
-            var x2 = x1 + nine.MiddleImage.Width * w;
-
-            var y0 = rectangle.Y + 0;
-            var y1 = y0 + nine.TopLeftImage.Height;
-            var y2 = y1 + nine.MiddleImage.Height * h;
+            var TH = slice.Center.Top;
+            var BH = slice.Image.Height - slice.Center.Bottom;
+            var LW = slice.Center.Left;
+            var RW = slice.Image.Width - slice.Center.Right;
 
             // Corners
-            DrawImage(nine.TopLeftImage, Matrix.CreateTranslation(x0, y0));
-            DrawImage(nine.TopRightImage, Matrix.CreateTranslation(x2, y0));
-            DrawImage(nine.BottomLeftImage, Matrix.CreateTranslation(x0, y2));
-            DrawImage(nine.BottomRightImage, Matrix.CreateTranslation(x2, y2));
+            var TL = new IntRectangle(0, 0, LW, TH);
+            var TR = new IntRectangle(slice.Center.Right, 0, RW, TH);
+            var BR = new IntRectangle(slice.Center.Right, slice.Center.Bottom, RW, BH);
+            var BL = new IntRectangle(0, slice.Center.Bottom, LW, BH);
 
-            if (w > 0)
-            {
-                // Horizontal
-                DrawImage(nine.TopMiddleImage, Matrix.CreateTransform(x1, y0, 0, w, 1));
-                DrawImage(nine.BottomMiddleImage, Matrix.CreateTransform(x1, y2, 0, w, 1));
-            }
+            var x2 = rectangle.Width - RW;
+            var y2 = rectangle.Height - BH;
 
-            if (h > 0)
-            {
-                // Vertical
-                DrawImage(nine.MiddleLeftImage, Matrix.CreateTransform(x0, y1, 0, 1, h));
-                DrawImage(nine.MiddleRightImage, Matrix.CreateTransform(x2, y1, 0, 1, h));
-            }
+            DrawSubImage(slice.Image, TL, rectangle.Position);
+            DrawSubImage(slice.Image, TR, rectangle.Position + new Vector(x2, 0));
+            DrawSubImage(slice.Image, BR, rectangle.Position + new Vector(x2, y2));
+            DrawSubImage(slice.Image, BL, rectangle.Position + new Vector(0, y2));
 
-            if (w > 0 && h > 0)
-            {
-                // Middle
-                DrawImage(nine.MiddleImage, Matrix.CreateTransform(x1, y1, 0, w, h));
-            }
+            // Edges
+            var TM = new IntRectangle(slice.Center.Left, 0, slice.Center.Width, TH);
+            var BM = new IntRectangle(slice.Center.Left, slice.Center.Bottom, slice.Center.Width, BH);
+            var LM = new IntRectangle(0, slice.Center.Top, LW, slice.Center.Height);
+            var RM = new IntRectangle(slice.Center.Right, slice.Center.Top, RW, slice.Center.Height);
+
+            var cw = x2 - LW;
+            var ch = y2 - TH;
+
+            DrawSubImage(slice.Image, TM, new Rectangle(rectangle.Position + new Vector(LW, 0), new Size(cw, TH)));
+            DrawSubImage(slice.Image, BM, new Rectangle(rectangle.Position + new Vector(LW, y2), new Size(cw, BH)));
+            DrawSubImage(slice.Image, LM, new Rectangle(rectangle.Position + new Vector(0, TH), new Size(LW, ch)));
+            DrawSubImage(slice.Image, RM, new Rectangle(rectangle.Position + new Vector(x2, TH), new Size(RW, ch)));
+
+            // Center
+            DrawSubImage(slice.Image, slice.Center, new Rectangle(rectangle.Position + new Vector(LW, TH), new Size(cw, ch)));
         }
 
         #endregion
-
-        /// <summary>
-        /// Draws a simple axis aligned 'cross' or 'plus' shape, useful for debugging positions.
-        /// </summary> 
-        /// <param name="center">The position of the cross.</param>
-        /// <param name="size">Size in screen pixels (not world space).</param>
-        /// <param name="width">Width of the lines screen pixels (not world space).</param>
-        public void DrawCross(in Vector center, float size = 2, float width = 1F)
-        {
-            // Draw axis
-            DrawLine(center + (Vector.Left * size), center + (Vector.Right * size), width);
-            DrawLine(center + (Vector.Up * size), center + (Vector.Down * size), width);
-        }
     }
 }

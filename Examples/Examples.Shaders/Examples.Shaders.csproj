@@ -1,19 +1,27 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Files\cardClubsA.png" />
+    <None Remove="Files\cardHearts2.png" />
     <None Remove="Files\cardHeartsQ.png" />
+    <None Remove="Files\cardJoker.png" />
     <None Remove="Files\distort.frag" />
     <None Remove="Files\grayscale.frag" />
     <None Remove="Files\invert.frag" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Files\cardClubsA.png" />
+    <EmbeddedResource Include="Files\cardHearts2.png" />
     <EmbeddedResource Include="Files\cardHeartsQ.png" />
+    <EmbeddedResource Include="Files\cardJoker.png" />
     <EmbeddedResource Include="Files\grayscale.frag" />
     <EmbeddedResource Include="Files\distort.frag" />
     <EmbeddedResource Include="Files\invert.frag" />

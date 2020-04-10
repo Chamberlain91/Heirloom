@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using Heirloom.Drawing;
 using Heirloom.Math;

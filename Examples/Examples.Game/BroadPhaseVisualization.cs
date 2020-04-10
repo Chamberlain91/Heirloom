@@ -1,4 +1,4 @@
-﻿using Heirloom.Drawing;
+using Heirloom.Drawing;
 using Heirloom.Game;
 
 namespace Examples.Game

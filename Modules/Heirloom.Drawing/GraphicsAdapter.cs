@@ -1,52 +1,71 @@
-﻿using System;
+using System;
+
+using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public abstract class GraphicsAdapter : IDisposable
+    internal abstract class GraphicsAdapter : IDisposable
     {
         #region Constructor
 
         protected GraphicsAdapter()
         {
-            if (Instance != null)
+            if (Adapter != null)
             {
                 throw new InvalidOperationException("Unable to create a second instance of GraphicsAdapter. Dispose the first instance.");
             }
 
-            Instance = this;
+            IsInitialized = false;
+            Adapter = this;
+        }
 
-            // Query capabilities
-            Capabilities = QueryCapabilities();
+        internal void Initialize()
+        {
+            // Get adapter info
+            Info = GetAdapterInfo();
 
             // Construct resource managers
-            ShaderResources = CreateShaderResourceManager();
+            SurfaceFactory = CreateSurfaceFactory();
+            ShaderFactory = CreateShaderFactory();
+
+            // Initialize drawing resources
+            Shader.Initialize();
+
+            IsInitialized = true;
         }
 
         #endregion
 
+        public bool IsInitialized { get; private set; }
+
+        public bool IsDisposed => _isDisposed;
+
         #region Singleton
 
-        protected static GraphicsAdapter Instance { get; private set; }
+        protected static GraphicsAdapter Adapter { get; private set; }
 
         /// <summary>
         /// Gets the capabilities of the graphics adapter associated with this application.
         /// </summary>
-        public static GraphicsCapabilities Capabilities { get; private set; }
+        public static GraphicsAdapterInfo Info { get; private set; }
 
         /// <summary>
         /// Implementation of shader resources.
         /// </summary>
-        internal static IShaderResourceManager ShaderResources { get; private set; }
+        protected internal static IShaderFactory ShaderFactory { get; private set; }
+
+        /// <summary>
+        /// Implementation of shader resources.
+        /// </summary>
+        protected internal static ISurfaceFactory SurfaceFactory { get; private set; }
 
         #endregion
 
-        #region Properties
+        protected abstract GraphicsAdapterInfo GetAdapterInfo();
 
-        #endregion
+        protected abstract ISurfaceFactory CreateSurfaceFactory();
 
-        protected abstract GraphicsCapabilities QueryCapabilities();
-
-        protected abstract IShaderResourceManager CreateShaderResourceManager();
+        protected abstract IShaderFactory CreateShaderFactory();
 
         #region Dispose
 
@@ -58,11 +77,11 @@ namespace Heirloom.Drawing
             {
                 if (disposeManaged)
                 {
-                    Capabilities = default;
-                    Instance = null;
+                    Info = default;
+                    Adapter = null;
                 }
 
-                // native
+                // todo: dispose native?
 
                 _isDisposed = true;
             }
@@ -75,9 +94,16 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        protected internal interface IShaderResourceManager
+        protected internal interface IShaderFactory
         {
             object Compile(string name, string vert, string frag, out UniformInfo[] uniforms);
+
+            void Dispose(object native);
+        }
+
+        protected internal interface ISurfaceFactory
+        {
+            object Create(IntSize size, MultisampleQuality multisample);
 
             void Dispose(object native);
         }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -8,7 +8,7 @@ namespace Heirloom.Math
     /// A 2x3 transformation matrix.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Size = 4 * 6, Pack = 4)]
-    public struct Matrix
+    public struct Matrix : IEquatable<Matrix>
     {
         // row 0
         public float M0; // sx *  c
@@ -526,6 +526,14 @@ namespace Heirloom.Math
         /// <summary>
         /// Constructs a matrix that transforms a rectangular region to normalized screen coordinates.
         /// </summary>
+        public static Matrix RectangleProjection(Rectangle rectangle)
+        {
+            return RectangleProjection(rectangle.Left, rectangle.Top, rectangle.Right, rectangle.Bottom);
+        }
+
+        /// <summary>
+        /// Constructs a matrix that transforms a rectangular region to normalized screen coordinates.
+        /// </summary>
         public static Matrix RectangleProjection(float left, float top, float right, float bottom)
         {
             var sx = 2F / (right - left);
@@ -600,6 +608,40 @@ namespace Heirloom.Math
         {
             Multiply(in m, in v, ref v);
             return v;
+        }
+
+        #endregion
+
+        #region Equality
+
+        public override bool Equals(object obj)
+        {
+            return obj is Matrix matrix && Equals(matrix);
+        }
+
+        public bool Equals(Matrix other)
+        {
+            return Calc.NearEquals(M0, other.M0) &&
+                   Calc.NearEquals(M1, other.M1) &&
+                   Calc.NearEquals(M2, other.M2) &&
+                   Calc.NearEquals(M3, other.M3) &&
+                   Calc.NearEquals(M4, other.M4) &&
+                   Calc.NearEquals(M5, other.M5);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(M0, M1, M2, M3, M4, M5);
+        }
+
+        public static bool operator ==(Matrix left, Matrix right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Matrix left, Matrix right)
+        {
+            return !(left == right);
         }
 
         #endregion

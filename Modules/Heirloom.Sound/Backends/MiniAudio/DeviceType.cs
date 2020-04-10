@@ -1,4 +1,4 @@
-﻿namespace Heirloom.Sound.Backends.MiniAudio
+namespace Heirloom.Sound.Backends.MiniAudio
 {
     internal enum DeviceType
     {

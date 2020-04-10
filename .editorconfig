@@ -1,15 +1,19 @@
 root = true
 
 [*.cs]
+tab_width = 4
 indent_size = 4
 indent_style = space
 insert_final_newline = true
-tab_width = 4
+trim_trailing_whitespace = true
+end_of_line = lf
+charset = utf-8
 
 csharp_indent_block_contents = true
 csharp_indent_braces = false
 csharp_indent_case_contents = true
-csharp_indent_labels = one_less_than_current
+csharp_indent_case_contents_when_block = false
+csharp_indent_labels = no_change
 csharp_indent_switch_labels = true
 
 csharp_new_line_before_catch = true

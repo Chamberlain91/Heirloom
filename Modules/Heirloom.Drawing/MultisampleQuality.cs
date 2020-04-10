@@ -1,4 +1,4 @@
-﻿namespace Heirloom.Drawing
+namespace Heirloom.Drawing
 {
     /// <summary>
     /// Multisampling levels
@@ -8,7 +8,7 @@
         /// <summary>
         /// No multisampling.
         /// </summary>
-        None = 0,
+        None = 1,
 
         /// <summary>
         /// 2x multisampling.

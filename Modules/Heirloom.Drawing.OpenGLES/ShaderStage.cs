@@ -1,9 +1,11 @@
-﻿using System;
+using System;
 
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
+    using ShaderType = Heirloom.OpenGLES.ShaderType;
+
     internal sealed class ShaderStage : IDisposable
     {
         #region Constructors
@@ -34,6 +36,8 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Properties 
 
+        public OpenGLGraphicsAdapter Adapter { get; }
+
         public uint Handle { get; }
 
         #endregion
@@ -52,7 +56,7 @@ namespace Heirloom.Drawing.OpenGLES
                 }
 
                 // Schedule for deletion on a GL thread.
-                OpenGLGraphicsAdapter.Invoke(() => GL.DeleteShader(Handle));
+                OpenGLGraphicsAdapter.Schedule(() => GL.DeleteShader(Handle));
 
                 _isDisposed = true;
             }

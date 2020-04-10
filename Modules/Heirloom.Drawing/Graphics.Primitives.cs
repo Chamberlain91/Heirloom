@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -9,6 +9,9 @@ namespace Heirloom.Drawing
 {
     public abstract partial class Graphics
     {
+        // used to center the line within the 1x1 pixel image to anchor at left-center
+        private static readonly Matrix _lineOffsetMatrix = Matrix.CreateTranslation(0, -1 / 2F);
+
         #region Draw Line / Curve
 
         /// <summary>
@@ -150,6 +153,23 @@ namespace Heirloom.Drawing
             DrawLine(rectangle.TopRight, rectangle.BottomRight, width);
             DrawLine(rectangle.TopLeft, rectangle.TopRight, width);
             DrawLine(rectangle.BottomLeft, rectangle.BottomRight, width);
+        }
+
+        #endregion
+
+        #region Draw Cross
+
+        /// <summary>
+        /// Draws a simple axis aligned 'cross' or 'plus' shape, useful for debugging positions.
+        /// </summary> 
+        /// <param name="center">The position of the cross.</param>
+        /// <param name="size">Size in screen pixels (not world space).</param>
+        /// <param name="width">Width of the lines screen pixels (not world space).</param>
+        public void DrawCross(in Vector center, float size = 2, float width = 1F)
+        {
+            // Draw axis
+            DrawLine(center + (Vector.Left * size), center + (Vector.Right * size), width);
+            DrawLine(center + (Vector.Up * size), center + (Vector.Down * size), width);
         }
 
         #endregion

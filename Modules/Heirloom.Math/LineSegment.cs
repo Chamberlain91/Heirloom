@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 
 namespace Heirloom.Math
@@ -193,18 +193,18 @@ namespace Heirloom.Math
 
         public override bool Equals(object obj)
         {
-            return obj is LineSegment segment && Equals(segment);
+            return obj is LineSegment edge && Equals(edge);
         }
 
         public bool Equals(LineSegment other)
         {
-            return A.Equals(other.A) &&
-                   B.Equals(other.B);
+            return (A.Equals(other.A) && B.Equals(other.B))
+                || (A.Equals(other.B) && B.Equals(other.A));
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(A, B);
+            return A.GetHashCode() ^ B.GetHashCode();
         }
 
         public static bool operator ==(LineSegment left, LineSegment right)

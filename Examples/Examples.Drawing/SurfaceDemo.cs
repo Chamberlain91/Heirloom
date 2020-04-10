@@ -1,4 +1,4 @@
-﻿using Heirloom.Drawing;
+using Heirloom.Drawing;
 using Heirloom.Math;
 
 namespace Examples.Drawing
@@ -10,7 +10,7 @@ namespace Examples.Drawing
         public SurfaceDemo()
             : base("Surface")
         {
-            LowResSurface = new Surface(350, 200, MultisampleQuality.High);
+            LowResSurface = new Surface(350, 200, MultisampleQuality.None);
         }
 
         internal override void Draw(Graphics ctx, Rectangle contentBounds)
@@ -19,19 +19,20 @@ namespace Examples.Drawing
 
             ctx.Surface = LowResSurface;
             ctx.Clear(Color.Transparent);
+            ctx.Viewport = (0, 0, 5, 1);
 
             var a = new Vector(0 / 3F, (Calc.Sin(Time * 1) + 1F) * 0.5F) * (Vector) LowResSurface.Size;
             var b = new Vector(1 / 3F, (Calc.Sin(Time * 2) + 1F) * 0.5F) * (Vector) LowResSurface.Size;
             var c = new Vector(2 / 3F, (Calc.Sin(Time * 3) + 1F) * 0.5F) * (Vector) LowResSurface.Size;
             var d = new Vector(3 / 3F, (Calc.Sin(Time * 4) + 1F) * 0.5F) * (Vector) LowResSurface.Size;
 
-            // 
+            // Draw the guide lines
             ctx.Color = Color.Gray;
             ctx.DrawLine(a, b);
             ctx.DrawLine(b, c);
             ctx.DrawLine(c, d);
 
-            // 
+            // Draw the main curve
             ctx.Color = Color.White;
             ctx.DrawCurve(a, b, c, d, 4);
 

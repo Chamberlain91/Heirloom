@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -10,7 +10,7 @@ namespace Heirloom.IO
     /// </summary>
     public static class Files
     {
-        static private readonly Regex _removeDoubles = new Regex("/+", RegexOptions.Compiled);
+        private static readonly Regex _removeDoubles = new Regex("/+", RegexOptions.Compiled);
 
         /// <summary>
         /// Normalizes a path (forward slades, removing doubles, etc)

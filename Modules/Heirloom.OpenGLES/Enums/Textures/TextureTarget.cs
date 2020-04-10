@@ -1,10 +1,10 @@
-﻿namespace Heirloom.OpenGLES
+namespace Heirloom.OpenGLES
 {
     public enum TextureTarget : uint
     {
         Texture2D = 0x0DE1,
         Texture2DArray = 0x8C1A,
-        TextureCubeMap = 0x8513, 
+        TextureCubeMap = 0x8513,
         Texture3D = 0x806F,
     }
 }

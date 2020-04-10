@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -16,7 +16,7 @@ namespace Heirloom.Drawing
 
         // 
         internal readonly Dictionary<string, UniformStorage> UniformStorageMap;
-        internal bool IsAnyUniformDirty;
+        internal bool IsDirty;
 
         // 
         internal readonly object Native;
@@ -26,11 +26,12 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Gets the default (ie, "no effect") shader.
         /// </summary>
-        public static Shader Default { get; }
+        public static Shader Default { get; private set; }
 
-        static Shader()
+        internal static void Initialize()
         {
-            // Loadn and compile the default shader
+            // todo: Grab info like max uniforms or max block size.
+            // Load and compile the default shader
             Default = new Shader("embedded/shaders/default.vert", "embedded/shaders/default.frag");
         }
 
@@ -152,23 +153,18 @@ namespace Heirloom.Drawing
             SetUniformValue(name, image);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void SetUniformValue(string name, object value)
         {
             // Attempt to get the uniform storage
             if (UniformStorageMap.TryGetValue(name, out var uniform))
             {
-                // Validate the given value is acceptable by the uniform
-                if (!uniform.Info.IsAcceptable(value))
-                {
-                    throw new ArgumentException($"Uniform '{name}' does not have an acceptable type '{Name}'.", nameof(name));
-                }
-
                 // Update uniform value
                 uniform.IsDirty = true;
                 uniform.Value = value;
 
                 // Mark that there was a change at all
-                IsAnyUniformDirty = true;
+                IsDirty = true;
             }
             else
             {
@@ -212,7 +208,7 @@ namespace Heirloom.Drawing
                 }
 
                 // Alert the implementation that this resource has been disposed
-                GraphicsAdapter.ShaderResources.Dispose(Native);
+                GraphicsAdapter.ShaderFactory.Dispose(Native);
 
                 _isDispsoed = true;
             }

@@ -1,19 +1,21 @@
-﻿using Heirloom.Drawing;
+using Heirloom.Drawing;
 using Heirloom.Math;
 
 namespace Examples.Drawing
 {
     public sealed class ShaderDemo : Demo
     {
-        private Image _image, _noise;
-        private Shader _shader;
+        private readonly Image _image, _noise;
+        private readonly Shader _shader;
 
         public ShaderDemo()
             : base("Distortion Shader")
         {
-            // Photo by Random Sky on Unsplash
-            _image = new Image("files/rabbit.png");
-            _noise = Image.CreateNoise(128, 128, 48);
+            _image = new Image("files/colored_castle.png");
+
+            _noise = Image.CreateNoise(32, 32, 6);
+            _noise.Interpolation = InterpolationMode.Linear;
+            _noise.Repeat = RepeatMode.Repeat;
 
             // Load shader
             _shader = new Shader("files/distort.frag");

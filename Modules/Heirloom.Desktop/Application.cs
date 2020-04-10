@@ -1,5 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
+using System.Threading;
+
+using Heirloom.Desktop.Hardware;
 using Heirloom.Drawing;
 using Heirloom.OpenGLES;
 
@@ -125,16 +130,32 @@ namespace Heirloom.Desktop
 
         #endregion
 
+        #region Hardware
+
         /// <summary>
-        /// Initializes windowing utilities, executes <paramref name="initialize"/> and 
+        /// Gets detected information about the CPU.
+        /// </summary>
+        public static CpuInfo CpuInfo { get; private set; }
+
+        /// <summary>
+        /// Gets detected information about the GPU.
+        /// </summary>
+        public static GpuInfo GpuInfo { get; private set; }
+
+        #endregion
+
+        /// <summary>
+        /// Initializes windowing utilities, executes <paramref name="startup"/> and 
         /// then continuously processes window events until all windows are closed. This is a blocking function.
         /// </summary>
         /// <see cref="IsInitialized"/>
-        public static void Run(Action initialize, GraphicsBackend graphicsBackend = GraphicsBackend.OpenGLES)
+        public static void Run(Action startup)
         {
-            if (initialize is null)
+            EnsureMainThread();
+
+            if (startup is null)
             {
-                throw new ArgumentNullException(nameof(initialize));
+                throw new ArgumentNullException(nameof(startup));
             }
 
             if (IsInitialized)
@@ -142,55 +163,11 @@ namespace Heirloom.Desktop
                 throw new InvalidOperationException("Application has already been initialized and is currently running.");
             }
 
-            lock (_lock)
-            {
-                // Initializes GLFW and sets hints for selected backend
-                InitializeGlfw(graphicsBackend);
+            // Initialize
+            Initialize();
 
-                // Initializes monitor list and callback
-                InitializeMonitors();
-
-                // Creates the "sharing window" that is permanently hidden to the user.
-                // It is used to query window capabilities and assist with sharing OpenGL resources.
-                ShareContext = CreateSharingWindow();
-
-                // Use share context temporarily to load the GL functions
-                // and construct the graphics adapter object...
-                Glfw.MakeContextCurrent(ShareContext);
-
-                // If using the GL backend, load GL functions
-                if (graphicsBackend == GraphicsBackend.OpenGLES)
-                {
-                    // Loads the GL functions via GLFW lookup
-                    GL.LoadFunctions(Glfw.GetProcAddress);
-
-                    // On the desktop we actually use GL 3.2, but limit to GLES 3.0 features.
-                    // This is to make a uniform implementation for supporting OpenGL on mobile platforms.
-                    var adapter = new OpenGLWindowGraphicsAdapter();
-
-                    // Assign graphics factory and adapter
-                    GraphicsFactory = adapter;
-                    GraphicsAdapter = adapter;
-                }
-                else
-                {
-                    // Vulkan
-                    throw new NotSupportedException();
-                }
-
-                // Determine if transparent framebuffers are possible
-                SupportsTransparentFramebuffer = Glfw.GetWindowAttribute(ShareContext, WindowAttribute.TransparentFramebuffer) != 0;
-
-                // Set default window creation hints
-                Glfw.SetWindowCreationHint(WindowAttribute.FocusOnShow, true);
-                Glfw.SetWindowCreationHint(WindowAttribute.Visible, true);
-
-                // Release context
-                Glfw.MakeContextCurrent(WindowHandle.None);
-            }
-
-            IsInitialized = true;
-            initialize();
+            // Execute application startup
+            startup();
 
             // Perform main window loop (blocking while any window exists)
             PerformMainWindowLoop();
@@ -201,6 +178,89 @@ namespace Heirloom.Desktop
             // Shutdown GLFW
             Glfw.Terminate();
             IsInitialized = false;
+        }
+
+        private static void Initialize()
+        {
+            lock (_lock)
+            {
+                // Try to initialize GLFW
+                if (!Glfw.Initialize())
+                {
+                    throw new InvalidOperationException("Unable to initialize GLFW.");
+                }
+
+                // Initializes monitor list and callback
+                InitializeMonitors();
+
+                // Initialize graphics contexts
+                InitializeGraphics();
+
+                // Determine if transparent framebuffers are possible
+                SupportsTransparentFramebuffer = Glfw.GetWindowAttribute(ShareContext, WindowAttribute.TransparentFramebuffer) != 0;
+
+                // Detect hardware information 
+                CpuInfo = HardwareDetector.DetectCpuInfo();
+                GpuInfo = HardwareDetector.DetectGpuInfo();
+
+                // 
+                Console.WriteLine(CpuInfo);
+                Console.WriteLine(GpuInfo);
+            }
+
+            // Mark initialization as complete
+            IsInitialized = true;
+        }
+
+        private static void InitializeGraphics()
+        {
+            // Set GLFW hints to use OpenGL 3.2 core (forward compatible)
+            // We are assuming OpenGL is the only implementation relevant here. Sorry Vulkan!
+            // In the future if a Vulkan implementation is introduced to Heirloom, we will have to rewrite this
+            // initialization procedure.
+            Glfw.SetWindowCreationHint(WindowAttribute.ClientApi, (int) ClientApi.OpenGL);
+            Glfw.SetWindowCreationHint(WindowAttribute.OpenGLProfile, (int) OpenGLProfile.Core);
+            Glfw.SetWindowCreationHint(WindowAttribute.OpenGLForwardCompatibility, true);
+            Glfw.SetWindowCreationHint(WindowAttribute.ContextVersionMajor, 3);
+            Glfw.SetWindowCreationHint(WindowAttribute.ContextVersionMinor, 2);
+
+            // Creates the "sharing window" that is permanently hidden to the user.
+            // It is used to query window capabilities and assist with sharing OpenGL resources.
+            // It is also used when shaders or other OpenGL resources that need to be created
+            // on an OGL bound thread but do not have a clear context available to them.
+            ShareContext = CreateSharingWindow();
+
+            // Use share context temporarily to load the GL functions and construct the graphics adapter object...
+            Glfw.MakeContextCurrent(ShareContext);
+            {
+                // Loads the GL functions via GLFW lookup
+                GL.LoadFunctions(Glfw.GetProcAddress);
+
+                // On the desktop we actually use GL 3.2, but the implementation is limited to GLES 3.0 features.
+                // This is to help make a uniform implementation for supportd on mobile platforms. This however,
+                // does allow the user to create incompatible shaders between platforms. As mobile is currently not
+                // a supported project, this is not yet a concern.
+                GraphicsAdapter = new OpenGLWindowGraphicsAdapter();
+                GraphicsFactory = GraphicsAdapter as IWindowGraphicsFactory;
+                GraphicsAdapter.Initialize();
+
+                // Set default window creation hints
+                Glfw.SetWindowCreationHint(WindowAttribute.FocusOnShow, true);
+                Glfw.SetWindowCreationHint(WindowAttribute.Visible, true);
+            }
+            Glfw.MakeContextCurrent(WindowHandle.None);
+        }
+
+        private static void InitializeMonitors()
+        {
+            // Register monitor callback, invoked when the monitor configuration changes.
+            Glfw.SetMonitorCallback(OnMonitorCallback);
+
+            // Scan currently connected monitors
+            foreach (var monitor in Glfw.GetMonitors())
+            {
+                OnMonitorCallback(monitor, ConnectState.Connected);
+            }
         }
 
         private static void PerformMainWindowLoop()
@@ -220,57 +280,12 @@ namespace Heirloom.Desktop
             }
         }
 
-        private static void InitializeGlfw(GraphicsBackend graphicsBackend)
-        {
-            // Try to initialize GLFW
-            if (!Glfw.Initialize())
-            {
-                throw new InvalidOperationException("Unable to initialize GLFW.");
-            }
-
-            // Configures GLFW hints for selected backend
-            switch (graphicsBackend)
-            {
-                case GraphicsBackend.OpenGLES:
-                    // Set GLFW hints to use OpenGL 3.2 core (forward compatible)
-                    Glfw.SetWindowCreationHint(WindowAttribute.ClientApi, (int) ClientApi.OpenGL);
-                    Glfw.SetWindowCreationHint(WindowAttribute.OpenGLProfile, (int) OpenGLProfile.Core);
-                    Glfw.SetWindowCreationHint(WindowAttribute.OpenGLForwardCompatibility, true);
-                    Glfw.SetWindowCreationHint(WindowAttribute.ContextVersionMajor, 3);
-                    Glfw.SetWindowCreationHint(WindowAttribute.ContextVersionMinor, 2);
-                    break;
-            }
-        }
-
-        private static void InitializeMonitors()
-        {
-            // Register monitor callback, invoked when the monitor configuration changes.
-            Glfw.SetMonitorCallback(OnMonitorCallback);
-
-            // Scan currently connected monitors
-            foreach (var monitor in Glfw.GetMonitors())
-            {
-                OnMonitorCallback(monitor, ConnectState.Connected);
-            }
-        }
-
         private static WindowHandle CreateSharingWindow()
         {
             // Create "dummy" window, the GL context sharing window
-            Glfw.SetWindowCreationHint(WindowAttribute.Visible, false);
             Glfw.SetWindowCreationHint(WindowAttribute.TransparentFramebuffer, true);
+            Glfw.SetWindowCreationHint(WindowAttribute.Visible, false);
             return Glfw.CreateWindow(256, 256, "GLFW Background Window");
-        }
-
-        /// <summary>
-        /// Ensures the application has called <see cref="Run(Action)"/>.
-        /// </summary>
-        private static void EnsureReady()
-        {
-            if (IsInitialized == false)
-            {
-                throw new InvalidOperationException($"You must execute the application via {nameof(Application)}.{nameof(Run)}.");
-            }
         }
 
         /// <summary>
@@ -289,5 +304,42 @@ namespace Heirloom.Desktop
         {
             return _invokeQueue.Invoke(action);
         }
+
+        #region Application Runtime Validation
+
+        /// <summary>
+        /// Ensures the user has called <see cref="Run(Action)"/>.
+        /// </summary>
+        private static void EnsureReady()
+        {
+            if (IsInitialized == false)
+            {
+                throw new InvalidOperationException($"You must execute the application via {nameof(Application)}.{nameof(Run)}.");
+            }
+        }
+
+        /// <summary>
+        /// Ensures the user has called <see cref="Run(Action)"/> on the main thread.
+        /// </summary>
+        private static void EnsureMainThread()
+        {
+            if (Thread.CurrentThread.IsAlive)
+            {
+                var correctEntryMethod = Assembly.GetEntryAssembly().EntryPoint;
+
+                var frames = new StackTrace().GetFrames();
+                for (var i = frames.Length - 1; i >= 0; i--)
+                {
+                    if (correctEntryMethod == frames[i].GetMethod())
+                    {
+                        return;
+                    }
+                }
+            }
+
+            throw new InvalidOperationException($"You must execute the application on the main thread.");
+        }
+
+        #endregion 
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Heirloom.Math
+namespace Heirloom.Math
 {
     /// <summary>
     /// Represents the general interface of a shape and common operators each shape should support.
@@ -23,7 +23,7 @@
         /// <summary>
         /// Determines if this shape contains the specified point.
         /// </summary>
-        bool ContainsPoint(in Vector point);
+        bool Contains(in Vector point);
 
         /// <summary>
         /// Determines if this shape overlaps the specified shape.

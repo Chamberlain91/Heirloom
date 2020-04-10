@@ -1,106 +1,113 @@
-﻿using System;
+using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 using Heirloom.Math;
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    public abstract class OpenGLGraphicsAdapter : GraphicsAdapter
-    {
-        #region Graphics Features
+    using GLShaderType = Heirloom.OpenGLES.ShaderType;
 
-        protected override GraphicsCapabilities QueryCapabilities()
+    internal abstract class OpenGLGraphicsAdapter : GraphicsAdapter
+    {
+        #region Query Capabilities
+
+        protected override GraphicsAdapterInfo GetAdapterInfo()
         {
+            // Query adapter info
             var renderer = GL.GetString(StringParameter.Renderer);
             var vendor = GL.GetString(StringParameter.Vendor);
 
-            return new GraphicsCapabilities(
-                adapterName: renderer,
-                adapterVendor: vendor,
-                maxSupportedVertexImages: GL.GetInteger(GetParameter.MaxVertexTextureImageUnits),
-                maxSupportedFragmentImages: GL.GetInteger(GetParameter.MaxTextureImageUnits),
-                isMobilePlatform: DetectOpenGLES());
+            //var maxTextureSize = GL.GetInteger(GetParameter.MaxTextureSize); 
+            //var maxFragmentUniformVectors = GL.GetInteger(GetParameter.MaxFragmentUniformVectors);
+            //var maxFragmentImages = GL.GetInteger(GetParameter.MaxTextureImageUnits);
+            //var maxVertexUniformVectors = GL.GetInteger(GetParameter.MaxVertexUniformVectors);
+            //var maxVertexImages = GL.GetInteger(GetParameter.MaxVertexTextureImageUnits);
+            //var maxUniformBufferBindings = GL.GetInteger(GetParameter.MaxUniformBufferBindings);
+            //var maxUniformBlockSize = GL.GetInteger(GetParameter.MaxUniformBlockSize);
+
+            // 
+            return new GraphicsAdapterInfo(DetectEmbeddedOpenGL(), vendor, renderer);
         }
 
-        private static bool DetectOpenGLES()
+        private static bool DetectEmbeddedOpenGL()
         {
+            // Query GL Version
             var version = GL.GetString(StringParameter.Version);
-            var embedded = false;
 
-            var embeddedPrefixes = new[]
+            // Known ES prefixes
+            var prefixes = new[]
             {
                 "OpenGL ES ",
                 "OpenGL ES-CM ",
                 "OpenGL ES-CL "
             };
 
-            // Try to detect OpenGL ES
-            foreach (var prefix in embeddedPrefixes)
+            // Does the version string match any known prefix
+            return prefixes.Where(prefix => version.StartsWith(prefix)).Any();
+        }
+
+        #endregion
+
+        #region Surface Factory
+
+        protected override ISurfaceFactory CreateSurfaceFactory()
+        {
+            return new GLSurfaceFactory(this);
+        }
+
+        private sealed class GLSurfaceFactory : Factory, ISurfaceFactory
+        {
+            private readonly int _maxSupportedSamples;
+
+            public GLSurfaceFactory(OpenGLGraphicsAdapter adapter)
+                : base(adapter)
             {
-                if (version.StartsWith(prefix))
+                _maxSupportedSamples = Adapter.Invoke(() =>
                 {
-                    // Strip prefix
-                    version = version.Substring(prefix.Length);
-                    embedded = true;
-                    break;
-                }
+                    // Query platform for multisample capabilities
+                    var allowableSamplesCount = GL.GetInternalformat(RenderbufferFormat.RGBA8, InternalFormatParameter.NUM_SAMPLE_COUNTS, 1)[0];
+                    var allowableSamples = GL.GetInternalformat(RenderbufferFormat.RGBA8, InternalFormatParameter.SAMPLES, allowableSamplesCount);
+
+                    // Get intended max samples, and compare against max allowed on this platform
+                    return allowableSamples[0];
+                });
             }
 
-            return embedded;
-        }
-
-        #endregion
-
-        #region Invoke (GL Thread)
-
-        protected internal abstract T InvokeOnGLThread<T>(Func<T> action);
-
-        protected internal abstract void InvokeOnGLThread(Action action);
-
-        internal static T Invoke<T>(Func<T> action)
-        {
-            var adapter = Instance as OpenGLGraphicsAdapter;
-            return adapter.InvokeOnGLThread(action);
-        }
-
-        internal static void Invoke(Action action)
-        {
-            var adapter = Instance as OpenGLGraphicsAdapter;
-            adapter.InvokeOnGLThread(action);
-        }
-
-        #endregion
-
-        protected override IShaderResourceManager CreateShaderResourceManager()
-        {
-            return new ShaderResourceManager(this);
-        }
-
-        #region Resource Managers
-
-        private abstract class ResourceManager
-        {
-            protected ResourceManager(OpenGLGraphicsAdapter adapter)
+            public object Create(IntSize size, MultisampleQuality multisample)
             {
-                Adapter = adapter ?? throw new ArgumentNullException(nameof(adapter));
+                var samples = Calc.Min((int) multisample, _maxSupportedSamples);
+                return Adapter.Invoke(() => new FramebufferStorage(size, samples));
             }
 
-            public OpenGLGraphicsAdapter Adapter { get; }
+            public void Dispose(object native)
+            {
+                // Whoop
+            }
         }
 
-        private sealed class ShaderResourceManager : ResourceManager, IShaderResourceManager
+        #endregion
+
+        #region Shader Factory
+
+        protected override IShaderFactory CreateShaderFactory()
         {
-            public ShaderResourceManager(OpenGLGraphicsAdapter adapter)
+            return new GLShaderFactory(this);
+        }
+
+        private sealed class GLShaderFactory : Factory, IShaderFactory
+        {
+            public GLShaderFactory(OpenGLGraphicsAdapter adapter)
                 : base(adapter)
             { }
 
             public object Compile(string name, string vert, string frag, out UniformInfo[] uniforms)
             {
-                var program = Adapter.InvokeOnGLThread(() =>
+                var program = Adapter.Invoke(() =>
                 {
-                    var vShader = new ShaderStage(ShaderType.Vertex, vert);
-                    var fShader = new ShaderStage(ShaderType.Fragment, frag);
+                    var vShader = new ShaderStage(GLShaderType.Vertex, vert);
+                    var fShader = new ShaderStage(GLShaderType.Fragment, frag);
 
                     return new ShaderProgram(name, vShader, fShader);
                 });
@@ -260,6 +267,31 @@ namespace Heirloom.Drawing.OpenGLES
             }
 
             #endregion
+        }
+
+        #endregion
+
+        private abstract class Factory
+        {
+            protected Factory(OpenGLGraphicsAdapter adapter)
+            {
+                Adapter = adapter ?? throw new ArgumentNullException(nameof(adapter));
+            }
+
+            public OpenGLGraphicsAdapter Adapter { get; }
+        }
+
+        #region Invoke
+
+        protected internal abstract T Invoke<T>(Func<T> action);
+
+        protected internal abstract void Invoke(Action action);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void Schedule(Action action)
+        {
+            var adapter = Adapter as OpenGLGraphicsAdapter;
+            adapter.Invoke(action); // go!
         }
 
         #endregion

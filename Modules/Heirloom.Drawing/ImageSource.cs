@@ -1,22 +1,13 @@
-﻿using Heirloom.Math;
+using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public abstract class ImageSource : IDrawingResource
+    public abstract class ImageSource
     {
-        private InterpolationMode _sampleMode = InterpolationMode.Linear;
-        private object _native;
-
         internal ImageSource()
         {
-            // Only visible in Heirloom.Drawing
+            // Only visible in Heirloom.Drawing and friends
         }
-
-        /// <summary>
-        /// The version number of the image.
-        /// Modifications to the image increment this number.
-        /// </summary>
-        public uint Version { get; private set; }
 
         /// <summary>
         /// The size of this image.
@@ -24,31 +15,38 @@ namespace Heirloom.Drawing
         public abstract IntSize Size { get; protected set; }
 
         /// <summary>
+        /// The width of the image (in pixels).
+        /// </summary>
+        public int Width => Size.Width;
+
+        /// <summary>
+        /// The height of the image (in pixels).
+        /// </summary>
+        public int Height => Size.Height;
+
+        /// <summary>
         /// The offset used to 'center' the image around a non-zero origin.
         /// </summary>
         public Vector Origin { get; set; }
 
         /// <summary>
-        /// The local bounds of the image.
+        /// Version number to track changes against the image data.
         /// </summary>
-        public Rectangle Bounds => new Rectangle(-Origin, Size);
+        internal uint Version { get; private set; }
 
         /// <summary>
-        /// Gets or sets sampling mode.
+        /// Interpolation mode.
         /// </summary>
-        public InterpolationMode InterpolationMode
-        {
-            get => _sampleMode;
-            set
-            {
-                _sampleMode = value;
-                UpdateVersionNumber();
-            }
-        }
+        public InterpolationMode Interpolation { get; set; } = InterpolationMode.Nearest;
 
-        // todo: repeat mode
+        /// <summary>
+        /// Repeat mode.
+        /// </summary>
+        public RepeatMode Repeat { get; set; } = RepeatMode.Blank;
 
-        internal void UpdateVersionNumber()
+        internal object Native;
+
+        internal void IncrementVersion()
         {
             Version++;
 
@@ -57,17 +55,6 @@ namespace Heirloom.Drawing
             {
                 Version = 0;
             }
-        }
-
-        object IDrawingResource.NativeObject
-        {
-            get => _native;
-            set => _native = value;
-        }
-
-        void IDrawingResource.UpdateVersionNumber()
-        {
-            UpdateVersionNumber();
         }
     }
 }

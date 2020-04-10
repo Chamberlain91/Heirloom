@@ -1,4 +1,3 @@
-﻿using System;
 using System.Runtime.InteropServices;
 
 using Heirloom.Desktop;
@@ -18,22 +17,18 @@ namespace Examples.Minimal
                 // Create window
                 var window = new Window("Minimal Example") { Size = (400, 200) };
 
-                // Loop
-                var loop = RenderLoop.Create(window.Graphics, OnDraw);
-                loop.Start();
+                // Create some text
+                var text = $"Hello {GetOperatingSystem()}!";
+
+                // Measure the vertical height of the text
+                // todo: Implement feature, should be able to vertical align text without this step.
+                var offset = new Vector(0, TextLayout.Measure(text, Font.Default, FontSize).Height / 2F);
+
+                // Clear the window, draw text and push to the screen
+                window.Graphics.Clear(Color.DarkGray);
+                window.Graphics.DrawText(text, -offset + ((Vector) window.Graphics.Surface.Size) * 0.5F, Font.Default, FontSize, TextAlign.Center);
+                window.Graphics.RefreshScreen();
             });
-        }
-
-        private static void OnDraw(Graphics ctx, float dt)
-        {
-            ctx.Clear(Color.DarkGray);
-
-            // Generate hello message
-            var text = $"Hello {GetOperatingSystem()}!";
-
-            // todo: Implement feature, should be able to vertical align text without this step.
-            var align = new Vector(0, TextLayout.Measure(text, Font.Default, FontSize).Height / 2F);
-            ctx.DrawText(text, -align + ((Vector) ctx.Surface.Size) * 0.5F, Font.Default, FontSize, TextAlign.Center);
         }
 
         private static string GetOperatingSystem()

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -8,11 +8,10 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
-    public class Mesh : IDrawingResource
+    public sealed class Mesh
     {
         private readonly List<Vertex> _vertices;
         private readonly List<int> _indices;
-        private object _native;
 
         #region Constructors
 
@@ -80,6 +79,18 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Appends multiple vertices to this mesh.
         /// </summary>
+        public void AddVertices(IEnumerable<Vertex> vertices)
+        {
+            // todo: vertex capacity exception?
+
+            // Append vertices
+            _vertices.AddRange(vertices);
+            UpdateVersionNumber();
+        }
+
+        /// <summary>
+        /// Appends multiple vertices to this mesh.
+        /// </summary>
         public void AddVertices(params Vertex[] vertices)
         {
             if ((_vertices.Count + vertices.Length) >= ushort.MaxValue)
@@ -118,9 +129,22 @@ namespace Heirloom.Drawing
             UpdateVersionNumber();
         }
 
+        /// <summary>
+        /// Appends a triangle index to this mesh. Until <see cref="Clear"/> is called, this mesh becomes indexed.
+        /// </summary>
+        /// <seealso cref="IsIndexed"/>
+        public void AddIndices(IEnumerable<int> indices)
+        {
+            CheckIndices(indices);
+
+            // Append indices
+            _indices.AddRange(indices);
+            UpdateVersionNumber();
+        }
+
         [Conditional("DEBUG")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void CheckIndices(int[] indices)
+        private void CheckIndices(IEnumerable<int> indices)
         {
             foreach (var index in indices)
             {
@@ -237,7 +261,7 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        internal void UpdateVersionNumber()
+        private void UpdateVersionNumber()
         {
             Version++;
 
@@ -246,17 +270,6 @@ namespace Heirloom.Drawing
             {
                 Version = 0;
             }
-        }
-
-        object IDrawingResource.NativeObject
-        {
-            get => _native;
-            set => _native = value;
-        }
-
-        void IDrawingResource.UpdateVersionNumber()
-        {
-            UpdateVersionNumber();
         }
     }
 }

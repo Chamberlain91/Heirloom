@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 
-using Mon = System.Threading.Monitor;
+using ThreadMonitor = System.Threading.Monitor;
 
 namespace Heirloom.Desktop
 {
-    internal class ConsumerQueue
+    internal sealed class ConsumerQueue
     {
         private readonly Queue<Action> _queue;
         private readonly Thread _thread;
@@ -19,7 +19,9 @@ namespace Heirloom.Desktop
         {
             _queue = new Queue<Action>();
             _thread = thread;
-        } 
+        }
+
+        public int Pending => _queue.Count;
 
         public void ProcessJobs()
         {
@@ -38,7 +40,7 @@ namespace Heirloom.Desktop
                     lock (action)
                     {
                         action(); // 
-                        Mon.PulseAll(action);
+                        ThreadMonitor.PulseAll(action);
                     }
                 }
             }
@@ -56,7 +58,7 @@ namespace Heirloom.Desktop
                     InvokeLater(action);
 
                     // Wait for action to complete
-                    Mon.Wait(action);
+                    ThreadMonitor.Wait(action);
                 }
             }
         }

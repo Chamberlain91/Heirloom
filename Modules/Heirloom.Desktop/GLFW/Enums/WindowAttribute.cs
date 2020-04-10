@@ -1,4 +1,4 @@
-﻿namespace Heirloom.Desktop
+namespace Heirloom.Desktop
 {
     internal enum WindowAttribute
     {

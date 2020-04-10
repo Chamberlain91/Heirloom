@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -338,7 +338,7 @@ namespace Heirloom.Math
 
         public override string ToString()
         {
-            return $"({X}, {Y})";
+            return $"{X}, {Y}";
         }
     }
 }

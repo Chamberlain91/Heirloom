@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Heirloom.Math
@@ -43,11 +42,6 @@ namespace Heirloom.Math
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets a random integer value between <see cref="Min"/> and <see cref="Max"/>.
-        /// </summary>
-        public int Random => Calc.Random.Next(Min, Max);
 
         /// <summary>
         /// Gets the mean of <see cref="Min"/> and <see cref="Max"/>.

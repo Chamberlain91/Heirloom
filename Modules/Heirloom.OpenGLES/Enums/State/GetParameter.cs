@@ -1,21 +1,19 @@
-﻿namespace Heirloom.OpenGLES
+namespace Heirloom.OpenGLES
 {
     public enum GetParameter
     {
-        ALIASED_LINE_WIDTH_RANGE = 0x846E,
-        ALIASED_POINT_SIZE_RANGE = 0x846D,
-
-        ARRAY_BUFFER_BINDING = 0x889F,
+        AliasedLineWidthRange = 0x846E,
+        AliasedPointSizeRange = 0x846D,
 
         // Blending
         Blend = 0x0BE2,
-        BLEND_COLOR = 0x8005,
-        BLEND_DST_ALPHA = 0x80CA,
-        BLEND_DST_RGB = 0x80C8,
-        BLEND_EQUATION_ALPHA = 0x883D,
-        BLEND_EQUATION_RGB = 0x8009,
-        BLEND_SRC_ALPHA = 0x80CB,
-        BLEND_SRC_RGB = 0x80C9,
+        BlendColor = 0x8005,
+        BlendDestinationAlpha = 0x80CA,
+        BlendDestinationRGB = 0x80C8,
+        BlendEquationAlpha = 0x883D,
+        BlendEquationRGB = 0x8009,
+        BlendSourceAlpha = 0x80CB,
+        BlendSourceRGB = 0x80C9,
 
         // Framebuffer
         RedBits = 0x0D52,
@@ -23,64 +21,60 @@
         BlueBits = 0x0D54,
         AlphaBits = 0x0D55,
 
-        NUM_COMPRESSED_TEXTURE_FORMATS = 0x86A2,
-        COMPRESSED_TEXTURE_FORMATS = 0x86A3,
+        // 
+        CullFace = 0x0B44,
+        CullFaceMode = 0x0B45,
 
-        COLOR_CLEAR_VALUE = 0x0C22,
-        ColorWriteMask = 0x0C23,
-        CULL_FACE = 0x0B44,
-        CULL_FACE_MODE = 0x0B45,
-
-        // Depth
-        DEPTH_BITS = 0x0D56,
-        DEPTH_CLEAR_VALUE = 0x0B73,
-        DEPTH_FUNC = 0x0B74,
-        DEPTH_RANGE = 0x0B70,
-        DEPTH_TEST = 0x0B71,
-        DepthWriteMask = 0x0B72,
+        // Compressed Texture Info
+        NumberCompressedTextureFormats = 0x86A2,
+        CompressedTextureFormats = 0x86A3,
 
         // Shader
-        CURRENT_PROGRAM = 0x8B8D,
+        CurrentProgram = 0x8B8D,
 
-        NUM_SHADER_BINARY_FORMATS = 0x8DF9,
-        SHADER_BINARY_FORMATS = 0x8DF8,
-        SHADER_COMPILER = 0x8DFA,
+        // Shader Binary Formats
+        NumberShaderBinaryFormats = 0x8DF9,
+        ShaderBinaryFormats = 0x8DF8,
+        ShaderCompiler = 0x8DFA,
 
         MaxCombinedTextureImageUnits = 0x8B4D,
         // ^^ 34930
         MaxTextureCubeSize = 0x851C,
-        MAX_FRAGMENT_UNIFORM_VECTORS = 0x8DFD,
-        MAX_RENDERBUFFER_SIZE = 0x84E8,
+        MaxFragmentUniformVectors = 0x8DFD,
+        MaxRenderbufferSize = 0x84E8,
         MaxTextureImageUnits = 0x8872,
         MaxTextureSize = 0x0D33,
-        MAX_VARYING_VECTORS = 0x8DFC,
+        MaxVaryingVectors = 0x8DFC,
         MaxVertexAttribs = 0x8869,
         MaxVertexTextureImageUnits = 0x8B4C,
-        MAX_VERTEX_UNIFORM_VECTORS = 0x8DFB,
+        MaxVertexUniformVectors = 0x8DFB,
 
-        GENERATE_MIPMAP_HINT = 0x8192,
+        MaxUniformBufferBindings = 0x8A2F,
+        MaxUniformBlockSize = 0x8A30,
 
-        ELEMENT_ARRAY_BUFFER_BINDING = 0x8895,
+        GenerateMipmapHint = 0x8192,
+
+        ArrayBufferBinding = 0x889F,
+        ElementArrayBufferBinding = 0x8895,
+        RenderbufferBinding = 0x8CA7,
 
         FramebufferBinding = 0x8CA6,
         DrawFramebufferBinding = 0x8CA6,
         ReadFramebufferBinding = 0x8CAA,
 
-        DITHER = 0x0BD0,
-        FRONT_FACE = 0x0B46,
+        Dither = 0x0BD0,
+        FrontFace = 0x0B46,
 
-        IMPLEMENTATION_COLOR_READ_FORMAT = 0x8B9B,
-        IMPLEMENTATION_COLOR_READ_TYPE = 0x8B9A,
+        ImplementationColorReadFormat = 0x8B9B,
+        ImplementationColorReadType = 0x8B9A,
 
-        PACK_ALIGNMENT = 0x0D05,
+        PackAlignment = 0x0D05,
         UnpackAlignment = 0x0CF5,
 
-        LINE_WIDTH = 0x0B21,
-        POLYGON_OFFSET_FACTOR = 0x8038,
-        POLYGON_OFFSET_FILL = 0x8037,
-        POLYGON_OFFSET_UNITS = 0x2A00,
-
-        RENDERBUFFER_BINDING = 0x8CA7,
+        LineWidth = 0x0B21,
+        PolygonOffsetFactor = 0x8038,
+        PolygonOffsetFill = 0x8037,
+        PolygonOffsetUnits = 0x2A00,
 
         /// <summary>
         /// The currently active texture unit
@@ -90,32 +84,45 @@
         TextureBinding2D = 0x8069,
         TextureBindingCubeMap = 0x8514,
 
-        SAMPLE_ALPHA_TO_COVERAGE = 0x809E,
-        SAMPLE_BUFFERS = 0x80A8,
-        SAMPLE_COVERAGE = 0x80A0,
-        SAMPLE_COVERAGE_INVERT = 0x80AB,
-        SAMPLE_COVERAGE_VALUE = 0x80AA,
-        SAMPLES = 0x80A9,
+        SampleAlphaToCoverage = 0x809E,
+        SampleBuffers = 0x80A8,
+        SampleCoverage = 0x80A0,
+        SampleCoverageInvert = 0x80AB,
+        SampleCoverageValue = 0x80AA,
+        Samples = 0x80A9,
+
+        // 
+        ColorClearValue = 0x0C22,
+        ColorWriteMask = 0x0C23,
+
+        // Depth
+        DepthBits = 0x0D56,
+        DepthClearValue = 0x0B73,
+        DepthFunction = 0x0B74,
+        DepthRange = 0x0B70,
+        DepthTest = 0x0B71,
+        DepthWriteMask = 0x0B72,
 
         // Stencil
-        STENCIL_BACK_FAIL = 0x8801,
-        STENCIL_BACK_FUNC = 0x8800,
-        STENCIL_BACK_PASS_DEPTH_FAIL = 0x8802,
-        STENCIL_BACK_PASS_DEPTH_PASS = 0x8803,
-        STENCIL_BACK_REF = 0x8CA3,
-        STENCIL_BACK_VALUE_MASK = 0x8CA4,
-        STENCIL_BACK_WRITEMASK = 0x8CA5,
-        STENCIL_BITS = 0x0D57,
-        STENCIL_CLEAR_VALUE = 0x0B91,
-        STENCIL_FAIL = 0x0B94,
-        STENCIL_FUNC = 0x0B92,
-        STENCIL_PASS_DEPTH_FAIL = 0x0B95,
-        STENCIL_PASS_DEPTH_PASS = 0x0B96,
-        STENCIL_REF = 0x0B97,
-        STENCIL_TEST = 0x0B90,
-        STENCIL_VALUE_MASK = 0x0B93,
+        StencilBackFail = 0x8801,
+        StencilBackFunc = 0x8800,
+        StencilBackPassDepthFail = 0x8802,
+        StencilBackPassDepthPass = 0x8803,
+        StencilBackReference = 0x8CA3,
+        StencilBackValueMask = 0x8CA4,
+        StencilBackWriteMask = 0x8CA5,
+        StencilBits = 0x0D57,
+        StencilClearValue = 0x0B91,
+        StencilFail = 0x0B94,
+        StencilFunc = 0x0B92,
+        StencilPassDepthFail = 0x0B95,
+        StencilPassDepthPass = 0x0B96,
+        StencilReference = 0x0B97,
+        StencilTest = 0x0B90,
+        StencilValueMask = 0x0B93,
         StencilWriteMask = 0x0B98,
 
+        // ?
         SubPixelBits = 0x0D50,
 
         // Viewport/Scissor

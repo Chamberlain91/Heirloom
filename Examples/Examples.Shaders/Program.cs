@@ -1,4 +1,4 @@
-﻿using Heirloom.Desktop;
+using Heirloom.Desktop;
 using Heirloom.Drawing;
 using Heirloom.Math;
 
@@ -12,7 +12,8 @@ namespace Examples.Shaders
         public static Shader DistortShader;
         public static Shader InvertShader;
 
-        public static Image Image, Noise;
+        public static Image[] Images;
+        public static Image Noise;
 
         public static float Time;
 
@@ -26,10 +27,17 @@ namespace Examples.Shaders
                 InvertShader = new Shader("files/invert.frag");
 
                 // Load queen of hearts image
-                Image = new Image("files/cardHeartsQ.png");
+                Images = new[]{
+                    new Image("files/cardJoker.png"),
+                    new Image("files/cardHearts2.png"),
+                    new Image("files/cardClubsA.png"),
+                    new Image("files/cardHeartsQ.png")
+                };
 
                 // Generate noise image
                 Noise = Image.CreateNoise(32, 32, 8, 6);
+                Noise.Interpolation = InterpolationMode.Linear;
+                Noise.Repeat = RepeatMode.Repeat;
 
                 // Set noise image
                 DistortShader.SetUniform("uNoiseImage", Noise);
@@ -37,7 +45,7 @@ namespace Examples.Shaders
                 // Create Window and fits it around 3 cards
                 var window = new Window("Custom Shader Effects")
                 {
-                    Size = (Padding + (Image.Width + Padding) * 4, Image.Height + Padding * 2),
+                    Size = (Padding + (Images[0].Width + Padding) * 4, Images[0].Height + Padding * 2),
                     IsResizable = false
                 };
 
@@ -67,19 +75,19 @@ namespace Examples.Shaders
 
             // Draws w/ grayscale shader
             gfx.Shader = DistortShader;
-            gfx.DrawImage(Image, Matrix.CreateTranslation(Padding + (Padding + Image.Width) * 3, Padding));
+            gfx.DrawImage(Images[0], Matrix.CreateTranslation(Padding + (Padding + Images[0].Width) * 3, Padding));
 
             // Draws w/ grayscale shader
             gfx.Shader = GrayscaleShader;
-            gfx.DrawImage(Image, Matrix.CreateTranslation(Padding + (Padding + Image.Width) * 2, Padding));
+            gfx.DrawImage(Images[1], Matrix.CreateTranslation(Padding + (Padding + Images[0].Width) * 2, Padding));
 
             // Draws w/ inversion shader
             gfx.Shader = InvertShader;
-            gfx.DrawImage(Image, Matrix.CreateTranslation(Padding + (Padding + Image.Width) * 1, Padding));
+            gfx.DrawImage(Images[2], Matrix.CreateTranslation(Padding + (Padding + Images[0].Width) * 1, Padding));
 
             // Draws w/ default shader
             gfx.Shader = Shader.Default;
-            gfx.DrawImage(Image, Matrix.CreateTranslation(Padding + (Padding + Image.Width) * 0, Padding));
+            gfx.DrawImage(Images[3], Matrix.CreateTranslation(Padding + (Padding + Images[0].Width) * 0, Padding));
         }
     }
 }

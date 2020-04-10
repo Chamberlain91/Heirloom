@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using Heirloom.OpenGLES;
 
@@ -6,32 +6,41 @@ namespace Heirloom.Drawing.OpenGLES
 {
     internal sealed class Framebuffer : IDisposable
     {
+        private readonly FramebufferStorage _storage;
+        private readonly Surface _surface;
+        private uint _version;
+
         private bool _isDisposed = false;
+
+        /// <summary>
+        /// The framebuffer associated with the multisampled renderbuffer.
+        /// </summary>
+        public readonly RenderbufferTarget RenderbufferFBO;
+
+        /// <summary>
+        /// The framebuffer associated with the surface texture.
+        /// </summary>
+        public readonly TextureTarget TextureFBO;
+
+        /// <summary>
+        /// The texture associated with <see cref="TextureFBO"/>.
+        /// </summary>
+        public Texture Texture => TextureFBO.Texture;
 
         #region Constructors
 
-        public Framebuffer(OpenGLGraphics gfx, Surface surface)
+        public Framebuffer(OpenGLGraphics graphics, Surface surface)
         {
-            Surface = surface;
+            _storage = surface.Native as FramebufferStorage;
+            _surface = surface;
 
-            // 
-            var samples = gfx.Invoke(() =>
+            // Construct texture FBO
+            TextureFBO = new TextureTarget(graphics, _storage.Texture);
+
+            if (_storage.HasRenderbuffer)
             {
-                // Query platform for multisample capabilities
-                var allowableSamplesCount = GL.GetInternalformat(RenderbufferFormat.RGBA8, InternalFormatParameter.NUM_SAMPLE_COUNTS, 1)[0];
-                var allowableSamples = GL.GetInternalformat(RenderbufferFormat.RGBA8, InternalFormatParameter.SAMPLES, allowableSamplesCount);
-
-                // Get intended max samples, and compare against max allowed on this platform
-                return System.Math.Min((int) surface.Multisample, allowableSamples[0]);
-            });
-
-            // Create texture buffer
-            TextureBuffer = new TextureTarget(gfx, surface);
-
-            // If surface is multisampled, create a multisample buffer too
-            if (samples > 1)
-            {
-                MultisampleBuffer = new MultisampleTarget(gfx, surface);
+                // Construct renderbuffer FBO (MSAA)
+                RenderbufferFBO = new RenderbufferTarget(graphics, _storage.Renderbuffer);
             }
         }
 
@@ -44,59 +53,80 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Properties
 
-        public Surface Surface { get; }
+        /// <summary>
+        /// Does this framebuffer support multisampling?
+        /// </summary>
+        public bool HasRenderbuffer => RenderbufferFBO != null;
 
-        public Texture Texture => TextureBuffer.Texture;
-
-        public TextureTarget TextureBuffer { get; }
-
-        public MultisampleTarget MultisampleBuffer { get; }
-
-        public uint Version { get; private set; }
+        /// <summary>
+        /// Is this framebuffer out of date?
+        /// </summary>
+        public bool IsDirty => _version != _surface.Version;
 
         #endregion
 
-        public void Update(OpenGLGraphics gfx)
+        #region Bind (Draw & Read)
+
+        /// <summary>
+        /// Binds the framebuffer for drawing.
+        /// </summary>
+        internal void BindToDraw()
         {
-            gfx.Invoke(() =>
+            if (HasRenderbuffer)
             {
-                // Is this surface multisampled?
-                if (MultisampleBuffer != null)
+                // Render into multisample buffer, later blitted into texture buffer for read operations
+                GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, RenderbufferFBO.Handle);
+            }
+            else
+            {
+                // Render directly into texture buffer
+                GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, TextureFBO.Handle);
+            }
+        }
+
+        /// <summary>
+        /// Binds the framebuffer for reading.
+        /// </summary>
+        internal void BindToRead()
+        {
+            // Transfer renderbuffer FBO to texture FBO
+            BlitToTexture();
+
+            // Read from texture
+            GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, TextureFBO.Handle);
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Blits the renderbuffer to the texture (if needed/exists).
+        /// </summary>
+        public void BlitToTexture()
+        {
+            if (IsDirty)
+            {
+                // Copy and resolve renderbuffer (if exists) to texture
+                if (HasRenderbuffer)
                 {
                     // Get current draw framebuffer
                     var drawBuffer = (uint) GL.GetInteger(GetParameter.DrawFramebufferBinding);
 
                     // Set read and draw framebuffers for the blit
-                    GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, MultisampleBuffer.Handle);
-                    GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, TextureBuffer.Handle);
+                    GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, RenderbufferFBO.Handle);
+                    GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, TextureFBO.Handle);
 
                     // Blit from multisampled buffer to texture buffer
-                    GL.BlitFramebuffer(0, 0, Surface.Width, Surface.Height, 0, 0, Surface.Width, Surface.Height, FramebufferBlitMask.Color, FramebufferBlitFilter.Nearest);
+                    GL.BlitFramebuffer(0, 0, Texture.Width, Texture.Height,
+                                       0, 0, Texture.Width, Texture.Height,
+                                       FramebufferBlitMask.Color, FramebufferBlitFilter.Nearest);
 
                     // Restore draw framebuffer
                     GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, drawBuffer);
                 }
 
-                // Generate mips (also updates texture version)
-                var texture = TextureBuffer.Texture;
-                texture.UpdateBySurface(Surface);
-            }, false);
-
-            // We should be up to date with surface at this point
-            Version = Surface.Version;
-        }
-
-        internal void Bind()
-        {
-            if (MultisampleBuffer == null)
-            {
-                // Render directly into texture buffer
-                GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, TextureBuffer.Handle);
-            }
-            else
-            {
-                // Render into multisample buffer, later blitted into texture buffer for read operations
-                GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, MultisampleBuffer.Handle);
+                // We should be up to date with the surface now
+                Texture.Version = _surface.Version;
+                _version = _surface.Version;
             }
         }
 
@@ -108,11 +138,12 @@ namespace Heirloom.Drawing.OpenGLES
             {
                 if (disposeManaged)
                 {
-                    // TODO: dispose managed objects.
+                    // Nothing
                 }
 
-                // TODO: free unmanaged resources
-                Console.WriteLine("WARN: Disposing Framebuffer! OpenGL Resource Not Deleted.");
+                // 
+                RenderbufferFBO.Dispose();
+                TextureFBO.Dispose();
 
                 _isDisposed = true;
             }
@@ -126,84 +157,152 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
-        internal class MultisampleTarget
+        internal sealed class RenderbufferTarget : IDisposable
         {
-            public uint Handle { get; private set; }
+            private bool _isDisposed = false;
 
-            public MultisampleTarget(OpenGLGraphics gfx, Surface surface)
+            private readonly OpenGLGraphics _graphics;
+
+            public Renderbuffer Renderbuffer;
+
+            public uint Handle;
+
+            #region Constructor
+
+            public RenderbufferTarget(OpenGLGraphics graphics, Renderbuffer renderbuffer)
             {
-                Console.WriteLine($"Creating multisample framebuffer.");
+                _graphics = graphics;
 
-                Handle = gfx.Invoke(() =>
+                Renderbuffer = renderbuffer;
+
+                // Generate framebuffer
+                Handle = GL.GenFramebuffer();
+                GL.BindFramebuffer(FramebufferTarget.Framebuffer, Handle);
+
+                // Attach to framebuffer
+                GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.Color0, Renderbuffer.Handle);
+
+                // Ensure framebuffer is valid
+                var status = GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer);
+                if (status != FramebufferStatus.Complete)
                 {
-                    // Generate framebuffer
-                    var handle = GL.GenFramebuffer();
-                    GL.BindFramebuffer(FramebufferTarget.Framebuffer, handle);
+                    throw new InvalidOperationException($"Unable to initialize multisample framebuffer. {status}");
+                }
 
-                    // Get intended max samples, and compare against max provided by GL
-                    var samples = (int) surface.Multisample;
-                    var allowableSamples = GL.GetInternalformat(RenderbufferFormat.RGBA8, InternalFormatParameter.SAMPLES);
-                    samples = System.Math.Min(samples, allowableSamples[0]);
+                // Unbind framebuffer
+                GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+            }
 
-                    // Construct a multisampled render buffer
-                    var renderBuffer = GL.GenRenderbuffer();
-                    GL.BindRenderbuffer(renderBuffer);
-                    GL.RenderbufferStorage(RenderbufferFormat.RGBA8, surface.Width, surface.Height, samples);
-                    GL.BindRenderbuffer(0);
+            ~RenderbufferTarget()
+            {
+                Dispose(false);
+            }
 
-                    // Attach to framebuffer
-                    GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.Color0, renderBuffer);
+            #endregion
 
-                    // Ensure framebuffer is valid
-                    var status = GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer);
-                    if (status != FramebufferStatus.Complete)
+            #region Dispose 
+
+            private void Dispose(bool disposeManaged)
+            {
+                if (!_isDisposed)
+                {
+                    if (disposeManaged)
                     {
-                        throw new InvalidOperationException($"Unable to initialize multisample framebuffer. {status}");
+                        // Nothing
                     }
 
-                    // Unbind framebuffer
-                    GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+                    // Schedule for deletion on a GL thread.
+                    _graphics.Invoke(() =>
+                    {
+                        Log.Debug($"Disposing Framebuffer (Renderbuffer {Handle})");
+                        GL.DeleteFramebuffer(Handle);
+                    });
 
-                    return handle;
-                });
+                    _isDisposed = true;
+                }
             }
+
+            public void Dispose()
+            {
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+
+            #endregion
         }
 
-        internal class TextureTarget
+        internal sealed class TextureTarget : IDisposable
         {
-            public uint Handle { get; private set; }
+            private bool _isDisposed = false;
 
-            public Texture Texture { get; private set; }
+            private readonly OpenGLGraphics _graphics;
 
-            public TextureTarget(OpenGLGraphics gfx, Surface surface)
+            public Texture Texture;
+
+            public uint Handle;
+
+            #region Constructor
+
+            public TextureTarget(OpenGLGraphics graphics, Texture texture)
             {
-                Texture = new Texture(gfx, surface.Size);
+                _graphics = graphics;
 
-                Console.WriteLine($"Creating texture framebuffer.");
+                Texture = texture;
 
-                // 
-                Handle = gfx.Invoke(() =>
+                // Generate framebuffer
+                Handle = GL.GenFramebuffer();
+                GL.BindFramebuffer(FramebufferTarget.Framebuffer, Handle);
+
+                // Attach to framebuffer
+                GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.Color0, TextureImageTarget.Texture2D, Texture.Handle, 0);
+
+                // Ensure framebuffer is valid
+                var status = GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer);
+                if (status != FramebufferStatus.Complete)
                 {
-                    // Generate framebuffer
-                    var handle = GL.GenFramebuffer();
-                    GL.BindFramebuffer(FramebufferTarget.Framebuffer, handle);
+                    throw new InvalidOperationException($"Unable to initialize multisample framebuffer. {status}");
+                }
 
-                    // Attach to framebuffer
-                    GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.Color0, TextureImageTarget.Texture2D, Texture.Handle, 0);
+                // Unbind framebuffer
+                GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+            }
 
-                    // Ensure framebuffer is valid
-                    var status = GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer);
-                    if (status != FramebufferStatus.Complete)
+            ~TextureTarget()
+            {
+                Dispose(false);
+            }
+
+            #endregion
+
+            #region Dispose 
+
+            private void Dispose(bool disposeManaged)
+            {
+                if (!_isDisposed)
+                {
+                    if (disposeManaged)
                     {
-                        throw new InvalidOperationException($"Unable to initialize texture framebuffer. {status}");
+                        // Nothing
                     }
 
-                    // Unbind framebuffer
-                    GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+                    // Schedule for deletion on a GL thread.
+                    _graphics.Invoke(() =>
+                    {
+                        Log.Debug($"Disposing Framebuffer (Texture {Handle})");
+                        GL.DeleteFramebuffer(Handle);
+                    });
 
-                    return handle;
-                });
+                    _isDisposed = true;
+                }
             }
+
+            public void Dispose()
+            {
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+
+            #endregion
         }
     }
 }

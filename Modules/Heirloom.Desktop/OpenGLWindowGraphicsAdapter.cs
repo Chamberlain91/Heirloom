@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 
 using Heirloom.Drawing;
@@ -10,10 +10,12 @@ namespace Heirloom.Desktop
     {
         public Graphics CreateGraphics(Window window, bool vsync)
         {
-            return new OpenGLWindowGraphics(this, window, vsync);
+            return new OpenGLWindowGraphics(window, vsync);
         }
 
-        protected override T InvokeOnGLThread<T>(Func<T> function)
+        #region Invoke
+
+        protected internal override T Invoke<T>(Func<T> function)
         {
             return Application.Invoke(() =>
             {
@@ -32,7 +34,7 @@ namespace Heirloom.Desktop
             });
         }
 
-        protected override void InvokeOnGLThread(Action function)
+        protected internal override void Invoke(Action function)
         {
             Application.Invoke(() =>
             {
@@ -49,20 +51,41 @@ namespace Heirloom.Desktop
             });
         }
 
+        #endregion
+
         private sealed class OpenGLWindowGraphics : OpenGLGraphics
         {
             private readonly Window _window;
             private readonly bool _vsync;
 
-            public OpenGLWindowGraphics(GraphicsAdapter adapter, Window window, bool vsync)
-                : base(adapter, window.Multisample)
+            public OpenGLWindowGraphics(Window window, bool vsync)
+                : base(window.Multisample)
             {
-                _window = window;
+                _window = window ?? throw new ArgumentNullException(nameof(window));
                 _vsync = vsync;
 
-                // 
-                _window.FramebufferResized += _ => SetDefaultSurfaceSize(_window.FramebufferSize);
-                SetDefaultSurfaceSize(_window.FramebufferSize);
+                var hasThreadStarted = false;
+
+                // Set initial default surface size
+                DefaultSurface.SetSize(_window.FramebufferSize);
+
+                // Whenever the window framebuffer is resized, also update the
+                // viewport and default surface. If the window is first created,
+                // we use this event as a "window is ready" event to launch the
+                // OpenGL thread.
+                _window.FramebufferResized += _ =>
+                {
+                    DefaultSurface.SetSize(_window.FramebufferSize);
+
+                    // If the thread has not started, the framebuffer size is now known
+                    if (!hasThreadStarted)
+                    {
+                        hasThreadStarted = true;
+
+                        // Run OpenGL thread
+                        StartThread();
+                    }
+                };
             }
 
             protected override void MakeCurrent()
@@ -81,6 +104,12 @@ namespace Heirloom.Desktop
             {
                 // Swap buffers (on the gl thread)
                 Invoke(() => Glfw.SwapBuffers(_window.Handle), false);
+            }
+
+            protected override void Dispose(bool disposeManaged)
+            {
+                // Dispose base class
+                base.Dispose(disposeManaged);
             }
         }
     }

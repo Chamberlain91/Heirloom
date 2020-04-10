@@ -11,11 +11,7 @@ out vec4 outColor;
 // == Uniforms ==
 
 uniform sampler2D uMainImage;
-
-uniform Standard
-{
-	mat2x3 uMatrix;
-};
+in vec4 uMainImage_UVRect; 
 
 // == Fragment Shader ==
 
@@ -24,7 +20,7 @@ vec4 fragmentProgram(vec4 color);
 
 void main(void)
 {
-	outColor  = texture(uMainImage, frag.uvAtlas);
+	outColor  = atlas(uMainImage, uMainImage_UVRect, frag.uv);
 	outColor  = fragmentProgram(outColor);
 	outColor *= frag.color;
 }
