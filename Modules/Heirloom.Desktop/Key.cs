@@ -5,6 +5,9 @@ namespace Heirloom.Desktop
     /// </summary>
     public enum Key
     {
+        /// <summary>
+        /// An unknown key was pressed.
+        /// </summary>
         Unknown = -1,
 
         Space = 32,
