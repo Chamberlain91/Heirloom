@@ -1,5 +1,6 @@
 using System;
 
+using Heirloom.IO;
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
@@ -141,8 +142,8 @@ namespace Heirloom.Drawing.OpenGLES
                     // Nothing
                 }
 
-                // 
-                RenderbufferFBO.Dispose();
+                // Dispose framebuffers
+                RenderbufferFBO?.Dispose();
                 TextureFBO.Dispose();
 
                 _isDisposed = true;
@@ -214,7 +215,7 @@ namespace Heirloom.Drawing.OpenGLES
                     // Schedule for deletion on a GL thread.
                     _graphics.Invoke(() =>
                     {
-                        Log.Debug($"Disposing Framebuffer (Renderbuffer {Handle})");
+                        Log.Debug($"[Dispose] Framebuffer MSAA ({Handle})");
                         GL.DeleteFramebuffer(Handle);
                     });
 
@@ -288,7 +289,7 @@ namespace Heirloom.Drawing.OpenGLES
                     // Schedule for deletion on a GL thread.
                     _graphics.Invoke(() =>
                     {
-                        Log.Debug($"Disposing Framebuffer (Texture {Handle})");
+                        Log.Debug($"[Dispose] Framebuffer Texture ({Handle})");
                         GL.DeleteFramebuffer(Handle);
                     });
 

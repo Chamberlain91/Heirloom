@@ -3,6 +3,9 @@ using System.IO;
 
 namespace Heirloom.IO
 {
+    /// <summary>
+    /// Provides extensions to stream.
+    /// </summary>
     public static class StreamExtensions
     {
         /// <summary>

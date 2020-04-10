@@ -1,5 +1,6 @@
 using System;
 
+using Heirloom.IO;
 using Heirloom.Math;
 
 namespace Heirloom.Drawing
@@ -41,6 +42,11 @@ namespace Heirloom.Drawing
             {
                 Native = GraphicsAdapter.SurfaceFactory.Create(Size, multisample);
             }
+        }
+
+        ~Surface()
+        {
+            Log.Debug($"[Dispose] Surface");
         }
 
         #endregion
