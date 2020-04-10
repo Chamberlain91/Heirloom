@@ -88,6 +88,11 @@ namespace Heirloom.Drawing
             _size = new IntSize(width, height);
         }
 
+        ~Image()
+        {
+            Log.Debug($"[Dispose] Image");
+        }
+
         #endregion
 
         #region Properties

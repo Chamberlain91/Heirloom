@@ -8,6 +8,8 @@
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageOutputPath>../../Nuget/$(Configuration)</PackageOutputPath>
     <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
     <Description>Audio input and output with support for decoding/loading of some standard audio formats. Software effects are available such as Reverb or Lowpass. Custom effect implementations are possible.</Description>

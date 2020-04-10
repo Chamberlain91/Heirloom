@@ -8,6 +8,8 @@
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageOutputPath>../../Nuget/$(Configuration)</PackageOutputPath>
     <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
     <Description>A library to provide implementations of various spatially oriented datastructures such as a sparse grid and other spatial partitioning structures to query 2D space.</Description>

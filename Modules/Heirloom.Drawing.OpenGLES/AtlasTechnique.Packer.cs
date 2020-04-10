@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 using Heirloom.Drawing.Utilities;
+using Heirloom.IO;
 using Heirloom.Math;
 using Heirloom.OpenGLES;
 
@@ -29,7 +30,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         internal override void Evict()
         {
-            Log.Warning($"[Atlas Evict] {_entries.Count} images");
+            Log.Warning($"Evicting {_entries.Count} images");
 
             _changeSet.Clear();
             _entries.Clear();

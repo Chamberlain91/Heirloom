@@ -2,6 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
+using Heirloom.IO;
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
@@ -91,7 +92,7 @@ namespace Heirloom.Drawing.OpenGLES
                 // Schedule for deletion on a GL thread.
                 OpenGLGraphicsAdapter.Schedule(() =>
                 {
-                    Log.Debug($"Disposing {GetType().Name}.");
+                    Log.Debug($"[Dispose] {GetType().Name} ({Handle}).");
                     GL.DeleteBuffer(Handle);
                 });
 
