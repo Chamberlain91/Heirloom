@@ -341,7 +341,7 @@ namespace Heirloom.Desktop
 
         public event Action<Window> FramebufferResized;
 
-        public event Action<Window, ContentScaleEvent> ContentScaleChanged;
+        public event Action<Window, WindowEvents> ContentScaleChanged;
 
         public event Action<Window, KeyEvent> KeyPress;
 
@@ -379,7 +379,7 @@ namespace Heirloom.Desktop
 
         protected virtual void OnContentScaleChanged(float xScale, float yScale)
         {
-            var ev = new ContentScaleEvent(xScale, yScale);
+            var ev = new WindowEvents(xScale, yScale);
             ContentScaleChanged?.Invoke(this, ev);
         }
 
