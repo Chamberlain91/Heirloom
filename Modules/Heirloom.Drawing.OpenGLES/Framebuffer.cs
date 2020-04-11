@@ -32,8 +32,16 @@ namespace Heirloom.Drawing.OpenGLES
 
         public Framebuffer(OpenGLGraphics graphics, Surface surface)
         {
+            if (graphics is null)
+            {
+                throw new ArgumentNullException(nameof(graphics));
+            }
+
+            // Get the surface storage
             _storage = surface.Native as FramebufferStorage;
-            _surface = surface;
+            if (_storage == null) { throw new InvalidOperationException($"Framebufer storage somehow null."); }
+
+            _surface = surface ?? throw new ArgumentNullException(nameof(surface));
 
             // Construct texture FBO
             TextureFBO = new TextureTarget(graphics, _storage.Texture);
