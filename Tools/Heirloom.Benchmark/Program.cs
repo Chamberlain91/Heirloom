@@ -92,7 +92,7 @@ namespace Heirloom.Benchmark
 
                     // Leave fullscreen
                     window.Graphics.Performance.OverlayMode = PerformanceOverlayMode.Disabled;
-                    window.BeginFullscreen(null);
+                    window.EndFullscreen();
 
                     // Size window
                     var rect = TextLayout.Measure(GetResultsText(benchmarks), Font.Default, 32);

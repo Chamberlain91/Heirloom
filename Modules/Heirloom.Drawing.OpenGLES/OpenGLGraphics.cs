@@ -340,7 +340,7 @@ namespace Heirloom.Drawing.OpenGLES
                 // We have changed surfaces, reset viewport to full surface
                 Viewport = (0, 0, 1, 1);
 
-                Invoke(blocking: false, action: () =>
+                Invoke(() =>
                 {
                     // Set and prepare the surface (ie, bind framebuffer)
                     if (_surface == DefaultSurface)

@@ -217,5 +217,19 @@ namespace Heirloom.Drawing
         }
 
         #endregion
+
+        /// <summary>
+        /// Overwrites an image to target surface.
+        /// </summary>
+        public void Blit(ImageSource source, Surface target)
+        {
+            PushState(true);
+            {
+                Surface = target;
+                Blending = Blending.Opaque;
+                DrawImage(source, (Vector.Zero, target.Size));
+            }
+            PopState();
+        }
     }
 }

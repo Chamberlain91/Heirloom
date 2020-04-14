@@ -129,7 +129,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Save the context state (push it on the state stack).
         /// </summary>
-        public void PushState()
+        public void PushState(bool reset = false)
         {
             _stateStack.Push(new GraphicsState
             {
@@ -140,6 +140,9 @@ namespace Heirloom.Drawing
                 Transform = GlobalTransform,
                 Viewport = Viewport
             });
+
+            // If requested, reset state
+            if (reset) { ResetState(); }
         }
 
         /// <summary>
