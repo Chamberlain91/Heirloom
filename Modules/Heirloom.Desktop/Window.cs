@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 
 using Heirloom.Drawing;
+using Heirloom.IO;
 using Heirloom.Math;
 
 namespace Heirloom.Desktop
@@ -51,6 +52,18 @@ namespace Heirloom.Desktop
         /// <param name="vsync">Enable VSync on this window.</param>
         /// <param name="transparent">Enable transparent framebuffer (if OS supports it).</param>
         public Window(string title, MultisampleQuality multisample = MultisampleQuality.None, bool vsync = true, bool transparent = false)
+            : this(title, (512, 512), multisample, vsync, transparent)
+        { }
+
+        /// <summary>
+        /// Constructs a new window.
+        /// </summary>
+        /// <param name="title">The text in the titlebar of the window.</param>
+        /// <param name="size">The initial size of the window.</param>
+        /// <param name="multisample">What level of MSAA to use.</param>
+        /// <param name="vsync">Enable VSync on this window.</param>
+        /// <param name="transparent">Enable transparent framebuffer (if OS supports it).</param>
+        public Window(string title, IntSize size, MultisampleQuality multisample = MultisampleQuality.None, bool vsync = true, bool transparent = false)
         {
             _title = title ?? throw new ArgumentNullException(nameof(title));
 
@@ -61,12 +74,14 @@ namespace Heirloom.Desktop
             // 
             Handle = Application.Invoke(() =>
             {
+                Log.Debug($"Creating Window (MSAA: {Multisample} x{(int) Multisample})");
+
                 // 
                 Glfw.SetWindowCreationHint(WindowCreationHint.Samples, (int) Multisample);
+                Glfw.SetWindowCreationHint(WindowAttribute.TransparentFramebuffer, HasTransparentFramebuffer);
 
                 // Create window
-                Glfw.SetWindowCreationHint(WindowAttribute.TransparentFramebuffer, HasTransparentFramebuffer);
-                var handle = Glfw.CreateWindow(512, 512, title, MonitorHandle.None, Application.ShareContext);
+                var handle = Glfw.CreateWindow(size.Width, size.Height, title, MonitorHandle.None, Application.ShareContext);
 
                 // Query intial window properties
                 Glfw.GetWindowSize(handle, out _bounds.Width, out _bounds.Height);
@@ -133,9 +148,6 @@ namespace Heirloom.Desktop
             // == Construct Graphics Context
 
             Graphics = Application.GraphicsFactory.CreateGraphics(this, vsync);
-
-            // To help prevent the weird window framebuffer isn't the same size error...?
-            Thread.Sleep(1);
         }
 
         ~Window()
@@ -517,50 +529,53 @@ namespace Heirloom.Desktop
         #region Fullscreen
 
         /// <summary>
-        /// Sets the window to fullscreen using the nearest monitor and existing video mode.
+        /// Puts the window into fullscreen using the nearest monitor and existing video mode.
         /// </summary>
-        public void SetFullscreen()
+        public void BeginFullscreen()
         {
-            SetFullscreen(Monitor);
-        }
-
-        /// <summary>
-        /// Sets the window to fullscreen using the nearest monitor and specified video mode.
-        /// </summary>
-        public void SetFullscreen(VideoMode mode)
-        {
-            SetFullscreen(Monitor, mode);
+            BeginFullscreen(Monitor);
         }
 
         /// <summary>
         /// Sets the window to fullscreen using the specified monitor and existing video mode.
         /// </summary>
-        public void SetFullscreen(Monitor monitor)
+        public void BeginFullscreen(Monitor monitor)
         {
-            SetFullscreen(monitor, monitor?.CurrentMode ?? default);
+            BeginFullscreen(monitor.CurrentMode, monitor);
+        }
+
+        /// <summary>
+        /// Puts the window into fullscreen using the nearest monitor and specified video mode.
+        /// </summary>
+        public void BeginFullscreen(VideoMode mode)
+        {
+            BeginFullscreen(mode, Monitor);
         }
 
         /// <summary>
         /// Sets the window to fullscreen using the specified monitor and video mode.
         /// </summary>
-        public void SetFullscreen(Monitor monitor, VideoMode mode)
+        public void BeginFullscreen(VideoMode mode, Monitor monitor)
         {
             Application.Invoke(() =>
             {
-                // 
-                if (monitor == null)
-                {
-                    // Disable fullscreen, and restore bounds to pre-fullscreen bounds
-                    Glfw.SetWindowMonitor(Handle, MonitorHandle.None, _restoreBounds.X, _restoreBounds.Y, _restoreBounds.Width, _restoreBounds.Height, -1);
-                }
-                else
-                {
-                    // If not already fullscreen, keep record of the current bounds
-                    if (State != WindowState.Fullscreen) { _restoreBounds = _bounds; }
+                // If not already fullscreen, keep record of the current bounds
+                if (State != WindowState.Fullscreen) { _restoreBounds = _bounds; }
 
-                    // Enable fullscreen
-                    Glfw.SetWindowMonitor(Handle, monitor.MonitorHandle, 0, 0, mode.Width, mode.Height, mode.RefreshRate);
-                }
+                // Enable fullscreen
+                Glfw.SetWindowMonitor(Handle, monitor.MonitorHandle, 0, 0, mode.Width, mode.Height, mode.RefreshRate);
+            });
+        }
+
+        /// <summary>
+        /// Disables fullscreen mode.
+        /// </summary>
+        public void EndFullscreen()
+        {
+            Application.Invoke(() =>
+            {
+                // Disable fullscreen, and restore bounds to pre-fullscreen bounds
+                Glfw.SetWindowMonitor(Handle, MonitorHandle.None, _restoreBounds.X, _restoreBounds.Y, _restoreBounds.Width, _restoreBounds.Height, -1);
             });
         }
 

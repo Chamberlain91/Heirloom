@@ -18,6 +18,24 @@ namespace Heirloom.Desktop
 
         public int RefreshRate;
 
+        public VideoMode(int width, int height, int redBits, int greenBits, int blueBits, int refreshRate)
+        {
+            Width = width;
+            Height = height;
+            RedBits = redBits;
+            GreenBits = greenBits;
+            BlueBits = blueBits;
+            RefreshRate = refreshRate;
+        }
+
+        public VideoMode(int width, int height, int refreshRate)
+            : this(width, height, 0, 0, 0, refreshRate)
+        { }
+
+        public VideoMode(int width, int height)
+            : this(width, height, 0)
+        { }
+
         public override bool Equals(object obj)
         {
             return obj is VideoMode mode ? Equals(mode) : false;

@@ -40,7 +40,8 @@ namespace Heirloom.Drawing
 
             if (createNative)
             {
-                Native = GraphicsAdapter.SurfaceFactory.Create(Size, multisample);
+                Native = GraphicsAdapter.SurfaceFactory.Create(Size, ref multisample);
+                Multisample = multisample;
             }
         }
 
@@ -61,9 +62,18 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Gets the multisampling quality set on this surface.
         /// </summary>
+        /// <remarks>
+        /// This wll be set to the value actually availble used to create the surface.
+        /// Some platforms might not support all multisample levels.
+        /// </remarks>
         public MultisampleQuality Multisample { get; }
 
         #endregion
+
+        /// <summary>
+        /// Gets the max multisample quality supported on this system.
+        /// </summary>
+        public static MultisampleQuality MaxSupportedMultisampleQuality => GraphicsAdapter.SurfaceFactory.MaxSupportedMultisampleQuality;
 
         internal void SetSize(IntSize size)
         {
