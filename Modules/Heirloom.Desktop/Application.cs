@@ -228,7 +228,9 @@ namespace Heirloom.Desktop
             // It is used to query window capabilities and assist with sharing OpenGL resources.
             // It is also used when shaders or other OpenGL resources that need to be created
             // on an OGL bound thread but do not have a clear context available to them.
-            ShareContext = CreateSharingWindow();
+            Glfw.SetWindowCreationHint(WindowAttribute.TransparentFramebuffer, true);
+            Glfw.SetWindowCreationHint(WindowAttribute.Visible, false);
+            ShareContext = Glfw.CreateWindow(256, 256, "GLFW Background Window");
 
             // Use share context temporarily to load the GL functions and construct the graphics adapter object...
             Glfw.MakeContextCurrent(ShareContext);
@@ -243,12 +245,12 @@ namespace Heirloom.Desktop
                 GraphicsAdapter = new OpenGLWindowGraphicsAdapter();
                 GraphicsFactory = GraphicsAdapter as IWindowGraphicsFactory;
                 GraphicsAdapter.Initialize();
-
-                // Set default window creation hints
-                Glfw.SetWindowCreationHint(WindowAttribute.FocusOnShow, true);
-                Glfw.SetWindowCreationHint(WindowAttribute.Visible, true);
             }
             Glfw.MakeContextCurrent(WindowHandle.None);
+
+            // Reset default window creation hints
+            Glfw.SetWindowCreationHint(WindowAttribute.FocusOnShow, true);
+            Glfw.SetWindowCreationHint(WindowAttribute.Visible, true);
         }
 
         private static void InitializeMonitors()
@@ -278,14 +280,6 @@ namespace Heirloom.Desktop
                 // NOTE: Removed because WaitEventsTimeout above should block...
                 // Thread.Sleep(1);
             }
-        }
-
-        private static WindowHandle CreateSharingWindow()
-        {
-            // Create "dummy" window, the GL context sharing window
-            Glfw.SetWindowCreationHint(WindowAttribute.TransparentFramebuffer, true);
-            Glfw.SetWindowCreationHint(WindowAttribute.Visible, false);
-            return Glfw.CreateWindow(256, 256, "GLFW Background Window");
         }
 
         /// <summary>

@@ -75,9 +75,13 @@ namespace Heirloom.Drawing.OpenGLES
                 });
             }
 
-            public object Create(IntSize size, MultisampleQuality multisample)
+            public MultisampleQuality MaxSupportedMultisampleQuality => (MultisampleQuality) _maxSupportedSamples;
+
+            public object Create(IntSize size, ref MultisampleQuality multisample)
             {
+                // Get the highest supported MSAA level
                 var samples = Calc.Min((int) multisample, _maxSupportedSamples);
+                multisample = (MultisampleQuality) samples; // change msaa reference
                 return Adapter.Invoke(() => new FramebufferStorage(size, samples));
             }
 

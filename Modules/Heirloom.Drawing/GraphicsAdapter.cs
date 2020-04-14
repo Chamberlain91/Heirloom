@@ -103,7 +103,9 @@ namespace Heirloom.Drawing
 
         protected internal interface ISurfaceFactory
         {
-            object Create(IntSize size, MultisampleQuality multisample);
+            MultisampleQuality MaxSupportedMultisampleQuality { get; }
+
+            object Create(IntSize size, ref MultisampleQuality multisample);
 
             void Dispose(object native);
         }

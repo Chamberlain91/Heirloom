@@ -12,6 +12,7 @@ namespace Heirloom.Drawing.OpenGLES
     internal abstract class OpenGLGraphics : Graphics
     {
         private readonly ConsumerThread _thread;
+        private bool _isInitialized = false;
         private bool _isRunning = false;
 
         internal OpenGLCapabilities Capabilities;
@@ -77,6 +78,9 @@ namespace Heirloom.Drawing.OpenGLES
                 GL.Enable(EnableCap.ScissorTest);
                 GL.Enable(EnableCap.Blend);
                 ResetState();
+
+                // Flag that OpenGL is ready to go
+                _isInitialized = true;
             });
         }
 
@@ -87,12 +91,14 @@ namespace Heirloom.Drawing.OpenGLES
         {
             if (!_isRunning)
             {
-                // Begin consumer thread
+                // 
                 _isRunning = true;
+
+                // Begin consumer thread
                 _thread.Start();
 
                 // Wait For GL
-                SpinWait.SpinUntil(() => _batchingTechnique != null);
+                SpinWait.SpinUntil(() => _isInitialized);
             }
             else
             {
