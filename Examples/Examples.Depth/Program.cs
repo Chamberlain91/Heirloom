@@ -37,7 +37,7 @@ namespace Examples.Depth
             // Set image origin to center
             foreach (var image in Images)
             {
-                image.Origin = (Vector) image.Size / 2F;
+                image.Origin = (IntVector) image.Size / 2;
             }
 
             // Create blur effect layer

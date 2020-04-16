@@ -32,7 +32,7 @@ namespace Heirloom.Benchmark
                 // Set the origin of each images to its center
                 foreach (var image in images)
                 {
-                    image.Origin = (Vector) image.Size / 2F;
+                    image.Origin = (IntVector) image.Size / 2;
                 }
             }
 

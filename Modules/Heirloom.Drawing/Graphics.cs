@@ -18,13 +18,13 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Constructs a new graphics instance with the specified multisampling quality.
         /// </summary>
-        protected Graphics(MultisampleQuality multisample)
+        protected Graphics(Surface surface)
         {
             // Create performance tracking object
             Performance = new DrawingPerformance();
 
             // Creates a dummy surface to represent the window surface
-            DefaultSurface = new Surface(1, 1, multisample, true);
+            DefaultSurface = surface;
         }
 
         /// <summary>
@@ -73,20 +73,12 @@ namespace Heirloom.Drawing
         public abstract Shader Shader { get; set; }
 
         /// <summary>
-        /// Gets or sets the viewport in normalized coordinates.
+        /// Gets or sets the viewport in pixel coordinates.
         /// </summary>
         /// <remarks>
         /// When <see cref="Surface"/> is changed, the viewport is automatically reset to the full surface.
         /// </remarks>
-        public abstract Rectangle Viewport { get; set; }
-
-        /// <summary>
-        /// Gets the size of viewport in pixel coordinates.
-        /// </summary>
-        /// <remarks>
-        /// When <see cref="Surface"/> is changed, the viewport is automatically reset to the full surface.
-        /// </remarks>
-        public abstract IntRectangle ViewportScreen { get; set; }
+        public abstract IntRectangle Viewport { get; set; }
 
         /// <summary>
         /// Get or sets the global transform.
@@ -119,7 +111,7 @@ namespace Heirloom.Drawing
         {
             Shader = Shader.Default;
             Surface = DefaultSurface; // also adjusts viewport?
-            Viewport = (0, 0, 1, 1);
+            Viewport = (0, 0, Surface.Width, Surface.Height);
 
             GlobalTransform = Matrix.Identity;
             Blending = Blending.Alpha;
@@ -365,7 +357,7 @@ namespace Heirloom.Drawing
         /// </summary>
         public void SetCameraTransform(Vector center, float scale = 1F)
         {
-            var offset = (Vector) ViewportScreen.Size / 2F;
+            var offset = (Vector) Viewport.Size / 2F;
             GlobalTransform = Matrix.CreateTransform(offset - center, 0, scale);
         }
 

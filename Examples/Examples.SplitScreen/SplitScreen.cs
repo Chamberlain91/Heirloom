@@ -40,6 +40,9 @@ namespace Examples.SplitScreen
                 player.Update(dt);
             }
 
+            var w = gfx.Surface.Width / 2;
+            var h = gfx.Surface.Height;
+
             /*
               _   _                _              _  _     _        _ 
              | \ |_)  /\ \    /   |_) |   /\ \_/ |_ |_)   / \ |\ | |_ 
@@ -47,7 +50,7 @@ namespace Examples.SplitScreen
 
              */
 
-            gfx.Viewport = (0.0F, 0.0F, 0.5F, 1.0F);
+            gfx.Viewport = (0, 0, w, h);
 
             // Set "camera" to follow Player 1
             gfx.SetCameraTransform(Players[0].SmoothPosition);
@@ -66,7 +69,7 @@ namespace Examples.SplitScreen
 
             */
 
-            gfx.Viewport = (0.5F, 0.0F, 0.5F, 1.0F);
+            gfx.Viewport = (w, 0, w, h);
 
             // Set "camera" to follow Player 2
             gfx.SetCameraTransform(Players[1].SmoothPosition);
@@ -76,7 +79,7 @@ namespace Examples.SplitScreen
             // Draw Player 2 HUD
             gfx.GlobalTransform = Matrix.Identity;
             gfx.Color = Players[1].Color;
-            gfx.DrawText("<ARROW> to control Green", (gfx.ViewportScreen.Width - 16, 16), Font.Default, 32, TextAlign.Right);
+            gfx.DrawText("<ARROW> to control Green", (gfx.Viewport.Width - 16, 16), Font.Default, 32, TextAlign.Right);
         }
 
         private void DrawWorld(Graphics gfx)

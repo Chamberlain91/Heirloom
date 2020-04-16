@@ -26,7 +26,7 @@ namespace Examples.FakeWindow
         {
             _frame = new NineSlice(new Image("files/frame.png"), new IntRectangle(30, 30, 10, 30));
             _card = new Image("files/cardHeartsQ.png");
-            _card.Origin = (Vector) _card.Size / 2F;
+            _card.Origin = (IntVector) _card.Size / 2;
 
             _cross = new Image("files/grey_crossGrey.png");
             _crossHover = new Image("files/red_cross.png");
@@ -64,7 +64,7 @@ namespace Examples.FakeWindow
             gfx.DrawImage(_isHoverClose ? _crossHover : _cross, (_window.Size.Width - 32, 7));
 
             // Draw window content
-            gfx.ViewportScreen = new IntRectangle(8, 34, _window.Size.Width - 16, _window.Size.Height - 42);
+            gfx.Viewport = new IntRectangle(8, 34, _window.Size.Width - 16, _window.Size.Height - 42);
 
             gfx.Color = Color.White;
             gfx.DrawImage(_card, _cardPos);

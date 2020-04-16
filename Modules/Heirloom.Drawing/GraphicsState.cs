@@ -10,7 +10,7 @@ namespace Heirloom.Drawing
 
         public Shader Shader;
 
-        public Rectangle Viewport;
+        public IntRectangle Viewport;
 
         public Matrix Transform;
 
@@ -30,16 +30,17 @@ namespace Heirloom.Drawing
         public bool Equals(GraphicsState other)
         {
             return Surface == other.Surface &&
+                   Shader == other.Shader &&
+                   Viewport == other.Viewport &&
+                   Transform == other.Transform &&
                    Interpolation == other.Interpolation &&
                    Blending == other.Blending &&
-                   Viewport.Equals(other.Viewport) &&
-                   Transform.Equals(other.Transform) &&
-                   Color.Equals(other.Color);
+                   Color == other.Color;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Surface, Interpolation, Viewport, Transform, Blending, Color);
+            return HashCode.Combine(Surface, Shader, Viewport, Transform, Interpolation, Blending, Color);
         }
 
         public static bool operator ==(GraphicsState left, GraphicsState right)
