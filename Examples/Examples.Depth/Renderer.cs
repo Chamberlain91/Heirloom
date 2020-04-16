@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using Heirloom.Collections;
 using Heirloom.Drawing;
@@ -47,7 +45,7 @@ namespace Examples.Depth
             // Clear initial surface with background color 
             gfx.Surface = surface;
             gfx.Clear(BackgroundColor);
-            gfx.GlobalTransform *= Matrix.CreateScale(1F / layer.Effect.Downscale);
+            gfx.GlobalTransform *= Matrix.CreateScale(1F / layer.Downscale);
 
             // Draw entities from back to front (negative to positive)
             foreach (var entity in entities)
@@ -59,7 +57,7 @@ namespace Examples.Depth
                 if (entity.Depth > layer.Depth)
                 {
                     // Apply effect to surface
-                    layer.Effect.Apply(gfx, surface);
+                    gfx.Apply(layer.Effect);
 
                     // Mark surface as old surface
                     var oldSurface = surface;
@@ -77,7 +75,7 @@ namespace Examples.Depth
                     // Begin drawing to new layer surface
                     gfx.ResetState();
                     gfx.Surface = surface;
-                    gfx.GlobalTransform *= Matrix.CreateScale(1F / layer.Effect.Downscale);
+                    gfx.GlobalTransform *= Matrix.CreateScale(1F / layer.Downscale);
                 }
 
                 // Draw Entity
@@ -95,7 +93,7 @@ namespace Examples.Depth
 
         private Surface GetSurface(IntSize screenSize, EffectLayer layer)
         {
-            var surface = SurfacePool.Request(screenSize / layer.Effect.Downscale, Multisample);
+            var surface = SurfacePool.Request(screenSize / layer.Downscale, Multisample);
             surface.Interpolation = InterpolationMode.Linear;
             surface.Repeat = RepeatMode.Clamp;
             return surface;

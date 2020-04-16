@@ -15,9 +15,13 @@ namespace Examples.Depth
 
         public readonly Image[] Images;
 
+        public readonly BlurSurfaceEffect Effect;
+        public readonly EffectLayer EffectLayer;
+
+        private float _time;
+
         public Program()
-            : base(new Window("Post Processing Effects", MultisampleQuality.Low, false),
-                   MultisampleQuality.Low)
+            : base(new Window("Post Processing Effects", MultisampleQuality.None, true), MultisampleQuality.None)
         {
             Window.Graphics.Performance.OverlayMode = PerformanceOverlayMode.Standard;
             Window.Maximize();
@@ -36,8 +40,11 @@ namespace Examples.Depth
                 image.Origin = (Vector) image.Size / 2F;
             }
 
+            // Create blur effect layer
+            EffectLayer = new EffectLayer(0, Effect = new BlurSurfaceEffect(2, 25), 2);
+
             // Add blur effect layer (entities below the layer get the effect)
-            Renderer.EffectLayers.Add(new EffectLayer(0, new BlurEffect(5)));
+            Renderer.EffectLayers.Add(EffectLayer);
             Renderer.BackgroundColor = Color.Black;
 
             // Insert 200 cards with random position and depth
@@ -52,7 +59,8 @@ namespace Examples.Depth
 
         protected override void Update(float dt)
         {
-            // Whew nothing
+            _time += dt;
+            Effect.Strength = 5 + Calc.Osc(_time) * 10;
         }
 
         public class Card : Entity

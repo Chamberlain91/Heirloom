@@ -517,7 +517,7 @@ namespace Heirloom.Drawing
 
         public override bool Equals(object obj)
         {
-            return obj is Color && Equals((Color) obj);
+            return obj is Color color && Equals(color);
         }
 
         public bool Equals(Color other)
