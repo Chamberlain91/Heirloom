@@ -961,7 +961,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override unsafe void Flush()
+        protected override unsafe void Flush(bool blockCompletion = false)
         {
             // If the renderer has any batched work
             if (_batchingTechnique.IsDirty)
@@ -999,8 +999,9 @@ namespace Heirloom.Drawing.OpenGLES
                     // Mark surface as dirty
                     _surface.IncrementVersion();
 
-                    // 
-                    GL.Flush();
+                    // Either finish or flush
+                    if (blockCompletion) { GL.Finish(); }
+                    else { GL.Flush(); }
                 });
             }
         }
