@@ -35,8 +35,7 @@ namespace Heirloom.Drawing.OpenGLES
         private Surface _surface;
 
         // Viewport state
-        private IntRectangle _viewportScreen;
-        private Rectangle _viewport;
+        private IntRectangle _viewport;
         private bool _viewportDirty;
 
         // Shader State
@@ -53,8 +52,8 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Constructors
 
-        protected internal OpenGLGraphics(MultisampleQuality multisample)
-            : base(multisample)
+        protected internal OpenGLGraphics(Surface surface)
+            : base(surface)
         {
             _framebuffers = new ConditionalWeakTable<Surface, Framebuffer>();
 
@@ -169,65 +168,22 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Viewport
 
-        public override IntRectangle ViewportScreen
-        {
-            get => _viewportScreen;
-
-            set
-            {
-                if (_viewportScreen != value)
-                {
-                    // Complete previous work
-                    Flush();
-
-                    // Update viewport
-                    _viewportScreen = value;
-                    _viewport = ComputeNormalizedViewport(in value, _surface.Size);
-
-                    _viewportDirty = true;
-                }
-            }
-        }
-
-        public override Rectangle Viewport
+        public override IntRectangle Viewport
         {
             get => _viewport;
 
             set
             {
-                var screen = ComputeScreenViewport(in value, _surface.Size);
-                if (screen != _viewportScreen)
+                if (_viewport != value)
                 {
                     // Complete previous work
                     Flush();
 
                     // Update viewport values
-                    _viewportScreen = screen;
-                    _viewport = value;
-
                     _viewportDirty = true;
+                    _viewport = value;
                 }
             }
-        }
-
-        private static IntRectangle ComputeScreenViewport(in Rectangle viewport, in IntSize screen)
-        {
-            var w = (int) (viewport.Width * screen.Width);
-            var h = (int) (viewport.Height * screen.Height);
-            var x = (int) (viewport.X * screen.Width);
-            var y = (int) (viewport.Y * screen.Height);
-
-            return new IntRectangle(x, y, w, h);
-        }
-
-        private static Rectangle ComputeNormalizedViewport(in IntRectangle viewport, in IntSize screen)
-        {
-            var w = viewport.Width / (float) screen.Width;
-            var h = viewport.Height / (float) screen.Height;
-            var x = viewport.X / (float) screen.Width;
-            var y = viewport.Y / (float) screen.Height;
-
-            return new Rectangle(x, y, w, h);
         }
 
         private unsafe void UpdateViewportScissor()
@@ -235,12 +191,15 @@ namespace Heirloom.Drawing.OpenGLES
             // Update viewport and scissor
             if (_viewportDirty)
             {
-                var x = _viewportScreen.X;
-                var y = _viewportScreen.Y;
-                var w = _viewportScreen.Width;
-                var h = _viewportScreen.Height;
+                var x = _viewport.X;
+                var y = _viewport.Y;
+                var w = _viewport.Width;
+                var h = _viewport.Height;
 
-                // 
+                // Flip to match the top-left coordiantes
+                y = Surface.Height - h - y;
+
+                // Set GL Viewport
                 GL.SetViewport(x, y, w, h);
                 GL.SetScissor(x, y, w, h);
 
@@ -339,7 +298,7 @@ namespace Heirloom.Drawing.OpenGLES
                 _surface = surface;
 
                 // We have changed surfaces, reset viewport to full surface
-                Viewport = (0, 0, 1, 1);
+                Viewport = (0, 0, surface.Width, surface.Height);
 
                 Invoke(() =>
                 {
@@ -1013,7 +972,7 @@ namespace Heirloom.Drawing.OpenGLES
                     UpdateViewportScissor();
 
                     // Compute view-projection matrix
-                    var projMatrix = Matrix.RectangleProjection(0, 0, _viewportScreen.Width, _viewportScreen.Height);
+                    var projMatrix = Matrix.RectangleProjection(0, 0, _viewport.Width, _viewport.Height);
                     Matrix.Multiply(in projMatrix, in _viewMatrix, ref projMatrix);
 
                     // Write into uniform buffer

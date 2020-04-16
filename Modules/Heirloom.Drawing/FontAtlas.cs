@@ -122,7 +122,7 @@ namespace Heirloom.Drawing
         {
             // Creates an image to store the rendered glyph
             var imageSize = glyph.GetMetrics(size).Size;
-            var image = new Image(imageSize) { Origin = (Vector) imageSize / 2F };
+            var image = new Image(imageSize) { Origin = (IntVector) imageSize / 2 };
 
             // Render glyph and return
             glyph.RenderTo(image, 0, 0, size);

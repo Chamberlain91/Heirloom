@@ -146,7 +146,8 @@ namespace Heirloom.Desktop
 
             // == Construct Graphics Context
 
-            Graphics = Application.GraphicsFactory.CreateGraphics(this, multisample, vsync);
+            var surface = new Surface(1, 1, multisample, true);
+            Graphics = Application.GraphicsFactory.CreateGraphics(this, surface, vsync);
         }
 
         ~Window()

@@ -10,9 +10,9 @@ namespace Heirloom.Desktop
 {
     internal sealed class OpenGLWindowGraphicsAdapter : OpenGLGraphicsAdapter, IWindowGraphicsFactory
     {
-        public Graphics CreateGraphics(Window window, MultisampleQuality multisample, bool vsync)
+        public Graphics CreateGraphics(Window window, Surface surface, bool vsync)
         {
-            return new OpenGLWindowGraphics(window, multisample, vsync);
+            return new OpenGLWindowGraphics(window, surface, vsync);
         }
 
         #region Invoke
@@ -60,8 +60,8 @@ namespace Heirloom.Desktop
             private readonly Window _window;
             private readonly bool _vsync;
 
-            public OpenGLWindowGraphics(Window window, MultisampleQuality multisample, bool vsync)
-                : base(multisample)
+            public OpenGLWindowGraphics(Window window, Surface surface, bool vsync)
+                : base(surface)
             {
                 _window = window ?? throw new ArgumentNullException(nameof(window));
                 _vsync = vsync;
