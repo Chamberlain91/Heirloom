@@ -294,7 +294,7 @@ namespace Heirloom.Drawing
         public void RefreshScreen()
         {
             // Commit all pending work
-            Flush();
+            Flush(true);
 
             // Computes statistics (possibly drawing overlay)
             ProcessStatistics();
@@ -317,9 +317,17 @@ namespace Heirloom.Drawing
         protected abstract void EndFrame();
 
         /// <summary>
-        /// Force any pending drawing operations to complete.
+        /// Submit all pending drawing operations, optionally blocking for completion.
         /// </summary>
-        public abstract void Flush();
+        protected abstract void Flush(bool blockCompletion = false);
+
+        /// <summary>
+        /// Commits pending drawing operations, blocking until all operations complete.
+        /// </summary>
+        public void Commit()
+        {
+            Flush(true);
+        }
 
         #region IDisposable Support
 

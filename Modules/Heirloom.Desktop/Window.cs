@@ -467,6 +467,7 @@ namespace Heirloom.Desktop
 
         protected virtual void OnClosed()
         {
+            IsClosed = true;
             Closed?.Invoke(this);
         }
 
@@ -486,8 +487,11 @@ namespace Heirloom.Desktop
 
         public void Close()
         {
-            OnClosed();
-            Dispose();
+            if (!IsClosed)
+            {
+                OnClosed();
+                Dispose();
+            }
         }
 
         public void Focus()
