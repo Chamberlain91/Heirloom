@@ -10,9 +10,9 @@ namespace Heirloom.Desktop
 {
     internal sealed class OpenGLWindowGraphicsAdapter : OpenGLGraphicsAdapter, IWindowGraphicsFactory
     {
-        public Graphics CreateGraphics(Window window, bool vsync)
+        public Graphics CreateGraphics(Window window, MultisampleQuality multisample, bool vsync)
         {
-            return new OpenGLWindowGraphics(window, vsync);
+            return new OpenGLWindowGraphics(window, multisample, vsync);
         }
 
         #region Invoke
@@ -60,8 +60,8 @@ namespace Heirloom.Desktop
             private readonly Window _window;
             private readonly bool _vsync;
 
-            public OpenGLWindowGraphics(Window window, bool vsync)
-                : base(window.Multisample)
+            public OpenGLWindowGraphics(Window window, MultisampleQuality multisample, bool vsync)
+                : base(multisample)
             {
                 _window = window ?? throw new ArgumentNullException(nameof(window));
                 _vsync = vsync;
@@ -94,7 +94,7 @@ namespace Heirloom.Desktop
                 Glfw.SetSwapInterval(_vsync ? 1 : 0);
 
                 // Enable quality MSAA
-                if (_window.Multisample > MultisampleQuality.None)
+                if (DefaultSurface.Multisample > MultisampleQuality.None)
                 {
                     // Load glMinSampleShading, this could be cached... but this way makes it pretty
                     // seamless to include.

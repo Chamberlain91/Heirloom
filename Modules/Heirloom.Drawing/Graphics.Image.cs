@@ -219,6 +219,23 @@ namespace Heirloom.Drawing
         #endregion
 
         /// <summary>
+        /// Applies the specified surface effect to the current surface.
+        /// </summary>
+        public void Apply(SurfaceEffect effect)
+        {
+            if (Surface.IsScreenBound)
+            {
+                throw new ArgumentException("Unable to apply surface effect to a screen bound surface.");
+            }
+
+            var surface = Surface;
+
+            PushState(true);
+            effect.Apply(this, surface);
+            PopState();
+        }
+
+        /// <summary>
         /// Overwrites an image to target surface.
         /// </summary>
         public void Blit(ImageSource source, Surface target)

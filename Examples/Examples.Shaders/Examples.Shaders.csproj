@@ -12,9 +12,6 @@
     <None Remove="Files\cardHearts2.png" />
     <None Remove="Files\cardHeartsQ.png" />
     <None Remove="Files\cardJoker.png" />
-    <None Remove="Files\distort.frag" />
-    <None Remove="Files\grayscale.frag" />
-    <None Remove="Files\invert.frag" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,9 +19,6 @@
     <EmbeddedResource Include="Files\cardHearts2.png" />
     <EmbeddedResource Include="Files\cardHeartsQ.png" />
     <EmbeddedResource Include="Files\cardJoker.png" />
-    <EmbeddedResource Include="Files\grayscale.frag" />
-    <EmbeddedResource Include="Files\distort.frag" />
-    <EmbeddedResource Include="Files\invert.frag" />
   </ItemGroup>
  
   <ItemGroup>

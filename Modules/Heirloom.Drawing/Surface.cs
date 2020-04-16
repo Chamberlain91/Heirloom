@@ -28,18 +28,20 @@ namespace Heirloom.Drawing
         /// <param name="height">Height of the surface in pixels.</param>
         /// <param name="multisample">MSAA to use on the surface</param>
         public Surface(int width, int height, MultisampleQuality multisample = MultisampleQuality.None)
-            : this(width, height, multisample, true)
+            : this(width, height, multisample, false)
         { }
 
-        internal Surface(int width, int height, MultisampleQuality multisample, bool createNative)
+        internal Surface(int width, int height, MultisampleQuality multisample, bool isScreenBound)
         {
             if (width <= 0 || height <= 0) { throw new ArgumentException("Surface dimensions must be greater than zero."); }
 
             Size = new IntSize(width, height);
+            IsScreenBound = isScreenBound;
             Multisample = multisample;
 
-            if (createNative)
+            if (!IsScreenBound)
             {
+                // Surface is an offscreen render target
                 Native = GraphicsAdapter.SurfaceFactory.Create(Size, ref multisample);
                 Multisample = multisample;
             }
@@ -67,6 +69,11 @@ namespace Heirloom.Drawing
         /// Some platforms might not support all multisample levels.
         /// </remarks>
         public MultisampleQuality Multisample { get; }
+
+        /// <summary>
+        /// Determines if this surface is attached to a screen (ie, a window).
+        /// </summary>
+        public bool IsScreenBound { get; }
 
         #endregion
 

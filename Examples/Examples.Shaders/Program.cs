@@ -8,12 +8,11 @@ namespace Examples.Shaders
     {
         private const int Padding = 8;
 
-        public static Shader GrayscaleShader;
-        public static Shader DistortShader;
-        public static Shader InvertShader;
+        public static DistortionShader DistortionShader;
+        public static GrayscaleShader GrayscaleShader;
+        public static InvertShader InvertShader;
 
         public static Image[] Images;
-        public static Image Noise;
 
         public static float Time;
 
@@ -21,10 +20,15 @@ namespace Examples.Shaders
         {
             Application.Run(() =>
             {
-                // Loads the inverted color shader
-                GrayscaleShader = new Shader("files/grayscale.frag");
-                DistortShader = new Shader("files/distort.frag");
-                InvertShader = new Shader("files/invert.frag");
+                // Generate noise image
+                var noiseImage = Image.CreateNoise(32, 32, 10, 3);
+                noiseImage.Interpolation = InterpolationMode.Linear;
+                noiseImage.Repeat = RepeatMode.Repeat;
+
+                // Constructs instances of shaders
+                DistortionShader = new DistortionShader(noiseImage) { Strength = 0.05F };
+                GrayscaleShader = new GrayscaleShader();
+                InvertShader = new InvertShader();
 
                 // Load queen of hearts image
                 Images = new[]{
@@ -34,16 +38,8 @@ namespace Examples.Shaders
                     new Image("files/cardHeartsQ.png")
                 };
 
-                // Generate noise image
-                Noise = Image.CreateNoise(32, 32, 8, 6);
-                Noise.Interpolation = InterpolationMode.Linear;
-                Noise.Repeat = RepeatMode.Repeat;
-
-                // Set noise image
-                DistortShader.SetUniform("uNoiseImage", Noise);
-
                 // Create Window and fits it around 3 cards
-                var window = new Window("Custom Shader Effects")
+                var window = new Window("Custom Shader Effects", MultisampleQuality.High)
                 {
                     Size = (Padding + (Images[0].Width + Padding) * 4, Images[0].Height + Padding * 2),
                     IsResizable = false
@@ -63,8 +59,9 @@ namespace Examples.Shaders
             gfx.Clear(Color.DarkGray);
 
             // Here we update some shader uniforms.
-            GrayscaleShader.SetUniform("uStrength", 0.5F + Calc.Cos(Time * Calc.Pi) * 0.5F);
-            DistortShader.SetUniform("uTime", Time * 0.1F);
+            DistortionShader.Offset = new Vector(Time / 5, Time / 2);
+            GrayscaleShader.Blend = Calc.Osc(Time);
+            InvertShader.Blend = Calc.Osc(Time);
 
             // Its important to note that updating a uniform effectively interrupts the batching 
             // mechanism (once the shader is actually used), causing an unreconcilable state and 
@@ -74,7 +71,7 @@ namespace Examples.Shaders
             // this is difficult to avoid.
 
             // Draws w/ grayscale shader
-            gfx.Shader = DistortShader;
+            gfx.Shader = DistortionShader;
             gfx.DrawImage(Images[0], Matrix.CreateTranslation(Padding + (Padding + Images[0].Width) * 3, Padding));
 
             // Draws w/ grayscale shader

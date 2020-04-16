@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 
+using Heirloom.IO;
 using Heirloom.Math;
 using Heirloom.OpenGLES;
 
@@ -343,10 +344,17 @@ namespace Heirloom.Drawing.OpenGLES
                 Invoke(() =>
                 {
                     // Set and prepare the surface (ie, bind framebuffer)
-                    if (_surface == DefaultSurface)
+                    if (_surface.IsScreenBound)
                     {
-                        // The current surface is the default (ie, window) framebuffer.
-                        GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, 0);
+                        if (_surface == DefaultSurface)
+                        {
+                            // The current surface is the default (ie, window) framebuffer.
+                            GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, 0);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"Unable to assign a screen bound surface. Belongs to a different {nameof(Graphics)} context.");
+                        }
                     }
                     else
                     {
@@ -1084,6 +1092,12 @@ namespace Heirloom.Drawing.OpenGLES
                     break;
 
                 case Surface surface:
+                    // Ensure surface is not screen bound
+                    if (surface.IsScreenBound)
+                    {
+                        throw new ArgumentException($"Screen bound surfaces cannot be set to shader uniforms.");
+                    }
+
                     // Get framebuffer (possibly blitting)
                     var framebuffer = GetFramebuffer(surface);
                     if (framebuffer.IsDirty)

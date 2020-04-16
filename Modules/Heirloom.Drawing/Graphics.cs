@@ -24,7 +24,7 @@ namespace Heirloom.Drawing
             Performance = new DrawingPerformance();
 
             // Creates a dummy surface to represent the window surface
-            DefaultSurface = new Surface(1, 1, multisample, false);
+            DefaultSurface = new Surface(1, 1, multisample, true);
         }
 
         /// <summary>

@@ -102,6 +102,13 @@ bool _H_CheckNegativeEncoding(inout float val, float key)
 	}
 }
 
+vec2 atlasSize(sampler2D img, vec4 rect) 
+{
+	// Acquire image size
+	ivec2 size = textureSize(img, 0);
+	return size * rect.zw;
+}
+
 vec4 atlas(sampler2D img, vec4 rect, vec2 uv)
 {
 	// Parameter 'rect' has special encoding with negative

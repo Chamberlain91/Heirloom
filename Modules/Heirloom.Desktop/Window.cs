@@ -69,15 +69,14 @@ namespace Heirloom.Desktop
 
             // Extract 
             HasTransparentFramebuffer = transparent && Application.SupportsTransparentFramebuffer;
-            Multisample = multisample;
 
             // 
             Handle = Application.Invoke(() =>
             {
-                Log.Debug($"Creating Window (MSAA: {Multisample} x{(int) Multisample})");
+                Log.Debug($"Creating Window (MSAA: {multisample})");
 
                 // 
-                Glfw.SetWindowCreationHint(WindowCreationHint.Samples, (int) Multisample);
+                Glfw.SetWindowCreationHint(WindowCreationHint.Samples, (int) multisample);
                 Glfw.SetWindowCreationHint(WindowAttribute.TransparentFramebuffer, HasTransparentFramebuffer);
 
                 // Create window
@@ -147,7 +146,7 @@ namespace Heirloom.Desktop
 
             // == Construct Graphics Context
 
-            Graphics = Application.GraphicsFactory.CreateGraphics(this, vsync);
+            Graphics = Application.GraphicsFactory.CreateGraphics(this, multisample, vsync);
         }
 
         ~Window()
@@ -178,11 +177,6 @@ namespace Heirloom.Desktop
         /// Gets a value that determines if this window supports a transparent framebuffer.
         /// </summary>
         public bool HasTransparentFramebuffer { get; private set; }
-
-        /// <summary>
-        /// Gets the multisampling level configured on this window.
-        /// </summary>
-        public MultisampleQuality Multisample { get; private set; }
 
         /// <summary>
         /// Gets the graphics context associated with this window.
