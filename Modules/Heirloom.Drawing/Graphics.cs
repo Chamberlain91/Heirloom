@@ -52,8 +52,12 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Gets a value determining if this <see cref="Graphics"/> was disposed.
         /// </summary>
-        public bool IsDisposed { get; private set; } = false;
+        public bool IsDisposed { get; protected set; } = false;
 
+        /// <summary>
+        /// Gets a value determining if this <see cref="Graphics"/> has been initialized.
+        /// </summary>
+        public abstract bool IsInitialized { get; }
         /// <summary>
         /// Gets the default surface (ie, window) of this render context.
         /// </summary>
@@ -334,20 +338,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Dispose and cleanup resources.
         /// </summary>
-        protected virtual void Dispose(bool disposeManaged)
-        {
-            if (!IsDisposed)
-            {
-                if (disposeManaged)
-                {
-                    // Managed
-                }
-
-                // Unmanaged
-
-                IsDisposed = true;
-            }
-        }
+        protected abstract void Dispose(bool disposeManaged);
 
         /// <summary>
         /// Dispose this graphics context, freeing any resources occupied by it.

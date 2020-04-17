@@ -33,6 +33,9 @@ namespace Heirloom.Drawing.OpenGLES
                 GL.SetTextureParameter(TextureTarget.Texture2D, TextureParameter.WrapT, (int) TextureWrap.Repeat);
             }
             GL.BindTexture(TextureTarget.Texture2D, 0);
+
+            // 
+            GC.AddMemoryPressure(size.Area * 4);
         }
 
         ~Texture()
@@ -90,6 +93,8 @@ namespace Heirloom.Drawing.OpenGLES
                 {
                     // nothing
                 }
+
+                GC.RemoveMemoryPressure(Size.Area * 4);
 
                 // Schedule deleting the GL texture resource
                 OpenGLGraphicsAdapter.Schedule(() =>

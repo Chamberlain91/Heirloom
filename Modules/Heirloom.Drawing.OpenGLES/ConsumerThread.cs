@@ -11,8 +11,6 @@ namespace Heirloom.Drawing.OpenGLES
     {
         private readonly Queue<Action> _queue;
         private readonly Thread _thread;
-
-        private bool _isStopped;
         private bool _isAlive;
 
         public ConsumerThread(string name)
@@ -32,6 +30,8 @@ namespace Heirloom.Drawing.OpenGLES
         /// Gets the number of pending jobs.
         /// </summary>
         public int Pending => _queue.Count;
+
+        public event Action Exiting;
 
         private void ThreadAction()
         {
@@ -62,6 +62,8 @@ namespace Heirloom.Drawing.OpenGLES
                     }
                 }
             }
+
+            Exiting?.Invoke();
         }
 
         public void Invoke(Action action)
@@ -101,8 +103,6 @@ namespace Heirloom.Drawing.OpenGLES
 
         public void InvokeLater(Action action)
         {
-            if (_isStopped) { throw new InvalidOperationException($"Unable to invoke on thread \"{_thread.Name}\", thread was disposed."); }
-
             // Execute now if already on the thread
             if (Thread.CurrentThread == _thread) { action(); }
             else
@@ -123,47 +123,16 @@ namespace Heirloom.Drawing.OpenGLES
 
         public void Start()
         {
-            // Start task thread 
             _isAlive = true;
             _thread.Start();
         }
 
-        public void Stop(bool falseCompletion = false)
+        public void Stop()
         {
-            _isStopped = true;
-
-            // Mark thead for death
             lock (_queue)
             {
                 _isAlive = false;
                 Monitor.Pulse(_queue);
-            }
-
-            // Wait for death
-            _thread.Join();
-
-            // 
-            if (_queue.Count > 0)
-            {
-                if (falseCompletion)
-                {
-                    foreach (var action in _queue)
-                    {
-                        lock (action)
-                        {
-                            Monitor.PulseAll(action);
-                        }
-                    }
-
-                    Console.WriteLine($"WARNING: False notification sent to {_queue.Count} jobs that have not yet executed.");
-                }
-                else
-                {
-                    Console.WriteLine($"WARNING: {_queue.Count} jobs that have not yet executed.");
-                }
-
-                // Empty queue (to release references)
-                _queue.Clear();
             }
         }
     }

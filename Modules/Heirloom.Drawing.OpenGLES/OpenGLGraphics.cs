@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-using Heirloom.IO;
 using Heirloom.Math;
 using Heirloom.OpenGLES;
 
@@ -82,6 +81,9 @@ namespace Heirloom.Drawing.OpenGLES
                 // Flag that OpenGL is ready to go
                 _isInitialized = true;
             });
+
+            // When thread exits, context is no longer initialized
+            _thread.Exiting += () => _isInitialized = false;
         }
 
         /// <summary>
@@ -126,6 +128,8 @@ namespace Heirloom.Drawing.OpenGLES
         }
 
         #endregion
+
+        public override bool IsInitialized => _isInitialized;
 
         protected abstract void MakeCurrent();
 
@@ -1113,23 +1117,12 @@ namespace Heirloom.Drawing.OpenGLES
 
         protected override void Dispose(bool disposeManaged)
         {
-            // This lock is here to have 'exclusive control' of the render context.
-            // The application should lock the context during its render loop
-            // to prevent the context from being disposed of when rendering.
-            lock (this)
+            if (!IsDisposed)
             {
-                _isRunning = false;
+                IsDisposed = true;
 
                 // Terminate consumer thread
-                _thread.Stop(true);
-
-                if (disposeManaged)
-                {
-                    // Dispose managed objects...
-                }
-
-                // Call base dispose (to cleanup non-OpenGL resources)
-                base.Dispose(disposeManaged);
+                _thread.Stop();
             }
         }
 
