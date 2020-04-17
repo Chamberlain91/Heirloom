@@ -12,23 +12,6 @@ namespace Cross_Window_Surfaces
     {
         private static void Main(string[] args)
         {
-            AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
-            {
-                if (e.IsTerminating)
-                {
-                    Console.BackgroundColor = ConsoleColor.Red;
-                    Console.ForegroundColor = ConsoleColor.Black;
-                }
-                else
-                {
-                    Console.BackgroundColor = ConsoleColor.Black;
-                    Console.ForegroundColor = ConsoleColor.Red;
-                }
-
-                Console.WriteLine($"{e.ExceptionObject}");
-                Console.ResetColor();
-            };
-
             Application.Run(() =>
             {
                 var winA = new Window("Cross Window Surfaces", (200, 100), vsync: false) { IsResizable = false };
