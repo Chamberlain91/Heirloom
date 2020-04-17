@@ -39,7 +39,7 @@ namespace Heirloom.Drawing.OpenGLES
 
             // Get the surface storage
             _storage = surface.Native as FramebufferStorage;
-            if (_storage == null) { throw new InvalidOperationException($"Framebufer storage somehow null."); }
+            if (_storage == null) { throw new InvalidOperationException($"Framebufer storage was unexpectedly null."); }
 
             _surface = surface ?? throw new ArgumentNullException(nameof(surface));
 

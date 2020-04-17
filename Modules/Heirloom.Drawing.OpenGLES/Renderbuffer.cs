@@ -12,6 +12,8 @@ namespace Heirloom.Drawing.OpenGLES
 
         public readonly uint Handle;
 
+        public readonly IntSize Size;
+
         #region Constructors
 
         public Renderbuffer(IntSize size, int samples)
@@ -27,6 +29,10 @@ namespace Heirloom.Drawing.OpenGLES
             GL.BindRenderbuffer(Handle);
             GL.RenderbufferStorage(RenderbufferFormat.RGBA8, size.Width, size.Height, samples);
             GL.BindRenderbuffer(0);
+
+            // 
+            Size = size;
+            GC.AddMemoryPressure(size.Area * 4);
         }
 
         ~Renderbuffer()
@@ -53,6 +59,9 @@ namespace Heirloom.Drawing.OpenGLES
                     Log.Debug($"[Dispose] Renderbuffer ({Handle})");
                     GL.DeleteRenderbuffer(Handle);
                 });
+
+                // 
+                GC.RemoveMemoryPressure(Size.Area * 4);
 
                 _isDisposed = true;
             }

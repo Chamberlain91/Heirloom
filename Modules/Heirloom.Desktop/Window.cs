@@ -95,14 +95,9 @@ namespace Heirloom.Desktop
 
             Glfw.SetWindowCloseCallback(Handle, _windowCloseCallback = _ =>
             {
-                IsClosed = OnClosing();
-                Glfw.SetWindowShouldClose(Handle, IsClosed);
-
-                if (IsClosed)
-                {
-                    OnClosed();
-                    Dispose();
-                }
+                var shouldClose = OnClosing();
+                Glfw.SetWindowShouldClose(Handle, shouldClose);
+                if (shouldClose) { Dispose(); }
             });
 
             Glfw.SetFramebufferSizeCallback(Handle, _framebufferSizeCallback = (_, w, h) =>
@@ -467,8 +462,7 @@ namespace Heirloom.Desktop
 
         protected virtual void OnClosed()
         {
-            IsClosed = true;
-            Closed?.Invoke(this);
+            Dispose();
         }
 
         #endregion
@@ -487,11 +481,7 @@ namespace Heirloom.Desktop
 
         public void Close()
         {
-            if (!IsClosed)
-            {
-                OnClosed();
-                Dispose();
-            }
+            OnClosed();
         }
 
         public void Focus()
@@ -746,8 +736,6 @@ namespace Heirloom.Desktop
             {
                 IsDisposed = true;
 
-                // todo: wait for render context to empty?
-
                 if (disposeManaged)
                 {
                     // Terminate rendering context
@@ -756,6 +744,8 @@ namespace Heirloom.Desktop
 
                 // Destroy window
                 Application.Invoke(() => Glfw.DestroyWindow(Handle));
+
+                // Remove window from application
                 Application.RemoveWindow(this);
 
                 // 
@@ -776,6 +766,12 @@ namespace Heirloom.Desktop
 
         public void Dispose()
         {
+            if (!IsClosed)
+            {
+                IsClosed = true;
+                Closed?.Invoke(this);
+            }
+
             Dispose(true);
             GC.SuppressFinalize(this);
         }

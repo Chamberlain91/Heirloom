@@ -87,7 +87,7 @@ namespace Heirloom.Drawing
                 {
                     // Render context was disposed of already (we can't render anymore)
                     // so we will shutdown and exit this thread.
-                    if (Graphics.IsDisposed)
+                    if (Graphics.IsDisposed || !Graphics.IsInitialized)
                     {
                         Stop();
                         break;
