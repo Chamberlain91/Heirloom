@@ -1,54 +1,81 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
 
 using Heirloom.Drawing;
 using Heirloom.Drawing.OpenGLES;
+using Heirloom.IO;
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Desktop
 {
     internal sealed class OpenGLWindowGraphicsAdapter : OpenGLGraphicsAdapter, IWindowGraphicsFactory
     {
+        private readonly List<OpenGLGraphics> _graphics = new List<OpenGLGraphics>();
+
         public Graphics CreateGraphics(Window window, Surface surface, bool vsync)
         {
-            return new OpenGLWindowGraphics(window, surface, vsync);
+            var graphics = new OpenGLWindowGraphics(this, window, surface, vsync);
+            lock (_graphics) { _graphics.Add(graphics); }
+            return graphics;
+
+        }
+
+        private void RemoveGraphics(OpenGLWindowGraphics graphics)
+        {
+            lock (_graphics)
+            {
+                _graphics.Remove(graphics);
+            }
         }
 
         #region Invoke
 
         protected internal override T Invoke<T>(Func<T> function)
         {
-            return Application.Invoke(() =>
+            var val = default(T);
+            Invoke(() =>
             {
-                // Make the share context current here
-                // todo: Possibly correct for this, this feels terrible...
-                Glfw.MakeContextCurrent(Application.ShareContext);
-
-                // Execute function and keep return value
-                var returnValue = function();
-
-                // Release context from thread. We want it not associated with any thread. On a AMD Vega
-                // platform this caused the main rendering loop to halt (resource blocking?).
-                Glfw.MakeContextCurrent(WindowHandle.None);
-
-                return returnValue;
+                val = function();
+                return;
             });
+            return val;
         }
 
         protected internal override void Invoke(Action function)
         {
+            if (Adapter?.IsDisposed ?? false)
+            {
+                Log.Error("Unable to schedule action on GL thread. Adapter has been disposed.");
+            }
+
+            lock (_graphics)
+            {
+                // Try to invoke on an existing graphics thread
+                foreach (var gfx in _graphics)
+                {
+                    // If graphics context is still initialized...
+                    if (gfx.IsInitialized)
+                    {
+                        // Invoke action on that thread and exit
+                        gfx.Invoke(function);
+                        return;
+                    }
+                }
+            }
+
+            // Was unable to invoke on a graphics thread, so we will temporarily make the window
+            // events thread a graphics thread to invoke the function.
             Application.Invoke(() =>
             {
                 // Make the share context current here
-                // todo: Possibly correct for this, this feels terrible...
                 Glfw.MakeContextCurrent(Application.ShareContext);
 
                 // Execute function and keep return value
                 function();
 
-                // Release context from thread. We want it not associated with any thread. On a AMD Vega
-                // platform this caused the main rendering loop to halt (resource blocking?).
+                // Release context from thread. We want it not associated with any thread.
                 Glfw.MakeContextCurrent(WindowHandle.None);
             });
         }
@@ -57,12 +84,14 @@ namespace Heirloom.Desktop
 
         private sealed class OpenGLWindowGraphics : OpenGLGraphics
         {
+            private readonly OpenGLWindowGraphicsAdapter _adapter;
             private readonly Window _window;
             private readonly bool _vsync;
 
-            public OpenGLWindowGraphics(Window window, Surface surface, bool vsync)
+            public OpenGLWindowGraphics(OpenGLWindowGraphicsAdapter adapter, Window window, Surface surface, bool vsync)
                 : base(surface)
             {
+                _adapter = adapter;
                 _window = window ?? throw new ArgumentNullException(nameof(window));
                 _vsync = vsync;
 
@@ -123,7 +152,7 @@ namespace Heirloom.Desktop
 
             protected override void Dispose(bool disposeManaged)
             {
-                // Dispose base class
+                _adapter.RemoveGraphics(this);
                 base.Dispose(disposeManaged);
             }
 
