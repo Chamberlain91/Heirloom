@@ -31,14 +31,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// A small solid white image.
         /// </summary>
-        internal static Image Default = GetDefault();
-
-        private static Image GetDefault()
-        {
-            var c = CreateColor(1, 1, Color.White);
-            c.Repeat = RepeatMode.Repeat;
-            return c;
-        }
+        internal static Image Default = CreateColor(1, 1, Color.White);
 
         #endregion
 
@@ -93,11 +86,6 @@ namespace Heirloom.Drawing
             // Allocate pixels
             Pixels = new ColorBytes[width * height];
             _size = new IntSize(width, height);
-        }
-
-        ~Image()
-        {
-            Log.Debug($"[Dispose] Image");
         }
 
         #endregion

@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 using Heirloom.Math;
 
@@ -42,7 +42,7 @@ namespace Heirloom.Drawing.OpenGLES
                 _baseMesh = mesh;
             }
 
-            lock (_commandBuffer)
+            //lock (_commandBuffer)
             {
                 // Construct command
                 var command = _commandPool.Request();
@@ -60,7 +60,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         protected internal override void DrawBatch()
         {
-            lock (_commandBuffer)
+            //lock (_commandBuffer)
             {
                 for (var i = 0; i < _commandBuffer.Count; i++)
                 {
@@ -75,7 +75,7 @@ namespace Heirloom.Drawing.OpenGLES
                     var instances = CountInstances(i, command.Mesh);
 
                     // Are there enough instances detected to batch draw via instancing?
-                    if (instances > 25) // an arbitrary number I picked
+                    if (instances > 100) // an arbitrary number I picked
                     {
                         // If streaming had anything batched, draw that now to keep order of operations
                         _streamingTechnique.DrawBatch();
@@ -145,18 +145,19 @@ namespace Heirloom.Drawing.OpenGLES
             BatchCount = _instancingTechnique.BatchCount + _streamingTechnique.BatchCount;
             DrawCount = _instancingTechnique.DrawCount + _streamingTechnique.DrawCount;
             TriCount = _instancingTechnique.TriCount + _streamingTechnique.TriCount;
+        }
 
-            int CountInstances(int i, Mesh mesh)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private int CountInstances(int i, Mesh mesh)
+        {
+            var instances = 1;
+            for (var j = i + 1; j < _commandBuffer.Count; j++)
             {
-                var instances = 1;
-                for (var j = i + 1; j < _commandBuffer.Count; j++)
-                {
-                    if (_commandBuffer[j].Mesh != mesh) { break; }
-                    instances++;
-                }
-
-                return instances;
+                if (_commandBuffer[j].Mesh != mesh) { break; }
+                instances++;
             }
+
+            return instances;
         }
 
         internal override void ResetCounts()

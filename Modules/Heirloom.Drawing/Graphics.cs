@@ -298,7 +298,7 @@ namespace Heirloom.Drawing
         public void RefreshScreen()
         {
             // Commit all pending work
-            Flush(true);
+            Flush();
 
             // Computes statistics (possibly drawing overlay)
             ProcessStatistics();
