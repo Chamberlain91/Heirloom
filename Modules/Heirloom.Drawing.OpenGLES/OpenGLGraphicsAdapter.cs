@@ -271,7 +271,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
 
             #endregion
-        }
+        } 
 
         #endregion
 
@@ -294,8 +294,8 @@ namespace Heirloom.Drawing.OpenGLES
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void Schedule(Action action)
         {
-            var adapter = Adapter as OpenGLGraphicsAdapter;
-            adapter.Invoke(action); // go!
+            // Invoke action on an OpenGL thread.
+            (Adapter as OpenGLGraphicsAdapter).Invoke(action);
         }
 
         #endregion
