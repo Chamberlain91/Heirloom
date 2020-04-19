@@ -75,9 +75,13 @@ namespace Heirloom.Drawing.OpenGLES
                 });
             }
 
-            public object Create(IntSize size, MultisampleQuality multisample)
+            public MultisampleQuality MaxSupportedMultisampleQuality => (MultisampleQuality) _maxSupportedSamples;
+
+            public object Create(IntSize size, ref MultisampleQuality multisample)
             {
+                // Get the highest supported MSAA level
                 var samples = Calc.Min((int) multisample, _maxSupportedSamples);
+                multisample = (MultisampleQuality) samples; // change msaa reference
                 return Adapter.Invoke(() => new FramebufferStorage(size, samples));
             }
 
@@ -267,7 +271,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
 
             #endregion
-        }
+        } 
 
         #endregion
 
@@ -290,8 +294,8 @@ namespace Heirloom.Drawing.OpenGLES
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void Schedule(Action action)
         {
-            var adapter = Adapter as OpenGLGraphicsAdapter;
-            adapter.Invoke(action); // go!
+            // Invoke action on an OpenGL thread.
+            (Adapter as OpenGLGraphicsAdapter).Invoke(action);
         }
 
         #endregion

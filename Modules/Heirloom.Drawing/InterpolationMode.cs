@@ -1,5 +1,8 @@
 namespace Heirloom.Drawing
 {
+    /// <summary>
+    /// Represents the behaviour when sampling an image on a non-integer coordinates.
+    /// </summary>
     public enum InterpolationMode
     {
         /// <summary>

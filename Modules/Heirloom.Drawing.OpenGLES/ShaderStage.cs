@@ -1,5 +1,6 @@
 using System;
 
+using Heirloom.IO;
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
@@ -56,7 +57,11 @@ namespace Heirloom.Drawing.OpenGLES
                 }
 
                 // Schedule for deletion on a GL thread.
-                OpenGLGraphicsAdapter.Schedule(() => GL.DeleteShader(Handle));
+                OpenGLGraphicsAdapter.Schedule(() =>
+                {
+                    Log.Debug($"[Dispose] Shader Stage ({Handle})");
+                    GL.DeleteShader(Handle);
+                });
 
                 _isDisposed = true;
             }

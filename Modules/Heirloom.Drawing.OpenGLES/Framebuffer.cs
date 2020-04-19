@@ -1,5 +1,6 @@
 using System;
 
+using Heirloom.IO;
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
@@ -31,8 +32,16 @@ namespace Heirloom.Drawing.OpenGLES
 
         public Framebuffer(OpenGLGraphics graphics, Surface surface)
         {
+            if (graphics is null)
+            {
+                throw new ArgumentNullException(nameof(graphics));
+            }
+
+            // Get the surface storage
             _storage = surface.Native as FramebufferStorage;
-            _surface = surface;
+            if (_storage == null) { throw new InvalidOperationException($"Framebufer storage was unexpectedly null."); }
+
+            _surface = surface ?? throw new ArgumentNullException(nameof(surface));
 
             // Construct texture FBO
             TextureFBO = new TextureTarget(graphics, _storage.Texture);
@@ -141,8 +150,8 @@ namespace Heirloom.Drawing.OpenGLES
                     // Nothing
                 }
 
-                // 
-                RenderbufferFBO.Dispose();
+                // Dispose framebuffers
+                RenderbufferFBO?.Dispose();
                 TextureFBO.Dispose();
 
                 _isDisposed = true;
@@ -214,7 +223,7 @@ namespace Heirloom.Drawing.OpenGLES
                     // Schedule for deletion on a GL thread.
                     _graphics.Invoke(() =>
                     {
-                        Log.Debug($"Disposing Framebuffer (Renderbuffer {Handle})");
+                        Log.Debug($"[Dispose] Framebuffer MSAA ({Handle})");
                         GL.DeleteFramebuffer(Handle);
                     });
 
@@ -288,7 +297,7 @@ namespace Heirloom.Drawing.OpenGLES
                     // Schedule for deletion on a GL thread.
                     _graphics.Invoke(() =>
                     {
-                        Log.Debug($"Disposing Framebuffer (Texture {Handle})");
+                        Log.Debug($"[Dispose] Framebuffer Texture ({Handle})");
                         GL.DeleteFramebuffer(Handle);
                     });
 

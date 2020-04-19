@@ -35,7 +35,7 @@ namespace Heirloom.Benchmark
                 window.Graphics.Performance.OverlayMode = PerformanceOverlayMode.Simple;
 
                 // Go fullscreen!
-                window.SetFullscreen(Application.DefaultMonitor);
+                window.BeginFullscreen(Application.DefaultMonitor);
                 // window.Maximize();
 
                 // Compute world bounds
@@ -92,7 +92,7 @@ namespace Heirloom.Benchmark
 
                     // Leave fullscreen
                     window.Graphics.Performance.OverlayMode = PerformanceOverlayMode.Disabled;
-                    window.SetFullscreen(null);
+                    window.EndFullscreen();
 
                     // Size window
                     var rect = TextLayout.Measure(GetResultsText(benchmarks), Font.Default, 32);

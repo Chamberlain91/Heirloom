@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace Heirloom.Math
 {
-    public struct Triangle : IShape, IEquatable<Triangle>, IEnumerable<Vector>
+    public unsafe struct Triangle : IShape, IEquatable<Triangle>, IEnumerable<Vector>
     {
         /// <summary>
         /// The first point.
@@ -56,18 +56,13 @@ namespace Heirloom.Math
 
         public Vector this[int index]
         {
-            get
+            get => index switch
             {
-                switch (index)
-                {
-                    case 0: return A;
-                    case 1: return B;
-                    case 2: return C;
-
-                    default:
-                        throw new IndexOutOfRangeException("Index must be 0, 1 or 2 on a triangle.");
-                }
-            }
+                0 => A,
+                1 => B,
+                2 => C,
+                _ => throw new IndexOutOfRangeException("Index must be 0, 1 or 2 on a triangle."),
+            };
 
             set
             {
@@ -83,7 +78,18 @@ namespace Heirloom.Math
             }
         }
 
-        #endregion
+        #endregion 
+
+        /// <summary>
+        /// Sets each point of the triangle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Set(in Vector a, in Vector b, in Vector c)
+        {
+            A = a;
+            B = b;
+            C = c;
+        }
 
         /// <summary>
         /// Create a polygon from this triangle.
@@ -425,26 +431,7 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Equality
-
-        public override bool Equals(object obj)
-        {
-            return obj is Triangle triangle && Equals(triangle);
-        }
-
-        public bool Equals(Triangle other)
-        {
-            return A.Equals(other.A) &&
-                   B.Equals(other.B) &&
-                   C.Equals(other.C) &&
-                   Bounds.Equals(other.Bounds) &&
-                   Area == other.Area;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(A, B, C, Bounds, Area);
-        }
+        #region Comparison Operators
 
         public static bool operator ==(Triangle left, Triangle right)
         {
@@ -454,6 +441,30 @@ namespace Heirloom.Math
         public static bool operator !=(Triangle left, Triangle right)
         {
             return !(left == right);
+        }
+
+        #endregion
+
+        #region Equality
+
+        public override bool Equals(object obj)
+        {
+            return obj is Triangle triangle
+                && Equals(triangle);
+        }
+
+        public bool Equals(Triangle other)
+        {
+            return A.Equals(other.A)
+                && B.Equals(other.B)
+                && C.Equals(other.C)
+                && Bounds.Equals(other.Bounds)
+                && Area == other.Area;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(A, B, C, Bounds, Area);
         }
 
         #endregion

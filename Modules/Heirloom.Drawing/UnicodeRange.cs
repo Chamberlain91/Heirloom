@@ -115,12 +115,26 @@ namespace Heirloom.Drawing
             return GetEnumerator();
         }
 
+        #region Equality Operators
+
+        public static bool operator ==(UnicodeRange left, UnicodeRange right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(UnicodeRange left, UnicodeRange right)
+        {
+            return !(left == right);
+        }
+
+        #endregion
+
         #region Equality
 
         public override bool Equals(object obj)
         {
-            if (obj is UnicodeRange range) { return Equals(range); }
-            return false;
+            return obj is UnicodeRange range
+                && Equals(range);
         }
 
         public bool Equals(UnicodeRange other)
@@ -132,20 +146,6 @@ namespace Heirloom.Drawing
         public override int GetHashCode()
         {
             return HashCode.Combine(Start, End);
-        }
-
-        #endregion
-
-        #region Equality Operators
-
-        public static bool operator ==(UnicodeRange left, UnicodeRange right)
-        {
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(UnicodeRange left, UnicodeRange right)
-        {
-            return !(left == right);
         }
 
         #endregion

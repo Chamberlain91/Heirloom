@@ -43,6 +43,7 @@ Color encoded as 4 component bytes.
 
 | Methods                  | Summary                                                                                                                                 |
 |--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| [Set](#SET223E4896)      | Sets the components of this color.                                                                                                      |
 | [Parse](#PAR50D6FF39)    | Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'. |
 | [TryParse](#TRY99E0F751) | Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'. |
 | [Lerp](#LERDF0BF6B4)     | Interpolate two colors together.                                                                                                        |
@@ -157,6 +158,11 @@ The inversion of this color.
 <small>`Static`, `Read Only`</small>
 
 ### Methods
+
+#### <a name="SET223E4896"></a>Set(byte r,  byte g,  byte b,  byte a = 255) : void
+
+Sets the components of this color.
+
 
 #### <a name="PAR50D6FF39"></a>Parse(string color) : [ColorBytes](Heirloom.Drawing.ColorBytes.md)
 <small>`Static`</small>

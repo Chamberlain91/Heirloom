@@ -16,6 +16,7 @@ Represents a ray by orgin and direction vectors.
 
 | Methods                         | Summary                                                                |
 |---------------------------------|------------------------------------------------------------------------|
+| [Set](#SET767F33B0)             | Sets the components of this size.                                      |
 | [GetPoint](#GET3C443BA5)        | Gets a point along the ray.                                            |
 | [Deconstruct](#DEC1943369C)     |                                                                        |
 | [FromLineSegment](#FRO3D5915DC) | Creates a ray from a line segment.                                     |
@@ -38,6 +39,11 @@ The direction of the ray.
 #### Ray([Vector](Heirloom.Math.Vector.md) origin, [Vector](Heirloom.Math.Vector.md) direction)
 
 ### Methods
+
+#### <a name="SET767F33B0"></a>Set(in [Vector](Heirloom.Math.Vector.md) origin, in [Vector](Heirloom.Math.Vector.md) direction) : void
+
+Sets the components of this size.
+
 
 #### <a name="GET3C443BA5"></a>GetPoint(float distance) : [Vector](Heirloom.Math.Vector.md)
 

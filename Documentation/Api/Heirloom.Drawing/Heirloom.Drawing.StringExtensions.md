@@ -9,10 +9,12 @@
 <small>**Namespace**: Heirloom.Drawing</small>  
 <small>`ExtensionAttribute`</small>
 
+Provides extension methods for string.
+
 | Methods                            | Summary                                                                                                                                                                          |
 |------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Shorten](#SHOA525DB18)            | Shortens a string by removing the center portion and replacing with "..." dependant on the given max length. This ensures the shortened string has maxLength or less characters. |
-| [GetCharacter](#GETD5A92C9D)       |                                                                                                                                                                                  |
+| [GetCharacter](#GETD5A92C9D)       | Gets the ith unicode character of this string.                                                                                                                                   |
 | [ToSnakeCase](#TOSE9613E68)        | Transforms a variable name like string into sname case (ie, "myExampleString" into "my_example_string").                                                                         |
 | [ToShoutingCase](#TOSBEC33733)     | Transforms a variable name like string into sname case (ie, "myExampleString" into "MY_EXAMPLE_STRING").                                                                         |
 | [ToSmartDisplayName](#TOS27D9F010) | Transform a variable name like string to an improved display string (akin to Unity's NicifyVariableName). Ie, "myExampleString" becomes "My Example String"                      |
@@ -29,6 +31,8 @@ Shortens a string by removing the center portion and replacing with "..." depend
 
 #### <a name="GETD5A92C9D"></a>GetCharacter(string text, int i) : [UnicodeCharacter](Heirloom.Drawing.UnicodeCharacter.md)
 <small>`Static`, `ExtensionAttribute`</small>
+
+Gets the ith unicode character of this string.
 
 
 #### <a name="TOSE9613E68"></a>ToSnakeCase(string this) : string

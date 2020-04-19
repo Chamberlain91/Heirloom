@@ -59,6 +59,16 @@ namespace Heirloom.Math
         #endregion
 
         /// <summary>
+        /// Sets the components of this circle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Set(in Vector position, float radius)
+        {
+            Position = position;
+            Radius = radius;
+        }
+
+        /// <summary>
         /// Create a polygon from this rectangle.
         /// </summary>
         public Polygon ToPolygon()
@@ -268,23 +278,7 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Equality
-
-        public override bool Equals(object obj)
-        {
-            return obj is Circle circle && Equals(circle);
-        }
-
-        public bool Equals(Circle other)
-        {
-            return Position.Equals(other.Position) &&
-                   Calc.NearEquals(Radius, other.Radius);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Position, Radius);
-        }
+        #region Comparison Operators
 
         public static bool operator ==(Circle left, Circle right)
         {
@@ -294,6 +288,27 @@ namespace Heirloom.Math
         public static bool operator !=(Circle left, Circle right)
         {
             return !(left == right);
+        }
+
+        #endregion
+
+        #region Equality
+
+        public override bool Equals(object obj)
+        {
+            return obj is Circle circle
+                && Equals(circle);
+        }
+
+        public bool Equals(Circle other)
+        {
+            return Position.Equals(other.Position)
+                && Calc.NearEquals(Radius, other.Radius);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Position, Radius);
         }
 
         #endregion

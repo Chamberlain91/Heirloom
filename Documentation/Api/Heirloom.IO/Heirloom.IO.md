@@ -7,10 +7,15 @@
 
 #### Classes
 [EmbeddedFile](Heirloom.IO.EmbeddedFile.md)  
-[Files](Heirloom.IO.Files.md)  
+[ArrayExtensions](Heirloom.IO.ArrayExtensions.md)  
 [StreamExtensions](Heirloom.IO.StreamExtensions.md)  
 [StringExtensions](Heirloom.IO.StringExtensions.md)  
+[Files](Heirloom.IO.Files.md)  
+[Log](Heirloom.IO.Log.md)  
 
 #### Structs
 [BitField](Heirloom.IO.BitField.md)  
+
+#### Enums
+[LogVerbosity](Heirloom.IO.LogVerbosity.md)  
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Heirloom.Math
@@ -59,6 +60,41 @@ namespace Heirloom.Math
         public bool IsValid => Max >= Min;
 
         #endregion
+
+        #region Indexer
+
+        public int this[int i]
+        {
+            get => i switch
+            {
+                0 => Min,
+                1 => Max,
+                _ => throw new IndexOutOfRangeException(),
+            };
+
+            set
+            {
+                switch (i)
+                {
+                    case 0: Min = value; break;
+                    case 1: Max = value; break;
+                    default:
+                        throw new IndexOutOfRangeException();
+                }
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Sets the components of this range.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Set(int min, int max)
+        {
+            Min = min;
+            Max = max;
+        }
 
         #region Constructors
 

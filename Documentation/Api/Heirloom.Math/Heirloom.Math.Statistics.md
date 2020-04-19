@@ -17,11 +17,11 @@ Represents statistics of some data.
 | [Deviation](#DEVB36CB)   | The standard deviation.                                      |
 | [Range](#RAN67C3808B)    | The range of values.                                         |
 
-| Methods                 | Summary |
-|-------------------------|---------|
-| [Compute](#COM4784E1C3) |         |
-| [Compute](#COM6B725764) |         |
-| [Compute](#COM52793202) |         |
+| Methods                 | Summary                                                             |
+|-------------------------|---------------------------------------------------------------------|
+| [Compute](#COM4784E1C3) | Computes new statistics from a collection of integers.              |
+| [Compute](#COM6B725764) | Computes new statistics from a collection of numbers.               |
+| [Compute](#COM52793202) | Computes new statistics from a sum, squared sum, extents and count. |
 
 ### Fields
 
@@ -49,17 +49,25 @@ The range of values.
 
 #### Statistics(float average, float variance, [Range](Heirloom.Math.Range.md) range)
 
+Constructs a new statistics instance.
+
 ### Methods
 
 #### <a name="COM4784E1C3"></a>Compute(IEnumerable\<int> values) : [Statistics](Heirloom.Math.Statistics.md)
 <small>`Static`</small>
 
+Computes new statistics from a collection of integers.
+
 
 #### <a name="COM6B725764"></a>Compute(IEnumerable\<float> values) : [Statistics](Heirloom.Math.Statistics.md)
 <small>`Static`</small>
 
+Computes new statistics from a collection of numbers.
+
 
 #### <a name="COM52793202"></a>Compute(float sum, float squareSum, [Range](Heirloom.Math.Range.md) range, int count) : [Statistics](Heirloom.Math.Statistics.md)
 <small>`Static`</small>
+
+Computes new statistics from a sum, squared sum, extents and count.
 
 

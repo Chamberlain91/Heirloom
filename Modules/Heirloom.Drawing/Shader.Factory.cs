@@ -7,7 +7,7 @@ using Heirloom.IO;
 
 namespace Heirloom.Drawing
 {
-    public sealed partial class Shader
+    public abstract partial class Shader
     {
         #region Helpers
 
@@ -31,17 +31,6 @@ namespace Heirloom.Drawing
 
                 _ => throw new ArgumentException($"Unable to determine shader type with extension '{extension}'."),
             };
-        }
-
-        /// <summary>
-        /// Creates a shader name from the vertex and fragment shader paths.
-        /// </summary>
-        private static string ComposeName(string vertShaderPath, string fragShaderPath)
-        {
-            var vname = Path.GetFileNameWithoutExtension(vertShaderPath).ToLowerInvariant();
-            var fname = Path.GetFileNameWithoutExtension(fragShaderPath).ToLowerInvariant();
-
-            return Regex.Replace($"{vname}-{fname}", "\\s+", "_");
         }
 
         /// <summary>
@@ -86,21 +75,18 @@ namespace Heirloom.Drawing
             static Factory()
             {
                 // Populate standard includes
-                StoreSource("standard/standard.frag", LoadSource("embedded/shaders/standard/standard.frag", false));
-                StoreSource("standard/standard.vert", LoadSource("embedded/shaders/standard/standard.vert", false));
+                StoreSource("standard/standard.frag", LoadSource("embedded/shaders/standard/standard.frag", Array.Empty<Define>(), false));
+                StoreSource("standard/standard.vert", LoadSource("embedded/shaders/standard/standard.vert", Array.Empty<Define>(), false));
             }
 
-            internal static object LoadAndCompile(string[] paths, out string name, out UniformInfo[] uniforms)
+            internal static object LoadAndCompile(string name, string[] paths, Define[] defines, out UniformInfo[] uniforms)
             {
                 // Resolve vertex and fragment shader paths
                 GetShaderPaths(paths, out var vertPath, out var fragPath);
 
-                // Compose overall shader name from shader file names
-                name = ComposeName(vertPath, fragPath);
-
                 // ...
-                var vert = LoadSource(vertPath, true);
-                var frag = LoadSource(fragPath, true);
+                var vert = LoadSource(vertPath, defines, true);
+                var frag = LoadSource(fragPath, defines, true);
 
                 // Compile shader
                 return GraphicsAdapter.ShaderFactory.Compile(name, vert, frag, out uniforms);
@@ -121,6 +107,21 @@ namespace Heirloom.Drawing
                 return $"{version}\n";
             }
 
+            private static string GenerateDefines(Define[] defines)
+            {
+                var output = "";
+                foreach (var define in defines)
+                {
+                    output += $"#define {define.Name}";
+                    if (define.Value != null)
+                    {
+                        output += $" {define.Value}";
+                    }
+                    output += "\n";
+                }
+                return output;
+            }
+
             /// <summary>
             /// Store GLSL source code.
             /// </summary>
@@ -137,7 +138,7 @@ namespace Heirloom.Drawing
             /// <summary>
             /// Load GLSL source code (does not do metadata processing).
             /// </summary>
-            public static string LoadSource(string path, bool prependVersion)
+            public static string LoadSource(string path, Define[] defines, bool prependVersion)
             {
                 // Set to prevent cyclic inclusion
                 var included = new HashSet<string>();
@@ -161,7 +162,8 @@ namespace Heirloom.Drawing
                         return code;
                     }
                     // Does the path exist?
-                    else if (Files.Exists(path))
+                    else
+                    if (Files.Exists(path))
                     {
                         // Recursion limits
                         if (depth > 32) { throw new InvalidOperationException("Include directive gone too deep."); }
@@ -201,12 +203,18 @@ namespace Heirloom.Drawing
                         // 
                         if (depth == 0 && prependVersion)
                         {
+                            // Generates and prepends the preprocessor definitions
+                            code = code.Insert(0, GenerateDefines(defines));
+
                             // Generates and prepends the prefered version preprocessor (ie, 330 or 300 es)
                             code = code.Insert(0, GenerateVersionHeader());
                         }
 
                         // Store in map and return
-                        StoreSource(path, code);
+                        // NOTE: Removed because when introducing defines this caused two "differnt" shaders to load the same
+                        // source with incorrect defines on the other.
+                        // TODO: Produce some sort of path/defines key to map with instead to optimize loading shaders.
+                        // StoreSource(path, code);
 
                         // Return include expanded source
                         return code;

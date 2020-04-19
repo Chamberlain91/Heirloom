@@ -102,35 +102,11 @@ bool _H_CheckNegativeEncoding(inout float val, float key)
 	}
 }
 
-bool _H_ApplyRepeatMode(inout vec4 rect, inout vec2 uv)
+vec2 atlasSize(sampler2D img, vec4 rect) 
 {
-	// Repeat mode flags
-	const float REPEAT_BLANK  =  0.0;
-	const float REPEAT_REPEAT = -1.0;
-	const float REPEAT_CLAMP  = -2.0;
-
-	// Note: Flags must be in descending order!
-	if (_H_CheckNegativeEncoding(rect.y, REPEAT_BLANK))
-	{
-		// If outside UV box return blank
-		if (uv != clamp(uv, vec2(0.0), vec2(1.0))) {
-			return false; // discard pixel
-		}
-	}
-	else 
-	if (_H_CheckNegativeEncoding(rect.y, REPEAT_REPEAT))
-	{
-		// Does nothing
-	}
-	else
-	if (_H_CheckNegativeEncoding(rect.y, REPEAT_CLAMP))
-	{
-		// Clamp UV to zero-to-one box
-		uv = clamp(uv, vec2(0.0), vec2(1.0));
-	}
-	
-	// Keep pixel
-	return true;
+	// Acquire image size
+	ivec2 size = textureSize(img, 0);
+	return size * rect.zw;
 }
 
 vec4 atlas(sampler2D img, vec4 rect, vec2 uv)
@@ -142,9 +118,29 @@ vec4 atlas(sampler2D img, vec4 rect, vec2 uv)
 	// - Z ----
 	// - W (0: "none"     -1: "y-flip")
 
-	// Apply the repeat modifiers
-	if (_H_ApplyRepeatMode(rect, uv) == false) {
-		return TRANSPARENT; // Effectively discard the texel (blank)
+	// Repeat mode flags
+	const float REPEAT_BLANK  =  0.0;
+	const float REPEAT_REPEAT = -1.0;
+	const float REPEAT_CLAMP  = -2.0;
+
+	// Note: Flags must be in descending order!
+	if (_H_CheckNegativeEncoding(rect.y, REPEAT_BLANK))
+	{
+		if (uv.x < 0.0) { return TRANSPARENT; }
+		if (uv.y < 0.0) { return TRANSPARENT; }
+		if (uv.x > 1.0) { return TRANSPARENT; }
+		if (uv.y > 1.0) { return TRANSPARENT; }
+	}
+	else 
+	if (_H_CheckNegativeEncoding(rect.y, REPEAT_REPEAT))
+	{
+		// Does nothing
+	}
+	else
+	if (_H_CheckNegativeEncoding(rect.y, REPEAT_CLAMP))
+	{
+		// Clamp UV to zero-to-one box
+		uv = clamp(uv, vec2(0.0), vec2(1.0));
 	}
 
 	// Filtering mode flags

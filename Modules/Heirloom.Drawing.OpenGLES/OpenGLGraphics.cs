@@ -12,6 +12,7 @@ namespace Heirloom.Drawing.OpenGLES
     internal abstract class OpenGLGraphics : Graphics
     {
         private readonly ConsumerThread _thread;
+        private bool _isInitialized = false;
         private bool _isRunning = false;
 
         internal OpenGLCapabilities Capabilities;
@@ -33,8 +34,7 @@ namespace Heirloom.Drawing.OpenGLES
         private Surface _surface;
 
         // Viewport state
-        private IntRectangle _viewportScreen;
-        private Rectangle _viewport;
+        private IntRectangle _viewport;
         private bool _viewportDirty;
 
         // Shader State
@@ -51,8 +51,8 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Constructors
 
-        protected internal OpenGLGraphics(MultisampleQuality multisample)
-            : base(multisample)
+        protected internal OpenGLGraphics(Surface surface)
+            : base(surface)
         {
             _framebuffers = new ConditionalWeakTable<Surface, Framebuffer>();
 
@@ -77,7 +77,13 @@ namespace Heirloom.Drawing.OpenGLES
                 GL.Enable(EnableCap.ScissorTest);
                 GL.Enable(EnableCap.Blend);
                 ResetState();
+
+                // Flag that OpenGL is ready to go
+                _isInitialized = true;
             });
+
+            // When thread exits, context is no longer initialized
+            _thread.Exiting += () => _isInitialized = false;
         }
 
         /// <summary>
@@ -87,12 +93,14 @@ namespace Heirloom.Drawing.OpenGLES
         {
             if (!_isRunning)
             {
-                // Begin consumer thread
+                // 
                 _isRunning = true;
+
+                // Begin consumer thread
                 _thread.Start();
 
                 // Wait For GL
-                SpinWait.SpinUntil(() => _batchingTechnique != null);
+                SpinWait.SpinUntil(() => _isInitialized);
             }
             else
             {
@@ -120,6 +128,8 @@ namespace Heirloom.Drawing.OpenGLES
         }
 
         #endregion
+
+        public override bool IsInitialized => _isInitialized;
 
         protected abstract void MakeCurrent();
 
@@ -162,65 +172,22 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Viewport
 
-        public override IntRectangle ViewportScreen
-        {
-            get => _viewportScreen;
-
-            set
-            {
-                if (_viewportScreen != value)
-                {
-                    // Complete previous work
-                    Flush();
-
-                    // Update viewport
-                    _viewportScreen = value;
-                    _viewport = ComputeNormalizedViewport(in value, _surface.Size);
-
-                    _viewportDirty = true;
-                }
-            }
-        }
-
-        public override Rectangle Viewport
+        public override IntRectangle Viewport
         {
             get => _viewport;
 
             set
             {
-                var screen = ComputeScreenViewport(in value, _surface.Size);
-                if (screen != _viewportScreen)
+                if (_viewport != value)
                 {
                     // Complete previous work
                     Flush();
 
                     // Update viewport values
-                    _viewportScreen = screen;
-                    _viewport = value;
-
                     _viewportDirty = true;
+                    _viewport = value;
                 }
             }
-        }
-
-        private static IntRectangle ComputeScreenViewport(in Rectangle viewport, in IntSize screen)
-        {
-            var w = (int) (viewport.Width * screen.Width);
-            var h = (int) (viewport.Height * screen.Height);
-            var x = (int) (viewport.X * screen.Width);
-            var y = (int) (viewport.Y * screen.Height);
-
-            return new IntRectangle(x, y, w, h);
-        }
-
-        private static Rectangle ComputeNormalizedViewport(in IntRectangle viewport, in IntSize screen)
-        {
-            var w = viewport.Width / (float) screen.Width;
-            var h = viewport.Height / (float) screen.Height;
-            var x = viewport.X / (float) screen.Width;
-            var y = viewport.Y / (float) screen.Height;
-
-            return new Rectangle(x, y, w, h);
         }
 
         private unsafe void UpdateViewportScissor()
@@ -228,12 +195,15 @@ namespace Heirloom.Drawing.OpenGLES
             // Update viewport and scissor
             if (_viewportDirty)
             {
-                var x = _viewportScreen.X;
-                var y = _viewportScreen.Y;
-                var w = _viewportScreen.Width;
-                var h = _viewportScreen.Height;
+                var x = _viewport.X;
+                var y = _viewport.Y;
+                var w = _viewport.Width;
+                var h = _viewport.Height;
 
-                // 
+                // Flip to match the top-left coordiantes
+                y = Surface.Height - h - y;
+
+                // Set GL Viewport
                 GL.SetViewport(x, y, w, h);
                 GL.SetScissor(x, y, w, h);
 
@@ -332,15 +302,22 @@ namespace Heirloom.Drawing.OpenGLES
                 _surface = surface;
 
                 // We have changed surfaces, reset viewport to full surface
-                Viewport = (0, 0, 1, 1);
+                Viewport = (0, 0, surface.Width, surface.Height);
 
-                Invoke(blocking: false, action: () =>
+                Invoke(() =>
                 {
                     // Set and prepare the surface (ie, bind framebuffer)
-                    if (_surface == DefaultSurface)
+                    if (_surface.IsScreenBound)
                     {
-                        // The current surface is the default (ie, window) framebuffer.
-                        GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, 0);
+                        if (_surface == DefaultSurface)
+                        {
+                            // The current surface is the default (ie, window) framebuffer.
+                            GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, 0);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"Unable to assign a screen bound surface. Belongs to a different {nameof(Graphics)} context.");
+                        }
                     }
                     else
                     {
@@ -988,7 +965,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override unsafe void Flush()
+        protected override unsafe void Flush(bool blockCompletion = false)
         {
             // If the renderer has any batched work
             if (_batchingTechnique.IsDirty)
@@ -999,7 +976,7 @@ namespace Heirloom.Drawing.OpenGLES
                     UpdateViewportScissor();
 
                     // Compute view-projection matrix
-                    var projMatrix = Matrix.RectangleProjection(0, 0, _viewportScreen.Width, _viewportScreen.Height);
+                    var projMatrix = Matrix.RectangleProjection(0, 0, _viewport.Width, _viewport.Height);
                     Matrix.Multiply(in projMatrix, in _viewMatrix, ref projMatrix);
 
                     // Write into uniform buffer
@@ -1026,8 +1003,9 @@ namespace Heirloom.Drawing.OpenGLES
                     // Mark surface as dirty
                     _surface.IncrementVersion();
 
-                    // 
-                    GL.Flush();
+                    // Either finish or flush
+                    if (blockCompletion) { GL.Finish(); }
+                    else { GL.Flush(); }
                 });
             }
         }
@@ -1078,6 +1056,12 @@ namespace Heirloom.Drawing.OpenGLES
                     break;
 
                 case Surface surface:
+                    // Ensure surface is not screen bound
+                    if (surface.IsScreenBound)
+                    {
+                        throw new ArgumentException($"Screen bound surfaces cannot be set to shader uniforms.");
+                    }
+
                     // Get framebuffer (possibly blitting)
                     var framebuffer = GetFramebuffer(surface);
                     if (framebuffer.IsDirty)
@@ -1133,23 +1117,12 @@ namespace Heirloom.Drawing.OpenGLES
 
         protected override void Dispose(bool disposeManaged)
         {
-            // This lock is here to have 'exclusive control' of the render context.
-            // The application should lock the context during its render loop
-            // to prevent the context from being disposed of when rendering.
-            lock (this)
+            if (!IsDisposed)
             {
-                _isRunning = false;
+                IsDisposed = true;
 
                 // Terminate consumer thread
-                _thread.Stop(true);
-
-                if (disposeManaged)
-                {
-                    // Dispose managed objects...
-                }
-
-                // Call base dispose (to cleanup non-OpenGL resources)
-                base.Dispose(disposeManaged);
+                _thread.Stop();
             }
         }
 

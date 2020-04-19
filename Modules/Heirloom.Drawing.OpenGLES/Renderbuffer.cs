@@ -1,5 +1,6 @@
 using System;
 
+using Heirloom.IO;
 using Heirloom.Math;
 using Heirloom.OpenGLES;
 
@@ -47,7 +48,11 @@ namespace Heirloom.Drawing.OpenGLES
                 }
 
                 // Schedule for deletion on a GL thread.
-                OpenGLGraphicsAdapter.Schedule(() => GL.DeleteRenderbuffer(Handle));
+                OpenGLGraphicsAdapter.Schedule(() =>
+                {
+                    Log.Debug($"[Dispose] Renderbuffer ({Handle})");
+                    GL.DeleteRenderbuffer(Handle);
+                });
 
                 _isDisposed = true;
             }

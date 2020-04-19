@@ -252,6 +252,18 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Create an image with checkerboard pattern.
         /// </summary>
+        /// <param name="size">Size of the image in pixels.</param>
+        /// <param name="color">Color to base the checkerboard pattern on.</param>
+        /// <param name="cellSize">Size of each "checker" in the checkerboard.</param>
+        /// <returns>An image filled with the checkerboard pattern.</returns>
+        public static Image CreateCheckerboardPattern(IntSize size, Color color, int cellSize = 16)
+        {
+            return CreateCheckerboardPattern(size.Width, size.Height, color, cellSize);
+        }
+
+        /// <summary>
+        /// Create an image with checkerboard pattern.
+        /// </summary>
         /// <param name="width">Width of the image in pixels.</param>
         /// <param name="height">Height of the image in pixels.</param>
         /// <param name="color">Color to base the checkerboard pattern on.</param>
@@ -282,6 +294,18 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Create an image with a grid pattern.
         /// </summary>
+        /// <param name="size">Size of the image in pixels.</param>
+        /// <param name="color">Color to base the grid pattern on.</param>
+        /// <param name="borderWidth">Size of the line between each cell.</param>
+        /// <returns>An image filled with the grid pattern.</returns>
+        public static Image CreateGridPattern(IntSize size, Color color, int cellSize, int borderWidth = 1)
+        {
+            return CreateGridPattern(size.Width, size.Height, color, cellSize, borderWidth);
+        }
+
+        /// <summary>
+        /// Create an image with a grid pattern.
+        /// </summary>
         /// <param name="width">Width of the image in pixels.</param>
         /// <param name="height">Height of the image in pixels.</param>
         /// <param name="color">Color to base the grid pattern on.</param>
@@ -304,7 +328,18 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Creates an image filled with a solid color.
-        /// </summary
+        /// </summary>
+        /// <param name="size">Size of the image in pixels.</param>
+        /// <param name="color">Color to fill the image with.</param>
+        /// <returns>An image of only the specified color.</returns>
+        public static Image CreateColor(IntSize size, Color color)
+        {
+            return CreateColor(size.Width, size.Height, color);
+        }
+
+        /// <summary>
+        /// Creates an image filled with a solid color.
+        /// </summary>
         /// <param name="width">Width of the image in pixels.</param>
         /// <param name="height">Height of the image in pixels.</param>
         /// <param name="color">Color to fill the image with.</param>
@@ -326,7 +361,20 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Creates an image filled with noise.
-        /// </summary
+        /// </summary>
+        /// <param name="size">Size of the image in pixels.</param>
+        /// <param name="scale">The approximate size of a 'noise blob'.</param>
+        /// <param name="octaves">Number of noise layers.</param>
+        /// <param name="persistence">How persistent each noise layer is.</param>
+        /// <returns>A noisy image with noise generated on all four components.</returns>
+        public static Image CreateNoise(IntSize size, float scale = 1, int octaves = 4, float persistence = 0.5F, Vector offset = default)
+        {
+            return CreateNoise(size.Width, size.Height, scale, octaves, persistence, offset);
+        }
+
+        /// <summary>
+        /// Creates an image filled with noise.
+        /// </summary>
         /// <param name="width">Width of the image in pixels.</param>
         /// <param name="height">Height of the image in pixels.</param>
         /// <param name="scale">The approximate size of a 'noise blob'.</param>
@@ -340,7 +388,21 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Creates an image filled with noise, provided with an instance of <see cref="INoise2D"/>.
-        /// </summary
+        /// </summary>
+        /// <param name="size">Size of the image in pixels.</param>
+        /// <param name="noise">A 2D noise generator.</param>
+        /// <param name="scale">The approximate size of a 'noise blob'.</param>
+        /// <param name="octaves">Number of noise layers.</param>
+        /// <param name="persistence">How persistent each noise layer is.</param>
+        /// <returns>A noisy image with noise generated on all four components.</returns>
+        public static Image CreateNoise(IntSize size, INoise2D noise, float scale = 1, int octaves = 4, float persistence = 0.5F, Vector offset = default)
+        {
+            return CreateNoise(size.Width, size.Height, noise, scale, octaves, persistence, offset);
+        }
+
+        /// <summary>
+        /// Creates an image filled with noise, provided with an instance of <see cref="INoise2D"/>.
+        /// </summary>
         /// <param name="width">Width of the image in pixels.</param>
         /// <param name="height">Height of the image in pixels.</param>
         /// <param name="noise">A 2D noise generator.</param>

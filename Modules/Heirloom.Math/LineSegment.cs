@@ -34,6 +34,16 @@ namespace Heirloom.Math
         #endregion
 
         /// <summary>
+        /// Sets the components of this line segment.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Set(in Vector a, in Vector b)
+        {
+            A = a;
+            B = b;
+        }
+
+        /// <summary>
         /// Gets a intermediate point along the line segment.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -189,11 +199,26 @@ namespace Heirloom.Math
 
         #endregion
 
+        #region Comparison Operators
+
+        public static bool operator ==(LineSegment left, LineSegment right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(LineSegment left, LineSegment right)
+        {
+            return !(left == right);
+        }
+
+        #endregion
+
         #region Equality
 
         public override bool Equals(object obj)
         {
-            return obj is LineSegment edge && Equals(edge);
+            return obj is LineSegment edge
+                && Equals(edge);
         }
 
         public bool Equals(LineSegment other)
@@ -205,16 +230,6 @@ namespace Heirloom.Math
         public override int GetHashCode()
         {
             return A.GetHashCode() ^ B.GetHashCode();
-        }
-
-        public static bool operator ==(LineSegment left, LineSegment right)
-        {
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(LineSegment left, LineSegment right)
-        {
-            return !(left == right);
         }
 
         #endregion

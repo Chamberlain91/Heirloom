@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 using Heirloom.Desktop;
 using Heirloom.Drawing;
 using Heirloom.Drawing.Utilities;
@@ -7,9 +5,9 @@ using Heirloom.Math;
 
 namespace Atlas_Thashing
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Application.Run(() =>
             {
@@ -20,38 +18,37 @@ namespace Atlas_Thashing
                 var xcount = window.Size.Width / 64;
                 var ycount = window.Size.Height / 64;
 
-                var packer = new SkylinePacker<Image>(window.Size);
+                // Using the shelf packer here for fast visualization sake.
+                // The skyline is the actual packer used by the texture atlas system.
+                var packer = new ShelfPacker<Image>(window.Size);
 
-                Task.Run(() =>
+                // Create the main loop
+                var loop = RenderLoop.Create(window.Graphics, (gfx, dt) =>
                 {
+                    packer.Clear();
+
+                    window.Graphics.Clear(Color.White);
+
                     while (true)
                     {
-                        window.Graphics.ResetState();
-                        packer.Clear();
+                        var w = Calc.Random.Next(8, 128);
+                        var h = Calc.Random.Next(8, 128);
 
-                        window.Graphics.Clear(Color.White);
+                        var r = Calc.Random.NextFloat();
+                        var g = Calc.Random.NextFloat();
+                        var b = Calc.Random.NextFloat();
 
-                        while (true)
-                        {
-                            var w = Calc.Random.Next(8, 128);
-                            var h = Calc.Random.Next(8, 128);
+                        // Attempt to pack image, if unable break
+                        var image = Image.CreateColor(w, h, new Color(r, g, b));
+                        if (!packer.Add(image, image.Size)) { break; }
 
-                            var r = Calc.Random.NextFloat();
-                            var g = Calc.Random.NextFloat();
-                            var b = Calc.Random.NextFloat();
-
-                            // Attempt to pack image, if unable break
-                            var image = Image.CreateColor(w, h, new Color(r, g, b));
-                            if (!packer.Add(image, image.Size)) { break; }
-
-                            var packed = packer.GetRectangle(image);
-                            window.Graphics.DrawImage(image, packed.Position);
-                        }
-
-                        // 
-                        window.Graphics.RefreshScreen();
+                        var packed = packer.GetRectangle(image);
+                        window.Graphics.DrawImage(image, packed.Position);
                     }
                 });
+
+                // Begin main loop
+                loop.Start();
             });
         }
     }

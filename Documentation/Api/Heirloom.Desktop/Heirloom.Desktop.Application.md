@@ -2,7 +2,7 @@
 
 <small>**Framework**: .NETStandard,Version=v2.1</small>  
 <small>**Assembly**: [Heirloom.Desktop](../Heirloom.Desktop/Heirloom.Desktop.md)</small>  
-<small>**Dependancies**: [Heirloom.Drawing](../Heirloom.Drawing/Heirloom.Drawing.md), [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.Drawing.OpenGLES](../Heirloom.Drawing.OpenGLES/Heirloom.Drawing.OpenGLES.md), [Heirloom.OpenGLES](../Heirloom.OpenGLES/Heirloom.OpenGLES.md)</small>  
+<small>**Dependancies**: [Heirloom.Drawing](../Heirloom.Drawing/Heirloom.Drawing.md), [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.Drawing.OpenGLES](../Heirloom.Drawing.OpenGLES/Heirloom.Drawing.OpenGLES.md), [Heirloom.OpenGLES](../Heirloom.OpenGLES/Heirloom.OpenGLES.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## Application (Static Class)
 <small>**Namespace**: Heirloom.Desktop</small>  
@@ -19,9 +19,9 @@
 | [CpuInfo](#CPUF6D51F94)                        | Gets detected information about the CPU.                                                               |
 | [GpuInfo](#GPUF6D30F18)                        | Gets detected information about the GPU.                                                               |
 
-| Methods             | Summary                                                                                                                                                         |
-|---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Run](#RUNFF6AF058) | Initializes windowing utilities, executes `initialize` and then continuously processes window events until all windows are closed. This is a blocking function. |
+| Methods             | Summary                                                                                                                                                      |
+|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Run](#RUN3AE26701) | Initializes windowing utilities, executes `startup` and then continuously processes window events until all windows are closed. This is a blocking function. |
 
 ### Properties
 
@@ -81,9 +81,9 @@ Gets detected information about the GPU.
 
 ### Methods
 
-#### <a name="RUNFF6AF058"></a>Run(Action initialize, [GraphicsBackend](Heirloom.Desktop.GraphicsBackend.md) graphicsBackend = OpenGLES) : void
+#### <a name="RUN3AE26701"></a>Run(Action startup) : void
 <small>`Static`</small>
 
-Initializes windowing utilities, executes `initialize` and then continuously processes window events until all windows are closed. This is a blocking function.
+Initializes windowing utilities, executes `startup` and then continuously processes window events until all windows are closed. This is a blocking function.
 
 

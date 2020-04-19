@@ -190,6 +190,17 @@ namespace Heirloom.Drawing
 
         #endregion
 
+        /// <summary>
+        /// Sets the components of this color.
+        /// </summary>
+        public void Set(float r, float g, float b, float a = 1F)
+        {
+            R = r;
+            G = g;
+            B = b;
+            A = a;
+        }
+
         #region Parse
 
         /// <summary>
@@ -513,25 +524,7 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        #region Equality
-
-        public override bool Equals(object obj)
-        {
-            return obj is Color && Equals((Color) obj);
-        }
-
-        public bool Equals(Color other)
-        {
-            return Calc.NearEquals(R, other.R) &&
-                   Calc.NearEquals(G, other.G) &&
-                   Calc.NearEquals(B, other.B) &&
-                   Calc.NearEquals(A, other.A);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(R, G, B, A);
-        }
+        #region Comparison Operators
 
         public static bool operator ==(Color color1, Color color2)
         {
@@ -541,6 +534,29 @@ namespace Heirloom.Drawing
         public static bool operator !=(Color color1, Color color2)
         {
             return !(color1 == color2);
+        }
+
+        #endregion
+
+        #region Equality
+
+        public override bool Equals(object obj)
+        {
+            return obj is Color color
+                && Equals(color);
+        }
+
+        public bool Equals(Color other)
+        {
+            return Calc.NearEquals(R, other.R)
+                && Calc.NearEquals(G, other.G)
+                && Calc.NearEquals(B, other.B)
+                && Calc.NearEquals(A, other.A);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(R, G, B, A);
         }
 
         #endregion

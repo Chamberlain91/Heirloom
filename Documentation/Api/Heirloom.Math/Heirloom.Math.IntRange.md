@@ -6,6 +6,7 @@
 ## IntRange (Struct)
 <small>**Namespace**: Heirloom.Math</small>  
 <small>**Interfaces**: IEquatable\<IntRange>, IEnumerable\<int>, IEnumerable</small>  
+<small>`DefaultMemberAttribute`</small>
 
 Represents a range of integers from `Heirloom.Math.IntRange.Min` to `Heirloom.Math.IntRange.Max`.
 
@@ -22,9 +23,11 @@ Represents a range of integers from `Heirloom.Math.IntRange.Min` to `Heirloom.Ma
 | [Average](#AVE2099683) | Gets the mean of `Heirloom.Math.IntRange.Min` and `Heirloom.Math.IntRange.Max`.                                                                                     |
 | [Size](#SIZ9C9392F9)   | Gets the size of the range.                                                                                                                                         |
 | [IsValid](#ISVE38FCA8) | Gets a value that determines if the range is valid (ie, \<c> \<see cref="F:Heirloom.Math.IntRange.Max" /> &gt;= \<see cref="F:Heirloom.Math.IntRange.Min" />\</c>). |
+| [Item](#ITE8B5A2F95)   |                                                                                                                                                                     |
 
 | Methods                       | Summary                                                          |
 |-------------------------------|------------------------------------------------------------------|
+| [Set](#SETF1BFC91F)           | Sets the components of this range.                               |
 | [Contains](#CON6D86EFB8)      | Determines if this range contains the specified value.           |
 | [Overlaps](#OVE878BA259)      | Determines if this range overlaps another integer range.         |
 | [Include](#INCF9EE613B)       | Mutate this range (by expansion) to include the specified value. |
@@ -98,7 +101,15 @@ Gets the size of the range.
 
 Gets a value that determines if the range is valid (ie, \<c> \<see cref="F:Heirloom.Math.IntRange.Max" /> &gt;= \<see cref="F:Heirloom.Math.IntRange.Min" />\</c>).
 
+#### <a name="ITE8B5A2F95"></a>Item : int
+
+
 ### Methods
+
+#### <a name="SETF1BFC91F"></a>Set(int min, int max) : void
+
+Sets the components of this range.
+
 
 #### <a name="CON6D86EFB8"></a>Contains(in int x) : bool
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
+using Heirloom.IO;
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Drawing.OpenGLES
@@ -99,7 +100,6 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Print Shader Structure (Debug)
 
-        [Conditional("DEBUG")]
         private void DebugPrintUniformStructure()
         {
             Log.Debug($"Shader Structure ({Name})");
@@ -255,7 +255,11 @@ namespace Heirloom.Drawing.OpenGLES
                 }
 
                 // Schedule for deletion on a GL thread.
-                OpenGLGraphicsAdapter.Schedule(() => GL.DeleteProgram(Handle));
+                OpenGLGraphicsAdapter.Schedule(() =>
+                {
+                    Log.Debug($"[Dispose] Shader ({Handle})");
+                    GL.DeleteProgram(Handle);
+                });
 
                 _isDisposed = true;
             }

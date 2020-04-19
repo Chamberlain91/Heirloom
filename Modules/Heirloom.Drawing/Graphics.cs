@@ -18,13 +18,13 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Constructs a new graphics instance with the specified multisampling quality.
         /// </summary>
-        protected Graphics(MultisampleQuality multisample)
+        protected Graphics(Surface surface)
         {
             // Create performance tracking object
             Performance = new DrawingPerformance();
 
             // Creates a dummy surface to represent the window surface
-            DefaultSurface = new Surface(1, 1, multisample, false);
+            DefaultSurface = surface;
         }
 
         /// <summary>
@@ -52,8 +52,12 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Gets a value determining if this <see cref="Graphics"/> was disposed.
         /// </summary>
-        public bool IsDisposed { get; private set; } = false;
+        public bool IsDisposed { get; protected set; } = false;
 
+        /// <summary>
+        /// Gets a value determining if this <see cref="Graphics"/> has been initialized.
+        /// </summary>
+        public abstract bool IsInitialized { get; }
         /// <summary>
         /// Gets the default surface (ie, window) of this render context.
         /// </summary>
@@ -73,20 +77,12 @@ namespace Heirloom.Drawing
         public abstract Shader Shader { get; set; }
 
         /// <summary>
-        /// Gets or sets the viewport in normalized coordinates.
+        /// Gets or sets the viewport in pixel coordinates.
         /// </summary>
         /// <remarks>
         /// When <see cref="Surface"/> is changed, the viewport is automatically reset to the full surface.
         /// </remarks>
-        public abstract Rectangle Viewport { get; set; }
-
-        /// <summary>
-        /// Gets the size of viewport in pixel coordinates.
-        /// </summary>
-        /// <remarks>
-        /// When <see cref="Surface"/> is changed, the viewport is automatically reset to the full surface.
-        /// </remarks>
-        public abstract IntRectangle ViewportScreen { get; set; }
+        public abstract IntRectangle Viewport { get; set; }
 
         /// <summary>
         /// Get or sets the global transform.
@@ -119,7 +115,7 @@ namespace Heirloom.Drawing
         {
             Shader = Shader.Default;
             Surface = DefaultSurface; // also adjusts viewport?
-            Viewport = (0, 0, 1, 1);
+            Viewport = (0, 0, Surface.Width, Surface.Height);
 
             GlobalTransform = Matrix.Identity;
             Blending = Blending.Alpha;
@@ -129,7 +125,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Save the context state (push it on the state stack).
         /// </summary>
-        public void PushState()
+        public void PushState(bool reset = false)
         {
             _stateStack.Push(new GraphicsState
             {
@@ -140,6 +136,9 @@ namespace Heirloom.Drawing
                 Transform = GlobalTransform,
                 Viewport = Viewport
             });
+
+            // If requested, reset state
+            if (reset) { ResetState(); }
         }
 
         /// <summary>
@@ -322,29 +321,24 @@ namespace Heirloom.Drawing
         protected abstract void EndFrame();
 
         /// <summary>
-        /// Force any pending drawing operations to complete.
+        /// Submit all pending drawing operations, optionally blocking for completion.
         /// </summary>
-        public abstract void Flush();
+        protected abstract void Flush(bool blockCompletion = false);
+
+        /// <summary>
+        /// Commits pending drawing operations, blocking until all operations complete.
+        /// </summary>
+        public void Commit()
+        {
+            Flush(true);
+        }
 
         #region IDisposable Support
 
         /// <summary>
         /// Dispose and cleanup resources.
         /// </summary>
-        protected virtual void Dispose(bool disposeManaged)
-        {
-            if (!IsDisposed)
-            {
-                if (disposeManaged)
-                {
-                    // Managed
-                }
-
-                // Unmanaged
-
-                IsDisposed = true;
-            }
-        }
+        protected abstract void Dispose(bool disposeManaged);
 
         /// <summary>
         /// Dispose this graphics context, freeing any resources occupied by it.
@@ -362,7 +356,7 @@ namespace Heirloom.Drawing
         /// </summary>
         public void SetCameraTransform(Vector center, float scale = 1F)
         {
-            var offset = (Vector) ViewportScreen.Size / 2F;
+            var offset = (Vector) Viewport.Size / 2F;
             GlobalTransform = Matrix.CreateTransform(offset - center, 0, scale);
         }
 

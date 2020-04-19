@@ -8,14 +8,24 @@
 ## GraphicsAdapter.ISurfaceFactory (Interface)
 <small>**Namespace**: Heirloom.Drawing</small>  
 
+| Properties                                     | Summary |
+|------------------------------------------------|---------|
+| [MaxSupportedMultisampleQuality](#MAX50D0FBEA) |         |
+
 | Methods                 | Summary |
 |-------------------------|---------|
-| [Create](#CRE1F854001)  |         |
+| [Create](#CRED19856C6)  |         |
 | [Dispose](#DIS2F22B63C) |         |
+
+### Properties
+
+#### <a name="MAX50D0FBEA"></a>MaxSupportedMultisampleQuality : [MultisampleQuality](Heirloom.Drawing.MultisampleQuality.md)
+
+<small>`Read Only`</small>
 
 ### Methods
 
-#### <a name="CRE1F854001"></a>Create([IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md) size, [MultisampleQuality](Heirloom.Drawing.MultisampleQuality.md) multisample) : object
+#### <a name="CRED19856C6"></a>Create([IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md) size, ref [MultisampleQuality](Heirloom.Drawing.MultisampleQuality.md) multisample) : object
 <small>`Abstract`</small>
 
 

@@ -1,5 +1,6 @@
 using System;
 
+using Heirloom.IO;
 using Heirloom.Math;
 using Heirloom.OpenGLES;
 
@@ -93,7 +94,7 @@ namespace Heirloom.Drawing.OpenGLES
                 // Schedule deleting the GL texture resource
                 OpenGLGraphicsAdapter.Schedule(() =>
                 {
-                    Log.Debug($"Disposing Texture ({Handle})");
+                    Log.Debug($"[Dispose] Texture ({Handle})");
                     GL.DeleteTexture(Handle);
                 });
 

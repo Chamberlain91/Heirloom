@@ -19,7 +19,6 @@ namespace Examples.Drawing
 
             ctx.Surface = LowResSurface;
             ctx.Clear(Color.Transparent);
-            ctx.Viewport = (0, 0, 5, 1);
 
             var a = new Vector(0 / 3F, (Calc.Sin(Time * 1) + 1F) * 0.5F) * (Vector) LowResSurface.Size;
             var b = new Vector(1 / 3F, (Calc.Sin(Time * 2) + 1F) * 0.5F) * (Vector) LowResSurface.Size;

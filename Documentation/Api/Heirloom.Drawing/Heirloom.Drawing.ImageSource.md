@@ -11,6 +11,8 @@
 | Properties                    | Summary                                                         |
 |-------------------------------|-----------------------------------------------------------------|
 | [Size](#SIZ9C9392F9)          | The size of this image.                                         |
+| [Width](#WID68924896)         | The width of the image (in pixels).                             |
+| [Height](#HEIE098AAEB)        | The height of the image (in pixels).                            |
 | [Origin](#ORI85E4C2C0)        | The offset used to 'center' the image around a non-zero origin. |
 | [Version](#VERFB25B632)       | Version number to track changes against the image data.         |
 | [Interpolation](#INT9DB69D30) | Interpolation mode.                                             |
@@ -27,7 +29,19 @@
 
 The size of this image.
 
-#### <a name="ORI85E4C2C0"></a>Origin : [Vector](../Heirloom.Math/Heirloom.Math.Vector.md)
+#### <a name="WID68924896"></a>Width : int
+
+<small>`Read Only`</small>
+
+The width of the image (in pixels).
+
+#### <a name="HEIE098AAEB"></a>Height : int
+
+<small>`Read Only`</small>
+
+The height of the image (in pixels).
+
+#### <a name="ORI85E4C2C0"></a>Origin : [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md)
 
 
 The offset used to 'center' the image around a non-zero origin.

@@ -8,13 +8,15 @@
 ## DrawingPerformance (Sealed Class)
 <small>**Namespace**: Heirloom.Drawing</small>  
 
+Contains information pertaining to draw performance.
+
 | Properties                    | Summary                                                                           |
 |-------------------------------|-----------------------------------------------------------------------------------|
 | [OverlayMode](#OVE51B3EE7D)   | Gets or sets a value that will enable or disable drawing the performance overlay. |
-| [TriangleCount](#TRIFB928221) |                                                                                   |
-| [BatchCount](#BAT27B69C73)    |                                                                                   |
-| [DrawCount](#DRA5740BB87)     |                                                                                   |
-| [FrameRate](#FRA55D83BCF)     |                                                                                   |
+| [BatchCount](#BAT27B69C73)    | Statistics of the number of batches.                                              |
+| [DrawCount](#DRA5740BB87)     | Statistics of the number of 'things' drawn.                                       |
+| [TriangleCount](#TRIFB928221) | Statistics of the number of triangles.                                            |
+| [FrameRate](#FRA55D83BCF)     | Statistics of the frame rate.                                                     |
 
 ### Constructors
 
@@ -27,19 +29,27 @@
 
 Gets or sets a value that will enable or disable drawing the performance overlay.
 
-#### <a name="TRIFB928221"></a>TriangleCount : [Statistics](../Heirloom.Math/Heirloom.Math.Statistics.md)
-
-<small>`Read Only`</small>
-
 #### <a name="BAT27B69C73"></a>BatchCount : [Statistics](../Heirloom.Math/Heirloom.Math.Statistics.md)
 
 <small>`Read Only`</small>
+
+Statistics of the number of batches.
 
 #### <a name="DRA5740BB87"></a>DrawCount : [Statistics](../Heirloom.Math/Heirloom.Math.Statistics.md)
 
 <small>`Read Only`</small>
 
+Statistics of the number of 'things' drawn.
+
+#### <a name="TRIFB928221"></a>TriangleCount : [Statistics](../Heirloom.Math/Heirloom.Math.Statistics.md)
+
+<small>`Read Only`</small>
+
+Statistics of the number of triangles.
+
 #### <a name="FRA55D83BCF"></a>FrameRate : [Statistics](../Heirloom.Math/Heirloom.Math.Statistics.md)
 
 <small>`Read Only`</small>
+
+Statistics of the frame rate.
 

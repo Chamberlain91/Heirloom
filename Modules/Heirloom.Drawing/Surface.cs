@@ -1,5 +1,6 @@
 using System;
 
+using Heirloom.IO;
 using Heirloom.Math;
 
 namespace Heirloom.Drawing
@@ -27,20 +28,28 @@ namespace Heirloom.Drawing
         /// <param name="height">Height of the surface in pixels.</param>
         /// <param name="multisample">MSAA to use on the surface</param>
         public Surface(int width, int height, MultisampleQuality multisample = MultisampleQuality.None)
-            : this(width, height, multisample, true)
+            : this(width, height, multisample, false)
         { }
 
-        internal Surface(int width, int height, MultisampleQuality multisample, bool createNative)
+        internal Surface(int width, int height, MultisampleQuality multisample, bool isScreenBound)
         {
             if (width <= 0 || height <= 0) { throw new ArgumentException("Surface dimensions must be greater than zero."); }
 
             Size = new IntSize(width, height);
+            IsScreenBound = isScreenBound;
             Multisample = multisample;
 
-            if (createNative)
+            if (!IsScreenBound)
             {
-                Native = GraphicsAdapter.SurfaceFactory.Create(Size, multisample);
+                // Surface is an offscreen render target
+                Native = GraphicsAdapter.SurfaceFactory.Create(Size, ref multisample);
+                Multisample = multisample;
             }
+        }
+
+        ~Surface()
+        {
+            Log.Debug($"[Dispose] Surface");
         }
 
         #endregion
@@ -55,9 +64,23 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Gets the multisampling quality set on this surface.
         /// </summary>
+        /// <remarks>
+        /// This wll be set to the value actually availble used to create the surface.
+        /// Some platforms might not support all multisample levels.
+        /// </remarks>
         public MultisampleQuality Multisample { get; }
 
+        /// <summary>
+        /// Determines if this surface is attached to a screen (ie, a window).
+        /// </summary>
+        public bool IsScreenBound { get; }
+
         #endregion
+
+        /// <summary>
+        /// Gets the max multisample quality supported on this system.
+        /// </summary>
+        public static MultisampleQuality MaxSupportedMultisampleQuality => GraphicsAdapter.SurfaceFactory.MaxSupportedMultisampleQuality;
 
         internal void SetSize(IntSize size)
         {

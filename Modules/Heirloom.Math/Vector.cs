@@ -121,11 +121,15 @@ namespace Heirloom.Math
 
         #endregion
 
+        #region Indexer
+
         public float this[int i]
         {
             get => _components[i];
             set => _components[i] = value;
         }
+
+        #endregion
 
         /// <summary>
         /// Sets the components of this vector.
@@ -542,6 +546,11 @@ namespace Heirloom.Math
             return new Vector(x, y);
         }
 
+        public static Vector operator +(Vector v)
+        {
+            return v;
+        }
+
         #region Addition
 
         public static Vector operator +(Vector a, Vector b)
@@ -671,14 +680,14 @@ namespace Heirloom.Math
 
         public override bool Equals(object obj)
         {
-            return obj is Vector vec &&
-                   Equals(vec);
+            return obj is Vector vec
+                && Equals(vec);
         }
 
         public bool Equals(Vector other)
         {
-            return Calc.NearEquals(X, other.X) &&
-                   Calc.NearEquals(Y, other.Y);
+            return Calc.NearEquals(X, other.X)
+                && Calc.NearEquals(Y, other.Y);
         }
 
         public override int GetHashCode()

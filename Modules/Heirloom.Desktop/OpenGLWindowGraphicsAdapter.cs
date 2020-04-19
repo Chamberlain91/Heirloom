@@ -1,52 +1,81 @@
 using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 using Heirloom.Drawing;
 using Heirloom.Drawing.OpenGLES;
+using Heirloom.IO;
+using Heirloom.OpenGLES;
 
 namespace Heirloom.Desktop
 {
     internal sealed class OpenGLWindowGraphicsAdapter : OpenGLGraphicsAdapter, IWindowGraphicsFactory
     {
-        public Graphics CreateGraphics(Window window, bool vsync)
+        private readonly List<OpenGLGraphics> _graphics = new List<OpenGLGraphics>();
+
+        public Graphics CreateGraphics(Window window, Surface surface, bool vsync)
         {
-            return new OpenGLWindowGraphics(window, vsync);
+            var graphics = new OpenGLWindowGraphics(this, window, surface, vsync);
+            lock (_graphics) { _graphics.Add(graphics); }
+            return graphics;
+
+        }
+
+        private void RemoveGraphics(OpenGLWindowGraphics graphics)
+        {
+            lock (_graphics)
+            {
+                _graphics.Remove(graphics);
+            }
         }
 
         #region Invoke
 
         protected internal override T Invoke<T>(Func<T> function)
         {
-            return Application.Invoke(() =>
+            var val = default(T);
+            Invoke(() =>
             {
-                // Make the share context current here
-                // todo: Possibly correct for this, this feels terrible...
-                Glfw.MakeContextCurrent(Application.ShareContext);
-
-                // Execute function and keep return value
-                var returnValue = function();
-
-                // Release context from thread. We want it not associated with any thread. On a AMD Vega
-                // platform this caused the main rendering loop to halt (resource blocking?).
-                Glfw.MakeContextCurrent(WindowHandle.None);
-
-                return returnValue;
+                val = function();
+                return;
             });
+            return val;
         }
 
         protected internal override void Invoke(Action function)
         {
+            if (Adapter?.IsDisposed ?? false)
+            {
+                Log.Error("Unable to schedule action on GL thread. Adapter has been disposed.");
+            }
+
+            lock (_graphics)
+            {
+                // Try to invoke on an existing graphics thread
+                foreach (var gfx in _graphics)
+                {
+                    // If graphics context is still initialized...
+                    if (gfx.IsInitialized)
+                    {
+                        // Invoke action on that thread and exit
+                        gfx.Invoke(function);
+                        return;
+                    }
+                }
+            }
+
+            // Was unable to invoke on a graphics thread, so we will temporarily make the window
+            // events thread a graphics thread to invoke the function.
             Application.Invoke(() =>
             {
                 // Make the share context current here
-                // todo: Possibly correct for this, this feels terrible...
                 Glfw.MakeContextCurrent(Application.ShareContext);
 
                 // Execute function and keep return value
                 function();
 
-                // Release context from thread. We want it not associated with any thread. On a AMD Vega
-                // platform this caused the main rendering loop to halt (resource blocking?).
+                // Release context from thread. We want it not associated with any thread.
                 Glfw.MakeContextCurrent(WindowHandle.None);
             });
         }
@@ -55,16 +84,16 @@ namespace Heirloom.Desktop
 
         private sealed class OpenGLWindowGraphics : OpenGLGraphics
         {
+            private readonly OpenGLWindowGraphicsAdapter _adapter;
             private readonly Window _window;
             private readonly bool _vsync;
 
-            public OpenGLWindowGraphics(Window window, bool vsync)
-                : base(window.Multisample)
+            public OpenGLWindowGraphics(OpenGLWindowGraphicsAdapter adapter, Window window, Surface surface, bool vsync)
+                : base(surface)
             {
+                _adapter = adapter;
                 _window = window ?? throw new ArgumentNullException(nameof(window));
                 _vsync = vsync;
-
-                var hasThreadStarted = false;
 
                 // Set initial default surface size
                 DefaultSurface.SetSize(_window.FramebufferSize);
@@ -76,16 +105,10 @@ namespace Heirloom.Desktop
                 _window.FramebufferResized += _ =>
                 {
                     DefaultSurface.SetSize(_window.FramebufferSize);
-
-                    // If the thread has not started, the framebuffer size is now known
-                    if (!hasThreadStarted)
-                    {
-                        hasThreadStarted = true;
-
-                        // Run OpenGL thread
-                        StartThread();
-                    }
                 };
+
+                // Run OpenGL thread
+                StartThread();
             }
 
             protected override void MakeCurrent()
@@ -98,6 +121,27 @@ namespace Heirloom.Desktop
 
                 // Configure swap interval
                 Glfw.SetSwapInterval(_vsync ? 1 : 0);
+
+                // Enable quality MSAA
+                if (DefaultSurface.Multisample > MultisampleQuality.None)
+                {
+                    // Load glMinSampleShading, this could be cached... but this way makes it pretty
+                    // seamless to include.
+                    var glMinSampleShader = LoadFunction<MinSampleShading>("glMinSampleShading");
+
+                    // Enable multisampling explicity. From what I've read this is
+                    // should already be enabled but I thought it good to enable it myself.
+                    GL.Enable((EnableCap) 0x809D); // GL_MULTISAMPLE
+
+                    // If we are running a version that can support sample shading
+                    // enable it and set the rate to 100%. This allows multisampling
+                    // to affect every pixel instead of just the geometry edges.
+                    if (glMinSampleShader != null)
+                    {
+                        GL.Enable((EnableCap) 0x8C36); // GL_SAMPLE_SHADING
+                        glMinSampleShader(1F);
+                    }
+                }
             }
 
             protected override void SwapBuffers()
@@ -108,8 +152,17 @@ namespace Heirloom.Desktop
 
             protected override void Dispose(bool disposeManaged)
             {
-                // Dispose base class
+                _adapter.RemoveGraphics(this);
                 base.Dispose(disposeManaged);
+            }
+
+            private delegate void MinSampleShading(float rate);
+
+            private static T LoadFunction<T>(string name) where T : Delegate
+            {
+                var ptr = Glfw.GetProcAddress(name);
+                return ptr != null ? Marshal.GetDelegateForFunctionPointer<T>(ptr)
+                                   : null;
             }
         }
     }

@@ -27,7 +27,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// The offset used to 'center' the image around a non-zero origin.
         /// </summary>
-        public Vector Origin { get; set; }
+        public IntVector Origin { get; set; }
 
         /// <summary>
         /// Version number to track changes against the image data.

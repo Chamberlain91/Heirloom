@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Heirloom.Math
@@ -51,6 +52,41 @@ namespace Heirloom.Math
         public float Aspect => Width / (float) Height;
 
         #endregion
+
+        #region Indexer
+
+        public int this[int i]
+        {
+            get => i switch
+            {
+                0 => Width,
+                1 => Height,
+                _ => throw new IndexOutOfRangeException(),
+            };
+
+            set
+            {
+                switch (i)
+                {
+                    case 0: Width = value; break;
+                    case 1: Height = value; break;
+                    default:
+                        throw new IndexOutOfRangeException();
+                }
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Sets the components of this size.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Set(int width, int height)
+        {
+            Width = width;
+            Height = height;
+        }
 
         #region Constructors
 
@@ -257,6 +293,16 @@ namespace Heirloom.Math
             return left.CompareTo(right) >= 0;
         }
 
+        public static bool operator ==(IntSize a, IntSize b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(IntSize a, IntSize b)
+        {
+            return !(a == b);
+        }
+
         #endregion
 
         #region Equality
@@ -269,8 +315,8 @@ namespace Heirloom.Math
 
         public bool Equals(IntSize other)
         {
-            return Width == other.Width &&
-                   Height == other.Height;
+            return Width == other.Width
+                && Height == other.Height;
         }
 
         public override int GetHashCode()
@@ -279,16 +325,6 @@ namespace Heirloom.Math
             hashCode = hashCode * -1521134295 + Width.GetHashCode();
             hashCode = hashCode * -1521134295 + Height.GetHashCode();
             return hashCode;
-        }
-
-        public static bool operator ==(IntSize a, IntSize b)
-        {
-            return a.Equals(b);
-        }
-
-        public static bool operator !=(IntSize a, IntSize b)
-        {
-            return !(a == b);
         }
 
         #endregion

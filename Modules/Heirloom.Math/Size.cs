@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Heirloom.Math
@@ -63,6 +64,41 @@ namespace Heirloom.Math
         public float Aspect => Width / Height;
 
         #endregion
+
+        #region Indexer
+
+        public float this[int i]
+        {
+            get => i switch
+            {
+                0 => Width,
+                1 => Height,
+                _ => throw new IndexOutOfRangeException(),
+            };
+
+            set
+            {
+                switch (i)
+                {
+                    case 0: Width = value; break;
+                    case 1: Height = value; break;
+                    default:
+                        throw new IndexOutOfRangeException();
+                }
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Sets the components of this size.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Set(float w, float h)
+        {
+            Width = w;
+            Height = h;
+        }
 
         #region Deconstruct
 
@@ -240,29 +276,6 @@ namespace Heirloom.Math
             return left.CompareTo(right) >= 0;
         }
 
-        #endregion
-
-        #region Equality
-
-        public override bool Equals(object obj)
-        {
-            return obj is Size && Equals((Size) obj);
-        }
-
-        public bool Equals(Size other)
-        {
-            return Width == other.Width &&
-                   Height == other.Height;
-        }
-
-        public override int GetHashCode()
-        {
-            var hashCode = 859600377;
-            hashCode = hashCode * -1521134295 + Width.GetHashCode();
-            hashCode = hashCode * -1521134295 + Height.GetHashCode();
-            return hashCode;
-        }
-
         public static bool operator ==(Size size1, Size size2)
         {
             return size1.Equals(size2);
@@ -271,6 +284,30 @@ namespace Heirloom.Math
         public static bool operator !=(Size size1, Size size2)
         {
             return !(size1 == size2);
+        }
+
+        #endregion
+
+        #region Equality
+
+        public override bool Equals(object obj)
+        {
+            return obj is Size size
+                && Equals(size);
+        }
+
+        public bool Equals(Size other)
+        {
+            return Width == other.Width
+                && Height == other.Height;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 859600377;
+            hashCode = hashCode * -1521134295 + Width.GetHashCode();
+            hashCode = hashCode * -1521134295 + Height.GetHashCode();
+            return hashCode;
         }
 
         #endregion

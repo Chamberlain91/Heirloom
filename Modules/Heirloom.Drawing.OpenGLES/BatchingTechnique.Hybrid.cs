@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 using Heirloom.Math;
 
@@ -41,94 +42,100 @@ namespace Heirloom.Drawing.OpenGLES
                 _baseMesh = mesh;
             }
 
-            // Construct command
-            var command = _commandPool.Request();
-            command.Mesh = _copyMesh;
-            command.Transform = transform;
-            command.UVRect = uvRect;
-            command.Color = color;
+            //lock (_commandBuffer)
+            {
+                // Construct command
+                var command = _commandPool.Request();
+                command.Mesh = _copyMesh;
+                command.Transform = transform;
+                command.UVRect = uvRect;
+                command.Color = color;
 
-            // Add submission to buffer
-            _commandBuffer.Add(command);
+                // Add submission to buffer
+                _commandBuffer.Add(command);
+            }
 
             return true;
         }
 
         protected internal override void DrawBatch()
         {
-            for (var i = 0; i < _commandBuffer.Count; i++)
+            //lock (_commandBuffer)
             {
-                var command = _commandBuffer[i];
-
-                // Look into the future and determine how many instances exist
-                // todo: Can probably optimize by breaking loop in CountInstances at
-                // decision boundary (ie. 10 instances) and then when submitting scanning
-                // until invalid command is visited. This might improve performance as
-                // this look ahead will do less work. Perhaps tracking the instancing length
-                // in Submit() and avoiding a look-ahead all together.
-                var instances = CountInstances(i, command.Mesh);
-
-                // Are there enough instances detected to batch draw via instancing?
-                if (instances > 100) // an arbitrary number I picked
+                for (var i = 0; i < _commandBuffer.Count; i++)
                 {
-                    // If streaming had anything batched, draw that now to keep order of operations
-                    _streamingTechnique.DrawBatch();
+                    var command = _commandBuffer[i];
 
-                    // Submit instances
-                    for (var j = i; j < i + instances; j++)
+                    // Look into the future and determine how many instances exist
+                    // todo: Can probably optimize by breaking loop in CountInstances at
+                    // decision boundary (ie. 10 instances) and then when submitting scanning
+                    // until invalid command is visited. This might improve performance as
+                    // this look ahead will do less work. Perhaps tracking the instancing length
+                    // in Submit() and avoiding a look-ahead all together.
+                    var instances = CountInstances(i, command.Mesh);
+
+                    // Are there enough instances detected to batch draw via instancing?
+                    if (instances > 100) // an arbitrary number I picked
                     {
-                        var instance = _commandBuffer[j];
+                        // If streaming had anything batched, draw that now to keep order of operations
+                        _streamingTechnique.DrawBatch();
 
-                        // Submit draw command to instancing technique
-                        while (!_instancingTechnique.Submit(instance.Mesh, in instance.UVRect, in instance.Transform, in instance.Color))
+                        // Submit instances
+                        for (var j = i; j < i + instances; j++)
                         {
-                            // Draw previously batched instances and try again
-                            _instancingTechnique.DrawBatch();
+                            var instance = _commandBuffer[j];
+
+                            // Submit draw command to instancing technique
+                            while (!_instancingTechnique.Submit(instance.Mesh, in instance.UVRect, in instance.Transform, in instance.Color))
+                            {
+                                // Draw previously batched instances and try again
+                                _instancingTechnique.DrawBatch();
+                            }
+
+                            // We no longer need this command
+                            _commandPool.Recycle(instance);
                         }
 
-                        // We no longer need this command
-                        _commandPool.Recycle(instance);
+                        // Schedule to recycle mesh
+                        _meshRecycleSet.Add(command.Mesh);
+
+                        // Draw batched instances
+                        _instancingTechnique.DrawBatch();
+
+                        // Advance main loop by instances
+                        i += instances;
                     }
-
-                    // Schedule to recycle mesh
-                    _meshRecycleSet.Add(command.Mesh);
-
-                    // Draw batched instances
-                    _instancingTechnique.DrawBatch();
-
-                    // Advance main loop by instances
-                    i += instances;
-                }
-                else
-                {
-                    // Submit draw command to streaming technique
-                    while (!_streamingTechnique.Submit(command.Mesh, in command.UVRect, in command.Transform, in command.Color))
+                    else
                     {
-                        // Draw previously batched triangles and try again
-                        _streamingTechnique.DrawBatch();
+                        // Submit draw command to streaming technique
+                        while (!_streamingTechnique.Submit(command.Mesh, in command.UVRect, in command.Transform, in command.Color))
+                        {
+                            // Draw previously batched triangles and try again
+                            _streamingTechnique.DrawBatch();
+                        }
+
+                        // Schedule to recycle mesh
+                        _meshRecycleSet.Add(command.Mesh);
+
+                        // We no longer need this command
+                        _commandPool.Recycle(command);
                     }
-
-                    // Schedule to recycle mesh
-                    _meshRecycleSet.Add(command.Mesh);
-
-                    // We no longer need this command
-                    _commandPool.Recycle(command);
                 }
+
+                // Draw batched triangles
+                _streamingTechnique.DrawBatch();
+
+                // Recycle meshes for future use
+                foreach (var mesh in _meshRecycleSet)
+                {
+                    _meshPool.Recycle(mesh);
+                    mesh.Clear();
+                }
+
+                // Clear commands and recycle set
+                _meshRecycleSet.Clear();
+                _commandBuffer.Clear();
             }
-
-            // Draw batched triangles
-            _streamingTechnique.DrawBatch();
-
-            // Recycle meshes for future use
-            foreach (var mesh in _meshRecycleSet)
-            {
-                _meshPool.Recycle(mesh);
-                mesh.Clear();
-            }
-
-            // Clear commands and recycle set
-            _meshRecycleSet.Clear();
-            _commandBuffer.Clear();
 
             // Clear known mesh
             _baseMeshVersion = 0;
@@ -140,14 +147,7 @@ namespace Heirloom.Drawing.OpenGLES
             TriCount = _instancingTechnique.TriCount + _streamingTechnique.TriCount;
         }
 
-        internal override void ResetCounts()
-        {
-            // Reset each sub technique
-            _instancingTechnique.ResetCounts();
-            _streamingTechnique.ResetCounts();
-            base.ResetCounts();
-        }
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private int CountInstances(int i, Mesh mesh)
         {
             var instances = 1;
@@ -158,6 +158,14 @@ namespace Heirloom.Drawing.OpenGLES
             }
 
             return instances;
+        }
+
+        internal override void ResetCounts()
+        {
+            // Reset each sub technique
+            _instancingTechnique.ResetCounts();
+            _streamingTechnique.ResetCounts();
+            base.ResetCounts();
         }
 
         private sealed class Command

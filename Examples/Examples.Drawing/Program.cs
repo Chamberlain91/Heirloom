@@ -39,10 +39,7 @@ namespace Examples.Drawing
             };
 
             // Create window
-            Window = new Window("Heirloom - Drawing Examples", MultisampleQuality.High);
-            Window.Size = (1280, 720);
-
-            // 
+            Window = new Window("Heirloom - Drawing Examples", (1280, 720), MultisampleQuality.High);
             Window.Graphics.Performance.OverlayMode = PerformanceOverlayMode.Simple;
             Window.IsResizable = false;
 

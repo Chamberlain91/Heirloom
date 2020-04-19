@@ -5,17 +5,17 @@
 <small>**Internals Visible To**: [Heirloom.Drawing.OpenGLES](../Heirloom.Drawing.OpenGLES/Heirloom.Drawing.OpenGLES.md), [Heirloom.Desktop](../Heirloom.Desktop/Heirloom.Desktop.md)</small>  
 <small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
-## Shader (Sealed Class)
+## Shader (Abstract Class)
 <small>**Namespace**: Heirloom.Drawing</small>  
 <small>**Interfaces**: IDisposable</small>  
 
 Provides GLSL shader support for custom image effects and other visual processing.
 
-| Properties               | Summary                                                                             |
-|--------------------------|-------------------------------------------------------------------------------------|
-| [Name](#NAM5943D12B)     | The name of the shader (composed from names of input files) for debugging purposes. |
-| [Uniforms](#UNI9C71E6B7) | Enumerates the uniforms defined in this shader.                                     |
-| [Default](#DEFCF6EDD47)  | Gets the default (ie, "no effect") shader.                                          |
+| Properties               | Summary                                         |
+|--------------------------|-------------------------------------------------|
+| [Paths](#PATAFE06CCE)    | The paths used to create this shader object.    |
+| [Uniforms](#UNI9C71E6B7) | Enumerates the uniforms defined in this shader. |
+| [Default](#DEFCF6EDD47)  | Gets the default (ie, "no effect") shader.      |
 
 | Methods                       | Summary                                     |
 |-------------------------------|---------------------------------------------|
@@ -29,15 +29,19 @@ Provides GLSL shader support for custom image effects and other visual processin
 
 ### Constructors
 
-#### Shader(params string paths)
+#### Shader(string path, params [Shader.Define[]](Heirloom.Drawing.Shader.Define.md) defines)
+
+#### Shader(string path1, string path2, params [Shader.Define[]](Heirloom.Drawing.Shader.Define.md) defines)
+
+#### Shader(string paths, params [Shader.Define[]](Heirloom.Drawing.Shader.Define.md) defines)
 
 ### Properties
 
-#### <a name="NAM5943D12B"></a>Name : string
+#### <a name="PATAFE06CCE"></a>Paths : IReadOnlyList\<string>
 
 <small>`Read Only`</small>
 
-The name of the shader (composed from names of input files) for debugging purposes.
+The paths used to create this shader object.
 
 #### <a name="UNI9C71E6B7"></a>Uniforms : IEnumerable\<UniformInfo>
 
@@ -54,18 +58,23 @@ Gets the default (ie, "no effect") shader.
 ### Methods
 
 #### <a name="SET888E387E"></a>SetUniform(string name, float arr) : void
+<small>`Protected`</small>
 
 
 #### <a name="SET62D3E459"></a>SetUniform(string name, int arr) : void
+<small>`Protected`</small>
 
 
 #### <a name="SET7BB5BD90"></a>SetUniform(string name, uint arr) : void
+<small>`Protected`</small>
 
 
 #### <a name="SET5E636ABC"></a>SetUniform(string name, bool arr) : void
+<small>`Protected`</small>
 
 
 #### <a name="SETB88E5AFC"></a>SetUniform<T>(string name, T value) : void
+<small>`Protected`</small>
 
 Updates one of the shader uniforms by name.
 
@@ -73,6 +82,7 @@ Updates one of the shader uniforms by name.
 <small>**value**: <param name="value">The value to assign to the uniform.</param></small>  
 
 #### <a name="SETDB9B094B"></a>SetUniform(string name, [ImageSource](Heirloom.Drawing.ImageSource.md) image) : void
+<small>`Protected`</small>
 
 Updates one of the shader uniforms by name.
 

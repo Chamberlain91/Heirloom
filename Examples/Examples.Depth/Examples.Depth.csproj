@@ -1,0 +1,127 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Files\Images\cardBack_blue5.png" />
+    <None Remove="Files\Images\cardClubs10.png" />
+    <None Remove="Files\Images\cardClubs2.png" />
+    <None Remove="Files\Images\cardClubs3.png" />
+    <None Remove="Files\Images\cardClubs4.png" />
+    <None Remove="Files\Images\cardClubs5.png" />
+    <None Remove="Files\Images\cardClubs6.png" />
+    <None Remove="Files\Images\cardClubs7.png" />
+    <None Remove="Files\Images\cardClubs8.png" />
+    <None Remove="Files\Images\cardClubs9.png" />
+    <None Remove="Files\Images\cardClubsA.png" />
+    <None Remove="Files\Images\cardClubsJ.png" />
+    <None Remove="Files\Images\cardClubsK.png" />
+    <None Remove="Files\Images\cardClubsQ.png" />
+    <None Remove="Files\Images\cardDiamonds10.png" />
+    <None Remove="Files\Images\cardDiamonds2.png" />
+    <None Remove="Files\Images\cardDiamonds3.png" />
+    <None Remove="Files\Images\cardDiamonds4.png" />
+    <None Remove="Files\Images\cardDiamonds5.png" />
+    <None Remove="Files\Images\cardDiamonds6.png" />
+    <None Remove="Files\Images\cardDiamonds7.png" />
+    <None Remove="Files\Images\cardDiamonds8.png" />
+    <None Remove="Files\Images\cardDiamonds9.png" />
+    <None Remove="Files\Images\cardDiamondsA.png" />
+    <None Remove="Files\Images\cardDiamondsJ.png" />
+    <None Remove="Files\Images\cardDiamondsK.png" />
+    <None Remove="Files\Images\cardDiamondsQ.png" />
+    <None Remove="Files\Images\cardHearts10.png" />
+    <None Remove="Files\Images\cardHearts2.png" />
+    <None Remove="Files\Images\cardHearts3.png" />
+    <None Remove="Files\Images\cardHearts4.png" />
+    <None Remove="Files\Images\cardHearts5.png" />
+    <None Remove="Files\Images\cardHearts6.png" />
+    <None Remove="Files\Images\cardHearts7.png" />
+    <None Remove="Files\Images\cardHearts8.png" />
+    <None Remove="Files\Images\cardHearts9.png" />
+    <None Remove="Files\Images\cardHeartsA.png" />
+    <None Remove="Files\Images\cardHeartsJ.png" />
+    <None Remove="Files\Images\cardHeartsK.png" />
+    <None Remove="Files\Images\cardHeartsQ.png" />
+    <None Remove="Files\Images\cardJoker.png" />
+    <None Remove="Files\Images\cardSpades10.png" />
+    <None Remove="Files\Images\cardSpades2.png" />
+    <None Remove="Files\Images\cardSpades3.png" />
+    <None Remove="Files\Images\cardSpades4.png" />
+    <None Remove="Files\Images\cardSpades5.png" />
+    <None Remove="Files\Images\cardSpades6.png" />
+    <None Remove="Files\Images\cardSpades7.png" />
+    <None Remove="Files\Images\cardSpades8.png" />
+    <None Remove="Files\Images\cardSpades9.png" />
+    <None Remove="Files\Images\cardSpadesA.png" />
+    <None Remove="Files\Images\cardSpadesJ.png" />
+    <None Remove="Files\Images\cardSpadesK.png" />
+    <None Remove="Files\Images\cardSpadesQ.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Files\Images\cardBack_blue5.png" />
+    <EmbeddedResource Include="Files\Images\cardClubs10.png" />
+    <EmbeddedResource Include="Files\Images\cardClubs2.png" />
+    <EmbeddedResource Include="Files\Images\cardClubs3.png" />
+    <EmbeddedResource Include="Files\Images\cardClubs4.png" />
+    <EmbeddedResource Include="Files\Images\cardClubs5.png" />
+    <EmbeddedResource Include="Files\Images\cardClubs6.png" />
+    <EmbeddedResource Include="Files\Images\cardClubs7.png" />
+    <EmbeddedResource Include="Files\Images\cardClubs8.png" />
+    <EmbeddedResource Include="Files\Images\cardClubs9.png" />
+    <EmbeddedResource Include="Files\Images\cardClubsA.png" />
+    <EmbeddedResource Include="Files\Images\cardClubsJ.png" />
+    <EmbeddedResource Include="Files\Images\cardClubsK.png" />
+    <EmbeddedResource Include="Files\Images\cardClubsQ.png" />
+    <EmbeddedResource Include="Files\Images\cardDiamonds10.png" />
+    <EmbeddedResource Include="Files\Images\cardDiamonds2.png" />
+    <EmbeddedResource Include="Files\Images\cardDiamonds3.png" />
+    <EmbeddedResource Include="Files\Images\cardDiamonds4.png" />
+    <EmbeddedResource Include="Files\Images\cardDiamonds5.png" />
+    <EmbeddedResource Include="Files\Images\cardDiamonds6.png" />
+    <EmbeddedResource Include="Files\Images\cardDiamonds7.png" />
+    <EmbeddedResource Include="Files\Images\cardDiamonds8.png" />
+    <EmbeddedResource Include="Files\Images\cardDiamonds9.png" />
+    <EmbeddedResource Include="Files\Images\cardDiamondsA.png" />
+    <EmbeddedResource Include="Files\Images\cardDiamondsJ.png" />
+    <EmbeddedResource Include="Files\Images\cardDiamondsK.png" />
+    <EmbeddedResource Include="Files\Images\cardDiamondsQ.png" />
+    <EmbeddedResource Include="Files\Images\cardHearts10.png" />
+    <EmbeddedResource Include="Files\Images\cardHearts2.png" />
+    <EmbeddedResource Include="Files\Images\cardHearts3.png" />
+    <EmbeddedResource Include="Files\Images\cardHearts4.png" />
+    <EmbeddedResource Include="Files\Images\cardHearts5.png" />
+    <EmbeddedResource Include="Files\Images\cardHearts6.png" />
+    <EmbeddedResource Include="Files\Images\cardHearts7.png" />
+    <EmbeddedResource Include="Files\Images\cardHearts8.png" />
+    <EmbeddedResource Include="Files\Images\cardHearts9.png" />
+    <EmbeddedResource Include="Files\Images\cardHeartsA.png" />
+    <EmbeddedResource Include="Files\Images\cardHeartsJ.png" />
+    <EmbeddedResource Include="Files\Images\cardHeartsK.png" />
+    <EmbeddedResource Include="Files\Images\cardHeartsQ.png" />
+    <EmbeddedResource Include="Files\Images\cardJoker.png" />
+    <EmbeddedResource Include="Files\Images\cardSpades10.png" />
+    <EmbeddedResource Include="Files\Images\cardSpades2.png" />
+    <EmbeddedResource Include="Files\Images\cardSpades3.png" />
+    <EmbeddedResource Include="Files\Images\cardSpades4.png" />
+    <EmbeddedResource Include="Files\Images\cardSpades5.png" />
+    <EmbeddedResource Include="Files\Images\cardSpades6.png" />
+    <EmbeddedResource Include="Files\Images\cardSpades7.png" />
+    <EmbeddedResource Include="Files\Images\cardSpades8.png" />
+    <EmbeddedResource Include="Files\Images\cardSpades9.png" />
+    <EmbeddedResource Include="Files\Images\cardSpadesA.png" />
+    <EmbeddedResource Include="Files\Images\cardSpadesJ.png" />
+    <EmbeddedResource Include="Files\Images\cardSpadesK.png" />
+    <EmbeddedResource Include="Files\Images\cardSpadesQ.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Heirloom.Collections\Heirloom.Collections.csproj" />
+    <ProjectReference Include="..\..\Modules\Heirloom.Desktop\Heirloom.Desktop.csproj" />
+  </ItemGroup>
+
+</Project>

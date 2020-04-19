@@ -6,6 +6,7 @@
 ## Range (Struct)
 <small>**Namespace**: Heirloom.Math</small>  
 <small>**Interfaces**: IEquatable\<Range></small>  
+<small>`DefaultMemberAttribute`</small>
 
 Represents a range of single-precision floating point numbers from `Heirloom.Math.Range.Min` to `Heirloom.Math.Range.Max`.
 
@@ -22,9 +23,11 @@ Represents a range of single-precision floating point numbers from `Heirloom.Mat
 | [Average](#AVE2099683) | Gets the mean of `Heirloom.Math.Range.Min` and `Heirloom.Math.Range.Max`.                                                                                     |
 | [Size](#SIZ9C9392F9)   | Gets the size of the range.                                                                                                                                   |
 | [IsValid](#ISVE38FCA8) | Gets a value that determines if the range is valid (ie, \<c> \<see cref="F:Heirloom.Math.Range.Max" /> &gt;= \<see cref="F:Heirloom.Math.Range.Min" />\</c>). |
+| [Item](#ITE8B5A2F95)   |                                                                                                                                                               |
 
 | Methods                     | Summary                                                          |
 |-----------------------------|------------------------------------------------------------------|
+| [Set](#SET612D856B)         | Sets the components of this range.                               |
 | [Contains](#CON86E7517D)    | Determines if this range contains the specified value.           |
 | [Overlaps](#OVE16A02ECD)    | Determines if this range overlaps another range.                 |
 | [Include](#INC1CBF6203)     | Mutate this range (by expansion) to include the specified value. |
@@ -97,7 +100,15 @@ Gets the size of the range.
 
 Gets a value that determines if the range is valid (ie, \<c> \<see cref="F:Heirloom.Math.Range.Max" /> &gt;= \<see cref="F:Heirloom.Math.Range.Min" />\</c>).
 
+#### <a name="ITE8B5A2F95"></a>Item : float
+
+
 ### Methods
+
+#### <a name="SET612D856B"></a>Set(float min, float max) : void
+
+Sets the components of this range.
+
 
 #### <a name="CON86E7517D"></a>Contains(in float x) : bool
 
