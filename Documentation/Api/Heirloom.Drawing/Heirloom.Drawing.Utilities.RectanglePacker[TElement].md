@@ -1,11 +1,12 @@
-# Heirloom.Drawing.OpenGLES
+# Heirloom.Drawing
 
 <small>**Framework**: .NETStandard,Version=v2.1</small>  
-<small>**Assembly**: [Heirloom.Drawing.OpenGLES](../Heirloom.Drawing.OpenGLES/Heirloom.Drawing.OpenGLES.md)</small>  
-<small>**Dependancies**: [Heirloom.Drawing](../Heirloom.Drawing/Heirloom.Drawing.md), [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.OpenGLES](../Heirloom.OpenGLES/Heirloom.OpenGLES.md)</small>  
+<small>**Assembly**: [Heirloom.Drawing](../Heirloom.Drawing/Heirloom.Drawing.md)</small>  
+<small>**Internals Visible To**: [Heirloom.Drawing.OpenGLES](../Heirloom.Drawing.OpenGLES/Heirloom.Drawing.OpenGLES.md), [Heirloom.Desktop](../Heirloom.Desktop/Heirloom.Desktop.md)</small>  
+<small>**Dependancies**: [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## RectanglePacker\<TElement> (Abstract Class)
-<small>**Namespace**: Heirloom.Drawing.OpenGLES.Utilities</small>  
+<small>**Namespace**: Heirloom.Drawing.Utilities</small>  
 
 | Properties               | Summary |
 |--------------------------|---------|

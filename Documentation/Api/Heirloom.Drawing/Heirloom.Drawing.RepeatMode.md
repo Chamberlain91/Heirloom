@@ -9,12 +9,14 @@
 <small>**Namespace**: Heirloom.Drawing</small>  
 <small>**Interfaces**: IComparable, IFormattable, IConvertible</small>  
 
+Represents the behaviour when sampling an image outside its natural bounds.
+
 ### Values
 
-#### Clamp
-<member name="F:Heirloom.Drawing.RepeatMode.Clamp">
+#### Blank
+<member name="F:Heirloom.Drawing.RepeatMode.Blank">
   <summary>
-            Sampling coordinates are clamped to image bounds.
+            Sampling coordinates outside image return transparent black.
             </summary>
 </member>
 
@@ -22,6 +24,13 @@
 <member name="F:Heirloom.Drawing.RepeatMode.Repeat">
   <summary>
             Sampling coordinates outside image bounds cause the image to be repeated.
+            </summary>
+</member>
+
+#### Clamp
+<member name="F:Heirloom.Drawing.RepeatMode.Clamp">
+  <summary>
+            Sampling coordinates are clamped to image bounds.
             </summary>
 </member>
 

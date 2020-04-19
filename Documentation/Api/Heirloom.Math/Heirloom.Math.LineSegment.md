@@ -17,6 +17,7 @@ Represents a line segment defined by two [Vector](Heirloom.Math.Vector.md).
 
 | Methods                         | Summary                                                            |
 |---------------------------------|--------------------------------------------------------------------|
+| [Set](#SET8316F6E2)             | Sets the components of this line segment.                          |
 | [GetPoint](#GETE0E17AE2)        | Gets a intermediate point along the line segment.                  |
 | [Intersects](#INT800903E6)      | Checks if this line segment intersects another.                    |
 | [Intersects](#INT61BB38B5)      | Checks if this line segment intersects another.                    |
@@ -52,6 +53,11 @@ A value to adjust the intersection tolerance to compensate for floating-point er
 #### LineSegment([Vector](Heirloom.Math.Vector.md) a, [Vector](Heirloom.Math.Vector.md) b)
 
 ### Methods
+
+#### <a name="SET8316F6E2"></a>Set(in [Vector](Heirloom.Math.Vector.md) a, in [Vector](Heirloom.Math.Vector.md) b) : void
+
+Sets the components of this line segment.
+
 
 #### <a name="GETE0E17AE2"></a>GetPoint(float t) : [Vector](Heirloom.Math.Vector.md)
 

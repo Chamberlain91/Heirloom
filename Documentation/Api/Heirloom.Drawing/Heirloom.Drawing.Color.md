@@ -46,6 +46,7 @@ Color encoded as 4 component floats.
 
 | Methods                  | Summary                                                                                                                                 |
 |--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| [Set](#SET2350E0FF)      | Sets the components of this color.                                                                                                      |
 | [ToHSV](#TOH917B084C)    | Extracts the HSV values from this color.                                                                                                |
 | [Parse](#PARC735922D)    | Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'. |
 | [TryParse](#TRY24767EF5) | Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'. |
@@ -176,6 +177,11 @@ Gets or sets the (HSV) saturation of this color.
 <small>`Static`, `Read Only`</small>
 
 ### Methods
+
+#### <a name="SET2350E0FF"></a>Set(float r, float g, float b, float a = 1) : void
+
+Sets the components of this color.
+
 
 #### <a name="TOH917B084C"></a>ToHSV(out float hue, out float saturation, out float value) : void
 

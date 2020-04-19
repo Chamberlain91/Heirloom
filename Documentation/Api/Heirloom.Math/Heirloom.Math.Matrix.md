@@ -30,6 +30,7 @@ A 2x3 transformation matrix.
 |-------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
 | [Multiply](#MULA01B3C26)            | Multiplies a vector against this matrix.                                                                                   |
 | [MultiplyVector](#MUL344EEFCB)      | Multiplies a vector against this matrix ignoring the translational components.                                             |
+| [Set](#SET2529304C)                 | Sets the components of this matrix.                                                                                        |
 | [SetScale](#SETB8F3AE82)            | Configures this matrix as a scaling matrix.                                                                                |
 | [SetShear](#SET1455197D)            | Configures this matrix as a shearing matrix.                                                                               |
 | [SetRotation](#SET629A8C2C)         | Configures this matrix as a rotation matrix.                                                                               |
@@ -113,6 +114,11 @@ Multiplies a vector against this matrix.
 #### <a name="MUL344EEFCB"></a>MultiplyVector(in [Vector](Heirloom.Math.Vector.md) v) : [Vector](Heirloom.Math.Vector.md)
 
 Multiplies a vector against this matrix ignoring the translational components.
+
+
+#### <a name="SET2529304C"></a>Set(float m0, float m1, float m2, float m3, float m4, float m5) : void
+
+Sets the components of this matrix.
 
 
 #### <a name="SETB8F3AE82"></a>SetScale(float sx, float sy) : void

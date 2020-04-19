@@ -6,6 +6,7 @@
 ## IntVector (Struct)
 <small>**Namespace**: Heirloom.Math</small>  
 <small>**Interfaces**: IEquatable\<IntVector></small>  
+<small>`DefaultMemberAttribute`</small>
 
 Represents a vector with two integer values.
 
@@ -25,6 +26,7 @@ Represents a vector with two integer values.
 | [Length](#LEN6B366D7E)        | Gets the magnitude of this vector.         |
 | [LengthSquared](#LEN3BB93C25) | Gets the squared magnitude of this vector. |
 | [Perpendicular](#PER94285E6A) | Gets a perpendicular copy of this vector.  |
+| [Item](#ITE8B5A2F95)          |                                            |
 
 | Methods                           | Summary                                                                                                 |
 |-----------------------------------|---------------------------------------------------------------------------------------------------------|
@@ -132,6 +134,9 @@ Gets the squared magnitude of this vector.
 <small>`Read Only`</small>
 
 Gets a perpendicular copy of this vector.
+
+#### <a name="ITE8B5A2F95"></a>Item : int
+
 
 ### Methods
 

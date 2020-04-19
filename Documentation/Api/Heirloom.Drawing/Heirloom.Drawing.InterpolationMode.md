@@ -9,6 +9,8 @@
 <small>**Namespace**: Heirloom.Drawing</small>  
 <small>**Interfaces**: IComparable, IFormattable, IConvertible</small>  
 
+Represents the behaviour when sampling an image on a non-integer coordinates.
+
 ### Values
 
 #### Nearest

@@ -2,7 +2,7 @@
 
 <small>**Framework**: .NETStandard,Version=v2.1</small>  
 <small>**Assembly**: [Heirloom.Desktop](../Heirloom.Desktop/Heirloom.Desktop.md)</small>  
-<small>**Dependancies**: [Heirloom.Drawing](../Heirloom.Drawing/Heirloom.Drawing.md), [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.Drawing.OpenGLES](../Heirloom.Drawing.OpenGLES/Heirloom.Drawing.OpenGLES.md), [Heirloom.OpenGLES](../Heirloom.OpenGLES/Heirloom.OpenGLES.md)</small>  
+<small>**Dependancies**: [Heirloom.Drawing](../Heirloom.Drawing/Heirloom.Drawing.md), [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.Drawing.OpenGLES](../Heirloom.Drawing.OpenGLES/Heirloom.Drawing.OpenGLES.md), [Heirloom.OpenGLES](../Heirloom.OpenGLES/Heirloom.OpenGLES.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## Window (Class)
 <small>**Namespace**: Heirloom.Desktop</small>  
@@ -13,7 +13,6 @@
 | [IsDisposed](#ISD61874DA9)                | Gets a value that determines if this window been disposed.                                       |
 | [IsClosed](#ISC5A0C7626)                  | Gets a value that determines if this window been closed.                                         |
 | [HasTransparentFramebuffer](#HAS8E497DA9) | Gets a value that determines if this window supports a transparent framebuffer.                  |
-| [Multisample](#MULD8F2787)                | Gets the multisampling level configured on this window.                                          |
 | [Graphics](#GRAD884C619)                  | Gets the graphics context associated with this window.                                           |
 | [IsVisible](#ISV702E9010)                 | Gets a value that determines if the window is visible.                                           |
 | [IsDecorated](#ISDC15C19C1)               | Gets a value that determines if the window is decorated.                                         |
@@ -45,47 +44,48 @@
 | [Closing](#CLO6E48E3EB)             |         |
 | [Closed](#CLO4624E582)              |         |
 
-| Methods                               | Summary                                                                            |
-|---------------------------------------|------------------------------------------------------------------------------------|
-| [Dispose](#DISFDE72264)               |                                                                                    |
-| [Dispose](#DIS4E62D250)               |                                                                                    |
-| [OnWindowResized](#ONW7DF3BE07)       |                                                                                    |
-| [OnFramebufferResized](#ONFB8A80CBE)  |                                                                                    |
-| [OnContentScaleChanged](#ONC23CF4CE6) |                                                                                    |
-| [OnWindowMoved](#ONW215EF2BA)         |                                                                                    |
-| [OnKeyPressed](#ONKA5B288DA)          |                                                                                    |
-| [OnCharTyped](#ONC36938009)           |                                                                                    |
-| [OnMousePressed](#ONMEEB7474C)        |                                                                                    |
-| [OnMouseMove](#ONMB2BE1B4B)           |                                                                                    |
-| [OnMouseScroll](#ONM7CADC1BF)         |                                                                                    |
-| [OnClosing](#ONC8411C28B)             |                                                                                    |
-| [OnClosed](#ONCC72060AC)              |                                                                                    |
-| [Show](#SHO1079DE88)                  |                                                                                    |
-| [Hide](#HID3FBBD103)                  |                                                                                    |
-| [Close](#CLO859B0F7D)                 |                                                                                    |
-| [Focus](#FOC5146D98B)                 |                                                                                    |
-| [Maximize](#MAXEC7F5085)              | Sets the window to a maximized state.                                              |
-| [Minimize](#MINDD275FAB)              | Sets the window to a minimized state.                                              |
-| [Restore](#RESFDC25B1B)               | Sets the window to a default size state.                                           |
-| [SetFullscreen](#SETFFC84E20)         | Sets the window to fullscreen using the nearest monitor and existing video mode.   |
-| [SetFullscreen](#SETFA033BCA)         | Sets the window to fullscreen using the nearest monitor and specified video mode.  |
-| [SetFullscreen](#SET7FFA35E3)         | Sets the window to fullscreen using the specified monitor and existing video mode. |
-| [SetFullscreen](#SET784B1995)         | Sets the window to fullscreen using the specified monitor and video mode.          |
-| [MoveToCenter](#MOVB25EA6CC)          | Moves the window to the center of the nearest monitor.                             |
-| [MoveToCenter](#MOV2D6F769B)          | Moves the window to the center of the specified monitor.                           |
-| [SetIcons](#SET2CD64DF9)              |                                                                                    |
-| [SetIcon](#SET54FD11A3)               | Assigns a new icon image to the window.                                            |
-| [SetCursor](#SETE04E5BD2)             | Changes the appearance of the cursor on this window.                               |
-| [SetCursor](#SETB32EF7A3)             | Changes the appearance of the cursor on this window.                               |
-| [SetCursor](#SET691F1218)             | Changes the appearance of the cursor on this window.                               |
+| Methods                               | Summary                                                                             |
+|---------------------------------------|-------------------------------------------------------------------------------------|
+| [Dispose](#DIS4E62D250)               |                                                                                     |
+| [OnWindowResized](#ONW7DF3BE07)       |                                                                                     |
+| [OnFramebufferResized](#ONFB8A80CBE)  |                                                                                     |
+| [OnContentScaleChanged](#ONC23CF4CE6) |                                                                                     |
+| [OnWindowMoved](#ONW215EF2BA)         |                                                                                     |
+| [OnKeyPressed](#ONKA5B288DA)          |                                                                                     |
+| [OnCharTyped](#ONC36938009)           |                                                                                     |
+| [OnMousePressed](#ONMEEB7474C)        |                                                                                     |
+| [OnMouseMove](#ONMB2BE1B4B)           |                                                                                     |
+| [OnMouseScroll](#ONM7CADC1BF)         |                                                                                     |
+| [OnClosing](#ONC8411C28B)             |                                                                                     |
+| [OnClosed](#ONCC72060AC)              |                                                                                     |
+| [Show](#SHO1079DE88)                  |                                                                                     |
+| [Hide](#HID3FBBD103)                  |                                                                                     |
+| [Close](#CLO859B0F7D)                 |                                                                                     |
+| [Focus](#FOC5146D98B)                 |                                                                                     |
+| [Maximize](#MAXEC7F5085)              | Sets the window to a maximized state.                                               |
+| [Minimize](#MINDD275FAB)              | Sets the window to a minimized state.                                               |
+| [Restore](#RESFDC25B1B)               | Sets the window to a default size state.                                            |
+| [BeginFullscreen](#BEGE1BF84A7)       | Puts the window into fullscreen using the nearest monitor and existing video mode.  |
+| [BeginFullscreen](#BEGFD5AF4EC)       | Sets the window to fullscreen using the specified monitor and existing video mode.  |
+| [BeginFullscreen](#BEG7FAA64F1)       | Puts the window into fullscreen using the nearest monitor and specified video mode. |
+| [BeginFullscreen](#BEGFB64FA70)       | Sets the window to fullscreen using the specified monitor and video mode.           |
+| [EndFullscreen](#END5EAE2357)         | Disables fullscreen mode.                                                           |
+| [MoveToCenter](#MOVB25EA6CC)          | Moves the window to the center of the nearest monitor.                              |
+| [MoveToCenter](#MOV2D6F769B)          | Moves the window to the center of the specified monitor.                            |
+| [SetIcons](#SET2CD64DF9)              |                                                                                     |
+| [SetIcon](#SET54FD11A3)               | Assigns a new icon image to the window.                                             |
+| [SetCursor](#SETE04E5BD2)             | Changes the appearance of the cursor on this window.                                |
+| [SetCursor](#SETB32EF7A3)             | Changes the appearance of the cursor on this window.                                |
+| [SetCursor](#SET691F1218)             | Changes the appearance of the cursor on this window.                                |
+| [Dispose](#DISFDE72264)               |                                                                                     |
 
 ### Constructors
 
-#### Window(string title, bool vsync = True, bool transparent = False)
+#### Window(string title, [MultisampleQuality](../Heirloom.Drawing/Heirloom.Drawing.MultisampleQuality.md) multisample = None, bool vsync = True, bool transparent = False)
 
 Constructs a new window.
 
-#### Window(string title, [MultisampleQuality](../Heirloom.Drawing/Heirloom.Drawing.MultisampleQuality.md) multisample, bool vsync = True, bool transparent = False)
+#### Window(string title, [IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md) size, [MultisampleQuality](../Heirloom.Drawing/Heirloom.Drawing.MultisampleQuality.md) multisample = None, bool vsync = True, bool transparent = False)
 
 Constructs a new window.
 
@@ -113,12 +113,6 @@ Gets a value that determines if this window been closed.
 <small>`Read Only`</small>
 
 Gets a value that determines if this window supports a transparent framebuffer.
-
-#### <a name="MULD8F2787"></a>Multisample : [MultisampleQuality](../Heirloom.Drawing/Heirloom.Drawing.MultisampleQuality.md)
-
-<small>`Read Only`</small>
-
-Gets the multisampling level configured on this window.
 
 #### <a name="GRAD884C619"></a>Graphics : [Graphics](../Heirloom.Drawing/Heirloom.Drawing.Graphics.md)
 
@@ -214,10 +208,6 @@ Gets this windows icon set.
 #### Closed
 ### Methods
 
-#### <a name="DISFDE72264"></a>Dispose(bool disposeManaged) : void
-<small>`Virtual`, `Protected`</small>
-
-
 #### <a name="DIS4E62D250"></a>Dispose() : void
 
 #### <a name="ONW7DF3BE07"></a>OnWindowResized(int w, int h) : void
@@ -282,24 +272,28 @@ Sets the window to a minimized state.
 
 Sets the window to a default size state.
 
-#### <a name="SETFFC84E20"></a>SetFullscreen() : void
+#### <a name="BEGE1BF84A7"></a>BeginFullscreen() : void
 
-Sets the window to fullscreen using the nearest monitor and existing video mode.
+Puts the window into fullscreen using the nearest monitor and existing video mode.
 
-#### <a name="SETFA033BCA"></a>SetFullscreen([VideoMode](Heirloom.Desktop.VideoMode.md) mode) : void
-
-Sets the window to fullscreen using the nearest monitor and specified video mode.
-
-
-#### <a name="SET7FFA35E3"></a>SetFullscreen([Monitor](Heirloom.Desktop.Monitor.md) monitor) : void
+#### <a name="BEGFD5AF4EC"></a>BeginFullscreen([Monitor](Heirloom.Desktop.Monitor.md) monitor) : void
 
 Sets the window to fullscreen using the specified monitor and existing video mode.
 
 
-#### <a name="SET784B1995"></a>SetFullscreen([Monitor](Heirloom.Desktop.Monitor.md) monitor, [VideoMode](Heirloom.Desktop.VideoMode.md) mode) : void
+#### <a name="BEG7FAA64F1"></a>BeginFullscreen([VideoMode](Heirloom.Desktop.VideoMode.md) mode) : void
+
+Puts the window into fullscreen using the nearest monitor and specified video mode.
+
+
+#### <a name="BEGFB64FA70"></a>BeginFullscreen([VideoMode](Heirloom.Desktop.VideoMode.md) mode, [Monitor](Heirloom.Desktop.Monitor.md) monitor) : void
 
 Sets the window to fullscreen using the specified monitor and video mode.
 
+
+#### <a name="END5EAE2357"></a>EndFullscreen() : void
+
+Disables fullscreen mode.
 
 #### <a name="MOVB25EA6CC"></a>MoveToCenter() : void
 
@@ -331,5 +325,9 @@ Changes the appearance of the cursor on this window.
 #### <a name="SET691F1218"></a>SetCursor([Image](../Heirloom.Drawing/Heirloom.Drawing.Image.md) cursor, [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) hotspot) : void
 
 Changes the appearance of the cursor on this window.
+
+
+#### <a name="DISFDE72264"></a>Dispose(bool disposeManaged) : void
+<small>`Virtual`, `Protected`</small>
 
 

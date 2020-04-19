@@ -21,6 +21,7 @@ Represents a circle via center position and radius.
 
 | Methods                         | Summary                                                               |
 |---------------------------------|-----------------------------------------------------------------------|
+| [Set](#SET77E3C02E)             | Sets the components of this circle.                                   |
 | [ToPolygon](#TOP74E314EF)       | Create a polygon from this rectangle.                                 |
 | [GetClosestPoint](#GETDAC09B5B) | Gets the nearest point on the circle to the specified point.          |
 | [Contains](#CON33387C1A)        | Determines if the specified point is contained by the circle.         |
@@ -66,6 +67,11 @@ Gets the area of the circle.
 Gets the bounding rectangle of this circle.
 
 ### Methods
+
+#### <a name="SET77E3C02E"></a>Set(in [Vector](Heirloom.Math.Vector.md) position, float radius) : void
+
+Sets the components of this circle.
+
 
 #### <a name="TOP74E314EF"></a>ToPolygon() : [Polygon](Heirloom.Math.Polygon.md)
 

@@ -8,15 +8,17 @@
 ## UniformInfo (Sealed Class)
 <small>**Namespace**: Heirloom.Drawing</small>  
 
-| Properties                 | Summary                   |
-|----------------------------|---------------------------|
-| [Name](#NAM5943D12B)       |                           |
-| [Type](#TYP233312DE)       |                           |
-| [Dimensions](#DIMA3278683) |                           |
-| [ArraySize](#ARRE1891CFE)  |                           |
-| [IsVector](#ISV79DF967F)   | Is this uniform a vector? |
-| [IsMatrix](#ISM973708CD)   | Is this uniform a matrix? |
-| [IsArray](#ISAE8254ADF)    | Is this uniform an array? |
+Contains information of a uniform from a [Shader](Heirloom.Drawing.Shader.md).
+
+| Properties                 | Summary                         |
+|----------------------------|---------------------------------|
+| [Name](#NAM5943D12B)       | The name of this uniform.       |
+| [Type](#TYP233312DE)       | The type of this uniform.       |
+| [Dimensions](#DIMA3278683) | The dimensions of this uniform. |
+| [ArraySize](#ARRE1891CFE)  | The array size of this uniform. |
+| [IsVector](#ISV79DF967F)   | Is this uniform a vector?       |
+| [IsMatrix](#ISM973708CD)   | Is this uniform a matrix?       |
+| [IsArray](#ISAE8254ADF)    | Is this uniform an array?       |
 
 ### Constructors
 
@@ -28,17 +30,25 @@
 
 <small>`Read Only`</small>
 
+The name of this uniform.
+
 #### <a name="TYP233312DE"></a>Type : [UniformType](Heirloom.Drawing.UniformType.md)
 
 <small>`Read Only`</small>
+
+The type of this uniform.
 
 #### <a name="DIMA3278683"></a>Dimensions : [IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md)
 
 <small>`Read Only`</small>
 
+The dimensions of this uniform.
+
 #### <a name="ARRE1891CFE"></a>ArraySize : int
 
 <small>`Read Only`</small>
+
+The array size of this uniform.
 
 #### <a name="ISV79DF967F"></a>IsVector : bool
 

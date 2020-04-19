@@ -6,6 +6,7 @@
 ## Size (Struct)
 <small>**Namespace**: Heirloom.Math</small>  
 <small>**Interfaces**: IEquatable\<Size>, IComparable\<Size></small>  
+<small>`DefaultMemberAttribute`</small>
 
 | Fields                  | Summary                                  |
 |-------------------------|------------------------------------------|
@@ -20,11 +21,13 @@
 |------------------------|--------------------------------------------------------------------|
 | [Area](#ARE9F5286F)    | Gets the area of this size as if it was a rectangle at the origin. |
 | [Aspect](#ASP31635C5A) | Gets the aspect ratio of this size.                                |
+| [Item](#ITE8B5A2F95)   |                                                                    |
 
-| Methods                     | Summary |
-|-----------------------------|---------|
-| [Deconstruct](#DEC9B367A2C) |         |
-| [CompareTo](#COM474EB48B)   |         |
+| Methods                     | Summary                           |
+|-----------------------------|-----------------------------------|
+| [Set](#SET2CE64B1C)         | Sets the components of this size. |
+| [Deconstruct](#DEC9B367A2C) |                                   |
+| [CompareTo](#COM474EB48B)   |                                   |
 
 ### Fields
 
@@ -94,7 +97,15 @@ Gets the area of this size as if it was a rectangle at the origin.
 
 Gets the aspect ratio of this size.
 
+#### <a name="ITE8B5A2F95"></a>Item : float
+
+
 ### Methods
+
+#### <a name="SET2CE64B1C"></a>Set(float w, float h) : void
+
+Sets the components of this size.
+
 
 #### <a name="DEC9B367A2C"></a>Deconstruct(out float width, out float height) : void
 
