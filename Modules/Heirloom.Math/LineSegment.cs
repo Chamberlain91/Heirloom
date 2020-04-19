@@ -34,6 +34,16 @@ namespace Heirloom.Math
         #endregion
 
         /// <summary>
+        /// Sets the components of this line segment.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Set(in Vector a, in Vector b)
+        {
+            A = a;
+            B = b;
+        }
+
+        /// <summary>
         /// Gets a intermediate point along the line segment.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

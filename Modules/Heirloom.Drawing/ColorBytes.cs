@@ -101,6 +101,17 @@ namespace Heirloom.Drawing
 
         #endregion
 
+        /// <summary>
+        /// Sets the components of this color.
+        /// </summary>
+        public void Set(byte r, byte g, byte b, byte a = 0xFF)
+        {
+            R = r;
+            G = g;
+            B = b;
+            A = a;
+        }
+
         #region Parse
 
         /// <summary>
@@ -350,15 +361,16 @@ namespace Heirloom.Drawing
 
         public override bool Equals(object obj)
         {
-            return obj is ColorBytes && Equals((ColorBytes) obj);
+            return obj is ColorBytes bytes
+                && Equals(bytes);
         }
 
         public bool Equals(ColorBytes other)
         {
-            return R == other.R &&
-                   G == other.G &&
-                   B == other.B &&
-                   A == other.A;
+            return R == other.R
+                && G == other.G
+                && B == other.B
+                && A == other.A;
         }
 
         public override int GetHashCode()

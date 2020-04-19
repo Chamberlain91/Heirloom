@@ -313,6 +313,20 @@ namespace Heirloom.Math
         #region Set Matrix
 
         /// <summary>
+        /// Sets the components of this matrix.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Set(float m0, float m1, float m2, float m3, float m4, float m5)
+        {
+            M0 = m0;
+            M1 = m1;
+            M2 = m2;
+            M3 = m3;
+            M4 = m4;
+            M5 = m5;
+        }
+
+        /// <summary>
         /// Configures this matrix as a scaling matrix.
         /// </summary>
         public void SetScale(float sx, float sy)

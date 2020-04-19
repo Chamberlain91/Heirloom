@@ -59,6 +59,16 @@ namespace Heirloom.Math
         #endregion
 
         /// <summary>
+        /// Sets the components of this circle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Set(in Vector position, float radius)
+        {
+            Position = position;
+            Radius = radius;
+        }
+
+        /// <summary>
         /// Create a polygon from this rectangle.
         /// </summary>
         public Polygon ToPolygon()

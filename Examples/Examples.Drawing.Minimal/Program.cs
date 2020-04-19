@@ -14,6 +14,8 @@ namespace Examples.Minimal
         {
             Application.Run(() =>
             {
+                IntVector a;
+                a.
                 // Create window
                 var window = new Window("Minimal Example", (400, 200)) { IsResizable = false };
 

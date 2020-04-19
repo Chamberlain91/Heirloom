@@ -181,6 +181,18 @@ namespace Heirloom.Math
         #endregion
 
         /// <summary>
+        /// Sets the components of this rectangle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Set(int x, int y, int w, int h)
+        {
+            X = x;
+            Y = y;
+            Width = w;
+            Height = h;
+        }
+
+        /// <summary>
         /// Create a polygon from this rectangle.
         /// </summary>
         public Polygon ToPolygon()

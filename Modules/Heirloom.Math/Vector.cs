@@ -121,11 +121,15 @@ namespace Heirloom.Math
 
         #endregion
 
+        #region Indexer
+
         public float this[int i]
         {
             get => _components[i];
             set => _components[i] = value;
         }
+
+        #endregion
 
         /// <summary>
         /// Sets the components of this vector.

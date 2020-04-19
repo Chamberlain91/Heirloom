@@ -78,7 +78,18 @@ namespace Heirloom.Math
             }
         }
 
-        #endregion
+        #endregion 
+
+        /// <summary>
+        /// Sets each point of the triangle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Set(in Vector a, in Vector b, in Vector c)
+        {
+            A = a;
+            B = b;
+            C = c;
+        }
 
         /// <summary>
         /// Create a polygon from this triangle.

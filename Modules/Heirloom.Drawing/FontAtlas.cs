@@ -16,9 +16,6 @@ namespace Heirloom.Drawing
         private readonly Dictionary<UnicodeCharacter, Image> _images = new Dictionary<UnicodeCharacter, Image>();
         private readonly Dictionary<UnicodeCharacter, Glyph> _glyphs;
 
-        // TODO: Keep a glyph life time counter, to know when its safe to recycle space.
-        // TODO: Keep track of recycled space, if too fragmented, reconstruct atlas.
-
         public FontAtlas(Font font, int size)
             : this(font, size, new[] {
                 UnicodeRange.BasicLatin,

@@ -103,7 +103,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Enumerates the uniforms defined in this shader.
         /// </summary>
-        public IEnumerable<UniformInfo> Uniforms => UniformStorageMap.Values.Select(x => x.Info);
+        protected IEnumerable<UniformInfo> Uniforms => UniformStorageMap.Values.Select(x => x.Info);
 
         #endregion
 

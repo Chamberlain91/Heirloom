@@ -31,7 +31,17 @@ namespace Heirloom.Math
             Direction = direction;
         }
 
-        #endregion
+        #endregion 
+
+        /// <summary>
+        /// Sets the components of this size.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Set(in Vector origin, in Vector direction)
+        {
+            Origin = origin;
+            Direction = direction;
+        }
 
         /// <summary>
         /// Gets a point along the ray.
