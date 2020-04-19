@@ -3,6 +3,9 @@ using System.Text.RegularExpressions;
 
 namespace Heirloom.Drawing
 {
+    /// <summary>
+    /// Provides extension methods for <see cref="string"/>.
+    /// </summary>
     public static class StringExtensions
     {
         private static readonly Regex _regexNumberedLabel = new Regex(@"[A-Z]+\d+", RegexOptions.Compiled);
@@ -21,6 +24,9 @@ namespace Heirloom.Drawing
             else { return @this; }
         }
 
+        /// <summary>
+        /// Gets the ith unicode character of this string.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UnicodeCharacter GetCharacter(this string text, int i)
         {

@@ -1,5 +1,8 @@
 namespace Heirloom.Drawing
 {
+    /// <summary>
+    /// Represents the behaviour when sampling an image outside its natural bounds.
+    /// </summary>
     public enum RepeatMode
     {
         /// <summary>

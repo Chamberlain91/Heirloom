@@ -83,6 +83,31 @@ namespace Heirloom.Math
 
         #endregion
 
+        #region Indexer
+
+        public int this[int i]
+        {
+            get => i switch
+            {
+                0 => X,
+                1 => Y,
+                _ => throw new IndexOutOfRangeException(),
+            };
+
+            set
+            {
+                switch (i)
+                {
+                    case 0: X = value; break;
+                    case 1: Y = value; break;
+                    default:
+                        throw new IndexOutOfRangeException();
+                }
+            }
+        }
+
+        #endregion
+
         /// <summary>
         /// Sets the components of this vector.
         /// </summary>

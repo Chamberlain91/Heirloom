@@ -40,7 +40,6 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Constructs a new sprite from the specified file path resolved by <see cref="Files.OpenStream(string)"/>.
         /// </summary>
-        /// <param name="path"></param>
         public Sprite(string path)
             : this(Files.OpenStream(path))
         { }

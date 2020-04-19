@@ -39,6 +39,16 @@ namespace Heirloom.Math
 
         #endregion
 
+        #region Constructors
+
+        public Range(float min, float max)
+        {
+            Min = min;
+            Max = max;
+        }
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -58,15 +68,40 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Constructors
+        #region Indexer
 
-        public Range(float min, float max)
+        public float this[int i]
+        {
+            get => i switch
+            {
+                0 => Min,
+                1 => Max,
+                _ => throw new IndexOutOfRangeException(),
+            };
+
+            set
+            {
+                switch (i)
+                {
+                    case 0: Min = value; break;
+                    case 1: Max = value; break;
+                    default:
+                        throw new IndexOutOfRangeException();
+                }
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Sets the components of this range.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Set(float min, float max)
         {
             Min = min;
             Max = max;
         }
-
-        #endregion
 
         #region Contains, Overlaps
 

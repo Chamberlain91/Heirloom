@@ -2,9 +2,12 @@ using Heirloom.Math;
 
 namespace Heirloom.Drawing
 {
+    /// <summary>
+    /// Contains information of a uniform from a <see cref="Shader"/>.
+    /// </summary>
     public sealed class UniformInfo
     {
-        public UniformInfo(string name, UniformType type, IntSize dimensions, int arraySize)
+        internal UniformInfo(string name, UniformType type, IntSize dimensions, int arraySize)
         {
             Name = name;
             Type = type;
@@ -12,16 +15,24 @@ namespace Heirloom.Drawing
             ArraySize = arraySize;
         }
 
-        // ie, uStrength
+        /// <summary>
+        /// The name of this uniform.
+        /// </summary>
         public string Name { get; }
 
-        // ie, float, image, etc
+        /// <summary>
+        /// The type of this uniform.
+        /// </summary>
         public UniformType Type { get; }
 
-        // ie, float 1x3 => vec3
+        /// <summary>
+        /// The dimensions of this uniform.
+        /// </summary>
         public IntSize Dimensions { get; }
 
-        // ie, 2 => float[2]
+        /// <summary>
+        /// The array size of this uniform.
+        /// </summary>
         public int ArraySize { get; }
 
         /// <summary>
