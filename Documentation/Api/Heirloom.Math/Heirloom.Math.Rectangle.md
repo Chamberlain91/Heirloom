@@ -39,6 +39,7 @@
 
 | Methods                         | Summary                                                                                           |
 |---------------------------------|---------------------------------------------------------------------------------------------------|
+| [Set](#SET352C86E7)             | Sets the components of this rectangle.                                                            |
 | [ToPolygon](#TOP74E314EF)       | Create a polygon from this rectangle.                                                             |
 | [Offset](#OFF4948B8EF)          | Translates this rectangle.                                                                        |
 | [Offset](#OFFA44B506E)          | Translates this rectangle.                                                                        |
@@ -214,6 +215,11 @@ A 1x1 rectangle that is positioned at the origin.
 A 0x0 rectangle that is positioned at the origin.
 
 ### Methods
+
+#### <a name="SET352C86E7"></a>Set(float x, float y, float w, float h) : void
+
+Sets the components of this rectangle.
+
 
 #### <a name="TOP74E314EF"></a>ToPolygon() : [Polygon](Heirloom.Math.Polygon.md)
 

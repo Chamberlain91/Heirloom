@@ -7,6 +7,8 @@
 <small>**Namespace**: Heirloom.IO</small>  
 <small>`ExtensionAttribute`</small>
 
+Provides extensions to stream.
+
 | Methods                      | Summary                                                     |
 |------------------------------|-------------------------------------------------------------|
 | [ReadAllText](#REA85A277A8)  | Reads the entire contents of the stream as a block of text. |

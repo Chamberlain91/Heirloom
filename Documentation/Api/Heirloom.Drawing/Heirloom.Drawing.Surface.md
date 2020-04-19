@@ -11,12 +11,12 @@
 
 Represents a surface a [Graphics](Heirloom.Drawing.Graphics.md) object can draw on.
 
-| Properties                 | Summary                                             |
-|----------------------------|-----------------------------------------------------|
-| [Size](#SIZ9C9392F9)       | Gets size of the surface in pixels.                 |
-| [Width](#WID68924896)      | Gets the surface width in pixels.                   |
-| [Height](#HEIE098AAEB)     | Gets the surface height in pixels.                  |
-| [Multisample](#MULD8F2787) | Gets the multisampling quality set on this surface. |
+| Properties                                     | Summary                                                            |
+|------------------------------------------------|--------------------------------------------------------------------|
+| [Size](#SIZ9C9392F9)                           | Gets size of the surface in pixels.                                |
+| [Multisample](#MULD8F2787)                     | Gets the multisampling quality set on this surface.                |
+| [IsScreenBound](#ISS465F8F76)                  | Determines if this surface is attached to a screen (ie, a window). |
+| [MaxSupportedMultisampleQuality](#MAX50D0FBEA) | Gets the max multisample quality supported on this system.         |
 
 ### Constructors
 
@@ -28,7 +28,7 @@ Creates a new surface.
 
 Creates a new surface.
 
-#### Surface(int width, int height, [MultisampleQuality](Heirloom.Drawing.MultisampleQuality.md) multisample, bool createNative)
+#### Surface(int width, int height, [MultisampleQuality](Heirloom.Drawing.MultisampleQuality.md) multisample, bool isScreenBound)
 
 ### Properties
 
@@ -37,21 +37,23 @@ Creates a new surface.
 
 Gets size of the surface in pixels.
 
-#### <a name="WID68924896"></a>Width : int
-
-<small>`Read Only`</small>
-
-Gets the surface width in pixels.
-
-#### <a name="HEIE098AAEB"></a>Height : int
-
-<small>`Read Only`</small>
-
-Gets the surface height in pixels.
-
 #### <a name="MULD8F2787"></a>Multisample : [MultisampleQuality](Heirloom.Drawing.MultisampleQuality.md)
 
 <small>`Read Only`</small>
 
 Gets the multisampling quality set on this surface.
+
+This wll be set to the value actually availble used to create the surface. Some platforms might not support all multisample levels.
+
+#### <a name="ISS465F8F76"></a>IsScreenBound : bool
+
+<small>`Read Only`</small>
+
+Determines if this surface is attached to a screen (ie, a window).
+
+#### <a name="MAX50D0FBEA"></a>MaxSupportedMultisampleQuality : [MultisampleQuality](Heirloom.Drawing.MultisampleQuality.md)
+
+<small>`Static`, `Read Only`</small>
+
+Gets the max multisample quality supported on this system.
 

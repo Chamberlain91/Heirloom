@@ -2,7 +2,7 @@
 
 <small>**Framework**: .NETStandard,Version=v2.1</small>  
 <small>**Assembly**: [Heirloom.Desktop](../Heirloom.Desktop/Heirloom.Desktop.md)</small>  
-<small>**Dependancies**: [Heirloom.Drawing](../Heirloom.Drawing/Heirloom.Drawing.md), [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.Drawing.OpenGLES](../Heirloom.Drawing.OpenGLES/Heirloom.Drawing.OpenGLES.md), [Heirloom.OpenGLES](../Heirloom.OpenGLES/Heirloom.OpenGLES.md)</small>  
+<small>**Dependancies**: [Heirloom.Drawing](../Heirloom.Drawing/Heirloom.Drawing.md), [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.Drawing.OpenGLES](../Heirloom.Drawing.OpenGLES/Heirloom.Drawing.OpenGLES.md), [Heirloom.OpenGLES](../Heirloom.OpenGLES/Heirloom.OpenGLES.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
 ## VideoMode (Struct)
 <small>**Namespace**: Heirloom.Desktop</small>  
@@ -30,4 +30,12 @@
 #### <a name="BLUE8078052"></a>BlueBits : int
 
 #### <a name="REFCFA57A9B"></a>RefreshRate : int
+
+### Constructors
+
+#### VideoMode(int width, int height, int redBits, int greenBits, int blueBits, int refreshRate)
+
+#### VideoMode(int width, int height, int refreshRate)
+
+#### VideoMode(int width, int height)
 

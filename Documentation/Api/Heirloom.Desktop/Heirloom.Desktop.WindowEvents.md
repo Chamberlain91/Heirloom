@@ -2,9 +2,9 @@
 
 <small>**Framework**: .NETStandard,Version=v2.1</small>  
 <small>**Assembly**: [Heirloom.Desktop](../Heirloom.Desktop/Heirloom.Desktop.md)</small>  
-<small>**Dependancies**: [Heirloom.Drawing](../Heirloom.Drawing/Heirloom.Drawing.md), [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.Drawing.OpenGLES](../Heirloom.Drawing.OpenGLES/Heirloom.Drawing.OpenGLES.md), [Heirloom.OpenGLES](../Heirloom.OpenGLES/Heirloom.OpenGLES.md)</small>  
+<small>**Dependancies**: [Heirloom.Drawing](../Heirloom.Drawing/Heirloom.Drawing.md), [Heirloom.Math](../Heirloom.Math/Heirloom.Math.md), [Heirloom.Drawing.OpenGLES](../Heirloom.Drawing.OpenGLES/Heirloom.Drawing.OpenGLES.md), [Heirloom.OpenGLES](../Heirloom.OpenGLES/Heirloom.OpenGLES.md), [Heirloom.IO](../Heirloom.IO/Heirloom.IO.md)</small>  
 
-## ContentScaleEvent (Struct)
+## WindowEvents (Struct)
 <small>**Namespace**: Heirloom.Desktop</small>  
 <small>`IsReadOnlyAttribute`</small>
 
@@ -27,7 +27,7 @@
 
 ### Constructors
 
-#### ContentScaleEvent(float xScale, float yScale)
+#### WindowEvents(float xScale, float yScale)
 
 ### Properties
 

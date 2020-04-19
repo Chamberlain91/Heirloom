@@ -6,6 +6,7 @@
 ## Vector (Struct)
 <small>**Namespace**: Heirloom.Math</small>  
 <small>**Interfaces**: IEquatable\<Vector></small>  
+<small>`DefaultMemberAttribute`</small>
 
 Represents a vector with two single-precision floating-point values.
 
@@ -27,6 +28,7 @@ Represents a vector with two single-precision floating-point values.
 | [Normalized](#NOR9634A03D)    | Gets a normalized copy of this vector.                                                 |
 | [Perpendicular](#PER94285E6A) | Gets a perpendicular copy of this vector.                                              |
 | [Angle](#ANGE0C22609)         | Gets the angle this vector is pointing with reference to `Heirloom.Math.Vector.Right`. |
+| [Item](#ITE8B5A2F95)          |                                                                                        |
 
 | Methods                           | Summary                                                                                                 |
 |-----------------------------------|---------------------------------------------------------------------------------------------------------|
@@ -61,10 +63,12 @@ Represents a vector with two single-precision floating-point values.
 ### Fields
 
 #### <a name="XCDCAB7F6"></a>X : float
+<small>`FieldOffsetAttribute`</small>
 
 The x-coordinate of this vector.
 
 #### <a name="YCDCAB7F5"></a>Y : float
+<small>`FieldOffsetAttribute`</small>
 
 The y-coordinate of this vector.
 
@@ -163,6 +167,9 @@ Gets a perpendicular copy of this vector.
 <small>`Read Only`</small>
 
 Gets the angle this vector is pointing with reference to `Heirloom.Math.Vector.Right`.
+
+#### <a name="ITE8B5A2F95"></a>Item : float
+
 
 ### Methods
 

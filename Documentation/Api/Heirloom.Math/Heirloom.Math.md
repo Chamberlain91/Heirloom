@@ -8,7 +8,6 @@
 #### Classes
 [Calc](Heirloom.Math.Calc.md)  
 [Curves](Heirloom.Math.Curves.md)  
-[Delaunay](Heirloom.Math.Delaunay.md)  
 [NoiseExtensions](Heirloom.Math.NoiseExtensions.md)  
 [PerlinNoise](Heirloom.Math.PerlinNoise.md)  
 [Polygon](Heirloom.Math.Polygon.md)  
@@ -16,6 +15,8 @@
 [RandomExtensions](Heirloom.Math.RandomExtensions.md)  
 [SimplexNoise](Heirloom.Math.SimplexNoise.md)  
 [Time](Heirloom.Math.Time.md)  
+[Delaunay](Heirloom.Math.Extras.Delaunay.md)  
+[Rasterizer](Heirloom.Math.Extras.Rasterizer.md)  
 
 #### Structs
 [Circle](Heirloom.Math.Circle.md)  

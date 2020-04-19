@@ -8,6 +8,8 @@
 ## Vertex (Struct)
 <small>**Namespace**: Heirloom.Drawing</small>  
 
+Represents a vertex of [Mesh](Heirloom.Drawing.Mesh.md).
+
 | Fields                   | Summary                       |
 |--------------------------|-------------------------------|
 | [Position](#POSF46C3C91) | The world-space coordinate.   |
@@ -26,4 +28,6 @@ The texture-space coordinate.
 ### Constructors
 
 #### Vertex([Vector](../Heirloom.Math/Heirloom.Math.Vector.md) position, [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) uv)
+
+Creates a new vertex.
 

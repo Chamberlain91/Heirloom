@@ -9,38 +9,52 @@
 <small>**Namespace**: Heirloom.Drawing</small>  
 <small>**Inherits**: [ImageSource](Heirloom.Drawing.ImageSource.md)</small>  
 
-| Properties             | Summary                              |
-|------------------------|--------------------------------------|
-| [Width](#WID68924896)  | The width of the image (in pixels).  |
-| [Height](#HEIE098AAEB) | The height of the image (in pixels). |
-| [Size](#SIZ9C9392F9)   |                                      |
+| Fields                            | Summary |
+|-----------------------------------|---------|
+| [MaxImageDimension](#MAX35988777) |         |
 
-| Methods                                   | Summary                                              |
-|-------------------------------------------|------------------------------------------------------|
-| [GetPixel](#GET6D6C5BDB)                  |                                                      |
-| [GetPixel](#GETB152AD22)                  |                                                      |
-| [GetPixels](#GET33DBF793)                 |                                                      |
-| [SetPixel](#SET65ACED49)                  |                                                      |
-| [SetPixel](#SET695E975E)                  |                                                      |
-| [SetPixels](#SET839EE26E)                 |                                                      |
-| [Clear](#CLEE2064C99)                     | Sets all pixels in the image to the specified color. |
-| [Flip](#FLI52E46586)                      | Flips the image on the specified axis.               |
-| [CopyTo](#COP6964DB6F)                    |                                                      |
-| [CopyTo](#COPBC09C414)                    |                                                      |
-| [Clone](#CLOA49B4FCB)                     | Creates a clone of this image.                       |
-| [CreateCheckerboardPattern](#CRE6BF39FAE) | Create an image with checkerboard pattern.           |
-| [CreateGridPattern](#CRE54163986)         | Create an image with a grid pattern.                 |
-| [CreateColor](#CRE9126DF94)               |                                                      |
-| [CreateNoise](#CREBAD66DF9)               |                                                      |
-| [CreateNoise](#CRE97042461)               |                                                      |
-| [Copy](#COPA37F06B)                       |                                                      |
-| [Copy](#COPDA107945)                      |                                                      |
-| [Copy](#COPABF7383)                       |                                                      |
-| [Copy](#COPE53B3007)                      |                                                      |
-| [WriteAsPng](#WRI21543049)                |                                                      |
-| [WriteAsJpg](#WRID1C95C6F)                |                                                      |
-| [Load](#LOA93FA19CA)                      |                                                      |
-| [Load](#LOA8A003EFE)                      |                                                      |
+| Properties           | Summary |
+|----------------------|---------|
+| [Size](#SIZ9C9392F9) |         |
+
+| Methods                                   | Summary                                                                                                                  |
+|-------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| [GetPixel](#GET6D6C5BDB)                  |                                                                                                                          |
+| [GetPixel](#GETB152AD22)                  |                                                                                                                          |
+| [GetPixels](#GET33DBF793)                 |                                                                                                                          |
+| [SetPixel](#SET65ACED49)                  |                                                                                                                          |
+| [SetPixel](#SET695E975E)                  |                                                                                                                          |
+| [SetPixels](#SET839EE26E)                 |                                                                                                                          |
+| [Clear](#CLEE2064C99)                     | Sets all pixels in the image to the specified color.                                                                     |
+| [Flip](#FLI52E46586)                      | Flips the image on the specified axis.                                                                                   |
+| [CopyTo](#COP6964DB6F)                    |                                                                                                                          |
+| [CopyTo](#COPBC09C414)                    |                                                                                                                          |
+| [Clone](#CLOA49B4FCB)                     | Creates a clone of this image.                                                                                           |
+| [CreateCheckerboardPattern](#CREB11E6F98) | Create an image with checkerboard pattern.                                                                               |
+| [CreateCheckerboardPattern](#CRE6BF39FAE) | Create an image with checkerboard pattern.                                                                               |
+| [CreateGridPattern](#CRE256E07C4)         | Create an image with a grid pattern.                                                                                     |
+| [CreateGridPattern](#CRE54163986)         | Create an image with a grid pattern.                                                                                     |
+| [CreateColor](#CRE1E82A9E2)               | Creates an image filled with a solid color.                                                                              |
+| [CreateColor](#CRE9126DF94)               | Creates an image filled with a solid color.                                                                              |
+| [CreateNoise](#CRE47B7C104)               | Creates an image filled with noise.                                                                                      |
+| [CreateNoise](#CREC9F7B1AE)               | Creates an image filled with noise.                                                                                      |
+| [CreateNoise](#CRE844DF5C0)               | Creates an image filled with noise, provided with an instance of [INoise2D](../Heirloom.Math/Heirloom.Math.INoise2D.md). |
+| [CreateNoise](#CREBEF2B8DE)               | Creates an image filled with noise, provided with an instance of [INoise2D](../Heirloom.Math/Heirloom.Math.INoise2D.md). |
+| [Copy](#COPA37F06B)                       |                                                                                                                          |
+| [Copy](#COPDA107945)                      |                                                                                                                          |
+| [Copy](#COPABF7383)                       |                                                                                                                          |
+| [Copy](#COPE53B3007)                      |                                                                                                                          |
+| [WriteAsPng](#WRI21543049)                |                                                                                                                          |
+| [WriteAsJpg](#WRID1C95C6F)                |                                                                                                                          |
+| [Load](#LOA93FA19CA)                      |                                                                                                                          |
+| [Load](#LOA8A003EFE)                      |                                                                                                                          |
+
+### Fields
+
+#### <a name="MAX35988777"></a>MaxImageDimension : int
+
+#### <a name="MAX35988777"></a>MaxImageDimension : int
+<small>`Static`</small>
 
 ### Constructors
 
@@ -59,18 +73,6 @@ Loads an image from a stream.
 #### Image(int width, int height)
 
 ### Properties
-
-#### <a name="WID68924896"></a>Width : int
-
-<small>`Read Only`</small>
-
-The width of the image (in pixels).
-
-#### <a name="HEIE098AAEB"></a>Height : int
-
-<small>`Read Only`</small>
-
-The height of the image (in pixels).
 
 #### <a name="SIZ9C9392F9"></a>Size : [IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md)
 
@@ -115,6 +117,15 @@ Flips the image on the specified axis.
 
 Creates a clone of this image.
 
+#### <a name="CREB11E6F98"></a>CreateCheckerboardPattern([IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md) size, [Color](Heirloom.Drawing.Color.md) color, int cellSize = 16) : [Image](Heirloom.Drawing.Image.md)
+<small>`Static`</small>
+
+Create an image with checkerboard pattern.
+
+<small>**size**: <param name="size">Size of the image in pixels.</param></small>  
+<small>**color**: <param name="color">Color to base the checkerboard pattern on.</param></small>  
+<small>**cellSize**: <param name="cellSize">Size of each "checker" in the checkerboard.</param></small>  
+
 #### <a name="CRE6BF39FAE"></a>CreateCheckerboardPattern(int width, int height, [Color](Heirloom.Drawing.Color.md) color, int cellSize = 16) : [Image](Heirloom.Drawing.Image.md)
 <small>`Static`</small>
 
@@ -124,6 +135,15 @@ Create an image with checkerboard pattern.
 <small>**height**: <param name="height">Height of the image in pixels.</param></small>  
 <small>**color**: <param name="color">Color to base the checkerboard pattern on.</param></small>  
 <small>**cellSize**: <param name="cellSize">Size of each "checker" in the checkerboard.</param></small>  
+
+#### <a name="CRE256E07C4"></a>CreateGridPattern([IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md) size, [Color](Heirloom.Drawing.Color.md) color, int cellSize, int borderWidth = 1) : [Image](Heirloom.Drawing.Image.md)
+<small>`Static`</small>
+
+Create an image with a grid pattern.
+
+<small>**size**: <param name="size">Size of the image in pixels.</param></small>  
+<small>**color**: <param name="color">Color to base the grid pattern on.</param></small>  
+<small>**borderWidth**: <param name="borderWidth">Size of the line between each cell.</param></small>  
 
 #### <a name="CRE54163986"></a>CreateGridPattern(int width, int height, [Color](Heirloom.Drawing.Color.md) color, int cellSize, int borderWidth = 1) : [Image](Heirloom.Drawing.Image.md)
 <small>`Static`</small>
@@ -135,17 +155,66 @@ Create an image with a grid pattern.
 <small>**color**: <param name="color">Color to base the grid pattern on.</param></small>  
 <small>**borderWidth**: <param name="borderWidth">Size of the line between each cell.</param></small>  
 
+#### <a name="CRE1E82A9E2"></a>CreateColor([IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md) size, [Color](Heirloom.Drawing.Color.md) color) : [Image](Heirloom.Drawing.Image.md)
+<small>`Static`</small>
+
+Creates an image filled with a solid color.
+
+<small>**size**: <param name="size">Size of the image in pixels.</param></small>  
+<small>**color**: <param name="color">Color to fill the image with.</param></small>  
+
 #### <a name="CRE9126DF94"></a>CreateColor(int width, int height, [Color](Heirloom.Drawing.Color.md) color) : [Image](Heirloom.Drawing.Image.md)
 <small>`Static`</small>
 
+Creates an image filled with a solid color.
 
-#### <a name="CREBAD66DF9"></a>CreateNoise(int width, int height, float scale = 1, int octaves = 4, float persistence = 0.5) : [Image](Heirloom.Drawing.Image.md)
+<small>**width**: <param name="width">Width of the image in pixels.</param></small>  
+<small>**height**: <param name="height">Height of the image in pixels.</param></small>  
+<small>**color**: <param name="color">Color to fill the image with.</param></small>  
+
+#### <a name="CRE47B7C104"></a>CreateNoise([IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md) size, float scale = 1, int octaves = 4, float persistence = 0.5, [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) offset = null) : [Image](Heirloom.Drawing.Image.md)
 <small>`Static`</small>
 
+Creates an image filled with noise.
 
-#### <a name="CRE97042461"></a>CreateNoise(int width, int height, [INoise2D](../Heirloom.Math/Heirloom.Math.INoise2D.md) noise, float scale = 1, int octaves = 4, float persistence = 0.5) : [Image](Heirloom.Drawing.Image.md)
+<small>**size**: <param name="size">Size of the image in pixels.</param></small>  
+<small>**scale**: <param name="scale">The approximate size of a 'noise blob'.</param></small>  
+<small>**octaves**: <param name="octaves">Number of noise layers.</param></small>  
+<small>**persistence**: <param name="persistence">How persistent each noise layer is.</param></small>  
+
+#### <a name="CREC9F7B1AE"></a>CreateNoise(int width, int height, float scale = 1, int octaves = 4, float persistence = 0.5, [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) offset = null) : [Image](Heirloom.Drawing.Image.md)
 <small>`Static`</small>
 
+Creates an image filled with noise.
+
+<small>**width**: <param name="width">Width of the image in pixels.</param></small>  
+<small>**height**: <param name="height">Height of the image in pixels.</param></small>  
+<small>**scale**: <param name="scale">The approximate size of a 'noise blob'.</param></small>  
+<small>**octaves**: <param name="octaves">Number of noise layers.</param></small>  
+<small>**persistence**: <param name="persistence">How persistent each noise layer is.</param></small>  
+
+#### <a name="CRE844DF5C0"></a>CreateNoise([IntSize](../Heirloom.Math/Heirloom.Math.IntSize.md) size, [INoise2D](../Heirloom.Math/Heirloom.Math.INoise2D.md) noise, float scale = 1, int octaves = 4, float persistence = 0.5, [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) offset = null) : [Image](Heirloom.Drawing.Image.md)
+<small>`Static`</small>
+
+Creates an image filled with noise, provided with an instance of [INoise2D](../Heirloom.Math/Heirloom.Math.INoise2D.md).
+
+<small>**size**: <param name="size">Size of the image in pixels.</param></small>  
+<small>**noise**: <param name="noise">A 2D noise generator.</param></small>  
+<small>**scale**: <param name="scale">The approximate size of a 'noise blob'.</param></small>  
+<small>**octaves**: <param name="octaves">Number of noise layers.</param></small>  
+<small>**persistence**: <param name="persistence">How persistent each noise layer is.</param></small>  
+
+#### <a name="CREBEF2B8DE"></a>CreateNoise(int width, int height, [INoise2D](../Heirloom.Math/Heirloom.Math.INoise2D.md) noise, float scale = 1, int octaves = 4, float persistence = 0.5, [Vector](../Heirloom.Math/Heirloom.Math.Vector.md) offset = null) : [Image](Heirloom.Drawing.Image.md)
+<small>`Static`</small>
+
+Creates an image filled with noise, provided with an instance of [INoise2D](../Heirloom.Math/Heirloom.Math.INoise2D.md).
+
+<small>**width**: <param name="width">Width of the image in pixels.</param></small>  
+<small>**height**: <param name="height">Height of the image in pixels.</param></small>  
+<small>**noise**: <param name="noise">A 2D noise generator.</param></small>  
+<small>**scale**: <param name="scale">The approximate size of a 'noise blob'.</param></small>  
+<small>**octaves**: <param name="octaves">Number of noise layers.</param></small>  
+<small>**persistence**: <param name="persistence">How persistent each noise layer is.</param></small>  
 
 #### <a name="COPA37F06B"></a>Copy([Image](Heirloom.Drawing.Image.md) source, in [IntRectangle](../Heirloom.Math/Heirloom.Math.IntRectangle.md) sourceRegion, [Image](Heirloom.Drawing.Image.md) target, in [IntVector](../Heirloom.Math/Heirloom.Math.IntVector.md) targetOffset) : void
 <small>`Static`</small>

@@ -23,6 +23,7 @@
 
 | Methods                            | Summary                                                                                   |
 |------------------------------------|-------------------------------------------------------------------------------------------|
+| [Set](#SETC49C14ED)                | Sets each point of the triangle.                                                          |
 | [ToPolygon](#TOP74E314EF)          | Create a polygon from this triangle.                                                      |
 | [GetClosestPoint](#GETDAC09B5B)    | Gets the closest point on the triangle to the specified point.                            |
 | [Contains](#CON33387C1A)           | Determines if this triangle contains the specified point.                                 |
@@ -86,6 +87,11 @@ Gets the center of triangle (mean of corner points).
 
 
 ### Methods
+
+#### <a name="SETC49C14ED"></a>Set(in [Vector](Heirloom.Math.Vector.md) a, in [Vector](Heirloom.Math.Vector.md) b, in [Vector](Heirloom.Math.Vector.md) c) : void
+
+Sets each point of the triangle.
+
 
 #### <a name="TOP74E314EF"></a>ToPolygon() : [Polygon](Heirloom.Math.Polygon.md)
 

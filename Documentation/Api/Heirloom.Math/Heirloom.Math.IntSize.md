@@ -6,6 +6,7 @@
 ## IntSize (Struct)
 <small>**Namespace**: Heirloom.Math</small>  
 <small>**Interfaces**: IEquatable\<IntSize>, IComparable\<IntSize></small>  
+<small>`DefaultMemberAttribute`</small>
 
 Represents a size or dimensions defined with integer fields.
 
@@ -21,11 +22,13 @@ Represents a size or dimensions defined with integer fields.
 |------------------------|--------------------------------------------------------------------|
 | [Area](#ARE9F5286F)    | Gets the area of this size as if it was a rectangle at the origin. |
 | [Aspect](#ASP31635C5A) | Gets the aspect ratio of this size.                                |
+| [Item](#ITE8B5A2F95)   |                                                                    |
 
-| Methods                     | Summary |
-|-----------------------------|---------|
-| [Deconstruct](#DEC55B0AADE) |         |
-| [CompareTo](#COMC972259B)   |         |
+| Methods                     | Summary                           |
+|-----------------------------|-----------------------------------|
+| [Set](#SETAFD3BC22)         | Sets the components of this size. |
+| [Deconstruct](#DEC55B0AADE) |                                   |
+| [CompareTo](#COMC972259B)   |                                   |
 
 ### Fields
 
@@ -85,7 +88,15 @@ Gets the area of this size as if it was a rectangle at the origin.
 
 Gets the aspect ratio of this size.
 
+#### <a name="ITE8B5A2F95"></a>Item : int
+
+
 ### Methods
+
+#### <a name="SETAFD3BC22"></a>Set(int width, int height) : void
+
+Sets the components of this size.
+
 
 #### <a name="DEC55B0AADE"></a>Deconstruct(out int width, out int height) : void
 

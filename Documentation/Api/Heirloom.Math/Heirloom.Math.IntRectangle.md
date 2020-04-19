@@ -40,6 +40,7 @@ Represents a rectangle defined with integer coordinates.
 
 | Methods                     | Summary                                                            |
 |-----------------------------|--------------------------------------------------------------------|
+| [Set](#SET388C3387)         | Sets the components of this rectangle.                             |
 | [ToPolygon](#TOP74E314EF)   | Create a polygon from this rectangle.                              |
 | [Offset](#OFFE1B0A55B)      | Translates this rectangle.                                         |
 | [Offset](#OFFCA7AF18E)      | Translates this rectangle.                                         |
@@ -203,6 +204,11 @@ A 1x1 rectangle that is positioned at the origin.
 A 0x0 rectangle that is positioned at the origin.
 
 ### Methods
+
+#### <a name="SET388C3387"></a>Set(int x, int y, int w, int h) : void
+
+Sets the components of this rectangle.
+
 
 #### <a name="TOP74E314EF"></a>ToPolygon() : [Polygon](Heirloom.Math.Polygon.md)
 
