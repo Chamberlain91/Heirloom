@@ -257,6 +257,16 @@ namespace Heirloom.Math
             return left.CompareTo(right) >= 0;
         }
 
+        public static bool operator ==(IntSize a, IntSize b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(IntSize a, IntSize b)
+        {
+            return !(a == b);
+        }
+
         #endregion
 
         #region Equality
@@ -269,8 +279,8 @@ namespace Heirloom.Math
 
         public bool Equals(IntSize other)
         {
-            return Width == other.Width &&
-                   Height == other.Height;
+            return Width == other.Width
+                && Height == other.Height;
         }
 
         public override int GetHashCode()
@@ -279,16 +289,6 @@ namespace Heirloom.Math
             hashCode = hashCode * -1521134295 + Width.GetHashCode();
             hashCode = hashCode * -1521134295 + Height.GetHashCode();
             return hashCode;
-        }
-
-        public static bool operator ==(IntSize a, IntSize b)
-        {
-            return a.Equals(b);
-        }
-
-        public static bool operator !=(IntSize a, IntSize b)
-        {
-            return !(a == b);
         }
 
         #endregion

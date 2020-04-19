@@ -189,11 +189,26 @@ namespace Heirloom.Math
 
         #endregion
 
+        #region Comparison Operators
+
+        public static bool operator ==(LineSegment left, LineSegment right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(LineSegment left, LineSegment right)
+        {
+            return !(left == right);
+        }
+
+        #endregion
+
         #region Equality
 
         public override bool Equals(object obj)
         {
-            return obj is LineSegment edge && Equals(edge);
+            return obj is LineSegment edge
+                && Equals(edge);
         }
 
         public bool Equals(LineSegment other)
@@ -205,16 +220,6 @@ namespace Heirloom.Math
         public override int GetHashCode()
         {
             return A.GetHashCode() ^ B.GetHashCode();
-        }
-
-        public static bool operator ==(LineSegment left, LineSegment right)
-        {
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(LineSegment left, LineSegment right)
-        {
-            return !(left == right);
         }
 
         #endregion

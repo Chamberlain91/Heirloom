@@ -31,24 +31,7 @@ namespace Heirloom.Math
             Normal = normal;
         }
 
-        #region Equality
-
-        public override bool Equals(object obj)
-        {
-            return obj is RayContact contact && Equals(contact);
-        }
-
-        public bool Equals(RayContact other)
-        {
-            return Position.Equals(other.Position) &&
-                   Normal.Equals(other.Normal) &&
-                   Distance == other.Distance;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Position, Normal, Distance);
-        }
+        #region Comparison Operators
 
         public static bool operator ==(RayContact left, RayContact right)
         {
@@ -58,6 +41,28 @@ namespace Heirloom.Math
         public static bool operator !=(RayContact left, RayContact right)
         {
             return !(left == right);
+        }
+
+        #endregion
+
+        #region Equality
+
+        public override bool Equals(object obj)
+        {
+            return obj is RayContact contact
+                && Equals(contact);
+        }
+
+        public bool Equals(RayContact other)
+        {
+            return Position.Equals(other.Position)
+                && Normal.Equals(other.Normal)
+                && Distance == other.Distance;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Position, Normal, Distance);
         }
 
         #endregion

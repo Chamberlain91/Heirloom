@@ -268,23 +268,7 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Equality
-
-        public override bool Equals(object obj)
-        {
-            return obj is Circle circle && Equals(circle);
-        }
-
-        public bool Equals(Circle other)
-        {
-            return Position.Equals(other.Position) &&
-                   Calc.NearEquals(Radius, other.Radius);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Position, Radius);
-        }
+        #region Comparison Operators
 
         public static bool operator ==(Circle left, Circle right)
         {
@@ -294,6 +278,27 @@ namespace Heirloom.Math
         public static bool operator !=(Circle left, Circle right)
         {
             return !(left == right);
+        }
+
+        #endregion
+
+        #region Equality
+
+        public override bool Equals(object obj)
+        {
+            return obj is Circle circle
+                && Equals(circle);
+        }
+
+        public bool Equals(Circle other)
+        {
+            return Position.Equals(other.Position)
+                && Calc.NearEquals(Radius, other.Radius);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Position, Radius);
         }
 
         #endregion
