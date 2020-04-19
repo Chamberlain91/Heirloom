@@ -612,27 +612,7 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Equality
-
-        public override bool Equals(object obj)
-        {
-            return obj is Matrix matrix && Equals(matrix);
-        }
-
-        public bool Equals(Matrix other)
-        {
-            return Calc.NearEquals(M0, other.M0) &&
-                   Calc.NearEquals(M1, other.M1) &&
-                   Calc.NearEquals(M2, other.M2) &&
-                   Calc.NearEquals(M3, other.M3) &&
-                   Calc.NearEquals(M4, other.M4) &&
-                   Calc.NearEquals(M5, other.M5);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(M0, M1, M2, M3, M4, M5);
-        }
+        #region Comparison Operators
 
         public static bool operator ==(Matrix left, Matrix right)
         {
@@ -642,6 +622,31 @@ namespace Heirloom.Math
         public static bool operator !=(Matrix left, Matrix right)
         {
             return !(left == right);
+        }
+
+        #endregion
+
+        #region Equality
+
+        public override bool Equals(object obj)
+        {
+            return obj is Matrix matrix
+                && Equals(matrix);
+        }
+
+        public bool Equals(Matrix other)
+        {
+            return Calc.NearEquals(M0, other.M0)
+                && Calc.NearEquals(M1, other.M1)
+                && Calc.NearEquals(M2, other.M2)
+                && Calc.NearEquals(M3, other.M3)
+                && Calc.NearEquals(M4, other.M4)
+                && Calc.NearEquals(M5, other.M5);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(M0, M1, M2, M3, M4, M5);
         }
 
         #endregion

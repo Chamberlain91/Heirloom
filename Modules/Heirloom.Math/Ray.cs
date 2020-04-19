@@ -126,23 +126,7 @@ namespace Heirloom.Math
 
         #endregion
 
-        #region Equality
-
-        public override bool Equals(object obj)
-        {
-            return obj is Ray ray && Equals(ray);
-        }
-
-        public bool Equals(Ray other)
-        {
-            return Origin.Equals(other.Origin) &&
-                   Direction.Equals(other.Direction);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Origin, Direction);
-        }
+        #region Comparison Operators
 
         public static bool operator ==(Ray left, Ray right)
         {
@@ -152,6 +136,27 @@ namespace Heirloom.Math
         public static bool operator !=(Ray left, Ray right)
         {
             return !(left == right);
+        }
+
+        #endregion
+
+        #region Equality
+
+        public override bool Equals(object obj)
+        {
+            return obj is Ray ray
+                && Equals(ray);
+        }
+
+        public bool Equals(Ray other)
+        {
+            return Origin.Equals(other.Origin)
+                && Direction.Equals(other.Direction);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Origin, Direction);
         }
 
         #endregion

@@ -240,29 +240,6 @@ namespace Heirloom.Math
             return left.CompareTo(right) >= 0;
         }
 
-        #endregion
-
-        #region Equality
-
-        public override bool Equals(object obj)
-        {
-            return obj is Size && Equals((Size) obj);
-        }
-
-        public bool Equals(Size other)
-        {
-            return Width == other.Width &&
-                   Height == other.Height;
-        }
-
-        public override int GetHashCode()
-        {
-            var hashCode = 859600377;
-            hashCode = hashCode * -1521134295 + Width.GetHashCode();
-            hashCode = hashCode * -1521134295 + Height.GetHashCode();
-            return hashCode;
-        }
-
         public static bool operator ==(Size size1, Size size2)
         {
             return size1.Equals(size2);
@@ -271,6 +248,30 @@ namespace Heirloom.Math
         public static bool operator !=(Size size1, Size size2)
         {
             return !(size1 == size2);
+        }
+
+        #endregion
+
+        #region Equality
+
+        public override bool Equals(object obj)
+        {
+            return obj is Size size
+                && Equals(size);
+        }
+
+        public bool Equals(Size other)
+        {
+            return Width == other.Width
+                && Height == other.Height;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 859600377;
+            hashCode = hashCode * -1521134295 + Width.GetHashCode();
+            hashCode = hashCode * -1521134295 + Height.GetHashCode();
+            return hashCode;
         }
 
         #endregion

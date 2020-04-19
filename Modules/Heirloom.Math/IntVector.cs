@@ -244,12 +244,23 @@ namespace Heirloom.Math
             return new IntVector(x, y);
         }
 
+        public static IntVector operator +(IntVector v)
+        {
+            return v;
+        }
+
+        #region Add
+
         public static IntVector operator +(IntVector a, IntVector b)
         {
             var x = a.X + b.X;
             var y = a.Y + b.Y;
             return new IntVector(x, y);
         }
+
+        #endregion
+
+        #region Subtract
 
         public static IntVector operator -(IntVector a, IntVector b)
         {
@@ -258,6 +269,10 @@ namespace Heirloom.Math
             return new IntVector(x, y);
         }
 
+        #endregion
+
+        #region Multiply
+
         public static IntVector operator *(IntVector a, IntVector b)
         {
             var x = a.X * b.X;
@@ -265,24 +280,17 @@ namespace Heirloom.Math
             return new IntVector(x, y);
         }
 
-        public static Vector operator *(IntVector a, float v)
-        {
-            var x = a.X * v;
-            var y = a.Y * v;
-            return new Vector(x, y);
-        }
-
-        public static IntVector operator *(IntVector a, int v)
+        public static IntVector operator *(int v, IntVector a)
         {
             var x = a.X * v;
             var y = a.Y * v;
             return new IntVector(x, y);
         }
 
-        public static IntVector operator /(IntVector a, int v)
+        public static IntVector operator *(IntVector a, int v)
         {
-            var x = a.X / v;
-            var y = a.Y / v;
+            var x = a.X * v;
+            var y = a.Y * v;
             return new IntVector(x, y);
         }
 
@@ -293,12 +301,36 @@ namespace Heirloom.Math
             return new Vector(x, y);
         }
 
-        public static IntVector operator *(int v, IntVector a)
+        public static Vector operator *(IntVector a, float v)
         {
             var x = a.X * v;
             var y = a.Y * v;
+            return new Vector(x, y);
+        }
+
+        #endregion
+
+        #region Divide
+
+        public static IntVector operator /(IntVector a, int v)
+        {
+            var x = a.X / v;
+            var y = a.Y / v;
             return new IntVector(x, y);
         }
+
+        public static Vector operator /(float v, IntVector b)
+        {
+            var x = v / b.X;
+            var y = v / b.Y;
+            return new Vector(x, y);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Comparison Operators
 
         public static bool operator ==(IntVector vector1, IntVector vector2)
         {
@@ -322,8 +354,8 @@ namespace Heirloom.Math
 
         public bool Equals(IntVector other)
         {
-            return X == other.X &&
-                   Y == other.Y;
+            return X == other.X
+                && Y == other.Y;
         }
 
         public override int GetHashCode()
