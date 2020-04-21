@@ -120,8 +120,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Modules\Heirloom.Collections\Heirloom.Collections.csproj" />
-    <ProjectReference Include="..\..\Modules\Heirloom.Desktop\Heirloom.Desktop.csproj" />
+    <ProjectReference Include="..\..\Modules\Heirloom.Platforms.Desktop\Heirloom.Platforms.Desktop.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Project Info -->
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <!-- Package Info -->
+    <Authors>Chris Chamberlain</Authors>
+    <Version>1.0.0-beta</Version>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageOutputPath>../../Nuget/$(Configuration)</PackageOutputPath>
+    <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
+    <Description>Desktop infrastructure for Heirloom applications.</Description>
+    <PackageTags>glfw, windows, graphics, desktop, drawing</PackageTags>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Files\icon_128.png" />
+    <None Remove="Files\icon_16.png" />
+    <None Remove="Files\icon_32.png" />
+    <None Remove="Files\icon_64.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content CopyToOutputDirectory="PreserveNewest" Link="glfw3.dll" Include="runtimes/win-x64/glfw3.dll" Pack="true" PackagePath="runtimes/win-x64/native/" />
+    <Content CopyToOutputDirectory="PreserveNewest" Link="libglfw3.so" Include="runtimes/linux-x64/libglfw3.so" Pack="true" PackagePath="runtimes/linux-x64/native/" />
+    <Content CopyToOutputDirectory="PreserveNewest" Link="libglfw3.dylib" Include="runtimes/osx-x64/libglfw3.dylib" Pack="true" PackagePath="runtimes/osx-x64/native/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Files\icon_128.png" />
+    <EmbeddedResource Include="Files\icon_16.png" />
+    <EmbeddedResource Include="Files\icon_32.png" />
+    <EmbeddedResource Include="Files\icon_64.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Heirloom.Core\Heirloom.Core.csproj" />
+    <ProjectReference Include="..\Heirloom.OpenGLES\Heirloom.OpenGLES.csproj" />
+  </ItemGroup>
+
+</Project>

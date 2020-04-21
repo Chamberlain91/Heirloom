@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Threading;
 
-using Heirloom.Desktop;
+using Heirloom.Platforms.Desktop;
 using Heirloom.Drawing;
 using Heirloom.IO;
 using Heirloom.Math;

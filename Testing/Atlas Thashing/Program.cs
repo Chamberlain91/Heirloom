@@ -1,4 +1,4 @@
-using Heirloom.Desktop;
+using Heirloom.Platforms.Desktop;
 using Heirloom.Drawing;
 using Heirloom.Drawing.Utilities;
 using Heirloom.Math;

@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Heirloom.Desktop;
 using Heirloom.Drawing;
+using Heirloom.Drawing.Utilities;
 using Heirloom.Math;
-using Heirloom.Math.Extras;
+using Heirloom.Platforms.Desktop;
 
 namespace Examples.CpuRasterizer
 {

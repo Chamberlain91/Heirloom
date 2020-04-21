@@ -1,10 +1,8 @@
-using System;
 using System.Threading;
-using System.Threading.Tasks;
 
-using Heirloom.Desktop;
 using Heirloom.Drawing;
 using Heirloom.Math;
+using Heirloom.Platforms.Desktop;
 
 namespace Cross_Window_Surfaces
 {
@@ -32,7 +30,7 @@ namespace Cross_Window_Surfaces
                 var surface = new Surface(winA.FramebufferSize);
                 var counter = 0;
 
-                Task.Run(() =>
+                RunThread(() =>
                 {
                     var c = surface.Width / 2F;
 
@@ -82,6 +80,13 @@ namespace Cross_Window_Surfaces
                     if (!winB.IsClosed) { winB.Close(); }
                 }
             });
+        }
+
+        private static Thread RunThread(ThreadStart action)
+        {
+            var thread = new Thread(action) { IsBackground = true };
+            thread.Start();
+            return thread;
         }
     }
 }
