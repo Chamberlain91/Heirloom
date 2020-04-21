@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 
-using Heirloom.Drawing;
-
 namespace Heirloom.Desktop
 {
     public class Window

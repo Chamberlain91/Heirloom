@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Heirloom;
-using Heirloom.Utilities;
 using Heirloom.Desktop;
 
 namespace Examples.CpuRasterizer

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace Heirloom
 {
-    public abstract class RectanglePacker<TElement>
+    internal abstract class RectanglePackerImpl<TElement> : IRectanglePacker<TElement>
     {
         private readonly Dictionary<TElement, IntRectangle> _elements;
-         
+
         #region Constructors
 
-        protected RectanglePacker(IntSize size)
+        protected RectanglePackerImpl(IntSize size)
         {
             _elements = new Dictionary<TElement, IntRectangle>();
 

@@ -1,5 +1,4 @@
 using Heirloom;
-using Heirloom.Drawing;
 
 namespace Examples.Depth
 {

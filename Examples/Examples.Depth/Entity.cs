@@ -2,7 +2,6 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 
 using Heirloom;
-using Heirloom.Drawing;
 
 namespace Examples.Depth
 {

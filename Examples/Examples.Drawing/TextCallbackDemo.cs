@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 
 using Heirloom;
-using Heirloom.Drawing;
 
 namespace Examples.Drawing
 {

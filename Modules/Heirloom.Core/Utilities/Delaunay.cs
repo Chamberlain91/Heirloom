@@ -16,7 +16,7 @@ namespace Heirloom
         /// <summary>
         /// Constructs the Delaunay triangulation of a set of points.
         /// </summary>
-        public static List<Triangle> Triangulate(IEnumerable<Vector> points)
+        public static List<Triangle> Triangulate(this IEnumerable<Vector> points)
         {
             var triangles = new List<Triangle>();
             Triangulate(points, triangles);
@@ -26,7 +26,7 @@ namespace Heirloom
         /// <summary>
         /// Constructs the Delaunay triangulation of a set of points.
         /// </summary>
-        public static void Triangulate(IEnumerable<Vector> points, List<Triangle> triangles)
+        public static void Triangulate(this IEnumerable<Vector> points, List<Triangle> triangles)
         {
             // Create super triangle
             var bounds = Rectangle.FromPoints(points);

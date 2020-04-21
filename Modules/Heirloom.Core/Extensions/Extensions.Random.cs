@@ -7,7 +7,7 @@ namespace Heirloom
     /// <summary>
     /// Provides extension methods for <see cref="Random"/> and other related random operations.
     /// </summary>
-    public static partial class RandomExtensions
+    public static partial class Extensions
     {
         #region Next Float / Double
 

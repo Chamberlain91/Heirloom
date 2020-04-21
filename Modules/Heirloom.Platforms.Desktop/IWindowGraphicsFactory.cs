@@ -1,5 +1,3 @@
-using Heirloom.Drawing;
-
 namespace Heirloom.Desktop
 {
     internal interface IWindowGraphicsFactory

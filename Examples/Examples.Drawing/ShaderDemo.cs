@@ -1,7 +1,6 @@
 using Examples.Shaders;
 
 using Heirloom;
-using Heirloom.Drawing;
 
 namespace Examples.Drawing
 {

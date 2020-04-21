@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Heirloom
 {
-    public sealed class SkylinePacker<TElement> : RectanglePacker<TElement>
+    internal sealed class SkylinePacker<TElement> : RectanglePackerImpl<TElement>
     {
         public List<Strip> Strips;
 

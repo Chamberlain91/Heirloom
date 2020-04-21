@@ -1,5 +1,4 @@
 using Heirloom;
-using Heirloom.Drawing;
 using Heirloom.Desktop;
 
 namespace Examples.Shaders
