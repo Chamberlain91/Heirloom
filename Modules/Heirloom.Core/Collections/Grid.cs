@@ -2,7 +2,7 @@ using System;
 
 using Heirloom;
 
-namespace Heirloom.Collections
+namespace Heirloom
 {
     /// <summary>
     /// A finite grid (bounded by size) of values.

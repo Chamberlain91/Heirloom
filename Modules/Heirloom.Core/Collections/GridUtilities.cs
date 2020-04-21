@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 using Heirloom;
 
-namespace Heirloom.Collections
+namespace Heirloom
 {
     /// <summary>
     /// Provides extra utilities for interacting with a grid.

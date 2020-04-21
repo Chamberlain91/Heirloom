@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Heirloom.Collections
+namespace Heirloom
 {
     /// <summary>
     /// A vertex representing a node on a graph.

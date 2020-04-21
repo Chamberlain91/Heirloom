@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Heirloom.Collections
+namespace Heirloom
 {
     /// <summary>
     /// Represents a heap data structure.

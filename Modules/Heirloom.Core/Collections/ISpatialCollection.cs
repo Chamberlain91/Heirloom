@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 using Heirloom;
 
-namespace Heirloom.Collections
+namespace Heirloom
 {
     /// <summary>
     /// A read-only view of a spatial collection to query elements in 2D space.

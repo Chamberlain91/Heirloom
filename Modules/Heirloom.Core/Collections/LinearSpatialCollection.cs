@@ -6,7 +6,7 @@ using System.Linq;
 
 using Heirloom;
 
-namespace Heirloom.Collections
+namespace Heirloom
 {
     /// <summary>
     /// DO NOT USE! <para/>

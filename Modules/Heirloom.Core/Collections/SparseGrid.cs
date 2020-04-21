@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 using Heirloom;
 
-namespace Heirloom.Collections
+namespace Heirloom
 {
     /// <summary>
     /// An infinite, sparse grid of values.
