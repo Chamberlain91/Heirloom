@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     internal sealed class Timer
     {

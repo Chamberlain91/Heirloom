@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum VertexAttributeType
+    internal enum VertexAttributeType
     {
         Int = 0x1404,
         UnsignedInt = 0x1405,

@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum BlendFunction : uint
+    internal enum BlendFunction : uint
     {
         Zero = 0,
         One = 1,

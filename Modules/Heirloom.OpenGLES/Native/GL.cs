@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Heirloom.OpenGLES
 {
-    public static unsafe partial class GL
+    internal static unsafe partial class GL
     {
         public delegate IntPtr GetProcAddress(string name);
 

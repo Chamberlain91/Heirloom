@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum StencilFunction : uint
+    internal enum StencilFunction : uint
     {
         Never = 0x0200,
         Less = 0x0201,

@@ -1,6 +1,4 @@
-﻿using Heirloom.Math;
-
-namespace Heirloom.Platforms.Desktop
+namespace Heirloom.Desktop
 {
     public readonly struct MouseScrollEvent
     {

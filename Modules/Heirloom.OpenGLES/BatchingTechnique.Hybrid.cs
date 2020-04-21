@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-using Heirloom.Math;
-
-namespace Heirloom.Drawing.OpenGLES
+namespace Heirloom.OpenGLES
 {
     internal sealed class HybridBatchingTechnique : BatchingTechnique
     {

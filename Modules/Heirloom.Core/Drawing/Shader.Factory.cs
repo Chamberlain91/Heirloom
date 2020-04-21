@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
-using Heirloom.IO;
-
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     public abstract partial class Shader
     {

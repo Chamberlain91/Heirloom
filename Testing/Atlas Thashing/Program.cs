@@ -1,7 +1,6 @@
-using Heirloom.Platforms.Desktop;
-using Heirloom.Drawing;
-using Heirloom.Drawing.Utilities;
-using Heirloom.Math;
+using Heirloom;
+using Heirloom.Desktop;
+using Heirloom.Utilities;
 
 namespace Atlas_Thashing
 {
@@ -23,7 +22,7 @@ namespace Atlas_Thashing
                 var packer = new ShelfPacker<Image>(window.Size);
 
                 // Create the main loop
-                var loop = RenderLoop.Create(window.Graphics, (gfx, dt) =>
+                var loop = GameLoop.Create(window.Graphics, (gfx, dt) =>
                 {
                     packer.Clear();
 

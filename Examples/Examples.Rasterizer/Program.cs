@@ -1,14 +1,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Heirloom.Drawing;
-using Heirloom.Drawing.Utilities;
-using Heirloom.Math;
-using Heirloom.Platforms.Desktop;
+using Heirloom;
+using Heirloom.Utilities;
+using Heirloom.Desktop;
 
 namespace Examples.CpuRasterizer
 {
-    internal class Program : RenderLoop
+    internal class Program : GameLoop
     {
         public readonly Window Window;
 

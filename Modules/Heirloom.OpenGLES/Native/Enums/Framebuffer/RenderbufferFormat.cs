@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum RenderbufferFormat : uint
+    internal enum RenderbufferFormat : uint
     {
         RGBA4 = 0x8056,
         RGBA8 = 0x8058,

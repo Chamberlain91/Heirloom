@@ -1,6 +1,6 @@
-using Heirloom.Platforms.Desktop;
+using Heirloom;
 using Heirloom.Drawing;
-using Heirloom.Math;
+using Heirloom.Desktop;
 
 namespace Examples.UserInput
 {
@@ -24,7 +24,7 @@ namespace Examples.UserInput
                 Image = Image.CreateGridPattern(98, 98, Color.Violet, 16, 2);
 
                 // Begin Render Loop
-                var loop = RenderLoop.Create(window.Graphics, OnDraw);
+                var loop = GameLoop.Create(window.Graphics, OnDraw);
                 loop.Start();
             });
         }

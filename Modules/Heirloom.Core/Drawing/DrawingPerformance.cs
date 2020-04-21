@@ -1,8 +1,8 @@
-using Heirloom.Math;
+using Heirloom;
 
-using Range = Heirloom.Math.Range;
+using Range = Heirloom.Range;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// Contains information pertaining to draw performance.

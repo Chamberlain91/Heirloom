@@ -1,6 +1,6 @@
 using System;
 
-using Heirloom.Math;
+using Heirloom;
 
 namespace Heirloom.Collections
 {

@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum TextureImageTarget : uint
+    internal enum TextureImageTarget : uint
     {
         Texture2D = 0x0DE1,
         Texture2DArray = 0x8C1A,

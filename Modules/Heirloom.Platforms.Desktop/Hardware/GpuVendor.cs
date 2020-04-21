@@ -1,4 +1,4 @@
-namespace Heirloom.Platforms.Desktop.Hardware
+namespace Heirloom.Desktop.Hardware
 {
     public enum GpuVendor
     {

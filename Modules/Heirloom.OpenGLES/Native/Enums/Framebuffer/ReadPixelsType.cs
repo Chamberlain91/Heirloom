@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum ReadPixelsType : uint
+    internal enum ReadPixelsType : uint
     {
         UnsignedByte = 0x1401,
         UnsignedInteger = 0x1405,

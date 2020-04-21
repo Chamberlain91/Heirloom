@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum FramebufferStatus
+    internal enum FramebufferStatus
     {
         Complete = 0x8CD5,
         IncompleteAttachment = 0x8CD6,

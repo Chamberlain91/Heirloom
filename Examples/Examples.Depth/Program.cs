@@ -1,10 +1,7 @@
 using System.Linq;
 
-using Heirloom.Platforms.Desktop;
-using Heirloom.Drawing;
-using Heirloom.IO;
-using Heirloom.Math;
 using Heirloom;
+using Heirloom.Desktop;
 
 namespace Examples.Depth
 {
@@ -93,7 +90,7 @@ namespace Examples.Depth
 
         private static void Main(string[] args)
         {
-            Log.SetVerbosity(LogVerbosity.Debug, "Heirloom.Drawing.OpenGLES");
+            Log.SetVerbosity(LogVerbosity.Debug, "Heirloom.OpenGLES");
             Log.SetVerbosity(LogVerbosity.Debug, "Heirloom.Drawing");
             Log.SetVerbosity(LogVerbosity.Debug);
 

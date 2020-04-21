@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum ShaderPrecision : uint
+    internal enum ShaderPrecision : uint
     {
         LowFloat = 0x8DF0,
         MediumFloat = 0x8DF1,

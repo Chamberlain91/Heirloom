@@ -3,7 +3,7 @@ using System;
 namespace Heirloom.OpenGLES
 {
     [Flags]
-    public enum WaitSyncFlags : uint
+    internal enum WaitSyncFlags : uint
     {
     }
 }

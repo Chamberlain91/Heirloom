@@ -1,4 +1,4 @@
-namespace Heirloom.IO
+namespace Heirloom
 {
     public interface ILogHandler
     {

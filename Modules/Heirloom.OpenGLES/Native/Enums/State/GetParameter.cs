@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum GetParameter
+    internal enum GetParameter
     {
         AliasedLineWidthRange = 0x846E,
         AliasedPointSizeRange = 0x846D,

@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Heirloom.Platforms.Desktop
+namespace Heirloom.Desktop
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct VideoMode : IEquatable<VideoMode>

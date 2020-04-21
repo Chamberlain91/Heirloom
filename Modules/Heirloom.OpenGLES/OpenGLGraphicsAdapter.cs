@@ -2,10 +2,9 @@ using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-using Heirloom.Math;
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.OpenGLES
+namespace Heirloom.OpenGLES
 {
     using GLShaderType = Heirloom.OpenGLES.ShaderType;
 

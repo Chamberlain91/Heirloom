@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-using Heirloom.Math;
+using Heirloom;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// Provides a mechanism for requesting temporary surfaces and recycling them for reuse later.

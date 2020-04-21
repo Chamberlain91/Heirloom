@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum ClientWaitSyncResult : uint
+    internal enum ClientWaitSyncResult : uint
     {
         ALREADY_SIGNALED = 0x911A,
         TIMEOUT_EXPIRED = 0x911B,

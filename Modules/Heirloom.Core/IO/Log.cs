@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace Heirloom.IO
+namespace Heirloom
 {
     /// <summary>
     /// Provides a simple mechanism to log debug and info messages.

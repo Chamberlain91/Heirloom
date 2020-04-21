@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-using Heirloom.Collections;
-using Heirloom.Platforms.Desktop;
+using Heirloom;
 using Heirloom.Drawing;
-using Heirloom.Math;
+using Heirloom.Desktop;
 
 namespace Examples.Depth
 {
@@ -19,12 +18,12 @@ namespace Examples.Depth
             Window = window ?? throw new ArgumentNullException(nameof(window));
 
             Renderer = new Renderer(multisample);
-            Loop = RenderLoop.Create(Window.Graphics, OnUpdate);
+            Loop = GameLoop.Create(Window.Graphics, OnUpdate);
         }
 
         public Window Window { get; }
 
-        public RenderLoop Loop { get; }
+        public GameLoop Loop { get; }
 
         public Renderer Renderer { get; }
 

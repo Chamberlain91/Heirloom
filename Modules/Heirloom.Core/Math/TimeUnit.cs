@@ -1,4 +1,4 @@
-namespace Heirloom.Math
+namespace Heirloom
 {
     /// <summary>
     /// Represents units of time, such as a millisecond.

@@ -1,4 +1,4 @@
-﻿namespace Heirloom.IO
+namespace Heirloom
 {
     /// <summary>
     /// Controls the verbosity of <see cref="Log"/>.

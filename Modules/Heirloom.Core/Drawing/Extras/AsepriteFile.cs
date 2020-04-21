@@ -5,9 +5,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 
-using Heirloom.Math;
-using Heirloom.Drawing.Utilities;
-
 using DWORD = System.UInt32;
 using FIXED = System.Single;
 using LONG = System.Int32;
@@ -15,7 +12,7 @@ using SHORT = System.Int16;
 using STRING = System.String;
 using WORD = System.UInt16;
 
-namespace Heirloom.Drawing.Extras
+namespace Heirloom.Extras
 {
     internal class AsepriteFile : IDisposable
     // todo: origin of each image

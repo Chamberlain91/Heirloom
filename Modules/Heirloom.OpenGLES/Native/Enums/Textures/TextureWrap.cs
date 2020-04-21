@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum TextureWrap
+    internal enum TextureWrap
     {
         /// <summary>
         /// Sampling clamps at the edge of the texture.

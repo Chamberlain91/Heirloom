@@ -1,6 +1,6 @@
 using System;
 
-namespace Heirloom.Platforms.Desktop
+namespace Heirloom.Desktop
 {
     internal class GlfwException : Exception
     {

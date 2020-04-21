@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum TextureParameter
+    internal enum TextureParameter
     {
         MagFilter = 0x2800,
         MinFilter = 0x2801,

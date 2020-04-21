@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     internal static class FontManager
     {

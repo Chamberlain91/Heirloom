@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum DepthFunction : uint
+    internal enum DepthFunction : uint
     {
         Never = 0x0200,
         Less = 0x0201,

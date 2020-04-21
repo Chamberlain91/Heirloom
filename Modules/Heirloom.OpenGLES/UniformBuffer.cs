@@ -2,7 +2,7 @@ using System.Runtime.CompilerServices;
 
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.OpenGLES
+namespace Heirloom.OpenGLES
 {
     internal sealed class UniformBuffer : Buffer
     {

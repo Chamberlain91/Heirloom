@@ -1,10 +1,10 @@
-using Heirloom.Platforms.Desktop;
+using Heirloom;
 using Heirloom.Drawing;
-using Heirloom.Math;
+using Heirloom.Desktop;
 
 namespace Examples.SplitScreen
 {
-    internal class SplitScreen : RenderLoop
+    internal class SplitScreen : GameLoop
     {
         // Stage
         public static readonly Color StageColor = Color.Parse("AA555555");

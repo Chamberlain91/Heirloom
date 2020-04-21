@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum SyncParameter : uint
+    internal enum SyncParameter : uint
     {
         OBJECT_TYPE,
         SYNC_STATUS,

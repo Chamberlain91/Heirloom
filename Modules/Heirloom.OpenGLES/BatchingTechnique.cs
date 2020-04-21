@@ -1,8 +1,6 @@
 using System.Runtime.CompilerServices;
 
-using Heirloom.Math;
-
-namespace Heirloom.Drawing.OpenGLES
+namespace Heirloom.OpenGLES
 {
     internal abstract class BatchingTechnique
     {

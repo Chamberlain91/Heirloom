@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum TextureCompressedFormat : uint
+    internal enum TextureCompressedFormat : uint
     {
     }
 }

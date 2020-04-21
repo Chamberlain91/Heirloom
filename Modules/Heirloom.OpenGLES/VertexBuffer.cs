@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.OpenGLES
+namespace Heirloom.OpenGLES
 {
     internal abstract class VertexBuffer : Buffer
     {

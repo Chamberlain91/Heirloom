@@ -3,7 +3,7 @@ namespace Heirloom.OpenGLES
     /// <summary>
     /// Enum for <see cref="GL.GetString(StringParameter)"/>
     /// </summary>
-    public enum StringParameter
+    internal enum StringParameter
     {
         /// <summary>
         /// Vendor name

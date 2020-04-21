@@ -1,6 +1,6 @@
-using Heirloom.Platforms.Desktop;
+using Heirloom;
 using Heirloom.Drawing;
-using Heirloom.Math;
+using Heirloom.Desktop;
 
 namespace Examples.Drawing
 {
@@ -11,7 +11,7 @@ namespace Examples.Drawing
 
         public Demo CurrentDemo => _demos[_demoIndex];
 
-        public RenderLoop Loop;
+        public GameLoop Loop;
         public Window Window;
 
         public Program()
@@ -44,7 +44,7 @@ namespace Examples.Drawing
             Window.IsResizable = false;
 
             // Create render loop
-            Loop = RenderLoop.Create(Window.Graphics, Update);
+            Loop = GameLoop.Create(Window.Graphics, Update);
             Loop.Start();
 
             // Register key events

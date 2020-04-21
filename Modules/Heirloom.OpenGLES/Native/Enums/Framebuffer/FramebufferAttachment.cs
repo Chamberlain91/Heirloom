@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum FramebufferAttachment : uint
+    internal enum FramebufferAttachment : uint
     {
         Color0 = 0x8CE0 + 0,
         Color1 = Color0 + 1,

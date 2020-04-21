@@ -4,7 +4,7 @@ using System.Threading;
 
 using ThreadMonitor = System.Threading.Monitor;
 
-namespace Heirloom.Platforms.Desktop
+namespace Heirloom.Desktop
 {
     internal sealed class ConsumerQueue
     {

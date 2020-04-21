@@ -1,6 +1,6 @@
 using System;
 
-namespace Heirloom.Sound.Effects
+namespace Heirloom
 {
     /// <summary>
     /// An audio effect that implements a low pass filter.

@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Heirloom.Platforms.Desktop.Hardware
+namespace Heirloom.Desktop.Hardware
 {
     public readonly struct GpuInfo : IEquatable<GpuInfo>
     {

@@ -1,8 +1,8 @@
 using System.Runtime.InteropServices;
 
-using Heirloom.Math;
+using Heirloom;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// Represents a vertex of <see cref="Mesh"/>.

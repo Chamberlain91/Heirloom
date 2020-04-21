@@ -1,6 +1,6 @@
-﻿using Heirloom.Drawing;
+using Heirloom.Drawing;
 
-namespace Heirloom.Platforms.Desktop
+namespace Heirloom.Desktop
 {
     public readonly struct CharacterEvent
     {

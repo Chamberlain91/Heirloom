@@ -1,8 +1,8 @@
 using System;
 
-using static Heirloom.Sound.Backends.MiniAudio.NativeApi;
+using static Heirloom.Backends.MiniAudio.NativeApi;
 
-namespace Heirloom.Sound.Backends.MiniAudio
+namespace Heirloom.Backends.MiniAudio
 {
     internal sealed unsafe class MiniAudioContext : AudioContext
     {

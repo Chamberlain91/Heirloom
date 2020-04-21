@@ -1,5 +1,5 @@
-using Heirloom.Drawing;
-using Heirloom.Math;
+using Heirloom;
+using Heirloom;
 
 namespace Examples.Shaders
 {

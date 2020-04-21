@@ -1,8 +1,8 @@
 using System.Runtime.CompilerServices;
 
-using static Heirloom.Math.Calc;
+using static Heirloom.Calc;
 
-namespace Heirloom.Math
+namespace Heirloom
 {
     /// <summary>
     /// Provides utilities for working with Quadratic and Cubic curves.

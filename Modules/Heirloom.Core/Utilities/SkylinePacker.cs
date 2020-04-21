@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Heirloom.Math;
-
-namespace Heirloom.Drawing.Utilities
+namespace Heirloom
 {
     public sealed class SkylinePacker<TElement> : RectanglePacker<TElement>
     {

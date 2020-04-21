@@ -1,6 +1,4 @@
-using Heirloom.Math;
-
-namespace Heirloom.Drawing.Utilities
+namespace Heirloom
 {
     public sealed class ShelfPacker<TElement> : RectanglePacker<TElement>
     {

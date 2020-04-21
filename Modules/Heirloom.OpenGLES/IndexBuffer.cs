@@ -1,6 +1,6 @@
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.OpenGLES
+namespace Heirloom.OpenGLES
 {
     /// <summary>
     /// Represents indices of a mesh.

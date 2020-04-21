@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace Heirloom.Sound
+namespace Heirloom
 {
     /// <summary>
     /// An instance of playable audio.

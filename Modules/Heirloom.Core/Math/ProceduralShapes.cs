@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Heirloom.Math
+namespace Heirloom
 {
     /// <summary>
     /// Provides methods for generating simple polygonal shapes procedurally.

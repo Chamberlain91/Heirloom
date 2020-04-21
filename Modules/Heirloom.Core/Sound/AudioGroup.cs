@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Heirloom.Sound
+namespace Heirloom
 {
     /// <summary>
     /// An <see cref="AudioNode"/> to mix and apply effects to a group of other nodes.

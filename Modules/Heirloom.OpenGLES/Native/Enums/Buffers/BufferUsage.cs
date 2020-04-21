@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum BufferUsage
+    internal enum BufferUsage
     {
         /// <summary>
         /// A hint for the GPU that the data will update frequently and perform any optimization accordingly.

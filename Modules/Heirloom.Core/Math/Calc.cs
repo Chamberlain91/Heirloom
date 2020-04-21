@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 using MathD = System.Math;
 
-namespace Heirloom.Math
+namespace Heirloom
 {
     /// <summary>
     /// Math operations for <see cref="float"/> and a other data types including <see cref="int"/>. <para/>

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
+using Heirloom;
 using Heirloom.Drawing;
-using Heirloom.Math;
 
 namespace Examples.SplitScreen
 {

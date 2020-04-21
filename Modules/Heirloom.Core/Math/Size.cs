@@ -2,7 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Heirloom.Math
+namespace Heirloom
 {
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct Size : IEquatable<Size>, IComparable<Size>

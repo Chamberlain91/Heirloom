@@ -1,6 +1,5 @@
+using Heirloom;
 using Heirloom.Drawing;
-using Heirloom.IO;
-using Heirloom.Math;
 
 namespace Examples.Drawing
 {

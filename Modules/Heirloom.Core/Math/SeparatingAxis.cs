@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Heirloom.Math
+namespace Heirloom
 {
     /// <summary>
     /// Implementation of 2D collisions/overlap using separating axis theorem.

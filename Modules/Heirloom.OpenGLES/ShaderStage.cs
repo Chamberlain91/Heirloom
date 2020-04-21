@@ -1,12 +1,7 @@
 using System;
 
-using Heirloom.IO;
-using Heirloom.OpenGLES;
-
-namespace Heirloom.Drawing.OpenGLES
+namespace Heirloom.OpenGLES
 {
-    using ShaderType = Heirloom.OpenGLES.ShaderType;
-
     internal sealed class ShaderStage : IDisposable
     {
         #region Constructors

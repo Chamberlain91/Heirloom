@@ -1,8 +1,8 @@
 using System;
 
-using Heirloom.Math;
+using Heirloom;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// A special stretchable rectangle of an image.

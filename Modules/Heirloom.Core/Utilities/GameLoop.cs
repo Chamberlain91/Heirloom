@@ -2,12 +2,12 @@ using System;
 using System.Diagnostics;
 using System.Threading;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// Provides a thread to manage invoking a render/update function continuously.
     /// </summary>
-    public abstract class RenderLoop
+    public abstract class GameLoop
     {
         public delegate void UpdateFunction(Graphics gfx, float dt);
 
@@ -15,7 +15,7 @@ namespace Heirloom.Drawing
 
         #region Constructor
 
-        protected RenderLoop(Graphics graphics)
+        protected GameLoop(Graphics graphics)
         {
             Graphics = graphics;
         }
@@ -44,7 +44,7 @@ namespace Heirloom.Drawing
         /// </summary>
         public void Start()
         {
-            if (IsRunning) { throw new InvalidOperationException($"{nameof(RenderLoop)} has already started."); }
+            if (IsRunning) { throw new InvalidOperationException($"{nameof(GameLoop)} has already started."); }
 
             // Mark thread for life
             IsRunning = true;
@@ -59,7 +59,7 @@ namespace Heirloom.Drawing
         /// </summary>
         public void Stop()
         {
-            if (!IsRunning) { throw new InvalidOperationException($"{nameof(RenderLoop)} has already stopped."); }
+            if (!IsRunning) { throw new InvalidOperationException($"{nameof(GameLoop)} has already stopped."); }
 
             // Mark thread for death
             IsRunning = false;
@@ -109,7 +109,7 @@ namespace Heirloom.Drawing
         /// <param name="gfx">The relevant graphics context.</param>
         /// <param name="update">The relevant update function.</param>
         /// <returns></returns>
-        public static RenderLoop Create(Graphics gfx, UpdateFunction update)
+        public static GameLoop Create(Graphics gfx, UpdateFunction update)
         {
             if (gfx is null) { throw new ArgumentNullException(nameof(gfx)); }
             if (update is null) { throw new ArgumentNullException(nameof(update)); }
@@ -117,7 +117,7 @@ namespace Heirloom.Drawing
             return new DefaultRenderLoop(gfx, update);
         }
 
-        private sealed class DefaultRenderLoop : RenderLoop
+        private sealed class DefaultRenderLoop : GameLoop
         {
             private readonly UpdateFunction _update;
 

@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum Face
+    internal enum Face
     {
         /// <summary>
         /// Ignores processing fragments "front-facing"

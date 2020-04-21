@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Heirloom.Math
+namespace Heirloom
 {
     /// <summary>
     /// Represents statistics of some data.

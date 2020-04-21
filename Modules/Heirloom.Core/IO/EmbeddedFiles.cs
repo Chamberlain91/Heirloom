@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace Heirloom.IO
+namespace Heirloom
 {
     /// <summary>
     /// Provides access assembly embedded files in more intuitive way. <para/>

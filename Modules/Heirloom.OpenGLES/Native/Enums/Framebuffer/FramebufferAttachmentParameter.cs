@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum FramebufferAttachmentParameter : uint
+    internal enum FramebufferAttachmentParameter : uint
     {
         OBJECT_TYPE = 0x8CD0,
         OBJECT_NAME = 0x8CD1,

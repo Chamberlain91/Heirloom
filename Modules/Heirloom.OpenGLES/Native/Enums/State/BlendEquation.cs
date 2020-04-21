@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum BlendEquation : uint
+    internal enum BlendEquation : uint
     {
         /// <summary>
         /// Result = Source + Destination

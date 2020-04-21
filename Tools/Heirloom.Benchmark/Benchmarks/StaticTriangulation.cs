@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 
-using Heirloom.Drawing;
-using Heirloom.Math;
-using Heirloom.Math.Extras;
+using Heirloom.Extras;
 
 namespace Heirloom.Benchmark
 {

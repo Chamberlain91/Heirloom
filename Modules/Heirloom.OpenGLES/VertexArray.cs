@@ -1,10 +1,9 @@
 using System;
 using System.Diagnostics;
 
-using Heirloom.IO;
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.OpenGLES
+namespace Heirloom.OpenGLES
 {
     internal unsafe class VertexArray
     {
