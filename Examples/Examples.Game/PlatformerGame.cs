@@ -1,6 +1,6 @@
 using System.Linq;
 
-using Heirloom.Desktop;
+using Heirloom.Platforms.Desktop;
 using Heirloom.Drawing;
 using Heirloom.Game;
 using Heirloom.Game.Desktop;

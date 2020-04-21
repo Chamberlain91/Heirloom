@@ -1,6 +1,6 @@
 using System;
 
-using Heirloom.Desktop;
+using Heirloom.Platforms.Desktop;
 using Heirloom.Drawing;
 
 namespace Examples.MultiWindow

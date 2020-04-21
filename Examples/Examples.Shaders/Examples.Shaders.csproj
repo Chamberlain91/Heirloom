@@ -22,8 +22,7 @@
   </ItemGroup>
  
   <ItemGroup>
-    <ProjectReference Include="..\..\Modules\Heirloom.Desktop\Heirloom.Desktop.csproj" />
-    <ProjectReference Include="..\..\Modules\Heirloom.Drawing\Heirloom.Drawing.csproj" />
+    <ProjectReference Include="..\..\Modules\Heirloom.Platforms.Desktop\Heirloom.Platforms.Desktop.csproj" />
   </ItemGroup>
 
 </Project>

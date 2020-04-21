@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-using Heirloom.Desktop;
+using Heirloom.Platforms.Desktop;
 using Heirloom.Drawing;
 using Heirloom.Math;
 
@@ -14,8 +14,6 @@ namespace Examples.Minimal
         {
             Application.Run(() =>
             {
-                IntVector a;
-                a.
                 // Create window
                 var window = new Window("Minimal Example", (400, 200)) { IsResizable = false };
 
