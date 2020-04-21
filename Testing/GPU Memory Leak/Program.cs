@@ -1,7 +1,6 @@
-using Heirloom.Platforms.Desktop;
+using Heirloom;
 using Heirloom.Drawing;
-using Heirloom.IO;
-using Heirloom.Math;
+using Heirloom.Desktop;
 
 namespace GPU_Memory_Leak
 {
@@ -15,7 +14,7 @@ namespace GPU_Memory_Leak
                 window.Graphics.Performance.OverlayMode = PerformanceOverlayMode.Simple;
 
                 var hue = 0;
-                var loop = RenderLoop.Create(window.Graphics, (gfx, dt) =>
+                var loop = GameLoop.Create(window.Graphics, (gfx, dt) =>
                 {
                     // Get next color
                     var color = Color.FromHSV(hue, 1, 1);

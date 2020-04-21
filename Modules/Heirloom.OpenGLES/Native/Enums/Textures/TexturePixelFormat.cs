@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum TexturePixelFormat : uint
+    internal enum TexturePixelFormat : uint
     {
         R = 0x1903,
         RG = 0x8227,

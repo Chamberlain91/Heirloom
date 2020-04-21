@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum StencilOperation : uint
+    internal enum StencilOperation : uint
     {
         /// <summary>
         /// Keeps the current value.

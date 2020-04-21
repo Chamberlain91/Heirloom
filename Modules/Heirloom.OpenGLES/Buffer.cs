@@ -2,10 +2,9 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-using Heirloom.IO;
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.OpenGLES
+namespace Heirloom.OpenGLES
 {
     internal abstract class Buffer : IDisposable
     {

@@ -1,12 +1,12 @@
-using Heirloom.Math;
+using Heirloom;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     public abstract class ImageSource
     {
         internal ImageSource()
         {
-            // Only visible in Heirloom.Drawing and friends
+            // Only visible in Heirloom and friends
         }
 
         /// <summary>

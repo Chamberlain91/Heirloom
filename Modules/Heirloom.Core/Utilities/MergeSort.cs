@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Heirloom.Collections
+namespace Heirloom
 {
     public static class MergeSort
     {

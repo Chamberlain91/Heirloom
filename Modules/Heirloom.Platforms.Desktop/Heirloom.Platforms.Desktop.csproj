@@ -4,6 +4,7 @@
     <!-- Project Info -->
     <TargetFramework>netstandard2.1</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RootNamespace>Heirloom.Desktop</RootNamespace>
     <!-- Package Info -->
     <Authors>Chris Chamberlain</Authors>
     <Version>1.0.0-beta</Version>

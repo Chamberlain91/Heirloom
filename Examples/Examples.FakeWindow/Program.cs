@@ -1,6 +1,6 @@
-using Heirloom.Platforms.Desktop;
+using Heirloom;
 using Heirloom.Drawing;
-using Heirloom.Math;
+using Heirloom.Desktop;
 
 namespace Examples.FakeWindow
 {
@@ -46,7 +46,7 @@ namespace Examples.FakeWindow
                 _cardPos = (Vector) _window.Size / 2F;
 
                 // Begin render loop
-                var loop = RenderLoop.Create(_window.Graphics, OnDraw);
+                var loop = GameLoop.Create(_window.Graphics, OnDraw);
                 loop.Start();
             });
         }

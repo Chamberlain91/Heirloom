@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public class ActiveAttribute
+    internal class ActiveAttribute
     {
         /// <summary>
         /// Number of components of the attribute type.

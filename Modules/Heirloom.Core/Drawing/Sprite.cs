@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using Heirloom.Drawing.Extras;
-using Heirloom.IO;
+using Heirloom.Extras;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// A representation of single animated sprite.

@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum TexturePixelType : uint
+    internal enum TexturePixelType : uint
     {
         Byte = 0x1400,
         Short = 0x1402,

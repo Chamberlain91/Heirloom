@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum ProgramParameter : uint
+    internal enum ProgramParameter : uint
     {
         DeleteStatus = 0x8B80,
         LinkStatus = 0x8B82,

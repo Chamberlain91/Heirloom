@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum VertexAttributeParameter : uint
+    internal enum VertexAttributeParameter : uint
     {
         BUFFER_BINDING = 0x889F,
         ENABLED = 0x8622,

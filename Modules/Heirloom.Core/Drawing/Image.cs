@@ -4,16 +4,12 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-using Heirloom.Drawing.Utilities;
-using Heirloom.IO;
-using Heirloom.Math;
-
 using StbImageSharp;
 
 using static StbImageSharp.StbImage;
 using static StbImageWriteSharp.StbImageWrite;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     public sealed class Image : ImageSource
     {

@@ -1,6 +1,4 @@
-using Heirloom.Math;
-
-namespace Heirloom.Platforms.Desktop
+namespace Heirloom.Desktop
 {
     /// <summary>
     /// Represents a physical display on the current device.

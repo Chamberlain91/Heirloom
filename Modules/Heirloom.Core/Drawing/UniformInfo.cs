@@ -1,6 +1,6 @@
-using Heirloom.Math;
+using Heirloom;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// Contains information of a uniform from a <see cref="Shader"/>.

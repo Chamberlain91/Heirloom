@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum DrawMode : uint
+    internal enum DrawMode : uint
     {
         Points = 0x0000,
         Lines = 0x0001,

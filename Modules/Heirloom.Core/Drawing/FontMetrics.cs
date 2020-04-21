@@ -1,6 +1,6 @@
 using System;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// Contains information about a font (ie, the vertical metrics).

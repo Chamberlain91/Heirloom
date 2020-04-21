@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-using Heirloom.IO;
-using Heirloom.Sound;
+using Heirloom;
 
 namespace Examples.MusicPlayer
 {

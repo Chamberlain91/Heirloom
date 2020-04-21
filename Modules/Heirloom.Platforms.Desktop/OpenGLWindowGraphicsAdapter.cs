@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-using Heirloom.Drawing;
-using Heirloom.Drawing.OpenGLES;
-using Heirloom.IO;
+using Heirloom.OpenGLES;
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Platforms.Desktop
+namespace Heirloom.Desktop
 {
     internal sealed class OpenGLWindowGraphicsAdapter : OpenGLGraphicsAdapter, IWindowGraphicsFactory
     {

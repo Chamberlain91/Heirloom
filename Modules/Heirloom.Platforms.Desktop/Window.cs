@@ -2,13 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Threading;
 
 using Heirloom.Drawing;
-using Heirloom.IO;
-using Heirloom.Math;
 
-namespace Heirloom.Platforms.Desktop
+namespace Heirloom.Desktop
 {
     public class Window
     {

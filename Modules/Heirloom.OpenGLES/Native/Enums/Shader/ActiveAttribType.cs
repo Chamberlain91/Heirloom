@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum ActiveAttribType
+    internal enum ActiveAttribType
     {
         Float = 0x1406,
         FloatVec2 = 0x8B50,

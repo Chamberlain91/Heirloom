@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// Provides extension methods for <see cref="string"/>.

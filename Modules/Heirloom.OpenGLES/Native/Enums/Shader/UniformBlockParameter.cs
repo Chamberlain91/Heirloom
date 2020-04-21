@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum UniformBlockParameter : uint
+    internal enum UniformBlockParameter : uint
     {
         BlockBinding = 0x8A3F,
         BlockDataSize = 0x8A40,

@@ -1,8 +1,8 @@
 using System.Threading;
 
+using Heirloom;
 using Heirloom.Drawing;
-using Heirloom.Math;
-using Heirloom.Platforms.Desktop;
+using Heirloom.Desktop;
 
 namespace Cross_Window_Surfaces
 {

@@ -2,12 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-using Heirloom.Math;
-
 namespace Heirloom
 {
-    using Range = Math.Range;
-
     /// <summary>
     /// Provides extension methods for <see cref="Random"/> and other related random operations.
     /// </summary>

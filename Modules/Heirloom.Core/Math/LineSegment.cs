@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Heirloom.Math
+namespace Heirloom
 {
     /// <summary>
     /// Represents a line segment defined by two <see cref="Vector"/>.

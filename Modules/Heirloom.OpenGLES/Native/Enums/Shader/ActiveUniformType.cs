@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum ActiveUniformType : uint
+    internal enum ActiveUniformType : uint
     {
         Float = 0x1406,
         Integer = 0x1404,

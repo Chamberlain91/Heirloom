@@ -2,7 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Heirloom.Math
+namespace Heirloom
 {
     /// <summary>
     /// Represents a vector with two integer values.

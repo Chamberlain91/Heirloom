@@ -1,4 +1,4 @@
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// Controls showing the performance overlay on a <see cref="Graphics"/> object.

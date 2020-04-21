@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Heirloom.Platforms.Desktop
+namespace Heirloom.Desktop
 {
     internal static unsafe partial class Glfw
     {

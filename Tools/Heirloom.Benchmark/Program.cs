@@ -2,10 +2,7 @@ using System;
 using System.IO;
 using System.Threading;
 
-using Heirloom.Platforms.Desktop;
-using Heirloom.Drawing;
-using Heirloom.IO;
-using Heirloom.Math;
+using Heirloom.Desktop;
 
 namespace Heirloom.Benchmark
 {
@@ -49,7 +46,7 @@ namespace Heirloom.Benchmark
                 benchmarks[0].Initialize(in bounds);
 
                 // Launch render loop
-                var loop = RenderLoop.Create(window.Graphics, Update);
+                var loop = GameLoop.Create(window.Graphics, Update);
                 loop.Start();
 
                 // Bind window events

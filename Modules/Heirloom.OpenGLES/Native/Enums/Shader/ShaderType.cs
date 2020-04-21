@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum ShaderType : uint
+    internal enum ShaderType : uint
     {
         /// <summary>
         /// Vertex shader.

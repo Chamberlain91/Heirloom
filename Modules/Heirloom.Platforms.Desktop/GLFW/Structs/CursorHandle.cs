@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Heirloom.Platforms.Desktop
+namespace Heirloom.Desktop
 {
     [StructLayout(LayoutKind.Sequential)]
     internal struct CursorHandle : IEquatable<CursorHandle>

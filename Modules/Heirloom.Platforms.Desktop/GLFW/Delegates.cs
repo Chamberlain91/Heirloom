@@ -2,7 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace Heirloom.Platforms.Desktop
+namespace Heirloom.Desktop
 {
     #region Window
 

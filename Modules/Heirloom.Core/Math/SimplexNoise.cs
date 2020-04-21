@@ -1,8 +1,8 @@
 using System;
 
-using static Heirloom.Math.Calc;
+using static Heirloom.Calc;
 
-namespace Heirloom.Math
+namespace Heirloom
 {
     /// <summary>
     /// Implements methods for sampling 2D and 3D simplex noise.

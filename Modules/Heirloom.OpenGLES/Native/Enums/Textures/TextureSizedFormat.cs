@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum TextureSizedFormat : uint
+    internal enum TextureSizedFormat : uint
     {
         // Color
         R8 = 0x8229,

@@ -1,9 +1,9 @@
 using System;
 using System.Runtime.CompilerServices;
 
-using static Heirloom.Math.Calc;
+using static Heirloom.Calc;
 
-namespace Heirloom.Math
+namespace Heirloom
 {
     /// <summary>
     /// Implements methods for sampling 1D, 2D and 3D perlin noise.

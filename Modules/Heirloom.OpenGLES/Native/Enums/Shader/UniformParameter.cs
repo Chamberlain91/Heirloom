@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum UniformParameter : uint
+    internal enum UniformParameter : uint
     {
         UniformType = 0x8A37,
         UniformSize = 0x8A38,

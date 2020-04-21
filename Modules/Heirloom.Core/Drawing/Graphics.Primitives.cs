@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-using Heirloom.Math;
+using Heirloom;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     public abstract partial class Graphics
     {

@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum QueryTarget
+    internal enum QueryTarget
     {
         AnySamplesPassed = 0x8C2F,
         AnySamplesPassedConservative = 0x8D6A,

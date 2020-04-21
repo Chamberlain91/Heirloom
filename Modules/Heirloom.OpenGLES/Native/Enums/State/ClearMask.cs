@@ -3,7 +3,7 @@ using System;
 namespace Heirloom.OpenGLES
 {
     [Flags]
-    public enum ClearMask : uint
+    internal enum ClearMask : uint
     {
         /// <summary>
         /// Mask to flag clearing the depth buffer.

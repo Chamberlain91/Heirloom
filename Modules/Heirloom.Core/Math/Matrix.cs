@@ -2,7 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Heirloom.Math
+namespace Heirloom
 {
     /// <summary>
     /// A 2x3 transformation matrix.

@@ -1,4 +1,4 @@
-namespace Heirloom.Platforms.Desktop
+namespace Heirloom.Desktop
 {
     internal enum ContextRobustness
     {

@@ -3,7 +3,7 @@ using System;
 namespace Heirloom.OpenGLES
 {
     [Flags]
-    public enum MapBufferAccess : uint
+    internal enum MapBufferAccess : uint
     {
         Read = 0x0001,
         Write = 0x0002,

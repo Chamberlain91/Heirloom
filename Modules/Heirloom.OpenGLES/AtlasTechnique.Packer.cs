@@ -1,11 +1,8 @@
 using System.Collections.Generic;
 
-using Heirloom.Drawing.Utilities;
-using Heirloom.IO;
-using Heirloom.Math;
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.OpenGLES
+namespace Heirloom.OpenGLES
 {
     internal class PackerAtlasTechnique : AtlasTechnique
     {

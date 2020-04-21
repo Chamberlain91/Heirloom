@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum ShaderParameter : uint
+    internal enum ShaderParameter : uint
     {
         ShaderType = 0x8B4F,
         DeleteStatus = 0x8B80,

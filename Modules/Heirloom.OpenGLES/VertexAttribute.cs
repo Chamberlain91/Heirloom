@@ -4,10 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-using Heirloom.Math;
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.OpenGLES
+namespace Heirloom.OpenGLES
 {
     internal class VertexAttribute
     {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-using static Heirloom.Math.ProceduralShapes;
+using static Heirloom.ProceduralShapes;
 
-namespace Heirloom.Math
+namespace Heirloom
 {
     /// <summary>
     /// Represents a simple polygon.

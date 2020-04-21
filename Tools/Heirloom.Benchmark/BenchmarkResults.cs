@@ -4,8 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-using Heirloom.Platforms.Desktop.Hardware;
-using Heirloom.IO;
+using Heirloom.Desktop.Hardware;
 
 namespace Heirloom.Benchmark
 {

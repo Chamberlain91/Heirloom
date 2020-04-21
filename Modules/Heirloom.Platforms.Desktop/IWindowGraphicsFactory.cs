@@ -1,6 +1,6 @@
 using Heirloom.Drawing;
 
-namespace Heirloom.Platforms.Desktop
+namespace Heirloom.Desktop
 {
     internal interface IWindowGraphicsFactory
     {

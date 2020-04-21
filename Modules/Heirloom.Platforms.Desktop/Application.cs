@@ -6,9 +6,9 @@ using System.Threading;
 
 using Heirloom.Drawing;
 using Heirloom.OpenGLES;
-using Heirloom.Platforms.Desktop.Hardware;
+using Heirloom.Desktop.Hardware;
 
-namespace Heirloom.Platforms.Desktop
+namespace Heirloom.Desktop
 {
     public static class Application
     {

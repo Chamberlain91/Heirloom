@@ -2,9 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Heirloom.Drawing;
-using Heirloom.Math;
-
 namespace Heirloom.Benchmark
 {
     public abstract class ParticleBenchmark : Benchmark

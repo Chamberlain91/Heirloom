@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// Utility object for manually constructing a sprite and its animations from images.

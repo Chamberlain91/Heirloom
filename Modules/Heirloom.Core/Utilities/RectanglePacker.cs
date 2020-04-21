@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-using Heirloom.Math;
-
-namespace Heirloom.Drawing.Utilities
+namespace Heirloom
 {
     public abstract class RectanglePacker<TElement>
     {

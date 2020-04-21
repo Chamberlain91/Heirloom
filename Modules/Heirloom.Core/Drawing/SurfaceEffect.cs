@@ -1,6 +1,6 @@
 using System;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     public abstract class SurfaceEffect
     {

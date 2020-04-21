@@ -1,10 +1,8 @@
 using System;
 
-using Heirloom.IO;
-using Heirloom.Math;
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.OpenGLES
+namespace Heirloom.OpenGLES
 {
     internal class Texture : IDisposable
     {

@@ -1,4 +1,4 @@
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// Controls how drawing operations are blended into existing pixels.

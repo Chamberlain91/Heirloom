@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum VertexAttributePointerParameter : uint
+    internal enum VertexAttributePointerParameter : uint
     {
         POINTER = 0x8645
     }

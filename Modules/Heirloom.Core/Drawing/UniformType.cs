@@ -1,4 +1,4 @@
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// Represents the type of a uniform in a <see cref="Shader"/>.

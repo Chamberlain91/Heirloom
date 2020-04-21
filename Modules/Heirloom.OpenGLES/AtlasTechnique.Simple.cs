@@ -1,9 +1,8 @@
 using System.Runtime.CompilerServices;
 
-using Heirloom.Math;
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.OpenGLES
+namespace Heirloom.OpenGLES
 {
     internal class SimpleAtlasTechnique : AtlasTechnique
     {

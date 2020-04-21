@@ -1,8 +1,8 @@
 using System;
 
-using Heirloom.Math;
+using Heirloom;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// Contains information about a glyph (ie, the horizontal metrics).

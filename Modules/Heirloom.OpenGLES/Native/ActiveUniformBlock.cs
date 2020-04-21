@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Heirloom.OpenGLES
 {
-    public class ActiveUniformBlock
+    internal class ActiveUniformBlock
     {
         /// <summary>
         /// Name of this block.

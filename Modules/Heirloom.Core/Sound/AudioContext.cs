@@ -1,8 +1,8 @@
 using System;
 
-using Heirloom.Sound.Backends.MiniAudio;
+using Heirloom.Backends.MiniAudio;
 
-namespace Heirloom.Sound
+namespace Heirloom
 {
     using Math = System.Math;
 

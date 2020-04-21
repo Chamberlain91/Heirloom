@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum ErrorCode : uint
+    internal enum ErrorCode : uint
     {
         NoError = 0,
         InvalidEnum = 0x0500,

@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public class ActiveUniform
+    internal class ActiveUniform
     {
         /// <summary>
         /// Number of components of the uniform type.

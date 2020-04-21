@@ -1,6 +1,6 @@
 using System;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// Represents a single 32 bit Unicode character.

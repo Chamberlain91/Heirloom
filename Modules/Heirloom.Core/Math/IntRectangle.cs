@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Heirloom.Math
+namespace Heirloom
 {
     /// <summary>
     /// Represents a rectangle defined with integer coordinates.

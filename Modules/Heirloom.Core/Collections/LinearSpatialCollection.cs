@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-using Heirloom.Math;
+using Heirloom;
 
 namespace Heirloom.Collections
 {

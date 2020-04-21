@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Heirloom.Math
+namespace Heirloom
 {
     /// <summary>
     /// Represents a range of integers from <see cref="Min"/> to <see cref="Max"/>.

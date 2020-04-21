@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 using Heirloom.Drawing;
 
-namespace Heirloom.Platforms.Desktop.Hardware
+namespace Heirloom.Desktop.Hardware
 {
     /// <summary>
     /// Utility class for extracting metadata of the hardware.

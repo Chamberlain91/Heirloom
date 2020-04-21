@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Heirloom.IO
+namespace Heirloom
 {
     /// <summary>
     /// A utility to unify access of embedded files and files on disk. <para/>

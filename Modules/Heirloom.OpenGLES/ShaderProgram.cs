@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
-using Heirloom.IO;
 using Heirloom.OpenGLES;
 
-namespace Heirloom.Drawing.OpenGLES
+namespace Heirloom.OpenGLES
 {
     internal class ShaderProgram
     {

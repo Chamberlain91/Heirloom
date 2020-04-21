@@ -1,4 +1,4 @@
-﻿namespace Heirloom.Drawing
+﻿namespace Heirloom
 {
     /// <summary>
     /// Invert shader.

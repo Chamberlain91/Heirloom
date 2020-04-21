@@ -1,6 +1,6 @@
-using Heirloom.Platforms.Desktop;
+using Heirloom;
 using Heirloom.Drawing;
-using Heirloom.Math;
+using Heirloom.Desktop;
 
 namespace Examples.Shaders
 {
@@ -46,7 +46,7 @@ namespace Examples.Shaders
                 };
 
                 // 
-                var loop = RenderLoop.Create(window.Graphics, Update);
+                var loop = GameLoop.Create(window.Graphics, Update);
                 loop.Start();
             });
         }

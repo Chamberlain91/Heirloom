@@ -1,9 +1,9 @@
 using System;
 using System.Runtime.CompilerServices;
 
-using Heirloom.Math;
+using Heirloom;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     public delegate void TextLayoutCallback(string text, int index, ref TextLayoutState state);
 

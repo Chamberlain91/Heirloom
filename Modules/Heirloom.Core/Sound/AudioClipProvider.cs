@@ -1,6 +1,6 @@
 using System;
 
-namespace Heirloom.Sound
+namespace Heirloom
 {
     using Math = System.Math;
 

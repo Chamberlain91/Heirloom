@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Heirloom.OpenGLES
 {
-    public static unsafe partial class GL
+    internal static unsafe partial class GL
     {
 #pragma warning disable IDE1006 // Naming Styles
 #pragma warning disable CS0649  // Default value null

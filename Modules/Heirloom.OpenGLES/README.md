@@ -1,4 +1,4 @@
-# Heirloom.Drawing.OpenGLES
+# Heirloom.OpenGLES
 
 Provides an implemention of `Graphics` over generic OpenGLES 3.0. This library requires a companion library to actually create and "make current" the OpenGL context. Fortunately, this is available through `Heirloom.Desktop`.
 

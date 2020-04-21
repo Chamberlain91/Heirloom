@@ -1,10 +1,10 @@
 using System;
 
-using Heirloom.Math;
+using Heirloom;
 
 using static StbTrueTypeSharp.StbTrueType;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// A glyph represents the metrics and rendering of a character from the associated <see cref="Drawing.Font"/>.

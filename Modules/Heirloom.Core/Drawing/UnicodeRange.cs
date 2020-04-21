@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// Represents a range of unicode 32 bit code points.

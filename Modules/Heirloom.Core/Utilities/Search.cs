@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace Heirloom.Collections
+using Heirloom.Collections;
+
+namespace Heirloom
 {
     public static class Search
     {

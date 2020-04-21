@@ -1,4 +1,4 @@
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// Represents the behaviour when sampling an image outside its natural bounds.

@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-using Heirloom.IO;
-using Heirloom.Math;
-
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// Provides GLSL shader support for custom image effects and other visual processing.

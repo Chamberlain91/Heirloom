@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum FramebufferBuffer : uint
+    internal enum FramebufferBuffer : uint
     {
         None = 0x0,
         Back = 0x0405,

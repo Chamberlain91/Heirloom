@@ -1,7 +1,7 @@
 using System;
 
-using Heirloom.Platforms.Desktop;
-using Heirloom.Drawing;
+using Heirloom;
+using Heirloom.Desktop;
 
 namespace Examples.MultiWindow
 {
@@ -22,7 +22,7 @@ namespace Examples.MultiWindow
             });
         }
 
-        private class WindowExample : RenderLoop
+        private class WindowExample : GameLoop
         {
             public WindowExample(int index, Color color)
                 : this(new Window($"Window {index}", vsync: false))

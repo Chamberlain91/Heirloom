@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-using Heirloom.Math;
+using Heirloom;
 
 namespace Heirloom.Collections
 {

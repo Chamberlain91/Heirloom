@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace Heirloom.Math
+namespace Heirloom
 {
     /// <summary>
     /// Provides several operations for polygons represented as a read-only list of vectors.

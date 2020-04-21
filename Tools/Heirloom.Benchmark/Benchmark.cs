@@ -1,6 +1,3 @@
-using Heirloom.Drawing;
-using Heirloom.Math;
-
 namespace Heirloom.Benchmark
 {
     public abstract class Benchmark

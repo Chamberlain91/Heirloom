@@ -1,11 +1,11 @@
 using System;
 using System.IO;
 
-using Heirloom.Sound.Backends.MiniAudio;
+using Heirloom.Backends.MiniAudio;
 
-using static Heirloom.Sound.Backends.MiniAudio.NativeApi;
+using static Heirloom.Backends.MiniAudio.NativeApi;
 
-namespace Heirloom.Sound
+namespace Heirloom
 {
     /// <summary>
     /// An object to assist with converting audio formats into raw PCM frames.

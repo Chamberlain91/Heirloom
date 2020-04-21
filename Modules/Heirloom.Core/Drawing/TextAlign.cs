@@ -1,4 +1,4 @@
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// Controls how text is aligned to the layout rectangle.

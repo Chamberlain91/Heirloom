@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace Heirloom.Sound
+namespace Heirloom
 {
     internal sealed class AudioStreamProvider : IAudioProvider
     {

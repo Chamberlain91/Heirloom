@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-using Heirloom.Math;
+using Heirloom;
 
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// Represents information of any particular glyph during text layout.

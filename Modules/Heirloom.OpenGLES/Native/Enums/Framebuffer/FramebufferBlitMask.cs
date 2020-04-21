@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum FramebufferBlitMask : uint
+    internal enum FramebufferBlitMask : uint
     {
         Color = ClearMask.Color,
         Depth = ClearMask.Depth,

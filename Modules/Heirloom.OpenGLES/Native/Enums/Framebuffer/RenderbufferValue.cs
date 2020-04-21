@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum RenderbufferValue : uint
+    internal enum RenderbufferValue : uint
     {
         WIDTH = 0x8D42,
         HEIGHT = 0x8D43,

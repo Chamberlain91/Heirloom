@@ -1,4 +1,4 @@
-namespace Heirloom.Sound.Backends.MiniAudio
+namespace Heirloom.Backends.MiniAudio
 {
     internal enum SrcAlgorithm
     {

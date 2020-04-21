@@ -1,6 +1,6 @@
 namespace Heirloom.OpenGLES
 {
-    public enum ReadPixelsFormat : uint
+    internal enum ReadPixelsFormat : uint
     {
         R = 0x1903,
         R_Integer = 0x8D94,

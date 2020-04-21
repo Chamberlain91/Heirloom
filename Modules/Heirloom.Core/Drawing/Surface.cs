@@ -1,9 +1,6 @@
 using System;
 
-using Heirloom.IO;
-using Heirloom.Math;
-
-namespace Heirloom.Drawing
+namespace Heirloom
 {
     /// <summary>
     /// Represents a surface a <see cref="Graphics"/> object can draw on.
