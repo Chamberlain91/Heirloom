@@ -1,4 +1,4 @@
-namespace Heirloom.Collections
+namespace Heirloom
 {
     /// <summary>
     /// Describes the behaviour of a <see cref="Heap{T}"/>.

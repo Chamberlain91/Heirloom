@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Heirloom.Collections
+namespace Heirloom
 {
     public interface IGraph<TKey, TValue, TGraph> where TGraph : IGraph<TKey, TValue, TGraph>
     {

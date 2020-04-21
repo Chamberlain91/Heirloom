@@ -15,7 +15,7 @@ namespace Examples.Minimal
             {
                 // Create window
                 var window = new Window("Minimal Example", (400, 200)) { IsResizable = false };
-
+                 
                 // Create some text
                 var text = $"Hello {GetOperatingSystem()}!";
 

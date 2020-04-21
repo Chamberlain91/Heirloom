@@ -1,6 +1,6 @@
 using System;
 
-namespace Heirloom.Collections
+namespace Heirloom
 {
     /// <summary>
     /// A free list an allocation-centric data structure that allows insertion and 

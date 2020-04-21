@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-using Heirloom.Collections;
+using Heirloom;
 
 namespace Heirloom
 {
