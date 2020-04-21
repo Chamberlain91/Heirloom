@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Heirloom
 {
-    public sealed class MaxrectsPacker<TElement> : RectanglePacker<TElement>
+    internal sealed class MaxrectsPacker<TElement> : RectanglePackerImpl<TElement>
     {
         private readonly HashSet<IntRectangle> _freeRects = new HashSet<IntRectangle>();
 

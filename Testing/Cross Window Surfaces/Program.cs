@@ -1,7 +1,6 @@
 using System.Threading;
 
 using Heirloom;
-using Heirloom.Drawing;
 using Heirloom.Desktop;
 
 namespace Cross_Window_Surfaces

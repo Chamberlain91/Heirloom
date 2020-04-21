@@ -1,7 +1,6 @@
 using System.Runtime.InteropServices;
 
 using Heirloom;
-using Heirloom.Drawing;
 using Heirloom.Desktop;
 
 namespace Examples.Minimal

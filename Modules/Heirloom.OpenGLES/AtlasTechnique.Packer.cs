@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 
-using Heirloom.OpenGLES;
+using Heirloom.Extras;
 
 namespace Heirloom.OpenGLES
 {
     internal class PackerAtlasTechnique : AtlasTechnique
     {
         private readonly Dictionary<Image, AtlasEntry> _entries;
-        private readonly RectanglePacker<Image> _packer;
+        private readonly RectanglePackerImpl<Image> _packer;
         private readonly Texture _texture;
 
         private readonly HashSet<Image> _changeSet = new HashSet<Image>();

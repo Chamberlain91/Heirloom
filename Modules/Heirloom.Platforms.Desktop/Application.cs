@@ -4,9 +4,8 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
 
-using Heirloom.Drawing;
-using Heirloom.OpenGLES;
 using Heirloom.Desktop.Hardware;
+using Heirloom.OpenGLES;
 
 namespace Heirloom.Desktop
 {

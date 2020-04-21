@@ -1,5 +1,4 @@
 using Heirloom;
-using Heirloom.Drawing;
 using Heirloom.Desktop;
 
 namespace GPU_Memory_Leak

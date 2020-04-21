@@ -1,6 +1,6 @@
 namespace Heirloom
 {
-    public sealed class ShelfPacker<TElement> : RectanglePacker<TElement>
+    internal sealed class ShelfPacker<TElement> : RectanglePackerImpl<TElement>
     {
         private int _x;
         private int _next;
