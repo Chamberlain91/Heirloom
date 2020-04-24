@@ -1,16 +1,13 @@
 using System;
-
-using Heirloom.Backends.MiniAudio;
+using System.IO;
 
 namespace Heirloom
 {
-    using Math = System.Math;
-
     public delegate void AudioCaptureCallback(Span<float> inputSamples);
 
-    public abstract class AudioContext : IDisposable
+    internal abstract class AudioAdapter : IDisposable
     {
-        private const int DefaultSampleRate = 44100;
+        public const int DefaultSampleRate = 44100;
 
         // used because OnSpeakerOutput or OnMicrophoneInput may be called concurrently
         private readonly bool _init = false;
@@ -21,11 +18,9 @@ namespace Heirloom
         private readonly float _invSampleRate;
         private readonly int _sampleRate;
 
-        private static AudioContext _instance;
-
         #region Constructors
 
-        internal AudioContext(int sampleRate, bool enableAudioCapture)
+        internal AudioAdapter(int sampleRate, bool enableAudioCapture)
         {
             if (sampleRate <= 0) { throw new InvalidOperationException("Sample rate must greater or equal to 1."); }
 
@@ -37,12 +32,14 @@ namespace Heirloom
             _init = true;
         }
 
-        ~AudioContext()
+        ~AudioAdapter()
         {
             Dispose(false);
         }
 
         #endregion
+
+        public bool IsInitialized { get; private set; }
 
         /// <summary>
         /// Gets a value determining if audio capture (ie, microphone) has been enabled.
@@ -66,53 +63,32 @@ namespace Heirloom
 
         /// <summary>
         /// Gets the audio context instance.
-        /// This will initialize with defaults if not explicitly initialized beforehand.
         /// </summary>
-        /// <see cref="Initialize(int, bool)"/>
-        internal static AudioContext Instance
+        internal static AudioAdapter Instance { get; private set; }
+
+        internal void Initialize()
         {
-            get
+            if (Instance != null)
             {
-                // If no contxt has been initialized, initialize a default.
-                if (_instance == null) { Initialize(false); }
-                return _instance;
+                throw new InvalidOperationException($"Unable to initialize a second instance of {nameof(AudioAdapter)}. Dispose the first instance.");
             }
+
+            // Mark instance
+            IsInitialized = false;
+            Instance = this;
+
+            // Initialize secondary resources
+
+            // Mark that the audio system has initialized
+            IsInitialized = true;
         }
+
+        internal abstract AudioDecoder CreateDecoder(Stream stream);
 
         /// <summary>
         /// Event invoked when a chunk of audio data is captured by the microphone.
         /// </summary>
         public static event AudioCaptureCallback AudioCaptured;
-
-        /// <summary>
-        /// Initialize the audio system with a sample rate of 44100 and optionally enabling audio capture.
-        /// </summary>
-        /// <param name="enableAudioCapture">Should we enable audio capture?</param>
-        public static void Initialize(bool enableAudioCapture)
-        {
-            Initialize(DefaultSampleRate, enableAudioCapture);
-        }
-
-        /// <summary>
-        /// Initialize the audio system with the specified sample rate and optionally enabling audio capture.
-        /// </summary>
-        public static void Initialize(int sampleRate, bool enableAudioCapture)
-        {
-            if (_instance == null)
-            {
-                // Create default
-                _instance = new MiniAudioContext(sampleRate, enableAudioCapture);
-
-                // Dispose device when process exits, finalizer isn't being called
-                // but this reliably is called on Window .NET and Linux Mono 5.2
-                // todo: see behaviour on Android, macOS
-                AppDomain.CurrentDomain.ProcessExit += (s, e) => _instance.Dispose();
-            }
-            else
-            {
-                throw new InvalidOperationException("Audio device already initialized");
-            }
-        }
 
         #region Mixing
 

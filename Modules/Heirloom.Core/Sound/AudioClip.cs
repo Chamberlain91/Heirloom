@@ -54,7 +54,7 @@ namespace Heirloom
         /// <summary>
         /// Gets the duration of the clip in seconds.
         /// </summary>
-        public float Duration => Length / (float) (AudioContext.SampleRate * AudioContext.Channels);
+        public float Duration => Length / (float) (AudioAdapter.SampleRate * AudioAdapter.Channels);
 
         /// <summary>
         /// Gets the length of the clip in samples.
@@ -65,7 +65,7 @@ namespace Heirloom
 
         private static short[] DecodeFiniteStream(Stream stream)
         {
-            using var decoder = new AudioDecoder(stream);
+            using var decoder = AudioAdapter.Instance.CreateDecoder(stream);
 
             // Does the decoder report audio length?
             if (decoder.Length > 0)
@@ -102,7 +102,7 @@ namespace Heirloom
                 do
                 {
                     // Allocate next block
-                    var block = new short[BLOCK_SIZE * AudioContext.Channels];
+                    var block = new short[BLOCK_SIZE * AudioAdapter.Channels];
 
                     // Read samples into block
                     count = decoder.Decode(block, 0, BLOCK_SIZE);
@@ -125,7 +125,7 @@ namespace Heirloom
                 } while (count == BLOCK_SIZE);
 
                 // Concatinate blocks into total length array
-                var samples = new short[total * AudioContext.Channels];
+                var samples = new short[total * AudioAdapter.Channels];
 
                 var i = 0;
                 foreach (var block in blocks)
@@ -137,7 +137,7 @@ namespace Heirloom
                     // sample are actually occupying the block via total
                     if (i == (blocks.Count - 1))
                     {
-                        blockSize = (int) (total * AudioContext.Channels) % block.Length;
+                        blockSize = (int) (total * AudioAdapter.Channels) % block.Length;
                     }
 
                     // Copy block into final samples array

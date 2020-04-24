@@ -135,7 +135,7 @@ namespace Heirloom
                     _delay = value;
 
                     // Adjust buffer size to fit delay size
-                    var size = (int) (_delay * AudioContext.SampleRate * AudioContext.Channels);
+                    var size = (int) (_delay * AudioAdapter.SampleRate * AudioAdapter.Channels);
                     Array.Resize(ref _buffer, size);
                 }
             }
@@ -164,7 +164,7 @@ namespace Heirloom
 
             public CombFilter(float delay)
             {
-                _feedback = new float[AudioContext.Channels];
+                _feedback = new float[AudioAdapter.Channels];
                 Delay = delay;
             }
 
@@ -183,7 +183,7 @@ namespace Heirloom
                     _delay = value;
 
                     // Adjust buffer size to fit delay size
-                    var size = (int) (_delay * AudioContext.SampleRate * AudioContext.Channels);
+                    var size = (int) (_delay * AudioAdapter.SampleRate * AudioAdapter.Channels);
                     Array.Resize(ref _buffer, size);
                 }
             }

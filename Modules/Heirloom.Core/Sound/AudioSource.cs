@@ -84,7 +84,7 @@ namespace Heirloom
         /// <seealso cref="Position"/>
         /// <seealso cref="Duration"/>
         /// <seealso cref="Length"/>
-        public float Time => Position < 0 ? 0 : Position / (float) (AudioContext.SampleRate * AudioContext.Channels);
+        public float Time => Position < 0 ? 0 : Position / (float) (AudioAdapter.SampleRate * AudioAdapter.Channels);
 
         /// <summary>
         /// The duration of the audio in seconds. <para/>
@@ -93,7 +93,7 @@ namespace Heirloom
         /// <seealso cref="Time"/>
         /// <seealso cref="Position"/>
         /// <seealso cref="Length"/>
-        public float Duration => Length == 0 ? 0 : Length / (float) (AudioContext.SampleRate * AudioContext.Channels);
+        public float Duration => Length == 0 ? 0 : Length / (float) (AudioAdapter.SampleRate * AudioAdapter.Channels);
 
         /// <summary>
         /// Gets the current playback position (time) in samples.
@@ -178,7 +178,7 @@ namespace Heirloom
         /// </summary>
         public void Seek(float time)
         {
-            Seek((int) (time * AudioContext.SampleRate * AudioContext.Channels));
+            Seek((int) (time * AudioAdapter.SampleRate * AudioAdapter.Channels));
         }
 
         #endregion

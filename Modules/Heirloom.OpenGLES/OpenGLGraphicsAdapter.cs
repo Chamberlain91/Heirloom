@@ -2,12 +2,8 @@ using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-using Heirloom.OpenGLES;
-
 namespace Heirloom.OpenGLES
 {
-    using GLShaderType = Heirloom.OpenGLES.ShaderType;
-
     internal abstract class OpenGLGraphicsAdapter : GraphicsAdapter
     {
         #region Query Capabilities
@@ -56,7 +52,7 @@ namespace Heirloom.OpenGLES
             return new GLSurfaceFactory(this);
         }
 
-        private sealed class GLSurfaceFactory : Factory, ISurfaceFactory
+        private sealed class GLSurfaceFactory : FactoryBase, ISurfaceFactory
         {
             private readonly int _maxSupportedSamples;
 
@@ -99,7 +95,7 @@ namespace Heirloom.OpenGLES
             return new GLShaderFactory(this);
         }
 
-        private sealed class GLShaderFactory : Factory, IShaderFactory
+        private sealed class GLShaderFactory : FactoryBase, IShaderFactory
         {
             public GLShaderFactory(OpenGLGraphicsAdapter adapter)
                 : base(adapter)
@@ -109,8 +105,8 @@ namespace Heirloom.OpenGLES
             {
                 var program = Adapter.Invoke(() =>
                 {
-                    var vShader = new ShaderStage(GLShaderType.Vertex, vert);
-                    var fShader = new ShaderStage(GLShaderType.Fragment, frag);
+                    var vShader = new ShaderStage(ShaderType.Vertex, vert);
+                    var fShader = new ShaderStage(ShaderType.Fragment, frag);
 
                     return new ShaderProgram(name, vShader, fShader);
                 });
@@ -270,13 +266,13 @@ namespace Heirloom.OpenGLES
             }
 
             #endregion
-        } 
+        }
 
         #endregion
 
-        private abstract class Factory
+        private abstract class FactoryBase
         {
-            protected Factory(OpenGLGraphicsAdapter adapter)
+            protected FactoryBase(OpenGLGraphicsAdapter adapter)
             {
                 Adapter = adapter ?? throw new ArgumentNullException(nameof(adapter));
             }

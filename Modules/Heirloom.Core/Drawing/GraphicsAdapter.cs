@@ -1,26 +1,21 @@
 using System;
 
-using Heirloom;
-
 namespace Heirloom
 {
     internal abstract class GraphicsAdapter : IDisposable
     {
         #region Constructor
 
-        protected GraphicsAdapter()
+        internal void Initialize()
         {
             if (Adapter != null)
             {
-                throw new InvalidOperationException("Unable to create a second instance of GraphicsAdapter. Dispose the first instance.");
+                throw new InvalidOperationException($"Unable to initialize a second instance of {nameof(GraphicsAdapter)}. Dispose the first instance.");
             }
 
             IsInitialized = false;
             Adapter = this;
-        }
 
-        internal void Initialize()
-        {
             // Get adapter info
             Info = GetAdapterInfo();
 
