@@ -4,7 +4,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 
 using Heirloom.OpenGLES;
-using Heirloom.OpenGLES;
 
 namespace Heirloom.Desktop
 {
@@ -17,7 +16,6 @@ namespace Heirloom.Desktop
             var graphics = new OpenGLWindowGraphics(this, window, surface, vsync);
             lock (_graphics) { _graphics.Add(graphics); }
             return graphics;
-
         }
 
         private void RemoveGraphics(OpenGLWindowGraphics graphics)

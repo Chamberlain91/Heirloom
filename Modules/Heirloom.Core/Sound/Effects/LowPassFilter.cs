@@ -12,7 +12,7 @@ namespace Heirloom
 
         public LowPassFilter(float cutoff)
         {
-            _out = new float[AudioContext.Channels];
+            _out = new float[AudioAdapter.Channels];
             Frequency = cutoff;
         }
 
@@ -33,7 +33,7 @@ namespace Heirloom
         public override float Process(float sample, int channel)
         {
             // Compute alpha
-            var dt = AudioContext.InverseSampleRate;
+            var dt = AudioAdapter.InverseSampleRate;
             var rc = 1F / (2 * MathF.PI * Frequency);
             var alpha = dt / (rc + dt);
 

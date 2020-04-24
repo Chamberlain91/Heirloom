@@ -71,7 +71,7 @@ namespace Heirloom
                 sample *= Volume;
 
                 // Balance (Stereo Mixing/Panning)
-                if (i % AudioContext.Channels == 0) { sample *= lPanFactor; }
+                if (i % AudioAdapter.Channels == 0) { sample *= lPanFactor; }
                 else { sample *= rPanFactor; }
             }
 
@@ -82,7 +82,7 @@ namespace Heirloom
                 {
                     foreach (var effect in Effects)
                     {
-                        samples[i] = effect.Process(samples[i], i % AudioContext.Channels);
+                        samples[i] = effect.Process(samples[i], i % AudioAdapter.Channels);
                     }
                 }
             }

@@ -9,7 +9,7 @@ namespace Heirloom
 
         public AudioStreamProvider(Stream stream)
         {
-            _decoder = new AudioDecoder(stream);
+            _decoder = AudioAdapter.Instance.CreateDecoder(stream);
             _stream = stream;
         }
 

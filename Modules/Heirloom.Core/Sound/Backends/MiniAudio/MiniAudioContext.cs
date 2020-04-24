@@ -1,10 +1,11 @@
 using System;
+using System.IO;
 
 using static Heirloom.Backends.MiniAudio.NativeApi;
 
 namespace Heirloom.Backends.MiniAudio
 {
-    internal sealed unsafe class MiniAudioContext : AudioContext
+    internal sealed unsafe class MiniAudioContext : AudioAdapter
     {
         private readonly void* _device;
         private readonly DataProcessCallback _dataProc;
@@ -55,6 +56,11 @@ namespace Heirloom.Backends.MiniAudio
             ma_ext_free(_device);
 
             GC.KeepAlive(_dataProc);
+        }
+
+        internal override AudioDecoder CreateDecoder(Stream stream)
+        {
+            return new MiniAudioDecoder(stream);
         }
     }
 }

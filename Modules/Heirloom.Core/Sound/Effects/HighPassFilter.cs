@@ -16,8 +16,8 @@ namespace Heirloom
         {
             Frequency = cutoff;
 
-            _out = new float[AudioContext.Channels];
-            _mem = new float[AudioContext.Channels];
+            _out = new float[AudioAdapter.Channels];
+            _mem = new float[AudioAdapter.Channels];
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Heirloom
         public override float Process(float sample, int channel)
         {
             // Compute alpha
-            var dt = AudioContext.InverseSampleRate;
+            var dt = AudioAdapter.InverseSampleRate;
             var rc = 1F / (2 * MathF.PI * Frequency);
             var alpha = rc / (rc + dt);
 

@@ -2,8 +2,6 @@ using System;
 
 namespace Heirloom
 {
-    using Math = System.Math;
-
     internal sealed class AudioClipProvider : IAudioProvider
     {
         public AudioClipProvider(AudioClip clip)
