@@ -1,4 +1,4 @@
-namespace Heirloom.Backends.MiniAudio
+namespace Heirloom.MiniAudio
 {
     internal enum Result
     {

@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace Heirloom.Backends.MiniAudio
+namespace Heirloom.MiniAudio
 {
     internal static unsafe class NativeApi
     {

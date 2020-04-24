@@ -4,8 +4,8 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
 
-using Heirloom.Backends.MiniAudio;
 using Heirloom.Desktop.Hardware;
+using Heirloom.MiniAudio;
 using Heirloom.OpenGLES;
 
 namespace Heirloom.Desktop

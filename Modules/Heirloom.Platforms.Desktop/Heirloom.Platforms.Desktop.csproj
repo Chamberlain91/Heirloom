@@ -50,6 +50,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Heirloom.Core\Heirloom.Core.csproj" />
+    <ProjectReference Include="..\Heirloom.MiniAudio\Heirloom.MiniAudio.csproj" />
     <ProjectReference Include="..\Heirloom.OpenGLES\Heirloom.OpenGLES.csproj" />
   </ItemGroup>
 
