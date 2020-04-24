@@ -5,4 +5,4 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Heirloom.OpenGLES")] // 
 [assembly: InternalsVisibleTo("Heirloom.DirectX")]  // unlikely
 [assembly: InternalsVisibleTo("Heirloom.Vulkan")]   // 
-[assembly: InternalsVisibleTo("Heirloom.Ma")]       // miniaudio
+[assembly: InternalsVisibleTo("Heirloom.MiniAudio")]       // miniaudio

@@ -1,9 +1,9 @@
 using System;
 using System.IO;
 
-using static Heirloom.Backends.MiniAudio.NativeApi;
+using static Heirloom.MiniAudio.NativeApi;
 
-namespace Heirloom.Backends.MiniAudio
+namespace Heirloom.MiniAudio
 {
     internal sealed unsafe class MiniAudioContext : AudioAdapter
     {

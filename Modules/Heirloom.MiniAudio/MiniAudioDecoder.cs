@@ -1,9 +1,9 @@
 using System;
 using System.IO;
 
-using static Heirloom.Backends.MiniAudio.NativeApi;
+using static Heirloom.MiniAudio.NativeApi;
 
-namespace Heirloom.Backends.MiniAudio
+namespace Heirloom.MiniAudio
 {
 
     /// <summary>
@@ -76,11 +76,11 @@ namespace Heirloom.Backends.MiniAudio
             }
         }
 
-        private int SeekBytes(void* _, int byteOffset, Backends.MiniAudio.SeekOrigin origin)
+        private int SeekBytes(void* _, int byteOffset, SeekOrigin origin)
         {
             if (Stream.CanSeek)
             {
-                if (origin == Backends.MiniAudio.SeekOrigin.FromCurrent) { Stream.Seek(byteOffset, System.IO.SeekOrigin.Current); }
+                if (origin == SeekOrigin.FromCurrent) { Stream.Seek(byteOffset, System.IO.SeekOrigin.Current); }
                 else { Stream.Seek(byteOffset, System.IO.SeekOrigin.Begin); }
 
                 return 1;
