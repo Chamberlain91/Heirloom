@@ -5,7 +5,6 @@ using static Heirloom.MiniAudio.NativeApi;
 
 namespace Heirloom.MiniAudio
 {
-
     /// <summary>
     /// An object to assist with converting audio formats into raw PCM frames.
     /// </summary>
