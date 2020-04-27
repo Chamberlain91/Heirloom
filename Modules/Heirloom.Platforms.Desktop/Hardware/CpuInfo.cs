@@ -3,17 +3,32 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Heirloom.Desktop.Hardware
 {
+    /// <summary>
+    /// Contains information related to the CPU.
+    /// </summary>
     public readonly struct CpuInfo : IEquatable<CpuInfo>
     {
+        /// <summary>
+        /// Gets the CPU Vendor.
+        /// </summary>
         public readonly CpuVendor Vendor { get; }
 
+        /// <summary>
+        /// Gets the name of the CPU.
+        /// </summary>
         public readonly string Name { get; }
 
+        /// <summary>
+        /// Gets how many threads (logical cores) this CPU supports.
+        /// </summary>
         public readonly int ThreadCount { get; }
 
+        /// <summary>
+        /// Gets the clockspeed of this CPU in MHz.
+        /// </summary>
         public readonly int ClockSpeed { get; }
 
-        public CpuInfo(string name, int clockSpeed, int threadCount)
+        internal CpuInfo(string name, int clockSpeed, int threadCount)
             : this(HardwareDetector.GetCpuVendor(name), name, clockSpeed, threadCount)
         { }
 

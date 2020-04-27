@@ -1,7 +1,7 @@
 using Heirloom;
 using Heirloom;
 
-namespace Examples.Shaders
+namespace Heirloom
 {
     /// <summary>
     /// Distortion shader.

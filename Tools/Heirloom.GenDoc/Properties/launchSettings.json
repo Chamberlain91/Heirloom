@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "SharpDoc": {
-      "commandName": "Project",
-      "commandLineArgs": "..\\..\\..\\..\\..\\Modules\\"
-    }
-  }
-}
