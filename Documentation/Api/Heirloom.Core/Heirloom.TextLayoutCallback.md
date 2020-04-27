@@ -5,11 +5,9 @@
 > **Namespace**: [Heirloom][0]  
 
 ```cs
-public sealed delegate TextLayoutCallback : MulticastDelegate, ICloneable, ISerializable
+public delegate TextLayoutCallback(string text, int index, ref TextLayoutState state)
 ```
 
 --------------------------------------------------------------------------------
-
-DELEGATE
 
 [0]: ../Heirloom.Core.md

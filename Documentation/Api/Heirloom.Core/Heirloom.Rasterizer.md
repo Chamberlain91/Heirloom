@@ -10,7 +10,6 @@ Contains rasterization methods for iterating over pixel positions.
 public static class Rasterizer
 ```
 
-
 This is useful beyond drawing images. For example, in a city builder the [Rectangle][1] or [Line][2] commands can be used to compute positions to place tiles when drawing building plots or roads.
 
 --------------------------------------------------------------------------------

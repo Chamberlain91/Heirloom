@@ -4,12 +4,12 @@
 > **Assembly**: [Heirloom.Core][0]  
 > **Namespace**: [Heirloom][0]  
 
+Delegate describing the callback when audio is captured from a microphone.
+
 ```cs
-public sealed delegate AudioCaptureCallback : MulticastDelegate, ICloneable, ISerializable
+public delegate AudioCaptureCallback(Span<float> inputSamples)
 ```
 
 --------------------------------------------------------------------------------
-
-DELEGATE
 
 [0]: ../Heirloom.Core.md

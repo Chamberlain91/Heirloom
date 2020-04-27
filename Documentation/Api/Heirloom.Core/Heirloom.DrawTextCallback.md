@@ -5,11 +5,9 @@
 > **Namespace**: [Heirloom][0]  
 
 ```cs
-public sealed delegate DrawTextCallback : MulticastDelegate, ICloneable, ISerializable
+public delegate DrawTextCallback(string text, int index, ref TextDrawState state)
 ```
 
 --------------------------------------------------------------------------------
-
-DELEGATE
 
 [0]: ../Heirloom.Core.md
