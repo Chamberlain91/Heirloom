@@ -10,7 +10,6 @@ Represents a heap data structure. Allows the insertion and removal of items by p
 public class Heap<T> : IHeap<T>, IReadOnlyHeap<T>, IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
 ```
 
-
 The heap always acts like a min-heap but inverts the result of comparison for max heaps.
 
 --------------------------------------------------------------------------------

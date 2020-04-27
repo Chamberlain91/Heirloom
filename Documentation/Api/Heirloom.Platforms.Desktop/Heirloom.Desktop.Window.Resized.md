@@ -4,7 +4,7 @@
 > **Assembly**: [Heirloom.Platforms.Desktop][0]  
 > **Dependencies**: [Heirloom.Core][1], [Heirloom.OpenGLES][2], [Heirloom.MiniAudio][3]  
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Type**: [Window][4]  
+> **Type**: [Window][4]
 
 --------------------------------------------------------------------------------
 

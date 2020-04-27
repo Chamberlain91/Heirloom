@@ -10,7 +10,6 @@ An audio effect that implements a Schroeder reverb.
 public class ReverbEffect : AudioEffect
 ```
 
-
 Based on Freeverb
 
 --------------------------------------------------------------------------------

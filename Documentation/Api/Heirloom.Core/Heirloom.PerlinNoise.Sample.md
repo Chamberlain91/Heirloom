@@ -3,7 +3,7 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 > **Namespace**: [Heirloom][0]  
-> **Type**: [PerlinNoise][1]  
+> **Type**: [PerlinNoise][1]
 
 --------------------------------------------------------------------------------
 

@@ -3,7 +3,7 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 > **Namespace**: [Heirloom][0]  
-> **Type**: [InvertShader][1]  
+> **Type**: [InvertShader][1]
 
 --------------------------------------------------------------------------------
 
