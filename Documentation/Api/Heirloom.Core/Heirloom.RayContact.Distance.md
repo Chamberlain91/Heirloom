@@ -15,5 +15,5 @@ The separating distance from the point of contact.
 public float Distance
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.RayContact.md

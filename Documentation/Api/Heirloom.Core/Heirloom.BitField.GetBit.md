@@ -15,5 +15,5 @@ Gets the bit value at `index` offset.
 public bool GetBit(int index)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.BitField.md

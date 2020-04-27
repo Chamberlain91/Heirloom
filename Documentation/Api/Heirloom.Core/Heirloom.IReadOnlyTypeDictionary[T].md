@@ -26,7 +26,7 @@ public abstract interface IReadOnlyTypeDictionary<T> : IReadOnlyCollection<T>, I
 | [ContainsType\<X>][3]   | Does the dictionary contain any object that inherits from the specified type. |
 | [GetItemsByType\<X>][4] | Enumerates any object that inherits from the specified type.                  |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ITypeDictionary[T].md
 [2]: Heirloom.IReadOnlyTypeDictionary[T].Contains.md
 [3]: Heirloom.IReadOnlyTypeDictionary[T].ContainsType[X].md

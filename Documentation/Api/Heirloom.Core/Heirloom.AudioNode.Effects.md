@@ -15,6 +15,6 @@ Gets the list of [AudioEffect][2] that affect the audio on this node.
 List<AudioEffect> Effects { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioNode.md
 [2]: Heirloom.AudioEffect.md

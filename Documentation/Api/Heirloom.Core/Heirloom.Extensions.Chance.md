@@ -15,5 +15,5 @@ Randomly return true for occurrences with the specified probability.
 public bool Chance(Random this, float probability)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.md

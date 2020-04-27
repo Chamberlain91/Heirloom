@@ -31,5 +31,5 @@ Multiplies a vector and matrix together ignoring the translational components.
 public Vector MultiplyVector(in Matrix a, in Vector v)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Matrix.md

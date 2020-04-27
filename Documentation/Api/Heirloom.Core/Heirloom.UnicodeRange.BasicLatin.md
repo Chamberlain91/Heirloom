@@ -15,5 +15,5 @@ The basic latin unicode block.
 public static UnicodeRange BasicLatin
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.UnicodeRange.md

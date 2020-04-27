@@ -13,5 +13,5 @@
 public void Deconstruct(out float width, out float height)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Size.md

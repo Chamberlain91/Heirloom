@@ -15,5 +15,5 @@ Zero width range centered on zero.
 public static Range Zero
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Range.md

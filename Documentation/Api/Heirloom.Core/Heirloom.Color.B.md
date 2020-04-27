@@ -15,5 +15,5 @@ The blue component.
 public float B
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Color.md

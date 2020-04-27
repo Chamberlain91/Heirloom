@@ -15,5 +15,5 @@ Returns a random unit vector (point on edge of unit circle).
 public Vector NextUnitVector(Random this)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.md

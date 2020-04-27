@@ -21,5 +21,5 @@ public void AddVertices(IEnumerable<Vertex> vertices)
 public void AddVertices(params Vertex[] vertices)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Mesh.md

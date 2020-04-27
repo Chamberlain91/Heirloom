@@ -15,5 +15,5 @@ The dimensions of this uniform.
 IntSize Dimensions { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.UniformInfo.md

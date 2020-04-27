@@ -15,5 +15,5 @@ The x-coordinate of this rectangle.
 public int X
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRectangle.md

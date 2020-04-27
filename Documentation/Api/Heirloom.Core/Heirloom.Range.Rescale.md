@@ -23,5 +23,5 @@ Scales `x` from input domain (this range) to output range.
 public float Rescale(in float x, in Range outRange)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Range.md

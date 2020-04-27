@@ -15,5 +15,5 @@ Shortens a string by removing the center portion and replacing with "..." depend
 public string Shorten(string this, int maxLength = 15)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.md

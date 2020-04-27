@@ -15,5 +15,5 @@ Computes the angle (in radians) between two vectors (using dot product).
 public float AngleBetween(Vector a, Vector b)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md

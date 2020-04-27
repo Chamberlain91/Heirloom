@@ -25,7 +25,7 @@ public abstract interface ITypeDictionary<T> : IReadOnlyTypeDictionary<T>, IRead
 | [Add][2]    | Add a new object to the type dictionary.   |
 | [Remove][3] | Remove an object from the type dictionary. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IReadOnlyTypeDictionary[T].md
 [2]: Heirloom.ITypeDictionary[T].Add.md
 [3]: Heirloom.ITypeDictionary[T].Remove.md

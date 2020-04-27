@@ -15,5 +15,5 @@ A vector with value (-1, 0).
 public static IntVector Left
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntVector.md

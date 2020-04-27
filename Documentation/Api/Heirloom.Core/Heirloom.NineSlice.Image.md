@@ -15,5 +15,5 @@ The image used by this nine slice.
 public Image Image
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.NineSlice.md

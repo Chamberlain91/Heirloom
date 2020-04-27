@@ -15,5 +15,5 @@ Decomposes a simple polygon into constituent triangles enumerated by indices of 
 public IEnumerable<ValueTuple<int, int, int>> TriangulateIndices(IEnumerable<Vector> polygon)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.PolygonTools.md

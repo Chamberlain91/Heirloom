@@ -15,5 +15,5 @@ Configures this matrix as a shearing matrix.
 public void SetShear(float sx, float sy)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Matrix.md

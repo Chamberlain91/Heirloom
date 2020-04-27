@@ -13,5 +13,5 @@
 public void SetPixels(ColorBytes[] pixels)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Image.md

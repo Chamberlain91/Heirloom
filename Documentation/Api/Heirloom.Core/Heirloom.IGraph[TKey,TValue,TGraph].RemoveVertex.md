@@ -15,5 +15,5 @@ Removes a vertex from the graph.
 public bool RemoveVertex(TKey key)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IGraph[TKey,TValue,TGraph].md

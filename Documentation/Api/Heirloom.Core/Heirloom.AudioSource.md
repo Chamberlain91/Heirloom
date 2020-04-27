@@ -52,7 +52,7 @@ public sealed class AudioSource : AudioNode
 | [Seek][13]           | Seek playback position to some time in seconds.                                                                                 |
 | [PopulateBuffer][14] |                                                                                                                                 |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioNode.md
 [2]: Heirloom.AudioSource.Group.md
 [3]: Heirloom.AudioSource.IsLooping.md

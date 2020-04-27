@@ -15,5 +15,5 @@ Gets the center of triangle (mean of corner points).
 Vector Centroid { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Triangle.md

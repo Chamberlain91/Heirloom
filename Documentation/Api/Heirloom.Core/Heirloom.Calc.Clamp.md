@@ -71,5 +71,5 @@ Returns the value `x` clamped to the specified range.
 public byte Clamp(byte x, byte min, byte max)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

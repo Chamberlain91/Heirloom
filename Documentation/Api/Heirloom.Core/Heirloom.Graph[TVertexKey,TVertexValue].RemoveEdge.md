@@ -15,5 +15,5 @@ Removes an edge between two vertices in the graph.
 public bool RemoveEdge(TVertexKey source, TVertexKey target)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graph[TVertexKey,TVertexValue].md

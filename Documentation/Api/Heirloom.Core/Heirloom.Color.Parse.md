@@ -15,5 +15,5 @@ Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA'
 public Color Parse(string color)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Color.md

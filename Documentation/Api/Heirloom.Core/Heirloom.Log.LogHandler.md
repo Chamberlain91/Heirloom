@@ -15,5 +15,5 @@ Gets or sets the current log handler.
 ILogHandler LogHandler { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Log.md

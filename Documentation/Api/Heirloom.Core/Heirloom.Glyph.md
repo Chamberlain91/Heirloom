@@ -33,7 +33,7 @@ public class Glyph
 | [GetMetrics][4] | Get the horizontal metrics of the this glyph at the specified size. |
 | [RenderTo][5]   | Renders the glyph into the image.                                   |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Glyph.Font.md
 [2]: Heirloom.Glyph.Character.md
 [3]: Heirloom.Glyph.CanBeRendered.md

@@ -25,7 +25,7 @@ public static class SurfacePool
 | [Recycle][2] | Recycle a surface back into the pool for reuse. It is assumed the surface is no longer used after this call. |
 | [Clean][3]   | Removes surfaces currently existing in the pool.                                                             |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.SurfacePool.Request.md
 [2]: Heirloom.SurfacePool.Recycle.md
 [3]: Heirloom.SurfacePool.Clean.md

@@ -15,5 +15,5 @@ Gets information about the embedded file.
 public EmbeddedFile GetEmbeddedInfo(string path)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Files.md

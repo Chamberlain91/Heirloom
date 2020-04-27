@@ -35,7 +35,7 @@ public sealed class FreeList<T>
 | [Remove][6] | Removes an element from the free list by an index returned by [Insert][5] . This index is not validated, you must be responsible. |
 | [Resize][7] | Resize the free list with an increased capacity.                                                                                  |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.FreeList[T].Item.md
 [2]: Heirloom.FreeList[T].Capacity.md
 [3]: Heirloom.FreeList[T].Count.md

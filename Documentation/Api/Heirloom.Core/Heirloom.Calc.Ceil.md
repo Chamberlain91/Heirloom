@@ -23,5 +23,5 @@ Computes the ceiling integer (rounding up) of the value `x` .
 public int Ceil(float x)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

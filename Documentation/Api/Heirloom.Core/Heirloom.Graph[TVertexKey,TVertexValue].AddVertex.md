@@ -15,5 +15,5 @@ Adds a vertex to the given graph via the given name/key.
 public bool AddVertex(TVertexKey key, TVertexValue element)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graph[TVertexKey,TVertexValue].md

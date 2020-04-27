@@ -15,5 +15,5 @@ The inverse of the function cosine.
 public float Acos(float x)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

@@ -15,5 +15,5 @@ Computes the dot-product of two vectors.
 public float Dot(in Vector a, in Vector b)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md

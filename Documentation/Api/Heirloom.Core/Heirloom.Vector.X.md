@@ -15,5 +15,5 @@ The x-coordinate of this vector.
 public float X
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md

@@ -13,5 +13,5 @@
 public void Deconstruct(out int x, out int y)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntVector.md

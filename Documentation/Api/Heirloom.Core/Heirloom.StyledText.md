@@ -22,7 +22,7 @@ public abstract class StyledText
 |-----------|---------------------------------------------------------|
 | [Text][2] | Gets the plain text component of this [StyledText][3] . |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.StyledTextParser.md
 [2]: Heirloom.StyledText.Text.md
 [3]: Heirloom.StyledText.md

@@ -22,6 +22,6 @@ public abstract class StyledTextParser
 |------------|-----------------------|
 | [Parse][2] | Parse the input text. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.StyledText.md
 [2]: Heirloom.StyledTextParser.Parse.md

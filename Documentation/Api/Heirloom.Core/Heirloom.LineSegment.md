@@ -48,7 +48,7 @@ public struct LineSegment : IEquatable<LineSegment>
 | [GetClosestPoint][7] | Gets the closest point on a line segment to the specified point.   |
 | [ClosestPoint][9]    | Gets the closest point on a line segment to the specified point.   |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md
 [2]: Heirloom.LineSegment.A.md
 [3]: Heirloom.LineSegment.B.md

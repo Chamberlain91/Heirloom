@@ -15,5 +15,5 @@ Computes the intersection of two rays.
 public bool Intersects(Ray r1, Ray r2, out float t1, out float t2)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Ray.md

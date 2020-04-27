@@ -15,5 +15,5 @@ Assuming the polygon is convex, checks if the point is contained.
 public bool ContainsPoint(IReadOnlyList<Vector> poly, in Vector point)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.PolygonTools.md

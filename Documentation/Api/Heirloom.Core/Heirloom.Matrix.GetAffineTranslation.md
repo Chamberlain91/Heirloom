@@ -15,5 +15,5 @@ Extracts affine translational components from this matrix.
 public Vector GetAffineTranslation()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Matrix.md

@@ -15,5 +15,5 @@ Sets the components of this color.
 public void Set(byte r, byte g, byte b, byte a = 255)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ColorBytes.md

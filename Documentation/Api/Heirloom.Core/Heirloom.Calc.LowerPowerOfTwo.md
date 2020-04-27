@@ -23,5 +23,5 @@ Computes the lower power of 2 nearest to x.
 public int LowerPowerOfTwo(int x)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

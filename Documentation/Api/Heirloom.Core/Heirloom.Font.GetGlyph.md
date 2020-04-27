@@ -23,5 +23,5 @@ Gets the information about a particular glyph in this font.
 public Glyph GetGlyph(UnicodeCharacter ch)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Font.md

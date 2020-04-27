@@ -15,5 +15,5 @@ Removes all vertices and edges from the graph.
 public void Clear()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graph[TVertexKey,TVertexValue].md

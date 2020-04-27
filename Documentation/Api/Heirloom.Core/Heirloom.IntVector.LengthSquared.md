@@ -15,5 +15,5 @@ Gets the squared magnitude of this vector.
 float LengthSquared { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntVector.md

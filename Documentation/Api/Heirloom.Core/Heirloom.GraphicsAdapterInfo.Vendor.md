@@ -15,5 +15,5 @@ The adapter vedor (ie, NVIDIA or AMD).
 public string Vendor
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.GraphicsAdapterInfo.md

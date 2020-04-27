@@ -15,5 +15,5 @@ The normal direction of the contacted surface.
 public Vector Normal
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.RayContact.md

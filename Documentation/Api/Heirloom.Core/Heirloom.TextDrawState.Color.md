@@ -15,5 +15,5 @@ The color of the current glyph.
 public Color Color
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.TextDrawState.md

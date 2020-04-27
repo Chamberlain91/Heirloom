@@ -55,5 +55,5 @@ Checks if two line segments intersect.
 public bool Intersects(Vector p1, Vector p2, Vector p3, Vector p4, out Vector point)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.LineSegment.md

@@ -26,7 +26,7 @@ public struct TextDrawState : IEquatable<TextDrawState>
 | [Position][2]  | The position of top left corner of the current glyph image.                                          |
 | [Color][3]     | The color of the current glyph.                                                                      |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.TextDrawState.Transform.md
 [2]: Heirloom.TextDrawState.Position.md
 [3]: Heirloom.TextDrawState.Color.md

@@ -32,7 +32,7 @@ public sealed class Sprite
 |-------------------|-------------------------------------|
 | [GetAnimation][4] | Gets an animation sequence by name. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Sprite.Frames.md
 [2]: Heirloom.Sprite.Animations.md
 [3]: Heirloom.Sprite.DefaultAnimation.md

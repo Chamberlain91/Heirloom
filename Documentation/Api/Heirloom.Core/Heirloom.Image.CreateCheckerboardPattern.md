@@ -23,5 +23,5 @@ Create an image with checkerboard pattern.
 public Image CreateCheckerboardPattern(int width, int height, Color color, int cellSize = 16)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Image.md

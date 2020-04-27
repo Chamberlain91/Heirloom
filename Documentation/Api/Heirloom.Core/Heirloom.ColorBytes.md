@@ -70,7 +70,7 @@ public struct ColorBytes : IEquatable<ColorBytes>
 | [Lerp][28]     | Interpolate two colors together.                                                                                                        |
 | [Multiply][29] | Multiplies two [ColorBytes][30] together. Behaves the same as [Color][31] .                                                             |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ColorBytes.R.md
 [2]: Heirloom.ColorBytes.G.md
 [3]: Heirloom.ColorBytes.B.md

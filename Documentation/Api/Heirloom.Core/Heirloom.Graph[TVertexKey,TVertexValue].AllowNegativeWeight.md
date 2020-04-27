@@ -15,5 +15,5 @@ Was this graph allowed to have negative edges weights?
 bool AllowNegativeWeight { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graph[TVertexKey,TVertexValue].md

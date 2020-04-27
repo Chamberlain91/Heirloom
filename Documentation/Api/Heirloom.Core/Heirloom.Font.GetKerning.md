@@ -15,5 +15,5 @@ Gets the spacing adjustment (ie, kerning) between any two characters.
 public float GetKerning(UnicodeCharacter cp1, UnicodeCharacter cp2, float size)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Font.md

@@ -23,5 +23,5 @@ Creates a ray from a line segment.
 public Ray FromLineSegment(in LineSegment segment)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Ray.md

@@ -13,5 +13,5 @@
 public void Deconstruct(out float min, out float max)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Range.md

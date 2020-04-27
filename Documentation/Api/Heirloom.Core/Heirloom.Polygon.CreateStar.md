@@ -47,5 +47,5 @@ Creates a polygon shaped like a star.
 public Polygon CreateStar(Vector center, int numPoints, float innerRadius, float outerRadius)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Polygon.md

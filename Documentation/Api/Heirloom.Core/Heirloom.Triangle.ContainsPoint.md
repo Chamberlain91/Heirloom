@@ -15,5 +15,5 @@ Determines if the triangle defined by `a` , `b` , `c` contains the specified poi
 public bool ContainsPoint(in Vector a, in Vector b, in Vector c, in Vector point)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Triangle.md

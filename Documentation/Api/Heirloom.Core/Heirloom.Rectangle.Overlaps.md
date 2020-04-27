@@ -55,5 +55,5 @@ Determines if this rectangle overlaps the specified simple polygon.
 public bool Overlaps(Polygon polygon)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rectangle.md

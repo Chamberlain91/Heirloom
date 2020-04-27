@@ -47,5 +47,5 @@ Draws a simple polygon to the current surface.
 public void DrawPolygon(IEnumerable<Vector> polygon, in Matrix transform)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

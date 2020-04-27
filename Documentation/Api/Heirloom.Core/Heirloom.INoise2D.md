@@ -22,5 +22,5 @@ public abstract interface INoise2D
 |-------------|-------------------------------|
 | [Sample][1] | Sample two-dimensional noise. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.INoise2D.Sample.md

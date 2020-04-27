@@ -15,5 +15,5 @@ Checks if the sequence is in ascending order (sequential equivalent items are co
 public bool IsAscendingOrder<T>(IEnumerable<T> seq)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.md

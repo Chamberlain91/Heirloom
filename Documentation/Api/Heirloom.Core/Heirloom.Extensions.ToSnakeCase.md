@@ -15,5 +15,5 @@ Transforms a variable name like string into sname case (ie, "myExampleString" in
 public string ToSnakeCase(string this)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.md

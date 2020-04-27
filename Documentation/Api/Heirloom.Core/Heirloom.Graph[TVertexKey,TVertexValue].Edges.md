@@ -15,5 +15,5 @@ An enumeration of all edges within the graph.
 IEnumerable<IGraphEdge<TVertexKey>> Edges { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graph[TVertexKey,TVertexValue].md

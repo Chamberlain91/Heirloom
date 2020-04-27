@@ -23,5 +23,5 @@ Performs the layout of text within the given bounds with the specified font and 
 public void PerformLayout(string text, Rectangle bounds, Font font, int size, TextAlign align, TextLayoutCallback layoutCallback)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.TextLayout.md

@@ -55,5 +55,5 @@ Wraps (loops) a number within a range.
 public float Wrap(float x, Range range)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

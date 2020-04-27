@@ -15,5 +15,5 @@ The maximum value in the range.
 public float Max
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Range.md

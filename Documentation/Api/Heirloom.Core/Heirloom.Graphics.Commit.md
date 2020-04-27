@@ -15,5 +15,5 @@ Commits pending drawing operations, blocking until all operations complete.
 public void Commit()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

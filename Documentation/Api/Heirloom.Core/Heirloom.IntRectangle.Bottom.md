@@ -15,5 +15,5 @@ Gets the bottom extent of this rectangle.
 int Bottom { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRectangle.md

@@ -74,7 +74,7 @@ public struct Color : IEquatable<Color>
 | [FromHSV][32]  | Converts HSV values into a RGBA color.                                                                                                  |
 | [Lerp][33]     | Interpolate two colors together.                                                                                                        |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Color.R.md
 [2]: Heirloom.Color.G.md
 [3]: Heirloom.Color.B.md

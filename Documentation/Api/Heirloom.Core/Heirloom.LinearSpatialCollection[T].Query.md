@@ -25,5 +25,5 @@ public IEnumerable<T> Query(Vector point)
 public IEnumerable<T> Query(Ray ray, float maxDistance = ∞)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.LinearSpatialCollection[T].md

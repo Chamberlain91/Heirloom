@@ -20,5 +20,5 @@ public enum UniformType : IComparable, IFormattable, IConvertible
 | Bool            | The uniform is a boolean type.               |
 | Image           | The uniform is a image (ie, sampler2D) type. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Shader.md

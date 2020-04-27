@@ -23,5 +23,5 @@ Creates an image filled with a solid color.
 public Image CreateColor(int width, int height, Color color)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Image.md

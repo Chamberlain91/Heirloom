@@ -15,5 +15,5 @@ Rasterizes a circle outline.
 public IEnumerable<IntVector> CircleOutline(int cx, int cy, int r)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rasterizer.md

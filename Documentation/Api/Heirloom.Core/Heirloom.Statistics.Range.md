@@ -15,5 +15,5 @@ The range of values.
 public Range Range
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Statistics.md

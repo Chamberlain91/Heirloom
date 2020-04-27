@@ -15,5 +15,5 @@ Gets or sets the current blending mode.
 Blending Blending { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

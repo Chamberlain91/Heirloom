@@ -15,5 +15,5 @@ Gets a value determining if this [Graphics][1] has been initialized.
 bool IsInitialized { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

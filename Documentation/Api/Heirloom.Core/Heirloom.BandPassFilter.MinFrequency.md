@@ -15,5 +15,5 @@ Gets or sets the filter cutoff in hertz.
 float MinFrequency { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.BandPassFilter.md

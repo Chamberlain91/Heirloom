@@ -24,6 +24,6 @@ public abstract interface IGrid<T> : IReadOnlyGrid<T>
 |------------|------------------------------------------------------------------------------|
 | [Clear][2] | Clear the grid (ie, set each cell to the default value of the element type). |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IReadOnlyGrid[T].md
 [2]: Heirloom.IGrid[T].Clear.md

@@ -15,5 +15,5 @@ Determine if a vertex with the given name/key exists within the graph.
 public bool ContainsVertex(TKey key)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IGraph[TKey,TValue,TGraph].md

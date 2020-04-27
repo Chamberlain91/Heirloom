@@ -15,5 +15,5 @@ Orders the two given references so they are in comparable order.
 public void Order<T>(ref T a, ref T b)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

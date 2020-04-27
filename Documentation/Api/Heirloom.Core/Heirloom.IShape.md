@@ -36,7 +36,7 @@ public abstract interface IShape
 | [Raycast][6]         | Performs a raycast against this shape.                      |
 | [Project][7]         | Project this shape onto the specified axis.                 |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IShape.Bounds.md
 [2]: Heirloom.IShape.Area.md
 [3]: Heirloom.IShape.GetClosestPoint.md

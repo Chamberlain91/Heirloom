@@ -15,5 +15,5 @@ Gets the right extent of this rectangle.
 int Right { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRectangle.md

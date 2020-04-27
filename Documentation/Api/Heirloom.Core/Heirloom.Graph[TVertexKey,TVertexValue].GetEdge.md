@@ -15,5 +15,5 @@ Gets an edge in the graph.
 public IGraphEdge<TVertexKey> GetEdge(TVertexKey source, TVertexKey target)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graph[TVertexKey,TVertexValue].md

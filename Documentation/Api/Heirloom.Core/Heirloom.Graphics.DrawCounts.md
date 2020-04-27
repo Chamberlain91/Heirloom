@@ -22,7 +22,7 @@ protected struct Graphics.DrawCounts
 | [DrawCount][2]     |         |
 | [TriangleCount][3] |         |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.DrawCounts.BatchCount.md
 [2]: Heirloom.Graphics.DrawCounts.DrawCount.md
 [3]: Heirloom.Graphics.DrawCounts.TriangleCount.md

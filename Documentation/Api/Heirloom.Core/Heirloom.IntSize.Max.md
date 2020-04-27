@@ -15,5 +15,5 @@ The maximum representable size possible.
 public static IntSize Max
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntSize.md

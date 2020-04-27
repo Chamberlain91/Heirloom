@@ -39,7 +39,7 @@ public static class PolygonTools
 | [ComputeMetrics][13]        |                                                                                                                                       |
 | [GetNormal][14]             | Vector perpendicular to the i-th edge.                                                                                                |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.PolygonTools.GetClosestPoint.md
 [2]: Heirloom.PolygonTools.GetClosestPointOutline.md
 [3]: Heirloom.PolygonTools.ContainsPoint.md

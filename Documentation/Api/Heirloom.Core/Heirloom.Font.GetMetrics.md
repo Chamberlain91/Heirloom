@@ -15,5 +15,5 @@ Get the vertical metrics of the this font at the specified size.
 public FontMetrics GetMetrics(float size)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Font.md

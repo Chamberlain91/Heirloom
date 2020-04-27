@@ -15,5 +15,5 @@ Gets the area of the circle.
 float Area { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Circle.md

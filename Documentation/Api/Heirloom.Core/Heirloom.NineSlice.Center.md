@@ -15,5 +15,5 @@ The center rectangle of the nine slice. This implicitly defines all other slice 
 public IntRectangle Center
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.NineSlice.md

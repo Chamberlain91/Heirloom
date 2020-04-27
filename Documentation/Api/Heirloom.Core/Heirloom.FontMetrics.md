@@ -33,7 +33,7 @@ public struct FontMetrics
 | [Height][4]      | The height of the line.                          |
 | [LineAdvance][5] | The spacing between baselines of multiline text. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.FontMetrics.Ascent.md
 [2]: Heirloom.FontMetrics.Descent.md
 [3]: Heirloom.FontMetrics.LineGap.md

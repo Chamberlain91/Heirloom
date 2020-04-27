@@ -15,5 +15,5 @@ Gets the total number of elements that can be stored in this [FreeList\<T>][1] .
 int Capacity { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.FreeList[T].md

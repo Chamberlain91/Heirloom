@@ -15,5 +15,5 @@ The number of edges stored in the graph.
 int EdgeCount { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graph[TVertexKey,TVertexValue].md

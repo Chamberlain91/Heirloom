@@ -15,5 +15,5 @@ Creates a unit length vector with the given angle from the x-axis.
 public Vector FromAngle(float angle)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md

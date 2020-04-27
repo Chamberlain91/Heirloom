@@ -15,5 +15,5 @@ Parse the input text.
 public StyledText Parse(string input)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.StyledTextParser.md

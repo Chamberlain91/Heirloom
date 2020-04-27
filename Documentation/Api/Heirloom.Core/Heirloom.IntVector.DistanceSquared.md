@@ -15,5 +15,5 @@ Computes the squared euclidean distance between any two vectors.
 public int DistanceSquared(in IntVector a, in IntVector b)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntVector.md

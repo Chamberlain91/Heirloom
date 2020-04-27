@@ -39,5 +39,5 @@ Computes the logarithm of `x` with base `b` .
 public double Log(double x, double b)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

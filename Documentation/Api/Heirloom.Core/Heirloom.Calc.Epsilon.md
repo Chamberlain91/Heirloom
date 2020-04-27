@@ -15,5 +15,5 @@ A small number almost considered zero, greatly differs from `float.Epsilon` .
 public static float Epsilon
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

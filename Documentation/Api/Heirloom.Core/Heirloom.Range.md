@@ -56,7 +56,7 @@ public struct Range : IEquatable<Range>
 | [Rescale][11]     | Scales `x` from input domain (this range) to output range.       |
 | [Deconstruct][12] |                                                                  |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Range.Min.md
 [2]: Heirloom.Range.Max.md
 [3]: Heirloom.Range.Average.md

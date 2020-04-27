@@ -15,6 +15,6 @@ Pause playing audio and seeks to the beginning in the audio data. If seek is not
 public void Stop()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioSource.md
 [2]: Heirloom.AudioSource.Pause.md

@@ -24,6 +24,6 @@ public sealed class VectorBlurShader : Shader, IDisposable
 |-------------|--------------------------------------------------------------------------------------------------|
 | [Vector][2] | Gets or sets the blur vector. Strength of the blur is determined by the magnitude of the vector. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Shader.md
 [2]: Heirloom.VectorBlurShader.Vector.md

@@ -15,5 +15,5 @@ Connects two vertices by an edge in the graph.
 public bool AddEdge(TKey keyA, TKey keyB, float weight)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IGraph[TKey,TValue,TGraph].md

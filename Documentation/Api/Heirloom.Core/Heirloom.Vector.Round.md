@@ -15,5 +15,5 @@ Computes a new vector with the rounded value of each component of the input vect
 public Vector Round(Vector v)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md

@@ -40,7 +40,7 @@ public sealed class BoundingTreeSpatialCollection<T> : ISpatialCollection<T>, IR
 | [Query][10]         | Queries the spatial collection and returns the elements with bounds that intersect the specified ray.     |
 | [GetEnumerator][11] |                                                                                                           |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ISpatialCollection[T].md
 [2]: Heirloom.IReadOnlySpatialCollection[T].md
 [3]: Heirloom.ISpatialQuery[T].md

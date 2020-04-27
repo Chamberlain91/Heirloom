@@ -15,5 +15,5 @@ Gets the default surface (ie, window) of this render context.
 Surface DefaultSurface { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

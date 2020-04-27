@@ -15,5 +15,5 @@ Computes a new vector with the ceiling of each component of the input vector.
 public Vector Ceil(Vector v)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md

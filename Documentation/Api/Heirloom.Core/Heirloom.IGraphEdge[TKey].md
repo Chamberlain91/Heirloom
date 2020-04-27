@@ -32,7 +32,7 @@ public abstract interface IGraphEdge<TKey>
 |------------------|------------------------|
 | [GetOtherKey][4] | Returns the other key. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IGraphEdge[TKey].Source.md
 [2]: Heirloom.IGraphEdge[TKey].Target.md
 [3]: Heirloom.IGraphEdge[TKey].Weight.md

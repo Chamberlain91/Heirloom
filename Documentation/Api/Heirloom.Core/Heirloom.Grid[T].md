@@ -37,7 +37,7 @@ public sealed class Grid<T> : IFiniteGrid<T>, IGrid<T>, IReadOnlyGrid<T>
 | [IsValidCoordinate][8] | Determines if the specified coordinate is a valid coordinate within the grid. |
 | [IsValidCoordinate][8] | Determines if the specified coordinate is a valid coordinate within the grid. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IFiniteGrid[T].md
 [2]: Heirloom.IGrid[T].md
 [3]: Heirloom.IReadOnlyGrid[T].md

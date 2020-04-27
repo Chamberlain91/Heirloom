@@ -24,10 +24,10 @@ public struct KeyEvent
 | [Action][6]    |         |
 | [Modifiers][7] |         |
 
-[0]: ..\Heirloom.Platforms.Desktop.md
-[1]: ..\Heirloom.Core.md
-[2]: ..\Heirloom.OpenGLES.md
-[3]: ..\Heirloom.MiniAudio.md
+[0]: ../Heirloom.Platforms.Desktop.md
+[1]: ../Heirloom.Core.md
+[2]: ../Heirloom.OpenGLES.md
+[3]: ../Heirloom.MiniAudio.md
 [4]: Heirloom.Desktop.KeyEvent.Key.md
 [5]: Heirloom.Desktop.KeyEvent.ScanCode.md
 [6]: Heirloom.Desktop.KeyEvent.Action.md

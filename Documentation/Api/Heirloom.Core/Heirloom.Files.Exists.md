@@ -15,5 +15,5 @@ Checks if a file exists, first by disk, then by embedded files.
 public bool Exists(string path)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Files.md

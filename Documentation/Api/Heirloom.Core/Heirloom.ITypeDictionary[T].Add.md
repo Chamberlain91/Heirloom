@@ -15,5 +15,5 @@ Add a new object to the type dictionary.
 public bool Add(T obj)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ITypeDictionary[T].md

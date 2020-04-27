@@ -15,5 +15,5 @@ Causes the back and front buffers to be swapped.
 protected void SwapBuffers()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

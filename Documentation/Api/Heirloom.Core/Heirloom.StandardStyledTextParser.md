@@ -25,7 +25,7 @@ public abstract class StandardStyledTextParser : StyledTextParser
 | [AddKeyword][2] |                                                            |
 | [Parse][3]      | Parse the input text and returns a [StyledText][4] object. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.StyledTextParser.md
 [2]: Heirloom.StandardStyledTextParser.AddKeyword.md
 [3]: Heirloom.StandardStyledTextParser.Parse.md

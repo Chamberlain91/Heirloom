@@ -15,5 +15,5 @@ Computes the manhattan distance between any two vectors.
 public int ManhattanDistance(in IntVector a, in IntVector b)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntVector.md

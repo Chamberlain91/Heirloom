@@ -47,5 +47,5 @@ Determines if this polygon overlaps the specified triangle.
 public bool Overlaps(IReadOnlyList<Vector> polygon)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Polygon.md

@@ -19,5 +19,5 @@ public void Deconstruct(out int x, out int y, out int w, out int h)
 public void Deconstruct(out IntVector position, out IntSize size)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRectangle.md

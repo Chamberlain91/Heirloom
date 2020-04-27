@@ -15,5 +15,5 @@ Constructs a convex polygon representing the convex hull of the specified point 
 public Polygon CreateConvexHull(IEnumerable<Vector> points)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Polygon.md

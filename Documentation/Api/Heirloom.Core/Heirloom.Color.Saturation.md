@@ -15,5 +15,5 @@ Gets or sets the (HSV) saturation of this color.
 float Saturation { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Color.md

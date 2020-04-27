@@ -15,5 +15,5 @@ The offset used to 'center' the image around a non-zero origin.
 IntVector Origin { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ImageSource.md

@@ -15,5 +15,5 @@ Does this heap contain the specified item?
 public bool Contains(T item)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IReadOnlyHeap[T].md

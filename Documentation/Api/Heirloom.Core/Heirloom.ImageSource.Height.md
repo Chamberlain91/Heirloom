@@ -15,5 +15,5 @@ The height of the image (in pixels).
 int Height { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ImageSource.md

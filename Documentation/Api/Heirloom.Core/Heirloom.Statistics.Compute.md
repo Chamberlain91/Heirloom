@@ -31,5 +31,5 @@ Computes new statistics from a sum, squared sum, extents and count.
 public Statistics Compute(float sum, float squareSum, Range range, int count)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Statistics.md

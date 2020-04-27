@@ -23,5 +23,5 @@ Computes the nearest integer of the value `x` .
 public int Round(float x)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

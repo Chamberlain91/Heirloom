@@ -15,5 +15,5 @@ Reads the entire contents of the stream line by line.
 public IEnumerable<string> ReadLines(Stream stream)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.md

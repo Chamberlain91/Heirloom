@@ -15,5 +15,5 @@ Determines if the specified point is contained by this polygon.
 public bool Contains(in Vector point)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Polygon.md

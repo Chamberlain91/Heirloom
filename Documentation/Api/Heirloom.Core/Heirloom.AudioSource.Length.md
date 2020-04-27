@@ -16,5 +16,5 @@ The length of the audio source in PCM frames.
 int Length { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioSource.md

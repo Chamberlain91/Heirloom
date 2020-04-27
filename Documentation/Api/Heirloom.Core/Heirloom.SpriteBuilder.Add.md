@@ -41,5 +41,5 @@ public void Add(string name, float frameDelay, Sprite.Direction direction, param
 public void Add(string name, float frameDelay, Sprite.Direction direction, IEnumerable<Image> frames)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.SpriteBuilder.md

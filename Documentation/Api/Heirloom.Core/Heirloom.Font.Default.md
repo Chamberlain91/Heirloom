@@ -17,5 +17,5 @@ Font Default { get; }
 
 https://datagoblin.itch.io/monogram
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Font.md

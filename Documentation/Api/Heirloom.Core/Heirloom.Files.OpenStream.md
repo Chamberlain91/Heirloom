@@ -15,5 +15,5 @@ Opens a read-only stream to a file, first found by disk, then by embedded files.
 public Stream OpenStream(string path)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Files.md

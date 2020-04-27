@@ -65,7 +65,7 @@ public struct Triangle : IShape, IEquatable<Triangle>, IEnumerable<Vector>, IEnu
 | [CreateCircumcircle][21] | Computes the circumcircle for the specified triangle.                                        |
 | [CreateCircumcircle][21] | Computes the circumcircle for the specified triangle.                                        |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IShape.md
 [2]: Heirloom.Triangle.A.md
 [3]: Heirloom.Triangle.B.md

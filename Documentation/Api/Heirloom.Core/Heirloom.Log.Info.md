@@ -15,5 +15,5 @@ Logs a error message.
 public void Info(object message)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Log.md

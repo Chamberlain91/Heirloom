@@ -23,5 +23,5 @@ Computes the inverse of the matrix and stores the resulting matrix into `dest` .
 public void Inverse(in Matrix a, ref Matrix dest)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Matrix.md

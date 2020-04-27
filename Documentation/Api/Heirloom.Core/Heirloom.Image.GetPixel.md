@@ -19,5 +19,5 @@ public ColorBytes GetPixel(int x, int y)
 public ColorBytes GetPixel(IntVector co)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Image.md

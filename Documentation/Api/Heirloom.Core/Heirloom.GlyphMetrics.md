@@ -32,7 +32,7 @@ public struct GlyphMetrics
 | [Offset][3] | The glyph offset from the pen position. |
 | [Size][4]   | The glyph bounds size.                  |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.GlyphMetrics.AdvanceWidth.md
 [2]: Heirloom.GlyphMetrics.Bearing.md
 [3]: Heirloom.GlyphMetrics.Offset.md

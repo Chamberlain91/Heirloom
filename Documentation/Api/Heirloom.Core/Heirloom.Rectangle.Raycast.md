@@ -23,5 +23,5 @@ Peforms a raycast onto this circle, returning true upon intersection.
 public bool Raycast(in Ray ray, out RayContact contact)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rectangle.md

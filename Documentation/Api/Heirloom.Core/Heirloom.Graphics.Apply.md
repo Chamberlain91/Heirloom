@@ -15,5 +15,5 @@ Applies the specified surface effect to the current surface.
 public void Apply(SurfaceEffect effect)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

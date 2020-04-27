@@ -27,5 +27,5 @@ public void Include(in IntRectangle rect)
 
 Useful for computing a bounding rectangle.
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRectangle.md

@@ -19,5 +19,5 @@ public float Sample(float x, float y)
 public float Sample(float x, float y, float z)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.SimplexNoise.md

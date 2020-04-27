@@ -15,5 +15,5 @@ Gets the duration of a time unit in seconds.
 public float GetDuration(TimeUnit unit)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Time.md

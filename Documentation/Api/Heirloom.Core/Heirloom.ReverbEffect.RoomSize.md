@@ -15,5 +15,5 @@ Gets or sets the room size. Larger values mean longer reverb.
 float RoomSize { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ReverbEffect.md

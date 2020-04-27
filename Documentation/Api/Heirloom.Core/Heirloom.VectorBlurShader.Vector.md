@@ -15,5 +15,5 @@ Gets or sets the blur vector. Strength of the blur is determined by the magnitud
 Vector Vector { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.VectorBlurShader.md

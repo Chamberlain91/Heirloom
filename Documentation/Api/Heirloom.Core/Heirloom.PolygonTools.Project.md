@@ -15,5 +15,5 @@ Project a polygon onto the specified axis.
 public Range Project(IReadOnlyList<Vector> polygon, in Vector axis)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.PolygonTools.md

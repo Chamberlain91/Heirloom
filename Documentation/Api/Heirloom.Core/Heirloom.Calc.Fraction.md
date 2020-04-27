@@ -23,5 +23,5 @@ Compute the fractional (decimal) portion of the number `x` .
 public float Fraction(float x)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

@@ -15,5 +15,5 @@ Sets the components of this vector.
 public void Set(int x, int y)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntVector.md

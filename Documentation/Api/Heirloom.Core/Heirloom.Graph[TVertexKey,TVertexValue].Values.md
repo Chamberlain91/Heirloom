@@ -15,5 +15,5 @@ An enumeration of all the elements stored in the vertices in the graph.
 IEnumerable<TVertexValue> Values { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graph[TVertexKey,TVertexValue].md

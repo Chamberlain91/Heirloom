@@ -50,7 +50,7 @@ public struct IntSize : IEquatable<IntSize>, IComparable<IntSize>
 | [Deconstruct][7] |                                   |
 | [CompareTo][8]   |                                   |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntSize.Width.md
 [2]: Heirloom.IntSize.Height.md
 [3]: Heirloom.IntSize.Area.md

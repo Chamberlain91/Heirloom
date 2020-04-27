@@ -33,7 +33,7 @@ public class BandPassFilter : AudioEffect
 |--------------|---------|
 | [Process][4] |         |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioEffect.md
 [2]: Heirloom.BandPassFilter.MinFrequency.md
 [3]: Heirloom.BandPassFilter.Cutoff.md

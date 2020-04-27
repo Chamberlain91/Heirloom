@@ -15,5 +15,5 @@ Range from `int.MinValue` to `int.MaxValue` (the widest possible range).
 public static IntRange Huge
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRange.md

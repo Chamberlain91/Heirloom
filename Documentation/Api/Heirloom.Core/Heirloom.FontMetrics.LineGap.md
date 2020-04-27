@@ -15,5 +15,5 @@ The spacing between lines.
 public float LineGap
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.FontMetrics.md

@@ -15,5 +15,5 @@ Enumerates any object that inherits from the specified type.
 public IEnumerable<X> GetItemsByType<X>()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IReadOnlyTypeDictionary[T].md

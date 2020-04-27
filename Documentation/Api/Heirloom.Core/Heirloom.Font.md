@@ -35,7 +35,7 @@ public class Font : IDisposable
 | [Dispose][4]    |                                                                       |
 | [Dispose][4]    |                                                                       |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Font.GetMetrics.md
 [2]: Heirloom.Font.GetKerning.md
 [3]: Heirloom.Font.GetGlyph.md

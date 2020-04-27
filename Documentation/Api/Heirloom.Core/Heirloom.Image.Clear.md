@@ -15,5 +15,5 @@ Sets all pixels in the image to the specified color.
 public void Clear(ColorBytes pixel)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Image.md

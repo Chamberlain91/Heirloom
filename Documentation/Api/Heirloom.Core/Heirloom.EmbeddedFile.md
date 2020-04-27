@@ -32,7 +32,7 @@ public sealed class EmbeddedFile
 |-----------------|--------------------------------------|
 | [OpenStream][4] | Opens a stream to the embedded file. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.EmbeddedFile.Assembly.md
 [2]: Heirloom.EmbeddedFile.Path.md
 [3]: Heirloom.EmbeddedFile.Identifiers.md

@@ -23,6 +23,6 @@ Determines if the value is nearly equal to zero by comparing equality within a [
 public bool NearZero(float v)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md
 [2]: Heirloom.Calc.Epsilon.md

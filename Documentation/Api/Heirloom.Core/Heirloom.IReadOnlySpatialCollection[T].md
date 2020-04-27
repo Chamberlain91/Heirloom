@@ -24,6 +24,6 @@ public abstract interface IReadOnlySpatialCollection<T> : ISpatialQuery<T>, IRea
 |---------------|----------------------------------------------------------------|
 | [Contains][2] | Determines if the specified element exists in this collection. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ISpatialQuery[T].md
 [2]: Heirloom.IReadOnlySpatialCollection[T].Contains.md

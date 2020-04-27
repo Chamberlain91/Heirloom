@@ -63,7 +63,7 @@ public struct IntVector : IEquatable<IntVector>
 | [DistanceSquared][21]   | Computes the squared euclidean distance between any two vectors.                                        |
 | [ManhattanDistance][22] | Computes the manhattan distance between any two vectors.                                                |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntVector.X.md
 [2]: Heirloom.IntVector.Y.md
 [3]: Heirloom.IntVector.Length.md

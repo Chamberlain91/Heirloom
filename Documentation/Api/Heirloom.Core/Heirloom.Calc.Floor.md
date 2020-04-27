@@ -23,5 +23,5 @@ Computes the floor integer (rounding down) of the value `x` .
 public int Floor(float x)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

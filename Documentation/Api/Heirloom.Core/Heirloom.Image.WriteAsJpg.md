@@ -13,5 +13,5 @@
 public void WriteAsJpg(Image image, Stream stream, int quality = 85)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Image.md

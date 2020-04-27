@@ -15,5 +15,5 @@ The variance value.
 public float Variance
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Statistics.md

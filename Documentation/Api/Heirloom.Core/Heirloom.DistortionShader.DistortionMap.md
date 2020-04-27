@@ -15,5 +15,5 @@ Gets or sets the distortion map. Only the RG channels are used and are remapped 
 Image DistortionMap { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.DistortionShader.md

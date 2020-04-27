@@ -23,5 +23,5 @@ Performs a raycast against this shape.
 public bool Raycast(in Ray ray)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IShape.md

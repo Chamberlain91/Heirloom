@@ -23,5 +23,5 @@ Computes the barycentric coefficients of the point `p` within the triangle `a` ,
 public void Barycentric(in Vector p, in Vector a, in Vector b, in Vector c, out float u, out float v, out float w)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Triangle.md

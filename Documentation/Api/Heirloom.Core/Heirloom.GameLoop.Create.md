@@ -13,5 +13,5 @@
 public GameLoop Create(Graphics gfx, GameLoop.UpdateFunction update)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.GameLoop.md

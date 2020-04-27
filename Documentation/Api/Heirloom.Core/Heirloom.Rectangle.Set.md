@@ -15,5 +15,5 @@ Sets the components of this rectangle.
 public void Set(float x, float y, float w, float h)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rectangle.md

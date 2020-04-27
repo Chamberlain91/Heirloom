@@ -15,5 +15,5 @@ Adds multiple items to the heap.
 public void AddRange(IEnumerable<T> items)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IHeap[T].md

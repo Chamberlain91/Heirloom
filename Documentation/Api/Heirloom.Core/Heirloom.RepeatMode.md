@@ -18,4 +18,4 @@ public enum RepeatMode : IComparable, IFormattable, IConvertible
 | Repeat | Sampling coordinates outside image bounds cause the image to be repeated. |
 | Clamp  | Sampling coordinates are clamped to image bounds.                         |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md

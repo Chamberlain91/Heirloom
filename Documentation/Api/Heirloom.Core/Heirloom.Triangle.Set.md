@@ -15,5 +15,5 @@ Sets each point of the triangle.
 public void Set(in Vector a, in Vector b, in Vector c)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Triangle.md

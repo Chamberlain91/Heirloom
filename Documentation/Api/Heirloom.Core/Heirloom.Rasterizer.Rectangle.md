@@ -39,5 +39,5 @@ Rasterize a rectangular region.
 public IEnumerable<IntVector> Rectangle(IntSize size)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rasterizer.md

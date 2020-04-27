@@ -35,7 +35,7 @@ public struct BitField : IEquatable<BitField>, IReadOnlyList<bool>, IReadOnlyCol
 | [SetBit][4]        | Sets the bit value at `index` offset. |
 | [GetEnumerator][5] |                                       |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.BitField.Item.md
 [2]: Heirloom.BitField.Count.md
 [3]: Heirloom.BitField.GetBit.md

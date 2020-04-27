@@ -23,5 +23,5 @@ Useful for computing a bounding rectangle.
 public Rectangle Merge(params Rectangle[] rects)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rectangle.md

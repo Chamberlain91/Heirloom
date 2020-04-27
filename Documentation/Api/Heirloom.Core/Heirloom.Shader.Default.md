@@ -15,5 +15,5 @@ Gets the default (ie, "no effect") shader.
 Shader Default { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Shader.md

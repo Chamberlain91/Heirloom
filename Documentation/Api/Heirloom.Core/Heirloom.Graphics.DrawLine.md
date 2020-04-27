@@ -15,5 +15,5 @@ Draws a line segment between two points to the current surface.
 public void DrawLine(in Vector p0, in Vector p1, float width = 1)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

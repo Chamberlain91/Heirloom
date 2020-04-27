@@ -15,5 +15,5 @@ Gets or sets the blending factor (0.0 to 1.0).
 float Blend { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.GrayscaleShader.md

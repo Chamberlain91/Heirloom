@@ -26,7 +26,7 @@ public sealed class DistortionShader : Shader, IDisposable
 | [Offset][3]        | Gets or sets the offset applied to the distortion map (in uv coordinates).                   |
 | [Strength][4]      | Gets or sets the strength of the distortion (0.0 to 1.0, unclamped).                         |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Shader.md
 [2]: Heirloom.DistortionShader.DistortionMap.md
 [3]: Heirloom.DistortionShader.Offset.md

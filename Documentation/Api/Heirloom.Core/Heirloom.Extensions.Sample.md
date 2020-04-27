@@ -47,5 +47,5 @@ Sample three-dimensional octave noise.
 public float Sample(INoise3D noise, float x, float y, float z, int octaves, float persistence = 0.5)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.md

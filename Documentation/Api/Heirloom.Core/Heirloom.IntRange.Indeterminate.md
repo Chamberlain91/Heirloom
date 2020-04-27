@@ -15,5 +15,5 @@ Range from `int.MaxValue` to `int.MinValue` useful for an indeterminate range to
 public static IntRange Indeterminate
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRange.md

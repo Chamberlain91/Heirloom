@@ -24,5 +24,5 @@ public abstract interface ISpatialQuery<T>
 | [Query][1] | Finds spatial elements that overlap the specified rectangle. |
 | [Query][1] | Finds spatial elements that intersect the specified ray.     |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ISpatialQuery[T].Query.md

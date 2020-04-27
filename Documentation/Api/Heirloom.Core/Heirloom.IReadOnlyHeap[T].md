@@ -33,7 +33,7 @@ public abstract interface IReadOnlyHeap<T> : IReadOnlyCollection<T>, IEnumerable
 | [Contains][3] | Does this heap contain the specified item?    |
 | [Peek][4]     | Gets the next item in the heap to be removed. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Heap[T].md
 [2]: Heirloom.IReadOnlyHeap[T].Comparer.md
 [3]: Heirloom.IReadOnlyHeap[T].Contains.md

@@ -15,5 +15,5 @@ Returns the edge between two vertices.
 public IGraphEdge<TKey> GetEdge(TKey keyA, TKey keyB)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IGraph[TKey,TValue,TGraph].md

@@ -42,7 +42,7 @@ public abstract class Shader : IDisposable
 | [SetUniform][3]     | Updates one of the shader uniforms by name. |
 | [Dispose][5]        |                                             |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Shader.Paths.md
 [2]: Heirloom.Shader.Uniforms.md
 [3]: Heirloom.Shader.SetUniform.md

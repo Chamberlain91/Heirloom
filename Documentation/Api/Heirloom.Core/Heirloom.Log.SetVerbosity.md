@@ -31,5 +31,5 @@ Sets the verbosity level of a specific assembly.
 public void SetVerbosity(LogVerbosity verbosity, string assembly)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Log.md

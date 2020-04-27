@@ -22,5 +22,5 @@ public abstract interface INoise3D
 |-------------|---------------------------------|
 | [Sample][1] | Sample three-dimensional noise. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.INoise3D.Sample.md

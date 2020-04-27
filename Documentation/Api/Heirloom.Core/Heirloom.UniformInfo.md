@@ -28,7 +28,7 @@ public sealed class UniformInfo
 | [IsMatrix][7]   | Is this uniform a matrix?       |
 | [IsArray][8]    | Is this uniform an array?       |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Shader.md
 [2]: Heirloom.UniformInfo.Name.md
 [3]: Heirloom.UniformInfo.Type.md

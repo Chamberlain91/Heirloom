@@ -15,5 +15,5 @@ Gets or sets the position of this rectangle.
 IntVector Position { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRectangle.md

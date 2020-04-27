@@ -15,5 +15,5 @@ Disconnects all edges from all vertices.
 public void ClearEdges()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IGraph[TKey,TValue,TGraph].md

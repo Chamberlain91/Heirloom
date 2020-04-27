@@ -15,5 +15,5 @@ The data/value of this vertex.
 TValue Value { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IGraphVertex[TKey,TValue].md

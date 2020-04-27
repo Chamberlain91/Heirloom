@@ -23,5 +23,5 @@ Computes the distance between a pair of two-dimensional points.
 public float Distance(float x1, float y1, float x2, float y2)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

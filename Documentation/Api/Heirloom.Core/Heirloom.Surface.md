@@ -29,7 +29,7 @@ public sealed class Surface : ImageSource
 | [IsScreenBound][5]                  | Determines if this surface is attached to a screen (ie, a window). |
 | [MaxSupportedMultisampleQuality][6] | Gets the max multisample quality supported on this system.         |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md
 [2]: Heirloom.ImageSource.md
 [3]: Heirloom.Surface.Size.md

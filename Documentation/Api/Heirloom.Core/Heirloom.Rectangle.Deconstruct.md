@@ -19,5 +19,5 @@ public void Deconstruct(out float x, out float y, out float w, out float h)
 public void Deconstruct(out Vector position, out Size size)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rectangle.md

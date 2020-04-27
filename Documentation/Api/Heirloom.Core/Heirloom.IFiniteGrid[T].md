@@ -25,7 +25,7 @@ public abstract interface IFiniteGrid<T> : IGrid<T>, IReadOnlyGrid<T>
 | [Width][1]  | The width of this grid.  |
 | [Height][2] | The height of this grid. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IFiniteGrid[T].Width.md
 [2]: Heirloom.IFiniteGrid[T].Height.md
 [3]: Heirloom.IGrid[T].md

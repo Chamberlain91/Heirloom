@@ -36,7 +36,7 @@ public static class Log
 | [Info][5]         | Logs a error message.                             |
 | [Error][6]        | Logs a error message.                             |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Log.LogHandler.md
 [2]: Heirloom.Log.SetVerbosity.md
 [3]: Heirloom.Log.Debug.md

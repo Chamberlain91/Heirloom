@@ -15,5 +15,5 @@ Gets the magnitude of this vector.
 float Length { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md

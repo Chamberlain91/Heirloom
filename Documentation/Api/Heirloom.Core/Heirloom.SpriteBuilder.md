@@ -30,7 +30,7 @@ public sealed class SpriteBuilder : IEnumerable
 | [Add][2]          |                                                           |
 | [CreateSprite][3] | Create a sprite the current state of the builder.         |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.SpriteBuilder.Clear.md
 [2]: Heirloom.SpriteBuilder.Add.md
 [3]: Heirloom.SpriteBuilder.CreateSprite.md

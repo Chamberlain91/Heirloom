@@ -43,7 +43,7 @@ public sealed class Mesh
 | [CreateFromConvexPolygon][11] | Constructs a mesh from the given convex polygon. UV coordinates are the normalized polygon within its own bounds.                         |
 | [CreateQuad][12]              | Creates a simple quad mesh.                                                                                                               |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Mesh.Vertices.md
 [2]: Heirloom.Mesh.Indices.md
 [3]: Heirloom.Mesh.IsIndexed.md

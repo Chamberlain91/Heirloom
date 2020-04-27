@@ -35,10 +35,10 @@ public static class Application
 |-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Run][11] | Initializes windowing utilities, executes `startup` and then continuously processes window events until all windows are closed. This is a blocking function. |
 
-[0]: ..\Heirloom.Platforms.Desktop.md
-[1]: ..\Heirloom.Core.md
-[2]: ..\Heirloom.OpenGLES.md
-[3]: ..\Heirloom.MiniAudio.md
+[0]: ../Heirloom.Platforms.Desktop.md
+[1]: ../Heirloom.Core.md
+[2]: ../Heirloom.OpenGLES.md
+[3]: ../Heirloom.MiniAudio.md
 [4]: Heirloom.Desktop.Application.SupportsTransparentFramebuffer.md
 [5]: Heirloom.Desktop.Application.IsInitialized.md
 [6]: Heirloom.Desktop.Application.Windows.md

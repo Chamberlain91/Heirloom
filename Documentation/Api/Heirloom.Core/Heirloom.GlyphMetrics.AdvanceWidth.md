@@ -15,5 +15,5 @@ The advance width of the glyph. This is the spacing between the glyph's left edg
 public float AdvanceWidth
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.GlyphMetrics.md

@@ -15,5 +15,5 @@ The measure from the baseline to the bottom of any glyph.
 public float Descent
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.FontMetrics.md

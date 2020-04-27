@@ -15,5 +15,5 @@ Is this mesh constructed triangles specified by indexed?
 bool IsIndexed { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Mesh.md

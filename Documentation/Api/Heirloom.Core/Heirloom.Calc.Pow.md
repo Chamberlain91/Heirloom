@@ -23,5 +23,5 @@ Computes `x` raised to the power of `y` .
 public double Pow(double x, double y)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

@@ -26,7 +26,7 @@ public sealed class DrawingPerformance
 | [TriangleCount][4] | Statistics of the number of triangles.                                            |
 | [FrameRate][5]     | Statistics of the frame rate.                                                     |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.DrawingPerformance.OverlayMode.md
 [2]: Heirloom.DrawingPerformance.BatchCount.md
 [3]: Heirloom.DrawingPerformance.DrawCount.md

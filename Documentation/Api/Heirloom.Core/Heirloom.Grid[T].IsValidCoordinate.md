@@ -23,5 +23,5 @@ Determines if the specified coordinate is a valid coordinate within the grid.
 public bool IsValidCoordinate(in IntVector co)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Grid[T].md

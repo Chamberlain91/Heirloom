@@ -15,5 +15,5 @@ Returns a random integer number that is within the specified range.
 public float Next(Random this, IntRange range)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.md

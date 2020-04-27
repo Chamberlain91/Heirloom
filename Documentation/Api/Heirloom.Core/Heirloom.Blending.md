@@ -21,4 +21,4 @@ public enum Blending : IComparable, IFormattable, IConvertible
 | Multiply    | Drawn pixels are multiplicatively blended based on their alpha values with existing pixels. |
 | Invert      | Drawn pixels act like an inversion filter with existing pixels.                             |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md

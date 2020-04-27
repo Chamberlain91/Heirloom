@@ -31,5 +31,5 @@ Creates a transform matrix with postion, rotation and scale.
 public Matrix CreateTransform(in Vector position, float angle, in float scale)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Matrix.md

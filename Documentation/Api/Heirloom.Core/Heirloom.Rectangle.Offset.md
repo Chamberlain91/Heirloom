@@ -39,5 +39,5 @@ Copies and translates the given rectangle.
 public Rectangle Offset(Rectangle rect, Vector offset)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rectangle.md

@@ -15,5 +15,5 @@ The array size of this uniform.
 int ArraySize { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.UniformInfo.md

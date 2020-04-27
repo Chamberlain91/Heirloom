@@ -15,5 +15,5 @@ Gets a human readable format for the given time and unit.
 public string GetTimeString(float duration, TimeUnit unit)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Time.md

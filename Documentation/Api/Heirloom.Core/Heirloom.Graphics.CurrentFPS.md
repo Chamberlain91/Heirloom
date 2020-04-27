@@ -15,5 +15,5 @@ Gets how often the default surface is presented to the screen per second.
 float CurrentFPS { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

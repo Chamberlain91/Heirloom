@@ -15,5 +15,5 @@ Gets or sets the balance (panning) of the audio. (ie, -1.0 for left, and +1.0 fo
 float Balance { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioNode.md

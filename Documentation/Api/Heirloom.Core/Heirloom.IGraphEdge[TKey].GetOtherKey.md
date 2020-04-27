@@ -15,5 +15,5 @@ Returns the other key.
 public TKey GetOtherKey(TKey key)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IGraphEdge[TKey].md

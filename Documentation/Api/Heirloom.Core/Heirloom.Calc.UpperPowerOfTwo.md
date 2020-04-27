@@ -23,5 +23,5 @@ Computes the upper power of 2 nearest to x.
 public int UpperPowerOfTwo(int v)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

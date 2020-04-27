@@ -15,5 +15,5 @@ Gets the closest point on the polygon outline to the specified point.
 public Vector GetClosestPointOutline(IReadOnlyList<Vector> polygon, in Vector point)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.PolygonTools.md

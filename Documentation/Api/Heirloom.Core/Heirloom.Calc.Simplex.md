@@ -15,6 +15,6 @@ A static instance of the [SimplexNoise][2] for convenience.
 public static SimplexNoise Simplex
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md
 [2]: Heirloom.SimplexNoise.md

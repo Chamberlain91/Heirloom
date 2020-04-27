@@ -15,5 +15,5 @@ A surface effect that makes no changes.
 public static SurfaceEffect None
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.SurfaceEffect.md

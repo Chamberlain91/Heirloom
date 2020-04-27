@@ -25,6 +25,6 @@ Constructs a mesh from the given polygon via [Polygon.Triangulate][2] .
 public Mesh CreateFromPolygon(IReadOnlyList<Vector> polygon)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Mesh.md
 [2]: Heirloom.Polygon.Triangulate.md

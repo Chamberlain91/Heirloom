@@ -23,5 +23,5 @@ Is the specified coordinate valid on this grid?
 public bool IsValidCoordinate(in IntVector co)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IReadOnlyGrid[T].md

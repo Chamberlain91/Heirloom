@@ -16,5 +16,5 @@ The duration of the audio in seconds.
 float Duration { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioSource.md

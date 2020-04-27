@@ -23,5 +23,5 @@ Removes a specific item from the heap.
 public bool Remove(T item)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Heap[T].md

@@ -31,5 +31,5 @@ Draws a sub-region of an image to the current surface ignoring the image origin 
 public void DrawSubImage(ImageSource image, in IntRectangle region, in Matrix transform)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

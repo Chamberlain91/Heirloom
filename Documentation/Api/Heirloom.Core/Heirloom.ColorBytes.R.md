@@ -15,5 +15,5 @@ The red component.
 public byte R
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ColorBytes.md

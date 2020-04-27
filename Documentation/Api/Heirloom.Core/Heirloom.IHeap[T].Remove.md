@@ -23,5 +23,5 @@ Removes and returns the next priority item in the heap.
 public T Remove()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IHeap[T].md

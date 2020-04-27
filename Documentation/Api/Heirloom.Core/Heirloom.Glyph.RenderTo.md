@@ -15,5 +15,5 @@ Renders the glyph into the image.
 public void RenderTo(Image image, int x, int y, float size)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Glyph.md

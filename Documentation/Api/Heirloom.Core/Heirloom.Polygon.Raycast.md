@@ -23,5 +23,5 @@ Checks if a ray intersects this polygon and outputs information on the contact p
 public bool Raycast(in Ray ray, out RayContact hit)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Polygon.md

@@ -15,5 +15,5 @@ Project this shape onto the specified axis.
 public Range Project(in Vector axis)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IShape.md

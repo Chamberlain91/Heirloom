@@ -17,4 +17,4 @@ public enum InterpolationMode : IComparable, IFormattable, IConvertible
 | Nearest | Color is sampled using rounding to the nearest pixel.       |
 | Linear  | Color is sampled using interpolation across nearest pixels. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md

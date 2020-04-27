@@ -15,5 +15,5 @@ Gets the default animation.
 Sprite.Animation DefaultAnimation { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Sprite.md

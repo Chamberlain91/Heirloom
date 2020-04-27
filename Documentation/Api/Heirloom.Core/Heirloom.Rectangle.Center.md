@@ -15,5 +15,5 @@ Gets or sets the center position of this rectangle.
 Vector Center { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rectangle.md

@@ -16,5 +16,5 @@ Transform a variable name like string to an improved display string (akin to Uni
 public string ToSmartDisplayName(string this)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.md

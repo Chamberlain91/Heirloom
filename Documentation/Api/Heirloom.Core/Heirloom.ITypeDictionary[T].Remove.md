@@ -15,5 +15,5 @@ Remove an object from the type dictionary.
 public bool Remove(T obj)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ITypeDictionary[T].md

@@ -17,5 +17,5 @@ MultisampleQuality Multisample { get; }
 
 This wll be set to the value actually availble used to create the surface. Some platforms might not support all multisample levels.
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Surface.md

@@ -25,7 +25,7 @@ public class SimplexNoise : INoise2D, INoise3D
 | [Sample][3] |         |
 | [Sample][3] |         |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.INoise2D.md
 [2]: Heirloom.INoise3D.md
 [3]: Heirloom.SimplexNoise.Sample.md

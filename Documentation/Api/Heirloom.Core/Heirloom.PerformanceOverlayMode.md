@@ -19,5 +19,5 @@ public enum PerformanceOverlayMode : IComparable, IFormattable, IConvertible
 | Standard | Displays FPS, batch count and draw count.                    |
 | Full     | Displays FPS, batch count and draw count with std deviation. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

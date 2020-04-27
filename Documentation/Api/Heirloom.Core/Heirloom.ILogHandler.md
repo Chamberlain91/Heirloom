@@ -23,7 +23,7 @@ public abstract interface ILogHandler
 | [Error][3]   |         |
 | [Info][4]    |         |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ILogHandler.Debug.md
 [2]: Heirloom.ILogHandler.Warning.md
 [3]: Heirloom.ILogHandler.Error.md

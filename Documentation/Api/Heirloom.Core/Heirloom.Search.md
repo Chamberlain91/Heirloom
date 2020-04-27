@@ -25,7 +25,7 @@ public static class Search
 | [BreadthFirst\<T>][3]    |         |
 | [IsAcyclicGraph\<T>][4]  |         |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Search.HeuristicSearch[T].md
 [2]: Heirloom.Search.DepthFirst[T].md
 [3]: Heirloom.Search.BreadthFirst[T].md

@@ -40,7 +40,7 @@ public sealed class SparseGrid<T> : ISparseGrid<T>, IReadOnlySparseGrid<T>, IRea
 | [IsValidCoordinate][10] | Is the specified coordinate valid on this grid?                     |
 | [IsValidCoordinate][10] | Is the specified coordinate valid on this grid?                     |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ISparseGrid[T].md
 [2]: Heirloom.IReadOnlySparseGrid[T].md
 [3]: Heirloom.IReadOnlyGrid[T].md

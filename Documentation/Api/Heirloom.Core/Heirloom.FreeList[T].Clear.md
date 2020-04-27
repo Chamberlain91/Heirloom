@@ -15,5 +15,5 @@ Clears the free list, invalidating all indices and clearing element data.
 public void Clear()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.FreeList[T].md

@@ -15,5 +15,5 @@ The function sine mapped to [0.0, 1.0].
 public float Osc(float x)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

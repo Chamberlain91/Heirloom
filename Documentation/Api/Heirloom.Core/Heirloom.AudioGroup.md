@@ -35,7 +35,7 @@ public class AudioGroup : AudioNode
 |---------------------|---------|
 | [PopulateBuffer][3] |         |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioNode.md
 [2]: Heirloom.AudioGroup.Parent.md
 [3]: Heirloom.AudioGroup.PopulateBuffer.md

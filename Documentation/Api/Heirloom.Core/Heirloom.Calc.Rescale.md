@@ -23,5 +23,5 @@ Rescales a value from the source domain a target domain.
 public float Rescale(in float x, in Range src, in Range dst)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

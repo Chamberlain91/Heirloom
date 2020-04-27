@@ -15,5 +15,5 @@ Computes a luminosity component (grayscale).
 byte Luminosity { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ColorBytes.md

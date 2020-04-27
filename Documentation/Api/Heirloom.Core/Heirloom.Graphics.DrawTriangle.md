@@ -23,5 +23,5 @@ Draw a triangle outline to the current surface.
 public void DrawTriangle(in Vector a, in Vector b, in Vector c)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

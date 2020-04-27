@@ -24,10 +24,10 @@ public struct MouseButtonEvent
 | [Modifiers][6] |         |
 | [Position][7]  |         |
 
-[0]: ..\Heirloom.Platforms.Desktop.md
-[1]: ..\Heirloom.Core.md
-[2]: ..\Heirloom.OpenGLES.md
-[3]: ..\Heirloom.MiniAudio.md
+[0]: ../Heirloom.Platforms.Desktop.md
+[1]: ../Heirloom.Core.md
+[2]: ../Heirloom.OpenGLES.md
+[3]: ../Heirloom.MiniAudio.md
 [4]: Heirloom.Desktop.MouseButtonEvent.Button.md
 [5]: Heirloom.Desktop.MouseButtonEvent.Action.md
 [6]: Heirloom.Desktop.MouseButtonEvent.Modifiers.md

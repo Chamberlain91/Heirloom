@@ -25,5 +25,5 @@ public IList<T> HeuristicSearch<T>(T start, T goal, Func<T, IEnumerable<T>> getS
 public IList<T> HeuristicSearch<T>(T start, Func<T, bool> targetPredicate, Func<T, IEnumerable<T>> getSuccessors, Search.CostFunction<T> cost, Search.HeuristicFunction<T> heuristic)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Search.md

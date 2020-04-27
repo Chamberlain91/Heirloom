@@ -15,5 +15,5 @@ The third point.
 public Vector C
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Triangle.md

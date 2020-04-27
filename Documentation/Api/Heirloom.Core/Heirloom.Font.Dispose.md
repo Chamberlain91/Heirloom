@@ -19,5 +19,5 @@ protected void Dispose(bool disposeManaged)
 public void Dispose()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Font.md

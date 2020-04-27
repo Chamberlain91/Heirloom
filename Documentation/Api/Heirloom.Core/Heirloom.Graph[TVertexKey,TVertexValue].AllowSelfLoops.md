@@ -15,5 +15,5 @@ Was this graph allowed to have self connecting loops ( Ex, 'A' connected to 'A' 
 bool AllowSelfLoops { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graph[TVertexKey,TVertexValue].md

@@ -13,5 +13,5 @@
 protected void AddKeyword(string keyword, DrawTextCallback callback)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.StandardStyledTextParser.md

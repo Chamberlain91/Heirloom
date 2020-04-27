@@ -15,5 +15,5 @@ Converts time from unit to another.
 public float Convert(float value, TimeUnit source, TimeUnit target)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Time.md

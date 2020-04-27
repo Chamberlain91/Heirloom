@@ -15,5 +15,5 @@ A rectangle that spans the entire 2D integer plane.
 IntRectangle Infinite { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRectangle.md

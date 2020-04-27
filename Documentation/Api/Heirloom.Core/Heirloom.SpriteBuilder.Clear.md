@@ -15,5 +15,5 @@ Clears all frames and animations.
 public void Clear()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.SpriteBuilder.md

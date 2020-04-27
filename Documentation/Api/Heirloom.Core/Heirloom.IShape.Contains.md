@@ -15,5 +15,5 @@ Determines if this shape contains the specified point.
 public bool Contains(in Vector point)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IShape.md

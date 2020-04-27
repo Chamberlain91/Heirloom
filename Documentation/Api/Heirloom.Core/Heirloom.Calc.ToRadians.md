@@ -15,5 +15,5 @@ Pi / 180.0
 public static float ToRadians
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

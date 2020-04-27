@@ -23,5 +23,5 @@ Swaps two positions within the given list.
 public void Swap<T>(IList<T> list, int a, int b)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

@@ -19,5 +19,5 @@ public Image Load(Stream stream)
 public Image Load(byte[] file)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Image.md

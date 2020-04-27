@@ -15,5 +15,5 @@ Are edges allowed to have a negative weight?
 bool AllowNegativeWeight { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IGraph[TKey,TValue,TGraph].md

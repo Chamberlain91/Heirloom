@@ -39,5 +39,5 @@ Constructs a new uniform scaling matrix.
 public Matrix CreateScale(float scale)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Matrix.md

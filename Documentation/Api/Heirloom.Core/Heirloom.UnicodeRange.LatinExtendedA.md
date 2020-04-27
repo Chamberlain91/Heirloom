@@ -15,5 +15,5 @@ The Latin Extended-A unicode block.
 public static UnicodeRange LatinExtendedA
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.UnicodeRange.md

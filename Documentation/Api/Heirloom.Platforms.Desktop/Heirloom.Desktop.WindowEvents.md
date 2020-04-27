@@ -30,10 +30,10 @@ public struct WindowEvents
 |-------------------|---------|
 | [ContentScale][6] |         |
 
-[0]: ..\Heirloom.Platforms.Desktop.md
-[1]: ..\Heirloom.Core.md
-[2]: ..\Heirloom.OpenGLES.md
-[3]: ..\Heirloom.MiniAudio.md
+[0]: ../Heirloom.Platforms.Desktop.md
+[1]: ../Heirloom.Core.md
+[2]: ../Heirloom.OpenGLES.md
+[3]: ../Heirloom.MiniAudio.md
 [4]: Heirloom.Desktop.WindowEvents.XScale.md
 [5]: Heirloom.Desktop.WindowEvents.YScale.md
 [6]: Heirloom.Desktop.WindowEvents.ContentScale.md

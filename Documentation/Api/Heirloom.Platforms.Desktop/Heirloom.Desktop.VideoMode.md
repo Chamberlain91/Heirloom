@@ -28,10 +28,10 @@ public struct VideoMode : IEquatable<VideoMode>
 | [BlueBits][8]    |         |
 | [RefreshRate][9] |         |
 
-[0]: ..\Heirloom.Platforms.Desktop.md
-[1]: ..\Heirloom.Core.md
-[2]: ..\Heirloom.OpenGLES.md
-[3]: ..\Heirloom.MiniAudio.md
+[0]: ../Heirloom.Platforms.Desktop.md
+[1]: ../Heirloom.Core.md
+[2]: ../Heirloom.OpenGLES.md
+[3]: ../Heirloom.MiniAudio.md
 [4]: Heirloom.Desktop.VideoMode.Width.md
 [5]: Heirloom.Desktop.VideoMode.Height.md
 [6]: Heirloom.Desktop.VideoMode.RedBits.md

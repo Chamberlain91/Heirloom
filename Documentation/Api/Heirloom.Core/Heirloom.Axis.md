@@ -17,4 +17,4 @@ public enum Axis : IComparable, IFormattable, IConvertible
 | Horizontal | The horizontal or X axis. |
 | Vertical   | The vertical or Y axis.   |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md

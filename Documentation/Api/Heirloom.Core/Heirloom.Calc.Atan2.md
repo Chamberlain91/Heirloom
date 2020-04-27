@@ -15,5 +15,5 @@ Computes the angle whose tangent is quotient to `x` and `y` .
 public float Atan2(float y, float x)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

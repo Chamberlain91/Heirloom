@@ -29,7 +29,7 @@ protected abstract interface GraphicsAdapter.ISurfaceFactory
 | [Create][2]  |         |
 | [Dispose][3] |         |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.GraphicsAdapter.ISurfaceFactory.MaxSupportedMultisampleQuality.md
 [2]: Heirloom.GraphicsAdapter.ISurfaceFactory.Create.md
 [3]: Heirloom.GraphicsAdapter.ISurfaceFactory.Dispose.md

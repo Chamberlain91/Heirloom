@@ -13,5 +13,5 @@
 public bool Add(T element, IntSize itemSize)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.RectanglePacker[T].md

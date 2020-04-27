@@ -87,7 +87,7 @@ public struct IntRectangle : IEquatable<IntRectangle>
 | [FromPoints][34]   |                                                                    |
 | [FromPoints][34]   | Computes the bounding rectangle of the given set of points.        |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRectangle.X.md
 [2]: Heirloom.IntRectangle.Y.md
 [3]: Heirloom.IntRectangle.Width.md

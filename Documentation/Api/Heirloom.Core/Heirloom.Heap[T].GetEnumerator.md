@@ -15,5 +15,5 @@ Enumerates the values in the heap (in no particular order)
 public IEnumerator<T> GetEnumerator()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Heap[T].md

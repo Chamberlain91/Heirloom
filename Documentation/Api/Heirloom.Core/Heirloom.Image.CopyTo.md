@@ -19,5 +19,5 @@ public void CopyTo(in IntRectangle region, Image target, in IntVector targetOffs
 public void CopyTo(Image target, in IntVector targetOffset)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Image.md

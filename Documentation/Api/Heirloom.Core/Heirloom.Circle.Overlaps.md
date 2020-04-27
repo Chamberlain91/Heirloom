@@ -55,5 +55,5 @@ Determines if this circle overlaps the specified convex polygon.
 public bool Overlaps(IReadOnlyList<Vector> polygon)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Circle.md

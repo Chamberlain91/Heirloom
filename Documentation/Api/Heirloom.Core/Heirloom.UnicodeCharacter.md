@@ -24,5 +24,5 @@ public struct UnicodeCharacter : IComparable<UnicodeCharacter>, IEquatable<Unico
 |----------------|------------------------------------------------|
 | [CompareTo][1] | Compares this instance to the specified value. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.UnicodeCharacter.CompareTo.md

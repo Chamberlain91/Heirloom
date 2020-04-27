@@ -15,5 +15,5 @@ Draw a sprite to the current surface.
 public void DrawSprite(Sprite sprite, int index, in Matrix transform)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

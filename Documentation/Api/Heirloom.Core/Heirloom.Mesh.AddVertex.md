@@ -15,5 +15,5 @@ Appends a vertex to this mesh.
 public void AddVertex(Vertex vertex)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Mesh.md

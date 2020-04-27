@@ -15,5 +15,5 @@ The origin of the ray.
 public Vector Origin
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Ray.md

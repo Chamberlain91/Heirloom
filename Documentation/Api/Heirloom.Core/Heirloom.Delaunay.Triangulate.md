@@ -23,5 +23,5 @@ Constructs the Delaunay triangulation of a set of points.
 public void Triangulate(IEnumerable<Vector> points, List<Triangle> triangles)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Delaunay.md

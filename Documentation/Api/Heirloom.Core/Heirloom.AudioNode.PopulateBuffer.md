@@ -13,5 +13,5 @@
 protected void PopulateBuffer(Span<float> buffer)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioNode.md

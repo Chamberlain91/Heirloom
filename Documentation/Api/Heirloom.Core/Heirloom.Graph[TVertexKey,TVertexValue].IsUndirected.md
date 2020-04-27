@@ -15,5 +15,5 @@ Is this graph configured to have directed edges?
 bool IsUndirected { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graph[TVertexKey,TVertexValue].md

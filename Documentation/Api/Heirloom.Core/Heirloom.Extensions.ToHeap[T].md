@@ -23,6 +23,6 @@ Constructs a new [Heap\<T>][2] from an `IEnumerable<T>`
 public Heap<T> ToHeap<T>(IEnumerable<T> items, Comparison<T> comparison, HeapType type = Min)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.md
 [2]: Heirloom.Heap[T].md

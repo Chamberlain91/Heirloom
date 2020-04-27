@@ -68,7 +68,7 @@ public sealed class Image : ImageSource
 | [Load][19]                      |                                                                                   |
 | [Load][19]                      |                                                                                   |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ImageSource.md
 [2]: Heirloom.Image.Size.md
 [3]: Heirloom.Image.GetPixel.md

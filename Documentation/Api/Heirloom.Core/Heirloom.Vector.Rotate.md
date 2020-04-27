@@ -15,5 +15,5 @@ Rotates a vector by the specified angle.
 public Vector Rotate(Vector v, float angle)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md

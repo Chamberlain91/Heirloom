@@ -15,5 +15,5 @@ The CJK Symbols and Punctuation unicode block.
 public static UnicodeRange CJKPunctuation
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.UnicodeRange.md

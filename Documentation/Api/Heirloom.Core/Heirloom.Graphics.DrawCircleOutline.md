@@ -23,5 +23,5 @@ Draws the outline of a circle to the current surface.
 public void DrawCircleOutline(in Vector position, float radius, float width = 1)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

@@ -15,5 +15,5 @@ Gets the length of the clip in samples.
 int Length { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioClip.md

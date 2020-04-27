@@ -15,5 +15,5 @@ Computes a new vector where each component is the minimum component in each resp
 public Vector Min(Vector a, Vector b)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md

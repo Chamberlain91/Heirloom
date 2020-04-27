@@ -47,5 +47,5 @@ Returns the sign of `x` as if compared against zero (-1, 0 or +1)
 public int Sign(sbyte x)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

@@ -15,5 +15,5 @@ Gets the plain text component of this [StyledText][1] .
 string Text { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.StyledText.md

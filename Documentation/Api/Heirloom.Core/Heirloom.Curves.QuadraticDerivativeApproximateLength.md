@@ -15,5 +15,5 @@ Computes the approximate arc length of the derivative of a quadratic curve using
 public float QuadraticDerivativeApproximateLength(in Vector a, in Vector b, in Vector c)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Curves.md

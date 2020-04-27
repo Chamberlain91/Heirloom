@@ -15,5 +15,5 @@ Interpolate two vectors.
 public Vector Lerp(Vector from, Vector to, float t)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md

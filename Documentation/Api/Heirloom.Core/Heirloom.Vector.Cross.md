@@ -23,5 +23,5 @@ Computes the cross-product of a vector and a magnitude.
 public Vector Cross(in Vector a, float s)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md

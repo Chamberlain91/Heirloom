@@ -15,5 +15,5 @@ Gets the closest point on a line segment to the specified point.
 public Vector ClosestPoint(Vector a, Vector b, Vector p, out float distance)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.LineSegment.md

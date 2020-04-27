@@ -19,5 +19,5 @@ public void SetPixel(int x, int y, in ColorBytes color)
 public void SetPixel(IntVector co, in ColorBytes color)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Image.md

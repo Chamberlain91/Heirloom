@@ -16,5 +16,5 @@ Half Pi. 90 Degrees in Radians.
 public static float HalfPi
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

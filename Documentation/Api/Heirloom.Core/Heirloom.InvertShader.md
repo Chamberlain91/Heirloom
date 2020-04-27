@@ -24,6 +24,6 @@ public sealed class InvertShader : Shader, IDisposable
 |------------|------------------------------------------------|
 | [Blend][2] | Gets or sets the blending factor (0.0 to 1.0). |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Shader.md
 [2]: Heirloom.InvertShader.Blend.md
