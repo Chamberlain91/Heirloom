@@ -1,18 +1,19 @@
-# Calc.Log
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]
 
---------------------------------------------------------------------------------
+## Calc.Log
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Calc][1]  
 
 ### Log(float)
 
 Computes the natural logarithm of `x` .
 
 ```cs
-public float Log(float x)
+public static float Log(float x)
 ```
 
 ### Log(double)
@@ -20,7 +21,7 @@ public float Log(float x)
 Computes the natural logarithm of `x` .
 
 ```cs
-public double Log(double x)
+public static double Log(double x)
 ```
 
 ### Log(float, float)
@@ -28,7 +29,7 @@ public double Log(double x)
 Computes the logarithm of `x` with base `b` .
 
 ```cs
-public float Log(float x, float b)
+public static float Log(float x, float b)
 ```
 
 ### Log(double, double)
@@ -36,7 +37,7 @@ public float Log(float x, float b)
 Computes the logarithm of `x` with base `b` .
 
 ```cs
-public double Log(double x, double b)
+public static double Log(double x, double b)
 ```
 
 [0]: ../Heirloom.Core.md

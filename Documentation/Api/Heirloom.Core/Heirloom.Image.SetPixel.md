@@ -1,11 +1,12 @@
-# Image.SetPixel
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Image][1]
 
---------------------------------------------------------------------------------
+## Image.SetPixel
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Image][1]  
 
 ### SetPixel(int, int, in ColorBytes)
 

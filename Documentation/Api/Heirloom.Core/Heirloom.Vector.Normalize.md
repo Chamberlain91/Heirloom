@@ -1,11 +1,12 @@
-# Vector.Normalize
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Vector][1]
 
---------------------------------------------------------------------------------
+## Vector.Normalize
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Vector][1]  
 
 ### Normalize()
 
@@ -20,7 +21,7 @@ public void Normalize()
 Normalizes the input vector and return it.
 
 ```cs
-public Vector Normalize(Vector vec)
+public static Vector Normalize(Vector vec)
 ```
 
 ### Normalize(ref Vector)
@@ -28,7 +29,7 @@ public Vector Normalize(Vector vec)
 Normalizes the input vector.
 
 ```cs
-public void Normalize(ref Vector vec)
+public static void Normalize(ref Vector vec)
 ```
 
 [0]: ../Heirloom.Core.md

@@ -1,11 +1,12 @@
-# Rectangle.Transform
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Rectangle][1]
 
---------------------------------------------------------------------------------
+## Rectangle.Transform
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Rectangle][1]  
 
 ### Transform(in Matrix)
 
@@ -20,7 +21,7 @@ public Rectangle Transform(in Matrix matrix)
 Transforms the four corners of this rectangle and returns the bounding rectangle of these points.
 
 ```cs
-public Rectangle Transform(Rectangle rectangle, in Matrix matrix)
+public static Rectangle Transform(Rectangle rectangle, in Matrix matrix)
 ```
 
 [0]: ../Heirloom.Core.md

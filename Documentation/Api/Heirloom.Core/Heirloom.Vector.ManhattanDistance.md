@@ -1,18 +1,19 @@
-# Vector.ManhattanDistance
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Vector][1]
 
---------------------------------------------------------------------------------
+## Vector.ManhattanDistance
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Vector][1]  
 
 ### ManhattanDistance(in Vector, in Vector)
 
 Computes the manhattan distance between any two vectors.
 
 ```cs
-public float ManhattanDistance(in Vector a, in Vector b)
+public static float ManhattanDistance(in Vector a, in Vector b)
 ```
 
 [0]: ../Heirloom.Core.md

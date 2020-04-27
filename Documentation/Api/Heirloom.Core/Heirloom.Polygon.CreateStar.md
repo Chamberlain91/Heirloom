@@ -1,18 +1,19 @@
-# Polygon.CreateStar
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Polygon][1]
 
---------------------------------------------------------------------------------
+## Polygon.CreateStar
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Polygon][1]  
 
 ### CreateStar(float)
 
 Creates a polygon shaped like a standard 5 point star centered on the origin.
 
 ```cs
-public Polygon CreateStar(float radius)
+public static Polygon CreateStar(float radius)
 ```
 
 ### CreateStar(Vector, float)
@@ -20,7 +21,7 @@ public Polygon CreateStar(float radius)
 Creates a polygon shaped like a standard 5 point star.
 
 ```cs
-public Polygon CreateStar(Vector center, float radius)
+public static Polygon CreateStar(Vector center, float radius)
 ```
 
 ### CreateStar(int, float)
@@ -28,7 +29,7 @@ public Polygon CreateStar(Vector center, float radius)
 Creates a polygon shaped like a star centered on the origin.
 
 ```cs
-public Polygon CreateStar(int numPoints, float radius)
+public static Polygon CreateStar(int numPoints, float radius)
 ```
 
 ### CreateStar(Vector, int, float)
@@ -36,7 +37,7 @@ public Polygon CreateStar(int numPoints, float radius)
 Creates a polygon shaped like a star.
 
 ```cs
-public Polygon CreateStar(Vector center, int numPoints, float radius)
+public static Polygon CreateStar(Vector center, int numPoints, float radius)
 ```
 
 ### CreateStar(Vector, int, float, float)
@@ -44,7 +45,7 @@ public Polygon CreateStar(Vector center, int numPoints, float radius)
 Creates a polygon shaped like a star.
 
 ```cs
-public Polygon CreateStar(Vector center, int numPoints, float innerRadius, float outerRadius)
+public static Polygon CreateStar(Vector center, int numPoints, float innerRadius, float outerRadius)
 ```
 
 [0]: ../Heirloom.Core.md

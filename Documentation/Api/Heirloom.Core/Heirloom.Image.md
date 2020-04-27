@@ -1,26 +1,35 @@
-# Image
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Image
+
 > **Namespace**: [Heirloom][0]  
 
 ```cs
 public sealed class Image : ImageSource
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [ImageSource][1]
+[ImageSource][1]
 
-**Properties**: [Size][2]
+#### Properties
 
-**Methods**: [GetPixel][3], [GetPixels][4], [SetPixel][5], [SetPixels][6], [Clear][7], [Flip][8], [CopyTo][9], [Clone][10]
+[Size][2]
 
-**Static Fields**: [MaxImageDimension][11]
+#### Methods
 
-**Static Methods**: [CreateCheckerboardPattern][12], [CreateGridPattern][13], [CreateColor][14], [CreateNoise][15], [Copy][16], [WriteAsPng][17], [WriteAsJpg][18], [Load][19]
+[GetPixel][3], [GetPixels][4], [SetPixel][5], [SetPixels][6], [Clear][7], [Flip][8], [CopyTo][9], [Clone][10]
 
---------------------------------------------------------------------------------
+#### Static Fields
+
+[MaxImageDimension][11]
+
+#### Static Methods
+
+[CreateCheckerboardPattern][12], [CreateGridPattern][13], [CreateColor][14], [CreateNoise][15], [Copy][16], [WriteAsPng][17], [WriteAsJpg][18], [Load][19]
 
 ## Fields
 

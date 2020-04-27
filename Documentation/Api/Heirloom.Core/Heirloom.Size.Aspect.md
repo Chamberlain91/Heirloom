@@ -1,11 +1,12 @@
-# Size.Aspect
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Size][1]
 
---------------------------------------------------------------------------------
+## Size.Aspect
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Size][1]  
 
 ### Aspect
 

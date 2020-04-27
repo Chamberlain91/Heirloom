@@ -1,7 +1,10 @@
-# TypeDictionary\<T>
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## TypeDictionary\<T>
+
 > **Namespace**: [Heirloom][0]  
 
 Manages objects by their type hierarchy up to the base type, allowing access and enumeration of objects by type.
@@ -10,15 +13,17 @@ Manages objects by their type hierarchy up to the base type, allowing access and
 public sealed class TypeDictionary<T> : ITypeDictionary<T>, IReadOnlyTypeDictionary<T>, IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [ITypeDictionary\<T>][1], [IReadOnlyTypeDictionary\<T>][2], IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable
+[ITypeDictionary\<T>][1], [IReadOnlyTypeDictionary\<T>][2], IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable
 
-**Properties**: [Count][3]
+#### Properties
 
-**Methods**: [Add][4], [Remove][5], [Contains][6], [ContainsType\<X>][7], [GetItemsByType\<X>][8], [GetEnumerator][9]
+[Count][3]
 
---------------------------------------------------------------------------------
+#### Methods
+
+[Add][4], [Remove][5], [Contains][6], [ContainsType\<X>][7], [GetItemsByType\<X>][8], [GetEnumerator][9]
 
 ## Properties
 

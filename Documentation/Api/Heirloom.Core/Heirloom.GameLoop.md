@@ -1,7 +1,10 @@
-# GameLoop
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## GameLoop
+
 > **Namespace**: [Heirloom][0]  
 
 Provides a thread to manage invoking a render/update function continuously.
@@ -10,15 +13,17 @@ Provides a thread to manage invoking a render/update function continuously.
 public abstract class GameLoop
 ```
 
---------------------------------------------------------------------------------
+#### Properties
 
-**Properties**: [Graphics][1], [IsRunning][2]
+[Graphics][1], [IsRunning][2]
 
-**Methods**: [Update][3], [Start][4], [Stop][5]
+#### Methods
 
-**Static Methods**: [Create][6]
+[Update][3], [Start][4], [Stop][5]
 
---------------------------------------------------------------------------------
+#### Static Methods
+
+[Create][6]
 
 ## Properties
 

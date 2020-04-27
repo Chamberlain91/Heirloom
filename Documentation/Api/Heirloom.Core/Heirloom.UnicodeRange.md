@@ -1,7 +1,10 @@
-# UnicodeRange
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## UnicodeRange
+
 > **Namespace**: [Heirloom][0]  
 
 Represents a range of unicode 32 bit code points.
@@ -10,17 +13,21 @@ Represents a range of unicode 32 bit code points.
 public struct UnicodeRange : IEnumerable<UnicodeCharacter>, IEnumerable, IEquatable<UnicodeRange>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IEnumerable\<UnicodeCharacter>, IEnumerable, IEquatable\<UnicodeRange>
+IEnumerable\<UnicodeCharacter>, IEnumerable, IEquatable\<UnicodeRange>
 
-**Properties**: [Start][1], [End][2]
+#### Properties
 
-**Methods**: [GetEnumerator][3]
+[Start][1], [End][2]
 
-**Static Fields**: [BasicLatin][4], [Latin1Supplement][5], [LatinExtendedA][6], [LatinExtendedB][7], [Cyrillic][8], [CyrillicSupplement][9], [CJKPunctuation][10], [Hiragana][11], [Katakana][12]
+#### Methods
 
---------------------------------------------------------------------------------
+[GetEnumerator][3]
+
+#### Static Fields
+
+[BasicLatin][4], [Latin1Supplement][5], [LatinExtendedA][6], [LatinExtendedB][7], [Cyrillic][8], [CyrillicSupplement][9], [CJKPunctuation][10], [Hiragana][11], [Katakana][12]
 
 ## Fields
 

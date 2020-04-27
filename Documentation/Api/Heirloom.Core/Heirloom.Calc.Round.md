@@ -1,18 +1,19 @@
-# Calc.Round
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]
 
---------------------------------------------------------------------------------
+## Calc.Round
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Calc][1]  
 
 ### Round(double)
 
 Computes the nearest integer of the value `x` .
 
 ```cs
-public int Round(double x)
+public static int Round(double x)
 ```
 
 ### Round(float)
@@ -20,7 +21,7 @@ public int Round(double x)
 Computes the nearest integer of the value `x` .
 
 ```cs
-public int Round(float x)
+public static int Round(float x)
 ```
 
 [0]: ../Heirloom.Core.md

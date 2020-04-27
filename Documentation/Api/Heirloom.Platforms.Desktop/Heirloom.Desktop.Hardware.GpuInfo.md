@@ -1,32 +1,31 @@
-# GpuInfo
+# Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Platforms.Desktop][0]  
-> **Dependencies**: [Heirloom.Core][1], [Heirloom.OpenGLES][2], [Heirloom.MiniAudio][3]  
+
+## GpuInfo
+
 > **Namespace**: [Heirloom.Desktop.Hardware][0]  
 
 ```cs
 public struct GpuInfo : IEquatable<GpuInfo>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IEquatable\<GpuInfo>
+IEquatable\<GpuInfo>
 
-**Properties**: [Vendor][4], [Name][5]
+#### Properties
 
---------------------------------------------------------------------------------
+[Vendor][1], [Name][2]
 
 ## Properties
 
 | Name        | Summary |
 |-------------|---------|
-| [Vendor][4] |         |
-| [Name][5]   |         |
+| [Vendor][1] |         |
+| [Name][2]   |         |
 
 [0]: ../Heirloom.Platforms.Desktop.md
-[1]: ../Heirloom.Core.md
-[2]: ../Heirloom.OpenGLES.md
-[3]: ../Heirloom.MiniAudio.md
-[4]: Heirloom.Desktop.Hardware.GpuInfo.Vendor.md
-[5]: Heirloom.Desktop.Hardware.GpuInfo.Name.md
+[1]: Heirloom.Desktop.Hardware.GpuInfo.Vendor.md
+[2]: Heirloom.Desktop.Hardware.GpuInfo.Name.md

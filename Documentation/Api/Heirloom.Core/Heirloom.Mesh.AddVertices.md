@@ -1,11 +1,12 @@
-# Mesh.AddVertices
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Mesh][1]
 
---------------------------------------------------------------------------------
+## Mesh.AddVertices
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Mesh][1]  
 
 ### AddVertices(IEnumerable<Vertex>)
 

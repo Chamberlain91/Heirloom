@@ -1,7 +1,10 @@
-# DrawingPerformance
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## DrawingPerformance
+
 > **Namespace**: [Heirloom][0]  
 
 Contains information pertaining to draw performance.
@@ -10,11 +13,9 @@ Contains information pertaining to draw performance.
 public sealed class DrawingPerformance
 ```
 
---------------------------------------------------------------------------------
+#### Properties
 
-**Properties**: [OverlayMode][1], [BatchCount][2], [DrawCount][3], [TriangleCount][4], [FrameRate][5]
-
---------------------------------------------------------------------------------
+[OverlayMode][1], [BatchCount][2], [DrawCount][3], [TriangleCount][4], [FrameRate][5]
 
 ## Properties
 

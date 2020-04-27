@@ -1,18 +1,19 @@
-# Log.SetVerbosity
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Log][1]
 
---------------------------------------------------------------------------------
+## Log.SetVerbosity
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Log][1]  
 
 ### SetVerbosity(LogVerbosity)
 
 Sets the verbosity level of the calling assembly.
 
 ```cs
-public void SetVerbosity(LogVerbosity verbosity)
+public static void SetVerbosity(LogVerbosity verbosity)
 ```
 
 ### SetVerbosity(LogVerbosity, Assembly)
@@ -20,7 +21,7 @@ public void SetVerbosity(LogVerbosity verbosity)
 Sets the verbosity level of a specific assembly.
 
 ```cs
-public void SetVerbosity(LogVerbosity verbosity, Assembly assembly)
+public static void SetVerbosity(LogVerbosity verbosity, Assembly assembly)
 ```
 
 ### SetVerbosity(LogVerbosity, string)
@@ -28,7 +29,7 @@ public void SetVerbosity(LogVerbosity verbosity, Assembly assembly)
 Sets the verbosity level of a specific assembly.
 
 ```cs
-public void SetVerbosity(LogVerbosity verbosity, string assembly)
+public static void SetVerbosity(LogVerbosity verbosity, string assembly)
 ```
 
 [0]: ../Heirloom.Core.md

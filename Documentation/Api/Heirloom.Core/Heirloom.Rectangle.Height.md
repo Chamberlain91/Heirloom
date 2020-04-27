@@ -1,11 +1,12 @@
-# Rectangle.Height
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Rectangle][1]
 
---------------------------------------------------------------------------------
+## Rectangle.Height
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Rectangle][1]  
 
 #### Height
 

@@ -1,7 +1,10 @@
-# Delaunay
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Delaunay
+
 > **Namespace**: [Heirloom][0]  
 
 An implementation of delaunay triangulation.
@@ -10,11 +13,9 @@ An implementation of delaunay triangulation.
 public static class Delaunay
 ```
 
---------------------------------------------------------------------------------
+#### Static Methods
 
-**Static Methods**: [Triangulate][1]
-
---------------------------------------------------------------------------------
+[Triangulate][1]
 
 ## Methods
 

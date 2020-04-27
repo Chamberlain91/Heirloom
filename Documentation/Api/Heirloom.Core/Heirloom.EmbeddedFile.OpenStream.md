@@ -1,11 +1,12 @@
-# EmbeddedFile.OpenStream
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [EmbeddedFile][1]
 
---------------------------------------------------------------------------------
+## EmbeddedFile.OpenStream
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [EmbeddedFile][1]  
 
 ### OpenStream()
 

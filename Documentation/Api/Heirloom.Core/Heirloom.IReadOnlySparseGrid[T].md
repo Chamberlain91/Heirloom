@@ -1,7 +1,10 @@
-# IReadOnlySparseGrid\<T>
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## IReadOnlySparseGrid\<T>
+
 > **Namespace**: [Heirloom][0]  
 
 A sparse 2D grid of values.
@@ -10,15 +13,17 @@ A sparse 2D grid of values.
 public abstract interface IReadOnlySparseGrid<T> : IReadOnlyGrid<T>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [IReadOnlyGrid\<T>][1]
+[IReadOnlyGrid\<T>][1]
 
-**Properties**: [Keys][2]
+#### Properties
 
-**Methods**: [HasValue][3]
+[Keys][2]
 
---------------------------------------------------------------------------------
+#### Methods
+
+[HasValue][3]
 
 ## Properties
 

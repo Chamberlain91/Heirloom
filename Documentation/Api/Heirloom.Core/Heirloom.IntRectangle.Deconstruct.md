@@ -1,11 +1,12 @@
-# IntRectangle.Deconstruct
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [IntRectangle][1]
 
---------------------------------------------------------------------------------
+## IntRectangle.Deconstruct
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [IntRectangle][1]  
 
 ### Deconstruct(out int, out int, out int, out int)
 

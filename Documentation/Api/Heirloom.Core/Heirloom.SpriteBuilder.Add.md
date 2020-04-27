@@ -1,11 +1,12 @@
-# SpriteBuilder.Add
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [SpriteBuilder][1]
 
---------------------------------------------------------------------------------
+## SpriteBuilder.Add
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [SpriteBuilder][1]  
 
 ### Add(string, Image)
 

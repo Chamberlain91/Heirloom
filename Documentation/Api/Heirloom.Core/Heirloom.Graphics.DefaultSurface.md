@@ -1,11 +1,12 @@
-# Graphics.DefaultSurface
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Graphics][1]
 
---------------------------------------------------------------------------------
+## Graphics.DefaultSurface
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Graphics][1]  
 
 ### DefaultSurface
 

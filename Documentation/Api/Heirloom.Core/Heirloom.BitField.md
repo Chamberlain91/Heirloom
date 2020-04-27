@@ -1,7 +1,10 @@
-# BitField
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## BitField
+
 > **Namespace**: [Heirloom][0]  
 
 A structured byte to configure the 8 individual bits as a method of storing 'compressed' boolean values.
@@ -10,15 +13,17 @@ A structured byte to configure the 8 individual bits as a method of storing 'com
 public struct BitField : IEquatable<BitField>, IReadOnlyList<bool>, IReadOnlyCollection<bool>, IEnumerable<bool>, IEnumerable
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IEquatable\<BitField>, IReadOnlyList\<bool>, IReadOnlyCollection\<bool>, IEnumerable\<bool>, IEnumerable
+IEquatable\<BitField>, IReadOnlyList\<bool>, IReadOnlyCollection\<bool>, IEnumerable\<bool>, IEnumerable
 
-**Properties**: [Item][1], [Count][2]
+#### Properties
 
-**Methods**: [GetBit][3], [SetBit][4], [GetEnumerator][5]
+[Item][1], [Count][2]
 
---------------------------------------------------------------------------------
+#### Methods
+
+[GetBit][3], [SetBit][4], [GetEnumerator][5]
 
 ## Properties
 

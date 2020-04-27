@@ -1,11 +1,12 @@
-# Matrix.Multiply
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Matrix][1]
 
---------------------------------------------------------------------------------
+## Matrix.Multiply
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Matrix][1]  
 
 ### Multiply(in Vector)
 
@@ -20,7 +21,7 @@ public Vector Multiply(in Vector v)
 Multiply two matrices together and store the result in `dest` .
 
 ```cs
-public void Multiply(in Matrix a, in Matrix b, ref Matrix dest)
+public static void Multiply(in Matrix a, in Matrix b, ref Matrix dest)
 ```
 
 ### Multiply(in Matrix, in Matrix)
@@ -28,7 +29,7 @@ public void Multiply(in Matrix a, in Matrix b, ref Matrix dest)
 Multiply two matrices together.
 
 ```cs
-public Matrix Multiply(in Matrix a, in Matrix b)
+public static Matrix Multiply(in Matrix a, in Matrix b)
 ```
 
 ### Multiply(in Matrix, in Vector, ref Vector)
@@ -36,7 +37,7 @@ public Matrix Multiply(in Matrix a, in Matrix b)
 Multiplies a vector and matrix together and stores the resulting vector into `dest` .
 
 ```cs
-public void Multiply(in Matrix a, in Vector v, ref Vector dest)
+public static void Multiply(in Matrix a, in Vector v, ref Vector dest)
 ```
 
 ### Multiply(in Matrix, in Vector)
@@ -44,7 +45,7 @@ public void Multiply(in Matrix a, in Vector v, ref Vector dest)
 Multiplies a vector and matrix together.
 
 ```cs
-public Vector Multiply(in Matrix a, in Vector v)
+public static Vector Multiply(in Matrix a, in Vector v)
 ```
 
 [0]: ../Heirloom.Core.md

@@ -1,11 +1,12 @@
-# ReverbEffect.RoomSize
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [ReverbEffect][1]
 
---------------------------------------------------------------------------------
+## ReverbEffect.RoomSize
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [ReverbEffect][1]  
 
 ### RoomSize
 

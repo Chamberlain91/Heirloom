@@ -1,7 +1,10 @@
-# AudioNode
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## AudioNode
+
 > **Namespace**: [Heirloom][0]  
 
 Represents a node in the audio mixing tree.
@@ -10,13 +13,13 @@ Represents a node in the audio mixing tree.
 public abstract class AudioNode
 ```
 
---------------------------------------------------------------------------------
+#### Properties
 
-**Properties**: [Effects][1], [Volume][2], [Balance][3]
+[Effects][1], [Volume][2], [Balance][3]
 
-**Methods**: [PopulateBuffer][4]
+#### Methods
 
---------------------------------------------------------------------------------
+[PopulateBuffer][4]
 
 ## Properties
 

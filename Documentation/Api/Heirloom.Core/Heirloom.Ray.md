@@ -1,7 +1,10 @@
-# Ray
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Ray
+
 > **Namespace**: [Heirloom][0]  
 
 Represents a ray by orgin and direction vectors.
@@ -10,17 +13,21 @@ Represents a ray by orgin and direction vectors.
 public struct Ray : IEquatable<Ray>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IEquatable\<Ray>
+IEquatable\<Ray>
 
-**Fields**: [Origin][1], [Direction][2]
+#### Fields
 
-**Methods**: [Set][3], [GetPoint][4], [Deconstruct][5]
+[Origin][1], [Direction][2]
 
-**Static Methods**: [FromLineSegment][6], [FromAngle][7], [Intersects][8]
+#### Methods
 
---------------------------------------------------------------------------------
+[Set][3], [GetPoint][4], [Deconstruct][5]
+
+#### Static Methods
+
+[FromLineSegment][6], [FromAngle][7], [Intersects][8]
 
 ## Fields
 

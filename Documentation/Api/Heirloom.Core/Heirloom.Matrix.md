@@ -1,7 +1,10 @@
-# Matrix
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Matrix
+
 > **Namespace**: [Heirloom][0]  
 
 A 2x3 transformation matrix.
@@ -10,21 +13,29 @@ A 2x3 transformation matrix.
 public struct Matrix : IEquatable<Matrix>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IEquatable\<Matrix>
+IEquatable\<Matrix>
 
-**Fields**: [M0][1], [M1][2], [M2][3], [M3][4], [M4][5], [M5][6]
+#### Fields
 
-**Properties**: [Item][7], [Inverted][8]
+[M0][1], [M1][2], [M2][3], [M3][4], [M4][5], [M5][6]
 
-**Methods**: [Multiply][9], [MultiplyVector][10], [Set][11], [SetScale][12], [SetShear][13], [SetRotation][14], [SetTranslation][15], [Deconstruct][16], [GetAffineScale][17], [GetAffineTranslation][18], [GetAffineRotation][19]
+#### Properties
 
-**Static Fields**: [Identity][20]
+[Item][7], [Inverted][8]
 
-**Static Methods**: [Inverse][21], [Multiply][9], [MultiplyVector][10], [CreateRotation][22], [CreateScale][23], [CreateShear][24], [CreateTranslation][25], [CreateTransform][26], [RectangleProjection][27]
+#### Methods
 
---------------------------------------------------------------------------------
+[Multiply][9], [MultiplyVector][10], [Set][11], [SetScale][12], [SetShear][13], [SetRotation][14], [SetTranslation][15], [Deconstruct][16], [GetAffineScale][17], [GetAffineTranslation][18], [GetAffineRotation][19]
+
+#### Static Fields
+
+[Identity][20]
+
+#### Static Methods
+
+[Inverse][21], [Multiply][9], [MultiplyVector][10], [CreateRotation][22], [CreateScale][23], [CreateShear][24], [CreateTranslation][25], [CreateTransform][26], [RectangleProjection][27]
 
 ## Fields
 

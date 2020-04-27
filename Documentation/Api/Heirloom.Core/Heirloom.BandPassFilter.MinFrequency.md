@@ -1,11 +1,12 @@
-# BandPassFilter.MinFrequency
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [BandPassFilter][1]
 
---------------------------------------------------------------------------------
+## BandPassFilter.MinFrequency
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [BandPassFilter][1]  
 
 ### MinFrequency
 

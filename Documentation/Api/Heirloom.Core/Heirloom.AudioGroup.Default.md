@@ -1,11 +1,12 @@
-# AudioGroup.Default
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [AudioGroup][1]
 
---------------------------------------------------------------------------------
+## AudioGroup.Default
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [AudioGroup][1]  
 
 ### Default
 

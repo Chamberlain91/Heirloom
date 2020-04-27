@@ -1,11 +1,12 @@
-# ImageSource.Origin
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [ImageSource][1]
 
---------------------------------------------------------------------------------
+## ImageSource.Origin
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [ImageSource][1]  
 
 ### Origin
 

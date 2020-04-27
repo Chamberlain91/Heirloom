@@ -1,11 +1,12 @@
-# Rectangle.Offset
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Rectangle][1]
 
---------------------------------------------------------------------------------
+## Rectangle.Offset
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Rectangle][1]  
 
 ### Offset(float, float)
 
@@ -28,7 +29,7 @@ public void Offset(Vector offset)
 Copies and translates the given rectangle.
 
 ```cs
-public Rectangle Offset(Rectangle rect, float x, float y)
+public static Rectangle Offset(Rectangle rect, float x, float y)
 ```
 
 ### Offset(Rectangle, Vector)
@@ -36,7 +37,7 @@ public Rectangle Offset(Rectangle rect, float x, float y)
 Copies and translates the given rectangle.
 
 ```cs
-public Rectangle Offset(Rectangle rect, Vector offset)
+public static Rectangle Offset(Rectangle rect, Vector offset)
 ```
 
 [0]: ../Heirloom.Core.md

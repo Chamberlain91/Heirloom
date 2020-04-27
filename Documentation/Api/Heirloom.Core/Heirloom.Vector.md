@@ -1,7 +1,10 @@
-# Vector
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Vector
+
 > **Namespace**: [Heirloom][0]  
 
 Represents a vector with two single-precision floating-point values.
@@ -10,21 +13,29 @@ Represents a vector with two single-precision floating-point values.
 public struct Vector : IEquatable<Vector>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IEquatable\<Vector>
+IEquatable\<Vector>
 
-**Fields**: [X][1], [Y][2]
+#### Fields
 
-**Properties**: [Length][3], [LengthSquared][4], [Normalized][5], [Perpendicular][6], [Angle][7], [Item][8]
+[X][1], [Y][2]
 
-**Methods**: [Set][9], [Normalize][10], [Deconstruct][11]
+#### Properties
 
-**Static Fields**: [Zero][12], [One][13], [Right][14], [Up][15], [Left][16], [Down][17]
+[Length][3], [LengthSquared][4], [Normalized][5], [Perpendicular][6], [Angle][7], [Item][8]
 
-**Static Methods**: [GetMaxComponent][18], [GetMinComponent][19], [Min][20], [Max][21], [Abs][22], [Distance][23], [DistanceSquared][24], [ManhattanDistance][25], [Normalize][10], [Lerp][26], [FromAngle][27], [AngleBetween][28], [Rotate][29], [Dot][30], [Cross][31], [Project][32], [Reflect][33], [Floor][34], [Ceil][35], [Round][36], [Fraction][37]
+#### Methods
 
---------------------------------------------------------------------------------
+[Set][9], [Normalize][10], [Deconstruct][11]
+
+#### Static Fields
+
+[Zero][12], [One][13], [Right][14], [Up][15], [Left][16], [Down][17]
+
+#### Static Methods
+
+[GetMaxComponent][18], [GetMinComponent][19], [Min][20], [Max][21], [Abs][22], [Distance][23], [DistanceSquared][24], [ManhattanDistance][25], [Normalize][10], [Lerp][26], [FromAngle][27], [AngleBetween][28], [Rotate][29], [Dot][30], [Cross][31], [Project][32], [Reflect][33], [Floor][34], [Ceil][35], [Round][36], [Fraction][37]
 
 ## Fields
 

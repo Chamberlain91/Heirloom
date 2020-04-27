@@ -1,11 +1,12 @@
-# Graph\<TVertexKey, TVertexValue>.AllowSelfLoops
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Graph\<TVertexKey, TVertexValue>][1]
 
---------------------------------------------------------------------------------
+## Graph\<TVertexKey, TVertexValue>.AllowSelfLoops
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Graph\<TVertexKey, TVertexValue>][1]  
 
 ### AllowSelfLoops
 

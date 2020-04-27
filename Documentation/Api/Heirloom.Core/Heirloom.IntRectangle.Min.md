@@ -1,11 +1,12 @@
-# IntRectangle.Min
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [IntRectangle][1]
 
---------------------------------------------------------------------------------
+## IntRectangle.Min
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [IntRectangle][1]  
 
 ### Min
 

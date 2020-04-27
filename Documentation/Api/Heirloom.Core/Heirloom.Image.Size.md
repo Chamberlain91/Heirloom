@@ -1,11 +1,12 @@
-# Image.Size
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Image][1]
 
---------------------------------------------------------------------------------
+## Image.Size
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Image][1]  
 
 ### Size
 

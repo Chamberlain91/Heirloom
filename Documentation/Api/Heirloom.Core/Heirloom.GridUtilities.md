@@ -1,7 +1,10 @@
-# GridUtilities
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## GridUtilities
+
 > **Namespace**: [Heirloom][0]  
 
 Provides extra utilities for interacting with a grid.
@@ -10,11 +13,9 @@ Provides extra utilities for interacting with a grid.
 public static class GridUtilities
 ```
 
---------------------------------------------------------------------------------
+#### Static Methods
 
-**Static Methods**: [GetNeighbors\<T>][1], [GetNeighborCoordinates\<T>][2], [GetNeighborCoordinates][3]
-
---------------------------------------------------------------------------------
+[GetNeighbors\<T>][1], [GetNeighborCoordinates\<T>][2], [GetNeighborCoordinates][3]
 
 ## Methods
 

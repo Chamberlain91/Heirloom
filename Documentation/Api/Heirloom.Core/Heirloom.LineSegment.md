@@ -1,7 +1,10 @@
-# LineSegment
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## LineSegment
+
 > **Namespace**: [Heirloom][0]  
 
 Represents a line segment defined by two [Vector][1] .
@@ -10,19 +13,25 @@ Represents a line segment defined by two [Vector][1] .
 public struct LineSegment : IEquatable<LineSegment>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IEquatable\<LineSegment>
+IEquatable\<LineSegment>
 
-**Fields**: [A][2], [B][3]
+#### Fields
 
-**Methods**: [Set][4], [GetPoint][5], [Intersects][6], [GetClosestPoint][7]
+[A][2], [B][3]
 
-**Static Fields**: [IntersectionTolerance][8]
+#### Methods
 
-**Static Methods**: [Intersects][6], [GetClosestPoint][7], [ClosestPoint][9]
+[Set][4], [GetPoint][5], [Intersects][6], [GetClosestPoint][7]
 
---------------------------------------------------------------------------------
+#### Static Fields
+
+[IntersectionTolerance][8]
+
+#### Static Methods
+
+[Intersects][6], [GetClosestPoint][7], [ClosestPoint][9]
 
 ## Fields
 

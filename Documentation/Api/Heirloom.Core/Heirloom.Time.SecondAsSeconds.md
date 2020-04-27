@@ -1,11 +1,12 @@
-# Time.SecondAsSeconds
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Time][1]
 
---------------------------------------------------------------------------------
+## Time.SecondAsSeconds
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Time][1]  
 
 #### SecondAsSeconds
 

@@ -1,7 +1,10 @@
-# GrayscaleShader
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## GrayscaleShader
+
 > **Namespace**: [Heirloom][0]  
 
 Grayscale shader.
@@ -10,13 +13,13 @@ Grayscale shader.
 public sealed class GrayscaleShader : Shader, IDisposable
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [Shader][1], IDisposable
+[Shader][1], IDisposable
 
-**Properties**: [Blend][2]
+#### Properties
 
---------------------------------------------------------------------------------
+[Blend][2]
 
 ## Properties
 

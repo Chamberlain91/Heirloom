@@ -1,18 +1,19 @@
-# Files.GetEmbeddedFiles
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Files][1]
 
---------------------------------------------------------------------------------
+## Files.GetEmbeddedFiles
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Files][1]  
 
 ### GetEmbeddedFiles()
 
 Gets all known embedded files.
 
 ```cs
-public EmbeddedFile[] GetEmbeddedFiles()
+public static EmbeddedFile[] GetEmbeddedFiles()
 ```
 
 [0]: ../Heirloom.Core.md

@@ -1,7 +1,10 @@
-# StyledText
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## StyledText
+
 > **Namespace**: [Heirloom][0]  
 
 Styled text compiled by a [StyledTextParser][1] .
@@ -10,11 +13,9 @@ Styled text compiled by a [StyledTextParser][1] .
 public abstract class StyledText
 ```
 
---------------------------------------------------------------------------------
+#### Properties
 
-**Properties**: [Text][2]
-
---------------------------------------------------------------------------------
+[Text][2]
 
 ## Properties
 

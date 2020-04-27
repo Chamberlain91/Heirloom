@@ -1,11 +1,12 @@
-# GraphicsAdapter.ISurfaceFactory.Dispose
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [GraphicsAdapter.ISurfaceFactory][1]
 
---------------------------------------------------------------------------------
+## GraphicsAdapter.ISurfaceFactory.Dispose
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [GraphicsAdapter.ISurfaceFactory][1]  
 
 ### Dispose(object)
 

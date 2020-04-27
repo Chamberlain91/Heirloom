@@ -1,11 +1,12 @@
-# LineSegment.Intersects
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [LineSegment][1]
 
---------------------------------------------------------------------------------
+## LineSegment.Intersects
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [LineSegment][1]  
 
 ### Intersects(LineSegment)
 
@@ -28,7 +29,7 @@ public bool Intersects(LineSegment other, out Vector point)
 Checks if two line segments intersect.
 
 ```cs
-public bool Intersects(LineSegment s1, LineSegment s2)
+public static bool Intersects(LineSegment s1, LineSegment s2)
 ```
 
 ### Intersects(LineSegment, LineSegment, out Vector)
@@ -36,7 +37,7 @@ public bool Intersects(LineSegment s1, LineSegment s2)
 Checks if two line segments intersect.
 
 ```cs
-public bool Intersects(LineSegment s1, LineSegment s2, out Vector point)
+public static bool Intersects(LineSegment s1, LineSegment s2, out Vector point)
 ```
 
 ### Intersects(Vector, Vector, Vector, Vector)
@@ -44,7 +45,7 @@ public bool Intersects(LineSegment s1, LineSegment s2, out Vector point)
 Checks if two line segments intersect.
 
 ```cs
-public bool Intersects(Vector p1, Vector p2, Vector q1, Vector q2)
+public static bool Intersects(Vector p1, Vector p2, Vector q1, Vector q2)
 ```
 
 ### Intersects(Vector, Vector, Vector, Vector, out Vector)
@@ -52,7 +53,7 @@ public bool Intersects(Vector p1, Vector p2, Vector q1, Vector q2)
 Checks if two line segments intersect.
 
 ```cs
-public bool Intersects(Vector p1, Vector p2, Vector p3, Vector p4, out Vector point)
+public static bool Intersects(Vector p1, Vector p2, Vector p3, Vector p4, out Vector point)
 ```
 
 [0]: ../Heirloom.Core.md

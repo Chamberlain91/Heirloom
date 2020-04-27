@@ -1,7 +1,10 @@
-# Surface
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Surface
+
 > **Namespace**: [Heirloom][0]  
 
 Represents a surface a [Graphics][1] object can draw on.
@@ -10,15 +13,17 @@ Represents a surface a [Graphics][1] object can draw on.
 public sealed class Surface : ImageSource
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [ImageSource][2]
+[ImageSource][2]
 
-**Properties**: [Size][3], [Multisample][4], [IsScreenBound][5]
+#### Properties
 
-**Static Properties**: [MaxSupportedMultisampleQuality][6]
+[Size][3], [Multisample][4], [IsScreenBound][5]
 
---------------------------------------------------------------------------------
+#### Static Properties
+
+[MaxSupportedMultisampleQuality][6]
 
 ## Properties
 

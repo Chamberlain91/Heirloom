@@ -1,20 +1,23 @@
-# Time
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Time
+
 > **Namespace**: [Heirloom][0]  
 
 ```cs
 public static class Time
 ```
 
---------------------------------------------------------------------------------
+#### Static Fields
 
-**Static Fields**: [NanosecondAsSeconds][1], [MicrosecondAsSeconds][2], [MillisecondAsSeconds][3], [SecondAsSeconds][4], [MinuteAsSeconds][5], [HourAsSeconds][6], [DayAsSeconds][7], [WeekAsSeconds][8]
+[NanosecondAsSeconds][1], [MicrosecondAsSeconds][2], [MillisecondAsSeconds][3], [SecondAsSeconds][4], [MinuteAsSeconds][5], [HourAsSeconds][6], [DayAsSeconds][7], [WeekAsSeconds][8]
 
-**Static Methods**: [GetEnglishTime][9], [GetShortTimeName][10], [GetTimeName][11], [GetTimeString][12], [GetDuration][13], [Convert][14]
+#### Static Methods
 
---------------------------------------------------------------------------------
+[GetEnglishTime][9], [GetShortTimeName][10], [GetTimeName][11], [GetTimeString][12], [GetDuration][13], [Convert][14]
 
 ## Fields
 

@@ -1,18 +1,19 @@
-# Vector.Fraction
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Vector][1]
 
---------------------------------------------------------------------------------
+## Vector.Fraction
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Vector][1]  
 
 ### Fraction(Vector)
 
 Computes a new vector with the fractional portion of each component of the input vector.
 
 ```cs
-public Vector Fraction(Vector v)
+public static Vector Fraction(Vector v)
 ```
 
 [0]: ../Heirloom.Core.md

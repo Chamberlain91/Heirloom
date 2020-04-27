@@ -1,40 +1,39 @@
-# VideoMode
+# Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Platforms.Desktop][0]  
-> **Dependencies**: [Heirloom.Core][1], [Heirloom.OpenGLES][2], [Heirloom.MiniAudio][3]  
+
+## VideoMode
+
 > **Namespace**: [Heirloom.Desktop][0]  
 
 ```cs
 public struct VideoMode : IEquatable<VideoMode>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IEquatable\<VideoMode>
+IEquatable\<VideoMode>
 
-**Fields**: [Width][4], [Height][5], [RedBits][6], [GreenBits][7], [BlueBits][8], [RefreshRate][9]
+#### Fields
 
---------------------------------------------------------------------------------
+[Width][1], [Height][2], [RedBits][3], [GreenBits][4], [BlueBits][5], [RefreshRate][6]
 
 ## Fields
 
 | Name             | Summary |
 |------------------|---------|
-| [Width][4]       |         |
-| [Height][5]      |         |
-| [RedBits][6]     |         |
-| [GreenBits][7]   |         |
-| [BlueBits][8]    |         |
-| [RefreshRate][9] |         |
+| [Width][1]       |         |
+| [Height][2]      |         |
+| [RedBits][3]     |         |
+| [GreenBits][4]   |         |
+| [BlueBits][5]    |         |
+| [RefreshRate][6] |         |
 
 [0]: ../Heirloom.Platforms.Desktop.md
-[1]: ../Heirloom.Core.md
-[2]: ../Heirloom.OpenGLES.md
-[3]: ../Heirloom.MiniAudio.md
-[4]: Heirloom.Desktop.VideoMode.Width.md
-[5]: Heirloom.Desktop.VideoMode.Height.md
-[6]: Heirloom.Desktop.VideoMode.RedBits.md
-[7]: Heirloom.Desktop.VideoMode.GreenBits.md
-[8]: Heirloom.Desktop.VideoMode.BlueBits.md
-[9]: Heirloom.Desktop.VideoMode.RefreshRate.md
+[1]: Heirloom.Desktop.VideoMode.Width.md
+[2]: Heirloom.Desktop.VideoMode.Height.md
+[3]: Heirloom.Desktop.VideoMode.RedBits.md
+[4]: Heirloom.Desktop.VideoMode.GreenBits.md
+[5]: Heirloom.Desktop.VideoMode.BlueBits.md
+[6]: Heirloom.Desktop.VideoMode.RefreshRate.md

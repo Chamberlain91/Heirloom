@@ -1,18 +1,19 @@
-# Matrix.CreateScale
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Matrix][1]
 
---------------------------------------------------------------------------------
+## Matrix.CreateScale
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Matrix][1]  
 
 ### CreateScale(float, float)
 
 Constructs a new scaling matrix.
 
 ```cs
-public Matrix CreateScale(float sx, float sy)
+public static Matrix CreateScale(float sx, float sy)
 ```
 
 ### CreateScale(in Size)
@@ -20,7 +21,7 @@ public Matrix CreateScale(float sx, float sy)
 Constructs a new scaling matrix.
 
 ```cs
-public Matrix CreateScale(in Size scale)
+public static Matrix CreateScale(in Size scale)
 ```
 
 ### CreateScale(in Vector)
@@ -28,7 +29,7 @@ public Matrix CreateScale(in Size scale)
 Constructs a new scaling matrix.
 
 ```cs
-public Matrix CreateScale(in Vector scale)
+public static Matrix CreateScale(in Vector scale)
 ```
 
 ### CreateScale(float)
@@ -36,7 +37,7 @@ public Matrix CreateScale(in Vector scale)
 Constructs a new uniform scaling matrix.
 
 ```cs
-public Matrix CreateScale(float scale)
+public static Matrix CreateScale(float scale)
 ```
 
 [0]: ../Heirloom.Core.md

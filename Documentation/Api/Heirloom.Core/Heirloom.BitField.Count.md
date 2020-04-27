@@ -1,11 +1,12 @@
-# BitField.Count
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [BitField][1]
 
---------------------------------------------------------------------------------
+## BitField.Count
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [BitField][1]  
 
 ### Count
 

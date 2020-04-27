@@ -1,22 +1,23 @@
-# Image.Load
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Image][1]
 
---------------------------------------------------------------------------------
+## Image.Load
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Image][1]  
 
 ### Load(Stream)
 
 ```cs
-public Image Load(Stream stream)
+public static Image Load(Stream stream)
 ```
 
-### Load(byte[])
+### Load( byte[])
 
 ```cs
-public Image Load(byte[] file)
+public static Image Load( byte[] file)
 ```
 
 [0]: ../Heirloom.Core.md

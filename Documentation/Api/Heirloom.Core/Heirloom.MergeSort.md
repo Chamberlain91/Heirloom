@@ -1,18 +1,19 @@
-# MergeSort
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## MergeSort
+
 > **Namespace**: [Heirloom][0]  
 
 ```cs
 public static class MergeSort
 ```
 
---------------------------------------------------------------------------------
+#### Static Methods
 
-**Static Methods**: [StableSort\<T>][1]
-
---------------------------------------------------------------------------------
+[StableSort\<T>][1]
 
 ## Methods
 

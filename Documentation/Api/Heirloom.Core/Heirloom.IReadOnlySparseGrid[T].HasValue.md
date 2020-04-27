@@ -1,11 +1,12 @@
-# IReadOnlySparseGrid\<T>.HasValue
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [IReadOnlySparseGrid\<T>][1]
 
---------------------------------------------------------------------------------
+## IReadOnlySparseGrid\<T>.HasValue
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [IReadOnlySparseGrid\<T>][1]  
 
 ### HasValue(in int, in int)
 

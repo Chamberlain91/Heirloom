@@ -1,7 +1,10 @@
-# ColorBytes
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## ColorBytes
+
 > **Namespace**: [Heirloom][0]  
 
 Color encoded as 4 component bytes.
@@ -10,21 +13,29 @@ Color encoded as 4 component bytes.
 public struct ColorBytes : IEquatable<ColorBytes>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IEquatable\<ColorBytes>
+IEquatable\<ColorBytes>
 
-**Fields**: [R][1], [G][2], [B][3], [A][4]
+#### Fields
 
-**Properties**: [Luminosity][5], [Inverted][6]
+[R][1], [G][2], [B][3], [A][4]
 
-**Methods**: [Set][7]
+#### Properties
 
-**Static Properties**: [Red][8], [Green][9], [Blue][10], [Yellow][11], [Cyan][12], [Magenta][13], [White][14], [Black][15], [Gray][16], [DarkGray][17], [LightGray][18], [Orange][19], [Indigo][20], [Violet][21], [Pink][22], [Transparent][23], [Rainbow][24], [Random][25]
+[Luminosity][5], [Inverted][6]
 
-**Static Methods**: [Parse][26], [TryParse][27], [Lerp][28], [Multiply][29]
+#### Methods
 
---------------------------------------------------------------------------------
+[Set][7]
+
+#### Static Properties
+
+[Red][8], [Green][9], [Blue][10], [Yellow][11], [Cyan][12], [Magenta][13], [White][14], [Black][15], [Gray][16], [DarkGray][17], [LightGray][18], [Orange][19], [Indigo][20], [Violet][21], [Pink][22], [Transparent][23], [Rainbow][24], [Random][25]
+
+#### Static Methods
+
+[Parse][26], [TryParse][27], [Lerp][28], [Multiply][29]
 
 ## Fields
 

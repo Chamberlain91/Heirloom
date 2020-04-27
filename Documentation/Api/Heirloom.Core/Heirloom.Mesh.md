@@ -1,22 +1,27 @@
-# Mesh
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Mesh
+
 > **Namespace**: [Heirloom][0]  
 
 ```cs
 public sealed class Mesh
 ```
 
---------------------------------------------------------------------------------
+#### Properties
 
-**Properties**: [Vertices][1], [Indices][2], [IsIndexed][3], [Version][4]
+[Vertices][1], [Indices][2], [IsIndexed][3], [Version][4]
 
-**Methods**: [Clear][5], [AddVertex][6], [AddVertices][7], [AddIndex][8], [AddIndices][9]
+#### Methods
 
-**Static Methods**: [CreateFromPolygon][10], [CreateFromConvexPolygon][11], [CreateQuad][12]
+[Clear][5], [AddVertex][6], [AddVertices][7], [AddIndex][8], [AddIndices][9]
 
---------------------------------------------------------------------------------
+#### Static Methods
+
+[CreateFromPolygon][10], [CreateFromConvexPolygon][11], [CreateQuad][12]
 
 ## Properties
 

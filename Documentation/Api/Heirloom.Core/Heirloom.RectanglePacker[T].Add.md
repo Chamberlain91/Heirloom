@@ -1,11 +1,12 @@
-# RectanglePacker\<T>.Add
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [RectanglePacker\<T>][1]
 
---------------------------------------------------------------------------------
+## RectanglePacker\<T>.Add
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [RectanglePacker\<T>][1]  
 
 ### Add(T, IntSize)
 

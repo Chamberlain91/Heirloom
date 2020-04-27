@@ -1,11 +1,12 @@
-# Triangle.Raycast
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Triangle][1]
 
---------------------------------------------------------------------------------
+## Triangle.Raycast
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Triangle][1]  
 
 ### Raycast(in Ray)
 

@@ -1,7 +1,10 @@
-# AudioClip
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## AudioClip
+
 > **Namespace**: [Heirloom][0]  
 
 An object to contain (and decode) audio data into raw samples.
@@ -10,11 +13,9 @@ An object to contain (and decode) audio data into raw samples.
 public sealed class AudioClip
 ```
 
---------------------------------------------------------------------------------
+#### Properties
 
-**Properties**: [Item][1], [Duration][2], [Length][3]
-
---------------------------------------------------------------------------------
+[Item][1], [Duration][2], [Length][3]
 
 ## Properties
 

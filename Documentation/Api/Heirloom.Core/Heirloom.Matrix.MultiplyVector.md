@@ -1,11 +1,12 @@
-# Matrix.MultiplyVector
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Matrix][1]
 
---------------------------------------------------------------------------------
+## Matrix.MultiplyVector
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Matrix][1]  
 
 ### MultiplyVector(in Vector)
 
@@ -20,7 +21,7 @@ public Vector MultiplyVector(in Vector v)
 Multiplies a vector and matrix together ignoring the translational components and stores the resulting vector into `dest` .
 
 ```cs
-public void MultiplyVector(in Matrix a, in Vector v, ref Vector r)
+public static void MultiplyVector(in Matrix a, in Vector v, ref Vector r)
 ```
 
 ### MultiplyVector(in Matrix, in Vector)
@@ -28,7 +29,7 @@ public void MultiplyVector(in Matrix a, in Vector v, ref Vector r)
 Multiplies a vector and matrix together ignoring the translational components.
 
 ```cs
-public Vector MultiplyVector(in Matrix a, in Vector v)
+public static Vector MultiplyVector(in Matrix a, in Vector v)
 ```
 
 [0]: ../Heirloom.Core.md

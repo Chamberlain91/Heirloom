@@ -1,7 +1,10 @@
-# EmbeddedFile
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## EmbeddedFile
+
 > **Namespace**: [Heirloom][0]  
 
 Represents an embedded file.
@@ -10,13 +13,13 @@ Represents an embedded file.
 public sealed class EmbeddedFile
 ```
 
---------------------------------------------------------------------------------
+#### Properties
 
-**Properties**: [Assembly][1], [Path][2], [Identifiers][3]
+[Assembly][1], [Path][2], [Identifiers][3]
 
-**Methods**: [OpenStream][4]
+#### Methods
 
---------------------------------------------------------------------------------
+[OpenStream][4]
 
 ## Properties
 

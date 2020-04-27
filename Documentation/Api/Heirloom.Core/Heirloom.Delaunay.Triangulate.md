@@ -1,18 +1,19 @@
-# Delaunay.Triangulate
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Delaunay][1]
 
---------------------------------------------------------------------------------
+## Delaunay.Triangulate
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Delaunay][1]  
 
 ### Triangulate(IEnumerable<Vector>)
 
 Constructs the Delaunay triangulation of a set of points.
 
 ```cs
-public List<Triangle> Triangulate(IEnumerable<Vector> points)
+public static List<Triangle> Triangulate(IEnumerable<Vector> points)
 ```
 
 ### Triangulate(IEnumerable<Vector>, List<Triangle>)
@@ -20,7 +21,7 @@ public List<Triangle> Triangulate(IEnumerable<Vector> points)
 Constructs the Delaunay triangulation of a set of points.
 
 ```cs
-public void Triangulate(IEnumerable<Vector> points, List<Triangle> triangles)
+public static void Triangulate(IEnumerable<Vector> points, List<Triangle> triangles)
 ```
 
 [0]: ../Heirloom.Core.md

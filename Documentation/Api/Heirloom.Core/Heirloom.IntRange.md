@@ -1,7 +1,10 @@
-# IntRange
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## IntRange
+
 > **Namespace**: [Heirloom][0]  
 
 Represents a range of integers from [Min][1] to [Max][2] .
@@ -10,19 +13,25 @@ Represents a range of integers from [Min][1] to [Max][2] .
 public struct IntRange : IEquatable<IntRange>, IEnumerable<int>, IEnumerable
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IEquatable\<IntRange>, IEnumerable\<int>, IEnumerable
+IEquatable\<IntRange>, IEnumerable\<int>, IEnumerable
 
-**Fields**: [Min][1], [Max][2]
+#### Fields
 
-**Properties**: [Average][3], [Size][4], [IsValid][5], [Item][6]
+[Min][1], [Max][2]
 
-**Methods**: [Set][7], [Contains][8], [Overlaps][9], [Include][10], [Deconstruct][11], [GetEnumerator][12]
+#### Properties
 
-**Static Fields**: [Huge][13], [Indeterminate][14], [Zero][15]
+[Average][3], [Size][4], [IsValid][5], [Item][6]
 
---------------------------------------------------------------------------------
+#### Methods
+
+[Set][7], [Contains][8], [Overlaps][9], [Include][10], [Deconstruct][11], [GetEnumerator][12]
+
+#### Static Fields
+
+[Huge][13], [Indeterminate][14], [Zero][15]
 
 ## Fields
 

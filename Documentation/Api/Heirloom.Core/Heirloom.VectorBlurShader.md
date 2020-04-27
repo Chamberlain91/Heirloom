@@ -1,7 +1,10 @@
-# VectorBlurShader
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## VectorBlurShader
+
 > **Namespace**: [Heirloom][0]  
 
 Vector blur shader.
@@ -10,13 +13,13 @@ Vector blur shader.
 public sealed class VectorBlurShader : Shader, IDisposable
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [Shader][1], IDisposable
+[Shader][1], IDisposable
 
-**Properties**: [Vector][2]
+#### Properties
 
---------------------------------------------------------------------------------
+[Vector][2]
 
 ## Properties
 

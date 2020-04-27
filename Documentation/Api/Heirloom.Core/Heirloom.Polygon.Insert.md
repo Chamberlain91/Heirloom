@@ -1,11 +1,12 @@
-# Polygon.Insert
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Polygon][1]
 
---------------------------------------------------------------------------------
+## Polygon.Insert
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Polygon][1]  
 
 ### Insert(int, Vector)
 

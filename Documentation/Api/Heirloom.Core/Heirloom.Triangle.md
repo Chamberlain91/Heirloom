@@ -1,26 +1,35 @@
-# Triangle
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Triangle
+
 > **Namespace**: [Heirloom][0]  
 
 ```cs
 public struct Triangle : IShape, IEquatable<Triangle>, IEnumerable<Vector>, IEnumerable
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [IShape][1], IEquatable\<Triangle>, IEnumerable\<Vector>, IEnumerable
+[IShape][1], IEquatable\<Triangle>, IEnumerable\<Vector>, IEnumerable
 
-**Fields**: [A][2], [B][3], [C][4]
+#### Fields
 
-**Properties**: [Bounds][5], [Area][6], [Centroid][7], [Item][8]
+[A][2], [B][3], [C][4]
 
-**Methods**: [Set][9], [ToPolygon][10], [GetClosestPoint][11], [Contains][12], [Overlaps][13], [Project][14], [Raycast][15], [Barycentric][16], [GetEdge][17], [Deconstruct][18], [GetEnumerator][19]
+#### Properties
 
-**Static Methods**: [ContainsPoint][20], [Barycentric][16], [CreateCircumcircle][21]
+[Bounds][5], [Area][6], [Centroid][7], [Item][8]
 
---------------------------------------------------------------------------------
+#### Methods
+
+[Set][9], [ToPolygon][10], [GetClosestPoint][11], [Contains][12], [Overlaps][13], [Project][14], [Raycast][15], [Barycentric][16], [GetEdge][17], [Deconstruct][18], [GetEnumerator][19]
+
+#### Static Methods
+
+[ContainsPoint][20], [Barycentric][16], [CreateCircumcircle][21]
 
 ## Fields
 

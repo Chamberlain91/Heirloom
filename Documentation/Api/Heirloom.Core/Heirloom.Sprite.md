@@ -1,7 +1,10 @@
-# Sprite
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Sprite
+
 > **Namespace**: [Heirloom][0]  
 
 A representation of single animated sprite. May also contains per-frame and animation sequence information for animating the sprite.
@@ -10,13 +13,13 @@ A representation of single animated sprite. May also contains per-frame and anim
 public sealed class Sprite
 ```
 
---------------------------------------------------------------------------------
+#### Properties
 
-**Properties**: [Frames][1], [Animations][2], [DefaultAnimation][3]
+[Frames][1], [Animations][2], [DefaultAnimation][3]
 
-**Methods**: [GetAnimation][4]
+#### Methods
 
---------------------------------------------------------------------------------
+[GetAnimation][4]
 
 ## Properties
 

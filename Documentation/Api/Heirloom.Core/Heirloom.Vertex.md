@@ -1,7 +1,10 @@
-# Vertex
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Vertex
+
 > **Namespace**: [Heirloom][0]  
 
 Represents a vertex of [Mesh][1] .
@@ -10,11 +13,9 @@ Represents a vertex of [Mesh][1] .
 public struct Vertex
 ```
 
---------------------------------------------------------------------------------
+#### Fields
 
-**Fields**: [Position][2], [UV][3]
-
---------------------------------------------------------------------------------
+[Position][2], [UV][3]
 
 ## Fields
 

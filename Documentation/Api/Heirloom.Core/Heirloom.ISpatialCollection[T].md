@@ -1,7 +1,10 @@
-# ISpatialCollection\<T>
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## ISpatialCollection\<T>
+
 > **Namespace**: [Heirloom][0]  
 
 A spatial collection to store and query elements in 2D space.
@@ -10,13 +13,13 @@ A spatial collection to store and query elements in 2D space.
 public abstract interface ISpatialCollection<T> : IReadOnlySpatialCollection<T>, ISpatialQuery<T>, IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [IReadOnlySpatialCollection\<T>][1], [ISpatialQuery\<T>][2], IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable
+[IReadOnlySpatialCollection\<T>][1], [ISpatialQuery\<T>][2], IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable
 
-**Methods**: [Clear][3], [Add][4], [Update][5], [Remove][6]
+#### Methods
 
---------------------------------------------------------------------------------
+[Clear][3], [Add][4], [Update][5], [Remove][6]
 
 ## Methods
 

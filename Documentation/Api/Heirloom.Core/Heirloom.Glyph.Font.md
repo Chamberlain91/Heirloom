@@ -1,11 +1,12 @@
-# Glyph.Font
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Glyph][1]
 
---------------------------------------------------------------------------------
+## Glyph.Font
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Glyph][1]  
 
 ### Font
 

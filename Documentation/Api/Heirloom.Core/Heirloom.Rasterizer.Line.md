@@ -1,18 +1,19 @@
-# Rasterizer.Line
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Rasterizer][1]
 
---------------------------------------------------------------------------------
+## Rasterizer.Line
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Rasterizer][1]  
 
 ### Line(IntVector, IntVector)
 
 Rasterize along a line.
 
 ```cs
-public IEnumerable<IntVector> Line(IntVector p0, IntVector p1)
+public static IEnumerable<IntVector> Line(IntVector p0, IntVector p1)
 ```
 
 ### Line(IntVector, IntVector,  byte)
@@ -20,7 +21,7 @@ public IEnumerable<IntVector> Line(IntVector p0, IntVector p1)
 Rasterize along a line.
 
 ```cs
-public IEnumerable<IntVector> Line(IntVector p0, IntVector p1, byte pattern)
+public static IEnumerable<IntVector> Line(IntVector p0, IntVector p1, byte pattern)
 ```
 
 ### Line(IntVector, IntVector, ushort)
@@ -28,7 +29,7 @@ public IEnumerable<IntVector> Line(IntVector p0, IntVector p1, byte pattern)
 Rasterize along a line.
 
 ```cs
-public IEnumerable<IntVector> Line(IntVector p0, IntVector p1, ushort pattern)
+public static IEnumerable<IntVector> Line(IntVector p0, IntVector p1, ushort pattern)
 ```
 
 ### Line(IntVector, IntVector, uint)
@@ -36,7 +37,7 @@ public IEnumerable<IntVector> Line(IntVector p0, IntVector p1, ushort pattern)
 Rasterize along a line.
 
 ```cs
-public IEnumerable<IntVector> Line(IntVector p0, IntVector p1, uint pattern)
+public static IEnumerable<IntVector> Line(IntVector p0, IntVector p1, uint pattern)
 ```
 
 [0]: ../Heirloom.Core.md

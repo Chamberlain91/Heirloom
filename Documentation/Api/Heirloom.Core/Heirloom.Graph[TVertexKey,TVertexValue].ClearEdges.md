@@ -1,11 +1,12 @@
-# Graph\<TVertexKey, TVertexValue>.ClearEdges
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Graph\<TVertexKey, TVertexValue>][1]
 
---------------------------------------------------------------------------------
+## Graph\<TVertexKey, TVertexValue>.ClearEdges
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Graph\<TVertexKey, TVertexValue>][1]  
 
 ### ClearEdges()
 

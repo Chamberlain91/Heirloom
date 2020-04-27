@@ -1,7 +1,10 @@
-# FreeList\<T>
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## FreeList\<T>
+
 > **Namespace**: [Heirloom][0]  
 
 A free list an allocation-centric data structure that allows insertion and removal of elements in O(1) time, but does not behave like a typical "list" data type.
@@ -10,13 +13,13 @@ A free list an allocation-centric data structure that allows insertion and remov
 public sealed class FreeList<T>
 ```
 
---------------------------------------------------------------------------------
+#### Properties
 
-**Properties**: [Item][1], [Capacity][2], [Count][3]
+[Item][1], [Capacity][2], [Count][3]
 
-**Methods**: [Clear][4], [Insert][5], [Remove][6], [Resize][7]
+#### Methods
 
---------------------------------------------------------------------------------
+[Clear][4], [Insert][5], [Remove][6], [Resize][7]
 
 ## Properties
 

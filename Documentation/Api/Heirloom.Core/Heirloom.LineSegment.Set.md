@@ -1,11 +1,12 @@
-# LineSegment.Set
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [LineSegment][1]
 
---------------------------------------------------------------------------------
+## LineSegment.Set
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [LineSegment][1]  
 
 ### Set(in Vector, in Vector)
 

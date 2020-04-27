@@ -1,11 +1,12 @@
-# IHeap\<T>.Update
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [IHeap\<T>][1]
 
---------------------------------------------------------------------------------
+## IHeap\<T>.Update
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [IHeap\<T>][1]  
 
 ### Update(T)
 

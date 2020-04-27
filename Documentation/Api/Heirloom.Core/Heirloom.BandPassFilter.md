@@ -1,7 +1,10 @@
-# BandPassFilter
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## BandPassFilter
+
 > **Namespace**: [Heirloom][0]  
 
 An audio effect that implements a band pass filter.
@@ -10,15 +13,17 @@ An audio effect that implements a band pass filter.
 public class BandPassFilter : AudioEffect
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [AudioEffect][1]
+[AudioEffect][1]
 
-**Properties**: [MinFrequency][2], [Cutoff][3]
+#### Properties
 
-**Methods**: [Process][4]
+[MinFrequency][2], [Cutoff][3]
 
---------------------------------------------------------------------------------
+#### Methods
+
+[Process][4]
 
 ## Properties
 

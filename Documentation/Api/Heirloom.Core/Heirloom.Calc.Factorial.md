@@ -1,18 +1,19 @@
-# Calc.Factorial
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]
 
---------------------------------------------------------------------------------
+## Calc.Factorial
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Calc][1]  
 
 ### Factorial(int)
 
 Computes the factorial of `x` .
 
 ```cs
-public int Factorial(int x)
+public static int Factorial(int x)
 ```
 
 ### Factorial(uint)
@@ -20,7 +21,7 @@ public int Factorial(int x)
 Computes the factorial of `x` .
 
 ```cs
-public uint Factorial(uint x)
+public static uint Factorial(uint x)
 ```
 
 [0]: ../Heirloom.Core.md

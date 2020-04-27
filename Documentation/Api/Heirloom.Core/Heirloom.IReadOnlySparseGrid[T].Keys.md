@@ -1,11 +1,12 @@
-# IReadOnlySparseGrid\<T>.Keys
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [IReadOnlySparseGrid\<T>][1]
 
---------------------------------------------------------------------------------
+## IReadOnlySparseGrid\<T>.Keys
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [IReadOnlySparseGrid\<T>][1]  
 
 ### Keys
 

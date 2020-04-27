@@ -1,11 +1,12 @@
-# IReadOnlyTypeDictionary\<T>.ContainsType\<X>
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [IReadOnlyTypeDictionary\<T>][1]
 
---------------------------------------------------------------------------------
+## IReadOnlyTypeDictionary\<T>.ContainsType\<X>
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [IReadOnlyTypeDictionary\<T>][1]  
 
 ### ContainsType<X>()
 

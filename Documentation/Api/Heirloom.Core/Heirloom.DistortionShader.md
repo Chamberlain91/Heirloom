@@ -1,7 +1,10 @@
-# DistortionShader
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## DistortionShader
+
 > **Namespace**: [Heirloom][0]  
 
 Distortion shader.
@@ -10,13 +13,13 @@ Distortion shader.
 public sealed class DistortionShader : Shader, IDisposable
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [Shader][1], IDisposable
+[Shader][1], IDisposable
 
-**Properties**: [DistortionMap][2], [Offset][3], [Strength][4]
+#### Properties
 
---------------------------------------------------------------------------------
+[DistortionMap][2], [Offset][3], [Strength][4]
 
 ## Properties
 

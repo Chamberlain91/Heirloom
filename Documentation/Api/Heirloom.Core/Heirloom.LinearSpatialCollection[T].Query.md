@@ -1,11 +1,12 @@
-# LinearSpatialCollection\<T>.Query
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [LinearSpatialCollection\<T>][1]
 
---------------------------------------------------------------------------------
+## LinearSpatialCollection\<T>.Query
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [LinearSpatialCollection\<T>][1]  
 
 ### Query(IShape)
 

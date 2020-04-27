@@ -1,7 +1,10 @@
-# IReadOnlyHeap\<T>
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## IReadOnlyHeap\<T>
+
 > **Namespace**: [Heirloom][0]  
 
 Represents a read-only view of a [Heap\<T>][1] .
@@ -10,15 +13,17 @@ Represents a read-only view of a [Heap\<T>][1] .
 public abstract interface IReadOnlyHeap<T> : IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable
+IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable
 
-**Properties**: [Comparer][2]
+#### Properties
 
-**Methods**: [Contains][3], [Peek][4]
+[Comparer][2]
 
---------------------------------------------------------------------------------
+#### Methods
+
+[Contains][3], [Peek][4]
 
 ## Properties
 

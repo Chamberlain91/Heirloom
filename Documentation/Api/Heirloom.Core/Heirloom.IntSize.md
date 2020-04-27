@@ -1,7 +1,10 @@
-# IntSize
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## IntSize
+
 > **Namespace**: [Heirloom][0]  
 
 Represents a size or dimensions defined with integer fields.
@@ -10,19 +13,25 @@ Represents a size or dimensions defined with integer fields.
 public struct IntSize : IEquatable<IntSize>, IComparable<IntSize>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IEquatable\<IntSize>, IComparable\<IntSize>
+IEquatable\<IntSize>, IComparable\<IntSize>
 
-**Fields**: [Width][1], [Height][2]
+#### Fields
 
-**Properties**: [Area][3], [Aspect][4], [Item][5]
+[Width][1], [Height][2]
 
-**Methods**: [Set][6], [Deconstruct][7], [CompareTo][8]
+#### Properties
 
-**Static Fields**: [Max][9], [Zero][10], [One][11]
+[Area][3], [Aspect][4], [Item][5]
 
---------------------------------------------------------------------------------
+#### Methods
+
+[Set][6], [Deconstruct][7], [CompareTo][8]
+
+#### Static Fields
+
+[Max][9], [Zero][10], [One][11]
 
 ## Fields
 

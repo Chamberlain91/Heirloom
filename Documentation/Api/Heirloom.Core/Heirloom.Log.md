@@ -1,7 +1,10 @@
-# Log
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Log
+
 > **Namespace**: [Heirloom][0]  
 
 Provides a simple mechanism to log debug and info messages.
@@ -10,13 +13,13 @@ Provides a simple mechanism to log debug and info messages.
 public static class Log
 ```
 
---------------------------------------------------------------------------------
+#### Static Properties
 
-**Static Properties**: [LogHandler][1]
+[LogHandler][1]
 
-**Static Methods**: [SetVerbosity][2], [Debug][3], [Warning][4], [Info][5], [Error][6]
+#### Static Methods
 
---------------------------------------------------------------------------------
+[SetVerbosity][2], [Debug][3], [Warning][4], [Info][5], [Error][6]
 
 ## Properties
 

@@ -1,11 +1,12 @@
-# IReadOnlyHeap\<T>.Comparer
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [IReadOnlyHeap\<T>][1]
 
---------------------------------------------------------------------------------
+## IReadOnlyHeap\<T>.Comparer
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [IReadOnlyHeap\<T>][1]  
 
 ### Comparer
 

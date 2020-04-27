@@ -1,11 +1,12 @@
-# BoundingTreeSpatialCollection\<T>.GetEnumerator
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [BoundingTreeSpatialCollection\<T>][1]
 
---------------------------------------------------------------------------------
+## BoundingTreeSpatialCollection\<T>.GetEnumerator
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [BoundingTreeSpatialCollection\<T>][1]  
 
 ### GetEnumerator()
 

@@ -1,18 +1,19 @@
-# Matrix.CreateShear
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Matrix][1]
 
---------------------------------------------------------------------------------
+## Matrix.CreateShear
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Matrix][1]  
 
 ### CreateShear(in Vector)
 
 Constructs a new shearing matrix.
 
 ```cs
-public Matrix CreateShear(in Vector shear)
+public static Matrix CreateShear(in Vector shear)
 ```
 
 ### CreateShear(float, float)
@@ -20,7 +21,7 @@ public Matrix CreateShear(in Vector shear)
 Constructs a new shearing matrix.
 
 ```cs
-public Matrix CreateShear(float sx, float sy)
+public static Matrix CreateShear(float sx, float sy)
 ```
 
 [0]: ../Heirloom.Core.md

@@ -1,7 +1,10 @@
-# Color
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Color
+
 > **Namespace**: [Heirloom][0]  
 
 Color encoded as 4 component floats.
@@ -10,21 +13,29 @@ Color encoded as 4 component floats.
 public struct Color : IEquatable<Color>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IEquatable\<Color>
+IEquatable\<Color>
 
-**Fields**: [R][1], [G][2], [B][3], [A][4]
+#### Fields
 
-**Properties**: [Luminosity][5], [Inverted][6], [Hue][7], [Brightness][8], [Saturation][9]
+[R][1], [G][2], [B][3], [A][4]
 
-**Methods**: [Set][10], [ToHSV][11]
+#### Properties
 
-**Static Properties**: [Red][12], [Green][13], [Blue][14], [Yellow][15], [Cyan][16], [Magenta][17], [White][18], [Black][19], [Gray][20], [DarkGray][21], [LightGray][22], [Orange][23], [Indigo][24], [Violet][25], [Pink][26], [Transparent][27], [Rainbow][28], [Random][29]
+[Luminosity][5], [Inverted][6], [Hue][7], [Brightness][8], [Saturation][9]
 
-**Static Methods**: [Parse][30], [TryParse][31], [FromHSV][32], [Lerp][33]
+#### Methods
 
---------------------------------------------------------------------------------
+[Set][10], [ToHSV][11]
+
+#### Static Properties
+
+[Red][12], [Green][13], [Blue][14], [Yellow][15], [Cyan][16], [Magenta][17], [White][18], [Black][19], [Gray][20], [DarkGray][21], [LightGray][22], [Orange][23], [Indigo][24], [Violet][25], [Pink][26], [Transparent][27], [Rainbow][28], [Random][29]
+
+#### Static Methods
+
+[Parse][30], [TryParse][31], [FromHSV][32], [Lerp][33]
 
 ## Fields
 

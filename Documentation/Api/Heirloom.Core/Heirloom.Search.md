@@ -1,18 +1,19 @@
-# Search
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Search
+
 > **Namespace**: [Heirloom][0]  
 
 ```cs
 public static class Search
 ```
 
---------------------------------------------------------------------------------
+#### Static Methods
 
-**Static Methods**: [HeuristicSearch\<T>][1], [DepthFirst\<T>][2], [BreadthFirst\<T>][3], [IsAcyclicGraph\<T>][4]
-
---------------------------------------------------------------------------------
+[HeuristicSearch\<T>][1], [DepthFirst\<T>][2], [BreadthFirst\<T>][3], [IsAcyclicGraph\<T>][4]
 
 ## Methods
 

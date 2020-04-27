@@ -1,7 +1,10 @@
-# Polygon
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Polygon
+
 > **Namespace**: [Heirloom][0]  
 
 Represents a simple polygon.
@@ -10,17 +13,21 @@ Represents a simple polygon.
 public class Polygon : IShape
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [IShape][1]
+[IShape][1]
 
-**Properties**: [Item][2], [Vertices][3], [Count][4], [Area][5], [Center][6], [Centroid][7], [Bounds][8], [IsConvex][9], [ConvexPartitions][10]
+#### Properties
 
-**Methods**: [Clear][11], [Add][12], [Insert][13], [RemoveAt][14], [GetClosestPoint][15], [Contains][16], [Overlaps][17], [Project][18], [Raycast][19], [Triangulate][20]
+[Item][2], [Vertices][3], [Count][4], [Area][5], [Center][6], [Centroid][7], [Bounds][8], [IsConvex][9], [ConvexPartitions][10]
 
-**Static Methods**: [CreateFromShape][21], [CreateConvexHull][22], [CreateRegularPolygon][23], [CreateStar][24]
+#### Methods
 
---------------------------------------------------------------------------------
+[Clear][11], [Add][12], [Insert][13], [RemoveAt][14], [GetClosestPoint][15], [Contains][16], [Overlaps][17], [Project][18], [Raycast][19], [Triangulate][20]
+
+#### Static Methods
+
+[CreateFromShape][21], [CreateConvexHull][22], [CreateRegularPolygon][23], [CreateStar][24]
 
 ## Properties
 

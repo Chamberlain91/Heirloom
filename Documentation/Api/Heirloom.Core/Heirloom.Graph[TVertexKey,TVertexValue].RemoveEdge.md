@@ -1,11 +1,12 @@
-# Graph\<TVertexKey, TVertexValue>.RemoveEdge
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Graph\<TVertexKey, TVertexValue>][1]
 
---------------------------------------------------------------------------------
+## Graph\<TVertexKey, TVertexValue>.RemoveEdge
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Graph\<TVertexKey, TVertexValue>][1]  
 
 ### RemoveEdge(TVertexKey, TVertexKey)
 

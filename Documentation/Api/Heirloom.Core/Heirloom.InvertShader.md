@@ -1,7 +1,10 @@
-# InvertShader
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## InvertShader
+
 > **Namespace**: [Heirloom][0]  
 
 Invert shader.
@@ -10,13 +13,13 @@ Invert shader.
 public sealed class InvertShader : Shader, IDisposable
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [Shader][1], IDisposable
+[Shader][1], IDisposable
 
-**Properties**: [Blend][2]
+#### Properties
 
---------------------------------------------------------------------------------
+[Blend][2]
 
 ## Properties
 

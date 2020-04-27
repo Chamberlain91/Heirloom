@@ -1,7 +1,10 @@
-# AudioSource
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## AudioSource
+
 > **Namespace**: [Heirloom][0]  
 
 An instance of playable audio.
@@ -10,17 +13,21 @@ An instance of playable audio.
 public sealed class AudioSource : AudioNode
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [AudioNode][1]
+[AudioNode][1]
 
-**Properties**: [Group][2], [IsLooping][3], [CanSeek][4], [Time][5], [Duration][6], [Position][7], [Length][8], [IsPlaybackFinished][9]
+#### Properties
 
-**Methods**: [Play][10], [Pause][11], [Stop][12], [Seek][13], [PopulateBuffer][14]
+[Group][2], [IsLooping][3], [CanSeek][4], [Time][5], [Duration][6], [Position][7], [Length][8], [IsPlaybackFinished][9]
 
-**Events**: [PlaybackEnded][15]
+#### Methods
 
---------------------------------------------------------------------------------
+[Play][10], [Pause][11], [Stop][12], [Seek][13], [PopulateBuffer][14]
+
+#### Events
+
+[PlaybackEnded][15]
 
 ## Properties
 

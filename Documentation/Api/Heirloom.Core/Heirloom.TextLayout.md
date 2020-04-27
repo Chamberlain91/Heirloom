@@ -1,7 +1,10 @@
-# TextLayout
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## TextLayout
+
 > **Namespace**: [Heirloom][0]  
 
 Utility to measure text and manually invoke the text layout function.   
@@ -11,11 +14,9 @@ Utility to measure text and manually invoke the text layout function.
 public static class TextLayout
 ```
 
---------------------------------------------------------------------------------
+#### Static Methods
 
-**Static Methods**: [Measure][2], [PerformLayout][3]
-
---------------------------------------------------------------------------------
+[Measure][2], [PerformLayout][3]
 
 ## Methods
 

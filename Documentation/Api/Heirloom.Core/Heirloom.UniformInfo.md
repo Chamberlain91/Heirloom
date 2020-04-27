@@ -1,7 +1,10 @@
-# UniformInfo
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## UniformInfo
+
 > **Namespace**: [Heirloom][0]  
 
 Contains information of a uniform from a [Shader][1] .
@@ -10,11 +13,9 @@ Contains information of a uniform from a [Shader][1] .
 public sealed class UniformInfo
 ```
 
---------------------------------------------------------------------------------
+#### Properties
 
-**Properties**: [Name][2], [Type][3], [Dimensions][4], [ArraySize][5], [IsVector][6], [IsMatrix][7], [IsArray][8]
-
---------------------------------------------------------------------------------
+[Name][2], [Type][3], [Dimensions][4], [ArraySize][5], [IsVector][6], [IsMatrix][7], [IsArray][8]
 
 ## Properties
 

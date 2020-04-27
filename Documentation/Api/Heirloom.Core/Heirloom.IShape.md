@@ -1,7 +1,10 @@
-# IShape
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## IShape
+
 > **Namespace**: [Heirloom][0]  
 
 Represents the general interface of a shape and common operators each shape should support.
@@ -10,13 +13,13 @@ Represents the general interface of a shape and common operators each shape shou
 public abstract interface IShape
 ```
 
---------------------------------------------------------------------------------
+#### Properties
 
-**Properties**: [Bounds][1], [Area][2]
+[Bounds][1], [Area][2]
 
-**Methods**: [GetClosestPoint][3], [Contains][4], [Overlaps][5], [Raycast][6], [Project][7]
+#### Methods
 
---------------------------------------------------------------------------------
+[GetClosestPoint][3], [Contains][4], [Overlaps][5], [Raycast][6], [Project][7]
 
 ## Properties
 

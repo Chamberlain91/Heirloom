@@ -1,18 +1,19 @@
-# Calc.Sign
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]
 
---------------------------------------------------------------------------------
+## Calc.Sign
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Calc][1]  
 
 ### Sign(double)
 
 Returns the sign of `x` as if compared against zero (-1, 0 or +1)
 
 ```cs
-public int Sign(double x)
+public static int Sign(double x)
 ```
 
 ### Sign(float)
@@ -20,7 +21,7 @@ public int Sign(double x)
 Returns the sign of `x` as if compared against zero (-1, 0 or +1)
 
 ```cs
-public int Sign(float x)
+public static int Sign(float x)
 ```
 
 ### Sign(int)
@@ -28,7 +29,7 @@ public int Sign(float x)
 Returns the sign of `x` as if compared against zero (-1, 0 or +1)
 
 ```cs
-public int Sign(int x)
+public static int Sign(int x)
 ```
 
 ### Sign(short)
@@ -36,7 +37,7 @@ public int Sign(int x)
 Returns the sign of `x` as if compared against zero (-1, 0 or +1)
 
 ```cs
-public int Sign(short x)
+public static int Sign(short x)
 ```
 
 ### Sign(sbyte)
@@ -44,7 +45,7 @@ public int Sign(short x)
 Returns the sign of `x` as if compared against zero (-1, 0 or +1)
 
 ```cs
-public int Sign(sbyte x)
+public static int Sign(sbyte x)
 ```
 
 [0]: ../Heirloom.Core.md

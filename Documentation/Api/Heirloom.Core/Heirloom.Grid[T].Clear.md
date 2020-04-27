@@ -1,11 +1,12 @@
-# Grid\<T>.Clear
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Grid\<T>][1]
 
---------------------------------------------------------------------------------
+## Grid\<T>.Clear
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Grid\<T>][1]  
 
 ### Clear()
 

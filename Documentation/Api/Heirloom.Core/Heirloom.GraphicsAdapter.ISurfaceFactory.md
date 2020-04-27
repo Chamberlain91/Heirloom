@@ -1,20 +1,23 @@
-# GraphicsAdapter.ISurfaceFactory
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## GraphicsAdapter.ISurfaceFactory
+
 > **Namespace**: [Heirloom][0]  
 
 ```cs
-protected abstract interface GraphicsAdapter.ISurfaceFactory
+abstract interface GraphicsAdapter.ISurfaceFactory
 ```
 
---------------------------------------------------------------------------------
+#### Properties
 
-**Properties**: [MaxSupportedMultisampleQuality][1]
+[MaxSupportedMultisampleQuality][1]
 
-**Methods**: [Create][2], [Dispose][3]
+#### Methods
 
---------------------------------------------------------------------------------
+[Create][2], [Dispose][3]
 
 ## Properties
 

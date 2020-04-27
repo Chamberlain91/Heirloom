@@ -1,11 +1,12 @@
-# BitField.Item
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [BitField][1]
 
---------------------------------------------------------------------------------
+## BitField.Item
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [BitField][1]  
 
 ### Item
 

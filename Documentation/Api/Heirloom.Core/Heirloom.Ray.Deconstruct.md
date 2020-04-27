@@ -1,11 +1,12 @@
-# Ray.Deconstruct
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Ray][1]
 
---------------------------------------------------------------------------------
+## Ray.Deconstruct
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Ray][1]  
 
 ### Deconstruct(out Vector, out Vector)
 

@@ -1,11 +1,12 @@
-# BoundingTreeSpatialCollection\<T>.Count
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [BoundingTreeSpatialCollection\<T>][1]
 
---------------------------------------------------------------------------------
+## BoundingTreeSpatialCollection\<T>.Count
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [BoundingTreeSpatialCollection\<T>][1]  
 
 ### Count
 

@@ -1,7 +1,10 @@
-# GlyphMetrics
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## GlyphMetrics
+
 > **Namespace**: [Heirloom][0]  
 
 Contains information about a glyph (ie, the horizontal metrics).
@@ -10,13 +13,13 @@ Contains information about a glyph (ie, the horizontal metrics).
 public struct GlyphMetrics
 ```
 
---------------------------------------------------------------------------------
+#### Fields
 
-**Fields**: [AdvanceWidth][1], [Bearing][2]
+[AdvanceWidth][1], [Bearing][2]
 
-**Properties**: [Offset][3], [Size][4]
+#### Properties
 
---------------------------------------------------------------------------------
+[Offset][3], [Size][4]
 
 ## Fields
 

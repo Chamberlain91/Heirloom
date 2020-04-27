@@ -1,11 +1,12 @@
-# Color.Red
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Color][1]
 
---------------------------------------------------------------------------------
+## Color.Red
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Color][1]  
 
 ### Red
 

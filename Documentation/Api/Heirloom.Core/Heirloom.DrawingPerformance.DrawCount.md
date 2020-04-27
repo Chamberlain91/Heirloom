@@ -1,11 +1,12 @@
-# DrawingPerformance.DrawCount
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [DrawingPerformance][1]
 
---------------------------------------------------------------------------------
+## DrawingPerformance.DrawCount
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [DrawingPerformance][1]  
 
 ### DrawCount
 

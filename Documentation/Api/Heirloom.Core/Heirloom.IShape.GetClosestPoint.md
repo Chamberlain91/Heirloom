@@ -1,11 +1,12 @@
-# IShape.GetClosestPoint
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [IShape][1]
 
---------------------------------------------------------------------------------
+## IShape.GetClosestPoint
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [IShape][1]  
 
 ### GetClosestPoint(in Vector)
 

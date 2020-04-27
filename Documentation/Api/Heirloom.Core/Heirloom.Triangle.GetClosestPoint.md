@@ -1,11 +1,12 @@
-# Triangle.GetClosestPoint
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Triangle][1]
 
---------------------------------------------------------------------------------
+## Triangle.GetClosestPoint
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Triangle][1]  
 
 ### GetClosestPoint(in Vector)
 

@@ -1,11 +1,12 @@
-# IntVector.Set
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [IntVector][1]
 
---------------------------------------------------------------------------------
+## IntVector.Set
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [IntVector][1]  
 
 ### Set(int, int)
 

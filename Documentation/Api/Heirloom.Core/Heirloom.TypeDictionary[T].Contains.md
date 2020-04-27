@@ -1,11 +1,12 @@
-# TypeDictionary\<T>.Contains
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [TypeDictionary\<T>][1]
 
---------------------------------------------------------------------------------
+## TypeDictionary\<T>.Contains
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [TypeDictionary\<T>][1]  
 
 ### Contains(T)
 

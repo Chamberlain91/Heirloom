@@ -1,18 +1,19 @@
-# Calc.Sqrt
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]
 
---------------------------------------------------------------------------------
+## Calc.Sqrt
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Calc][1]  
 
 ### Sqrt(float)
 
 Computes the square root of `x` .
 
 ```cs
-public float Sqrt(float x)
+public static float Sqrt(float x)
 ```
 
 ### Sqrt(double)
@@ -20,7 +21,7 @@ public float Sqrt(float x)
 Computes the square root of `x` .
 
 ```cs
-public double Sqrt(double x)
+public static double Sqrt(double x)
 ```
 
 [0]: ../Heirloom.Core.md

@@ -1,7 +1,10 @@
-# UnicodeCharacter
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## UnicodeCharacter
+
 > **Namespace**: [Heirloom][0]  
 
 Represents a single 32 bit Unicode character.
@@ -10,13 +13,13 @@ Represents a single 32 bit Unicode character.
 public struct UnicodeCharacter : IComparable<UnicodeCharacter>, IEquatable<UnicodeCharacter>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IComparable\<UnicodeCharacter>, IEquatable\<UnicodeCharacter>
+IComparable\<UnicodeCharacter>, IEquatable\<UnicodeCharacter>
 
-**Methods**: [CompareTo][1]
+#### Methods
 
---------------------------------------------------------------------------------
+[CompareTo][1]
 
 ## Methods
 

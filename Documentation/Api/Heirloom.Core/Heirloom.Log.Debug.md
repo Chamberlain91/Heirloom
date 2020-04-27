@@ -1,18 +1,19 @@
-# Log.Debug
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Log][1]
 
---------------------------------------------------------------------------------
+## Log.Debug
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Log][1]  
 
 ### Debug(object)
 
 Logs a debug message.
 
 ```cs
-public void Debug(object message)
+public static void Debug(object message)
 ```
 
 [0]: ../Heirloom.Core.md

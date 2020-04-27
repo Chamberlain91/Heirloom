@@ -1,7 +1,10 @@
-# Rasterizer
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Rasterizer
+
 > **Namespace**: [Heirloom][0]  
 
 Contains rasterization methods for iterating over pixel positions.
@@ -12,11 +15,9 @@ public static class Rasterizer
 
 This is useful beyond drawing images. For example, in a city builder the [Rectangle][1] or [Line][2] commands can be used to compute positions to place tiles when drawing building plots or roads.
 
---------------------------------------------------------------------------------
+#### Static Methods
 
-**Static Methods**: [Rectangle][1], [RectangleOutline][3], [Circle][4], [CircleOutline][5], [Triangle][6], [Line][2], [HLine][7], [VLine][8]
-
---------------------------------------------------------------------------------
+[Rectangle][1], [RectangleOutline][3], [Circle][4], [CircleOutline][5], [Triangle][6], [Line][2], [HLine][7], [VLine][8]
 
 ## Methods
 

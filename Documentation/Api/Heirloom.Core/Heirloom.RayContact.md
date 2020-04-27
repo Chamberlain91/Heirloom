@@ -1,7 +1,10 @@
-# RayContact
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## RayContact
+
 > **Namespace**: [Heirloom][0]  
 
 Represents the result of a ray-shape intersection.
@@ -10,13 +13,13 @@ Represents the result of a ray-shape intersection.
 public struct RayContact : IEquatable<RayContact>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IEquatable\<RayContact>
+IEquatable\<RayContact>
 
-**Fields**: [Position][1], [Normal][2], [Distance][3]
+#### Fields
 
---------------------------------------------------------------------------------
+[Position][1], [Normal][2], [Distance][3]
 
 ## Fields
 

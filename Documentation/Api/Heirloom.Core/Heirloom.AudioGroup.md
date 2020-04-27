@@ -1,7 +1,10 @@
-# AudioGroup
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## AudioGroup
+
 > **Namespace**: [Heirloom][0]  
 
 An [AudioNode][1] to mix and apply effects to a group of other nodes.
@@ -10,17 +13,21 @@ An [AudioNode][1] to mix and apply effects to a group of other nodes.
 public class AudioGroup : AudioNode
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [AudioNode][1]
+[AudioNode][1]
 
-**Properties**: [Parent][2]
+#### Properties
 
-**Methods**: [PopulateBuffer][3]
+[Parent][2]
 
-**Static Properties**: [Default][4]
+#### Methods
 
---------------------------------------------------------------------------------
+[PopulateBuffer][3]
+
+#### Static Properties
+
+[Default][4]
 
 ## Properties
 

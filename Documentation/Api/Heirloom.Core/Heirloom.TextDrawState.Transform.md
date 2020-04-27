@@ -1,11 +1,12 @@
-# TextDrawState.Transform
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [TextDrawState][1]
 
---------------------------------------------------------------------------------
+## TextDrawState.Transform
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [TextDrawState][1]  
 
 #### Transform
 

@@ -1,11 +1,12 @@
-# Graph\<TVertexKey, TVertexValue>.GetVertex
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Graph\<TVertexKey, TVertexValue>][1]
 
---------------------------------------------------------------------------------
+## Graph\<TVertexKey, TVertexValue>.GetVertex
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Graph\<TVertexKey, TVertexValue>][1]  
 
 ### GetVertex(TVertexKey)
 

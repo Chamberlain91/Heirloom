@@ -1,7 +1,10 @@
-# LowPassFilter
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## LowPassFilter
+
 > **Namespace**: [Heirloom][0]  
 
 An audio effect that implements a low pass filter.
@@ -10,15 +13,17 @@ An audio effect that implements a low pass filter.
 public class LowPassFilter : AudioEffect
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [AudioEffect][1]
+[AudioEffect][1]
 
-**Properties**: [Frequency][2]
+#### Properties
 
-**Methods**: [Process][3]
+[Frequency][2]
 
---------------------------------------------------------------------------------
+#### Methods
+
+[Process][3]
 
 ## Properties
 

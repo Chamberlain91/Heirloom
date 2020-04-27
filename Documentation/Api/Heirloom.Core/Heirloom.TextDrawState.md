@@ -1,7 +1,10 @@
-# TextDrawState
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## TextDrawState
+
 > **Namespace**: [Heirloom][0]  
 
 Represents information of any particular glyph when drawing text.
@@ -10,13 +13,13 @@ Represents information of any particular glyph when drawing text.
 public struct TextDrawState : IEquatable<TextDrawState>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IEquatable\<TextDrawState>
+IEquatable\<TextDrawState>
 
-**Fields**: [Transform][1], [Position][2], [Color][3]
+#### Fields
 
---------------------------------------------------------------------------------
+[Transform][1], [Position][2], [Color][3]
 
 ## Fields
 

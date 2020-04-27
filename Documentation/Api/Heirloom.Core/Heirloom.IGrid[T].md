@@ -1,7 +1,10 @@
-# IGrid\<T>
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## IGrid\<T>
+
 > **Namespace**: [Heirloom][0]  
 
 A 2D grid of values.
@@ -10,13 +13,13 @@ A 2D grid of values.
 public abstract interface IGrid<T> : IReadOnlyGrid<T>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [IReadOnlyGrid\<T>][1]
+[IReadOnlyGrid\<T>][1]
 
-**Methods**: [Clear][2]
+#### Methods
 
---------------------------------------------------------------------------------
+[Clear][2]
 
 ## Methods
 
