@@ -15,5 +15,5 @@ Range from `float.PositiveInfinity` to `float.NegativeInfinity` useful for an in
 public static Range Indeterminate
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Range.md

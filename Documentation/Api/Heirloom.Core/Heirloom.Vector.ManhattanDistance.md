@@ -15,5 +15,5 @@ Computes the manhattan distance between any two vectors.
 public float ManhattanDistance(in Vector a, in Vector b)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md

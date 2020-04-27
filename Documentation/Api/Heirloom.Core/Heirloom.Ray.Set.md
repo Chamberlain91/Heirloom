@@ -15,5 +15,5 @@ Sets the components of this size.
 public void Set(in Vector origin, in Vector direction)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Ray.md

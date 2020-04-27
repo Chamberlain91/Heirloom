@@ -15,5 +15,5 @@ Converts HSV values into a RGBA color.
 public Color FromHSV(float hue, float saturation, float value, float alpha = 1)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Color.md

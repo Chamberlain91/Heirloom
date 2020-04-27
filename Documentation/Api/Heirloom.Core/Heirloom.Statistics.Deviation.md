@@ -15,5 +15,5 @@ The standard deviation.
 public float Deviation
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Statistics.md

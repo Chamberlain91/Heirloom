@@ -15,5 +15,5 @@ The function cosine.
 public float Cos(float x)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

@@ -19,4 +19,4 @@ public enum MultisampleQuality : IComparable, IFormattable, IConvertible
 | Medium | 4x multisampling. |
 | High   | 8x multisampling. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md

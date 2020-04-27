@@ -94,7 +94,7 @@ public struct Rectangle : IShape, IEquatable<Rectangle>
 | [FromPoints][38]      |                                                                                                   |
 | [FromPoints][38]      | Computes the bounding rectangle of the given set of points.                                       |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IShape.md
 [2]: Heirloom.Rectangle.X.md
 [3]: Heirloom.Rectangle.Y.md

@@ -15,5 +15,5 @@ The width of this rectangle.
 public float Width
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rectangle.md

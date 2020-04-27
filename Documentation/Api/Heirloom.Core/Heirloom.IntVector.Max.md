@@ -15,5 +15,5 @@ Computes a new vector where each component is the maximum component in each resp
 public IntVector Max(IntVector a, IntVector b)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntVector.md

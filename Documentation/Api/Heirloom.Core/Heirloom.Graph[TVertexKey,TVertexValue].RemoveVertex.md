@@ -15,5 +15,5 @@ Removes the given vertex from the graph ( also disconnects associated edges ).
 public bool RemoveVertex(TVertexKey key)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graph[TVertexKey,TVertexValue].md

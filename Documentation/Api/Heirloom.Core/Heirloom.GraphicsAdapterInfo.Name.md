@@ -15,5 +15,5 @@ The adapter name (ie, GTX 1080).
 public string Name
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.GraphicsAdapterInfo.md

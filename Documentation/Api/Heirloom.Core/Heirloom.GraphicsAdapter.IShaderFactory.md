@@ -21,6 +21,6 @@ protected abstract interface GraphicsAdapter.IShaderFactory
 | [Compile][1] |         |
 | [Dispose][2] |         |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.GraphicsAdapter.IShaderFactory.Compile.md
 [2]: Heirloom.GraphicsAdapter.IShaderFactory.Dispose.md

@@ -15,5 +15,5 @@ Start the render thread. This thread will automatically terminate when the assoc
 public void Start()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.GameLoop.md

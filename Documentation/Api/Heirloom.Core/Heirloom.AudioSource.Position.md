@@ -15,5 +15,5 @@ Gets the current playback position (time) in samples.
 int Position { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioSource.md

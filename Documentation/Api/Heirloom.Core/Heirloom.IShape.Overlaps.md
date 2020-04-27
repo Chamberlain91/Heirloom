@@ -15,5 +15,5 @@ Determines if this shape overlaps the specified shape.
 public bool Overlaps(IShape shape)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IShape.md

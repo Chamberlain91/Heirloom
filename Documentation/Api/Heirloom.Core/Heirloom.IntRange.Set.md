@@ -15,5 +15,5 @@ Sets the components of this range.
 public void Set(int min, int max)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRange.md

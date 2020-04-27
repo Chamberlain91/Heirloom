@@ -15,5 +15,5 @@ Determines if the graph contains an edge bewtween source and target vertices.
 public bool ContainsEdge(TVertexKey source, TVertexKey target)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graph[TVertexKey,TVertexValue].md

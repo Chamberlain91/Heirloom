@@ -15,5 +15,5 @@ Computes the smoother smooth-step of `x` between `min` and `max` .
 public float SmootherStep(float min, float max, float x)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

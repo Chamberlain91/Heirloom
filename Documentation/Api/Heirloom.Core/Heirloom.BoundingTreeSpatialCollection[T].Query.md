@@ -31,5 +31,5 @@ Queries the spatial collection and returns the elements with bounds that interse
 public IEnumerable<T> Query(Ray ray, float maxDistance = ∞)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.BoundingTreeSpatialCollection[T].md

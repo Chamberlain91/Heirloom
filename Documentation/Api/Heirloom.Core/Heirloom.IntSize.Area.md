@@ -15,5 +15,5 @@ Gets the area of this size as if it was a rectangle at the origin.
 int Area { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntSize.md

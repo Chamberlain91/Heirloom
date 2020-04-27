@@ -55,5 +55,5 @@ Draws text to the current surface.
 public void DrawText(string text, in Rectangle bounds, Font font, int size, TextAlign align = Left, DrawTextCallback callback = null)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

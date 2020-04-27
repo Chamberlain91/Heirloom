@@ -20,5 +20,5 @@ public enum LogVerbosity : IComparable, IFormattable, IConvertible
 | Warning | Only error, info and warning messages are processed. |
 | Debug   | All messages are processed.                          |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Log.md

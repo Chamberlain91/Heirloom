@@ -25,7 +25,7 @@ public abstract interface IGraphVertex<TKey, TValue>
 | [IncomingEdges][3] | The list incoming edges in a directed graph ( no edges when undirected ).     |
 | [Edges][4]         | The list of outgoing edges in a directed graph ( all edges when undirected ). |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IGraphVertex[TKey,TValue].Key.md
 [2]: Heirloom.IGraphVertex[TKey,TValue].Value.md
 [3]: Heirloom.IGraphVertex[TKey,TValue].IncomingEdges.md

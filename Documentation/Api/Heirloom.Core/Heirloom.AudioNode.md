@@ -32,7 +32,7 @@ public abstract class AudioNode
 |---------------------|---------|
 | [PopulateBuffer][4] |         |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioNode.Effects.md
 [2]: Heirloom.AudioNode.Volume.md
 [3]: Heirloom.AudioNode.Balance.md

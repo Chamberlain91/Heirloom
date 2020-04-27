@@ -15,5 +15,5 @@ The list of outgoing edges in a directed graph ( all edges when undirected ).
 IReadOnlyList<IGraphEdge<TKey>> Edges { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IGraphVertex[TKey,TValue].md

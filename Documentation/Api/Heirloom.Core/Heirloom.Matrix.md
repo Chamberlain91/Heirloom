@@ -84,7 +84,7 @@ public struct Matrix : IEquatable<Matrix>
 | [RectangleProjection][27]  | Constructs a matrix that transforms a rectangular region to normalized screen coordinates.                                  |
 | [RectangleProjection][27]  | Constructs a matrix that transforms a rectangular region to normalized screen coordinates.                                  |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Matrix.M0.md
 [2]: Heirloom.Matrix.M1.md
 [3]: Heirloom.Matrix.M2.md

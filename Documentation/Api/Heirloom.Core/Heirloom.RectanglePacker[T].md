@@ -35,7 +35,7 @@ public class RectanglePacker<T> : IRectanglePacker<T>
 | [GetRectangle][7]    |         |
 | [TryGetRectangle][8] |         |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IRectanglePacker[T].md
 [2]: Heirloom.RectanglePacker[T].Elements.md
 [3]: Heirloom.RectanglePacker[T].Size.md

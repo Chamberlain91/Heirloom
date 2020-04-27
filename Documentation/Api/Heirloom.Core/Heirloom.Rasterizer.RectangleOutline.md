@@ -15,5 +15,5 @@ Rasterize the outline of a rectangular region.
 public IEnumerable<IntVector> RectangleOutline(int x, int y, int width, int height)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rasterizer.md

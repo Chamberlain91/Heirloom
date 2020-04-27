@@ -13,5 +13,5 @@
 public void Dispose(object native)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.GraphicsAdapter.ISurfaceFactory.md

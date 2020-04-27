@@ -15,5 +15,5 @@ Determines if the polygon is considered convex (non-concave and oriented clockwi
 public bool IsConvexPolygon(IReadOnlyList<Vector> polygon)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.PolygonTools.md

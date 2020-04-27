@@ -15,5 +15,5 @@ Converts this string into a standardized "identifier".
 public string ToIdentifier(string path)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.md

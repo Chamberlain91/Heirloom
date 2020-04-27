@@ -15,5 +15,5 @@ Gets the minimum corner of this rectangle.
 IntVector Min { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRectangle.md

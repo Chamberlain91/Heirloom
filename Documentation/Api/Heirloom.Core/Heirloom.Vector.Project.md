@@ -23,5 +23,5 @@ Projects a point onto a line segment.
 public float Project(in Vector start, in Vector end, in Vector point, bool clamp = True)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md

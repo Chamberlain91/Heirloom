@@ -39,5 +39,5 @@ Checks if a ray intersects this polygon and outputs information on the contact p
 public bool Raycast(IReadOnlyList<Vector> polygon, in Vector origin, in Vector direction, out RayContact contact)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.PolygonTools.md

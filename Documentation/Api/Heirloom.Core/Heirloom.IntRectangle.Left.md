@@ -15,5 +15,5 @@ Gets the left extent of this rectangle.
 int Left { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRectangle.md

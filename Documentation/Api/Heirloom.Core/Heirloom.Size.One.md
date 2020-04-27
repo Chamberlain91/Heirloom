@@ -15,5 +15,5 @@ A 1x1 size.
 public static Size One
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Size.md

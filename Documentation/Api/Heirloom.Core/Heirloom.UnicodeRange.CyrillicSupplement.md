@@ -15,5 +15,5 @@ The Cyrillic Supplement unicode block.
 public static UnicodeRange CyrillicSupplement
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.UnicodeRange.md

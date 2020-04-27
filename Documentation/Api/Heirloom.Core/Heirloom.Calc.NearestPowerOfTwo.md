@@ -23,5 +23,5 @@ Computes the nearest power of 2 to a number. This is done by computing both lowe
 public int NearestPowerOfTwo(int x)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

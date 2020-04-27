@@ -15,5 +15,5 @@ Clones the heap, and returns an array of the elements in priority ordering.
 public T[] ToArray()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Heap[T].md

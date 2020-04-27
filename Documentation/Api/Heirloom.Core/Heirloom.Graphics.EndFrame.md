@@ -15,5 +15,5 @@ Called at the end of frame to do any last minute work (resetting metrics, buffer
 protected void EndFrame()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

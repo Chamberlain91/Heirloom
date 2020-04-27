@@ -15,5 +15,5 @@ A rectangle that spans the entire 2D integer plane (but inverted, with min and m
 IntRectangle InvertedInfinite { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRectangle.md

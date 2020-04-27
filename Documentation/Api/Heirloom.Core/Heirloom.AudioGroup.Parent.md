@@ -15,5 +15,5 @@ Gets or sets the parent audio group.
 AudioGroup Parent { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioGroup.md

@@ -37,7 +37,7 @@ public struct Statistics : IEquatable<Statistics>
 | [Compute][5] | Computes new statistics from a collection of numbers.               |
 | [Compute][5] | Computes new statistics from a sum, squared sum, extents and count. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Statistics.Average.md
 [2]: Heirloom.Statistics.Variance.md
 [3]: Heirloom.Statistics.Deviation.md

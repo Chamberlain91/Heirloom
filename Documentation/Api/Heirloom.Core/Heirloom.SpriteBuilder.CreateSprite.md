@@ -15,5 +15,5 @@ Create a sprite the current state of the builder.
 public Sprite CreateSprite()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.SpriteBuilder.md

@@ -23,5 +23,5 @@ public static class Delaunay
 | [Triangulate][1] | Constructs the Delaunay triangulation of a set of points. |
 | [Triangulate][1] | Constructs the Delaunay triangulation of a set of points. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Delaunay.Triangulate.md

@@ -15,5 +15,5 @@ Decomposes a simple polygon into constituent triangles.
 public IEnumerable<Triangle> Triangulate(IReadOnlyList<Vector> poylgon)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.PolygonTools.md

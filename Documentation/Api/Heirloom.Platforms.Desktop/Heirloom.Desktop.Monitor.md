@@ -37,10 +37,10 @@ public class Monitor
 |---------------------|---------------------------------------------|
 | [GetVideoModes][11] | Gets all known video modes on this monitor. |
 
-[0]: ..\Heirloom.Platforms.Desktop.md
-[1]: ..\Heirloom.Core.md
-[2]: ..\Heirloom.OpenGLES.md
-[3]: ..\Heirloom.MiniAudio.md
+[0]: ../Heirloom.Platforms.Desktop.md
+[1]: ../Heirloom.Core.md
+[2]: ../Heirloom.OpenGLES.md
+[3]: ../Heirloom.MiniAudio.md
 [4]: Heirloom.Desktop.Monitor.Name.md
 [5]: Heirloom.Desktop.Monitor.Width.md
 [6]: Heirloom.Desktop.Monitor.Height.md

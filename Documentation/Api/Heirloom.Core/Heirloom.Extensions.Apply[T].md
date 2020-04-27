@@ -15,5 +15,5 @@ Applies a function to each item in the enumerable.
 public void Apply<T>(IEnumerable<T> list, Action<T> action)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.md

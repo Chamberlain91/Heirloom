@@ -50,7 +50,7 @@ public class Graph<TVertexKey, TVertexValue> : IGraph<TVertexKey, TVertexValue, 
 | [ContainsEdge][20]   | Determines if the graph contains an edge bewtween source and target vertices.  |
 | [ContainsValue][21]  | Determines if this graph contains the element requested.                       |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IGraph[TVertexKey,TVertexValue,Graph[TVertexKey,TVertexValue]].md
 [2]: Heirloom.Graph[TVertexKey,TVertexValue].AllowNegativeWeight.md
 [3]: Heirloom.Graph[TVertexKey,TVertexValue].AllowSelfLoops.md

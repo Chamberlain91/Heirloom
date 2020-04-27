@@ -21,5 +21,5 @@ public static class MergeSort
 | [StableSort\<T>][1] | Sorts the elements of the list using a stable sort. |
 | [StableSort\<T>][1] | Sorts the elements of the list using a stable sort. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.MergeSort.StableSort[T].md

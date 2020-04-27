@@ -15,5 +15,5 @@ Get the horizontal metrics of the this glyph at the specified size.
 public GlyphMetrics GetMetrics(float size)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Glyph.md

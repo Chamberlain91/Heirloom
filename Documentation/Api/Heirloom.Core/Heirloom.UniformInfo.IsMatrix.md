@@ -15,5 +15,5 @@ Is this uniform a matrix?
 bool IsMatrix { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.UniformInfo.md

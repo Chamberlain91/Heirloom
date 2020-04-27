@@ -15,5 +15,5 @@ Gets a perpendicular copy of this vector.
 Vector Perpendicular { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md

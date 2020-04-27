@@ -15,5 +15,5 @@ Removes surfaces currently existing in the pool.
 public void Clean()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.SurfacePool.md

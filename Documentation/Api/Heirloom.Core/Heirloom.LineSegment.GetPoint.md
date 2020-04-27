@@ -15,5 +15,5 @@ Gets a intermediate point along the line segment.
 public Vector GetPoint(float t)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.LineSegment.md

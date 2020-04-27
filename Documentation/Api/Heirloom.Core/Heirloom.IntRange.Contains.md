@@ -15,5 +15,5 @@ Determines if this range contains the specified value.
 public bool Contains(in int x)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRange.md

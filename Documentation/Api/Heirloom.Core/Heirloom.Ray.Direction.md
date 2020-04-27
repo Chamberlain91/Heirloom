@@ -15,5 +15,5 @@ The direction of the ray.
 public Vector Direction
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Ray.md

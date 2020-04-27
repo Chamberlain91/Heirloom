@@ -15,5 +15,5 @@ The list incoming edges in a directed graph ( no edges when undirected ).
 IReadOnlyList<IGraphEdge<TKey>> IncomingEdges { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IGraphVertex[TKey,TValue].md

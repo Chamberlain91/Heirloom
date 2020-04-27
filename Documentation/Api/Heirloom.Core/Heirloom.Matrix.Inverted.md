@@ -15,5 +15,5 @@ Gets the inverse of this matrix.
 Matrix Inverted { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Matrix.md

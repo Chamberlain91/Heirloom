@@ -15,5 +15,5 @@ Overwrites an image to target surface.
 public void Blit(ImageSource source, Surface target)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

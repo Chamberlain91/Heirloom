@@ -15,5 +15,5 @@ The center position of the circle.
 public Vector Position
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Circle.md

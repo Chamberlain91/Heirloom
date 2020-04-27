@@ -15,5 +15,5 @@ The name/key of the source vertex.
 TKey Source { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IGraphEdge[TKey].md

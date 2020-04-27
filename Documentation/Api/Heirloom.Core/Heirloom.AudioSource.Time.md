@@ -15,5 +15,5 @@ Gets the current playback time (position) in seconds.
 float Time { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioSource.md

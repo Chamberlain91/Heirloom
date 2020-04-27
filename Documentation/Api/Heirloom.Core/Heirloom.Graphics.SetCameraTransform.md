@@ -15,6 +15,6 @@ Sets [GlobalTransform][2] to mimic a 2D camera. The center of the camera is set 
 public void SetCameraTransform(Vector center, float scale = 1)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md
 [2]: Heirloom.Graphics.GlobalTransform.md

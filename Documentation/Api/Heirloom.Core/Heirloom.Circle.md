@@ -55,7 +55,7 @@ public struct Circle : IShape, IEquatable<Circle>
 | [Raycast][12]        | Peforms a raycast onto this circle, returning true upon intersection. |
 | [Raycast][12]        | Peforms a raycast onto this circle, returning true upon intersection. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IShape.md
 [2]: Heirloom.Circle.Position.md
 [3]: Heirloom.Circle.Radius.md

@@ -23,5 +23,5 @@ Draws a cubic curve using four control points to the current surface.
 public void DrawCurve(in Vector p0, in Vector p1, in Vector p2, in Vector p3, float width = 1)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

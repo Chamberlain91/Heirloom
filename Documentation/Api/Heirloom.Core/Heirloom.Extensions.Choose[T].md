@@ -21,5 +21,5 @@ public T Choose<T>(Random this, IReadOnlyList<T> items)
 public T Choose<T>(Random this, params T[] items)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.md

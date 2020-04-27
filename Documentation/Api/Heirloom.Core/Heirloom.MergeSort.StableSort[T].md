@@ -23,5 +23,5 @@ Sorts the elements of the list using a stable sort.
 public void StableSort<T>(IList<T> items, Comparison<T> comparison)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.MergeSort.md

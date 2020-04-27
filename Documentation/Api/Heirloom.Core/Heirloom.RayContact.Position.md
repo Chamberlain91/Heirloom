@@ -15,5 +15,5 @@ The point of contact from a collision or ray.
 public Vector Position
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.RayContact.md

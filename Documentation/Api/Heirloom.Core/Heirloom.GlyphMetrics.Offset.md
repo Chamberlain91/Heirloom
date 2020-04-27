@@ -15,5 +15,5 @@ The glyph offset from the pen position.
 IntVector Offset { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.GlyphMetrics.md

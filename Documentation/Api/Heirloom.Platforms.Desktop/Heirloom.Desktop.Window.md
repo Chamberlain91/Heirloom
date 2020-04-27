@@ -96,10 +96,10 @@ public class Window
 | [SetCursor][45]             | Changes the appearance of the cursor on this window.                                |
 | [Dispose][21]               |                                                                                     |
 
-[0]: ..\Heirloom.Platforms.Desktop.md
-[1]: ..\Heirloom.Core.md
-[2]: ..\Heirloom.OpenGLES.md
-[3]: ..\Heirloom.MiniAudio.md
+[0]: ../Heirloom.Platforms.Desktop.md
+[1]: ../Heirloom.Core.md
+[2]: ../Heirloom.OpenGLES.md
+[3]: ../Heirloom.MiniAudio.md
 [4]: Heirloom.Desktop.Window.IsDisposed.md
 [5]: Heirloom.Desktop.Window.IsClosed.md
 [6]: Heirloom.Desktop.Window.HasTransparentFramebuffer.md

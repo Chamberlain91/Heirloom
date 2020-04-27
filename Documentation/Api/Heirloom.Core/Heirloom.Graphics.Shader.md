@@ -15,5 +15,5 @@ Gets or sets the active shader.
 Shader Shader { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

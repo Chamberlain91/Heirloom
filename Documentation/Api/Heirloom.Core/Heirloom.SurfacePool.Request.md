@@ -23,5 +23,5 @@ Requests a temporary surface.
 public Surface Request(IntSize size, MultisampleQuality multisample = None)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.SurfacePool.md

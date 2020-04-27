@@ -26,7 +26,7 @@ public class PerlinNoise : INoise1D, INoise2D, INoise3D
 | [Sample][4] |         |
 | [Sample][4] |         |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.INoise1D.md
 [2]: Heirloom.INoise2D.md
 [3]: Heirloom.INoise3D.md

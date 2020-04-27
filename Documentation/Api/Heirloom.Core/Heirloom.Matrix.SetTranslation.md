@@ -15,5 +15,5 @@ Configures this matrix as a translation matrix.
 public void SetTranslation(float x, float y)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Matrix.md

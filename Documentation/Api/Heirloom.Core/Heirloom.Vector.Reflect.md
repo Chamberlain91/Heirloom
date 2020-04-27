@@ -15,5 +15,5 @@ Computes the reflection of the input vector about the specified axis.
 public Vector Reflect(in Vector v, in Vector axis)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md

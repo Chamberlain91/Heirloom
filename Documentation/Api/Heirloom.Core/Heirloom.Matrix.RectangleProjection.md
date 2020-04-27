@@ -23,5 +23,5 @@ Constructs a matrix that transforms a rectangular region to normalized screen co
 public Matrix RectangleProjection(float left, float top, float right, float bottom)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Matrix.md

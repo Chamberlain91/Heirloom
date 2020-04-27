@@ -15,5 +15,5 @@ The maximum value in the range.
 public int Max
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRange.md

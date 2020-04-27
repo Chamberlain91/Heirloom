@@ -15,5 +15,5 @@ A 1x1 rectangle that is positioned at the origin.
 Rectangle One { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rectangle.md

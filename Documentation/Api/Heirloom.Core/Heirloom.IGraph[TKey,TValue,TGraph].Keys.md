@@ -15,5 +15,5 @@ The names/keys used to lookup the vertices in this graph.
 IEnumerable<TKey> Keys { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IGraph[TKey,TValue,TGraph].md

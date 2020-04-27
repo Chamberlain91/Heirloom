@@ -18,6 +18,6 @@ public enum GridNeighborType : IComparable, IFormattable, IConvertible
 | Diagonal | The four neighbors to north-east, south-east, south-west, north-west. |
 | All      | All eight neiboring tiles (combines [Axis][1] and [Diagonal][2] ).    |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.GridNeighborType.Axis.md
 [2]: Heirloom.GridNeighborType.Diagonal.md

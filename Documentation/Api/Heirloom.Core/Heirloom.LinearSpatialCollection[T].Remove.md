@@ -13,5 +13,5 @@
 public bool Remove(in T item)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.LinearSpatialCollection[T].md

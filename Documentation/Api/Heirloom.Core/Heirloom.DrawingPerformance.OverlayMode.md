@@ -15,5 +15,5 @@ Gets or sets a value that will enable or disable drawing the performance overlay
 PerformanceOverlayMode OverlayMode { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.DrawingPerformance.md

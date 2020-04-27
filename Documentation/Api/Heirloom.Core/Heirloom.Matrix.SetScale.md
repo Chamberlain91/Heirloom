@@ -15,5 +15,5 @@ Configures this matrix as a scaling matrix.
 public void SetScale(float sx, float sy)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Matrix.md

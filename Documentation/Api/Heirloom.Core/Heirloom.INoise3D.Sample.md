@@ -15,5 +15,5 @@ Sample three-dimensional noise.
 public float Sample(float x, float y, float z)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.INoise3D.md

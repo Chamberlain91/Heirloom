@@ -26,7 +26,7 @@ public struct RayContact : IEquatable<RayContact>
 | [Normal][2]   | The normal direction of the contacted surface.     |
 | [Distance][3] | The separating distance from the point of contact. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.RayContact.Position.md
 [2]: Heirloom.RayContact.Normal.md
 [3]: Heirloom.RayContact.Distance.md

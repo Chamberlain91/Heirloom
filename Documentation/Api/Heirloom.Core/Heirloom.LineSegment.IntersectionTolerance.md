@@ -15,5 +15,5 @@ A value to adjust the intersection tolerance to compensate for floating-point er
 public static float IntersectionTolerance
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.LineSegment.md

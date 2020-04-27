@@ -15,5 +15,5 @@ Determines if the values of this rectangle are considered to be valid or in othe
 bool IsValid { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rectangle.md

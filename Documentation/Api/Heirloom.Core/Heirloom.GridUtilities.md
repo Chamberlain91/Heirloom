@@ -27,7 +27,7 @@ public static class GridUtilities
 | [GetNeighborCoordinates][3]     | Gets neighboring grid coordinates relative to the specified input coordinates. |
 | [GetNeighborCoordinates][3]     | Gets neighboring grid coordinates relative to the specified input coordinates. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.GridUtilities.GetNeighbors[T].md
 [2]: Heirloom.GridUtilities.GetNeighborCoordinates[T].md
 [3]: Heirloom.GridUtilities.GetNeighborCoordinates.md

@@ -15,5 +15,5 @@ Gets a human readable format for the time specified in seconds.
 public string GetEnglishTime(float duration, string numberFormat = "0.0")
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Time.md

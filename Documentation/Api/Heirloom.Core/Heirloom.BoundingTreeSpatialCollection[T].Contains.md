@@ -15,5 +15,5 @@ Determines if the specified element exists in this collection.
 public bool Contains(in T item)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.BoundingTreeSpatialCollection[T].md

@@ -15,5 +15,5 @@ Gets or sets the strength of the distortion (0.0 to 1.0, unclamped).
 float Strength { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.DistortionShader.md

@@ -23,5 +23,5 @@ Determines if this circle contains another circle.
 public bool Contains(in Circle circle)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Circle.md

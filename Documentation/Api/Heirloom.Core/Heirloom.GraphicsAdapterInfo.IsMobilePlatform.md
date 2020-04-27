@@ -15,5 +15,5 @@ Gets a value that determines if this application has been detected to be running
 public bool IsMobilePlatform
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.GraphicsAdapterInfo.md

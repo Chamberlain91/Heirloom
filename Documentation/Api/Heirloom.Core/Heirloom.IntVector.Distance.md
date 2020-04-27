@@ -15,5 +15,5 @@ Computes the euclidean distance between any two vectors.
 public float Distance(in IntVector a, in IntVector b)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntVector.md

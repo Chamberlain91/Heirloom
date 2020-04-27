@@ -15,5 +15,5 @@ Ihe inverse of the function sine.
 public float Asin(float x)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

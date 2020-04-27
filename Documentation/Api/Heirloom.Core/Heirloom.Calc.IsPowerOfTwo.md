@@ -31,5 +31,5 @@ Determines if the given integer is a power of 2.
 public bool IsPowerOfTwo(int x)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

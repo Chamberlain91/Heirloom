@@ -23,7 +23,7 @@ public struct Vertex
 | [Position][2] | The world-space coordinate.   |
 | [UV][3]       | The texture-space coordinate. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Mesh.md
 [2]: Heirloom.Vertex.Position.md
 [3]: Heirloom.Vertex.UV.md

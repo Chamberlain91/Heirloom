@@ -23,5 +23,5 @@ Gets the specified cell's neighbors.
 public IEnumerable<T> GetNeighbors<T>(IGrid<T> grid, int x, int y, GridNeighborType neighborType = Axis)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.GridUtilities.md

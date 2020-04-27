@@ -23,5 +23,5 @@ Clears the assigned valueon this cell of the sparse grid.
 public void ClearValue(in IntVector co)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ISparseGrid[T].md

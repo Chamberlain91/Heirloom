@@ -14,5 +14,5 @@ An event invoked when this source reaches the end of playable audio.
 
 Type: `Action`
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioSource.md

@@ -25,7 +25,7 @@ public abstract class ImageSource
 | [Interpolation][5] | Interpolation mode.                                             |
 | [Repeat][6]        | Repeat mode.                                                    |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ImageSource.Size.md
 [2]: Heirloom.ImageSource.Width.md
 [3]: Heirloom.ImageSource.Height.md

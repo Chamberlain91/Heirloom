@@ -15,5 +15,5 @@ The y-coordinate of this rectangle.
 public int Y
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRectangle.md

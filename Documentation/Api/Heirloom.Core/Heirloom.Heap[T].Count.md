@@ -15,5 +15,5 @@ Gets the number of elements contained in the heap.
 int Count { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Heap[T].md

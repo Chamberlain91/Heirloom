@@ -45,7 +45,7 @@ The heap always acts like a min-heap but inverts the result of comparison for ma
 | [ToArray][12]       | Clones the heap, and returns an array of the elements in priority ordering. |
 | [GetEnumerator][13] | Enumerates the values in the heap (in no particular order)                  |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IHeap[T].md
 [2]: Heirloom.IReadOnlyHeap[T].md
 [3]: Heirloom.Heap[T].Comparer.md

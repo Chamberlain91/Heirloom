@@ -18,4 +18,4 @@ public enum TextAlign : IComparable, IFormattable, IConvertible
 | Center | Text is aligned to the center. |
 | Right  | Text is aligned to the right.  |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md

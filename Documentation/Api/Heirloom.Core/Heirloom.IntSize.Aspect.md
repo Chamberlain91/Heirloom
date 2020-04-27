@@ -15,5 +15,5 @@ Gets the aspect ratio of this size.
 float Aspect { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntSize.md

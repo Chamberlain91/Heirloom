@@ -15,5 +15,5 @@ A 0x0 size.
 public static Size Zero
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Size.md

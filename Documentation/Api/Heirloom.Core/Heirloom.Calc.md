@@ -150,7 +150,7 @@ public static class Calc
 | [Lerp][11]                | Computes the linear interpolation from `x1` to `x2` by factor `t` .                                                                           |
 | [Lerp][11]                | Computes the linear interpolation from `x1` to `x2` by factor `t` .                                                                           |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.Swap[T].md
 [2]: Heirloom.Calc.Random.md
 [3]: Heirloom.Calc.Perlin.md

@@ -15,5 +15,5 @@ Gets or sets the size of this rectangle.
 IntSize Size { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRectangle.md

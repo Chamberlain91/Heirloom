@@ -15,5 +15,5 @@ Adds an item to the heap.
 public bool Add(T item)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Heap[T].md

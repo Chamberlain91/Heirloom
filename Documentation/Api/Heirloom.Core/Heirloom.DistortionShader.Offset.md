@@ -15,5 +15,5 @@ Gets or sets the offset applied to the distortion map (in uv coordinates).
 Vector Offset { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.DistortionShader.md

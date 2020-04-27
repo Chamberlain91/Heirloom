@@ -15,5 +15,5 @@ Inserts an element into the free list and returns its index.
 public int Insert(T value)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.FreeList[T].md

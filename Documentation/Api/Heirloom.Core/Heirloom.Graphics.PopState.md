@@ -15,5 +15,5 @@ Restore the context state (pop from the state stack).
 public void PopState()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

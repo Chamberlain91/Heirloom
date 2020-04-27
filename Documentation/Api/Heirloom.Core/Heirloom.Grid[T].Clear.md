@@ -15,5 +15,5 @@ Sets all values in the grid to default for type <typeparamref name="T" /> .
 public void Clear()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Grid[T].md

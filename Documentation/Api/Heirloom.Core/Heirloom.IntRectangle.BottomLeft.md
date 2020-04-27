@@ -15,5 +15,5 @@ Gets the bottom left corner of this rectangle.
 IntVector BottomLeft { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRectangle.md

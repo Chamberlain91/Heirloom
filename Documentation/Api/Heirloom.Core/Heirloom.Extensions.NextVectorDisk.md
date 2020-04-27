@@ -23,5 +23,5 @@ Returns a random point within a circle.
 public Vector NextVectorDisk(Random this, float r)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.md

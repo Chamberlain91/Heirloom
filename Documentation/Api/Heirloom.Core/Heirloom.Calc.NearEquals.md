@@ -39,6 +39,6 @@ Determines if the two values are nearly equal comparing equality within a thresh
 public bool NearEquals(float x1, float x2, float threshold)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md
 [2]: Heirloom.Calc.Epsilon.md

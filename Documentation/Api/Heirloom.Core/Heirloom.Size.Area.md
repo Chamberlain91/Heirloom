@@ -15,5 +15,5 @@ Gets the area of this size as if it was a rectangle at the origin.
 float Area { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Size.md

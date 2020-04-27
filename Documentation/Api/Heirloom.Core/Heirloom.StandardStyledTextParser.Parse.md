@@ -15,6 +15,6 @@ Parse the input text and returns a [StyledText][2] object.
 public StyledText Parse(string markup)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.StandardStyledTextParser.md
 [2]: Heirloom.StyledText.md

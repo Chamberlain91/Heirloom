@@ -15,5 +15,5 @@ Computes a cosine based interpolation from `x1` to `x2` .
 public float CosineInterpolation(float x1, float x2, float t)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

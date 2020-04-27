@@ -15,5 +15,5 @@ The minimum value in the range.
 public float Min
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Range.md

@@ -27,7 +27,7 @@ public static class TextLayout
 | [PerformLayout][3] | Performs the layout of text around the given position with the specified font and size, invoking the callback at each location. |
 | [PerformLayout][3] | Performs the layout of text within the given bounds with the specified font and size, invoking the callback at each location.   |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.DrawText.md
 [2]: Heirloom.TextLayout.Measure.md
 [3]: Heirloom.TextLayout.PerformLayout.md

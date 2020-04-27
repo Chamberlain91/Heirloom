@@ -46,7 +46,7 @@ public abstract interface IGraph<TKey, TValue, TGraph>
 | [RemoveEdge][19]     | Removes an edge between two vertices in the graph.                     |
 | [GetEdge][20]        | Returns the edge between two vertices.                                 |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IGraph[TKey,TValue,TGraph].IsUndirected.md
 [2]: Heirloom.IGraph[TKey,TValue,TGraph].AllowSelfLoops.md
 [3]: Heirloom.IGraph[TKey,TValue,TGraph].AllowNegativeWeight.md

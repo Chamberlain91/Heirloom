@@ -15,5 +15,5 @@ Determines if this surface is attached to a screen (ie, a window).
 bool IsScreenBound { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Surface.md

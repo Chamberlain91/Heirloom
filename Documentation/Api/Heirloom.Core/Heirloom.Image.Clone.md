@@ -15,5 +15,5 @@ Creates a clone of this image.
 public Image Clone()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Image.md

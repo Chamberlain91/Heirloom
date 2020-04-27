@@ -15,5 +15,5 @@ Iterate over a perfectly vertical line.
 public IEnumerable<IntVector> VLine(int y1, int y2, int x)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rasterizer.md

@@ -15,5 +15,5 @@ Gets an animation sequence by name.
 public Sprite.Animation GetAnimation(string name)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Sprite.md

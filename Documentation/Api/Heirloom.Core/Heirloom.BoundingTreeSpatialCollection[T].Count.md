@@ -15,5 +15,5 @@ Gets the number of elements stored in this collection.
 int Count { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.BoundingTreeSpatialCollection[T].md

@@ -28,10 +28,10 @@ public struct CpuInfo : IEquatable<CpuInfo>
 | [ThreadCount][6] | Gets how many threads (logical cores) this CPU supports. |
 | [ClockSpeed][7]  | Gets the clockspeed of this CPU in MHz.                  |
 
-[0]: ..\Heirloom.Platforms.Desktop.md
-[1]: ..\Heirloom.Core.md
-[2]: ..\Heirloom.OpenGLES.md
-[3]: ..\Heirloom.MiniAudio.md
+[0]: ../Heirloom.Platforms.Desktop.md
+[1]: ../Heirloom.Core.md
+[2]: ../Heirloom.OpenGLES.md
+[3]: ../Heirloom.MiniAudio.md
 [4]: Heirloom.Desktop.Hardware.CpuInfo.Vendor.md
 [5]: Heirloom.Desktop.Hardware.CpuInfo.Name.md
 [6]: Heirloom.Desktop.Hardware.CpuInfo.ThreadCount.md

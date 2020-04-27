@@ -22,5 +22,5 @@ public abstract class AudioEffect
 |--------------|---------|
 | [Process][1] |         |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioEffect.Process.md

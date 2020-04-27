@@ -15,5 +15,5 @@ Sample one-dimensional noise.
 public float Sample(float x)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.INoise1D.md

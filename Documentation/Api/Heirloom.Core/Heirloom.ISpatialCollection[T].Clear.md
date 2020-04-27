@@ -15,5 +15,5 @@ Clears all elements from this spatial collection.
 public void Clear()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ISpatialCollection[T].md

@@ -15,5 +15,5 @@ Submit all pending drawing operations, optionally blocking for completion.
 protected void Flush(bool blockCompletion = False)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

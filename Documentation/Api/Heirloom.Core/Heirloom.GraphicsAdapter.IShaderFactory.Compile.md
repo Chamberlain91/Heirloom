@@ -13,5 +13,5 @@
 public object Compile(string name, string vert, string frag, out UniformInfo[] uniforms)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.GraphicsAdapter.IShaderFactory.md

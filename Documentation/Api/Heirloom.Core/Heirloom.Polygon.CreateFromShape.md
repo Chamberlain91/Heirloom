@@ -39,5 +39,5 @@ Constructs a polygon representation of the specified circle.
 public Polygon CreateFromShape(in Circle circle)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Polygon.md

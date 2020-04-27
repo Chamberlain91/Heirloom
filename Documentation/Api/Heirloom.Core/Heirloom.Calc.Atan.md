@@ -15,5 +15,5 @@ The inverse of the tangent function.
 public float Atan(float x)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

@@ -15,5 +15,5 @@ The alpha/transparency component.
 public float A
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Color.md

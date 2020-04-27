@@ -23,5 +23,5 @@ Computes the circumcircle for the specified triangle.
 public Circle CreateCircumcircle(in Vector a, in Vector b, in Vector c)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Triangle.md

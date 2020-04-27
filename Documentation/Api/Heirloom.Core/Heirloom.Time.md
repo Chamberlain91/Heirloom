@@ -40,7 +40,7 @@ public static class Time
 | [GetDuration][13]      | Gets the duration of a time unit in seconds.                    |
 | [Convert][14]          | Converts time from unit to another.                             |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Time.NanosecondAsSeconds.md
 [2]: Heirloom.Time.MicrosecondAsSeconds.md
 [3]: Heirloom.Time.MillisecondAsSeconds.md

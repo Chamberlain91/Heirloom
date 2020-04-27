@@ -23,5 +23,5 @@ Constructs a new translation matrix.
 public Matrix CreateTranslation(in Vector vec)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Matrix.md

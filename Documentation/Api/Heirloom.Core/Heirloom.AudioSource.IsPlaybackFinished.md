@@ -15,5 +15,5 @@ Gets a value that determines if playback has finished.
 bool IsPlaybackFinished { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioSource.md

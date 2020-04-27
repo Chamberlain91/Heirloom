@@ -15,5 +15,5 @@ Reset current context state to defaults (default surface, full viewport, no tran
 public void ResetState()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

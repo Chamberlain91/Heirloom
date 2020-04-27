@@ -15,5 +15,5 @@ Get a value that determines if this glyph can be rendered.
 bool CanBeRendered { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Glyph.md

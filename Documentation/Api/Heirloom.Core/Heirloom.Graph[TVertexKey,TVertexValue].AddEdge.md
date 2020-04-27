@@ -15,5 +15,5 @@ Add an edge between two nodes in the graph.
 public bool AddEdge(TVertexKey source, TVertexKey target, float weight = 1)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graph[TVertexKey,TVertexValue].md

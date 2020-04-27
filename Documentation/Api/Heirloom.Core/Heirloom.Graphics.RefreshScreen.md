@@ -15,5 +15,5 @@ Present the drawing operations to the screen.
 public void RefreshScreen()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

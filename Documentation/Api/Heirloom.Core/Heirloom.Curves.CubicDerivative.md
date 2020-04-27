@@ -15,5 +15,5 @@ Computes the interpolated point on the derivative of a cubic curve defined by `a
 public Vector CubicDerivative(in Vector a, in Vector b, in Vector c, in Vector d, in float t)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Curves.md

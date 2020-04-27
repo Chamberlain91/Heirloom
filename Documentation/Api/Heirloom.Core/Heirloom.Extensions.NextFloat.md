@@ -31,5 +31,5 @@ Returns a random floating-point number that is within the specified range.
 public float NextFloat(Random this, Range range)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.md

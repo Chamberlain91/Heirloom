@@ -39,5 +39,5 @@ Rasterize along a line.
 public IEnumerable<IntVector> Line(IntVector p0, IntVector p1, uint pattern)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rasterizer.md

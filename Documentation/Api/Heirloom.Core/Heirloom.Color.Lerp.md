@@ -15,5 +15,5 @@ Interpolate two colors together.
 public Color Lerp(Color source, Color target, float t)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Color.md

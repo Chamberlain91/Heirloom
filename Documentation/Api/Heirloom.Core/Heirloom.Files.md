@@ -28,7 +28,7 @@ public static class Files
 | [ReadText][6]         | Reads all text in a given file.                                                  |
 | [ReadBytes][7]        | Reads all bytes in a given file.                                                 |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Files.NormalizePath.md
 [2]: Heirloom.Files.OpenStream.md
 [3]: Heirloom.Files.Exists.md

@@ -23,5 +23,5 @@ Transforms the four corners of this rectangle and returns the bounding rectangle
 public Rectangle Transform(Rectangle rectangle, in Matrix matrix)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rectangle.md

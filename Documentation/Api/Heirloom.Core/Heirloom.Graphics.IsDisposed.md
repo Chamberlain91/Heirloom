@@ -15,5 +15,5 @@ Gets a value determining if this [Graphics][1] was disposed.
 bool IsDisposed { get; protected set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

@@ -15,5 +15,5 @@ Gets the top right corner of this rectangle.
 IntVector TopRight { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRectangle.md

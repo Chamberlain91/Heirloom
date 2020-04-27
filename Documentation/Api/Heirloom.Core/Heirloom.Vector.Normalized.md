@@ -15,5 +15,5 @@ Gets a normalized copy of this vector.
 Vector Normalized { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md

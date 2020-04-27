@@ -15,5 +15,5 @@ Gets the bounds of this triangle.
 Rectangle Bounds { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Triangle.md

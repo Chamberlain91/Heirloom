@@ -15,5 +15,5 @@ Reads the entire contents of the stream as a block of text.
 public string ReadAllText(Stream stream)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.md

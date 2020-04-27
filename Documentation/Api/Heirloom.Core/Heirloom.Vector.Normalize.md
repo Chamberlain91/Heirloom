@@ -31,5 +31,5 @@ Normalizes the input vector.
 public void Normalize(ref Vector vec)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md

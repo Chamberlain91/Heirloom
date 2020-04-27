@@ -41,7 +41,7 @@ public struct Ray : IEquatable<Ray>
 | [FromAngle][7]       | Creates a ray pointed along the specified angle from the origin given. |
 | [Intersects][8]      | Computes the intersection of two rays.                                 |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Ray.Origin.md
 [2]: Heirloom.Ray.Direction.md
 [3]: Heirloom.Ray.Set.md

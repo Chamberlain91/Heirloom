@@ -15,6 +15,6 @@ Gets or sets which audio group this source is part of (default is [AudioGroup.De
 AudioGroup Group { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioSource.md
 [2]: Heirloom.AudioGroup.Default.md

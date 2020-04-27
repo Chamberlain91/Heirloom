@@ -15,5 +15,5 @@ Creates a ray pointed along the specified angle from the origin given.
 public Ray FromAngle(Vector origin, float angle)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Ray.md

@@ -15,5 +15,5 @@ Vector perpendicular to the i-th edge.
 public Vector GetNormal(IReadOnlyList<Vector> polygon, int i)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.PolygonTools.md

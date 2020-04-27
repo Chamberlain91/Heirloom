@@ -15,5 +15,5 @@ Is it possible seek through this sources audio data to change playback position.
 bool CanSeek { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioSource.md

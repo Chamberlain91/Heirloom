@@ -16,5 +16,5 @@ An approximation of the constant Pi (180 Degrees or Pi Radians).
 public static float Pi
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

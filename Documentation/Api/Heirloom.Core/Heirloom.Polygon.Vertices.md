@@ -15,5 +15,5 @@ Gets a read-only view of this polygon's vertices.
 IReadOnlyList<Vector> Vertices { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Polygon.md

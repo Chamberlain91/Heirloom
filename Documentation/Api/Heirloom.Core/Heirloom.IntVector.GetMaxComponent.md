@@ -15,5 +15,5 @@ Gets the maximal component in the input vector.
 public int GetMaxComponent(IntVector vec)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntVector.md

@@ -39,5 +39,5 @@ Updates one of the shader uniforms by name.
 protected void SetUniform(string name, ImageSource image)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Shader.md

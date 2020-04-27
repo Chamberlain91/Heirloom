@@ -16,5 +16,5 @@ Gets a value that determines if the range is valid (ie, <c>
 bool IsValid { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Range.md

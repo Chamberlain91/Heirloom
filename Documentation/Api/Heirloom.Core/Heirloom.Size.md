@@ -49,7 +49,7 @@ public struct Size : IEquatable<Size>, IComparable<Size>
 | [Deconstruct][7] |                                   |
 | [CompareTo][8]   |                                   |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Size.Width.md
 [2]: Heirloom.Size.Height.md
 [3]: Heirloom.Size.Area.md

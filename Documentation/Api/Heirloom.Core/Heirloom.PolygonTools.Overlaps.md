@@ -15,5 +15,5 @@ Tests if a (convex) polygon overlaps the specified shape.
 public bool Overlaps(IReadOnlyList<Vector> polygon, IShape shape)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.PolygonTools.md

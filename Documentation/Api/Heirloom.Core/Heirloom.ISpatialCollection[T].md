@@ -27,7 +27,7 @@ public abstract interface ISpatialCollection<T> : IReadOnlySpatialCollection<T>,
 | [Update][5] | Updates an exising element with new bounds in the collection.       |
 | [Remove][6] | Removes an element from this spatial collection.                    |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IReadOnlySpatialCollection[T].md
 [2]: Heirloom.ISpatialQuery[T].md
 [3]: Heirloom.ISpatialCollection[T].Clear.md

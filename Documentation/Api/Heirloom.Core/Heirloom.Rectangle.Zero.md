@@ -15,5 +15,5 @@ A 0x0 rectangle that is positioned at the origin.
 Rectangle Zero { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rectangle.md

@@ -15,5 +15,5 @@ Gets the area of this triangle.
 float Area { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Triangle.md

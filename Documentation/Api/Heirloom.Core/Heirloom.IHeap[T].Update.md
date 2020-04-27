@@ -15,5 +15,5 @@ Alerts the heap to update the position the element within the heap.
 public void Update(T item)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IHeap[T].md

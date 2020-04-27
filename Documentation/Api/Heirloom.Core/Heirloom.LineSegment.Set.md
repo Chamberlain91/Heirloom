@@ -15,5 +15,5 @@ Sets the components of this line segment.
 public void Set(in Vector a, in Vector b)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.LineSegment.md

@@ -24,9 +24,9 @@ public struct GpuInfo : IEquatable<GpuInfo>
 | [Vendor][4] |         |
 | [Name][5]   |         |
 
-[0]: ..\Heirloom.Platforms.Desktop.md
-[1]: ..\Heirloom.Core.md
-[2]: ..\Heirloom.OpenGLES.md
-[3]: ..\Heirloom.MiniAudio.md
+[0]: ../Heirloom.Platforms.Desktop.md
+[1]: ../Heirloom.Core.md
+[2]: ../Heirloom.OpenGLES.md
+[3]: ../Heirloom.MiniAudio.md
 [4]: Heirloom.Desktop.Hardware.GpuInfo.Vendor.md
 [5]: Heirloom.Desktop.Hardware.GpuInfo.Name.md

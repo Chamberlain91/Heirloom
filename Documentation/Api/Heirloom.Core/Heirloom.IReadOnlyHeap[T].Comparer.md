@@ -15,5 +15,5 @@ The comparer used to compare item priority.
 Comparer<T> Comparer { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IReadOnlyHeap[T].md

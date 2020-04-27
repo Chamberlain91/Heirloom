@@ -38,7 +38,7 @@ This is useful beyond drawing images. For example, in a city builder the [Rectan
 | [HLine][7]            | Iterate over a perfectly horizontal line.      |
 | [VLine][8]            | Iterate over a perfectly vertical line.        |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rasterizer.Rectangle.md
 [2]: Heirloom.Rasterizer.Line.md
 [3]: Heirloom.Rasterizer.RectangleOutline.md

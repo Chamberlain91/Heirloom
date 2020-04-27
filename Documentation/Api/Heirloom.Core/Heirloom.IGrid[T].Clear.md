@@ -15,5 +15,5 @@ Clear the grid (ie, set each cell to the default value of the element type).
 public void Clear()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IGrid[T].md

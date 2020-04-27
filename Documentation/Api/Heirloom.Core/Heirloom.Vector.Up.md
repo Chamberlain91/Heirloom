@@ -15,5 +15,5 @@ A vector with value (0, -1).
 public static Vector Up
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md

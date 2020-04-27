@@ -13,5 +13,5 @@
 public void Add(in T item, in IShape boundingShape)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.LinearSpatialCollection[T].md

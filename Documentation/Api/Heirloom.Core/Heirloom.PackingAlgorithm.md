@@ -18,4 +18,4 @@ public enum PackingAlgorithm : IComparable, IFormattable, IConvertible
 | Skyline  | Medium packing quality, adequate speed. |
 | Shelf    | Worst packing quality, blistering fast. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md

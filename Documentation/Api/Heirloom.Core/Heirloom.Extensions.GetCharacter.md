@@ -15,5 +15,5 @@ Gets the ith unicode character of this string.
 public UnicodeCharacter GetCharacter(string text, int i)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.md

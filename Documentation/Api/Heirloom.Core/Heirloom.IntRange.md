@@ -55,7 +55,7 @@ public struct IntRange : IEquatable<IntRange>, IEnumerable<int>, IEnumerable
 | [Deconstruct][11]   |                                                                  |
 | [GetEnumerator][12] |                                                                  |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRange.Min.md
 [2]: Heirloom.IntRange.Max.md
 [3]: Heirloom.IntRange.Average.md

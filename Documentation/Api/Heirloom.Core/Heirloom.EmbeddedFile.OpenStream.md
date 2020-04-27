@@ -15,5 +15,5 @@ Opens a stream to the embedded file.
 public Stream OpenStream()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.EmbeddedFile.md

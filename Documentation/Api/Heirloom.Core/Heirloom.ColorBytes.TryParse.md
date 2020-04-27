@@ -15,5 +15,5 @@ Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA'
 public bool TryParse(string color, out ColorBytes outColor)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ColorBytes.md

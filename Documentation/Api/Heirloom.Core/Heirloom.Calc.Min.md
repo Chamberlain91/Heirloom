@@ -83,5 +83,5 @@ public int Min(params int[] vals)
 public float Min(params float[] vals)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

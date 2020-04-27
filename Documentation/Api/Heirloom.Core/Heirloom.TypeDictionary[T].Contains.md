@@ -13,5 +13,5 @@
 public bool Contains(T item)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.TypeDictionary[T].md

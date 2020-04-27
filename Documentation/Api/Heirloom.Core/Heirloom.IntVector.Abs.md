@@ -15,5 +15,5 @@ Computes a new vector where each component is the absolute value of each compone
 public IntVector Abs(IntVector vec)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntVector.md

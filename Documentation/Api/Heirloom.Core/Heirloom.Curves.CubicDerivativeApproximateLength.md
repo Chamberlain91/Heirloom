@@ -15,5 +15,5 @@ Computes the approximate arc length of the cubic curve using line segments.
 public float CubicDerivativeApproximateLength(in Vector a, in Vector b, in Vector c, in Vector d)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Curves.md

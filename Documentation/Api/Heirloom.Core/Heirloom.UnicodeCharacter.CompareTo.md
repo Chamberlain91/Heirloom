@@ -15,5 +15,5 @@ Compares this instance to the specified value.
 public int CompareTo(UnicodeCharacter other)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.UnicodeCharacter.md

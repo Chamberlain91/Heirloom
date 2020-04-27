@@ -15,5 +15,5 @@ Gets a vertex identified with the given key.
 public IGraphVertex<TVertexKey, TVertexValue> GetVertex(TVertexKey key)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graph[TVertexKey,TVertexValue].md

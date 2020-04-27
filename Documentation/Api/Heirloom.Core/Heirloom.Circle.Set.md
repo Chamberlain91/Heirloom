@@ -15,5 +15,5 @@ Sets the components of this circle.
 public void Set(in Vector position, float radius)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Circle.md

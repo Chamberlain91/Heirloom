@@ -32,6 +32,6 @@ public abstract interface IReadOnlyGrid<T>
 | [IsValidCoordinate][2] | Is the specified coordinate valid on this grid? |
 | [IsValidCoordinate][2] | Is the specified coordinate valid on this grid? |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IReadOnlyGrid[T].Item.md
 [2]: Heirloom.IReadOnlyGrid[T].IsValidCoordinate.md

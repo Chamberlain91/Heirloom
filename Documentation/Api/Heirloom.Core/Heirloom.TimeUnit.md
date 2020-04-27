@@ -23,4 +23,4 @@ public enum TimeUnit : IComparable, IFormattable, IConvertible
 | Microsecond | One microsecond ( 1/1000000 of a second )  |
 | Nanosecond  | One nanosecond ( 1/100000000 of a second ) |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md

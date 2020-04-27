@@ -15,5 +15,5 @@ The number of vertices / elements stored in the graph.
 int VertexCount { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graph[TVertexKey,TVertexValue].md

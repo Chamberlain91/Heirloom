@@ -15,6 +15,6 @@ The relative transform to apply to the current glyph image (set to [Matrix.Ident
 public Matrix Transform
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.TextDrawState.md
 [2]: Heirloom.Matrix.Identity.md

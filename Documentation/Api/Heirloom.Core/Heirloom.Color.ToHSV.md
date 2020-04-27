@@ -15,5 +15,5 @@ Extracts the HSV values from this color.
 public void ToHSV(out float hue, out float saturation, out float value)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Color.md

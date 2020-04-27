@@ -15,5 +15,5 @@ The average value. Also known as the mean or expected value.
 public float Average
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Statistics.md

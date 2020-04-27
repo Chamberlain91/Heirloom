@@ -15,5 +15,5 @@ The comparer used by this heap.
 Comparer<T> Comparer { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Heap[T].md

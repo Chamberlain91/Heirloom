@@ -15,5 +15,5 @@ Computes the interpolation factor (0.0 to 1.0) of `x` between `min` and `max` .
 public float Between(in float x, in float min, in float max)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

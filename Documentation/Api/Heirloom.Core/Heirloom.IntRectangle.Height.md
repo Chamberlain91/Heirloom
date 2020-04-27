@@ -15,5 +15,5 @@ The height of this rectangle.
 public int Height
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRectangle.md

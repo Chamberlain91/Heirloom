@@ -47,5 +47,5 @@ Computes the absolute value of `x` .
 public sbyte Abs(sbyte x)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

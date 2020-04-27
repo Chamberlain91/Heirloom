@@ -13,5 +13,5 @@
 public float Process(float sample, int channel)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.BandPassFilter.md

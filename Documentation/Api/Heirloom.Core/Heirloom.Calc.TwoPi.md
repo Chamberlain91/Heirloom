@@ -16,5 +16,5 @@ Two times Pi. 360 Degrees in Radians.
 public static float TwoPi
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

@@ -15,5 +15,5 @@ Gets a point along the ray.
 public Vector GetPoint(float distance)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Ray.md

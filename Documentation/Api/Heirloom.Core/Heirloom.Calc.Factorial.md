@@ -23,5 +23,5 @@ Computes the factorial of `x` .
 public uint Factorial(uint x)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

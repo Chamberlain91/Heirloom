@@ -39,5 +39,5 @@ Expands (or shrinks) the input rectangle by a factor on each axis.
 public Rectangle Inflate(Rectangle rect, float xFactor, float yFactor)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rectangle.md

@@ -15,5 +15,5 @@ Removes all values in the grid, marking everything as unoccupied.
 public void Clear()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.SparseGrid[T].md

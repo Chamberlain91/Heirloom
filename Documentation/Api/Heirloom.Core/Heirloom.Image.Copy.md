@@ -31,5 +31,5 @@ public void Copy(ColorBytes* sourcePtr, int sourceWidth, in IntRectangle sourceR
 public void Copy(ColorBytes* source, int sourceWidth, in IntRectangle sourceRegion, ColorBytes* target, int targetWidth, in IntVector targetOffset)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Image.md

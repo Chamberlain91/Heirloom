@@ -15,5 +15,5 @@ Determine if an edge exists between two existing vertices.
 public bool ContainsEdge(TKey keyA, TKey keyB)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IGraph[TKey,TValue,TGraph].md

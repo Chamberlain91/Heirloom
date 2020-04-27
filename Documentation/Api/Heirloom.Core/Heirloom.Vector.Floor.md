@@ -15,5 +15,5 @@ Computes a new vector with the floor of each component of the input vector.
 public Vector Floor(Vector v)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md

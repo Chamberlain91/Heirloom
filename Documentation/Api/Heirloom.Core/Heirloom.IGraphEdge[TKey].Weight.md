@@ -15,5 +15,5 @@ The cost/weight of this edge.
 float Weight { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IGraphEdge[TKey].md

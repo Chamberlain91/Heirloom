@@ -36,7 +36,7 @@ public abstract class GameLoop
 | [Stop][5]   | Stop the render thread.                                                                                            |
 | [Create][6] |                                                                                                                    |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.GameLoop.Graphics.md
 [2]: Heirloom.GameLoop.IsRunning.md
 [3]: Heirloom.GameLoop.Update.md

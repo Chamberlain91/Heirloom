@@ -15,5 +15,5 @@ Clears the current surface with the specified color.
 public void Clear(Color color)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

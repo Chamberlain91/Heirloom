@@ -15,5 +15,5 @@ Does this type dictionary contain this object?
 public bool Contains(T obj)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IReadOnlyTypeDictionary[T].md

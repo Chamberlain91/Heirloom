@@ -15,5 +15,5 @@ Save the context state (push it on the state stack).
 public void PushState(bool reset = False)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

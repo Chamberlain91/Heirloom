@@ -68,7 +68,7 @@ public class Polygon : IShape
 | [CreateStar][24]           | Creates a polygon shaped like a star.                                                  |
 | [CreateStar][24]           | Creates a polygon shaped like a star.                                                  |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IShape.md
 [2]: Heirloom.Polygon.Item.md
 [3]: Heirloom.Polygon.Vertices.md

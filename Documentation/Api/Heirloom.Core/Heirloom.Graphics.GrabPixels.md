@@ -23,5 +23,5 @@ Grab the pixels from the current surface and return that image. (ie, a screensho
 public Image GrabPixels()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

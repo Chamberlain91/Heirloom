@@ -13,5 +13,5 @@
 IEnumerable<T> Elements { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.RectanglePacker[T].md

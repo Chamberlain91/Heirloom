@@ -82,7 +82,7 @@ public struct Vector : IEquatable<Vector>
 | [Round][36]             | Computes a new vector with the rounded value of each component of the input vector.                     |
 | [Fraction][37]          | Computes a new vector with the fractional portion of each component of the input vector.                |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.X.md
 [2]: Heirloom.Vector.Y.md
 [3]: Heirloom.Vector.Length.md

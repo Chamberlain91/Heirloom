@@ -24,7 +24,7 @@ public sealed class AudioClip
 | [Duration][2] | Gets the duration of the clip in seconds. |
 | [Length][3]   | Gets the length of the clip in samples.   |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioClip.Item.md
 [2]: Heirloom.AudioClip.Duration.md
 [3]: Heirloom.AudioClip.Length.md

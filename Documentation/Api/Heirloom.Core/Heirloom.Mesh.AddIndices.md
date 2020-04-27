@@ -21,6 +21,6 @@ Appends a triangle index to this mesh. Until [Clear][2] is called, this mesh bec
 public void AddIndices(IEnumerable<int> indices)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Mesh.md
 [2]: Heirloom.Mesh.Clear.md

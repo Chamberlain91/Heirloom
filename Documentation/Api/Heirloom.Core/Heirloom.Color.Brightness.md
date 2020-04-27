@@ -15,5 +15,5 @@ Gets or sets the (HSV) brightness value of this color.
 float Brightness { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Color.md

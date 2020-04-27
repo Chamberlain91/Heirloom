@@ -15,5 +15,5 @@ Gets or sets the volume (gain) of the audio.
 float Volume { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioNode.md

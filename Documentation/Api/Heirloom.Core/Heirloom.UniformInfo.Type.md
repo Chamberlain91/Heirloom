@@ -15,5 +15,5 @@ The type of this uniform.
 UniformType Type { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.UniformInfo.md

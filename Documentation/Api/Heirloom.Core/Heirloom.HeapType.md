@@ -17,5 +17,5 @@ public enum HeapType : IComparable, IFormattable, IConvertible
 | Max  | A heap where the priority item is the comparably largest.  |
 | Min  | A heap where the priority item is the comparably smallest. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Heap[T].md

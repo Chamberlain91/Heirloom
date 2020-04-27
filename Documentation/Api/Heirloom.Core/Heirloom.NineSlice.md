@@ -23,6 +23,6 @@ public class NineSlice
 | [Image][1]  | The image used by this nine slice.                                                      |
 | [Center][2] | The center rectangle of the nine slice. This implicitly defines all other slice bounds. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.NineSlice.Image.md
 [2]: Heirloom.NineSlice.Center.md

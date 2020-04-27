@@ -12,4 +12,4 @@ public sealed class TextLayoutCallback : MulticastDelegate, ICloneable, ISeriali
 
 DELEGATE
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md

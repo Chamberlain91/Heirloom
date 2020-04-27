@@ -15,5 +15,5 @@ Rasterize a triangle.
 public IEnumerable<IntVector> Triangle(IntVector p0, IntVector p1, IntVector p2)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rasterizer.md

@@ -22,9 +22,9 @@ public struct MouseMoveEvent
 | [Position][4] |         |
 | [Delta][5]    |         |
 
-[0]: ..\Heirloom.Platforms.Desktop.md
-[1]: ..\Heirloom.Core.md
-[2]: ..\Heirloom.OpenGLES.md
-[3]: ..\Heirloom.MiniAudio.md
+[0]: ../Heirloom.Platforms.Desktop.md
+[1]: ../Heirloom.Core.md
+[2]: ../Heirloom.OpenGLES.md
+[3]: ../Heirloom.MiniAudio.md
 [4]: Heirloom.Desktop.MouseMoveEvent.Position.md
 [5]: Heirloom.Desktop.MouseMoveEvent.Delta.md

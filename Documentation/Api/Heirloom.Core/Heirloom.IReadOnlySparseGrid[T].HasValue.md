@@ -23,5 +23,5 @@ Determines if a value has been set on this cell of the sparse grid.
 public bool HasValue(in IntVector co)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IReadOnlySparseGrid[T].md

@@ -15,6 +15,6 @@ Gets the angle this vector is pointing with reference to [Right][2] .
 float Angle { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md
 [2]: Heirloom.Vector.Right.md

@@ -15,5 +15,5 @@ Gets the left extent of this rectangle.
 float Left { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rectangle.md

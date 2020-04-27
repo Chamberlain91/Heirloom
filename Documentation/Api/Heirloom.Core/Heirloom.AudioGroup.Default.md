@@ -15,5 +15,5 @@ Gets the default audio group (ie, the speakers, headphones, etc).
 AudioGroup Default { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioGroup.md

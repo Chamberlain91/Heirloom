@@ -21,5 +21,5 @@ Finds the comparably minimum value from the set of value.
 public T Min<T>(IList<T> vals)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

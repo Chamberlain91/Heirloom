@@ -15,5 +15,5 @@ The version number of the mesh. Modifications to the mesh data increment this nu
 uint Version { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Mesh.md

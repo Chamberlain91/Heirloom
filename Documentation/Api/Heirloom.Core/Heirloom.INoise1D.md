@@ -22,5 +22,5 @@ public abstract interface INoise1D
 |-------------|-------------------------------|
 | [Sample][1] | Sample one-dimensional noise. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.INoise1D.Sample.md

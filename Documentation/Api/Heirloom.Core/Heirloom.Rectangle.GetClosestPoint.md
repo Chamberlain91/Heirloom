@@ -15,5 +15,5 @@ Returns the nearest point on the rectangle to the given point.
 public Vector GetClosestPoint(in Vector point)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rectangle.md

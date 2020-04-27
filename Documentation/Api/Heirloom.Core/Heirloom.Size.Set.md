@@ -15,5 +15,5 @@ Sets the components of this size.
 public void Set(float w, float h)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Size.md

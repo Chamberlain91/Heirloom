@@ -32,7 +32,7 @@ public class LowPassFilter : AudioEffect
 |--------------|---------|
 | [Process][3] |         |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioEffect.md
 [2]: Heirloom.LowPassFilter.Frequency.md
 [3]: Heirloom.LowPassFilter.Process.md

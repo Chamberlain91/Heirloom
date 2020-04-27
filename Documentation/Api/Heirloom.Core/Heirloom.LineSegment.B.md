@@ -15,5 +15,5 @@ The second end-point.
 public Vector B
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.LineSegment.md

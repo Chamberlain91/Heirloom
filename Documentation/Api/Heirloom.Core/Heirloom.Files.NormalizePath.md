@@ -15,5 +15,5 @@ Normalizes a path (forward slades, removing doubles, etc)
 public string NormalizePath(string path)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Files.md

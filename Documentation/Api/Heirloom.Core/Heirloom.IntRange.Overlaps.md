@@ -15,5 +15,5 @@ Determines if this range overlaps another integer range.
 public bool Overlaps(in IntRange other)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRange.md

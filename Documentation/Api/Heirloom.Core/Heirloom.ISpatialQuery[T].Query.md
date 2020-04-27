@@ -31,5 +31,5 @@ Finds spatial elements that intersect the specified ray.
 public IEnumerable<T> Query(Ray ray, float maxDistance = ∞)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ISpatialQuery[T].md

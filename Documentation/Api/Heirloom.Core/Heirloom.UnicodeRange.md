@@ -49,7 +49,7 @@ public struct UnicodeRange : IEnumerable<UnicodeCharacter>, IEnumerable, IEquata
 |--------------------|---------|
 | [GetEnumerator][3] |         |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.UnicodeRange.Start.md
 [2]: Heirloom.UnicodeRange.End.md
 [3]: Heirloom.UnicodeRange.GetEnumerator.md

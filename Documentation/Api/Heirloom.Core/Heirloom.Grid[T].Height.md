@@ -15,5 +15,5 @@ The height of this grid.
 int Height { get; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Grid[T].md

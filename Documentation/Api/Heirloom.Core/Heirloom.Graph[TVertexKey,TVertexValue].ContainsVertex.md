@@ -15,5 +15,5 @@ Determines if this graph contains the element ( by name ) requested.
 public bool ContainsVertex(TVertexKey key)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graph[TVertexKey,TVertexValue].md

@@ -23,5 +23,5 @@ Determines if the vertex ' `vCurr` ' is convex (clockwise).
 public bool IsConvexVertex(in Vector vPrev, in Vector vCurr, in Vector vNext)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.PolygonTools.md

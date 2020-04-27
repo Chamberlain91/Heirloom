@@ -15,5 +15,5 @@ Sets the components of this matrix.
 public void Set(float m0, float m1, float m2, float m3, float m4, float m5)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Matrix.md

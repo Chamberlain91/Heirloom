@@ -96,7 +96,7 @@ public abstract class Graphics
 | [DrawText][44]            | Draws text to the current surface.                                                                                             |
 | [DrawText][44]            | Draws text to the current surface.                                                                                             |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.CurrentFPS.md
 [2]: Heirloom.Graphics.Performance.md
 [3]: Heirloom.Graphics.IsDisposed.md

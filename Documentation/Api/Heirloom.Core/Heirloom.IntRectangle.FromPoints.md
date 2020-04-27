@@ -21,5 +21,5 @@ Computes the bounding rectangle of the given set of points.
 public IntRectangle FromPoints(IEnumerable<IntVector> points)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRectangle.md

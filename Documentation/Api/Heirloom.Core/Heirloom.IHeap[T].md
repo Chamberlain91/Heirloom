@@ -28,7 +28,7 @@ public abstract interface IHeap<T> : IReadOnlyHeap<T>, IReadOnlyCollection<T>, I
 | [Remove][4]   | Removes and returns the next priority item in the heap.             |
 | [Update][5]   | Alerts the heap to update the position the element within the heap. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IReadOnlyHeap[T].md
 [2]: Heirloom.IHeap[T].Add.md
 [3]: Heirloom.IHeap[T].AddRange.md

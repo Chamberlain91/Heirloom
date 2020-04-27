@@ -15,5 +15,5 @@ Returns a random point within the specified rectangular domain.
 public Vector NextVector(Random this, in Rectangle domain)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.md

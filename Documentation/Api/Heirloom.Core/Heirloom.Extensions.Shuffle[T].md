@@ -23,5 +23,5 @@ Shuffles all elements in the list randomly.
 public void Shuffle<T>(IList<T> this, Random random)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.md

@@ -15,6 +15,6 @@ A static instance of the [PerlinNoise][2] for convenience.
 public static PerlinNoise Perlin
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md
 [2]: Heirloom.PerlinNoise.md

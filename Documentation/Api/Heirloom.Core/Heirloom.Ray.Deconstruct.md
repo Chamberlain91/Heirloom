@@ -13,5 +13,5 @@
 public void Deconstruct(out Vector origin, out Vector direction)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Ray.md

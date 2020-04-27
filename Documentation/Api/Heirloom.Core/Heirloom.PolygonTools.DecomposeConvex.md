@@ -15,5 +15,5 @@ Converts a simple polygon into one or more convex polygons. If the polygon is al
 public IEnumerable<Polygon> DecomposeConvex(IReadOnlyList<Vector> polygon)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.PolygonTools.md

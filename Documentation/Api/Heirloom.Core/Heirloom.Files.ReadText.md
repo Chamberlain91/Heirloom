@@ -15,5 +15,5 @@ Reads all text in a given file.
 public string ReadText(string path)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Files.md

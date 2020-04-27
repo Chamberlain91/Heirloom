@@ -15,5 +15,5 @@ Determines if this rectangle overlaps another rectangle.
 public bool Overlaps(IntRectangle other)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRectangle.md

@@ -23,5 +23,5 @@ Seek playback position to some time in seconds.
 public void Seek(float time)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioSource.md

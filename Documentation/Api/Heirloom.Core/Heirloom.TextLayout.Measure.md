@@ -31,5 +31,5 @@ Computes the bounding box that the specified text will occupy within the given l
 public Rectangle Measure(string text, in Rectangle layoutBox, Font font, int fontSize)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.TextLayout.md

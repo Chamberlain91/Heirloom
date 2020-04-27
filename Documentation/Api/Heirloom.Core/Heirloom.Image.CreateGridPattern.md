@@ -23,5 +23,5 @@ Create an image with a grid pattern.
 public Image CreateGridPattern(int width, int height, Color color, int cellSize, int borderWidth = 1)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Image.md

@@ -15,5 +15,5 @@ Gets all known embedded files.
 public EmbeddedFile[] GetEmbeddedFiles()
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Files.md

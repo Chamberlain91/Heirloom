@@ -15,5 +15,5 @@ Draws a simple axis aligned 'cross' or 'plus' shape, useful for debugging positi
 public void DrawCross(in Vector center, float size = 2, float width = 1)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

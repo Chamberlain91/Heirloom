@@ -15,5 +15,5 @@ Returns `center` if `x` is within `spread` units of `center` otherwise `x` .
 public float DeadZone(float x, float center, float spread)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

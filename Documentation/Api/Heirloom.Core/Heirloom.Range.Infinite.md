@@ -15,5 +15,5 @@ Range from `float.NegativeInfinity` to `float.PositiveInfinity` (the widest poss
 public static Range Infinite
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Range.md

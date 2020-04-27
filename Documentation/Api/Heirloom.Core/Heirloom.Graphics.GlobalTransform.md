@@ -15,5 +15,5 @@ Get or sets the global transform.
 Matrix GlobalTransform { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

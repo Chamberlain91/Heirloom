@@ -47,5 +47,5 @@ Draws the outline of a simple polygon to the current surface.
 public void DrawPolygonOutline(IEnumerable<Vector> polygon, in Matrix transform, float width = 1)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

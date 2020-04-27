@@ -15,5 +15,5 @@ Computes a new vector with the fractional portion of each component of the input
 public Vector Fraction(Vector v)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Vector.md

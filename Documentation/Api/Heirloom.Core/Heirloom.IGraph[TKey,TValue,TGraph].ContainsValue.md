@@ -15,5 +15,5 @@ Determines if the graph contains the value.
 public bool ContainsValue(TValue value)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IGraph[TKey,TValue,TGraph].md

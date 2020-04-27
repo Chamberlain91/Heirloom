@@ -15,5 +15,5 @@ Recycle a surface back into the pool for reuse. It is assumed the surface is no 
 public void Recycle(Surface surface)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.SurfacePool.md

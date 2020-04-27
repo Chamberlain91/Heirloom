@@ -25,7 +25,7 @@ public abstract interface ISparseGrid<T> : IReadOnlySparseGrid<T>, IReadOnlyGrid
 | [ClearValue][4] | Clears the assigned valueon this cell of the sparse grid. |
 | [ClearValue][4] | Clears the assigned valueon this cell of the sparse grid. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IReadOnlySparseGrid[T].md
 [2]: Heirloom.IReadOnlyGrid[T].md
 [3]: Heirloom.IGrid[T].md

@@ -15,5 +15,5 @@ Gets the closest point on the triangle to the specified point.
 public Vector GetClosestPoint(in Vector point)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Triangle.md

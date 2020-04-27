@@ -23,5 +23,5 @@ Draws a circle to the current surface.
 public void DrawCircle(in Vector position, float radius)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

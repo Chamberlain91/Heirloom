@@ -15,5 +15,5 @@ Flips the image on the specified axis.
 public void Flip(Axis axis)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Image.md

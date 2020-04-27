@@ -15,5 +15,5 @@ Reads the entire contents of the stream as blob of bytes.
 public byte[] ReadAllBytes(Stream stream)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.md

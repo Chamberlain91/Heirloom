@@ -15,5 +15,5 @@ Logs a debug message.
 public void Debug(object message)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Log.md

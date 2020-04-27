@@ -33,7 +33,7 @@ public struct TextLayoutState : IEquatable<TextLayoutState>
 | [Character][2] | The current character.                   |
 | [Metrics][3]   | The metrics of the glyph being rendered. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.TextLayoutState.Position.md
 [2]: Heirloom.TextLayoutState.Character.md
 [3]: Heirloom.TextLayoutState.Metrics.md

@@ -15,5 +15,5 @@ Gets or sets the damping value. Larger values soften the sound earlier.
 float Damping { get; set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ReverbEffect.md

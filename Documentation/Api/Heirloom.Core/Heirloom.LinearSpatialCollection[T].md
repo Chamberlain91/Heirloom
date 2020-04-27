@@ -42,7 +42,7 @@ public sealed class LinearSpatialCollection<T> : ISpatialCollection<T>, IReadOnl
 | [Query][10]         |         |
 | [GetEnumerator][11] |         |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ISpatialCollection[T].md
 [2]: Heirloom.IReadOnlySpatialCollection[T].md
 [3]: Heirloom.ISpatialQuery[T].md

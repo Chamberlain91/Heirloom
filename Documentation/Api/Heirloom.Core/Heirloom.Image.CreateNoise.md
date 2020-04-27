@@ -39,6 +39,6 @@ Creates an image filled with noise, provided with an instance of [INoise2D][2] .
 public Image CreateNoise(int width, int height, INoise2D noise, float scale = 1, int octaves = 4, float persistence = 0.5, Vector offset = null)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Image.md
 [2]: Heirloom.INoise2D.md

@@ -54,7 +54,7 @@ public static class Extensions
 | [ToShoutingCase][22]       | Transforms a variable name like string into sname case (ie, "myExampleString" into "MY_EXAMPLE_STRING").                                                                         |
 | [ToSmartDisplayName][23]   | Transform a variable name like string to an improved display string (akin to Unity's NicifyVariableName). Ie, "myExampleString" becomes "My Example String"                      |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.Apply[T].md
 [2]: Heirloom.Extensions.ToHeap[T].md
 [3]: Heirloom.Extensions.IsAscendingOrder[T].md

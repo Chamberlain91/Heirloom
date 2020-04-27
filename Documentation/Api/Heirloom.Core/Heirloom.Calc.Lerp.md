@@ -71,5 +71,5 @@ Computes the linear interpolation from `x1` to `x2` by factor `t` .
 public ushort Lerp(in ushort x1, in ushort x2, in float t)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md

@@ -15,5 +15,5 @@ Iterate over a perfectly horizontal line.
 public IEnumerable<IntVector> HLine(int x1, int x2, int y)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Rasterizer.md

@@ -15,5 +15,5 @@ Draws the outline of a rectangel to the current surface.
 public void DrawRectOutline(in Rectangle rectangle, float width = 1)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Graphics.md

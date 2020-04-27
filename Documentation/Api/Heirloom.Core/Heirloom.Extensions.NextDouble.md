@@ -15,5 +15,5 @@ Returns a random floating-point number that is within the specified range.
 public double NextDouble(Random this, double min, double max)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Extensions.md

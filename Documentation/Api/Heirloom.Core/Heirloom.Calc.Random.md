@@ -15,6 +15,6 @@ A static instance of the [Random][2] for convenience.
 public static Random Random
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Calc.md
 [2]: Heirloom.Calc.Random.md

@@ -36,7 +36,7 @@ Based on Freeverb
 |--------------|---------|
 | [Process][4] |         |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.AudioEffect.md
 [2]: Heirloom.ReverbEffect.Damping.md
 [3]: Heirloom.ReverbEffect.RoomSize.md

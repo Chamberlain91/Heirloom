@@ -29,7 +29,7 @@ public static class Curves
 | [CubicApproximateLength][7]               | Computes the approximate arc length of the cubic curve using line segments.                           |
 | [CubicDerivativeApproximateLength][8]     | Computes the approximate arc length of the cubic curve using line segments.                           |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Curves.Quadratic.md
 [2]: Heirloom.Curves.QuadraticDerivative.md
 [3]: Heirloom.Curves.QuadraticApproximateLength.md

@@ -33,7 +33,7 @@ public abstract interface IReadOnlySparseGrid<T> : IReadOnlyGrid<T>
 | [HasValue][3] | Determines if a value has been set on this cell of the sparse grid. |
 | [HasValue][3] | Determines if a value has been set on this cell of the sparse grid. |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IReadOnlyGrid[T].md
 [2]: Heirloom.IReadOnlySparseGrid[T].Keys.md
 [3]: Heirloom.IReadOnlySparseGrid[T].HasValue.md

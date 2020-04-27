@@ -13,5 +13,5 @@
 public void Deconstruct(out Vector position, out float rotation, out Vector scale)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Matrix.md

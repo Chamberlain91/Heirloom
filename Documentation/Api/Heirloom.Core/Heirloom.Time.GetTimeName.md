@@ -15,5 +15,5 @@ Gets the name of the time unit (or its plural).
 public string GetTimeName(TimeUnit unit, bool plural = False)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Time.md

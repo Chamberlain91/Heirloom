@@ -15,5 +15,5 @@ Adds a vertex to the graph.
 public bool AddVertex(TKey key, TValue value)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IGraph[TKey,TValue,TGraph].md

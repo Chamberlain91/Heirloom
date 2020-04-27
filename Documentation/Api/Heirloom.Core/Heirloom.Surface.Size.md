@@ -15,5 +15,5 @@ Gets size of the surface in pixels.
 IntSize Size { get; protected set; }
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Surface.md

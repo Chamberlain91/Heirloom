@@ -37,7 +37,7 @@ public sealed class TypeDictionary<T> : ITypeDictionary<T>, IReadOnlyTypeDiction
 | [GetItemsByType\<X>][8] |         |
 | [GetEnumerator][9]      |         |
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.ITypeDictionary[T].md
 [2]: Heirloom.IReadOnlyTypeDictionary[T].md
 [3]: Heirloom.TypeDictionary[T].Count.md

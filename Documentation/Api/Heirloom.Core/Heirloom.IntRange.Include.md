@@ -23,5 +23,5 @@ Mutate this range (by expansion) to include the specified range.
 public void Include(IntRange range)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.IntRange.md

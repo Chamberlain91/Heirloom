@@ -22,8 +22,8 @@ public static class Keyboard
 | [GetPrintableKeyName][4] | Gets the printable name of a key.                       |
 | [GetPrintableKeyName][4] | Gets the printable name of a key specified by scancode. |
 
-[0]: ..\Heirloom.Platforms.Desktop.md
-[1]: ..\Heirloom.Core.md
-[2]: ..\Heirloom.OpenGLES.md
-[3]: ..\Heirloom.MiniAudio.md
+[0]: ../Heirloom.Platforms.Desktop.md
+[1]: ../Heirloom.Core.md
+[2]: ../Heirloom.OpenGLES.md
+[3]: ../Heirloom.MiniAudio.md
 [4]: Heirloom.Desktop.Keyboard.GetPrintableKeyName.md

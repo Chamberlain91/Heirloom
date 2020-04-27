@@ -15,5 +15,5 @@ Gets the nearest point on the polygon to the specified point.
 public Vector GetClosestPoint(in Vector point)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Polygon.md

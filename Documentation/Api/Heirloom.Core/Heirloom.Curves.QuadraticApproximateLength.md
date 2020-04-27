@@ -15,5 +15,5 @@ Computes the approximate arc length of the quadratic curve using line segments.
 public float QuadraticApproximateLength(in Vector a, in Vector b, in Vector c)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Curves.md

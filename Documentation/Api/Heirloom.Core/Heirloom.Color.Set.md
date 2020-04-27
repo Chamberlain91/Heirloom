@@ -15,5 +15,5 @@ Sets the components of this color.
 public void Set(float r, float g, float b, float a = 1)
 ```
 
-[0]: ..\Heirloom.Core.md
+[0]: ../Heirloom.Core.md
 [1]: Heirloom.Color.md
