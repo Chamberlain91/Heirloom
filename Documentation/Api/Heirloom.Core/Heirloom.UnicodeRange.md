@@ -22,20 +22,6 @@ public struct UnicodeRange : IEnumerable<UnicodeCharacter>, IEnumerable, IEquata
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### UnicodeRange(UnicodeCharacter, UnicodeCharacter)
-
-```cs
-public UnicodeRange(UnicodeCharacter start, UnicodeCharacter end)
-```
-
-### UnicodeRange(UnicodeCharacter)
-
-```cs
-public UnicodeRange(UnicodeCharacter single)
-```
-
 ## Fields
 
 | Name                    | Summary                                        |

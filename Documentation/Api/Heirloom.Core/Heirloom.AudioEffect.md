@@ -16,14 +16,6 @@ public abstract class AudioEffect
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### AudioEffect()
-
-```cs
-protected AudioEffect()
-```
-
 ## Methods
 
 | Name         | Summary |

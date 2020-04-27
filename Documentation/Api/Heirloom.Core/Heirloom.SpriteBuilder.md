@@ -18,16 +18,6 @@ public sealed class SpriteBuilder : IEnumerable
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### SpriteBuilder()
-
-Construct a new [SpriteBuilder][4] .
-
-```cs
-public SpriteBuilder()
-```
-
 ## Methods
 
 | Name              | Summary                                                   |
@@ -44,4 +34,3 @@ public SpriteBuilder()
 [1]: Heirloom.SpriteBuilder.Clear.md
 [2]: Heirloom.SpriteBuilder.Add.md
 [3]: Heirloom.SpriteBuilder.CreateSprite.md
-[4]: Heirloom.SpriteBuilder.md

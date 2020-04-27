@@ -26,14 +26,6 @@ public struct ColorBytes : IEquatable<ColorBytes>
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### ColorBytes(byte,  byte,  byte,  byte)
-
-```cs
-public ColorBytes(byte r, byte g, byte b, byte a = 255)
-```
-
 ## Fields
 
 | Name   | Summary                           |

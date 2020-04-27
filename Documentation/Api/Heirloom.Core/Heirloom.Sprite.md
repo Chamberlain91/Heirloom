@@ -18,38 +18,6 @@ public sealed class Sprite
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Sprite(SpriteBuilder)
-
-```cs
-Sprite(SpriteBuilder builder)
-```
-
-### Sprite(string)
-
-Constructs a new sprite from the specified file path resolved by [Files.OpenStream][5] .
-
-```cs
-public Sprite(string path)
-```
-
-### Sprite(Stream)
-
-Constructs a new sprite from a stream (ie, an Aseprite file or other supported format).
-
-```cs
-public Sprite(Stream stream)
-```
-
-### Sprite(Image)
-
-Constructs a new sprite from a single image.
-
-```cs
-public Sprite(Image image)
-```
-
 ## Properties
 
 | Name                  | Summary                                                   |
@@ -69,4 +37,3 @@ public Sprite(Image image)
 [2]: Heirloom.Sprite.Animations.md
 [3]: Heirloom.Sprite.DefaultAnimation.md
 [4]: Heirloom.Sprite.GetAnimation.md
-[5]: Heirloom.Files.OpenStream.md

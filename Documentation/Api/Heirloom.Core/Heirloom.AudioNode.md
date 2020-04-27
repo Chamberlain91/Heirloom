@@ -18,14 +18,6 @@ public abstract class AudioNode
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### AudioNode()
-
-```cs
-protected AudioNode()
-```
-
 ## Properties
 
 | Name         | Summary                                                                                   |

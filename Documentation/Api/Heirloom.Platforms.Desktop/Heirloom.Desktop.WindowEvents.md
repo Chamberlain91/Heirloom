@@ -17,14 +17,6 @@ public struct WindowEvents
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### WindowEvents(float, float)
-
-```cs
-WindowEvents(float xScale, float yScale)
-```
-
 ## Fields
 
 | Name        | Summary |

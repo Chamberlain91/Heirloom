@@ -20,14 +20,6 @@ public sealed class Grid<T> : IFiniteGrid<T>, IGrid<T>, IReadOnlyGrid<T>
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Grid(int, int)
-
-```cs
-public Grid(int width, int height)
-```
-
 ## Properties
 
 | Name        | Summary                  |

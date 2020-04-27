@@ -20,30 +20,6 @@ public sealed class Surface : ImageSource
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Surface(IntSize, MultisampleQuality)
-
-Creates a new surface.
-
-```cs
-public Surface(IntSize size, MultisampleQuality multisample = None)
-```
-
-### Surface(int, int, MultisampleQuality)
-
-Creates a new surface.
-
-```cs
-public Surface(int width, int height, MultisampleQuality multisample = None)
-```
-
-### Surface(int, int, MultisampleQuality, bool)
-
-```cs
-Surface(int width, int height, MultisampleQuality multisample, bool isScreenBound)
-```
-
 ## Properties
 
 | Name                                | Summary                                                            |

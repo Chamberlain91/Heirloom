@@ -24,14 +24,6 @@ public struct Range : IEquatable<Range>
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Range(float, float)
-
-```cs
-public Range(float min, float max)
-```
-
 ## Fields
 
 | Name                | Summary                                                                                                              |

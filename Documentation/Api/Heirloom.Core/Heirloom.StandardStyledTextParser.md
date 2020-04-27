@@ -18,14 +18,6 @@ public abstract class StandardStyledTextParser : StyledTextParser
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### StandardStyledTextParser()
-
-```cs
-protected StandardStyledTextParser()
-```
-
 ## Methods
 
 | Name            | Summary                                                    |

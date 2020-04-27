@@ -22,24 +22,6 @@ public class Polygon : IShape
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Polygon()
-
-Constructs a new empty polygon.
-
-```cs
-public Polygon()
-```
-
-### Polygon(IEnumerable<Vector>)
-
-Constructs a new simple polygon (assumes points are defined clockwise and describe non-crossing edges).
-
-```cs
-public Polygon(IEnumerable<Vector> points)
-```
-
 ## Properties
 
 | Name                   | Summary                                                                                                                                           |

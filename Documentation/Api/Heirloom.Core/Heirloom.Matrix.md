@@ -26,14 +26,6 @@ public struct Matrix : IEquatable<Matrix>
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Matrix(float, float, float, float, float, float)
-
-```cs
-public Matrix(float m0, float m1, float m2, float m3, float m4, float m5)
-```
-
 ## Fields
 
 | Name           | Summary              |

@@ -16,16 +16,6 @@ public class NineSlice
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### NineSlice(Image, IntRectangle)
-
-Constructs a new nine slice.
-
-```cs
-public NineSlice(Image frame, IntRectangle center)
-```
-
 ## Fields
 
 | Name        | Summary                                                                                 |

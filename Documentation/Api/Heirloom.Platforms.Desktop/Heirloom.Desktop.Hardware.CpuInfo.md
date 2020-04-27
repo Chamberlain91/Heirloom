@@ -19,20 +19,6 @@ public struct CpuInfo : IEquatable<CpuInfo>
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### CpuInfo(string, int, int)
-
-```cs
-CpuInfo(string name, int clockSpeed, int threadCount)
-```
-
-### CpuInfo(CpuVendor, string, int, int)
-
-```cs
-CpuInfo(CpuVendor vendor, string name, int clockSpeed, int threadCount)
-```
-
 ## Properties
 
 | Name             | Summary                                                  |

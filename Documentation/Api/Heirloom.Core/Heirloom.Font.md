@@ -18,30 +18,6 @@ public class Font : IDisposable
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Font(string)
-
-Loads a font specified by path resolved by [Files.OpenStream][6] .
-
-```cs
-public Font(string path)
-```
-
-### Font(Stream)
-
-Loads a font from a stream.
-
-```cs
-public Font(Stream stream)
-```
-
-### Font(byte[])
-
-```cs
-public Font(byte[] file)
-```
-
 ## Properties
 
 | Name         | Summary                                                                                               |
@@ -65,4 +41,3 @@ public Font(byte[] file)
 [3]: Heirloom.Font.GetGlyph.md
 [4]: Heirloom.Font.Dispose.md
 [5]: Heirloom.Font.Default.md
-[6]: Heirloom.Files.OpenStream.md

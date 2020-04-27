@@ -18,16 +18,6 @@ public sealed class GrayscaleShader : Shader, IDisposable
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### GrayscaleShader()
-
-Constructs a new grayscale shader.
-
-```cs
-public GrayscaleShader()
-```
-
 ## Properties
 
 | Name       | Summary                                        |

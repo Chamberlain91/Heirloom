@@ -26,14 +26,6 @@ public struct Vector : IEquatable<Vector>
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Vector(float, float)
-
-```cs
-public Vector(float x, float y)
-```
-
 ## Fields
 
 | Name        | Summary                          |

@@ -20,24 +20,6 @@ public class Graph<TVertexKey, TVertexValue> : IGraph<TVertexKey, TVertexValue, 
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Graph()
-
-Creates a new directed weighted graph.
-
-```cs
-public Graph()
-```
-
-### Graph(bool, bool, bool)
-
-Creates a new graph with a custom configuration.
-
-```cs
-public Graph(bool isUndirected, bool allowNegativeWeight = False, bool allowSelfLoops = False)
-```
-
 ## Properties
 
 | Name                     | Summary                                                                            |

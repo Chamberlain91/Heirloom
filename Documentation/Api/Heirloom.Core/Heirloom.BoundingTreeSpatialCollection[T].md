@@ -20,14 +20,6 @@ public sealed class BoundingTreeSpatialCollection<T> : ISpatialCollection<T>, IR
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### BoundingTreeSpatialCollection(float)
-
-```cs
-public BoundingTreeSpatialCollection(float margin = 0.1)
-```
-
 ## Properties
 
 | Name       | Summary                                                |

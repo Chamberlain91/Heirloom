@@ -23,38 +23,6 @@ The heap always acts like a min-heap but inverts the result of comparison for ma
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Heap(HeapType)
-
-Constructs a new heap that optionally sorts by maximum or minimum comparisons.
-
-```cs
-public Heap(HeapType type = Min)
-```
-
-### Heap(Comparison<T>, HeapType)
-
-Constructs a new heap that optionally sorts by maximum or minimum comparisons with a custom comparison function.
-
-```cs
-public Heap(Comparison<T> comparison, HeapType type)
-```
-
-### Heap(Comparer<T>, HeapType)
-
-Constructs a new heap that optionally sorts by maximum or minimum comparisons with an instance of a custom comparer.
-
-```cs
-public Heap(Comparer<T> comparer, HeapType type)
-```
-
-### Heap(Heap<T>)
-
-```cs
-Heap(Heap<T> heap)
-```
-
 ## Properties
 
 | Name          | Summary                                            |

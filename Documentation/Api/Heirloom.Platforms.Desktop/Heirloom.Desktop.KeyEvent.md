@@ -15,14 +15,6 @@ public struct KeyEvent
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### KeyEvent(Key, int, ButtonAction, KeyModifiers)
-
-```cs
-KeyEvent(Key key, int scanCode, ButtonAction action, KeyModifiers modifiers)
-```
-
 ## Fields
 
 | Name           | Summary |

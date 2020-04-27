@@ -18,14 +18,6 @@ public class Glyph
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Glyph(Font, int)
-
-```cs
-Glyph(Font font, int index)
-```
-
 ## Properties
 
 | Name               | Summary                                                    |

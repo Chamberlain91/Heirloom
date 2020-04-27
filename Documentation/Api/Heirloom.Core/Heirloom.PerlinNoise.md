@@ -18,26 +18,6 @@ public class PerlinNoise : INoise1D, INoise2D, INoise3D
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### PerlinNoise()
-
-```cs
-public PerlinNoise()
-```
-
-### PerlinNoise(int)
-
-```cs
-public PerlinNoise(int seed)
-```
-
-### PerlinNoise(Random)
-
-```cs
-public PerlinNoise(Random random)
-```
-
 ## Methods
 
 | Name        | Summary |

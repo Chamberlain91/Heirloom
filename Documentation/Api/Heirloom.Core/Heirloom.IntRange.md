@@ -24,16 +24,6 @@ public struct IntRange : IEquatable<IntRange>, IEnumerable<int>, IEnumerable
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### IntRange(int, int)
-
-Constructs a new [IntRange][16] .
-
-```cs
-public IntRange(int min, int max)
-```
-
 ## Fields
 
 | Name                | Summary                                                                                          |
@@ -81,4 +71,3 @@ public IntRange(int min, int max)
 [13]: Heirloom.IntRange.Huge.md
 [14]: Heirloom.IntRange.Indeterminate.md
 [15]: Heirloom.IntRange.Zero.md
-[16]: Heirloom.IntRange.md

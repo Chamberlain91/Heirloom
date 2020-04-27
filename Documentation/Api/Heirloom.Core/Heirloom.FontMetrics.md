@@ -18,14 +18,6 @@ public struct FontMetrics
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### FontMetrics(float, float, float)
-
-```cs
-FontMetrics(float ascent, float descent, float lineGap)
-```
-
 ## Fields
 
 | Name         | Summary                                                   |

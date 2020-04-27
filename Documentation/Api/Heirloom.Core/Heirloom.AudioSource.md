@@ -22,46 +22,6 @@ public sealed class AudioSource : AudioNode
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### AudioSource(AudioClip)
-
-Create an audio source for the given clip in the default audio group (ie, [AudioGroup.Default][16] ).
-
-```cs
-public AudioSource(AudioClip clip)
-```
-
-### AudioSource(AudioClip, AudioGroup)
-
-Create an audio source for the given clip in the specified audio group.
-
-```cs
-public AudioSource(AudioClip clip, AudioGroup group)
-```
-
-### AudioSource(Stream)
-
-Create an audio source for the given stream in the default audio group (ie, [AudioGroup.Default][16] ).
-
-```cs
-public AudioSource(Stream stream)
-```
-
-### AudioSource(Stream, AudioGroup)
-
-Create an audio source for the given stream in the specified audio group.
-
-```cs
-public AudioSource(Stream stream, AudioGroup group)
-```
-
-### AudioSource(IAudioProvider, AudioGroup)
-
-```cs
-AudioSource(IAudioProvider provider, AudioGroup group)
-```
-
 ## Properties
 
 | Name                    | Summary                                                                                                                                                   |

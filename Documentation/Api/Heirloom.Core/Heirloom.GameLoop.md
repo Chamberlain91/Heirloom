@@ -20,14 +20,6 @@ public abstract class GameLoop
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### GameLoop(Graphics)
-
-```cs
-protected GameLoop(Graphics graphics)
-```
-
 ## Properties
 
 | Name           | Summary                             |

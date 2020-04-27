@@ -18,16 +18,6 @@ public sealed class DistortionShader : Shader, IDisposable
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### DistortionShader(Image)
-
-Constructs a new distortion shader.
-
-```cs
-public DistortionShader(Image distortionMap)
-```
-
 ## Properties
 
 | Name               | Summary                                                                                      |

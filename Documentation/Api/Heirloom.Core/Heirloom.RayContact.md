@@ -18,14 +18,6 @@ public struct RayContact : IEquatable<RayContact>
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### RayContact(Vector, Vector, float)
-
-```cs
-RayContact(Vector position, Vector normal, float distance)
-```
-
 ## Fields
 
 | Name          | Summary                                            |

@@ -22,42 +22,6 @@ public sealed class Image : ImageSource
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Image(string)
-
-Loads an image by a file path resolved by [Files.OpenStream][20] .
-
-```cs
-public Image(string path)
-```
-
-### Image(Stream)
-
-Loads an image from a stream.
-
-```cs
-public Image(Stream stream)
-```
-
-### Image(byte[])
-
-```cs
-public Image(byte[] file)
-```
-
-### Image(IntSize)
-
-```cs
-public Image(IntSize size)
-```
-
-### Image(int, int)
-
-```cs
-public Image(int width, int height)
-```
-
 ## Fields
 
 | Name                    | Summary |
@@ -93,8 +57,8 @@ public Image(int width, int height)
 | [CreateColor][14]               | Creates an image filled with a solid color.                                       |
 | [CreateNoise][15]               | Creates an image filled with noise.                                               |
 | [CreateNoise][15]               | Creates an image filled with noise.                                               |
-| [CreateNoise][15]               | Creates an image filled with noise, provided with an instance of [INoise2D][21] . |
-| [CreateNoise][15]               | Creates an image filled with noise, provided with an instance of [INoise2D][21] . |
+| [CreateNoise][15]               | Creates an image filled with noise, provided with an instance of [INoise2D][20] . |
+| [CreateNoise][15]               | Creates an image filled with noise, provided with an instance of [INoise2D][20] . |
 | [Copy][16]                      |                                                                                   |
 | [Copy][16]                      |                                                                                   |
 | [Copy][16]                      |                                                                                   |
@@ -124,5 +88,4 @@ public Image(int width, int height)
 [17]: Heirloom.Image.WriteAsPng.md
 [18]: Heirloom.Image.WriteAsJpg.md
 [19]: Heirloom.Image.Load.md
-[20]: Heirloom.Files.OpenStream.md
-[21]: Heirloom.INoise2D.md
+[20]: Heirloom.INoise2D.md

@@ -17,26 +17,6 @@ public struct VideoMode : IEquatable<VideoMode>
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### VideoMode(int, int, int, int, int, int)
-
-```cs
-public VideoMode(int width, int height, int redBits, int greenBits, int blueBits, int refreshRate)
-```
-
-### VideoMode(int, int, int)
-
-```cs
-public VideoMode(int width, int height, int refreshRate)
-```
-
-### VideoMode(int, int)
-
-```cs
-public VideoMode(int width, int height)
-```
-
 ## Fields
 
 | Name             | Summary |

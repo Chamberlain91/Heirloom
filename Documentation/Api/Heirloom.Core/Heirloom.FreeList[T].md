@@ -18,16 +18,6 @@ public sealed class FreeList<T>
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### FreeList(int)
-
-Constructs a new free list instance.
-
-```cs
-public FreeList(int capacity)
-```
-
 ## Properties
 
 | Name          | Summary                                                                           |

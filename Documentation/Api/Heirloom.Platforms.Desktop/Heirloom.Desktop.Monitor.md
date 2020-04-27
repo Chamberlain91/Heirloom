@@ -19,14 +19,6 @@ public class Monitor
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Monitor(string, MonitorHandle)
-
-```cs
-Monitor(string name, MonitorHandle monitor)
-```
-
 ## Properties
 
 | Name              | Summary                                                                                                             |

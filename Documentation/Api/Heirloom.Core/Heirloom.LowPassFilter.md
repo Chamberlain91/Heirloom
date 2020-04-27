@@ -20,14 +20,6 @@ public class LowPassFilter : AudioEffect
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### LowPassFilter(float)
-
-```cs
-public LowPassFilter(float cutoff)
-```
-
 ## Properties
 
 | Name           | Summary                                  |

@@ -23,14 +23,6 @@ Based on Freeverb
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### ReverbEffect(float, float)
-
-```cs
-public ReverbEffect(float roomSize = 0.5, float damping = 0.5)
-```
-
 ## Properties
 
 | Name          | Summary                                                                 |

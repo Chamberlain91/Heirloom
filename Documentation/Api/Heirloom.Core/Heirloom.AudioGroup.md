@@ -22,30 +22,6 @@ public class AudioGroup : AudioNode
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### AudioGroup()
-
-Construct a new audio node that is connected to default audio group (ie, [Default][4] ).
-
-```cs
-public AudioGroup()
-```
-
-### AudioGroup(AudioGroup)
-
-Construct a new audio group that is connected to the specified parent group.
-
-```cs
-public AudioGroup(AudioGroup parentGroup)
-```
-
-### AudioGroup(AudioGroup, bool)
-
-```cs
-AudioGroup(AudioGroup parentGroup, bool allowOrphan)
-```
-
 ## Properties
 
 | Name         | Summary                                                           |

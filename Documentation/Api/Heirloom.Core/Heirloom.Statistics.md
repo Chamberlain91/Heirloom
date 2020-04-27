@@ -20,16 +20,6 @@ public struct Statistics : IEquatable<Statistics>
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Statistics(float, float, Range)
-
-Constructs a new statistics instance.
-
-```cs
-public Statistics(float average, float variance, Range range)
-```
-
 ## Fields
 
 | Name           | Summary                                                      |

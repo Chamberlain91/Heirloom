@@ -22,14 +22,6 @@ public sealed class LinearSpatialCollection<T> : ISpatialCollection<T>, IReadOnl
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### LinearSpatialCollection()
-
-```cs
-public LinearSpatialCollection()
-```
-
 ## Properties
 
 | Name       | Summary |

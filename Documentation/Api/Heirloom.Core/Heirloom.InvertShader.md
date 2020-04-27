@@ -18,16 +18,6 @@ public sealed class InvertShader : Shader, IDisposable
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### InvertShader()
-
-Constructs a new color inversion shader.
-
-```cs
-public InvertShader()
-```
-
 ## Properties
 
 | Name       | Summary                                        |

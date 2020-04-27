@@ -16,16 +16,6 @@ public abstract class Graphics
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Graphics(Surface)
-
-Constructs a new graphics instance with the specified multisampling quality.
-
-```cs
-protected Graphics(Surface surface)
-```
-
 ## Properties
 
 | Name                         | Summary                                                                   |

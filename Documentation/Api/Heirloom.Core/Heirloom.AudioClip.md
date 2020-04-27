@@ -16,28 +16,6 @@ public sealed class AudioClip
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### AudioClip(Stream)
-
-Constructs a new audio clip from the given stream, fully decoding all samples.
-
-```cs
-public AudioClip(Stream stream)
-```
-
-### AudioClip(byte[])
-
-```cs
-public AudioClip(byte[] file)
-```
-
-### AudioClip(short[])
-
-```cs
-public AudioClip(short[] samples)
-```
-
 ## Properties
 
 | Name          | Summary                                   |

@@ -26,14 +26,6 @@ public struct Color : IEquatable<Color>
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Color(float, float, float, float)
-
-```cs
-public Color(float r, float g, float b, float a = 1)
-```
-
 ## Fields
 
 | Name   | Summary                           |

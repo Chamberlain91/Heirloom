@@ -18,32 +18,6 @@ public struct UnicodeCharacter : IComparable<UnicodeCharacter>, IEquatable<Unico
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### UnicodeCharacter(int)
-
-Initializes a new instance of the [UnicodeCharacter][2] struct.
-
-```cs
-public UnicodeCharacter(int codePoint)
-```
-
-### UnicodeCharacter(char)
-
-Initializes a new instance of the [UnicodeCharacter][2] struct.
-
-```cs
-public UnicodeCharacter(char character)
-```
-
-### UnicodeCharacter(char, char)
-
-Initializes a new instance of the [UnicodeCharacter][2] struct.
-
-```cs
-public UnicodeCharacter(char highSurrogate, char lowSurrogate)
-```
-
 ## Methods
 
 | Name           | Summary                                        |
@@ -52,4 +26,3 @@ public UnicodeCharacter(char highSurrogate, char lowSurrogate)
 
 [0]: ..\Heirloom.Core.md
 [1]: Heirloom.UnicodeCharacter.CompareTo.md
-[2]: Heirloom.UnicodeCharacter.md

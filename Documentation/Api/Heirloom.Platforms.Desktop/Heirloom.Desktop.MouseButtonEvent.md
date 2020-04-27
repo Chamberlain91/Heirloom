@@ -15,14 +15,6 @@ public struct MouseButtonEvent
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### MouseButtonEvent(int, ButtonAction, KeyModifiers, Vector)
-
-```cs
-MouseButtonEvent(int button, ButtonAction action, KeyModifiers modifiers, Vector position)
-```
-
 ## Fields
 
 | Name           | Summary |

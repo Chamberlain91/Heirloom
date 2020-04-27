@@ -15,14 +15,6 @@ public struct MouseMoveEvent
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### MouseMoveEvent(Vector, Vector)
-
-```cs
-MouseMoveEvent(Vector position, Vector delta)
-```
-
 ## Fields
 
 | Name          | Summary |
