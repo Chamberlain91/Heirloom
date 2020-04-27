@@ -1,18 +1,19 @@
-# ColorBytes.Lerp
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [ColorBytes][1]
 
---------------------------------------------------------------------------------
+## ColorBytes.Lerp
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [ColorBytes][1]  
 
 ### Lerp(ColorBytes, ColorBytes, float)
 
 Interpolate two colors together.
 
 ```cs
-public ColorBytes Lerp(ColorBytes source, ColorBytes target, float factor)
+public static ColorBytes Lerp(ColorBytes source, ColorBytes target, float factor)
 ```
 
 [0]: ../Heirloom.Core.md

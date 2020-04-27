@@ -1,7 +1,10 @@
-# IReadOnlyTypeDictionary\<T>
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## IReadOnlyTypeDictionary\<T>
+
 > **Namespace**: [Heirloom][0]  
 
 A read-only view of [ITypeDictionary\<T>][1] .
@@ -10,13 +13,13 @@ A read-only view of [ITypeDictionary\<T>][1] .
 public abstract interface IReadOnlyTypeDictionary<T> : IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable
+IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable
 
-**Methods**: [Contains][2], [ContainsType\<X>][3], [GetItemsByType\<X>][4]
+#### Methods
 
---------------------------------------------------------------------------------
+[Contains][2], [ContainsType\<X>][3], [GetItemsByType\<X>][4]
 
 ## Methods
 

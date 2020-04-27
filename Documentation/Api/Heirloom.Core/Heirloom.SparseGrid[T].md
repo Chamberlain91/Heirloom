@@ -1,7 +1,10 @@
-# SparseGrid\<T>
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## SparseGrid\<T>
+
 > **Namespace**: [Heirloom][0]  
 
 An infinite, sparse grid of values.
@@ -10,15 +13,17 @@ An infinite, sparse grid of values.
 public sealed class SparseGrid<T> : ISparseGrid<T>, IReadOnlySparseGrid<T>, IReadOnlyGrid<T>, IGrid<T>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [ISparseGrid\<T>][1], [IReadOnlySparseGrid\<T>][2], [IReadOnlyGrid\<T>][3], [IGrid\<T>][4]
+[ISparseGrid\<T>][1], [IReadOnlySparseGrid\<T>][2], [IReadOnlyGrid\<T>][3], [IGrid\<T>][4]
 
-**Properties**: [Item][5], [Keys][6]
+#### Properties
 
-**Methods**: [Clear][7], [ClearValue][8], [HasValue][9], [IsValidCoordinate][10]
+[Item][5], [Keys][6]
 
---------------------------------------------------------------------------------
+#### Methods
+
+[Clear][7], [ClearValue][8], [HasValue][9], [IsValidCoordinate][10]
 
 ## Properties
 

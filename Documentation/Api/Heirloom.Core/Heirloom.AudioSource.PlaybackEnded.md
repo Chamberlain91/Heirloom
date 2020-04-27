@@ -1,14 +1,14 @@
-# AudioSource.PlaybackEnded
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [AudioSource][1]
 
---------------------------------------------------------------------------------
+## AudioSource.PlaybackEnded
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [AudioSource][1]  
 
 #### PlaybackEnded
-
 
 An event invoked when this source reaches the end of playable audio.
 

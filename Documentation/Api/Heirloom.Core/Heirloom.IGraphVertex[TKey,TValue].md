@@ -1,7 +1,10 @@
-# IGraphVertex\<TKey, TValue>
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## IGraphVertex\<TKey, TValue>
+
 > **Namespace**: [Heirloom][0]  
 
 A vertex representing a node on a graph.
@@ -10,11 +13,9 @@ A vertex representing a node on a graph.
 public abstract interface IGraphVertex<TKey, TValue>
 ```
 
---------------------------------------------------------------------------------
+#### Properties
 
-**Properties**: [Key][1], [Value][2], [IncomingEdges][3], [Edges][4]
-
---------------------------------------------------------------------------------
+[Key][1], [Value][2], [IncomingEdges][3], [Edges][4]
 
 ## Properties
 

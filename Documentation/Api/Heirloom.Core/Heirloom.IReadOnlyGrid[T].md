@@ -1,7 +1,10 @@
-# IReadOnlyGrid\<T>
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## IReadOnlyGrid\<T>
+
 > **Namespace**: [Heirloom][0]  
 
 A read-only view of a 2D grid of values.
@@ -10,13 +13,13 @@ A read-only view of a 2D grid of values.
 public abstract interface IReadOnlyGrid<T>
 ```
 
---------------------------------------------------------------------------------
+#### Properties
 
-**Properties**: [Item][1]
+[Item][1]
 
-**Methods**: [IsValidCoordinate][2]
+#### Methods
 
---------------------------------------------------------------------------------
+[IsValidCoordinate][2]
 
 ## Properties
 

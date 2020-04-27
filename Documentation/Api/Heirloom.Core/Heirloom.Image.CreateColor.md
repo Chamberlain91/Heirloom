@@ -1,18 +1,19 @@
-# Image.CreateColor
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Image][1]
 
---------------------------------------------------------------------------------
+## Image.CreateColor
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Image][1]  
 
 ### CreateColor(IntSize, Color)
 
 Creates an image filled with a solid color.
 
 ```cs
-public Image CreateColor(IntSize size, Color color)
+public static Image CreateColor(IntSize size, Color color)
 ```
 
 ### CreateColor(int, int, Color)
@@ -20,7 +21,7 @@ public Image CreateColor(IntSize size, Color color)
 Creates an image filled with a solid color.
 
 ```cs
-public Image CreateColor(int width, int height, Color color)
+public static Image CreateColor(int width, int height, Color color)
 ```
 
 [0]: ../Heirloom.Core.md

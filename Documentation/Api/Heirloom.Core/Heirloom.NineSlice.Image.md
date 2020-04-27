@@ -1,11 +1,12 @@
-# NineSlice.Image
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [NineSlice][1]
 
---------------------------------------------------------------------------------
+## NineSlice.Image
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [NineSlice][1]  
 
 #### Image
 

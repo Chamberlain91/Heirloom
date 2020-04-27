@@ -1,7 +1,10 @@
-# Heap\<T>
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Heap\<T>
+
 > **Namespace**: [Heirloom][0]  
 
 Represents a heap data structure. Allows the insertion and removal of items by priority.
@@ -12,15 +15,17 @@ public class Heap<T> : IHeap<T>, IReadOnlyHeap<T>, IReadOnlyCollection<T>, IEnum
 
 The heap always acts like a min-heap but inverts the result of comparison for max heaps.
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [IHeap\<T>][1], [IReadOnlyHeap\<T>][2], IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable
+[IHeap\<T>][1], [IReadOnlyHeap\<T>][2], IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable
 
-**Properties**: [Comparer][3], [Count][4], [Type][5]
+#### Properties
 
-**Methods**: [Add][6], [AddRange][7], [Peek][8], [Remove][9], [Update][10], [Contains][11], [ToArray][12], [GetEnumerator][13]
+[Comparer][3], [Count][4], [Type][5]
 
---------------------------------------------------------------------------------
+#### Methods
+
+[Add][6], [AddRange][7], [Peek][8], [Remove][9], [Update][10], [Contains][11], [ToArray][12], [GetEnumerator][13]
 
 ## Properties
 

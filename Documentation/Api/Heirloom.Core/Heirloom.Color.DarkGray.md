@@ -1,11 +1,12 @@
-# Color.DarkGray
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Color][1]
 
---------------------------------------------------------------------------------
+## Color.DarkGray
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Color][1]  
 
 ### DarkGray
 

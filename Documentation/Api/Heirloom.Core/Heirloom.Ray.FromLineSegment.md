@@ -1,18 +1,19 @@
-# Ray.FromLineSegment
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Ray][1]
 
---------------------------------------------------------------------------------
+## Ray.FromLineSegment
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Ray][1]  
 
 ### FromLineSegment(in Vector, in Vector)
 
 Creates a ray from a line segment.
 
 ```cs
-public Ray FromLineSegment(in Vector origin, in Vector target)
+public static Ray FromLineSegment(in Vector origin, in Vector target)
 ```
 
 ### FromLineSegment(in LineSegment)
@@ -20,7 +21,7 @@ public Ray FromLineSegment(in Vector origin, in Vector target)
 Creates a ray from a line segment.
 
 ```cs
-public Ray FromLineSegment(in LineSegment segment)
+public static Ray FromLineSegment(in LineSegment segment)
 ```
 
 [0]: ../Heirloom.Core.md

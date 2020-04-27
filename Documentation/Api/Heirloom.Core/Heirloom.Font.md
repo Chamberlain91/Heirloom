@@ -1,22 +1,27 @@
-# Font
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Font
+
 > **Namespace**: [Heirloom][0]  
 
 ```cs
 public class Font : IDisposable
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IDisposable
+IDisposable
 
-**Methods**: [GetMetrics][1], [GetKerning][2], [GetGlyph][3], [Dispose][4]
+#### Methods
 
-**Static Properties**: [Default][5]
+[GetMetrics][1], [GetKerning][2], [GetGlyph][3], [Dispose][4]
 
---------------------------------------------------------------------------------
+#### Static Properties
+
+[Default][5]
 
 ## Properties
 

@@ -1,11 +1,12 @@
-# Circle.Set
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Circle][1]
 
---------------------------------------------------------------------------------
+## Circle.Set
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Circle][1]  
 
 ### Set(in Vector, float)
 

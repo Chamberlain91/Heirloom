@@ -1,11 +1,12 @@
-# Shader.Default
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Shader][1]
 
---------------------------------------------------------------------------------
+## Shader.Default
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Shader][1]  
 
 ### Default
 

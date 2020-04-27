@@ -1,11 +1,12 @@
-# Glyph.CanBeRendered
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Glyph][1]
 
---------------------------------------------------------------------------------
+## Glyph.CanBeRendered
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Glyph][1]  
 
 ### CanBeRendered
 

@@ -1,11 +1,12 @@
-# FontMetrics.Ascent
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [FontMetrics][1]
 
---------------------------------------------------------------------------------
+## FontMetrics.Ascent
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [FontMetrics][1]  
 
 #### Ascent
 

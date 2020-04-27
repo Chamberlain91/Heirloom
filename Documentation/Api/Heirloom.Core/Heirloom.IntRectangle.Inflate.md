@@ -1,11 +1,12 @@
-# IntRectangle.Inflate
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [IntRectangle][1]
 
---------------------------------------------------------------------------------
+## IntRectangle.Inflate
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [IntRectangle][1]  
 
 ### Inflate(int)
 
@@ -28,7 +29,7 @@ public void Inflate(int xFactor, int yFactor)
 Expands (or shrinks) the input rectangle by a factor on both axis.
 
 ```cs
-public IntRectangle Inflate(IntRectangle rect, int factor)
+public static IntRectangle Inflate(IntRectangle rect, int factor)
 ```
 
 ### Inflate(IntRectangle, int, int)
@@ -36,7 +37,7 @@ public IntRectangle Inflate(IntRectangle rect, int factor)
 Expands (or shrinks) the input rectangle by a factor on each axis.
 
 ```cs
-public IntRectangle Inflate(IntRectangle rect, int xFactor, int yFactor)
+public static IntRectangle Inflate(IntRectangle rect, int xFactor, int yFactor)
 ```
 
 [0]: ../Heirloom.Core.md

@@ -1,18 +1,19 @@
-# Rasterizer.Rectangle
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Rasterizer][1]
 
---------------------------------------------------------------------------------
+## Rasterizer.Rectangle
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Rasterizer][1]  
 
 ### Rectangle(int, int, int, int)
 
 Rasterize a rectangular region.
 
 ```cs
-public IEnumerable<IntVector> Rectangle(int x, int y, int width, int height)
+public static IEnumerable<IntVector> Rectangle(int x, int y, int width, int height)
 ```
 
 ### Rectangle(IntRectangle)
@@ -20,7 +21,7 @@ public IEnumerable<IntVector> Rectangle(int x, int y, int width, int height)
 Rasterize a rectangular region.
 
 ```cs
-public IEnumerable<IntVector> Rectangle(IntRectangle rect)
+public static IEnumerable<IntVector> Rectangle(IntRectangle rect)
 ```
 
 ### Rectangle(IntVector, IntSize)
@@ -28,7 +29,7 @@ public IEnumerable<IntVector> Rectangle(IntRectangle rect)
 Rasterize a rectangular region.
 
 ```cs
-public IEnumerable<IntVector> Rectangle(IntVector position, IntSize size)
+public static IEnumerable<IntVector> Rectangle(IntVector position, IntSize size)
 ```
 
 ### Rectangle(IntSize)
@@ -36,7 +37,7 @@ public IEnumerable<IntVector> Rectangle(IntVector position, IntSize size)
 Rasterize a rectangular region.
 
 ```cs
-public IEnumerable<IntVector> Rectangle(IntSize size)
+public static IEnumerable<IntVector> Rectangle(IntSize size)
 ```
 
 [0]: ../Heirloom.Core.md

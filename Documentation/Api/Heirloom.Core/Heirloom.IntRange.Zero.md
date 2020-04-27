@@ -1,11 +1,12 @@
-# IntRange.Zero
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [IntRange][1]
 
---------------------------------------------------------------------------------
+## IntRange.Zero
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [IntRange][1]  
 
 #### Zero
 

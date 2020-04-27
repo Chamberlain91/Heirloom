@@ -1,7 +1,10 @@
-# Circle
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Circle
+
 > **Namespace**: [Heirloom][0]  
 
 Represents a circle via center position and radius.
@@ -10,17 +13,21 @@ Represents a circle via center position and radius.
 public struct Circle : IShape, IEquatable<Circle>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [IShape][1], IEquatable\<Circle>
+[IShape][1], IEquatable\<Circle>
 
-**Fields**: [Position][2], [Radius][3]
+#### Fields
 
-**Properties**: [Area][4], [Bounds][5]
+[Position][2], [Radius][3]
 
-**Methods**: [Set][6], [ToPolygon][7], [GetClosestPoint][8], [Contains][9], [Overlaps][10], [Project][11], [Raycast][12]
+#### Properties
 
---------------------------------------------------------------------------------
+[Area][4], [Bounds][5]
+
+#### Methods
+
+[Set][6], [ToPolygon][7], [GetClosestPoint][8], [Contains][9], [Overlaps][10], [Project][11], [Raycast][12]
 
 ## Fields
 

@@ -1,7 +1,10 @@
-# TextLayoutState
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## TextLayoutState
+
 > **Namespace**: [Heirloom][0]  
 
 Represents information of any particular glyph during text layout.
@@ -10,15 +13,17 @@ Represents information of any particular glyph during text layout.
 public struct TextLayoutState : IEquatable<TextLayoutState>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IEquatable\<TextLayoutState>
+IEquatable\<TextLayoutState>
 
-**Fields**: [Position][1]
+#### Fields
 
-**Properties**: [Character][2], [Metrics][3]
+[Position][1]
 
---------------------------------------------------------------------------------
+#### Properties
+
+[Character][2], [Metrics][3]
 
 ## Fields
 

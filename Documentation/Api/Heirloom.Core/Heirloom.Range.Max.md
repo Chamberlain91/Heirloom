@@ -1,11 +1,12 @@
-# Range.Max
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Range][1]
 
---------------------------------------------------------------------------------
+## Range.Max
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Range][1]  
 
 #### Max
 

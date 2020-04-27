@@ -1,11 +1,12 @@
-# Polygon.Contains
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Polygon][1]
 
---------------------------------------------------------------------------------
+## Polygon.Contains
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Polygon][1]  
 
 ### Contains(in Vector)
 

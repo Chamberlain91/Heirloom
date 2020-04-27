@@ -1,19 +1,19 @@
-# Keyboard.GetPrintableKeyName
+# Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Platforms.Desktop][0]  
-> **Dependencies**: [Heirloom.Core][1], [Heirloom.OpenGLES][2], [Heirloom.MiniAudio][3]  
-> **Namespace**: [Heirloom.Desktop][0]  
-> **Type**: [Keyboard][4]
 
---------------------------------------------------------------------------------
+## Keyboard.GetPrintableKeyName
+
+> **Namespace**: [Heirloom.Desktop][0]  
+> **Type**: [Keyboard][1]  
 
 ### GetPrintableKeyName(Key)
 
 Gets the printable name of a key.
 
 ```cs
-public string GetPrintableKeyName(Key key)
+public static string GetPrintableKeyName(Key key)
 ```
 
 ### GetPrintableKeyName(int)
@@ -21,11 +21,8 @@ public string GetPrintableKeyName(Key key)
 Gets the printable name of a key specified by scancode.
 
 ```cs
-public string GetPrintableKeyName(int scancode)
+public static string GetPrintableKeyName(int scancode)
 ```
 
 [0]: ../Heirloom.Platforms.Desktop.md
-[1]: ../Heirloom.Core.md
-[2]: ../Heirloom.OpenGLES.md
-[3]: ../Heirloom.MiniAudio.md
-[4]: Heirloom.Desktop.Keyboard.md
+[1]: Heirloom.Desktop.Keyboard.md

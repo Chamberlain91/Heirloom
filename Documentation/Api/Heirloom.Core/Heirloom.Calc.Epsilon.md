@@ -1,11 +1,12 @@
-# Calc.Epsilon
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]
 
---------------------------------------------------------------------------------
+## Calc.Epsilon
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Calc][1]  
 
 #### Epsilon
 

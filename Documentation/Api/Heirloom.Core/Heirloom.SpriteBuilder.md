@@ -1,7 +1,10 @@
-# SpriteBuilder
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## SpriteBuilder
+
 > **Namespace**: [Heirloom][0]  
 
 Utility object for manually constructing a sprite and its animations from images.
@@ -10,13 +13,13 @@ Utility object for manually constructing a sprite and its animations from images
 public sealed class SpriteBuilder : IEnumerable
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IEnumerable
+IEnumerable
 
-**Methods**: [Clear][1], [Add][2], [CreateSprite][3]
+#### Methods
 
---------------------------------------------------------------------------------
+[Clear][1], [Add][2], [CreateSprite][3]
 
 ## Methods
 

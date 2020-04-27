@@ -1,18 +1,19 @@
-# GraphicsAdapter.IShaderFactory
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## GraphicsAdapter.IShaderFactory
+
 > **Namespace**: [Heirloom][0]  
 
 ```cs
-protected abstract interface GraphicsAdapter.IShaderFactory
+abstract interface GraphicsAdapter.IShaderFactory
 ```
 
---------------------------------------------------------------------------------
+#### Methods
 
-**Methods**: [Compile][1], [Dispose][2]
-
---------------------------------------------------------------------------------
+[Compile][1], [Dispose][2]
 
 ## Methods
 

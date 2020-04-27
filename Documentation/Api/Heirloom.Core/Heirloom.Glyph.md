@@ -1,7 +1,10 @@
-# Glyph
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Glyph
+
 > **Namespace**: [Heirloom][0]  
 
 A glyph represents the metrics and rendering of a character from the associated `!:Drawing.Font` .
@@ -10,13 +13,13 @@ A glyph represents the metrics and rendering of a character from the associated 
 public class Glyph
 ```
 
---------------------------------------------------------------------------------
+#### Properties
 
-**Properties**: [Font][1], [Character][2], [CanBeRendered][3]
+[Font][1], [Character][2], [CanBeRendered][3]
 
-**Methods**: [GetMetrics][4], [RenderTo][5]
+#### Methods
 
---------------------------------------------------------------------------------
+[GetMetrics][4], [RenderTo][5]
 
 ## Properties
 

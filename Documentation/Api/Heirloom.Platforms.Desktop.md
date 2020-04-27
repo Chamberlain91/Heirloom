@@ -2,48 +2,61 @@
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Platforms.Desktop][0]  
-> **Dependencies**: [Heirloom.Core][1], [Heirloom.OpenGLES][2], [Heirloom.MiniAudio][3]
 
---------------------------------------------------------------------------------
+## Assembly Dependencies
+
+ - [Heirloom.Core][1]
+ - [Heirloom.OpenGLES][2]
+ - [Heirloom.MiniAudio][3]
 
 ## Heirloom.Desktop
 
 ### Class
 
-[Application][4]  
-[Keyboard][5]  
-[Monitor][6]  
-[Window][7]
+| Name             | Summary                                              |
+|------------------|------------------------------------------------------|
+| [Application][4] |                                                      |
+| [Keyboard][5]    |                                                      |
+| [Monitor][6]     | Represents a physical display on the current device. |
+| [Window][7]      |                                                      |
 
 ### Struct
 
-[CharacterEvent][8]  
-[KeyEvent][9]  
-[MouseButtonEvent][10]  
-[MouseMoveEvent][11]  
-[MouseScrollEvent][12]  
-[VideoMode][13]  
-[WindowEvents][14]
+| Name                   | Summary |
+|------------------------|---------|
+| [CharacterEvent][8]    |         |
+| [KeyEvent][9]          |         |
+| [MouseButtonEvent][10] |         |
+| [MouseMoveEvent][11]   |         |
+| [MouseScrollEvent][12] |         |
+| [VideoMode][13]        |         |
+| [WindowEvents][14]     |         |
 
 ### Enum
 
-[ButtonAction][15]  
-[Key][16]  
-[KeyModifiers][17]  
-[StandardCursor][18]  
-[WindowState][19]
+| Name                 | Summary                                                          |
+|----------------------|------------------------------------------------------------------|
+| [ButtonAction][15]   |                                                                  |
+| [Key][16]            | Standard GLFW virtual key mapping (standard US keyboard layout). |
+| [KeyModifiers][17]   |                                                                  |
+| [StandardCursor][18] | Enumeration of standard cursors.                                 |
+| [WindowState][19]    | Describes the size state a window can be in.                     |
 
 ## Heirloom.Desktop.Hardware
 
 ### Struct
 
-[CpuInfo][20]  
-[GpuInfo][21]
+| Name          | Summary                                  |
+|---------------|------------------------------------------|
+| [CpuInfo][20] | Contains information related to the CPU. |
+| [GpuInfo][21] |                                          |
 
 ### Enum
 
-[CpuVendor][22]  
-[GpuVendor][23]
+| Name            | Summary                       |
+|-----------------|-------------------------------|
+| [CpuVendor][22] | Represents known CPU vendors. |
+| [GpuVendor][23] |                               |
 
 [0]: Heirloom.Platforms.Desktop.md
 [1]: Heirloom.Core.md

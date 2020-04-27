@@ -1,7 +1,10 @@
-# Curves
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Curves
+
 > **Namespace**: [Heirloom][0]  
 
 Provides utilities for working with Quadratic and Cubic curves.
@@ -10,11 +13,9 @@ Provides utilities for working with Quadratic and Cubic curves.
 public static class Curves
 ```
 
---------------------------------------------------------------------------------
+#### Static Methods
 
-**Static Methods**: [Quadratic][1], [QuadraticDerivative][2], [QuadraticApproximateLength][3], [QuadraticDerivativeApproximateLength][4], [Cubic][5], [CubicDerivative][6], [CubicApproximateLength][7], [CubicDerivativeApproximateLength][8]
-
---------------------------------------------------------------------------------
+[Quadratic][1], [QuadraticDerivative][2], [QuadraticApproximateLength][3], [QuadraticDerivativeApproximateLength][4], [Cubic][5], [CubicDerivative][6], [CubicApproximateLength][7], [CubicDerivativeApproximateLength][8]
 
 ## Methods
 

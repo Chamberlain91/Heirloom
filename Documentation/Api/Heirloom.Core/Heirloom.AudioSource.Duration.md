@@ -1,11 +1,12 @@
-# AudioSource.Duration
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [AudioSource][1]
 
---------------------------------------------------------------------------------
+## AudioSource.Duration
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [AudioSource][1]  
 
 ### Duration
 

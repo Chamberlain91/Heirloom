@@ -1,7 +1,10 @@
-# Statistics
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Statistics
+
 > **Namespace**: [Heirloom][0]  
 
 Represents statistics of some data.
@@ -10,15 +13,17 @@ Represents statistics of some data.
 public struct Statistics : IEquatable<Statistics>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IEquatable\<Statistics>
+IEquatable\<Statistics>
 
-**Fields**: [Average][1], [Variance][2], [Deviation][3], [Range][4]
+#### Fields
 
-**Static Methods**: [Compute][5]
+[Average][1], [Variance][2], [Deviation][3], [Range][4]
 
---------------------------------------------------------------------------------
+#### Static Methods
+
+[Compute][5]
 
 ## Fields
 

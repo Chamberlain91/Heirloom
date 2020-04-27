@@ -1,11 +1,12 @@
-# Rectangle.IsValid
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Rectangle][1]
 
---------------------------------------------------------------------------------
+## Rectangle.IsValid
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Rectangle][1]  
 
 ### IsValid
 

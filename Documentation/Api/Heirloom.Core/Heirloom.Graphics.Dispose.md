@@ -1,11 +1,12 @@
-# Graphics.Dispose
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Graphics][1]
 
---------------------------------------------------------------------------------
+## Graphics.Dispose
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Graphics][1]  
 
 ### Dispose(bool)
 

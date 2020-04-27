@@ -1,11 +1,12 @@
-# Glyph.GetMetrics
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Glyph][1]
 
---------------------------------------------------------------------------------
+## Glyph.GetMetrics
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Glyph][1]  
 
 ### GetMetrics(float)
 

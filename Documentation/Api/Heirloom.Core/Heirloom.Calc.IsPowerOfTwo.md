@@ -1,18 +1,19 @@
-# Calc.IsPowerOfTwo
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]
 
---------------------------------------------------------------------------------
+## Calc.IsPowerOfTwo
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Calc][1]  
 
 ### IsPowerOfTwo(ulong)
 
 Determines if the given integer is a power of 2.
 
 ```cs
-public bool IsPowerOfTwo(ulong x)
+public static bool IsPowerOfTwo(ulong x)
 ```
 
 ### IsPowerOfTwo(uint)
@@ -20,7 +21,7 @@ public bool IsPowerOfTwo(ulong x)
 Determines if the given integer is a power of 2.
 
 ```cs
-public bool IsPowerOfTwo(uint x)
+public static bool IsPowerOfTwo(uint x)
 ```
 
 ### IsPowerOfTwo(int)
@@ -28,7 +29,7 @@ public bool IsPowerOfTwo(uint x)
 Determines if the given integer is a power of 2.
 
 ```cs
-public bool IsPowerOfTwo(int x)
+public static bool IsPowerOfTwo(int x)
 ```
 
 [0]: ../Heirloom.Core.md

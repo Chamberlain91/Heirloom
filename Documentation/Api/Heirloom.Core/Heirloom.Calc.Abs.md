@@ -1,18 +1,19 @@
-# Calc.Abs
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]
 
---------------------------------------------------------------------------------
+## Calc.Abs
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Calc][1]  
 
 ### Abs(double)
 
 Computes the absolute value of `x` .
 
 ```cs
-public double Abs(double x)
+public static double Abs(double x)
 ```
 
 ### Abs(float)
@@ -20,7 +21,7 @@ public double Abs(double x)
 Computes the absolute value of `x` .
 
 ```cs
-public float Abs(float x)
+public static float Abs(float x)
 ```
 
 ### Abs(int)
@@ -28,7 +29,7 @@ public float Abs(float x)
 Computes the absolute value of `x` .
 
 ```cs
-public int Abs(int x)
+public static int Abs(int x)
 ```
 
 ### Abs(short)
@@ -36,7 +37,7 @@ public int Abs(int x)
 Computes the absolute value of `x` .
 
 ```cs
-public short Abs(short x)
+public static short Abs(short x)
 ```
 
 ### Abs(sbyte)
@@ -44,7 +45,7 @@ public short Abs(short x)
 Computes the absolute value of `x` .
 
 ```cs
-public sbyte Abs(sbyte x)
+public static sbyte Abs(sbyte x)
 ```
 
 [0]: ../Heirloom.Core.md

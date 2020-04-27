@@ -1,7 +1,10 @@
-# StandardStyledTextParser
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## StandardStyledTextParser
+
 > **Namespace**: [Heirloom][0]  
 
 Provides implementation of a BBCode-esque text markup parser.
@@ -10,13 +13,13 @@ Provides implementation of a BBCode-esque text markup parser.
 public abstract class StandardStyledTextParser : StyledTextParser
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [StyledTextParser][1]
+[StyledTextParser][1]
 
-**Methods**: [AddKeyword][2], [Parse][3]
+#### Methods
 
---------------------------------------------------------------------------------
+[AddKeyword][2], [Parse][3]
 
 ## Methods
 

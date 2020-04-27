@@ -1,18 +1,19 @@
-# Log.Error
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Log][1]
 
---------------------------------------------------------------------------------
+## Log.Error
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Log][1]  
 
 ### Error(object)
 
 Logs a error message.
 
 ```cs
-public void Error(object message)
+public static void Error(object message)
 ```
 
 [0]: ../Heirloom.Core.md

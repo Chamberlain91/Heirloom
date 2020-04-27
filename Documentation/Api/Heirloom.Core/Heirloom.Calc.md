@@ -1,7 +1,10 @@
-# Calc
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Calc
+
 > **Namespace**: [Heirloom][0]  
 
 Math operations for `float` and a other data types including `int` .   
@@ -11,13 +14,13 @@ Math operations for `float` and a other data types including `int` .
 public static class Calc
 ```
 
---------------------------------------------------------------------------------
+#### Static Fields
 
-**Static Fields**: [Random][2], [Perlin][3], [Simplex][4], [Pi][5], [TwoPi][6], [HalfPi][7], [ToRadians][8], [ToDegree][9], [Epsilon][10]
+[Random][2], [Perlin][3], [Simplex][4], [Pi][5], [TwoPi][6], [HalfPi][7], [ToRadians][8], [ToDegree][9], [Epsilon][10]
 
-**Static Methods**: [Lerp][11], [AngleLerp][12], [Between][13], [IsBetween][14], [Rescale][15], [CosineInterpolation][16], [SmoothStep][17], [SmootherStep][18], [NearestPowerOfTwo][19], [LowerPowerOfTwo][20], [UpperPowerOfTwo][21], [IsPowerOfTwo][22], [Swap\<T>][1], [Order\<T>][23], [Wrap][24], [DeadZone][25], [Osc][26], [Sin][27], [Asin][28], [Cos][29], [Acos][30], [Tan][31], [Atan][32], [Atan2][33], [Distance][34], [Pow][35], [Log][36], [Sqrt][37], [Factorial][38], [Min][39], [Max][40], [Clamp][41], [Abs][42], [Sign][43], [Fraction][44], [Min\<T>][45], [Max\<T>][46], [Floor][47], [Ceil][48], [Round][49], [NearEquals][50], [NearZero][51]
+#### Static Methods
 
---------------------------------------------------------------------------------
+[Lerp][11], [AngleLerp][12], [Between][13], [IsBetween][14], [Rescale][15], [CosineInterpolation][16], [SmoothStep][17], [SmootherStep][18], [NearestPowerOfTwo][19], [LowerPowerOfTwo][20], [UpperPowerOfTwo][21], [IsPowerOfTwo][22], [Swap\<T>][1], [Order\<T>][23], [Wrap][24], [DeadZone][25], [Osc][26], [Sin][27], [Asin][28], [Cos][29], [Acos][30], [Tan][31], [Atan][32], [Atan2][33], [Distance][34], [Pow][35], [Log][36], [Sqrt][37], [Factorial][38], [Min][39], [Max][40], [Clamp][41], [Abs][42], [Sign][43], [Fraction][44], [Min\<T>][45], [Max\<T>][46], [Floor][47], [Ceil][48], [Round][49], [NearEquals][50], [NearZero][51]
 
 ## Fields
 

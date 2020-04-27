@@ -1,11 +1,12 @@
-# ISpatialCollection\<T>.Update
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [ISpatialCollection\<T>][1]
 
---------------------------------------------------------------------------------
+## ISpatialCollection\<T>.Update
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [ISpatialCollection\<T>][1]  
 
 ### Update(in T, in IShape)
 

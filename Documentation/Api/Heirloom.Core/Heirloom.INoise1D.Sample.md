@@ -1,11 +1,12 @@
-# INoise1D.Sample
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [INoise1D][1]
 
---------------------------------------------------------------------------------
+## INoise1D.Sample
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [INoise1D][1]  
 
 ### Sample(float)
 

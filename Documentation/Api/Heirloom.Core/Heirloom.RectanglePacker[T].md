@@ -1,22 +1,27 @@
-# RectanglePacker\<T>
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## RectanglePacker\<T>
+
 > **Namespace**: [Heirloom][0]  
 
 ```cs
 public class RectanglePacker<T> : IRectanglePacker<T>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [IRectanglePacker\<T>][1]
+[IRectanglePacker\<T>][1]
 
-**Properties**: [Elements][2], [Size][3]
+#### Properties
 
-**Methods**: [Add][4], [Clear][5], [Contains][6], [GetRectangle][7], [TryGetRectangle][8]
+[Elements][2], [Size][3]
 
---------------------------------------------------------------------------------
+#### Methods
+
+[Add][4], [Clear][5], [Contains][6], [GetRectangle][7], [TryGetRectangle][8]
 
 ## Properties
 

@@ -1,11 +1,12 @@
-# LinearSpatialCollection\<T>.Clear
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [LinearSpatialCollection\<T>][1]
 
---------------------------------------------------------------------------------
+## LinearSpatialCollection\<T>.Clear
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [LinearSpatialCollection\<T>][1]  
 
 ### Clear()
 

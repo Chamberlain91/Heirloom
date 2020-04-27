@@ -1,11 +1,12 @@
-# Font.GetGlyph
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Font][1]
 
---------------------------------------------------------------------------------
+## Font.GetGlyph
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Font][1]  
 
 ### GetGlyph(char)
 

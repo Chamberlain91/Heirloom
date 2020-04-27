@@ -1,7 +1,10 @@
-# PolygonTools
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## PolygonTools
+
 > **Namespace**: [Heirloom][0]  
 
 Provides several operations for polygons represented as a read-only list of vectors.
@@ -10,11 +13,9 @@ Provides several operations for polygons represented as a read-only list of vect
 public static class PolygonTools
 ```
 
---------------------------------------------------------------------------------
+#### Static Methods
 
-**Static Methods**: [GetClosestPoint][1], [GetClosestPointOutline][2], [ContainsPoint][3], [Overlaps][4], [Raycast][5], [Project][6], [DecomposeConvex][7], [DecomposeConvexIndices][8], [Triangulate][9], [TriangulateIndices][10], [IsConvexVertex][11], [IsConvexPolygon][12], [ComputeMetrics][13], [GetNormal][14]
-
---------------------------------------------------------------------------------
+[GetClosestPoint][1], [GetClosestPointOutline][2], [ContainsPoint][3], [Overlaps][4], [Raycast][5], [Project][6], [DecomposeConvex][7], [DecomposeConvexIndices][8], [Triangulate][9], [TriangulateIndices][10], [IsConvexVertex][11], [IsConvexPolygon][12], [ComputeMetrics][13], [GetNormal][14]
 
 ## Methods
 

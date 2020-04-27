@@ -1,7 +1,10 @@
-# AudioEffect
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## AudioEffect
+
 > **Namespace**: [Heirloom][0]  
 
 An audio effect. Implementations of this class mutate the audio for various effects.
@@ -10,11 +13,9 @@ An audio effect. Implementations of this class mutate the audio for various effe
 public abstract class AudioEffect
 ```
 
---------------------------------------------------------------------------------
+#### Methods
 
-**Methods**: [Process][1]
-
---------------------------------------------------------------------------------
+[Process][1]
 
 ## Methods
 

@@ -1,11 +1,12 @@
-# StyledTextParser.Parse
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [StyledTextParser][1]
 
---------------------------------------------------------------------------------
+## StyledTextParser.Parse
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [StyledTextParser][1]  
 
 ### Parse(string)
 

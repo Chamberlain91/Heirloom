@@ -1,11 +1,12 @@
-# GrayscaleShader.Blend
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [GrayscaleShader][1]
 
---------------------------------------------------------------------------------
+## GrayscaleShader.Blend
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [GrayscaleShader][1]  
 
 ### Blend
 

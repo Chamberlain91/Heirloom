@@ -1,11 +1,12 @@
-# RayContact.Distance
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [RayContact][1]
 
---------------------------------------------------------------------------------
+## RayContact.Distance
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [RayContact][1]  
 
 #### Distance
 

@@ -1,11 +1,12 @@
-# UniformInfo.ArraySize
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [UniformInfo][1]
 
---------------------------------------------------------------------------------
+## UniformInfo.ArraySize
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [UniformInfo][1]  
 
 ### ArraySize
 

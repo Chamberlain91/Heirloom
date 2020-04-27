@@ -1,7 +1,10 @@
-# Extensions
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Extensions
+
 > **Namespace**: [Heirloom][0]  
 
 Provides extension methods for `Random` and other related random operations.
@@ -10,11 +13,9 @@ Provides extension methods for `Random` and other related random operations.
 public static class Extensions
 ```
 
---------------------------------------------------------------------------------
+#### Static Methods
 
-**Static Methods**: [Apply\<T>][1], [ToHeap\<T>][2], [IsAscendingOrder\<T>][3], [IsDescendingOrder\<T>][4], [Sample][5], [NextFloat][6], [NextDouble][7], [Next][8], [NextVectorDisk][9], [NextUnitVector][10], [NextVector][11], [Chance][12], [Choose\<T>][13], [Shuffle\<T>][14], [ReadAllText][15], [ReadLines][16], [ReadAllBytes][17], [ToIdentifier][18], [Shorten][19], [GetCharacter][20], [ToSnakeCase][21], [ToShoutingCase][22], [ToSmartDisplayName][23]
-
---------------------------------------------------------------------------------
+[Apply\<T>][1], [ToHeap\<T>][2], [IsAscendingOrder\<T>][3], [IsDescendingOrder\<T>][4], [Sample][5], [NextFloat][6], [NextDouble][7], [Next][8], [NextVectorDisk][9], [NextUnitVector][10], [NextVector][11], [Chance][12], [Choose\<T>][13], [Shuffle\<T>][14], [ReadAllText][15], [ReadLines][16], [ReadAllBytes][17], [ToIdentifier][18], [Shorten][19], [GetCharacter][20], [ToSnakeCase][21], [ToShoutingCase][22], [ToSmartDisplayName][23]
 
 ## Methods
 

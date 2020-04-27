@@ -1,7 +1,10 @@
-# LinearSpatialCollection\<T>
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## LinearSpatialCollection\<T>
+
 > **Namespace**: [Heirloom][0]  
 
 DO NOT USE!   
@@ -12,15 +15,17 @@ DO NOT USE!
 public sealed class LinearSpatialCollection<T> : ISpatialCollection<T>, IReadOnlySpatialCollection<T>, ISpatialQuery<T>, IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [ISpatialCollection\<T>][1], [IReadOnlySpatialCollection\<T>][2], [ISpatialQuery\<T>][3], IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable
+[ISpatialCollection\<T>][1], [IReadOnlySpatialCollection\<T>][2], [ISpatialQuery\<T>][3], IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable
 
-**Properties**: [Count][4]
+#### Properties
 
-**Methods**: [Clear][5], [Add][6], [Update][7], [Remove][8], [Contains][9], [Query][10], [GetEnumerator][11]
+[Count][4]
 
---------------------------------------------------------------------------------
+#### Methods
+
+[Clear][5], [Add][6], [Update][7], [Remove][8], [Contains][9], [Query][10], [GetEnumerator][11]
 
 ## Properties
 

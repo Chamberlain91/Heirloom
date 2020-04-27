@@ -1,11 +1,12 @@
-# FreeList\<T>.Count
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [FreeList\<T>][1]
 
---------------------------------------------------------------------------------
+## FreeList\<T>.Count
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [FreeList\<T>][1]  
 
 ### Count
 

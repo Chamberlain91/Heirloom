@@ -1,18 +1,19 @@
-# Calc.Max
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]
 
---------------------------------------------------------------------------------
+## Calc.Max
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Calc][1]  
 
 ### Max(double, double)
 
 Returns the maximum value between `x` and `y` .
 
 ```cs
-public double Max(double x, double y)
+public static double Max(double x, double y)
 ```
 
 ### Max(float, float)
@@ -20,7 +21,7 @@ public double Max(double x, double y)
 Returns the maximum value between `x` and `y` .
 
 ```cs
-public float Max(float x, float y)
+public static float Max(float x, float y)
 ```
 
 ### Max(int, int)
@@ -28,7 +29,7 @@ public float Max(float x, float y)
 Returns the maximum value between `x` and `y` .
 
 ```cs
-public int Max(int x, int y)
+public static int Max(int x, int y)
 ```
 
 ### Max(uint, uint)
@@ -36,7 +37,7 @@ public int Max(int x, int y)
 Returns the maximum value between `x` and `y` .
 
 ```cs
-public uint Max(uint x, uint y)
+public static uint Max(uint x, uint y)
 ```
 
 ### Max(short, short)
@@ -44,7 +45,7 @@ public uint Max(uint x, uint y)
 Returns the maximum value between `x` and `y` .
 
 ```cs
-public short Max(short x, short y)
+public static short Max(short x, short y)
 ```
 
 ### Max(ushort, ushort)
@@ -52,7 +53,7 @@ public short Max(short x, short y)
 Returns the maximum value between `x` and `y` .
 
 ```cs
-public ushort Max(ushort x, ushort y)
+public static ushort Max(ushort x, ushort y)
 ```
 
 ### Max(sbyte, sbyte)
@@ -60,27 +61,27 @@ public ushort Max(ushort x, ushort y)
 Returns the maximum value between `x` and `y` .
 
 ```cs
-public sbyte Max(sbyte x, sbyte y)
+public static sbyte Max(sbyte x, sbyte y)
 ```
 
-### Max(byte,  byte)
+### Max( byte,  byte)
 
 Returns the maximum value between `x` and `y` .
 
 ```cs
-public byte Max(byte x, byte y)
+public static byte Max( byte x, byte y)
 ```
 
 ### Max(params int[])
 
 ```cs
-public int Max(params int[] vals)
+public static int Max(params int[] vals)
 ```
 
 ### Max(params float[])
 
 ```cs
-public float Max(params float[] vals)
+public static float Max(params float[] vals)
 ```
 
 [0]: ../Heirloom.Core.md

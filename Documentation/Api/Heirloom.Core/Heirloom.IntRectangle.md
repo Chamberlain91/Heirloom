@@ -1,7 +1,10 @@
-# IntRectangle
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## IntRectangle
+
 > **Namespace**: [Heirloom][0]  
 
 Represents a rectangle defined with integer coordinates.
@@ -10,21 +13,29 @@ Represents a rectangle defined with integer coordinates.
 public struct IntRectangle : IEquatable<IntRectangle>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IEquatable\<IntRectangle>
+IEquatable\<IntRectangle>
 
-**Fields**: [X][1], [Y][2], [Width][3], [Height][4]
+#### Fields
 
-**Properties**: [Area][5], [Size][6], [Position][7], [Center][8], [Min][9], [Max][10], [Left][11], [Top][12], [Right][13], [Bottom][14], [TopLeft][15], [BottomLeft][16], [BottomRight][17], [TopRight][18], [IsValid][19]
+[X][1], [Y][2], [Width][3], [Height][4]
 
-**Methods**: [Set][20], [ToPolygon][21], [Offset][22], [Include][23], [Inflate][24], [ClosestPoint][25], [Contains][26], [Overlaps][27], [Deconstruct][28]
+#### Properties
 
-**Static Properties**: [InvertedInfinite][29], [Infinite][30], [One][31], [Zero][32]
+[Area][5], [Size][6], [Position][7], [Center][8], [Min][9], [Max][10], [Left][11], [Top][12], [Right][13], [Bottom][14], [TopLeft][15], [BottomLeft][16], [BottomRight][17], [TopRight][18], [IsValid][19]
 
-**Static Methods**: [Offset][22], [Merge][33], [Inflate][24], [FromPoints][34]
+#### Methods
 
---------------------------------------------------------------------------------
+[Set][20], [ToPolygon][21], [Offset][22], [Include][23], [Inflate][24], [ClosestPoint][25], [Contains][26], [Overlaps][27], [Deconstruct][28]
+
+#### Static Properties
+
+[InvertedInfinite][29], [Infinite][30], [One][31], [Zero][32]
+
+#### Static Methods
+
+[Offset][22], [Merge][33], [Inflate][24], [FromPoints][34]
 
 ## Fields
 

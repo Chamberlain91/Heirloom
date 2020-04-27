@@ -1,11 +1,12 @@
-# Grid\<T>.Height
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Grid\<T>][1]
 
---------------------------------------------------------------------------------
+## Grid\<T>.Height
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Grid\<T>][1]  
 
 ### Height
 

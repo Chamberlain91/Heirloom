@@ -1,11 +1,12 @@
-# Matrix.GetAffineTranslation
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Matrix][1]
 
---------------------------------------------------------------------------------
+## Matrix.GetAffineTranslation
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Matrix][1]  
 
 ### GetAffineTranslation()
 

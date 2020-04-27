@@ -1,11 +1,12 @@
-# Triangle.Overlaps
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Triangle][1]
 
---------------------------------------------------------------------------------
+## Triangle.Overlaps
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Triangle][1]  
 
 ### Overlaps(IShape)
 

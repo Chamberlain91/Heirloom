@@ -1,11 +1,12 @@
-# UnicodeCharacter.CompareTo
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [UnicodeCharacter][1]
 
---------------------------------------------------------------------------------
+## UnicodeCharacter.CompareTo
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [UnicodeCharacter][1]  
 
 ### CompareTo(UnicodeCharacter)
 

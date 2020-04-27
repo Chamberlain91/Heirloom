@@ -1,11 +1,12 @@
-# BandPassFilter.Process
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [BandPassFilter][1]
 
---------------------------------------------------------------------------------
+## BandPassFilter.Process
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [BandPassFilter][1]  
 
 ### Process(float, int)
 

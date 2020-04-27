@@ -1,7 +1,10 @@
-# SurfacePool
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## SurfacePool
+
 > **Namespace**: [Heirloom][0]  
 
 Provides a mechanism for requesting temporary surfaces and recycling them for reuse later.
@@ -10,11 +13,9 @@ Provides a mechanism for requesting temporary surfaces and recycling them for re
 public static class SurfacePool
 ```
 
---------------------------------------------------------------------------------
+#### Static Methods
 
-**Static Methods**: [Request][1], [Recycle][2], [Clean][3]
-
---------------------------------------------------------------------------------
+[Request][1], [Recycle][2], [Clean][3]
 
 ## Methods
 

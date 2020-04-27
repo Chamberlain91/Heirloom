@@ -1,11 +1,12 @@
-# Ray.GetPoint
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Ray][1]
 
---------------------------------------------------------------------------------
+## Ray.GetPoint
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Ray][1]  
 
 ### GetPoint(float)
 

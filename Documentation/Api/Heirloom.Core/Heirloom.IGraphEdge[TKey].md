@@ -1,7 +1,10 @@
-# IGraphEdge\<TKey>
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## IGraphEdge\<TKey>
+
 > **Namespace**: [Heirloom][0]  
 
 An edge between two vertices.
@@ -10,13 +13,13 @@ An edge between two vertices.
 public abstract interface IGraphEdge<TKey>
 ```
 
---------------------------------------------------------------------------------
+#### Properties
 
-**Properties**: [Source][1], [Target][2], [Weight][3]
+[Source][1], [Target][2], [Weight][3]
 
-**Methods**: [GetOtherKey][4]
+#### Methods
 
---------------------------------------------------------------------------------
+[GetOtherKey][4]
 
 ## Properties
 

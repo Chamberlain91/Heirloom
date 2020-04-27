@@ -1,20 +1,23 @@
-# IGraph\<TKey, TValue, TGraph>
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## IGraph\<TKey, TValue, TGraph>
+
 > **Namespace**: [Heirloom][0]  
 
 ```cs
 public abstract interface IGraph<TKey, TValue, TGraph>
 ```
 
---------------------------------------------------------------------------------
+#### Properties
 
-**Properties**: [IsUndirected][1], [AllowSelfLoops][2], [AllowNegativeWeight][3], [VertexCount][4], [EdgeCount][5], [Edges][6], [Vertices][7], [Values][8], [Keys][9]
+[IsUndirected][1], [AllowSelfLoops][2], [AllowNegativeWeight][3], [VertexCount][4], [EdgeCount][5], [Edges][6], [Vertices][7], [Values][8], [Keys][9]
 
-**Methods**: [Clear][10], [ClearEdges][11], [ContainsVertex][12], [ContainsEdge][13], [ContainsValue][14], [AddVertex][15], [RemoveVertex][16], [GetVertex][17], [AddEdge][18], [RemoveEdge][19], [GetEdge][20]
+#### Methods
 
---------------------------------------------------------------------------------
+[Clear][10], [ClearEdges][11], [ContainsVertex][12], [ContainsEdge][13], [ContainsValue][14], [AddVertex][15], [RemoveVertex][16], [GetVertex][17], [AddEdge][18], [RemoveEdge][19], [GetEdge][20]
 
 ## Properties
 

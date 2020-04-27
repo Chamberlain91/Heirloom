@@ -1,7 +1,10 @@
-# Range
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Range
+
 > **Namespace**: [Heirloom][0]  
 
 Represents a range of single-precision floating point numbers from [Min][1] to [Max][2] .
@@ -10,19 +13,25 @@ Represents a range of single-precision floating point numbers from [Min][1] to [
 public struct Range : IEquatable<Range>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IEquatable\<Range>
+IEquatable\<Range>
 
-**Fields**: [Min][1], [Max][2]
+#### Fields
 
-**Properties**: [Average][3], [Size][4], [IsValid][5], [Item][6]
+[Min][1], [Max][2]
 
-**Methods**: [Set][7], [Contains][8], [Overlaps][9], [Include][10], [Rescale][11], [Deconstruct][12]
+#### Properties
 
-**Static Fields**: [Infinite][13], [Indeterminate][14], [Zero][15]
+[Average][3], [Size][4], [IsValid][5], [Item][6]
 
---------------------------------------------------------------------------------
+#### Methods
+
+[Set][7], [Contains][8], [Overlaps][9], [Include][10], [Rescale][11], [Deconstruct][12]
+
+#### Static Fields
+
+[Infinite][13], [Indeterminate][14], [Zero][15]
 
 ## Fields
 

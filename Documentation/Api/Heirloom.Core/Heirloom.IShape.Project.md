@@ -1,11 +1,12 @@
-# IShape.Project
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [IShape][1]
 
---------------------------------------------------------------------------------
+## IShape.Project
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [IShape][1]  
 
 ### Project(in Vector)
 

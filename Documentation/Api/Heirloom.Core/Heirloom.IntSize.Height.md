@@ -1,11 +1,12 @@
-# IntSize.Height
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [IntSize][1]
 
---------------------------------------------------------------------------------
+## IntSize.Height
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [IntSize][1]  
 
 #### Height
 

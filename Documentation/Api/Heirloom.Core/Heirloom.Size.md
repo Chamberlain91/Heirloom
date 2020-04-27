@@ -1,26 +1,35 @@
-# Size
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Size
+
 > **Namespace**: [Heirloom][0]  
 
 ```cs
 public struct Size : IEquatable<Size>, IComparable<Size>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IEquatable\<Size>, IComparable\<Size>
+IEquatable\<Size>, IComparable\<Size>
 
-**Fields**: [Width][1], [Height][2]
+#### Fields
 
-**Properties**: [Area][3], [Aspect][4], [Item][5]
+[Width][1], [Height][2]
 
-**Methods**: [Set][6], [Deconstruct][7], [CompareTo][8]
+#### Properties
 
-**Static Fields**: [Infinite][9], [Max][10], [Zero][11], [One][12]
+[Area][3], [Aspect][4], [Item][5]
 
---------------------------------------------------------------------------------
+#### Methods
+
+[Set][6], [Deconstruct][7], [CompareTo][8]
+
+#### Static Fields
+
+[Infinite][9], [Max][10], [Zero][11], [One][12]
 
 ## Fields
 

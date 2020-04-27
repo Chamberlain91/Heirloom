@@ -1,11 +1,12 @@
-# GlyphMetrics.Bearing
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [GlyphMetrics][1]
 
---------------------------------------------------------------------------------
+## GlyphMetrics.Bearing
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [GlyphMetrics][1]  
 
 #### Bearing
 

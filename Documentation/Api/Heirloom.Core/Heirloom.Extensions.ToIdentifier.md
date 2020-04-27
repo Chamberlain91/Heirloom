@@ -1,18 +1,19 @@
-# Extensions.ToIdentifier
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Extensions][1]
 
---------------------------------------------------------------------------------
+## Extensions.ToIdentifier
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Extensions][1]  
 
 ### ToIdentifier(string)
 
 Converts this string into a standardized "identifier".
 
 ```cs
-public string ToIdentifier(string path)
+public static string ToIdentifier(string path)
 ```
 
 [0]: ../Heirloom.Core.md

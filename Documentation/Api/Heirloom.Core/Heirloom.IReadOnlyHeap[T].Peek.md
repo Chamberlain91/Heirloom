@@ -1,11 +1,12 @@
-# IReadOnlyHeap\<T>.Peek
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [IReadOnlyHeap\<T>][1]
 
---------------------------------------------------------------------------------
+## IReadOnlyHeap\<T>.Peek
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [IReadOnlyHeap\<T>][1]  
 
 ### Peek()
 

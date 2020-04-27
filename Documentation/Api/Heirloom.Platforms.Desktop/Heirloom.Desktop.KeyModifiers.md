@@ -1,15 +1,15 @@
-# KeyModifiers
+# Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Platforms.Desktop][0]  
-> **Dependencies**: [Heirloom.Core][1], [Heirloom.OpenGLES][2], [Heirloom.MiniAudio][3]  
+
+## KeyModifiers
+
 > **Namespace**: [Heirloom.Desktop][0]  
 
 ```cs
 public enum KeyModifiers : IComparable, IFormattable, IConvertible
 ```
-
---------------------------------------------------------------------------------
 
 | Name     | Summary |
 |----------|---------|
@@ -19,8 +19,4 @@ public enum KeyModifiers : IComparable, IFormattable, IConvertible
 | Super    |         |
 | CapsLock |         |
 | NumLock  |         |
-
 [0]: ../Heirloom.Platforms.Desktop.md
-[1]: ../Heirloom.Core.md
-[2]: ../Heirloom.OpenGLES.md
-[3]: ../Heirloom.MiniAudio.md

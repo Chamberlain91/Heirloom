@@ -1,20 +1,23 @@
-# Graphics
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Graphics
+
 > **Namespace**: [Heirloom][0]  
 
 ```cs
 public abstract class Graphics
 ```
 
---------------------------------------------------------------------------------
+#### Properties
 
-**Properties**: [CurrentFPS][1], [Performance][2], [IsDisposed][3], [IsInitialized][4], [DefaultSurface][5], [Surface][6], [Shader][7], [Viewport][8], [GlobalTransform][9], [InverseGlobalTransform][10], [Blending][11], [Color][12]
+[CurrentFPS][1], [Performance][2], [IsDisposed][3], [IsInitialized][4], [DefaultSurface][5], [Surface][6], [Shader][7], [Viewport][8], [GlobalTransform][9], [InverseGlobalTransform][10], [Blending][11], [Color][12]
 
-**Methods**: [ResetState][13], [PushState][14], [PopState][15], [Clear][16], [DrawMesh][17], [GrabPixels][18], [GetDrawCounts][19], [RefreshScreen][20], [SwapBuffers][21], [EndFrame][22], [Flush][23], [Commit][24], [Dispose][25], [SetCameraTransform][26], [DrawImage][27], [DrawSubImage][28], [DrawSprite][29], [DrawNineSlice][30], [Apply][31], [Blit][32], [DrawLine][33], [DrawCurve][34], [DrawRect][35], [DrawRectOutline][36], [DrawCross][37], [DrawCircle][38], [DrawCircleOutline][39], [DrawTriangle][40], [DrawTriangleOutline][41], [DrawPolygon][42], [DrawPolygonOutline][43], [DrawText][44]
+#### Methods
 
---------------------------------------------------------------------------------
+[ResetState][13], [PushState][14], [PopState][15], [Clear][16], [DrawMesh][17], [GrabPixels][18], [GetDrawCounts][19], [RefreshScreen][20], [SwapBuffers][21], [EndFrame][22], [Flush][23], [Commit][24], [Dispose][25], [SetCameraTransform][26], [DrawImage][27], [DrawSubImage][28], [DrawSprite][29], [DrawNineSlice][30], [Apply][31], [Blit][32], [DrawLine][33], [DrawCurve][34], [DrawRect][35], [DrawRectOutline][36], [DrawCross][37], [DrawCircle][38], [DrawCircleOutline][39], [DrawTriangle][40], [DrawTriangleOutline][41], [DrawPolygon][42], [DrawPolygonOutline][43], [DrawText][44]
 
 ## Properties
 

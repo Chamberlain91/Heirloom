@@ -1,11 +1,12 @@
-# Graphics.DrawText
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Graphics][1]
 
---------------------------------------------------------------------------------
+## Graphics.DrawText
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Graphics][1]  
 
 ### DrawText(StyledText, in Vector, Font, int, TextAlign)
 

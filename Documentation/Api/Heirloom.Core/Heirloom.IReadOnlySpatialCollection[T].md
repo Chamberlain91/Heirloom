@@ -1,7 +1,10 @@
-# IReadOnlySpatialCollection\<T>
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## IReadOnlySpatialCollection\<T>
+
 > **Namespace**: [Heirloom][0]  
 
 A read-only view of a spatial collection to query elements in 2D space.
@@ -10,13 +13,13 @@ A read-only view of a spatial collection to query elements in 2D space.
 public abstract interface IReadOnlySpatialCollection<T> : ISpatialQuery<T>, IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [ISpatialQuery\<T>][1], IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable
+[ISpatialQuery\<T>][1], IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable
 
-**Methods**: [Contains][2]
+#### Methods
 
---------------------------------------------------------------------------------
+[Contains][2]
 
 ## Methods
 

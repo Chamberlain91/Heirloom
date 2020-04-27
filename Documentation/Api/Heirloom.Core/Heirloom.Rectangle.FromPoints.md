@@ -1,16 +1,17 @@
-# Rectangle.FromPoints
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Rectangle][1]
 
---------------------------------------------------------------------------------
+## Rectangle.FromPoints
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Rectangle][1]  
 
 ### FromPoints(params Vector[])
 
 ```cs
-public Rectangle FromPoints(params Vector[] points)
+public static Rectangle FromPoints(params Vector[] points)
 ```
 
 ### FromPoints(IEnumerable<Vector>)
@@ -18,7 +19,7 @@ public Rectangle FromPoints(params Vector[] points)
 Computes the bounding rectangle of the given set of points.
 
 ```cs
-public Rectangle FromPoints(IEnumerable<Vector> points)
+public static Rectangle FromPoints(IEnumerable<Vector> points)
 ```
 
 [0]: ../Heirloom.Core.md

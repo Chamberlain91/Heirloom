@@ -1,7 +1,10 @@
-# Files
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Files
+
 > **Namespace**: [Heirloom][0]  
 
 A utility to unify access of embedded files and files on disk.
@@ -10,11 +13,9 @@ A utility to unify access of embedded files and files on disk.
 public static class Files
 ```
 
---------------------------------------------------------------------------------
+#### Static Methods
 
-**Static Methods**: [NormalizePath][1], [OpenStream][2], [Exists][3], [GetEmbeddedFiles][4], [GetEmbeddedInfo][5], [ReadText][6], [ReadBytes][7]
-
---------------------------------------------------------------------------------
+[NormalizePath][1], [OpenStream][2], [Exists][3], [GetEmbeddedFiles][4], [GetEmbeddedInfo][5], [ReadText][6], [ReadBytes][7]
 
 ## Methods
 

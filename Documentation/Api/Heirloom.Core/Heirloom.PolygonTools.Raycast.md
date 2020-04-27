@@ -1,18 +1,19 @@
-# PolygonTools.Raycast
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [PolygonTools][1]
 
---------------------------------------------------------------------------------
+## PolygonTools.Raycast
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [PolygonTools][1]  
 
 ### Raycast(IReadOnlyList<Vector>, in Ray)
 
 Checks if a ray intersects this polygon.
 
 ```cs
-public bool Raycast(IReadOnlyList<Vector> polygon, in Ray ray)
+public static bool Raycast(IReadOnlyList<Vector> polygon, in Ray ray)
 ```
 
 ### Raycast(IReadOnlyList<Vector>, in Vector, in Vector)
@@ -20,7 +21,7 @@ public bool Raycast(IReadOnlyList<Vector> polygon, in Ray ray)
 Checks if a ray intersects this polygon.
 
 ```cs
-public bool Raycast(IReadOnlyList<Vector> polygon, in Vector origin, in Vector direction)
+public static bool Raycast(IReadOnlyList<Vector> polygon, in Vector origin, in Vector direction)
 ```
 
 ### Raycast(IReadOnlyList<Vector>, in Ray, out RayContact)
@@ -28,7 +29,7 @@ public bool Raycast(IReadOnlyList<Vector> polygon, in Vector origin, in Vector d
 Checks if a ray intersects this polygon and outputs information on the contact point.
 
 ```cs
-public bool Raycast(IReadOnlyList<Vector> polygon, in Ray ray, out RayContact contact)
+public static bool Raycast(IReadOnlyList<Vector> polygon, in Ray ray, out RayContact contact)
 ```
 
 ### Raycast(IReadOnlyList<Vector>, in Vector, in Vector, out RayContact)
@@ -36,7 +37,7 @@ public bool Raycast(IReadOnlyList<Vector> polygon, in Ray ray, out RayContact co
 Checks if a ray intersects this polygon and outputs information on the contact point.
 
 ```cs
-public bool Raycast(IReadOnlyList<Vector> polygon, in Vector origin, in Vector direction, out RayContact contact)
+public static bool Raycast(IReadOnlyList<Vector> polygon, in Vector origin, in Vector direction, out RayContact contact)
 ```
 
 [0]: ../Heirloom.Core.md

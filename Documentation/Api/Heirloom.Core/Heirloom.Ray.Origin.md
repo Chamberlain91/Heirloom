@@ -1,11 +1,12 @@
-# Ray.Origin
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Ray][1]
 
---------------------------------------------------------------------------------
+## Ray.Origin
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Ray][1]  
 
 #### Origin
 

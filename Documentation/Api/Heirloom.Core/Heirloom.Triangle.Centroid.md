@@ -1,11 +1,12 @@
-# Triangle.Centroid
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Triangle][1]
 
---------------------------------------------------------------------------------
+## Triangle.Centroid
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Triangle][1]  
 
 ### Centroid
 

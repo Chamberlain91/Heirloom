@@ -1,11 +1,12 @@
-# Triangle.Barycentric
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Triangle][1]
 
---------------------------------------------------------------------------------
+## Triangle.Barycentric
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Triangle][1]  
 
 ### Barycentric(in Vector, out float, out float, out float)
 
@@ -20,7 +21,7 @@ public void Barycentric(in Vector p, out float u, out float v, out float w)
 Computes the barycentric coefficients of the point `p` within the triangle `a` , `b` , `c` .
 
 ```cs
-public void Barycentric(in Vector p, in Vector a, in Vector b, in Vector c, out float u, out float v, out float w)
+public static void Barycentric(in Vector p, in Vector a, in Vector b, in Vector c, out float u, out float v, out float w)
 ```
 
 [0]: ../Heirloom.Core.md

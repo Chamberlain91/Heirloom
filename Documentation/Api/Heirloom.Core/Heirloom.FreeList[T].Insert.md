@@ -1,11 +1,12 @@
-# FreeList\<T>.Insert
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [FreeList\<T>][1]
 
---------------------------------------------------------------------------------
+## FreeList\<T>.Insert
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [FreeList\<T>][1]  
 
 ### Insert(T)
 

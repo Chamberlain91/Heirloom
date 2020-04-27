@@ -1,7 +1,10 @@
-# ReverbEffect
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## ReverbEffect
+
 > **Namespace**: [Heirloom][0]  
 
 An audio effect that implements a Schroeder reverb.
@@ -12,15 +15,17 @@ public class ReverbEffect : AudioEffect
 
 Based on Freeverb
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [AudioEffect][1]
+[AudioEffect][1]
 
-**Properties**: [Damping][2], [RoomSize][3]
+#### Properties
 
-**Methods**: [Process][4]
+[Damping][2], [RoomSize][3]
 
---------------------------------------------------------------------------------
+#### Methods
+
+[Process][4]
 
 ## Properties
 

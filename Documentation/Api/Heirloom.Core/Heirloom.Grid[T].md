@@ -1,7 +1,10 @@
-# Grid\<T>
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Grid\<T>
+
 > **Namespace**: [Heirloom][0]  
 
 A finite grid (bounded by size) of values.
@@ -10,15 +13,17 @@ A finite grid (bounded by size) of values.
 public sealed class Grid<T> : IFiniteGrid<T>, IGrid<T>, IReadOnlyGrid<T>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [IFiniteGrid\<T>][1], [IGrid\<T>][2], [IReadOnlyGrid\<T>][3]
+[IFiniteGrid\<T>][1], [IGrid\<T>][2], [IReadOnlyGrid\<T>][3]
 
-**Properties**: [Width][4], [Height][5], [Item][6]
+#### Properties
 
-**Methods**: [Clear][7], [IsValidCoordinate][8]
+[Width][4], [Height][5], [Item][6]
 
---------------------------------------------------------------------------------
+#### Methods
+
+[Clear][7], [IsValidCoordinate][8]
 
 ## Properties
 

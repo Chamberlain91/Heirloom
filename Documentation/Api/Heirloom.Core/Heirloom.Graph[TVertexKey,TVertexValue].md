@@ -1,7 +1,10 @@
-# Graph\<TVertexKey, TVertexValue>
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Graph\<TVertexKey, TVertexValue>
+
 > **Namespace**: [Heirloom][0]  
 
 A configurable adjacency list based graph.
@@ -10,15 +13,17 @@ A configurable adjacency list based graph.
 public class Graph<TVertexKey, TVertexValue> : IGraph<TVertexKey, TVertexValue, Graph<TVertexKey, TVertexValue>>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [IGraph\<TVertexKey, TVertexValue, Graph\<TVertexKey, TVertexValue>>][1]
+[IGraph\<TVertexKey, TVertexValue, Graph\<TVertexKey, TVertexValue>>][1]
 
-**Properties**: [AllowNegativeWeight][2], [AllowSelfLoops][3], [IsUndirected][4], [Vertices][5], [Edges][6], [VertexCount][7], [EdgeCount][8], [Keys][9], [Values][10]
+#### Properties
 
-**Methods**: [Clear][11], [ClearEdges][12], [AddVertex][13], [AddEdge][14], [RemoveEdge][15], [RemoveVertex][16], [GetVertex][17], [GetEdge][18], [ContainsVertex][19], [ContainsEdge][20], [ContainsValue][21]
+[AllowNegativeWeight][2], [AllowSelfLoops][3], [IsUndirected][4], [Vertices][5], [Edges][6], [VertexCount][7], [EdgeCount][8], [Keys][9], [Values][10]
 
---------------------------------------------------------------------------------
+#### Methods
+
+[Clear][11], [ClearEdges][12], [AddVertex][13], [AddEdge][14], [RemoveEdge][15], [RemoveVertex][16], [GetVertex][17], [GetEdge][18], [ContainsVertex][19], [ContainsEdge][20], [ContainsValue][21]
 
 ## Properties
 

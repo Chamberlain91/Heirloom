@@ -1,28 +1,39 @@
-# Rectangle
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Rectangle
+
 > **Namespace**: [Heirloom][0]  
 
 ```cs
 public struct Rectangle : IShape, IEquatable<Rectangle>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: [IShape][1], IEquatable\<Rectangle>
+[IShape][1], IEquatable\<Rectangle>
 
-**Fields**: [X][2], [Y][3], [Width][4], [Height][5]
+#### Fields
 
-**Properties**: [Area][6], [Size][7], [Position][8], [Center][9], [Min][10], [Max][11], [Left][12], [Top][13], [Right][14], [Bottom][15], [TopLeft][16], [BottomLeft][17], [BottomRight][18], [TopRight][19], [IsValid][20]
+[X][2], [Y][3], [Width][4], [Height][5]
 
-**Methods**: [Set][21], [ToPolygon][22], [Offset][23], [Transform][24], [Include][25], [Inflate][26], [GetClosestPoint][27], [Contains][28], [Overlaps][29], [Project][30], [Raycast][31], [Deconstruct][32]
+#### Properties
 
-**Static Properties**: [InvertedInfinite][33], [Infinite][34], [One][35], [Zero][36]
+[Area][6], [Size][7], [Position][8], [Center][9], [Min][10], [Max][11], [Left][12], [Top][13], [Right][14], [Bottom][15], [TopLeft][16], [BottomLeft][17], [BottomRight][18], [TopRight][19], [IsValid][20]
 
-**Static Methods**: [Offset][23], [Transform][24], [Merge][37], [Inflate][26], [FromPoints][38]
+#### Methods
 
---------------------------------------------------------------------------------
+[Set][21], [ToPolygon][22], [Offset][23], [Transform][24], [Include][25], [Inflate][26], [GetClosestPoint][27], [Contains][28], [Overlaps][29], [Project][30], [Raycast][31], [Deconstruct][32]
+
+#### Static Properties
+
+[InvertedInfinite][33], [Infinite][34], [One][35], [Zero][36]
+
+#### Static Methods
+
+[Offset][23], [Transform][24], [Merge][37], [Inflate][26], [FromPoints][38]
 
 ## Fields
 

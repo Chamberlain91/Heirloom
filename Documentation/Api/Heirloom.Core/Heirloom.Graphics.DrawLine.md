@@ -1,11 +1,12 @@
-# Graphics.DrawLine
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Graphics][1]
 
---------------------------------------------------------------------------------
+## Graphics.DrawLine
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Graphics][1]  
 
 ### DrawLine(in Vector, in Vector, float)
 

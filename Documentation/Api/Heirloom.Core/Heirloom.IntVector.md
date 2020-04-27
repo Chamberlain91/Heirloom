@@ -1,7 +1,10 @@
-# IntVector
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## IntVector
+
 > **Namespace**: [Heirloom][0]  
 
 Represents a vector with two integer values.
@@ -10,21 +13,29 @@ Represents a vector with two integer values.
 public struct IntVector : IEquatable<IntVector>
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IEquatable\<IntVector>
+IEquatable\<IntVector>
 
-**Fields**: [X][1], [Y][2]
+#### Fields
 
-**Properties**: [Length][3], [LengthSquared][4], [Perpendicular][5], [Item][6]
+[X][1], [Y][2]
 
-**Methods**: [Set][7], [Deconstruct][8]
+#### Properties
 
-**Static Fields**: [Zero][9], [One][10], [Right][11], [Up][12], [Left][13], [Down][14]
+[Length][3], [LengthSquared][4], [Perpendicular][5], [Item][6]
 
-**Static Methods**: [GetMaxComponent][15], [GetMinComponent][16], [Min][17], [Max][18], [Abs][19], [Distance][20], [DistanceSquared][21], [ManhattanDistance][22]
+#### Methods
 
---------------------------------------------------------------------------------
+[Set][7], [Deconstruct][8]
+
+#### Static Fields
+
+[Zero][9], [One][10], [Right][11], [Up][12], [Left][13], [Down][14]
+
+#### Static Methods
+
+[GetMaxComponent][15], [GetMinComponent][16], [Min][17], [Max][18], [Abs][19], [Distance][20], [DistanceSquared][21], [ManhattanDistance][22]
 
 ## Fields
 

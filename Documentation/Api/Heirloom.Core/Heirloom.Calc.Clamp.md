@@ -1,18 +1,19 @@
-# Calc.Clamp
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]
 
---------------------------------------------------------------------------------
+## Calc.Clamp
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Calc][1]  
 
 ### Clamp(double, double, double)
 
 Returns the value `x` clamped to the specified range.
 
 ```cs
-public double Clamp(double x, double min, double max)
+public static double Clamp(double x, double min, double max)
 ```
 
 ### Clamp(float, float, float)
@@ -20,7 +21,7 @@ public double Clamp(double x, double min, double max)
 Returns the value `x` clamped to the specified range.
 
 ```cs
-public float Clamp(float x, float min, float max)
+public static float Clamp(float x, float min, float max)
 ```
 
 ### Clamp(int, int, int)
@@ -28,7 +29,7 @@ public float Clamp(float x, float min, float max)
 Returns the value `x` clamped to the specified range.
 
 ```cs
-public int Clamp(int x, int min, int max)
+public static int Clamp(int x, int min, int max)
 ```
 
 ### Clamp(uint, uint, uint)
@@ -36,7 +37,7 @@ public int Clamp(int x, int min, int max)
 Returns the value `x` clamped to the specified range.
 
 ```cs
-public uint Clamp(uint x, uint min, uint max)
+public static uint Clamp(uint x, uint min, uint max)
 ```
 
 ### Clamp(short, short, short)
@@ -44,7 +45,7 @@ public uint Clamp(uint x, uint min, uint max)
 Returns the value `x` clamped to the specified range.
 
 ```cs
-public short Clamp(short x, short min, short max)
+public static short Clamp(short x, short min, short max)
 ```
 
 ### Clamp(ushort, ushort, ushort)
@@ -52,7 +53,7 @@ public short Clamp(short x, short min, short max)
 Returns the value `x` clamped to the specified range.
 
 ```cs
-public ushort Clamp(ushort x, ushort min, ushort max)
+public static ushort Clamp(ushort x, ushort min, ushort max)
 ```
 
 ### Clamp(sbyte, sbyte, sbyte)
@@ -60,15 +61,15 @@ public ushort Clamp(ushort x, ushort min, ushort max)
 Returns the value `x` clamped to the specified range.
 
 ```cs
-public sbyte Clamp(sbyte x, sbyte min, sbyte max)
+public static sbyte Clamp(sbyte x, sbyte min, sbyte max)
 ```
 
-### Clamp(byte,  byte,  byte)
+### Clamp( byte,  byte,  byte)
 
 Returns the value `x` clamped to the specified range.
 
 ```cs
-public byte Clamp(byte x, byte min, byte max)
+public static byte Clamp( byte x, byte min, byte max)
 ```
 
 [0]: ../Heirloom.Core.md

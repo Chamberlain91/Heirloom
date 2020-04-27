@@ -1,18 +1,19 @@
-# Vector.Lerp
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Vector][1]
 
---------------------------------------------------------------------------------
+## Vector.Lerp
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Vector][1]  
 
 ### Lerp(Vector, Vector, float)
 
 Interpolate two vectors.
 
 ```cs
-public Vector Lerp(Vector from, Vector to, float t)
+public static Vector Lerp(Vector from, Vector to, float t)
 ```
 
 [0]: ../Heirloom.Core.md

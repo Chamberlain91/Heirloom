@@ -1,18 +1,19 @@
-# MergeSort.StableSort\<T>
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [MergeSort][1]
 
---------------------------------------------------------------------------------
+## MergeSort.StableSort\<T>
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [MergeSort][1]  
 
 ### StableSort<T>(IList<T>)
 
 Sorts the elements of the list using a stable sort.
 
 ```cs
-public void StableSort<T>(IList<T> list)
+public static void StableSort<T>(IList<T> list)
 ```
 
 ### StableSort<T>(IList<T>, Comparison<T>)
@@ -20,7 +21,7 @@ public void StableSort<T>(IList<T> list)
 Sorts the elements of the list using a stable sort.
 
 ```cs
-public void StableSort<T>(IList<T> items, Comparison<T> comparison)
+public static void StableSort<T>(IList<T> items, Comparison<T> comparison)
 ```
 
 [0]: ../Heirloom.Core.md

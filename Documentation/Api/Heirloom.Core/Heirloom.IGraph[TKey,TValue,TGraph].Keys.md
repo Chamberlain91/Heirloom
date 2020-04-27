@@ -1,11 +1,12 @@
-# IGraph\<TKey, TValue, TGraph>.Keys
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [IGraph\<TKey, TValue, TGraph>][1]
 
---------------------------------------------------------------------------------
+## IGraph\<TKey, TValue, TGraph>.Keys
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [IGraph\<TKey, TValue, TGraph>][1]  
 
 ### Keys
 

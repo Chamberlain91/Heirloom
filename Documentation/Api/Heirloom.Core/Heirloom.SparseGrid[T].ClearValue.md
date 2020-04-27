@@ -1,11 +1,12 @@
-# SparseGrid\<T>.ClearValue
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [SparseGrid\<T>][1]
 
---------------------------------------------------------------------------------
+## SparseGrid\<T>.ClearValue
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [SparseGrid\<T>][1]  
 
 ### ClearValue(in int, in int)
 

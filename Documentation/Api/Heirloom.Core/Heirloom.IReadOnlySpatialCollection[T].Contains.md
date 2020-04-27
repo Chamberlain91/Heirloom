@@ -1,11 +1,12 @@
-# IReadOnlySpatialCollection\<T>.Contains
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [IReadOnlySpatialCollection\<T>][1]
 
---------------------------------------------------------------------------------
+## IReadOnlySpatialCollection\<T>.Contains
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [IReadOnlySpatialCollection\<T>][1]  
 
 ### Contains(in T)
 

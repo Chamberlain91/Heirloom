@@ -1,18 +1,19 @@
-# GraphicsAdapterInfo
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## GraphicsAdapterInfo
+
 > **Namespace**: [Heirloom][0]  
 
 ```cs
 public struct GraphicsAdapterInfo
 ```
 
---------------------------------------------------------------------------------
+#### Fields
 
-**Fields**: [IsMobilePlatform][1], [Vendor][2], [Name][3]
-
---------------------------------------------------------------------------------
+[IsMobilePlatform][1], [Vendor][2], [Name][3]
 
 ## Fields
 

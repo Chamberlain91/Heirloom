@@ -1,7 +1,10 @@
-# FontMetrics
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## FontMetrics
+
 > **Namespace**: [Heirloom][0]  
 
 Contains information about a font (ie, the vertical metrics).
@@ -10,13 +13,13 @@ Contains information about a font (ie, the vertical metrics).
 public struct FontMetrics
 ```
 
---------------------------------------------------------------------------------
+#### Fields
 
-**Fields**: [Ascent][1], [Descent][2], [LineGap][3]
+[Ascent][1], [Descent][2], [LineGap][3]
 
-**Properties**: [Height][4], [LineAdvance][5]
+#### Properties
 
---------------------------------------------------------------------------------
+[Height][4], [LineAdvance][5]
 
 ## Fields
 

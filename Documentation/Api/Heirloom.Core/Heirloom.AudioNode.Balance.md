@@ -1,11 +1,12 @@
-# AudioNode.Balance
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [AudioNode][1]
 
---------------------------------------------------------------------------------
+## AudioNode.Balance
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [AudioNode][1]  
 
 ### Balance
 

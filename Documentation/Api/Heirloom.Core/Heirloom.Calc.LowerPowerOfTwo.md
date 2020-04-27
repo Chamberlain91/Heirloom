@@ -1,18 +1,19 @@
-# Calc.LowerPowerOfTwo
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]
 
---------------------------------------------------------------------------------
+## Calc.LowerPowerOfTwo
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Calc][1]  
 
 ### LowerPowerOfTwo(uint)
 
 Computes the lower power of 2 nearest to x.
 
 ```cs
-public uint LowerPowerOfTwo(uint x)
+public static uint LowerPowerOfTwo(uint x)
 ```
 
 ### LowerPowerOfTwo(int)
@@ -20,7 +21,7 @@ public uint LowerPowerOfTwo(uint x)
 Computes the lower power of 2 nearest to x.
 
 ```cs
-public int LowerPowerOfTwo(int x)
+public static int LowerPowerOfTwo(int x)
 ```
 
 [0]: ../Heirloom.Core.md

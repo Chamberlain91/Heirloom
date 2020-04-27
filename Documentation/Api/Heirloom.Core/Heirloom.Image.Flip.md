@@ -1,11 +1,12 @@
-# Image.Flip
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Image][1]
 
---------------------------------------------------------------------------------
+## Image.Flip
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Image][1]  
 
 ### Flip(Axis)
 

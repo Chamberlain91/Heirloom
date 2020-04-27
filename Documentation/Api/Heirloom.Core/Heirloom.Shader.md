@@ -1,7 +1,10 @@
-# Shader
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## Shader
+
 > **Namespace**: [Heirloom][0]  
 
 Provides GLSL shader support for custom image effects and other visual processing.
@@ -10,17 +13,21 @@ Provides GLSL shader support for custom image effects and other visual processin
 public abstract class Shader : IDisposable
 ```
 
---------------------------------------------------------------------------------
+### Inherits
 
-**Inherits**: IDisposable
+IDisposable
 
-**Properties**: [Paths][1], [Uniforms][2]
+#### Properties
 
-**Methods**: [SetUniform][3], [SetUniform\<T>][4], [Dispose][5]
+[Paths][1], [Uniforms][2]
 
-**Static Properties**: [Default][6]
+#### Methods
 
---------------------------------------------------------------------------------
+[SetUniform][3], [SetUniform\<T>][4], [Dispose][5]
+
+#### Static Properties
+
+[Default][6]
 
 ## Properties
 

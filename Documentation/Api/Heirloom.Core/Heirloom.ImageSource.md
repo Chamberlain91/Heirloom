@@ -1,18 +1,19 @@
-# ImageSource
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## ImageSource
+
 > **Namespace**: [Heirloom][0]  
 
 ```cs
 public abstract class ImageSource
 ```
 
---------------------------------------------------------------------------------
+#### Properties
 
-**Properties**: [Size][1], [Width][2], [Height][3], [Origin][4], [Interpolation][5], [Repeat][6]
-
---------------------------------------------------------------------------------
+[Size][1], [Width][2], [Height][3], [Origin][4], [Interpolation][5], [Repeat][6]
 
 ## Properties
 

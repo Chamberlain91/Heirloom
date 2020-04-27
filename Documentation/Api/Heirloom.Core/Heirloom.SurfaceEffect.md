@@ -1,18 +1,19 @@
-# SurfaceEffect
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
+
+## SurfaceEffect
+
 > **Namespace**: [Heirloom][0]  
 
 ```cs
 public abstract class SurfaceEffect
 ```
 
---------------------------------------------------------------------------------
+#### Static Fields
 
-**Static Fields**: [None][1]
-
---------------------------------------------------------------------------------
+[None][1]
 
 ## Fields
 

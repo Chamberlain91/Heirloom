@@ -1,11 +1,12 @@
-# AudioEffect.Process
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [AudioEffect][1]
 
---------------------------------------------------------------------------------
+## AudioEffect.Process
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [AudioEffect][1]  
 
 ### Process(float, int)
 

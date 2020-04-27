@@ -1,11 +1,12 @@
-# Size.Item
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Size][1]
 
---------------------------------------------------------------------------------
+## Size.Item
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Size][1]  
 
 ### Item
 

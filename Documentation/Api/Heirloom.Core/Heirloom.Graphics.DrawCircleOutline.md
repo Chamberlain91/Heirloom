@@ -1,11 +1,12 @@
-# Graphics.DrawCircleOutline
+# Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
-> **Namespace**: [Heirloom][0]  
-> **Type**: [Graphics][1]
 
---------------------------------------------------------------------------------
+## Graphics.DrawCircleOutline
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [Graphics][1]  
 
 ### DrawCircleOutline(in Circle, float)
 
