@@ -5,7 +5,7 @@
 > **Namespace**: [Heirloom][0]  
 
 ```cs
-public sealed class AudioCaptureCallback : MulticastDelegate, ICloneable, ISerializable
+public sealed delegate AudioCaptureCallback : MulticastDelegate, ICloneable, ISerializable
 ```
 
 --------------------------------------------------------------------------------

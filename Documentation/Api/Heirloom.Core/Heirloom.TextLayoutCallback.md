@@ -5,7 +5,7 @@
 > **Namespace**: [Heirloom][0]  
 
 ```cs
-public sealed class TextLayoutCallback : MulticastDelegate, ICloneable, ISerializable
+public sealed delegate TextLayoutCallback : MulticastDelegate, ICloneable, ISerializable
 ```
 
 --------------------------------------------------------------------------------

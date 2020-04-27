@@ -42,89 +42,92 @@
 [Log][31]  
 [MergeSort][32]  
 [Mesh][33]  
-[AudioCaptureCallback][34]  
-[DrawTextCallback][35]  
-[TextLayoutCallback][36]  
-[NineSlice][37]  
-[PerlinNoise][38]  
-[Polygon][39]  
-[PolygonTools][40]  
-[Rasterizer][41]  
-[RectanglePacker\<T>][42]  
-[Search][43]  
-[Shader][44]  
-[DistortionShader][45]  
-[GrayscaleShader][46]  
-[InvertShader][47]  
-[VectorBlurShader][48]  
-[SimplexNoise][49]  
-[SparseGrid\<T>][50]  
-[Sprite][51]  
-[SpriteBuilder][52]  
-[StyledText][53]  
-[StyledTextParser][54]  
-[StandardStyledTextParser][55]  
-[SurfaceEffect][56]  
-[SurfacePool][57]  
-[TextLayout][58]  
-[Time][59]  
-[TypeDictionary\<T>][60]  
-[UniformInfo][61]
+[NineSlice][34]  
+[PerlinNoise][35]  
+[Polygon][36]  
+[PolygonTools][37]  
+[Rasterizer][38]  
+[RectanglePacker\<T>][39]  
+[Search][40]  
+[Shader][41]  
+[DistortionShader][42]  
+[GrayscaleShader][43]  
+[InvertShader][44]  
+[VectorBlurShader][45]  
+[SimplexNoise][46]  
+[SparseGrid\<T>][47]  
+[Sprite][48]  
+[SpriteBuilder][49]  
+[StyledText][50]  
+[StyledTextParser][51]  
+[StandardStyledTextParser][52]  
+[SurfaceEffect][53]  
+[SurfacePool][54]  
+[TextLayout][55]  
+[Time][56]  
+[TypeDictionary\<T>][57]  
+[UniformInfo][58]
 
 ### Interface
 
-[GraphicsAdapter.IShaderFactory][62]  
-[GraphicsAdapter.ISurfaceFactory][63]  
-[IFiniteGrid\<T>][64]  
-[IGraph\<TKey, TValue, TGraph>][65]  
-[IGraphEdge\<TKey>][66]  
-[IGraphVertex\<TKey, TValue>][67]  
-[IGrid\<T>][68]  
-[IHeap\<T>][69]  
-[ILogHandler][70]  
-[INoise1D][71]  
-[INoise2D][72]  
-[INoise3D][73]  
-[IReadOnlyGrid\<T>][74]  
-[IReadOnlyHeap\<T>][75]  
-[IReadOnlySparseGrid\<T>][76]  
-[IReadOnlySpatialCollection\<T>][77]  
-[IReadOnlyTypeDictionary\<T>][78]  
-[IShape][79]  
-[ISparseGrid\<T>][80]  
-[ISpatialCollection\<T>][81]  
-[ISpatialQuery\<T>][82]  
-[ITypeDictionary\<T>][83]
+[GraphicsAdapter.IShaderFactory][59]  
+[GraphicsAdapter.ISurfaceFactory][60]  
+[IFiniteGrid\<T>][61]  
+[IGraph\<TKey, TValue, TGraph>][62]  
+[IGraphEdge\<TKey>][63]  
+[IGraphVertex\<TKey, TValue>][64]  
+[IGrid\<T>][65]  
+[IHeap\<T>][66]  
+[ILogHandler][67]  
+[INoise1D][68]  
+[INoise2D][69]  
+[INoise3D][70]  
+[IReadOnlyGrid\<T>][71]  
+[IReadOnlyHeap\<T>][72]  
+[IReadOnlySparseGrid\<T>][73]  
+[IReadOnlySpatialCollection\<T>][74]  
+[IReadOnlyTypeDictionary\<T>][75]  
+[IShape][76]  
+[ISparseGrid\<T>][77]  
+[ISpatialCollection\<T>][78]  
+[ISpatialQuery\<T>][79]  
+[ITypeDictionary\<T>][80]
 
 ### Struct
 
-[BitField][84]  
-[Circle][85]  
-[Color][86]  
-[ColorBytes][87]  
-[FontMetrics][88]  
-[GlyphMetrics][89]  
-[Graphics.DrawCounts][90]  
-[GraphicsAdapterInfo][91]  
-[IntRange][92]  
-[IntRectangle][93]  
-[IntSize][94]  
-[IntVector][95]  
-[LineSegment][96]  
-[Matrix][97]  
-[Range][98]  
-[Ray][99]  
-[RayContact][100]  
-[Rectangle][101]  
-[Size][102]  
-[Statistics][103]  
-[TextDrawState][104]  
-[TextLayoutState][105]  
-[Triangle][106]  
-[UnicodeCharacter][107]  
-[UnicodeRange][108]  
-[Vector][109]  
-[Vertex][110]
+[BitField][81]  
+[Circle][82]  
+[Color][83]  
+[ColorBytes][84]  
+[FontMetrics][85]  
+[GlyphMetrics][86]  
+[Graphics.DrawCounts][87]  
+[GraphicsAdapterInfo][88]  
+[IntRange][89]  
+[IntRectangle][90]  
+[IntSize][91]  
+[IntVector][92]  
+[LineSegment][93]  
+[Matrix][94]  
+[Range][95]  
+[Ray][96]  
+[RayContact][97]  
+[Rectangle][98]  
+[Size][99]  
+[Statistics][100]  
+[TextDrawState][101]  
+[TextLayoutState][102]  
+[Triangle][103]  
+[UnicodeCharacter][104]  
+[UnicodeRange][105]  
+[Vector][106]  
+[Vertex][107]
+
+### Delegate
+
+[AudioCaptureCallback][108]  
+[DrawTextCallback][109]  
+[TextLayoutCallback][110]
 
 ### Enum
 
@@ -176,83 +179,83 @@
 [31]: Heirloom.Core/Heirloom.Log.md
 [32]: Heirloom.Core/Heirloom.MergeSort.md
 [33]: Heirloom.Core/Heirloom.Mesh.md
-[34]: Heirloom.Core/Heirloom.AudioCaptureCallback.md
-[35]: Heirloom.Core/Heirloom.DrawTextCallback.md
-[36]: Heirloom.Core/Heirloom.TextLayoutCallback.md
-[37]: Heirloom.Core/Heirloom.NineSlice.md
-[38]: Heirloom.Core/Heirloom.PerlinNoise.md
-[39]: Heirloom.Core/Heirloom.Polygon.md
-[40]: Heirloom.Core/Heirloom.PolygonTools.md
-[41]: Heirloom.Core/Heirloom.Rasterizer.md
-[42]: Heirloom.Core/Heirloom.RectanglePacker[T].md
-[43]: Heirloom.Core/Heirloom.Search.md
-[44]: Heirloom.Core/Heirloom.Shader.md
-[45]: Heirloom.Core/Heirloom.DistortionShader.md
-[46]: Heirloom.Core/Heirloom.GrayscaleShader.md
-[47]: Heirloom.Core/Heirloom.InvertShader.md
-[48]: Heirloom.Core/Heirloom.VectorBlurShader.md
-[49]: Heirloom.Core/Heirloom.SimplexNoise.md
-[50]: Heirloom.Core/Heirloom.SparseGrid[T].md
-[51]: Heirloom.Core/Heirloom.Sprite.md
-[52]: Heirloom.Core/Heirloom.SpriteBuilder.md
-[53]: Heirloom.Core/Heirloom.StyledText.md
-[54]: Heirloom.Core/Heirloom.StyledTextParser.md
-[55]: Heirloom.Core/Heirloom.StandardStyledTextParser.md
-[56]: Heirloom.Core/Heirloom.SurfaceEffect.md
-[57]: Heirloom.Core/Heirloom.SurfacePool.md
-[58]: Heirloom.Core/Heirloom.TextLayout.md
-[59]: Heirloom.Core/Heirloom.Time.md
-[60]: Heirloom.Core/Heirloom.TypeDictionary[T].md
-[61]: Heirloom.Core/Heirloom.UniformInfo.md
-[62]: Heirloom.Core/Heirloom.GraphicsAdapter.IShaderFactory.md
-[63]: Heirloom.Core/Heirloom.GraphicsAdapter.ISurfaceFactory.md
-[64]: Heirloom.Core/Heirloom.IFiniteGrid[T].md
-[65]: Heirloom.Core/Heirloom.IGraph[TKey,TValue,TGraph].md
-[66]: Heirloom.Core/Heirloom.IGraphEdge[TKey].md
-[67]: Heirloom.Core/Heirloom.IGraphVertex[TKey,TValue].md
-[68]: Heirloom.Core/Heirloom.IGrid[T].md
-[69]: Heirloom.Core/Heirloom.IHeap[T].md
-[70]: Heirloom.Core/Heirloom.ILogHandler.md
-[71]: Heirloom.Core/Heirloom.INoise1D.md
-[72]: Heirloom.Core/Heirloom.INoise2D.md
-[73]: Heirloom.Core/Heirloom.INoise3D.md
-[74]: Heirloom.Core/Heirloom.IReadOnlyGrid[T].md
-[75]: Heirloom.Core/Heirloom.IReadOnlyHeap[T].md
-[76]: Heirloom.Core/Heirloom.IReadOnlySparseGrid[T].md
-[77]: Heirloom.Core/Heirloom.IReadOnlySpatialCollection[T].md
-[78]: Heirloom.Core/Heirloom.IReadOnlyTypeDictionary[T].md
-[79]: Heirloom.Core/Heirloom.IShape.md
-[80]: Heirloom.Core/Heirloom.ISparseGrid[T].md
-[81]: Heirloom.Core/Heirloom.ISpatialCollection[T].md
-[82]: Heirloom.Core/Heirloom.ISpatialQuery[T].md
-[83]: Heirloom.Core/Heirloom.ITypeDictionary[T].md
-[84]: Heirloom.Core/Heirloom.BitField.md
-[85]: Heirloom.Core/Heirloom.Circle.md
-[86]: Heirloom.Core/Heirloom.Color.md
-[87]: Heirloom.Core/Heirloom.ColorBytes.md
-[88]: Heirloom.Core/Heirloom.FontMetrics.md
-[89]: Heirloom.Core/Heirloom.GlyphMetrics.md
-[90]: Heirloom.Core/Heirloom.Graphics.DrawCounts.md
-[91]: Heirloom.Core/Heirloom.GraphicsAdapterInfo.md
-[92]: Heirloom.Core/Heirloom.IntRange.md
-[93]: Heirloom.Core/Heirloom.IntRectangle.md
-[94]: Heirloom.Core/Heirloom.IntSize.md
-[95]: Heirloom.Core/Heirloom.IntVector.md
-[96]: Heirloom.Core/Heirloom.LineSegment.md
-[97]: Heirloom.Core/Heirloom.Matrix.md
-[98]: Heirloom.Core/Heirloom.Range.md
-[99]: Heirloom.Core/Heirloom.Ray.md
-[100]: Heirloom.Core/Heirloom.RayContact.md
-[101]: Heirloom.Core/Heirloom.Rectangle.md
-[102]: Heirloom.Core/Heirloom.Size.md
-[103]: Heirloom.Core/Heirloom.Statistics.md
-[104]: Heirloom.Core/Heirloom.TextDrawState.md
-[105]: Heirloom.Core/Heirloom.TextLayoutState.md
-[106]: Heirloom.Core/Heirloom.Triangle.md
-[107]: Heirloom.Core/Heirloom.UnicodeCharacter.md
-[108]: Heirloom.Core/Heirloom.UnicodeRange.md
-[109]: Heirloom.Core/Heirloom.Vector.md
-[110]: Heirloom.Core/Heirloom.Vertex.md
+[34]: Heirloom.Core/Heirloom.NineSlice.md
+[35]: Heirloom.Core/Heirloom.PerlinNoise.md
+[36]: Heirloom.Core/Heirloom.Polygon.md
+[37]: Heirloom.Core/Heirloom.PolygonTools.md
+[38]: Heirloom.Core/Heirloom.Rasterizer.md
+[39]: Heirloom.Core/Heirloom.RectanglePacker[T].md
+[40]: Heirloom.Core/Heirloom.Search.md
+[41]: Heirloom.Core/Heirloom.Shader.md
+[42]: Heirloom.Core/Heirloom.DistortionShader.md
+[43]: Heirloom.Core/Heirloom.GrayscaleShader.md
+[44]: Heirloom.Core/Heirloom.InvertShader.md
+[45]: Heirloom.Core/Heirloom.VectorBlurShader.md
+[46]: Heirloom.Core/Heirloom.SimplexNoise.md
+[47]: Heirloom.Core/Heirloom.SparseGrid[T].md
+[48]: Heirloom.Core/Heirloom.Sprite.md
+[49]: Heirloom.Core/Heirloom.SpriteBuilder.md
+[50]: Heirloom.Core/Heirloom.StyledText.md
+[51]: Heirloom.Core/Heirloom.StyledTextParser.md
+[52]: Heirloom.Core/Heirloom.StandardStyledTextParser.md
+[53]: Heirloom.Core/Heirloom.SurfaceEffect.md
+[54]: Heirloom.Core/Heirloom.SurfacePool.md
+[55]: Heirloom.Core/Heirloom.TextLayout.md
+[56]: Heirloom.Core/Heirloom.Time.md
+[57]: Heirloom.Core/Heirloom.TypeDictionary[T].md
+[58]: Heirloom.Core/Heirloom.UniformInfo.md
+[59]: Heirloom.Core/Heirloom.GraphicsAdapter.IShaderFactory.md
+[60]: Heirloom.Core/Heirloom.GraphicsAdapter.ISurfaceFactory.md
+[61]: Heirloom.Core/Heirloom.IFiniteGrid[T].md
+[62]: Heirloom.Core/Heirloom.IGraph[TKey,TValue,TGraph].md
+[63]: Heirloom.Core/Heirloom.IGraphEdge[TKey].md
+[64]: Heirloom.Core/Heirloom.IGraphVertex[TKey,TValue].md
+[65]: Heirloom.Core/Heirloom.IGrid[T].md
+[66]: Heirloom.Core/Heirloom.IHeap[T].md
+[67]: Heirloom.Core/Heirloom.ILogHandler.md
+[68]: Heirloom.Core/Heirloom.INoise1D.md
+[69]: Heirloom.Core/Heirloom.INoise2D.md
+[70]: Heirloom.Core/Heirloom.INoise3D.md
+[71]: Heirloom.Core/Heirloom.IReadOnlyGrid[T].md
+[72]: Heirloom.Core/Heirloom.IReadOnlyHeap[T].md
+[73]: Heirloom.Core/Heirloom.IReadOnlySparseGrid[T].md
+[74]: Heirloom.Core/Heirloom.IReadOnlySpatialCollection[T].md
+[75]: Heirloom.Core/Heirloom.IReadOnlyTypeDictionary[T].md
+[76]: Heirloom.Core/Heirloom.IShape.md
+[77]: Heirloom.Core/Heirloom.ISparseGrid[T].md
+[78]: Heirloom.Core/Heirloom.ISpatialCollection[T].md
+[79]: Heirloom.Core/Heirloom.ISpatialQuery[T].md
+[80]: Heirloom.Core/Heirloom.ITypeDictionary[T].md
+[81]: Heirloom.Core/Heirloom.BitField.md
+[82]: Heirloom.Core/Heirloom.Circle.md
+[83]: Heirloom.Core/Heirloom.Color.md
+[84]: Heirloom.Core/Heirloom.ColorBytes.md
+[85]: Heirloom.Core/Heirloom.FontMetrics.md
+[86]: Heirloom.Core/Heirloom.GlyphMetrics.md
+[87]: Heirloom.Core/Heirloom.Graphics.DrawCounts.md
+[88]: Heirloom.Core/Heirloom.GraphicsAdapterInfo.md
+[89]: Heirloom.Core/Heirloom.IntRange.md
+[90]: Heirloom.Core/Heirloom.IntRectangle.md
+[91]: Heirloom.Core/Heirloom.IntSize.md
+[92]: Heirloom.Core/Heirloom.IntVector.md
+[93]: Heirloom.Core/Heirloom.LineSegment.md
+[94]: Heirloom.Core/Heirloom.Matrix.md
+[95]: Heirloom.Core/Heirloom.Range.md
+[96]: Heirloom.Core/Heirloom.Ray.md
+[97]: Heirloom.Core/Heirloom.RayContact.md
+[98]: Heirloom.Core/Heirloom.Rectangle.md
+[99]: Heirloom.Core/Heirloom.Size.md
+[100]: Heirloom.Core/Heirloom.Statistics.md
+[101]: Heirloom.Core/Heirloom.TextDrawState.md
+[102]: Heirloom.Core/Heirloom.TextLayoutState.md
+[103]: Heirloom.Core/Heirloom.Triangle.md
+[104]: Heirloom.Core/Heirloom.UnicodeCharacter.md
+[105]: Heirloom.Core/Heirloom.UnicodeRange.md
+[106]: Heirloom.Core/Heirloom.Vector.md
+[107]: Heirloom.Core/Heirloom.Vertex.md
+[108]: Heirloom.Core/Heirloom.AudioCaptureCallback.md
+[109]: Heirloom.Core/Heirloom.DrawTextCallback.md
+[110]: Heirloom.Core/Heirloom.TextLayoutCallback.md
 [111]: Heirloom.Core/Heirloom.Axis.md
 [112]: Heirloom.Core/Heirloom.Blending.md
 [113]: Heirloom.Core/Heirloom.GridNeighborType.md
