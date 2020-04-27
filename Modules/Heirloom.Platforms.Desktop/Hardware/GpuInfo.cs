@@ -9,7 +9,7 @@ namespace Heirloom.Desktop.Hardware
 
         public readonly string Name { get; }
 
-        public GpuInfo(string vendor, string name)
+        internal GpuInfo(string vendor, string name)
             : this(HardwareDetector.GetGpuVendor(vendor), name)
         { }
 
