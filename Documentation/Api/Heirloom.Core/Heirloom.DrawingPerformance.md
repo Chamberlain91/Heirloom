@@ -16,14 +16,6 @@ public sealed class DrawingPerformance
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### DrawingPerformance()
-
-```cs
-DrawingPerformance()
-```
-
 ## Properties
 
 | Name               | Summary                                                                           |

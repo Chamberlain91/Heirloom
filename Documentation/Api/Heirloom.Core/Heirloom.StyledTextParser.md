@@ -16,14 +16,6 @@ public abstract class StyledTextParser
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### StyledTextParser()
-
-```cs
-protected StyledTextParser()
-```
-
 ## Methods
 
 | Name       | Summary               |

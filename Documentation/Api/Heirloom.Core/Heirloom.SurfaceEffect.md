@@ -14,14 +14,6 @@ public abstract class SurfaceEffect
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### SurfaceEffect()
-
-```cs
-protected SurfaceEffect()
-```
-
 ## Fields
 
 | Name      | Summary                                 |

@@ -24,14 +24,6 @@ public struct IntSize : IEquatable<IntSize>, IComparable<IntSize>
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### IntSize(int, int)
-
-```cs
-public IntSize(int width, int height)
-```
-
 ## Fields
 
 | Name        | Summary                                  |

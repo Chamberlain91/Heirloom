@@ -22,14 +22,6 @@ public struct Size : IEquatable<Size>, IComparable<Size>
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Size(float, float)
-
-```cs
-public Size(float width, float height)
-```
-
 ## Fields
 
 | Name          | Summary                                  |

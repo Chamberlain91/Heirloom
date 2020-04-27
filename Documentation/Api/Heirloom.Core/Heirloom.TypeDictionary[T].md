@@ -20,14 +20,6 @@ public sealed class TypeDictionary<T> : ITypeDictionary<T>, IReadOnlyTypeDiction
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### TypeDictionary()
-
-```cs
-public TypeDictionary()
-```
-
 ## Properties
 
 | Name       | Summary |

@@ -22,14 +22,6 @@ public struct Ray : IEquatable<Ray>
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Ray(Vector, Vector)
-
-```cs
-public Ray(Vector origin, Vector direction)
-```
-
 ## Fields
 
 | Name           | Summary                   |

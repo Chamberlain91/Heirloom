@@ -22,26 +22,6 @@ public abstract class Shader : IDisposable
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Shader(string, params Shader.Define[])
-
-```cs
-protected Shader(string path, params Shader.Define[] defines)
-```
-
-### Shader(string, string, params Shader.Define[])
-
-```cs
-protected Shader(string path1, string path2, params Shader.Define[] defines)
-```
-
-### Shader(string[], params Shader.Define[])
-
-```cs
-protected Shader(string[] paths, params Shader.Define[] defines)
-```
-
 ## Properties
 
 | Name          | Summary                                         |

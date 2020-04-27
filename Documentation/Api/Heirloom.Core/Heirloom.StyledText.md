@@ -16,14 +16,6 @@ public abstract class StyledText
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### StyledText()
-
-```cs
-protected StyledText()
-```
-
 ## Properties
 
 | Name      | Summary                                                 |

@@ -24,14 +24,6 @@ public struct LineSegment : IEquatable<LineSegment>
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### LineSegment(Vector, Vector)
-
-```cs
-public LineSegment(Vector a, Vector b)
-```
-
 ## Fields
 
 | Name                       | Summary                                                                              |

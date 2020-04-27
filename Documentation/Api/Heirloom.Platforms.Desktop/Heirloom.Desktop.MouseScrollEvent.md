@@ -15,14 +15,6 @@ public struct MouseScrollEvent
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### MouseScrollEvent(float, float)
-
-```cs
-MouseScrollEvent(float x, float y)
-```
-
 ## Fields
 
 | Name        | Summary |

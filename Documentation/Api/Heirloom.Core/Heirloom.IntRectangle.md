@@ -26,26 +26,6 @@ public struct IntRectangle : IEquatable<IntRectangle>
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### IntRectangle(int, int, int, int)
-
-```cs
-public IntRectangle(int x, int y, int width, int height)
-```
-
-### IntRectangle(IntVector, IntSize)
-
-```cs
-public IntRectangle(IntVector position, IntSize size)
-```
-
-### IntRectangle(IntVector, IntVector)
-
-```cs
-public IntRectangle(IntVector min, IntVector max)
-```
-
 ## Fields
 
 | Name        | Summary                             |

@@ -18,20 +18,6 @@ public class RectanglePacker<T> : IRectanglePacker<T>
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### RectanglePacker(IntSize, PackingAlgorithm)
-
-```cs
-public RectanglePacker(IntSize size, PackingAlgorithm quality = Maxrects)
-```
-
-### RectanglePacker(int, int, PackingAlgorithm)
-
-```cs
-public RectanglePacker(int width, int height, PackingAlgorithm quality = Maxrects)
-```
-
 ## Properties
 
 | Name          | Summary |

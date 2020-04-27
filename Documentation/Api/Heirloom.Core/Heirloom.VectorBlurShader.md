@@ -18,16 +18,6 @@ public sealed class VectorBlurShader : Shader, IDisposable
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### VectorBlurShader(int)
-
-Constructs a new blur shader.
-
-```cs
-public VectorBlurShader(int quality)
-```
-
 ## Properties
 
 | Name        | Summary                                                                                          |

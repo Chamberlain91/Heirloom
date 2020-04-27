@@ -16,14 +16,6 @@ public sealed class UniformInfo
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### UniformInfo(string, UniformType, IntSize, int)
-
-```cs
-UniformInfo(string name, UniformType type, IntSize dimensions, int arraySize)
-```
-
 ## Properties
 
 | Name            | Summary                         |

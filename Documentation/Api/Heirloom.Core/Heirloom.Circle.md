@@ -22,20 +22,6 @@ public struct Circle : IShape, IEquatable<Circle>
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Circle(float, float, float)
-
-```cs
-public Circle(float x, float y, float radius)
-```
-
-### Circle(Vector, float)
-
-```cs
-public Circle(Vector position, float radius)
-```
-
 ## Fields
 
 | Name          | Summary                            |

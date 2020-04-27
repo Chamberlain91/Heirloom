@@ -26,14 +26,6 @@ public struct IntVector : IEquatable<IntVector>
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### IntVector(int, int)
-
-```cs
-public IntVector(int x, int y)
-```
-
 ## Fields
 
 | Name        | Summary                          |

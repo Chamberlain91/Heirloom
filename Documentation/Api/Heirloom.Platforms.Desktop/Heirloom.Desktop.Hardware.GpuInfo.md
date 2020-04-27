@@ -17,20 +17,6 @@ public struct GpuInfo : IEquatable<GpuInfo>
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### GpuInfo(string, string)
-
-```cs
-public GpuInfo(string vendor, string name)
-```
-
-### GpuInfo(GpuVendor, string)
-
-```cs
-GpuInfo(GpuVendor vendor, string name)
-```
-
 ## Properties
 
 | Name        | Summary |

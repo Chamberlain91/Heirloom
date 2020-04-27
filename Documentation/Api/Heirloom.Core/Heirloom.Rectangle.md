@@ -24,26 +24,6 @@ public struct Rectangle : IShape, IEquatable<Rectangle>
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Rectangle(float, float, float, float)
-
-```cs
-public Rectangle(float x, float y, float width, float height)
-```
-
-### Rectangle(Vector, Size)
-
-```cs
-public Rectangle(Vector position, Size size)
-```
-
-### Rectangle(Vector, Vector)
-
-```cs
-public Rectangle(Vector min, Vector max)
-```
-
 ## Fields
 
 | Name        | Summary                             |

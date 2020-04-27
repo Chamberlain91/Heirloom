@@ -18,26 +18,6 @@ public class SimplexNoise : INoise2D, INoise3D
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### SimplexNoise()
-
-```cs
-public SimplexNoise()
-```
-
-### SimplexNoise(int)
-
-```cs
-public SimplexNoise(int seed)
-```
-
-### SimplexNoise(Random)
-
-```cs
-public SimplexNoise(Random random)
-```
-
 ## Methods
 
 | Name        | Summary |

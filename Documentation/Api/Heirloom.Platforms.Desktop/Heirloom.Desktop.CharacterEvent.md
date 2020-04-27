@@ -15,14 +15,6 @@ public struct CharacterEvent
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### CharacterEvent(UnicodeCharacter)
-
-```cs
-CharacterEvent(UnicodeCharacter character)
-```
-
 ## Fields
 
 | Name           | Summary |

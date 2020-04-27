@@ -19,24 +19,6 @@ public class Window
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Window(string, MultisampleQuality, bool, bool)
-
-Constructs a new window.
-
-```cs
-public Window(string title, MultisampleQuality multisample = None, bool vsync = True, bool transparent = False)
-```
-
-### Window(string, IntSize, MultisampleQuality, bool, bool)
-
-Constructs a new window.
-
-```cs
-public Window(string title, IntSize size, MultisampleQuality multisample = None, bool vsync = True, bool transparent = False)
-```
-
 ## Properties
 
 | Name                           | Summary                                                                                          |

@@ -18,14 +18,6 @@ public sealed class Mesh
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Mesh()
-
-```cs
-public Mesh()
-```
-
 ## Properties
 
 | Name           | Summary                                                                               |

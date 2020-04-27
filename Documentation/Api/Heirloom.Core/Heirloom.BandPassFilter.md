@@ -20,14 +20,6 @@ public class BandPassFilter : AudioEffect
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### BandPassFilter(float, float)
-
-```cs
-public BandPassFilter(float low, float high)
-```
-
 ## Properties
 
 | Name              | Summary                                  |

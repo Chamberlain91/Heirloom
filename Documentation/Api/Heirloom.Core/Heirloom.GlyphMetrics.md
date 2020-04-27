@@ -18,14 +18,6 @@ public struct GlyphMetrics
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### GlyphMetrics(float, float, IntRectangle)
-
-```cs
-GlyphMetrics(float advanceWidth, float bearing, IntRectangle box)
-```
-
 ## Fields
 
 | Name              | Summary                                                                                               |

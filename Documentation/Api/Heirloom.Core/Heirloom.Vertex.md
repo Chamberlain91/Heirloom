@@ -16,16 +16,6 @@ public struct Vertex
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Vertex(Vector, Vector)
-
-Creates a new vertex.
-
-```cs
-public Vertex(Vector position, Vector uv)
-```
-
 ## Fields
 
 | Name          | Summary                       |

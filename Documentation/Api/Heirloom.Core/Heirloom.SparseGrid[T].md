@@ -20,14 +20,6 @@ public sealed class SparseGrid<T> : ISparseGrid<T>, IReadOnlySparseGrid<T>, IRea
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### SparseGrid()
-
-```cs
-public SparseGrid()
-```
-
 ## Properties
 
 | Name      | Summary |

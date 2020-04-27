@@ -20,14 +20,6 @@ public struct BitField : IEquatable<BitField>, IReadOnlyList<bool>, IReadOnlyCol
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### BitField(byte)
-
-```cs
-public BitField(byte value = 0)
-```
-
 ## Properties
 
 | Name       | Summary |

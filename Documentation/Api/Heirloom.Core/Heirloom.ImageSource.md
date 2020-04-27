@@ -14,14 +14,6 @@ public abstract class ImageSource
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### ImageSource()
-
-```cs
-ImageSource()
-```
-
 ## Properties
 
 | Name               | Summary                                                         |

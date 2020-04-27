@@ -22,14 +22,6 @@ public struct Triangle : IShape, IEquatable<Triangle>, IEnumerable<Vector>, IEnu
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### Triangle(Vector, Vector, Vector)
-
-```cs
-public Triangle(Vector a, Vector b, Vector c)
-```
-
 ## Fields
 
 | Name   | Summary           |

@@ -20,14 +20,6 @@ public class HighPassFilter : AudioEffect
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### HighPassFilter(float)
-
-```cs
-public HighPassFilter(float cutoff)
-```
-
 ## Properties
 
 | Name           | Summary                                            |

@@ -14,14 +14,6 @@ public struct GraphicsAdapterInfo
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### GraphicsAdapterInfo(bool, string, string)
-
-```cs
-GraphicsAdapterInfo(bool isMobilePlatform, string vendor, string name)
-```
-
 ## Fields
 
 | Name                  | Summary                                                                                                |

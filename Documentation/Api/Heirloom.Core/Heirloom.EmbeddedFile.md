@@ -18,14 +18,6 @@ public sealed class EmbeddedFile
 
 --------------------------------------------------------------------------------
 
-## Constructors
-
-### EmbeddedFile(Assembly, string, IEnumerable<string>)
-
-```cs
-EmbeddedFile(Assembly assembly, string manifestName, IEnumerable<string> identifiers)
-```
-
 ## Properties
 
 | Name             | Summary                                          |
