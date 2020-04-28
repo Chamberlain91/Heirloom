@@ -1,0 +1,18 @@
+# Heirloom.Core
+
+> **Framework**: .NETStandard,Version=v2.1  
+> **Assembly**: [Heirloom.Core][0]  
+
+## IntSize.Deconstruct
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [IntSize][1]  
+
+### Deconstruct(out int, out int)
+
+```cs
+public void Deconstruct(out int width, out int height)
+```
+
+[0]: ../../../Heirloom.Core.md
+[1]: ../IntSize.md

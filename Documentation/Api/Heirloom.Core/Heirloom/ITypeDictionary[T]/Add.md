@@ -1,0 +1,20 @@
+# Heirloom.Core
+
+> **Framework**: .NETStandard,Version=v2.1  
+> **Assembly**: [Heirloom.Core][0]  
+
+## ITypeDictionary\<T>.Add
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [ITypeDictionary\<T>][1]  
+
+### Add(T)
+
+Add a new object to the type dictionary.
+
+```cs
+public bool Add(T obj)
+```
+
+[0]: ../../../Heirloom.Core.md
+[1]: ../ITypeDictionary[T].md

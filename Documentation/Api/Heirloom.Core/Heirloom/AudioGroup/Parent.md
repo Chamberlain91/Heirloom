@@ -1,0 +1,20 @@
+# Heirloom.Core
+
+> **Framework**: .NETStandard,Version=v2.1  
+> **Assembly**: [Heirloom.Core][0]  
+
+## AudioGroup.Parent
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [AudioGroup][1]  
+
+### Parent
+
+Gets or sets the parent audio group.
+
+```cs
+public AudioGroup Parent { get; set; }
+```
+
+[0]: ../../../Heirloom.Core.md
+[1]: ../AudioGroup.md

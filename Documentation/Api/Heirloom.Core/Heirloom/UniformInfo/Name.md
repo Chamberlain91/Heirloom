@@ -1,0 +1,20 @@
+# Heirloom.Core
+
+> **Framework**: .NETStandard,Version=v2.1  
+> **Assembly**: [Heirloom.Core][0]  
+
+## UniformInfo.Name
+
+> **Namespace**: [Heirloom][0]  
+> **Type**: [UniformInfo][1]  
+
+### Name
+
+The name of this uniform.
+
+```cs
+public string Name { get; }
+```
+
+[0]: ../../../Heirloom.Core.md
+[1]: ../UniformInfo.md
