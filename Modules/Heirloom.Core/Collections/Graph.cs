@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Heirloom
+namespace Heirloom.Collections
 {
     /// <summary>
     /// A configurable adjacency list based graph.

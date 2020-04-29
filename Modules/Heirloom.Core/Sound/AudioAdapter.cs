@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace Heirloom
+namespace Heirloom.Sound
 {
     public delegate void AudioCaptureCallback(Span<float> inputSamples);
 

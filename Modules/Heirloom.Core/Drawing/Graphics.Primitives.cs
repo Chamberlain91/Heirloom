@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 
 using Heirloom;
+using Heirloom.Geometry;
 
 namespace Heirloom
 {

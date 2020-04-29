@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace Heirloom
+namespace Heirloom.Collections
 {
     /// <summary>
     /// An edge between two vertices.

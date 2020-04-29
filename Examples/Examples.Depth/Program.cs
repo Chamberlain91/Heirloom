@@ -2,6 +2,7 @@ using System.Linq;
 
 using Heirloom;
 using Heirloom.Desktop;
+using Heirloom.IO;
 
 namespace Examples.Depth
 {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Heirloom
+namespace Heirloom.Collections
 {
     /// <summary>
     /// Represents a read-only view of a <see cref="Heap{T}"/>.

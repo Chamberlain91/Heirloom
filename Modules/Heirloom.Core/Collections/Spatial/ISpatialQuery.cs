@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-using Heirloom;
+using Heirloom.Geometry;
 
-namespace Heirloom
+namespace Heirloom.Collections
 {
     /// <summary>
     /// Provides methods for querying elements in 2D space.

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-using Heirloom;
+using Heirloom.Geometry;
 
-namespace Heirloom
+namespace Heirloom.Collections
 {
     /// <summary>
     /// DO NOT USE! <para/>

@@ -1,7 +1,3 @@
-using Heirloom;
-
-using Range = Heirloom.Range;
-
 namespace Heirloom
 {
     /// <summary>

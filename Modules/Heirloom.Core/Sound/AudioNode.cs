@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Heirloom
+namespace Heirloom.Sound
 {
     /// <summary>
     /// Represents a node in the audio mixing tree.

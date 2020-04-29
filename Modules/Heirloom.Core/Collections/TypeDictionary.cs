@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Heirloom
+namespace Heirloom.Collections
 {
     /// <summary>
     /// Manages objects by their type hierarchy up to the base type, allowing access and enumeration of objects by type.

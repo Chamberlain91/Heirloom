@@ -1,5 +1,7 @@
 using System;
 
+using Heirloom.IO;
+
 namespace Heirloom
 {
     /// <summary>

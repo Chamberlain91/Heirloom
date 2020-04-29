@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace Heirloom
+namespace Heirloom.IO
 {
     /// <summary>
     /// Represents an embedded file.

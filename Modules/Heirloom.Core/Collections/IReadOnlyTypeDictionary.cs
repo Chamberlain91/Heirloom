@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Heirloom
+namespace Heirloom.Collections
 {
     /// <summary>
     /// A read-only view of <see cref="ITypeDictionary{T}"/>.

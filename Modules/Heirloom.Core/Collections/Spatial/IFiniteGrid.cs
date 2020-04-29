@@ -1,4 +1,4 @@
-namespace Heirloom
+namespace Heirloom.Collections
 {
     /// <summary>
     /// A finite grid (bounded by <see cref="Width"/> and <see cref="Height"/>).

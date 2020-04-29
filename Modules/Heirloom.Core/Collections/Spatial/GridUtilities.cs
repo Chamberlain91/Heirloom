@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 
-using Heirloom;
-
-namespace Heirloom
+namespace Heirloom.Collections
 {
     /// <summary>
     /// Provides extra utilities for interacting with a grid.

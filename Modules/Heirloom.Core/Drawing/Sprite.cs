@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 
 using Heirloom.Extras;
+using Heirloom.IO;
 
 namespace Heirloom
 {

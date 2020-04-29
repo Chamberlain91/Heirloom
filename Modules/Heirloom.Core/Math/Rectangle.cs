@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
+using Heirloom.Geometry;
+
 namespace Heirloom
 {
     public struct Rectangle : IShape, IEquatable<Rectangle>

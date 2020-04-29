@@ -1,3 +1,4 @@
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Heirloom.Platforms.Desktop")]
+[assembly: InternalsVisibleTo("Heirloom.Android")]
+[assembly: InternalsVisibleTo("Heirloom.Desktop")]

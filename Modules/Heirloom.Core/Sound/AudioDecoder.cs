@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace Heirloom
+namespace Heirloom.Sound
 {
     internal abstract class AudioDecoder : IDisposable
     {

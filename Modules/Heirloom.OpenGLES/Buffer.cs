@@ -2,7 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-using Heirloom.OpenGLES;
+using Heirloom.IO;
 
 namespace Heirloom.OpenGLES
 {

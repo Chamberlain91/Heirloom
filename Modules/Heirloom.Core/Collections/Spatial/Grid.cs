@@ -1,8 +1,6 @@
 using System;
 
-using Heirloom;
-
-namespace Heirloom
+namespace Heirloom.Collections
 {
     /// <summary>
     /// A finite grid (bounded by size) of values.

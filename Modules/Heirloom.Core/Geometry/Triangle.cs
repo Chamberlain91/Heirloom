@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace Heirloom
+namespace Heirloom.Geometry
 {
     public unsafe struct Triangle : IShape, IEquatable<Triangle>, IEnumerable<Vector>
     {
