@@ -6,7 +6,7 @@
 ## GraphicsAdapter.IShaderFactory.Compile
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [GraphicsAdapter.IShaderFactory][1]  
+> **Declaring Type**: [GraphicsAdapter.IShaderFactory][1]  
 
 ### Compile(string, string, string, out UniformInfo[])
 

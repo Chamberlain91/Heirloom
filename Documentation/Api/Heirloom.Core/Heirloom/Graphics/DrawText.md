@@ -6,7 +6,7 @@
 ## Graphics.DrawText
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Graphics][1]  
+> **Declaring Type**: [Graphics][1]  
 
 ### DrawText(StyledText, in Vector, Font, int, TextAlign)
 

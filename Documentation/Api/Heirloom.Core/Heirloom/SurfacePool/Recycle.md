@@ -6,7 +6,7 @@
 ## SurfacePool.Recycle
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [SurfacePool][1]  
+> **Declaring Type**: [SurfacePool][1]  
 
 ### Recycle(Surface)
 

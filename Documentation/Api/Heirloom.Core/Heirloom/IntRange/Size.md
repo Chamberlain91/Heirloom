@@ -6,7 +6,7 @@
 ## IntRange.Size
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IntRange][1]  
+> **Declaring Type**: [IntRange][1]  
 
 ### Size
 

@@ -6,7 +6,7 @@
 ## IntVector.Distance
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IntVector][1]  
+> **Declaring Type**: [IntVector][1]  
 
 ### Distance(in IntVector, in IntVector)
 

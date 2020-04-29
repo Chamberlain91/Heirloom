@@ -6,7 +6,7 @@
 ## Font.GetMetrics
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Font][1]  
+> **Declaring Type**: [Font][1]  
 
 ### GetMetrics(float)
 

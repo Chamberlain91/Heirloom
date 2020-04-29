@@ -6,7 +6,7 @@
 ## Image.CreateGridPattern
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Image][1]  
+> **Declaring Type**: [Image][1]  
 
 ### CreateGridPattern(IntSize, Color, int, int)
 

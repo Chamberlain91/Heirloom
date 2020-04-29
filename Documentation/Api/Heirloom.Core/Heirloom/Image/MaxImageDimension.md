@@ -6,7 +6,7 @@
 ## Image.MaxImageDimension
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Image][1]  
+> **Declaring Type**: [Image][1]  
 
 #### MaxImageDimension
 

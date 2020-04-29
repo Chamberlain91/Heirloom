@@ -6,7 +6,7 @@
 ## GrayscaleShader.Blend
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [GrayscaleShader][1]  
+> **Declaring Type**: [GrayscaleShader][1]  
 
 ### Blend
 

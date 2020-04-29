@@ -6,7 +6,7 @@
 ## IGrid\<T>.Clear
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IGrid\<T>][1]  
+> **Declaring Type**: [IGrid\<T>][1]  
 
 ### Clear()
 

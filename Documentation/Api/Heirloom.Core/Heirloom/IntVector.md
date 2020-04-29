@@ -3,7 +3,7 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## IntVector
+## IntVector Struct
 
 > **Namespace**: [Heirloom][0]  
 

@@ -6,7 +6,7 @@
 ## TextLayout.Measure
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [TextLayout][1]  
+> **Declaring Type**: [TextLayout][1]  
 
 ### Measure(string, Font, int)
 

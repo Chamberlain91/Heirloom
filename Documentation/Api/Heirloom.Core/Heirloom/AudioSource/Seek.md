@@ -6,7 +6,7 @@
 ## AudioSource.Seek
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [AudioSource][1]  
+> **Declaring Type**: [AudioSource][1]  
 
 ### Seek(int)
 

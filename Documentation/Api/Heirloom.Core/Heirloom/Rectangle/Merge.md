@@ -6,7 +6,7 @@
 ## Rectangle.Merge
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Rectangle][1]  
+> **Declaring Type**: [Rectangle][1]  
 
 ### Merge(in Rectangle, in Rectangle)
 

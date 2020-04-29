@@ -6,7 +6,7 @@
 ## Sprite.Animations
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Sprite][1]  
+> **Declaring Type**: [Sprite][1]  
 
 ### Animations
 

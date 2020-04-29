@@ -6,7 +6,7 @@
 ## GraphicsAdapter.IShaderFactory.Dispose
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [GraphicsAdapter.IShaderFactory][1]  
+> **Declaring Type**: [GraphicsAdapter.IShaderFactory][1]  
 
 ### Dispose(object)
 

@@ -6,7 +6,7 @@
 ## IGraph\<TKey, TValue, TGraph>.ContainsEdge
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IGraph\<TKey, TValue, TGraph>][1]  
+> **Declaring Type**: [IGraph\<TKey, TValue, TGraph>][1]  
 
 ### ContainsEdge(TKey, TKey)
 

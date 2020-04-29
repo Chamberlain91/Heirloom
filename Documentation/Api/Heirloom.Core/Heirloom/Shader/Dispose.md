@@ -6,7 +6,7 @@
 ## Shader.Dispose
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Shader][1]  
+> **Declaring Type**: [Shader][1]  
 
 ### Dispose()
 

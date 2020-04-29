@@ -3,12 +3,12 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## Graphics.DrawCounts
+## Graphics.DrawCounts Struct
 
 > **Namespace**: [Heirloom][0]  
 
 ```cs
-struct Graphics.DrawCounts
+protected struct Graphics.DrawCounts
 ```
 
 #### Fields

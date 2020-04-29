@@ -6,7 +6,7 @@
 ## Graphics.DrawSubImage
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Graphics][1]  
+> **Declaring Type**: [Graphics][1]  
 
 ### DrawSubImage(ImageSource, in IntRectangle, in Rectangle)
 

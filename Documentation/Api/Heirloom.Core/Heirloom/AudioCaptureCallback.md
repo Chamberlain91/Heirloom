@@ -3,7 +3,7 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## AudioCaptureCallback
+## AudioCaptureCallback Delegate
 
 > **Namespace**: [Heirloom][0]  
 

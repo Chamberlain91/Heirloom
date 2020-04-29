@@ -6,7 +6,7 @@
 ## InvertShader.Blend
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [InvertShader][1]  
+> **Declaring Type**: [InvertShader][1]  
 
 ### Blend
 

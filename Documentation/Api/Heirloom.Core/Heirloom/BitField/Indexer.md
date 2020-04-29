@@ -6,7 +6,7 @@
 ## BitField.Indexer
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [BitField][1]  
+> **Declaring Type**: [BitField][1]  
 
 ### Indexer
 

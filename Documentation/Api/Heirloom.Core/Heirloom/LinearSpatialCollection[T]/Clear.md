@@ -6,7 +6,7 @@
 ## LinearSpatialCollection\<T>.Clear
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [LinearSpatialCollection\<T>][1]  
+> **Declaring Type**: [LinearSpatialCollection\<T>][1]  
 
 ### Clear()
 

@@ -6,7 +6,7 @@
 ## LowPassFilter.Process
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [LowPassFilter][1]  
+> **Declaring Type**: [LowPassFilter][1]  
 
 ### Process(float, int)
 

@@ -6,7 +6,7 @@
 ## IntSize.Set
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IntSize][1]  
+> **Declaring Type**: [IntSize][1]  
 
 ### Set(int, int)
 

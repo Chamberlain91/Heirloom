@@ -6,7 +6,7 @@
 ## GraphicsAdapterInfo.Name
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [GraphicsAdapterInfo][1]  
+> **Declaring Type**: [GraphicsAdapterInfo][1]  
 
 #### Name
 

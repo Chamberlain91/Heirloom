@@ -6,7 +6,7 @@
 ## Matrix.MultiplyVector
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Matrix][1]  
+> **Declaring Type**: [Matrix][1]  
 
 ### MultiplyVector(in Vector)
 

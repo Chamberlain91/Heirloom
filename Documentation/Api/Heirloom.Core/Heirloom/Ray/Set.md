@@ -6,7 +6,7 @@
 ## Ray.Set
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Ray][1]  
+> **Declaring Type**: [Ray][1]  
 
 ### Set(in Vector, in Vector)
 

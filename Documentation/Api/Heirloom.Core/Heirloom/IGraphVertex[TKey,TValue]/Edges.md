@@ -6,7 +6,7 @@
 ## IGraphVertex\<TKey, TValue>.Edges
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IGraphVertex\<TKey, TValue>][1]  
+> **Declaring Type**: [IGraphVertex\<TKey, TValue>][1]  
 
 ### Edges
 

@@ -6,7 +6,7 @@
 ## Triangle.ContainsPoint
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Triangle][1]  
+> **Declaring Type**: [Triangle][1]  
 
 ### ContainsPoint(in Vector, in Vector, in Vector, in Vector)
 

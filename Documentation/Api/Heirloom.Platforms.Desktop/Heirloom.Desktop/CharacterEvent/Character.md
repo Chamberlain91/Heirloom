@@ -6,7 +6,7 @@
 ## CharacterEvent.Character
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Type**: [CharacterEvent][1]  
+> **Declaring Type**: [CharacterEvent][1]  
 
 #### Character
 

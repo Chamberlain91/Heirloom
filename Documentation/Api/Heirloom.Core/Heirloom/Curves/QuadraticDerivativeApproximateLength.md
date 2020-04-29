@@ -6,7 +6,7 @@
 ## Curves.QuadraticDerivativeApproximateLength
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Curves][1]  
+> **Declaring Type**: [Curves][1]  
 
 ### QuadraticDerivativeApproximateLength(in Vector, in Vector, in Vector)
 

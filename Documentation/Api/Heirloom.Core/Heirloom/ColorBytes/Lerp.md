@@ -6,7 +6,7 @@
 ## ColorBytes.Lerp
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [ColorBytes][1]  
+> **Declaring Type**: [ColorBytes][1]  
 
 ### Lerp(ColorBytes, ColorBytes, float)
 

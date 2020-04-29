@@ -6,7 +6,7 @@
 ## Matrix.CreateTransform
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Matrix][1]  
+> **Declaring Type**: [Matrix][1]  
 
 ### CreateTransform(in float, in float, in float, in float, in float)
 

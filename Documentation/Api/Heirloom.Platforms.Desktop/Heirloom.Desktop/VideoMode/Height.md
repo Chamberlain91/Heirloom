@@ -6,7 +6,7 @@
 ## VideoMode.Height
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Type**: [VideoMode][1]  
+> **Declaring Type**: [VideoMode][1]  
 
 #### Height
 

@@ -6,7 +6,7 @@
 ## Graphics.DrawLine
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Graphics][1]  
+> **Declaring Type**: [Graphics][1]  
 
 ### DrawLine(in Vector, in Vector, float)
 

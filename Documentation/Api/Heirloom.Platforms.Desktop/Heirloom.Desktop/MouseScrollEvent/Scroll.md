@@ -6,7 +6,7 @@
 ## MouseScrollEvent.Scroll
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Type**: [MouseScrollEvent][1]  
+> **Declaring Type**: [MouseScrollEvent][1]  
 
 #### Scroll
 

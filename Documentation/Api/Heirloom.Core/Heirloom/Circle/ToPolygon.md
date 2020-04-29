@@ -6,7 +6,7 @@
 ## Circle.ToPolygon
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Circle][1]  
+> **Declaring Type**: [Circle][1]  
 
 ### ToPolygon()
 

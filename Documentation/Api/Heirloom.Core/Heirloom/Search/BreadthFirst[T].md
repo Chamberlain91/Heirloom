@@ -6,7 +6,7 @@
 ## Search.BreadthFirst\<T>
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Search][1]  
+> **Declaring Type**: [Search][1]  
 
 ### BreadthFirst<T>(T, Func<T, IEnumerable<T>>)
 

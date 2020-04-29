@@ -6,7 +6,7 @@
 ## StandardStyledTextParser.Parse
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [StandardStyledTextParser][1]  
+> **Declaring Type**: [StandardStyledTextParser][1]  
 
 ### Parse(string)
 

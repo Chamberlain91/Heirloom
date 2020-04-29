@@ -3,14 +3,14 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## IHeap\<T>
+## IHeap\<T> Interface
 
 > **Namespace**: [Heirloom][0]  
 
 Represents a heap data structure. Allowing the access and removal of items by a priority ordering.
 
 ```cs
-public abstract interface IHeap<T> : IReadOnlyHeap<T>, IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
+public interface IHeap<T> : IReadOnlyHeap<T>, IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
 ```
 
 ### Inherits

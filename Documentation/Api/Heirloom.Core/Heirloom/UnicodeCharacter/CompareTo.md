@@ -6,7 +6,7 @@
 ## UnicodeCharacter.CompareTo
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [UnicodeCharacter][1]  
+> **Declaring Type**: [UnicodeCharacter][1]  
 
 ### CompareTo(UnicodeCharacter)
 

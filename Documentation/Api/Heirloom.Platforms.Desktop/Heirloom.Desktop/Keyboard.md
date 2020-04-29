@@ -3,7 +3,7 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Platforms.Desktop][0]  
 
-## Keyboard
+## Keyboard Class
 
 > **Namespace**: [Heirloom.Desktop][0]  
 

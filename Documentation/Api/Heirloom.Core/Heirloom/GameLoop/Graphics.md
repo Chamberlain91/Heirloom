@@ -6,7 +6,7 @@
 ## GameLoop.Graphics
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [GameLoop][1]  
+> **Declaring Type**: [GameLoop][1]  
 
 ### Graphics
 

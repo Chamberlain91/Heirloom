@@ -6,7 +6,7 @@
 ## SimplexNoise.Sample
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [SimplexNoise][1]  
+> **Declaring Type**: [SimplexNoise][1]  
 
 ### Sample(float, float)
 

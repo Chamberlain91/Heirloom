@@ -6,7 +6,7 @@
 ## ITypeDictionary\<T>.Add
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [ITypeDictionary\<T>][1]  
+> **Declaring Type**: [ITypeDictionary\<T>][1]  
 
 ### Add(T)
 

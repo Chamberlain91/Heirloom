@@ -6,7 +6,7 @@
 ## Glyph.RenderTo
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Glyph][1]  
+> **Declaring Type**: [Glyph][1]  
 
 ### RenderTo(Image, int, int, float)
 

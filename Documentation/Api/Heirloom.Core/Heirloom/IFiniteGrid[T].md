@@ -3,14 +3,14 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## IFiniteGrid\<T>
+## IFiniteGrid\<T> Interface
 
 > **Namespace**: [Heirloom][0]  
 
 A finite grid (bounded by [Width][1] and [Height][2] ).
 
 ```cs
-public abstract interface IFiniteGrid<T> : IGrid<T>, IReadOnlyGrid<T>
+public interface IFiniteGrid<T> : IGrid<T>, IReadOnlyGrid<T>
 ```
 
 ### Inherits

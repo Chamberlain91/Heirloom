@@ -6,7 +6,7 @@
 ## ReverbEffect.RoomSize
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [ReverbEffect][1]  
+> **Declaring Type**: [ReverbEffect][1]  
 
 ### RoomSize
 

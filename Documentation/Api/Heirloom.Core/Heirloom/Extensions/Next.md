@@ -6,7 +6,7 @@
 ## Extensions.Next
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Extensions][1]  
+> **Declaring Type**: [Extensions][1]  
 
 ### Next(Random, IntRange)
 

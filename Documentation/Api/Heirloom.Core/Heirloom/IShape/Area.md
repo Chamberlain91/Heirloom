@@ -6,7 +6,7 @@
 ## IShape.Area
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IShape][1]  
+> **Declaring Type**: [IShape][1]  
 
 ### Area
 

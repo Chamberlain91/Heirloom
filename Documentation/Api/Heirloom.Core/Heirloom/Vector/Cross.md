@@ -6,7 +6,7 @@
 ## Vector.Cross
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Vector][1]  
+> **Declaring Type**: [Vector][1]  
 
 ### Cross(in Vector, in Vector)
 

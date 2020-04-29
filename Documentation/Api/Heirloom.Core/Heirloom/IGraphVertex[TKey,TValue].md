@@ -3,14 +3,14 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## IGraphVertex\<TKey, TValue>
+## IGraphVertex\<TKey, TValue> Interface
 
 > **Namespace**: [Heirloom][0]  
 
 A vertex representing a node on a graph.
 
 ```cs
-public abstract interface IGraphVertex<TKey, TValue>
+public interface IGraphVertex<TKey, TValue>
 ```
 
 #### Properties

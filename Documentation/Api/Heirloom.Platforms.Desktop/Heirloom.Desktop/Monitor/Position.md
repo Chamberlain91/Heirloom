@@ -6,7 +6,7 @@
 ## Monitor.Position
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Type**: [Monitor][1]  
+> **Declaring Type**: [Monitor][1]  
 
 ### Position
 

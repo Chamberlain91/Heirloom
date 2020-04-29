@@ -6,7 +6,7 @@
 ## GpuInfo.Name
 
 > **Namespace**: [Heirloom.Desktop.Hardware][0]  
-> **Type**: [GpuInfo][1]  
+> **Declaring Type**: [GpuInfo][1]  
 
 ### Name
 

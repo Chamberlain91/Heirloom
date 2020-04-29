@@ -6,7 +6,7 @@
 ## LowPassFilter.Frequency
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [LowPassFilter][1]  
+> **Declaring Type**: [LowPassFilter][1]  
 
 ### Frequency
 

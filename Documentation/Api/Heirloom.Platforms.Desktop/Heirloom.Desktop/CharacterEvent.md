@@ -3,7 +3,7 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Platforms.Desktop][0]  
 
-## CharacterEvent
+## CharacterEvent Struct
 
 > **Namespace**: [Heirloom.Desktop][0]  
 

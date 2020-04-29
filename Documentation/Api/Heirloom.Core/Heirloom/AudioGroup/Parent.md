@@ -6,7 +6,7 @@
 ## AudioGroup.Parent
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [AudioGroup][1]  
+> **Declaring Type**: [AudioGroup][1]  
 
 ### Parent
 

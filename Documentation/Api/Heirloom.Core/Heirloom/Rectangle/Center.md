@@ -6,7 +6,7 @@
 ## Rectangle.Center
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Rectangle][1]  
+> **Declaring Type**: [Rectangle][1]  
 
 ### Center
 

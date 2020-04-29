@@ -6,7 +6,7 @@
 ## DrawingPerformance.BatchCount
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [DrawingPerformance][1]  
+> **Declaring Type**: [DrawingPerformance][1]  
 
 ### BatchCount
 

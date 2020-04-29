@@ -6,7 +6,7 @@
 ## SurfacePool.Request
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [SurfacePool][1]  
+> **Declaring Type**: [SurfacePool][1]  
 
 ### Request(int, int, MultisampleQuality)
 

@@ -6,7 +6,7 @@
 ## RectanglePacker\<T>.TryGetRectangle
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [RectanglePacker\<T>][1]  
+> **Declaring Type**: [RectanglePacker\<T>][1]  
 
 ### TryGetRectangle(T, out IntRectangle)
 

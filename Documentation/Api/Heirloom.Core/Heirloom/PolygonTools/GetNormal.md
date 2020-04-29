@@ -6,7 +6,7 @@
 ## PolygonTools.GetNormal
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [PolygonTools][1]  
+> **Declaring Type**: [PolygonTools][1]  
 
 ### GetNormal(IReadOnlyList<Vector>, int)
 

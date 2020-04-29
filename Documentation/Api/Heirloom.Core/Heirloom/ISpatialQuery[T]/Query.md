@@ -6,7 +6,7 @@
 ## ISpatialQuery\<T>.Query
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [ISpatialQuery\<T>][1]  
+> **Declaring Type**: [ISpatialQuery\<T>][1]  
 
 ### Query(Vector)
 

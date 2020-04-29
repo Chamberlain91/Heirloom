@@ -3,7 +3,7 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Platforms.Desktop][0]  
 
-## GpuInfo
+## GpuInfo Struct
 
 > **Namespace**: [Heirloom.Desktop.Hardware][0]  
 

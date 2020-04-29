@@ -3,7 +3,7 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## LineSegment
+## LineSegment Struct
 
 > **Namespace**: [Heirloom][0]  
 

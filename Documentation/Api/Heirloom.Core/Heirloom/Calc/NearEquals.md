@@ -6,7 +6,7 @@
 ## Calc.NearEquals
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]  
+> **Declaring Type**: [Calc][1]  
 
 ### NearEquals(double, double)
 

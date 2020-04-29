@@ -3,14 +3,14 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## IReadOnlyHeap\<T>
+## IReadOnlyHeap\<T> Interface
 
 > **Namespace**: [Heirloom][0]  
 
 Represents a read-only view of a [Heap\<T>][1] .
 
 ```cs
-public abstract interface IReadOnlyHeap<T> : IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
+public interface IReadOnlyHeap<T> : IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
 ```
 
 ### Inherits

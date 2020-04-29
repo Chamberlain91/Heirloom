@@ -3,12 +3,12 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## GraphicsAdapter.ISurfaceFactory
+## GraphicsAdapter.ISurfaceFactory Interface
 
 > **Namespace**: [Heirloom][0]  
 
 ```cs
-abstract interface GraphicsAdapter.ISurfaceFactory
+protected interface GraphicsAdapter.ISurfaceFactory
 ```
 
 #### Properties

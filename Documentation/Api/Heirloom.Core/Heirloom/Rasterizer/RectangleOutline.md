@@ -6,7 +6,7 @@
 ## Rasterizer.RectangleOutline
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Rasterizer][1]  
+> **Declaring Type**: [Rasterizer][1]  
 
 ### RectangleOutline(int, int, int, int)
 

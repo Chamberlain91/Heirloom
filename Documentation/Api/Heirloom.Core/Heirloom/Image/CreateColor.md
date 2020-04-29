@@ -6,7 +6,7 @@
 ## Image.CreateColor
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Image][1]  
+> **Declaring Type**: [Image][1]  
 
 ### CreateColor(IntSize, Color)
 

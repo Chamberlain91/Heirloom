@@ -6,7 +6,7 @@
 ## IntSize.Deconstruct
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IntSize][1]  
+> **Declaring Type**: [IntSize][1]  
 
 ### Deconstruct(out int, out int)
 

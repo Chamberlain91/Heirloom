@@ -6,7 +6,7 @@
 ## TextDrawState.Position
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [TextDrawState][1]  
+> **Declaring Type**: [TextDrawState][1]  
 
 #### Position
 

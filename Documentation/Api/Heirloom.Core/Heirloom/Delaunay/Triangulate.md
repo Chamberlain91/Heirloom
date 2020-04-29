@@ -6,7 +6,7 @@
 ## Delaunay.Triangulate
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Delaunay][1]  
+> **Declaring Type**: [Delaunay][1]  
 
 ### Triangulate(IEnumerable<Vector>)
 

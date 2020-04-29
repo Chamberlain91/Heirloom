@@ -6,7 +6,7 @@
 ## Grid\<T>.Indexer
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Grid\<T>][1]  
+> **Declaring Type**: [Grid\<T>][1]  
 
 ### Indexer
 

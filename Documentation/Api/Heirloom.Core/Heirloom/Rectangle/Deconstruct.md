@@ -6,7 +6,7 @@
 ## Rectangle.Deconstruct
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Rectangle][1]  
+> **Declaring Type**: [Rectangle][1]  
 
 ### Deconstruct(out float, out float, out float, out float)
 

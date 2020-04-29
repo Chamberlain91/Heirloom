@@ -6,7 +6,7 @@
 ## Ray.FromAngle
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Ray][1]  
+> **Declaring Type**: [Ray][1]  
 
 ### FromAngle(Vector, float)
 

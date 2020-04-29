@@ -6,7 +6,7 @@
 ## Circle.Raycast
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Circle][1]  
+> **Declaring Type**: [Circle][1]  
 
 ### Raycast(in Ray)
 

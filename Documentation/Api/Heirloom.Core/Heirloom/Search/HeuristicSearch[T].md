@@ -6,7 +6,7 @@
 ## Search.HeuristicSearch\<T>
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Search][1]  
+> **Declaring Type**: [Search][1]  
 
 ### HeuristicSearch<T>(T, T, Func<T, IEnumerable<T>>, Search.CostFunction<T>)
 

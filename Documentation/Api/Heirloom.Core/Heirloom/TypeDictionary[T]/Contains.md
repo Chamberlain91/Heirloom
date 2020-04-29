@@ -6,7 +6,7 @@
 ## TypeDictionary\<T>.Contains
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [TypeDictionary\<T>][1]  
+> **Declaring Type**: [TypeDictionary\<T>][1]  
 
 ### Contains(T)
 

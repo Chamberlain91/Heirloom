@@ -6,7 +6,7 @@
 ## PerlinNoise.Sample
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [PerlinNoise][1]  
+> **Declaring Type**: [PerlinNoise][1]  
 
 ### Sample(float)
 

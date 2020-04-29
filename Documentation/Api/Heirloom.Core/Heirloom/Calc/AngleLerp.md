@@ -6,7 +6,7 @@
 ## Calc.AngleLerp
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]  
+> **Declaring Type**: [Calc][1]  
 
 ### AngleLerp(double, double, double)
 

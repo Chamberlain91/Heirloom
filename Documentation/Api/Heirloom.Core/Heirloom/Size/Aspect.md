@@ -6,7 +6,7 @@
 ## Size.Aspect
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Size][1]  
+> **Declaring Type**: [Size][1]  
 
 ### Aspect
 

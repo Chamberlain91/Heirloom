@@ -6,7 +6,7 @@
 ## GlyphMetrics.AdvanceWidth
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [GlyphMetrics][1]  
+> **Declaring Type**: [GlyphMetrics][1]  
 
 #### AdvanceWidth
 

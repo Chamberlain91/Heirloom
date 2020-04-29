@@ -6,7 +6,7 @@
 ## ILogHandler.Info
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [ILogHandler][1]  
+> **Declaring Type**: [ILogHandler][1]  
 
 ### Info(object)
 

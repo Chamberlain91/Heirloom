@@ -6,7 +6,7 @@
 ## Calc.Cos
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]  
+> **Declaring Type**: [Calc][1]  
 
 ### Cos(float)
 

@@ -6,7 +6,7 @@
 ## IHeap\<T>.Add
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IHeap\<T>][1]  
+> **Declaring Type**: [IHeap\<T>][1]  
 
 ### Add(T)
 

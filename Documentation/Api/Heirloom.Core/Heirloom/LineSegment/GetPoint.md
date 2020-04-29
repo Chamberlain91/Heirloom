@@ -6,7 +6,7 @@
 ## LineSegment.GetPoint
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [LineSegment][1]  
+> **Declaring Type**: [LineSegment][1]  
 
 ### GetPoint(float)
 

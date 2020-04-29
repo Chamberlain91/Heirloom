@@ -6,7 +6,7 @@
 ## UnicodeRange.Latin1Supplement
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [UnicodeRange][1]  
+> **Declaring Type**: [UnicodeRange][1]  
 
 #### Latin1Supplement
 

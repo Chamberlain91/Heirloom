@@ -6,7 +6,7 @@
 ## Rasterizer.Line
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Rasterizer][1]  
+> **Declaring Type**: [Rasterizer][1]  
 
 ### Line(IntVector, IntVector)
 
@@ -16,7 +16,7 @@ Rasterize along a line.
 public static IEnumerable<IntVector> Line(IntVector p0, IntVector p1)
 ```
 
-### Line(IntVector, IntVector,  byte)
+### Line(IntVector, IntVector, byte)
 
 Rasterize along a line.
 

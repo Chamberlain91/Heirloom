@@ -6,7 +6,7 @@
 ## UniformInfo.IsVector
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [UniformInfo][1]  
+> **Declaring Type**: [UniformInfo][1]  
 
 ### IsVector
 

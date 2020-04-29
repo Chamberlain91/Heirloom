@@ -6,7 +6,7 @@
 ## Graphics.DefaultSurface
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Graphics][1]  
+> **Declaring Type**: [Graphics][1]  
 
 ### DefaultSurface
 

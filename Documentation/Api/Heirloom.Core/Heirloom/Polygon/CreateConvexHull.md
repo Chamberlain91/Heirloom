@@ -6,7 +6,7 @@
 ## Polygon.CreateConvexHull
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Polygon][1]  
+> **Declaring Type**: [Polygon][1]  
 
 ### CreateConvexHull(IEnumerable<Vector>)
 

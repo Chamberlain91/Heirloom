@@ -6,7 +6,7 @@
 ## Triangle.ToPolygon
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Triangle][1]  
+> **Declaring Type**: [Triangle][1]  
 
 ### ToPolygon()
 

@@ -6,7 +6,7 @@
 ## HighPassFilter.Process
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [HighPassFilter][1]  
+> **Declaring Type**: [HighPassFilter][1]  
 
 ### Process(float, int)
 

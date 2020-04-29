@@ -6,7 +6,7 @@
 ## IntRectangle.IsValid
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IntRectangle][1]  
+> **Declaring Type**: [IntRectangle][1]  
 
 ### IsValid
 

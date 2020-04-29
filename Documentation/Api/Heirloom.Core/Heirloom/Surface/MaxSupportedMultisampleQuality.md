@@ -6,7 +6,7 @@
 ## Surface.MaxSupportedMultisampleQuality
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Surface][1]  
+> **Declaring Type**: [Surface][1]  
 
 ### MaxSupportedMultisampleQuality
 

@@ -6,7 +6,7 @@
 ## MergeSort.StableSort\<T>
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [MergeSort][1]  
+> **Declaring Type**: [MergeSort][1]  
 
 ### StableSort<T>(IList<T>)
 

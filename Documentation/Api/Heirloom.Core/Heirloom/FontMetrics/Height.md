@@ -6,7 +6,7 @@
 ## FontMetrics.Height
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [FontMetrics][1]  
+> **Declaring Type**: [FontMetrics][1]  
 
 ### Height
 

@@ -6,7 +6,7 @@
 ## Time.GetTimeString
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Time][1]  
+> **Declaring Type**: [Time][1]  
 
 ### GetTimeString(float, TimeUnit)
 

@@ -6,7 +6,7 @@
 ## TextLayout.PerformLayout
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [TextLayout][1]  
+> **Declaring Type**: [TextLayout][1]  
 
 ### PerformLayout(string, Vector, Font, int, TextAlign, TextLayoutCallback)
 

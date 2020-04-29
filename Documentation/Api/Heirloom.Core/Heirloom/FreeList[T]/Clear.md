@@ -6,7 +6,7 @@
 ## FreeList\<T>.Clear
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [FreeList\<T>][1]  
+> **Declaring Type**: [FreeList\<T>][1]  
 
 ### Clear()
 

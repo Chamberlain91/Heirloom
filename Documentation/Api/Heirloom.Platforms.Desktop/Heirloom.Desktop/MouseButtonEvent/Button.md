@@ -6,7 +6,7 @@
 ## MouseButtonEvent.Button
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Type**: [MouseButtonEvent][1]  
+> **Declaring Type**: [MouseButtonEvent][1]  
 
 #### Button
 

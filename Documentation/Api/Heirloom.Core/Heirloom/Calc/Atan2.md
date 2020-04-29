@@ -6,7 +6,7 @@
 ## Calc.Atan2
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]  
+> **Declaring Type**: [Calc][1]  
 
 ### Atan2(float, float)
 

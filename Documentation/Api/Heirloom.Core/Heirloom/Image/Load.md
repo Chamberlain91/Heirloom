@@ -6,7 +6,7 @@
 ## Image.Load
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Image][1]  
+> **Declaring Type**: [Image][1]  
 
 ### Load(Stream)
 
@@ -14,10 +14,10 @@
 public static Image Load(Stream stream)
 ```
 
-### Load( byte[])
+### Load(byte[])
 
 ```cs
-public static Image Load( byte[] file)
+public static Image Load(byte[] file)
 ```
 
 [0]: ../../../Heirloom.Core.md

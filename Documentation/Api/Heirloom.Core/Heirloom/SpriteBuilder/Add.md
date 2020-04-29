@@ -6,7 +6,7 @@
 ## SpriteBuilder.Add
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [SpriteBuilder][1]  
+> **Declaring Type**: [SpriteBuilder][1]  
 
 ### Add(string, Image)
 

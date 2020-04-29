@@ -6,7 +6,7 @@
 ## VectorBlurShader.Vector
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [VectorBlurShader][1]  
+> **Declaring Type**: [VectorBlurShader][1]  
 
 ### Vector
 

@@ -6,7 +6,7 @@
 ## IReadOnlySparseGrid\<T>.HasValue
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IReadOnlySparseGrid\<T>][1]  
+> **Declaring Type**: [IReadOnlySparseGrid\<T>][1]  
 
 ### HasValue(in int, in int)
 

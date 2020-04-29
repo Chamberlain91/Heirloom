@@ -6,7 +6,7 @@
 ## GridUtilities.GetNeighbors\<T>
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [GridUtilities][1]  
+> **Declaring Type**: [GridUtilities][1]  
 
 ### GetNeighbors<T>(IGrid<T>, IntVector, GridNeighborType)
 

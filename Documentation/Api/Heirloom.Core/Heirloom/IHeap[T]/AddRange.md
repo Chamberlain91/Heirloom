@@ -6,7 +6,7 @@
 ## IHeap\<T>.AddRange
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IHeap\<T>][1]  
+> **Declaring Type**: [IHeap\<T>][1]  
 
 ### AddRange(IEnumerable<T>)
 

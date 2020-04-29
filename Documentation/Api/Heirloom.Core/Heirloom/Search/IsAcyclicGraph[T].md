@@ -6,7 +6,7 @@
 ## Search.IsAcyclicGraph\<T>
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Search][1]  
+> **Declaring Type**: [Search][1]  
 
 ### IsAcyclicGraph<T>(T, Func<T, IEnumerable<T>>)
 

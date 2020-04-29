@@ -6,7 +6,7 @@
 ## Glyph.Character
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Glyph][1]  
+> **Declaring Type**: [Glyph][1]  
 
 ### Character
 

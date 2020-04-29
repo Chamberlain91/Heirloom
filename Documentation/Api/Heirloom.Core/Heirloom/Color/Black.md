@@ -6,7 +6,7 @@
 ## Color.Black
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Color][1]  
+> **Declaring Type**: [Color][1]  
 
 ### Black
 

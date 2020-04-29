@@ -6,7 +6,7 @@
 ## Matrix.Inverse
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Matrix][1]  
+> **Declaring Type**: [Matrix][1]  
 
 ### Inverse(in Matrix)
 
