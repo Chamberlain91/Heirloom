@@ -3,12 +3,12 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## ILogHandler
+## ILogHandler Interface
 
 > **Namespace**: [Heirloom][0]  
 
 ```cs
-public abstract interface ILogHandler
+public interface ILogHandler
 ```
 
 #### Methods

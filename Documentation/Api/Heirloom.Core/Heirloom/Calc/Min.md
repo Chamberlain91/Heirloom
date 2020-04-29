@@ -6,7 +6,7 @@
 ## Calc.Min
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]  
+> **Declaring Type**: [Calc][1]  
 
 ### Min(double, double)
 
@@ -64,12 +64,12 @@ Returns the minimum value between `x` and `y` .
 public static sbyte Min(sbyte x, sbyte y)
 ```
 
-### Min( byte,  byte)
+### Min(byte, byte)
 
 Returns the minimum value between `x` and `y` .
 
 ```cs
-public static byte Min( byte x, byte y)
+public static byte Min(byte x, byte y)
 ```
 
 ### Min(params int[])

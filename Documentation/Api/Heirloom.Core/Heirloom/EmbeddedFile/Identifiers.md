@@ -6,7 +6,7 @@
 ## EmbeddedFile.Identifiers
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [EmbeddedFile][1]  
+> **Declaring Type**: [EmbeddedFile][1]  
 
 ### Identifiers
 

@@ -3,7 +3,7 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Platforms.Desktop][0]  
 
-## CpuVendor
+## CpuVendor Enum
 
 > **Namespace**: [Heirloom.Desktop.Hardware][0]  
 

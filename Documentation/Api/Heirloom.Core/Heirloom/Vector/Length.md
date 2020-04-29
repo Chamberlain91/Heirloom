@@ -6,7 +6,7 @@
 ## Vector.Length
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Vector][1]  
+> **Declaring Type**: [Vector][1]  
 
 ### Length
 

@@ -6,7 +6,7 @@
 ## IReadOnlyGrid\<T>.Indexer
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IReadOnlyGrid\<T>][1]  
+> **Declaring Type**: [IReadOnlyGrid\<T>][1]  
 
 ### Indexer
 

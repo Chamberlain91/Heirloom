@@ -3,14 +3,14 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## INoise2D
+## INoise2D Interface
 
 > **Namespace**: [Heirloom][0]  
 
 Provides an interface for sampling two-dimensional noise.
 
 ```cs
-public abstract interface INoise2D
+public interface INoise2D
 ```
 
 #### Methods

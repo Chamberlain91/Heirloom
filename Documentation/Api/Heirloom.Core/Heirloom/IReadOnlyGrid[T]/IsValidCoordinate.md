@@ -6,7 +6,7 @@
 ## IReadOnlyGrid\<T>.IsValidCoordinate
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IReadOnlyGrid\<T>][1]  
+> **Declaring Type**: [IReadOnlyGrid\<T>][1]  
 
 ### IsValidCoordinate(in int, in int)
 

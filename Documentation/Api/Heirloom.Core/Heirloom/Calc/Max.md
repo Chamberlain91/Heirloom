@@ -6,7 +6,7 @@
 ## Calc.Max
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]  
+> **Declaring Type**: [Calc][1]  
 
 ### Max(double, double)
 
@@ -64,12 +64,12 @@ Returns the maximum value between `x` and `y` .
 public static sbyte Max(sbyte x, sbyte y)
 ```
 
-### Max( byte,  byte)
+### Max(byte, byte)
 
 Returns the maximum value between `x` and `y` .
 
 ```cs
-public static byte Max( byte x, byte y)
+public static byte Max(byte x, byte y)
 ```
 
 ### Max(params int[])

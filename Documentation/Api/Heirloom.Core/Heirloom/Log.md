@@ -3,7 +3,7 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## Log
+## Log Class
 
 > **Namespace**: [Heirloom][0]  
 

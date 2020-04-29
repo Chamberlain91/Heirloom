@@ -6,7 +6,7 @@
 ## UnicodeRange.LatinExtendedA
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [UnicodeRange][1]  
+> **Declaring Type**: [UnicodeRange][1]  
 
 #### LatinExtendedA
 

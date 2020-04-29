@@ -3,14 +3,14 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## IReadOnlyGrid\<T>
+## IReadOnlyGrid\<T> Interface
 
 > **Namespace**: [Heirloom][0]  
 
 A read-only view of a 2D grid of values.
 
 ```cs
-public abstract interface IReadOnlyGrid<T>
+public interface IReadOnlyGrid<T>
 ```
 
 #### Properties

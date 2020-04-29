@@ -6,7 +6,7 @@
 ## INoise3D.Sample
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [INoise3D][1]  
+> **Declaring Type**: [INoise3D][1]  
 
 ### Sample(float, float, float)
 

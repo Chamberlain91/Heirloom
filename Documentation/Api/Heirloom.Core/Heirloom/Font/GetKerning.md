@@ -6,7 +6,7 @@
 ## Font.GetKerning
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Font][1]  
+> **Declaring Type**: [Font][1]  
 
 ### GetKerning(UnicodeCharacter, UnicodeCharacter, float)
 

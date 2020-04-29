@@ -6,7 +6,7 @@
 ## Size.One
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Size][1]  
+> **Declaring Type**: [Size][1]  
 
 #### One
 

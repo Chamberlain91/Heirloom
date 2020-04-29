@@ -6,7 +6,7 @@
 ## IReadOnlyTypeDictionary\<T>.GetItemsByType\<X>
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IReadOnlyTypeDictionary\<T>][1]  
+> **Declaring Type**: [IReadOnlyTypeDictionary\<T>][1]  
 
 ### GetItemsByType<X>()
 

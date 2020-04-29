@@ -6,7 +6,7 @@
 ## AudioClip.Duration
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [AudioClip][1]  
+> **Declaring Type**: [AudioClip][1]  
 
 ### Duration
 

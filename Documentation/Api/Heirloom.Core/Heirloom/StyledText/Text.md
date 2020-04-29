@@ -6,7 +6,7 @@
 ## StyledText.Text
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [StyledText][1]  
+> **Declaring Type**: [StyledText][1]  
 
 ### Text
 

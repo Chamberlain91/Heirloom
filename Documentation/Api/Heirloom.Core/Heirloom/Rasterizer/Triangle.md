@@ -6,7 +6,7 @@
 ## Rasterizer.Triangle
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Rasterizer][1]  
+> **Declaring Type**: [Rasterizer][1]  
 
 ### Triangle(IntVector, IntVector, IntVector)
 

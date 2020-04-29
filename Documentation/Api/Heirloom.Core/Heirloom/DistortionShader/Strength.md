@@ -6,7 +6,7 @@
 ## DistortionShader.Strength
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [DistortionShader][1]  
+> **Declaring Type**: [DistortionShader][1]  
 
 ### Strength
 

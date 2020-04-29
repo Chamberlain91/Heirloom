@@ -6,7 +6,7 @@
 ## AudioGroup.Default
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [AudioGroup][1]  
+> **Declaring Type**: [AudioGroup][1]  
 
 ### Default
 

@@ -6,7 +6,7 @@
 ## AudioNode.Balance
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [AudioNode][1]  
+> **Declaring Type**: [AudioNode][1]  
 
 ### Balance
 

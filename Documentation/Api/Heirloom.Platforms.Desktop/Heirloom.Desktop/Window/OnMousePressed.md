@@ -6,7 +6,7 @@
 ## Window.OnMousePressed
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Type**: [Window][1]  
+> **Declaring Type**: [Window][1]  
 
 ### OnMousePressed(int, ButtonAction, KeyModifiers)
 

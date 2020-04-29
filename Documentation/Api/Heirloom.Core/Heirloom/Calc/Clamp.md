@@ -6,7 +6,7 @@
 ## Calc.Clamp
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]  
+> **Declaring Type**: [Calc][1]  
 
 ### Clamp(double, double, double)
 
@@ -64,12 +64,12 @@ Returns the value `x` clamped to the specified range.
 public static sbyte Clamp(sbyte x, sbyte min, sbyte max)
 ```
 
-### Clamp( byte,  byte,  byte)
+### Clamp(byte, byte, byte)
 
 Returns the value `x` clamped to the specified range.
 
 ```cs
-public static byte Clamp( byte x, byte min, byte max)
+public static byte Clamp(byte x, byte min, byte max)
 ```
 
 [0]: ../../../Heirloom.Core.md

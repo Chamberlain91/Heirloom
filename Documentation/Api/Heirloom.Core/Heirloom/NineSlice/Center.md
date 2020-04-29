@@ -6,7 +6,7 @@
 ## NineSlice.Center
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [NineSlice][1]  
+> **Declaring Type**: [NineSlice][1]  
 
 #### Center
 

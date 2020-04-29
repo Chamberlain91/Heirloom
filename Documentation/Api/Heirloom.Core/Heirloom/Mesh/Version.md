@@ -6,7 +6,7 @@
 ## Mesh.Version
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Mesh][1]  
+> **Declaring Type**: [Mesh][1]  
 
 ### Version
 

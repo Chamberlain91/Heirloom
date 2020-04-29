@@ -6,7 +6,7 @@
 ## Rasterizer.HLine
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Rasterizer][1]  
+> **Declaring Type**: [Rasterizer][1]  
 
 ### HLine(int, int, int)
 

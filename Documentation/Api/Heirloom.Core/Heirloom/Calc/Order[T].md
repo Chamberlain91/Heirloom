@@ -6,7 +6,7 @@
 ## Calc.Order\<T>
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]  
+> **Declaring Type**: [Calc][1]  
 
 ### Order<T>(ref T, ref T)
 

@@ -6,7 +6,7 @@
 ## RectanglePacker\<T>.Add
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [RectanglePacker\<T>][1]  
+> **Declaring Type**: [RectanglePacker\<T>][1]  
 
 ### Add(T, IntSize)
 

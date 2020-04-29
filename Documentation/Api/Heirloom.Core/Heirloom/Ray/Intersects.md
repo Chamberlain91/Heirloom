@@ -6,7 +6,7 @@
 ## Ray.Intersects
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Ray][1]  
+> **Declaring Type**: [Ray][1]  
 
 ### Intersects(Ray, Ray, out float, out float)
 

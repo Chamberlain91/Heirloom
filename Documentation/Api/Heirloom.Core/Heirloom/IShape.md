@@ -3,14 +3,14 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## IShape
+## IShape Interface
 
 > **Namespace**: [Heirloom][0]  
 
 Represents the general interface of a shape and common operators each shape should support.
 
 ```cs
-public abstract interface IShape
+public interface IShape
 ```
 
 #### Properties

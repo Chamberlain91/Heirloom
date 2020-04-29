@@ -6,7 +6,7 @@
 ## Range.Min
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Range][1]  
+> **Declaring Type**: [Range][1]  
 
 #### Min
 

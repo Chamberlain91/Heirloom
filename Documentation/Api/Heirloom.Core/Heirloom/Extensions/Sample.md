@@ -6,7 +6,7 @@
 ## Extensions.Sample
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Extensions][1]  
+> **Declaring Type**: [Extensions][1]  
 
 ### Sample(INoise1D, float, int, float)
 

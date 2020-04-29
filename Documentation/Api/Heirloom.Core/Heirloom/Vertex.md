@@ -3,7 +3,7 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## Vertex
+## Vertex Struct
 
 > **Namespace**: [Heirloom][0]  
 

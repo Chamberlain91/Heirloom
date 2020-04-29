@@ -6,7 +6,7 @@
 ## BoundingTreeSpatialCollection\<T>.Count
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [BoundingTreeSpatialCollection\<T>][1]  
+> **Declaring Type**: [BoundingTreeSpatialCollection\<T>][1]  
 
 ### Count
 

@@ -6,7 +6,7 @@
 ## Rasterizer.CircleOutline
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Rasterizer][1]  
+> **Declaring Type**: [Rasterizer][1]  
 
 ### CircleOutline(int, int, int)
 

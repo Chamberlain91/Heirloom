@@ -6,7 +6,7 @@
 ## Vertex.Position
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Vertex][1]  
+> **Declaring Type**: [Vertex][1]  
 
 #### Position
 

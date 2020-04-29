@@ -6,7 +6,7 @@
 ## MouseMoveEvent.Position
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Type**: [MouseMoveEvent][1]  
+> **Declaring Type**: [MouseMoveEvent][1]  
 
 #### Position
 

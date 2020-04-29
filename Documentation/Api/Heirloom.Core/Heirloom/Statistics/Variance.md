@@ -6,7 +6,7 @@
 ## Statistics.Variance
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Statistics][1]  
+> **Declaring Type**: [Statistics][1]  
 
 #### Variance
 

@@ -6,7 +6,7 @@
 ## IReadOnlySpatialCollection\<T>.Contains
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IReadOnlySpatialCollection\<T>][1]  
+> **Declaring Type**: [IReadOnlySpatialCollection\<T>][1]  
 
 ### Contains(in T)
 

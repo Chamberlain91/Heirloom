@@ -6,7 +6,7 @@
 ## IGraph\<TKey, TValue, TGraph>.RemoveVertex
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IGraph\<TKey, TValue, TGraph>][1]  
+> **Declaring Type**: [IGraph\<TKey, TValue, TGraph>][1]  
 
 ### RemoveVertex(TKey)
 

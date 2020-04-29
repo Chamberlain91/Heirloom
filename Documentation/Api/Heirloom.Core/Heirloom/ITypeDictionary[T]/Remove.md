@@ -6,7 +6,7 @@
 ## ITypeDictionary\<T>.Remove
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [ITypeDictionary\<T>][1]  
+> **Declaring Type**: [ITypeDictionary\<T>][1]  
 
 ### Remove(T)
 

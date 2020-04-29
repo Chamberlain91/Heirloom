@@ -3,14 +3,14 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## IGrid\<T>
+## IGrid\<T> Interface
 
 > **Namespace**: [Heirloom][0]  
 
 A 2D grid of values.
 
 ```cs
-public abstract interface IGrid<T> : IReadOnlyGrid<T>
+public interface IGrid<T> : IReadOnlyGrid<T>
 ```
 
 ### Inherits

@@ -6,7 +6,7 @@
 ## ISpatialCollection\<T>.Update
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [ISpatialCollection\<T>][1]  
+> **Declaring Type**: [ISpatialCollection\<T>][1]  
 
 ### Update(in T, in IShape)
 

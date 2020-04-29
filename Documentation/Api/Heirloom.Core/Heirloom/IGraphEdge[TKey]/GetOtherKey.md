@@ -6,7 +6,7 @@
 ## IGraphEdge\<TKey>.GetOtherKey
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IGraphEdge\<TKey>][1]  
+> **Declaring Type**: [IGraphEdge\<TKey>][1]  
 
 ### GetOtherKey(TKey)
 

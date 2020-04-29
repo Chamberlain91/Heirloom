@@ -6,7 +6,7 @@
 ## PolygonTools.GetClosestPointOutline
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [PolygonTools][1]  
+> **Declaring Type**: [PolygonTools][1]  
 
 ### GetClosestPointOutline(IReadOnlyList<Vector>, in Vector)
 

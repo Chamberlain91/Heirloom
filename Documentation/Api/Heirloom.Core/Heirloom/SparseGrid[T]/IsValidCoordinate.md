@@ -6,7 +6,7 @@
 ## SparseGrid\<T>.IsValidCoordinate
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [SparseGrid\<T>][1]  
+> **Declaring Type**: [SparseGrid\<T>][1]  
 
 ### IsValidCoordinate(in int, in int)
 

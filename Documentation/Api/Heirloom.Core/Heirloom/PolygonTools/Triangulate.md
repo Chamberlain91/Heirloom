@@ -6,7 +6,7 @@
 ## PolygonTools.Triangulate
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [PolygonTools][1]  
+> **Declaring Type**: [PolygonTools][1]  
 
 ### Triangulate(IReadOnlyList<Vector>)
 

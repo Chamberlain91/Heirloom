@@ -6,7 +6,7 @@
 ## TextLayoutState.Position
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [TextLayoutState][1]  
+> **Declaring Type**: [TextLayoutState][1]  
 
 #### Position
 

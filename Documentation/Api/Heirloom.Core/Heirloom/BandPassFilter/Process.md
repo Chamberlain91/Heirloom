@@ -6,7 +6,7 @@
 ## BandPassFilter.Process
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [BandPassFilter][1]  
+> **Declaring Type**: [BandPassFilter][1]  
 
 ### Process(float, int)
 

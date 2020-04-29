@@ -6,7 +6,7 @@
 ## Curves.Cubic
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Curves][1]  
+> **Declaring Type**: [Curves][1]  
 
 ### Cubic(in Vector, in Vector, in Vector, in Vector, in float)
 

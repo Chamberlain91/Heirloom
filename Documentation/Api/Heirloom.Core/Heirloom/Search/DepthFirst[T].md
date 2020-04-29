@@ -6,7 +6,7 @@
 ## Search.DepthFirst\<T>
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Search][1]  
+> **Declaring Type**: [Search][1]  
 
 ### DepthFirst<T>(T, Func<T, IEnumerable<T>>)
 

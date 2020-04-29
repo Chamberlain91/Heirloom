@@ -6,7 +6,7 @@
 ## Extensions.ToHeap\<T>
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Extensions][1]  
+> **Declaring Type**: [Extensions][1]  
 
 ### ToHeap<T>(IEnumerable<T>, HeapType)
 

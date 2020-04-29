@@ -6,7 +6,7 @@
 ## CpuInfo.Name
 
 > **Namespace**: [Heirloom.Desktop.Hardware][0]  
-> **Type**: [CpuInfo][1]  
+> **Declaring Type**: [CpuInfo][1]  
 
 ### Name
 

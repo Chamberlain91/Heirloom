@@ -6,7 +6,7 @@
 ## Graph\<TVertexKey, TVertexValue>.RemoveEdge
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Graph\<TVertexKey, TVertexValue>][1]  
+> **Declaring Type**: [Graph\<TVertexKey, TVertexValue>][1]  
 
 ### RemoveEdge(TVertexKey, TVertexKey)
 

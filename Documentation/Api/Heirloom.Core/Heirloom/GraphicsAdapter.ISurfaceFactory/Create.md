@@ -6,7 +6,7 @@
 ## GraphicsAdapter.ISurfaceFactory.Create
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [GraphicsAdapter.ISurfaceFactory][1]  
+> **Declaring Type**: [GraphicsAdapter.ISurfaceFactory][1]  
 
 ### Create(IntSize, ref MultisampleQuality)
 

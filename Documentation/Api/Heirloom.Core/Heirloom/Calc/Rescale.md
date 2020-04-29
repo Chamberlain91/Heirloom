@@ -6,7 +6,7 @@
 ## Calc.Rescale
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]  
+> **Declaring Type**: [Calc][1]  
 
 ### Rescale(in float, in float, in float, in float, in float)
 

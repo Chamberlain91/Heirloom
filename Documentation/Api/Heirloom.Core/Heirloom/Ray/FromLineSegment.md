@@ -6,7 +6,7 @@
 ## Ray.FromLineSegment
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Ray][1]  
+> **Declaring Type**: [Ray][1]  
 
 ### FromLineSegment(in Vector, in Vector)
 

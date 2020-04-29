@@ -6,7 +6,7 @@
 ## Graph\<TVertexKey, TVertexValue>.VertexCount
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Graph\<TVertexKey, TVertexValue>][1]  
+> **Declaring Type**: [Graph\<TVertexKey, TVertexValue>][1]  
 
 ### VertexCount
 

@@ -6,7 +6,7 @@
 ## Color.Cyan
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Color][1]  
+> **Declaring Type**: [Color][1]  
 
 ### Cyan
 

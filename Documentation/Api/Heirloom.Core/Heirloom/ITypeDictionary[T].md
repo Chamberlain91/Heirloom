@@ -3,14 +3,14 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## ITypeDictionary\<T>
+## ITypeDictionary\<T> Interface
 
 > **Namespace**: [Heirloom][0]  
 
 Manages objects by their type hierarchy up to the base type, allowing access by enumeration of objects by type.
 
 ```cs
-public abstract interface ITypeDictionary<T> : IReadOnlyTypeDictionary<T>, IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
+public interface ITypeDictionary<T> : IReadOnlyTypeDictionary<T>, IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
 ```
 
 ### Inherits

@@ -3,14 +3,14 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## ISpatialQuery\<T>
+## ISpatialQuery\<T> Interface
 
 > **Namespace**: [Heirloom][0]  
 
 Provides methods for querying elements in 2D space.
 
 ```cs
-public abstract interface ISpatialQuery<T>
+public interface ISpatialQuery<T>
 ```
 
 #### Methods

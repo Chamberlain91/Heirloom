@@ -6,7 +6,7 @@
 ## Calc.Between
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]  
+> **Declaring Type**: [Calc][1]  
 
 ### Between(in float, in float, in float)
 

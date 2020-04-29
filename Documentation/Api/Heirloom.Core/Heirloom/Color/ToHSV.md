@@ -6,7 +6,7 @@
 ## Color.ToHSV
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Color][1]  
+> **Declaring Type**: [Color][1]  
 
 ### ToHSV(out float, out float, out float)
 

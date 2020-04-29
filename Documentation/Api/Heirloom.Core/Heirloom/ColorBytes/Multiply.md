@@ -6,7 +6,7 @@
 ## ColorBytes.Multiply
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [ColorBytes][1]  
+> **Declaring Type**: [ColorBytes][1]  
 
 ### Multiply(in ColorBytes, in ColorBytes, ref ColorBytes)
 

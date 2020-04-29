@@ -6,7 +6,7 @@
 ## Range.Deconstruct
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Range][1]  
+> **Declaring Type**: [Range][1]  
 
 ### Deconstruct(out float, out float)
 

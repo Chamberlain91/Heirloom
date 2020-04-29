@@ -6,7 +6,7 @@
 ## RayContact.Distance
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [RayContact][1]  
+> **Declaring Type**: [RayContact][1]  
 
 #### Distance
 

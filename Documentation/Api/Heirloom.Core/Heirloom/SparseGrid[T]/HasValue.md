@@ -6,7 +6,7 @@
 ## SparseGrid\<T>.HasValue
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [SparseGrid\<T>][1]  
+> **Declaring Type**: [SparseGrid\<T>][1]  
 
 ### HasValue(in int, in int)
 

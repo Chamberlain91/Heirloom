@@ -6,7 +6,7 @@
 ## Calc.DeadZone
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]  
+> **Declaring Type**: [Calc][1]  
 
 ### DeadZone(float, float, float)
 

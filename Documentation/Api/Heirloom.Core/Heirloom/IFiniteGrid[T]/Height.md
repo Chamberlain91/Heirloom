@@ -6,7 +6,7 @@
 ## IFiniteGrid\<T>.Height
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IFiniteGrid\<T>][1]  
+> **Declaring Type**: [IFiniteGrid\<T>][1]  
 
 ### Height
 

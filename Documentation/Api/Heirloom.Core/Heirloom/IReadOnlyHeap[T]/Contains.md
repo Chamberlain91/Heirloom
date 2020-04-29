@@ -6,7 +6,7 @@
 ## IReadOnlyHeap\<T>.Contains
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IReadOnlyHeap\<T>][1]  
+> **Declaring Type**: [IReadOnlyHeap\<T>][1]  
 
 ### Contains(T)
 

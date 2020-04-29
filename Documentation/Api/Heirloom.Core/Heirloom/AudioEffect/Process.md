@@ -6,7 +6,7 @@
 ## AudioEffect.Process
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [AudioEffect][1]  
+> **Declaring Type**: [AudioEffect][1]  
 
 ### Process(float, int)
 

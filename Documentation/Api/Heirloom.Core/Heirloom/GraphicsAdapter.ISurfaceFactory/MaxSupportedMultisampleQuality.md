@@ -6,7 +6,7 @@
 ## GraphicsAdapter.ISurfaceFactory.MaxSupportedMultisampleQuality
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [GraphicsAdapter.ISurfaceFactory][1]  
+> **Declaring Type**: [GraphicsAdapter.ISurfaceFactory][1]  
 
 ### MaxSupportedMultisampleQuality
 

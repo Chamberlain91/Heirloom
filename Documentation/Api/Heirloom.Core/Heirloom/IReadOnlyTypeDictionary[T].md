@@ -3,14 +3,14 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## IReadOnlyTypeDictionary\<T>
+## IReadOnlyTypeDictionary\<T> Interface
 
 > **Namespace**: [Heirloom][0]  
 
 A read-only view of [ITypeDictionary\<T>][1] .
 
 ```cs
-public abstract interface IReadOnlyTypeDictionary<T> : IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
+public interface IReadOnlyTypeDictionary<T> : IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
 ```
 
 ### Inherits

@@ -6,7 +6,7 @@
 ## ISpatialCollection\<T>.Remove
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [ISpatialCollection\<T>][1]  
+> **Declaring Type**: [ISpatialCollection\<T>][1]  
 
 ### Remove(in T)
 

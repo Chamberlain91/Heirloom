@@ -6,7 +6,7 @@
 ## Graphics.DrawCounts.TriangleCount
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Graphics.DrawCounts][1]  
+> **Declaring Type**: [Graphics.DrawCounts][1]  
 
 #### TriangleCount
 

@@ -3,14 +3,14 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## INoise3D
+## INoise3D Interface
 
 > **Namespace**: [Heirloom][0]  
 
 Provides an interface for sampling three-dimensional noise.
 
 ```cs
-public abstract interface INoise3D
+public interface INoise3D
 ```
 
 #### Methods

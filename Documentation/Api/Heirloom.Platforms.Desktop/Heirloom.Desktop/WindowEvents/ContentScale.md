@@ -6,7 +6,7 @@
 ## WindowEvents.ContentScale
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Type**: [WindowEvents][1]  
+> **Declaring Type**: [WindowEvents][1]  
 
 ### ContentScale
 

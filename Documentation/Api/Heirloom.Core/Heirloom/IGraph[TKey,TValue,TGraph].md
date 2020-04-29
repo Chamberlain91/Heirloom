@@ -3,12 +3,12 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## IGraph\<TKey, TValue, TGraph>
+## IGraph\<TKey, TValue, TGraph> Interface
 
 > **Namespace**: [Heirloom][0]  
 
 ```cs
-public abstract interface IGraph<TKey, TValue, TGraph>
+public interface IGraph<TKey, TValue, TGraph>
 ```
 
 #### Properties

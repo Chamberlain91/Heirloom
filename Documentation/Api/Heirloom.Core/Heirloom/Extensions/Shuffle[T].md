@@ -6,7 +6,7 @@
 ## Extensions.Shuffle\<T>
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Extensions][1]  
+> **Declaring Type**: [Extensions][1]  
 
 ### Shuffle<T>(Random, IList<T>)
 

@@ -6,7 +6,7 @@
 ## IntRange.Deconstruct
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IntRange][1]  
+> **Declaring Type**: [IntRange][1]  
 
 ### Deconstruct(out int, out int)
 

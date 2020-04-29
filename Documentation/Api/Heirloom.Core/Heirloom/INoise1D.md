@@ -3,14 +3,14 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## INoise1D
+## INoise1D Interface
 
 > **Namespace**: [Heirloom][0]  
 
 Provides an interface for sampling one-dimensional noise.
 
 ```cs
-public abstract interface INoise1D
+public interface INoise1D
 ```
 
 #### Methods

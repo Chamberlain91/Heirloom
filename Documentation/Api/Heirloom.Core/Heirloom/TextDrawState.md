@@ -3,7 +3,7 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## TextDrawState
+## TextDrawState Struct
 
 > **Namespace**: [Heirloom][0]  
 

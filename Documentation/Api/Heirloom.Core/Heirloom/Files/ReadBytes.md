@@ -6,7 +6,7 @@
 ## Files.ReadBytes
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Files][1]  
+> **Declaring Type**: [Files][1]  
 
 ### ReadBytes(string)
 

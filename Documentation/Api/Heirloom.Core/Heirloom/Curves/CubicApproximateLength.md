@@ -6,7 +6,7 @@
 ## Curves.CubicApproximateLength
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Curves][1]  
+> **Declaring Type**: [Curves][1]  
 
 ### CubicApproximateLength(in Vector, in Vector, in Vector, in Vector)
 

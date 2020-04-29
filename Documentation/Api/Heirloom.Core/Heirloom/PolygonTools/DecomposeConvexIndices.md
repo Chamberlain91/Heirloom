@@ -6,7 +6,7 @@
 ## PolygonTools.DecomposeConvexIndices
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [PolygonTools][1]  
+> **Declaring Type**: [PolygonTools][1]  
 
 ### DecomposeConvexIndices(IReadOnlyList<Vector>)
 

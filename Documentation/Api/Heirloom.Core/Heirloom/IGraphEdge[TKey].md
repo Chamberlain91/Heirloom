@@ -3,14 +3,14 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]  
 
-## IGraphEdge\<TKey>
+## IGraphEdge\<TKey> Interface
 
 > **Namespace**: [Heirloom][0]  
 
 An edge between two vertices.
 
 ```cs
-public abstract interface IGraphEdge<TKey>
+public interface IGraphEdge<TKey>
 ```
 
 #### Properties

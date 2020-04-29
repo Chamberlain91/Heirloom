@@ -6,7 +6,7 @@
 ## Curves.CubicDerivative
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Curves][1]  
+> **Declaring Type**: [Curves][1]  
 
 ### CubicDerivative(in Vector, in Vector, in Vector, in Vector, in float)
 

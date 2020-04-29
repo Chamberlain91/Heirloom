@@ -6,7 +6,7 @@
 ## Application.Run
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Type**: [Application][1]  
+> **Declaring Type**: [Application][1]  
 
 ### Run(Action)
 

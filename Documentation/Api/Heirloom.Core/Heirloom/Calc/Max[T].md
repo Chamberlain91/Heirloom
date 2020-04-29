@@ -6,7 +6,7 @@
 ## Calc.Max\<T>
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]  
+> **Declaring Type**: [Calc][1]  
 
 ### Max<T>(params T[])
 

@@ -6,7 +6,7 @@
 ## Range.Rescale
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Range][1]  
+> **Declaring Type**: [Range][1]  
 
 ### Rescale(in float, in float, in float)
 

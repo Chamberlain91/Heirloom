@@ -6,14 +6,14 @@
 ## Calc.Lerp
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Calc][1]  
+> **Declaring Type**: [Calc][1]  
 
-### Lerp( byte,  byte, float)
+### Lerp(byte, byte, float)
 
 Computes the linear interpolation from `x1` to `x2` by factor `t` .
 
 ```cs
-public static byte Lerp( byte x1, byte x2, float t)
+public static byte Lerp(byte x1, byte x2, float t)
 ```
 
 ### Lerp(in sbyte, in sbyte, in float)

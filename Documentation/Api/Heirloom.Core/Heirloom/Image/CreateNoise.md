@@ -6,7 +6,7 @@
 ## Image.CreateNoise
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Image][1]  
+> **Declaring Type**: [Image][1]  
 
 ### CreateNoise(IntSize, float, int, float, Vector)
 

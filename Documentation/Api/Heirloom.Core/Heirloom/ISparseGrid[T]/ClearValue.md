@@ -6,7 +6,7 @@
 ## ISparseGrid\<T>.ClearValue
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [ISparseGrid\<T>][1]  
+> **Declaring Type**: [ISparseGrid\<T>][1]  
 
 ### ClearValue(in int, in int)
 

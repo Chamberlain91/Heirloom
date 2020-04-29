@@ -6,7 +6,7 @@
 ## SurfaceEffect.None
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [SurfaceEffect][1]  
+> **Declaring Type**: [SurfaceEffect][1]  
 
 #### None
 

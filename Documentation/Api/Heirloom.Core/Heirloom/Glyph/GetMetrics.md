@@ -6,7 +6,7 @@
 ## Glyph.GetMetrics
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [Glyph][1]  
+> **Declaring Type**: [Glyph][1]  
 
 ### GetMetrics(float)
 

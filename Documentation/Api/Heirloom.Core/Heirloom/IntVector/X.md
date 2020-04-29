@@ -6,7 +6,7 @@
 ## IntVector.X
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [IntVector][1]  
+> **Declaring Type**: [IntVector][1]  
 
 #### X
 

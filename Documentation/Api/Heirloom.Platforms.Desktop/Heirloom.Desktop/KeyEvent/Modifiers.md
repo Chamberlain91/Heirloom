@@ -6,7 +6,7 @@
 ## KeyEvent.Modifiers
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Type**: [KeyEvent][1]  
+> **Declaring Type**: [KeyEvent][1]  
 
 #### Modifiers
 

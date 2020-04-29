@@ -6,7 +6,7 @@
 ## Window.FramebufferResized
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Type**: [Window][1]  
+> **Declaring Type**: [Window][1]  
 
 #### FramebufferResized
 

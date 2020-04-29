@@ -6,7 +6,7 @@
 ## ImageSource.Interpolation
 
 > **Namespace**: [Heirloom][0]  
-> **Type**: [ImageSource][1]  
+> **Declaring Type**: [ImageSource][1]  
 
 ### Interpolation
 

@@ -6,7 +6,7 @@
 ## Keyboard.GetPrintableKeyName
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Type**: [Keyboard][1]  
+> **Declaring Type**: [Keyboard][1]  
 
 ### GetPrintableKeyName(Key)
 
