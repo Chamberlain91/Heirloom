@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## IHeap\<T> Interface
+## IHeap\<T> (Interface)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Represents a heap data structure. Allowing the access and removal of items by a priority ordering.
 
@@ -17,19 +17,21 @@ public interface IHeap<T> : IReadOnlyHeap<T>, IReadOnlyCollection<T>, IEnumerabl
 
 [IReadOnlyHeap\<T>][1], IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable
 
-#### Methods
+### Methods
 
 [Add][2], [AddRange][3], [Remove][4], [Update][5]
 
 ## Methods
 
-| Name          | Summary                                                             |
-|---------------|---------------------------------------------------------------------|
-| [Add][2]      | Adds an item to the heap.                                           |
-| [AddRange][3] | Adds multiple items to the heap.                                    |
-| [Remove][4]   | Removes a specific item from the heap.                              |
-| [Remove][4]   | Removes and returns the next priority item in the heap.             |
-| [Update][5]   | Alerts the heap to update the position the element within the heap. |
+#### Instance
+
+| Name                          | Return Type | Summary                                                             |
+|-------------------------------|-------------|---------------------------------------------------------------------|
+| [Add(T)][2]                   | `bool`      | Adds an item to the heap.                                           |
+| [AddRange(IEnumerable<T>)][3] | `void`      | Adds multiple items to the heap.                                    |
+| [Remove(T)][4]                | `bool`      | Removes a specific item from the heap.                              |
+| [Remove()][4]                 | `T`         | Removes and returns the next priority item in the heap.             |
+| [Update(T)][5]                | `void`      | Alerts the heap to update the position the element within the heap. |
 
 [0]: ../../Heirloom.Core.md
 [1]: IReadOnlyHeap[T].md

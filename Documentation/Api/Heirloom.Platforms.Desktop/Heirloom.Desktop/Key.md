@@ -1,11 +1,11 @@
 # Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Platforms.Desktop][0]  
+> **Assembly**: [Heirloom.Platforms.Desktop][0]
 
-## Key Enum
+## Key (Enum)
 
-> **Namespace**: [Heirloom.Desktop][0]  
+> **Namespace**: [Heirloom.Desktop][0]
 
 Standard GLFW virtual key mapping (standard US keyboard layout).
 
@@ -15,13 +15,16 @@ public enum Key : IComparable, IFormattable, IConvertible
 
 | Name         | Summary                     |
 |--------------|-----------------------------|
-| Unknown      | An unknown key was pressed. |
-| Space        |                             |
+| A            |                             |
 | Apostrophe   |                             |
+| B            |                             |
+| Backslash    |                             |
+| Backspace    |                             |
+| C            |                             |
+| CapsLock     |                             |
 | Comma        |                             |
-| Minus        |                             |
-| Period       |                             |
-| Slash        |                             |
+| D            |                             |
+| Delete       |                             |
 | Digit0       |                             |
 | Digit1       |                             |
 | Digit2       |                             |
@@ -32,68 +35,14 @@ public enum Key : IComparable, IFormattable, IConvertible
 | Digit7       |                             |
 | Digit8       |                             |
 | Digit9       |                             |
-| Semicolon    |                             |
-| Equal        |                             |
-| A            |                             |
-| B            |                             |
-| C            |                             |
-| D            |                             |
-| E            |                             |
-| F            |                             |
-| G            |                             |
-| H            |                             |
-| I            |                             |
-| J            |                             |
-| K            |                             |
-| L            |                             |
-| M            |                             |
-| N            |                             |
-| O            |                             |
-| P            |                             |
-| Q            |                             |
-| R            |                             |
-| S            |                             |
-| T            |                             |
-| U            |                             |
-| V            |                             |
-| W            |                             |
-| X            |                             |
-| Y            |                             |
-| Z            |                             |
-| LeftBracket  |                             |
-| Backslash    |                             |
-| RightBracket |                             |
-| GraveAccent  |                             |
-| World1       |                             |
-| World2       |                             |
-| Escape       |                             |
-| Enter        |                             |
-| Tab          |                             |
-| Backspace    |                             |
-| Insert       |                             |
-| Delete       |                             |
-| Right        |                             |
-| Left         |                             |
 | Down         |                             |
-| Up           |                             |
-| PageUp       |                             |
-| PageDown     |                             |
-| Home         |                             |
+| E            |                             |
 | End          |                             |
-| CapsLock     |                             |
-| ScrollLock   |                             |
-| NumLock      |                             |
-| PrintScreen  |                             |
-| Pause        |                             |
+| Enter        |                             |
+| Equal        |                             |
+| Escape       |                             |
+| F            |                             |
 | F1           |                             |
-| F2           |                             |
-| F3           |                             |
-| F4           |                             |
-| F5           |                             |
-| F6           |                             |
-| F7           |                             |
-| F8           |                             |
-| F9           |                             |
 | F10          |                             |
 | F11          |                             |
 | F12          |                             |
@@ -104,12 +53,39 @@ public enum Key : IComparable, IFormattable, IConvertible
 | F17          |                             |
 | F18          |                             |
 | F19          |                             |
+| F2           |                             |
 | F20          |                             |
 | F21          |                             |
 | F22          |                             |
 | F23          |                             |
 | F24          |                             |
 | F25          |                             |
+| F3           |                             |
+| F4           |                             |
+| F5           |                             |
+| F6           |                             |
+| F7           |                             |
+| F8           |                             |
+| F9           |                             |
+| G            |                             |
+| GraveAccent  |                             |
+| H            |                             |
+| Home         |                             |
+| I            |                             |
+| Insert       |                             |
+| J            |                             |
+| K            |                             |
+| L            |                             |
+| Left         |                             |
+| LeftAlt      |                             |
+| LeftBracket  |                             |
+| LeftControl  |                             |
+| LeftShift    |                             |
+| LeftSuper    |                             |
+| M            |                             |
+| Menu         |                             |
+| Minus        |                             |
+| N            |                             |
 | Num0         |                             |
 | Num1         |                             |
 | Num2         |                             |
@@ -120,21 +96,45 @@ public enum Key : IComparable, IFormattable, IConvertible
 | Num7         |                             |
 | Num8         |                             |
 | Num9         |                             |
+| NumAdd       |                             |
 | NumDecimal   |                             |
 | NumDivide    |                             |
-| NumMultiply  |                             |
-| NumSubtract  |                             |
-| NumAdd       |                             |
 | NumEnter     |                             |
 | NumEqual     |                             |
-| LeftShift    |                             |
-| LeftControl  |                             |
-| LeftAlt      |                             |
-| LeftSuper    |                             |
-| RightShift   |                             |
-| RightControl |                             |
+| NumLock      |                             |
+| NumMultiply  |                             |
+| NumSubtract  |                             |
+| O            |                             |
+| P            |                             |
+| PageDown     |                             |
+| PageUp       |                             |
+| Pause        |                             |
+| Period       |                             |
+| PrintScreen  |                             |
+| Q            |                             |
+| R            |                             |
+| Right        |                             |
 | RightAlt     |                             |
+| RightBracket |                             |
+| RightControl |                             |
+| RightShift   |                             |
 | RightSuper   |                             |
-| Menu         |                             |
+| S            |                             |
+| ScrollLock   |                             |
+| Semicolon    |                             |
+| Slash        |                             |
+| Space        |                             |
+| T            |                             |
+| Tab          |                             |
+| U            |                             |
+| Unknown      | An unknown key was pressed. |
+| Up           |                             |
+| V            |                             |
+| W            |                             |
+| World1       |                             |
+| World2       |                             |
+| X            |                             |
+| Y            |                             |
+| Z            |                             |
 
 [0]: ../../Heirloom.Platforms.Desktop.md

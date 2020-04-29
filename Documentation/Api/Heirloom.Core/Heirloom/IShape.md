@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## IShape Interface
+## IShape (Interface)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Represents the general interface of a shape and common operators each shape should support.
 
@@ -13,37 +13,44 @@ Represents the general interface of a shape and common operators each shape shou
 public interface IShape
 ```
 
-#### Properties
+### Properties
 
-[Bounds][1], [Area][2]
+[Area][1], [Bounds][2]
 
-#### Methods
+### Methods
 
-[GetClosestPoint][3], [Contains][4], [Overlaps][5], [Raycast][6], [Project][7]
+[Contains][3], [GetClosestPoint][4], [Overlaps][5], [Project][6], [Raycast][7]
 
 ## Properties
 
-| Name        | Summary                                    |
-|-------------|--------------------------------------------|
-| [Bounds][1] | Gets the bounding rectangle of this shape. |
-| [Area][2]   | Gets the area of this shape.               |
+#### Instance
+
+| Name        | Type           | Summary                                    |
+|-------------|----------------|--------------------------------------------|
+| [Area][1]   | `float`        | Gets the area of this shape.               |
+| [Bounds][2] | [Rectangle][8] | Gets the bounding rectangle of this shape. |
 
 ## Methods
 
-| Name                 | Summary                                                     |
-|----------------------|-------------------------------------------------------------|
-| [GetClosestPoint][3] | Gets the nearest point on the shape to the specified point. |
-| [Contains][4]        | Determines if this shape contains the specified point.      |
-| [Overlaps][5]        | Determines if this shape overlaps the specified shape.      |
-| [Raycast][6]         | Performs a raycast against this shape.                      |
-| [Raycast][6]         | Performs a raycast against this shape.                      |
-| [Project][7]         | Project this shape onto the specified axis.                 |
+#### Instance
+
+| Name                           | Return Type | Summary                                                     |
+|--------------------------------|-------------|-------------------------------------------------------------|
+| [Contains(in Vector)][3]       | `bool`      | Determines if this shape contains the specified point.      |
+| [GetClosestPoint(in Vec...][4] | [Vector][9] | Gets the nearest point on the shape to the specified point. |
+| [Overlaps(IShape)][5]          | `bool`      | Determines if this shape overlaps the specified shape.      |
+| [Project(in Vector)][6]        | [Range][10] | Project this shape onto the specified axis.                 |
+| [Raycast(in Ray, out Ra...][7] | `bool`      | Performs a raycast against this shape.                      |
+| [Raycast(in Ray)][7]           | `bool`      | Performs a raycast against this shape.                      |
 
 [0]: ../../Heirloom.Core.md
-[1]: IShape/Bounds.md
-[2]: IShape/Area.md
-[3]: IShape/GetClosestPoint.md
-[4]: IShape/Contains.md
+[1]: IShape/Area.md
+[2]: IShape/Bounds.md
+[3]: IShape/Contains.md
+[4]: IShape/GetClosestPoint.md
 [5]: IShape/Overlaps.md
-[6]: IShape/Raycast.md
-[7]: IShape/Project.md
+[6]: IShape/Project.md
+[7]: IShape/Raycast.md
+[8]: Rectangle.md
+[9]: Vector.md
+[10]: Range.md

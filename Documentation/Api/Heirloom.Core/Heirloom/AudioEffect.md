@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## AudioEffect Class
+## AudioEffect (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 An audio effect. Implementations of this class mutate the audio for various effects.
 
@@ -13,15 +13,17 @@ An audio effect. Implementations of this class mutate the audio for various effe
 public abstract class AudioEffect
 ```
 
-#### Methods
+### Methods
 
 [Process][1]
 
 ## Methods
 
-| Name         | Summary |
-|--------------|---------|
-| [Process][1] |         |
+#### Instance
+
+| Name                     | Return Type | Summary |
+|--------------------------|-------------|---------|
+| [Process(float, int)][1] | `float`     |         |
 
 [0]: ../../Heirloom.Core.md
 [1]: AudioEffect/Process.md

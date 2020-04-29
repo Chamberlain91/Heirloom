@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Rectangle Struct
+## Rectangle (Struct)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 ```cs
 public struct Rectangle : IShape, IEquatable<Rectangle>
@@ -15,132 +15,153 @@ public struct Rectangle : IShape, IEquatable<Rectangle>
 
 [IShape][1], IEquatable\<Rectangle>
 
-#### Fields
+### Fields
 
-[X][2], [Y][3], [Width][4], [Height][5]
+[Height][2], [Width][3], [X][4], [Y][5]
 
-#### Properties
+### Properties
 
-[Area][6], [Size][7], [Position][8], [Center][9], [Min][10], [Max][11], [Left][12], [Top][13], [Right][14], [Bottom][15], [TopLeft][16], [BottomLeft][17], [BottomRight][18], [TopRight][19], [IsValid][20]
+[Area][6], [Bottom][7], [BottomLeft][8], [BottomRight][9], [Center][10], [IsValid][11], [Left][12], [Max][13], [Min][14], [Position][15], [Right][16], [Size][17], [Top][18], [TopLeft][19], [TopRight][20]
 
-#### Methods
+### Methods
 
-[Set][21], [ToPolygon][22], [Offset][23], [Transform][24], [Include][25], [Inflate][26], [GetClosestPoint][27], [Contains][28], [Overlaps][29], [Project][30], [Raycast][31], [Deconstruct][32]
+[Contains][21], [Deconstruct][22], [GetClosestPoint][23], [Include][24], [Inflate][25], [Offset][26], [Overlaps][27], [Project][28], [Raycast][29], [Set][30], [ToPolygon][31], [Transform][32]
 
-#### Static Properties
+### Static Properties
 
-[InvertedInfinite][33], [Infinite][34], [One][35], [Zero][36]
+[Infinite][33], [InvertedInfinite][34], [One][35], [Zero][36]
 
-#### Static Methods
+### Static Methods
 
-[Offset][23], [Transform][24], [Merge][37], [Inflate][26], [FromPoints][38]
+[FromPoints][37], [Inflate][25], [Merge][38], [Offset][26], [Transform][32]
 
 ## Fields
 
-| Name        | Summary                             |
-|-------------|-------------------------------------|
-| [X][2]      | The x-coordinate of this rectangle. |
-| [Y][3]      | The y-coordinate of this rectangle. |
-| [Width][4]  | The width of this rectangle.        |
-| [Height][5] | The height of this rectangle.       |
+#### Instance
+
+| Name        | Type    | Summary                             |
+|-------------|---------|-------------------------------------|
+| [Height][2] | `float` | The height of this rectangle.       |
+| [Width][3]  | `float` | The width of this rectangle.        |
+| [X][4]      | `float` | The x-coordinate of this rectangle. |
+| [Y][5]      | `float` | The y-coordinate of this rectangle. |
 
 ## Properties
 
-| Name                   | Summary                                                                                                                                              |
-|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Area][6]              | Gets the area of this rectangle.                                                                                                                     |
-| [Size][7]              | Gets or sets the size of this rectangle.                                                                                                             |
-| [Position][8]          | Gets or sets the position of this rectangle.                                                                                                         |
-| [Center][9]            | Gets or sets the center position of this rectangle.                                                                                                  |
-| [Min][10]              | Gets the minimum corner of this rectangle.                                                                                                           |
-| [Max][11]              | Gets the maximum corner of this rectangle.                                                                                                           |
-| [Left][12]             | Gets the left extent of this rectangle.                                                                                                              |
-| [Top][13]              | Gets the top extent of this rectangle.                                                                                                               |
-| [Right][14]            | Gets the right extent of this rectangle.                                                                                                             |
-| [Bottom][15]           | Gets the bottom extent of this rectangle.                                                                                                            |
-| [TopLeft][16]          | Gets the top left corner of this rectangle.                                                                                                          |
-| [BottomLeft][17]       | Gets the bottom left corner of this rectangle.                                                                                                       |
-| [BottomRight][18]      | Gets the bottom right corner of this rectangle.                                                                                                      |
-| [TopRight][19]         | Gets the top right corner of this rectangle.                                                                                                         |
-| [IsValid][20]          | Determines if the values of this rectangle are considered to be valid or in other words that \<c>left &lt; right\</c> and \<c>top &lt; bottom\</c> . |
-| [InvertedInfinite][33] | A rectangle that spans the entire 2D plane (but inverted, with min and max reversed).                                                                |
-| [Infinite][34]         | A rectangle that spans the entire 2D plane.                                                                                                          |
-| [One][35]              | A 1x1 rectangle that is positioned at the origin.                                                                                                    |
-| [Zero][36]             | A 0x0 rectangle that is positioned at the origin.                                                                                                    |
+#### Instance
+
+| Name             | Type         | Summary                                                                |
+|------------------|--------------|------------------------------------------------------------------------|
+| [Area][6]        | `float`      | Gets the area of this rectangle.                                       |
+| [Bottom][7]      | `float`      | Gets the bottom extent of this rectangle.                              |
+| [BottomLeft][8]  | [Vector][39] | Gets the bottom left corner of this rectangle.                         |
+| [BottomRight][9] | [Vector][39] | Gets the bottom right corner of this rectangle.                        |
+| [Center][10]     | [Vector][39] | Gets or sets the center position of this rectangle.                    |
+| [IsValid][11]    | `bool`       | Determines if the values of this rectangle are considered to be val... |
+| [Left][12]       | `float`      | Gets the left extent of this rectangle.                                |
+| [Max][13]        | [Vector][39] | Gets the maximum corner of this rectangle.                             |
+| [Min][14]        | [Vector][39] | Gets the minimum corner of this rectangle.                             |
+| [Position][15]   | [Vector][39] | Gets or sets the position of this rectangle.                           |
+| [Right][16]      | `float`      | Gets the right extent of this rectangle.                               |
+| [Size][17]       | [Size][40]   | Gets or sets the size of this rectangle.                               |
+| [Top][18]        | `float`      | Gets the top extent of this rectangle.                                 |
+| [TopLeft][19]    | [Vector][39] | Gets the top left corner of this rectangle.                            |
+| [TopRight][20]   | [Vector][39] | Gets the top right corner of this rectangle.                           |
+
+#### Static
+
+| Name                   | Type            | Summary                                                                |
+|------------------------|-----------------|------------------------------------------------------------------------|
+| [Infinite][33]         | [Rectangle][41] | A rectangle that spans the entire 2D plane.                            |
+| [InvertedInfinite][34] | [Rectangle][41] | A rectangle that spans the entire 2D plane (but inverted, with min ... |
+| [One][35]              | [Rectangle][41] | A 1x1 rectangle that is positioned at the origin.                      |
+| [Zero][36]             | [Rectangle][41] | A 0x0 rectangle that is positioned at the origin.                      |
 
 ## Methods
 
-| Name                  | Summary                                                                                           |
-|-----------------------|---------------------------------------------------------------------------------------------------|
-| [Set][21]             | Sets the components of this rectangle.                                                            |
-| [ToPolygon][22]       | Create a polygon from this rectangle.                                                             |
-| [Offset][23]          | Translates this rectangle.                                                                        |
-| [Offset][23]          | Translates this rectangle.                                                                        |
-| [Transform][24]       | Transforms the four corners of this rectangle and updates itself to bound these points.           |
-| [Include][25]         | Mutates this rectangle to accommodate the given point.                                            |
-| [Include][25]         | Mutates this rectangle to accommodate the given rectangle.                                        |
-| [Inflate][26]         | Expands (or shrinks) the rectangle by a factor on both axis.                                      |
-| [Inflate][26]         | Expands (or shrinks) the rectangle by a factor on each axis.                                      |
-| [GetClosestPoint][27] | Returns the nearest point on the rectangle to the given point.                                    |
-| [Contains][28]        | Determines if this rectangle contains the given point?                                            |
-| [Contains][28]        | Determines if this rectangle contains another rectangle?                                          |
-| [Overlaps][29]        | Determines if this rectangle overlaps another shape.                                              |
-| [Overlaps][29]        | Determines if this rectangle overlaps the specified circle.                                       |
-| [Overlaps][29]        | Determines if this rectangle overlaps the specified triangle.                                     |
-| [Overlaps][29]        | Determines if this rectangle overlaps another rectangle.                                          |
-| [Overlaps][29]        | Determines if this rectangle overlaps the specified convex polygon.                               |
-| [Overlaps][29]        | Determines if this rectangle overlaps the specified simple polygon.                               |
-| [Project][30]         | Project this rectangle onto the specified axis.                                                   |
-| [Raycast][31]         | Peforms a raycast onto this rectangle, returning true upon intersection.                          |
-| [Raycast][31]         | Peforms a raycast onto this circle, returning true upon intersection.                             |
-| [Deconstruct][32]     |                                                                                                   |
-| [Deconstruct][32]     |                                                                                                   |
-| [Offset][23]          | Copies and translates the given rectangle.                                                        |
-| [Offset][23]          | Copies and translates the given rectangle.                                                        |
-| [Transform][24]       | Transforms the four corners of this rectangle and returns the bounding rectangle of these points. |
-| [Merge][37]           | Merges the given rectangles into one potentially larger rectangle.                                |
-| [Merge][37]           |                                                                                                   |
-| [Inflate][26]         | Expands (or shrinks) the input rectangle by a factor on both axis.                                |
-| [Inflate][26]         | Expands (or shrinks) the input rectangle by a factor on each axis.                                |
-| [FromPoints][38]      |                                                                                                   |
-| [FromPoints][38]      | Computes the bounding rectangle of the given set of points.                                       |
+#### Instance
+
+| Name                            | Return Type     | Summary                                                                |
+|---------------------------------|-----------------|------------------------------------------------------------------------|
+| [Contains(in Vector)][21]       | `bool`          | Determines if this rectangle contains the given point?                 |
+| [Contains(in Rectangle)][21]    | `bool`          | Determines if this rectangle contains another rectangle?               |
+| [Deconstruct(out float,...][22] | `void`          |                                                                        |
+| [Deconstruct(out Vector...][22] | `void`          |                                                                        |
+| [GetClosestPoint(in Vec...][23] | [Vector][39]    | Returns the nearest point on the rectangle to the given point.         |
+| [Include(Vector)][24]           | `void`          | Mutates this rectangle to accommodate the given point.                 |
+| [Include(in Rectangle)][24]     | `void`          | Mutates this rectangle to accommodate the given rectangle.             |
+| [Inflate(float)][25]            | `void`          | Expands (or shrinks) the rectangle by a factor on both axis.           |
+| [Inflate(float, float)][25]     | `void`          | Expands (or shrinks) the rectangle by a factor on each axis.           |
+| [Offset(float, float)][26]      | `void`          | Translates this rectangle.                                             |
+| [Offset(Vector)][26]            | `void`          | Translates this rectangle.                                             |
+| [Overlaps(IShape)][27]          | `bool`          | Determines if this rectangle overlaps another shape.                   |
+| [Overlaps(in Circle)][27]       | `bool`          | Determines if this rectangle overlaps the specified circle.            |
+| [Overlaps(in Triangle)][27]     | `bool`          | Determines if this rectangle overlaps the specified triangle.          |
+| [Overlaps(in Rectangle)][27]    | `bool`          | Determines if this rectangle overlaps another rectangle.               |
+| [Overlaps(IReadOnlyList...][27] | `bool`          | Determines if this rectangle overlaps the specified convex polygon.    |
+| [Overlaps(Polygon)][27]         | `bool`          | Determines if this rectangle overlaps the specified simple polygon.    |
+| [Project(in Vector)][28]        | [Range][42]     | Project this rectangle onto the specified axis.                        |
+| [Raycast(in Ray)][29]           | `bool`          | Peforms a raycast onto this rectangle, returning true upon intersec... |
+| [Raycast(in Ray, out Ra...][29] | `bool`          | Peforms a raycast onto this circle, returning true upon intersection.  |
+| [Set(float, float, floa...][30] | `void`          | Sets the components of this rectangle.                                 |
+| [ToPolygon()][31]               | [Polygon][43]   | Create a polygon from this rectangle.                                  |
+| [Transform(in Matrix)][32]      | [Rectangle][41] | Transforms the four corners of this rectangle and updates itself to... |
+
+#### Static
+
+| Name                            | Return Type     | Summary                                                                |
+|---------------------------------|-----------------|------------------------------------------------------------------------|
+| [FromPoints(params Vect...][37] | [Rectangle][41] |                                                                        |
+| [FromPoints(IEnumerable...][37] | [Rectangle][41] | Computes the bounding rectangle of the given set of points.            |
+| [Inflate(Rectangle, float)][25] | [Rectangle][41] | Expands (or shrinks) the input rectangle by a factor on both axis.     |
+| [Inflate(Rectangle, flo...][25] | [Rectangle][41] | Expands (or shrinks) the input rectangle by a factor on each axis.     |
+| [Merge(in Rectangle, in...][38] | [Rectangle][41] | Merges the given rectangles into one potentially larger rectangle.     |
+| [Merge(params Rectangle[])][38] | [Rectangle][41] |                                                                        |
+| [Offset(Rectangle, floa...][26] | [Rectangle][41] | Copies and translates the given rectangle.                             |
+| [Offset(Rectangle, Vector)][26] | [Rectangle][41] | Copies and translates the given rectangle.                             |
+| [Transform(Rectangle, i...][32] | [Rectangle][41] | Transforms the four corners of this rectangle and returns the bound... |
 
 [0]: ../../Heirloom.Core.md
 [1]: IShape.md
-[2]: Rectangle/X.md
-[3]: Rectangle/Y.md
-[4]: Rectangle/Width.md
-[5]: Rectangle/Height.md
+[2]: Rectangle/Height.md
+[3]: Rectangle/Width.md
+[4]: Rectangle/X.md
+[5]: Rectangle/Y.md
 [6]: Rectangle/Area.md
-[7]: Rectangle/Size.md
-[8]: Rectangle/Position.md
-[9]: Rectangle/Center.md
-[10]: Rectangle/Min.md
-[11]: Rectangle/Max.md
+[7]: Rectangle/Bottom.md
+[8]: Rectangle/BottomLeft.md
+[9]: Rectangle/BottomRight.md
+[10]: Rectangle/Center.md
+[11]: Rectangle/IsValid.md
 [12]: Rectangle/Left.md
-[13]: Rectangle/Top.md
-[14]: Rectangle/Right.md
-[15]: Rectangle/Bottom.md
-[16]: Rectangle/TopLeft.md
-[17]: Rectangle/BottomLeft.md
-[18]: Rectangle/BottomRight.md
-[19]: Rectangle/TopRight.md
-[20]: Rectangle/IsValid.md
-[21]: Rectangle/Set.md
-[22]: Rectangle/ToPolygon.md
-[23]: Rectangle/Offset.md
-[24]: Rectangle/Transform.md
-[25]: Rectangle/Include.md
-[26]: Rectangle/Inflate.md
-[27]: Rectangle/GetClosestPoint.md
-[28]: Rectangle/Contains.md
-[29]: Rectangle/Overlaps.md
-[30]: Rectangle/Project.md
-[31]: Rectangle/Raycast.md
-[32]: Rectangle/Deconstruct.md
-[33]: Rectangle/InvertedInfinite.md
-[34]: Rectangle/Infinite.md
+[13]: Rectangle/Max.md
+[14]: Rectangle/Min.md
+[15]: Rectangle/Position.md
+[16]: Rectangle/Right.md
+[17]: Rectangle/Size.md
+[18]: Rectangle/Top.md
+[19]: Rectangle/TopLeft.md
+[20]: Rectangle/TopRight.md
+[21]: Rectangle/Contains.md
+[22]: Rectangle/Deconstruct.md
+[23]: Rectangle/GetClosestPoint.md
+[24]: Rectangle/Include.md
+[25]: Rectangle/Inflate.md
+[26]: Rectangle/Offset.md
+[27]: Rectangle/Overlaps.md
+[28]: Rectangle/Project.md
+[29]: Rectangle/Raycast.md
+[30]: Rectangle/Set.md
+[31]: Rectangle/ToPolygon.md
+[32]: Rectangle/Transform.md
+[33]: Rectangle/Infinite.md
+[34]: Rectangle/InvertedInfinite.md
 [35]: Rectangle/One.md
 [36]: Rectangle/Zero.md
-[37]: Rectangle/Merge.md
-[38]: Rectangle/FromPoints.md
+[37]: Rectangle/FromPoints.md
+[38]: Rectangle/Merge.md
+[39]: Vector.md
+[40]: Size.md
+[41]: Rectangle.md
+[42]: Range.md
+[43]: Polygon.md

@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## IntRectangle.IsValid
+## IntRectangle.IsValid (Property)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [IntRectangle][1]  
+> **Declaring Type**: [IntRectangle][1]
 
 ### IsValid
 
@@ -15,6 +15,8 @@ Determines if the values of this rectangle are considered to be valid or in othe
 ```cs
 public bool IsValid { get; }
 ```
+
+> **Returns**: `bool`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IntRectangle.md

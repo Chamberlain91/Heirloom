@@ -1,17 +1,17 @@
 # Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Platforms.Desktop][0]  
+> **Assembly**: [Heirloom.Platforms.Desktop][0]
 
-## WindowEvents.YScale
+## WindowEvents.YScale (Field)
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Declaring Type**: [WindowEvents][1]  
+> **Declaring Type**: [WindowEvents][1]
 
 #### YScale
 
 ```cs
-public float YScale
+public readonly float YScale
 ```
 
 [0]: ../../../Heirloom.Platforms.Desktop.md

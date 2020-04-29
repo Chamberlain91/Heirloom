@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Polygon.Indexer
+## Polygon.Indexer (Property)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Polygon][1]  
+> **Declaring Type**: [Polygon][1]
 
 ### Indexer
 
@@ -14,5 +14,8 @@
 public Vector this[int index] { get; set; }
 ```
 
+> **Returns**: [Vector][2]
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../Polygon.md
+[2]: ../Vector.md

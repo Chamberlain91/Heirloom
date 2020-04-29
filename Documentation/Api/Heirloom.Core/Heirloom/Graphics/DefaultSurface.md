@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Graphics.DefaultSurface
+## Graphics.DefaultSurface (Property)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Graphics][1]  
+> **Declaring Type**: [Graphics][1]
 
 ### DefaultSurface
 
@@ -16,5 +16,8 @@ Gets the default surface (ie, window) of this render context.
 public Surface DefaultSurface { get; }
 ```
 
+> **Returns**: [Surface][2]
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../Graphics.md
+[2]: ../Surface.md

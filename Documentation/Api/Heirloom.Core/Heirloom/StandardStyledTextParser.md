@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## StandardStyledTextParser Class
+## StandardStyledTextParser (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Provides implementation of a BBCode-esque text markup parser.
 
@@ -17,16 +17,18 @@ public abstract class StandardStyledTextParser : StyledTextParser
 
 [StyledTextParser][1]
 
-#### Methods
+### Methods
 
 [AddKeyword][2], [Parse][3]
 
 ## Methods
 
-| Name            | Summary                                                    |
-|-----------------|------------------------------------------------------------|
-| [AddKeyword][2] |                                                            |
-| [Parse][3]      | Parse the input text and returns a [StyledText][4] object. |
+#### Instance
+
+| Name                           | Return Type     | Summary                                               |
+|--------------------------------|-----------------|-------------------------------------------------------|
+| [AddKeyword(string, Dra...][2] | `void`          |                                                       |
+| [Parse(string)][3]             | [StyledText][4] | Parse the input text and returns a StyledText object. |
 
 [0]: ../../Heirloom.Core.md
 [1]: StyledTextParser.md

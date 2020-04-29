@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## IReadOnlyTypeDictionary\<T> Interface
+## IReadOnlyTypeDictionary\<T> (Interface)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 A read-only view of [ITypeDictionary\<T>][1] .
 
@@ -17,17 +17,19 @@ public interface IReadOnlyTypeDictionary<T> : IReadOnlyCollection<T>, IEnumerabl
 
 IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable
 
-#### Methods
+### Methods
 
 [Contains][2], [ContainsType\<X>][3], [GetItemsByType\<X>][4]
 
 ## Methods
 
-| Name                    | Summary                                                                       |
-|-------------------------|-------------------------------------------------------------------------------|
-| [Contains][2]           | Does this type dictionary contain this object?                                |
-| [ContainsType\<X>][3]   | Does the dictionary contain any object that inherits from the specified type. |
-| [GetItemsByType\<X>][4] | Enumerates any object that inherits from the specified type.                  |
+#### Instance
+
+| Name                     | Return Type       | Summary                                                                |
+|--------------------------|-------------------|------------------------------------------------------------------------|
+| [Contains(T)][2]         | `bool`            | Does this type dictionary contain this object?                         |
+| [ContainsType<X>()][3]   | `bool`            | Does the dictionary contain any object that inherits from the speci... |
+| [GetItemsByType<X>()][4] | `IEnumerable\<X>` | Enumerates any object that inherits from the specified type.           |
 
 [0]: ../../Heirloom.Core.md
 [1]: ITypeDictionary[T].md

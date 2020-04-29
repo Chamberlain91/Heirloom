@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Triangle.Bounds
+## Triangle.Bounds (Property)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Triangle][1]  
+> **Declaring Type**: [Triangle][1]
 
 ### Bounds
 
@@ -16,5 +16,8 @@ Gets the bounds of this triangle.
 public Rectangle Bounds { get; }
 ```
 
+> **Returns**: [Rectangle][2]
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../Triangle.md
+[2]: ../Rectangle.md

@@ -1,12 +1,12 @@
 # Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Platforms.Desktop][0]  
+> **Assembly**: [Heirloom.Platforms.Desktop][0]
 
-## Window.Dispose
+## Window.Dispose (Method)
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Declaring Type**: [Window][1]  
+> **Declaring Type**: [Window][1]
 
 ### Dispose()
 
@@ -14,11 +14,19 @@
 public void Dispose()
 ```
 
+> **Returns** - `void`
+
 ### Dispose(bool)
 
 ```cs
 protected void Dispose(bool disposeManaged)
 ```
+
+| Name           | Type   | Summary |
+|----------------|--------|---------|
+| disposeManaged | `bool` |         |
+
+> **Returns** - `void`
 
 [0]: ../../../Heirloom.Platforms.Desktop.md
 [1]: ../Window.md

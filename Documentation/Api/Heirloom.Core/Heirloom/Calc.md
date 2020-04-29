@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Calc Class
+## Calc (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Math operations for `float` and a other data types including `int` .   
  Includes a few genric utility functions such as [Swap\<T>][1]
@@ -14,196 +14,200 @@ Math operations for `float` and a other data types including `int` .
 public static class Calc
 ```
 
-#### Static Fields
+### Constants
 
-[Random][2], [Perlin][3], [Simplex][4], [Pi][5], [TwoPi][6], [HalfPi][7], [ToRadians][8], [ToDegree][9], [Epsilon][10]
+[Epsilon][2], [HalfPi][3], [Pi][4], [ToDegree][5], [ToRadians][6], [TwoPi][7]
 
-#### Static Methods
+### Static Fields
 
-[Lerp][11], [AngleLerp][12], [Between][13], [IsBetween][14], [Rescale][15], [CosineInterpolation][16], [SmoothStep][17], [SmootherStep][18], [NearestPowerOfTwo][19], [LowerPowerOfTwo][20], [UpperPowerOfTwo][21], [IsPowerOfTwo][22], [Swap\<T>][1], [Order\<T>][23], [Wrap][24], [DeadZone][25], [Osc][26], [Sin][27], [Asin][28], [Cos][29], [Acos][30], [Tan][31], [Atan][32], [Atan2][33], [Distance][34], [Pow][35], [Log][36], [Sqrt][37], [Factorial][38], [Min][39], [Max][40], [Clamp][41], [Abs][42], [Sign][43], [Fraction][44], [Min\<T>][45], [Max\<T>][46], [Floor][47], [Ceil][48], [Round][49], [NearEquals][50], [NearZero][51]
+[Perlin][8], [Random][9], [Simplex][10]
+
+### Static Methods
+
+[Abs][11], [Acos][12], [AngleLerp][13], [Asin][14], [Atan][15], [Atan2][16], [Between][17], [Ceil][18], [Clamp][19], [Cos][20], [CosineInterpolation][21], [DeadZone][22], [Distance][23], [Factorial][24], [Floor][25], [Fraction][26], [IsBetween][27], [IsPowerOfTwo][28], [Lerp][29], [Log][30], [LowerPowerOfTwo][31], [Max][32], [Max\<T>][33], [Min][34], [Min\<T>][35], [NearEquals][36], [NearestPowerOfTwo][37], [NearZero][38], [Order\<T>][39], [Osc][40], [Pow][41], [Rescale][42], [Round][43], [Sign][44], [Sin][45], [SmootherStep][46], [SmoothStep][47], [Sqrt][48], [Swap\<T>][1], [Tan][49], [UpperPowerOfTwo][50], [Wrap][51]
 
 ## Fields
 
-| Name           | Summary                                                                           |
-|----------------|-----------------------------------------------------------------------------------|
-| [Random][2]    | A static instance of the [Random][2] for convenience.                             |
-| [Perlin][3]    | A static instance of the [PerlinNoise][52] for convenience.                       |
-| [Simplex][4]   | A static instance of the [SimplexNoise][53] for convenience.                      |
-| [Pi][5]        | An approximation of the constant Pi (180 Degrees or Pi Radians). 3.14159265359... |
-| [TwoPi][6]     | Two times Pi. 360 Degrees in Radians. 6.28318530718...                            |
-| [HalfPi][7]    | Half Pi. 90 Degrees in Radians. 0.5 * 3.141592653...                              |
-| [ToRadians][8] | Pi / 180.0                                                                        |
-| [ToDegree][9]  | 180.0 / Pi                                                                        |
-| [Epsilon][10]  | A small number almost considered zero, greatly differs from `float.Epsilon` .     |
+| Name           | Type               | Summary                                                                |
+|----------------|--------------------|------------------------------------------------------------------------|
+| [Epsilon][2]   | `float`            | A small number almost considered zero, greatly differs from float.E... |
+| [HalfPi][3]    | `float`            |                                                                        |
+| [Perlin][8]    | [PerlinNoise][52]  | A static instance of the PerlinNoise for convenience.                  |
+| [Pi][4]        | `float`            |                                                                        |
+| [Random][9]    | `Random`           | A static instance of the Random for convenience.                       |
+| [Simplex][10]  | [SimplexNoise][53] | A static instance of the SimplexNoise for convenience.                 |
+| [ToDegree][5]  | `float`            | 180.0 / Pi                                                             |
+| [ToRadians][6] | `float`            | Pi / 180.0                                                             |
+| [TwoPi][7]     | `float`            |                                                                        |
 
 ## Methods
 
-| Name                      | Summary                                                                                                                                       |
-|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| [Lerp][11]                | Computes the linear interpolation from `x1` to `x2` by factor `t` .                                                                           |
-| [Lerp][11]                | Computes the linear interpolation from `x1` to `x2` by factor `t` .                                                                           |
-| [AngleLerp][12]           | Computes the linear interpolation of two angles across the shorter distance.                                                                  |
-| [AngleLerp][12]           | Computes the linear interpolation of two angles across the shorter distance.                                                                  |
-| [Between][13]             | Computes the interpolation factor (0.0 to 1.0) of `x` between `min` and `max` .                                                               |
-| [IsBetween][14]           | Computes the interpolation factor (0.0 to 1.0) of `x` between `min` and `max` .                                                               |
-| [Rescale][15]             | Rescales a value with domain `min1` to `max1` to a new domain `min2` to `max2` .                                                              |
-| [Rescale][15]             | Rescales a value from the source domain a target domain.                                                                                      |
-| [CosineInterpolation][16] | Computes a cosine based interpolation from `x1` to `x2` .                                                                                     |
-| [SmoothStep][17]          | Computes the smooth-step of `x` between `min` and `max` .                                                                                     |
-| [SmootherStep][18]        | Computes the smoother smooth-step of `x` between `min` and `max` .                                                                            |
-| [NearestPowerOfTwo][19]   | Computes the nearest power of 2 to a number. This is done by computing both lower and upper power of 2, and then comparing the distance to x. |
-| [NearestPowerOfTwo][19]   | Computes the nearest power of 2 to a number. This is done by computing both lower and upper power of 2, and then comparing the distance to x. |
-| [LowerPowerOfTwo][20]     | Computes the lower power of 2 nearest to x.                                                                                                   |
-| [LowerPowerOfTwo][20]     | Computes the lower power of 2 nearest to x.                                                                                                   |
-| [UpperPowerOfTwo][21]     | Computes the upper power of 2 nearest to x.                                                                                                   |
-| [UpperPowerOfTwo][21]     | Computes the upper power of 2 nearest to x.                                                                                                   |
-| [IsPowerOfTwo][22]        | Determines if the given integer is a power of 2.                                                                                              |
-| [IsPowerOfTwo][22]        | Determines if the given integer is a power of 2.                                                                                              |
-| [IsPowerOfTwo][22]        | Determines if the given integer is a power of 2.                                                                                              |
-| [Swap\<T>][1]             | Swaps two references.                                                                                                                         |
-| [Swap\<T>][1]             | Swaps two positions within the given list.                                                                                                    |
-| [Order\<T>][23]           | Orders the two given references so they are in comparable order.                                                                              |
-| [Wrap][24]                | Wraps (loops) a number within a zero to n range.                                                                                              |
-| [Wrap][24]                | Wraps (loops) a number within a range.                                                                                                        |
-| [Wrap][24]                | Wraps (loops) a number within a range.                                                                                                        |
-| [Wrap][24]                | Wraps (loops) a number within a zero to n range.                                                                                              |
-| [Wrap][24]                | Wraps (loops) a number within a range.                                                                                                        |
-| [Wrap][24]                | Wraps (loops) a number within a range.                                                                                                        |
-| [DeadZone][25]            | Returns `center` if `x` is within `spread` units of `center` otherwise `x` .                                                                  |
-| [Osc][26]                 | The function sine mapped to [0.0, 1.0].                                                                                                       |
-| [Sin][27]                 | The function sine.                                                                                                                            |
-| [Asin][28]                | Ihe inverse of the function sine.                                                                                                             |
-| [Cos][29]                 | The function cosine.                                                                                                                          |
-| [Acos][30]                | The inverse of the function cosine.                                                                                                           |
-| [Tan][31]                 | The tangent function.                                                                                                                         |
-| [Atan][32]                | The inverse of the tangent function.                                                                                                          |
-| [Atan2][33]               | Computes the angle whose tangent is quotient to `x` and `y` .                                                                                 |
-| [Distance][34]            | Computes the distance between a pair of one-dimensional points.                                                                               |
-| [Distance][34]            | Computes the distance between a pair of two-dimensional points.                                                                               |
-| [Pow][35]                 | Computes `x` raised to the power of `y` .                                                                                                     |
-| [Pow][35]                 | Computes `x` raised to the power of `y` .                                                                                                     |
-| [Log][36]                 | Computes the natural logarithm of `x` .                                                                                                       |
-| [Log][36]                 | Computes the natural logarithm of `x` .                                                                                                       |
-| [Log][36]                 | Computes the logarithm of `x` with base `b` .                                                                                                 |
-| [Log][36]                 | Computes the logarithm of `x` with base `b` .                                                                                                 |
-| [Sqrt][37]                | Computes the square root of `x` .                                                                                                             |
-| [Sqrt][37]                | Computes the square root of `x` .                                                                                                             |
-| [Factorial][38]           | Computes the factorial of `x` .                                                                                                               |
-| [Factorial][38]           | Computes the factorial of `x` .                                                                                                               |
-| [Min][39]                 | Returns the minimum value between `x` and `y` .                                                                                               |
-| [Max][40]                 | Returns the maximum value between `x` and `y` .                                                                                               |
-| [Clamp][41]               | Returns the value `x` clamped to the specified range.                                                                                         |
-| [Abs][42]                 | Computes the absolute value of `x` .                                                                                                          |
-| [Sign][43]                | Returns the sign of `x` as if compared against zero (-1, 0 or +1)                                                                             |
-| [Fraction][44]            | Compute the fractional (decimal) portion of the number `x` .                                                                                  |
-| [Min][39]                 | Returns the minimum value between `x` and `y` .                                                                                               |
-| [Max][40]                 | Returns the maximum value between `x` and `y` .                                                                                               |
-| [Clamp][41]               | Returns the value `x` clamped to the specified range.                                                                                         |
-| [Abs][42]                 | Computes the absolute value of `x` .                                                                                                          |
-| [Sign][43]                | Returns the sign of `x` as if compared against zero (-1, 0 or +1)                                                                             |
-| [Fraction][44]            | Compute the fractional (decimal) portion of the number `x` .                                                                                  |
-| [Min][39]                 | Returns the minimum value between `x` and `y` .                                                                                               |
-| [Max][40]                 | Returns the maximum value between `x` and `y` .                                                                                               |
-| [Clamp][41]               | Returns the value `x` clamped to the specified range.                                                                                         |
-| [Abs][42]                 | Computes the absolute value of `x` .                                                                                                          |
-| [Sign][43]                | Returns the sign of `x` as if compared against zero (-1, 0 or +1)                                                                             |
-| [Min][39]                 | Returns the minimum value between `x` and `y` .                                                                                               |
-| [Max][40]                 | Returns the maximum value between `x` and `y` .                                                                                               |
-| [Clamp][41]               | Returns the value `x` clamped to the specified range.                                                                                         |
-| [Min][39]                 | Returns the minimum value between `x` and `y` .                                                                                               |
-| [Max][40]                 | Returns the maximum value between `x` and `y` .                                                                                               |
-| [Clamp][41]               | Returns the value `x` clamped to the specified range.                                                                                         |
-| [Abs][42]                 | Computes the absolute value of `x` .                                                                                                          |
-| [Sign][43]                | Returns the sign of `x` as if compared against zero (-1, 0 or +1)                                                                             |
-| [Min][39]                 | Returns the minimum value between `x` and `y` .                                                                                               |
-| [Max][40]                 | Returns the maximum value between `x` and `y` .                                                                                               |
-| [Clamp][41]               | Returns the value `x` clamped to the specified range.                                                                                         |
-| [Min][39]                 | Returns the minimum value between `x` and `y` .                                                                                               |
-| [Max][40]                 | Returns the maximum value between `x` and `y` .                                                                                               |
-| [Clamp][41]               | Returns the value `x` clamped to the specified range.                                                                                         |
-| [Abs][42]                 | Computes the absolute value of `x` .                                                                                                          |
-| [Sign][43]                | Returns the sign of `x` as if compared against zero (-1, 0 or +1)                                                                             |
-| [Min][39]                 | Returns the minimum value between `x` and `y` .                                                                                               |
-| [Max][40]                 | Returns the maximum value between `x` and `y` .                                                                                               |
-| [Clamp][41]               | Returns the value `x` clamped to the specified range.                                                                                         |
-| [Min][39]                 |                                                                                                                                               |
-| [Max][40]                 |                                                                                                                                               |
-| [Min][39]                 |                                                                                                                                               |
-| [Max][40]                 |                                                                                                                                               |
-| [Min\<T>][45]             |                                                                                                                                               |
-| [Min\<T>][45]             | Finds the comparably minimum value from the set of value.                                                                                     |
-| [Max\<T>][46]             |                                                                                                                                               |
-| [Max\<T>][46]             | Finds the comparably maximum value from the set of value.                                                                                     |
-| [Floor][47]               | Computes the floor integer (rounding down) of the value `x` .                                                                                 |
-| [Ceil][48]                | Computes the ceiling integer (rounding up) of the value `x` .                                                                                 |
-| [Round][49]               | Computes the nearest integer of the value `x` .                                                                                               |
-| [Floor][47]               | Computes the floor integer (rounding down) of the value `x` .                                                                                 |
-| [Ceil][48]                | Computes the ceiling integer (rounding up) of the value `x` .                                                                                 |
-| [Round][49]               | Computes the nearest integer of the value `x` .                                                                                               |
-| [NearEquals][50]          | Determines if the two values are nearly equal comparing equality within a [Epsilon][10] threshold.                                            |
-| [NearEquals][50]          | Determines if the two values are nearly equal comparing equality within a threshold.                                                          |
-| [NearZero][51]            | Determines if the value is nearly equal to zero by comparing equality within a [Epsilon][10] threshold.                                       |
-| [NearEquals][50]          | Determines if the two values are nearly equal comparing equality within a [Epsilon][10] threshold.                                            |
-| [NearEquals][50]          | Determines if the two values are nearly equal comparing equality within a threshold.                                                          |
-| [NearZero][51]            | Determines if the value is nearly equal to zero by comparing equality within a [Epsilon][10] threshold.                                       |
-| [Lerp][11]                | Computes the linear interpolation from `x1` to `x2` by factor `t` .                                                                           |
-| [Lerp][11]                | Computes the linear interpolation from `x1` to `x2` by factor `t` .                                                                           |
-| [Lerp][11]                | Computes the linear interpolation from `x1` to `x2` by factor `t` .                                                                           |
-| [Lerp][11]                | Computes the linear interpolation from `x1` to `x2` by factor `t` .                                                                           |
-| [Lerp][11]                | Computes the linear interpolation from `x1` to `x2` by factor `t` .                                                                           |
-| [Lerp][11]                | Computes the linear interpolation from `x1` to `x2` by factor `t` .                                                                           |
+| Name                            | Return Type | Summary                                                                |
+|---------------------------------|-------------|------------------------------------------------------------------------|
+| [Abs(double)][11]               | `double`    | Computes the absolute value of `x` .                                   |
+| [Abs(float)][11]                | `float`     | Computes the absolute value of `x` .                                   |
+| [Abs(int)][11]                  | `int`       | Computes the absolute value of `x` .                                   |
+| [Abs(short)][11]                | `short`     | Computes the absolute value of `x` .                                   |
+| [Abs(sbyte)][11]                | `sbyte`     | Computes the absolute value of `x` .                                   |
+| [Acos(float)][12]               | `float`     | The inverse of the function cosine.                                    |
+| [AngleLerp(double, doub...][13] | `double`    | Computes the linear interpolation of two angles across the shorter ... |
+| [AngleLerp(float, float...][13] | `float`     | Computes the linear interpolation of two angles across the shorter ... |
+| [Asin(float)][14]               | `float`     | Ihe inverse of the function sine.                                      |
+| [Atan(float)][15]               | `float`     | The inverse of the tangent function.                                   |
+| [Atan2(float, float)][16]       | `float`     | Computes the angle whose tangent is quotient to `x` and `y` .          |
+| [Between(in float, in f...][17] | `float`     | Computes the interpolation factor (0.0 to 1.0) of `x` between `min`... |
+| [Ceil(double)][18]              | `int`       | Computes the ceiling integer (rounding up) of the value `x` .          |
+| [Ceil(float)][18]               | `int`       | Computes the ceiling integer (rounding up) of the value `x` .          |
+| [Clamp(double, double, ...][19] | `double`    | Returns the value `x` clamped to the specified range.                  |
+| [Clamp(float, float, fl...][19] | `float`     | Returns the value `x` clamped to the specified range.                  |
+| [Clamp(int, int, int)][19]      | `int`       | Returns the value `x` clamped to the specified range.                  |
+| [Clamp(uint, uint, uint)][19]   | `uint`      | Returns the value `x` clamped to the specified range.                  |
+| [Clamp(short, short, sh...][19] | `short`     | Returns the value `x` clamped to the specified range.                  |
+| [Clamp(ushort, ushort, ...][19] | `ushort`    | Returns the value `x` clamped to the specified range.                  |
+| [Clamp(sbyte, sbyte, sb...][19] | `sbyte`     | Returns the value `x` clamped to the specified range.                  |
+| [Clamp(byte, byte, byte)][19]   | ` byte`     | Returns the value `x` clamped to the specified range.                  |
+| [Cos(float)][20]                | `float`     | The function cosine.                                                   |
+| [CosineInterpolation(fl...][21] | `float`     | Computes a cosine based interpolation from `x1` to `x2` .              |
+| [DeadZone(float, float,...][22] | `float`     | Returns `center` if `x` is within `spread` units of `center` otherw... |
+| [Distance(float, float)][23]    | `float`     | Computes the distance between a pair of one-dimensional points.        |
+| [Distance(float, float,...][23] | `float`     | Computes the distance between a pair of two-dimensional points.        |
+| [Factorial(int)][24]            | `int`       | Computes the factorial of `x` .                                        |
+| [Factorial(uint)][24]           | `uint`      | Computes the factorial of `x` .                                        |
+| [Floor(double)][25]             | `int`       | Computes the floor integer (rounding down) of the value `x` .          |
+| [Floor(float)][25]              | `int`       | Computes the floor integer (rounding down) of the value `x` .          |
+| [Fraction(double)][26]          | `double`    | Compute the fractional (decimal) portion of the number `x` .           |
+| [Fraction(float)][26]           | `float`     | Compute the fractional (decimal) portion of the number `x` .           |
+| [IsBetween(in float, in...][27] | `bool`      | Computes the interpolation factor (0.0 to 1.0) of `x` between `min`... |
+| [IsPowerOfTwo(ulong)][28]       | `bool`      | Determines if the given integer is a power of 2.                       |
+| [IsPowerOfTwo(uint)][28]        | `bool`      | Determines if the given integer is a power of 2.                       |
+| [IsPowerOfTwo(int)][28]         | `bool`      | Determines if the given integer is a power of 2.                       |
+| [Lerp(byte, byte, float)][29]   | ` byte`     | Computes the linear interpolation from `x1` to `x2` by factor `t` .    |
+| [Lerp(in sbyte, in sbyt...][29] | `sbyte`     | Computes the linear interpolation from `x1` to `x2` by factor `t` .    |
+| [Lerp(in float, in floa...][29] | `float`     | Computes the linear interpolation from `x1` to `x2` by factor `t` .    |
+| [Lerp(in double, in dou...][29] | `double`    | Computes the linear interpolation from `x1` to `x2` by factor `t` .    |
+| [Lerp(in int, in int, i...][29] | `int`       | Computes the linear interpolation from `x1` to `x2` by factor `t` .    |
+| [Lerp(in uint, in uint,...][29] | `uint`      | Computes the linear interpolation from `x1` to `x2` by factor `t` .    |
+| [Lerp(in short, in shor...][29] | `short`     | Computes the linear interpolation from `x1` to `x2` by factor `t` .    |
+| [Lerp(in ushort, in ush...][29] | `ushort`    | Computes the linear interpolation from `x1` to `x2` by factor `t` .    |
+| [Log(float)][30]                | `float`     | Computes the natural logarithm of `x` .                                |
+| [Log(double)][30]               | `double`    | Computes the natural logarithm of `x` .                                |
+| [Log(float, float)][30]         | `float`     | Computes the logarithm of `x` with base `b` .                          |
+| [Log(double, double)][30]       | `double`    | Computes the logarithm of `x` with base `b` .                          |
+| [LowerPowerOfTwo(uint)][31]     | `uint`      | Computes the lower power of 2 nearest to x.                            |
+| [LowerPowerOfTwo(int)][31]      | `int`       | Computes the lower power of 2 nearest to x.                            |
+| [Max(double, double)][32]       | `double`    | Returns the maximum value between `x` and `y` .                        |
+| [Max(float, float)][32]         | `float`     | Returns the maximum value between `x` and `y` .                        |
+| [Max(int, int)][32]             | `int`       | Returns the maximum value between `x` and `y` .                        |
+| [Max(uint, uint)][32]           | `uint`      | Returns the maximum value between `x` and `y` .                        |
+| [Max(short, short)][32]         | `short`     | Returns the maximum value between `x` and `y` .                        |
+| [Max(ushort, ushort)][32]       | `ushort`    | Returns the maximum value between `x` and `y` .                        |
+| [Max(sbyte, sbyte)][32]         | `sbyte`     | Returns the maximum value between `x` and `y` .                        |
+| [Max(byte, byte)][32]           | ` byte`     | Returns the maximum value between `x` and `y` .                        |
+| [Max(params int[])][32]         | `int`       |                                                                        |
+| [Max(params float[])][32]       | `float`     |                                                                        |
+| [Max<T>(params T[])][33]        | `T`         |                                                                        |
+| [Max<T>(IList<T>)][33]          | `T`         | Finds the comparably maximum value from the set of value.              |
+| [Min(double, double)][34]       | `double`    | Returns the minimum value between `x` and `y` .                        |
+| [Min(float, float)][34]         | `float`     | Returns the minimum value between `x` and `y` .                        |
+| [Min(int, int)][34]             | `int`       | Returns the minimum value between `x` and `y` .                        |
+| [Min(uint, uint)][34]           | `uint`      | Returns the minimum value between `x` and `y` .                        |
+| [Min(short, short)][34]         | `short`     | Returns the minimum value between `x` and `y` .                        |
+| [Min(ushort, ushort)][34]       | `ushort`    | Returns the minimum value between `x` and `y` .                        |
+| [Min(sbyte, sbyte)][34]         | `sbyte`     | Returns the minimum value between `x` and `y` .                        |
+| [Min(byte, byte)][34]           | ` byte`     | Returns the minimum value between `x` and `y` .                        |
+| [Min(params int[])][34]         | `int`       |                                                                        |
+| [Min(params float[])][34]       | `float`     |                                                                        |
+| [Min<T>(params T[])][35]        | `T`         |                                                                        |
+| [Min<T>(IList<T>)][35]          | `T`         | Finds the comparably minimum value from the set of value.              |
+| [NearEquals(double, dou...][36] | `bool`      | Determines if the two values are nearly equal comparing equality wi... |
+| [NearEquals(double, dou...][36] | `bool`      | Determines if the two values are nearly equal comparing equality wi... |
+| [NearEquals(float, float)][36]  | `bool`      | Determines if the two values are nearly equal comparing equality wi... |
+| [NearEquals(float, floa...][36] | `bool`      | Determines if the two values are nearly equal comparing equality wi... |
+| [NearestPowerOfTwo(uint)][37]   | `uint`      | Computes the nearest power of 2 to a number. This is done by comput... |
+| [NearestPowerOfTwo(int)][37]    | `int`       | Computes the nearest power of 2 to a number. This is done by comput... |
+| [NearZero(double)][38]          | `bool`      | Determines if the value is nearly equal to zero by comparing equali... |
+| [NearZero(float)][38]           | `bool`      | Determines if the value is nearly equal to zero by comparing equali... |
+| [Order<T>(ref T, ref T)][39]    | `void`      | Orders the two given references so they are in comparable order.       |
+| [Osc(float)][40]                | `float`     | The function sine mapped to [0.0, 1.0].                                |
+| [Pow(float, float)][41]         | `float`     | Computes `x` raised to the power of `y` .                              |
+| [Pow(double, double)][41]       | `double`    | Computes `x` raised to the power of `y` .                              |
+| [Rescale(in float, in f...][42] | `float`     | Rescales a value with domain `min1` to `max1` to a new domain `min2... |
+| [Rescale(in float, in R...][42] | `float`     | Rescales a value from the source domain a target domain.               |
+| [Round(double)][43]             | `int`       | Computes the nearest integer of the value `x` .                        |
+| [Round(float)][43]              | `int`       | Computes the nearest integer of the value `x` .                        |
+| [Sign(double)][44]              | `int`       | Returns the sign of `x` as if compared against zero (-1, 0 or +1)      |
+| [Sign(float)][44]               | `int`       | Returns the sign of `x` as if compared against zero (-1, 0 or +1)      |
+| [Sign(int)][44]                 | `int`       | Returns the sign of `x` as if compared against zero (-1, 0 or +1)      |
+| [Sign(short)][44]               | `int`       | Returns the sign of `x` as if compared against zero (-1, 0 or +1)      |
+| [Sign(sbyte)][44]               | `int`       | Returns the sign of `x` as if compared against zero (-1, 0 or +1)      |
+| [Sin(float)][45]                | `float`     | The function sine.                                                     |
+| [SmootherStep(float, fl...][46] | `float`     | Computes the smoother smooth-step of `x` between `min` and `max` .     |
+| [SmoothStep(float, floa...][47] | `float`     | Computes the smooth-step of `x` between `min` and `max` .              |
+| [Sqrt(float)][48]               | `float`     | Computes the square root of `x` .                                      |
+| [Sqrt(double)][48]              | `double`    | Computes the square root of `x` .                                      |
+| [Swap<T>(ref T, ref T)][1]      | `void`      | Swaps two references.                                                  |
+| [Swap<T>(IList<T>, int,...][1]  | `void`      | Swaps two positions within the given list.                             |
+| [Tan(float)][49]                | `float`     | The tangent function.                                                  |
+| [UpperPowerOfTwo(uint)][50]     | `uint`      | Computes the upper power of 2 nearest to x.                            |
+| [UpperPowerOfTwo(int)][50]      | `int`       | Computes the upper power of 2 nearest to x.                            |
+| [Wrap(int, int)][51]            | `int`       | Wraps (loops) a number within a zero to n range.                       |
+| [Wrap(int, int, int)][51]       | `int`       | Wraps (loops) a number within a range.                                 |
+| [Wrap(int, IntRange)][51]       | `int`       | Wraps (loops) a number within a range.                                 |
+| [Wrap(float, float)][51]        | `float`     | Wraps (loops) a number within a zero to n range.                       |
+| [Wrap(float, float, float)][51] | `float`     | Wraps (loops) a number within a range.                                 |
+| [Wrap(float, Range)][51]        | `float`     | Wraps (loops) a number within a range.                                 |
 
 [0]: ../../Heirloom.Core.md
 [1]: Calc/Swap[T].md
-[2]: Calc/Random.md
-[3]: Calc/Perlin.md
-[4]: Calc/Simplex.md
-[5]: Calc/Pi.md
-[6]: Calc/TwoPi.md
-[7]: Calc/HalfPi.md
-[8]: Calc/ToRadians.md
-[9]: Calc/ToDegree.md
-[10]: Calc/Epsilon.md
-[11]: Calc/Lerp.md
-[12]: Calc/AngleLerp.md
-[13]: Calc/Between.md
-[14]: Calc/IsBetween.md
-[15]: Calc/Rescale.md
-[16]: Calc/CosineInterpolation.md
-[17]: Calc/SmoothStep.md
-[18]: Calc/SmootherStep.md
-[19]: Calc/NearestPowerOfTwo.md
-[20]: Calc/LowerPowerOfTwo.md
-[21]: Calc/UpperPowerOfTwo.md
-[22]: Calc/IsPowerOfTwo.md
-[23]: Calc/Order[T].md
-[24]: Calc/Wrap.md
-[25]: Calc/DeadZone.md
-[26]: Calc/Osc.md
-[27]: Calc/Sin.md
-[28]: Calc/Asin.md
-[29]: Calc/Cos.md
-[30]: Calc/Acos.md
-[31]: Calc/Tan.md
-[32]: Calc/Atan.md
-[33]: Calc/Atan2.md
-[34]: Calc/Distance.md
-[35]: Calc/Pow.md
-[36]: Calc/Log.md
-[37]: Calc/Sqrt.md
-[38]: Calc/Factorial.md
-[39]: Calc/Min.md
-[40]: Calc/Max.md
-[41]: Calc/Clamp.md
-[42]: Calc/Abs.md
-[43]: Calc/Sign.md
-[44]: Calc/Fraction.md
-[45]: Calc/Min[T].md
-[46]: Calc/Max[T].md
-[47]: Calc/Floor.md
-[48]: Calc/Ceil.md
-[49]: Calc/Round.md
-[50]: Calc/NearEquals.md
-[51]: Calc/NearZero.md
+[2]: Calc/Epsilon.md
+[3]: Calc/HalfPi.md
+[4]: Calc/Pi.md
+[5]: Calc/ToDegree.md
+[6]: Calc/ToRadians.md
+[7]: Calc/TwoPi.md
+[8]: Calc/Perlin.md
+[9]: Calc/Random.md
+[10]: Calc/Simplex.md
+[11]: Calc/Abs.md
+[12]: Calc/Acos.md
+[13]: Calc/AngleLerp.md
+[14]: Calc/Asin.md
+[15]: Calc/Atan.md
+[16]: Calc/Atan2.md
+[17]: Calc/Between.md
+[18]: Calc/Ceil.md
+[19]: Calc/Clamp.md
+[20]: Calc/Cos.md
+[21]: Calc/CosineInterpolation.md
+[22]: Calc/DeadZone.md
+[23]: Calc/Distance.md
+[24]: Calc/Factorial.md
+[25]: Calc/Floor.md
+[26]: Calc/Fraction.md
+[27]: Calc/IsBetween.md
+[28]: Calc/IsPowerOfTwo.md
+[29]: Calc/Lerp.md
+[30]: Calc/Log.md
+[31]: Calc/LowerPowerOfTwo.md
+[32]: Calc/Max.md
+[33]: Calc/Max[T].md
+[34]: Calc/Min.md
+[35]: Calc/Min[T].md
+[36]: Calc/NearEquals.md
+[37]: Calc/NearestPowerOfTwo.md
+[38]: Calc/NearZero.md
+[39]: Calc/Order[T].md
+[40]: Calc/Osc.md
+[41]: Calc/Pow.md
+[42]: Calc/Rescale.md
+[43]: Calc/Round.md
+[44]: Calc/Sign.md
+[45]: Calc/Sin.md
+[46]: Calc/SmootherStep.md
+[47]: Calc/SmoothStep.md
+[48]: Calc/Sqrt.md
+[49]: Calc/Tan.md
+[50]: Calc/UpperPowerOfTwo.md
+[51]: Calc/Wrap.md
 [52]: PerlinNoise.md
 [53]: SimplexNoise.md

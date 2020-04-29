@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## ISparseGrid\<T> Interface
+## ISparseGrid\<T> (Interface)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 A sparse 2D grid of values.
 
@@ -17,16 +17,18 @@ public interface ISparseGrid<T> : IReadOnlySparseGrid<T>, IReadOnlyGrid<T>, IGri
 
 [IReadOnlySparseGrid\<T>][1], [IReadOnlyGrid\<T>][2], [IGrid\<T>][3]
 
-#### Methods
+### Methods
 
 [ClearValue][4]
 
 ## Methods
 
-| Name            | Summary                                                   |
-|-----------------|-----------------------------------------------------------|
-| [ClearValue][4] | Clears the assigned valueon this cell of the sparse grid. |
-| [ClearValue][4] | Clears the assigned valueon this cell of the sparse grid. |
+#### Instance
+
+| Name                           | Return Type | Summary                                                   |
+|--------------------------------|-------------|-----------------------------------------------------------|
+| [ClearValue(in int, in ...][4] | `void`      | Clears the assigned valueon this cell of the sparse grid. |
+| [ClearValue(in IntVector)][4]  | `void`      | Clears the assigned valueon this cell of the sparse grid. |
 
 [0]: ../../Heirloom.Core.md
 [1]: IReadOnlySparseGrid[T].md

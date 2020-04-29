@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## ReverbEffect Class
+## ReverbEffect (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 An audio effect that implements a Schroeder reverb.
 
@@ -19,26 +19,30 @@ Based on Freeverb
 
 [AudioEffect][1]
 
-#### Properties
+### Properties
 
 [Damping][2], [RoomSize][3]
 
-#### Methods
+### Methods
 
 [Process][4]
 
 ## Properties
 
-| Name          | Summary                                                                 |
-|---------------|-------------------------------------------------------------------------|
-| [Damping][2]  | Gets or sets the damping value. Larger values soften the sound earlier. |
-| [RoomSize][3] | Gets or sets the room size. Larger values mean longer reverb.           |
+#### Instance
+
+| Name          | Type    | Summary                                                                |
+|---------------|---------|------------------------------------------------------------------------|
+| [Damping][2]  | `float` | Gets or sets the damping value. Larger values soften the sound earl... |
+| [RoomSize][3] | `float` | Gets or sets the room size. Larger values mean longer reverb.          |
 
 ## Methods
 
-| Name         | Summary |
-|--------------|---------|
-| [Process][4] |         |
+#### Instance
+
+| Name                     | Return Type | Summary |
+|--------------------------|-------------|---------|
+| [Process(float, int)][4] | `float`     |         |
 
 [0]: ../../Heirloom.Core.md
 [1]: AudioEffect.md

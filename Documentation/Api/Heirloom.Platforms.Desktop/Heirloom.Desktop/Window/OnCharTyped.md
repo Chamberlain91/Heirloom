@@ -1,12 +1,12 @@
 # Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Platforms.Desktop][0]  
+> **Assembly**: [Heirloom.Platforms.Desktop][0]
 
-## Window.OnCharTyped
+## Window.OnCharTyped (Method)
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Declaring Type**: [Window][1]  
+> **Declaring Type**: [Window][1]
 
 ### OnCharTyped(UnicodeCharacter)
 
@@ -14,5 +14,12 @@
 protected void OnCharTyped(UnicodeCharacter character)
 ```
 
+| Name      | Type                  | Summary |
+|-----------|-----------------------|---------|
+| character | [UnicodeCharacter][2] |         |
+
+> **Returns** - `void`
+
 [0]: ../../../Heirloom.Platforms.Desktop.md
 [1]: ../Window.md
+[2]: ../../../Heirloom.Core/Heirloom/UnicodeCharacter.md

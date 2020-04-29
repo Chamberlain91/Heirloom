@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Extensions Class
+## Extensions (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Provides extension methods for `Random` and other related random operations.
 
@@ -13,70 +13,74 @@ Provides extension methods for `Random` and other related random operations.
 public static class Extensions
 ```
 
-#### Static Methods
+`ExtensionAttribute`
 
-[Apply\<T>][1], [ToHeap\<T>][2], [IsAscendingOrder\<T>][3], [IsDescendingOrder\<T>][4], [Sample][5], [NextFloat][6], [NextDouble][7], [Next][8], [NextVectorDisk][9], [NextUnitVector][10], [NextVector][11], [Chance][12], [Choose\<T>][13], [Shuffle\<T>][14], [ReadAllText][15], [ReadLines][16], [ReadAllBytes][17], [ToIdentifier][18], [Shorten][19], [GetCharacter][20], [ToSnakeCase][21], [ToShoutingCase][22], [ToSmartDisplayName][23]
+### Static Methods
+
+[Apply\<T>][1], [Chance][2], [Choose\<T>][3], [GetCharacter][4], [IsAscendingOrder\<T>][5], [IsDescendingOrder\<T>][6], [Next][7], [NextDouble][8], [NextFloat][9], [NextUnitVector][10], [NextVector][11], [NextVectorDisk][12], [ReadAllBytes][13], [ReadAllText][14], [ReadLines][15], [Sample][16], [Shorten][17], [Shuffle\<T>][18], [ToHeap\<T>][19], [ToIdentifier][20], [ToShoutingCase][21], [ToSmartDisplayName][22], [ToSnakeCase][23]
 
 ## Methods
 
-| Name                       | Summary                                                                                                                                                                          |
-|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Apply\<T>][1]             | Applies a function to each item in the enumerable.                                                                                                                               |
-| [ToHeap\<T>][2]            | Constructs a new [Heap\\<T>][24] from an `IEnumerable\<T>`                                                                                                                       |
-| [ToHeap\<T>][2]            | Constructs a new [Heap\\<T>][24] from an `IEnumerable\<T>`                                                                                                                       |
-| [IsAscendingOrder\<T>][3]  | Checks if the sequence is in ascending order (sequential equivalent items are considered in order).                                                                              |
-| [IsDescendingOrder\<T>][4] | Checks if the sequence is in descending order (sequential equivalent items are considered in order).                                                                             |
-| [Sample][5]                | Sample one-dimensional octave noise.                                                                                                                                             |
-| [Sample][5]                | Sample two-dimensional noise.                                                                                                                                                    |
-| [Sample][5]                | Sample two-dimensional octave noise.                                                                                                                                             |
-| [Sample][5]                | Sample two-dimensional octave noise.                                                                                                                                             |
-| [Sample][5]                | Sample three-dimensional octave noise.                                                                                                                                           |
-| [NextFloat][6]             | Returns a random floating-point number that is greater than or equal to 0.0, and less than 1.0.                                                                                  |
-| [NextFloat][6]             | Returns a random floating-point number that is within the specified range.                                                                                                       |
-| [NextDouble][7]            | Returns a random floating-point number that is within the specified range.                                                                                                       |
-| [NextFloat][6]             | Returns a random floating-point number that is within the specified range.                                                                                                       |
-| [Next][8]                  | Returns a random integer number that is within the specified range.                                                                                                              |
-| [NextVectorDisk][9]        | Returns a random point within a unit circle.                                                                                                                                     |
-| [NextVectorDisk][9]        | Returns a random point within a circle.                                                                                                                                          |
-| [NextUnitVector][10]       | Returns a random unit vector (point on edge of unit circle).                                                                                                                     |
-| [NextVector][11]           | Returns a random point within the specified rectangular domain.                                                                                                                  |
-| [Chance][12]               | Randomly return true for occurrences with the specified probability.                                                                                                             |
-| [Choose\<T>][13]           | Randomly select one of the specified items.                                                                                                                                      |
-| [Choose\<T>][13]           |                                                                                                                                                                                  |
-| [Shuffle\<T>][14]          | Shuffles all elements in the list randomly.                                                                                                                                      |
-| [Shuffle\<T>][14]          | Shuffles all elements in the list randomly.                                                                                                                                      |
-| [ReadAllText][15]          | Reads the entire contents of the stream as a block of text.                                                                                                                      |
-| [ReadLines][16]            | Reads the entire contents of the stream line by line.                                                                                                                            |
-| [ReadAllBytes][17]         | Reads the entire contents of the stream as blob of bytes.                                                                                                                        |
-| [ToIdentifier][18]         | Converts this string into a standardized "identifier".                                                                                                                           |
-| [Shorten][19]              | Shortens a string by removing the center portion and replacing with "..." dependant on the given max length. This ensures the shortened string has maxLength or less characters. |
-| [GetCharacter][20]         | Gets the ith unicode character of this string.                                                                                                                                   |
-| [ToSnakeCase][21]          | Transforms a variable name like string into sname case (ie, "myExampleString" into "my_example_string").                                                                         |
-| [ToShoutingCase][22]       | Transforms a variable name like string into sname case (ie, "myExampleString" into "MY_EXAMPLE_STRING").                                                                         |
-| [ToSmartDisplayName][23]   | Transform a variable name like string to an improved display string (akin to Unity's NicifyVariableName). Ie, "myExampleString" becomes "My Example String"                      |
+| Name                            | Return Type            | Summary                                                                |
+|---------------------------------|------------------------|------------------------------------------------------------------------|
+| [Apply<T>(IEnumerable<T...][1]  | `void`                 | Applies a function to each item in the enumerable.                     |
+| [Chance(Random, float)][2]      | `bool`                 | Randomly return true for occurrences with the specified probability.   |
+| [Choose<T>(Random, IRea...][3]  | `T`                    | Randomly select one of the specified items.                            |
+| [Choose<T>(Random, para...][3]  | `T`                    |                                                                        |
+| [GetCharacter(string, int)][4]  | [UnicodeCharacter][24] | Gets the ith unicode character of this string.                         |
+| [IsAscendingOrder<T>(IE...][5]  | `bool`                 | Checks if the sequence is in ascending order (sequential equivalent... |
+| [IsDescendingOrder<T>(I...][6]  | `bool`                 | Checks if the sequence is in descending order (sequential equivalen... |
+| [Next(Random, IntRange)][7]     | `float`                | Returns a random integer number that is within the specified range.    |
+| [NextDouble(Random, dou...][8]  | `double`               | Returns a random floating-point number that is within the specified... |
+| [NextFloat(Random)][9]          | `float`                | Returns a random floating-point number that is greater than or equa... |
+| [NextFloat(Random, floa...][9]  | `float`                | Returns a random floating-point number that is within the specified... |
+| [NextFloat(Random, Range)][9]   | `float`                | Returns a random floating-point number that is within the specified... |
+| [NextUnitVector(Random)][10]    | [Vector][25]           | Returns a random unit vector (point on edge of unit circle).           |
+| [NextVector(Random, in ...][11] | [Vector][25]           | Returns a random point within the specified rectangular domain.        |
+| [NextVectorDisk(Random)][12]    | [Vector][25]           | Returns a random point within a unit circle.                           |
+| [NextVectorDisk(Random,...][12] | [Vector][25]           | Returns a random point within a circle.                                |
+| [ReadAllBytes(Stream)][13]      | ` byte[]`              | Reads the entire contents of the stream as blob of bytes.              |
+| [ReadAllText(Stream)][14]       | `string`               | Reads the entire contents of the stream as a block of text.            |
+| [ReadLines(Stream)][15]         | `IEnumerable\<string>` | Reads the entire contents of the stream line by line.                  |
+| [Sample(INoise1D, float...][16] | `float`                | Sample one-dimensional octave noise.                                   |
+| [Sample(INoise2D, in Ve...][16] | `float`                | Sample two-dimensional noise.                                          |
+| [Sample(INoise2D, in Ve...][16] | `float`                | Sample two-dimensional octave noise.                                   |
+| [Sample(INoise2D, float...][16] | `float`                | Sample two-dimensional octave noise.                                   |
+| [Sample(INoise3D, float...][16] | `float`                | Sample three-dimensional octave noise.                                 |
+| [Shorten(string, int)][17]      | `string`               | Shortens a string by removing the center portion and replacing with... |
+| [Shuffle<T>(Random, ILi...][18] | `void`                 | Shuffles all elements in the list randomly.                            |
+| [Shuffle<T>(IList<T>, R...][18] | `void`                 | Shuffles all elements in the list randomly.                            |
+| [ToHeap<T>(IEnumerable<...][19] | [Heap\<T>][26]         | Constructs a new Heap<T> from an IEnumerable<T>                        |
+| [ToHeap<T>(IEnumerable<...][19] | [Heap\<T>][26]         | Constructs a new Heap<T> from an IEnumerable<T>                        |
+| [ToIdentifier(string)][20]      | `string`               | Converts this string into a standardized "identifier".                 |
+| [ToShoutingCase(string)][21]    | `string`               | Transforms a variable name like string into sname case (ie, "myExam... |
+| [ToSmartDisplayName(str...][22] | `string`               | Transform a variable name like string to an improved display string... |
+| [ToSnakeCase(string)][23]       | `string`               | Transforms a variable name like string into sname case (ie, "myExam... |
 
 [0]: ../../Heirloom.Core.md
 [1]: Extensions/Apply[T].md
-[2]: Extensions/ToHeap[T].md
-[3]: Extensions/IsAscendingOrder[T].md
-[4]: Extensions/IsDescendingOrder[T].md
-[5]: Extensions/Sample.md
-[6]: Extensions/NextFloat.md
-[7]: Extensions/NextDouble.md
-[8]: Extensions/Next.md
-[9]: Extensions/NextVectorDisk.md
+[2]: Extensions/Chance.md
+[3]: Extensions/Choose[T].md
+[4]: Extensions/GetCharacter.md
+[5]: Extensions/IsAscendingOrder[T].md
+[6]: Extensions/IsDescendingOrder[T].md
+[7]: Extensions/Next.md
+[8]: Extensions/NextDouble.md
+[9]: Extensions/NextFloat.md
 [10]: Extensions/NextUnitVector.md
 [11]: Extensions/NextVector.md
-[12]: Extensions/Chance.md
-[13]: Extensions/Choose[T].md
-[14]: Extensions/Shuffle[T].md
-[15]: Extensions/ReadAllText.md
-[16]: Extensions/ReadLines.md
-[17]: Extensions/ReadAllBytes.md
-[18]: Extensions/ToIdentifier.md
-[19]: Extensions/Shorten.md
-[20]: Extensions/GetCharacter.md
-[21]: Extensions/ToSnakeCase.md
-[22]: Extensions/ToShoutingCase.md
-[23]: Extensions/ToSmartDisplayName.md
-[24]: Heap[T].md
+[12]: Extensions/NextVectorDisk.md
+[13]: Extensions/ReadAllBytes.md
+[14]: Extensions/ReadAllText.md
+[15]: Extensions/ReadLines.md
+[16]: Extensions/Sample.md
+[17]: Extensions/Shorten.md
+[18]: Extensions/Shuffle[T].md
+[19]: Extensions/ToHeap[T].md
+[20]: Extensions/ToIdentifier.md
+[21]: Extensions/ToShoutingCase.md
+[22]: Extensions/ToSmartDisplayName.md
+[23]: Extensions/ToSnakeCase.md
+[24]: UnicodeCharacter.md
+[25]: Vector.md
+[26]: Heap[T].md

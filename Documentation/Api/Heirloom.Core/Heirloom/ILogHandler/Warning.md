@@ -1,18 +1,24 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## ILogHandler.Warning
+## ILogHandler.Warning (Method)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [ILogHandler][1]  
+> **Declaring Type**: [ILogHandler][1]
 
 ### Warning(object)
 
 ```cs
-public void Warning(object message)
+public abstract void Warning(object message)
 ```
+
+| Name    | Type     | Summary |
+|---------|----------|---------|
+| message | `object` |         |
+
+> **Returns** - `void`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../ILogHandler.md

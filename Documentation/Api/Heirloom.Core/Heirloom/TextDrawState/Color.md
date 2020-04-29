@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## TextDrawState.Color
+## TextDrawState.Color (Field)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [TextDrawState][1]  
+> **Declaring Type**: [TextDrawState][1]
 
 #### Color
 

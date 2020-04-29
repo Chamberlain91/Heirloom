@@ -1,18 +1,24 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## AudioNode.PopulateBuffer
+## AudioNode.PopulateBuffer (Method)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [AudioNode][1]  
+> **Declaring Type**: [AudioNode][1]
 
 ### PopulateBuffer(Span<float>)
 
 ```cs
-protected void PopulateBuffer(Span<float> buffer)
+protected abstract void PopulateBuffer(Span<float> buffer)
 ```
+
+| Name   | Type           | Summary |
+|--------|----------------|---------|
+| buffer | `Span\<float>` |         |
+
+> **Returns** - `void`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../AudioNode.md

@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Circle Struct
+## Circle (Struct)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Represents a circle via center position and radius.
 
@@ -17,50 +17,56 @@ public struct Circle : IShape, IEquatable<Circle>
 
 [IShape][1], IEquatable\<Circle>
 
-#### Fields
+### Fields
 
 [Position][2], [Radius][3]
 
-#### Properties
+### Properties
 
 [Area][4], [Bounds][5]
 
-#### Methods
+### Methods
 
-[Set][6], [ToPolygon][7], [GetClosestPoint][8], [Contains][9], [Overlaps][10], [Project][11], [Raycast][12]
+[Contains][6], [GetClosestPoint][7], [Overlaps][8], [Project][9], [Raycast][10], [Set][11], [ToPolygon][12]
 
 ## Fields
 
-| Name          | Summary                            |
-|---------------|------------------------------------|
-| [Position][2] | The center position of the circle. |
-| [Radius][3]   | The radius of the circle.          |
+#### Instance
+
+| Name          | Type         | Summary                            |
+|---------------|--------------|------------------------------------|
+| [Position][2] | [Vector][13] | The center position of the circle. |
+| [Radius][3]   | `float`      | The radius of the circle.          |
 
 ## Properties
 
-| Name        | Summary                                     |
-|-------------|---------------------------------------------|
-| [Area][4]   | Gets the area of the circle.                |
-| [Bounds][5] | Gets the bounding rectangle of this circle. |
+#### Instance
+
+| Name        | Type            | Summary                                     |
+|-------------|-----------------|---------------------------------------------|
+| [Area][4]   | `float`         | Gets the area of the circle.                |
+| [Bounds][5] | [Rectangle][14] | Gets the bounding rectangle of this circle. |
 
 ## Methods
 
-| Name                 | Summary                                                               |
-|----------------------|-----------------------------------------------------------------------|
-| [Set][6]             | Sets the components of this circle.                                   |
-| [ToPolygon][7]       | Create a polygon from this rectangle.                                 |
-| [GetClosestPoint][8] | Gets the nearest point on the circle to the specified point.          |
-| [Contains][9]        | Determines if the specified point is contained by the circle.         |
-| [Contains][9]        | Determines if this circle contains another circle.                    |
-| [Overlaps][10]       | Determines if this circle overlaps another shape.                     |
-| [Overlaps][10]       | Determines if this circle overlaps another circle.                    |
-| [Overlaps][10]       | Determines if this circle overlaps the specified rectangle.           |
-| [Overlaps][10]       | Determines if this circle overlaps the specified triangle.            |
-| [Overlaps][10]       | Determines if this circle overlaps the specified simple polygon.      |
-| [Overlaps][10]       | Determines if this circle overlaps the specified convex polygon.      |
-| [Project][11]        | Project this circle onto the specified axis.                          |
-| [Raycast][12]        | Peforms a raycast onto this circle, returning true upon intersection. |
-| [Raycast][12]        | Peforms a raycast onto this circle, returning true upon intersection. |
+#### Instance
+
+| Name                            | Return Type   | Summary                                                               |
+|---------------------------------|---------------|-----------------------------------------------------------------------|
+| [Contains(in Vector)][6]        | `bool`        | Determines if the specified point is contained by the circle.         |
+| [Contains(in Circle)][6]        | `bool`        | Determines if this circle contains another circle.                    |
+| [GetClosestPoint(in Vec...][7]  | [Vector][13]  | Gets the nearest point on the circle to the specified point.          |
+| [Overlaps(IShape)][8]           | `bool`        | Determines if this circle overlaps another shape.                     |
+| [Overlaps(in Circle)][8]        | `bool`        | Determines if this circle overlaps another circle.                    |
+| [Overlaps(in Rectangle)][8]     | `bool`        | Determines if this circle overlaps the specified rectangle.           |
+| [Overlaps(in Triangle)][8]      | `bool`        | Determines if this circle overlaps the specified triangle.            |
+| [Overlaps(Polygon)][8]          | `bool`        | Determines if this circle overlaps the specified simple polygon.      |
+| [Overlaps(IReadOnlyList...][8]  | `bool`        | Determines if this circle overlaps the specified convex polygon.      |
+| [Project(in Vector)][9]         | [Range][15]   | Project this circle onto the specified axis.                          |
+| [Raycast(in Ray)][10]           | `bool`        | Peforms a raycast onto this circle, returning true upon intersection. |
+| [Raycast(in Ray, out Ra...][10] | `bool`        | Peforms a raycast onto this circle, returning true upon intersection. |
+| [Set(in Vector, float)][11]     | `void`        | Sets the components of this circle.                                   |
+| [ToPolygon()][12]               | [Polygon][16] | Create a polygon from this rectangle.                                 |
 
 [0]: ../../Heirloom.Core.md
 [1]: IShape.md
@@ -68,10 +74,14 @@ public struct Circle : IShape, IEquatable<Circle>
 [3]: Circle/Radius.md
 [4]: Circle/Area.md
 [5]: Circle/Bounds.md
-[6]: Circle/Set.md
-[7]: Circle/ToPolygon.md
-[8]: Circle/GetClosestPoint.md
-[9]: Circle/Contains.md
-[10]: Circle/Overlaps.md
-[11]: Circle/Project.md
-[12]: Circle/Raycast.md
+[6]: Circle/Contains.md
+[7]: Circle/GetClosestPoint.md
+[8]: Circle/Overlaps.md
+[9]: Circle/Project.md
+[10]: Circle/Raycast.md
+[11]: Circle/Set.md
+[12]: Circle/ToPolygon.md
+[13]: Vector.md
+[14]: Rectangle.md
+[15]: Range.md
+[16]: Polygon.md

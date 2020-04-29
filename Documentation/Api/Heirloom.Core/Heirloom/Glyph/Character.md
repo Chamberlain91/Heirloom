@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Glyph.Character
+## Glyph.Character (Property)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Glyph][1]  
+> **Declaring Type**: [Glyph][1]
 
 ### Character
 
@@ -16,5 +16,8 @@ Gets the character this glyph represents.
 public UnicodeCharacter Character { get; }
 ```
 
+> **Returns**: [UnicodeCharacter][2]
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../Glyph.md
+[2]: ../UnicodeCharacter.md

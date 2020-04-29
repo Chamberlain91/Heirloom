@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Image Class
+## Image (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 ```cs
 public sealed class Image : ImageSource
@@ -15,86 +15,97 @@ public sealed class Image : ImageSource
 
 [ImageSource][1]
 
-#### Properties
+### Constants
 
-[Size][2]
+[MaxImageDimension][2]
 
-#### Methods
+### Properties
 
-[GetPixel][3], [GetPixels][4], [SetPixel][5], [SetPixels][6], [Clear][7], [Flip][8], [CopyTo][9], [Clone][10]
+[Size][3]
 
-#### Static Fields
+### Methods
 
-[MaxImageDimension][11]
+[Clear][4], [Clone][5], [CopyTo][6], [Flip][7], [GetPixel][8], [GetPixels][9], [SetPixel][10], [SetPixels][11]
 
-#### Static Methods
+### Static Methods
 
-[CreateCheckerboardPattern][12], [CreateGridPattern][13], [CreateColor][14], [CreateNoise][15], [Copy][16], [WriteAsPng][17], [WriteAsJpg][18], [Load][19]
+[Copy][12], [CreateCheckerboardPattern][13], [CreateColor][14], [CreateGridPattern][15], [CreateNoise][16], [Load][17], [WriteAsJpg][18], [WriteAsPng][19]
 
 ## Fields
 
-| Name                    | Summary |
-|-------------------------|---------|
-| [MaxImageDimension][11] |         |
+| Name                   | Type  | Summary |
+|------------------------|-------|---------|
+| [MaxImageDimension][2] | `int` |         |
 
 ## Properties
 
-| Name      | Summary |
-|-----------|---------|
-| [Size][2] |         |
+#### Instance
+
+| Name      | Type          | Summary |
+|-----------|---------------|---------|
+| [Size][3] | [IntSize][20] |         |
 
 ## Methods
 
-| Name                            | Summary                                                                           |
-|---------------------------------|-----------------------------------------------------------------------------------|
-| [GetPixel][3]                   |                                                                                   |
-| [GetPixel][3]                   |                                                                                   |
-| [GetPixels][4]                  |                                                                                   |
-| [SetPixel][5]                   |                                                                                   |
-| [SetPixel][5]                   |                                                                                   |
-| [SetPixels][6]                  |                                                                                   |
-| [Clear][7]                      | Sets all pixels in the image to the specified color.                              |
-| [Flip][8]                       | Flips the image on the specified axis.                                            |
-| [CopyTo][9]                     |                                                                                   |
-| [CopyTo][9]                     |                                                                                   |
-| [Clone][10]                     | Creates a clone of this image.                                                    |
-| [CreateCheckerboardPattern][12] | Create an image with checkerboard pattern.                                        |
-| [CreateCheckerboardPattern][12] | Create an image with checkerboard pattern.                                        |
-| [CreateGridPattern][13]         | Create an image with a grid pattern.                                              |
-| [CreateGridPattern][13]         | Create an image with a grid pattern.                                              |
-| [CreateColor][14]               | Creates an image filled with a solid color.                                       |
-| [CreateColor][14]               | Creates an image filled with a solid color.                                       |
-| [CreateNoise][15]               | Creates an image filled with noise.                                               |
-| [CreateNoise][15]               | Creates an image filled with noise.                                               |
-| [CreateNoise][15]               | Creates an image filled with noise, provided with an instance of [INoise2D][20] . |
-| [CreateNoise][15]               | Creates an image filled with noise, provided with an instance of [INoise2D][20] . |
-| [Copy][16]                      |                                                                                   |
-| [Copy][16]                      |                                                                                   |
-| [Copy][16]                      |                                                                                   |
-| [Copy][16]                      |                                                                                   |
-| [WriteAsPng][17]                |                                                                                   |
-| [WriteAsJpg][18]                |                                                                                   |
-| [Load][19]                      |                                                                                   |
-| [Load][19]                      |                                                                                   |
+#### Instance
+
+| Name                            | Return Type        | Summary                                              |
+|---------------------------------|--------------------|------------------------------------------------------|
+| [Clear(ColorBytes)][4]          | `void`             | Sets all pixels in the image to the specified color. |
+| [Clone()][5]                    | [Image][21]        | Creates a clone of this image.                       |
+| [CopyTo(in IntRectangle...][6]  | `void`             |                                                      |
+| [CopyTo(Image, in IntVe...][6]  | `void`             |                                                      |
+| [Flip(Axis)][7]                 | `void`             | Flips the image on the specified axis.               |
+| [GetPixel(int, int)][8]         | [ColorBytes][22]   |                                                      |
+| [GetPixel(IntVector)][8]        | [ColorBytes][22]   |                                                      |
+| [GetPixels()][9]                | [ColorBytes[]][22] |                                                      |
+| [SetPixel(int, int, in ...][10] | `void`             |                                                      |
+| [SetPixel(IntVector, in...][10] | `void`             |                                                      |
+| [SetPixels(ColorBytes[])][11]   | `void`             |                                                      |
+
+#### Static
+
+| Name                            | Return Type | Summary                                                                |
+|---------------------------------|-------------|------------------------------------------------------------------------|
+| [Copy(Image, in IntRect...][12] | `void`      |                                                                        |
+| [Copy(Image, in IntRect...][12] | `void`      |                                                                        |
+| [Copy(ColorBytes*, int,...][12] | `void`      |                                                                        |
+| [Copy(ColorBytes*, int,...][12] | `void`      |                                                                        |
+| [CreateCheckerboardPatt...][13] | [Image][21] | Create an image with checkerboard pattern.                             |
+| [CreateCheckerboardPatt...][13] | [Image][21] | Create an image with checkerboard pattern.                             |
+| [CreateColor(IntSize, C...][14] | [Image][21] | Creates an image filled with a solid color.                            |
+| [CreateColor(int, int, ...][14] | [Image][21] | Creates an image filled with a solid color.                            |
+| [CreateGridPattern(IntS...][15] | [Image][21] | Create an image with a grid pattern.                                   |
+| [CreateGridPattern(int,...][15] | [Image][21] | Create an image with a grid pattern.                                   |
+| [CreateNoise(IntSize, f...][16] | [Image][21] | Creates an image filled with noise.                                    |
+| [CreateNoise(int, int, ...][16] | [Image][21] | Creates an image filled with noise.                                    |
+| [CreateNoise(IntSize, I...][16] | [Image][21] | Creates an image filled with noise, provided with an instance of IN... |
+| [CreateNoise(int, int, ...][16] | [Image][21] | Creates an image filled with noise, provided with an instance of IN... |
+| [Load(Stream)][17]              | [Image][21] |                                                                        |
+| [Load(byte[])][17]              | [Image][21] |                                                                        |
+| [WriteAsJpg(Image, Stre...][18] | `void`      |                                                                        |
+| [WriteAsPng(Image, Stream)][19] | `void`      |                                                                        |
 
 [0]: ../../Heirloom.Core.md
 [1]: ImageSource.md
-[2]: Image/Size.md
-[3]: Image/GetPixel.md
-[4]: Image/GetPixels.md
-[5]: Image/SetPixel.md
-[6]: Image/SetPixels.md
-[7]: Image/Clear.md
-[8]: Image/Flip.md
-[9]: Image/CopyTo.md
-[10]: Image/Clone.md
-[11]: Image/MaxImageDimension.md
-[12]: Image/CreateCheckerboardPattern.md
-[13]: Image/CreateGridPattern.md
+[2]: Image/MaxImageDimension.md
+[3]: Image/Size.md
+[4]: Image/Clear.md
+[5]: Image/Clone.md
+[6]: Image/CopyTo.md
+[7]: Image/Flip.md
+[8]: Image/GetPixel.md
+[9]: Image/GetPixels.md
+[10]: Image/SetPixel.md
+[11]: Image/SetPixels.md
+[12]: Image/Copy.md
+[13]: Image/CreateCheckerboardPattern.md
 [14]: Image/CreateColor.md
-[15]: Image/CreateNoise.md
-[16]: Image/Copy.md
-[17]: Image/WriteAsPng.md
+[15]: Image/CreateGridPattern.md
+[16]: Image/CreateNoise.md
+[17]: Image/Load.md
 [18]: Image/WriteAsJpg.md
-[19]: Image/Load.md
-[20]: INoise2D.md
+[19]: Image/WriteAsPng.md
+[20]: IntSize.md
+[21]: Image.md
+[22]: ColorBytes.md

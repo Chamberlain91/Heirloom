@@ -1,17 +1,17 @@
 # Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Platforms.Desktop][0]  
+> **Assembly**: [Heirloom.Platforms.Desktop][0]
 
-## KeyEvent.ScanCode
+## KeyEvent.ScanCode (Field)
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Declaring Type**: [KeyEvent][1]  
+> **Declaring Type**: [KeyEvent][1]
 
 #### ScanCode
 
 ```cs
-public int ScanCode
+public readonly int ScanCode
 ```
 
 [0]: ../../../Heirloom.Platforms.Desktop.md

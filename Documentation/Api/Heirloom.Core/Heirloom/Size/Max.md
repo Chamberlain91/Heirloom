@@ -1,19 +1,19 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Size.Max
+## Size.Max (Field)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Size][1]  
+> **Declaring Type**: [Size][1]
 
 #### Max
 
 The maximum representable size possible.
 
 ```cs
-public static Size Max
+public static readonly Size Max
 ```
 
 [0]: ../../../Heirloom.Core.md

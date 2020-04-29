@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Ray Struct
+## Ray (Struct)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Represents a ray by orgin and direction vectors.
 
@@ -17,43 +17,54 @@ public struct Ray : IEquatable<Ray>
 
 IEquatable\<Ray>
 
-#### Fields
+### Fields
 
-[Origin][1], [Direction][2]
+[Direction][1], [Origin][2]
 
-#### Methods
+### Methods
 
-[Set][3], [GetPoint][4], [Deconstruct][5]
+[Deconstruct][3], [GetPoint][4], [Set][5]
 
-#### Static Methods
+### Static Methods
 
-[FromLineSegment][6], [FromAngle][7], [Intersects][8]
+[FromAngle][6], [FromLineSegment][7], [Intersects][8]
 
 ## Fields
 
-| Name           | Summary                   |
-|----------------|---------------------------|
-| [Origin][1]    | The origin of the ray.    |
-| [Direction][2] | The direction of the ray. |
+#### Instance
+
+| Name           | Type        | Summary                   |
+|----------------|-------------|---------------------------|
+| [Direction][1] | [Vector][9] | The direction of the ray. |
+| [Origin][2]    | [Vector][9] | The origin of the ray.    |
 
 ## Methods
 
-| Name                 | Summary                                                                |
-|----------------------|------------------------------------------------------------------------|
-| [Set][3]             | Sets the components of this size.                                      |
-| [GetPoint][4]        | Gets a point along the ray.                                            |
-| [Deconstruct][5]     |                                                                        |
-| [FromLineSegment][6] | Creates a ray from a line segment.                                     |
-| [FromLineSegment][6] | Creates a ray from a line segment.                                     |
-| [FromAngle][7]       | Creates a ray pointed along the specified angle from the origin given. |
-| [Intersects][8]      | Computes the intersection of two rays.                                 |
+#### Instance
+
+| Name                           | Return Type | Summary                           |
+|--------------------------------|-------------|-----------------------------------|
+| [Deconstruct(out Vector...][3] | `void`      |                                   |
+| [GetPoint(float)][4]           | [Vector][9] | Gets a point along the ray.       |
+| [Set(in Vector, in Vector)][5] | `void`      | Sets the components of this size. |
+
+#### Static
+
+| Name                           | Return Type | Summary                                                                |
+|--------------------------------|-------------|------------------------------------------------------------------------|
+| [FromAngle(Vector, float)][6]  | [Ray][10]   | Creates a ray pointed along the specified angle from the origin given. |
+| [FromLineSegment(in Vec...][7] | [Ray][10]   | Creates a ray from a line segment.                                     |
+| [FromLineSegment(in Lin...][7] | [Ray][10]   | Creates a ray from a line segment.                                     |
+| [Intersects(Ray, Ray, o...][8] | `bool`      | Computes the intersection of two rays.                                 |
 
 [0]: ../../Heirloom.Core.md
-[1]: Ray/Origin.md
-[2]: Ray/Direction.md
-[3]: Ray/Set.md
+[1]: Ray/Direction.md
+[2]: Ray/Origin.md
+[3]: Ray/Deconstruct.md
 [4]: Ray/GetPoint.md
-[5]: Ray/Deconstruct.md
-[6]: Ray/FromLineSegment.md
-[7]: Ray/FromAngle.md
+[5]: Ray/Set.md
+[6]: Ray/FromAngle.md
+[7]: Ray/FromLineSegment.md
 [8]: Ray/Intersects.md
+[9]: Vector.md
+[10]: Ray.md

@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Ray.Deconstruct
+## Ray.Deconstruct (Method)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Ray][1]  
+> **Declaring Type**: [Ray][1]
 
 ### Deconstruct(out Vector, out Vector)
 
@@ -14,5 +14,13 @@
 public void Deconstruct(out Vector origin, out Vector direction)
 ```
 
+| Name      | Type        | Summary |
+|-----------|-------------|---------|
+| origin    | [Vector][2] |         |
+| direction | [Vector][2] |         |
+
+> **Returns** - `void`
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../Ray.md
+[2]: ../Vector.md

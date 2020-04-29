@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Range.Min
+## Range.Min (Field)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Range][1]  
+> **Declaring Type**: [Range][1]
 
 #### Min
 

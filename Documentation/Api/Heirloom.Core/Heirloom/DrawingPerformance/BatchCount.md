@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## DrawingPerformance.BatchCount
+## DrawingPerformance.BatchCount (Property)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [DrawingPerformance][1]  
+> **Declaring Type**: [DrawingPerformance][1]
 
 ### BatchCount
 
@@ -16,5 +16,8 @@ Statistics of the number of batches.
 public Statistics BatchCount { get; }
 ```
 
+> **Returns**: [Statistics][2]
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../DrawingPerformance.md
+[2]: ../Statistics.md

@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## UniformInfo Class
+## UniformInfo (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Contains information of a uniform from a [Shader][1] .
 
@@ -13,28 +13,32 @@ Contains information of a uniform from a [Shader][1] .
 public sealed class UniformInfo
 ```
 
-#### Properties
+### Properties
 
-[Name][2], [Type][3], [Dimensions][4], [ArraySize][5], [IsVector][6], [IsMatrix][7], [IsArray][8]
+[ArraySize][2], [Dimensions][3], [IsArray][4], [IsMatrix][5], [IsVector][6], [Name][7], [Type][8]
 
 ## Properties
 
-| Name            | Summary                         |
-|-----------------|---------------------------------|
-| [Name][2]       | The name of this uniform.       |
-| [Type][3]       | The type of this uniform.       |
-| [Dimensions][4] | The dimensions of this uniform. |
-| [ArraySize][5]  | The array size of this uniform. |
-| [IsVector][6]   | Is this uniform a vector?       |
-| [IsMatrix][7]   | Is this uniform a matrix?       |
-| [IsArray][8]    | Is this uniform an array?       |
+#### Instance
+
+| Name            | Type              | Summary                         |
+|-----------------|-------------------|---------------------------------|
+| [ArraySize][2]  | `int`             | The array size of this uniform. |
+| [Dimensions][3] | [IntSize][9]      | The dimensions of this uniform. |
+| [IsArray][4]    | `bool`            | Is this uniform an array?       |
+| [IsMatrix][5]   | `bool`            | Is this uniform a matrix?       |
+| [IsVector][6]   | `bool`            | Is this uniform a vector?       |
+| [Name][7]       | `string`          | The name of this uniform.       |
+| [Type][8]       | [UniformType][10] | The type of this uniform.       |
 
 [0]: ../../Heirloom.Core.md
 [1]: Shader.md
-[2]: UniformInfo/Name.md
-[3]: UniformInfo/Type.md
-[4]: UniformInfo/Dimensions.md
-[5]: UniformInfo/ArraySize.md
+[2]: UniformInfo/ArraySize.md
+[3]: UniformInfo/Dimensions.md
+[4]: UniformInfo/IsArray.md
+[5]: UniformInfo/IsMatrix.md
 [6]: UniformInfo/IsVector.md
-[7]: UniformInfo/IsMatrix.md
-[8]: UniformInfo/IsArray.md
+[7]: UniformInfo/Name.md
+[8]: UniformInfo/Type.md
+[9]: IntSize.md
+[10]: UniformType.md

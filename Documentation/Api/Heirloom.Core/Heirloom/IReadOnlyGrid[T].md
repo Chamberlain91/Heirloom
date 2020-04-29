@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## IReadOnlyGrid\<T> Interface
+## IReadOnlyGrid\<T> (Interface)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 A read-only view of a 2D grid of values.
 
@@ -13,27 +13,31 @@ A read-only view of a 2D grid of values.
 public interface IReadOnlyGrid<T>
 ```
 
-#### Properties
+### Properties
 
 [Indexer][1]
 
-#### Methods
+### Methods
 
 [IsValidCoordinate][2]
 
 ## Properties
 
-| Name         | Summary |
-|--------------|---------|
-| [Indexer][1] |         |
-| [Indexer][1] |         |
+#### Instance
+
+| Name         | Type | Summary |
+|--------------|------|---------|
+| [Indexer][1] | `T`  |         |
+| [Indexer][1] | `T`  |         |
 
 ## Methods
 
-| Name                   | Summary                                         |
-|------------------------|-------------------------------------------------|
-| [IsValidCoordinate][2] | Is the specified coordinate valid on this grid? |
-| [IsValidCoordinate][2] | Is the specified coordinate valid on this grid? |
+#### Instance
+
+| Name                           | Return Type | Summary                                         |
+|--------------------------------|-------------|-------------------------------------------------|
+| [IsValidCoordinate(in i...][2] | `bool`      | Is the specified coordinate valid on this grid? |
+| [IsValidCoordinate(in I...][2] | `bool`      | Is the specified coordinate valid on this grid? |
 
 [0]: ../../Heirloom.Core.md
 [1]: IReadOnlyGrid[T]/Indexer.md

@@ -1,20 +1,17 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Calc.Pi
+## Calc.Pi (Field)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Calc][1]  
+> **Declaring Type**: [Calc][1]
 
 #### Pi
 
-An approximation of the constant Pi (180 Degrees or Pi Radians).  
- 3.14159265359...
-
 ```cs
-public static float Pi
+public const float Pi = 3.1415927
 ```
 
 [0]: ../../../Heirloom.Core.md

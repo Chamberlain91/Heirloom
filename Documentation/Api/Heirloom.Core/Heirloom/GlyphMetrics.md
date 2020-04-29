@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## GlyphMetrics Struct
+## GlyphMetrics (Struct)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Contains information about a glyph (ie, the horizontal metrics).
 
@@ -13,30 +13,38 @@ Contains information about a glyph (ie, the horizontal metrics).
 public struct GlyphMetrics
 ```
 
-#### Fields
+`IsReadOnlyAttribute`
+
+### Fields
 
 [AdvanceWidth][1], [Bearing][2]
 
-#### Properties
+### Properties
 
 [Offset][3], [Size][4]
 
 ## Fields
 
-| Name              | Summary                                                                                               |
-|-------------------|-------------------------------------------------------------------------------------------------------|
-| [AdvanceWidth][1] | The advance width of the glyph. This is the spacing between the glyph's left edge and the next glyph. |
-| [Bearing][2]      | The bearing of this glyph.                                                                            |
+#### Instance
+
+| Name              | Type    | Summary                                                                |
+|-------------------|---------|------------------------------------------------------------------------|
+| [AdvanceWidth][1] | `float` | The advance width of the glyph. This is the spacing between the gly... |
+| [Bearing][2]      | `float` | The bearing of this glyph.                                             |
 
 ## Properties
 
-| Name        | Summary                                 |
-|-------------|-----------------------------------------|
-| [Offset][3] | The glyph offset from the pen position. |
-| [Size][4]   | The glyph bounds size.                  |
+#### Instance
+
+| Name        | Type           | Summary                                 |
+|-------------|----------------|-----------------------------------------|
+| [Offset][3] | [IntVector][5] | The glyph offset from the pen position. |
+| [Size][4]   | [IntSize][6]   | The glyph bounds size.                  |
 
 [0]: ../../Heirloom.Core.md
 [1]: GlyphMetrics/AdvanceWidth.md
 [2]: GlyphMetrics/Bearing.md
 [3]: GlyphMetrics/Offset.md
 [4]: GlyphMetrics/Size.md
+[5]: IntVector.md
+[6]: IntSize.md

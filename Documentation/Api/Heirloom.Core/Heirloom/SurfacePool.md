@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## SurfacePool Class
+## SurfacePool (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Provides a mechanism for requesting temporary surfaces and recycling them for reuse later.
 
@@ -13,20 +13,21 @@ Provides a mechanism for requesting temporary surfaces and recycling them for re
 public static class SurfacePool
 ```
 
-#### Static Methods
+### Static Methods
 
-[Request][1], [Recycle][2], [Clean][3]
+[Clean][1], [Recycle][2], [Request][3]
 
 ## Methods
 
-| Name         | Summary                                                                                                      |
-|--------------|--------------------------------------------------------------------------------------------------------------|
-| [Request][1] | Requests a temporary surface.                                                                                |
-| [Request][1] | Requests a temporary surface.                                                                                |
-| [Recycle][2] | Recycle a surface back into the pool for reuse. It is assumed the surface is no longer used after this call. |
-| [Clean][3]   | Removes surfaces currently existing in the pool.                                                             |
+| Name                           | Return Type  | Summary                                                                |
+|--------------------------------|--------------|------------------------------------------------------------------------|
+| [Clean()][1]                   | `void`       | Removes surfaces currently existing in the pool.                       |
+| [Recycle(Surface)][2]          | `void`       | Recycle a surface back into the pool for reuse. It is assumed the s... |
+| [Request(int, int, Mult...][3] | [Surface][4] | Requests a temporary surface.                                          |
+| [Request(IntSize, Multi...][3] | [Surface][4] | Requests a temporary surface.                                          |
 
 [0]: ../../Heirloom.Core.md
-[1]: SurfacePool/Request.md
+[1]: SurfacePool/Clean.md
 [2]: SurfacePool/Recycle.md
-[3]: SurfacePool/Clean.md
+[3]: SurfacePool/Request.md
+[4]: Surface.md

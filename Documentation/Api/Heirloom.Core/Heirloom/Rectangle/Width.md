@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Rectangle.Width
+## Rectangle.Width (Field)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Rectangle][1]  
+> **Declaring Type**: [Rectangle][1]
 
 #### Width
 

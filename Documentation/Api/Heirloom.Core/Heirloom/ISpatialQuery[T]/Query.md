@@ -1,36 +1,58 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## ISpatialQuery\<T>.Query
+## ISpatialQuery\<T>.Query (Method)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [ISpatialQuery\<T>][1]  
+> **Declaring Type**: [ISpatialQuery\<T>][1]
 
 ### Query(Vector)
 
 Finds spatial elements that overlap the specified point.
 
 ```cs
-public IEnumerable<T> Query(Vector point)
+public abstract IEnumerable<T> Query(Vector point)
 ```
+
+| Name  | Type        | Summary |
+|-------|-------------|---------|
+| point | [Vector][2] |         |
+
+> **Returns** - `IEnumerable\<T>`
 
 ### Query(IShape)
 
 Finds spatial elements that overlap the specified rectangle.
 
 ```cs
-public IEnumerable<T> Query(IShape queryShape)
+public abstract IEnumerable<T> Query(IShape queryShape)
 ```
+
+| Name       | Type        | Summary |
+|------------|-------------|---------|
+| queryShape | [IShape][3] |         |
+
+> **Returns** - `IEnumerable\<T>`
 
 ### Query(Ray, float)
 
 Finds spatial elements that intersect the specified ray.
 
 ```cs
-public IEnumerable<T> Query(Ray ray, float maxDistance = ∞)
+public abstract IEnumerable<T> Query(Ray ray, float maxDistance = ∞)
 ```
+
+| Name        | Type     | Summary |
+|-------------|----------|---------|
+| ray         | [Ray][4] |         |
+| maxDistance | `float`  |         |
+
+> **Returns** - `IEnumerable\<T>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../ISpatialQuery[T].md
+[2]: ../Vector.md
+[3]: ../IShape.md
+[4]: ../Ray.md

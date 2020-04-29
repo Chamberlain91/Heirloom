@@ -1,35 +1,41 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## ImageSource Class
+## ImageSource (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 ```cs
 public abstract class ImageSource
 ```
 
-#### Properties
+### Properties
 
-[Size][1], [Width][2], [Height][3], [Origin][4], [Interpolation][5], [Repeat][6]
+[Height][1], [Interpolation][2], [Origin][3], [Repeat][4], [Size][5], [Width][6]
 
 ## Properties
 
-| Name               | Summary                                                         |
-|--------------------|-----------------------------------------------------------------|
-| [Size][1]          | The size of this image.                                         |
-| [Width][2]         | The width of the image (in pixels).                             |
-| [Height][3]        | The height of the image (in pixels).                            |
-| [Origin][4]        | The offset used to 'center' the image around a non-zero origin. |
-| [Interpolation][5] | Interpolation mode.                                             |
-| [Repeat][6]        | Repeat mode.                                                    |
+#### Instance
+
+| Name               | Type                   | Summary                                                         |
+|--------------------|------------------------|-----------------------------------------------------------------|
+| [Height][1]        | `int`                  | The height of the image (in pixels).                            |
+| [Interpolation][2] | [InterpolationMode][7] | Interpolation mode.                                             |
+| [Origin][3]        | [IntVector][8]         | The offset used to 'center' the image around a non-zero origin. |
+| [Repeat][4]        | [RepeatMode][9]        | Repeat mode.                                                    |
+| [Size][5]          | [IntSize][10]          | The size of this image.                                         |
+| [Width][6]         | `int`                  | The width of the image (in pixels).                             |
 
 [0]: ../../Heirloom.Core.md
-[1]: ImageSource/Size.md
-[2]: ImageSource/Width.md
-[3]: ImageSource/Height.md
-[4]: ImageSource/Origin.md
-[5]: ImageSource/Interpolation.md
-[6]: ImageSource/Repeat.md
+[1]: ImageSource/Height.md
+[2]: ImageSource/Interpolation.md
+[3]: ImageSource/Origin.md
+[4]: ImageSource/Repeat.md
+[5]: ImageSource/Size.md
+[6]: ImageSource/Width.md
+[7]: InterpolationMode.md
+[8]: IntVector.md
+[9]: RepeatMode.md
+[10]: IntSize.md

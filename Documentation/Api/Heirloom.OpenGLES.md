@@ -1,7 +1,7 @@
 # Heirloom.OpenGLES
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.OpenGLES][0]  
+> **Assembly**: [Heirloom.OpenGLES][0]
 
 ## Assembly Dependencies
 

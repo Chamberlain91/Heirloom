@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## IFiniteGrid\<T> Interface
+## IFiniteGrid\<T> (Interface)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 A finite grid (bounded by [Width][1] and [Height][2] ).
 
@@ -17,16 +17,18 @@ public interface IFiniteGrid<T> : IGrid<T>, IReadOnlyGrid<T>
 
 [IGrid\<T>][3], [IReadOnlyGrid\<T>][4]
 
-#### Properties
+### Properties
 
-[Width][1], [Height][2]
+[Height][2], [Width][1]
 
 ## Properties
 
-| Name        | Summary                  |
-|-------------|--------------------------|
-| [Width][1]  | The width of this grid.  |
-| [Height][2] | The height of this grid. |
+#### Instance
+
+| Name        | Type  | Summary                  |
+|-------------|-------|--------------------------|
+| [Height][2] | `int` | The height of this grid. |
+| [Width][1]  | `int` | The width of this grid.  |
 
 [0]: ../../Heirloom.Core.md
 [1]: IFiniteGrid[T]/Width.md

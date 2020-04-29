@@ -1,12 +1,12 @@
 # Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Platforms.Desktop][0]  
+> **Assembly**: [Heirloom.Platforms.Desktop][0]
 
-## Monitor.CurrentMode
+## Monitor.CurrentMode (Property)
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Declaring Type**: [Monitor][1]  
+> **Declaring Type**: [Monitor][1]
 
 ### CurrentMode
 
@@ -16,5 +16,8 @@ Gets the current video mode on this monitor.
 public VideoMode CurrentMode { get; }
 ```
 
+> **Returns**: [VideoMode][2]
+
 [0]: ../../../Heirloom.Platforms.Desktop.md
 [1]: ../Monitor.md
+[2]: ../VideoMode.md

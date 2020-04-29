@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Polygon.ConvexPartitions
+## Polygon.ConvexPartitions (Property)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Polygon][1]  
+> **Declaring Type**: [Polygon][1]
 
 ### ConvexPartitions
 
@@ -15,6 +15,8 @@ Gets the list of convex partitions. If this polygon is already convex, there is 
 ```cs
 public IReadOnlyList<IReadOnlyList<Vector>> ConvexPartitions { get; }
 ```
+
+> **Returns**: `IReadOnlyList\<IReadOnlyList\<Vector>>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Polygon.md

@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## LinearSpatialCollection\<T>.Update
+## LinearSpatialCollection\<T>.Update (Method)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [LinearSpatialCollection\<T>][1]  
+> **Declaring Type**: [LinearSpatialCollection\<T>][1]
 
 ### Update(in T, in IShape)
 
@@ -14,5 +14,14 @@
 public void Update(in T item, in IShape boundingShape)
 ```
 
+| Name          | Type        | Summary |
+|---------------|-------------|---------|
+| item          | [T][2]      |         |
+| boundingShape | [IShape][3] |         |
+
+> **Returns** - `void`
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../LinearSpatialCollection[T].md
+[2]: ../T.md
+[3]: ../IShape.md

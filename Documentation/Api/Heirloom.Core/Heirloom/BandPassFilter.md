@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## BandPassFilter Class
+## BandPassFilter (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 An audio effect that implements a band pass filter.
 
@@ -17,29 +17,33 @@ public class BandPassFilter : AudioEffect
 
 [AudioEffect][1]
 
-#### Properties
+### Properties
 
-[MinFrequency][2], [Cutoff][3]
+[Cutoff][2], [MinFrequency][3]
 
-#### Methods
+### Methods
 
 [Process][4]
 
 ## Properties
 
-| Name              | Summary                                  |
-|-------------------|------------------------------------------|
-| [MinFrequency][2] | Gets or sets the filter cutoff in hertz. |
-| [Cutoff][3]       | Gets or sets the filter cutoff in hertz. |
+#### Instance
+
+| Name              | Type    | Summary                                  |
+|-------------------|---------|------------------------------------------|
+| [Cutoff][2]       | `float` | Gets or sets the filter cutoff in hertz. |
+| [MinFrequency][3] | `float` | Gets or sets the filter cutoff in hertz. |
 
 ## Methods
 
-| Name         | Summary |
-|--------------|---------|
-| [Process][4] |         |
+#### Instance
+
+| Name                     | Return Type | Summary |
+|--------------------------|-------------|---------|
+| [Process(float, int)][4] | `float`     |         |
 
 [0]: ../../Heirloom.Core.md
 [1]: AudioEffect.md
-[2]: BandPassFilter/MinFrequency.md
-[3]: BandPassFilter/Cutoff.md
+[2]: BandPassFilter/Cutoff.md
+[3]: BandPassFilter/MinFrequency.md
 [4]: BandPassFilter/Process.md

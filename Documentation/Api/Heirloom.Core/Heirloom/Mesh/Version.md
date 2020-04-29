@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Mesh.Version
+## Mesh.Version (Property)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Mesh][1]  
+> **Declaring Type**: [Mesh][1]
 
 ### Version
 
@@ -15,6 +15,8 @@ The version number of the mesh. Modifications to the mesh data increment this nu
 ```cs
 public uint Version { get; }
 ```
+
+> **Returns**: `uint`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Mesh.md

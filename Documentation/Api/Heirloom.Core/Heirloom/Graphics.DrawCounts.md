@@ -1,27 +1,29 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Graphics.DrawCounts Struct
+## Graphics.DrawCounts (Struct)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 ```cs
 protected struct Graphics.DrawCounts
 ```
 
-#### Fields
+### Fields
 
 [BatchCount][1], [DrawCount][2], [TriangleCount][3]
 
 ## Fields
 
-| Name               | Summary |
-|--------------------|---------|
-| [BatchCount][1]    |         |
-| [DrawCount][2]     |         |
-| [TriangleCount][3] |         |
+#### Instance
+
+| Name               | Type  | Summary |
+|--------------------|-------|---------|
+| [BatchCount][1]    | `int` |         |
+| [DrawCount][2]     | `int` |         |
+| [TriangleCount][3] | `int` |         |
 
 [0]: ../../Heirloom.Core.md
 [1]: Graphics.DrawCounts/BatchCount.md

@@ -1,12 +1,12 @@
 # Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Platforms.Desktop][0]  
+> **Assembly**: [Heirloom.Platforms.Desktop][0]
 
-## Window.IsFloating
+## Window.IsFloating (Property)
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Declaring Type**: [Window][1]  
+> **Declaring Type**: [Window][1]
 
 ### IsFloating
 
@@ -15,6 +15,8 @@ Gets a value that determines if the window "always on top".
 ```cs
 public bool IsFloating { get; set; }
 ```
+
+> **Returns**: `bool`
 
 [0]: ../../../Heirloom.Platforms.Desktop.md
 [1]: ../Window.md

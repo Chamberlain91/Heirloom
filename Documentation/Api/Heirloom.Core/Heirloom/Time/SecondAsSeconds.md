@@ -1,17 +1,17 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Time.SecondAsSeconds
+## Time.SecondAsSeconds (Field)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Time][1]  
+> **Declaring Type**: [Time][1]
 
 #### SecondAsSeconds
 
 ```cs
-public static float SecondAsSeconds
+public const float SecondAsSeconds = 1
 ```
 
 [0]: ../../../Heirloom.Core.md

@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## ColorBytes Struct
+## ColorBytes (Struct)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Color encoded as 4 component bytes.
 
@@ -17,99 +17,114 @@ public struct ColorBytes : IEquatable<ColorBytes>
 
 IEquatable\<ColorBytes>
 
-#### Fields
+### Fields
 
-[R][1], [G][2], [B][3], [A][4]
+[A][1], [B][2], [G][3], [R][4]
 
-#### Properties
+### Properties
 
-[Luminosity][5], [Inverted][6]
+[Inverted][5], [Luminosity][6]
 
-#### Methods
+### Methods
 
 [Set][7]
 
-#### Static Properties
+### Static Properties
 
-[Red][8], [Green][9], [Blue][10], [Yellow][11], [Cyan][12], [Magenta][13], [White][14], [Black][15], [Gray][16], [DarkGray][17], [LightGray][18], [Orange][19], [Indigo][20], [Violet][21], [Pink][22], [Transparent][23], [Rainbow][24], [Random][25]
+[Black][8], [Blue][9], [Cyan][10], [DarkGray][11], [Gray][12], [Green][13], [Indigo][14], [LightGray][15], [Magenta][16], [Orange][17], [Pink][18], [Rainbow][19], [Random][20], [Red][21], [Transparent][22], [Violet][23], [White][24], [Yellow][25]
 
-#### Static Methods
+### Static Methods
 
-[Parse][26], [TryParse][27], [Lerp][28], [Multiply][29]
+[Lerp][26], [Multiply][27], [Parse][28], [TryParse][29]
 
 ## Fields
 
-| Name   | Summary                           |
-|--------|-----------------------------------|
-| [R][1] | The red component.                |
-| [G][2] | The green component.              |
-| [B][3] | The blue component.               |
-| [A][4] | The alpha/transparency component. |
+#### Instance
+
+| Name   | Type    | Summary                           |
+|--------|---------|-----------------------------------|
+| [A][1] | ` byte` | The alpha/transparency component. |
+| [B][2] | ` byte` | The blue component.               |
+| [G][3] | ` byte` | The green component.              |
+| [R][4] | ` byte` | The red component.                |
 
 ## Properties
 
-| Name              | Summary                                      |
-|-------------------|----------------------------------------------|
-| [Luminosity][5]   | Computes a luminosity component (grayscale). |
-| [Inverted][6]     | The inversion of this color.                 |
-| [Red][8]          |                                              |
-| [Green][9]        |                                              |
-| [Blue][10]        |                                              |
-| [Yellow][11]      |                                              |
-| [Cyan][12]        |                                              |
-| [Magenta][13]     |                                              |
-| [White][14]       |                                              |
-| [Black][15]       |                                              |
-| [Gray][16]        |                                              |
-| [DarkGray][17]    |                                              |
-| [LightGray][18]   |                                              |
-| [Orange][19]      |                                              |
-| [Indigo][20]      |                                              |
-| [Violet][21]      |                                              |
-| [Pink][22]        |                                              |
-| [Transparent][23] |                                              |
-| [Rainbow][24]     |                                              |
-| [Random][25]      |                                              |
+#### Instance
+
+| Name            | Type             | Summary                                      |
+|-----------------|------------------|----------------------------------------------|
+| [Inverted][5]   | [ColorBytes][30] | The inversion of this color.                 |
+| [Luminosity][6] | ` byte`          | Computes a luminosity component (grayscale). |
+
+#### Static
+
+| Name              | Type                         | Summary |
+|-------------------|------------------------------|---------|
+| [Black][8]        | [ColorBytes][30]             |         |
+| [Blue][9]         | [ColorBytes][30]             |         |
+| [Cyan][10]        | [ColorBytes][30]             |         |
+| [DarkGray][11]    | [ColorBytes][30]             |         |
+| [Gray][12]        | [ColorBytes][30]             |         |
+| [Green][13]       | [ColorBytes][30]             |         |
+| [Indigo][14]      | [ColorBytes][30]             |         |
+| [LightGray][15]   | [ColorBytes][30]             |         |
+| [Magenta][16]     | [ColorBytes][30]             |         |
+| [Orange][17]      | [ColorBytes][30]             |         |
+| [Pink][18]        | [ColorBytes][30]             |         |
+| [Rainbow][19]     | `IReadOnlyList\<ColorBytes>` |         |
+| [Random][20]      | [ColorBytes][30]             |         |
+| [Red][21]         | [ColorBytes][30]             |         |
+| [Transparent][22] | [ColorBytes][30]             |         |
+| [Violet][23]      | [ColorBytes][30]             |         |
+| [White][24]       | [ColorBytes][30]             |         |
+| [Yellow][25]      | [ColorBytes][30]             |         |
 
 ## Methods
 
-| Name           | Summary                                                                                                                                 |
-|----------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| [Set][7]       | Sets the components of this color.                                                                                                      |
-| [Parse][26]    | Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'. |
-| [TryParse][27] | Parses a hex-string representation of a color. May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'. |
-| [Lerp][28]     | Interpolate two colors together.                                                                                                        |
-| [Multiply][29] | Multiplies two [ColorBytes][30] together. Behaves the same as [Color][31] .                                                             |
+#### Instance
+
+| Name                           | Return Type | Summary                            |
+|--------------------------------|-------------|------------------------------------|
+| [Set(byte, byte, byte, ...][7] | `void`      | Sets the components of this color. |
+
+#### Static
+
+| Name                            | Return Type      | Summary                                                                |
+|---------------------------------|------------------|------------------------------------------------------------------------|
+| [Lerp(ColorBytes, Color...][26] | [ColorBytes][30] | Interpolate two colors together.                                       |
+| [Multiply(in ColorBytes...][27] | `void`           | Multiplies two ColorBytes together. Behaves the same as Color .        |
+| [Parse(string)][28]             | [ColorBytes][30] | Parses a hex-string representation of a color. May be formatted as ... |
+| [TryParse(string, out C...][29] | `bool`           | Parses a hex-string representation of a color. May be formatted as ... |
 
 [0]: ../../Heirloom.Core.md
-[1]: ColorBytes/R.md
-[2]: ColorBytes/G.md
-[3]: ColorBytes/B.md
-[4]: ColorBytes/A.md
-[5]: ColorBytes/Luminosity.md
-[6]: ColorBytes/Inverted.md
+[1]: ColorBytes/A.md
+[2]: ColorBytes/B.md
+[3]: ColorBytes/G.md
+[4]: ColorBytes/R.md
+[5]: ColorBytes/Inverted.md
+[6]: ColorBytes/Luminosity.md
 [7]: ColorBytes/Set.md
-[8]: ColorBytes/Red.md
-[9]: ColorBytes/Green.md
-[10]: ColorBytes/Blue.md
-[11]: ColorBytes/Yellow.md
-[12]: ColorBytes/Cyan.md
-[13]: ColorBytes/Magenta.md
-[14]: ColorBytes/White.md
-[15]: ColorBytes/Black.md
-[16]: ColorBytes/Gray.md
-[17]: ColorBytes/DarkGray.md
-[18]: ColorBytes/LightGray.md
-[19]: ColorBytes/Orange.md
-[20]: ColorBytes/Indigo.md
-[21]: ColorBytes/Violet.md
-[22]: ColorBytes/Pink.md
-[23]: ColorBytes/Transparent.md
-[24]: ColorBytes/Rainbow.md
-[25]: ColorBytes/Random.md
-[26]: ColorBytes/Parse.md
-[27]: ColorBytes/TryParse.md
-[28]: ColorBytes/Lerp.md
-[29]: ColorBytes/Multiply.md
+[8]: ColorBytes/Black.md
+[9]: ColorBytes/Blue.md
+[10]: ColorBytes/Cyan.md
+[11]: ColorBytes/DarkGray.md
+[12]: ColorBytes/Gray.md
+[13]: ColorBytes/Green.md
+[14]: ColorBytes/Indigo.md
+[15]: ColorBytes/LightGray.md
+[16]: ColorBytes/Magenta.md
+[17]: ColorBytes/Orange.md
+[18]: ColorBytes/Pink.md
+[19]: ColorBytes/Rainbow.md
+[20]: ColorBytes/Random.md
+[21]: ColorBytes/Red.md
+[22]: ColorBytes/Transparent.md
+[23]: ColorBytes/Violet.md
+[24]: ColorBytes/White.md
+[25]: ColorBytes/Yellow.md
+[26]: ColorBytes/Lerp.md
+[27]: ColorBytes/Multiply.md
+[28]: ColorBytes/Parse.md
+[29]: ColorBytes/TryParse.md
 [30]: ColorBytes.md
-[31]: Color.md

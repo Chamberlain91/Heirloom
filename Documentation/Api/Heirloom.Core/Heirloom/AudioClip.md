@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## AudioClip Class
+## AudioClip (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 An object to contain (and decode) audio data into raw samples.
 
@@ -13,19 +13,21 @@ An object to contain (and decode) audio data into raw samples.
 public sealed class AudioClip
 ```
 
-#### Properties
+### Properties
 
-[Indexer][1], [Duration][2], [Length][3]
+[Duration][1], [Indexer][2], [Length][3]
 
 ## Properties
 
-| Name          | Summary                                   |
-|---------------|-------------------------------------------|
-| [Indexer][1]  |                                           |
-| [Duration][2] | Gets the duration of the clip in seconds. |
-| [Length][3]   | Gets the length of the clip in samples.   |
+#### Instance
+
+| Name          | Type    | Summary                                   |
+|---------------|---------|-------------------------------------------|
+| [Duration][1] | `float` | Gets the duration of the clip in seconds. |
+| [Indexer][2]  | `short` |                                           |
+| [Length][3]   | `int`   | Gets the length of the clip in samples.   |
 
 [0]: ../../Heirloom.Core.md
-[1]: AudioClip/Indexer.md
-[2]: AudioClip/Duration.md
+[1]: AudioClip/Duration.md
+[2]: AudioClip/Indexer.md
 [3]: AudioClip/Length.md

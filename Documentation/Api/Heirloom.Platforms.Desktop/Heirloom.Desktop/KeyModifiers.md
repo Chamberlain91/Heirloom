@@ -1,11 +1,11 @@
 # Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Platforms.Desktop][0]  
+> **Assembly**: [Heirloom.Platforms.Desktop][0]
 
-## KeyModifiers Enum
+## KeyModifiers (Enum)
 
-> **Namespace**: [Heirloom.Desktop][0]  
+> **Namespace**: [Heirloom.Desktop][0]
 
 ```cs
 public enum KeyModifiers : IComparable, IFormattable, IConvertible
@@ -13,11 +13,11 @@ public enum KeyModifiers : IComparable, IFormattable, IConvertible
 
 | Name     | Summary |
 |----------|---------|
-| Shift    |         |
-| Control  |         |
 | Alt      |         |
-| Super    |         |
 | CapsLock |         |
+| Control  |         |
 | NumLock  |         |
+| Shift    |         |
+| Super    |         |
 
 [0]: ../../Heirloom.Platforms.Desktop.md
