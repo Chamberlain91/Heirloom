@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-using Heirloom.Extras;
+using Heirloom.IO;
 
 namespace Heirloom.OpenGLES
 {

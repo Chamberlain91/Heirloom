@@ -4,6 +4,8 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
+using Heirloom.IO;
+
 using static StbTrueTypeSharp.StbTrueType;
 
 namespace Heirloom

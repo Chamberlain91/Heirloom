@@ -1,8 +1,7 @@
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Heirloom.Platforms.Desktop")]
-[assembly: InternalsVisibleTo("Heirloom.Platforms.Android")]
-[assembly: InternalsVisibleTo("Heirloom.OpenGLES")] // 
-[assembly: InternalsVisibleTo("Heirloom.DirectX")]  // unlikely
-[assembly: InternalsVisibleTo("Heirloom.Vulkan")]   // 
-[assembly: InternalsVisibleTo("Heirloom.MiniAudio")]       // miniaudio
+[assembly: InternalsVisibleTo("Heirloom.Desktop")]   // Application implementation on Desktop (uses Heirloom.OpenGLES, Heirloom.MiniAudio)
+[assembly: InternalsVisibleTo("Heirloom.Android")]   // Application implementation on Android (uses Heirloom.OpenGLES)
+[assembly: InternalsVisibleTo("Heirloom.OpenGLES")]  // Graphics implementation via OpenGL ES 3.0
+[assembly: InternalsVisibleTo("Heirloom.Vulkan")]    // Graphics implementation via Vulkan (n/a)
+[assembly: InternalsVisibleTo("Heirloom.MiniAudio")] // Audio implementation via miniaudio

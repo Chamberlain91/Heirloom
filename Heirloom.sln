@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules [Tests]", "Modules 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{0EBDA45D-4262-4725-B733-3FC90E7F05E4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Platforms.Desktop", "Modules\Heirloom.Platforms.Desktop\Heirloom.Platforms.Desktop.csproj", "{6B755B94-35E4-4E8E-A70C-67104E8C0DA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Desktop", "Modules\Heirloom.Desktop\Heirloom.Desktop.csproj", "{6B755B94-35E4-4E8E-A70C-67104E8C0DA9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{ED52051C-C8CE-4EFE-ABD1-3D6D5EFCDFFE}"
 EndProject

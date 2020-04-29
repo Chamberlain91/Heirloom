@@ -1,6 +1,4 @@
-using Heirloom;
-
-namespace Heirloom
+namespace Heirloom.Collections
 {
     /// <summary>
     /// A read-only view of a 2D grid of values.

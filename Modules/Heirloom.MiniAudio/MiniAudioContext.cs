@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 
+using Heirloom.Sound;
+
 using static Heirloom.MiniAudio.NativeApi;
 
 namespace Heirloom.MiniAudio

@@ -1,6 +1,6 @@
 using System;
 
-namespace Heirloom
+namespace Heirloom.Sound
 {
     /// <summary>
     /// An audio effect that implements a Schroeder reverb.

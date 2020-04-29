@@ -61,31 +61,6 @@ namespace Heirloom
 
         #endregion
 
-        #region Indexer
-
-        public int this[int i]
-        {
-            get => i switch
-            {
-                0 => Min,
-                1 => Max,
-                _ => throw new IndexOutOfRangeException(),
-            };
-
-            set
-            {
-                switch (i)
-                {
-                    case 0: Min = value; break;
-                    case 1: Max = value; break;
-                    default:
-                        throw new IndexOutOfRangeException();
-                }
-            }
-        }
-
-        #endregion
-
         /// <summary>
         /// Sets the components of this range.
         /// </summary>

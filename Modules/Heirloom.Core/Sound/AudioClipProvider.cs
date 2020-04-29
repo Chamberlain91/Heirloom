@@ -1,6 +1,6 @@
 using System;
 
-namespace Heirloom
+namespace Heirloom.Sound
 {
     internal sealed class AudioClipProvider : IAudioProvider
     {

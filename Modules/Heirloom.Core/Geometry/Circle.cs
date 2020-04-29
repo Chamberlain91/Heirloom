@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Heirloom
+namespace Heirloom.Geometry
 {
     /// <summary>
     /// Represents a circle via center position and radius.

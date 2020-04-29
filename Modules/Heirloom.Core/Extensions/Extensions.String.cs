@@ -1,6 +1,8 @@
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
+using Heirloom.IO;
+
 namespace Heirloom
 {
     /// <summary>

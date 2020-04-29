@@ -7,6 +7,7 @@ using System.Threading;
 using Heirloom.Desktop.Hardware;
 using Heirloom.MiniAudio;
 using Heirloom.OpenGLES;
+using Heirloom.Sound;
 
 namespace Heirloom.Desktop
 {

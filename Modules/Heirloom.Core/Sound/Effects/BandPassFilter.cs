@@ -1,4 +1,4 @@
-namespace Heirloom
+namespace Heirloom.Sound
 {
     /// <summary>
     /// An audio effect that implements a band pass filter.

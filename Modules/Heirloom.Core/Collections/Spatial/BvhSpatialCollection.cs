@@ -2,14 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-using Heirloom;
+using Heirloom.Geometry;
 
-namespace Heirloom
+namespace Heirloom.Collections
 {
     /// <summary>
     /// A spatial collection to store and query elements in 2D space, implemented as a BVH style tree and has infinite bounds.
     /// </summary>
-    public sealed class BoundingTreeSpatialCollection<T> : ISpatialCollection<T>
+    public sealed class BvhSpatialCollection<T> : ISpatialCollection<T>
     {
         private readonly Dictionary<T, Node> _nodes;
         private readonly float _margin;
@@ -19,7 +19,7 @@ namespace Heirloom
 
         #region Constructors
 
-        public BoundingTreeSpatialCollection(float margin = 0.1F)
+        public BvhSpatialCollection(float margin = 0.1F)
         {
             _nodes = new Dictionary<T, Node>();
             _margin = margin;

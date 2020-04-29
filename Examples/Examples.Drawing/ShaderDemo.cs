@@ -1,5 +1,3 @@
-using Examples.Shaders;
-
 using Heirloom;
 
 namespace Examples.Drawing

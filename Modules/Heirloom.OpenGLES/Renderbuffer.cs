@@ -1,6 +1,6 @@
 using System;
 
-using Heirloom.OpenGLES;
+using Heirloom.IO;
 
 namespace Heirloom.OpenGLES
 {

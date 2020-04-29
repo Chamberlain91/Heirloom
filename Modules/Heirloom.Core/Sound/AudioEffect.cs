@@ -1,4 +1,4 @@
-namespace Heirloom
+namespace Heirloom.Sound
 {
     /// <summary>
     /// An audio effect. Implementations of this class mutate the audio for various effects.

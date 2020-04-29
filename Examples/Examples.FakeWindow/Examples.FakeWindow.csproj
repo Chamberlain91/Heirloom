@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Modules\Heirloom.Platforms.Desktop\Heirloom.Platforms.Desktop.csproj" />
+    <ProjectReference Include="..\..\Modules\Heirloom.Desktop\Heirloom.Desktop.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace Heirloom
+namespace Heirloom.IO
 {
     /// <summary>
     /// A structured byte to configure the 8 individual bits as a method of storing 'compressed' boolean values.

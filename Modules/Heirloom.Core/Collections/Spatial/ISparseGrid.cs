@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 
-using Heirloom;
-
-namespace Heirloom
+namespace Heirloom.Collections
 {
     /// <summary>
     /// A sparse 2D grid of values.

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Heirloom
+namespace Heirloom.Sound
 {
     /// <summary>
     /// An object to contain (and decode) audio data into raw samples.

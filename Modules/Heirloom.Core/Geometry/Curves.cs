@@ -2,7 +2,7 @@ using System.Runtime.CompilerServices;
 
 using static Heirloom.Calc;
 
-namespace Heirloom
+namespace Heirloom.Geometry
 {
     /// <summary>
     /// Provides utilities for working with Quadratic and Cubic curves.
