@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## UnicodeRange Struct
+## UnicodeRange (Struct)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Represents a range of unicode 32 bit code points.
 
@@ -17,55 +17,61 @@ public struct UnicodeRange : IEnumerable<UnicodeCharacter>, IEnumerable, IEquata
 
 IEnumerable\<UnicodeCharacter>, IEnumerable, IEquatable\<UnicodeRange>
 
-#### Properties
+### Properties
 
-[Start][1], [End][2]
+[End][1], [Start][2]
 
-#### Methods
+### Methods
 
 [GetEnumerator][3]
 
-#### Static Fields
+### Static Fields
 
-[BasicLatin][4], [Latin1Supplement][5], [LatinExtendedA][6], [LatinExtendedB][7], [Cyrillic][8], [CyrillicSupplement][9], [CJKPunctuation][10], [Hiragana][11], [Katakana][12]
+[BasicLatin][4], [CJKPunctuation][5], [Cyrillic][6], [CyrillicSupplement][7], [Hiragana][8], [Katakana][9], [Latin1Supplement][10], [LatinExtendedA][11], [LatinExtendedB][12]
 
 ## Fields
 
-| Name                    | Summary                                        |
-|-------------------------|------------------------------------------------|
-| [BasicLatin][4]         | The basic latin unicode block.                 |
-| [Latin1Supplement][5]   | The Latin-1 Supplement unicode block.          |
-| [LatinExtendedA][6]     | The Latin Extended-A unicode block.            |
-| [LatinExtendedB][7]     | The Latin Extended-B unicode block.            |
-| [Cyrillic][8]           | The Cyrillic unicode block.                    |
-| [CyrillicSupplement][9] | The Cyrillic Supplement unicode block.         |
-| [CJKPunctuation][10]    | The CJK Symbols and Punctuation unicode block. |
-| [Hiragana][11]          | The Hiragana unicode block.                    |
-| [Katakana][12]          | The Katakana unicode block.                    |
+| Name                    | Type               | Summary                                        |
+|-------------------------|--------------------|------------------------------------------------|
+| [BasicLatin][4]         | [UnicodeRange][13] | The basic latin unicode block.                 |
+| [CJKPunctuation][5]     | [UnicodeRange][13] | The CJK Symbols and Punctuation unicode block. |
+| [Cyrillic][6]           | [UnicodeRange][13] | The Cyrillic unicode block.                    |
+| [CyrillicSupplement][7] | [UnicodeRange][13] | The Cyrillic Supplement unicode block.         |
+| [Hiragana][8]           | [UnicodeRange][13] | The Hiragana unicode block.                    |
+| [Katakana][9]           | [UnicodeRange][13] | The Katakana unicode block.                    |
+| [Latin1Supplement][10]  | [UnicodeRange][13] | The Latin-1 Supplement unicode block.          |
+| [LatinExtendedA][11]    | [UnicodeRange][13] | The Latin Extended-A unicode block.            |
+| [LatinExtendedB][12]    | [UnicodeRange][13] | The Latin Extended-B unicode block.            |
 
 ## Properties
 
-| Name       | Summary                           |
-|------------|-----------------------------------|
-| [Start][1] | The first character in the range. |
-| [End][2]   | The last character in the range.  |
+#### Instance
+
+| Name       | Type                   | Summary                           |
+|------------|------------------------|-----------------------------------|
+| [End][1]   | [UnicodeCharacter][14] | The last character in the range.  |
+| [Start][2] | [UnicodeCharacter][14] | The first character in the range. |
 
 ## Methods
 
-| Name               | Summary |
-|--------------------|---------|
-| [GetEnumerator][3] |         |
+#### Instance
+
+| Name                 | Return Type                      | Summary |
+|----------------------|----------------------------------|---------|
+| [GetEnumerator()][3] | `IEnumerator\<UnicodeCharacter>` |         |
 
 [0]: ../../Heirloom.Core.md
-[1]: UnicodeRange/Start.md
-[2]: UnicodeRange/End.md
+[1]: UnicodeRange/End.md
+[2]: UnicodeRange/Start.md
 [3]: UnicodeRange/GetEnumerator.md
 [4]: UnicodeRange/BasicLatin.md
-[5]: UnicodeRange/Latin1Supplement.md
-[6]: UnicodeRange/LatinExtendedA.md
-[7]: UnicodeRange/LatinExtendedB.md
-[8]: UnicodeRange/Cyrillic.md
-[9]: UnicodeRange/CyrillicSupplement.md
-[10]: UnicodeRange/CJKPunctuation.md
-[11]: UnicodeRange/Hiragana.md
-[12]: UnicodeRange/Katakana.md
+[5]: UnicodeRange/CJKPunctuation.md
+[6]: UnicodeRange/Cyrillic.md
+[7]: UnicodeRange/CyrillicSupplement.md
+[8]: UnicodeRange/Hiragana.md
+[9]: UnicodeRange/Katakana.md
+[10]: UnicodeRange/Latin1Supplement.md
+[11]: UnicodeRange/LatinExtendedA.md
+[12]: UnicodeRange/LatinExtendedB.md
+[13]: UnicodeRange.md
+[14]: UnicodeCharacter.md

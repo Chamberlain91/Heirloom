@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## SimplexNoise Class
+## SimplexNoise (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Implements methods for sampling 2D and 3D simplex noise.
 
@@ -17,16 +17,18 @@ public class SimplexNoise : INoise2D, INoise3D
 
 [INoise2D][1], [INoise3D][2]
 
-#### Methods
+### Methods
 
 [Sample][3]
 
 ## Methods
 
-| Name        | Summary |
-|-------------|---------|
-| [Sample][3] |         |
-| [Sample][3] |         |
+#### Instance
+
+| Name                           | Return Type | Summary |
+|--------------------------------|-------------|---------|
+| [Sample(float, float)][3]      | `float`     |         |
+| [Sample(float, float, f...][3] | `float`     |         |
 
 [0]: ../../Heirloom.Core.md
 [1]: INoise2D.md

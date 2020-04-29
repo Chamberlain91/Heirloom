@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## PolygonTools.DecomposeConvexIndices
+## PolygonTools.DecomposeConvexIndices (Method)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [PolygonTools][1]  
+> **Declaring Type**: [PolygonTools][1]
 
 ### DecomposeConvexIndices(IReadOnlyList<Vector>)
 
@@ -15,6 +15,14 @@ Converts a simple polygon into one or more convex polygons enumerated by indices
 ```cs
 public static IEnumerable<IReadOnlyList<int>> DecomposeConvexIndices(IReadOnlyList<Vector> points)
 ```
+
+`IteratorStateMachineAttribute`
+
+| Name   | Type                     | Summary |
+|--------|--------------------------|---------|
+| points | `IReadOnlyList\<Vector>` |         |
+
+> **Returns** - `IEnumerable\<IReadOnlyList\<int>>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../PolygonTools.md

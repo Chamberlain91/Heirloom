@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Polygon.Centroid
+## Polygon.Centroid (Property)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Polygon][1]  
+> **Declaring Type**: [Polygon][1]
 
 ### Centroid
 
@@ -16,5 +16,8 @@ Gets the centroid (area weighted) of the polygon.
 public Vector Centroid { get; }
 ```
 
+> **Returns**: [Vector][2]
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../Polygon.md
+[2]: ../Vector.md

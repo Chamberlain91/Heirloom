@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Graphics.Viewport
+## Graphics.Viewport (Property)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Graphics][1]  
+> **Declaring Type**: [Graphics][1]
 
 ### Viewport
 
@@ -16,8 +16,11 @@ Gets or sets the viewport in pixel coordinates.
 public IntRectangle Viewport { get; set; }
 ```
 
-When [Surface][2] is changed, the viewport is automatically reset to the full surface.
+> **Returns**: [IntRectangle][2]
+
+When [Surface][3] is changed, the viewport is automatically reset to the full surface.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Graphics.md
-[2]: Surface.md
+[2]: ../IntRectangle.md
+[3]: Surface.md

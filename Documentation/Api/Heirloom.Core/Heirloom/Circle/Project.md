@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Circle.Project
+## Circle.Project (Method)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Circle][1]  
+> **Declaring Type**: [Circle][1]
 
 ### Project(in Vector)
 
@@ -16,5 +16,13 @@ Project this circle onto the specified axis.
 public Range Project(in Vector axis)
 ```
 
+| Name | Type        | Summary |
+|------|-------------|---------|
+| axis | [Vector][2] |         |
+
+> **Returns** - [Range][3]
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../Circle.md
+[2]: ../Vector.md
+[3]: ../Range.md

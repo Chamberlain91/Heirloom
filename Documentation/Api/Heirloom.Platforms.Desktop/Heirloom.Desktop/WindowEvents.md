@@ -1,38 +1,45 @@
 # Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Platforms.Desktop][0]  
+> **Assembly**: [Heirloom.Platforms.Desktop][0]
 
-## WindowEvents Struct
+## WindowEvents (Struct)
 
-> **Namespace**: [Heirloom.Desktop][0]  
+> **Namespace**: [Heirloom.Desktop][0]
 
 ```cs
 public struct WindowEvents
 ```
 
-#### Fields
+`IsReadOnlyAttribute`
+
+### Fields
 
 [XScale][1], [YScale][2]
 
-#### Properties
+### Properties
 
 [ContentScale][3]
 
 ## Fields
 
-| Name        | Summary |
-|-------------|---------|
-| [XScale][1] |         |
-| [YScale][2] |         |
+#### Instance
+
+| Name        | Type    | Summary |
+|-------------|---------|---------|
+| [XScale][1] | `float` |         |
+| [YScale][2] | `float` |         |
 
 ## Properties
 
-| Name              | Summary |
-|-------------------|---------|
-| [ContentScale][3] |         |
+#### Instance
+
+| Name              | Type        | Summary |
+|-------------------|-------------|---------|
+| [ContentScale][3] | [Vector][4] |         |
 
 [0]: ../../Heirloom.Platforms.Desktop.md
 [1]: WindowEvents/XScale.md
 [2]: WindowEvents/YScale.md
 [3]: WindowEvents/ContentScale.md
+[4]: ../../Heirloom.Core/Heirloom/Vector.md

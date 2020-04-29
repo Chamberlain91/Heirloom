@@ -1,7 +1,7 @@
 # Heirloom.MiniAudio
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.MiniAudio][0]  
+> **Assembly**: [Heirloom.MiniAudio][0]
 
 ## Assembly Dependencies
 

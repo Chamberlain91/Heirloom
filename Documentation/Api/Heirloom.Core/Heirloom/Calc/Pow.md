@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Calc.Pow
+## Calc.Pow (Method)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Calc][1]  
+> **Declaring Type**: [Calc][1]
 
 ### Pow(float, float)
 
@@ -16,6 +16,13 @@ Computes `x` raised to the power of `y` .
 public static float Pow(float x, float y)
 ```
 
+| Name | Type    | Summary |
+|------|---------|---------|
+| x    | `float` |         |
+| y    | `float` |         |
+
+> **Returns** - `float`
+
 ### Pow(double, double)
 
 Computes `x` raised to the power of `y` .
@@ -23,6 +30,13 @@ Computes `x` raised to the power of `y` .
 ```cs
 public static double Pow(double x, double y)
 ```
+
+| Name | Type     | Summary |
+|------|----------|---------|
+| x    | `double` |         |
+| y    | `double` |         |
+
+> **Returns** - `double`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Calc.md

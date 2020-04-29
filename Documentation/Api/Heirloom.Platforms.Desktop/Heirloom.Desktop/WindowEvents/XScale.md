@@ -1,17 +1,17 @@
 # Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Platforms.Desktop][0]  
+> **Assembly**: [Heirloom.Platforms.Desktop][0]
 
-## WindowEvents.XScale
+## WindowEvents.XScale (Field)
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Declaring Type**: [WindowEvents][1]  
+> **Declaring Type**: [WindowEvents][1]
 
 #### XScale
 
 ```cs
-public float XScale
+public readonly float XScale
 ```
 
 [0]: ../../../Heirloom.Platforms.Desktop.md

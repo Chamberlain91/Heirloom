@@ -1,31 +1,33 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## ILogHandler Interface
+## ILogHandler (Interface)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 ```cs
 public interface ILogHandler
 ```
 
-#### Methods
+### Methods
 
-[Debug][1], [Warning][2], [Error][3], [Info][4]
+[Debug][1], [Error][2], [Info][3], [Warning][4]
 
 ## Methods
 
-| Name         | Summary |
-|--------------|---------|
-| [Debug][1]   |         |
-| [Warning][2] |         |
-| [Error][3]   |         |
-| [Info][4]    |         |
+#### Instance
+
+| Name                 | Return Type | Summary |
+|----------------------|-------------|---------|
+| [Debug(object)][1]   | `void`      |         |
+| [Error(object)][2]   | `void`      |         |
+| [Info(object)][3]    | `void`      |         |
+| [Warning(object)][4] | `void`      |         |
 
 [0]: ../../Heirloom.Core.md
 [1]: ILogHandler/Debug.md
-[2]: ILogHandler/Warning.md
-[3]: ILogHandler/Error.md
-[4]: ILogHandler/Info.md
+[2]: ILogHandler/Error.md
+[3]: ILogHandler/Info.md
+[4]: ILogHandler/Warning.md

@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Extensions.Shorten
+## Extensions.Shorten (Method)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Extensions][1]  
+> **Declaring Type**: [Extensions][1]
 
 ### Shorten(string, int)
 
@@ -15,6 +15,15 @@ Shortens a string by removing the center portion and replacing with "..." depend
 ```cs
 public static string Shorten(string this, int maxLength = 15)
 ```
+
+`ExtensionAttribute`
+
+| Name      | Type     | Summary |
+|-----------|----------|---------|
+| this      | `string` |         |
+| maxLength | `int`    |         |
+
+> **Returns** - `string`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Extensions.md

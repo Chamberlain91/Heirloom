@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## PerlinNoise Class
+## PerlinNoise (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Implements methods for sampling 1D, 2D and 3D perlin noise.
 
@@ -17,17 +17,19 @@ public class PerlinNoise : INoise1D, INoise2D, INoise3D
 
 [INoise1D][1], [INoise2D][2], [INoise3D][3]
 
-#### Methods
+### Methods
 
 [Sample][4]
 
 ## Methods
 
-| Name        | Summary |
-|-------------|---------|
-| [Sample][4] |         |
-| [Sample][4] |         |
-| [Sample][4] |         |
+#### Instance
+
+| Name                           | Return Type | Summary |
+|--------------------------------|-------------|---------|
+| [Sample(float)][4]             | `float`     |         |
+| [Sample(float, float)][4]      | `float`     |         |
+| [Sample(float, float, f...][4] | `float`     |         |
 
 [0]: ../../Heirloom.Core.md
 [1]: INoise1D.md

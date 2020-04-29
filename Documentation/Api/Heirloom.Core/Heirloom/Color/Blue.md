@@ -1,18 +1,20 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Color.Blue
+## Color.Blue (Property)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Color][1]  
+> **Declaring Type**: [Color][1]
 
 ### Blue
 
 ```cs
 public static Color Blue { get; }
 ```
+
+> **Returns**: [Color][1]
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Color.md

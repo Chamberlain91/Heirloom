@@ -1,17 +1,17 @@
 # Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Platforms.Desktop][0]  
+> **Assembly**: [Heirloom.Platforms.Desktop][0]
 
-## MouseScrollEvent.Scroll
+## MouseScrollEvent.Scroll (Field)
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Declaring Type**: [MouseScrollEvent][1]  
+> **Declaring Type**: [MouseScrollEvent][1]
 
 #### Scroll
 
 ```cs
-public Vector Scroll
+public readonly Vector Scroll
 ```
 
 [0]: ../../../Heirloom.Platforms.Desktop.md

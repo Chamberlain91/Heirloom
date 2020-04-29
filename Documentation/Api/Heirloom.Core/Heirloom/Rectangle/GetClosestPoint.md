@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Rectangle.GetClosestPoint
+## Rectangle.GetClosestPoint (Method)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Rectangle][1]  
+> **Declaring Type**: [Rectangle][1]
 
 ### GetClosestPoint(in Vector)
 
@@ -16,5 +16,12 @@ Returns the nearest point on the rectangle to the given point.
 public Vector GetClosestPoint(in Vector point)
 ```
 
+| Name  | Type        | Summary |
+|-------|-------------|---------|
+| point | [Vector][2] |         |
+
+> **Returns** - [Vector][2]
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../Rectangle.md
+[2]: ../Vector.md

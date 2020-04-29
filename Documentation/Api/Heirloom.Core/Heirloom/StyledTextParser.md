@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## StyledTextParser Class
+## StyledTextParser (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Provides an ability to parse text with some sort of markup into [StyledText][1] .
 
@@ -13,15 +13,17 @@ Provides an ability to parse text with some sort of markup into [StyledText][1] 
 public abstract class StyledTextParser
 ```
 
-#### Methods
+### Methods
 
 [Parse][2]
 
 ## Methods
 
-| Name       | Summary               |
-|------------|-----------------------|
-| [Parse][2] | Parse the input text. |
+#### Instance
+
+| Name               | Return Type     | Summary               |
+|--------------------|-----------------|-----------------------|
+| [Parse(string)][2] | [StyledText][1] | Parse the input text. |
 
 [0]: ../../Heirloom.Core.md
 [1]: StyledText.md

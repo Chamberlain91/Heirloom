@@ -1,19 +1,19 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## IntVector.Left
+## IntVector.Left (Field)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [IntVector][1]  
+> **Declaring Type**: [IntVector][1]
 
 #### Left
 
 A vector with value (-1, 0).
 
 ```cs
-public static IntVector Left
+public static readonly IntVector Left
 ```
 
 [0]: ../../../Heirloom.Core.md

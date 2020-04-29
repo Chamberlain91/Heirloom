@@ -1,12 +1,12 @@
 # Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Platforms.Desktop][0]  
+> **Assembly**: [Heirloom.Platforms.Desktop][0]
 
-## Window.Restore
+## Window.Restore (Method)
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Declaring Type**: [Window][1]  
+> **Declaring Type**: [Window][1]
 
 ### Restore()
 
@@ -15,6 +15,8 @@ Sets the window to a default size state.
 ```cs
 public void Restore()
 ```
+
+> **Returns** - `void`
 
 [0]: ../../../Heirloom.Platforms.Desktop.md
 [1]: ../Window.md

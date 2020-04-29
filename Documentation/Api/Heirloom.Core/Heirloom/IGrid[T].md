@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## IGrid\<T> Interface
+## IGrid\<T> (Interface)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 A 2D grid of values.
 
@@ -17,15 +17,17 @@ public interface IGrid<T> : IReadOnlyGrid<T>
 
 [IReadOnlyGrid\<T>][1]
 
-#### Methods
+### Methods
 
 [Clear][2]
 
 ## Methods
 
-| Name       | Summary                                                                      |
-|------------|------------------------------------------------------------------------------|
-| [Clear][2] | Clear the grid (ie, set each cell to the default value of the element type). |
+#### Instance
+
+| Name         | Return Type | Summary                                                                |
+|--------------|-------------|------------------------------------------------------------------------|
+| [Clear()][2] | `void`      | Clear the grid (ie, set each cell to the default value of the eleme... |
 
 [0]: ../../Heirloom.Core.md
 [1]: IReadOnlyGrid[T].md

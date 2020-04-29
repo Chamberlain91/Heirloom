@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## LinearSpatialCollection\<T> Class
+## LinearSpatialCollection\<T> (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 DO NOT USE!   
  This is incredibly slow, but useful for behaviour testing against more complex implementions of [ISpatialCollection\<T>][1] .   
@@ -19,43 +19,47 @@ public sealed class LinearSpatialCollection<T> : ISpatialCollection<T>, IReadOnl
 
 [ISpatialCollection\<T>][1], [IReadOnlySpatialCollection\<T>][2], [ISpatialQuery\<T>][3], IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable
 
-#### Properties
+### Properties
 
 [Count][4]
 
-#### Methods
+### Methods
 
-[Clear][5], [Add][6], [Update][7], [Remove][8], [Contains][9], [Query][10], [GetEnumerator][11]
+[Add][5], [Clear][6], [Contains][7], [GetEnumerator][8], [Query][9], [Remove][10], [Update][11]
 
 ## Properties
 
-| Name       | Summary |
-|------------|---------|
-| [Count][4] |         |
+#### Instance
+
+| Name       | Type  | Summary |
+|------------|-------|---------|
+| [Count][4] | `int` |         |
 
 ## Methods
 
-| Name                | Summary |
-|---------------------|---------|
-| [Clear][5]          |         |
-| [Add][6]            |         |
-| [Update][7]         |         |
-| [Remove][8]         |         |
-| [Contains][9]       |         |
-| [Query][10]         |         |
-| [Query][10]         |         |
-| [Query][10]         |         |
-| [GetEnumerator][11] |         |
+#### Instance
+
+| Name                          | Return Type       | Summary |
+|-------------------------------|-------------------|---------|
+| [Add(in T, in IShape)][5]     | `void`            |         |
+| [Clear()][6]                  | `void`            |         |
+| [Contains(in T)][7]           | `bool`            |         |
+| [GetEnumerator()][8]          | `IEnumerator\<T>` |         |
+| [Query(IShape)][9]            | `IEnumerable\<T>` |         |
+| [Query(Vector)][9]            | `IEnumerable\<T>` |         |
+| [Query(Ray, float)][9]        | `IEnumerable\<T>` |         |
+| [Remove(in T)][10]            | `bool`            |         |
+| [Update(in T, in IShape)][11] | `void`            |         |
 
 [0]: ../../Heirloom.Core.md
 [1]: ISpatialCollection[T].md
 [2]: IReadOnlySpatialCollection[T].md
 [3]: ISpatialQuery[T].md
 [4]: LinearSpatialCollection[T]/Count.md
-[5]: LinearSpatialCollection[T]/Clear.md
-[6]: LinearSpatialCollection[T]/Add.md
-[7]: LinearSpatialCollection[T]/Update.md
-[8]: LinearSpatialCollection[T]/Remove.md
-[9]: LinearSpatialCollection[T]/Contains.md
-[10]: LinearSpatialCollection[T]/Query.md
-[11]: LinearSpatialCollection[T]/GetEnumerator.md
+[5]: LinearSpatialCollection[T]/Add.md
+[6]: LinearSpatialCollection[T]/Clear.md
+[7]: LinearSpatialCollection[T]/Contains.md
+[8]: LinearSpatialCollection[T]/GetEnumerator.md
+[9]: LinearSpatialCollection[T]/Query.md
+[10]: LinearSpatialCollection[T]/Remove.md
+[11]: LinearSpatialCollection[T]/Update.md

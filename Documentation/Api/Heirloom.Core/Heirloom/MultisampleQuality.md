@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## MultisampleQuality Enum
+## MultisampleQuality (Enum)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Multisampling levels
 
@@ -15,9 +15,9 @@ public enum MultisampleQuality : IComparable, IFormattable, IConvertible
 
 | Name   | Summary           |
 |--------|-------------------|
-| None   | No multisampling. |
+| High   | 8x multisampling. |
 | Low    | 2x multisampling. |
 | Medium | 4x multisampling. |
-| High   | 8x multisampling. |
+| None   | No multisampling. |
 
 [0]: ../../Heirloom.Core.md

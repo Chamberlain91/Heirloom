@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## NineSlice.Center
+## NineSlice.Center (Field)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [NineSlice][1]  
+> **Declaring Type**: [NineSlice][1]
 
 #### Center
 

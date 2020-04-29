@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## IReadOnlySparseGrid\<T> Interface
+## IReadOnlySparseGrid\<T> (Interface)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 A sparse 2D grid of values.
 
@@ -17,26 +17,30 @@ public interface IReadOnlySparseGrid<T> : IReadOnlyGrid<T>
 
 [IReadOnlyGrid\<T>][1]
 
-#### Properties
+### Properties
 
 [Keys][2]
 
-#### Methods
+### Methods
 
 [HasValue][3]
 
 ## Properties
 
-| Name      | Summary |
-|-----------|---------|
-| [Keys][2] |         |
+#### Instance
+
+| Name      | Type                      | Summary |
+|-----------|---------------------------|---------|
+| [Keys][2] | `IEnumerable\<IntVector>` |         |
 
 ## Methods
 
-| Name          | Summary                                                             |
-|---------------|---------------------------------------------------------------------|
-| [HasValue][3] | Determines if a value has been set on this cell of the sparse grid. |
-| [HasValue][3] | Determines if a value has been set on this cell of the sparse grid. |
+#### Instance
+
+| Name                          | Return Type | Summary                                                             |
+|-------------------------------|-------------|---------------------------------------------------------------------|
+| [HasValue(in int, in int)][3] | `bool`      | Determines if a value has been set on this cell of the sparse grid. |
+| [HasValue(in IntVector)][3]   | `bool`      | Determines if a value has been set on this cell of the sparse grid. |
 
 [0]: ../../Heirloom.Core.md
 [1]: IReadOnlyGrid[T].md

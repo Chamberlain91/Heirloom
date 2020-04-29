@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## StyledText Class
+## StyledText (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Styled text compiled by a [StyledTextParser][1] .
 
@@ -13,17 +13,18 @@ Styled text compiled by a [StyledTextParser][1] .
 public abstract class StyledText
 ```
 
-#### Properties
+### Properties
 
 [Text][2]
 
 ## Properties
 
-| Name      | Summary                                                 |
-|-----------|---------------------------------------------------------|
-| [Text][2] | Gets the plain text component of this [StyledText][3] . |
+#### Instance
+
+| Name      | Type     | Summary                                            |
+|-----------|----------|----------------------------------------------------|
+| [Text][2] | `string` | Gets the plain text component of this StyledText . |
 
 [0]: ../../Heirloom.Core.md
 [1]: StyledTextParser.md
 [2]: StyledText/Text.md
-[3]: StyledText.md

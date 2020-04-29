@@ -1,13 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## AudioCaptureCallback Delegate
+## AudioCaptureCallback (Delegate)
 
-> **Namespace**: [Heirloom][0]  
-
-Delegate describing the callback when audio is captured from a microphone.
+> **Namespace**: [Heirloom][0]
 
 ```cs
 public void AudioCaptureCallback(Span<float> inputSamples)

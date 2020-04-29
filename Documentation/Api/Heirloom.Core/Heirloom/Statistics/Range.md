@@ -1,19 +1,19 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Statistics.Range
+## Statistics.Range (Field)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Statistics][1]  
+> **Declaring Type**: [Statistics][1]
 
 #### Range
 
 The range of values.
 
 ```cs
-public Range Range
+public readonly Range Range
 ```
 
 [0]: ../../../Heirloom.Core.md

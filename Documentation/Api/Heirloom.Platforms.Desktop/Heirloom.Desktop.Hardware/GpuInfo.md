@@ -1,31 +1,36 @@
 # Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Platforms.Desktop][0]  
+> **Assembly**: [Heirloom.Platforms.Desktop][0]
 
-## GpuInfo Struct
+## GpuInfo (Struct)
 
-> **Namespace**: [Heirloom.Desktop.Hardware][0]  
+> **Namespace**: [Heirloom.Desktop.Hardware][0]
 
 ```cs
 public struct GpuInfo : IEquatable<GpuInfo>
 ```
 
+`IsReadOnlyAttribute`
+
 ### Inherits
 
 IEquatable\<GpuInfo>
 
-#### Properties
+### Properties
 
-[Vendor][1], [Name][2]
+[Name][1], [Vendor][2]
 
 ## Properties
 
-| Name        | Summary |
-|-------------|---------|
-| [Vendor][1] |         |
-| [Name][2]   |         |
+#### Instance
+
+| Name        | Type           | Summary |
+|-------------|----------------|---------|
+| [Name][1]   | `string`       |         |
+| [Vendor][2] | [GpuVendor][3] |         |
 
 [0]: ../../Heirloom.Platforms.Desktop.md
-[1]: GpuInfo/Vendor.md
-[2]: GpuInfo/Name.md
+[1]: GpuInfo/Name.md
+[2]: GpuInfo/Vendor.md
+[3]: GpuVendor.md

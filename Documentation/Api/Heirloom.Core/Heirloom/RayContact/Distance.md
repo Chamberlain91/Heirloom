@@ -1,19 +1,19 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## RayContact.Distance
+## RayContact.Distance (Field)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [RayContact][1]  
+> **Declaring Type**: [RayContact][1]
 
 #### Distance
 
 The separating distance from the point of contact.
 
 ```cs
-public float Distance
+public readonly float Distance
 ```
 
 [0]: ../../../Heirloom.Core.md

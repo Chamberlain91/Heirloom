@@ -1,12 +1,12 @@
 # Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Platforms.Desktop][0]  
+> **Assembly**: [Heirloom.Platforms.Desktop][0]
 
-## Monitor.Position
+## Monitor.Position (Property)
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Declaring Type**: [Monitor][1]  
+> **Declaring Type**: [Monitor][1]
 
 ### Position
 
@@ -16,5 +16,8 @@ Gets the virtual position of the monitor (in screen units).
 public IntVector Position { get; }
 ```
 
+> **Returns**: [IntVector][2]
+
 [0]: ../../../Heirloom.Platforms.Desktop.md
 [1]: ../Monitor.md
+[2]: ../../../Heirloom.Core/Heirloom/IntVector.md

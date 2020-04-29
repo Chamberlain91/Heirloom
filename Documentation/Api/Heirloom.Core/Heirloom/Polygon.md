@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Polygon Class
+## Polygon (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Represents a simple polygon.
 
@@ -17,86 +17,99 @@ public class Polygon : IShape
 
 [IShape][1]
 
-#### Properties
+### Properties
 
-[Indexer][2], [Vertices][3], [Count][4], [Area][5], [Center][6], [Centroid][7], [Bounds][8], [IsConvex][9], [ConvexPartitions][10]
+[Area][2], [Bounds][3], [Center][4], [Centroid][5], [ConvexPartitions][6], [Count][7], [Indexer][8], [IsConvex][9], [Vertices][10]
 
-#### Methods
+### Methods
 
-[Clear][11], [Add][12], [Insert][13], [RemoveAt][14], [GetClosestPoint][15], [Contains][16], [Overlaps][17], [Project][18], [Raycast][19], [Triangulate][20]
+[Add][11], [Clear][12], [Contains][13], [GetClosestPoint][14], [Insert][15], [Overlaps][16], [Project][17], [Raycast][18], [RemoveAt][19], [Triangulate][20]
 
-#### Static Methods
+### Static Methods
 
-[CreateFromShape][21], [CreateConvexHull][22], [CreateRegularPolygon][23], [CreateStar][24]
+[CreateConvexHull][21], [CreateFromShape][22], [CreateRegularPolygon][23], [CreateStar][24]
 
 ## Properties
 
-| Name                   | Summary                                                                                                                                           |
-|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Indexer][2]           |                                                                                                                                                   |
-| [Vertices][3]          | Gets a read-only view of this polygon's vertices.                                                                                                 |
-| [Count][4]             | Gets the number of vertices in this polygon.                                                                                                      |
-| [Area][5]              | Gets the area of the polygon.                                                                                                                     |
-| [Center][6]            | Gets the center (point mean) of the polygon.                                                                                                      |
-| [Centroid][7]          | Gets the centroid (area weighted) of the polygon.                                                                                                 |
-| [Bounds][8]            | Gets the bounding rectangle of this polygon.                                                                                                      |
-| [IsConvex][9]          | Gets a value determining if this polygon is convex (in clockwise ordering).                                                                       |
-| [ConvexPartitions][10] | Gets the list of convex partitions. If this polygon is already convex, there is only one convex partition that maps one-to-one with the original. |
+#### Instance
+
+| Name                  | Type                                     | Summary                                                                |
+|-----------------------|------------------------------------------|------------------------------------------------------------------------|
+| [Area][2]             | `float`                                  | Gets the area of the polygon.                                          |
+| [Bounds][3]           | [Rectangle][25]                          | Gets the bounding rectangle of this polygon.                           |
+| [Center][4]           | [Vector][26]                             | Gets the center (point mean) of the polygon.                           |
+| [Centroid][5]         | [Vector][26]                             | Gets the centroid (area weighted) of the polygon.                      |
+| [ConvexPartitions][6] | `IReadOnlyList\<IReadOnlyList\<Vector>>` | Gets the list of convex partitions. If this polygon is already conv... |
+| [Count][7]            | `int`                                    | Gets the number of vertices in this polygon.                           |
+| [Indexer][8]          | [Vector][26]                             |                                                                        |
+| [IsConvex][9]         | `bool`                                   | Gets a value determining if this polygon is convex (in clockwise or... |
+| [Vertices][10]        | `IReadOnlyList\<Vector>`                 | Gets a read-only view of this polygon's vertices.                      |
 
 ## Methods
 
-| Name                       | Summary                                                                                |
-|----------------------------|----------------------------------------------------------------------------------------|
-| [Clear][11]                |                                                                                        |
-| [Add][12]                  |                                                                                        |
-| [Insert][13]               |                                                                                        |
-| [RemoveAt][14]             |                                                                                        |
-| [GetClosestPoint][15]      | Gets the nearest point on the polygon to the specified point.                          |
-| [Contains][16]             | Determines if the specified point is contained by this polygon.                        |
-| [Overlaps][17]             | Checks for an overlap between this polygon and another shape.                          |
-| [Overlaps][17]             | Determines if this polygon overlaps the specified rectangle.                           |
-| [Overlaps][17]             | Determines if this polygon overlaps the specified circle.                              |
-| [Overlaps][17]             | Determines if this polygon overlaps the specified triangle.                            |
-| [Overlaps][17]             | Determines if this polygon overlaps the specified triangle.                            |
-| [Project][18]              | Project this polygon onto the specified axis.                                          |
-| [Raycast][19]              | Checks if a ray intersects this polygon.                                               |
-| [Raycast][19]              | Checks if a ray intersects this polygon and outputs information on the contact point.  |
-| [Triangulate][20]          | Decompose this polygon into triangles.                                                 |
-| [CreateFromShape][21]      | Constructs a polygon representation of the specified shape.                            |
-| [CreateFromShape][21]      | Constructs a polygon representation of the specified triangle.                         |
-| [CreateFromShape][21]      | Constructs a polygon representation of the specified rectangle.                        |
-| [CreateFromShape][21]      | Constructs a polygon representation of the specified circle.                           |
-| [CreateConvexHull][22]     | Constructs a convex polygon representing the convex hull of the specified point cloud. |
-| [CreateRegularPolygon][23] | Construct a regular polygon.                                                           |
-| [CreateRegularPolygon][23] | Construct a regular polygon.                                                           |
-| [CreateStar][24]           | Creates a polygon shaped like a standard 5 point star centered on the origin.          |
-| [CreateStar][24]           | Creates a polygon shaped like a standard 5 point star.                                 |
-| [CreateStar][24]           | Creates a polygon shaped like a star centered on the origin.                           |
-| [CreateStar][24]           | Creates a polygon shaped like a star.                                                  |
-| [CreateStar][24]           | Creates a polygon shaped like a star.                                                  |
+#### Instance
+
+| Name                            | Return Type              | Summary                                                                |
+|---------------------------------|--------------------------|------------------------------------------------------------------------|
+| [Add(Vector)][11]               | `void`                   |                                                                        |
+| [Clear()][12]                   | `void`                   |                                                                        |
+| [Contains(in Vector)][13]       | `bool`                   | Determines if the specified point is contained by this polygon.        |
+| [GetClosestPoint(in Vec...][14] | [Vector][26]             | Gets the nearest point on the polygon to the specified point.          |
+| [Insert(int, Vector)][15]       | `void`                   |                                                                        |
+| [Overlaps(IShape)][16]          | `bool`                   | Checks for an overlap between this polygon and another shape.          |
+| [Overlaps(in Rectangle)][16]    | `bool`                   | Determines if this polygon overlaps the specified rectangle.           |
+| [Overlaps(in Circle)][16]       | `bool`                   | Determines if this polygon overlaps the specified circle.              |
+| [Overlaps(in Triangle)][16]     | `bool`                   | Determines if this polygon overlaps the specified triangle.            |
+| [Overlaps(IReadOnlyList...][16] | `bool`                   | Determines if this polygon overlaps the specified triangle.            |
+| [Project(in Vector)][17]        | [Range][27]              | Project this polygon onto the specified axis.                          |
+| [Raycast(in Ray)][18]           | `bool`                   | Checks if a ray intersects this polygon.                               |
+| [Raycast(in Ray, out Ra...][18] | `bool`                   | Checks if a ray intersects this polygon and outputs information on ... |
+| [RemoveAt(int)][19]             | `void`                   |                                                                        |
+| [Triangulate()][20]             | `IEnumerable\<Triangle>` | Decompose this polygon into triangles.                                 |
+
+#### Static
+
+| Name                            | Return Type   | Summary                                                                |
+|---------------------------------|---------------|------------------------------------------------------------------------|
+| [CreateConvexHull(IEnum...][21] | [Polygon][28] | Constructs a convex polygon representing the convex hull of the spe... |
+| [CreateFromShape(IShape)][22]   | [Polygon][28] | Constructs a polygon representation of the specified shape.            |
+| [CreateFromShape(in Tri...][22] | [Polygon][28] | Constructs a polygon representation of the specified triangle.         |
+| [CreateFromShape(in Rec...][22] | [Polygon][28] | Constructs a polygon representation of the specified rectangle.        |
+| [CreateFromShape(in Cir...][22] | [Polygon][28] | Constructs a polygon representation of the specified circle.           |
+| [CreateRegularPolygon(V...][23] | [Polygon][28] | Construct a regular polygon.                                           |
+| [CreateRegularPolygon(i...][23] | [Polygon][28] | Construct a regular polygon.                                           |
+| [CreateStar(float)][24]         | [Polygon][28] | Creates a polygon shaped like a standard 5 point star centered on t... |
+| [CreateStar(Vector, float)][24] | [Polygon][28] | Creates a polygon shaped like a standard 5 point star.                 |
+| [CreateStar(int, float)][24]    | [Polygon][28] | Creates a polygon shaped like a star centered on the origin.           |
+| [CreateStar(Vector, int...][24] | [Polygon][28] | Creates a polygon shaped like a star.                                  |
+| [CreateStar(Vector, int...][24] | [Polygon][28] | Creates a polygon shaped like a star.                                  |
 
 [0]: ../../Heirloom.Core.md
 [1]: IShape.md
-[2]: Polygon/Indexer.md
-[3]: Polygon/Vertices.md
-[4]: Polygon/Count.md
-[5]: Polygon/Area.md
-[6]: Polygon/Center.md
-[7]: Polygon/Centroid.md
-[8]: Polygon/Bounds.md
+[2]: Polygon/Area.md
+[3]: Polygon/Bounds.md
+[4]: Polygon/Center.md
+[5]: Polygon/Centroid.md
+[6]: Polygon/ConvexPartitions.md
+[7]: Polygon/Count.md
+[8]: Polygon/Indexer.md
 [9]: Polygon/IsConvex.md
-[10]: Polygon/ConvexPartitions.md
-[11]: Polygon/Clear.md
-[12]: Polygon/Add.md
-[13]: Polygon/Insert.md
-[14]: Polygon/RemoveAt.md
-[15]: Polygon/GetClosestPoint.md
-[16]: Polygon/Contains.md
-[17]: Polygon/Overlaps.md
-[18]: Polygon/Project.md
-[19]: Polygon/Raycast.md
+[10]: Polygon/Vertices.md
+[11]: Polygon/Add.md
+[12]: Polygon/Clear.md
+[13]: Polygon/Contains.md
+[14]: Polygon/GetClosestPoint.md
+[15]: Polygon/Insert.md
+[16]: Polygon/Overlaps.md
+[17]: Polygon/Project.md
+[18]: Polygon/Raycast.md
+[19]: Polygon/RemoveAt.md
 [20]: Polygon/Triangulate.md
-[21]: Polygon/CreateFromShape.md
-[22]: Polygon/CreateConvexHull.md
+[21]: Polygon/CreateConvexHull.md
+[22]: Polygon/CreateFromShape.md
 [23]: Polygon/CreateRegularPolygon.md
 [24]: Polygon/CreateStar.md
+[25]: Rectangle.md
+[26]: Vector.md
+[27]: Range.md
+[28]: Polygon.md

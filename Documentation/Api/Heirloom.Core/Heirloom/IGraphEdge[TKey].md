@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## IGraphEdge\<TKey> Interface
+## IGraphEdge\<TKey> (Interface)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 An edge between two vertices.
 
@@ -13,27 +13,31 @@ An edge between two vertices.
 public interface IGraphEdge<TKey>
 ```
 
-#### Properties
+### Properties
 
 [Source][1], [Target][2], [Weight][3]
 
-#### Methods
+### Methods
 
 [GetOtherKey][4]
 
 ## Properties
 
-| Name        | Summary                            |
-|-------------|------------------------------------|
-| [Source][1] | The name/key of the source vertex. |
-| [Target][2] | The name/key of the target vertex. |
-| [Weight][3] | The cost/weight of this edge.      |
+#### Instance
+
+| Name        | Type    | Summary                            |
+|-------------|---------|------------------------------------|
+| [Source][1] | `TKey`  | The name/key of the source vertex. |
+| [Target][2] | `TKey`  | The name/key of the target vertex. |
+| [Weight][3] | `float` | The cost/weight of this edge.      |
 
 ## Methods
 
-| Name             | Summary                |
-|------------------|------------------------|
-| [GetOtherKey][4] | Returns the other key. |
+#### Instance
+
+| Name                   | Return Type | Summary                |
+|------------------------|-------------|------------------------|
+| [GetOtherKey(TKey)][4] | `TKey`      | Returns the other key. |
 
 [0]: ../../Heirloom.Core.md
 [1]: IGraphEdge[TKey]/Source.md

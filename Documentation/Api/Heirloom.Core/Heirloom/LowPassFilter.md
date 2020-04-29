@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## LowPassFilter Class
+## LowPassFilter (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 An audio effect that implements a low pass filter.
 
@@ -17,25 +17,29 @@ public class LowPassFilter : AudioEffect
 
 [AudioEffect][1]
 
-#### Properties
+### Properties
 
 [Frequency][2]
 
-#### Methods
+### Methods
 
 [Process][3]
 
 ## Properties
 
-| Name           | Summary                                  |
-|----------------|------------------------------------------|
-| [Frequency][2] | Gets or sets the filter cutoff in hertz. |
+#### Instance
+
+| Name           | Type    | Summary                                  |
+|----------------|---------|------------------------------------------|
+| [Frequency][2] | `float` | Gets or sets the filter cutoff in hertz. |
 
 ## Methods
 
-| Name         | Summary |
-|--------------|---------|
-| [Process][3] |         |
+#### Instance
+
+| Name                     | Return Type | Summary |
+|--------------------------|-------------|---------|
+| [Process(float, int)][3] | `float`     |         |
 
 [0]: ../../Heirloom.Core.md
 [1]: AudioEffect.md

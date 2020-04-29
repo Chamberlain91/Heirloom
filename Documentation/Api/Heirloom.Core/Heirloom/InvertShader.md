@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## InvertShader Class
+## InvertShader (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Invert shader.
 
@@ -17,15 +17,17 @@ public sealed class InvertShader : Shader, IDisposable
 
 [Shader][1], IDisposable
 
-#### Properties
+### Properties
 
 [Blend][2]
 
 ## Properties
 
-| Name       | Summary                                        |
-|------------|------------------------------------------------|
-| [Blend][2] | Gets or sets the blending factor (0.0 to 1.0). |
+#### Instance
+
+| Name       | Type    | Summary                                        |
+|------------|---------|------------------------------------------------|
+| [Blend][2] | `float` | Gets or sets the blending factor (0.0 to 1.0). |
 
 [0]: ../../Heirloom.Core.md
 [1]: Shader.md

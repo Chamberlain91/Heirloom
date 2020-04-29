@@ -1,19 +1,19 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## IntRange.Zero
+## IntRange.Zero (Field)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [IntRange][1]  
+> **Declaring Type**: [IntRange][1]
 
 #### Zero
 
 Zero width range centered on zero.
 
 ```cs
-public static IntRange Zero
+public static readonly IntRange Zero
 ```
 
 [0]: ../../../Heirloom.Core.md

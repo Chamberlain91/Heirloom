@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## TextLayoutState.Position
+## TextLayoutState.Position (Field)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [TextLayoutState][1]  
+> **Declaring Type**: [TextLayoutState][1]
 
 #### Position
 

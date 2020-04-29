@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## UnicodeRange.End
+## UnicodeRange.End (Property)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [UnicodeRange][1]  
+> **Declaring Type**: [UnicodeRange][1]
 
 ### End
 
@@ -16,5 +16,8 @@ The last character in the range.
 public UnicodeCharacter End { get; }
 ```
 
+> **Returns**: [UnicodeCharacter][2]
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../UnicodeRange.md
+[2]: ../UnicodeCharacter.md

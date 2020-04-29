@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Triangle.GetEdge
+## Triangle.GetEdge (Method)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Triangle][1]  
+> **Declaring Type**: [Triangle][1]
 
 ### GetEdge(int)
 
@@ -14,5 +14,12 @@
 public LineSegment GetEdge(int index)
 ```
 
+| Name  | Type  | Summary |
+|-------|-------|---------|
+| index | `int` |         |
+
+> **Returns** - [LineSegment][2]
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../Triangle.md
+[2]: ../LineSegment.md

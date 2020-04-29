@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Shader Class
+## Shader (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Provides GLSL shader support for custom image effects and other visual processing.
 
@@ -17,42 +17,52 @@ public abstract class Shader : IDisposable
 
 IDisposable
 
-#### Properties
+### Properties
 
 [Paths][1], [Uniforms][2]
 
-#### Methods
+### Methods
 
-[SetUniform][3], [SetUniform\<T>][4], [Dispose][5]
+[Dispose][3], [SetUniform][4], [SetUniform\<T>][5]
 
-#### Static Properties
+### Static Properties
 
 [Default][6]
 
 ## Properties
 
-| Name          | Summary                                         |
-|---------------|-------------------------------------------------|
-| [Paths][1]    | The paths used to create this shader object.    |
-| [Uniforms][2] | Enumerates the uniforms defined in this shader. |
-| [Default][6]  | Gets the default (ie, "no effect") shader.      |
+#### Instance
+
+| Name          | Type                        | Summary                                         |
+|---------------|-----------------------------|-------------------------------------------------|
+| [Paths][1]    | `IReadOnlyList\<string>`    | The paths used to create this shader object.    |
+| [Uniforms][2] | `IEnumerable\<UniformInfo>` | Enumerates the uniforms defined in this shader. |
+
+#### Static
+
+| Name         | Type        | Summary                                    |
+|--------------|-------------|--------------------------------------------|
+| [Default][6] | [Shader][7] | Gets the default (ie, "no effect") shader. |
 
 ## Methods
 
-| Name                | Summary                                     |
-|---------------------|---------------------------------------------|
-| [SetUniform][3]     |                                             |
-| [SetUniform][3]     |                                             |
-| [SetUniform][3]     |                                             |
-| [SetUniform][3]     |                                             |
-| [SetUniform\<T>][4] | Updates one of the shader uniforms by name. |
-| [SetUniform][3]     | Updates one of the shader uniforms by name. |
-| [Dispose][5]        |                                             |
+#### Instance
+
+| Name                           | Return Type | Summary                                     |
+|--------------------------------|-------------|---------------------------------------------|
+| [Dispose()][3]                 | `void`      |                                             |
+| [SetUniform(string, flo...][4] | `void`      |                                             |
+| [SetUniform(string, int[])][4] | `void`      |                                             |
+| [SetUniform(string, uin...][4] | `void`      |                                             |
+| [SetUniform(string, boo...][4] | `void`      |                                             |
+| [SetUniform(string, Ima...][4] | `void`      | Updates one of the shader uniforms by name. |
+| [SetUniform<T>(string, T)][5]  | `void`      | Updates one of the shader uniforms by name. |
 
 [0]: ../../Heirloom.Core.md
 [1]: Shader/Paths.md
 [2]: Shader/Uniforms.md
-[3]: Shader/SetUniform.md
-[4]: Shader/SetUniform[T].md
-[5]: Shader/Dispose.md
+[3]: Shader/Dispose.md
+[4]: Shader/SetUniform.md
+[5]: Shader/SetUniform[T].md
 [6]: Shader/Default.md
+[7]: Shader.md

@@ -1,12 +1,12 @@
 # Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Platforms.Desktop][0]  
+> **Assembly**: [Heirloom.Platforms.Desktop][0]
 
-## Application.SupportsTransparentFramebuffer
+## Application.SupportsTransparentFramebuffer (Property)
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Declaring Type**: [Application][1]  
+> **Declaring Type**: [Application][1]
 
 ### SupportsTransparentFramebuffer
 
@@ -15,6 +15,8 @@ Gets a value that determines if transparent window framebuffers are supported on
 ```cs
 public static bool SupportsTransparentFramebuffer { get; }
 ```
+
+> **Returns**: `bool`
 
 [0]: ../../../Heirloom.Platforms.Desktop.md
 [1]: ../Application.md

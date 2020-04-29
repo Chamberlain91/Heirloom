@@ -1,19 +1,19 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## GraphicsAdapterInfo.Name
+## GraphicsAdapterInfo.Name (Field)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [GraphicsAdapterInfo][1]  
+> **Declaring Type**: [GraphicsAdapterInfo][1]
 
 #### Name
 
 The adapter name (ie, GTX 1080).
 
 ```cs
-public string Name
+public readonly string Name
 ```
 
 [0]: ../../../Heirloom.Core.md

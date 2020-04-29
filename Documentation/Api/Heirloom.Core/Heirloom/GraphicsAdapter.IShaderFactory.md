@@ -1,26 +1,28 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## GraphicsAdapter.IShaderFactory Interface
+## GraphicsAdapter.IShaderFactory (Interface)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 ```cs
 protected interface GraphicsAdapter.IShaderFactory
 ```
 
-#### Methods
+### Methods
 
 [Compile][1], [Dispose][2]
 
 ## Methods
 
-| Name         | Summary |
-|--------------|---------|
-| [Compile][1] |         |
-| [Dispose][2] |         |
+#### Instance
+
+| Name                           | Return Type | Summary |
+|--------------------------------|-------------|---------|
+| [Compile(string, string...][1] | `object`    |         |
+| [Dispose(object)][2]           | `void`      |         |
 
 [0]: ../../Heirloom.Core.md
 [1]: GraphicsAdapter.IShaderFactory/Compile.md

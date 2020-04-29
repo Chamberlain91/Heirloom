@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## IReadOnlyHeap\<T> Interface
+## IReadOnlyHeap\<T> (Interface)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Represents a read-only view of a [Heap\<T>][1] .
 
@@ -17,26 +17,30 @@ public interface IReadOnlyHeap<T> : IReadOnlyCollection<T>, IEnumerable<T>, IEnu
 
 IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable
 
-#### Properties
+### Properties
 
 [Comparer][2]
 
-#### Methods
+### Methods
 
 [Contains][3], [Peek][4]
 
 ## Properties
 
-| Name          | Summary                                     |
-|---------------|---------------------------------------------|
-| [Comparer][2] | The comparer used to compare item priority. |
+#### Instance
+
+| Name          | Type           | Summary                                     |
+|---------------|----------------|---------------------------------------------|
+| [Comparer][2] | `Comparer\<T>` | The comparer used to compare item priority. |
 
 ## Methods
 
-| Name          | Summary                                       |
-|---------------|-----------------------------------------------|
-| [Contains][3] | Does this heap contain the specified item?    |
-| [Peek][4]     | Gets the next item in the heap to be removed. |
+#### Instance
+
+| Name             | Return Type | Summary                                       |
+|------------------|-------------|-----------------------------------------------|
+| [Contains(T)][3] | `bool`      | Does this heap contain the specified item?    |
+| [Peek()][4]      | `T`         | Gets the next item in the heap to be removed. |
 
 [0]: ../../Heirloom.Core.md
 [1]: Heap[T].md

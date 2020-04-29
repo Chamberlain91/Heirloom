@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Triangle.B
+## Triangle.B (Field)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Triangle][1]  
+> **Declaring Type**: [Triangle][1]
 
 #### B
 

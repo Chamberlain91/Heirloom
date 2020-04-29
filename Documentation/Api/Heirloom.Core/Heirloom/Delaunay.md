@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Delaunay Class
+## Delaunay (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 An implementation of delaunay triangulation.
 
@@ -13,16 +13,18 @@ An implementation of delaunay triangulation.
 public static class Delaunay
 ```
 
-#### Static Methods
+`ExtensionAttribute`
+
+### Static Methods
 
 [Triangulate][1]
 
 ## Methods
 
-| Name             | Summary                                                   |
-|------------------|-----------------------------------------------------------|
-| [Triangulate][1] | Constructs the Delaunay triangulation of a set of points. |
-| [Triangulate][1] | Constructs the Delaunay triangulation of a set of points. |
+| Name                           | Return Type       | Summary                                                   |
+|--------------------------------|-------------------|-----------------------------------------------------------|
+| [Triangulate(IEnumerabl...][1] | `List\<Triangle>` | Constructs the Delaunay triangulation of a set of points. |
+| [Triangulate(IEnumerabl...][1] | `void`            | Constructs the Delaunay triangulation of a set of points. |
 
 [0]: ../../Heirloom.Core.md
 [1]: Delaunay/Triangulate.md

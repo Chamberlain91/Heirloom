@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## BoundingTreeSpatialCollection\<T> Class
+## BoundingTreeSpatialCollection\<T> (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 A spatial collection to store and query elements in 2D space, implemented as a BVH style tree and has infinite bounds.
 
@@ -17,43 +17,47 @@ public sealed class BoundingTreeSpatialCollection<T> : ISpatialCollection<T>, IR
 
 [ISpatialCollection\<T>][1], [IReadOnlySpatialCollection\<T>][2], [ISpatialQuery\<T>][3], IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable
 
-#### Properties
+### Properties
 
 [Count][4]
 
-#### Methods
+### Methods
 
-[Clear][5], [Add][6], [Update][7], [Remove][8], [Contains][9], [Query][10], [GetEnumerator][11]
+[Add][5], [Clear][6], [Contains][7], [GetEnumerator][8], [Query][9], [Remove][10], [Update][11]
 
 ## Properties
 
-| Name       | Summary                                                |
-|------------|--------------------------------------------------------|
-| [Count][4] | Gets the number of elements stored in this collection. |
+#### Instance
+
+| Name       | Type  | Summary                                                |
+|------------|-------|--------------------------------------------------------|
+| [Count][4] | `int` | Gets the number of elements stored in this collection. |
 
 ## Methods
 
-| Name                | Summary                                                                                                   |
-|---------------------|-----------------------------------------------------------------------------------------------------------|
-| [Clear][5]          | Clears all elements from this spatial collection.                                                         |
-| [Add][6]            | Adds an element with rectangle bounds into this spatial collection.                                       |
-| [Update][7]         | Updates an exising element with new bounds in the collection.                                             |
-| [Remove][8]         | Removes an element from this spatial collection.                                                          |
-| [Contains][9]       | Determines if the specified element exists in this collection.                                            |
-| [Query][10]         | Queries the spatial collection and returns the elements with bounds that overlap the specified point.     |
-| [Query][10]         | Queries the spatial collection and returns the elements with bounds that overlap the specified rectangle. |
-| [Query][10]         | Queries the spatial collection and returns the elements with bounds that intersect the specified ray.     |
-| [GetEnumerator][11] |                                                                                                           |
+#### Instance
+
+| Name                          | Return Type       | Summary                                                                |
+|-------------------------------|-------------------|------------------------------------------------------------------------|
+| [Add(in T, in IShape)][5]     | `void`            | Adds an element with rectangle bounds into this spatial collection.    |
+| [Clear()][6]                  | `void`            | Clears all elements from this spatial collection.                      |
+| [Contains(in T)][7]           | `bool`            | Determines if the specified element exists in this collection.         |
+| [GetEnumerator()][8]          | `IEnumerator\<T>` |                                                                        |
+| [Query(Vector)][9]            | `IEnumerable\<T>` | Queries the spatial collection and returns the elements with bounds... |
+| [Query(IShape)][9]            | `IEnumerable\<T>` | Queries the spatial collection and returns the elements with bounds... |
+| [Query(Ray, float)][9]        | `IEnumerable\<T>` | Queries the spatial collection and returns the elements with bounds... |
+| [Remove(in T)][10]            | `bool`            | Removes an element from this spatial collection.                       |
+| [Update(in T, in IShape)][11] | `void`            | Updates an exising element with new bounds in the collection.          |
 
 [0]: ../../Heirloom.Core.md
 [1]: ISpatialCollection[T].md
 [2]: IReadOnlySpatialCollection[T].md
 [3]: ISpatialQuery[T].md
 [4]: BoundingTreeSpatialCollection[T]/Count.md
-[5]: BoundingTreeSpatialCollection[T]/Clear.md
-[6]: BoundingTreeSpatialCollection[T]/Add.md
-[7]: BoundingTreeSpatialCollection[T]/Update.md
-[8]: BoundingTreeSpatialCollection[T]/Remove.md
-[9]: BoundingTreeSpatialCollection[T]/Contains.md
-[10]: BoundingTreeSpatialCollection[T]/Query.md
-[11]: BoundingTreeSpatialCollection[T]/GetEnumerator.md
+[5]: BoundingTreeSpatialCollection[T]/Add.md
+[6]: BoundingTreeSpatialCollection[T]/Clear.md
+[7]: BoundingTreeSpatialCollection[T]/Contains.md
+[8]: BoundingTreeSpatialCollection[T]/GetEnumerator.md
+[9]: BoundingTreeSpatialCollection[T]/Query.md
+[10]: BoundingTreeSpatialCollection[T]/Remove.md
+[11]: BoundingTreeSpatialCollection[T]/Update.md

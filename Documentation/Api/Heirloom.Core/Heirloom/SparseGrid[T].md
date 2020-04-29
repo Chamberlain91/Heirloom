@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## SparseGrid\<T> Class
+## SparseGrid\<T> (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 An infinite, sparse grid of values.
 
@@ -17,33 +17,37 @@ public sealed class SparseGrid<T> : ISparseGrid<T>, IReadOnlySparseGrid<T>, IRea
 
 [ISparseGrid\<T>][1], [IReadOnlySparseGrid\<T>][2], [IReadOnlyGrid\<T>][3], [IGrid\<T>][4]
 
-#### Properties
+### Properties
 
 [Indexer][5], [Keys][6]
 
-#### Methods
+### Methods
 
 [Clear][7], [ClearValue][8], [HasValue][9], [IsValidCoordinate][10]
 
 ## Properties
 
-| Name         | Summary |
-|--------------|---------|
-| [Indexer][5] |         |
-| [Indexer][5] |         |
-| [Keys][6]    |         |
+#### Instance
+
+| Name         | Type                      | Summary |
+|--------------|---------------------------|---------|
+| [Indexer][5] | `T`                       |         |
+| [Indexer][5] | `T`                       |         |
+| [Keys][6]    | `IEnumerable\<IntVector>` |         |
 
 ## Methods
 
-| Name                    | Summary                                                             |
-|-------------------------|---------------------------------------------------------------------|
-| [Clear][7]              | Removes all values in the grid, marking everything as unoccupied.   |
-| [ClearValue][8]         | Clears the assigned valueon this cell of the sparse grid.           |
-| [ClearValue][8]         | Clears the assigned valueon this cell of the sparse grid.           |
-| [HasValue][9]           | Determines if a value has been set on this cell of the sparse grid. |
-| [HasValue][9]           | Determines if a value has been set on this cell of the sparse grid. |
-| [IsValidCoordinate][10] | Is the specified coordinate valid on this grid?                     |
-| [IsValidCoordinate][10] | Is the specified coordinate valid on this grid?                     |
+#### Instance
+
+| Name                            | Return Type | Summary                                                             |
+|---------------------------------|-------------|---------------------------------------------------------------------|
+| [Clear()][7]                    | `void`      | Removes all values in the grid, marking everything as unoccupied.   |
+| [ClearValue(in int, in ...][8]  | `void`      | Clears the assigned valueon this cell of the sparse grid.           |
+| [ClearValue(in IntVector)][8]   | `void`      | Clears the assigned valueon this cell of the sparse grid.           |
+| [HasValue(in int, in int)][9]   | `bool`      | Determines if a value has been set on this cell of the sparse grid. |
+| [HasValue(in IntVector)][9]     | `bool`      | Determines if a value has been set on this cell of the sparse grid. |
+| [IsValidCoordinate(in i...][10] | `bool`      | Is the specified coordinate valid on this grid?                     |
+| [IsValidCoordinate(in I...][10] | `bool`      | Is the specified coordinate valid on this grid?                     |
 
 [0]: ../../Heirloom.Core.md
 [1]: ISparseGrid[T].md

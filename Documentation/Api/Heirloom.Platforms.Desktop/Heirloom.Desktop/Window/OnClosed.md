@@ -1,18 +1,20 @@
 # Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Platforms.Desktop][0]  
+> **Assembly**: [Heirloom.Platforms.Desktop][0]
 
-## Window.OnClosed
+## Window.OnClosed (Method)
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Declaring Type**: [Window][1]  
+> **Declaring Type**: [Window][1]
 
 ### OnClosed()
 
 ```cs
 protected void OnClosed()
 ```
+
+> **Returns** - `void`
 
 [0]: ../../../Heirloom.Platforms.Desktop.md
 [1]: ../Window.md

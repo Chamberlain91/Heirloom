@@ -1,12 +1,12 @@
 # Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Platforms.Desktop][0]  
+> **Assembly**: [Heirloom.Platforms.Desktop][0]
 
-## Keyboard.GetPrintableKeyName
+## Keyboard.GetPrintableKeyName (Method)
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Declaring Type**: [Keyboard][1]  
+> **Declaring Type**: [Keyboard][1]
 
 ### GetPrintableKeyName(Key)
 
@@ -16,6 +16,12 @@ Gets the printable name of a key.
 public static string GetPrintableKeyName(Key key)
 ```
 
+| Name | Type     | Summary |
+|------|----------|---------|
+| key  | [Key][2] |         |
+
+> **Returns** - `string`
+
 ### GetPrintableKeyName(int)
 
 Gets the printable name of a key specified by scancode.
@@ -24,5 +30,12 @@ Gets the printable name of a key specified by scancode.
 public static string GetPrintableKeyName(int scancode)
 ```
 
+| Name     | Type  | Summary |
+|----------|-------|---------|
+| scancode | `int` |         |
+
+> **Returns** - `string`
+
 [0]: ../../../Heirloom.Platforms.Desktop.md
 [1]: ../Keyboard.md
+[2]: ../Key.md

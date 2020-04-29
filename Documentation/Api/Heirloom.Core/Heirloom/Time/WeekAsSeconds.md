@@ -1,17 +1,17 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Time.WeekAsSeconds
+## Time.WeekAsSeconds (Field)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Time][1]  
+> **Declaring Type**: [Time][1]
 
 #### WeekAsSeconds
 
 ```cs
-public static float WeekAsSeconds
+public const float WeekAsSeconds = 604800
 ```
 
 [0]: ../../../Heirloom.Core.md

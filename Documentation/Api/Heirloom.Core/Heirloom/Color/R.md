@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Color.R
+## Color.R (Field)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Color][1]  
+> **Declaring Type**: [Color][1]
 
 #### R
 

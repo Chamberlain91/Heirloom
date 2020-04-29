@@ -1,19 +1,19 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## UnicodeRange.Hiragana
+## UnicodeRange.Hiragana (Field)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [UnicodeRange][1]  
+> **Declaring Type**: [UnicodeRange][1]
 
 #### Hiragana
 
 The Hiragana unicode block.
 
 ```cs
-public static UnicodeRange Hiragana
+public static readonly UnicodeRange Hiragana
 ```
 
 [0]: ../../../Heirloom.Core.md

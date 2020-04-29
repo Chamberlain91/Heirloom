@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## VectorBlurShader Class
+## VectorBlurShader (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Vector blur shader.
 
@@ -17,16 +17,19 @@ public sealed class VectorBlurShader : Shader, IDisposable
 
 [Shader][1], IDisposable
 
-#### Properties
+### Properties
 
 [Vector][2]
 
 ## Properties
 
-| Name        | Summary                                                                                          |
-|-------------|--------------------------------------------------------------------------------------------------|
-| [Vector][2] | Gets or sets the blur vector. Strength of the blur is determined by the magnitude of the vector. |
+#### Instance
+
+| Name        | Type        | Summary                                                                |
+|-------------|-------------|------------------------------------------------------------------------|
+| [Vector][2] | [Vector][3] | Gets or sets the blur vector. Strength of the blur is determined by... |
 
 [0]: ../../Heirloom.Core.md
 [1]: Shader.md
 [2]: VectorBlurShader/Vector.md
+[3]: Vector.md

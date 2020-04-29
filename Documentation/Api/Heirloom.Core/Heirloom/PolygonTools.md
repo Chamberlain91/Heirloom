@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## PolygonTools Class
+## PolygonTools (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Provides several operations for polygons represented as a read-only list of vectors.
 
@@ -13,45 +13,47 @@ Provides several operations for polygons represented as a read-only list of vect
 public static class PolygonTools
 ```
 
-#### Static Methods
+### Static Methods
 
-[GetClosestPoint][1], [GetClosestPointOutline][2], [ContainsPoint][3], [Overlaps][4], [Raycast][5], [Project][6], [DecomposeConvex][7], [DecomposeConvexIndices][8], [Triangulate][9], [TriangulateIndices][10], [IsConvexVertex][11], [IsConvexPolygon][12], [ComputeMetrics][13], [GetNormal][14]
+[ComputeMetrics][1], [ContainsPoint][2], [DecomposeConvex][3], [DecomposeConvexIndices][4], [GetClosestPoint][5], [GetClosestPointOutline][6], [GetNormal][7], [IsConvexPolygon][8], [IsConvexVertex][9], [Overlaps][10], [Project][11], [Raycast][12], [Triangulate][13], [TriangulateIndices][14]
 
 ## Methods
 
-| Name                        | Summary                                                                                                                               |
-|-----------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
-| [GetClosestPoint][1]        | Gets the closest point on the polygon to the specified point. If the point is contained by the polygon, the point itself is returned. |
-| [GetClosestPointOutline][2] | Gets the closest point on the polygon outline to the specified point.                                                                 |
-| [ContainsPoint][3]          | Assuming the polygon is convex, checks if the point is contained.                                                                     |
-| [Overlaps][4]               | Tests if a (convex) polygon overlaps the specified shape.                                                                             |
-| [Raycast][5]                | Checks if a ray intersects this polygon.                                                                                              |
-| [Raycast][5]                | Checks if a ray intersects this polygon.                                                                                              |
-| [Raycast][5]                | Checks if a ray intersects this polygon and outputs information on the contact point.                                                 |
-| [Raycast][5]                | Checks if a ray intersects this polygon and outputs information on the contact point.                                                 |
-| [Project][6]                | Project a polygon onto the specified axis.                                                                                            |
-| [DecomposeConvex][7]        | Converts a simple polygon into one or more convex polygons. If the polygon is already convex, this simply clones it.                  |
-| [DecomposeConvexIndices][8] | Converts a simple polygon into one or more convex polygons enumerated by indices of the original polygon.                             |
-| [Triangulate][9]            | Decomposes a simple polygon into constituent triangles.                                                                               |
-| [TriangulateIndices][10]    | Decomposes a simple polygon into constituent triangles enumerated by indices of the original polygon.                                 |
-| [IsConvexVertex][11]        | Determines if the ith vertex is a convex (clockwise) vertex.                                                                          |
-| [IsConvexPolygon][12]       | Determines if the polygon is considered convex (non-concave and oriented clockwise).                                                  |
-| [IsConvexVertex][11]        | Determines if the vertex ' `vCurr` ' is convex (clockwise).                                                                           |
-| [ComputeMetrics][13]        |                                                                                                                                       |
-| [GetNormal][14]             | Vector perpendicular to the i-th edge.                                                                                                |
+| Name                            | Return Type                                | Summary                                                                |
+|---------------------------------|--------------------------------------------|------------------------------------------------------------------------|
+| [ComputeMetrics(IReadOn...][1]  | `void`                                     |                                                                        |
+| [ContainsPoint(IReadOnl...][2]  | `bool`                                     | Assuming the polygon is convex, checks if the point is contained.      |
+| [DecomposeConvex(IReadO...][3]  | `IEnumerable\<Polygon>`                    | Converts a simple polygon into one or more convex polygons. If the ... |
+| [DecomposeConvexIndices...][4]  | `IEnumerable\<IReadOnlyList\<int>>`        | Converts a simple polygon into one or more convex polygons enumerat... |
+| [GetClosestPoint(IReadO...][5]  | [Vector][15]                               | Gets the closest point on the polygon to the specified point. If th... |
+| [GetClosestPointOutline...][6]  | [Vector][15]                               | Gets the closest point on the polygon outline to the specified point.  |
+| [GetNormal(IReadOnlyLis...][7]  | [Vector][15]                               | Vector perpendicular to the i-th edge.                                 |
+| [IsConvexPolygon(IReadO...][8]  | `bool`                                     | Determines if the polygon is considered convex (non-concave and ori... |
+| [IsConvexVertex(IReadOn...][9]  | `bool`                                     | Determines if the ith vertex is a convex (clockwise) vertex.           |
+| [IsConvexVertex(in Vect...][9]  | `bool`                                     | Determines if the vertex ' `vCurr` ' is convex (clockwise).            |
+| [Overlaps(IReadOnlyList...][10] | `bool`                                     | Tests if a (convex) polygon overlaps the specified shape.              |
+| [Project(IReadOnlyList<...][11] | [Range][16]                                | Project a polygon onto the specified axis.                             |
+| [Raycast(IReadOnlyList<...][12] | `bool`                                     | Checks if a ray intersects this polygon.                               |
+| [Raycast(IReadOnlyList<...][12] | `bool`                                     | Checks if a ray intersects this polygon.                               |
+| [Raycast(IReadOnlyList<...][12] | `bool`                                     | Checks if a ray intersects this polygon and outputs information on ... |
+| [Raycast(IReadOnlyList<...][12] | `bool`                                     | Checks if a ray intersects this polygon and outputs information on ... |
+| [Triangulate(IReadOnlyL...][13] | `IEnumerable\<Triangle>`                   | Decomposes a simple polygon into constituent triangles.                |
+| [TriangulateIndices(IEn...][14] | `IEnumerable\<ValueTuple\<int, int, int>>` | Decomposes a simple polygon into constituent triangles enumerated b... |
 
 [0]: ../../Heirloom.Core.md
-[1]: PolygonTools/GetClosestPoint.md
-[2]: PolygonTools/GetClosestPointOutline.md
-[3]: PolygonTools/ContainsPoint.md
-[4]: PolygonTools/Overlaps.md
-[5]: PolygonTools/Raycast.md
-[6]: PolygonTools/Project.md
-[7]: PolygonTools/DecomposeConvex.md
-[8]: PolygonTools/DecomposeConvexIndices.md
-[9]: PolygonTools/Triangulate.md
-[10]: PolygonTools/TriangulateIndices.md
-[11]: PolygonTools/IsConvexVertex.md
-[12]: PolygonTools/IsConvexPolygon.md
-[13]: PolygonTools/ComputeMetrics.md
-[14]: PolygonTools/GetNormal.md
+[1]: PolygonTools/ComputeMetrics.md
+[2]: PolygonTools/ContainsPoint.md
+[3]: PolygonTools/DecomposeConvex.md
+[4]: PolygonTools/DecomposeConvexIndices.md
+[5]: PolygonTools/GetClosestPoint.md
+[6]: PolygonTools/GetClosestPointOutline.md
+[7]: PolygonTools/GetNormal.md
+[8]: PolygonTools/IsConvexPolygon.md
+[9]: PolygonTools/IsConvexVertex.md
+[10]: PolygonTools/Overlaps.md
+[11]: PolygonTools/Project.md
+[12]: PolygonTools/Raycast.md
+[13]: PolygonTools/Triangulate.md
+[14]: PolygonTools/TriangulateIndices.md
+[15]: Vector.md
+[16]: Range.md

@@ -1,12 +1,12 @@
 # Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Platforms.Desktop][0]  
+> **Assembly**: [Heirloom.Platforms.Desktop][0]
 
-## Monitor.Name
+## Monitor.Name (Property)
 
 > **Namespace**: [Heirloom.Desktop][0]  
-> **Declaring Type**: [Monitor][1]  
+> **Declaring Type**: [Monitor][1]
 
 ### Name
 
@@ -15,6 +15,8 @@ Gets the human-readable name of the monitor.
 ```cs
 public string Name { get; }
 ```
+
+> **Returns**: `string`
 
 [0]: ../../../Heirloom.Platforms.Desktop.md
 [1]: ../Monitor.md

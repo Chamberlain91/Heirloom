@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## IGraphVertex\<TKey, TValue> Interface
+## IGraphVertex\<TKey, TValue> (Interface)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 A vertex representing a node on a graph.
 
@@ -13,21 +13,23 @@ A vertex representing a node on a graph.
 public interface IGraphVertex<TKey, TValue>
 ```
 
-#### Properties
+### Properties
 
-[Key][1], [Value][2], [IncomingEdges][3], [Edges][4]
+[Edges][1], [IncomingEdges][2], [Key][3], [Value][4]
 
 ## Properties
 
-| Name               | Summary                                                                       |
-|--------------------|-------------------------------------------------------------------------------|
-| [Key][1]           | The name/key of this vertex.                                                  |
-| [Value][2]         | The data/value of this vertex.                                                |
-| [IncomingEdges][3] | The list incoming edges in a directed graph ( no edges when undirected ).     |
-| [Edges][4]         | The list of outgoing edges in a directed graph ( all edges when undirected ). |
+#### Instance
+
+| Name               | Type                                | Summary                                                                |
+|--------------------|-------------------------------------|------------------------------------------------------------------------|
+| [Edges][1]         | `IReadOnlyList\<IGraphEdge\<TKey>>` | The list of outgoing edges in a directed graph ( all edges when und... |
+| [IncomingEdges][2] | `IReadOnlyList\<IGraphEdge\<TKey>>` | The list incoming edges in a directed graph ( no edges when undirec... |
+| [Key][3]           | `TKey`                              | The name/key of this vertex.                                           |
+| [Value][4]         | `TValue`                            | The data/value of this vertex.                                         |
 
 [0]: ../../Heirloom.Core.md
-[1]: IGraphVertex[TKey,TValue]/Key.md
-[2]: IGraphVertex[TKey,TValue]/Value.md
-[3]: IGraphVertex[TKey,TValue]/IncomingEdges.md
-[4]: IGraphVertex[TKey,TValue]/Edges.md
+[1]: IGraphVertex[TKey,TValue]/Edges.md
+[2]: IGraphVertex[TKey,TValue]/IncomingEdges.md
+[3]: IGraphVertex[TKey,TValue]/Key.md
+[4]: IGraphVertex[TKey,TValue]/Value.md

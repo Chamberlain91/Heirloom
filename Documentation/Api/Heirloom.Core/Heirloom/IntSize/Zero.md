@@ -1,19 +1,19 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## IntSize.Zero
+## IntSize.Zero (Field)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [IntSize][1]  
+> **Declaring Type**: [IntSize][1]
 
 #### Zero
 
 A 0x0 size.
 
 ```cs
-public static IntSize Zero
+public static readonly IntSize Zero
 ```
 
 [0]: ../../../Heirloom.Core.md

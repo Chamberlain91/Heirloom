@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## LineSegment.IntersectionTolerance
+## LineSegment.IntersectionTolerance (Field)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [LineSegment][1]  
+> **Declaring Type**: [LineSegment][1]
 
 #### IntersectionTolerance
 

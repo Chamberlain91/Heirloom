@@ -1,31 +1,38 @@
 # Heirloom.Platforms.Desktop
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Platforms.Desktop][0]  
+> **Assembly**: [Heirloom.Platforms.Desktop][0]
 
-## MouseButtonEvent Struct
+## MouseButtonEvent (Struct)
 
-> **Namespace**: [Heirloom.Desktop][0]  
+> **Namespace**: [Heirloom.Desktop][0]
 
 ```cs
 public struct MouseButtonEvent
 ```
 
-#### Fields
+`IsReadOnlyAttribute`
 
-[Button][1], [Action][2], [Modifiers][3], [Position][4]
+### Fields
+
+[Action][1], [Button][2], [Modifiers][3], [Position][4]
 
 ## Fields
 
-| Name           | Summary |
-|----------------|---------|
-| [Button][1]    |         |
-| [Action][2]    |         |
-| [Modifiers][3] |         |
-| [Position][4]  |         |
+#### Instance
+
+| Name           | Type              | Summary |
+|----------------|-------------------|---------|
+| [Action][1]    | [ButtonAction][5] |         |
+| [Button][2]    | `int`             |         |
+| [Modifiers][3] | [KeyModifiers][6] |         |
+| [Position][4]  | [Vector][7]       |         |
 
 [0]: ../../Heirloom.Platforms.Desktop.md
-[1]: MouseButtonEvent/Button.md
-[2]: MouseButtonEvent/Action.md
+[1]: MouseButtonEvent/Action.md
+[2]: MouseButtonEvent/Button.md
 [3]: MouseButtonEvent/Modifiers.md
 [4]: MouseButtonEvent/Position.md
+[5]: ButtonAction.md
+[6]: KeyModifiers.md
+[7]: ../../Heirloom.Core/Heirloom/Vector.md

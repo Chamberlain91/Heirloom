@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## BitField Struct
+## BitField (Struct)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 A structured byte to configure the 8 individual bits as a method of storing 'compressed' boolean values.
 
@@ -13,36 +13,42 @@ A structured byte to configure the 8 individual bits as a method of storing 'com
 public struct BitField : IEquatable<BitField>, IReadOnlyList<bool>, IReadOnlyCollection<bool>, IEnumerable<bool>, IEnumerable
 ```
 
+`SerializableAttribute`
+
 ### Inherits
 
 IEquatable\<BitField>, IReadOnlyList\<bool>, IReadOnlyCollection\<bool>, IEnumerable\<bool>, IEnumerable
 
-#### Properties
+### Properties
 
-[Indexer][1], [Count][2]
+[Count][1], [Indexer][2]
 
-#### Methods
+### Methods
 
-[GetBit][3], [SetBit][4], [GetEnumerator][5]
+[GetBit][3], [GetEnumerator][4], [SetBit][5]
 
 ## Properties
 
-| Name         | Summary |
-|--------------|---------|
-| [Indexer][1] |         |
-| [Count][2]   |         |
+#### Instance
+
+| Name         | Type   | Summary |
+|--------------|--------|---------|
+| [Count][1]   | `int`  |         |
+| [Indexer][2] | `bool` |         |
 
 ## Methods
 
-| Name               | Summary                               |
-|--------------------|---------------------------------------|
-| [GetBit][3]        | Gets the bit value at `index` offset. |
-| [SetBit][4]        | Sets the bit value at `index` offset. |
-| [GetEnumerator][5] |                                       |
+#### Instance
+
+| Name                   | Return Type          | Summary                               |
+|------------------------|----------------------|---------------------------------------|
+| [GetBit(int)][3]       | `bool`               | Gets the bit value at `index` offset. |
+| [GetEnumerator()][4]   | `IEnumerator\<bool>` |                                       |
+| [SetBit(int, bool)][5] | `void`               | Sets the bit value at `index` offset. |
 
 [0]: ../../Heirloom.Core.md
-[1]: BitField/Indexer.md
-[2]: BitField/Count.md
+[1]: BitField/Count.md
+[2]: BitField/Indexer.md
 [3]: BitField/GetBit.md
-[4]: BitField/SetBit.md
-[5]: BitField/GetEnumerator.md
+[4]: BitField/GetEnumerator.md
+[5]: BitField/SetBit.md

@@ -1,16 +1,16 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## TextDrawState.Transform
+## TextDrawState.Transform (Field)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [TextDrawState][1]  
+> **Declaring Type**: [TextDrawState][1]
 
 #### Transform
 
-The relative transform to apply to the current glyph image (set to [Matrix.Identity][2] by default).
+The relative transform to apply to the current glyph image (set to [Identity][2] by default).
 
 ```cs
 public Matrix Transform

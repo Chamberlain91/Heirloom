@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## UnicodeCharacter Struct
+## UnicodeCharacter (Struct)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Represents a single 32 bit Unicode character.
 
@@ -17,15 +17,17 @@ public struct UnicodeCharacter : IComparable<UnicodeCharacter>, IEquatable<Unico
 
 IComparable\<UnicodeCharacter>, IEquatable\<UnicodeCharacter>
 
-#### Methods
+### Methods
 
 [CompareTo][1]
 
 ## Methods
 
-| Name           | Summary                                        |
-|----------------|------------------------------------------------|
-| [CompareTo][1] | Compares this instance to the specified value. |
+#### Instance
+
+| Name                           | Return Type | Summary                                        |
+|--------------------------------|-------------|------------------------------------------------|
+| [CompareTo(UnicodeChara...][1] | `int`       | Compares this instance to the specified value. |
 
 [0]: ../../Heirloom.Core.md
 [1]: UnicodeCharacter/CompareTo.md

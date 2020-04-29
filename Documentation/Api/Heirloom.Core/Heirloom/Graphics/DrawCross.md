@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## Graphics.DrawCross
+## Graphics.DrawCross (Method)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [Graphics][1]  
+> **Declaring Type**: [Graphics][1]
 
 ### DrawCross(in Vector, float, float)
 
@@ -16,5 +16,14 @@ Draws a simple axis aligned 'cross' or 'plus' shape, useful for debugging positi
 public void DrawCross(in Vector center, float size = 2, float width = 1)
 ```
 
+| Name   | Type        | Summary                                             |
+|--------|-------------|-----------------------------------------------------|
+| center | [Vector][2] | The position of the cross.                          |
+| size   | `float`     | Size in screen pixels (not world space).            |
+| width  | `float`     | Width of the lines screen pixels (not world space). |
+
+> **Returns** - `void`
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../Graphics.md
+[2]: ../Vector.md

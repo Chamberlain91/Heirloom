@@ -1,12 +1,12 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## IReadOnlyGrid\<T>.Indexer
+## IReadOnlyGrid\<T>.Indexer (Property)
 
 > **Namespace**: [Heirloom][0]  
-> **Declaring Type**: [IReadOnlyGrid\<T>][1]  
+> **Declaring Type**: [IReadOnlyGrid\<T>][1]
 
 ### Indexer
 
@@ -14,11 +14,15 @@
 public T this[in IntVector co] { get; set; }
 ```
 
+> **Returns**: `T`
+
 ### Indexer
 
 ```cs
 public T this[in int x, in int y] { get; set; }
 ```
+
+> **Returns**: `T`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IReadOnlyGrid[T].md

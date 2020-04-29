@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## NineSlice Class
+## NineSlice (Class)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 A special stretchable rectangle of an image.
 
@@ -13,17 +13,21 @@ A special stretchable rectangle of an image.
 public class NineSlice
 ```
 
-#### Fields
+### Fields
 
-[Image][1], [Center][2]
+[Center][1], [Image][2]
 
 ## Fields
 
-| Name        | Summary                                                                                 |
-|-------------|-----------------------------------------------------------------------------------------|
-| [Image][1]  | The image used by this nine slice.                                                      |
-| [Center][2] | The center rectangle of the nine slice. This implicitly defines all other slice bounds. |
+#### Instance
+
+| Name        | Type              | Summary                                                                |
+|-------------|-------------------|------------------------------------------------------------------------|
+| [Center][1] | [IntRectangle][3] | The center rectangle of the nine slice. This implicitly defines all... |
+| [Image][2]  | [Image][4]        | The image used by this nine slice.                                     |
 
 [0]: ../../Heirloom.Core.md
-[1]: NineSlice/Image.md
-[2]: NineSlice/Center.md
+[1]: NineSlice/Center.md
+[2]: NineSlice/Image.md
+[3]: IntRectangle.md
+[4]: Image.md

@@ -1,11 +1,11 @@
 # Heirloom.Core
 
 > **Framework**: .NETStandard,Version=v2.1  
-> **Assembly**: [Heirloom.Core][0]  
+> **Assembly**: [Heirloom.Core][0]
 
-## IntVector Struct
+## IntVector (Struct)
 
-> **Namespace**: [Heirloom][0]  
+> **Namespace**: [Heirloom][0]
 
 Represents a vector with two integer values.
 
@@ -17,83 +17,100 @@ public struct IntVector : IEquatable<IntVector>
 
 IEquatable\<IntVector>
 
-#### Fields
+### Fields
 
 [X][1], [Y][2]
 
-#### Properties
+### Properties
 
-[Length][3], [LengthSquared][4], [Perpendicular][5], [Indexer][6]
+[Indexer][3], [Length][4], [LengthSquared][5], [Perpendicular][6]
 
-#### Methods
+### Methods
 
-[Set][7], [Deconstruct][8]
+[Deconstruct][7], [Set][8]
 
-#### Static Fields
+### Static Fields
 
-[Zero][9], [One][10], [Right][11], [Up][12], [Left][13], [Down][14]
+[Down][9], [Left][10], [One][11], [Right][12], [Up][13], [Zero][14]
 
-#### Static Methods
+### Static Methods
 
-[GetMaxComponent][15], [GetMinComponent][16], [Min][17], [Max][18], [Abs][19], [Distance][20], [DistanceSquared][21], [ManhattanDistance][22]
+[Abs][15], [Distance][16], [DistanceSquared][17], [GetMaxComponent][18], [GetMinComponent][19], [ManhattanDistance][20], [Max][21], [Min][22]
 
 ## Fields
 
-| Name        | Summary                          |
-|-------------|----------------------------------|
-| [X][1]      | The x-coordinate of this vector. |
-| [Y][2]      | The y-coordinate of this vector. |
-| [Zero][9]   | A vector with value (0, 0).      |
-| [One][10]   | A vector with value (1, 1).      |
-| [Right][11] | A vector with value (1, 0).      |
-| [Up][12]    | A vector with value (0, -1).     |
-| [Left][13]  | A vector with value (-1, 0).     |
-| [Down][14]  | A vector with value (0, 1).      |
+#### Instance
+
+| Name   | Type  | Summary                          |
+|--------|-------|----------------------------------|
+| [X][1] | `int` | The x-coordinate of this vector. |
+| [Y][2] | `int` | The y-coordinate of this vector. |
+
+#### Static
+
+| Name        | Type            | Summary                      |
+|-------------|-----------------|------------------------------|
+| [Down][9]   | [IntVector][23] | A vector with value (0, 1).  |
+| [Left][10]  | [IntVector][23] | A vector with value (-1, 0). |
+| [One][11]   | [IntVector][23] | A vector with value (1, 1).  |
+| [Right][12] | [IntVector][23] | A vector with value (1, 0).  |
+| [Up][13]    | [IntVector][23] | A vector with value (0, -1). |
+| [Zero][14]  | [IntVector][23] | A vector with value (0, 0).  |
 
 ## Properties
 
-| Name               | Summary                                    |
-|--------------------|--------------------------------------------|
-| [Length][3]        | Gets the magnitude of this vector.         |
-| [LengthSquared][4] | Gets the squared magnitude of this vector. |
-| [Perpendicular][5] | Gets a perpendicular copy of this vector.  |
-| [Indexer][6]       |                                            |
+#### Instance
+
+| Name               | Type            | Summary                                    |
+|--------------------|-----------------|--------------------------------------------|
+| [Indexer][3]       | `int`           |                                            |
+| [Length][4]        | `float`         | Gets the magnitude of this vector.         |
+| [LengthSquared][5] | `float`         | Gets the squared magnitude of this vector. |
+| [Perpendicular][6] | [IntVector][23] | Gets a perpendicular copy of this vector.  |
 
 ## Methods
 
-| Name                    | Summary                                                                                                 |
-|-------------------------|---------------------------------------------------------------------------------------------------------|
-| [Set][7]                | Sets the components of this vector.                                                                     |
-| [Deconstruct][8]        |                                                                                                         |
-| [GetMaxComponent][15]   | Gets the maximal component in the input vector.                                                         |
-| [GetMinComponent][16]   | Gets the minimal component in the input vector.                                                         |
-| [Min][17]               | Computes a new vector where each component is the minimum component in each respective input vector.    |
-| [Max][18]               | Computes a new vector where each component is the maximum component in each respective input vector.    |
-| [Abs][19]               | Computes a new vector where each component is the absolute value of each component in the input vector. |
-| [Distance][20]          | Computes the euclidean distance between any two vectors.                                                |
-| [DistanceSquared][21]   | Computes the squared euclidean distance between any two vectors.                                        |
-| [ManhattanDistance][22] | Computes the manhattan distance between any two vectors.                                                |
+#### Instance
+
+| Name                           | Return Type | Summary                             |
+|--------------------------------|-------------|-------------------------------------|
+| [Deconstruct(out int, o...][7] | `void`      |                                     |
+| [Set(int, int)][8]             | `void`      | Sets the components of this vector. |
+
+#### Static
+
+| Name                            | Return Type     | Summary                                                                |
+|---------------------------------|-----------------|------------------------------------------------------------------------|
+| [Abs(IntVector)][15]            | [IntVector][23] | Computes a new vector where each component is the absolute value of... |
+| [Distance(in IntVector,...][16] | `float`         | Computes the euclidean distance between any two vectors.               |
+| [DistanceSquared(in Int...][17] | `int`           | Computes the squared euclidean distance between any two vectors.       |
+| [GetMaxComponent(IntVec...][18] | `int`           | Gets the maximal component in the input vector.                        |
+| [GetMinComponent(IntVec...][19] | `int`           | Gets the minimal component in the input vector.                        |
+| [ManhattanDistance(in I...][20] | `int`           | Computes the manhattan distance between any two vectors.               |
+| [Max(IntVector, IntVector)][21] | [IntVector][23] | Computes a new vector where each component is the maximum component... |
+| [Min(IntVector, IntVector)][22] | [IntVector][23] | Computes a new vector where each component is the minimum component... |
 
 [0]: ../../Heirloom.Core.md
 [1]: IntVector/X.md
 [2]: IntVector/Y.md
-[3]: IntVector/Length.md
-[4]: IntVector/LengthSquared.md
-[5]: IntVector/Perpendicular.md
-[6]: IntVector/Indexer.md
-[7]: IntVector/Set.md
-[8]: IntVector/Deconstruct.md
-[9]: IntVector/Zero.md
-[10]: IntVector/One.md
-[11]: IntVector/Right.md
-[12]: IntVector/Up.md
-[13]: IntVector/Left.md
-[14]: IntVector/Down.md
-[15]: IntVector/GetMaxComponent.md
-[16]: IntVector/GetMinComponent.md
-[17]: IntVector/Min.md
-[18]: IntVector/Max.md
-[19]: IntVector/Abs.md
-[20]: IntVector/Distance.md
-[21]: IntVector/DistanceSquared.md
-[22]: IntVector/ManhattanDistance.md
+[3]: IntVector/Indexer.md
+[4]: IntVector/Length.md
+[5]: IntVector/LengthSquared.md
+[6]: IntVector/Perpendicular.md
+[7]: IntVector/Deconstruct.md
+[8]: IntVector/Set.md
+[9]: IntVector/Down.md
+[10]: IntVector/Left.md
+[11]: IntVector/One.md
+[12]: IntVector/Right.md
+[13]: IntVector/Up.md
+[14]: IntVector/Zero.md
+[15]: IntVector/Abs.md
+[16]: IntVector/Distance.md
+[17]: IntVector/DistanceSquared.md
+[18]: IntVector/GetMaxComponent.md
+[19]: IntVector/GetMinComponent.md
+[20]: IntVector/ManhattanDistance.md
+[21]: IntVector/Max.md
+[22]: IntVector/Min.md
+[23]: IntVector.md
