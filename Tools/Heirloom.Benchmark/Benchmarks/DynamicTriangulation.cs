@@ -1,4 +1,5 @@
 using Heirloom.Extras;
+using Heirloom.Geometry;
 
 namespace Heirloom.Benchmark
 {
@@ -55,7 +56,7 @@ namespace Heirloom.Benchmark
             }
 
             // Triangulate
-            var triangles = Delaunay.Triangulate(_positions);
+            var triangles = GeometryTools.Triangulate(_positions);
 
             // Draw triangles
             foreach (var triangle in triangles)

@@ -19,7 +19,7 @@ namespace Examples.Drawing
             Image = Image.CreateNoise(256, 256, noise, 450);
 
             // Create a classic 5 point star
-            Star = Polygon.CreateStar(5, 250);
+            Star = new Polygon(GeometryTools.GenerateStar(5, 250));
 
             // 
             StarMesh = Mesh.CreateFromPolygon(Star);

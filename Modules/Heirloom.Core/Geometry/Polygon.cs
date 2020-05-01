@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-using static Heirloom.Geometry.ProceduralShapes;
+using static Heirloom.Geometry.GeometryTools;
 
 namespace Heirloom.Geometry
 {
@@ -257,7 +257,7 @@ namespace Heirloom.Geometry
         /// <summary>
         /// Gets the nearest point on the polygon to the specified point.
         /// </summary>
-        public Vector GetClosestPoint(in Vector point)
+        public Vector GetNearestPoint(in Vector point)
         {
             // Is convex, simple test
             if (IsConvex) { return PolygonTools.GetClosestPoint(_vertices, in point); }
@@ -517,79 +517,6 @@ namespace Heirloom.Geometry
             return new Polygon(PolygonTools.ComputeConvexHull(points));
         }
 
-        #endregion
-
-        #region Create (Regular Polygon)
-
-        /// <summary>
-        /// Construct a regular polygon.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Polygon CreateRegularPolygon(Vector center, int segments, float radius)
-        {
-            var points = GenerateRegularPolygon(center, segments, radius);
-            return new Polygon(points);
-        }
-
-        /// <summary>
-        /// Construct a regular polygon.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Polygon CreateRegularPolygon(int segments, float radius)
-        {
-            return CreateRegularPolygon(Vector.Zero, segments, radius);
-        }
-
-        #endregion
-
-        #region Create (Star)
-
-        /// <summary>
-        /// Creates a polygon shaped like a standard 5 point star centered on the origin.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Polygon CreateStar(float radius)
-        {
-            return CreateStar(Vector.Zero, 5, radius);
-        }
-
-        /// <summary>
-        /// Creates a polygon shaped like a standard 5 point star.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Polygon CreateStar(Vector center, float radius)
-        {
-            return CreateStar(center, 5, radius);
-        }
-
-        /// <summary>
-        /// Creates a polygon shaped like a star centered on the origin.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Polygon CreateStar(int numPoints, float radius)
-        {
-            return CreateStar(Vector.Zero, numPoints, radius);
-        }
-
-        /// <summary>
-        /// Creates a polygon shaped like a star.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Polygon CreateStar(Vector center, int numPoints, float radius)
-        {
-            return CreateStar(center, numPoints, radius * 0.6F, radius);
-        }
-
-        /// <summary>
-        /// Creates a polygon shaped like a star.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Polygon CreateStar(Vector center, int numPoints, float innerRadius, float outerRadius)
-        {
-            var points = GenerateStar(center, numPoints, innerRadius, outerRadius);
-            return new Polygon(points);
-        }
-
-        #endregion
+        #endregion 
     }
 }

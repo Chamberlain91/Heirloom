@@ -18,7 +18,7 @@ namespace Heirloom.Geometry
         /// <summary>
         /// Gets the nearest point on the shape to the specified point.
         /// </summary>
-        Vector GetClosestPoint(in Vector point);
+        Vector GetNearestPoint(in Vector point);
 
         /// <summary>
         /// Determines if this shape contains the specified point.

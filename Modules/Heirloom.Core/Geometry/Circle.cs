@@ -73,8 +73,9 @@ namespace Heirloom.Geometry
         /// </summary>
         public Polygon ToPolygon()
         {
-            // Approximates a circle with an icositetragon (24 point) regular polygon
-            return Polygon.CreateRegularPolygon(Position, 24, Radius);
+            // Approximates a circle with a 24 point regular polygon
+            var points = GeometryTools.GenerateRegularPolygon(Position, 24, Radius);
+            return new Polygon(points);
         }
 
         #region Closest Point
@@ -82,7 +83,7 @@ namespace Heirloom.Geometry
         /// <summary>
         /// Gets the nearest point on the circle to the specified point.
         /// </summary>
-        public Vector GetClosestPoint(in Vector point)
+        public Vector GetNearestPoint(in Vector point)
         {
             var offset = Vector.Normalize(point - Position);
             return Position + (offset * Radius);

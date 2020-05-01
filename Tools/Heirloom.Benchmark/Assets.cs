@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+using Heirloom.IO;
+
 namespace Heirloom.Benchmark
 {
     public static class Assets

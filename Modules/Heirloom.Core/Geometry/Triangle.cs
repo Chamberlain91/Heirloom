@@ -110,7 +110,7 @@ namespace Heirloom.Geometry
         /// <summary>
         /// Gets the closest point on the triangle to the specified point.
         /// </summary>
-        public Vector GetClosestPoint(in Vector point)
+        public Vector GetNearestPoint(in Vector point)
         {
             // Get temporary polygon representation
             var polygon = PolygonTools.RequestTempPolygon(in this);

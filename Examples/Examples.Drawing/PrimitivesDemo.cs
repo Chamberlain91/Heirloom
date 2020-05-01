@@ -5,7 +5,7 @@ namespace Examples.Drawing
 {
     public sealed class PrimitivesDemo : Demo
     {
-        public Polygon StarPolygon = Polygon.CreateStar(5, 1);
+        public Polygon StarPolygon = new Polygon(GeometryTools.GenerateStar(5, 1));
 
         public PrimitivesDemo()
             : base("Primitives")
