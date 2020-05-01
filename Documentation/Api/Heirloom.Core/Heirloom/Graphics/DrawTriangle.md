@@ -40,5 +40,5 @@ public void DrawTriangle(in Vector a, in Vector b, in Vector c)
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Graphics.md
-[2]: ../Triangle.md
+[2]: ../../Heirloom.Geometry/Triangle.md
 [3]: ../Vector.md

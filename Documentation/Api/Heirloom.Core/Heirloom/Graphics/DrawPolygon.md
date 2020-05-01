@@ -85,5 +85,5 @@ public void DrawPolygon(IEnumerable<Vector> polygon, in Matrix transform)
 [0]: ../../../Heirloom.Core.md
 [1]: ../Graphics.md
 [2]: ../Vector.md
-[3]: ../Polygon.md
+[3]: ../../Heirloom.Geometry/Polygon.md
 [4]: ../Matrix.md

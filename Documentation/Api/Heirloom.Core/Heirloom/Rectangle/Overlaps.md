@@ -94,7 +94,7 @@ public bool Overlaps(Polygon polygon)
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Rectangle.md
-[2]: ../IShape.md
-[3]: ../Circle.md
-[4]: ../Triangle.md
-[5]: ../Polygon.md
+[2]: ../../Heirloom.Geometry/IShape.md
+[3]: ../../Heirloom.Geometry/Circle.md
+[4]: ../../Heirloom.Geometry/Triangle.md
+[5]: ../../Heirloom.Geometry/Polygon.md

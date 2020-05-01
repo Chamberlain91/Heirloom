@@ -152,4 +152,4 @@ IEquatable\<IntRectangle>
 [35]: IntVector.md
 [36]: IntSize.md
 [37]: IntRectangle.md
-[38]: Polygon.md
+[38]: ../Heirloom.Geometry/Polygon.md

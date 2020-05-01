@@ -45,5 +45,5 @@ public static Heap<T> ToHeap<T>(IEnumerable<T> items, Comparison<T> comparison, 
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Extensions.md
-[2]: ../Heap[T].md
-[3]: ../HeapType.md
+[2]: ../../Heirloom.Collections/Heap[T].md
+[3]: ../../Heirloom.Collections/HeapType.md

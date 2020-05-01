@@ -23,15 +23,15 @@ IEquatable\<Range>
 
 ### Properties
 
-[Average][3], [Indexer][4], [IsValid][5], [Size][6]
+[Average][3], [IsValid][4], [Size][5]
 
 ### Methods
 
-[Contains][7], [Deconstruct][8], [Include][9], [Overlaps][10], [Rescale][11], [Set][12]
+[Contains][6], [Deconstruct][7], [Include][8], [Overlaps][9], [Rescale][10], [Set][11]
 
 ### Static Fields
 
-[Indeterminate][13], [Infinite][14], [Zero][15]
+[Indeterminate][12], [Infinite][13], [Zero][14]
 
 ## Fields
 
@@ -46,9 +46,9 @@ IEquatable\<Range>
 
 | Name                | Type        | Summary                                                                |
 |---------------------|-------------|------------------------------------------------------------------------|
-| [Indeterminate][13] | [Range][16] | Range from float.PositiveInfinity to float.NegativeInfinity useful ... |
-| [Infinite][14]      | [Range][16] | Range from float.NegativeInfinity to float.PositiveInfinity (the wi... |
-| [Zero][15]          | [Range][16] | Zero width range centered on zero.                                     |
+| [Indeterminate][12] | [Range][15] | Range from float.PositiveInfinity to float.NegativeInfinity useful ... |
+| [Infinite][13]      | [Range][15] | Range from float.NegativeInfinity to float.PositiveInfinity (the wi... |
+| [Zero][14]          | [Range][15] | Zero width range centered on zero.                                     |
 
 ## Properties
 
@@ -57,9 +57,8 @@ IEquatable\<Range>
 | Name         | Type    | Summary                                                                |
 |--------------|---------|------------------------------------------------------------------------|
 | [Average][3] | `float` | Gets the mean of Min and Max .                                         |
-| [Indexer][4] | `float` |                                                                        |
-| [IsValid][5] | `bool`  | Gets a value that determines if the range is valid (ie, Max &gt;= M... |
-| [Size][6]    | `float` | Gets the size of the range.                                            |
+| [IsValid][4] | `bool`  | Gets a value that determines if the range is valid (ie, Max &gt;= M... |
+| [Size][5]    | `float` | Gets the size of the range.                                            |
 
 ## Methods
 
@@ -67,29 +66,28 @@ IEquatable\<Range>
 
 | Name                            | Return Type | Summary                                                          |
 |---------------------------------|-------------|------------------------------------------------------------------|
-| [Contains(in float)][7]         | `bool`      | Determines if this range contains the specified value.           |
-| [Deconstruct(out float,...][8]  | `void`      |                                                                  |
-| [Include(in float)][9]          | `void`      | Mutate this range (by expansion) to include the specified value. |
-| [Include(in Range)][9]          | `void`      | Mutate this range (by expansion) to include the specified range. |
-| [Overlaps(in Range)][10]        | `bool`      | Determines if this range overlaps another range.                 |
-| [Rescale(in float, in f...][11] | `float`     | Scales `x` from input domain (this range) to output range.       |
-| [Rescale(in float, in R...][11] | `float`     | Scales `x` from input domain (this range) to output range.       |
-| [Set(float, float)][12]         | `void`      | Sets the components of this range.                               |
+| [Contains(in float)][6]         | `bool`      | Determines if this range contains the specified value.           |
+| [Deconstruct(out float,...][7]  | `void`      |                                                                  |
+| [Include(in float)][8]          | `void`      | Mutate this range (by expansion) to include the specified value. |
+| [Include(in Range)][8]          | `void`      | Mutate this range (by expansion) to include the specified range. |
+| [Overlaps(in Range)][9]         | `bool`      | Determines if this range overlaps another range.                 |
+| [Rescale(in float, in f...][10] | `float`     | Scales `x` from input domain (this range) to output range.       |
+| [Rescale(in float, in R...][10] | `float`     | Scales `x` from input domain (this range) to output range.       |
+| [Set(float, float)][11]         | `void`      | Sets the components of this range.                               |
 
 [0]: ../../Heirloom.Core.md
 [1]: Range/Min.md
 [2]: Range/Max.md
 [3]: Range/Average.md
-[4]: Range/Indexer.md
-[5]: Range/IsValid.md
-[6]: Range/Size.md
-[7]: Range/Contains.md
-[8]: Range/Deconstruct.md
-[9]: Range/Include.md
-[10]: Range/Overlaps.md
-[11]: Range/Rescale.md
-[12]: Range/Set.md
-[13]: Range/Indeterminate.md
-[14]: Range/Infinite.md
-[15]: Range/Zero.md
-[16]: Range.md
+[4]: Range/IsValid.md
+[5]: Range/Size.md
+[6]: Range/Contains.md
+[7]: Range/Deconstruct.md
+[8]: Range/Include.md
+[9]: Range/Overlaps.md
+[10]: Range/Rescale.md
+[11]: Range/Set.md
+[12]: Range/Indeterminate.md
+[13]: Range/Infinite.md
+[14]: Range/Zero.md
+[15]: Range.md

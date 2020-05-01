@@ -83,4 +83,4 @@ public static class Extensions
 [23]: Extensions/ToSnakeCase.md
 [24]: UnicodeCharacter.md
 [25]: Vector.md
-[26]: Heap[T].md
+[26]: ../Heirloom.Collections/Heap[T].md

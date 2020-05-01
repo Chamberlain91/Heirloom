@@ -20,4 +20,4 @@ public Polygon ToPolygon()
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IntRectangle.md
-[2]: ../Polygon.md
+[2]: ../../Heirloom.Geometry/Polygon.md
