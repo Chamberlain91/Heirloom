@@ -415,7 +415,7 @@ namespace Heirloom
         /// <summary>
         /// Returns the nearest point on the rectangle to the given point.
         /// </summary>
-        public Vector GetClosestPoint(in Vector point)
+        public Vector GetNearestPoint(in Vector point)
         {
             Vector closest;
             closest.X = (point.X < Min.X) ? Min.X : (point.X > Max.X) ? Max.X : point.X;

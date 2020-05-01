@@ -7,7 +7,7 @@ namespace Heirloom.Geometry
     /// <summary>
     /// Provides utilities for working with Quadratic and Cubic curves.
     /// </summary>
-    public static class Curves
+    public static class CurveTools
     {
         #region Quadratic
 

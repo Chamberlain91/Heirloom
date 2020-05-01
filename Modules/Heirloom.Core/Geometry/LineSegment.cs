@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 namespace Heirloom.Geometry
 {
     /// <summary>
-    /// Represents a line segment defined by two <see cref="Vector"/>.
+    /// Represents a line segment defined by two end points.
     /// </summary>
     public struct LineSegment : IEquatable<LineSegment>
     {

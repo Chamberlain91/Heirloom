@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 namespace Heirloom.Geometry
 {
     /// <summary>
-    /// Represents a ray by orgin and direction vectors.
+    /// Represents a ray by orgin point and directional vector.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct Ray : IEquatable<Ray>

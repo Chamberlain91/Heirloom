@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace Heirloom.Geometry
 {
     /// <summary>
-    /// Represents the result of a ray-shape intersection.
+    /// Represents the result of a ray to shape intersection.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public readonly struct RayContact : IEquatable<RayContact>

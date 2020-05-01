@@ -1,4 +1,5 @@
 using Heirloom;
+using Heirloom.Geometry;
 
 namespace Examples.Drawing
 {
@@ -14,7 +15,7 @@ namespace Examples.Drawing
             var b = contentBounds.Min + new Vector(1 / 3F, (Calc.Sin(Time * 2) + 1F) * 0.5F) * (Vector) contentBounds.Size;
             var c = contentBounds.Min + new Vector(2 / 3F, (Calc.Sin(Time * 3) + 1F) * 0.5F) * (Vector) contentBounds.Size;
             var d = contentBounds.Min + new Vector(3 / 3F, (Calc.Sin(Time * 4) + 1F) * 0.5F) * (Vector) contentBounds.Size;
-
+            
             // Draw the guide lines
             ctx.Color = Color.Gray;
             ctx.DrawLine(a, b);

@@ -14,7 +14,7 @@ namespace Examples.Drawing
             : base("Polygon")
         {
             // Create a classic 5 point star
-            Polygon = Polygon.CreateStar(5, 1);
+            Polygon = new Polygon(GeometryTools.GenerateStar(5, 1));
 
             // Construct the convex hull
             PolygonHull = Polygon.CreateConvexHull(Polygon.Vertices);

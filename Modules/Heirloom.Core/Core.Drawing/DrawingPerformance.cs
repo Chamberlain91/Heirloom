@@ -5,7 +5,7 @@ namespace Heirloom
     /// </summary>
     public sealed class DrawingPerformance
     {
-        private readonly Timer _timer;
+        private readonly Interval _timer;
 
         private readonly StatisticsHelper _triangleCount;
         private readonly StatisticsHelper _batchCount;
@@ -21,7 +21,7 @@ namespace Heirloom
             _frameRate = new StatisticsHelper();
 
             // 
-            _timer = new Timer(1F);
+            _timer = new Interval(1F);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Heirloom
         internal void ComputeStatistics(Graphics.DrawCounts info)
         {
             // If enough time has passed, compute average
-            if (_timer.Tick(out _))
+            if (_timer.Check(out _))
             {
                 // Compute statistics
                 TriangleCount = _triangleCount.Compute();

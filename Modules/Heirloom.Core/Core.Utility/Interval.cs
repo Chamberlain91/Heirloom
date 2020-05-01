@@ -2,7 +2,10 @@ using System.Diagnostics;
 
 namespace Heirloom
 {
-    internal sealed class Timer
+    /// <summary>
+    /// A utility object to check if an interval of time has occured.
+    /// </summary>
+    public sealed class Interval
     {
         private static readonly double _ticksToSeconds = 1.0 / Stopwatch.Frequency;
 
@@ -14,7 +17,7 @@ namespace Heirloom
         /// <summary>
         /// Constructs a new timer.
         /// </summary>
-        public Timer(float duration)
+        public Interval(float duration)
         {
             _duration = duration;
 
@@ -23,12 +26,23 @@ namespace Heirloom
             _stopwatch.Start();
         }
 
+        /// <summary>
+        /// The time since when <see cref="Check(out float)"/> or <see cref="Check()"/> was last called.
+        /// </summary>
         public float Delta { get; private set; }
 
         /// <summary>
-        /// Checks if enough time has passed, returning true when the duration has been exceeded.
+        /// Returns true when enough time has elapsed.
         /// </summary>
-        public bool Tick(out float elapsed)
+        public bool Check()
+        {
+            return Check(out _);
+        }
+
+        /// <summary>
+        /// Returns true when enough time has elapsed. Outputs the elasped time in seconds.
+        /// </summary>
+        public bool Check(out float elapsed)
         {
             // Get elapsed time
             var delta = _stopwatch.ElapsedTicks * _ticksToSeconds;
