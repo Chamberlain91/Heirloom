@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-using Heirloom;
-
 namespace Heirloom
 {
     /// <summary>
@@ -219,10 +217,10 @@ namespace Heirloom
         /// <returns>The interpolated color.</returns>
         public static ColorBytes Lerp(ColorBytes source, ColorBytes target, float factor)
         {
-            var r = Calc.Lerp(source.R, target.R, factor);
-            var g = Calc.Lerp(source.G, target.G, factor);
-            var b = Calc.Lerp(source.B, target.B, factor);
-            var a = Calc.Lerp(source.A, target.A, factor);
+            var r = (byte) Calc.Lerp(source.R, target.R, factor);
+            var g = (byte) Calc.Lerp(source.G, target.G, factor);
+            var b = (byte) Calc.Lerp(source.B, target.B, factor);
+            var a = (byte) Calc.Lerp(source.A, target.A, factor);
 
             return new ColorBytes(r, g, b, a);
         }

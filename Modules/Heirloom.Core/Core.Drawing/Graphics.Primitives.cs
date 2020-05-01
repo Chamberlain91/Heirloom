@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-using Heirloom;
 using Heirloom.Geometry;
 
 namespace Heirloom
@@ -46,7 +45,7 @@ namespace Heirloom
         public void DrawCurve(in Vector p0, in Vector p1, in Vector p2, float width = 1F)
         {
             // Compute approximate curve length
-            var length = CurveTools.QuadraticDerivativeApproximateLength(p0, p1, p2);
+            var length = CurveTools.DerivativeApproximateLength(p0, p1, p2);
 
             // Calibrates the curve approximation quality
             const float MinStepSize = 1 / 64F; // No more than 64 segments
@@ -59,7 +58,7 @@ namespace Heirloom
             while (!terminate)
             {
                 // Compute tangent vector
-                var tangent = CurveTools.QuadraticDerivative(p0, p1, p2, t);
+                var tangent = CurveTools.InterpolateDerivative(p0, p1, p2, t);
                 t += Calc.Clamp(MaxStepSize * (tangent.Length / length), MinStepSize, MaxStepSize);
 
                 // Have we advanced beyond the curve?
@@ -71,7 +70,7 @@ namespace Heirloom
                 }
 
                 // Compute interpolated point
-                var curr = CurveTools.Quadratic(p0, p1, p2, t);
+                var curr = CurveTools.Interpolate(p0, p1, p2, t);
 
                 // Draw line from previous point to current point
                 DrawLine(prev, curr, width);
@@ -93,7 +92,7 @@ namespace Heirloom
         public void DrawCurve(in Vector p0, in Vector p1, in Vector p2, in Vector p3, float width = 1F)
         {
             // Compute approximate curve length
-            var length = CurveTools.CubicDerivativeApproximateLength(p0, p1, p2, p3);
+            var length = CurveTools.DerivativeApproximateLength(p0, p1, p2, p3);
 
             // Calibrates the curve approximation quality
             const float MinStepSize = 1 / 64F; // No more than 64 segments
@@ -106,7 +105,7 @@ namespace Heirloom
             while (!terminate)
             {
                 // Compute tangent vector
-                var tangent = CurveTools.CubicDerivative(p0, p1, p2, p3, t);
+                var tangent = CurveTools.InterpolateDerivative(p0, p1, p2, p3, t);
                 t += Calc.Clamp(MaxStepSize * (tangent.Length / length), MinStepSize, MaxStepSize);
 
                 // Have we advanced beyond the curve?
@@ -118,7 +117,7 @@ namespace Heirloom
                 }
 
                 // Compute interpolated point
-                var curr = CurveTools.Cubic(p0, p1, p2, p3, t);
+                var curr = CurveTools.Interpolate(p0, p1, p2, p3, t);
 
                 // Draw line from previous point to current point
                 DrawLine(prev, curr, width);

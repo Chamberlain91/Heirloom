@@ -182,32 +182,27 @@ namespace Heirloom
         /// Computes the euclidean distance between any two vectors.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Distance(in IntVector a, in IntVector b)
+        public static float Distance(in Vector a, in Vector b)
         {
-            return Calc.Sqrt(DistanceSquared(a, b));
+            return Calc.Distance(a.X, a.Y, b.X, b.Y);
         }
 
         /// <summary>
         /// Computes the squared euclidean distance between any two vectors.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int DistanceSquared(in IntVector a, in IntVector b)
+        public static float DistanceSquared(in Vector a, in Vector b)
         {
-            var dx = a.X - b.X;
-            var dy = a.Y - b.Y;
-
-            return (dx * dx) + (dy * dy);
+            return Calc.DistanceSquared(a.X, a.Y, b.X, b.Y);
         }
 
         /// <summary>
         /// Computes the manhattan distance between any two vectors.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ManhattanDistance(in IntVector a, in IntVector b)
+        public static float ManhattanDistance(in Vector a, in Vector b)
         {
-            var dx = Calc.Abs(a.X - b.X);
-            var dy = Calc.Abs(a.Y - b.Y);
-            return dx + dy;
+            return Calc.ManhattanDistance(a.X, a.Y, b.X, b.Y);
         }
 
         #endregion

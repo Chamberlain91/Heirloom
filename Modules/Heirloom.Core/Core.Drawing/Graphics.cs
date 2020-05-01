@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-using Heirloom;
-
 namespace Heirloom
 {
     public abstract partial class Graphics

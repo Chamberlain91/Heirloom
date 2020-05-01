@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Heirloom;
-
 namespace Heirloom
 {
     internal sealed class FontAtlas

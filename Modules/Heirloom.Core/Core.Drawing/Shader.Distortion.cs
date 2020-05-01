@@ -1,6 +1,3 @@
-using Heirloom;
-using Heirloom;
-
 namespace Heirloom
 {
     /// <summary>
