@@ -40,5 +40,5 @@ public static Mesh CreateFromPolygon(IReadOnlyList<Vector> polygon)
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Mesh.md
-[2]: ../Polygon/Triangulate.md
-[3]: ../Polygon.md
+[2]: ../../Heirloom.Geometry/Polygon/Triangulate.md
+[3]: ../../Heirloom.Geometry/Polygon.md

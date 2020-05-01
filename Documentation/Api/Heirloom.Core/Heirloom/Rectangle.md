@@ -122,7 +122,7 @@ public struct Rectangle : IShape, IEquatable<Rectangle>
 | [Transform(Rectangle, i...][32] | [Rectangle][41] | Transforms the four corners of this rectangle and returns the bound... |
 
 [0]: ../../Heirloom.Core.md
-[1]: IShape.md
+[1]: ../Heirloom.Geometry/IShape.md
 [2]: Rectangle/Height.md
 [3]: Rectangle/Width.md
 [4]: Rectangle/X.md
@@ -164,4 +164,4 @@ public struct Rectangle : IShape, IEquatable<Rectangle>
 [40]: Size.md
 [41]: Rectangle.md
 [42]: Range.md
-[43]: Polygon.md
+[43]: ../Heirloom.Geometry/Polygon.md

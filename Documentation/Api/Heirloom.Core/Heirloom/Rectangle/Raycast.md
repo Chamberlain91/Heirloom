@@ -39,5 +39,5 @@ public bool Raycast(in Ray ray, out RayContact contact)
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Rectangle.md
-[2]: ../Ray.md
-[3]: ../RayContact.md
+[2]: ../../Heirloom.Geometry/Ray.md
+[3]: ../../Heirloom.Geometry/RayContact.md

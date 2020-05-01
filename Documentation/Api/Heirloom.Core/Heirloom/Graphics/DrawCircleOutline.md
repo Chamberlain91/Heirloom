@@ -41,5 +41,5 @@ public void DrawCircleOutline(in Vector position, float radius, float width = 1)
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Graphics.md
-[2]: ../Circle.md
+[2]: ../../Heirloom.Geometry/Circle.md
 [3]: ../Vector.md

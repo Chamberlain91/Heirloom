@@ -39,5 +39,5 @@ public void DrawCircle(in Vector position, float radius)
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Graphics.md
-[2]: ../Circle.md
+[2]: ../../Heirloom.Geometry/Circle.md
 [3]: ../Vector.md
