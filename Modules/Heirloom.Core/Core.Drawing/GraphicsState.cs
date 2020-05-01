@@ -1,7 +1,5 @@
 using System;
 
-using Heirloom;
-
 namespace Heirloom
 {
     internal struct GraphicsState : IEquatable<GraphicsState>

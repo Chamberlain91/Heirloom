@@ -1,7 +1,5 @@
 using System.Runtime.InteropServices;
 
-using Heirloom;
-
 namespace Heirloom
 {
     /// <summary>

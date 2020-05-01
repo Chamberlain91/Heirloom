@@ -1,8 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
 
-using Heirloom;
-
 namespace Heirloom
 {
     public delegate void TextLayoutCallback(string text, int index, ref TextLayoutState state);

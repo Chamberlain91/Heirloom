@@ -1,13 +1,11 @@
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 using static Heirloom.Calc;
 
 namespace Heirloom.Geometry
 {
-    /// <summary>
-    /// Provides utilities for working with Quadratic and Cubic curves.
-    /// </summary>
-    public static class CurveTools
+    public sealed class CurveTools
     {
         #region Quadratic
 
@@ -19,7 +17,7 @@ namespace Heirloom.Geometry
         /// <param name="c">The curve ending point.</param>
         /// <param name="t">The interpolation factor along the curve.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector Quadratic(in Vector a, in Vector b, in Vector c, in float t)
+        public static Vector Interpolate(in Vector a, in Vector b, in Vector c, in float t)
         {
             var r = 1 - t;
             return (r * r * a) + (2 * r * t * b) + (t * t * c);
@@ -33,7 +31,7 @@ namespace Heirloom.Geometry
         /// <param name="c">The curve ending point.</param>
         /// <param name="t">The interpolation factor along the curve.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector QuadraticDerivative(in Vector a, in Vector b, in Vector c, in float t)
+        public static Vector InterpolateDerivative(in Vector a, in Vector b, in Vector c, in float t)
         {
             return 2 * ((-a * (1 - t)) - (2 * b * t) + b + (c * t));
         }
@@ -45,9 +43,9 @@ namespace Heirloom.Geometry
         /// <param name="b">The curve middle (handle).</param>
         /// <param name="c">The curve ending point.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float QuadraticApproximateLength(in Vector a, in Vector b, in Vector c)
+        public static float ApproximateLength(in Vector a, in Vector b, in Vector c)
         {
-            var p = QuadraticDerivative(in a, in b, in c, 0.5F);
+            var p = InterpolateDerivative(in a, in b, in c, 0.5F);
 
             return Vector.Distance(a, p) +
                    Vector.Distance(p, c);
@@ -60,12 +58,12 @@ namespace Heirloom.Geometry
         /// <param name="b">The curve middle (handle).</param>
         /// <param name="c">The curve ending point.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float QuadraticDerivativeApproximateLength(in Vector a, in Vector b, in Vector c)
+        public static float DerivativeApproximateLength(in Vector a, in Vector b, in Vector c)
         {
-            var p0 = QuadraticDerivative(in a, in b, in c, 0.0F);
-            var p1 = QuadraticDerivative(in a, in b, in c, 0.33F);
-            var p2 = QuadraticDerivative(in a, in b, in c, 0.66F);
-            var p3 = QuadraticDerivative(in a, in b, in c, 1.00F);
+            var p0 = InterpolateDerivative(in a, in b, in c, 0.0F);
+            var p1 = InterpolateDerivative(in a, in b, in c, 0.33F);
+            var p2 = InterpolateDerivative(in a, in b, in c, 0.66F);
+            var p3 = InterpolateDerivative(in a, in b, in c, 1.00F);
 
             return Vector.Distance(p0, p1) +
                    Vector.Distance(p1, p2) +
@@ -85,7 +83,7 @@ namespace Heirloom.Geometry
         /// <param name="d">The curve's ending point.</param>
         /// <param name="t">The interpolation factor along the curve.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector Cubic(in Vector a, in Vector b, in Vector c, in Vector d, in float t)
+        public static Vector Interpolate(in Vector a, in Vector b, in Vector c, in Vector d, in float t)
         {
             var r = 1 - t;
             return (Pow(r, 3) * a) + (3 * Pow(r, 2) * t * b) + (3 * r * Pow(t, 2) * c) + (Pow(t, 3) * d);
@@ -100,7 +98,7 @@ namespace Heirloom.Geometry
         /// <param name="d">The curve's ending point.</param>
         /// <param name="t">The interpolation factor along the curve.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector CubicDerivative(in Vector a, in Vector b, in Vector c, in Vector d, in float t)
+        public static Vector InterpolateDerivative(in Vector a, in Vector b, in Vector c, in Vector d, in float t)
         {
             var r = 1 - t;
             var r2 = Pow(r, 2);
@@ -117,10 +115,10 @@ namespace Heirloom.Geometry
         /// <param name="c">The curve's second handle.</param>
         /// <param name="d">The curve's ending point.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float CubicApproximateLength(in Vector a, in Vector b, in Vector c, in Vector d)
+        public static float ApproximateLength(in Vector a, in Vector b, in Vector c, in Vector d)
         {
-            var p = Cubic(in a, in b, in c, in d, 0.25F);
-            var q = Cubic(in a, in b, in c, in d, 0.75F);
+            var p = Interpolate(in a, in b, in c, in d, 0.25F);
+            var q = Interpolate(in a, in b, in c, in d, 0.75F);
 
             return Vector.Distance(a, p) + Vector.Distance(p, q) + Vector.Distance(q, d);
         }
@@ -133,13 +131,13 @@ namespace Heirloom.Geometry
         /// <param name="c">The curve's second handle.</param>
         /// <param name="d">The curve's ending point.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float CubicDerivativeApproximateLength(in Vector a, in Vector b, in Vector c, in Vector d)
+        public static float DerivativeApproximateLength(in Vector a, in Vector b, in Vector c, in Vector d)
         {
-            var p0 = CubicDerivative(in a, in b, in c, in d, 0.00F);
-            var p1 = CubicDerivative(in a, in b, in c, in d, 0.25F);
-            var p2 = CubicDerivative(in a, in b, in c, in d, 0.50F);
-            var p3 = CubicDerivative(in a, in b, in c, in d, 0.75F);
-            var p4 = CubicDerivative(in a, in b, in c, in d, 1.00F);
+            var p0 = InterpolateDerivative(in a, in b, in c, in d, 0.00F);
+            var p1 = InterpolateDerivative(in a, in b, in c, in d, 0.25F);
+            var p2 = InterpolateDerivative(in a, in b, in c, in d, 0.50F);
+            var p3 = InterpolateDerivative(in a, in b, in c, in d, 0.75F);
+            var p4 = InterpolateDerivative(in a, in b, in c, in d, 1.00F);
 
             return Vector.Distance(p0, p1) +
                    Vector.Distance(p1, p2) +

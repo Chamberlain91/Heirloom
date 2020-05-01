@@ -1,5 +1,3 @@
-using Heirloom;
-
 namespace Heirloom
 {
     public abstract class ImageSource

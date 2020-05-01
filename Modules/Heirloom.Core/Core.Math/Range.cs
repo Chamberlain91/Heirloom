@@ -139,7 +139,7 @@ namespace Heirloom
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float Rescale(in float x, in Range outRange)
         {
-            return Calc.Rescale(x, this, outRange);
+            return Calc.Rescale(x, Min, Max, outRange.Min, outRange.Max);
         }
 
         #endregion

@@ -1,7 +1,5 @@
 using System;
 
-using Heirloom;
-
 using static StbTrueTypeSharp.StbTrueType;
 
 namespace Heirloom

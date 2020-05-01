@@ -1,6 +1,4 @@
-﻿using System;
-
-using Heirloom;
+using System;
 
 namespace Heirloom
 {

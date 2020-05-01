@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
-
-using MathD = System.Math;
 
 namespace Heirloom
 {
     /// <summary>
-    /// Math operations for <see cref="float"/> and a other data types including <see cref="int"/>. <para/>
-    /// Includes a few genric utility functions such as <see cref="Swap{T}(ref T, ref T)"/>
+    /// Provides various math operations for <see cref="float"/> and <see cref="int"/> types including
+    /// a few genric utility functions such as <see cref="Swap{T}(ref T, ref T)"/> or <see cref="Lerp(float, float, float)"/>.
     /// </summary>
     public static class Calc
     {
@@ -64,79 +63,7 @@ namespace Heirloom
 
         #endregion
 
-        #region Trig Functions
-
-        /// <summary>
-        /// The function sine mapped to [0.0, 1.0].
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Osc(float x)
-        {
-            return (1F + MathF.Sin(x)) / 2F;
-        }
-
-        /// <summary>
-        /// The function sine.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Sin(float x)
-        {
-            return MathF.Sin(x);
-        }
-
-        /// <summary>
-        /// Ihe inverse of the function sine.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Asin(float x)
-        {
-            return MathF.Asin(x);
-        }
-
-        /// <summary>
-        /// The function cosine.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Cos(float x)
-        {
-            return MathF.Cos(x);
-        }
-
-        /// <summary>
-        /// The inverse of the function cosine.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Acos(float x)
-        {
-            return MathF.Acos(x);
-        }
-
-        /// <summary>
-        /// The tangent function.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Tan(float x)
-        {
-            return MathF.Tan(x);
-        }
-
-        /// <summary>
-        /// The inverse of the tangent function.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Atan(float x)
-        {
-            return MathF.Atan(x);
-        }
-
-        /// <summary>
-        /// Computes the angle whose tangent is quotient to <paramref name="x"/> and <paramref name="y"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Atan2(float y, float x)
-        {
-            return MathF.Atan2(y, x);
-        }
+        #region Distance
 
         /// <summary>
         /// Computes the distance between a pair of one-dimensional points.
@@ -148,91 +75,39 @@ namespace Heirloom
         }
 
         /// <summary>
+        /// Computes the distance squared between a pair of two-dimensional points.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float DistanceSquared(float x1, float y1, float x2, float y2)
+        {
+            var dx = x1 - x2;
+            var dy = y1 - y2;
+            return (dx * dx) + (dy * dy);
+        }
+
+        /// <summary>
         /// Computes the distance between a pair of two-dimensional points.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Distance(float x1, float y1, float x2, float y2)
         {
-            var dx = x1 - x2;
-            var dy = y1 - y2;
-            return Sqrt((dx * dx) + (dy * dy));
+            return Sqrt(DistanceSquared(x1, y1, x2, y2));
+        }
+
+        /// <summary>
+        /// Computes the manhattan-distance between a pair of two-dimensional points.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float ManhattanDistance(float x1, float y1, float x2, float y2)
+        {
+            var dx = Abs(x1 - x2);
+            var dy = Abs(y1 - y2);
+            return dx + dy;
         }
 
         #endregion
 
-        #region Exponential Functions
-
-        /// <summary>
-        /// Computes <paramref name="x"/> raised to the power of <paramref name="y"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Pow(float x, float y)
-        {
-            return MathF.Pow(x, y);
-        }
-
-        /// <summary>
-        /// Computes <paramref name="x"/> raised to the power of <paramref name="y"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Pow(double x, double y)
-        {
-            return MathD.Pow(x, y);
-        }
-
-        /// <summary>
-        /// Computes the natural logarithm of <paramref name="x"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Log(float x)
-        {
-            return MathF.Log(x);
-        }
-
-        /// <summary>
-        /// Computes the natural logarithm of <paramref name="x"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Log(double x)
-        {
-            return MathD.Log(x);
-        }
-
-        /// <summary>
-        /// Computes the logarithm of <paramref name="x"/> with base <paramref name="b"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Log(float x, float b)
-        {
-            return MathF.Log(x, b);
-        }
-
-        /// <summary>
-        /// Computes the logarithm of <paramref name="x"/> with base <paramref name="b"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Log(double x, double b)
-        {
-            return MathD.Log(x, b);
-        }
-
-        /// <summary>
-        /// Computes the square root of <paramref name="x"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Sqrt(float x)
-        {
-            return MathF.Sqrt(x);
-        }
-
-        /// <summary>
-        /// Computes the square root of <paramref name="x"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Sqrt(double x)
-        {
-            return MathD.Sqrt(x);
-        }
+        #region Factorial
 
         /// <summary>
         /// Computes the factorial of <paramref name="x"/>.
@@ -260,141 +135,7 @@ namespace Heirloom
 
         #endregion
 
-        #region Min Max Clamp Abs Sign ( double )
-
-        /// <summary>
-        /// Returns the minimum value between <paramref name="x"/> and <paramref name="y"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Min(double x, double y)
-        {
-            return x < y ? x : y;
-        }
-
-        /// <summary>
-        /// Returns the maximum value between <paramref name="x"/> and <paramref name="y"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Max(double x, double y)
-        {
-            return x > y ? x : y;
-        }
-
-        /// <summary>
-        /// Returns the value <paramref name="x"/> clamped to the specified range.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Clamp(double x, double min, double max)
-        {
-            return Min(max, Max(min, x));
-        }
-
-        /// <summary>
-        /// Computes the absolute value of <paramref name="x"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Abs(double x)
-        {
-            return x < 0 ? -x : x;
-        }
-
-        /// <summary>
-        /// Returns the sign of <paramref name="x"/> as if compared against zero (-1, 0 or +1)
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sign(double x)
-        {
-            return MathD.Sign(x);
-        }
-
-        /// <summary>
-        /// Compute the fractional (decimal) portion of the number <paramref name="x"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Fraction(double x)
-        {
-            return x - Floor(x);
-        }
-
-        #endregion
-
-        #region Min Max Clamp Abs Sign ( float )
-
-        /// <summary>
-        /// Returns the minimum value between <paramref name="x"/> and <paramref name="y"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Min(float x, float y)
-        {
-            return x < y ? x : y;
-        }
-
-        /// <summary>
-        /// Returns the maximum value between <paramref name="x"/> and <paramref name="y"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Max(float x, float y)
-        {
-            return x > y ? x : y;
-        }
-
-        /// <summary>
-        /// Returns the value <paramref name="x"/> clamped to the specified range.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Clamp(float x, float min, float max)
-        {
-            return Min(max, Max(min, x));
-        }
-
-        /// <summary>
-        /// Computes the absolute value of <paramref name="x"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Abs(float x)
-        {
-            return x < 0 ? -x : x;
-        }
-
-        /// <summary>
-        /// Returns the sign of <paramref name="x"/> as if compared against zero (-1, 0 or +1)
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sign(float x)
-        {
-            return MathF.Sign(x);
-        }
-
-        /// <summary>
-        /// Compute the fractional (decimal) portion of the number <paramref name="x"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Fraction(float x)
-        {
-            return x - (int) x;
-        }
-
-        #endregion
-
-        #region Min Max Clamp Abs Sign ( int )
-
-        /// <summary>
-        /// Returns the minimum value between <paramref name="x"/> and <paramref name="y"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Min(int x, int y)
-        {
-            return x < y ? x : y;
-        }
-
-        /// <summary>
-        /// Returns the maximum value between <paramref name="x"/> and <paramref name="y"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Max(int x, int y)
-        {
-            return x > y ? x : y;
-        }
+        #region Clamp
 
         /// <summary>
         /// Returns the value <paramref name="x"/> clamped to the specified range.
@@ -406,211 +147,41 @@ namespace Heirloom
         }
 
         /// <summary>
-        /// Computes the absolute value of <paramref name="x"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Abs(int x)
-        {
-            return x < 0 ? -x : x;
-        }
-
-        /// <summary>
-        /// Returns the sign of <paramref name="x"/> as if compared against zero (-1, 0 or +1)
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sign(int x)
-        {
-            return MathF.Sign(x);
-        }
-
-        #endregion
-
-        #region Min Max Clamp ( uint )
-
-        /// <summary>
-        /// Returns the minimum value between <paramref name="x"/> and <paramref name="y"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint Min(uint x, uint y)
-        {
-            return x < y ? x : y;
-        }
-
-        /// <summary>
-        /// Returns the maximum value between <paramref name="x"/> and <paramref name="y"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint Max(uint x, uint y)
-        {
-            return x > y ? x : y;
-        }
-
-        /// <summary>
         /// Returns the value <paramref name="x"/> clamped to the specified range.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint Clamp(uint x, uint min, uint max)
+        public static float Clamp(float x, float min, float max)
         {
             return Min(max, Max(min, x));
         }
 
         #endregion
 
-        #region Min Max Clamp Abs Sign ( short )
+        #region Min
 
         /// <summary>
-        /// Returns the minimum value between <paramref name="x"/> and <paramref name="y"/>.
+        /// Returns the smaller of two values.
         /// </summary>
+        /// <param name="x">The first value.</param>
+        /// <param name="y">The second value.</param>
+        /// <returns>The minimum value.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short Min(short x, short y)
+        public static int Min(int x, int y)
         {
             return x < y ? x : y;
         }
 
         /// <summary>
-        /// Returns the maximum value between <paramref name="x"/> and <paramref name="y"/>.
+        /// Returns the smaller of two values.
         /// </summary>
+        /// <param name="x">The first value.</param>
+        /// <param name="y">The second value.</param>
+        /// <returns>The minimum value.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short Max(short x, short y)
-        {
-            return x > y ? x : y;
-        }
-
-        /// <summary>
-        /// Returns the value <paramref name="x"/> clamped to the specified range.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short Clamp(short x, short min, short max) { return Min(max, Max(min, x)); }
-
-        /// <summary>
-        /// Computes the absolute value of <paramref name="x"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short Abs(short x)
-        {
-            return (short) (x < 0 ? -x : x);
-        }
-
-        /// <summary>
-        /// Returns the sign of <paramref name="x"/> as if compared against zero (-1, 0 or +1)
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sign(short x)
-        {
-            return MathF.Sign(x);
-        }
-
-        #endregion
-
-        #region Min Max Clamp ( ushort )
-
-        /// <summary>
-        /// Returns the minimum value between <paramref name="x"/> and <paramref name="y"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort Min(ushort x, ushort y)
+        public static float Min(float x, float y)
         {
             return x < y ? x : y;
         }
-
-        /// <summary>
-        /// Returns the maximum value between <paramref name="x"/> and <paramref name="y"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort Max(ushort x, ushort y)
-        {
-            return x > y ? x : y;
-        }
-
-        /// <summary>
-        /// Returns the value <paramref name="x"/> clamped to the specified range.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort Clamp(ushort x, ushort min, ushort max)
-        {
-            return Min(max, Max(min, x));
-        }
-
-        #endregion
-
-        #region Min Max Clamp Abs Sign ( sbyte )
-
-        /// <summary>
-        /// Returns the minimum value between <paramref name="x"/> and <paramref name="y"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte Min(sbyte x, sbyte y)
-        {
-            return x < y ? x : y;
-        }
-
-        /// <summary>
-        /// Returns the maximum value between <paramref name="x"/> and <paramref name="y"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte Max(sbyte x, sbyte y)
-        {
-            return x > y ? x : y;
-        }
-
-        /// <summary>
-        /// Returns the value <paramref name="x"/> clamped to the specified range.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte Clamp(sbyte x, sbyte min, sbyte max) { return Min(max, Max(min, x)); }
-
-        /// <summary>
-        /// Computes the absolute value of <paramref name="x"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte Abs(sbyte x)
-        {
-            return (sbyte) (x < 0 ? -x : x);
-        }
-
-        /// <summary>
-        /// Returns the sign of <paramref name="x"/> as if compared against zero (-1, 0 or +1)
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sign(sbyte x)
-        {
-            return MathF.Sign(x);
-        }
-
-        #endregion
-
-        #region Min Max Clamp ( byte )
-
-        /// <summary>
-        /// Returns the minimum value between <paramref name="x"/> and <paramref name="y"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte Min(byte x, byte y)
-        {
-            return x < y ? x : y;
-        }
-
-        /// <summary>
-        /// Returns the maximum value between <paramref name="x"/> and <paramref name="y"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte Max(byte x, byte y)
-        {
-            return x > y ? x : y;
-        }
-
-        /// <summary>
-        /// Returns the value <paramref name="x"/> clamped to the specified range.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte Clamp(byte x, byte min, byte max)
-        {
-            return Min(max, Max(min, x));
-        }
-
-        #endregion
-
-        #region Min Max of Many Values
 
         /// <summary>
         /// Returns the minimum value in the given set of numbers.
@@ -624,23 +195,6 @@ namespace Heirloom
             for (var i = 1; i < vals.Length; i++)
             {
                 m = Min(m, vals[i]);
-            }
-
-            return m;
-        }
-
-        /// <summary>
-        /// Returns the maximum value in the given set of numbers.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Max(params int[] vals)
-        {
-            if (vals.Length == 0) { throw new ArgumentException("Must provide at least one value."); }
-
-            var m = vals[0];
-            for (var i = 1; i < vals.Length; i++)
-            {
-                m = Max(m, vals[i]);
             }
 
             return m;
@@ -664,6 +218,60 @@ namespace Heirloom
         }
 
         /// <summary>
+        /// Finds the comparably minimum value from the set of values.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T Min<T>(params T[] vals) where T : IComparable
+        {
+            return vals.Min();
+        }
+
+        #endregion
+
+        #region Max
+
+        /// <summary>
+        /// Returns the larger of two values.
+        /// </summary>
+        /// <param name="x">The first value.</param>
+        /// <param name="y">The second value.</param>
+        /// <returns>The maximum value.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Max(int x, int y)
+        {
+            return x > y ? x : y;
+        }
+
+        /// <summary>
+        /// Returns the larger of two values.
+        /// </summary>
+        /// <param name="x">The first value.</param>
+        /// <param name="y">The second value.</param>
+        /// <returns>The maximum value.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Max(float x, float y)
+        {
+            return x > y ? x : y;
+        }
+
+        /// <summary>
+        /// Returns the maximum value in the given set of numbers.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Max(params int[] vals)
+        {
+            if (vals.Length == 0) { throw new ArgumentException("Must provide at least one value."); }
+
+            var m = vals[0];
+            for (var i = 1; i < vals.Length; i++)
+            {
+                m = Max(m, vals[i]);
+            }
+
+            return m;
+        }
+
+        /// <summary>
         /// Returns the maximum value in the given set of numbers.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -681,88 +289,200 @@ namespace Heirloom
         }
 
         /// <summary>
-        /// Finds the comparably minimum value from the set of value.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Min<T>(params T[] vals) where T : IComparable
-        {
-            return Min((IList<T>) vals);
-        }
-
-        /// <summary>
-        /// Finds the comparably minimum value from the set of value.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Min<T>(IList<T> vals) where T : IComparable
-        {
-            var m = vals[0];
-            for (var i = 1; i < vals.Count; i++)
-            {
-                if (m.CompareTo(vals[i]) < 0)
-                {
-                    m = vals[i];
-                }
-            }
-
-            return m;
-        }
-
-        /// <summary>
         /// Finds the comparably maximum value from the set of value.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T Max<T>(params T[] vals) where T : IComparable
         {
-            return Max(vals);
-        }
-
-        /// <summary>
-        /// Finds the comparably maximum value from the set of value.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Max<T>(IList<T> vals) where T : IComparable
-        {
-            var m = vals[0];
-            for (var i = 0; i < vals.Count; i++)
-            {
-                if (m.CompareTo(vals[i]) > 0)
-                {
-                    m = vals[i];
-                }
-            }
-
-            return m;
+            return vals.Max();
         }
 
         #endregion
 
-        #region Rounding & Truncation
+        #region Abs
 
         /// <summary>
-        /// Computes the floor integer (rounding down) of the value <paramref name="x"/>.
+        /// Returns the absolute value of some number.
         /// </summary>
+        /// <param name="x">Some value.</param>
+        /// <returns>The absolute value.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Floor(double x)
+        public static int Abs(int x)
         {
-            return (int) MathD.Floor(x);
+            var mask = x >> 31;
+            return (x + mask) ^ mask;
         }
 
         /// <summary>
-        /// Computes the ceiling integer (rounding up) of the value <paramref name="x"/>.
+        /// Returns the absolute value of some number.
         /// </summary>
+        /// <param name="x">Some value.</param>
+        /// <returns>The absolute value.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Ceil(double x)
+        public static float Abs(float x)
         {
-            return (int) MathD.Ceiling(x);
+            return MathF.Abs(x);
+        }
+
+        #endregion
+
+        #region Sign
+
+        /// <summary>
+        /// Returns an integer that represents the sign of the specified number.
+        /// </summary>
+        /// <param name="x">Some number.</param>
+        /// <returns>Will return -1 if negative, 0 if zero and +1 if positive.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Sign(int x)
+        {
+            return Math.Sign(x);
         }
 
         /// <summary>
-        /// Computes the nearest integer of the value <paramref name="x"/>.
+        /// Returns an integer that represents the sign of the specified number.
+        /// </summary>
+        /// <param name="x">Some number.</param>
+        /// <returns>Will return -1 if negative, 0 if zero and +1 if positive.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Sign(float x)
+        {
+            return Math.Sign(x);
+        }
+
+        #endregion
+
+        #region Sqrt
+
+        /// <summary>
+        /// Returns the absolute value of some number.
+        /// </summary>
+        /// <param name="x">Some value.</param>
+        /// <returns>The absolute value.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Sqrt(float x)
+        {
+            return MathF.Sqrt(x);
+        }
+
+        #endregion
+
+        #region Sin, Cos, Tan and Inversions
+
+        /// <summary>
+        /// The function <see cref="Sin(float)"/> mapped to [0.0, 1.0].
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Round(double x)
+        public static float Osc(float x)
         {
-            return (int) MathD.Round(x);
+            return (1F + Sin(x)) / 2F;
+        }
+
+        /// <summary>
+        /// Return the sine of the specified angle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Sin(float x)
+        {
+            return MathF.Sin(x);
+        }
+
+        /// <summary>
+        /// Return the arcsine of the specified angle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Asin(float x)
+        {
+            return MathF.Asin(x);
+        }
+
+        /// <summary>
+        /// Return the cosine of the specified angle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Cos(float x)
+        {
+            return MathF.Cos(x);
+        }
+
+        /// <summary>
+        /// Return the arccosine of the specified angle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Acos(float x)
+        {
+            return MathF.Acos(x);
+        }
+
+        /// <summary>
+        /// Return the tangent of the specified angle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Tan(float x)
+        {
+            return MathF.Tan(x);
+        }
+
+        /// <summary>
+        /// Return the arctangent of the specified angle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Atan(float x)
+        {
+            return MathF.Atan(x);
+        }
+
+        /// <summary>
+        /// Computes the angle whose tangent is quotient to <paramref name="x"/> and <paramref name="y"/>.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Atan2(float y, float x)
+        {
+            return MathF.Atan2(y, x);
+        }
+
+        #endregion
+
+        #region Pow & Log
+
+        /// <summary>
+        /// Computes <paramref name="x"/> raised to the power of <paramref name="y"/>.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Pow(float x, float y)
+        {
+            return MathF.Pow(x, y);
+        }
+
+        /// <summary>
+        /// Computes the natural logarithm of <paramref name="x"/>.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Log(float x)
+        {
+            return MathF.Log(x);
+        }
+
+        /// <summary>
+        /// Computes the logarithm of <paramref name="x"/> with base <paramref name="b"/>.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Log(float x, float b)
+        {
+            return MathF.Log(x, b);
+        }
+
+        #endregion
+
+        #region Fraction, Rounding & Truncation
+
+        /// <summary>
+        /// Compute the fractional (decimal) portion of the number <paramref name="x"/>.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Fraction(float x)
+        {
+            return x - Floor(x);
         }
 
         /// <summary>
@@ -796,36 +516,9 @@ namespace Heirloom
         /// Determines if the two values are nearly equal comparing equality within a <see cref="Epsilon"/> threshold.
         /// </summary> 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool NearEquals(double x1, double x2)
-        {
-            return Abs(x1 - x2) < Epsilon;
-        }
-
-        /// <summary>
-        /// Determines if the two values are nearly equal comparing equality within a threshold.
-        /// </summary> 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool NearEquals(double x1, double x2, float threshold)
-        {
-            return Abs(x1 - x2) < threshold;
-        }
-
-        /// <summary>
-        /// Determines if the value is nearly equal to zero by comparing equality within a <see cref="Epsilon"/> threshold.
-        /// </summary> 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool NearZero(double v)
-        {
-            return v > -Epsilon && v < Epsilon;
-        }
-
-        /// <summary>
-        /// Determines if the two values are nearly equal comparing equality within a <see cref="Epsilon"/> threshold.
-        /// </summary> 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool NearEquals(float x1, float x2)
         {
-            return Abs(x1 - x2) < Epsilon;
+            return MathF.Abs(x1 - x2) < Epsilon;
         }
 
         /// <summary>
@@ -834,7 +527,7 @@ namespace Heirloom
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool NearEquals(float x1, float x2, float threshold)
         {
-            return Abs(x1 - x2) < threshold;
+            return MathF.Abs(x1 - x2) < threshold;
         }
 
         /// <summary>
@@ -848,83 +541,16 @@ namespace Heirloom
 
         #endregion
 
-        #region Linear Interpolation
+        #region Interpolation
 
         /// <summary>
         /// Computes the linear interpolation from <paramref name="x1"/> to <paramref name="x2"/> by factor <paramref name="t"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Lerp(in float x1, in float x2, in float t)
+        public static float Lerp(float x1, float x2, float t)
         {
-            return x1 * (1 - t) + x2 * t;
+            return x1 + ((x2 - x1) * t);
         }
-
-        /// <summary>
-        /// Computes the linear interpolation from <paramref name="x1"/> to <paramref name="x2"/> by factor <paramref name="t"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Lerp(in double x1, in double x2, in double t)
-        {
-            return x1 * (1 - t) + x2 * t;
-        }
-
-        /// <summary>
-        /// Computes the linear interpolation from <paramref name="x1"/> to <paramref name="x2"/> by factor <paramref name="t"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Lerp(in int x1, in int x2, in float t)
-        {
-            return (int) (x1 * (1 - t) + x2 * t);
-        }
-
-        /// <summary>
-        /// Computes the linear interpolation from <paramref name="x1"/> to <paramref name="x2"/> by factor <paramref name="t"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint Lerp(in uint x1, in uint x2, in float t)
-        {
-            return (uint) (x1 * (1 - t) + x2 * t);
-        }
-
-        /// <summary>
-        /// Computes the linear interpolation from <paramref name="x1"/> to <paramref name="x2"/> by factor <paramref name="t"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short Lerp(in short x1, in short x2, in float t)
-        {
-            return (short) (x1 * (1 - t) + x2 * t);
-        }
-
-        /// <summary>
-        /// Computes the linear interpolation from <paramref name="x1"/> to <paramref name="x2"/> by factor <paramref name="t"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort Lerp(in ushort x1, in ushort x2, in float t)
-        {
-            return (ushort) (x1 * (1 - t) + x2 * t);
-        }
-
-        /// <summary>
-        /// Computes the linear interpolation from <paramref name="x1"/> to <paramref name="x2"/> by factor <paramref name="t"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte Lerp(byte x1, byte x2, float t)
-        {
-            return (byte) (x1 * (1 - t) + x2 * t);
-        }
-
-        /// <summary>
-        /// Computes the linear interpolation from <paramref name="x1"/> to <paramref name="x2"/> by factor <paramref name="t"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte Lerp(in sbyte x1, in sbyte x2, in float t)
-        {
-            return (sbyte) (x1 * (1 - t) + x2 * t);
-        }
-
-        #endregion
-
-        #region Angles
 
         /// <summary>
         /// Computes the linear interpolation of two angles across the shorter distance.
@@ -933,7 +559,7 @@ namespace Heirloom
         /// <param name="x2">End angle.</param>
         /// <param name="t">Interpolation factor</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double AngleLerp(double x1, double x2, double t)
+        public static double LerpAngle(float x1, float x2, float t)
         {
             var d1 = Abs(x1 - x2);
             var d2 = Abs(x1 - (x2 + TwoPi));
@@ -955,18 +581,6 @@ namespace Heirloom
             return x1 % TwoPi;
         }
 
-        /// <summary>
-        /// Computes the linear interpolation of two angles across the shorter distance.
-        /// </summary>
-        /// <param name="x1">Start angle.</param>
-        /// <param name="x2">End angle.</param>
-        /// <param name="t">Interpolation factor</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float AngleLerp(float x1, float x2, float t)
-        {
-            return (float) AngleLerp((double) x1, x2, t);
-        }
-
         #endregion
 
         #region Between
@@ -975,7 +589,7 @@ namespace Heirloom
         /// Computes the interpolation factor (0.0 to 1.0) of <paramref name="x"/> between <paramref name="min"/> and <paramref name="max"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Between(in float x, in float min, in float max)
+        public static float Between(float x, float min, float max)
         {
             return (x - min) / (max - min);
         }
@@ -984,7 +598,7 @@ namespace Heirloom
         /// Computes the interpolation factor (0.0 to 1.0) of <paramref name="x"/> between <paramref name="min"/> and <paramref name="max"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsBetween(in float x, in float min, in float max)
+        public static bool IsBetween(float x, float min, float max)
         {
             return x >= min && x <= max;
         }
@@ -997,59 +611,58 @@ namespace Heirloom
         /// Rescales a value with domain <paramref name="min1"/> to <paramref name="max1"/> to a new domain <paramref name="min2"/> to <paramref name="max2"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Rescale(in float x, in float min1, in float max1, in float min2, in float max2)
+        public static float Rescale(float x, float min1, float max1, float min2, float max2)
         {
-            return Lerp(in min2, in max2, Between(x, min1, max1));
+            return Lerp(min2, max2, Between(x, min1, max1));
         }
 
         /// <summary>
         /// Rescales a value from the source domain a target domain.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Rescale(in float x, in Range src, in Range dst)
+        public static float Rescale(float x, Range src, Range dst)
         {
-            return Rescale(in x, in src.Min, in src.Max, in dst.Min, in dst.Max);
+            return Rescale(x, src.Min, src.Max, dst.Min, dst.Max);
         }
 
         #endregion
 
-        #region Smoothing
-
-        /// <summary>
-        /// Computes a cosine based interpolation from <paramref name="x1"/> to <paramref name="x2"/>.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float CosineInterpolation(float x1, float x2, float t)
-        {
-            var angle = t * Pi;
-            var prc = (1.0f - Cos(angle)) * 0.5f;
-            return x1 * (1.0f - prc) + x2 * prc;
-        }
+        #region Smooth Step
 
         /// <summary>
         /// Computes the smooth-step of <paramref name="x"/> between <paramref name="min"/> and <paramref name="max"/>.
         /// </summary>
+        /// <param name="min">The lower edge.</param>
+        /// <param name="max">The upper edge.</param>
+        /// <param name="x">Some number.</param>
+        /// <returns>The smoothstep of <paramref name="x"/>.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float SmoothStep(float min, float max, float x)
+        public static float SmoothStep(float x, float min, float max)
         {
-            // Scale, bias and clamp to 0 to 1 range
-            x = Clamp(Between(x, min, max), 0.0F, 1.0F);
+            return SmoothStep(Between(x, min, max));
+        }
 
-            // Evaluate polynomial
+        /// <summary>
+        /// Computes smoothstep of a number. (Assumes <paramref name="x"/> is in the range 0.0 to 1.0).
+        /// </summary>
+        /// <param name="x">Some number.</param>
+        /// <returns>The smoothstep of <paramref name="x"/>.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float SmoothStep(float x)
+        {
+            x = Clamp(x, 0.0F, 1.0F);
             return x * x * (3 - 2 * x);
         }
 
         /// <summary>
-        /// Computes the smoother smooth-step of <paramref name="x"/> between <paramref name="min"/> and <paramref name="max"/>.
+        /// Computes the inverse of <see cref="SmoothStep(float)"/>.
         /// </summary>
+        /// <param name="x">Some number with <see cref="SmoothStep(float)"/> applied to it.</param>
+        /// <returns>The number before <see cref="SmoothStep(float)"/> was applied.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float SmootherStep(float min, float max, float x)
+        public static float InverseSmoothStep(float x)
         {
-            // Scale, and clamp to 0 to 1 range
-            x = Clamp(Between(x, min, max), 0.0F, 1.0F);
-
-            // Evaluate polynomial
-            return x * x * x * (x * (x * 6 - 15) + 10);
+            return 0.5F - Sin(Asin(1F - 2F * x) / 3F);
         }
 
         #endregion
@@ -1214,7 +827,7 @@ namespace Heirloom
         /// Swaps two positions within the given list.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Swap<T>(IList<T> list, int a, int b)
+        public static void Swap<T>(this IList<T> list, int a, int b)
         {
             var t = list[a];
             list[a] = list[b];
@@ -1267,8 +880,7 @@ namespace Heirloom
         /// Wraps (loops) a number within a range.
         /// </summary>
         /// <param name="x">Some value to wrap.</param>
-        /// <param name="min">Some lower bound.</param>
-        /// <param name="max">Some upper bound.</param>
+        /// <param name="range">Some range.</param>
         /// <returns>The resulting number contrained to the range in a loop.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Wrap(int x, IntRange range)
@@ -1305,8 +917,7 @@ namespace Heirloom
         /// Wraps (loops) a number within a range.
         /// </summary>
         /// <param name="x">Some value to wrap.</param>
-        /// <param name="min">Some lower bound.</param>
-        /// <param name="max">Some upper bound.</param>
+        /// <param name="range">Some range.</param>
         /// <returns>The resulting number contrained to the range in a loop.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Wrap(float x, Range range)

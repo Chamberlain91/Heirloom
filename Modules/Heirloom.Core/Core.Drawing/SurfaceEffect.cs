@@ -1,5 +1,3 @@
-using System;
-
 namespace Heirloom
 {
     public abstract class SurfaceEffect
