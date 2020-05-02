@@ -40,44 +40,30 @@ namespace Heirloom
         /// <param name="p0">The first control point.</param>
         /// <param name="p1">The second control point.</param>
         /// <param name="p2">The third control point.</param>
-        /// <param name="width">The thickness of the line in pixels.</param>
+        /// <param name="width">The thickness of the line in pixels.</param> F
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawCurve(in Vector p0, in Vector p1, in Vector p2, float width = 1F)
+        public void DrawCurve(Vector p0, Vector p1, Vector p2, float width = 1F)
         {
-            // Compute approximate curve length
-            var length = CurveTools.DerivativeApproximateLength(p0, p1, p2);
-
-            // Calibrates the curve approximation quality
-            const float MinStepSize = 1 / 64F; // No more than 64 segments
-            const float MaxStepSize = 1 / 8F;  // No fewer than 8 segments
-
-            var prev = p0;
+            var p = p0;
             var t = 0F;
 
-            var terminate = false;
-            while (!terminate)
+            // length of derivative curve
+            var dLength = CurveTools.ApproximateLength(t => CurveTools.InterpolateDerivative(p0, p1, p2, t), 4);
+            var nominal = 0.06F;
+
+            while (t < 1F)
             {
-                // Compute tangent vector
-                var tangent = CurveTools.InterpolateDerivative(p0, p1, p2, t);
-                t += Calc.Clamp(MaxStepSize * (tangent.Length / length), MinStepSize, MaxStepSize);
+                // Draw segment
+                var v = CurveTools.Interpolate(p0, p1, p2, t);
+                DrawLine(p, v, width);
 
-                // Have we advanced beyond the curve?
-                if (t >= 1F)
-                {
-                    // Moved to last point
-                    terminate = true;
-                    t = 1F;
-                }
-
-                // Compute interpolated point
-                var curr = CurveTools.Interpolate(p0, p1, p2, t);
-
-                // Draw line from previous point to current point
-                DrawLine(prev, curr, width);
-
-                // The current point will be the previous next iteration
-                prev = curr;
+                var d = CurveTools.InterpolateDerivative(p0, p1, p2, t).Length / dLength;
+                t += Calc.Clamp(nominal * d, 0.02F, 0.1F); // keeps steps within 2% to 10%
+                p = v;
             }
+
+            // Draw last segment (to ensure a smooth join to the end point)
+            DrawLine(p, p2, width);
         }
 
         /// <summary>
@@ -87,43 +73,57 @@ namespace Heirloom
         /// <param name="p1">The second control point.</param>
         /// <param name="p2">The third control point.</param>
         /// <param name="p3">The fourth control point.</param>
-        /// <param name="width">The thickness of the line in pixels.</param>
+        /// <param name="width">The thickness of the line in pixels.</param> 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawCurve(in Vector p0, in Vector p1, in Vector p2, in Vector p3, float width = 1F)
+        public void DrawCurve(Vector p0, Vector p1, Vector p2, Vector p3, float width = 1F)
         {
-            // Compute approximate curve length
-            var length = CurveTools.DerivativeApproximateLength(p0, p1, p2, p3);
-
-            // Calibrates the curve approximation quality
-            const float MinStepSize = 1 / 64F; // No more than 64 segments
-            const float MaxStepSize = 1 / 8F;  // No fewer than 8 segments
-
-            var prev = p0;
+            var p = p0;
             var t = 0F;
 
-            var terminate = false;
-            while (!terminate)
+            // length of derivative curve
+            var dLength = CurveTools.ApproximateLength(t => CurveTools.InterpolateDerivative(p0, p1, p2, p3, t), 4);
+            var nominal = 0.06F;
+
+            while (t < 1F)
             {
-                // Compute tangent vector
-                var tangent = CurveTools.InterpolateDerivative(p0, p1, p2, p3, t);
-                t += Calc.Clamp(MaxStepSize * (tangent.Length / length), MinStepSize, MaxStepSize);
+                // Draw segment
+                var v = CurveTools.Interpolate(p0, p1, p2, p3, t);
+                DrawLine(p, v, width);
 
-                // Have we advanced beyond the curve?
-                if (t >= 1F)
+                var d = CurveTools.InterpolateDerivative(p0, p1, p2, p3, t).Length / dLength;
+                t += Calc.Clamp(nominal * d, 0.02F, 0.1F); // keeps steps within 2% to 10%
+                p = v;
+            }
+
+            // Draw last segment (to ensure a smooth join to the end point)
+            DrawLine(p, p3, width);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void DrawCurve(Curve curve, float width = 1F)
+        {
+            for (var i = 0; i < curve.Count - 1; i++)
+            {
+                var current = curve.GetPoint(i);
+                var next = curve.GetPoint(i + 1);
+
+                switch (curve.GetCurveType(i))
                 {
-                    // Moved to last point
-                    terminate = true;
-                    t = 1F;
+                    case CurveType.Stepped:
+                        break; // hmm...
+
+                    case CurveType.Linear:
+                        DrawLine(current, next, width);
+                        break;
+
+                    case CurveType.Quadratic:
+                        DrawCurve(current, curve.GetInHandle(i), next, width);
+                        break;
+
+                    case CurveType.Cubic:
+                        DrawCurve(current, current + curve.GetInHandle(i), next + curve.GetOutHandle(i), next, width);
+                        break;
                 }
-
-                // Compute interpolated point
-                var curr = CurveTools.Interpolate(p0, p1, p2, p3, t);
-
-                // Draw line from previous point to current point
-                DrawLine(prev, curr, width);
-
-                // The current point will be the previous next iteration
-                prev = curr;
             }
         }
 
@@ -165,7 +165,7 @@ namespace Heirloom
         /// <param name="center">The position of the cross.</param>
         /// <param name="size">Size in screen pixels (not world space).</param>
         /// <param name="width">Width of the lines screen pixels (not world space).</param>
-        public void DrawCross(in Vector center, float size = 2, float width = 1F)
+        public void DrawCross(in Vector center, float size = 3, float width = 1F)
         {
             // Draw axis
             DrawLine(center + (Vector.Left * size), center + (Vector.Right * size), width);
