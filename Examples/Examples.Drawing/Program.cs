@@ -27,8 +27,8 @@ namespace Examples.Drawing
                 new RichTextDemo(),
                 // Lines
                 new LineThicknessDemo(),
-                new QuadraticCurveDemo(),
-                new CubicCurveDemo(),
+                new SimpleCurvesDemo(),
+                new BezierCurveDemo(),
                 // Polygon / Mesh
                 new PrimitivesDemo(),
                 new PolygonDemo(),
