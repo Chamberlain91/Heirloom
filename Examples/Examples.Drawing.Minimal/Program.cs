@@ -15,17 +15,13 @@ namespace Examples.Minimal
             {
                 // Create window
                 var window = new Window("Minimal Example", (400, 200)) { IsResizable = false };
-                 
+
                 // Create some text
                 var text = $"Hello {GetOperatingSystem()}!";
 
-                // Measure the vertical height of the text
-                // todo: Implement feature, should be able to vertical align text without this step.
-                var offset = new Vector(0, TextLayout.Measure(text, Font.Default, FontSize).Height / 2F);
-
-                // Clear the window, draw text and push to the screen
+                // Clear the window, draw text centered on screen
                 window.Graphics.Clear(Color.DarkGray);
-                window.Graphics.DrawText(text, -offset + ((Vector) window.Graphics.Surface.Size) * 0.5F, Font.Default, FontSize, TextAlign.Center);
+                window.Graphics.DrawText(text, ((Vector) window.Graphics.Surface.Size) * 0.5F, Font.Default, FontSize, TextAlign.Center | TextAlign.Middle);
                 window.Graphics.RefreshScreen();
             });
         }

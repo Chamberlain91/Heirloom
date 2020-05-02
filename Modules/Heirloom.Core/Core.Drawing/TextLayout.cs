@@ -64,8 +64,8 @@ namespace Heirloom
             var glyphTable = GlyphTable.GetGlyphTable(font, fontSize);
 
             // Layout text, keeping track of the glyph box
-            var measure = Rectangle.Zero;
-            PerformLayout(text, layoutBox, TextAlign.Left, glyphTable, (string _, int index, ref TextLayoutState state) =>
+            var measure = Rectangle.InvertedInfinite;
+            PerformLayout(text, layoutBox, TextAlign.Left | TextAlign.Top, glyphTable, (string _, int index, ref TextLayoutState state) =>
             {
                 // Include extents of glyph box
                 measure.Include(state.Position);
@@ -116,6 +116,17 @@ namespace Heirloom
                 Position = bounds.Position,
                 Character = (UnicodeCharacter) 0
             };
+
+            // Vertical alignment
+            if (align.HasFlag(TextAlign.Middle) || align.HasFlag(TextAlign.Bottom))
+            {
+                // todo: Optimize? GetPositionAnchoredTextBounds and this both measure the text...
+                //       There is likely a more optimized path that can only measure one or less times.
+                var measure = Measure(text, bounds, glyphTable.Font, glyphTable.FontSize);
+                var offsetY = bounds.Height - measure.Height;
+                if (align.HasFlag(TextAlign.Middle)) { offsetY /= 2F; }
+                state.Position.Y += offsetY;
+            }
 
             // Find the first break point (if none, set to -1)
             var nextBreak = FindNextBreak(in text, 0, state.Character, in state.Position, in bounds, glyphTable, out var lineWidth);
@@ -172,21 +183,13 @@ namespace Heirloom
 
             var pos = position;
 
-            switch (align)
-            {
-                default:
-                case TextAlign.Left:
-                    // nothing to do
-                    break;
+            // 
+            if (align.HasFlag(TextAlign.Center)) { pos.X -= measure.Width / 2; }
+            if (align.HasFlag(TextAlign.Right)) { pos.X -= measure.Width; }
 
-                case TextAlign.Center:
-                    pos.X -= measure.Width / 2F;
-                    break;
-
-                case TextAlign.Right:
-                    pos.X -= measure.Width;
-                    break;
-            }
+            // 
+            if (align.HasFlag(TextAlign.Middle)) { pos.Y -= measure.Height / 2; }
+            if (align.HasFlag(TextAlign.Bottom)) { pos.Y -= measure.Height; }
 
             return new Rectangle(pos, measure);
         }
@@ -194,8 +197,8 @@ namespace Heirloom
         private static float ComputeAlignmentOffset(in Rectangle bounds, TextAlign align, float lineWidth)
         {
             var offset = 0F;
-            if (align != TextAlign.Left) { offset = bounds.Width - lineWidth; }
-            if (align == TextAlign.Center) { offset /= 2F; }
+            if (align.HasFlag(TextAlign.Center) || align.HasFlag(TextAlign.Right)) { offset = bounds.Width - lineWidth; }
+            if (align.HasFlag(TextAlign.Center)) { offset /= 2F; }
             return offset;
         }
 
@@ -226,11 +229,17 @@ namespace Heirloom
                 }
 
                 // Character could be a break if the next word violates the bounds (space, dash, etc)
-                if (breakCategory == TextBreakCategory.Opportunity)
+                if (breakCategory == TextBreakCategory.Opportunity || breakCategory == TextBreakCategory.OpportunityKeep)
                 {
                     // Mark the opportunity index
                     opportunityEdge = prevEdge;
                     opportunity = i;
+
+                    // 
+                    if (breakCategory == TextBreakCategory.OpportunityKeep)
+                    {
+                        opportunity--;
+                    }
                 }
 
                 // Advance right edge
@@ -241,6 +250,7 @@ namespace Heirloom
                 if (opportunity >= 0)
                 {
                     // Violated bounds (within a tolerance approximated by character width)
+                    // todo: Why is this tolerance here?
                     if (edge > (bounds.Right + (metrics.AdvanceWidth / 10F)))
                     {
                         width = opportunityEdge - position.X;
@@ -271,7 +281,7 @@ namespace Heirloom
             }
 
             // Opportunity to break on dashes
-            if (c == '-') { return TextBreakCategory.Opportunity; }
+            if (c == '-') { return TextBreakCategory.OpportunityKeep; }
 
             // Shouldn't break
             return TextBreakCategory.None;

@@ -15,7 +15,8 @@ namespace Examples.Drawing
 
         internal override void Draw(Graphics ctx, Rectangle contentBounds)
         {
-            ctx.DrawText(_text, contentBounds, Font.Default, 32, TextAlign.Left);
+            ctx.Color = Color.White;
+            ctx.DrawText(_text, contentBounds, Font.Default, 32);
         }
     }
 }

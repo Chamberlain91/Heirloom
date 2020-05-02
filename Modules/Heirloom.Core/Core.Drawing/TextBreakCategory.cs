@@ -4,6 +4,7 @@ namespace Heirloom
     {
         None,
         Opportunity,
+        OpportunityKeep,
         Mandatory
     }
 }
