@@ -7,6 +7,8 @@ namespace Heirloom
     /// </summary>
     public readonly struct GlyphMetrics
     {
+        private readonly IntRectangle _box;
+
         /// <summary>
         /// The advance width of the glyph. 
         /// This is the spacing between the glyph's left edge and the next glyph.
@@ -18,7 +20,7 @@ namespace Heirloom
         /// </summary>
         public readonly float Bearing;
 
-        private readonly IntRectangle _box;
+        #region Constructors
 
         internal GlyphMetrics(float advanceWidth, float bearing, IntRectangle box)
         {
@@ -26,6 +28,10 @@ namespace Heirloom
             Bearing = bearing;
             _box = box;
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// The glyph offset from the pen position.
@@ -36,6 +42,8 @@ namespace Heirloom
         /// The glyph bounds size.
         /// </summary>
         public IntSize Size => _box.Size;
+
+        #endregion
 
         #region Equality
 

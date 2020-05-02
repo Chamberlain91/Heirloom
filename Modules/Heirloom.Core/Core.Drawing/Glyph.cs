@@ -5,26 +5,17 @@ using static StbTrueTypeSharp.StbTrueType;
 namespace Heirloom
 {
     /// <summary>
-    /// A glyph represents the metrics and rendering of a character from the associated <see cref="Drawing.Font"/>.
+    /// A glyph represents the metrics and rendering of a character from the associated <see cref="Font"/>.
     /// </summary>
     public class Glyph
     {
         private readonly int _advanceWidth;
         private readonly int _bearing;
+
         internal readonly int Index;
         internal IntRectangle Box;
 
-        /// <summary>
-        /// Gets the associated font.
-        /// </summary>
-        public Font Font { get; }
-
-        /// <summary>
-        /// Gets the character this glyph represents.
-        /// </summary>
-        public UnicodeCharacter Character { get; private set; }
-
-        internal bool HasCodepoint { get; private set; }
+        #region Constructors
 
         internal unsafe Glyph(Font font, int index)
         {
@@ -44,6 +35,22 @@ namespace Heirloom
             Box = new IntRectangle(x0, y0, x1 - x0, y1 - y0);
         }
 
+        #endregion
+
+        #region Properties
+
+        internal bool HasCodepoint { get; private set; }
+
+        /// <summary>
+        /// Gets the associated font.
+        /// </summary>
+        public Font Font { get; }
+
+        /// <summary>
+        /// Gets the character this glyph represents.
+        /// </summary>
+        public UnicodeCharacter Character { get; private set; }
+
         /// <summary>
         /// Get a value that determines if this glyph can be rendered.
         /// </summary>
@@ -55,6 +62,8 @@ namespace Heirloom
                 return stbtt_IsGlyphEmpty(Font.Info, Index) == 0;
             }
         }
+
+        #endregion
 
         /// <summary>
         /// Get the horizontal metrics of the this glyph at the specified size.
@@ -90,7 +99,22 @@ namespace Heirloom
         }
 
         /// <summary>
-        /// Renders the glyph into the image.
+        /// Renders the glyph into an image.
+        /// </summary>
+        /// <param name="size">The font size of the rendered glyph.</param>
+        public Image RenderGlyph(float size)
+        {
+            // Creates an image to store the rendered glyph
+            var imageSize = GetMetrics(size).Size;
+            var image = new Image(imageSize) { Origin = (IntVector) imageSize / 2 };
+
+            // Render glyph and return
+            RenderTo(image, 0, 0, size);
+            return image;
+        }
+
+        /// <summary>
+        /// Renders the glyph into an image.
         /// </summary>
         /// <param name="image">Some image to render the glyph into.</param>
         /// <param name="x">Offset on the x-axis in pixels.</param>
@@ -110,7 +134,7 @@ namespace Heirloom
         public override string ToString()
         {
             var c = char.ConvertFromUtf32((int) Character);
-            return $"{nameof(Glyph)} of '{c}'";
+            return $"{c}";
         }
     }
 }

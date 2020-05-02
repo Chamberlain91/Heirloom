@@ -3,6 +3,12 @@ using System.Runtime.CompilerServices;
 
 namespace Heirloom
 {
+    /// <summary>
+    /// Delegate type for the callback when performing text layout.
+    /// </summary>
+    /// <param name="text">The text currently set for layout.</param>
+    /// <param name="index">The index of the current character being considered for layout.</param>
+    /// <param name="state">The state of the current character in layout.</param>
     public delegate void TextLayoutCallback(string text, int index, ref TextLayoutState state);
 
     /// <summary>
@@ -17,6 +23,7 @@ namespace Heirloom
         /// Computes the bounding box that the specified text will occupy within an infinite layout size.
         /// </summary>
         /// <param name="text">The text to layout and measure.</param>
+        /// <param name="font">The font to use.</param>
         /// <param name="fontSize">The font size to use.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Rectangle Measure(string text, Font font, int fontSize)
@@ -29,6 +36,7 @@ namespace Heirloom
         /// </summary>
         /// <param name="text">The text to layout and measure.</param>
         /// <param name="layoutSize">The size of the layout box.</param>
+        /// <param name="font">The font to use.</param>
         /// <param name="fontSize">The font size to use.</param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -41,8 +49,9 @@ namespace Heirloom
         /// Computes the bounding box that the specified text will occupy within the given layout size.
         /// </summary>
         /// <param name="text">The text to layout and measure.</param>
-        /// <param name="layoutSize">The size of the layout box.</param>
-        /// <param name="fontSize">The font size to use.</param>
+        /// <param name="layoutBox">The layout box.</param>
+        /// <param name="font">The font to use.</param>
+        /// <param name="fontSize">The size to measure the font with.</param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Rectangle Measure(string text, in Rectangle layoutBox, Font font, int fontSize)
@@ -52,15 +61,15 @@ namespace Heirloom
             if (fontSize <= 0) { throw new ArgumentException($"Font size must be greater than zero."); }
 
             // Get font atlas
-            var atlas = FontManager.GetAtlas(font, fontSize);
+            var glyphTable = GlyphTable.GetGlyphTable(font, fontSize);
 
             // Layout text, keeping track of the glyph box
             var measure = Rectangle.Zero;
-            PerformLayout(text, layoutBox, TextAlign.Left, atlas, (string _, int index, ref TextLayoutState state) =>
+            PerformLayout(text, layoutBox, TextAlign.Left, glyphTable, (string _, int index, ref TextLayoutState state) =>
             {
                 // Include extents of glyph box
                 measure.Include(state.Position);
-                measure.Include(state.Position + (state.Metrics.AdvanceWidth, atlas.Metrics.LineAdvance));
+                measure.Include(state.Position + (state.Metrics.AdvanceWidth, glyphTable.Metrics.LineAdvance));
             });
 
             return measure;
@@ -91,15 +100,15 @@ namespace Heirloom
             if (layoutCallback == null) { throw new ArgumentNullException(nameof(layoutCallback)); }
 
             // Get atlas, layout text
-            var atlas = FontManager.GetAtlas(font, size);
-            PerformLayout(text, bounds, align, atlas, layoutCallback);
+            var glyphTable = GlyphTable.GetGlyphTable(font, size);
+            PerformLayout(text, bounds, align, glyphTable, layoutCallback);
         }
 
-        internal static void PerformLayout(string text, Rectangle bounds, TextAlign align, FontAtlas atlas, TextLayoutCallback layoutCallback)
+        internal static void PerformLayout(string text, Rectangle bounds, TextAlign align, GlyphTable glyphTable, TextLayoutCallback layoutCallback)
         {
             // Extract atlas properties for brevity
-            var fontSize = atlas.FontSize;
-            var font = atlas.Font;
+            var fontSize = glyphTable.FontSize;
+            var font = glyphTable.Font;
 
             // Create character layout state
             var state = new TextLayoutState
@@ -109,7 +118,7 @@ namespace Heirloom
             };
 
             // Find the first break point (if none, set to -1)
-            var nextBreak = FindNextBreak(in text, 0, state.Character, in state.Position, in bounds, atlas, out var lineWidth);
+            var nextBreak = FindNextBreak(in text, 0, state.Character, in state.Position, in bounds, glyphTable, out var lineWidth);
             var offsetX = ComputeAlignmentOffset(bounds, align, lineWidth);
             state.Position.X += offsetX; // First line alignment offset
 
@@ -131,27 +140,26 @@ namespace Heirloom
                 state.Position.X += font.GetKerning(previous, state.Character, fontSize);
 
                 // Get the relevant glyph, if exists (should always exist?)
-                if (atlas.TryGetGlyph(state.Character, out var glyph))
-                {
-                    // Get metrics for glyph as the desired font size
-                    state.Metrics = glyph.GetMetrics(fontSize);
+                var glyph = glyphTable.Font.GetGlyph(state.Character);
 
-                    // Process character, if kept, advance pen position
-                    layoutCallback(text, i, ref state);
+                // Get metrics for glyph as the desired font size
+                state.Metrics = glyph.GetMetrics(fontSize);
 
-                    // Apply horizontal advance
-                    state.Position.X += state.Metrics.AdvanceWidth;
-                }
+                // Process character, if kept, advance pen position
+                layoutCallback(text, i, ref state);
+
+                // Apply horizontal advance
+                state.Position.X += state.Metrics.AdvanceWidth;
 
                 // We should break (newline, edge of bounds, etc)
                 if (nextBreak == i)
                 {
                     // Line feed
-                    state.Position.Y += atlas.Metrics.LineAdvance;
+                    state.Position.Y += glyphTable.Metrics.LineAdvance;
                     state.Position.X = bounds.Left;
 
                     // Find the next break point
-                    nextBreak = FindNextBreak(in text, i + 1, state.Character, in state.Position, in bounds, atlas, out lineWidth);
+                    nextBreak = FindNextBreak(in text, i + 1, state.Character, in state.Position, in bounds, glyphTable, out lineWidth);
                     offsetX = ComputeAlignmentOffset(bounds, align, lineWidth);
                     state.Position.X += offsetX;
                 }
@@ -192,7 +200,7 @@ namespace Heirloom
         }
 
         // checks if character should break (newline or word too long, etc)
-        private static int FindNextBreak(in string text, int index, UnicodeCharacter previous, in Vector position, in Rectangle bounds, FontAtlas atlas, out float width)
+        private static int FindNextBreak(in string text, int index, UnicodeCharacter previous, in Vector position, in Rectangle bounds, GlyphTable glyphTable, out float width)
         {
             var opportunity = -1;
             var opportunityEdge = 0F;
@@ -207,7 +215,7 @@ namespace Heirloom
                 var breakCategory = GetBreakCategory(character);
 
                 // Add kerning
-                var kerning = atlas.Font.GetKerning(previous, character, atlas.FontSize);
+                var kerning = glyphTable.Font.GetKerning(previous, character, glyphTable.FontSize);
                 edge += kerning;
 
                 // Character is definintely a break (newline, etc)
@@ -225,21 +233,18 @@ namespace Heirloom
                     opportunity = i;
                 }
 
-                if (atlas.TryGetGlyph(character, out var glyph))
-                {
-                    // Advance right edge
-                    var metrics = glyph.GetMetrics(atlas.FontSize);
-                    edge += metrics.AdvanceWidth;
+                // Advance right edge
+                var metrics = glyphTable.GetGlyphMetrics(character);
+                edge += metrics.AdvanceWidth;
 
-                    // We found a break opportunity, we need to now check if we violate the bounds
-                    if (opportunity >= 0)
+                // We found a break opportunity, we need to now check if we violate the bounds
+                if (opportunity >= 0)
+                {
+                    // Violated bounds (within a tolerance approximated by character width)
+                    if (edge > (bounds.Right + (metrics.AdvanceWidth / 10F)))
                     {
-                        // Violated bounds (within a tolerance approximated by character width)
-                        if (edge > (bounds.Right + (metrics.AdvanceWidth / 10F)))
-                        {
-                            width = opportunityEdge - position.X;
-                            return opportunity;
-                        }
+                        width = opportunityEdge - position.X;
+                        return opportunity;
                     }
                 }
 

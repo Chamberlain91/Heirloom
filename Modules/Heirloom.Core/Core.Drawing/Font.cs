@@ -10,15 +10,12 @@ using static StbTrueTypeSharp.StbTrueType;
 
 namespace Heirloom
 {
+    /// <summary>
+    /// An object to represent a truetype font.
+    /// Provides functionality to query and measure aspects of the font.
+    /// </summary>
     public unsafe class Font : IDisposable
     {
-        /// <summary>
-        /// A default pixel font for easily rendering text to debug, show metrics, etc.
-        /// Recommended size is 16px.
-        /// </summary>
-        /// <remarks>https://datagoblin.itch.io/monogram</remarks>
-        public static Font Default { get; }
-
         static Font()
         {
             // Load default pixel font
@@ -30,12 +27,19 @@ namespace Heirloom
         private readonly byte* _inMemoryFile; // Don't need technically if using StbSharp
         private bool _isDisposed = false;
 
-        private readonly Dictionary<UnicodeCharacter, Glyph> _glyphByCodepoint;
+        private readonly Dictionary<UnicodeCharacter, Glyph> _glyphLookup;
         private readonly Glyph[] _glyphs;
 
         private readonly int _ascent;
         private readonly int _descent;
         private readonly int _lineGap;
+
+        /// <summary>
+        /// A default pixel font for easily rendering text to debug, show metrics, etc.
+        /// Recommended size is 16px.
+        /// </summary>
+        /// <remarks>https://datagoblin.itch.io/monogram</remarks>
+        public static Font Default { get; }
 
         #region Constructors
 
@@ -80,7 +84,7 @@ namespace Heirloom
             _lineGap = lineGap;
 
             // 
-            _glyphByCodepoint = new Dictionary<UnicodeCharacter, Glyph>();
+            _glyphLookup = new Dictionary<UnicodeCharacter, Glyph>();
             _glyphs = new Glyph[Info.numGlyphs];
         }
 
@@ -111,12 +115,6 @@ namespace Heirloom
             return new FontMetrics(ascent, descent, lineGap);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal float ComputeScale(float height)
-        {
-            return stbtt_ScaleForMappingEmToPixels(Info, height);
-        }
-
         /// <summary>
         /// Gets the spacing adjustment (ie, kerning) between any two characters.
         /// </summary>
@@ -131,6 +129,12 @@ namespace Heirloom
 
             // Get kerning advance between this glyph an another
             return stbtt_GetGlyphKernAdvance(Info, g1.Index, g2.Index) * scale;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal float ComputeScale(float height)
+        {
+            return stbtt_ScaleForMappingEmToPixels(Info, height);
         }
 
         #region Get Glyph
@@ -152,7 +156,7 @@ namespace Heirloom
         public Glyph GetGlyph(UnicodeCharacter ch)
         {
             // Attempt to lookup glyph from dictionary
-            if (!_glyphByCodepoint.TryGetValue(ch, out var glyph))
+            if (!_glyphLookup.TryGetValue(ch, out var glyph))
             {
                 // Get the index for the specified codepoint
                 var index = stbtt_FindGlyphIndex(Info, (int) ch);
@@ -168,23 +172,23 @@ namespace Heirloom
                 }
 
                 // Store glyph by codepoint
-                _glyphByCodepoint[ch] = glyph;
+                _glyphLookup[ch] = glyph;
             }
 
             // Return the glyph data for the specified codepoint
             return glyph;
-        }
 
-        internal Glyph GetGlyphByIndex(int index)
-        {
-            // Glyph is not yet known
-            if (_glyphs[index] == null)
+            Glyph GetGlyphByIndex(int index)
             {
-                // Create glyph (codepoint is unknown)
-                _glyphs[index] = new Glyph(this, index);
-            }
+                // Glyph is not yet known
+                if (_glyphs[index] == null)
+                {
+                    // Create glyph (codepoint is unknown)
+                    _glyphs[index] = new Glyph(this, index);
+                }
 
-            return _glyphs[index];
+                return _glyphs[index];
+            }
         }
 
         #endregion
@@ -239,6 +243,9 @@ namespace Heirloom
 
         #endregion
 
+        #region Dispose
+
+        /// <inheritdoc/>
         protected virtual void Dispose(bool disposeManaged)
         {
             if (!_isDisposed)
@@ -255,10 +262,15 @@ namespace Heirloom
             }
         }
 
+        /// <summary>
+        /// Dispose the current font, freeing unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        #endregion
     }
 }
