@@ -73,8 +73,9 @@ namespace Heirloom
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawText(string text, in Vector position, Font font, int size, TextAlign align = TextAlign.Left, DrawTextCallback callback = null)
         {
+            // note: removes vertical alignment since this is computed via measure in GetPositionAnchoredTextBounds.
             var bounds = TextLayout.GetPositionAnchoredTextBounds(text, font, size, in position, align);
-            DrawText(text, bounds, font, size, align, callback);
+            DrawText(text, bounds, font, size, align & (TextAlign) 0b00_11, callback);
         }
 
         /// <summary>
