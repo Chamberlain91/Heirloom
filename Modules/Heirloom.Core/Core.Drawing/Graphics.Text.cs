@@ -3,6 +3,12 @@ using System.Runtime.CompilerServices;
 
 namespace Heirloom
 {
+    /// <summary>
+    /// Delegate type for the callback when drawing text.
+    /// </summary>
+    /// <param name="text">The complete string being drawn.</param>
+    /// <param name="index">The index of the character currently being drawn.</param>
+    /// <param name="state">The state of the character currently being drawn.</param>
     public delegate void DrawTextCallback(string text, int index, ref TextDrawState state);
 
     public abstract partial class Graphics
@@ -104,14 +110,14 @@ namespace Heirloom
             // Remember context state
             var color = Color;
 
-            // Select atlas
-            var atlas = FontManager.GetAtlas(font, size);
+            // Get glyph table for the font and size
+            var glyphTable = GlyphTable.GetGlyphTable(font, size);
 
             // Character render state
             var state = new TextDrawState { Color = color };
 
             // Layout text
-            TextLayout.PerformLayout(text, bounds, align, atlas, (string _, int index, ref TextLayoutState layout) =>
+            TextLayout.PerformLayout(text, bounds, align, glyphTable, (string _, int index, ref TextLayoutState layout) =>
             {
                 // Set initial state
                 state.Transform = Matrix.Identity;
@@ -123,13 +129,10 @@ namespace Heirloom
 
                 // Compute render position
                 state.Position.X += layout.Metrics.Offset.X;
-                state.Position.Y += layout.Metrics.Offset.Y + atlas.Metrics.Ascent;
+                state.Position.Y += layout.Metrics.Offset.Y + glyphTable.Metrics.Ascent;
 
-                // Get glyph image
-                var image = atlas.GetImage(layout.Character);
-
-                // If has image data, draw to surface
-                if (image != null)
+                // Try to get image from glyph table
+                if (glyphTable.TryGetImage(layout.Character, out var image))
                 {
                     // Draw to surface
                     Color = state.Color;
@@ -141,6 +144,6 @@ namespace Heirloom
             Color = color;
         }
 
-        #endregion 
+        #endregion
     }
 }
