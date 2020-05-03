@@ -11,6 +11,10 @@ using Heirloom.Sound;
 
 namespace Heirloom.Desktop
 {
+    /// <summary>
+    /// Controls a desktop application.
+    /// Use this class to initialize window system and process events.
+    /// </summary>
     public static class Application
     {
         private const double WaitEventsTimeout = 1.0 / 100.0;
@@ -221,9 +225,9 @@ namespace Heirloom.Desktop
             IsInitialized = true;
         }
 
-        internal static Graphics CreateGraphics(Window window, Surface surface, bool vsync)
+        internal static Graphics CreateGraphics(Window window, bool vsync)
         {
-            return GraphicsFactory.CreateGraphics(window, surface, vsync);
+            return GraphicsFactory.CreateGraphics(window, vsync);
         }
 
         private static void InitializeGraphicsAdapter()

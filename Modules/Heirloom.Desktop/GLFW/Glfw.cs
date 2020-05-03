@@ -629,7 +629,7 @@ namespace Heirloom.Desktop
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ButtonAction GetKey(WindowHandle window, Key key)
+        public static KeyAction GetKey(WindowHandle window, Key key)
         {
             var action = glfwGetKey(window, key);
             CheckError(nameof(GetKey));
@@ -637,7 +637,7 @@ namespace Heirloom.Desktop
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ButtonAction GetMouseButton(WindowHandle window, int button)
+        public static KeyAction GetMouseButton(WindowHandle window, int button)
         {
             var action = glfwGetMouseButton(window, button);
             CheckError(nameof(GetMouseButton));

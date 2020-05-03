@@ -22,7 +22,7 @@ namespace Examples.Minimal
                 // Clear the window, draw text centered on screen
                 window.Graphics.Clear(Color.DarkGray);
                 window.Graphics.DrawText(text, ((Vector) window.Graphics.Surface.Size) * 0.5F, Font.Default, FontSize, TextAlign.Center | TextAlign.Middle);
-                window.Graphics.RefreshScreen();
+                window.Refresh();
             });
         }
 

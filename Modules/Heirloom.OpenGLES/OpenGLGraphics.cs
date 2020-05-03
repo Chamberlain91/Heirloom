@@ -4,8 +4,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-using Heirloom.OpenGLES;
-
 namespace Heirloom.OpenGLES
 {
     internal abstract class OpenGLGraphics : Graphics
@@ -50,8 +48,7 @@ namespace Heirloom.OpenGLES
 
         #region Constructors
 
-        protected internal OpenGLGraphics(Surface surface)
-            : base(surface)
+        protected internal OpenGLGraphics()
         {
             _framebuffers = new ConditionalWeakTable<Surface, Framebuffer>();
 
@@ -308,7 +305,7 @@ namespace Heirloom.OpenGLES
                     // Set and prepare the surface (ie, bind framebuffer)
                     if (_surface.IsScreenBound)
                     {
-                        if (_surface == DefaultSurface)
+                        if (_surface == Screen.Surface)
                         {
                             // The current surface is the default (ie, window) framebuffer.
                             GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, 0);
@@ -890,7 +887,7 @@ namespace Heirloom.OpenGLES
                 Flush();
 
                 // If the current surface is the default surface.
-                if (_surface == DefaultSurface)
+                if (_surface == Screen.Surface)
                 {
                     // The current surface is the default (ie, window) framebuffer.
                     GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, 0);
@@ -1009,7 +1006,6 @@ namespace Heirloom.OpenGLES
             }
         }
 
-        /// <inheritdoc/>
         protected override DrawCounts GetDrawCounts()
         {
             return new DrawCounts
@@ -1020,9 +1016,9 @@ namespace Heirloom.OpenGLES
             };
         }
 
-        /// <inheritdoc/>
-        protected override void EndFrame()
+        protected override void ComputePerFrameStats()
         {
+            base.ComputePerFrameStats();
             _batchingTechnique.ResetCounts();
         }
 

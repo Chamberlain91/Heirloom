@@ -1,10 +1,10 @@
-namespace Heirloom.Desktop
+﻿namespace Heirloom
 {
     public readonly struct CharacterEvent
     {
         public readonly UnicodeCharacter Character;
 
-        internal CharacterEvent(UnicodeCharacter character)
+        public CharacterEvent(UnicodeCharacter character)
         {
             Character = character;
         }

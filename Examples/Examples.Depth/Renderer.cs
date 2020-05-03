@@ -28,7 +28,7 @@ namespace Examples.Depth
 
         internal void Render(Graphics gfx, float dt, IEnumerable<Entity> entities)
         {
-            var screenSize = gfx.DefaultSurface.Size;
+            var screenSize = gfx.Screen.Surface.Size;
 
             // Sort effect layers 
             EffectLayers.StableSort();
@@ -83,7 +83,7 @@ namespace Examples.Depth
             }
 
             // Copy surface to screen
-            gfx.Blit(surface, gfx.DefaultSurface);
+            gfx.Blit(surface, gfx.Screen.Surface);
 
             // Recycle old surface (no longer needed)
             SurfacePool.Recycle(surface);

@@ -16,8 +16,8 @@ namespace Examples.SplitScreen
             : base(window.Graphics)
         {
             // Bind keyboard event
-            window.KeyRelease += OnKeyEvent;
-            window.KeyPress += OnKeyEvent;
+            window.KeyReleased += OnKeyEvent;
+            window.KeyPressed += OnKeyEvent;
 
             // Set window size
             window.IsResizable = false;
@@ -94,9 +94,9 @@ namespace Examples.SplitScreen
             }
         }
 
-        private void OnKeyEvent(Window w, KeyEvent e)
+        private void OnKeyEvent(Screen s, KeyEvent e)
         {
-            var isDown = e.Action == ButtonAction.Press;
+            var isDown = e.State.HasFlag(ButtonState.Down);
 
             // WASD for player 1
             if (e.Key == Key.W) { Players[0].OnInput(isDown, Player.Input.Forward); }

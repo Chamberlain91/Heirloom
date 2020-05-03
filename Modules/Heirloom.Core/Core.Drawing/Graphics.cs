@@ -16,13 +16,10 @@ namespace Heirloom
         /// <summary>
         /// Constructs a new graphics instance with the specified multisampling quality.
         /// </summary>
-        protected Graphics(Surface surface)
+        protected Graphics()
         {
             // Create performance tracking object
             Performance = new DrawingPerformance();
-
-            // Creates a dummy surface to represent the window surface
-            DefaultSurface = surface;
         }
 
         /// <summary>
@@ -38,9 +35,9 @@ namespace Heirloom
         #region Properties
 
         /// <summary>
-        /// Gets how often the default surface is presented to the screen per second.
+        /// Gets the screen this graphics context is responsible for.
         /// </summary>
-        public float CurrentFPS => Performance.FrameRate.Average;
+        public abstract Screen Screen { get; }
 
         /// <summary>
         /// Gets drawing performance information.
@@ -48,18 +45,14 @@ namespace Heirloom
         public DrawingPerformance Performance { get; }
 
         /// <summary>
-        /// Gets a value determining if this <see cref="Graphics"/> was disposed.
+        /// Gets how often the default surface is presented to the screen per second.
         /// </summary>
-        public bool IsDisposed { get; protected set; } = false;
+        public float CurrentFPS => Performance.FrameRate.Average;
 
         /// <summary>
         /// Gets a value determining if this <see cref="Graphics"/> has been initialized.
         /// </summary>
         public abstract bool IsInitialized { get; }
-        /// <summary>
-        /// Gets the default surface (ie, window) of this render context.
-        /// </summary>
-        public Surface DefaultSurface { get; }
 
         /// <summary>
         /// Gets or sets the current surface.
@@ -102,6 +95,11 @@ namespace Heirloom
         /// </summary>
         public abstract Color Color { get; set; }
 
+        /// <summary>
+        /// Gets a value determining if this <see cref="Graphics"/> was disposed.
+        /// </summary>
+        public bool IsDisposed { get; protected set; } = false;
+
         #endregion
 
         #region State Methods
@@ -112,7 +110,7 @@ namespace Heirloom
         public void ResetState()
         {
             Shader = Shader.Default;
-            Surface = DefaultSurface; // also adjusts viewport?
+            Surface = Screen.Surface;
             Viewport = (0, 0, Surface.Width, Surface.Height);
 
             GlobalTransform = Matrix.Identity;
@@ -204,8 +202,11 @@ namespace Heirloom
 
         #region Frame Statistics
 
+        /// <summary>
+        /// Computes end of frame statistics.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void ProcessStatistics()
+        protected virtual void ComputePerFrameStats()
         {
             // Compute statistics (fps, batch count, etc)
             Performance.ComputeStatistics(GetDrawCounts());
@@ -293,30 +294,22 @@ namespace Heirloom
         /// <summary>
         /// Present the drawing operations to the screen.
         /// </summary>
-        public void RefreshScreen()
+        internal virtual void EndFrame()
         {
             // Commit all pending work
             Flush();
 
             // Computes statistics (possibly drawing overlay)
-            ProcessStatistics();
+            ComputePerFrameStats();
 
             // Causes the image to appear on screen
             SwapBuffers();
-
-            // Mark the end of a frame
-            EndFrame();
         }
 
         /// <summary>
         /// Causes the back and front buffers to be swapped.
         /// </summary>
         protected abstract void SwapBuffers();
-
-        /// <summary>
-        /// Called at the end of frame to do any last minute work (resetting metrics, buffers, etc).
-        /// </summary>
-        protected abstract void EndFrame();
 
         /// <summary>
         /// Submit all pending drawing operations, optionally blocking for completion.

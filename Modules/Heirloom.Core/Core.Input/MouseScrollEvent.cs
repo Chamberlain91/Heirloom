@@ -1,10 +1,10 @@
-namespace Heirloom.Desktop
+namespace Heirloom
 {
     public readonly struct MouseScrollEvent
     {
         public readonly Vector Scroll;
 
-        internal MouseScrollEvent(float x, float y)
+        public MouseScrollEvent(float x, float y)
         {
             Scroll = new Vector(x, y);
         }

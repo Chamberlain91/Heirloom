@@ -1,20 +1,17 @@
-namespace Heirloom.Desktop
+namespace Heirloom
 {
     public readonly struct MouseButtonEvent
     {
-        public readonly int Button;
-
-        public readonly ButtonAction Action;
-
+        public readonly MouseButton Button;
         public readonly KeyModifiers Modifiers;
-
+        public readonly ButtonState State;
         public readonly Vector Position;
 
-        internal MouseButtonEvent(int button, ButtonAction action, KeyModifiers modifiers, Vector position)
+        public MouseButtonEvent(MouseButton button, KeyModifiers modifiers, ButtonState state, Vector position)
         {
             Button = button;
-            Action = action;
             Modifiers = modifiers;
+            State = state;
             Position = position;
         }
     }

@@ -233,10 +233,10 @@ namespace Heirloom.Desktop
         private static extern int glfwGetKeyScancode(Key key);
 
         [DllImport(Library), SuppressUnmanagedCodeSecurity]
-        private static extern ButtonAction glfwGetKey(WindowHandle window, Key key);
+        private static extern KeyAction glfwGetKey(WindowHandle window, Key key);
 
         [DllImport(Library), SuppressUnmanagedCodeSecurity]
-        private static extern ButtonAction glfwGetMouseButton(WindowHandle window, int button);
+        private static extern KeyAction glfwGetMouseButton(WindowHandle window, int button);
 
         [DllImport(Library), SuppressUnmanagedCodeSecurity]
         private static extern void glfwGetCursorPos(WindowHandle window, out double xPos, out double yPos);

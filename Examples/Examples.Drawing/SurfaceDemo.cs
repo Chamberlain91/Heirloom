@@ -42,7 +42,7 @@ namespace Examples.Drawing
 
             var rect = new Rectangle(contentBounds.X + offset, contentBounds.Y, newWidth, newHeight);
 
-            ctx.Surface = ctx.DefaultSurface;
+            ctx.Surface = ctx.Screen.Surface;
             ctx.DrawImage(LowResSurface, rect);
         }
     }

@@ -18,7 +18,7 @@ namespace Examples.CpuRasterizer
             Window = window;
 
             // 
-            Image = new Image(Window.FramebufferSize);
+            Image = new Image(Window.Surface.Size);
             Image.Clear(Color.DarkGray);
 
             // Rasterize into image (CPU rendering)

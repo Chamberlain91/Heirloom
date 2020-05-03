@@ -34,13 +34,13 @@ namespace Heirloom.Desktop
     internal unsafe delegate void WindowContentScaleCallback(WindowHandle window, float xScale, float yScale);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal unsafe delegate void KeyCallback(WindowHandle window, Key key, int scancode, ButtonAction action, KeyModifiers modifiers);
+    internal unsafe delegate void KeyCallback(WindowHandle window, Key key, int scancode, KeyAction action, KeyModifiers modifiers);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal unsafe delegate void CharCallback(WindowHandle window, uint codepoint);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    internal unsafe delegate void MouseButtonCallback(WindowHandle window, int button, ButtonAction action, KeyModifiers modifiers);
+    internal unsafe delegate void MouseButtonCallback(WindowHandle window, int button, KeyAction action, KeyModifiers modifiers);
 
     [SuppressUnmanagedCodeSecurity, UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal unsafe delegate void CursorPositionCallback(WindowHandle window, double x, double y);

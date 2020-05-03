@@ -98,7 +98,7 @@ namespace Heirloom
                     Update(Graphics, delta);
 
                     // Push pixels to screen
-                    Graphics.RefreshScreen();
+                    Graphics.Screen.Refresh();
                 }
             }
         }
