@@ -1,4 +1,4 @@
-namespace Heirloom.Desktop
+﻿namespace Heirloom
 {
     public readonly struct MouseMoveEvent
     {
@@ -6,7 +6,7 @@ namespace Heirloom.Desktop
 
         public readonly Vector Delta;
 
-        internal MouseMoveEvent(Vector position, Vector delta)
+        public MouseMoveEvent(Vector position, Vector delta)
         {
             Position = position;
             Delta = delta;

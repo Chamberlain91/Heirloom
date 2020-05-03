@@ -15,7 +15,7 @@ namespace Heirloom
         /// <param name="size">Size of the surface in pixels.</param>
         /// <param name="multisample">MSAA to use on the surface</param>
         public Surface(IntSize size, MultisampleQuality multisample = MultisampleQuality.None)
-            : this(size.Width, size.Height, multisample)
+            : this(size, multisample, false)
         { }
 
         /// <summary>
@@ -25,14 +25,14 @@ namespace Heirloom
         /// <param name="height">Height of the surface in pixels.</param>
         /// <param name="multisample">MSAA to use on the surface</param>
         public Surface(int width, int height, MultisampleQuality multisample = MultisampleQuality.None)
-            : this(width, height, multisample, false)
+            : this(new IntSize(width, height), multisample, false)
         { }
 
-        internal Surface(int width, int height, MultisampleQuality multisample, bool isScreenBound)
+        internal Surface(IntSize size, MultisampleQuality multisample, bool isScreenBound)
         {
-            if (width <= 0 || height <= 0) { throw new ArgumentException("Surface dimensions must be greater than zero."); }
+            if (size.Width <= 0 || size.Height <= 0) { throw new ArgumentException("Surface dimensions must be greater than zero."); }
 
-            Size = new IntSize(width, height);
+            Size = size;
             IsScreenBound = isScreenBound;
             Multisample = multisample;
 

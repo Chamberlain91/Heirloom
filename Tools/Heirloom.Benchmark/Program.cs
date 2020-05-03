@@ -36,11 +36,11 @@ namespace Heirloom.Benchmark
                 // window.Maximize();
 
                 // Compute world bounds
-                bounds = (0, 0, window.FramebufferSize.Width, window.FramebufferSize.Height);
+                bounds = (0, 0, window.Surface.Width, window.Surface.Height);
 
                 // When the framebuffer size changes, resize the application bounds.
-                window.FramebufferResized += _ =>
-                    bounds = (0, 0, window.FramebufferSize.Width, window.FramebufferSize.Height);
+                window.FramebufferResized += (f, s) =>
+                    bounds = (0, 0, window.Surface.Width, window.Surface.Height);
 
                 // Initialize first benchmark
                 benchmarks[0].Initialize(in bounds);
@@ -50,13 +50,13 @@ namespace Heirloom.Benchmark
                 loop.Start();
 
                 // Bind window events
-                window.KeyPress += OnKeyPress;
+                window.KeyPressed += OnKeyPress;
             });
 
-            static void OnKeyPress(Window w, KeyEvent e)
+            static void OnKeyPress(Screen s, KeyEvent e)
             {
                 // Kill window
-                if (e.Key == Key.Escape) { w.Close(); }
+                if (e.Key == Key.Escape) { s.Close(); }
             }
 
             void GotoNextBenchmark()

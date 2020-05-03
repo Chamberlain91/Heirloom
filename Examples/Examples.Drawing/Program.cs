@@ -47,7 +47,7 @@ namespace Examples.Drawing
             Loop.Start();
 
             // Register key events
-            Window.KeyPress += Window_KeyPress;
+            Window.KeyPressed += Window_KeyPress;
         }
 
         private void Update(Graphics gfx, float dt)
@@ -81,9 +81,9 @@ namespace Examples.Drawing
             }
         }
 
-        private void Window_KeyPress(Window win, KeyEvent ev)
+        private void Window_KeyPress(Screen w, KeyEvent ev)
         {
-            if (ev.Action == ButtonAction.Press)
+            if (ev.State == ButtonState.Pressed)
             {
                 if (ev.Key == Key.Up)
                 {

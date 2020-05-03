@@ -11,9 +11,9 @@ namespace Heirloom.Desktop
     {
         private readonly List<OpenGLGraphics> _graphics = new List<OpenGLGraphics>();
 
-        public Graphics CreateGraphics(Window window, Surface surface, bool vsync)
+        public Graphics CreateGraphics(Window window, bool vsync)
         {
-            var graphics = new OpenGLWindowGraphics(this, window, surface, vsync);
+            var graphics = new OpenGLWindowGraphics(this, window, vsync);
             lock (_graphics) { _graphics.Add(graphics); }
             return graphics;
         }
@@ -84,28 +84,17 @@ namespace Heirloom.Desktop
             private readonly Window _window;
             private readonly bool _vsync;
 
-            public OpenGLWindowGraphics(OpenGLWindowGraphicsAdapter adapter, Window window, Surface surface, bool vsync)
-                : base(surface)
+            public OpenGLWindowGraphics(OpenGLWindowGraphicsAdapter adapter, Window window, bool vsync)
             {
                 _adapter = adapter;
                 _window = window ?? throw new ArgumentNullException(nameof(window));
                 _vsync = vsync;
 
-                // Set initial default surface size
-                DefaultSurface.SetSize(_window.FramebufferSize);
-
-                // Whenever the window framebuffer is resized, also update the
-                // viewport and default surface. If the window is first created,
-                // we use this event as a "window is ready" event to launch the
-                // OpenGL thread.
-                _window.FramebufferResized += _ =>
-                {
-                    DefaultSurface.SetSize(_window.FramebufferSize);
-                };
-
                 // Run OpenGL thread
                 StartThread();
             }
+
+            public override Screen Screen => _window;
 
             protected override void MakeCurrent()
             {
@@ -119,7 +108,7 @@ namespace Heirloom.Desktop
                 Glfw.SetSwapInterval(_vsync ? 1 : 0);
 
                 // Enable quality MSAA
-                if (DefaultSurface.Multisample > MultisampleQuality.None)
+                if (Screen.Surface.Multisample > MultisampleQuality.None)
                 {
                     // Load glMinSampleShading, this could be cached... but this way makes it pretty
                     // seamless to include.

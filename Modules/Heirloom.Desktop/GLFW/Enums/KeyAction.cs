@@ -1,6 +1,6 @@
 namespace Heirloom.Desktop
 {
-    public enum ButtonAction
+    internal enum KeyAction
     {
         /// <summary>
         /// Button or Key was released.

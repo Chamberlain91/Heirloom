@@ -20,15 +20,15 @@ namespace GPU_Memory_Leak
                     hue = (hue + 1) % 360;
 
                     // Create Image
-                    var image = Image.CreateCheckerboardPattern(window.FramebufferSize, color);
+                    var image = Image.CreateCheckerboardPattern(window.Surface.Size, color);
 
                     // Image -> Surface
-                    var surface = new Surface(window.FramebufferSize, MultisampleQuality.None);
+                    var surface = new Surface(window.Surface.Size, MultisampleQuality.None);
                     gfx.Surface = surface;
                     gfx.DrawImage(image, Vector.Zero);
 
                     // Surface -> Window
-                    gfx.Surface = gfx.DefaultSurface;
+                    gfx.Surface = gfx.Screen.Surface;
                     gfx.DrawImage(surface, Vector.Zero);
                 });
 
