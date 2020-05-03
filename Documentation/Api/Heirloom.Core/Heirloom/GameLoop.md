@@ -48,7 +48,6 @@ public abstract class GameLoop
 
 | Name                           | Return Type   | Summary |
 |--------------------------------|---------------|---------|
-| [Create(Screen, GameLoo...][6] | [GameLoop][8] |         |
 | [Create(Graphics, GameL...][6] | [GameLoop][8] |         |
 
 [0]: ../../Heirloom.Core.md
