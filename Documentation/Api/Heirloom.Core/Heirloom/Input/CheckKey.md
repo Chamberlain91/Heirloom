@@ -3,17 +3,17 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]
 
-## Input.CheckButton (Method)
+## Input.CheckKey (Method)
 
 > **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [Input][1]
 
-### CheckButton(Key, ButtonState)
+### CheckKey(Key, ButtonState)
 
 Checks if the lastest state of a button on the keyboard matcheas the desired state.
 
 ```cs
-public static bool CheckButton(Key key, ButtonState state)
+public static bool CheckKey(Key key, ButtonState state)
 ```
 
 | Name  | Type             | Summary                        |

@@ -8,14 +8,6 @@ namespace Heirloom
     /// Provides a centralized query style input layer.
     /// This is useful for implementing games.
     /// </summary>
-    /// <example>
-    /// The following is an example checking for button on the keyboard:
-    /// <code>
-    /// if(Input.CheckButton(Key.A, ButtonState.Pressed)) {
-    ///     Log.Info("Pressed A Key");
-    /// }
-    /// </code>
-    /// </example>
     public static class Input
     {
         private static readonly HashSet<IInputSource> _sources;
@@ -96,7 +88,7 @@ namespace Heirloom
         /// Gets the latest state of a button the keyboard.
         /// </summary>
         /// <param name="key">Some key.</param>
-        public static ButtonState GetButton(Key key)
+        public static ButtonState GetKey(Key key)
         {
             foreach (var source in _sources)
             {
@@ -116,9 +108,9 @@ namespace Heirloom
         /// </summary>
         /// <param name="key">Some key.</param>
         /// <param name="state">Some desired comparison state.</param>
-        public static bool CheckButton(Key key, ButtonState state)
+        public static bool CheckKey(Key key, ButtonState state)
         {
-            return GetButton(key).HasFlag(state);
+            return GetKey(key).HasFlag(state);
         }
 
         /// <summary>

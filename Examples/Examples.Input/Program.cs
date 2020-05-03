@@ -44,7 +44,7 @@ namespace Examples.Input
             }
 
             // Has the space key just been pressed?
-            if (Input.CheckButton(Key.Space, ButtonState.Pressed))
+            if (Input.CheckKey(Key.Space, ButtonState.Pressed))
             {
                 var surface = gfx.Screen.Surface;
                 ImagePosition = (Vector) (surface.Size - Image.Size) / 2F;
