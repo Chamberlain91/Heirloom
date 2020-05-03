@@ -25,7 +25,7 @@ public struct Triangle : IShape, IEquatable<Triangle>, IEnumerable<Vector>, IEnu
 
 ### Methods
 
-[Barycentric][9], [Contains][10], [Deconstruct][11], [GetClosestPoint][12], [GetEdge][13], [GetEnumerator][14], [Overlaps][15], [Project][16], [Raycast][17], [Set][18], [ToPolygon][19]
+[Barycentric][9], [Contains][10], [Deconstruct][11], [GetEdge][12], [GetEnumerator][13], [GetNearestPoint][14], [Overlaps][15], [Project][16], [Raycast][17], [Set][18], [ToPolygon][19]
 
 ### Static Methods
 
@@ -61,9 +61,9 @@ public struct Triangle : IShape, IEquatable<Triangle>, IEnumerable<Vector>, IEnu
 | [Barycentric(in Vector,...][9]  | `void`                 | Computes the barycentric coefficients of the point `p` within the t... |
 | [Contains(in Vector)][10]       | `bool`                 | Determines if this triangle contains the specified point.              |
 | [Deconstruct(out Vector...][11] | `void`                 |                                                                        |
-| [GetClosestPoint(in Vec...][12] | [Vector][22]           | Gets the closest point on the triangle to the specified point.         |
-| [GetEdge(int)][13]              | [LineSegment][24]      |                                                                        |
-| [GetEnumerator()][14]           | `IEnumerator\<Vector>` |                                                                        |
+| [GetEdge(int)][12]              | [LineSegment][24]      |                                                                        |
+| [GetEnumerator()][13]           | `IEnumerator\<Vector>` |                                                                        |
+| [GetNearestPoint(in Vec...][14] | [Vector][22]           | Gets the closest point on the triangle to the specified point.         |
 | [Overlaps(IShape)][15]          | `bool`                 | Determines if this triangle overlaps another shape.                    |
 | [Overlaps(in Circle)][15]       | `bool`                 | Determines if this triangle overlaps the specified circle.             |
 | [Overlaps(in Triangle)][15]     | `bool`                 | Determines if this triangle overlaps another triangle.                 |
@@ -97,9 +97,9 @@ public struct Triangle : IShape, IEquatable<Triangle>, IEnumerable<Vector>, IEnu
 [9]: Triangle/Barycentric.md
 [10]: Triangle/Contains.md
 [11]: Triangle/Deconstruct.md
-[12]: Triangle/GetClosestPoint.md
-[13]: Triangle/GetEdge.md
-[14]: Triangle/GetEnumerator.md
+[12]: Triangle/GetEdge.md
+[13]: Triangle/GetEnumerator.md
+[14]: Triangle/GetNearestPoint.md
 [15]: Triangle/Overlaps.md
 [16]: Triangle/Project.md
 [17]: Triangle/Raycast.md

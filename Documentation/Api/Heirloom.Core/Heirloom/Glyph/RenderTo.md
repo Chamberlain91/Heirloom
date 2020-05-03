@@ -10,7 +10,7 @@
 
 ### RenderTo(Image, int, int, float)
 
-Renders the glyph into the image.
+Renders the glyph into an image.
 
 ```cs
 public void RenderTo(Image image, int x, int y, float size)

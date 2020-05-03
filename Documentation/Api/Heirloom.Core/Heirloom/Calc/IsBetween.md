@@ -8,12 +8,12 @@
 > **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [Calc][1]
 
-### IsBetween(in float, in float, in float)
+### IsBetween(float, float, float)
 
 Computes the interpolation factor (0.0 to 1.0) of `x` between `min` and `max` .
 
 ```cs
-public static bool IsBetween(in float x, in float min, in float max)
+public static bool IsBetween(float x, float min, float max)
 ```
 
 | Name | Type    | Summary |

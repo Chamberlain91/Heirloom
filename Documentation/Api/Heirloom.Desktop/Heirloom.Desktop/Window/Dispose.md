@@ -8,14 +8,6 @@
 > **Namespace**: [Heirloom.Desktop][0]  
 > **Declaring Type**: [Window][1]
 
-### Dispose()
-
-```cs
-public void Dispose()
-```
-
-> **Returns** - `void`
-
 ### Dispose(bool)
 
 ```cs

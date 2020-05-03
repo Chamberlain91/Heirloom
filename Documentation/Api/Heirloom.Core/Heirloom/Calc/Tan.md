@@ -10,7 +10,7 @@
 
 ### Tan(float)
 
-The tangent function.
+Return the tangent of the specified angle.
 
 ```cs
 public static float Tan(float x)

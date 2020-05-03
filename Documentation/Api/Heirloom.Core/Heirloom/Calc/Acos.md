@@ -10,7 +10,7 @@
 
 ### Acos(float)
 
-The inverse of the function cosine.
+Return the arccosine of the specified angle.
 
 ```cs
 public static float Acos(float x)

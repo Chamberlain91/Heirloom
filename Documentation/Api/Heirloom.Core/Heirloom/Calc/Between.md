@@ -8,12 +8,12 @@
 > **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [Calc][1]
 
-### Between(in float, in float, in float)
+### Between(float, float, float)
 
 Computes the interpolation factor (0.0 to 1.0) of `x` between `min` and `max` .
 
 ```cs
-public static float Between(in float x, in float min, in float max)
+public static float Between(float x, float min, float max)
 ```
 
 | Name | Type    | Summary |

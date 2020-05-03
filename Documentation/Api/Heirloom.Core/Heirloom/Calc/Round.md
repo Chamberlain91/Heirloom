@@ -8,20 +8,6 @@
 > **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [Calc][1]
 
-### Round(double)
-
-Computes the nearest integer of the value `x` .
-
-```cs
-public static int Round(double x)
-```
-
-| Name | Type     | Summary |
-|------|----------|---------|
-| x    | `double` |         |
-
-> **Returns** - `int`
-
 ### Round(float)
 
 Computes the nearest integer of the value `x` .

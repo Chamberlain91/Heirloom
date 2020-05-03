@@ -27,7 +27,7 @@ public struct Circle : IShape, IEquatable<Circle>
 
 ### Methods
 
-[Contains][6], [GetClosestPoint][7], [Overlaps][8], [Project][9], [Raycast][10], [Set][11], [ToPolygon][12]
+[Contains][6], [GetNearestPoint][7], [Overlaps][8], [Project][9], [Raycast][10], [Set][11], [ToPolygon][12]
 
 ## Fields
 
@@ -55,7 +55,7 @@ public struct Circle : IShape, IEquatable<Circle>
 |---------------------------------|---------------|-----------------------------------------------------------------------|
 | [Contains(in Vector)][6]        | `bool`        | Determines if the specified point is contained by the circle.         |
 | [Contains(in Circle)][6]        | `bool`        | Determines if this circle contains another circle.                    |
-| [GetClosestPoint(in Vec...][7]  | [Vector][13]  | Gets the nearest point on the circle to the specified point.          |
+| [GetNearestPoint(in Vec...][7]  | [Vector][13]  | Gets the nearest point on the circle to the specified point.          |
 | [Overlaps(IShape)][8]           | `bool`        | Determines if this circle overlaps another shape.                     |
 | [Overlaps(in Circle)][8]        | `bool`        | Determines if this circle overlaps another circle.                    |
 | [Overlaps(in Rectangle)][8]     | `bool`        | Determines if this circle overlaps the specified rectangle.           |
@@ -75,7 +75,7 @@ public struct Circle : IShape, IEquatable<Circle>
 [4]: Circle/Area.md
 [5]: Circle/Bounds.md
 [6]: Circle/Contains.md
-[7]: Circle/GetClosestPoint.md
+[7]: Circle/GetNearestPoint.md
 [8]: Circle/Overlaps.md
 [9]: Circle/Project.md
 [10]: Circle/Raycast.md

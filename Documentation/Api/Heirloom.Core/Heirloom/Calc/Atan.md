@@ -10,7 +10,7 @@
 
 ### Atan(float)
 
-The inverse of the tangent function.
+Return the arctangent of the specified angle.
 
 ```cs
 public static float Atan(float x)

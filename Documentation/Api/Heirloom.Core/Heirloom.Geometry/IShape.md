@@ -19,7 +19,7 @@ public interface IShape
 
 ### Methods
 
-[Contains][3], [GetClosestPoint][4], [Overlaps][5], [Project][6], [Raycast][7]
+[Contains][3], [GetNearestPoint][4], [Overlaps][5], [Project][6], [Raycast][7]
 
 ## Properties
 
@@ -37,7 +37,7 @@ public interface IShape
 | Name                           | Return Type | Summary                                                     |
 |--------------------------------|-------------|-------------------------------------------------------------|
 | [Contains(in Vector)][3]       | `bool`      | Determines if this shape contains the specified point.      |
-| [GetClosestPoint(in Vec...][4] | [Vector][9] | Gets the nearest point on the shape to the specified point. |
+| [GetNearestPoint(in Vec...][4] | [Vector][9] | Gets the nearest point on the shape to the specified point. |
 | [Overlaps(IShape)][5]          | `bool`      | Determines if this shape overlaps the specified shape.      |
 | [Project(in Vector)][6]        | [Range][10] | Project this shape onto the specified axis.                 |
 | [Raycast(in Ray, out Ra...][7] | `bool`      | Performs a raycast against this shape.                      |
@@ -47,7 +47,7 @@ public interface IShape
 [1]: IShape/Area.md
 [2]: IShape/Bounds.md
 [3]: IShape/Contains.md
-[4]: IShape/GetClosestPoint.md
+[4]: IShape/GetNearestPoint.md
 [5]: IShape/Overlaps.md
 [6]: IShape/Project.md
 [7]: IShape/Raycast.md

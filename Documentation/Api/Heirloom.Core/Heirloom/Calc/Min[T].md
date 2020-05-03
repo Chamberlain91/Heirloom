@@ -20,19 +20,5 @@ public static T Min<T>(params T[] vals)
 
 > **Returns** - `T`
 
-### Min<T>(IList<T>)
-
-Finds the comparably minimum value from the set of value.
-
-```cs
-public static T Min<T>(IList<T> vals)
-```
-
-| Name | Type        | Summary |
-|------|-------------|---------|
-| vals | `IList\<T>` |         |
-
-> **Returns** - `T`
-
 [0]: ../../../Heirloom.Core.md
 [1]: ../Calc.md

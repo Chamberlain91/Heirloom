@@ -38,4 +38,4 @@ public static string GetPrintableKeyName(int scancode)
 
 [0]: ../../../Heirloom.Desktop.md
 [1]: ../Keyboard.md
-[2]: ../Key.md
+[2]: ../../../Heirloom.Core/Heirloom/Key.md

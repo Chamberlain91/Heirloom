@@ -8,20 +8,6 @@
 > **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [Calc][1]
 
-### NearZero(double)
-
-Determines if the value is nearly equal to zero by comparing equality within a [Epsilon][2] threshold.
-
-```cs
-public static bool NearZero(double v)
-```
-
-| Name | Type     | Summary |
-|------|----------|---------|
-| v    | `double` |         |
-
-> **Returns** - `bool`
-
 ### NearZero(float)
 
 Determines if the value is nearly equal to zero by comparing equality within a [Epsilon][2] threshold.

@@ -7,7 +7,7 @@
 
 > **Namespace**: [Heirloom][0]
 
-A glyph represents the metrics and rendering of a character from the associated `!:Drawing.Font` .
+A glyph represents the metrics and rendering of a character from the associated [Font][1] .
 
 ```cs
 public class Glyph
@@ -15,11 +15,11 @@ public class Glyph
 
 ### Properties
 
-[CanBeRendered][1], [Character][2], [Font][3]
+[CanBeRendered][2], [Character][3], [Font][1]
 
 ### Methods
 
-[GetMetrics][4], [RenderTo][5]
+[GetMetrics][4], [RenderGlyph][5], [RenderTo][6]
 
 ## Properties
 
@@ -27,9 +27,9 @@ public class Glyph
 
 | Name               | Type                  | Summary                                                    |
 |--------------------|-----------------------|------------------------------------------------------------|
-| [CanBeRendered][1] | `bool`                | Get a value that determines if this glyph can be rendered. |
-| [Character][2]     | [UnicodeCharacter][6] | Gets the character this glyph represents.                  |
-| [Font][3]          | [Font][7]             | Gets the associated font.                                  |
+| [CanBeRendered][2] | `bool`                | Get a value that determines if this glyph can be rendered. |
+| [Character][3]     | [UnicodeCharacter][7] | Gets the character this glyph represents.                  |
+| [Font][1]          | [Font][8]             | Gets the associated font.                                  |
 
 ## Methods
 
@@ -37,15 +37,18 @@ public class Glyph
 
 | Name                           | Return Type       | Summary                                                             |
 |--------------------------------|-------------------|---------------------------------------------------------------------|
-| [GetMetrics(float)][4]         | [GlyphMetrics][8] | Get the horizontal metrics of the this glyph at the specified size. |
-| [RenderTo(Image, int, i...][5] | `void`            | Renders the glyph into the image.                                   |
+| [GetMetrics(float)][4]         | [GlyphMetrics][9] | Get the horizontal metrics of the this glyph at the specified size. |
+| [RenderGlyph(float)][5]        | [Image][10]       | Renders the glyph into an image.                                    |
+| [RenderTo(Image, int, i...][6] | `void`            | Renders the glyph into an image.                                    |
 
 [0]: ../../Heirloom.Core.md
-[1]: Glyph/CanBeRendered.md
-[2]: Glyph/Character.md
-[3]: Glyph/Font.md
+[1]: Glyph/Font.md
+[2]: Glyph/CanBeRendered.md
+[3]: Glyph/Character.md
 [4]: Glyph/GetMetrics.md
-[5]: Glyph/RenderTo.md
-[6]: UnicodeCharacter.md
-[7]: Font.md
-[8]: GlyphMetrics.md
+[5]: Glyph/RenderGlyph.md
+[6]: Glyph/RenderTo.md
+[7]: UnicodeCharacter.md
+[8]: Font.md
+[9]: GlyphMetrics.md
+[10]: Image.md

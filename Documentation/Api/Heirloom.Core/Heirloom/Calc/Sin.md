@@ -10,7 +10,7 @@
 
 ### Sin(float)
 
-The function sine.
+Return the sine of the specified angle.
 
 ```cs
 public static float Sin(float x)

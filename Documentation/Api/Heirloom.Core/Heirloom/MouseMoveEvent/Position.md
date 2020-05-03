@@ -1,0 +1,18 @@
+# Heirloom.Core
+
+> **Framework**: .NETStandard,Version=v2.1  
+> **Assembly**: [Heirloom.Core][0]
+
+## MouseMoveEvent.Position (Field)
+
+> **Namespace**: [Heirloom][0]  
+> **Declaring Type**: [MouseMoveEvent][1]
+
+#### Position
+
+```cs
+public readonly Vector Position
+```
+
+[0]: ../../../Heirloom.Core.md
+[1]: ../MouseMoveEvent.md

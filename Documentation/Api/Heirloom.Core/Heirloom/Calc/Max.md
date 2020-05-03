@@ -8,125 +8,35 @@
 > **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [Calc][1]
 
-### Max(double, double)
-
-Returns the maximum value between `x` and `y` .
-
-```cs
-public static double Max(double x, double y)
-```
-
-| Name | Type     | Summary |
-|------|----------|---------|
-| x    | `double` |         |
-| y    | `double` |         |
-
-> **Returns** - `double`
-
-### Max(float, float)
-
-Returns the maximum value between `x` and `y` .
-
-```cs
-public static float Max(float x, float y)
-```
-
-| Name | Type    | Summary |
-|------|---------|---------|
-| x    | `float` |         |
-| y    | `float` |         |
-
-> **Returns** - `float`
-
 ### Max(int, int)
 
-Returns the maximum value between `x` and `y` .
+Returns the larger of two values.
 
 ```cs
 public static int Max(int x, int y)
 ```
 
-| Name | Type  | Summary |
-|------|-------|---------|
-| x    | `int` |         |
-| y    | `int` |         |
+| Name | Type  | Summary           |
+|------|-------|-------------------|
+| x    | `int` | The first value.  |
+| y    | `int` | The second value. |
 
-> **Returns** - `int`
+> **Returns** - `int` - The maximum value.
 
-### Max(uint, uint)
+### Max(float, float)
 
-Returns the maximum value between `x` and `y` .
-
-```cs
-public static uint Max(uint x, uint y)
-```
-
-| Name | Type   | Summary |
-|------|--------|---------|
-| x    | `uint` |         |
-| y    | `uint` |         |
-
-> **Returns** - `uint`
-
-### Max(short, short)
-
-Returns the maximum value between `x` and `y` .
+Returns the larger of two values.
 
 ```cs
-public static short Max(short x, short y)
+public static float Max(float x, float y)
 ```
 
-| Name | Type    | Summary |
-|------|---------|---------|
-| x    | `short` |         |
-| y    | `short` |         |
+| Name | Type    | Summary           |
+|------|---------|-------------------|
+| x    | `float` | The first value.  |
+| y    | `float` | The second value. |
 
-> **Returns** - `short`
-
-### Max(ushort, ushort)
-
-Returns the maximum value between `x` and `y` .
-
-```cs
-public static ushort Max(ushort x, ushort y)
-```
-
-| Name | Type     | Summary |
-|------|----------|---------|
-| x    | `ushort` |         |
-| y    | `ushort` |         |
-
-> **Returns** - `ushort`
-
-### Max(sbyte, sbyte)
-
-Returns the maximum value between `x` and `y` .
-
-```cs
-public static sbyte Max(sbyte x, sbyte y)
-```
-
-| Name | Type    | Summary |
-|------|---------|---------|
-| x    | `sbyte` |         |
-| y    | `sbyte` |         |
-
-> **Returns** - `sbyte`
-
-### Max(byte, byte)
-
-Returns the maximum value between `x` and `y` .
-
-```cs
-public static byte Max(byte x, byte y)
-```
-
-| Name | Type    | Summary |
-|------|---------|---------|
-| x    | ` byte` |         |
-| y    | ` byte` |         |
-
-> **Returns** - ` byte`
+> **Returns** - `float` - The maximum value.
 
 ### Max(params int[])
 

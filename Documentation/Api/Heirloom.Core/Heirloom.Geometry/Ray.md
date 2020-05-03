@@ -7,7 +7,7 @@
 
 > **Namespace**: [Heirloom.Geometry][0]
 
-Represents a ray by orgin and direction vectors.
+Represents a ray by orgin point and directional vector.
 
 ```cs
 public struct Ray : IEquatable<Ray>

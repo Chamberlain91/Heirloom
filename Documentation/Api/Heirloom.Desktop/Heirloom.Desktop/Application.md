@@ -7,6 +7,8 @@
 
 > **Namespace**: [Heirloom.Desktop][0]
 
+Controls a desktop application. Use this class to initialize window system and process events.
+
 ```cs
 public static class Application
 ```

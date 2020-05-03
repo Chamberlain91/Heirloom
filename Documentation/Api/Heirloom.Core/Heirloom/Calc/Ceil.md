@@ -8,20 +8,6 @@
 > **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [Calc][1]
 
-### Ceil(double)
-
-Computes the ceiling integer (rounding up) of the value `x` .
-
-```cs
-public static int Ceil(double x)
-```
-
-| Name | Type     | Summary |
-|------|----------|---------|
-| x    | `double` |         |
-
-> **Returns** - `int`
-
 ### Ceil(float)
 
 Computes the ceiling integer (rounding up) of the value `x` .

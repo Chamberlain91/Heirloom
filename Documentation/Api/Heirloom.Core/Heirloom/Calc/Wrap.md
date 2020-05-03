@@ -50,7 +50,7 @@ public static int Wrap(int x, IntRange range)
 | Name  | Type          | Summary             |
 |-------|---------------|---------------------|
 | x     | `int`         | Some value to wrap. |
-| range | [IntRange][2] |                     |
+| range | [IntRange][2] | Some range.         |
 
 > **Returns** - `int` - The resulting number contrained to the range in a loop.
 
@@ -96,7 +96,7 @@ public static float Wrap(float x, Range range)
 | Name  | Type       | Summary             |
 |-------|------------|---------------------|
 | x     | `float`    | Some value to wrap. |
-| range | [Range][3] |                     |
+| range | [Range][3] | Some range.         |
 
 > **Returns** - `float` - The resulting number contrained to the range in a loop.
 

@@ -10,31 +10,17 @@
 
 ### Sqrt(float)
 
-Computes the square root of `x` .
+Returns the absolute value of some number.
 
 ```cs
 public static float Sqrt(float x)
 ```
 
-| Name | Type    | Summary |
-|------|---------|---------|
-| x    | `float` |         |
+| Name | Type    | Summary     |
+|------|---------|-------------|
+| x    | `float` | Some value. |
 
-> **Returns** - `float`
-
-### Sqrt(double)
-
-Computes the square root of `x` .
-
-```cs
-public static double Sqrt(double x)
-```
-
-| Name | Type     | Summary |
-|------|----------|---------|
-| x    | `double` |         |
-
-> **Returns** - `double`
+> **Returns** - `float` - The absolute value.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Calc.md

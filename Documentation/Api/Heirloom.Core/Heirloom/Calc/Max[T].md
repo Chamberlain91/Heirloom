@@ -20,19 +20,5 @@ public static T Max<T>(params T[] vals)
 
 > **Returns** - `T`
 
-### Max<T>(IList<T>)
-
-Finds the comparably maximum value from the set of value.
-
-```cs
-public static T Max<T>(IList<T> vals)
-```
-
-| Name | Type        | Summary |
-|------|-------------|---------|
-| vals | `IList\<T>` |         |
-
-> **Returns** - `T`
-
 [0]: ../../../Heirloom.Core.md
 [1]: ../Calc.md

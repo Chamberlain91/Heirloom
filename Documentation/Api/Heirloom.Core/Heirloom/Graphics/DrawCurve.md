@@ -8,12 +8,12 @@
 > **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [Graphics][1]
 
-### DrawCurve(in Vector, in Vector, in Vector, float)
+### DrawCurve(Vector, Vector, Vector, float)
 
 Draws a quadratic curve using three control points to the current surface.
 
 ```cs
-public void DrawCurve(in Vector p0, in Vector p1, in Vector p2, float width = 1)
+public void DrawCurve(Vector p0, Vector p1, Vector p2, float width = 1)
 ```
 
 | Name  | Type        | Summary                              |
@@ -25,12 +25,12 @@ public void DrawCurve(in Vector p0, in Vector p1, in Vector p2, float width = 1)
 
 > **Returns** - `void`
 
-### DrawCurve(in Vector, in Vector, in Vector, in Vector, float)
+### DrawCurve(Vector, Vector, Vector, Vector, float)
 
 Draws a cubic curve using four control points to the current surface.
 
 ```cs
-public void DrawCurve(in Vector p0, in Vector p1, in Vector p2, in Vector p3, float width = 1)
+public void DrawCurve(Vector p0, Vector p1, Vector p2, Vector p3, float width = 1)
 ```
 
 | Name  | Type        | Summary                              |
@@ -43,6 +43,20 @@ public void DrawCurve(in Vector p0, in Vector p1, in Vector p2, in Vector p3, fl
 
 > **Returns** - `void`
 
+### DrawCurve(Curve, float)
+
+```cs
+public void DrawCurve(Curve curve, float width = 1)
+```
+
+| Name  | Type       | Summary |
+|-------|------------|---------|
+| curve | [Curve][3] |         |
+| width | `float`    |         |
+
+> **Returns** - `void`
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../Graphics.md
 [2]: ../Vector.md
+[3]: ../../Heirloom.Geometry/Curve.md
