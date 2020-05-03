@@ -155,7 +155,7 @@ namespace Heirloom
         /// Gets the latest state of a mouse button.
         /// </summary>
         /// <param name="button">Some button.</param>
-        public static ButtonState GetButton(MouseButton button)
+        public static ButtonState GetMouse(MouseButton button)
         {
             foreach (var source in _sources)
             {
@@ -177,7 +177,7 @@ namespace Heirloom
         /// <param name="state">Some desired comparison state.</param>
         public static bool CheckMouse(MouseButton button, ButtonState state)
         {
-            return GetButton(button).HasFlag(state);
+            return GetMouse(button).HasFlag(state);
         }
 
         internal static void UpdateMouse(Vector position, Vector delta)

@@ -3,17 +3,17 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]
 
-## Input.GetButton (Method)
+## Input.GetMouse (Method)
 
 > **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [Input][1]
 
-### GetButton(MouseButton)
+### GetMouse(MouseButton)
 
 Gets the latest state of a mouse button.
 
 ```cs
-public static ButtonState GetButton(MouseButton button)
+public static ButtonState GetMouse(MouseButton button)
 ```
 
 | Name   | Type             | Summary      |
