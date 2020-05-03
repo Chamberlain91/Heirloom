@@ -10,7 +10,7 @@
 
 ### Osc(float)
 
-The function sine mapped to [0.0, 1.0].
+The function [Sin][2] mapped to [0.0, 1.0].
 
 ```cs
 public static float Osc(float x)
@@ -24,3 +24,4 @@ public static float Osc(float x)
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Calc.md
+[2]: Sin.md

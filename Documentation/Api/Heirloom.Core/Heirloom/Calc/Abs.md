@@ -8,75 +8,33 @@
 > **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [Calc][1]
 
-### Abs(double)
-
-Computes the absolute value of `x` .
-
-```cs
-public static double Abs(double x)
-```
-
-| Name | Type     | Summary |
-|------|----------|---------|
-| x    | `double` |         |
-
-> **Returns** - `double`
-
-### Abs(float)
-
-Computes the absolute value of `x` .
-
-```cs
-public static float Abs(float x)
-```
-
-| Name | Type    | Summary |
-|------|---------|---------|
-| x    | `float` |         |
-
-> **Returns** - `float`
-
 ### Abs(int)
 
-Computes the absolute value of `x` .
+Returns the absolute value of some number.
 
 ```cs
 public static int Abs(int x)
 ```
 
-| Name | Type  | Summary |
-|------|-------|---------|
-| x    | `int` |         |
+| Name | Type  | Summary     |
+|------|-------|-------------|
+| x    | `int` | Some value. |
 
-> **Returns** - `int`
+> **Returns** - `int` - The absolute value.
 
-### Abs(short)
+### Abs(float)
 
-Computes the absolute value of `x` .
-
-```cs
-public static short Abs(short x)
-```
-
-| Name | Type    | Summary |
-|------|---------|---------|
-| x    | `short` |         |
-
-> **Returns** - `short`
-
-### Abs(sbyte)
-
-Computes the absolute value of `x` .
+Returns the absolute value of some number.
 
 ```cs
-public static sbyte Abs(sbyte x)
+public static float Abs(float x)
 ```
 
-| Name | Type    | Summary |
-|------|---------|---------|
-| x    | `sbyte` |         |
+| Name | Type    | Summary     |
+|------|---------|-------------|
+| x    | `float` | Some value. |
 
-> **Returns** - `sbyte`
+> **Returns** - `float` - The absolute value.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Calc.md

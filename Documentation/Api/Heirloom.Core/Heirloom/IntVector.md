@@ -82,11 +82,11 @@ IEquatable\<IntVector>
 | Name                            | Return Type     | Summary                                                                |
 |---------------------------------|-----------------|------------------------------------------------------------------------|
 | [Abs(IntVector)][15]            | [IntVector][23] | Computes a new vector where each component is the absolute value of... |
-| [Distance(in IntVector,...][16] | `float`         | Computes the euclidean distance between any two vectors.               |
-| [DistanceSquared(in Int...][17] | `int`           | Computes the squared euclidean distance between any two vectors.       |
+| [Distance(in Vector, in...][16] | `float`         | Computes the euclidean distance between any two vectors.               |
+| [DistanceSquared(in Vec...][17] | `float`         | Computes the squared euclidean distance between any two vectors.       |
 | [GetMaxComponent(IntVec...][18] | `int`           | Gets the maximal component in the input vector.                        |
 | [GetMinComponent(IntVec...][19] | `int`           | Gets the minimal component in the input vector.                        |
-| [ManhattanDistance(in I...][20] | `int`           | Computes the manhattan distance between any two vectors.               |
+| [ManhattanDistance(in V...][20] | `float`         | Computes the manhattan distance between any two vectors.               |
 | [Max(IntVector, IntVector)][21] | [IntVector][23] | Computes a new vector where each component is the maximum component... |
 | [Min(IntVector, IntVector)][22] | [IntVector][23] | Computes a new vector where each component is the minimum component... |
 

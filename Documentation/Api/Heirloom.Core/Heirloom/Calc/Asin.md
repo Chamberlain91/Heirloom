@@ -10,7 +10,7 @@
 
 ### Asin(float)
 
-Ihe inverse of the function sine.
+Return the arcsine of the specified angle.
 
 ```cs
 public static float Asin(float x)

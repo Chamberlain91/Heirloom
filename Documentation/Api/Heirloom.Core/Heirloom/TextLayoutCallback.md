@@ -7,6 +7,8 @@
 
 > **Namespace**: [Heirloom][0]
 
+Delegate type for the callback when performing text layout.
+
 ```cs
 public void TextLayoutCallback(string text, int index, ref TextLayoutState state)
 ```

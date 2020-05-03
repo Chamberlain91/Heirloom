@@ -19,7 +19,7 @@ public static Rectangle Measure(string text, Font font, int fontSize)
 | Name     | Type      | Summary                         |
 |----------|-----------|---------------------------------|
 | text     | `string`  | The text to layout and measure. |
-| font     | [Font][2] |                                 |
+| font     | [Font][2] | The font to use.                |
 | fontSize | `int`     | The font size to use.           |
 
 > **Returns** - [Rectangle][3]
@@ -36,7 +36,7 @@ public static Rectangle Measure(string text, in Size layoutSize, Font font, int 
 |------------|-----------|---------------------------------|
 | text       | `string`  | The text to layout and measure. |
 | layoutSize | [Size][4] | The size of the layout box.     |
-| font       | [Font][2] |                                 |
+| font       | [Font][2] | The font to use.                |
 | fontSize   | `int`     | The font size to use.           |
 
 > **Returns** - [Rectangle][3]
@@ -49,12 +49,12 @@ Computes the bounding box that the specified text will occupy within the given l
 public static Rectangle Measure(string text, in Rectangle layoutBox, Font font, int fontSize)
 ```
 
-| Name      | Type           | Summary                         |
-|-----------|----------------|---------------------------------|
-| text      | `string`       | The text to layout and measure. |
-| layoutBox | [Rectangle][3] |                                 |
-| font      | [Font][2]      |                                 |
-| fontSize  | `int`          | The font size to use.           |
+| Name      | Type           | Summary                            |
+|-----------|----------------|------------------------------------|
+| text      | `string`       | The text to layout and measure.    |
+| layoutBox | [Rectangle][3] | The layout box.                    |
+| font      | [Font][2]      | The font to use.                   |
+| fontSize  | `int`          | The size to measure the font with. |
 
 > **Returns** - [Rectangle][3]
 

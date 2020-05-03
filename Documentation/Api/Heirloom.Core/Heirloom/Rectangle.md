@@ -25,7 +25,7 @@ public struct Rectangle : IShape, IEquatable<Rectangle>
 
 ### Methods
 
-[Contains][21], [Deconstruct][22], [GetClosestPoint][23], [Include][24], [Inflate][25], [Offset][26], [Overlaps][27], [Project][28], [Raycast][29], [Set][30], [ToPolygon][31], [Transform][32]
+[Contains][21], [Deconstruct][22], [GetNearestPoint][23], [Include][24], [Inflate][25], [Offset][26], [Overlaps][27], [Project][28], [Raycast][29], [Set][30], [ToPolygon][31], [Transform][32]
 
 ### Static Properties
 
@@ -87,7 +87,7 @@ public struct Rectangle : IShape, IEquatable<Rectangle>
 | [Contains(in Rectangle)][21]    | `bool`          | Determines if this rectangle contains another rectangle?               |
 | [Deconstruct(out float,...][22] | `void`          |                                                                        |
 | [Deconstruct(out Vector...][22] | `void`          |                                                                        |
-| [GetClosestPoint(in Vec...][23] | [Vector][39]    | Returns the nearest point on the rectangle to the given point.         |
+| [GetNearestPoint(in Vec...][23] | [Vector][39]    | Returns the nearest point on the rectangle to the given point.         |
 | [Include(Vector)][24]           | `void`          | Mutates this rectangle to accommodate the given point.                 |
 | [Include(in Rectangle)][24]     | `void`          | Mutates this rectangle to accommodate the given rectangle.             |
 | [Inflate(float)][25]            | `void`          | Expands (or shrinks) the rectangle by a factor on both axis.           |
@@ -144,7 +144,7 @@ public struct Rectangle : IShape, IEquatable<Rectangle>
 [20]: Rectangle/TopRight.md
 [21]: Rectangle/Contains.md
 [22]: Rectangle/Deconstruct.md
-[23]: Rectangle/GetClosestPoint.md
+[23]: Rectangle/GetNearestPoint.md
 [24]: Rectangle/Include.md
 [25]: Rectangle/Inflate.md
 [26]: Rectangle/Offset.md

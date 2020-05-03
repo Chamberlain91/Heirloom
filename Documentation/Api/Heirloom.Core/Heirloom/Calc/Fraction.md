@@ -8,20 +8,6 @@
 > **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [Calc][1]
 
-### Fraction(double)
-
-Compute the fractional (decimal) portion of the number `x` .
-
-```cs
-public static double Fraction(double x)
-```
-
-| Name | Type     | Summary |
-|------|----------|---------|
-| x    | `double` |         |
-
-> **Returns** - `double`
-
 ### Fraction(float)
 
 Compute the fractional (decimal) portion of the number `x` .

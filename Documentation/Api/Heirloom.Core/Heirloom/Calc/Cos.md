@@ -10,7 +10,7 @@
 
 ### Cos(float)
 
-The function cosine.
+Return the cosine of the specified angle.
 
 ```cs
 public static float Cos(float x)

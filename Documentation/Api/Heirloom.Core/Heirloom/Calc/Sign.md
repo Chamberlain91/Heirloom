@@ -8,75 +8,33 @@
 > **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [Calc][1]
 
-### Sign(double)
-
-Returns the sign of `x` as if compared against zero (-1, 0 or +1)
-
-```cs
-public static int Sign(double x)
-```
-
-| Name | Type     | Summary |
-|------|----------|---------|
-| x    | `double` |         |
-
-> **Returns** - `int`
-
-### Sign(float)
-
-Returns the sign of `x` as if compared against zero (-1, 0 or +1)
-
-```cs
-public static int Sign(float x)
-```
-
-| Name | Type    | Summary |
-|------|---------|---------|
-| x    | `float` |         |
-
-> **Returns** - `int`
-
 ### Sign(int)
 
-Returns the sign of `x` as if compared against zero (-1, 0 or +1)
+Returns an integer that represents the sign of the specified number.
 
 ```cs
 public static int Sign(int x)
 ```
 
-| Name | Type  | Summary |
-|------|-------|---------|
-| x    | `int` |         |
+| Name | Type  | Summary      |
+|------|-------|--------------|
+| x    | `int` | Some number. |
 
-> **Returns** - `int`
+> **Returns** - `int` - Will return -1 if negative, 0 if zero and +1 if positive.
 
-### Sign(short)
+### Sign(float)
 
-Returns the sign of `x` as if compared against zero (-1, 0 or +1)
-
-```cs
-public static int Sign(short x)
-```
-
-| Name | Type    | Summary |
-|------|---------|---------|
-| x    | `short` |         |
-
-> **Returns** - `int`
-
-### Sign(sbyte)
-
-Returns the sign of `x` as if compared against zero (-1, 0 or +1)
+Returns an integer that represents the sign of the specified number.
 
 ```cs
-public static int Sign(sbyte x)
+public static int Sign(float x)
 ```
 
-| Name | Type    | Summary |
-|------|---------|---------|
-| x    | `sbyte` |         |
+| Name | Type    | Summary      |
+|------|---------|--------------|
+| x    | `float` | Some number. |
 
-> **Returns** - `int`
+> **Returns** - `int` - Will return -1 if negative, 0 if zero and +1 if positive.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Calc.md

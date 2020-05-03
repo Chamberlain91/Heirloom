@@ -8,20 +8,21 @@
 > **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [IntVector][1]
 
-### ManhattanDistance(in IntVector, in IntVector)
+### ManhattanDistance(in Vector, in Vector)
 
 Computes the manhattan distance between any two vectors.
 
 ```cs
-public static int ManhattanDistance(in IntVector a, in IntVector b)
+public static float ManhattanDistance(in Vector a, in Vector b)
 ```
 
-| Name | Type           | Summary |
-|------|----------------|---------|
-| a    | [IntVector][1] |         |
-| b    | [IntVector][1] |         |
+| Name | Type        | Summary |
+|------|-------------|---------|
+| a    | [Vector][2] |         |
+| b    | [Vector][2] |         |
 
-> **Returns** - `int`
+> **Returns** - `float`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IntVector.md
+[2]: ../Vector.md

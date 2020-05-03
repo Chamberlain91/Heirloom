@@ -22,6 +22,8 @@ protected void Dispose(bool disposeManaged)
 
 ### Dispose()
 
+Dispose the current font, freeing unmanaged resources.
+
 ```cs
 public void Dispose()
 ```

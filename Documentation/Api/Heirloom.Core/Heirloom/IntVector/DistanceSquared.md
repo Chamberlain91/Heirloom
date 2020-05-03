@@ -8,20 +8,21 @@
 > **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [IntVector][1]
 
-### DistanceSquared(in IntVector, in IntVector)
+### DistanceSquared(in Vector, in Vector)
 
 Computes the squared euclidean distance between any two vectors.
 
 ```cs
-public static int DistanceSquared(in IntVector a, in IntVector b)
+public static float DistanceSquared(in Vector a, in Vector b)
 ```
 
-| Name | Type           | Summary |
-|------|----------------|---------|
-| a    | [IntVector][1] |         |
-| b    | [IntVector][1] |         |
+| Name | Type        | Summary |
+|------|-------------|---------|
+| a    | [Vector][2] |         |
+| b    | [Vector][2] |         |
 
-> **Returns** - `int`
+> **Returns** - `float`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IntVector.md
+[2]: ../Vector.md

@@ -8,20 +8,6 @@
 > **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [Calc][1]
 
-### Floor(double)
-
-Computes the floor integer (rounding down) of the value `x` .
-
-```cs
-public static int Floor(double x)
-```
-
-| Name | Type     | Summary |
-|------|----------|---------|
-| x    | `double` |         |
-
-> **Returns** - `int`
-
 ### Floor(float)
 
 Computes the floor integer (rounding down) of the value `x` .

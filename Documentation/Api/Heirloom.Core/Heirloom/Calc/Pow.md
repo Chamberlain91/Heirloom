@@ -23,20 +23,5 @@ public static float Pow(float x, float y)
 
 > **Returns** - `float`
 
-### Pow(double, double)
-
-Computes `x` raised to the power of `y` .
-
-```cs
-public static double Pow(double x, double y)
-```
-
-| Name | Type     | Summary |
-|------|----------|---------|
-| x    | `double` |         |
-| y    | `double` |         |
-
-> **Returns** - `double`
-
 [0]: ../../../Heirloom.Core.md
 [1]: ../Calc.md

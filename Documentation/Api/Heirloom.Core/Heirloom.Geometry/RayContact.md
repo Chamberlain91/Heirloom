@@ -7,7 +7,7 @@
 
 > **Namespace**: [Heirloom.Geometry][0]
 
-Represents the result of a ray-shape intersection.
+Represents the result of a ray to shape intersection.
 
 ```cs
 public struct RayContact : IEquatable<RayContact>

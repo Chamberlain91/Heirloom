@@ -7,6 +7,8 @@
 
 > **Namespace**: [Heirloom][0]
 
+Delegate type for the callback when drawing text.
+
 ```cs
 public void DrawTextCallback(string text, int index, ref TextDrawState state)
 ```

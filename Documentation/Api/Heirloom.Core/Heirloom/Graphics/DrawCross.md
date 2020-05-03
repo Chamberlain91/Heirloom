@@ -13,7 +13,7 @@
 Draws a simple axis aligned 'cross' or 'plus' shape, useful for debugging positions.
 
 ```cs
-public void DrawCross(in Vector center, float size = 2, float width = 1)
+public void DrawCross(in Vector center, float size = 3, float width = 1)
 ```
 
 | Name   | Type        | Summary                                             |

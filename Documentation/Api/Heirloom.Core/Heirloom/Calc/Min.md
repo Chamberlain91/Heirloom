@@ -8,125 +8,35 @@
 > **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [Calc][1]
 
-### Min(double, double)
-
-Returns the minimum value between `x` and `y` .
-
-```cs
-public static double Min(double x, double y)
-```
-
-| Name | Type     | Summary |
-|------|----------|---------|
-| x    | `double` |         |
-| y    | `double` |         |
-
-> **Returns** - `double`
-
-### Min(float, float)
-
-Returns the minimum value between `x` and `y` .
-
-```cs
-public static float Min(float x, float y)
-```
-
-| Name | Type    | Summary |
-|------|---------|---------|
-| x    | `float` |         |
-| y    | `float` |         |
-
-> **Returns** - `float`
-
 ### Min(int, int)
 
-Returns the minimum value between `x` and `y` .
+Returns the smaller of two values.
 
 ```cs
 public static int Min(int x, int y)
 ```
 
-| Name | Type  | Summary |
-|------|-------|---------|
-| x    | `int` |         |
-| y    | `int` |         |
+| Name | Type  | Summary           |
+|------|-------|-------------------|
+| x    | `int` | The first value.  |
+| y    | `int` | The second value. |
 
-> **Returns** - `int`
+> **Returns** - `int` - The minimum value.
 
-### Min(uint, uint)
+### Min(float, float)
 
-Returns the minimum value between `x` and `y` .
-
-```cs
-public static uint Min(uint x, uint y)
-```
-
-| Name | Type   | Summary |
-|------|--------|---------|
-| x    | `uint` |         |
-| y    | `uint` |         |
-
-> **Returns** - `uint`
-
-### Min(short, short)
-
-Returns the minimum value between `x` and `y` .
+Returns the smaller of two values.
 
 ```cs
-public static short Min(short x, short y)
+public static float Min(float x, float y)
 ```
 
-| Name | Type    | Summary |
-|------|---------|---------|
-| x    | `short` |         |
-| y    | `short` |         |
+| Name | Type    | Summary           |
+|------|---------|-------------------|
+| x    | `float` | The first value.  |
+| y    | `float` | The second value. |
 
-> **Returns** - `short`
-
-### Min(ushort, ushort)
-
-Returns the minimum value between `x` and `y` .
-
-```cs
-public static ushort Min(ushort x, ushort y)
-```
-
-| Name | Type     | Summary |
-|------|----------|---------|
-| x    | `ushort` |         |
-| y    | `ushort` |         |
-
-> **Returns** - `ushort`
-
-### Min(sbyte, sbyte)
-
-Returns the minimum value between `x` and `y` .
-
-```cs
-public static sbyte Min(sbyte x, sbyte y)
-```
-
-| Name | Type    | Summary |
-|------|---------|---------|
-| x    | `sbyte` |         |
-| y    | `sbyte` |         |
-
-> **Returns** - `sbyte`
-
-### Min(byte, byte)
-
-Returns the minimum value between `x` and `y` .
-
-```cs
-public static byte Min(byte x, byte y)
-```
-
-| Name | Type    | Summary |
-|------|---------|---------|
-| x    | ` byte` |         |
-| y    | ` byte` |         |
-
-> **Returns** - ` byte`
+> **Returns** - `float` - The minimum value.
 
 ### Min(params int[])
 

@@ -31,6 +31,8 @@ Swaps two positions within the given list.
 public static void Swap<T>(IList<T> list, int a, int b)
 ```
 
+`ExtensionAttribute`
+
 | Name | Type        | Summary |
 |------|-------------|---------|
 | list | `IList\<T>` |         |

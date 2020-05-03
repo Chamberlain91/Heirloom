@@ -7,6 +7,8 @@
 
 > **Namespace**: [Heirloom][0]
 
+An object to represent a truetype font. Provides functionality to query and measure aspects of the font.
+
 ```cs
 public class Font : IDisposable
 ```
@@ -36,7 +38,7 @@ IDisposable
 | Name                           | Return Type      | Summary                                                               |
 |--------------------------------|------------------|-----------------------------------------------------------------------|
 | [Dispose(bool)][1]             | `void`           |                                                                       |
-| [Dispose()][1]                 | `void`           |                                                                       |
+| [Dispose()][1]                 | `void`           | Dispose the current font, freeing unmanaged resources.                |
 | [GetGlyph(char)][2]            | [Glyph][7]       | Gets the information about a particular glyph in this font.           |
 | [GetGlyph(UnicodeCharac...][2] | [Glyph][7]       | Gets the information about a particular glyph in this font.           |
 | [GetKerning(UnicodeChar...][3] | `float`          | Gets the spacing adjustment (ie, kerning) between any two characters. |
