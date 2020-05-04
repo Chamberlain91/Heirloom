@@ -16,6 +16,7 @@
     <None Remove="Files\tile_0007.png" />
     <None Remove="Files\tile_0008.png" />
     <None Remove="Files\tile_0009.png" />
+    <None Remove="Files\tile_0010.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +30,7 @@
     <EmbeddedResource Include="Files\tile_0007.png" />
     <EmbeddedResource Include="Files\tile_0008.png" />
     <EmbeddedResource Include="Files\tile_0009.png" />
+    <EmbeddedResource Include="Files\tile_0010.png" />
   </ItemGroup>
 
   <ItemGroup>

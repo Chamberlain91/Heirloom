@@ -48,37 +48,28 @@ namespace Examples.MazeAI
                     if ((Tiles.IsValidCoordinate(east) && Tiles[east] == 0) || co.X == 30) { face |= Face.East; }
                     if ((Tiles.IsValidCoordinate(west) && Tiles[west] == 0) || co.X == 0) { face |= Face.West; }
 
-                    // 
-                    Tiles[co] = 1;
-
+                    // Cross Wall
                     if (face == Face.None) { Tiles[co] = 2; }
-                    else
-                    {
-                        // Vertical Wall
-                        if (face == (Face.East | Face.West)) { Tiles[co] = 3; }
-                        else if (face == (Face.East | Face.West | Face.North)) { Tiles[co] = 3; }
-                        else if (face == (Face.East | Face.West | Face.South)) { Tiles[co] = 8; }
-                        // Horizontal Wall
-                        else if (face == (Face.South | Face.North | Face.West)) { Tiles[co] = 1; }
-                        else if (face == (Face.South | Face.North | Face.East)) { Tiles[co] = 1; }
-                        else if (face == (Face.South | Face.North)) { Tiles[co] = 1; }
-                        else if (face == Face.South) { Tiles[co] = 1; }
-                        // Horizontal To Vertical (Cross)
-                        else if (face == Face.North) { Tiles[co] = 2; }
-                        else if (face == Face.None) { Tiles[co] = 2; }
-                        // Upper Right Corner
-                        else if (face == Face.East) { Tiles[co] = 4; }
-                        else if (face == (Face.East | Face.North)) { Tiles[co] = 4; }
-                        // Upper Left Corner
-                        else if (face == Face.West) { Tiles[co] = 5; }
-                        else if (face == (Face.West | Face.North)) { Tiles[co] = 5; }
-                        // Bottom Right Corner
-                        else if (face == (Face.South | Face.East)) { Tiles[co] = 6; }
-                        // Bottom Left Corner
-                        else if (face == (Face.South | Face.West)) { Tiles[co] = 7; }
-                        // Trash Image
-                        else { Tiles[co] = -1; }
-                    }
+                    else if (face == Face.North) { Tiles[co] = 2; }
+                    // Vertical Wall
+                    else if (face.HasFlag(Face.East | Face.West)) { Tiles[co] = face.HasFlag(Face.South) ? 8 : 3; }
+                    // Horizontal Wall 
+                    else if (face == (Face.South | Face.North | Face.East)) { Tiles[co] = 9; }
+                    else if (face == (Face.South | Face.North | Face.West)) { Tiles[co] = 10; }
+                    else if (face == (Face.South | Face.North)) { Tiles[co] = 1; }
+                    else if (face == Face.South) { Tiles[co] = 1; }
+                    // Upper Right Corner
+                    else if (face == (Face.East | Face.North)) { Tiles[co] = 4; }
+                    else if (face == Face.East) { Tiles[co] = 4; }
+                    // Upper Left Corner
+                    else if (face == (Face.West | Face.North)) { Tiles[co] = 5; }
+                    else if (face == Face.West) { Tiles[co] = 5; }
+                    // Bottom Right Corner
+                    else if (face == (Face.South | Face.East)) { Tiles[co] = 6; }
+                    // Bottom Left Corner
+                    else if (face == (Face.South | Face.West)) { Tiles[co] = 7; }
+                    // Unable to determine tile to use
+                    else { Tiles[co] = -1; }
                 }
             }
         }
