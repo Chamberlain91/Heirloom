@@ -194,7 +194,7 @@ namespace Heirloom.Desktop
             Application.AddWindow(this);
 
             // Create "default surface"
-            Surface = new Surface(framebufferSize, multisample, true);
+            Surface = new Surface(framebufferSize, multisample, SurfaceType.UnsignedByte, true);
 
             // Create graphics context for this window
             Graphics = Application.CreateGraphics(this, vsync);

@@ -20,7 +20,7 @@ namespace Examples.Depth
         private float _time;
 
         public Program()
-            : base(new Window("Post Processing Effects", MultisampleQuality.None, vsync: false), MultisampleQuality.None)
+            : base(new Window("Post Processing Effects", MultisampleQuality.Low), MultisampleQuality.Low)
         {
             Window.Graphics.Performance.OverlayMode = PerformanceOverlayMode.Standard;
             Window.Maximize();

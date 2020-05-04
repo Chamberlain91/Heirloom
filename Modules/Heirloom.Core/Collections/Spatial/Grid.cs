@@ -69,7 +69,15 @@ namespace Heirloom.Collections
         /// </summary>
         public void Clear()
         {
-            Array.Clear(_data, 0, _data.Length);
+            Clear(default);
+        }
+
+        /// <summary>
+        /// Sets all values in the grid to some value of <typeparamref name="T"/>.
+        /// </summary>
+        public void Clear(T val)
+        {
+            Array.Fill(_data, val);
         }
 
         /// <summary>

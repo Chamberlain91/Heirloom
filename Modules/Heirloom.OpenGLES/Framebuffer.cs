@@ -15,7 +15,7 @@ namespace Heirloom.OpenGLES
         /// <summary>
         /// The framebuffer associated with the multisampled renderbuffer.
         /// </summary>
-        public readonly RenderbufferTarget RenderbufferFBO;
+        public readonly TextureTarget MultisampleFBO;
 
         /// <summary>
         /// The framebuffer associated with the surface texture.
@@ -42,13 +42,14 @@ namespace Heirloom.OpenGLES
 
             _surface = surface ?? throw new ArgumentNullException(nameof(surface));
 
-            // Construct texture FBO
+            // Construct target
             TextureFBO = new TextureTarget(graphics, _storage.Texture);
 
-            if (_storage.HasRenderbuffer)
+            if (_storage.HasMultisampleTarget)
             {
-                // Construct renderbuffer FBO (MSAA)
-                RenderbufferFBO = new RenderbufferTarget(graphics, _storage.Renderbuffer);
+                // Construct msaa target
+                MultisampleFBO = new TextureTarget(graphics, _storage.MultisampleTexture);
+                // RenderbufferFBO = new RenderbufferTarget(graphics, _storage.Renderbuffer);
             }
         }
 
@@ -64,7 +65,7 @@ namespace Heirloom.OpenGLES
         /// <summary>
         /// Does this framebuffer support multisampling?
         /// </summary>
-        public bool HasRenderbuffer => RenderbufferFBO != null;
+        public bool HasMultisampleTarget => _storage.HasMultisampleTarget;
 
         /// <summary>
         /// Is this framebuffer out of date?
@@ -80,10 +81,10 @@ namespace Heirloom.OpenGLES
         /// </summary>
         internal void BindToDraw()
         {
-            if (HasRenderbuffer)
+            if (HasMultisampleTarget)
             {
                 // Render into multisample buffer, later blitted into texture buffer for read operations
-                GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, RenderbufferFBO.Handle);
+                GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, MultisampleFBO.Handle);
             }
             else
             {
@@ -114,13 +115,13 @@ namespace Heirloom.OpenGLES
             if (IsDirty)
             {
                 // Copy and resolve renderbuffer (if exists) to texture
-                if (HasRenderbuffer)
+                if (HasMultisampleTarget)
                 {
                     // Get current draw framebuffer
                     var drawBuffer = (uint) GL.GetInteger(GetParameter.DrawFramebufferBinding);
 
                     // Set read and draw framebuffers for the blit
-                    GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, RenderbufferFBO.Handle);
+                    GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, MultisampleFBO.Handle);
                     GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, TextureFBO.Handle);
 
                     // Blit from multisampled buffer to texture buffer
@@ -150,7 +151,7 @@ namespace Heirloom.OpenGLES
                 }
 
                 // Dispose framebuffers
-                RenderbufferFBO?.Dispose();
+                MultisampleFBO?.Dispose();
                 TextureFBO.Dispose();
 
                 _isDisposed = true;
@@ -262,7 +263,7 @@ namespace Heirloom.OpenGLES
                 GL.BindFramebuffer(FramebufferTarget.Framebuffer, Handle);
 
                 // Attach to framebuffer
-                GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.Color0, TextureImageTarget.Texture2D, Texture.Handle, 0);
+                GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.Color0, (TextureImageTarget) texture.Target, Texture.Handle, 0);
 
                 // Ensure framebuffer is valid
                 var status = GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer);

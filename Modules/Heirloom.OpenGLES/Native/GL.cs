@@ -1578,6 +1578,14 @@ namespace Heirloom.OpenGLES
             CheckError(nameof(TexStorage2D));
         }
 
+        // ES 3.1
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void TexStorage2DMultisample(TextureImageTarget target, int samples, TextureSizedFormat format, int width, int height, bool fixedSampleLocations = false)
+        {
+            glTexStorage2DMultisample(target, samples, format, width, height, fixedSampleLocations);
+            CheckError(nameof(TexStorage2DMultisample));
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void TexStorage3D(TextureImageTarget target, int levels, TextureSizedFormat format, int width, int height, int depth)
         {

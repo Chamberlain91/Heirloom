@@ -88,6 +88,28 @@ namespace Heirloom
 
         #endregion
 
+        #region Indexers
+
+        /// <summary>
+        /// Gets or sets the color a pixel in this image.
+        /// </summary>
+        public ColorBytes this[IntVector co]
+        {
+            get => GetPixel(co);
+            set => SetPixel(co, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the color a pixel in this image.
+        /// </summary>
+        public ColorBytes this[int x, int y]
+        {
+            get => GetPixel(x, y);
+            set => SetPixel(x, y, value);
+        }
+
+        #endregion
+
         #region Properties
 
         public override IntSize Size

@@ -1,23 +1,36 @@
+using System;
+
 namespace Heirloom.OpenGLES
 {
     internal sealed class FramebufferStorage
     {
-        public readonly Renderbuffer Renderbuffer;
+        // public readonly Renderbuffer Renderbuffer;
+
+        public readonly Texture MultisampleTexture;
 
         public readonly Texture Texture;
 
-        public FramebufferStorage(IntSize size, int samples)
+        public FramebufferStorage(Surface surface)
         {
-            if (samples < 1) { throw new System.ArgumentException("Must be larger than zero.", nameof(samples)); }
-
-            Texture = new Texture(size);
-
-            if (samples > 1)
+            var format = surface.SurfaceType switch
             {
-                Renderbuffer = new Renderbuffer(size, samples);
+                SurfaceType.Float => TextureSizedFormat.RGBA16F,
+                SurfaceType.UnsignedByte => TextureSizedFormat.RGBA8,
+
+                _ => throw new ArgumentException("Unknown surface type.", nameof(surface.SurfaceType)),
+            };
+
+            Texture = new Texture(surface.Size, format);
+
+            if (surface.Multisample > MultisampleQuality.None)
+            {
+                MultisampleTexture = new Texture(surface.Size, format, (int) surface.Multisample);
+                // Renderbuffer = new Renderbuffer(surface);
             }
         }
 
-        public bool HasRenderbuffer => Renderbuffer != null;
+        // public bool HasRenderbuffer => Renderbuffer != null;
+
+        public bool HasMultisampleTarget => MultisampleTexture != null;
     }
 }

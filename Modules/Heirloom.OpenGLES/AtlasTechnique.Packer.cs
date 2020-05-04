@@ -22,7 +22,7 @@ namespace Heirloom.OpenGLES
             _packer = new SkylinePacker<Image>(pageSize, pageSize);
 
             // Allocate texture (page)
-            _texture = Graphics.Invoke(() => new Texture(_packer.Size));
+            _texture = Graphics.Invoke(() => new Texture(_packer.Size, TextureSizedFormat.RGBA8));
         }
 
         internal override void Evict()

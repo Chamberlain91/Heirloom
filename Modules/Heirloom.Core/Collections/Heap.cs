@@ -36,7 +36,7 @@ namespace Heirloom.Collections
         /// </summary>
         /// <param name="comparison">Some custom comparison function.</param>
         /// <param name="maximize">Should the priority item be the comparably largest?</param>
-        public Heap(Comparison<T> comparison, HeapType type)
+        public Heap(Comparison<T> comparison, HeapType type = HeapType.Min)
             : this(Comparer<T>.Create(comparison), type)
         { }
 
@@ -45,7 +45,7 @@ namespace Heirloom.Collections
         /// </summary>
         /// <param name="comparer">Some instance of a comparer.</param>
         /// <param name="maximize">Should the priority item be the comparably largest?</param>
-        public Heap(Comparer<T> comparer, HeapType type)
+        public Heap(Comparer<T> comparer, HeapType type = HeapType.Min)
         {
             Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
 
@@ -407,6 +407,14 @@ namespace Heirloom.Collections
             }
         }
 
+        /// <summary>
+        /// Determines whether the <see cref="Heap{T}"/> contains the specified item.
+        /// </summary>
+        /// <remarks>
+        /// This lookup is implemented in <c>O(1)</c> time
+        /// </remarks>
+        /// <param name="item">Some item.</param>
+        /// <returns>Returns true if contained.</returns>
         public bool Contains(T item)
         {
             return _lookup.ContainsKey(item);
