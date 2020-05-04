@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Files\colored_tilemap_packed.png" />
     <None Remove="Files\tile_0000.png" />
     <None Remove="Files\tile_0001.png" />
     <None Remove="Files\tile_0002.png" />
@@ -17,86 +16,6 @@
     <None Remove="Files\tile_0007.png" />
     <None Remove="Files\tile_0008.png" />
     <None Remove="Files\tile_0009.png" />
-    <None Remove="Files\tile_0010.png" />
-    <None Remove="Files\tile_0011.png" />
-    <None Remove="Files\tile_0012.png" />
-    <None Remove="Files\tile_0013.png" />
-    <None Remove="Files\tile_0014.png" />
-    <None Remove="Files\tile_0015.png" />
-    <None Remove="Files\tile_0016.png" />
-    <None Remove="Files\tile_0017.png" />
-    <None Remove="Files\tile_0018.png" />
-    <None Remove="Files\tile_0019.png" />
-    <None Remove="Files\tile_0020.png" />
-    <None Remove="Files\tile_0021.png" />
-    <None Remove="Files\tile_0022.png" />
-    <None Remove="Files\tile_0023.png" />
-    <None Remove="Files\tile_0024.png" />
-    <None Remove="Files\tile_0025.png" />
-    <None Remove="Files\tile_0026.png" />
-    <None Remove="Files\tile_0027.png" />
-    <None Remove="Files\tile_0028.png" />
-    <None Remove="Files\tile_0029.png" />
-    <None Remove="Files\tile_0030.png" />
-    <None Remove="Files\tile_0031.png" />
-    <None Remove="Files\tile_0032.png" />
-    <None Remove="Files\tile_0033.png" />
-    <None Remove="Files\tile_0034.png" />
-    <None Remove="Files\tile_0035.png" />
-    <None Remove="Files\tile_0036.png" />
-    <None Remove="Files\tile_0037.png" />
-    <None Remove="Files\tile_0038.png" />
-    <None Remove="Files\tile_0039.png" />
-    <None Remove="Files\tile_0040.png" />
-    <None Remove="Files\tile_0041.png" />
-    <None Remove="Files\tile_0042.png" />
-    <None Remove="Files\tile_0043.png" />
-    <None Remove="Files\tile_0044.png" />
-    <None Remove="Files\tile_0045.png" />
-    <None Remove="Files\tile_0046.png" />
-    <None Remove="Files\tile_0047.png" />
-    <None Remove="Files\tile_0048.png" />
-    <None Remove="Files\tile_0049.png" />
-    <None Remove="Files\tile_0050.png" />
-    <None Remove="Files\tile_0051.png" />
-    <None Remove="Files\tile_0052.png" />
-    <None Remove="Files\tile_0053.png" />
-    <None Remove="Files\tile_0054.png" />
-    <None Remove="Files\tile_0055.png" />
-    <None Remove="Files\tile_0056.png" />
-    <None Remove="Files\tile_0057.png" />
-    <None Remove="Files\tile_0058.png" />
-    <None Remove="Files\tile_0059.png" />
-    <None Remove="Files\tile_0060.png" />
-    <None Remove="Files\tile_0061.png" />
-    <None Remove="Files\tile_0062.png" />
-    <None Remove="Files\tile_0063.png" />
-    <None Remove="Files\tile_0064.png" />
-    <None Remove="Files\tile_0065.png" />
-    <None Remove="Files\tile_0066.png" />
-    <None Remove="Files\tile_0067.png" />
-    <None Remove="Files\tile_0068.png" />
-    <None Remove="Files\tile_0069.png" />
-    <None Remove="Files\tile_0070.png" />
-    <None Remove="Files\tile_0071.png" />
-    <None Remove="Files\tile_0072.png" />
-    <None Remove="Files\tile_0073.png" />
-    <None Remove="Files\tile_0074.png" />
-    <None Remove="Files\tile_0075.png" />
-    <None Remove="Files\tile_0076.png" />
-    <None Remove="Files\tile_0077.png" />
-    <None Remove="Files\tile_0078.png" />
-    <None Remove="Files\tile_0079.png" />
-    <None Remove="Files\tile_0080.png" />
-    <None Remove="Files\tile_0081.png" />
-    <None Remove="Files\tile_0082.png" />
-    <None Remove="Files\tile_0083.png" />
-    <None Remove="Files\tile_0084.png" />
-    <None Remove="Files\tile_0085.png" />
-    <None Remove="Files\tile_0086.png" />
-    <None Remove="Files\tile_0087.png" />
-    <None Remove="Files\tile_0088.png" />
-    <None Remove="Files\tile_0089.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -110,91 +29,10 @@
     <EmbeddedResource Include="Files\tile_0007.png" />
     <EmbeddedResource Include="Files\tile_0008.png" />
     <EmbeddedResource Include="Files\tile_0009.png" />
-    <EmbeddedResource Include="Files\tile_0010.png" />
-    <EmbeddedResource Include="Files\tile_0011.png" />
-    <EmbeddedResource Include="Files\tile_0012.png" />
-    <EmbeddedResource Include="Files\tile_0013.png" />
-    <EmbeddedResource Include="Files\tile_0014.png" />
-    <EmbeddedResource Include="Files\tile_0015.png" />
-    <EmbeddedResource Include="Files\tile_0016.png" />
-    <EmbeddedResource Include="Files\tile_0017.png" />
-    <EmbeddedResource Include="Files\tile_0018.png" />
-    <EmbeddedResource Include="Files\tile_0019.png" />
-    <EmbeddedResource Include="Files\tile_0020.png" />
-    <EmbeddedResource Include="Files\tile_0021.png" />
-    <EmbeddedResource Include="Files\tile_0022.png" />
-    <EmbeddedResource Include="Files\tile_0023.png" />
-    <EmbeddedResource Include="Files\tile_0024.png" />
-    <EmbeddedResource Include="Files\tile_0025.png" />
-    <EmbeddedResource Include="Files\tile_0026.png" />
-    <EmbeddedResource Include="Files\tile_0027.png" />
-    <EmbeddedResource Include="Files\tile_0028.png" />
-    <EmbeddedResource Include="Files\tile_0029.png" />
-    <EmbeddedResource Include="Files\tile_0030.png" />
-    <EmbeddedResource Include="Files\tile_0031.png" />
-    <EmbeddedResource Include="Files\tile_0032.png" />
-    <EmbeddedResource Include="Files\tile_0033.png" />
-    <EmbeddedResource Include="Files\tile_0034.png" />
-    <EmbeddedResource Include="Files\tile_0035.png" />
-    <EmbeddedResource Include="Files\tile_0036.png" />
-    <EmbeddedResource Include="Files\tile_0037.png" />
-    <EmbeddedResource Include="Files\tile_0038.png" />
-    <EmbeddedResource Include="Files\tile_0039.png" />
-    <EmbeddedResource Include="Files\tile_0040.png" />
-    <EmbeddedResource Include="Files\tile_0041.png" />
-    <EmbeddedResource Include="Files\tile_0042.png" />
-    <EmbeddedResource Include="Files\tile_0043.png" />
-    <EmbeddedResource Include="Files\tile_0044.png" />
-    <EmbeddedResource Include="Files\tile_0045.png" />
-    <EmbeddedResource Include="Files\tile_0046.png" />
-    <EmbeddedResource Include="Files\tile_0047.png" />
-    <EmbeddedResource Include="Files\tile_0048.png" />
-    <EmbeddedResource Include="Files\tile_0049.png" />
-    <EmbeddedResource Include="Files\tile_0050.png" />
-    <EmbeddedResource Include="Files\tile_0051.png" />
-    <EmbeddedResource Include="Files\tile_0052.png" />
-    <EmbeddedResource Include="Files\tile_0053.png" />
-    <EmbeddedResource Include="Files\tile_0054.png" />
-    <EmbeddedResource Include="Files\tile_0055.png" />
-    <EmbeddedResource Include="Files\tile_0056.png" />
-    <EmbeddedResource Include="Files\tile_0057.png" />
-    <EmbeddedResource Include="Files\tile_0058.png" />
-    <EmbeddedResource Include="Files\tile_0059.png" />
-    <EmbeddedResource Include="Files\tile_0060.png" />
-    <EmbeddedResource Include="Files\tile_0061.png" />
-    <EmbeddedResource Include="Files\tile_0062.png" />
-    <EmbeddedResource Include="Files\tile_0063.png" />
-    <EmbeddedResource Include="Files\tile_0064.png" />
-    <EmbeddedResource Include="Files\tile_0065.png" />
-    <EmbeddedResource Include="Files\tile_0066.png" />
-    <EmbeddedResource Include="Files\tile_0067.png" />
-    <EmbeddedResource Include="Files\tile_0068.png" />
-    <EmbeddedResource Include="Files\tile_0069.png" />
-    <EmbeddedResource Include="Files\tile_0070.png" />
-    <EmbeddedResource Include="Files\tile_0071.png" />
-    <EmbeddedResource Include="Files\tile_0072.png" />
-    <EmbeddedResource Include="Files\tile_0073.png" />
-    <EmbeddedResource Include="Files\tile_0074.png" />
-    <EmbeddedResource Include="Files\tile_0075.png" />
-    <EmbeddedResource Include="Files\tile_0076.png" />
-    <EmbeddedResource Include="Files\tile_0077.png" />
-    <EmbeddedResource Include="Files\tile_0078.png" />
-    <EmbeddedResource Include="Files\tile_0079.png" />
-    <EmbeddedResource Include="Files\tile_0080.png" />
-    <EmbeddedResource Include="Files\tile_0081.png" />
-    <EmbeddedResource Include="Files\tile_0082.png" />
-    <EmbeddedResource Include="Files\tile_0083.png" />
-    <EmbeddedResource Include="Files\tile_0084.png" />
-    <EmbeddedResource Include="Files\tile_0085.png" />
-    <EmbeddedResource Include="Files\tile_0086.png" />
-    <EmbeddedResource Include="Files\tile_0087.png" />
-    <EmbeddedResource Include="Files\tile_0088.png" />
-    <EmbeddedResource Include="Files\tile_0089.png" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Modules\Heirloom.Desktop\Heirloom.Desktop.csproj" />
   </ItemGroup>
-
 
 </Project>
