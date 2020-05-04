@@ -7,12 +7,12 @@ namespace Heirloom.Collections
     public sealed class UndirectedGraph<T> : IGraph<T>
     {
         private readonly Dictionary<T, List<Edge>> _vertices;
-        private readonly Dictionary<Pair, Edge> _edges;
+        private readonly Dictionary<UnorderedPair, Edge> _edges;
 
         public UndirectedGraph()
         {
             _vertices = new Dictionary<T, List<Edge>>();
-            _edges = new Dictionary<Pair, Edge>();
+            _edges = new Dictionary<UnorderedPair, Edge>();
         }
 
         public bool IsDirected => false;
@@ -59,13 +59,13 @@ namespace Heirloom.Collections
 
         public bool IsConnected(T a, T b)
         {
-            var vertexPair = new Pair(a, b);
+            var vertexPair = new UnorderedPair(a, b);
             return _edges.ContainsKey(vertexPair);
         }
 
         public void Connect(T a, T b, float weight)
         {
-            var vertexPair = new Pair(a, b);
+            var vertexPair = new UnorderedPair(a, b);
 
             if (_edges.ContainsKey(vertexPair))
             {
@@ -83,7 +83,7 @@ namespace Heirloom.Collections
 
         public void Disconnect(T a, T b)
         {
-            var vertexPair = new Pair(a, b);
+            var vertexPair = new UnorderedPair(a, b);
 
             if (!_edges.ContainsKey(vertexPair))
             {
@@ -106,10 +106,10 @@ namespace Heirloom.Collections
 
         public float GetWeight(T a, T b)
         {
-            var vertexPair = new Pair(a, b);
+            var vertexPair = new UnorderedPair(a, b);
 
             if (!_edges.ContainsKey(vertexPair)) { throw new InvalidOperationException($"Edge does not exist between '{a}' and '{b}'."); }
-            if (!_edges.ContainsKey(new Pair(b, a))) { throw new InvalidOperationException($"Edge does not exist between '{b}' and '{a}'."); }
+            if (!_edges.ContainsKey(new UnorderedPair(b, a))) { throw new InvalidOperationException($"Edge does not exist between '{b}' and '{a}'."); }
 
             var edge = _edges[vertexPair];
             return edge.Weight;
@@ -117,7 +117,7 @@ namespace Heirloom.Collections
 
         public void SetWeight(T a, T b, float weight)
         {
-            var vertexPair = new Pair(a, b);
+            var vertexPair = new UnorderedPair(a, b);
 
             if (!_edges.ContainsKey(vertexPair))
             {
@@ -220,10 +220,10 @@ namespace Heirloom.Collections
 
         private class Edge
         {
-            public readonly Pair Vertices;
+            public readonly UnorderedPair Vertices;
             public float Weight;
 
-            public Edge(Pair vertices, float weight)
+            public Edge(UnorderedPair vertices, float weight)
             {
                 Vertices = vertices;
                 Weight = weight;
@@ -235,12 +235,12 @@ namespace Heirloom.Collections
             }
         }
 
-        private readonly struct Pair : IEquatable<Pair>
+        private readonly struct UnorderedPair : IEquatable<UnorderedPair>
         {
             public readonly T A;
             public readonly T B;
 
-            public Pair(T a, T b)
+            public UnorderedPair(T a, T b)
             {
                 A = a;
                 B = b;
@@ -248,11 +248,11 @@ namespace Heirloom.Collections
 
             public override bool Equals(object obj)
             {
-                return obj is Pair pair
+                return obj is UnorderedPair pair
                     && Equals(pair);
             }
 
-            public bool Equals(Pair other)
+            public bool Equals(UnorderedPair other)
             {
                 // Match either ordering
                 return (A.Equals(other.A) && B.Equals(other.B))
@@ -261,16 +261,17 @@ namespace Heirloom.Collections
 
             public override int GetHashCode()
             {
-                // HashCode.Combine(A, B); // Failed to equality check...
-                return (A.GetHashCode() * 13) ^ B.GetHashCode();
+                // Sum codes because pair is symmetic
+                return HashCode.Combine(A, B)
+                     + HashCode.Combine(B, A);
             }
 
-            public static bool operator ==(Pair left, Pair right)
+            public static bool operator ==(UnorderedPair left, UnorderedPair right)
             {
                 return left.Equals(right);
             }
 
-            public static bool operator !=(Pair left, Pair right)
+            public static bool operator !=(UnorderedPair left, UnorderedPair right)
             {
                 return !(left == right);
             }
