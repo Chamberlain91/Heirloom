@@ -16,7 +16,7 @@ namespace Examples.MazeAI
             {
                 _images.Clear();
 
-                for (var i = 0; i < 10; i++)
+                for (var i = 0; i < 11; i++)
                 {
                     // Load and store image
                     var image = new Image($"files/tile_{i:0000}.png");
