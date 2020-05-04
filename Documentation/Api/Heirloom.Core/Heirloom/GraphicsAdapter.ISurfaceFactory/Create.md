@@ -8,20 +8,18 @@
 > **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [GraphicsAdapter.ISurfaceFactory][1]
 
-### Create(IntSize, ref MultisampleQuality)
+### Create(Surface)
 
 ```cs
-public abstract object Create(IntSize size, ref MultisampleQuality multisample)
+public abstract object Create(Surface surface)
 ```
 
-| Name        | Type                    | Summary |
-|-------------|-------------------------|---------|
-| size        | [IntSize][2]            |         |
-| multisample | [MultisampleQuality][3] |         |
+| Name    | Type         | Summary |
+|---------|--------------|---------|
+| surface | [Surface][2] |         |
 
 > **Returns** - `object`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../GraphicsAdapter.ISurfaceFactory.md
-[2]: ../IntSize.md
-[3]: ../MultisampleQuality.md
+[2]: ../Surface.md

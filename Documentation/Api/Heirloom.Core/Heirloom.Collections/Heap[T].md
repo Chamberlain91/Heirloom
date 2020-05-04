@@ -45,7 +45,7 @@ The heap always acts like a min-heap but inverts the result of comparison for ma
 |-------------------------------|-------------------|------------------------------------------------------------------------|
 | [Add(T)][6]                   | `bool`            | Adds an item to the heap.                                              |
 | [AddRange(IEnumerable<T>)][7] | `void`            | Adds multiple items to the heap.                                       |
-| [Contains(T)][8]              | `bool`            |                                                                        |
+| [Contains(T)][8]              | `bool`            | Determines whether the Heap<T> contains the specified item.            |
 | [GetEnumerator()][9]          | `IEnumerator\<T>` | Enumerates the values in the heap (in no particular order)             |
 | [Peek()][10]                  | `T`               | Gets the next item in the heap to be removed.                          |
 | [Remove()][11]                | `T`               | Removes and returns the next priority item in the heap.                |

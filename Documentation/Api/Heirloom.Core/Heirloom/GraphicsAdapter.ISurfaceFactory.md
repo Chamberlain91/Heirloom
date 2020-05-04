@@ -31,10 +31,10 @@ protected interface GraphicsAdapter.ISurfaceFactory
 
 #### Instance
 
-| Name                           | Return Type | Summary |
-|--------------------------------|-------------|---------|
-| [Create(IntSize, ref Mu...][2] | `object`    |         |
-| [Dispose(object)][3]           | `void`      |         |
+| Name                 | Return Type | Summary |
+|----------------------|-------------|---------|
+| [Create(Surface)][2] | `object`    |         |
+| [Dispose(object)][3] | `void`      |         |
 
 [0]: ../../Heirloom.Core.md
 [1]: GraphicsAdapter.ISurfaceFactory/MaxSupportedMultisampleQuality.md

@@ -8,54 +8,39 @@
 > **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [Search][1]
 
-### HeuristicSearch<T>(T, T, Func<T, IEnumerable<T>>, Search.CostFunction<T>)
+### HeuristicSearch<T>(T, T, Func<T, IEnumerable<T>>, ActualCost<T>, HeuristicCost<T>)
 
 ```cs
-public static IList<T> HeuristicSearch<T>(T start, T goal, Func<T, IEnumerable<T>> getSuccessors, Search.CostFunction<T> cost)
+public static IReadOnlyList<T> HeuristicSearch<T>(T start, T goal, Func<T, IEnumerable<T>> getSuccessors, ActualCost<T> cost, HeuristicCost<T> heuristic)
 ```
 
-| Name          | Type                         | Summary |
-|---------------|------------------------------|---------|
-| start         | `T`                          |         |
-| goal          | `T`                          |         |
-| getSuccessors | `Func\<T, IEnumerable\<T>>`  |         |
-| cost          | [Search.CostFunction\<T>][2] |         |
+| Name          | Type                        | Summary |
+|---------------|-----------------------------|---------|
+| start         | `T`                         |         |
+| goal          | `T`                         |         |
+| getSuccessors | `Func\<T, IEnumerable\<T>>` |         |
+| cost          | [ActualCost\<T>][2]         |         |
+| heuristic     | [HeuristicCost\<T>][3]      |         |
 
-> **Returns** - `IList\<T>`
+> **Returns** - `IReadOnlyList\<T>`
 
-### HeuristicSearch<T>(T, T, Func<T, IEnumerable<T>>, Search.CostFunction<T>, Search.CostFunction<T>)
+### HeuristicSearch<T>(T, Func<T, bool>, Func<T, IEnumerable<T>>, ActualCost<T>, HeuristicCost<T>)
 
 ```cs
-public static IList<T> HeuristicSearch<T>(T start, T goal, Func<T, IEnumerable<T>> getSuccessors, Search.CostFunction<T> cost, Search.CostFunction<T> heuristic)
+public static IReadOnlyList<T> HeuristicSearch<T>(T start, Func<T, bool> goalCondition, Func<T, IEnumerable<T>> getSuccessors, ActualCost<T> cost, HeuristicCost<T> heuristic)
 ```
 
-| Name          | Type                         | Summary |
-|---------------|------------------------------|---------|
-| start         | `T`                          |         |
-| goal          | `T`                          |         |
-| getSuccessors | `Func\<T, IEnumerable\<T>>`  |         |
-| cost          | [Search.CostFunction\<T>][2] |         |
-| heuristic     | [Search.CostFunction\<T>][2] |         |
+| Name          | Type                        | Summary |
+|---------------|-----------------------------|---------|
+| start         | `T`                         |         |
+| goalCondition | `Func\<T, bool>`            |         |
+| getSuccessors | `Func\<T, IEnumerable\<T>>` |         |
+| cost          | [ActualCost\<T>][2]         |         |
+| heuristic     | [HeuristicCost\<T>][3]      |         |
 
-> **Returns** - `IList\<T>`
-
-### HeuristicSearch<T>(T, Func<T, bool>, Func<T, IEnumerable<T>>, Search.CostFunction<T>, Search.HeuristicFunction<T>)
-
-```cs
-public static IList<T> HeuristicSearch<T>(T start, Func<T, bool> targetPredicate, Func<T, IEnumerable<T>> getSuccessors, Search.CostFunction<T> cost, Search.HeuristicFunction<T> heuristic)
-```
-
-| Name            | Type                              | Summary |
-|-----------------|-----------------------------------|---------|
-| start           | `T`                               |         |
-| targetPredicate | `Func\<T, bool>`                  |         |
-| getSuccessors   | `Func\<T, IEnumerable\<T>>`       |         |
-| cost            | [Search.CostFunction\<T>][2]      |         |
-| heuristic       | [Search.HeuristicFunction\<T>][3] |         |
-
-> **Returns** - `IList\<T>`
+> **Returns** - `IReadOnlyList\<T>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Search.md
-[2]: ../Search.CostFunction[T].md
-[3]: ../Search.HeuristicFunction[T].md
+[2]: ../ActualCost[T].md
+[3]: ../HeuristicCost[T].md
