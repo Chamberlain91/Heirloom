@@ -207,8 +207,7 @@ namespace Heirloom.Collections
 
             public override int GetHashCode()
             {
-                // HashCode.Combine(A, B); // Failed to equality check...
-                return (A.GetHashCode() * 13) ^ B.GetHashCode();
+                return HashCode.Combine(A, B);
             }
 
             public static bool operator ==(OrderedPair left, OrderedPair right)
