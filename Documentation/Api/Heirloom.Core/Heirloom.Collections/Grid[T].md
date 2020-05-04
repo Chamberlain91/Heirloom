@@ -43,6 +43,7 @@ public sealed class Grid<T> : IFiniteGrid<T>, IGrid<T>, IReadOnlyGrid<T>
 | Name                           | Return Type | Summary                                                                |
 |--------------------------------|-------------|------------------------------------------------------------------------|
 | [Clear()][7]                   | `void`      | Sets all values in the grid to default for type <typeparamref name=... |
+| [Clear(T)][7]                  | `void`      | Sets all values in the grid to some value of <typeparamref name="T"... |
 | [IsValidCoordinate(in i...][8] | `bool`      | Determines if the specified coordinate is a valid coordinate within... |
 | [IsValidCoordinate(in I...][8] | `bool`      | Determines if the specified coordinate is a valid coordinate within... |
 

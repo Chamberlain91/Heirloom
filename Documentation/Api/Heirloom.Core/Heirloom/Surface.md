@@ -19,11 +19,11 @@ public sealed class Surface : ImageSource
 
 ### Properties
 
-[IsScreenBound][3], [Multisample][4], [Size][5]
+[IsScreenBound][3], [Multisample][4], [Size][5], [SurfaceType][6]
 
 ### Static Properties
 
-[MaxSupportedMultisampleQuality][6]
+[MaxSupportedMultisampleQuality][7]
 
 ## Properties
 
@@ -32,14 +32,15 @@ public sealed class Surface : ImageSource
 | Name               | Type                    | Summary                                                            |
 |--------------------|-------------------------|--------------------------------------------------------------------|
 | [IsScreenBound][3] | `bool`                  | Determines if this surface is attached to a screen (ie, a window). |
-| [Multisample][4]   | [MultisampleQuality][7] | Gets the multisampling quality set on this surface.                |
-| [Size][5]          | [IntSize][8]            | Gets size of the surface in pixels.                                |
+| [Multisample][4]   | [MultisampleQuality][8] | Gets the multisampling quality set on this surface.                |
+| [Size][5]          | [IntSize][9]            | Gets size of the surface in pixels.                                |
+| [SurfaceType][6]   | [SurfaceType][10]       | Gets the type of this surface.                                     |
 
 #### Static
 
 | Name                                | Type                    | Summary                                                    |
 |-------------------------------------|-------------------------|------------------------------------------------------------|
-| [MaxSupportedMultisampleQuality][6] | [MultisampleQuality][7] | Gets the max multisample quality supported on this system. |
+| [MaxSupportedMultisampleQuality][7] | [MultisampleQuality][8] | Gets the max multisample quality supported on this system. |
 
 [0]: ../../Heirloom.Core.md
 [1]: Graphics.md
@@ -47,6 +48,8 @@ public sealed class Surface : ImageSource
 [3]: Surface/IsScreenBound.md
 [4]: Surface/Multisample.md
 [5]: Surface/Size.md
-[6]: Surface/MaxSupportedMultisampleQuality.md
-[7]: MultisampleQuality.md
-[8]: IntSize.md
+[6]: Surface/SurfaceType.md
+[7]: Surface/MaxSupportedMultisampleQuality.md
+[8]: MultisampleQuality.md
+[9]: IntSize.md
+[10]: SurfaceType.md

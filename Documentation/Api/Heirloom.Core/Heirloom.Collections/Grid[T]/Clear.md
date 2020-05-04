@@ -18,5 +18,19 @@ public void Clear()
 
 > **Returns** - `void`
 
+### Clear(T)
+
+Sets all values in the grid to some value of <typeparamref name="T" /> .
+
+```cs
+public void Clear(T val)
+```
+
+| Name | Type | Summary |
+|------|------|---------|
+| val  | `T`  |         |
+
+> **Returns** - `void`
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../Grid[T].md

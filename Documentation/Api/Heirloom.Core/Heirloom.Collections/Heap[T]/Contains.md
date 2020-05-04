@@ -10,15 +10,19 @@
 
 ### Contains(T)
 
+Determines whether the [Heap\<T>][1] contains the specified item.
+
 ```cs
 public bool Contains(T item)
 ```
 
-| Name | Type | Summary |
-|------|------|---------|
-| item | `T`  |         |
+| Name | Type | Summary    |
+|------|------|------------|
+| item | `T`  | Some item. |
 
-> **Returns** - `bool`
+> **Returns** - `bool` - Returns true if contained.
+
+This lookup is implemented in `O(1)` time
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Heap[T].md
