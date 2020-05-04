@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using Heirloom;
 using Heirloom.Collections;
@@ -82,8 +81,7 @@ namespace Examples.MazeAI
         {
             var graph = new UndirectedGraph<IntVector>();
 
-            var coords = GetCoordinates(15, 15).ToArray();
-            coords.Randomize();
+            var coords = GetCoordinates(15, 15);
 
             // Insert each grid position
             foreach (var co in coords)
