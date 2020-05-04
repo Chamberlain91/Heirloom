@@ -100,7 +100,7 @@ namespace Heirloom
         {
             MultisampleQuality MaxSupportedMultisampleQuality { get; }
 
-            object Create(IntSize size, ref MultisampleQuality multisample);
+            object Create(Surface surface);
 
             void Dispose(object native);
         }

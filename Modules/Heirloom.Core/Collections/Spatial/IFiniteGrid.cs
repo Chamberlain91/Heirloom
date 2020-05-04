@@ -14,5 +14,10 @@ namespace Heirloom.Collections
         /// The height of this grid.
         /// </summary>
         int Height { get; }
+
+        /// <summary>
+        /// Clear the entire grid to some value.
+        /// </summary>
+        void Clear(T val);
     }
 }

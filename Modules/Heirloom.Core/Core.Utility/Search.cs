@@ -5,42 +5,34 @@ using Heirloom.Collections;
 
 namespace Heirloom
 {
+    /// <summary>
+    /// Gets the known cost between two values.
+    /// </summary>
+    public delegate float ActualCost<T>(T a, T b);
+
+    /// <summary>
+    /// Gets the estimated cost of the some value.
+    /// </summary>
+    public delegate float HeuristicCost<T>(T a);
+
     public static class Search
     {
-        public delegate float CostFunction<T>(T a, T b);
-
-        public delegate float HeuristicFunction<T>(T a);
-
         #region Heuristic Search
 
         /// <summary>
-        /// Finds a path between two known states.
+        /// Search a problem space from some starting state until the search predicate is satified. <para/>
+        /// A common application of a heuristic search is implementing path finding.
         /// </summary>
         /// <typeparam name="T">Type of the state elements.</typeparam>
-        /// <param name="start">Starting state.</param>
+        /// <param name="start">Starting state</param>
         /// <param name="goal">Terminating state.</param>
-        /// <param name="getSuccessors">Returns sucessors.</param>
-        /// <param name="cost">Cost function between two states. If neighbors, should return actual, if non-neighbors estimate.</param>
-        /// <returns>A sequence of states from start (inclusive) to goal (inclusive).</returns>
-        public static IList<T> HeuristicSearch<T>(T start, T goal, Func<T, IEnumerable<T>> getSuccessors, CostFunction<T> cost)
-        // Assumes cost(...) will return actual cost for neighbors and estimated for non-neighbors
-        {
-            return HeuristicSearch(start, goal, getSuccessors, cost, cost);
-        }
-
-        /// <summary>
-        /// Finds a path between two known states.
-        /// </summary>
-        /// <typeparam name="T">Type of the state elements.</typeparam>
-        /// <param name="start">Starting state.</param>
-        /// <param name="goal">Terminating state.</param>
-        /// <param name="getSuccessors">Returns sucessors.</param>
+        /// <param name="getSuccessors">Returns sucessors</param>
         /// <param name="cost">Cost function between two states.</param>
         /// <param name="heuristic">Estimate cost between state and goal state.</param>
         /// <returns>A sequence of states from start (inclusive) to goal (inclusive).</returns>
-        public static IList<T> HeuristicSearch<T>(T start, T goal, Func<T, IEnumerable<T>> getSuccessors, CostFunction<T> cost, CostFunction<T> heuristic)
+        public static IReadOnlyList<T> HeuristicSearch<T>(T start, T goal, Func<T, IEnumerable<T>> getSuccessors, ActualCost<T> cost, HeuristicCost<T> heuristic)
         {
-            return HeuristicSearch(start, x => Equals(x, goal), getSuccessors, cost, s => heuristic(s, goal));
+            return HeuristicSearch(start, x => Equals(x, goal), getSuccessors, cost, heuristic);
         }
 
         /// <summary>
@@ -49,12 +41,12 @@ namespace Heirloom
         /// </summary>
         /// <typeparam name="T">Type of the state elements.</typeparam>
         /// <param name="start">Starting state</param>
-        /// <param name="targetPredicate">Search predicate</param>
+        /// <param name="goalCondition">Search predicate</param>
         /// <param name="getSuccessors">Returns sucessors</param>
         /// <param name="cost">Cost function between two states.</param>
         /// <param name="heuristic">Estimate cost between state and goal state.</param>
         /// <returns>A sequence of states from start (inclusive) to goal (inclusive).</returns>
-        public static IList<T> HeuristicSearch<T>(T start, Func<T, bool> targetPredicate, Func<T, IEnumerable<T>> getSuccessors, CostFunction<T> cost, HeuristicFunction<T> heuristic)
+        public static IReadOnlyList<T> HeuristicSearch<T>(T start, Func<T, bool> goalCondition, Func<T, IEnumerable<T>> getSuccessors, ActualCost<T> cost, HeuristicCost<T> heuristic)
         {
             // 
             var nodes = new Dictionary<T, Node<T>>();
@@ -81,7 +73,7 @@ namespace Heirloom
                 return node;
             }
 
-            static IList<TState> ConstructPath<TState>(Node<TState> node)
+            static IReadOnlyList<TState> ConstructPath<TState>(Node<TState> node)
             {
                 // Reconstruct path!
                 var path = new List<TState>();
@@ -104,7 +96,7 @@ namespace Heirloom
                 var current = frontier.Remove();
 
                 // Is the current state the target state?
-                if (targetPredicate(current.State))
+                if (goalCondition(current.State))
                 {
                     // We have found what we want
                     return ConstructPath(current);
@@ -268,13 +260,25 @@ namespace Heirloom
         private enum AcyclicStatus { New, Active, Finished };
 
         /// <summary>
-        /// Determines if the specified graph is acyclic. Do not use on infinite graphs.
+        /// Determines if the specified graph is cyclic.
+        /// </summary>
+        /// <typeparam name="T">Type of the elements</typeparam>
+        /// <param name="start">Starting element.</param>
+        /// <param name="graph">Some graph.</param>
+        /// <returns>True if the graph is determined to be cycle free, otherwise false.</returns>
+        public static bool DetectCyclicGraph<T>(IGraph<T> graph, T start)
+        {
+            return DetectCyclicGraph(start, graph.GetSuccessors);
+        }
+
+        /// <summary>
+        /// Determines if a graph is cyclic. Do not use on infinite graphs.
         /// </summary>
         /// <typeparam name="T">Type of the elements</typeparam>
         /// <param name="start">Starting element.</param>
         /// <param name="getSuccessors">A function to return the successor/children of the current element.</param>
         /// <returns>True if the graph is determined to be cycle free, otherwise false.</returns>
-        public static bool IsAcyclicGraph<T>(T start, Func<T, IEnumerable<T>> getSuccessors)
+        public static bool DetectCyclicGraph<T>(T start, Func<T, IEnumerable<T>> getSuccessors)
         {
             var statusTable = new Dictionary<T, AcyclicStatus>();
 
@@ -288,11 +292,11 @@ namespace Heirloom
                 if (GetStatus(node) == AcyclicStatus.New)
                 {
                     // If subgraph is not a DAG, then entire graph is not a DAG
-                    if (!IsAcyclicGraphHelper(node)) { return false; }
+                    if (!IsAcyclicGraphHelper(node)) { return true; }
                 }
             }
 
-            return true;
+            return false;
 
             AcyclicStatus GetStatus(T node)
             {

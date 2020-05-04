@@ -777,6 +777,13 @@ namespace Heirloom.OpenGLES
 
         [SuppressUnmanagedCodeSecurity]
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void _glTexStorage2DMultisample(TextureImageTarget target, int samples,
+                                                         TextureSizedFormat internalFormat, int width, int height,
+                                                         [MarshalAs(UnmanagedType.I1)] bool fixedSampleLocations);
+        private static _glTexStorage2DMultisample glTexStorage2DMultisample;
+
+        [SuppressUnmanagedCodeSecurity]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void _glTexStorage3D(TextureImageTarget target, int levels, TextureSizedFormat internalFormat, int width, int height, int depth);
         private static _glTexStorage3D glTexStorage3D;
 

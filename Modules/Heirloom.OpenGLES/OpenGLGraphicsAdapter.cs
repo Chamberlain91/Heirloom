@@ -72,12 +72,9 @@ namespace Heirloom.OpenGLES
 
             public MultisampleQuality MaxSupportedMultisampleQuality => (MultisampleQuality) _maxSupportedSamples;
 
-            public object Create(IntSize size, ref MultisampleQuality multisample)
+            public object Create(Surface surface)
             {
-                // Get the highest supported MSAA level
-                var samples = Calc.Min((int) multisample, _maxSupportedSamples);
-                multisample = (MultisampleQuality) samples; // change msaa reference
-                return Adapter.Invoke(() => new FramebufferStorage(size, samples));
+                return Adapter.Invoke(() => new FramebufferStorage(surface));
             }
 
             public void Dispose(object native)

@@ -15,6 +15,10 @@ namespace Heirloom
 
         #region Constructor
 
+        protected GameLoop(Screen screen)
+            : this(screen.Graphics)
+        { }
+
         protected GameLoop(Graphics graphics)
         {
             Graphics = graphics;

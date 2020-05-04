@@ -26,7 +26,7 @@ namespace Heirloom.OpenGLES
             if (!_textures.TryGetValue(image, out var texture_))
             {
                 // Was not known, we will now create it 
-                texture_ = Graphics.Invoke(() => new Texture(image.Size));
+                texture_ = Graphics.Invoke(() => new Texture(image.Size, TextureSizedFormat.RGBA8));
 
                 // Store texture
                 _textures.Add(image, texture_);

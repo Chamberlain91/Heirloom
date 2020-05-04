@@ -1,7 +1,5 @@
 using System;
 
-using Heirloom.IO;
-
 namespace Heirloom.OpenGLES
 {
     internal sealed class Renderbuffer : IDisposable
@@ -12,18 +10,22 @@ namespace Heirloom.OpenGLES
 
         #region Constructors
 
-        public Renderbuffer(IntSize size, int samples)
+        public Renderbuffer(Surface surface)
         {
-            if (samples < 1) { throw new ArgumentException("Samples must be greater than zero."); }
+            if (surface.Multisample < MultisampleQuality.None)
+            {
+                throw new ArgumentException("Sample count must be greater than zero.", nameof(surface.Multisample));
+            }
 
-            Log.Debug($"Creating Renderbuffer ({size} w/ {samples} samples)");
+            var samples = (int) surface.Multisample;
+            Log.Debug($"Creating Renderbuffer ({surface.Size} w/ {samples} samples)");
 
             // Generate render buffer handle
             Handle = GL.GenRenderbuffer();
 
             // Configure render buffer for multisampled storage
             GL.BindRenderbuffer(Handle);
-            GL.RenderbufferStorage(RenderbufferFormat.RGBA8, size.Width, size.Height, samples);
+            GL.RenderbufferStorage(RenderbufferFormat.RGBA8, surface.Width, surface.Height, samples);
             GL.BindRenderbuffer(0);
         }
 
