@@ -3,24 +3,25 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]
 
-## IGraph\<T>.GetSuccessors (Method)
+## IGraph\<T>.GetEdgeWeight (Method)
 
 > **Namespace**: [Heirloom.Collections][0]  
 > **Declaring Type**: [IGraph\<T>][1]
 
-### GetSuccessors(T)
+### GetEdgeWeight(T, T)
 
-Gets the successor (outgoing neighbor) vertices.
+Gets the weight of some edge.
 
 ```cs
-public abstract IEnumerable<T> GetSuccessors(T v)
+public abstract float GetEdgeWeight(T a, T b)
 ```
 
 | Name | Type | Summary |
 |------|------|---------|
-| v    | `T`  |         |
+| a    | `T`  |         |
+| b    | `T`  |         |
 
-> **Returns** - `IEnumerable\<T>`
+> **Returns** - `float`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IGraph[T].md

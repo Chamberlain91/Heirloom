@@ -7,6 +7,8 @@
 
 > **Namespace**: [Heirloom][0]
 
+Contains search related features.
+
 ```cs
 public static class Search
 ```

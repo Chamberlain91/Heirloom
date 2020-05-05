@@ -13,11 +13,11 @@
 Gets drawing performance information.
 
 ```cs
-public DrawingPerformance Performance { get; }
+public Graphics.PerformanceMetrics Performance { get; }
 ```
 
-> **Returns**: [DrawingPerformance][2]
+> **Returns**: [Graphics.PerformanceMetrics][2]
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Graphics.md
-[2]: ../DrawingPerformance.md
+[2]: ../Graphics.PerformanceMetrics.md

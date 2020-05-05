@@ -3,14 +3,12 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]
 
-## IGraph\<T>.Edges (Property)
+## Graph\<T>.Edges (Property)
 
 > **Namespace**: [Heirloom.Collections][0]  
-> **Declaring Type**: [IGraph\<T>][1]
+> **Declaring Type**: [Graph\<T>][1]
 
 ### Edges
-
-Gets the edges in the graph.
 
 ```cs
 public IEnumerable<ValueTuple<T, T>> Edges { get; }
@@ -21,4 +19,4 @@ public IEnumerable<ValueTuple<T, T>> Edges { get; }
 `TupleElementNamesAttribute`
 
 [0]: ../../../Heirloom.Core.md
-[1]: ../IGraph[T].md
+[1]: ../Graph[T].md

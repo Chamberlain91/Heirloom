@@ -3,24 +3,22 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]
 
-## IGraph\<T>.GetSuccessors (Method)
+## DirectedGraph\<T>.ContainsVertex (Method)
 
 > **Namespace**: [Heirloom.Collections][0]  
-> **Declaring Type**: [IGraph\<T>][1]
+> **Declaring Type**: [DirectedGraph\<T>][1]
 
-### GetSuccessors(T)
-
-Gets the successor (outgoing neighbor) vertices.
+### ContainsVertex(T)
 
 ```cs
-public abstract IEnumerable<T> GetSuccessors(T v)
+public bool ContainsVertex(T v)
 ```
 
 | Name | Type | Summary |
 |------|------|---------|
 | v    | `T`  |         |
 
-> **Returns** - `IEnumerable\<T>`
+> **Returns** - `bool`
 
 [0]: ../../../Heirloom.Core.md
-[1]: ../IGraph[T].md
+[1]: ../DirectedGraph[T].md
