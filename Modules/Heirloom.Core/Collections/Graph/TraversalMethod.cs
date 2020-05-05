@@ -6,12 +6,12 @@ namespace Heirloom.Collections
     public enum TraversalMethod
     {
         /// <summary>
-        /// Depth-first traversal, using descendant priority.
+        /// Depth-first traversal, prioritizing children.
         /// </summary>
         DepthFirst,
 
         /// <summary>
-        /// Breadth-first traversal, using sibling priority.
+        /// Breadth-first traversal, prioritizing siblings.
         /// </summary>
         BreadthFirst
     }

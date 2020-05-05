@@ -5,25 +5,36 @@ using System.Linq;
 
 namespace Heirloom.Collections
 {
+    /// <summary>
+    /// Implements an undirected graph using a adjacency list.
+    /// </summary>
     public sealed class Graph<T> : IGraph<T>
     {
         private readonly Dictionary<T, List<Edge<T>>> _outgoing;
         private readonly EdgeCollection _edges;
 
+        /// <summary>
+        /// Constructs a new <see cref="Graph{T}"/>.
+        /// </summary>
         public Graph()
         {
             _outgoing = new Dictionary<T, List<Edge<T>>>();
             _edges = new EdgeCollection();
         }
 
+        /// <inheritdoc/>
         public IEnumerable<T> Vertices => _outgoing.Keys;
 
+        /// <inheritdoc/>
         public int VertexCount => _outgoing.Count;
 
+        /// <inheritdoc/>
         public IEnumerable<(T A, T B)> Edges => _edges.Select(e => (e.A, e.B));
 
+        /// <inheritdoc/>
         public int EdgeCount => _edges.Count;
 
+        /// <inheritdoc/>
         public void Clear()
         {
             _edges.Clear();
@@ -32,6 +43,7 @@ namespace Heirloom.Collections
 
         #region Vertex Manipulation
 
+        /// <inheritdoc/>
         public void AddVertex(T v)
         {
             if (ContainsVertex(v))
@@ -43,6 +55,7 @@ namespace Heirloom.Collections
             _outgoing[v] = new List<Edge<T>>();
         }
 
+        /// <inheritdoc/>
         public bool RemoveVertex(T v)
         {
             // Do we know about this vertex?
@@ -60,6 +73,7 @@ namespace Heirloom.Collections
             return false;
         }
 
+        /// <inheritdoc/>
         public bool ContainsVertex(T v)
         {
             return _outgoing.ContainsKey(v);
@@ -69,6 +83,7 @@ namespace Heirloom.Collections
 
         #region Edge Manipulation
 
+        /// <inheritdoc/>
         public void AddEdge(T a, T b, float weight)
         {
             // Validate vertices
@@ -84,6 +99,7 @@ namespace Heirloom.Collections
             _outgoing[b].Add(edge);
         }
 
+        /// <inheritdoc/>
         public bool RemoveEdge(T a, T b)
         {
             // Validate vertices
@@ -108,11 +124,13 @@ namespace Heirloom.Collections
             return false;
         }
 
+        /// <inheritdoc/>
         public bool ContainsEdge(T a, T b)
         {
             return _edges.Contains(a, b);
         }
 
+        /// <inheritdoc/>
         public float GetEdgeWeight(T a, T b)
         {
             if (_edges.TryGetEdge(a, b, out var edge))
@@ -125,6 +143,7 @@ namespace Heirloom.Collections
             }
         }
 
+        /// <inheritdoc/>
         public void SetEdgeWeight(T a, T b, float weight)
         {
             if (_edges.TryGetEdge(a, b, out var edge))
@@ -139,6 +158,7 @@ namespace Heirloom.Collections
 
         #endregion
 
+        /// <inheritdoc/>
         public IEnumerable<T> GetSuccessors(T v)
         {
             // Return outgoing edge targets (ie, successors)
@@ -147,16 +167,19 @@ namespace Heirloom.Collections
 
         #region Algorithms
 
+        /// <inheritdoc/>
         public IReadOnlyList<T> FindPath(T start, T goal, HeuristicCost<T> heuristic)
         {
             return Search.HeuristicSearch(start, goal, GetSuccessors, GetEdgeWeight, heuristic);
         }
 
+        /// <inheritdoc/>
         public IReadOnlyList<T> FindPath(T start, Func<T, bool> goalCondition, HeuristicCost<T> heuristic)
         {
             return Search.HeuristicSearch(start, goalCondition, GetSuccessors, GetEdgeWeight, heuristic);
         }
 
+        /// <inheritdoc/>
         public IEnumerable<T> Traverse(T start, TraversalMethod method)
         {
             return method switch
@@ -168,6 +191,7 @@ namespace Heirloom.Collections
             };
         }
 
+        /// <inheritdoc/>
         public Graph<T> FindMinimumSpanningTree()
         {
             // todo: recycle/optimize use of C E and Q?
@@ -220,6 +244,7 @@ namespace Heirloom.Collections
             return F;
         }
 
+        /// <inheritdoc/>
         IGraph<T> IGraph<T>.FindMinimumSpanningTree()
         {
             return FindMinimumSpanningTree();
@@ -229,6 +254,7 @@ namespace Heirloom.Collections
 
         #region Enumerator
 
+        /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator()
         {
             foreach (var v in Vertices)
