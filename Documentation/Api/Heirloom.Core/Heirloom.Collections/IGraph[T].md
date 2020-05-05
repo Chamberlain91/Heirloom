@@ -29,33 +29,33 @@ IEnumerable\<T>, IEnumerable
 
 #### Instance
 
-| Name             | Type                              | Summary                                   |
-|------------------|-----------------------------------|-------------------------------------------|
-| [EdgeCount][1]   | `int`                             | Gets the number of edges in the graph.    |
-| [Edges][2]       | `IEnumerable\<ValueTuple\<T, T>>` | Gets the edges in the graph.              |
-| [VertexCount][3] | `int`                             | Gets the number of vertices in the graph. |
-| [Vertices][4]    | `IEnumerable\<T>`                 | Gets the vertices in the graph.           |
+| Name             | Type                            | Summary                                                 |
+|------------------|---------------------------------|---------------------------------------------------------|
+| [EdgeCount][1]   | `int`                           | Gets the number of edges in the graph.                  |
+| [Edges][2]       | `IEnumerable<ValueTuple<T, T>>` | Gets a collection containing the edges in the graph.    |
+| [VertexCount][3] | `int`                           | Gets the number of vertices in the graph.               |
+| [Vertices][4]    | `IEnumerable<T>`                | Gets a collection containing the vertices in the graph. |
 
 ## Methods
 
 #### Instance
 
-| Name                            | Return Type         | Summary                                                                |
-|---------------------------------|---------------------|------------------------------------------------------------------------|
-| [AddEdge(T, T, float)][5]       | `void`              | Inserts a new edge into the graph.                                     |
-| [AddVertex(T)][6]               | `void`              | Inserts a vertex into the graph.                                       |
-| [Clear()][7]                    | `void`              | Clears the graph. Removing all vertices and edges.                     |
-| [ContainsEdge(T, T)][8]         | `bool`              | Determines of the graph contains the specified edge.                   |
-| [ContainsVertex(T)][9]          | `bool`              | Determines if the graph contains the specified vertex.                 |
-| [FindMinimumSpanningTree()][10] | [IGraph\<T>][18]    | Finds and returns a minimum spanning tree. If the graph is directed... |
-| [FindPath(T, T, Heurist...][11] | `IReadOnlyList\<T>` | Attempts to finds a path between `start` and `goal` vertices using ... |
-| [FindPath(T, Func<T, bo...][11] | `IReadOnlyList\<T>` | Attempts to finds a path between `start` and `goal` vertices using ... |
-| [GetEdgeWeight(T, T)][12]       | `float`             | Gets the weight of some edge.                                          |
-| [GetSuccessors(T)][13]          | `IEnumerable\<T>`   | Gets the successor (outgoing neighbor) vertices.                       |
-| [RemoveEdge(T, T)][14]          | `bool`              | Removes an edge from the graph.                                        |
-| [RemoveVertex(T)][15]           | `bool`              | Removes a vertex from the graph.                                       |
-| [SetEdgeWeight(T, T, fl...][16] | `void`              | Sets the weight of some edge.                                          |
-| [Traverse(T, TraversalM...][17] | `IEnumerable\<T>`   | Traverses the graph by the specified method.                           |
+| Name                            | Return Type        | Summary                                                                |
+|---------------------------------|--------------------|------------------------------------------------------------------------|
+| [AddEdge(T, T, float)][5]       | `void`             | Inserts a new edge into the graph.                                     |
+| [AddVertex(T)][6]               | `void`             | Inserts a vertex into the graph.                                       |
+| [Clear()][7]                    | `void`             | Clears the graph. Removing all vertices and edges.                     |
+| [ContainsEdge(T, T)][8]         | `bool`             | Determines if the graph contains the specified edge.                   |
+| [ContainsVertex(T)][9]          | `bool`             | Determines if the graph contains the specified vertex.                 |
+| [FindMinimumSpanningTree()][10] | [IGraph\<T>][18]   | Finds and returns a minimum spanning tree.                             |
+| [FindPath(T, T, Heurist...][11] | `IReadOnlyList<T>` | Attempts to finds a path between `start` and `goal` vertices using ... |
+| [FindPath(T, Func<T, bo...][11] | `IReadOnlyList<T>` | Attempts to finds a path between `start` and `goal` vertices using ... |
+| [GetEdgeWeight(T, T)][12]       | `float`            | Gets the weight of some edge.                                          |
+| [GetSuccessors(T)][13]          | `IEnumerable<T>`   | Gets the successor (outgoing neighbor) vertices.                       |
+| [RemoveEdge(T, T)][14]          | `bool`             | Removes an edge from the graph.                                        |
+| [RemoveVertex(T)][15]           | `bool`             | Removes a vertex from the graph.                                       |
+| [SetEdgeWeight(T, T, fl...][16] | `void`             | Sets the weight of some edge.                                          |
+| [Traverse(T, TraversalM...][17] | `IEnumerable<T>`   | Traverses the graph by the specified method.                           |
 
 [0]: ../../Heirloom.Core.md
 [1]: IGraph[T]/EdgeCount.md

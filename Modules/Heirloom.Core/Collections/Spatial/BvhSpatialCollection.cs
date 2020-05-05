@@ -19,6 +19,10 @@ namespace Heirloom.Collections
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="BvhSpatialCollection{T}"/> with the specified margin.
+        /// </summary>
+        /// <param name="margin">A margin that inflates the bounding boxes of inserted shapes.</param>
         public BvhSpatialCollection(float margin = 0.1F)
         {
             _nodes = new Dictionary<T, Node>();
@@ -335,6 +339,7 @@ namespace Heirloom.Collections
 
         #region Enumerator
 
+        /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator()
         {
             // ??

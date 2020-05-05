@@ -32,9 +32,9 @@ Constructs a mesh from the given polygon via [Triangulate][2] .
 public static Mesh CreateFromPolygon(IReadOnlyList<Vector> polygon)
 ```
 
-| Name    | Type                     | Summary       |
-|---------|--------------------------|---------------|
-| polygon | `IReadOnlyList\<Vector>` | Some polygon. |
+| Name    | Type                    | Summary       |
+|---------|-------------------------|---------------|
+| polygon | `IReadOnlyList<Vector>` | Some polygon. |
 
 > **Returns** - [Mesh][1] - A new mesh representign the 'filled' space of the polygon.
 

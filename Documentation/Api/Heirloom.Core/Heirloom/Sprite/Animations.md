@@ -16,7 +16,7 @@ Gets the name of each known animation sequence.
 public IReadOnlyCollection<string> Animations { get; }
 ```
 
-> **Returns**: `IReadOnlyCollection\<string>`
+> **Returns**: `IReadOnlyCollection<string>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Sprite.md

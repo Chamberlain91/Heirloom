@@ -22,7 +22,7 @@ public abstract IReadOnlyList<T> FindPath(T start, T goal, HeuristicCost<T> heur
 | goal      | `T`                    | Some goal vertex.                                  |
 | heuristic | [HeuristicCost\<T>][2] | Some heuristic evaluation of the cost to the goal. |
 
-> **Returns** - `IReadOnlyList\<T>` - If exists, the path from `start` to `goal` , otherwise null.
+> **Returns** - `IReadOnlyList<T>` - If exists, the path from `start` to `goal` , otherwise null.
 
 ### FindPath(T, Func<T, bool>, HeuristicCost<T>)
 
@@ -35,10 +35,10 @@ public abstract IReadOnlyList<T> FindPath(T start, Func<T, bool> goalCondition, 
 | Name          | Type                   | Summary                                            |
 |---------------|------------------------|----------------------------------------------------|
 | start         | `T`                    | Some starting vertex.                              |
-| goalCondition | `Func\<T, bool>`       | Some goal condition.                               |
+| goalCondition | `Func<T, bool>`        | Some goal condition.                               |
 | heuristic     | [HeuristicCost\<T>][2] | Some heuristic evaluation of the cost to the goal. |
 
-> **Returns** - `IReadOnlyList\<T>` - If exists, the path from `start` to the vertex that satisfied the `...
+> **Returns** - `IReadOnlyList<T>` - If exists, the path from `start` to the vertex that satisfied the `...
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IGraph[T].md

@@ -56,25 +56,25 @@ public struct Triangle : IShape, IEquatable<Triangle>, IEnumerable<Vector>, IEnu
 
 #### Instance
 
-| Name                            | Return Type            | Summary                                                                |
-|---------------------------------|------------------------|------------------------------------------------------------------------|
-| [Barycentric(in Vector,...][9]  | `void`                 | Computes the barycentric coefficients of the point `p` within the t... |
-| [Contains(in Vector)][10]       | `bool`                 | Determines if this triangle contains the specified point.              |
-| [Deconstruct(out Vector...][11] | `void`                 |                                                                        |
-| [GetEdge(int)][12]              | [LineSegment][24]      |                                                                        |
-| [GetEnumerator()][13]           | `IEnumerator\<Vector>` |                                                                        |
-| [GetNearestPoint(in Vec...][14] | [Vector][22]           | Gets the closest point on the triangle to the specified point.         |
-| [Overlaps(IShape)][15]          | `bool`                 | Determines if this triangle overlaps another shape.                    |
-| [Overlaps(in Circle)][15]       | `bool`                 | Determines if this triangle overlaps the specified circle.             |
-| [Overlaps(in Triangle)][15]     | `bool`                 | Determines if this triangle overlaps another triangle.                 |
-| [Overlaps(in Rectangle)][15]    | `bool`                 | Determines if this triangle overlaps the specified rectangle.          |
-| [Overlaps(IReadOnlyList...][15] | `bool`                 | Determines if this triangle overlaps the specified convex polygon.     |
-| [Overlaps(Polygon)][15]         | `bool`                 | Determines if this triangle overlaps the specified simple polygon.     |
-| [Project(in Vector)][16]        | [Range][25]            | Project this polygon onto the specified axis.                          |
-| [Raycast(in Ray)][17]           | `bool`                 | Peforms a raycast onto this rectangle, returning true upon intersec... |
-| [Raycast(in Ray, out Ra...][17] | `bool`                 | Peforms a raycast onto this rectangle, returning true upon intersec... |
-| [Set(in Vector, in Vect...][18] | `void`                 | Sets each point of the triangle.                                       |
-| [ToPolygon()][19]               | [Polygon][26]          | Create a polygon from this triangle.                                   |
+| Name                            | Return Type           | Summary                                                                |
+|---------------------------------|-----------------------|------------------------------------------------------------------------|
+| [Barycentric(in Vector,...][9]  | `void`                | Computes the barycentric coefficients of the point `p` within the t... |
+| [Contains(in Vector)][10]       | `bool`                | Determines if this triangle contains the specified point.              |
+| [Deconstruct(out Vector...][11] | `void`                |                                                                        |
+| [GetEdge(int)][12]              | [LineSegment][24]     |                                                                        |
+| [GetEnumerator()][13]           | `IEnumerator<Vector>` |                                                                        |
+| [GetNearestPoint(in Vec...][14] | [Vector][22]          | Gets the closest point on the triangle to the specified point.         |
+| [Overlaps(IShape)][15]          | `bool`                | Determines if this triangle overlaps another shape.                    |
+| [Overlaps(in Circle)][15]       | `bool`                | Determines if this triangle overlaps the specified circle.             |
+| [Overlaps(in Triangle)][15]     | `bool`                | Determines if this triangle overlaps another triangle.                 |
+| [Overlaps(in Rectangle)][15]    | `bool`                | Determines if this triangle overlaps the specified rectangle.          |
+| [Overlaps(IReadOnlyList...][15] | `bool`                | Determines if this triangle overlaps the specified convex polygon.     |
+| [Overlaps(Polygon)][15]         | `bool`                | Determines if this triangle overlaps the specified simple polygon.     |
+| [Project(in Vector)][16]        | [Range][25]           | Project this polygon onto the specified axis.                          |
+| [Raycast(in Ray)][17]           | `bool`                | Peforms a raycast onto this rectangle, returning true upon intersec... |
+| [Raycast(in Ray, out Ra...][17] | `bool`                | Peforms a raycast onto this rectangle, returning true upon intersec... |
+| [Set(in Vector, in Vect...][18] | `void`                | Sets each point of the triangle.                                       |
+| [ToPolygon()][19]               | [Polygon][26]         | Create a polygon from this triangle.                                   |
 
 #### Static
 

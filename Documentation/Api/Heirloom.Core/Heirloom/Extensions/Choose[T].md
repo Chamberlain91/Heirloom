@@ -18,10 +18,10 @@ public static T Choose<T>(Random this, IReadOnlyList<T> items)
 
 `ExtensionAttribute`
 
-| Name  | Type                | Summary |
-|-------|---------------------|---------|
-| this  | `Random`            |         |
-| items | `IReadOnlyList\<T>` |         |
+| Name  | Type               | Summary |
+|-------|--------------------|---------|
+| this  | `Random`           |         |
+| items | `IReadOnlyList<T>` |         |
 
 > **Returns** - `T`
 

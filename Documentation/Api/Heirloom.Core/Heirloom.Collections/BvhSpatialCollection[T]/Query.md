@@ -16,13 +16,11 @@ Queries the spatial collection and returns the elements with bounds that overlap
 public IEnumerable<T> Query(Vector point)
 ```
 
-`IteratorStateMachineAttribute`
-
 | Name  | Type        | Summary |
 |-------|-------------|---------|
 | point | [Vector][2] |         |
 
-> **Returns** - `IEnumerable\<T>`
+> **Returns** - `IEnumerable<T>`
 
 ### Query(IShape)
 
@@ -32,13 +30,11 @@ Queries the spatial collection and returns the elements with bounds that overlap
 public IEnumerable<T> Query(IShape queryShape)
 ```
 
-`IteratorStateMachineAttribute`
-
 | Name       | Type        | Summary |
 |------------|-------------|---------|
 | queryShape | [IShape][3] |         |
 
-> **Returns** - `IEnumerable\<T>`
+> **Returns** - `IEnumerable<T>`
 
 ### Query(Ray, float)
 
@@ -48,14 +44,12 @@ Queries the spatial collection and returns the elements with bounds that interse
 public IEnumerable<T> Query(Ray ray, float maxDistance = ∞)
 ```
 
-`IteratorStateMachineAttribute`
-
 | Name        | Type     | Summary |
 |-------------|----------|---------|
 | ray         | [Ray][4] |         |
 | maxDistance | `float`  |         |
 
-> **Returns** - `IEnumerable\<T>`
+> **Returns** - `IEnumerable<T>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../BvhSpatialCollection[T].md

@@ -10,6 +10,8 @@
 
 ### RemoveEdge(T, T)
 
+Removes an edge from the graph.
+
 ```cs
 public bool RemoveEdge(T a, T b)
 ```

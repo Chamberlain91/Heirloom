@@ -10,6 +10,8 @@
 
 ### GetEdgeWeight(T, T)
 
+Gets the weight of some edge.
+
 ```cs
 public float GetEdgeWeight(T a, T b)
 ```

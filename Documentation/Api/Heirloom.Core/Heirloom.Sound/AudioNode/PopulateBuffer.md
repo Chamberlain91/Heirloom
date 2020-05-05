@@ -14,9 +14,9 @@
 protected abstract void PopulateBuffer(Span<float> buffer)
 ```
 
-| Name   | Type           | Summary |
-|--------|----------------|---------|
-| buffer | `Span\<float>` |         |
+| Name   | Type          | Summary |
+|--------|---------------|---------|
+| buffer | `Span<float>` |         |
 
 > **Returns** - `void`
 

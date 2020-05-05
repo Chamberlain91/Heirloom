@@ -10,6 +10,8 @@
 
 ### GetArcWeight(T, T)
 
+Gets the weight of some arc.
+
 ```cs
 public float GetArcWeight(T a, T b)
 ```

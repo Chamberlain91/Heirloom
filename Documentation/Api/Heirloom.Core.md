@@ -14,10 +14,10 @@
 | [Font][3]                      | An object to represent a truetype font. Provides functionality to q... |
 | [GameLoop][4]                  | Provides a thread to manage invoking a render/update function conti... |
 | [Glyph][5]                     | A glyph represents the metrics and rendering of a character from th... |
-| [Graphics][6]                  |                                                                        |
+| [GraphicsContext][6]           |                                                                        |
 | [ImageSource][7]               |                                                                        |
 | [Image][8]                     |                                                                        |
-| [Surface][9]                   | Represents a surface a Graphics object can draw on.                    |
+| [Surface][9]                   | Represents a surface a GraphicsContext object can draw on.             |
 | [Input][10]                    | Provides a centralized query style input layer. This is useful for ... |
 | [Interval][11]                 | A utility object to check if an interval of time has occured.          |
 | [Log][12]                      | Provides a simple mechanism to log debug and info messages.            |
@@ -48,35 +48,35 @@
 
 ### Struct
 
-| Name                      | Summary                                                                |
-|---------------------------|------------------------------------------------------------------------|
-| [CharacterEvent][37]      |                                                                        |
-| [Color][38]               | Color encoded as 4 component floats.                                   |
-| [ColorBytes][39]          | Color encoded as 4 component bytes.                                    |
-| [FontMetrics][40]         | Contains information about a font (ie, the vertical metrics).          |
-| [GlyphMetrics][41]        | Contains information about a glyph (ie, the horizontal metrics).       |
-| [Graphics.DrawCounts][42] |                                                                        |
-| [IntRange][43]            | Represents a range of integers from IntRange.Min to IntRange.Max .     |
-| [IntRectangle][44]        | Represents a rectangle defined with integer coordinates.               |
-| [IntSize][45]             | Represents a size or dimensions defined with integer fields.           |
-| [IntVector][46]           | Represents a vector with two integer values.                           |
-| [KeyEvent][47]            |                                                                        |
-| [Matrix][48]              | A 2x3 transformation matrix.                                           |
-| [MouseButtonEvent][49]    |                                                                        |
-| [MouseMoveEvent][50]      |                                                                        |
-| [MouseScrollEvent][51]    |                                                                        |
-| [Range][52]               | Represents a range of single-precision floating point numbers from ... |
-| [Rectangle][53]           |                                                                        |
-| [Size][54]                |                                                                        |
-| [Statistics][55]          | Represents statistics of some data.                                    |
-| [TextDrawState][56]       | Represents information of any particular glyph when drawing text.      |
-| [TextLayoutState][57]     | Represents information of any particular glyph during text layout.     |
-| [Touch][58]               |                                                                        |
-| [TouchEvent][59]          |                                                                        |
-| [UnicodeCharacter][60]    | Represents a single 32 bit Unicode character.                          |
-| [UnicodeRange][61]        | Represents a range of unicode 32 bit code points.                      |
-| [Vector][62]              | Represents a vector with two single-precision floating-point values.   |
-| [Vertex][63]              | Represents a vertex of Mesh .                                          |
+| Name                             | Summary                                                                |
+|----------------------------------|------------------------------------------------------------------------|
+| [CharacterEvent][37]             |                                                                        |
+| [Color][38]                      | Color encoded as 4 component floats.                                   |
+| [ColorBytes][39]                 | Color encoded as 4 component bytes.                                    |
+| [FontMetrics][40]                | Contains information about a font (ie, the vertical metrics).          |
+| [GlyphMetrics][41]               | Contains information about a glyph (ie, the horizontal metrics).       |
+| [GraphicsContext.DrawCounts][42] |                                                                        |
+| [IntRange][43]                   | Represents a range of integers from IntRange.Min to IntRange.Max .     |
+| [IntRectangle][44]               | Represents a rectangle defined with integer coordinates.               |
+| [IntSize][45]                    | Represents a size or dimensions defined with integer fields.           |
+| [IntVector][46]                  | Represents a vector with two integer values.                           |
+| [KeyEvent][47]                   |                                                                        |
+| [Matrix][48]                     | A 2x3 transformation matrix.                                           |
+| [MouseButtonEvent][49]           |                                                                        |
+| [MouseMoveEvent][50]             |                                                                        |
+| [MouseScrollEvent][51]           |                                                                        |
+| [Range][52]                      | Represents a range of single-precision floating point numbers from ... |
+| [Rectangle][53]                  |                                                                        |
+| [Size][54]                       |                                                                        |
+| [Statistics][55]                 | Represents statistics of some data.                                    |
+| [TextDrawState][56]              | Represents information of any particular glyph when drawing text.      |
+| [TextLayoutState][57]            | Represents information of any particular glyph during text layout.     |
+| [Touch][58]                      |                                                                        |
+| [TouchEvent][59]                 |                                                                        |
+| [UnicodeCharacter][60]           | Represents a single 32 bit Unicode character.                          |
+| [UnicodeRange][61]               | Represents a range of unicode 32 bit code points.                      |
+| [Vector][62]                     | Represents a vector with two single-precision floating-point values.   |
+| [Vertex][63]                     | Represents a vertex of Mesh .                                          |
 
 ### Interface
 
@@ -106,7 +106,7 @@
 | [MouseButton][80]            |                                                                        |
 | [MultisampleQuality][81]     | Multisampling levels                                                   |
 | [PackingAlgorithm][82]       | An enumeration of rectangle packing algorithms.                        |
-| [PerformanceOverlayMode][83] | Controls showing the performance overlay on a Graphics object.         |
+| [PerformanceOverlayMode][83] | Controls showing the performance overlay on a GraphicsContext object.  |
 | [RepeatMode][84]             | Represents the behaviour when sampling an image outside its natural... |
 | [SurfaceType][85]            | Represents the surface type.                                           |
 | [TextAlign][86]              | Controls how text is aligned to the layout rectangle.                  |
@@ -129,9 +129,9 @@
 | Name                               | Summary                                                                |
 |------------------------------------|------------------------------------------------------------------------|
 | [BvhSpatialCollection\<T>][93]     | A spatial collection to store and query elements in 2D space, imple... |
-| [DirectedGraph\<T>][94]            |                                                                        |
+| [DirectedGraph\<T>][94]            | A directed graph implemented using adjacency lists.                    |
 | [FreeList\<T>][95]                 | A free list an allocation-centric data structure that allows insert... |
-| [Graph\<T>][96]                    |                                                                        |
+| [Graph\<T>][96]                    | An undirected graph implemented using adjacency lists.                 |
 | [Grid\<T>][97]                     | A finite grid (bounded by size) of values.                             |
 | [GridUtilities][98]                | Provides extra utilities for interacting with a grid.                  |
 | [Heap\<T>][99]                     | Represents a heap data structure. Allows the insertion and removal ... |
@@ -143,7 +143,7 @@
 
 | Name                                  | Summary                                                                |
 |---------------------------------------|------------------------------------------------------------------------|
-| [IDirectedGraph\<T>][103]             |                                                                        |
+| [IDirectedGraph\<T>][103]             | An interface that represents a graph.                                  |
 | [IFiniteGrid\<T>][104]                | A finite grid (bounded by IFiniteGrid<T>.Width and IFiniteGrid<T>.H... |
 | [IGraph\<T>][105]                     | An interface that represents a graph.                                  |
 | [IGrid\<T>][106]                      | A 2D grid of values.                                                   |
@@ -243,7 +243,7 @@
 [3]: Heirloom.Core/Heirloom/Font.md
 [4]: Heirloom.Core/Heirloom/GameLoop.md
 [5]: Heirloom.Core/Heirloom/Glyph.md
-[6]: Heirloom.Core/Heirloom/Graphics.md
+[6]: Heirloom.Core/Heirloom/GraphicsContext.md
 [7]: Heirloom.Core/Heirloom/ImageSource.md
 [8]: Heirloom.Core/Heirloom/Image.md
 [9]: Heirloom.Core/Heirloom/Surface.md
@@ -279,7 +279,7 @@
 [39]: Heirloom.Core/Heirloom/ColorBytes.md
 [40]: Heirloom.Core/Heirloom/FontMetrics.md
 [41]: Heirloom.Core/Heirloom/GlyphMetrics.md
-[42]: Heirloom.Core/Heirloom/Graphics.DrawCounts.md
+[42]: Heirloom.Core/Heirloom/GraphicsContext.DrawCounts.md
 [43]: Heirloom.Core/Heirloom/IntRange.md
 [44]: Heirloom.Core/Heirloom/IntRectangle.md
 [45]: Heirloom.Core/Heirloom/IntSize.md

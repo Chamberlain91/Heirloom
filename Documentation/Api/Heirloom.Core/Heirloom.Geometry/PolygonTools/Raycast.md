@@ -16,10 +16,10 @@ Checks if a ray intersects this polygon.
 public static bool Raycast(IReadOnlyList<Vector> polygon, in Ray ray)
 ```
 
-| Name    | Type                     | Summary |
-|---------|--------------------------|---------|
-| polygon | `IReadOnlyList\<Vector>` |         |
-| ray     | [Ray][2]                 |         |
+| Name    | Type                    | Summary |
+|---------|-------------------------|---------|
+| polygon | `IReadOnlyList<Vector>` |         |
+| ray     | [Ray][2]                |         |
 
 > **Returns** - `bool`
 
@@ -31,11 +31,11 @@ Checks if a ray intersects this polygon.
 public static bool Raycast(IReadOnlyList<Vector> polygon, in Vector origin, in Vector direction)
 ```
 
-| Name      | Type                     | Summary |
-|-----------|--------------------------|---------|
-| polygon   | `IReadOnlyList\<Vector>` |         |
-| origin    | [Vector][3]              |         |
-| direction | [Vector][3]              |         |
+| Name      | Type                    | Summary |
+|-----------|-------------------------|---------|
+| polygon   | `IReadOnlyList<Vector>` |         |
+| origin    | [Vector][3]             |         |
+| direction | [Vector][3]             |         |
 
 > **Returns** - `bool`
 
@@ -47,11 +47,11 @@ Checks if a ray intersects this polygon and outputs information on the contact p
 public static bool Raycast(IReadOnlyList<Vector> polygon, in Ray ray, out RayContact contact)
 ```
 
-| Name    | Type                     | Summary |
-|---------|--------------------------|---------|
-| polygon | `IReadOnlyList\<Vector>` |         |
-| ray     | [Ray][2]                 |         |
-| contact | [RayContact][4]          |         |
+| Name    | Type                    | Summary |
+|---------|-------------------------|---------|
+| polygon | `IReadOnlyList<Vector>` |         |
+| ray     | [Ray][2]                |         |
+| contact | [RayContact][4]         |         |
 
 > **Returns** - `bool`
 
@@ -63,12 +63,12 @@ Checks if a ray intersects this polygon and outputs information on the contact p
 public static bool Raycast(IReadOnlyList<Vector> polygon, in Vector origin, in Vector direction, out RayContact contact)
 ```
 
-| Name      | Type                     | Summary |
-|-----------|--------------------------|---------|
-| polygon   | `IReadOnlyList\<Vector>` |         |
-| origin    | [Vector][3]              |         |
-| direction | [Vector][3]              |         |
-| contact   | [RayContact][4]          |         |
+| Name      | Type                    | Summary |
+|-----------|-------------------------|---------|
+| polygon   | `IReadOnlyList<Vector>` |         |
+| origin    | [Vector][3]             |         |
+| direction | [Vector][3]             |         |
+| contact   | [RayContact][4]         |         |
 
 > **Returns** - `bool`
 

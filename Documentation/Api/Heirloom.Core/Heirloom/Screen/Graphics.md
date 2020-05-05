@@ -13,11 +13,11 @@
 Gets the graphics context that can draw on this screen.
 
 ```cs
-public Graphics Graphics { get; set; }
+public GraphicsContext Graphics { get; set; }
 ```
 
-> **Returns**: [Graphics][2]
+> **Returns**: [GraphicsContext][2]
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Screen.md
-[2]: ../Graphics.md
+[2]: ../GraphicsContext.md

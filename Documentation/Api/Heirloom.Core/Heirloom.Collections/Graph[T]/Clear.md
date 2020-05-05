@@ -10,6 +10,8 @@
 
 ### Clear()
 
+Clears the graph. Removing all vertices and edges.
+
 ```cs
 public void Clear()
 ```

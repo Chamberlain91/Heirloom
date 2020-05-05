@@ -10,6 +10,8 @@
 
 ### VertexCount
 
+Gets the number of vertices in the graph.
+
 ```cs
 public int VertexCount { get; }
 ```

@@ -16,15 +16,13 @@ Iterate over a perfectly vertical line.
 public static IEnumerable<IntVector> VLine(int y1, int y2, int x)
 ```
 
-`IteratorStateMachineAttribute`
-
 | Name | Type  | Summary                  |
 |------|-------|--------------------------|
 | y1   | `int` | Line start y coordinate. |
 | y2   | `int` | Line end y coordinate.   |
 | x    | `int` | Line x coordinate.       |
 
-> **Returns** - `IEnumerable\<IntVector>` - Generated points along the line.
+> **Returns** - `IEnumerable<IntVector>` - Generated points along the line.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Rasterizer.md

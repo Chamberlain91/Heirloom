@@ -16,9 +16,9 @@ Computes new statistics from a collection of integers.
 public static Statistics Compute(IEnumerable<int> values)
 ```
 
-| Name   | Type                | Summary |
-|--------|---------------------|---------|
-| values | `IEnumerable\<int>` |         |
+| Name   | Type               | Summary |
+|--------|--------------------|---------|
+| values | `IEnumerable<int>` |         |
 
 > **Returns** - [Statistics][1]
 
@@ -30,9 +30,9 @@ Computes new statistics from a collection of numbers.
 public static Statistics Compute(IEnumerable<float> values)
 ```
 
-| Name   | Type                  | Summary |
-|--------|-----------------------|---------|
-| values | `IEnumerable\<float>` |         |
+| Name   | Type                 | Summary |
+|--------|----------------------|---------|
+| values | `IEnumerable<float>` |         |
 
 > **Returns** - [Statistics][1]
 

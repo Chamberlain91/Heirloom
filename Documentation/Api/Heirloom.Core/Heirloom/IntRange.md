@@ -64,15 +64,15 @@ IEquatable\<IntRange>, IEnumerable\<int>, IEnumerable
 
 #### Instance
 
-| Name                           | Return Type         | Summary                                                          |
-|--------------------------------|---------------------|------------------------------------------------------------------|
-| [Contains(in int)][6]          | `bool`              | Determines if this range contains the specified value.           |
-| [Deconstruct(out int, o...][7] | `void`              |                                                                  |
-| [GetEnumerator()][8]           | `IEnumerator\<int>` |                                                                  |
-| [Include(int)][9]              | `void`              | Mutate this range (by expansion) to include the specified value. |
-| [Include(IntRange)][9]         | `void`              | Mutate this range (by expansion) to include the specified range. |
-| [Overlaps(in IntRange)][10]    | `bool`              | Determines if this range overlaps another integer range.         |
-| [Set(int, int)][11]            | `void`              | Sets the components of this range.                               |
+| Name                           | Return Type        | Summary                                                          |
+|--------------------------------|--------------------|------------------------------------------------------------------|
+| [Contains(in int)][6]          | `bool`             | Determines if this range contains the specified value.           |
+| [Deconstruct(out int, o...][7] | `void`             |                                                                  |
+| [GetEnumerator()][8]           | `IEnumerator<int>` |                                                                  |
+| [Include(int)][9]              | `void`             | Mutate this range (by expansion) to include the specified value. |
+| [Include(IntRange)][9]         | `void`             | Mutate this range (by expansion) to include the specified range. |
+| [Overlaps(in IntRange)][10]    | `bool`             | Determines if this range overlaps another integer range.         |
+| [Set(int, int)][11]            | `void`             | Sets the components of this range.                               |
 
 [0]: ../../Heirloom.Core.md
 [1]: IntRange/Min.md

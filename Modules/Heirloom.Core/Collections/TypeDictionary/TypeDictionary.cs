@@ -13,16 +13,21 @@ namespace Heirloom.Collections
         private readonly Dictionary<Type, List<T>> _typeLists;
         private readonly HashSet<T> _items;
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="TypeDictionary{T}"/>.
+        /// </summary>
         public TypeDictionary()
         {
             _typeLists = new Dictionary<Type, List<T>>();
             _items = new HashSet<T>();
         }
 
+        /// <inheritdoc/>
         public int Count => _items.Count;
 
         #region Add, Remove
 
+        /// <inheritdoc/>
         public bool Add(T item)
         {
             if (item == null) { throw new ArgumentNullException(nameof(item)); }
@@ -45,6 +50,7 @@ namespace Heirloom.Collections
             return false;
         }
 
+        /// <inheritdoc/>
         public bool Remove(T item)
         {
             // Try to remove item from bucket
@@ -70,16 +76,19 @@ namespace Heirloom.Collections
 
         #region Contains, ContainsType and Enumerate
 
+        /// <inheritdoc/>
         public bool Contains(T item)
         {
             return _items.Contains(item);
         }
 
+        /// <inheritdoc/>
         public bool ContainsType<X>() where X : T
         {
             return _typeLists.ContainsKey(typeof(X));
         }
 
+        /// <inheritdoc/>
         public IEnumerable<X> GetItemsByType<X>() where X : T
         {
             if (ContainsType<X>())
@@ -125,6 +134,7 @@ namespace Heirloom.Collections
 
         #region IEnumerable<T>
 
+        /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator()
         {
             return _items.GetEnumerator();

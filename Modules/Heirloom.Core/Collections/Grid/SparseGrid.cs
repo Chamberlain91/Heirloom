@@ -11,6 +11,9 @@ namespace Heirloom.Collections
 
         #region Constructors
 
+        /// <summary>
+        /// Construcs a new instance of <see cref="SparseGrid{T}"/>.
+        /// </summary>
         public SparseGrid()
         {
             _data = new Dictionary<IntVector, T>();
@@ -45,6 +48,7 @@ namespace Heirloom.Collections
 
         #endregion
 
+        /// <inheritdocs/>
         public IEnumerable<IntVector> Keys => _data.Keys;
 
         /// <summary>

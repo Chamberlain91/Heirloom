@@ -27,12 +27,12 @@ public sealed class Mesh
 
 #### Instance
 
-| Name           | Type                     | Summary                                                                |
-|----------------|--------------------------|------------------------------------------------------------------------|
-| [Indices][1]   | `IReadOnlyList\<int>`    | Gets the (optional) indices defining triangles by index of the vert... |
-| [IsIndexed][2] | `bool`                   | Is this mesh constructed triangles specified by indexed?               |
-| [Version][3]   | `uint`                   | The version number of the mesh. Modifications to the mesh data incr... |
-| [Vertices][4]  | `IReadOnlyList\<Vertex>` | Gets the vertices contained by this mesh.                              |
+| Name           | Type                    | Summary                                                                |
+|----------------|-------------------------|------------------------------------------------------------------------|
+| [Indices][1]   | `IReadOnlyList<int>`    | Gets the (optional) indices defining triangles by index of the vert... |
+| [IsIndexed][2] | `bool`                  | Is this mesh constructed triangles specified by indexed?               |
+| [Version][3]   | `uint`                  | The version number of the mesh. Modifications to the mesh data incr... |
+| [Vertices][4]  | `IReadOnlyList<Vertex>` | Gets the vertices contained by this mesh.                              |
 
 ## Methods
 

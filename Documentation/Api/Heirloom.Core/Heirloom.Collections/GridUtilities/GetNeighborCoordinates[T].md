@@ -16,7 +16,7 @@ Gets the specified cell's neighbor coordinates.
 public static IEnumerable<IntVector> GetNeighborCoordinates<T>(IGrid<T> grid, int x, int y, GridNeighborType neighborType = Axis)
 ```
 
-`IteratorStateMachineAttribute` `ExtensionAttribute`
+`ExtensionAttribute`
 
 | Name         | Type                  | Summary |
 |--------------|-----------------------|---------|
@@ -25,7 +25,7 @@ public static IEnumerable<IntVector> GetNeighborCoordinates<T>(IGrid<T> grid, in
 | y            | `int`                 |         |
 | neighborType | [GridNeighborType][3] |         |
 
-> **Returns** - `IEnumerable\<IntVector>`
+> **Returns** - `IEnumerable<IntVector>`
 
 ### GetNeighborCoordinates<T>(IGrid<T>, IntVector, GridNeighborType)
 
@@ -43,7 +43,7 @@ public static IEnumerable<IntVector> GetNeighborCoordinates<T>(IGrid<T> grid, In
 | co           | [IntVector][4]        |         |
 | neighborType | [GridNeighborType][3] |         |
 
-> **Returns** - `IEnumerable\<IntVector>`
+> **Returns** - `IEnumerable<IntVector>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../GridUtilities.md

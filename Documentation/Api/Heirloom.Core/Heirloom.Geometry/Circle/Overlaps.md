@@ -86,9 +86,9 @@ Determines if this circle overlaps the specified convex polygon.
 public bool Overlaps(IReadOnlyList<Vector> polygon)
 ```
 
-| Name    | Type                     | Summary |
-|---------|--------------------------|---------|
-| polygon | `IReadOnlyList\<Vector>` |         |
+| Name    | Type                    | Summary |
+|---------|-------------------------|---------|
+| polygon | `IReadOnlyList<Vector>` |         |
 
 > **Returns** - `bool`
 

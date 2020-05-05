@@ -18,10 +18,10 @@ public static Heap<T> ToHeap<T>(IEnumerable<T> items, HeapType type = Min)
 
 `ExtensionAttribute`
 
-| Name  | Type              | Summary |
-|-------|-------------------|---------|
-| items | `IEnumerable\<T>` |         |
-| type  | [HeapType][3]     |         |
+| Name  | Type             | Summary |
+|-------|------------------|---------|
+| items | `IEnumerable<T>` |         |
+| type  | [HeapType][3]    |         |
 
 > **Returns** - [Heap\<T>][2]
 
@@ -35,11 +35,11 @@ public static Heap<T> ToHeap<T>(IEnumerable<T> items, Comparison<T> comparison, 
 
 `ExtensionAttribute`
 
-| Name       | Type              | Summary |
-|------------|-------------------|---------|
-| items      | `IEnumerable\<T>` |         |
-| comparison | `Comparison\<T>`  |         |
-| type       | [HeapType][3]     |         |
+| Name       | Type             | Summary |
+|------------|------------------|---------|
+| items      | `IEnumerable<T>` |         |
+| comparison | `Comparison<T>`  |         |
+| type       | [HeapType][3]    |         |
 
 > **Returns** - [Heap\<T>][2]
 

@@ -14,7 +14,7 @@
 public static IReadOnlyList<Color> Rainbow { get; }
 ```
 
-> **Returns**: `IReadOnlyList\<Color>`
+> **Returns**: `IReadOnlyList<Color>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Color.md

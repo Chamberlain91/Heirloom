@@ -10,7 +10,7 @@
 
 ### ContainsEdge(T, T)
 
-Determines of the graph contains the specified edge.
+Determines if the graph contains the specified edge.
 
 ```cs
 public abstract bool ContainsEdge(T a, T b)

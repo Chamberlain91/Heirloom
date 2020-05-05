@@ -16,7 +16,7 @@ Gets a read-only list of currently opened windows.
 public static IReadOnlyList<Window> Windows { get; }
 ```
 
-> **Returns**: `IReadOnlyList\<Window>`
+> **Returns**: `IReadOnlyList<Window>`
 
 [0]: ../../../Heirloom.Desktop.md
 [1]: ../Application.md

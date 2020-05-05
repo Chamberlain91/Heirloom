@@ -29,35 +29,35 @@ public interface IInputSource
 
 #### Instance
 
-| Name                          | Type   | Summary |
-|-------------------------------|--------|---------|
-| [SupportsSoftwareKeyboard][1] | `bool` |         |
+| Name                          | Type   | Summary                                                                |
+|-------------------------------|--------|------------------------------------------------------------------------|
+| [SupportsSoftwareKeyboard][1] | `bool` | Gets a value that determines if a software keyboard is supported on... |
 
 ## Events
 
 #### Instance
 
-| Name                | Handler Type                        | Summary |
-|---------------------|-------------------------------------|---------|
-| [CharacterTyped][6] | `Action\<Screen, CharacterEvent>`   |         |
-| [KeyPressed][7]     | `Action\<Screen, KeyEvent>`         |         |
-| [KeyReleased][8]    | `Action\<Screen, KeyEvent>`         |         |
-| [KeyRepeat][9]      | `Action\<Screen, KeyEvent>`         |         |
-| [MouseMoved][10]    | `Action\<Screen, MouseMoveEvent>`   |         |
-| [MousePressed][11]  | `Action\<Screen, MouseButtonEvent>` |         |
-| [MouseReleased][12] | `Action\<Screen, MouseButtonEvent>` |         |
-| [MouseScrolled][13] | `Action\<Screen, MouseScrollEvent>` |         |
+| Name                | Handler Type                       | Summary |
+|---------------------|------------------------------------|---------|
+| [CharacterTyped][6] | `Action<Screen, CharacterEvent>`   |         |
+| [KeyPressed][7]     | `Action<Screen, KeyEvent>`         |         |
+| [KeyReleased][8]    | `Action<Screen, KeyEvent>`         |         |
+| [KeyRepeat][9]      | `Action<Screen, KeyEvent>`         |         |
+| [MouseMoved][10]    | `Action<Screen, MouseMoveEvent>`   |         |
+| [MousePressed][11]  | `Action<Screen, MouseButtonEvent>` |         |
+| [MouseReleased][12] | `Action<Screen, MouseButtonEvent>` |         |
+| [MouseScrolled][13] | `Action<Screen, MouseScrollEvent>` |         |
 
 ## Methods
 
 #### Instance
 
-| Name                           | Return Type | Summary |
-|--------------------------------|-------------|---------|
-| [HideSoftwareKeyboard()][2]    | `void`      |         |
-| [ShowSoftwareKeyboard()][3]    | `void`      |         |
-| [TryGetButton(MouseButt...][4] | `bool`      |         |
-| [TryGetKey(Key, out But...][5] | `bool`      |         |
+| Name                           | Return Type | Summary                                 |
+|--------------------------------|-------------|-----------------------------------------|
+| [HideSoftwareKeyboard()][2]    | `void`      | Hides the software keyboard.            |
+| [ShowSoftwareKeyboard()][3]    | `void`      | Attempts to show the software keyboard. |
+| [TryGetButton(MouseButt...][4] | `bool`      |                                         |
+| [TryGetKey(Key, out But...][5] | `bool`      |                                         |
 
 [0]: ../../Heirloom.Core.md
 [1]: IInputSource/SupportsSoftwareKeyboard.md

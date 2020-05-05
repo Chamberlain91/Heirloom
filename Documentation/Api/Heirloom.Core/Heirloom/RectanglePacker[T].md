@@ -27,10 +27,10 @@ public class RectanglePacker<T> : IRectanglePacker<T>
 
 #### Instance
 
-| Name          | Type              | Summary |
-|---------------|-------------------|---------|
-| [Elements][2] | `IEnumerable\<T>` |         |
-| [Size][3]     | [IntSize][9]      |         |
+| Name          | Type             | Summary |
+|---------------|------------------|---------|
+| [Elements][2] | `IEnumerable<T>` |         |
+| [Size][3]     | [IntSize][9]     |         |
 
 ## Methods
 

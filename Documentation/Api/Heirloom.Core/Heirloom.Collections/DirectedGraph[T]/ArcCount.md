@@ -10,6 +10,8 @@
 
 ### ArcCount
 
+Gets the number of arcs in the directed graph.
+
 ```cs
 public int ArcCount { get; }
 ```

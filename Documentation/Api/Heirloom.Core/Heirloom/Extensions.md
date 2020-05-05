@@ -43,7 +43,7 @@ public static class Extensions
 | [Randomize<T>(IList<T>,...][13] | `void`                 |                                                                        |
 | [ReadAllBytes(Stream)][14]      | ` byte[]`              | Reads the entire contents of the stream as blob of bytes.              |
 | [ReadAllText(Stream)][15]       | `string`               | Reads the entire contents of the stream as a block of text.            |
-| [ReadLines(Stream)][16]         | `IEnumerable\<string>` | Reads the entire contents of the stream line by line.                  |
+| [ReadLines(Stream)][16]         | `IEnumerable<string>`  | Reads the entire contents of the stream line by line.                  |
 | [Sample(INoise1D, float...][17] | `float`                | Sample one-dimensional octave noise.                                   |
 | [Sample(INoise2D, in Ve...][17] | `float`                | Sample two-dimensional noise.                                          |
 | [Sample(INoise2D, in Ve...][17] | `float`                | Sample two-dimensional octave noise.                                   |

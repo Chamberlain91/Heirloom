@@ -29,9 +29,9 @@ public interface IReadOnlySparseGrid<T> : IReadOnlyGrid<T>
 
 #### Instance
 
-| Name      | Type                      | Summary |
-|-----------|---------------------------|---------|
-| [Keys][2] | `IEnumerable\<IntVector>` |         |
+| Name      | Type                     | Summary                                                   |
+|-----------|--------------------------|-----------------------------------------------------------|
+| [Keys][2] | `IEnumerable<IntVector>` | Gets a collection containing the keys of the sparse grid. |
 
 ## Methods
 

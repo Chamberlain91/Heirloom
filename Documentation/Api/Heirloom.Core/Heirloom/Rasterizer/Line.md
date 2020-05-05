@@ -21,7 +21,7 @@ public static IEnumerable<IntVector> Line(IntVector p0, IntVector p1)
 | p0   | [IntVector][2] | Starting point. |
 | p1   | [IntVector][2] | Ending point.   |
 
-> **Returns** - `IEnumerable\<IntVector>`
+> **Returns** - `IEnumerable<IntVector>`
 
 ### Line(IntVector, IntVector, byte)
 
@@ -37,7 +37,7 @@ public static IEnumerable<IntVector> Line(IntVector p0, IntVector p1, byte patte
 | p1      | [IntVector][2] | Ending point.                              |
 | pattern | ` byte`        | Sequence of bits to mask drawing the line. |
 
-> **Returns** - `IEnumerable\<IntVector>`
+> **Returns** - `IEnumerable<IntVector>`
 
 ### Line(IntVector, IntVector, ushort)
 
@@ -53,7 +53,7 @@ public static IEnumerable<IntVector> Line(IntVector p0, IntVector p1, ushort pat
 | p1      | [IntVector][2] | Ending point.                              |
 | pattern | `ushort`       | Sequence of bits to mask drawing the line. |
 
-> **Returns** - `IEnumerable\<IntVector>`
+> **Returns** - `IEnumerable<IntVector>`
 
 ### Line(IntVector, IntVector, uint)
 
@@ -63,15 +63,13 @@ Rasterize along a line.
 public static IEnumerable<IntVector> Line(IntVector p0, IntVector p1, uint pattern)
 ```
 
-`IteratorStateMachineAttribute`
-
 | Name    | Type           | Summary                                    |
 |---------|----------------|--------------------------------------------|
 | p0      | [IntVector][2] | Starting point.                            |
 | p1      | [IntVector][2] | Ending point.                              |
 | pattern | `uint`         | Sequence of bits to mask drawing the line. |
 
-> **Returns** - `IEnumerable\<IntVector>`
+> **Returns** - `IEnumerable<IntVector>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Rasterizer.md

@@ -10,6 +10,8 @@
 
 ### SupportsSoftwareKeyboard
 
+Gets a value that determines if a software keyboard is supported on this platform.
+
 ```cs
 public bool SupportsSoftwareKeyboard { get; }
 ```

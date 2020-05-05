@@ -14,7 +14,7 @@
 public IEnumerator<int> GetEnumerator()
 ```
 
-> **Returns** - `IEnumerator\<int>`
+> **Returns** - `IEnumerator<int>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IntRange.md

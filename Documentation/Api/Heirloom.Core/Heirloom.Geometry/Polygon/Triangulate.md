@@ -16,7 +16,7 @@ Decompose this polygon into triangles.
 public IEnumerable<Triangle> Triangulate()
 ```
 
-> **Returns** - `IEnumerable\<Triangle>`
+> **Returns** - `IEnumerable<Triangle>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Polygon.md

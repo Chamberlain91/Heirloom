@@ -11,8 +11,16 @@ namespace Heirloom.Collections
 
         #region Constructors
 
+        /// <summary>
+        /// Construcs a new instance of <see cref="Grid{T}"/> with the specified dimensions.
+        /// </summary>
+        /// <param name="width">The width of the grid.</param>
+        /// <param name="height">The height of the grid.</param>
         public Grid(int width, int height)
         {
+            if (width <= 0) { throw new ArgumentException($"Must be greater than zero.", nameof(width)); }
+            if (height <= 0) { throw new ArgumentException($"Must be greater than zero.", nameof(height)); }
+
             Width = width;
             Height = height;
 

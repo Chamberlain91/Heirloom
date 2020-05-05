@@ -15,11 +15,21 @@ namespace Heirloom
         event Action<Screen, KeyEvent> KeyReleased;
         event Action<Screen, KeyEvent> KeyRepeat;
 
+        /// <summary>
+        /// Gets a value that determines if a software keyboard is supported on this platform.
+        /// </summary>
         bool SupportsSoftwareKeyboard { get; }
 
         bool TryGetKey(Key key, out ButtonState state);
 
+        /// <summary>
+        /// Attempts to show the software keyboard.
+        /// </summary>
         void ShowSoftwareKeyboard();
+
+        /// <summary>
+        /// Hides the software keyboard.
+        /// </summary>
         void HideSoftwareKeyboard();
 
         #endregion

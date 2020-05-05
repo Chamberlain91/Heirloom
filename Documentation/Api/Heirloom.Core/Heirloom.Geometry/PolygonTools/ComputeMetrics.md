@@ -14,12 +14,12 @@
 public static void ComputeMetrics(IReadOnlyList<Vector> polygon, out float area, out Vector center, out Vector centroid)
 ```
 
-| Name     | Type                     | Summary |
-|----------|--------------------------|---------|
-| polygon  | `IReadOnlyList\<Vector>` |         |
-| area     | `float`                  |         |
-| center   | [Vector][2]              |         |
-| centroid | [Vector][2]              |         |
+| Name     | Type                    | Summary |
+|----------|-------------------------|---------|
+| polygon  | `IReadOnlyList<Vector>` |         |
+| area     | `float`                 |         |
+| center   | [Vector][2]             |         |
+| centroid | [Vector][2]             |         |
 
 > **Returns** - `void`
 

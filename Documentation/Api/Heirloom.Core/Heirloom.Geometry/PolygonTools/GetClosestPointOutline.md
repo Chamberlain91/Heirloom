@@ -16,10 +16,10 @@ Gets the closest point on the polygon outline to the specified point.
 public static Vector GetClosestPointOutline(IReadOnlyList<Vector> polygon, in Vector point)
 ```
 
-| Name    | Type                     | Summary |
-|---------|--------------------------|---------|
-| polygon | `IReadOnlyList\<Vector>` |         |
-| point   | [Vector][2]              |         |
+| Name    | Type                    | Summary |
+|---------|-------------------------|---------|
+| polygon | `IReadOnlyList<Vector>` |         |
+| point   | [Vector][2]             |         |
 
 > **Returns** - [Vector][2]
 

@@ -33,37 +33,37 @@ public abstract class Screen : IInputSource, IDisposable
 
 #### Instance
 
-| Name                          | Type           | Summary                                                      |
-|-------------------------------|----------------|--------------------------------------------------------------|
-| [Graphics][2]                 | [Graphics][43] | Gets the graphics context that can draw on this screen.      |
-| [Height][3]                   | `int`          | Gets the height of the screen.                               |
-| [IsClosed][4]                 | `bool`         | Gets a value that determines if this screen has been closed. |
-| [IsDisposed][5]               | `bool`         | Gets a value that determines if this window been disposed.   |
-| [Size][6]                     | [IntSize][44]  | Gets the size of the screen.                                 |
-| [SupportsSoftwareKeyboard][7] | `bool`         |                                                              |
-| [Surface][8]                  | [Surface][45]  | Gets surface that represents this screen.                    |
-| [Width][9]                    | `int`          | Gets the width of the screen.                                |
+| Name                          | Type                  | Summary                                                                |
+|-------------------------------|-----------------------|------------------------------------------------------------------------|
+| [Graphics][2]                 | [GraphicsContext][43] | Gets the graphics context that can draw on this screen.                |
+| [Height][3]                   | `int`                 | Gets the height of the screen.                                         |
+| [IsClosed][4]                 | `bool`                | Gets a value that determines if this screen has been closed.           |
+| [IsDisposed][5]               | `bool`                | Gets a value that determines if this window been disposed.             |
+| [Size][6]                     | [IntSize][44]         | Gets the size of the screen.                                           |
+| [SupportsSoftwareKeyboard][7] | `bool`                | Gets a value that determines if a software keyboard is supported on... |
+| [Surface][8]                  | [Surface][45]         | Gets surface that represents this screen.                              |
+| [Width][9]                    | `int`                 | Gets the width of the screen.                                          |
 
 ## Events
 
 #### Instance
 
-| Name                      | Handler Type                        | Summary                                                                |
-|---------------------------|-------------------------------------|------------------------------------------------------------------------|
-| [CharacterTyped][29]      | `Action\<Screen, CharacterEvent>`   |                                                                        |
-| [Closed][30]              | `Action\<Screen>`                   | Event called when the screen has closed.                               |
-| [Closing][31]             | `Func\<Screen, bool>`               | Event called when the screen is trying to close. Returning false wi... |
-| [ContentScaleChanged][32] | `Action\<Screen, Vector>`           | Event called when the content scaling of this screen changes.          |
-| [FocusChanged][33]        | `Action\<Screen, bool>`             | Event called when the focused state of this screen changes.            |
-| [FramebufferResized][34]  | `Action\<Screen, IntSize>`          | Event called when the screen surface is resized. On certain platfor... |
-| [KeyPressed][35]          | `Action\<Screen, KeyEvent>`         |                                                                        |
-| [KeyReleased][36]         | `Action\<Screen, KeyEvent>`         |                                                                        |
-| [KeyRepeat][37]           | `Action\<Screen, KeyEvent>`         |                                                                        |
-| [MouseMoved][38]          | `Action\<Screen, MouseMoveEvent>`   |                                                                        |
-| [MousePressed][39]        | `Action\<Screen, MouseButtonEvent>` |                                                                        |
-| [MouseReleased][40]       | `Action\<Screen, MouseButtonEvent>` |                                                                        |
-| [MouseScrolled][41]       | `Action\<Screen, MouseScrollEvent>` |                                                                        |
-| [Resized][42]             | `Action\<Screen, IntSize>`          | Event called when the screen is resized. On certain platforms, the ... |
+| Name                      | Handler Type                       | Summary                                                                |
+|---------------------------|------------------------------------|------------------------------------------------------------------------|
+| [CharacterTyped][29]      | `Action<Screen, CharacterEvent>`   |                                                                        |
+| [Closed][30]              | `Action<Screen>`                   | Event called when the screen has closed.                               |
+| [Closing][31]             | `Func<Screen, bool>`               | Event called when the screen is trying to close. Returning false wi... |
+| [ContentScaleChanged][32] | `Action<Screen, Vector>`           | Event called when the content scaling of this screen changes.          |
+| [FocusChanged][33]        | `Action<Screen, bool>`             | Event called when the focused state of this screen changes.            |
+| [FramebufferResized][34]  | `Action<Screen, IntSize>`          | Event called when the screen surface is resized. On certain platfor... |
+| [KeyPressed][35]          | `Action<Screen, KeyEvent>`         |                                                                        |
+| [KeyReleased][36]         | `Action<Screen, KeyEvent>`         |                                                                        |
+| [KeyRepeat][37]           | `Action<Screen, KeyEvent>`         |                                                                        |
+| [MouseMoved][38]          | `Action<Screen, MouseMoveEvent>`   |                                                                        |
+| [MousePressed][39]        | `Action<Screen, MouseButtonEvent>` |                                                                        |
+| [MouseReleased][40]       | `Action<Screen, MouseButtonEvent>` |                                                                        |
+| [MouseScrolled][41]       | `Action<Screen, MouseScrollEvent>` |                                                                        |
+| [Resized][42]             | `Action<Screen, IntSize>`          | Event called when the screen is resized. On certain platforms, the ... |
 
 ## Methods
 
@@ -74,7 +74,7 @@ public abstract class Screen : IInputSource, IDisposable
 | [Close()][10]                   | `void`      | Attempts to close this screen.                                         |
 | [Dispose(bool)][11]             | `void`      | Disposes this screen, freeing any unmanaged resources.                 |
 | [Dispose()][11]                 | `void`      | Dispose this screen, freeing any unmanaged resources.                  |
-| [HideSoftwareKeyboard()][12]    | `void`      |                                                                        |
+| [HideSoftwareKeyboard()][12]    | `void`      | Hides the software keyboard.                                           |
 | [OnCharacterTyped(Chara...][13] | `void`      | Call this function raise the E:Heirloom.Screen.CharacterTyped event.   |
 | [OnClosed()][14]                | `void`      | Call this function raise the E:Heirloom.Screen.Closed event.           |
 | [OnClosing()][15]               | `bool`      | Call this function raise the E:Heirloom.Screen.Closing event.          |
@@ -90,7 +90,7 @@ public abstract class Screen : IInputSource, IDisposable
 | [OnMouseScrolled(MouseS...][25] | `void`      | Call this function raise the E:Heirloom.Screen.MouseScrolled event.    |
 | [OnResized(IntSize)][26]        | `void`      | Call this function raise the E:Heirloom.Screen.Resized event.          |
 | [Refresh()][27]                 | `void`      | Refresh the screen, presenting rendered graphics.                      |
-| [ShowSoftwareKeyboard()][28]    | `void`      |                                                                        |
+| [ShowSoftwareKeyboard()][28]    | `void`      | Attempts to show the software keyboard.                                |
 
 [0]: ../../Heirloom.Core.md
 [1]: IInputSource.md
@@ -135,6 +135,6 @@ public abstract class Screen : IInputSource, IDisposable
 [40]: Screen/MouseReleased.md
 [41]: Screen/MouseScrolled.md
 [42]: Screen/Resized.md
-[43]: Graphics.md
+[43]: GraphicsContext.md
 [44]: IntSize.md
 [45]: Surface.md

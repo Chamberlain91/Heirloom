@@ -21,7 +21,7 @@ public static IEnumerable<Vector> GenerateRegularPolygon(int segments, float rad
 | segments | `int`   |         |
 | radius   | `float` |         |
 
-> **Returns** - `IEnumerable\<Vector>`
+> **Returns** - `IEnumerable<Vector>`
 
 ### GenerateRegularPolygon(Vector, int, float)
 
@@ -31,15 +31,13 @@ Generates the points of a regular polygon.
 public static IEnumerable<Vector> GenerateRegularPolygon(Vector center, int segments, float radius)
 ```
 
-`IteratorStateMachineAttribute`
-
 | Name     | Type        | Summary |
 |----------|-------------|---------|
 | center   | [Vector][2] |         |
 | segments | `int`       |         |
 | radius   | `float`     |         |
 
-> **Returns** - `IEnumerable\<Vector>`
+> **Returns** - `IEnumerable<Vector>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../GeometryTools.md

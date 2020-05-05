@@ -24,7 +24,7 @@ public static IEnumerable<T> GetNeighbors<T>(IGrid<T> grid, IntVector co, GridNe
 | co           | [IntVector][3]        |         |
 | neighborType | [GridNeighborType][4] |         |
 
-> **Returns** - `IEnumerable\<T>`
+> **Returns** - `IEnumerable<T>`
 
 ### GetNeighbors<T>(IGrid<T>, int, int, GridNeighborType)
 
@@ -34,7 +34,7 @@ Gets the specified cell's neighbors.
 public static IEnumerable<T> GetNeighbors<T>(IGrid<T> grid, int x, int y, GridNeighborType neighborType = Axis)
 ```
 
-`IteratorStateMachineAttribute` `ExtensionAttribute`
+`ExtensionAttribute`
 
 | Name         | Type                  | Summary |
 |--------------|-----------------------|---------|
@@ -43,7 +43,7 @@ public static IEnumerable<T> GetNeighbors<T>(IGrid<T> grid, int x, int y, GridNe
 | y            | `int`                 |         |
 | neighborType | [GridNeighborType][4] |         |
 
-> **Returns** - `IEnumerable\<T>`
+> **Returns** - `IEnumerable<T>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../GridUtilities.md

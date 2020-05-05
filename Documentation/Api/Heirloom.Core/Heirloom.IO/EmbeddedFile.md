@@ -25,11 +25,11 @@ public sealed class EmbeddedFile
 
 #### Instance
 
-| Name             | Type                     | Summary                                          |
-|------------------|--------------------------|--------------------------------------------------|
-| [Assembly][1]    | `Assembly`               | Which assembly did this embedded file originate? |
-| [Identifiers][2] | `IReadOnlyList\<string>` | The known transformed identifiers.               |
-| [Path][3]        | `string`                 | The name of this file in the assembly manifest.  |
+| Name             | Type                    | Summary                                          |
+|------------------|-------------------------|--------------------------------------------------|
+| [Assembly][1]    | `Assembly`              | Which assembly did this embedded file originate? |
+| [Identifiers][2] | `IReadOnlyList<string>` | The known transformed identifiers.               |
+| [Path][3]        | `string`                | The name of this file in the assembly manifest.  |
 
 ## Methods
 

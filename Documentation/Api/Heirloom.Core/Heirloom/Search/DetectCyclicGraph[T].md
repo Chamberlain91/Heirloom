@@ -29,10 +29,10 @@ public static bool DetectCyclicGraph<T>(IGraph<T> graph, T start)
 public static bool DetectCyclicGraph<T>(T start, Func<T, IEnumerable<T>> getSuccessors)
 ```
 
-| Name          | Type                        | Summary |
-|---------------|-----------------------------|---------|
-| start         | `T`                         |         |
-| getSuccessors | `Func\<T, IEnumerable\<T>>` |         |
+| Name          | Type                      | Summary |
+|---------------|---------------------------|---------|
+| start         | `T`                       |         |
+| getSuccessors | `Func<T, IEnumerable<T>>` |         |
 
 > **Returns** - `bool`
 

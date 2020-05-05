@@ -37,14 +37,14 @@ public sealed class TypeDictionary<T> : ITypeDictionary<T>, IReadOnlyTypeDiction
 
 #### Instance
 
-| Name                     | Return Type       | Summary |
-|--------------------------|-------------------|---------|
-| [Add(T)][4]              | `bool`            |         |
-| [Contains(T)][5]         | `bool`            |         |
-| [ContainsType<X>()][6]   | `bool`            |         |
-| [GetEnumerator()][7]     | `IEnumerator\<T>` |         |
-| [GetItemsByType<X>()][8] | `IEnumerable\<X>` |         |
-| [Remove(T)][9]           | `bool`            |         |
+| Name                     | Return Type      | Summary |
+|--------------------------|------------------|---------|
+| [Add(T)][4]              | `bool`           |         |
+| [Contains(T)][5]         | `bool`           |         |
+| [ContainsType<X>()][6]   | `bool`           |         |
+| [GetEnumerator()][7]     | `IEnumerator<T>` |         |
+| [GetItemsByType<X>()][8] | `IEnumerable<X>` |         |
+| [Remove(T)][9]           | `bool`           |         |
 
 [0]: ../../Heirloom.Core.md
 [1]: ITypeDictionary[T].md

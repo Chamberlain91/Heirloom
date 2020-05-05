@@ -16,9 +16,9 @@ public static void Randomize<T>(IList<T> items)
 
 `ExtensionAttribute`
 
-| Name  | Type        | Summary |
-|-------|-------------|---------|
-| items | `IList\<T>` |         |
+| Name  | Type       | Summary |
+|-------|------------|---------|
+| items | `IList<T>` |         |
 
 > **Returns** - `void`
 
@@ -30,10 +30,10 @@ public static void Randomize<T>(IList<T> items, Random random)
 
 `ExtensionAttribute`
 
-| Name   | Type        | Summary |
-|--------|-------------|---------|
-| items  | `IList\<T>` |         |
-| random | `Random`    |         |
+| Name   | Type       | Summary |
+|--------|------------|---------|
+| items  | `IList<T>` |         |
+| random | `Random`   |         |
 
 > **Returns** - `void`
 

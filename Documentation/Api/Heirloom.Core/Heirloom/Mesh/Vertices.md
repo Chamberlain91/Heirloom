@@ -16,7 +16,7 @@ Gets the vertices contained by this mesh.
 public IReadOnlyList<Vertex> Vertices { get; }
 ```
 
-> **Returns**: `IReadOnlyList\<Vertex>`
+> **Returns**: `IReadOnlyList<Vertex>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Mesh.md

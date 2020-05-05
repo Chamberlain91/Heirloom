@@ -21,22 +21,22 @@ This is useful beyond drawing images. For example, in a city builder the [Rectan
 
 ## Methods
 
-| Name                           | Return Type               | Summary                                        |
-|--------------------------------|---------------------------|------------------------------------------------|
-| [Circle(int, int, int)][3]     | `IEnumerable\<IntVector>` | Rasterizes a filled circle.                    |
-| [CircleOutline(int, int...][4] | `IEnumerable\<IntVector>` | Rasterizes a circle outline.                   |
-| [HLine(int, int, int)][5]      | `IEnumerable\<IntVector>` | Iterate over a perfectly horizontal line.      |
-| [Line(IntVector, IntVec...][2] | `IEnumerable\<IntVector>` | Rasterize along a line.                        |
-| [Line(IntVector, IntVec...][2] | `IEnumerable\<IntVector>` | Rasterize along a line.                        |
-| [Line(IntVector, IntVec...][2] | `IEnumerable\<IntVector>` | Rasterize along a line.                        |
-| [Line(IntVector, IntVec...][2] | `IEnumerable\<IntVector>` | Rasterize along a line.                        |
-| [Rectangle(int, int, in...][1] | `IEnumerable\<IntVector>` | Rasterize a rectangular region.                |
-| [Rectangle(IntRectangle)][1]   | `IEnumerable\<IntVector>` | Rasterize a rectangular region.                |
-| [Rectangle(IntVector, I...][1] | `IEnumerable\<IntVector>` | Rasterize a rectangular region.                |
-| [Rectangle(IntSize)][1]        | `IEnumerable\<IntVector>` | Rasterize a rectangular region.                |
-| [RectangleOutline(int, ...][6] | `IEnumerable\<IntVector>` | Rasterize the outline of a rectangular region. |
-| [Triangle(IntVector, In...][7] | `IEnumerable\<IntVector>` | Rasterize a triangle.                          |
-| [VLine(int, int, int)][8]      | `IEnumerable\<IntVector>` | Iterate over a perfectly vertical line.        |
+| Name                           | Return Type              | Summary                                        |
+|--------------------------------|--------------------------|------------------------------------------------|
+| [Circle(int, int, int)][3]     | `IEnumerable<IntVector>` | Rasterizes a filled circle.                    |
+| [CircleOutline(int, int...][4] | `IEnumerable<IntVector>` | Rasterizes a circle outline.                   |
+| [HLine(int, int, int)][5]      | `IEnumerable<IntVector>` | Iterate over a perfectly horizontal line.      |
+| [Line(IntVector, IntVec...][2] | `IEnumerable<IntVector>` | Rasterize along a line.                        |
+| [Line(IntVector, IntVec...][2] | `IEnumerable<IntVector>` | Rasterize along a line.                        |
+| [Line(IntVector, IntVec...][2] | `IEnumerable<IntVector>` | Rasterize along a line.                        |
+| [Line(IntVector, IntVec...][2] | `IEnumerable<IntVector>` | Rasterize along a line.                        |
+| [Rectangle(int, int, in...][1] | `IEnumerable<IntVector>` | Rasterize a rectangular region.                |
+| [Rectangle(IntRectangle)][1]   | `IEnumerable<IntVector>` | Rasterize a rectangular region.                |
+| [Rectangle(IntVector, I...][1] | `IEnumerable<IntVector>` | Rasterize a rectangular region.                |
+| [Rectangle(IntSize)][1]        | `IEnumerable<IntVector>` | Rasterize a rectangular region.                |
+| [RectangleOutline(int, ...][6] | `IEnumerable<IntVector>` | Rasterize the outline of a rectangular region. |
+| [Triangle(IntVector, In...][7] | `IEnumerable<IntVector>` | Rasterize a triangle.                          |
+| [VLine(int, int, int)][8]      | `IEnumerable<IntVector>` | Iterate over a perfectly vertical line.        |
 
 [0]: ../../Heirloom.Core.md
 [1]: Rasterizer/Rectangle.md

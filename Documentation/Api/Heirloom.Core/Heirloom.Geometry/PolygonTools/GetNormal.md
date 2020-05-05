@@ -16,10 +16,10 @@ Vector perpendicular to the i-th edge.
 public static Vector GetNormal(IReadOnlyList<Vector> polygon, int i)
 ```
 
-| Name    | Type                     | Summary |
-|---------|--------------------------|---------|
-| polygon | `IReadOnlyList\<Vector>` |         |
-| i       | `int`                    |         |
+| Name    | Type                    | Summary |
+|---------|-------------------------|---------|
+| polygon | `IReadOnlyList<Vector>` |         |
+| i       | `int`                   |         |
 
 > **Returns** - [Vector][2]
 

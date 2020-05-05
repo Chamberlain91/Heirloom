@@ -16,11 +16,11 @@ Converts a simple polygon into one or more convex polygons. If the polygon is al
 public static IEnumerable<Polygon> DecomposeConvex(IReadOnlyList<Vector> polygon)
 ```
 
-| Name    | Type                     | Summary |
-|---------|--------------------------|---------|
-| polygon | `IReadOnlyList\<Vector>` |         |
+| Name    | Type                    | Summary |
+|---------|-------------------------|---------|
+| polygon | `IReadOnlyList<Vector>` |         |
 
-> **Returns** - `IEnumerable\<Polygon>`
+> **Returns** - `IEnumerable<Polygon>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../PolygonTools.md

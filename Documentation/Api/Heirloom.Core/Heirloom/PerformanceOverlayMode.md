@@ -7,7 +7,7 @@
 
 > **Namespace**: [Heirloom][0]
 
-Controls showing the performance overlay on a [Graphics][1] object.
+Controls showing the performance overlay on a [GraphicsContext][1] object.
 
 ```cs
 public enum PerformanceOverlayMode : IComparable, IFormattable, IConvertible
@@ -21,4 +21,4 @@ public enum PerformanceOverlayMode : IComparable, IFormattable, IConvertible
 | Standard | Displays FPS, batch count and draw count.                    |
 
 [0]: ../../Heirloom.Core.md
-[1]: Graphics.md
+[1]: GraphicsContext.md

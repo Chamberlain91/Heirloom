@@ -10,6 +10,8 @@
 
 ### RemoveArc(T, T)
 
+Removes an arc from the directed graph.
+
 ```cs
 public abstract bool RemoveArc(T a, T b)
 ```

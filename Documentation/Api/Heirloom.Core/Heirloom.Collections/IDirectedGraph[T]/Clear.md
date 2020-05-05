@@ -10,6 +10,8 @@
 
 ### Clear()
 
+Clears the directed graph. Removing all vertices and arcs.
+
 ```cs
 public abstract void Clear()
 ```

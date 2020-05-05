@@ -16,7 +16,7 @@ Gets the (optional) indices defining triangles by index of the vertex list.
 public IReadOnlyList<int> Indices { get; }
 ```
 
-> **Returns**: `IReadOnlyList\<int>`
+> **Returns**: `IReadOnlyList<int>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Mesh.md

@@ -10,6 +10,8 @@
 
 ### AddEdge(T, T, float)
 
+Inserts a new edge into the graph.
+
 ```cs
 public void AddEdge(T a, T b, float weight)
 ```

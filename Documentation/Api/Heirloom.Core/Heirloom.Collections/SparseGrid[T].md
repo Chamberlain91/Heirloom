@@ -29,11 +29,11 @@ public sealed class SparseGrid<T> : ISparseGrid<T>, IReadOnlySparseGrid<T>, IRea
 
 #### Instance
 
-| Name         | Type                      | Summary |
-|--------------|---------------------------|---------|
-| [Indexer][5] | `T`                       |         |
-| [Indexer][5] | `T`                       |         |
-| [Keys][6]    | `IEnumerable\<IntVector>` |         |
+| Name         | Type                     | Summary |
+|--------------|--------------------------|---------|
+| [Indexer][5] | `T`                      |         |
+| [Indexer][5] | `T`                      |         |
+| [Keys][6]    | `IEnumerable<IntVector>` |         |
 
 ## Methods
 

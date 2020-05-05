@@ -16,10 +16,10 @@ Assuming the polygon is convex, checks if the point is contained.
 public static bool ContainsPoint(IReadOnlyList<Vector> poly, in Vector point)
 ```
 
-| Name  | Type                     | Summary |
-|-------|--------------------------|---------|
-| poly  | `IReadOnlyList\<Vector>` |         |
-| point | [Vector][2]              |         |
+| Name  | Type                    | Summary |
+|-------|-------------------------|---------|
+| poly  | `IReadOnlyList<Vector>` |         |
+| point | [Vector][2]             |         |
 
 > **Returns** - `bool`
 

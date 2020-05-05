@@ -16,7 +16,7 @@ The comparer used to compare item priority.
 public Comparer<T> Comparer { get; }
 ```
 
-> **Returns**: `Comparer\<T>`
+> **Returns**: `Comparer<T>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IReadOnlyHeap[T].md

@@ -13,9 +13,9 @@ Represents a choice of traversing a graph.
 public enum TraversalMethod : IComparable, IFormattable, IConvertible
 ```
 
-| Name         | Summary                                           |
-|--------------|---------------------------------------------------|
-| BreadthFirst | Breadth-first traversal, using sibling priority.  |
-| DepthFirst   | Depth-first traversal, using descendant priority. |
+| Name         | Summary                                         |
+|--------------|-------------------------------------------------|
+| BreadthFirst | Breadth-first traversal, prioritizing siblings. |
+| DepthFirst   | Depth-first traversal, prioritizing children.   |
 
 [0]: ../../Heirloom.Core.md

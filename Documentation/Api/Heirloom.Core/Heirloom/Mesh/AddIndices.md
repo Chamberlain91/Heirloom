@@ -28,9 +28,9 @@ Appends a triangle index to this mesh. Until [Clear][2] is called, this mesh bec
 public void AddIndices(IEnumerable<int> indices)
 ```
 
-| Name    | Type                | Summary |
-|---------|---------------------|---------|
-| indices | `IEnumerable\<int>` |         |
+| Name    | Type               | Summary |
+|---------|--------------------|---------|
+| indices | `IEnumerable<int>` |         |
 
 > **Returns** - `void`
 

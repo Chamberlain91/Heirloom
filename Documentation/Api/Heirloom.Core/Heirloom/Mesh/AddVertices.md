@@ -16,9 +16,9 @@ Appends multiple vertices to this mesh.
 public void AddVertices(IEnumerable<Vertex> vertices)
 ```
 
-| Name     | Type                   | Summary |
-|----------|------------------------|---------|
-| vertices | `IEnumerable\<Vertex>` |         |
+| Name     | Type                  | Summary |
+|----------|-----------------------|---------|
+| vertices | `IEnumerable<Vertex>` |         |
 
 > **Returns** - `void`
 

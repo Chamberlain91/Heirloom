@@ -10,6 +10,8 @@
 
 ### GetPredecessors(T)
 
+Gets the predecessors (incoming neighbor) vertices.
+
 ```cs
 public abstract IEnumerable<T> GetPredecessors(T v)
 ```
@@ -18,7 +20,7 @@ public abstract IEnumerable<T> GetPredecessors(T v)
 |------|------|---------|
 | v    | `T`  |         |
 
-> **Returns** - `IEnumerable\<T>`
+> **Returns** - `IEnumerable<T>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IDirectedGraph[T].md

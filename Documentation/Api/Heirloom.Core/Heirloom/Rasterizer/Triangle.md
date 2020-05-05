@@ -16,15 +16,13 @@ Rasterize a triangle.
 public static IEnumerable<IntVector> Triangle(IntVector p0, IntVector p1, IntVector p2)
 ```
 
-`IteratorStateMachineAttribute`
-
 | Name | Type           | Summary |
 |------|----------------|---------|
 | p0   | [IntVector][2] |         |
 | p1   | [IntVector][2] |         |
 | p2   | [IntVector][2] |         |
 
-> **Returns** - `IEnumerable\<IntVector>`
+> **Returns** - `IEnumerable<IntVector>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Rasterizer.md

@@ -10,11 +10,13 @@
 
 ### Vertices
 
+Gets a collection containing the vertices in the directed graph.
+
 ```cs
 public IEnumerable<T> Vertices { get; }
 ```
 
-> **Returns**: `IEnumerable\<T>`
+> **Returns**: `IEnumerable<T>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IDirectedGraph[T].md

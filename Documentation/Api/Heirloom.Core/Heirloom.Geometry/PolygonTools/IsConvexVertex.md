@@ -16,10 +16,10 @@ Determines if the ith vertex is a convex (clockwise) vertex.
 public static bool IsConvexVertex(IReadOnlyList<Vector> polygon, int i)
 ```
 
-| Name    | Type                     | Summary |
-|---------|--------------------------|---------|
-| polygon | `IReadOnlyList\<Vector>` |         |
-| i       | `int`                    |         |
+| Name    | Type                    | Summary |
+|---------|-------------------------|---------|
+| polygon | `IReadOnlyList<Vector>` |         |
+| i       | `int`                   |         |
 
 > **Returns** - `bool`
 

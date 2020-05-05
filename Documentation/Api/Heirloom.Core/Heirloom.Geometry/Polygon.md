@@ -33,39 +33,39 @@ public class Polygon : IShape
 
 #### Instance
 
-| Name                  | Type                                     | Summary                                                                |
-|-----------------------|------------------------------------------|------------------------------------------------------------------------|
-| [Area][2]             | `float`                                  | Gets the area of the polygon.                                          |
-| [Bounds][3]           | [Rectangle][23]                          | Gets the bounding rectangle of this polygon.                           |
-| [Center][4]           | [Vector][24]                             | Gets the center (point mean) of the polygon.                           |
-| [Centroid][5]         | [Vector][24]                             | Gets the centroid (area weighted) of the polygon.                      |
-| [ConvexPartitions][6] | `IReadOnlyList\<IReadOnlyList\<Vector>>` | Gets the list of convex partitions. If this polygon is already conv... |
-| [Count][7]            | `int`                                    | Gets the number of vertices in this polygon.                           |
-| [Indexer][8]          | [Vector][24]                             |                                                                        |
-| [IsConvex][9]         | `bool`                                   | Gets a value determining if this polygon is convex (in clockwise or... |
-| [Vertices][10]        | `IReadOnlyList\<Vector>`                 | Gets a read-only view of this polygon's vertices.                      |
+| Name                  | Type                                   | Summary                                                                |
+|-----------------------|----------------------------------------|------------------------------------------------------------------------|
+| [Area][2]             | `float`                                | Gets the area of the polygon.                                          |
+| [Bounds][3]           | [Rectangle][23]                        | Gets the bounding rectangle of this polygon.                           |
+| [Center][4]           | [Vector][24]                           | Gets the center (point mean) of the polygon.                           |
+| [Centroid][5]         | [Vector][24]                           | Gets the centroid (area weighted) of the polygon.                      |
+| [ConvexPartitions][6] | `IReadOnlyList<IReadOnlyList<Vector>>` | Gets the list of convex partitions. If this polygon is already conv... |
+| [Count][7]            | `int`                                  | Gets the number of vertices in this polygon.                           |
+| [Indexer][8]          | [Vector][24]                           |                                                                        |
+| [IsConvex][9]         | `bool`                                 | Gets a value determining if this polygon is convex (in clockwise or... |
+| [Vertices][10]        | `IReadOnlyList<Vector>`                | Gets a read-only view of this polygon's vertices.                      |
 
 ## Methods
 
 #### Instance
 
-| Name                            | Return Type              | Summary                                                                |
-|---------------------------------|--------------------------|------------------------------------------------------------------------|
-| [Add(Vector)][11]               | `void`                   |                                                                        |
-| [Clear()][12]                   | `void`                   |                                                                        |
-| [Contains(in Vector)][13]       | `bool`                   | Determines if the specified point is contained by this polygon.        |
-| [GetNearestPoint(in Vec...][14] | [Vector][24]             | Gets the nearest point on the polygon to the specified point.          |
-| [Insert(int, Vector)][15]       | `void`                   |                                                                        |
-| [Overlaps(IShape)][16]          | `bool`                   | Checks for an overlap between this polygon and another shape.          |
-| [Overlaps(in Rectangle)][16]    | `bool`                   | Determines if this polygon overlaps the specified rectangle.           |
-| [Overlaps(in Circle)][16]       | `bool`                   | Determines if this polygon overlaps the specified circle.              |
-| [Overlaps(in Triangle)][16]     | `bool`                   | Determines if this polygon overlaps the specified triangle.            |
-| [Overlaps(IReadOnlyList...][16] | `bool`                   | Determines if this polygon overlaps the specified triangle.            |
-| [Project(in Vector)][17]        | [Range][25]              | Project this polygon onto the specified axis.                          |
-| [Raycast(in Ray)][18]           | `bool`                   | Checks if a ray intersects this polygon.                               |
-| [Raycast(in Ray, out Ra...][18] | `bool`                   | Checks if a ray intersects this polygon and outputs information on ... |
-| [RemoveAt(int)][19]             | `void`                   |                                                                        |
-| [Triangulate()][20]             | `IEnumerable\<Triangle>` | Decompose this polygon into triangles.                                 |
+| Name                            | Return Type             | Summary                                                                |
+|---------------------------------|-------------------------|------------------------------------------------------------------------|
+| [Add(Vector)][11]               | `void`                  |                                                                        |
+| [Clear()][12]                   | `void`                  |                                                                        |
+| [Contains(in Vector)][13]       | `bool`                  | Determines if the specified point is contained by this polygon.        |
+| [GetNearestPoint(in Vec...][14] | [Vector][24]            | Gets the nearest point on the polygon to the specified point.          |
+| [Insert(int, Vector)][15]       | `void`                  |                                                                        |
+| [Overlaps(IShape)][16]          | `bool`                  | Checks for an overlap between this polygon and another shape.          |
+| [Overlaps(in Rectangle)][16]    | `bool`                  | Determines if this polygon overlaps the specified rectangle.           |
+| [Overlaps(in Circle)][16]       | `bool`                  | Determines if this polygon overlaps the specified circle.              |
+| [Overlaps(in Triangle)][16]     | `bool`                  | Determines if this polygon overlaps the specified triangle.            |
+| [Overlaps(IReadOnlyList...][16] | `bool`                  | Determines if this polygon overlaps the specified triangle.            |
+| [Project(in Vector)][17]        | [Range][25]             | Project this polygon onto the specified axis.                          |
+| [Raycast(in Ray)][18]           | `bool`                  | Checks if a ray intersects this polygon.                               |
+| [Raycast(in Ray, out Ra...][18] | `bool`                  | Checks if a ray intersects this polygon and outputs information on ... |
+| [RemoveAt(int)][19]             | `void`                  |                                                                        |
+| [Triangulate()][20]             | `IEnumerable<Triangle>` | Decompose this polygon into triangles.                                 |
 
 #### Static
 

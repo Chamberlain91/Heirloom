@@ -10,7 +10,6 @@ namespace Heirloom.Collections
     /// Allows the insertion and removal of items by priority.
     /// </summary>
     /// <typeparam name="T">Type of the elements.</typeparam>
-    /// 
     /// <remarks>
     /// The heap always acts like a min-heap but inverts the result of comparison for max heaps.
     /// </remarks>
@@ -35,7 +34,7 @@ namespace Heirloom.Collections
         /// Constructs a new heap that optionally sorts by maximum or minimum comparisons with a custom comparison function.
         /// </summary>
         /// <param name="comparison">Some custom comparison function.</param>
-        /// <param name="maximize">Should the priority item be the comparably largest?</param>
+        /// <param name="type">The comparison mode of the heap.</param>
         public Heap(Comparison<T> comparison, HeapType type = HeapType.Min)
             : this(Comparer<T>.Create(comparison), type)
         { }
@@ -44,7 +43,7 @@ namespace Heirloom.Collections
         /// Constructs a new heap that optionally sorts by maximum or minimum comparisons with an instance of a custom comparer.
         /// </summary>
         /// <param name="comparer">Some instance of a comparer.</param>
-        /// <param name="maximize">Should the priority item be the comparably largest?</param>
+        /// <param name="type">The comparison mode of the heap.</param>
         public Heap(Comparer<T> comparer, HeapType type = HeapType.Min)
         {
             Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));

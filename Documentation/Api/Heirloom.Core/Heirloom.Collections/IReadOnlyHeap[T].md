@@ -29,9 +29,9 @@ IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable
 
 #### Instance
 
-| Name          | Type           | Summary                                     |
-|---------------|----------------|---------------------------------------------|
-| [Comparer][2] | `Comparer\<T>` | The comparer used to compare item priority. |
+| Name          | Type          | Summary                                     |
+|---------------|---------------|---------------------------------------------|
+| [Comparer][2] | `Comparer<T>` | The comparer used to compare item priority. |
 
 ## Methods
 

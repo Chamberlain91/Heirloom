@@ -16,7 +16,7 @@ Enumerates any object that inherits from the specified type.
 public abstract IEnumerable<X> GetItemsByType<X>()
 ```
 
-> **Returns** - `IEnumerable\<X>` - Enumeration of objects by the inherited type.
+> **Returns** - `IEnumerable<X>` - Enumeration of objects by the inherited type.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IReadOnlyTypeDictionary[T].md

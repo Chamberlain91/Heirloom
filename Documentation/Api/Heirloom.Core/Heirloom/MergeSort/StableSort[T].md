@@ -18,9 +18,9 @@ public static void StableSort<T>(IList<T> list)
 
 `ExtensionAttribute`
 
-| Name | Type        | Summary |
-|------|-------------|---------|
-| list | `IList\<T>` |         |
+| Name | Type       | Summary |
+|------|------------|---------|
+| list | `IList<T>` |         |
 
 > **Returns** - `void`
 
@@ -34,10 +34,10 @@ public static void StableSort<T>(IList<T> items, Comparison<T> comparison)
 
 `ExtensionAttribute`
 
-| Name       | Type             | Summary |
-|------------|------------------|---------|
-| items      | `IList\<T>`      |         |
-| comparison | `Comparison\<T>` |         |
+| Name       | Type            | Summary |
+|------------|-----------------|---------|
+| items      | `IList<T>`      |         |
+| comparison | `Comparison<T>` |         |
 
 > **Returns** - `void`
 

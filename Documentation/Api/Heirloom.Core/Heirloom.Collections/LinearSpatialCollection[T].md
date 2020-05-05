@@ -39,17 +39,17 @@ public sealed class LinearSpatialCollection<T> : ISpatialCollection<T>, IReadOnl
 
 #### Instance
 
-| Name                          | Return Type       | Summary |
-|-------------------------------|-------------------|---------|
-| [Add(in T, in IShape)][5]     | `void`            |         |
-| [Clear()][6]                  | `void`            |         |
-| [Contains(in T)][7]           | `bool`            |         |
-| [GetEnumerator()][8]          | `IEnumerator\<T>` |         |
-| [Query(IShape)][9]            | `IEnumerable\<T>` |         |
-| [Query(Vector)][9]            | `IEnumerable\<T>` |         |
-| [Query(Ray, float)][9]        | `IEnumerable\<T>` |         |
-| [Remove(in T)][10]            | `bool`            |         |
-| [Update(in T, in IShape)][11] | `void`            |         |
+| Name                          | Return Type      | Summary |
+|-------------------------------|------------------|---------|
+| [Add(in T, in IShape)][5]     | `void`           |         |
+| [Clear()][6]                  | `void`           |         |
+| [Contains(in T)][7]           | `bool`           |         |
+| [GetEnumerator()][8]          | `IEnumerator<T>` |         |
+| [Query(IShape)][9]            | `IEnumerable<T>` |         |
+| [Query(Vector)][9]            | `IEnumerable<T>` |         |
+| [Query(Ray, float)][9]        | `IEnumerable<T>` |         |
+| [Remove(in T)][10]            | `bool`           |         |
+| [Update(in T, in IShape)][11] | `void`           |         |
 
 [0]: ../../Heirloom.Core.md
 [1]: ISpatialCollection[T].md

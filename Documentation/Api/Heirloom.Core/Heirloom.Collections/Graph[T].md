@@ -7,6 +7,8 @@
 
 > **Namespace**: [Heirloom.Collections][0]
 
+An undirected graph implemented using adjacency lists.
+
 ```cs
 public sealed class Graph<T> : IGraph<T>, IEnumerable<T>, IEnumerable
 ```
@@ -27,34 +29,34 @@ public sealed class Graph<T> : IGraph<T>, IEnumerable<T>, IEnumerable
 
 #### Instance
 
-| Name             | Type                              | Summary |
-|------------------|-----------------------------------|---------|
-| [EdgeCount][2]   | `int`                             |         |
-| [Edges][3]       | `IEnumerable\<ValueTuple\<T, T>>` |         |
-| [VertexCount][4] | `int`                             |         |
-| [Vertices][5]    | `IEnumerable\<T>`                 |         |
+| Name             | Type                            | Summary                                                 |
+|------------------|---------------------------------|---------------------------------------------------------|
+| [EdgeCount][2]   | `int`                           | Gets the number of edges in the graph.                  |
+| [Edges][3]       | `IEnumerable<ValueTuple<T, T>>` | Gets a collection containing the edges in the graph.    |
+| [VertexCount][4] | `int`                           | Gets the number of vertices in the graph.               |
+| [Vertices][5]    | `IEnumerable<T>`                | Gets a collection containing the vertices in the graph. |
 
 ## Methods
 
 #### Instance
 
-| Name                            | Return Type         | Summary |
-|---------------------------------|---------------------|---------|
-| [AddEdge(T, T, float)][6]       | `void`              |         |
-| [AddVertex(T)][7]               | `void`              |         |
-| [Clear()][8]                    | `void`              |         |
-| [ContainsEdge(T, T)][9]         | `bool`              |         |
-| [ContainsVertex(T)][10]         | `bool`              |         |
-| [FindMinimumSpanningTree()][11] | [Graph\<T>][20]     |         |
-| [FindPath(T, T, Heurist...][12] | `IReadOnlyList\<T>` |         |
-| [FindPath(T, Func<T, bo...][12] | `IReadOnlyList\<T>` |         |
-| [GetEdgeWeight(T, T)][13]       | `float`             |         |
-| [GetEnumerator()][14]           | `IEnumerator\<T>`   |         |
-| [GetSuccessors(T)][15]          | `IEnumerable\<T>`   |         |
-| [RemoveEdge(T, T)][16]          | `bool`              |         |
-| [RemoveVertex(T)][17]           | `bool`              |         |
-| [SetEdgeWeight(T, T, fl...][18] | `void`              |         |
-| [Traverse(T, TraversalM...][19] | `IEnumerable\<T>`   |         |
+| Name                            | Return Type        | Summary                                                                |
+|---------------------------------|--------------------|------------------------------------------------------------------------|
+| [AddEdge(T, T, float)][6]       | `void`             | Inserts a new edge into the graph.                                     |
+| [AddVertex(T)][7]               | `void`             | Inserts a vertex into the graph.                                       |
+| [Clear()][8]                    | `void`             | Clears the graph. Removing all vertices and edges.                     |
+| [ContainsEdge(T, T)][9]         | `bool`             | Determines if the graph contains the specified edge.                   |
+| [ContainsVertex(T)][10]         | `bool`             | Determines if the graph contains the specified vertex.                 |
+| [FindMinimumSpanningTree()][11] | [Graph\<T>][20]    | Finds and returns a minimum spanning tree.                             |
+| [FindPath(T, T, Heurist...][12] | `IReadOnlyList<T>` | Attempts to finds a path between `start` and `goal` vertices using ... |
+| [FindPath(T, Func<T, bo...][12] | `IReadOnlyList<T>` | Attempts to finds a path between `start` and `goal` vertices using ... |
+| [GetEdgeWeight(T, T)][13]       | `float`            | Gets the weight of some edge.                                          |
+| [GetEnumerator()][14]           | `IEnumerator<T>`   |                                                                        |
+| [GetSuccessors(T)][15]          | `IEnumerable<T>`   | Gets the successor (outgoing neighbor) vertices.                       |
+| [RemoveEdge(T, T)][16]          | `bool`             | Removes an edge from the graph.                                        |
+| [RemoveVertex(T)][17]           | `bool`             | Removes a vertex from the graph.                                       |
+| [SetEdgeWeight(T, T, fl...][18] | `void`             | Sets the weight of some edge.                                          |
+| [Traverse(T, TraversalM...][19] | `IEnumerable<T>`   | Traverses the graph by the specified method.                           |
 
 [0]: ../../Heirloom.Core.md
 [1]: IGraph[T].md
