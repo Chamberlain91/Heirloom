@@ -50,7 +50,7 @@ namespace Examples.Drawing
             Window.KeyPressed += Window_KeyPress;
         }
 
-        private void Update(Graphics gfx, float dt)
+        private void Update(GraphicsContext gfx, float dt)
         {
             gfx.Clear(Color.DarkGray);
 

@@ -37,7 +37,7 @@ namespace Heirloom.Benchmark
             }
         }
 
-        protected override void Update(Graphics gfx, in Rectangle bounds, float delta)
+        protected override void Update(GraphicsContext gfx, in Rectangle bounds, float delta)
         {
             // Move points semi-randomly
             for (var i = 0; i < _positions.Length; i++)

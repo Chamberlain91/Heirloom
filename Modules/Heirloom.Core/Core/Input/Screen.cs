@@ -27,7 +27,7 @@ namespace Heirloom
         /// <summary>
         /// Gets the graphics context that can draw on this screen.
         /// </summary>
-        public Graphics Graphics { get; protected set; }
+        public GraphicsContext Graphics { get; protected set; }
 
         /// <summary>
         /// Gets surface that represents this screen.

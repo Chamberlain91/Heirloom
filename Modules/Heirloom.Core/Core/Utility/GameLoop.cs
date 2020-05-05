@@ -9,7 +9,7 @@ namespace Heirloom
     /// </summary>
     public abstract class GameLoop
     {
-        public delegate void UpdateFunction(Graphics gfx, float dt);
+        public delegate void UpdateFunction(GraphicsContext gfx, float dt);
 
         private Thread _thread;
 
@@ -19,7 +19,7 @@ namespace Heirloom
             : this(screen.Graphics)
         { }
 
-        protected GameLoop(Graphics graphics)
+        protected GameLoop(GraphicsContext graphics)
         {
             Graphics = graphics;
         }
@@ -31,7 +31,7 @@ namespace Heirloom
         /// <summary>
         /// Gets the associated render context.
         /// </summary>
-        public Graphics Graphics { get; }
+        public GraphicsContext Graphics { get; }
 
         /// <summary>
         /// Is the render thread active?
@@ -40,7 +40,7 @@ namespace Heirloom
 
         #endregion
 
-        protected abstract void Update(Graphics gfx, float dt);
+        protected abstract void Update(GraphicsContext gfx, float dt);
 
         /// <summary>
         /// Start the render thread.
@@ -113,7 +113,7 @@ namespace Heirloom
         /// <param name="gfx">The relevant graphics context.</param>
         /// <param name="update">The relevant update function.</param>
         /// <returns></returns>
-        public static GameLoop Create(Graphics gfx, UpdateFunction update)
+        public static GameLoop Create(GraphicsContext gfx, UpdateFunction update)
         {
             if (gfx is null) { throw new ArgumentNullException(nameof(gfx)); }
             if (update is null) { throw new ArgumentNullException(nameof(update)); }
@@ -125,13 +125,13 @@ namespace Heirloom
         {
             private readonly UpdateFunction _update;
 
-            public DefaultRenderLoop(Graphics context, UpdateFunction update)
+            public DefaultRenderLoop(GraphicsContext context, UpdateFunction update)
                 : base(context)
             {
                 _update = update ?? throw new ArgumentNullException(nameof(update));
             }
 
-            protected override void Update(Graphics gfx, float delta)
+            protected override void Update(GraphicsContext gfx, float delta)
             {
                 _update(gfx, delta);
             }

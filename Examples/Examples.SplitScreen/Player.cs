@@ -51,7 +51,7 @@ namespace Examples.SplitScreen
             }
         }
 
-        public void Draw(Graphics gfx)
+        public void Draw(GraphicsContext gfx)
         {
             const float TriangleAngle = 120F * Calc.ToRadians;
 

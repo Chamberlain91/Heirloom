@@ -1,6 +1,6 @@
 namespace Heirloom
 {
-    public abstract partial class Graphics
+    public abstract partial class GraphicsContext
     {
         /// <summary>
         /// Contains information pertaining to draw performance.
@@ -51,7 +51,7 @@ namespace Heirloom
             /// </summary>
             public Statistics FrameRate { get; private set; }
 
-            internal void ComputeStatistics(Graphics.DrawCounts info)
+            internal void ComputeStatistics(GraphicsContext.DrawCounts info)
             {
                 // If enough time has passed, compute average
                 if (_timer.Check(out _))

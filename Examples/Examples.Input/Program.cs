@@ -26,7 +26,7 @@ namespace Examples.Input
             });
         }
 
-        private static void OnDraw(Graphics gfx, float dt)
+        private static void OnDraw(GraphicsContext gfx, float dt)
         {
             // Are we holding the left mouse button down?
             if (Input.CheckMouse(MouseButton.Left, ButtonState.Down))

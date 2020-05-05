@@ -39,7 +39,7 @@ namespace Examples.CpuRasterizer
             });
         }
 
-        protected override void Update(Graphics gfx, float dt)
+        protected override void Update(GraphicsContext gfx, float dt)
         {
             Window.Graphics.DrawImage(Image, new Rectangle(Vector.Zero, Window.Size));
         }

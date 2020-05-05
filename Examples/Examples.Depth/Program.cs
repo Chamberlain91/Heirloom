@@ -70,7 +70,7 @@ namespace Examples.Depth
 
             public Vector Velocity = Calc.Random.NextUnitVector() * 10;
 
-            internal override void Draw(Graphics gfx, float dt)
+            internal override void Draw(GraphicsContext gfx, float dt)
             {
                 gfx.Color = Color.Lerp(Color.DarkGray, Color.White, Calc.Between(Depth, -10, +10));
                 gfx.DrawImage(Image, Position, Angle, Vector.One);

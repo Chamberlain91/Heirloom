@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace Heirloom.OpenGLES
 {
-    internal abstract class OpenGLGraphics : Graphics
+    internal abstract class OpenGLGraphics : GraphicsContext
     {
         private readonly ConsumerThread _thread;
         private bool _isInitialized = false;
@@ -312,7 +312,7 @@ namespace Heirloom.OpenGLES
                         }
                         else
                         {
-                            throw new InvalidOperationException($"Unable to assign a screen bound surface. Belongs to a different {nameof(Graphics)} context.");
+                            throw new InvalidOperationException($"Unable to assign a screen bound surface. Belongs to a different {nameof(GraphicsContext)} context.");
                         }
                     }
                     else

@@ -21,13 +21,13 @@ namespace Heirloom.Benchmark
 
         public abstract void Initialize(in Rectangle bounds);
 
-        public void UpdateBenchmark(Graphics gfx, in Rectangle bounds, float delta)
+        public void UpdateBenchmark(GraphicsContext gfx, in Rectangle bounds, float delta)
         {
             Time += delta;
 
             Update(gfx, in bounds, delta);
         }
 
-        protected abstract void Update(Graphics gfx, in Rectangle bounds, float delta);
+        protected abstract void Update(GraphicsContext gfx, in Rectangle bounds, float delta);
     }
 }

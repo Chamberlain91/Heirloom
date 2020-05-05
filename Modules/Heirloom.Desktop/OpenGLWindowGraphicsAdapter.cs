@@ -11,7 +11,7 @@ namespace Heirloom.Desktop
     {
         private readonly List<OpenGLGraphics> _graphics = new List<OpenGLGraphics>();
 
-        public Graphics CreateGraphics(Window window, bool vsync)
+        public GraphicsContext CreateGraphics(Window window, bool vsync)
         {
             var graphics = new OpenGLWindowGraphics(this, window, vsync);
             lock (_graphics) { _graphics.Add(graphics); }

@@ -36,7 +36,7 @@ namespace Heirloom.Benchmark
             _triangles = GeometryTools.Triangulate(_positions);
         }
 
-        protected override void Update(Graphics gfx, in Rectangle bounds, float delta)
+        protected override void Update(GraphicsContext gfx, in Rectangle bounds, float delta)
         {
             // Draw triangles
             foreach (var triangle in _triangles)

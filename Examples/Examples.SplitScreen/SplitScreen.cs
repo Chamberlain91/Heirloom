@@ -31,7 +31,7 @@ namespace Examples.SplitScreen
             };
         }
 
-        protected override void Update(Graphics gfx, float dt)
+        protected override void Update(GraphicsContext gfx, float dt)
         {
             // Update Players
             foreach (var player in Players)
@@ -81,7 +81,7 @@ namespace Examples.SplitScreen
             gfx.DrawText("<ARROW> to control Green", (gfx.Viewport.Width - 16, 16), Font.Default, 32, TextAlign.Right);
         }
 
-        private void DrawWorld(Graphics gfx)
+        private void DrawWorld(GraphicsContext gfx)
         {
             // Draw Stage
             gfx.Color = StageColor;

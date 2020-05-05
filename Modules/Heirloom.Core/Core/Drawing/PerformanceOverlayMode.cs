@@ -1,7 +1,7 @@
 namespace Heirloom
 {
     /// <summary>
-    /// Controls showing the performance overlay on a <see cref="Graphics"/> object.
+    /// Controls showing the performance overlay on a <see cref="GraphicsContext"/> object.
     /// </summary>
     public enum PerformanceOverlayMode
     {

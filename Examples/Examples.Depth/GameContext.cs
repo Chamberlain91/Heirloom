@@ -38,7 +38,7 @@ namespace Examples.Depth
             return entity;
         }
 
-        private void OnUpdate(Graphics gfx, float dt)
+        private void OnUpdate(GraphicsContext gfx, float dt)
         {
             // Update the game
             Update(dt);

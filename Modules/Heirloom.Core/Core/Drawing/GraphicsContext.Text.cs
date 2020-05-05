@@ -11,7 +11,7 @@ namespace Heirloom
     /// <param name="state">The state of the character currently being drawn.</param>
     public delegate void DrawTextCallback(string text, int index, ref TextDrawState state);
 
-    public abstract partial class Graphics
+    public abstract partial class GraphicsContext
     {
         #region Draw Styled Text (Extension Methods)
 

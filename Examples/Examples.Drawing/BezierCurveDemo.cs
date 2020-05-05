@@ -24,7 +24,7 @@ namespace Examples.Drawing
             }
         }
 
-        internal override void Draw(Graphics gfx, Rectangle contentBounds)
+        internal override void Draw(GraphicsContext gfx, Rectangle contentBounds)
         {
             gfx.Color = Color.Pink;
             gfx.GlobalTransform = Matrix.CreateTranslation(contentBounds.Center);

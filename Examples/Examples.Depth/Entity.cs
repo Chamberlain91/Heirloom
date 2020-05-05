@@ -15,7 +15,7 @@ namespace Examples.Depth
 
         internal abstract void Update(float dt);
 
-        internal abstract void Draw(Graphics gfx, float dt);
+        internal abstract void Draw(GraphicsContext gfx, float dt);
 
         public int CompareTo([AllowNull] Entity other)
         {

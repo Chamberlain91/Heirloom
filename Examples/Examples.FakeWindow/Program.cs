@@ -50,7 +50,7 @@ namespace Examples.FakeWindow
             });
         }
 
-        private static void OnDraw(Graphics gfx, float dt)
+        private static void OnDraw(GraphicsContext gfx, float dt)
         {
             gfx.Clear(Color.Transparent);
             gfx.DrawNineSlice(_frame, new Rectangle(Vector.Zero, _window.Size));

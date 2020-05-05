@@ -15,7 +15,7 @@ namespace Examples.Depth
             Strength = strength;
         }
 
-        protected override void Apply(Graphics gfx, Surface surface)
+        protected override void Apply(GraphicsContext gfx, Surface surface)
         {
             // Will compose images without blending
             gfx.Blending = Blending.Opaque;

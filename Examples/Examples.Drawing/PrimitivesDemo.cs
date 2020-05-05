@@ -11,7 +11,7 @@ namespace Examples.Drawing
             : base("Primitives")
         { }
 
-        internal override void Draw(Graphics ctx, Rectangle contentBounds)
+        internal override void Draw(GraphicsContext ctx, Rectangle contentBounds)
         {
             // Two rows (outline and filled)
             for (var j = 0; j < 2; j++)

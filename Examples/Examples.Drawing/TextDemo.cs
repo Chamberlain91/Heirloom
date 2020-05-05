@@ -13,7 +13,7 @@ namespace Examples.Drawing
             _text = Files.ReadText("files/alice.txt");
         }
 
-        internal override void Draw(Graphics ctx, Rectangle contentBounds)
+        internal override void Draw(GraphicsContext ctx, Rectangle contentBounds)
         {
             ctx.Color = Color.White;
             ctx.DrawText(_text, contentBounds, Font.Default, 32);

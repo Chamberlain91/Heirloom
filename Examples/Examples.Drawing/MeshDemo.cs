@@ -25,7 +25,7 @@ namespace Examples.Drawing
             StarMesh = Mesh.CreateFromPolygon(Star);
         }
 
-        internal override void Draw(Graphics ctx, Rectangle contentBounds)
+        internal override void Draw(GraphicsContext ctx, Rectangle contentBounds)
         {
             DrawStar(ctx, contentBounds.Center, 1F);
             DrawStar(ctx, contentBounds.Min + new Vector(100, 100), 0.2F);
@@ -33,7 +33,7 @@ namespace Examples.Drawing
             DrawStar(ctx, contentBounds.Max - new Vector(110, 110), 0.3F);
         }
 
-        private void DrawStar(Graphics ctx, Vector position, float scale)
+        private void DrawStar(GraphicsContext ctx, Vector position, float scale)
         {
             var transform = Matrix.CreateTransform(position, Calc.Sin(position.X + Time * 3) * 0.2F, (scale, scale));
 
