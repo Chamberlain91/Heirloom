@@ -50,7 +50,7 @@ namespace Examples.Shaders
             });
         }
 
-        private static void Update(Graphics gfx, float dt)
+        private static void Update(GraphicsContext gfx, float dt)
         {
             Time += dt;
 

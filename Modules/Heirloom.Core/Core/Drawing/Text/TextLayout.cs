@@ -13,7 +13,7 @@ namespace Heirloom
 
     /// <summary>
     /// Utility to measure text and manually invoke the text layout function. <para/> Internally used by 
-    /// <see cref="Graphics.DrawText(string, in Rectangle, Font, int, TextAlign, DrawTextCallback)"/> and its variants.
+    /// <see cref="GraphicsContext.DrawText(string, in Rectangle, Font, int, TextAlign, DrawTextCallback)"/> and its variants.
     /// </summary>
     public static class TextLayout
     {

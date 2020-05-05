@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace Heirloom
 {
-    public abstract partial class Graphics
+    public abstract partial class GraphicsContext
     {
         #region Draw Image
 

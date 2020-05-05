@@ -225,7 +225,7 @@ namespace Heirloom.Desktop
             IsInitialized = true;
         }
 
-        internal static Graphics CreateGraphics(Window window, bool vsync)
+        internal static GraphicsContext CreateGraphics(Window window, bool vsync)
         {
             return GraphicsFactory.CreateGraphics(window, vsync);
         }

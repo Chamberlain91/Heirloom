@@ -7,7 +7,7 @@ using Heirloom.Geometry;
 
 namespace Heirloom
 {
-    public abstract partial class Graphics
+    public abstract partial class GraphicsContext
     {
         // used to center the line within the 1x1 pixel image to anchor at left-center
         private static readonly Matrix _lineOffsetMatrix = Matrix.CreateTranslation(0, -1 / 2F);

@@ -11,7 +11,7 @@ namespace Heirloom.Benchmark
             // 
         }
 
-        protected override void Update(Graphics gfx, in Rectangle bounds, float dt)
+        protected override void Update(GraphicsContext gfx, in Rectangle bounds, float dt)
         {
             if (Time > 3) { IsComplete = true; }
         }

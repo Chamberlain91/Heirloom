@@ -7,11 +7,11 @@ namespace Heirloom
         /// </summary>
         public static readonly SurfaceEffect None = new NullEffect();
          
-        protected internal abstract void Apply(Graphics gfx, Surface surface);
+        protected internal abstract void Apply(GraphicsContext gfx, Surface surface);
 
         private class NullEffect : SurfaceEffect
         {
-            protected internal override void Apply(Graphics gfx, Surface surface)
+            protected internal override void Apply(GraphicsContext gfx, Surface surface)
             {
                 // Do nothing!
             }

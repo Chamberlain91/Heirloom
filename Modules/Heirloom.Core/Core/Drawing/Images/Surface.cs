@@ -3,7 +3,7 @@ using System;
 namespace Heirloom
 {
     /// <summary>
-    /// Represents a surface a <see cref="Graphics"/> object can draw on.
+    /// Represents a surface a <see cref="GraphicsContext"/> object can draw on.
     /// </summary>
     public sealed class Surface : ImageSource
     {

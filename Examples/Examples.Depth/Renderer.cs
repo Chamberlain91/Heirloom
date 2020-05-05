@@ -26,7 +26,7 @@ namespace Examples.Depth
         /// </summary>
         public Color BackgroundColor { get; set; } = Color.DarkGray;
 
-        internal void Render(Graphics gfx, float dt, IEnumerable<Entity> entities)
+        internal void Render(GraphicsContext gfx, float dt, IEnumerable<Entity> entities)
         {
             var screenSize = gfx.Screen.Surface.Size;
 

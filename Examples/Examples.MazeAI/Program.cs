@@ -32,7 +32,7 @@ namespace Examples.MazeAI
             });
         }
 
-        protected override void Update(Graphics gfx, float dt)
+        protected override void Update(GraphicsContext gfx, float dt)
         {
             // Process Player
             Player.Update(Maze, dt);
@@ -83,7 +83,7 @@ namespace Examples.MazeAI
         }
 
         [Conditional("DEBUG")]
-        private void DrawGraphDebug(Graphics gfx)
+        private void DrawGraphDebug(GraphicsContext gfx)
         {
             // Draw Graph
             foreach (var source in Maze.Graph.Vertices)

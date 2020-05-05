@@ -97,7 +97,7 @@ namespace Heirloom.Benchmark
                 }
             }
 
-            void Update(Graphics gfx, float dt)
+            void Update(GraphicsContext gfx, float dt)
             {
                 // 
                 gfx.Clear(Color.DarkGray);
@@ -151,7 +151,7 @@ namespace Heirloom.Benchmark
             return results;
         }
 
-        private static void DrawInformation(Graphics gfx, string text)
+        private static void DrawInformation(GraphicsContext gfx, string text)
         {
             var rect = TextLayout.Measure(text, Font.Default, 32);
             rect.Inflate(6);

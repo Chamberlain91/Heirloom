@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Heirloom
 {
-    public abstract partial class Graphics
+    public abstract partial class GraphicsContext
     {
         private static readonly Mesh _quadMesh = Mesh.CreateQuad(1, 1);
         private static readonly Mesh _temporaryMesh = new Mesh();
@@ -16,7 +16,7 @@ namespace Heirloom
         /// <summary>
         /// Constructs a new graphics instance with the specified multisampling quality.
         /// </summary>
-        protected Graphics()
+        protected GraphicsContext()
         {
             // Create performance tracking object
             Performance = new PerformanceMetrics();
@@ -25,7 +25,7 @@ namespace Heirloom
         /// <summary>
         /// Graphics Finalizer.
         /// </summary>
-        ~Graphics()
+        ~GraphicsContext()
         {
             Dispose(false);
         }
@@ -50,7 +50,7 @@ namespace Heirloom
         public float CurrentFPS => Performance.FrameRate.Average;
 
         /// <summary>
-        /// Gets a value determining if this <see cref="Graphics"/> has been initialized.
+        /// Gets a value determining if this <see cref="GraphicsContext"/> has been initialized.
         /// </summary>
         public abstract bool IsInitialized { get; }
 
@@ -96,7 +96,7 @@ namespace Heirloom
         public abstract Color Color { get; set; }
 
         /// <summary>
-        /// Gets a value determining if this <see cref="Graphics"/> was disposed.
+        /// Gets a value determining if this <see cref="GraphicsContext"/> was disposed.
         /// </summary>
         public bool IsDisposed { get; protected set; } = false;
 
