@@ -23,20 +23,20 @@ public abstract class Graphics
 
 #### Instance
 
-| Name                        | Type                     | Summary                                                                |
-|-----------------------------|--------------------------|------------------------------------------------------------------------|
-| [Blending][1]               | [Blending][44]           | Gets or sets the current blending mode.                                |
-| [Color][2]                  | [Color][45]              | Gets or sets the current blending color.                               |
-| [CurrentFPS][3]             | `float`                  | Gets how often the default surface is presented to the screen per s... |
-| [GlobalTransform][4]        | [Matrix][46]             | Get or sets the global transform.                                      |
-| [InverseGlobalTransform][5] | [Matrix][46]             | Gets the inverse of the current global transform.                      |
-| [IsDisposed][6]             | `bool`                   | Gets a value determining if this Graphics was disposed.                |
-| [IsInitialized][7]          | `bool`                   | Gets a value determining if this Graphics has been initialized.        |
-| [Performance][8]            | [DrawingPerformance][47] | Gets drawing performance information.                                  |
-| [Screen][9]                 | [Screen][48]             | Gets the screen this graphics context is responsible for.              |
-| [Shader][10]                | [Shader][49]             | Gets or sets the active shader.                                        |
-| [Surface][11]               | [Surface][50]            | Gets or sets the current surface.                                      |
-| [Viewport][12]              | [IntRectangle][51]       | Gets or sets the viewport in pixel coordinates.                        |
+| Name                        | Type                              | Summary                                                                |
+|-----------------------------|-----------------------------------|------------------------------------------------------------------------|
+| [Blending][1]               | [Blending][44]                    | Gets or sets the current blending mode.                                |
+| [Color][2]                  | [Color][45]                       | Gets or sets the current blending color.                               |
+| [CurrentFPS][3]             | `float`                           | Gets how often the default surface is presented to the screen per s... |
+| [GlobalTransform][4]        | [Matrix][46]                      | Get or sets the global transform.                                      |
+| [InverseGlobalTransform][5] | [Matrix][46]                      | Gets the inverse of the current global transform.                      |
+| [IsDisposed][6]             | `bool`                            | Gets a value determining if this Graphics was disposed.                |
+| [IsInitialized][7]          | `bool`                            | Gets a value determining if this Graphics has been initialized.        |
+| [Performance][8]            | [Graphics.PerformanceMetrics][47] | Gets drawing performance information.                                  |
+| [Screen][9]                 | [Screen][48]                      | Gets the screen this graphics context is responsible for.              |
+| [Shader][10]                | [Shader][49]                      | Gets or sets the active shader.                                        |
+| [Surface][11]               | [Surface][50]                     | Gets or sets the current surface.                                      |
+| [Viewport][12]              | [IntRectangle][51]                | Gets or sets the viewport in pixel coordinates.                        |
 
 ## Methods
 
@@ -150,7 +150,7 @@ public abstract class Graphics
 [44]: Blending.md
 [45]: Color.md
 [46]: Matrix.md
-[47]: DrawingPerformance.md
+[47]: Graphics.PerformanceMetrics.md
 [48]: Screen.md
 [49]: Shader.md
 [50]: Surface.md

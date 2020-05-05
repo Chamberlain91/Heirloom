@@ -3,24 +3,24 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]
 
-## IGraph\<T>.GetSuccessors (Method)
+## IGraph\<T>.ContainsVertex (Method)
 
 > **Namespace**: [Heirloom.Collections][0]  
 > **Declaring Type**: [IGraph\<T>][1]
 
-### GetSuccessors(T)
+### ContainsVertex(T)
 
-Gets the successor (outgoing neighbor) vertices.
+Determines if the graph contains the specified vertex.
 
 ```cs
-public abstract IEnumerable<T> GetSuccessors(T v)
+public abstract bool ContainsVertex(T v)
 ```
 
 | Name | Type | Summary |
 |------|------|---------|
 | v    | `T`  |         |
 
-> **Returns** - `IEnumerable\<T>`
+> **Returns** - `bool`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IGraph[T].md

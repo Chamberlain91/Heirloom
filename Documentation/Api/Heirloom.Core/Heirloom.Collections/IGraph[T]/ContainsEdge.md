@@ -3,24 +3,25 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]
 
-## IGraph\<T>.GetSuccessors (Method)
+## IGraph\<T>.ContainsEdge (Method)
 
 > **Namespace**: [Heirloom.Collections][0]  
 > **Declaring Type**: [IGraph\<T>][1]
 
-### GetSuccessors(T)
+### ContainsEdge(T, T)
 
-Gets the successor (outgoing neighbor) vertices.
+Determines of the graph contains the specified edge.
 
 ```cs
-public abstract IEnumerable<T> GetSuccessors(T v)
+public abstract bool ContainsEdge(T a, T b)
 ```
 
 | Name | Type | Summary |
 |------|------|---------|
-| v    | `T`  |         |
+| a    | `T`  |         |
+| b    | `T`  |         |
 
-> **Returns** - `IEnumerable\<T>`
+> **Returns** - `bool`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IGraph[T].md

@@ -8,20 +8,20 @@
 > **Namespace**: [Heirloom.Collections][0]
 
 ```cs
-public sealed class DirectedGraph<T> : IGraph<T>
+public sealed class DirectedGraph<T> : IDirectedGraph<T>, IEnumerable<T>, IEnumerable
 ```
 
 ### Inherits
 
-[IGraph\<T>][1]
+[IDirectedGraph\<T>][1], IEnumerable\<T>, IEnumerable
 
 ### Properties
 
-[EdgeCount][2], [Edges][3], [IsDirected][4], [VertexCount][5], [Vertices][6]
+[ArcCount][2], [Arcs][3], [VertexCount][4], [Vertices][5]
 
 ### Methods
 
-[Add][7], [Clear][8], [Connect][9], [Contains][10], [Disconnect][11], [FindPath][12], [GetSuccessors][13], [GetWeight][14], [IsConnected][15], [Remove][16], [SetWeight][17], [Traverse][18]
+[AddArc][6], [AddVertex][7], [Clear][8], [ContainsArc][9], [ContainsVertex][10], [FindPath][11], [GetArcWeight][12], [GetEnumerator][13], [GetPredecessors][14], [GetSuccessors][15], [RemoveArc][16], [RemoveVertex][17], [SetArcWeight][18], [Traverse][19]
 
 ## Properties
 
@@ -29,11 +29,10 @@ public sealed class DirectedGraph<T> : IGraph<T>
 
 | Name             | Type                              | Summary |
 |------------------|-----------------------------------|---------|
-| [EdgeCount][2]   | `int`                             |         |
-| [Edges][3]       | `IEnumerable\<ValueTuple\<T, T>>` |         |
-| [IsDirected][4]  | `bool`                            |         |
-| [VertexCount][5] | `int`                             |         |
-| [Vertices][6]    | `IEnumerable\<T>`                 |         |
+| [ArcCount][2]    | `int`                             |         |
+| [Arcs][3]        | `IEnumerable\<ValueTuple\<T, T>>` |         |
+| [VertexCount][4] | `int`                             |         |
+| [Vertices][5]    | `IEnumerable\<T>`                 |         |
 
 ## Methods
 
@@ -41,36 +40,39 @@ public sealed class DirectedGraph<T> : IGraph<T>
 
 | Name                            | Return Type         | Summary |
 |---------------------------------|---------------------|---------|
-| [Add(T)][7]                     | `void`              |         |
+| [AddArc(T, T, float)][6]        | `void`              |         |
+| [AddVertex(T)][7]               | `void`              |         |
 | [Clear()][8]                    | `void`              |         |
-| [Connect(T, T, float)][9]       | `void`              |         |
-| [Contains(T)][10]               | `bool`              |         |
-| [Disconnect(T, T)][11]          | `void`              |         |
-| [FindPath(T, T, Heurist...][12] | `IReadOnlyList\<T>` |         |
-| [FindPath(T, Func<T, bo...][12] | `IReadOnlyList\<T>` |         |
-| [GetSuccessors(T)][13]          | `IEnumerable\<T>`   |         |
-| [GetWeight(T, T)][14]           | `float`             |         |
-| [IsConnected(T, T)][15]         | `bool`              |         |
-| [Remove(T)][16]                 | `bool`              |         |
-| [SetWeight(T, T, float)][17]    | `void`              |         |
-| [Traverse(T, TraversalM...][18] | `IEnumerable\<T>`   |         |
+| [ContainsArc(T, T)][9]          | `bool`              |         |
+| [ContainsVertex(T)][10]         | `bool`              |         |
+| [FindPath(T, T, Heurist...][11] | `IReadOnlyList\<T>` |         |
+| [FindPath(T, Func<T, bo...][11] | `IReadOnlyList\<T>` |         |
+| [GetArcWeight(T, T)][12]        | `float`             |         |
+| [GetEnumerator()][13]           | `IEnumerator\<T>`   |         |
+| [GetPredecessors(T)][14]        | `IEnumerable\<T>`   |         |
+| [GetSuccessors(T)][15]          | `IEnumerable\<T>`   |         |
+| [RemoveArc(T, T)][16]           | `bool`              |         |
+| [RemoveVertex(T)][17]           | `bool`              |         |
+| [SetArcWeight(T, T, float)][18] | `void`              |         |
+| [Traverse(T, TraversalM...][19] | `IEnumerable\<T>`   |         |
 
 [0]: ../../Heirloom.Core.md
-[1]: IGraph[T].md
-[2]: DirectedGraph[T]/EdgeCount.md
-[3]: DirectedGraph[T]/Edges.md
-[4]: DirectedGraph[T]/IsDirected.md
-[5]: DirectedGraph[T]/VertexCount.md
-[6]: DirectedGraph[T]/Vertices.md
-[7]: DirectedGraph[T]/Add.md
+[1]: IDirectedGraph[T].md
+[2]: DirectedGraph[T]/ArcCount.md
+[3]: DirectedGraph[T]/Arcs.md
+[4]: DirectedGraph[T]/VertexCount.md
+[5]: DirectedGraph[T]/Vertices.md
+[6]: DirectedGraph[T]/AddArc.md
+[7]: DirectedGraph[T]/AddVertex.md
 [8]: DirectedGraph[T]/Clear.md
-[9]: DirectedGraph[T]/Connect.md
-[10]: DirectedGraph[T]/Contains.md
-[11]: DirectedGraph[T]/Disconnect.md
-[12]: DirectedGraph[T]/FindPath.md
-[13]: DirectedGraph[T]/GetSuccessors.md
-[14]: DirectedGraph[T]/GetWeight.md
-[15]: DirectedGraph[T]/IsConnected.md
-[16]: DirectedGraph[T]/Remove.md
-[17]: DirectedGraph[T]/SetWeight.md
-[18]: DirectedGraph[T]/Traverse.md
+[9]: DirectedGraph[T]/ContainsArc.md
+[10]: DirectedGraph[T]/ContainsVertex.md
+[11]: DirectedGraph[T]/FindPath.md
+[12]: DirectedGraph[T]/GetArcWeight.md
+[13]: DirectedGraph[T]/GetEnumerator.md
+[14]: DirectedGraph[T]/GetPredecessors.md
+[15]: DirectedGraph[T]/GetSuccessors.md
+[16]: DirectedGraph[T]/RemoveArc.md
+[17]: DirectedGraph[T]/RemoveVertex.md
+[18]: DirectedGraph[T]/SetArcWeight.md
+[19]: DirectedGraph[T]/Traverse.md
