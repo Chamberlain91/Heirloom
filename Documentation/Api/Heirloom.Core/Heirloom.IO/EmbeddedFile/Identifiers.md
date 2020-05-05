@@ -16,7 +16,7 @@ The known transformed identifiers.
 public IReadOnlyList<string> Identifiers { get; }
 ```
 
-> **Returns**: `IReadOnlyList\<string>`
+> **Returns**: `IReadOnlyList<string>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../EmbeddedFile.md

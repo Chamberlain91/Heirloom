@@ -16,7 +16,7 @@ Gets this windows icon set.
 public IReadOnlyList<Image> Icons { get; }
 ```
 
-> **Returns**: `IReadOnlyList\<Image>`
+> **Returns**: `IReadOnlyList<Image>`
 
 [0]: ../../../Heirloom.Desktop.md
 [1]: ../Window.md

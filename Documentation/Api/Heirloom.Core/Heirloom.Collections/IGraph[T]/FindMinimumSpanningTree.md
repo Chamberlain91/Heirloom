@@ -10,7 +10,7 @@
 
 ### FindMinimumSpanningTree()
 
-Finds and returns a minimum spanning tree. If the graph is directed, this will throw `NotImplementedException` .
+Finds and returns a minimum spanning tree.
 
 ```cs
 public abstract IGraph<T> FindMinimumSpanningTree()

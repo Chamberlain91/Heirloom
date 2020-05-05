@@ -29,26 +29,26 @@ public abstract class GameLoop
 
 #### Instance
 
-| Name           | Type          | Summary                             |
-|----------------|---------------|-------------------------------------|
-| [Graphics][1]  | [Graphics][7] | Gets the associated render context. |
-| [IsRunning][2] | `bool`        | Is the render thread active?        |
+| Name           | Type                 | Summary                             |
+|----------------|----------------------|-------------------------------------|
+| [Graphics][1]  | [GraphicsContext][7] | Gets the associated render context. |
+| [IsRunning][2] | `bool`               | Is the render thread active?        |
 
 ## Methods
 
 #### Instance
 
-| Name                         | Return Type | Summary                                                                |
-|------------------------------|-------------|------------------------------------------------------------------------|
-| [Start()][3]                 | `void`      | Start the render thread. This thread will automatically terminate w... |
-| [Stop()][4]                  | `void`      | Stop the render thread.                                                |
-| [Update(Graphics, float)][5] | `void`      |                                                                        |
+| Name                           | Return Type | Summary                                                                |
+|--------------------------------|-------------|------------------------------------------------------------------------|
+| [Start()][3]                   | `void`      | Start the render thread. This thread will automatically terminate w... |
+| [Stop()][4]                    | `void`      | Stop the render thread.                                                |
+| [Update(GraphicsContext...][5] | `void`      |                                                                        |
 
 #### Static
 
 | Name                           | Return Type   | Summary |
 |--------------------------------|---------------|---------|
-| [Create(Graphics, GameL...][6] | [GameLoop][8] |         |
+| [Create(GraphicsContext...][6] | [GameLoop][8] |         |
 
 [0]: ../../Heirloom.Core.md
 [1]: GameLoop/Graphics.md
@@ -57,5 +57,5 @@ public abstract class GameLoop
 [4]: GameLoop/Stop.md
 [5]: GameLoop/Update.md
 [6]: GameLoop/Create.md
-[7]: Graphics.md
+[7]: GraphicsContext.md
 [8]: GameLoop.md

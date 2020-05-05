@@ -20,7 +20,7 @@ public abstract IEnumerable<T> GetSuccessors(T v)
 |------|------|---------|
 | v    | `T`  |         |
 
-> **Returns** - `IEnumerable\<T>`
+> **Returns** - `IEnumerable<T>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IGraph[T].md

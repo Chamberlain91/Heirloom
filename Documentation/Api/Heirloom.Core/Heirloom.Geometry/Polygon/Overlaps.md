@@ -72,9 +72,9 @@ Determines if this polygon overlaps the specified triangle.
 public bool Overlaps(IReadOnlyList<Vector> polygon)
 ```
 
-| Name    | Type                     | Summary |
-|---------|--------------------------|---------|
-| polygon | `IReadOnlyList\<Vector>` |         |
+| Name    | Type                    | Summary |
+|---------|-------------------------|---------|
+| polygon | `IReadOnlyList<Vector>` |         |
 
 > **Returns** - `bool`
 

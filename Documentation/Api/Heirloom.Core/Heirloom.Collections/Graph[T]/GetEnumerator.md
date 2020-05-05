@@ -14,9 +14,7 @@
 public IEnumerator<T> GetEnumerator()
 ```
 
-`IteratorStateMachineAttribute`
-
-> **Returns** - `IEnumerator\<T>`
+> **Returns** - `IEnumerator<T>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Graph[T].md

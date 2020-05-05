@@ -14,7 +14,7 @@
 public IEnumerable<IntVector> Keys { get; }
 ```
 
-> **Returns**: `IEnumerable\<IntVector>`
+> **Returns**: `IEnumerable<IntVector>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../SparseGrid[T].md

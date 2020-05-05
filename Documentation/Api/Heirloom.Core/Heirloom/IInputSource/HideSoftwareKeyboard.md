@@ -10,6 +10,8 @@
 
 ### HideSoftwareKeyboard()
 
+Hides the software keyboard.
+
 ```cs
 public abstract void HideSoftwareKeyboard()
 ```

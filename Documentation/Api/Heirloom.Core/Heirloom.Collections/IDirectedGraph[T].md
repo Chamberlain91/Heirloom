@@ -7,6 +7,8 @@
 
 > **Namespace**: [Heirloom.Collections][0]
 
+An interface that represents a graph.
+
 ```cs
 public interface IDirectedGraph<T> : IEnumerable<T>, IEnumerable
 ```
@@ -27,33 +29,33 @@ IEnumerable\<T>, IEnumerable
 
 #### Instance
 
-| Name             | Type                              | Summary |
-|------------------|-----------------------------------|---------|
-| [ArcCount][1]    | `int`                             |         |
-| [Arcs][2]        | `IEnumerable\<ValueTuple\<T, T>>` |         |
-| [VertexCount][3] | `int`                             |         |
-| [Vertices][4]    | `IEnumerable\<T>`                 |         |
+| Name             | Type                            | Summary                                                          |
+|------------------|---------------------------------|------------------------------------------------------------------|
+| [ArcCount][1]    | `int`                           | Gets the number of arcs in the directed graph.                   |
+| [Arcs][2]        | `IEnumerable<ValueTuple<T, T>>` | Gets a collection containing the arcs in the directed graph.     |
+| [VertexCount][3] | `int`                           | Gets the number of vertices in the directed graph.               |
+| [Vertices][4]    | `IEnumerable<T>`                | Gets a collection containing the vertices in the directed graph. |
 
 ## Methods
 
 #### Instance
 
-| Name                            | Return Type         | Summary |
-|---------------------------------|---------------------|---------|
-| [AddArc(T, T, float)][5]        | `void`              |         |
-| [AddVertex(T)][6]               | `void`              |         |
-| [Clear()][7]                    | `void`              |         |
-| [ContainsArc(T, T)][8]          | `bool`              |         |
-| [ContainsVertex(T)][9]          | `bool`              |         |
-| [FindPath(T, T, Heurist...][10] | `IReadOnlyList\<T>` |         |
-| [FindPath(T, Func<T, bo...][10] | `IReadOnlyList\<T>` |         |
-| [GetArcWeight(T, T)][11]        | `float`             |         |
-| [GetPredecessors(T)][12]        | `IEnumerable\<T>`   |         |
-| [GetSuccessors(T)][13]          | `IEnumerable\<T>`   |         |
-| [RemoveArc(T, T)][14]           | `bool`              |         |
-| [RemoveVertex(T)][15]           | `bool`              |         |
-| [SetArcWeight(T, T, float)][16] | `void`              |         |
-| [Traverse(T, TraversalM...][17] | `IEnumerable\<T>`   |         |
+| Name                            | Return Type        | Summary                                                                |
+|---------------------------------|--------------------|------------------------------------------------------------------------|
+| [AddArc(T, T, float)][5]        | `void`             | Inserts a new arc into the directed graph.                             |
+| [AddVertex(T)][6]               | `void`             | Inserts a vertex into the directed graph.                              |
+| [Clear()][7]                    | `void`             | Clears the directed graph. Removing all vertices and arcs.             |
+| [ContainsArc(T, T)][8]          | `bool`             | Determines if the directed graph contains the specified arc.           |
+| [ContainsVertex(T)][9]          | `bool`             | Determines if the directed graph contains the specified vertex.        |
+| [FindPath(T, T, Heurist...][10] | `IReadOnlyList<T>` | Attempts to finds a path between `start` and `goal` vertices using ... |
+| [FindPath(T, Func<T, bo...][10] | `IReadOnlyList<T>` | Attempts to finds a path between `start` and `goal` vertices using ... |
+| [GetArcWeight(T, T)][11]        | `float`            | Gets the weight of some arc.                                           |
+| [GetPredecessors(T)][12]        | `IEnumerable<T>`   | Gets the predecessors (incoming neighbor) vertices.                    |
+| [GetSuccessors(T)][13]          | `IEnumerable<T>`   | Gets the successor (outgoing neighbor) vertices.                       |
+| [RemoveArc(T, T)][14]           | `bool`             | Removes an arc from the directed graph.                                |
+| [RemoveVertex(T)][15]           | `bool`             | Removes a vertex from the directed graph.                              |
+| [SetArcWeight(T, T, float)][16] | `void`             | Sets the weight of some arc.                                           |
+| [Traverse(T, TraversalM...][17] | `IEnumerable<T>`   | Traverses the graph by the specified method.                           |
 
 [0]: ../../Heirloom.Core.md
 [1]: IDirectedGraph[T]/ArcCount.md

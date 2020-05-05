@@ -62,26 +62,26 @@ IEquatable\<Color>
 
 #### Static
 
-| Name              | Type                    | Summary |
-|-------------------|-------------------------|---------|
-| [Black][12]       | [Color][34]             |         |
-| [Blue][13]        | [Color][34]             |         |
-| [Cyan][14]        | [Color][34]             |         |
-| [DarkGray][15]    | [Color][34]             |         |
-| [Gray][16]        | [Color][34]             |         |
-| [Green][17]       | [Color][34]             |         |
-| [Indigo][18]      | [Color][34]             |         |
-| [LightGray][19]   | [Color][34]             |         |
-| [Magenta][20]     | [Color][34]             |         |
-| [Orange][21]      | [Color][34]             |         |
-| [Pink][22]        | [Color][34]             |         |
-| [Rainbow][23]     | `IReadOnlyList\<Color>` |         |
-| [Random][24]      | [Color][34]             |         |
-| [Red][25]         | [Color][34]             |         |
-| [Transparent][26] | [Color][34]             |         |
-| [Violet][27]      | [Color][34]             |         |
-| [White][28]       | [Color][34]             |         |
-| [Yellow][29]      | [Color][34]             |         |
+| Name              | Type                   | Summary |
+|-------------------|------------------------|---------|
+| [Black][12]       | [Color][34]            |         |
+| [Blue][13]        | [Color][34]            |         |
+| [Cyan][14]        | [Color][34]            |         |
+| [DarkGray][15]    | [Color][34]            |         |
+| [Gray][16]        | [Color][34]            |         |
+| [Green][17]       | [Color][34]            |         |
+| [Indigo][18]      | [Color][34]            |         |
+| [LightGray][19]   | [Color][34]            |         |
+| [Magenta][20]     | [Color][34]            |         |
+| [Orange][21]      | [Color][34]            |         |
+| [Pink][22]        | [Color][34]            |         |
+| [Rainbow][23]     | `IReadOnlyList<Color>` |         |
+| [Random][24]      | [Color][34]            |         |
+| [Red][25]         | [Color][34]            |         |
+| [Transparent][26] | [Color][34]            |         |
+| [Violet][27]      | [Color][34]            |         |
+| [White][28]       | [Color][34]            |         |
+| [Yellow][29]      | [Color][34]            |         |
 
 ## Methods
 

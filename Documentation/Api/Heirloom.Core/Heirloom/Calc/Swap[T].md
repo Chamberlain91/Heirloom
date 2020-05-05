@@ -33,11 +33,11 @@ public static void Swap<T>(IList<T> list, int a, int b)
 
 `ExtensionAttribute`
 
-| Name | Type        | Summary |
-|------|-------------|---------|
-| list | `IList\<T>` |         |
-| a    | `int`       |         |
-| b    | `int`       |         |
+| Name | Type       | Summary |
+|------|------------|---------|
+| list | `IList<T>` |         |
+| a    | `int`      |         |
+| b    | `int`      |         |
 
 > **Returns** - `void`
 

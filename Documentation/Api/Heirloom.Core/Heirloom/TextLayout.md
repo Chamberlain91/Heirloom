@@ -29,7 +29,7 @@ public static class TextLayout
 | [PerformLayout(string, ...][3] | `void`         | Performs the layout of text within the given bounds with the specif... |
 
 [0]: ../../Heirloom.Core.md
-[1]: Graphics/DrawText.md
+[1]: GraphicsContext/DrawText.md
 [2]: TextLayout/Measure.md
 [3]: TextLayout/PerformLayout.md
 [4]: Rectangle.md

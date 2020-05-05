@@ -14,7 +14,7 @@
 public IEnumerable<T> Elements { get; }
 ```
 
-> **Returns**: `IEnumerable\<T>`
+> **Returns**: `IEnumerable<T>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../RectanglePacker[T].md

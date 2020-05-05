@@ -159,9 +159,13 @@ namespace Heirloom
         public event Action<Screen, KeyEvent> KeyReleased;
         public event Action<Screen, KeyEvent> KeyRepeat;
 
+        /// <inheritdoc/>
         public abstract bool SupportsSoftwareKeyboard { get; }
 
+        /// <inheritdoc/>
         public abstract void ShowSoftwareKeyboard();
+
+        /// <inheritdoc/>
         public abstract void HideSoftwareKeyboard();
 
         bool IInputSource.TryGetKey(Key key, out ButtonState state)

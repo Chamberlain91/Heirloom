@@ -20,7 +20,7 @@ public abstract IEnumerable<T> Query(Vector point)
 |-------|-------------|---------|
 | point | [Vector][2] |         |
 
-> **Returns** - `IEnumerable\<T>`
+> **Returns** - `IEnumerable<T>`
 
 ### Query(IShape)
 
@@ -34,7 +34,7 @@ public abstract IEnumerable<T> Query(IShape queryShape)
 |------------|-------------|---------|
 | queryShape | [IShape][3] |         |
 
-> **Returns** - `IEnumerable\<T>`
+> **Returns** - `IEnumerable<T>`
 
 ### Query(Ray, float)
 
@@ -49,7 +49,7 @@ public abstract IEnumerable<T> Query(Ray ray, float maxDistance = ∞)
 | ray         | [Ray][4] |         |
 | maxDistance | `float`  |         |
 
-> **Returns** - `IEnumerable\<T>`
+> **Returns** - `IEnumerable<T>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../ISpatialQuery[T].md

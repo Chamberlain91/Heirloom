@@ -16,15 +16,13 @@ Iterate over a perfectly horizontal line.
 public static IEnumerable<IntVector> HLine(int x1, int x2, int y)
 ```
 
-`IteratorStateMachineAttribute`
-
 | Name | Type  | Summary                  |
 |------|-------|--------------------------|
 | x1   | `int` | Line start x coordinate. |
 | x2   | `int` | Line end x coordinate.   |
 | y    | `int` | Line y coordinate.       |
 
-> **Returns** - `IEnumerable\<IntVector>` - Generated points along the line.
+> **Returns** - `IEnumerable<IntVector>` - Generated points along the line.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Rasterizer.md

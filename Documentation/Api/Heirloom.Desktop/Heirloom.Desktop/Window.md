@@ -29,22 +29,22 @@ public sealed class Window : Screen, IInputSource, IDisposable
 
 #### Instance
 
-| Name                           | Type                    | Summary                                                                |
-|--------------------------------|-------------------------|------------------------------------------------------------------------|
-| [Bounds][3]                    | [IntRectangle][33]      | Gets or sets the window bounds in screen units.                        |
-| [ContentScale][4]              | [Vector][34]            | Gets the content scaling factor.                                       |
-| [HasTransparentFramebuffer][5] | `bool`                  | Gets a value that determines if this window supports a transparent ... |
-| [Icons][6]                     | `IReadOnlyList\<Image>` | Gets this windows icon set.                                            |
-| [IsDecorated][7]               | `bool`                  | Gets a value that determines if the window is decorated.               |
-| [IsFloating][8]                | `bool`                  | Gets a value that determines if the window "always on top".            |
-| [IsResizable][9]               | `bool`                  | Gets a value that determines if the window be resized.                 |
-| [IsVisible][10]                | `bool`                  | Gets a value that determines if the window is visible.                 |
-| [Monitor][11]                  | [Monitor][35]           | Gets the monitor this window is positioned on by checking the cente... |
-| [Position][12]                 | [IntVector][36]         | Gets or sets the window position in screen coordinates.                |
-| [Size][13]                     | [IntSize][37]           | Gets or sets the window size in screen units.                          |
-| [State][14]                    | [WindowState][38]       | Gets the current state of the window.                                  |
-| [SupportsSoftwareKeyboard][15] | `bool`                  |                                                                        |
-| [Title][16]                    | `string`                | Gets or set the window title text.                                     |
+| Name                           | Type                   | Summary                                                                |
+|--------------------------------|------------------------|------------------------------------------------------------------------|
+| [Bounds][3]                    | [IntRectangle][33]     | Gets or sets the window bounds in screen units.                        |
+| [ContentScale][4]              | [Vector][34]           | Gets the content scaling factor.                                       |
+| [HasTransparentFramebuffer][5] | `bool`                 | Gets a value that determines if this window supports a transparent ... |
+| [Icons][6]                     | `IReadOnlyList<Image>` | Gets this windows icon set.                                            |
+| [IsDecorated][7]               | `bool`                 | Gets a value that determines if the window is decorated.               |
+| [IsFloating][8]                | `bool`                 | Gets a value that determines if the window "always on top".            |
+| [IsResizable][9]               | `bool`                 | Gets a value that determines if the window be resized.                 |
+| [IsVisible][10]                | `bool`                 | Gets a value that determines if the window is visible.                 |
+| [Monitor][11]                  | [Monitor][35]          | Gets the monitor this window is positioned on by checking the cente... |
+| [Position][12]                 | [IntVector][36]        | Gets or sets the window position in screen coordinates.                |
+| [Size][13]                     | [IntSize][37]          | Gets or sets the window size in screen units.                          |
+| [State][14]                    | [WindowState][38]      | Gets the current state of the window.                                  |
+| [SupportsSoftwareKeyboard][15] | `bool`                 | Gets a value that determines if a software keyboard is supported on... |
+| [Title][16]                    | `string`               | Gets or set the window title text.                                     |
 
 ## Methods
 
@@ -61,7 +61,7 @@ public sealed class Window : Screen, IInputSource, IDisposable
 | [EndFullscreen()][20]           | `void`      | Disables fullscreen mode.                                              |
 | [Focus()][21]                   | `void`      |                                                                        |
 | [Hide()][22]                    | `void`      |                                                                        |
-| [HideSoftwareKeyboard()][23]    | `void`      |                                                                        |
+| [HideSoftwareKeyboard()][23]    | `void`      | Hides the software keyboard.                                           |
 | [Maximize()][24]                | `void`      | Sets the window to a maximized state.                                  |
 | [Minimize()][25]                | `void`      | Sets the window to a minimized state.                                  |
 | [MoveToCenter()][26]            | `void`      | Moves the window to the center of the nearest monitor.                 |
@@ -73,7 +73,7 @@ public sealed class Window : Screen, IInputSource, IDisposable
 | [SetIcon(Image)][29]            | `void`      | Assigns a new icon image to the window.                                |
 | [SetIcons(Image[])][30]         | `void`      |                                                                        |
 | [Show()][31]                    | `void`      |                                                                        |
-| [ShowSoftwareKeyboard()][32]    | `void`      |                                                                        |
+| [ShowSoftwareKeyboard()][32]    | `void`      | Attempts to show the software keyboard.                                |
 
 [0]: ../../Heirloom.Desktop.md
 [1]: ../../Heirloom.Core/Heirloom/Screen.md

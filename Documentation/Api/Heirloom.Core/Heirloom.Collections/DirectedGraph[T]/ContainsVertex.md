@@ -10,6 +10,8 @@
 
 ### ContainsVertex(T)
 
+Determines if the directed graph contains the specified vertex.
+
 ```cs
 public bool ContainsVertex(T v)
 ```

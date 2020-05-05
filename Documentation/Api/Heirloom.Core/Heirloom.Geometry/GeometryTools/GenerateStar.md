@@ -20,7 +20,7 @@ public static IEnumerable<Vector> GenerateStar(float radius)
 |--------|---------|---------|
 | radius | `float` |         |
 
-> **Returns** - `IEnumerable\<Vector>`
+> **Returns** - `IEnumerable<Vector>`
 
 ### GenerateStar(Vector, float)
 
@@ -35,7 +35,7 @@ public static IEnumerable<Vector> GenerateStar(Vector center, float radius)
 | center | [Vector][2] |         |
 | radius | `float`     |         |
 
-> **Returns** - `IEnumerable\<Vector>`
+> **Returns** - `IEnumerable<Vector>`
 
 ### GenerateStar(int, float)
 
@@ -50,7 +50,7 @@ public static IEnumerable<Vector> GenerateStar(int numPoints, float radius)
 | numPoints | `int`   |         |
 | radius    | `float` |         |
 
-> **Returns** - `IEnumerable\<Vector>`
+> **Returns** - `IEnumerable<Vector>`
 
 ### GenerateStar(Vector, int, float)
 
@@ -66,7 +66,7 @@ public static IEnumerable<Vector> GenerateStar(Vector center, int numPoints, flo
 | numPoints | `int`       |         |
 | radius    | `float`     |         |
 
-> **Returns** - `IEnumerable\<Vector>`
+> **Returns** - `IEnumerable<Vector>`
 
 ### GenerateStar(int, float, float)
 
@@ -82,7 +82,7 @@ public static IEnumerable<Vector> GenerateStar(int numPoints, float innerRadius,
 | innerRadius | `float` |         |
 | outerRadius | `float` |         |
 
-> **Returns** - `IEnumerable\<Vector>`
+> **Returns** - `IEnumerable<Vector>`
 
 ### GenerateStar(Vector, int, float, float)
 
@@ -92,8 +92,6 @@ Generates the points of a star.
 public static IEnumerable<Vector> GenerateStar(Vector center, int numPoints, float innerRadius, float outerRadius)
 ```
 
-`IteratorStateMachineAttribute`
-
 | Name        | Type        | Summary |
 |-------------|-------------|---------|
 | center      | [Vector][2] |         |
@@ -101,7 +99,7 @@ public static IEnumerable<Vector> GenerateStar(Vector center, int numPoints, flo
 | innerRadius | `float`     |         |
 | outerRadius | `float`     |         |
 
-> **Returns** - `IEnumerable\<Vector>`
+> **Returns** - `IEnumerable<Vector>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../GeometryTools.md

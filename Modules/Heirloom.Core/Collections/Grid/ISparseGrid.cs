@@ -7,6 +7,9 @@ namespace Heirloom.Collections
     /// </summary>
     public interface IReadOnlySparseGrid<T> : IReadOnlyGrid<T>
     {
+        /// <summary>
+        /// Gets a collection containing the keys of the sparse grid.
+        /// </summary>
         IEnumerable<IntVector> Keys { get; }
 
         /// <summary>

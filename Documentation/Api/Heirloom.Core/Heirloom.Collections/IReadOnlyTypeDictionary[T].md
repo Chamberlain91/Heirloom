@@ -25,11 +25,11 @@ IReadOnlyCollection\<T>, IEnumerable\<T>, IEnumerable
 
 #### Instance
 
-| Name                     | Return Type       | Summary                                                                |
-|--------------------------|-------------------|------------------------------------------------------------------------|
-| [Contains(T)][2]         | `bool`            | Does this type dictionary contain this object?                         |
-| [ContainsType<X>()][3]   | `bool`            | Does the dictionary contain any object that inherits from the speci... |
-| [GetItemsByType<X>()][4] | `IEnumerable\<X>` | Enumerates any object that inherits from the specified type.           |
+| Name                     | Return Type      | Summary                                                                |
+|--------------------------|------------------|------------------------------------------------------------------------|
+| [Contains(T)][2]         | `bool`           | Does this type dictionary contain this object?                         |
+| [ContainsType<X>()][3]   | `bool`           | Does the dictionary contain any object that inherits from the speci... |
+| [GetItemsByType<X>()][4] | `IEnumerable<X>` | Enumerates any object that inherits from the specified type.           |
 
 [0]: ../../Heirloom.Core.md
 [1]: ITypeDictionary[T].md

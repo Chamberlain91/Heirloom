@@ -16,7 +16,7 @@ Gets the list of convex partitions. If this polygon is already convex, there is 
 public IReadOnlyList<IReadOnlyList<Vector>> ConvexPartitions { get; }
 ```
 
-> **Returns**: `IReadOnlyList\<IReadOnlyList\<Vector>>`
+> **Returns**: `IReadOnlyList<IReadOnlyList<Vector>>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Polygon.md

@@ -13,11 +13,11 @@
 Gets the associated render context.
 
 ```cs
-public Graphics Graphics { get; }
+public GraphicsContext Graphics { get; }
 ```
 
-> **Returns**: [Graphics][2]
+> **Returns**: [GraphicsContext][2]
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../GameLoop.md
-[2]: ../Graphics.md
+[2]: ../GraphicsContext.md

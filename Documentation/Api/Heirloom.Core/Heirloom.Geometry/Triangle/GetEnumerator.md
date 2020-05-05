@@ -14,9 +14,7 @@
 public IEnumerator<Vector> GetEnumerator()
 ```
 
-`IteratorStateMachineAttribute`
-
-> **Returns** - `IEnumerator\<Vector>`
+> **Returns** - `IEnumerator<Vector>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Triangle.md

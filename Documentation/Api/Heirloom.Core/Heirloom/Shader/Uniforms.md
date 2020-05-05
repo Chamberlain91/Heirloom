@@ -16,7 +16,7 @@ Enumerates the uniforms defined in this shader.
 protected IEnumerable<UniformInfo> Uniforms { get; }
 ```
 
-> **Returns**: `IEnumerable\<UniformInfo>`
+> **Returns**: `IEnumerable<UniformInfo>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Shader.md

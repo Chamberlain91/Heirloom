@@ -16,13 +16,11 @@ Converts a simple polygon into one or more convex polygons enumerated by indices
 public static IEnumerable<IReadOnlyList<int>> DecomposeConvexIndices(IReadOnlyList<Vector> points)
 ```
 
-`IteratorStateMachineAttribute`
+| Name   | Type                    | Summary |
+|--------|-------------------------|---------|
+| points | `IReadOnlyList<Vector>` |         |
 
-| Name   | Type                     | Summary |
-|--------|--------------------------|---------|
-| points | `IReadOnlyList\<Vector>` |         |
-
-> **Returns** - `IEnumerable\<IReadOnlyList\<int>>`
+> **Returns** - `IEnumerable<IReadOnlyList<int>>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../PolygonTools.md

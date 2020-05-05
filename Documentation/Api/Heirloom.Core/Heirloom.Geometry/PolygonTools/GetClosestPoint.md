@@ -16,10 +16,10 @@ Gets the closest point on the polygon to the specified point. If the point is co
 public static Vector GetClosestPoint(IReadOnlyList<Vector> polygon, in Vector point)
 ```
 
-| Name    | Type                     | Summary |
-|---------|--------------------------|---------|
-| polygon | `IReadOnlyList\<Vector>` |         |
-| point   | [Vector][2]              |         |
+| Name    | Type                    | Summary |
+|---------|-------------------------|---------|
+| polygon | `IReadOnlyList<Vector>` |         |
+| point   | [Vector][2]             |         |
 
 > **Returns** - [Vector][2]
 

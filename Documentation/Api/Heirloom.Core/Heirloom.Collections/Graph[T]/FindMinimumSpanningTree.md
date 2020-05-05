@@ -10,6 +10,8 @@
 
 ### FindMinimumSpanningTree()
 
+Finds and returns a minimum spanning tree.
+
 ```cs
 public Graph<T> FindMinimumSpanningTree()
 ```

@@ -25,11 +25,11 @@ public class PerlinNoise : INoise1D, INoise2D, INoise3D
 
 #### Instance
 
-| Name                           | Return Type | Summary |
-|--------------------------------|-------------|---------|
-| [Sample(float)][4]             | `float`     |         |
-| [Sample(float, float)][4]      | `float`     |         |
-| [Sample(float, float, f...][4] | `float`     |         |
+| Name                           | Return Type | Summary                         |
+|--------------------------------|-------------|---------------------------------|
+| [Sample(float)][4]             | `float`     | Sample one-dimensional noise.   |
+| [Sample(float, float)][4]      | `float`     | Sample two-dimensional noise.   |
+| [Sample(float, float, f...][4] | `float`     | Sample three-dimensional noise. |
 
 [0]: ../../Heirloom.Core.md
 [1]: INoise1D.md

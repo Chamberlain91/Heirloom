@@ -6,7 +6,7 @@ using System.Linq;
 namespace Heirloom.Collections
 {
     /// <summary>
-    /// Implements a directed graph using adjacency lists.
+    /// A directed graph implemented using adjacency lists.
     /// </summary>
     public sealed class DirectedGraph<T> : IDirectedGraph<T>
     {

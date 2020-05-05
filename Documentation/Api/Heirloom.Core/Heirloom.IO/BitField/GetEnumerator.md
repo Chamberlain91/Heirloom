@@ -14,7 +14,7 @@
 public IEnumerator<bool> GetEnumerator()
 ```
 
-> **Returns** - `IEnumerator\<bool>`
+> **Returns** - `IEnumerator<bool>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../BitField.md

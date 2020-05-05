@@ -10,6 +10,8 @@
 
 ### SetArcWeight(T, T, float)
 
+Sets the weight of some arc.
+
 ```cs
 public void SetArcWeight(T a, T b, float weight)
 ```

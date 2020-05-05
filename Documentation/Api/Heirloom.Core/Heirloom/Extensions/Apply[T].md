@@ -18,10 +18,10 @@ public static void Apply<T>(IEnumerable<T> list, Action<T> action)
 
 `ExtensionAttribute`
 
-| Name   | Type              | Summary |
-|--------|-------------------|---------|
-| list   | `IEnumerable\<T>` |         |
-| action | `Action\<T>`      |         |
+| Name   | Type             | Summary |
+|--------|------------------|---------|
+| list   | `IEnumerable<T>` |         |
+| action | `Action<T>`      |         |
 
 > **Returns** - `void`
 

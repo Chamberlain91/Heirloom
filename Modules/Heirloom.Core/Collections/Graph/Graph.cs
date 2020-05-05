@@ -6,7 +6,7 @@ using System.Linq;
 namespace Heirloom.Collections
 {
     /// <summary>
-    /// Implements an undirected graph using a adjacency list.
+    /// An undirected graph implemented using adjacency lists.
     /// </summary>
     public sealed class Graph<T> : IGraph<T>
     {

@@ -16,7 +16,7 @@ Gets all currently connected monitors.
 public static IEnumerable<Monitor> Monitors { get; }
 ```
 
-> **Returns**: `IEnumerable\<Monitor>`
+> **Returns**: `IEnumerable<Monitor>`
 
 [0]: ../../../Heirloom.Desktop.md
 [1]: ../Application.md

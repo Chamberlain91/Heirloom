@@ -18,11 +18,11 @@ public static List<Triangle> Triangulate(IEnumerable<Vector> points)
 
 `ExtensionAttribute`
 
-| Name   | Type                   | Summary |
-|--------|------------------------|---------|
-| points | `IEnumerable\<Vector>` |         |
+| Name   | Type                  | Summary |
+|--------|-----------------------|---------|
+| points | `IEnumerable<Vector>` |         |
 
-> **Returns** - `List\<Triangle>`
+> **Returns** - `List<Triangle>`
 
 ### Triangulate(IEnumerable<Vector>, List<Triangle>)
 
@@ -34,10 +34,10 @@ public static void Triangulate(IEnumerable<Vector> points, List<Triangle> triang
 
 `ExtensionAttribute`
 
-| Name      | Type                   | Summary |
-|-----------|------------------------|---------|
-| points    | `IEnumerable\<Vector>` |         |
-| triangles | `List\<Triangle>`      |         |
+| Name      | Type                  | Summary |
+|-----------|-----------------------|---------|
+| points    | `IEnumerable<Vector>` |         |
+| triangles | `List<Triangle>`      |         |
 
 > **Returns** - `void`
 

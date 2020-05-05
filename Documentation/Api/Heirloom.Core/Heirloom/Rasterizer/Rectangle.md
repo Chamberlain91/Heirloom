@@ -16,8 +16,6 @@ Rasterize a rectangular region.
 public static IEnumerable<IntVector> Rectangle(int x, int y, int width, int height)
 ```
 
-`IteratorStateMachineAttribute`
-
 | Name   | Type  | Summary |
 |--------|-------|---------|
 | x      | `int` |         |
@@ -25,7 +23,7 @@ public static IEnumerable<IntVector> Rectangle(int x, int y, int width, int heig
 | width  | `int` |         |
 | height | `int` |         |
 
-> **Returns** - `IEnumerable\<IntVector>`
+> **Returns** - `IEnumerable<IntVector>`
 
 ### Rectangle(IntRectangle)
 
@@ -39,7 +37,7 @@ public static IEnumerable<IntVector> Rectangle(IntRectangle rect)
 |------|-------------------|---------|
 | rect | [IntRectangle][2] |         |
 
-> **Returns** - `IEnumerable\<IntVector>`
+> **Returns** - `IEnumerable<IntVector>`
 
 ### Rectangle(IntVector, IntSize)
 
@@ -54,7 +52,7 @@ public static IEnumerable<IntVector> Rectangle(IntVector position, IntSize size)
 | position | [IntVector][3] |         |
 | size     | [IntSize][4]   |         |
 
-> **Returns** - `IEnumerable\<IntVector>`
+> **Returns** - `IEnumerable<IntVector>`
 
 ### Rectangle(IntSize)
 
@@ -68,7 +66,7 @@ public static IEnumerable<IntVector> Rectangle(IntSize size)
 |------|--------------|---------|
 | size | [IntSize][4] |         |
 
-> **Returns** - `IEnumerable\<IntVector>`
+> **Returns** - `IEnumerable<IntVector>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Rasterizer.md

@@ -16,9 +16,9 @@ Adds multiple items to the heap.
 public abstract void AddRange(IEnumerable<T> items)
 ```
 
-| Name  | Type              | Summary |
-|-------|-------------------|---------|
-| items | `IEnumerable\<T>` |         |
+| Name  | Type             | Summary |
+|-------|------------------|---------|
+| items | `IEnumerable<T>` |         |
 
 > **Returns** - `void`
 

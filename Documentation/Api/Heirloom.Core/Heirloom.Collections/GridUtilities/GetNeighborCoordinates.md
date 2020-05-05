@@ -21,7 +21,7 @@ public static IEnumerable<IntVector> GetNeighborCoordinates(IntVector co, GridNe
 | co           | [IntVector][2]        |         |
 | neighborType | [GridNeighborType][3] |         |
 
-> **Returns** - `IEnumerable\<IntVector>`
+> **Returns** - `IEnumerable<IntVector>`
 
 ### GetNeighborCoordinates(int, int, GridNeighborType)
 
@@ -31,15 +31,13 @@ Gets neighboring grid coordinates relative to the specified input coordinates.
 public static IEnumerable<IntVector> GetNeighborCoordinates(int x, int y, GridNeighborType neighborType)
 ```
 
-`IteratorStateMachineAttribute`
-
 | Name         | Type                  | Summary |
 |--------------|-----------------------|---------|
 | x            | `int`                 |         |
 | y            | `int`                 |         |
 | neighborType | [GridNeighborType][3] |         |
 
-> **Returns** - `IEnumerable\<IntVector>`
+> **Returns** - `IEnumerable<IntVector>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../GridUtilities.md

@@ -16,9 +16,9 @@ Constructs a convex polygon representing the convex hull of the specified point 
 public static Polygon CreateConvexHull(IEnumerable<Vector> points)
 ```
 
-| Name   | Type                   | Summary |
-|--------|------------------------|---------|
-| points | `IEnumerable\<Vector>` |         |
+| Name   | Type                  | Summary |
+|--------|-----------------------|---------|
+| points | `IEnumerable<Vector>` |         |
 
 > **Returns** - [Polygon][1]
 

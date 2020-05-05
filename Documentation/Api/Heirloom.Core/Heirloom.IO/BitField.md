@@ -40,11 +40,11 @@ IEquatable\<BitField>, IReadOnlyList\<bool>, IReadOnlyCollection\<bool>, IEnumer
 
 #### Instance
 
-| Name                   | Return Type          | Summary                               |
-|------------------------|----------------------|---------------------------------------|
-| [GetBit(int)][3]       | `bool`               | Gets the bit value at `index` offset. |
-| [GetEnumerator()][4]   | `IEnumerator\<bool>` |                                       |
-| [SetBit(int, bool)][5] | `void`               | Sets the bit value at `index` offset. |
+| Name                   | Return Type         | Summary                               |
+|------------------------|---------------------|---------------------------------------|
+| [GetBit(int)][3]       | `bool`              | Gets the bit value at `index` offset. |
+| [GetEnumerator()][4]   | `IEnumerator<bool>` |                                       |
+| [SetBit(int, bool)][5] | `void`              | Sets the bit value at `index` offset. |
 
 [0]: ../../Heirloom.Core.md
 [1]: BitField/Count.md

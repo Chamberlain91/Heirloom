@@ -19,26 +19,26 @@ public static class PolygonTools
 
 ## Methods
 
-| Name                            | Return Type                                | Summary                                                                |
-|---------------------------------|--------------------------------------------|------------------------------------------------------------------------|
-| [ComputeMetrics(IReadOn...][1]  | `void`                                     |                                                                        |
-| [ContainsPoint(IReadOnl...][2]  | `bool`                                     | Assuming the polygon is convex, checks if the point is contained.      |
-| [DecomposeConvex(IReadO...][3]  | `IEnumerable\<Polygon>`                    | Converts a simple polygon into one or more convex polygons. If the ... |
-| [DecomposeConvexIndices...][4]  | `IEnumerable\<IReadOnlyList\<int>>`        | Converts a simple polygon into one or more convex polygons enumerat... |
-| [GetClosestPoint(IReadO...][5]  | [Vector][15]                               | Gets the closest point on the polygon to the specified point. If th... |
-| [GetClosestPointOutline...][6]  | [Vector][15]                               | Gets the closest point on the polygon outline to the specified point.  |
-| [GetNormal(IReadOnlyLis...][7]  | [Vector][15]                               | Vector perpendicular to the i-th edge.                                 |
-| [IsConvexPolygon(IReadO...][8]  | `bool`                                     | Determines if the polygon is considered convex (non-concave and ori... |
-| [IsConvexVertex(IReadOn...][9]  | `bool`                                     | Determines if the ith vertex is a convex (clockwise) vertex.           |
-| [IsConvexVertex(in Vect...][9]  | `bool`                                     | Determines if the vertex ' `vCurr` ' is convex (clockwise).            |
-| [Overlaps(IReadOnlyList...][10] | `bool`                                     | Tests if a (convex) polygon overlaps the specified shape.              |
-| [Project(IReadOnlyList<...][11] | [Range][16]                                | Project a polygon onto the specified axis.                             |
-| [Raycast(IReadOnlyList<...][12] | `bool`                                     | Checks if a ray intersects this polygon.                               |
-| [Raycast(IReadOnlyList<...][12] | `bool`                                     | Checks if a ray intersects this polygon.                               |
-| [Raycast(IReadOnlyList<...][12] | `bool`                                     | Checks if a ray intersects this polygon and outputs information on ... |
-| [Raycast(IReadOnlyList<...][12] | `bool`                                     | Checks if a ray intersects this polygon and outputs information on ... |
-| [Triangulate(IReadOnlyL...][13] | `IEnumerable\<Triangle>`                   | Decomposes a simple polygon into constituent triangles.                |
-| [TriangulateIndices(IEn...][14] | `IEnumerable\<ValueTuple\<int, int, int>>` | Decomposes a simple polygon into constituent triangles enumerated b... |
+| Name                            | Return Type                              | Summary                                                                |
+|---------------------------------|------------------------------------------|------------------------------------------------------------------------|
+| [ComputeMetrics(IReadOn...][1]  | `void`                                   |                                                                        |
+| [ContainsPoint(IReadOnl...][2]  | `bool`                                   | Assuming the polygon is convex, checks if the point is contained.      |
+| [DecomposeConvex(IReadO...][3]  | `IEnumerable<Polygon>`                   | Converts a simple polygon into one or more convex polygons. If the ... |
+| [DecomposeConvexIndices...][4]  | `IEnumerable<IReadOnlyList<int>>`        | Converts a simple polygon into one or more convex polygons enumerat... |
+| [GetClosestPoint(IReadO...][5]  | [Vector][15]                             | Gets the closest point on the polygon to the specified point. If th... |
+| [GetClosestPointOutline...][6]  | [Vector][15]                             | Gets the closest point on the polygon outline to the specified point.  |
+| [GetNormal(IReadOnlyLis...][7]  | [Vector][15]                             | Vector perpendicular to the i-th edge.                                 |
+| [IsConvexPolygon(IReadO...][8]  | `bool`                                   | Determines if the polygon is considered convex (non-concave and ori... |
+| [IsConvexVertex(IReadOn...][9]  | `bool`                                   | Determines if the ith vertex is a convex (clockwise) vertex.           |
+| [IsConvexVertex(in Vect...][9]  | `bool`                                   | Determines if the vertex ' `vCurr` ' is convex (clockwise).            |
+| [Overlaps(IReadOnlyList...][10] | `bool`                                   | Tests if a (convex) polygon overlaps the specified shape.              |
+| [Project(IReadOnlyList<...][11] | [Range][16]                              | Project a polygon onto the specified axis.                             |
+| [Raycast(IReadOnlyList<...][12] | `bool`                                   | Checks if a ray intersects this polygon.                               |
+| [Raycast(IReadOnlyList<...][12] | `bool`                                   | Checks if a ray intersects this polygon.                               |
+| [Raycast(IReadOnlyList<...][12] | `bool`                                   | Checks if a ray intersects this polygon and outputs information on ... |
+| [Raycast(IReadOnlyList<...][12] | `bool`                                   | Checks if a ray intersects this polygon and outputs information on ... |
+| [Triangulate(IReadOnlyL...][13] | `IEnumerable<Triangle>`                  | Decomposes a simple polygon into constituent triangles.                |
+| [TriangulateIndices(IEn...][14] | `IEnumerable<ValueTuple<int, int, int>>` | Decomposes a simple polygon into constituent triangles enumerated b... |
 
 [0]: ../../Heirloom.Core.md
 [1]: PolygonTools/ComputeMetrics.md

@@ -16,11 +16,11 @@ Decomposes a simple polygon into constituent triangles.
 public static IEnumerable<Triangle> Triangulate(IReadOnlyList<Vector> poylgon)
 ```
 
-| Name    | Type                     | Summary |
-|---------|--------------------------|---------|
-| poylgon | `IReadOnlyList\<Vector>` |         |
+| Name    | Type                    | Summary |
+|---------|-------------------------|---------|
+| poylgon | `IReadOnlyList<Vector>` |         |
 
-> **Returns** - `IEnumerable\<Triangle>`
+> **Returns** - `IEnumerable<Triangle>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../PolygonTools.md

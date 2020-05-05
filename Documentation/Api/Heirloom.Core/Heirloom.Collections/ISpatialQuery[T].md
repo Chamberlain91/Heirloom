@@ -21,11 +21,11 @@ public interface ISpatialQuery<T>
 
 #### Instance
 
-| Name                   | Return Type       | Summary                                                      |
-|------------------------|-------------------|--------------------------------------------------------------|
-| [Query(Vector)][1]     | `IEnumerable\<T>` | Finds spatial elements that overlap the specified point.     |
-| [Query(IShape)][1]     | `IEnumerable\<T>` | Finds spatial elements that overlap the specified rectangle. |
-| [Query(Ray, float)][1] | `IEnumerable\<T>` | Finds spatial elements that intersect the specified ray.     |
+| Name                   | Return Type      | Summary                                                      |
+|------------------------|------------------|--------------------------------------------------------------|
+| [Query(Vector)][1]     | `IEnumerable<T>` | Finds spatial elements that overlap the specified point.     |
+| [Query(IShape)][1]     | `IEnumerable<T>` | Finds spatial elements that overlap the specified rectangle. |
+| [Query(Ray, float)][1] | `IEnumerable<T>` | Finds spatial elements that intersect the specified ray.     |
 
 [0]: ../../Heirloom.Core.md
 [1]: ISpatialQuery[T]/Query.md

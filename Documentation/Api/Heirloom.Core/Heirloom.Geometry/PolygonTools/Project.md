@@ -16,10 +16,10 @@ Project a polygon onto the specified axis.
 public static Range Project(IReadOnlyList<Vector> polygon, in Vector axis)
 ```
 
-| Name    | Type                     | Summary |
-|---------|--------------------------|---------|
-| polygon | `IReadOnlyList\<Vector>` |         |
-| axis    | [Vector][2]              |         |
+| Name    | Type                    | Summary |
+|---------|-------------------------|---------|
+| polygon | `IReadOnlyList<Vector>` |         |
+| axis    | [Vector][2]             |         |
 
 > **Returns** - [Range][3]
 

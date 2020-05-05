@@ -16,13 +16,11 @@ Decomposes a simple polygon into constituent triangles enumerated by indices of 
 public static IEnumerable<ValueTuple<int, int, int>> TriangulateIndices(IEnumerable<Vector> polygon)
 ```
 
-`IteratorStateMachineAttribute`
+| Name    | Type                  | Summary |
+|---------|-----------------------|---------|
+| polygon | `IEnumerable<Vector>` |         |
 
-| Name    | Type                   | Summary |
-|---------|------------------------|---------|
-| polygon | `IEnumerable\<Vector>` |         |
-
-> **Returns** - `IEnumerable\<ValueTuple\<int, int, int>>`
+> **Returns** - `IEnumerable<ValueTuple<int, int, int>>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../PolygonTools.md

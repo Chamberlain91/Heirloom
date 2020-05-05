@@ -18,10 +18,10 @@ public static void Shuffle<T>(Random this, IList<T> items)
 
 `ExtensionAttribute`
 
-| Name  | Type        | Summary |
-|-------|-------------|---------|
-| this  | `Random`    |         |
-| items | `IList\<T>` |         |
+| Name  | Type       | Summary |
+|-------|------------|---------|
+| this  | `Random`   |         |
+| items | `IList<T>` |         |
 
 > **Returns** - `void`
 
@@ -35,10 +35,10 @@ public static void Shuffle<T>(IList<T> this, Random random)
 
 `ExtensionAttribute`
 
-| Name   | Type        | Summary |
-|--------|-------------|---------|
-| this   | `IList\<T>` |         |
-| random | `Random`    |         |
+| Name   | Type       | Summary |
+|--------|------------|---------|
+| this   | `IList<T>` |         |
+| random | `Random`   |         |
 
 > **Returns** - `void`
 

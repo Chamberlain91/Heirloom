@@ -23,15 +23,15 @@ public static class Application
 
 ## Properties
 
-| Name                                | Type                     | Summary                                                                |
-|-------------------------------------|--------------------------|------------------------------------------------------------------------|
-| [CpuInfo][1]                        | [CpuInfo][9]             | Gets detected information about the CPU.                               |
-| [DefaultMonitor][2]                 | [Monitor][10]            | The default (primary) monitor.                                         |
-| [GpuInfo][3]                        | [GpuInfo][11]            | Gets detected information about the GPU.                               |
-| [IsInitialized][4]                  | `bool`                   | Gets a value determining if the application has been initialized.      |
-| [Monitors][5]                       | `IEnumerable\<Monitor>`  | Gets all currently connected monitors.                                 |
-| [SupportsTransparentFramebuffer][6] | `bool`                   | Gets a value that determines if transparent window framebuffers are... |
-| [Windows][7]                        | `IReadOnlyList\<Window>` | Gets a read-only list of currently opened windows.                     |
+| Name                                | Type                    | Summary                                                                |
+|-------------------------------------|-------------------------|------------------------------------------------------------------------|
+| [CpuInfo][1]                        | [CpuInfo][9]            | Gets detected information about the CPU.                               |
+| [DefaultMonitor][2]                 | [Monitor][10]           | The default (primary) monitor.                                         |
+| [GpuInfo][3]                        | [GpuInfo][11]           | Gets detected information about the GPU.                               |
+| [IsInitialized][4]                  | `bool`                  | Gets a value determining if the application has been initialized.      |
+| [Monitors][5]                       | `IEnumerable<Monitor>`  | Gets all currently connected monitors.                                 |
+| [SupportsTransparentFramebuffer][6] | `bool`                  | Gets a value that determines if transparent window framebuffers are... |
+| [Windows][7]                        | `IReadOnlyList<Window>` | Gets a read-only list of currently opened windows.                     |
 
 ## Methods
 

@@ -10,6 +10,8 @@
 
 ### RemoveVertex(T)
 
+Removes a vertex from the directed graph.
+
 ```cs
 public bool RemoveVertex(T v)
 ```

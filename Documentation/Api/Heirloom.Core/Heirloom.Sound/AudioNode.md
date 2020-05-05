@@ -25,11 +25,11 @@ public abstract class AudioNode
 
 #### Instance
 
-| Name         | Type                 | Summary                                                                |
-|--------------|----------------------|------------------------------------------------------------------------|
-| [Balance][1] | `float`              | Gets or sets the balance (panning) of the audio. (ie, -1.0 for left... |
-| [Effects][2] | `List\<AudioEffect>` | Gets the list of AudioEffect that affect the audio on this node.       |
-| [Volume][3]  | `float`              | Gets or sets the volume (gain) of the audio.                           |
+| Name         | Type                | Summary                                                                |
+|--------------|---------------------|------------------------------------------------------------------------|
+| [Balance][1] | `float`             | Gets or sets the balance (panning) of the audio. (ie, -1.0 for left... |
+| [Effects][2] | `List<AudioEffect>` | Gets the list of AudioEffect that affect the audio on this node.       |
+| [Volume][3]  | `float`             | Gets or sets the volume (gain) of the audio.                           |
 
 ## Methods
 

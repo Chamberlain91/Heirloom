@@ -14,7 +14,7 @@
 public IEnumerator<T> GetEnumerator()
 ```
 
-> **Returns** - `IEnumerator\<T>`
+> **Returns** - `IEnumerator<T>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../BvhSpatialCollection[T].md

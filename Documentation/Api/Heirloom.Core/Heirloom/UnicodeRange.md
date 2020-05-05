@@ -56,9 +56,9 @@ IEnumerable\<UnicodeCharacter>, IEnumerable, IEquatable\<UnicodeRange>
 
 #### Instance
 
-| Name                 | Return Type                      | Summary |
-|----------------------|----------------------------------|---------|
-| [GetEnumerator()][3] | `IEnumerator\<UnicodeCharacter>` |         |
+| Name                 | Return Type                     | Summary |
+|----------------------|---------------------------------|---------|
+| [GetEnumerator()][3] | `IEnumerator<UnicodeCharacter>` |         |
 
 [0]: ../../Heirloom.Core.md
 [1]: UnicodeRange/End.md

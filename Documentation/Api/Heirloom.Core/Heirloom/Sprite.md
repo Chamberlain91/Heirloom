@@ -25,11 +25,11 @@ public sealed class Sprite
 
 #### Instance
 
-| Name                  | Type                               | Summary                                                   |
-|-----------------------|------------------------------------|-----------------------------------------------------------|
-| [Animations][1]       | `IReadOnlyCollection\<string>`     | Gets the name of each known animation sequence.           |
-| [DefaultAnimation][2] | [Sprite.Animation][5]              | Gets the default animation.                               |
-| [Frames][3]           | `IReadOnlyList\<Sprite.FrameInfo>` | Gets a read-only list of frames contained by this sprite. |
+| Name                  | Type                              | Summary                                                   |
+|-----------------------|-----------------------------------|-----------------------------------------------------------|
+| [Animations][1]       | `IReadOnlyCollection<string>`     | Gets the name of each known animation sequence.           |
+| [DefaultAnimation][2] | [Sprite.Animation][5]             | Gets the default animation.                               |
+| [Frames][3]           | `IReadOnlyList<Sprite.FrameInfo>` | Gets a read-only list of frames contained by this sprite. |
 
 ## Methods
 

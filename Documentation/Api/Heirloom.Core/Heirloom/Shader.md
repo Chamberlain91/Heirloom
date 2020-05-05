@@ -33,10 +33,10 @@ IDisposable
 
 #### Instance
 
-| Name          | Type                        | Summary                                         |
-|---------------|-----------------------------|-------------------------------------------------|
-| [Paths][1]    | `IReadOnlyList\<string>`    | The paths used to create this shader object.    |
-| [Uniforms][2] | `IEnumerable\<UniformInfo>` | Enumerates the uniforms defined in this shader. |
+| Name          | Type                       | Summary                                         |
+|---------------|----------------------------|-------------------------------------------------|
+| [Paths][1]    | `IReadOnlyList<string>`    | The paths used to create this shader object.    |
+| [Uniforms][2] | `IEnumerable<UniformInfo>` | Enumerates the uniforms defined in this shader. |
 
 #### Static
 

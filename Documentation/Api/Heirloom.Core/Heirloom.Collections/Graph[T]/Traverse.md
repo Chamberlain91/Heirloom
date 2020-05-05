@@ -10,16 +10,18 @@
 
 ### Traverse(T, TraversalMethod)
 
+Traverses the graph by the specified method.
+
 ```cs
 public IEnumerable<T> Traverse(T start, TraversalMethod method)
 ```
 
-| Name   | Type                 | Summary |
-|--------|----------------------|---------|
-| start  | `T`                  |         |
-| method | [TraversalMethod][2] |         |
+| Name   | Type                 | Summary                      |
+|--------|----------------------|------------------------------|
+| start  | `T`                  | Some starting veretx.        |
+| method | [TraversalMethod][2] | The desired traveral method. |
 
-> **Returns** - `IEnumerable\<T>`
+> **Returns** - `IEnumerable<T>` - A traveral of vertices in the graph.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Graph[T].md

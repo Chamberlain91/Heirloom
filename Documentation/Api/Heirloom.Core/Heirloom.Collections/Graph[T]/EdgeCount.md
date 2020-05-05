@@ -10,6 +10,8 @@
 
 ### EdgeCount
 
+Gets the number of edges in the graph.
+
 ```cs
 public int EdgeCount { get; }
 ```

@@ -7,7 +7,7 @@
 
 > **Namespace**: [Heirloom][0]
 
-Represents a surface a [Graphics][1] object can draw on.
+Represents a surface a [GraphicsContext][1] object can draw on.
 
 ```cs
 public sealed class Surface : ImageSource
@@ -43,7 +43,7 @@ public sealed class Surface : ImageSource
 | [MaxSupportedMultisampleQuality][7] | [MultisampleQuality][8] | Gets the max multisample quality supported on this system. |
 
 [0]: ../../Heirloom.Core.md
-[1]: Graphics.md
+[1]: GraphicsContext.md
 [2]: ImageSource.md
 [3]: Surface/IsScreenBound.md
 [4]: Surface/Multisample.md

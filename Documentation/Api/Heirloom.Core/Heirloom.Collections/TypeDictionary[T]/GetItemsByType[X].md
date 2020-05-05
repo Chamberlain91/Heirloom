@@ -14,9 +14,7 @@
 public IEnumerable<X> GetItemsByType<X>()
 ```
 
-`IteratorStateMachineAttribute`
-
-> **Returns** - `IEnumerable\<X>`
+> **Returns** - `IEnumerable<X>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../TypeDictionary[T].md

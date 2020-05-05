@@ -16,10 +16,10 @@ Tests if a (convex) polygon overlaps the specified shape.
 public static bool Overlaps(IReadOnlyList<Vector> polygon, IShape shape)
 ```
 
-| Name    | Type                     | Summary |
-|---------|--------------------------|---------|
-| polygon | `IReadOnlyList\<Vector>` |         |
-| shape   | [IShape][2]              |         |
+| Name    | Type                    | Summary |
+|---------|-------------------------|---------|
+| polygon | `IReadOnlyList<Vector>` |         |
+| shape   | [IShape][2]             |         |
 
 > **Returns** - `bool`
 

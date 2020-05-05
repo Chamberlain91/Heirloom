@@ -16,13 +16,13 @@ Reads the entire contents of the stream line by line.
 public static IEnumerable<string> ReadLines(Stream stream)
 ```
 
-`IteratorStateMachineAttribute` `ExtensionAttribute`
+`ExtensionAttribute`
 
 | Name   | Type     | Summary |
 |--------|----------|---------|
 | stream | `Stream` |         |
 
-> **Returns** - `IEnumerable\<string>`
+> **Returns** - `IEnumerable<string>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Extensions.md

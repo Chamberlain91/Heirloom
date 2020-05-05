@@ -28,9 +28,9 @@ Computes the bounding rectangle of the given set of points.
 public static Rectangle FromPoints(IEnumerable<Vector> points)
 ```
 
-| Name   | Type                   | Summary |
-|--------|------------------------|---------|
-| points | `IEnumerable\<Vector>` |         |
+| Name   | Type                  | Summary |
+|--------|-----------------------|---------|
+| points | `IEnumerable<Vector>` |         |
 
 > **Returns** - [Rectangle][1]
 

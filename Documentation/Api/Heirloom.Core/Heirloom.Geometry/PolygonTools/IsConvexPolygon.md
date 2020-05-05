@@ -16,9 +16,9 @@ Determines if the polygon is considered convex (non-concave and oriented clockwi
 public static bool IsConvexPolygon(IReadOnlyList<Vector> polygon)
 ```
 
-| Name    | Type                     | Summary |
-|---------|--------------------------|---------|
-| polygon | `IReadOnlyList\<Vector>` |         |
+| Name    | Type                    | Summary |
+|---------|-------------------------|---------|
+| polygon | `IReadOnlyList<Vector>` |         |
 
 > **Returns** - `bool`
 

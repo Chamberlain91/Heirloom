@@ -21,18 +21,18 @@ public static class GeometryTools
 
 ## Methods
 
-| Name                           | Return Type            | Summary                                                   |
-|--------------------------------|------------------------|-----------------------------------------------------------|
-| [GenerateRegularPolygon...][1] | `IEnumerable\<Vector>` | Generates the points of a regular polygon.                |
-| [GenerateRegularPolygon...][1] | `IEnumerable\<Vector>` | Generates the points of a regular polygon.                |
-| [GenerateStar(float)][2]       | `IEnumerable\<Vector>` | Generates the points of a common five-pointed star.       |
-| [GenerateStar(Vector, f...][2] | `IEnumerable\<Vector>` | Generates the points of a common five-pointed star.       |
-| [GenerateStar(int, float)][2]  | `IEnumerable\<Vector>` | Generates the points of a star.                           |
-| [GenerateStar(Vector, i...][2] | `IEnumerable\<Vector>` | Generates the points of a star.                           |
-| [GenerateStar(int, floa...][2] | `IEnumerable\<Vector>` | Generates the points of a star.                           |
-| [GenerateStar(Vector, i...][2] | `IEnumerable\<Vector>` | Generates the points of a star.                           |
-| [Triangulate(IEnumerabl...][3] | `List\<Triangle>`      | Constructs the Delaunay triangulation of a set of points. |
-| [Triangulate(IEnumerabl...][3] | `void`                 | Constructs the Delaunay triangulation of a set of points. |
+| Name                           | Return Type           | Summary                                                   |
+|--------------------------------|-----------------------|-----------------------------------------------------------|
+| [GenerateRegularPolygon...][1] | `IEnumerable<Vector>` | Generates the points of a regular polygon.                |
+| [GenerateRegularPolygon...][1] | `IEnumerable<Vector>` | Generates the points of a regular polygon.                |
+| [GenerateStar(float)][2]       | `IEnumerable<Vector>` | Generates the points of a common five-pointed star.       |
+| [GenerateStar(Vector, f...][2] | `IEnumerable<Vector>` | Generates the points of a common five-pointed star.       |
+| [GenerateStar(int, float)][2]  | `IEnumerable<Vector>` | Generates the points of a star.                           |
+| [GenerateStar(Vector, i...][2] | `IEnumerable<Vector>` | Generates the points of a star.                           |
+| [GenerateStar(int, floa...][2] | `IEnumerable<Vector>` | Generates the points of a star.                           |
+| [GenerateStar(Vector, i...][2] | `IEnumerable<Vector>` | Generates the points of a star.                           |
+| [Triangulate(IEnumerabl...][3] | `List<Triangle>`      | Constructs the Delaunay triangulation of a set of points. |
+| [Triangulate(IEnumerabl...][3] | `void`                | Constructs the Delaunay triangulation of a set of points. |
 
 [0]: ../../Heirloom.Core.md
 [1]: GeometryTools/GenerateRegularPolygon.md

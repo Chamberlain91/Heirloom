@@ -10,6 +10,8 @@
 
 ### SetEdgeWeight(T, T, float)
 
+Sets the weight of some edge.
+
 ```cs
 public void SetEdgeWeight(T a, T b, float weight)
 ```

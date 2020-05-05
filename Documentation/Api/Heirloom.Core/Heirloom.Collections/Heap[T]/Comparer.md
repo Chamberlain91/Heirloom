@@ -16,7 +16,7 @@ The comparer used by this heap.
 public Comparer<T> Comparer { get; }
 ```
 
-> **Returns**: `Comparer\<T>`
+> **Returns**: `Comparer<T>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Heap[T].md

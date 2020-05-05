@@ -16,7 +16,7 @@ Enumerates the values in the heap (in no particular order)
 public IEnumerator<T> GetEnumerator()
 ```
 
-> **Returns** - `IEnumerator\<T>`
+> **Returns** - `IEnumerator<T>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Heap[T].md

@@ -10,6 +10,8 @@
 
 ### AddVertex(T)
 
+Inserts a vertex into the directed graph.
+
 ```cs
 public abstract void AddVertex(T v)
 ```

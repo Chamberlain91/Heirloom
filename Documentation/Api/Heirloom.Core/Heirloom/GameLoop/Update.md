@@ -8,19 +8,19 @@
 > **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [GameLoop][1]
 
-### Update(Graphics, float)
+### Update(GraphicsContext, float)
 
 ```cs
-protected abstract void Update(Graphics gfx, float dt)
+protected abstract void Update(GraphicsContext gfx, float dt)
 ```
 
-| Name | Type          | Summary |
-|------|---------------|---------|
-| gfx  | [Graphics][2] |         |
-| dt   | `float`       |         |
+| Name | Type                 | Summary |
+|------|----------------------|---------|
+| gfx  | [GraphicsContext][2] |         |
+| dt   | `float`              |         |
 
 > **Returns** - `void`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../GameLoop.md
-[2]: ../Graphics.md
+[2]: ../GraphicsContext.md

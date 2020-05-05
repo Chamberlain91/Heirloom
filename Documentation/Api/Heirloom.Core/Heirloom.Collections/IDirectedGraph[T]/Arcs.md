@@ -10,11 +10,13 @@
 
 ### Arcs
 
+Gets a collection containing the arcs in the directed graph.
+
 ```cs
 public IEnumerable<ValueTuple<T, T>> Arcs { get; }
 ```
 
-> **Returns**: `IEnumerable\<ValueTuple\<T, T>>`
+> **Returns**: `IEnumerable<ValueTuple<T, T>>`
 
 `TupleElementNamesAttribute`
 

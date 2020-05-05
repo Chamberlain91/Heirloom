@@ -59,26 +59,26 @@ IEquatable\<ColorBytes>
 
 #### Static
 
-| Name              | Type                         | Summary |
-|-------------------|------------------------------|---------|
-| [Black][8]        | [ColorBytes][30]             |         |
-| [Blue][9]         | [ColorBytes][30]             |         |
-| [Cyan][10]        | [ColorBytes][30]             |         |
-| [DarkGray][11]    | [ColorBytes][30]             |         |
-| [Gray][12]        | [ColorBytes][30]             |         |
-| [Green][13]       | [ColorBytes][30]             |         |
-| [Indigo][14]      | [ColorBytes][30]             |         |
-| [LightGray][15]   | [ColorBytes][30]             |         |
-| [Magenta][16]     | [ColorBytes][30]             |         |
-| [Orange][17]      | [ColorBytes][30]             |         |
-| [Pink][18]        | [ColorBytes][30]             |         |
-| [Rainbow][19]     | `IReadOnlyList\<ColorBytes>` |         |
-| [Random][20]      | [ColorBytes][30]             |         |
-| [Red][21]         | [ColorBytes][30]             |         |
-| [Transparent][22] | [ColorBytes][30]             |         |
-| [Violet][23]      | [ColorBytes][30]             |         |
-| [White][24]       | [ColorBytes][30]             |         |
-| [Yellow][25]      | [ColorBytes][30]             |         |
+| Name              | Type                        | Summary |
+|-------------------|-----------------------------|---------|
+| [Black][8]        | [ColorBytes][30]            |         |
+| [Blue][9]         | [ColorBytes][30]            |         |
+| [Cyan][10]        | [ColorBytes][30]            |         |
+| [DarkGray][11]    | [ColorBytes][30]            |         |
+| [Gray][12]        | [ColorBytes][30]            |         |
+| [Green][13]       | [ColorBytes][30]            |         |
+| [Indigo][14]      | [ColorBytes][30]            |         |
+| [LightGray][15]   | [ColorBytes][30]            |         |
+| [Magenta][16]     | [ColorBytes][30]            |         |
+| [Orange][17]      | [ColorBytes][30]            |         |
+| [Pink][18]        | [ColorBytes][30]            |         |
+| [Rainbow][19]     | `IReadOnlyList<ColorBytes>` |         |
+| [Random][20]      | [ColorBytes][30]            |         |
+| [Red][21]         | [ColorBytes][30]            |         |
+| [Transparent][22] | [ColorBytes][30]            |         |
+| [Violet][23]      | [ColorBytes][30]            |         |
+| [White][24]       | [ColorBytes][30]            |         |
+| [Yellow][25]      | [ColorBytes][30]            |         |
 
 ## Methods
 

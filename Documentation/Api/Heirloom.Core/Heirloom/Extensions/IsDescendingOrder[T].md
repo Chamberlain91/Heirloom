@@ -18,9 +18,9 @@ public static bool IsDescendingOrder<T>(IEnumerable<T> seq)
 
 `ExtensionAttribute`
 
-| Name | Type              | Summary |
-|------|-------------------|---------|
-| seq  | `IEnumerable\<T>` |         |
+| Name | Type             | Summary |
+|------|------------------|---------|
+| seq  | `IEnumerable<T>` |         |
 
 > **Returns** - `bool`
 

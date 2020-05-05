@@ -10,6 +10,8 @@
 
 ### ContainsArc(T, T)
 
+Determines if the directed graph contains the specified arc.
+
 ```cs
 public bool ContainsArc(T a, T b)
 ```

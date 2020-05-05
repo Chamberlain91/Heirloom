@@ -10,6 +10,8 @@
 
 ### AddArc(T, T, float)
 
+Inserts a new arc into the directed graph.
+
 ```cs
 public void AddArc(T a, T b, float weight)
 ```

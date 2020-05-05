@@ -10,13 +10,13 @@
 
 ### Vertices
 
-Gets the vertices in the graph.
+Gets a collection containing the vertices in the graph.
 
 ```cs
 public IEnumerable<T> Vertices { get; }
 ```
 
-> **Returns**: `IEnumerable\<T>`
+> **Returns**: `IEnumerable<T>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IGraph[T].md

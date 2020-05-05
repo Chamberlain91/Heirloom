@@ -16,15 +16,13 @@ Rasterizes a circle outline.
 public static IEnumerable<IntVector> CircleOutline(int cx, int cy, int r)
 ```
 
-`IteratorStateMachineAttribute`
-
 | Name | Type  | Summary                                |
 |------|-------|----------------------------------------|
 | cx   | `int` | The center x coordinate of the circle. |
 | cy   | `int` | The center y coordinate of the circle. |
 | r    | `int` | The radius of the circle.              |
 
-> **Returns** - `IEnumerable\<IntVector>` - Generated points on the shell of the circle.
+> **Returns** - `IEnumerable<IntVector>` - Generated points on the shell of the circle.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Rasterizer.md

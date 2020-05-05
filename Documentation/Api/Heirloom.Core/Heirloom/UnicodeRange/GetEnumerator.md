@@ -14,7 +14,7 @@
 public IEnumerator<UnicodeCharacter> GetEnumerator()
 ```
 
-> **Returns** - `IEnumerator\<UnicodeCharacter>`
+> **Returns** - `IEnumerator<UnicodeCharacter>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../UnicodeRange.md

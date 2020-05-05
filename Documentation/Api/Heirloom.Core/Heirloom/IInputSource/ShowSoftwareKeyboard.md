@@ -10,6 +10,8 @@
 
 ### ShowSoftwareKeyboard()
 
+Attempts to show the software keyboard.
+
 ```cs
 public abstract void ShowSoftwareKeyboard()
 ```

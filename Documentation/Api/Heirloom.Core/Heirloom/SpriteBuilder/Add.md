@@ -45,11 +45,11 @@ Adds a new animation to the builder from multiple images.
 public void Add(string name, float frameDelay, IEnumerable<Image> frames)
 ```
 
-| Name       | Type                  | Summary                              |
-|------------|-----------------------|--------------------------------------|
-| name       | `string`              | The animation name.                  |
-| frameDelay | `float`               | The delay between frames in seconds. |
-| frames     | `IEnumerable\<Image>` | The image sequence to animate with.  |
+| Name       | Type                 | Summary                              |
+|------------|----------------------|--------------------------------------|
+| name       | `string`             | The animation name.                  |
+| frameDelay | `float`              | The delay between frames in seconds. |
+| frames     | `IEnumerable<Image>` | The image sequence to animate with.  |
 
 > **Returns** - `void`
 
@@ -79,7 +79,7 @@ public void Add(string name, float frameDelay, Sprite.Direction direction, IEnum
 | name       | `string`              |         |
 | frameDelay | `float`               |         |
 | direction  | [Sprite.Direction][3] |         |
-| frames     | `IEnumerable\<Image>` |         |
+| frames     | `IEnumerable<Image>`  |         |
 
 > **Returns** - `void`
 

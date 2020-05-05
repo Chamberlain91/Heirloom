@@ -17,9 +17,9 @@ Constructs a mesh from the given convex polygon.
 public static Mesh CreateFromConvexPolygon(IEnumerable<Vector> polygon)
 ```
 
-| Name    | Type                   | Summary              |
-|---------|------------------------|----------------------|
-| polygon | `IEnumerable\<Vector>` | Some convex polygon. |
+| Name    | Type                  | Summary              |
+|---------|-----------------------|----------------------|
+| polygon | `IEnumerable<Vector>` | Some convex polygon. |
 
 > **Returns** - [Mesh][1] - A new mesh representign the 'filled' space of the polygon.
 

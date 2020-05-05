@@ -21,7 +21,7 @@ public abstract IEnumerable<T> Traverse(T start, TraversalMethod method)
 | start  | `T`                  | Some starting veretx.        |
 | method | [TraversalMethod][2] | The desired traveral method. |
 
-> **Returns** - `IEnumerable\<T>` - A traveral of vertices in the graph.
+> **Returns** - `IEnumerable<T>` - A traveral of vertices in the graph.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IGraph[T].md

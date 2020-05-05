@@ -16,7 +16,7 @@ Gets a read-only list of frames contained by this sprite.
 public IReadOnlyList<Sprite.FrameInfo> Frames { get; }
 ```
 
-> **Returns**: `IReadOnlyList\<Sprite.FrameInfo>`
+> **Returns**: `IReadOnlyList<Sprite.FrameInfo>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Sprite.md

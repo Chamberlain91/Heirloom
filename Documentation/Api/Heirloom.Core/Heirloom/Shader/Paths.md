@@ -16,7 +16,7 @@ The paths used to create this shader object.
 public IReadOnlyList<string> Paths { get; }
 ```
 
-> **Returns**: `IReadOnlyList\<string>`
+> **Returns**: `IReadOnlyList<string>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Shader.md

@@ -14,15 +14,15 @@
 public static IReadOnlyList<T> HeuristicSearch<T>(T start, T goal, Func<T, IEnumerable<T>> getSuccessors, ActualCost<T> cost, HeuristicCost<T> heuristic)
 ```
 
-| Name          | Type                        | Summary |
-|---------------|-----------------------------|---------|
-| start         | `T`                         |         |
-| goal          | `T`                         |         |
-| getSuccessors | `Func\<T, IEnumerable\<T>>` |         |
-| cost          | [ActualCost\<T>][2]         |         |
-| heuristic     | [HeuristicCost\<T>][3]      |         |
+| Name          | Type                      | Summary |
+|---------------|---------------------------|---------|
+| start         | `T`                       |         |
+| goal          | `T`                       |         |
+| getSuccessors | `Func<T, IEnumerable<T>>` |         |
+| cost          | [ActualCost\<T>][2]       |         |
+| heuristic     | [HeuristicCost\<T>][3]    |         |
 
-> **Returns** - `IReadOnlyList\<T>`
+> **Returns** - `IReadOnlyList<T>`
 
 ### HeuristicSearch<T>(T, Func<T, bool>, Func<T, IEnumerable<T>>, ActualCost<T>, HeuristicCost<T>)
 
@@ -30,15 +30,15 @@ public static IReadOnlyList<T> HeuristicSearch<T>(T start, T goal, Func<T, IEnum
 public static IReadOnlyList<T> HeuristicSearch<T>(T start, Func<T, bool> goalCondition, Func<T, IEnumerable<T>> getSuccessors, ActualCost<T> cost, HeuristicCost<T> heuristic)
 ```
 
-| Name          | Type                        | Summary |
-|---------------|-----------------------------|---------|
-| start         | `T`                         |         |
-| goalCondition | `Func\<T, bool>`            |         |
-| getSuccessors | `Func\<T, IEnumerable\<T>>` |         |
-| cost          | [ActualCost\<T>][2]         |         |
-| heuristic     | [HeuristicCost\<T>][3]      |         |
+| Name          | Type                      | Summary |
+|---------------|---------------------------|---------|
+| start         | `T`                       |         |
+| goalCondition | `Func<T, bool>`           |         |
+| getSuccessors | `Func<T, IEnumerable<T>>` |         |
+| cost          | [ActualCost\<T>][2]       |         |
+| heuristic     | [HeuristicCost\<T>][3]    |         |
 
-> **Returns** - `IReadOnlyList\<T>`
+> **Returns** - `IReadOnlyList<T>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Search.md

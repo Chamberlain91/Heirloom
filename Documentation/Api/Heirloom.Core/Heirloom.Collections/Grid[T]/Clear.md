@@ -10,7 +10,7 @@
 
 ### Clear()
 
-Sets all values in the grid to default for type <typeparamref name="T" /> .
+Sets all values in the grid to default for type `T` .
 
 ```cs
 public void Clear()
@@ -20,7 +20,7 @@ public void Clear()
 
 ### Clear(T)
 
-Sets all values in the grid to some value of <typeparamref name="T" /> .
+Sets all values in the grid to some value of `T` .
 
 ```cs
 public void Clear(T val)

@@ -10,6 +10,8 @@
 
 ### AddVertex(T)
 
+Inserts a vertex into the graph.
+
 ```cs
 public void AddVertex(T v)
 ```

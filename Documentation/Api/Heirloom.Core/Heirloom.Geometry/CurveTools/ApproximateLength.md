@@ -51,10 +51,10 @@ Helper function to compute the approximate length of a curve using discrete segm
 public static float ApproximateLength(Func<float, Vector> getPoint, int resolution = 5)
 ```
 
-| Name       | Type                   | Summary                                        |
-|------------|------------------------|------------------------------------------------|
-| getPoint   | `Func\<float, Vector>` | A function to get a interpolated point.        |
-| resolution | `int`                  | The number of discretes steps along the curve. |
+| Name       | Type                  | Summary                                        |
+|------------|-----------------------|------------------------------------------------|
+| getPoint   | `Func<float, Vector>` | A function to get a interpolated point.        |
+| resolution | `int`                 | The number of discretes steps along the curve. |
 
 > **Returns** - `float`
 

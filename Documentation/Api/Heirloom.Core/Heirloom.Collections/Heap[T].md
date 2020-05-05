@@ -33,7 +33,7 @@ The heap always acts like a min-heap but inverts the result of comparison for ma
 
 | Name          | Type           | Summary                                            |
 |---------------|----------------|----------------------------------------------------|
-| [Comparer][3] | `Comparer\<T>` | The comparer used by this heap.                    |
+| [Comparer][3] | `Comparer<T>`  | The comparer used by this heap.                    |
 | [Count][4]    | `int`          | Gets the number of elements contained in the heap. |
 | [Type][5]     | [HeapType][14] | Which kind of heap is this?                        |
 
@@ -41,17 +41,17 @@ The heap always acts like a min-heap but inverts the result of comparison for ma
 
 #### Instance
 
-| Name                          | Return Type       | Summary                                                                |
-|-------------------------------|-------------------|------------------------------------------------------------------------|
-| [Add(T)][6]                   | `bool`            | Adds an item to the heap.                                              |
-| [AddRange(IEnumerable<T>)][7] | `void`            | Adds multiple items to the heap.                                       |
-| [Contains(T)][8]              | `bool`            | Determines whether the Heap<T> contains the specified item.            |
-| [GetEnumerator()][9]          | `IEnumerator\<T>` | Enumerates the values in the heap (in no particular order)             |
-| [Peek()][10]                  | `T`               | Gets the next item in the heap to be removed.                          |
-| [Remove()][11]                | `T`               | Removes and returns the next priority item in the heap.                |
-| [Remove(T)][11]               | `bool`            | Removes a specific item from the heap.                                 |
-| [ToArray()][12]               | `T[]`             | Clones the heap, and returns an array of the elements in priority o... |
-| [Update(T)][13]               | `void`            | Alerts the heap to update the position the element within the heap.    |
+| Name                          | Return Type      | Summary                                                                |
+|-------------------------------|------------------|------------------------------------------------------------------------|
+| [Add(T)][6]                   | `bool`           | Adds an item to the heap.                                              |
+| [AddRange(IEnumerable<T>)][7] | `void`           | Adds multiple items to the heap.                                       |
+| [Contains(T)][8]              | `bool`           | Determines whether the Heap<T> contains the specified item.            |
+| [GetEnumerator()][9]          | `IEnumerator<T>` | Enumerates the values in the heap (in no particular order)             |
+| [Peek()][10]                  | `T`              | Gets the next item in the heap to be removed.                          |
+| [Remove()][11]                | `T`              | Removes and returns the next priority item in the heap.                |
+| [Remove(T)][11]               | `bool`           | Removes a specific item from the heap.                                 |
+| [ToArray()][12]               | `T[]`            | Clones the heap, and returns an array of the elements in priority o... |
+| [Update(T)][13]               | `void`           | Alerts the heap to update the position the element within the heap.    |
 
 [0]: ../../Heirloom.Core.md
 [1]: IHeap[T].md
