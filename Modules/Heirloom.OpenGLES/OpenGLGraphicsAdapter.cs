@@ -8,7 +8,7 @@ namespace Heirloom.OpenGLES
     {
         #region Query Capabilities
 
-        protected override GraphicsAdapterInfo GetAdapterInfo()
+        protected override AdapterInfo GetAdapterInfo()
         {
             // Query adapter info
             var renderer = GL.GetString(StringParameter.Renderer);
@@ -23,7 +23,7 @@ namespace Heirloom.OpenGLES
             //var maxUniformBlockSize = GL.GetInteger(GetParameter.MaxUniformBlockSize);
 
             // 
-            return new GraphicsAdapterInfo(DetectEmbeddedOpenGL(), vendor, renderer);
+            return new AdapterInfo(DetectEmbeddedOpenGL(), vendor, renderer);
         }
 
         private static bool DetectEmbeddedOpenGL()

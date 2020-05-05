@@ -19,7 +19,7 @@ namespace Heirloom
         protected Graphics()
         {
             // Create performance tracking object
-            Performance = new DrawingPerformance();
+            Performance = new PerformanceMetrics();
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Heirloom
         /// <summary>
         /// Gets drawing performance information.
         /// </summary>
-        public DrawingPerformance Performance { get; }
+        public PerformanceMetrics Performance { get; }
 
         /// <summary>
         /// Gets how often the default surface is presented to the screen per second.
