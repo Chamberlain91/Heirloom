@@ -5,12 +5,18 @@ using System.Linq;
 
 namespace Heirloom.Collections
 {
+    /// <summary>
+    /// Implements a directed graph using adjacency lists.
+    /// </summary>
     public sealed class DirectedGraph<T> : IDirectedGraph<T>
     {
         private readonly Dictionary<T, List<Edge<T>>> _outgoing;
         private readonly Dictionary<T, List<Edge<T>>> _incoming;
         private readonly EdgeCollection _arcs;
 
+        /// <summary>
+        /// Constructs a new <see cref="DirectedGraph{T}"/>.
+        /// </summary>
         public DirectedGraph()
         {
             _outgoing = new Dictionary<T, List<Edge<T>>>();
@@ -18,14 +24,19 @@ namespace Heirloom.Collections
             _arcs = new EdgeCollection();
         }
 
+        /// <inheritdoc/>
         public IEnumerable<T> Vertices => _outgoing.Keys;
 
+        /// <inheritdoc/>
         public int VertexCount => _outgoing.Count;
 
+        /// <inheritdoc/>
         public IEnumerable<(T A, T B)> Arcs => _arcs.Select(e => (e.A, e.B));
 
+        /// <inheritdoc/>
         public int ArcCount => _arcs.Count;
 
+        /// <inheritdoc/>
         public void Clear()
         {
             _outgoing.Clear();
@@ -35,6 +46,7 @@ namespace Heirloom.Collections
 
         #region Vertex Manipulation
 
+        /// <inheritdoc/>
         public void AddVertex(T v)
         {
             if (ContainsVertex(v))
@@ -47,6 +59,7 @@ namespace Heirloom.Collections
             _outgoing[v] = new List<Edge<T>>();
         }
 
+        /// <inheritdoc/>
         public bool RemoveVertex(T v)
         {
             // Do we know about this vertex?
@@ -71,6 +84,7 @@ namespace Heirloom.Collections
             return false;
         }
 
+        /// <inheritdoc/>
         public bool ContainsVertex(T v)
         {
             return _outgoing.ContainsKey(v);
@@ -80,6 +94,7 @@ namespace Heirloom.Collections
 
         #region Arc Manipulation
 
+        /// <inheritdoc/>
         public void AddArc(T a, T b, float weight)
         {
             // Validate vertices
@@ -95,6 +110,7 @@ namespace Heirloom.Collections
             _incoming[b].Add(arc);
         }
 
+        /// <inheritdoc/>
         public bool RemoveArc(T a, T b)
         {
             // Validate vertices
@@ -119,11 +135,13 @@ namespace Heirloom.Collections
             return false;
         }
 
+        /// <inheritdoc/>
         public bool ContainsArc(T a, T b)
         {
             return _arcs.Contains(a, b);
         }
 
+        /// <inheritdoc/>
         public float GetArcWeight(T a, T b)
         {
             if (_arcs.TryGetEdge(a, b, out var arc))
@@ -136,6 +154,7 @@ namespace Heirloom.Collections
             }
         }
 
+        /// <inheritdoc/>
         public void SetArcWeight(T a, T b, float weight)
         {
             if (_arcs.TryGetEdge(a, b, out var arc))
@@ -150,12 +169,14 @@ namespace Heirloom.Collections
 
         #endregion
 
+        /// <inheritdoc/>
         public IEnumerable<T> GetSuccessors(T v)
         {
             // Return outgoing arc targets (ie, successors)
             return _outgoing[v].Select(e => e.GetOther(v));
         }
 
+        /// <inheritdoc/>
         public IEnumerable<T> GetPredecessors(T v)
         {
             // Return incoming arc sources (ie, predecessors)
@@ -164,16 +185,19 @@ namespace Heirloom.Collections
 
         #region Algorithms
 
+        /// <inheritdoc/>
         public IReadOnlyList<T> FindPath(T start, T goal, HeuristicCost<T> heuristic)
         {
             return Search.HeuristicSearch(start, goal, GetSuccessors, GetArcWeight, heuristic);
         }
 
+        /// <inheritdoc/>
         public IReadOnlyList<T> FindPath(T start, Func<T, bool> goalCondition, HeuristicCost<T> heuristic)
         {
             return Search.HeuristicSearch(start, goalCondition, GetSuccessors, GetArcWeight, heuristic);
         }
 
+        /// <inheritdoc/>
         public IEnumerable<T> Traverse(T start, TraversalMethod method)
         {
             return method switch
@@ -189,6 +213,7 @@ namespace Heirloom.Collections
 
         #region Enumerator
 
+        /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator()
         {
             foreach (var v in Vertices)

@@ -9,7 +9,7 @@ namespace Heirloom.Collections
     public interface IGraph<T> : IEnumerable<T>
     {
         /// <summary>
-        /// Gets the vertices in the graph.
+        /// Gets a collection containing the vertices in the graph.
         /// </summary>
         IEnumerable<T> Vertices { get; }
 
@@ -19,7 +19,7 @@ namespace Heirloom.Collections
         int VertexCount { get; }
 
         /// <summary>
-        /// Gets the edges in the graph.
+        /// Gets a collection containing the edges in the graph.
         /// </summary>
         IEnumerable<(T A, T B)> Edges { get; }
 
@@ -59,11 +59,8 @@ namespace Heirloom.Collections
         bool RemoveEdge(T a, T b);
 
         /// <summary>
-        /// Determines of the graph contains the specified edge.
+        /// Determines if the graph contains the specified edge.
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
         bool ContainsEdge(T a, T b);
 
         /// <summary>
@@ -109,7 +106,6 @@ namespace Heirloom.Collections
 
         /// <summary>
         /// Finds and returns a minimum spanning tree.
-        /// If the graph is directed, this will throw <see cref="NotImplementedException"/>.
         /// </summary>
         IGraph<T> FindMinimumSpanningTree();
     }
