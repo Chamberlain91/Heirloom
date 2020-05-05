@@ -15,14 +15,20 @@ namespace Heirloom
     /// </summary>
     public delegate float HeuristicCost<T>(T a);
 
+    /// <summary>
+    /// Contains search related features.
+    /// </summary>
     public static class Search
     {
         #region Heuristic Search
 
         /// <summary>
-        /// Search a problem space from some starting state until the search predicate is satified. <para/>
+        /// Finds the path in some problem space from a starting state until a goal state has been reached. <para/>
         /// A common application of a heuristic search is implementing path finding.
         /// </summary>
+        /// <remarks>
+        /// This search implements the famous A* algorithm.
+        /// </remarks>
         /// <typeparam name="T">Type of the state elements.</typeparam>
         /// <param name="start">Starting state</param>
         /// <param name="goal">Terminating state.</param>
@@ -36,9 +42,12 @@ namespace Heirloom
         }
 
         /// <summary>
-        /// Search a problem space from some starting state until the search predicate is satified. <para/>
+        /// Finds the path in some problem space from a starting state until a goal condition is satified. <para/>
         /// A common application of a heuristic search is implementing path finding.
         /// </summary>
+        /// <remarks>
+        /// This search implements the famous A* algorithm.
+        /// </remarks>
         /// <typeparam name="T">Type of the state elements.</typeparam>
         /// <param name="start">Starting state</param>
         /// <param name="goalCondition">Search predicate</param>

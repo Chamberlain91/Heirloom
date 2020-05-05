@@ -75,18 +75,18 @@ namespace Examples.MazeAI
 
         public Grid<int> Tiles { get; }
 
-        public UndirectedGraph<IntVector> Graph { get; }
+        public Graph<IntVector> Graph { get; }
 
-        private UndirectedGraph<IntVector> Generate()
+        private Graph<IntVector> Generate()
         {
-            var graph = new UndirectedGraph<IntVector>();
+            var graph = new Graph<IntVector>();
 
             var coords = GetCoordinates(15, 15);
 
             // Insert each grid position
             foreach (var co in coords)
             {
-                graph.Add(co);
+                graph.AddVertex(co);
             }
 
             // Connect edges to each grid position
@@ -95,10 +95,10 @@ namespace Examples.MazeAI
                 // Connect to neighbors with random weight
                 foreach (var nco in Tiles.GetNeighborCoordinates(co, GridNeighborType.Axis))
                 {
-                    if (graph.Contains(nco) && !graph.IsConnected(co, nco))
+                    if (graph.ContainsVertex(nco) && !graph.ContainsEdge(co, nco))
                     {
                         // Add connection with random path weight
-                        graph.Connect(co, nco, Calc.Random.NextFloat());
+                        graph.AddEdge(co, nco, Calc.Random.NextFloat());
                     }
                 }
             }

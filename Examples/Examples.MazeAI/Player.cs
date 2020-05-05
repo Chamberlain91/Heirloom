@@ -33,7 +33,7 @@ namespace Examples.MazeAI
             {
                 // Convert mouse to maze coordinates
                 var coordinate = (IntVector) Vector.Floor(((Input.MousePosition - (8, 8)) / (2 * 16)));
-                if (!maze.Graph.Contains(coordinate)) { Goal = (-1, -1); }
+                if (!maze.Graph.ContainsVertex(coordinate)) { Goal = (-1, -1); }
                 else
                 {
                     Goal = coordinate;
