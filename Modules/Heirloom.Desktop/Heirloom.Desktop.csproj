@@ -22,10 +22,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Files\icon_128.png" />
-    <None Remove="Files\icon_16.png" />
-    <None Remove="Files\icon_32.png" />
-    <None Remove="Files\icon_64.png" />
+    <None Remove="Embedded\icon_128.png" />
+    <None Remove="Embedded\icon_16.png" />
+    <None Remove="Embedded\icon_32.png" />
+    <None Remove="Embedded\icon_64.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,10 +42,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Files\icon_128.png" />
-    <EmbeddedResource Include="Files\icon_16.png" />
-    <EmbeddedResource Include="Files\icon_32.png" />
-    <EmbeddedResource Include="Files\icon_64.png" />
+    <EmbeddedResource Include="Embedded\icon_128.png" />
+    <EmbeddedResource Include="Embedded\icon_16.png" />
+    <EmbeddedResource Include="Embedded\icon_32.png" />
+    <EmbeddedResource Include="Embedded\icon_64.png" />
   </ItemGroup>
 
   <ItemGroup>
