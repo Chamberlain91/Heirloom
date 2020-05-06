@@ -332,7 +332,7 @@ namespace Heirloom.Extras
                 tag.To = ReadWord();
 
                 // Animation Direction
-                tag.Direction = (Sprite.Direction) ReadByte();
+                tag.Direction = (AnimationDirection) ReadByte();
 
                 ReadBytes(8); // spec, for future use
 
@@ -816,7 +816,7 @@ namespace Heirloom.Extras
             public ushort From { get; set; }
             public ushort To { get; set; }
 
-            public Sprite.Direction Direction { get; set; }
+            public AnimationDirection Direction { get; set; }
 
             public ColorBytes Color { get; set; }
         }

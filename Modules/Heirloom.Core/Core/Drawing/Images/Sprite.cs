@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 using Heirloom.Extras;
 using Heirloom.IO;
@@ -9,104 +8,69 @@ using Heirloom.IO;
 namespace Heirloom
 {
     /// <summary>
-    /// A representation of single animated sprite.
+    /// A representation of an animated sprite.
     /// May also contains per-frame and animation sequence information for animating the sprite.
     /// </summary>
     public sealed class Sprite
     {
-        private readonly Dictionary<string, Animation> _animations;
-        private readonly FrameInfo[] _frames;
+        private readonly Dictionary<string, SpriteAnimation> _animations;
 
         #region Constructors
 
-        internal Sprite(SpriteBuilder builder)
+        /// <summary>
+        /// Constructs a new blank sprite.
+        /// </summary>
+        public Sprite()
         {
-            // Create frame array (we clone to prevent unexpected modifications from the builder)
-            _frames = builder.Frames.Select(f => new FrameInfo(f.Image, f.Delay)).ToArray();
-
-            // Create animation map (we clone to prevent unexpected modifications from the builder)
-            var animations = new Dictionary<string, Animation>();
-            foreach (var anim in builder.Animations.Values)
-            {
-                animations[anim.Name] = new Animation(anim.Name, anim.From, anim.To, anim.Direction);
-            }
-
-            _animations = animations;
-
-            // Select default animation
-            DefaultAnimation = _animations.FirstOrDefault().Value;
+            _animations = new Dictionary<string, SpriteAnimation>();
         }
 
         /// <summary>
         /// Constructs a new sprite from the specified file path resolved by <see cref="Files.OpenStream(string)"/>.
         /// </summary>
+        /// <remarks>
+        /// Currently only Asesprite files are supported.
+        /// </remarks>
         public Sprite(string path)
             : this(Files.OpenStream(path))
         { }
 
         /// <summary>
-        /// Constructs a new sprite from a stream (ie, an Aseprite file or other supported format).
+        /// Constructs a new sprite from a stream (ie, an Aseprite file or another supported format).
         /// </summary>
+        /// <remarks>
+        /// Currently only Asesprite files are supported.
+        /// </remarks>
         /// <param name="stream">Some stream to a known sprite data format.</param>
-        public Sprite(Stream stream)
+        public Sprite(Stream stream) : this()
         {
-            ConstructFromStream(stream, out _frames, out _animations);
-
-            // Select default animation
-            DefaultAnimation = _animations.FirstOrDefault().Value;
-        }
-
-        /// <summary>
-        /// Constructs a new sprite from a single image.
-        /// </summary>
-        /// <param name="image">Some image.</param>
-        public Sprite(Image image)
-        {
-            if (image is null) { throw new ArgumentNullException(nameof(image)); }
-
-            // 
-            _frames = new[] { new FrameInfo(image, 1F) };
-            _animations = new Dictionary<string, Animation> {
-                { "default", new Animation("default", 0, 1, Direction.Forward) }
-            };
-
-            // Select default animation
-            DefaultAnimation = _animations.FirstOrDefault().Value;
+            // todo: more asset types, somehow automagically determining what to do.
+            BuildFromAsepsrite(stream);
         }
 
         #endregion
 
-        #region Stream Constructor Helpers
+        #region Build From Resources
 
-        private void ConstructFromStream(Stream stream, out FrameInfo[] frames, out Dictionary<string, Animation> animations)
+        private void BuildFromAsepsrite(Stream stream)
         {
-            // todo: magically determine asset type
-            ConstructFromAseprite(stream, out frames, out animations);
-        }
-
-        private void ConstructFromAseprite(Stream stream, out FrameInfo[] frames, out Dictionary<string, Animation> animations)
-        {
+            // Load Asesprite File
             using var ase = new AsepriteFile(stream);
-
-            var an = new Dictionary<string, Animation>();
-            var fr = new List<FrameInfo>();
-
-            // For each known frame
-            for (var i = 0; i < ase.Frames.Length; i++)
-            {
-                var aseFrame = ase.Frames[i];
-                fr.Add(new FrameInfo(aseFrame.Image, aseFrame.Duration));
-            }
 
             // For each named animation
             foreach (var tag in ase.Tags)
             {
-                an[tag.Name] = new Animation(tag.Name, tag.From, tag.To, tag.Direction);
-            }
+                // Collect frames for specific sequence
+                var animation = new SpriteAnimation(tag.Name, tag.Direction);
+                for (var i = tag.From; i <= tag.To; i++)
+                {
+                    var frame = ase.Frames[i];
+                    animation.Add(frame.Image, frame.Duration);
+                }
 
-            // 
-            animations = an;
-            frames = fr.ToArray();
+                // Store animation
+                _animations[tag.Name] = animation;
+            }
         }
 
         #endregion
@@ -114,26 +78,32 @@ namespace Heirloom
         #region Properties
 
         /// <summary>
-        /// Gets a read-only list of frames contained by this sprite.
+        /// Gets a read-only view of the animations table.
         /// </summary>
-        public IReadOnlyList<FrameInfo> Frames => _frames;
-
-        /// <summary>
-        /// Gets the name of each known animation sequence.
-        /// </summary>
-        public IReadOnlyCollection<string> Animations => _animations.Keys;
-
-        /// <summary>
-        /// Gets the default animation.
-        /// </summary>
-        public Animation DefaultAnimation { get; }
+        public IReadOnlyDictionary<string, SpriteAnimation> Animations => _animations;
 
         #endregion
 
+        #region Animation
+
         /// <summary>
-        /// Gets an animation sequence by name.
+        /// Adds an animation to this sprite.
         /// </summary>
-        public Animation GetAnimation(string name)
+        public void AddAnimation(SpriteAnimation animation)
+        {
+            // 
+            if (_animations.ContainsKey(animation.Name))
+            {
+                throw new InvalidOperationException($"Unable to add animation, an animation named '{animation.Name}' already exists.");
+            }
+
+            _animations[animation.Name] = animation;
+        }
+
+        /// <summary>
+        /// Gets an animation contained by this sprite.
+        /// </summary>
+        public SpriteAnimation GetAnimation(string name)
         {
             if (_animations.TryGetValue(name, out var animation))
             {
@@ -143,86 +113,22 @@ namespace Heirloom
             throw new KeyNotFoundException($"Unable to find animation named \"{name}\" in sprite.");
         }
 
-        public class FrameInfo
+        /// <summary>
+        /// Removes an animation from this sprite.
+        /// </summary>
+        public bool RemoveAnimation(SpriteAnimation animation)
         {
-            internal FrameInfo(Image image, float delay)
-            {
-                Image = image ?? throw new ArgumentNullException(nameof(image));
-                Delay = delay;
-            }
-
-            /// <summary>
-            /// The image for this sprite frame.
-            /// </summary>
-            public Image Image { get; }
-
-            /// <summary>
-            /// The delay in seconds to be used when animating the sprite.
-            /// </summary>
-            public float Delay { get; }
-
-            /// <summary>
-            /// Gets this frame's frame number.
-            /// </summary>
-            public int Index { get; }
-        }
-
-        public class Animation
-        {
-            internal Animation(string name, int from, int to, Direction direction)
-            {
-                Name = name ?? throw new ArgumentNullException(nameof(name));
-                From = from;
-                To = to;
-                Length = to - from;
-                Direction = direction;
-            }
-
-            /// <summary>
-            /// The name of the animation sequence.
-            /// </summary>
-            public string Name { get; }
-
-            /// <summary>
-            /// The index of the first frame of the animation.
-            /// </summary>
-            public int From { get; }
-
-            /// <summary>
-            /// The index of the last frame of the animation.
-            /// </summary>
-            public int To { get; }
-
-            /// <summary>
-            /// The length of the animation in frames.
-            /// </summary>
-            public int Length { get; }
-
-            /// <summary>
-            /// The intended animation direction.
-            /// </summary>
-            public Direction Direction { get; }
+            return _animations.Remove(animation.Name);
         }
 
         /// <summary>
-        /// Enumerates animation direction options.
+        /// Determines if this sprite contains the specified animation.
         /// </summary>
-        public enum Direction : byte
+        public bool ContainsAnimation(string name)
         {
-            /// <summary>
-            /// Animation plays from zero to greater.
-            /// </summary>
-            Forward,
-
-            /// <summary>
-            /// Animation plays from greater to zero.
-            /// </summary>
-            Reverse,
-
-            /// <summary>
-            /// Animation bounces between <see cref="Forward"/> and then <see cref="Reverse"/> changing at each end, starting with <see cref="Forward"/>.
-            /// </summary>
-            PingPong
+            return _animations.ContainsKey(name);
         }
+
+        #endregion
     }
 }
