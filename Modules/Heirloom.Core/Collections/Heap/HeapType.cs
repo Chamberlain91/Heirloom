@@ -3,6 +3,8 @@ namespace Heirloom.Collections
     /// <summary>
     /// Describes the behaviour of a <see cref="Heap{T}"/>.
     /// </summary>
+    /// <tags>Heap, Priority</tags>
+    /// <category>Heap</category>
     public enum HeapType
     {
         /// <summary>

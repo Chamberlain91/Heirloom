@@ -27,15 +27,15 @@ IEquatable\<Vector>
 
 ### Methods
 
-[Deconstruct][9], [Normalize][10], [Set][11]
+[Deconstruct][9], [Equals][10], [GetHashCode][11], [Normalize][12], [Set][13], [ToString][14]
 
 ### Static Fields
 
-[Down][12], [Left][13], [One][14], [Right][15], [Up][16], [Zero][17]
+[Down][15], [Left][16], [One][17], [Right][18], [Up][19], [Zero][20]
 
 ### Static Methods
 
-[Abs][18], [AngleBetween][19], [Ceil][20], [Cross][21], [Distance][22], [DistanceSquared][23], [Dot][24], [Floor][25], [Fraction][26], [FromAngle][27], [GetMaxComponent][28], [GetMinComponent][29], [Lerp][30], [ManhattanDistance][31], [Max][32], [Min][33], [Normalize][10], [Project][34], [Reflect][35], [Rotate][36], [Round][37]
+[Abs][21], [AngleBetween][22], [Ceil][23], [Cross][24], [Distance][25], [DistanceSquared][26], [Dot][27], [Floor][28], [Fraction][29], [FromAngle][30], [GetMaxComponent][31], [GetMinComponent][32], [Lerp][33], [ManhattanDistance][34], [Max][35], [Min][36], [Normalize][12], [Project][37], [Reflect][38], [Rotate][39], [Round][40]
 
 ## Fields
 
@@ -50,12 +50,12 @@ IEquatable\<Vector>
 
 | Name        | Type         | Summary                      |
 |-------------|--------------|------------------------------|
-| [Down][12]  | [Vector][38] | A vector with value (0, 1).  |
-| [Left][13]  | [Vector][38] | A vector with value (-1, 0). |
-| [One][14]   | [Vector][38] | A vector with value (1, 1).  |
-| [Right][15] | [Vector][38] | A vector with value (1, 0).  |
-| [Up][16]    | [Vector][38] | A vector with value (0, -1). |
-| [Zero][17]  | [Vector][38] | A vector with value (0, 0).  |
+| [Down][15]  | [Vector][41] | A vector with value (0, 1).  |
+| [Left][16]  | [Vector][41] | A vector with value (-1, 0). |
+| [One][17]   | [Vector][41] | A vector with value (1, 1).  |
+| [Right][18] | [Vector][41] | A vector with value (1, 0).  |
+| [Up][19]    | [Vector][41] | A vector with value (0, -1). |
+| [Zero][20]  | [Vector][41] | A vector with value (0, 0).  |
 
 ## Properties
 
@@ -67,8 +67,8 @@ IEquatable\<Vector>
 | [Indexer][4]       | `float`      |                                                                  |
 | [Length][5]        | `float`      | Gets the magnitude of this vector.                               |
 | [LengthSquared][6] | `float`      | Gets the squared magnitude of this vector.                       |
-| [Normalized][7]    | [Vector][38] | Gets a normalized copy of this vector.                           |
-| [Perpendicular][8] | [Vector][38] | Gets a perpendicular copy of this vector.                        |
+| [Normalized][7]    | [Vector][41] | Gets a normalized copy of this vector.                           |
+| [Perpendicular][8] | [Vector][41] | Gets a perpendicular copy of this vector.                        |
 
 ## Methods
 
@@ -77,37 +77,41 @@ IEquatable\<Vector>
 | Name                           | Return Type | Summary                             |
 |--------------------------------|-------------|-------------------------------------|
 | [Deconstruct(out float,...][9] | `void`      |                                     |
-| [Normalize()][10]              | `void`      | Normalize this vector.              |
-| [Set(float, float)][11]        | `void`      | Sets the components of this vector. |
+| [Equals(object)][10]           | `bool`      |                                     |
+| [Equals(Vector)][10]           | `bool`      |                                     |
+| [GetHashCode()][11]            | `int`       |                                     |
+| [Normalize()][12]              | `void`      | Normalize this vector.              |
+| [Set(float, float)][13]        | `void`      | Sets the components of this vector. |
+| [ToString()][14]               | `string`    |                                     |
 
 #### Static
 
 | Name                            | Return Type  | Summary                                                                |
 |---------------------------------|--------------|------------------------------------------------------------------------|
-| [Abs(Vector)][18]               | [Vector][38] | Computes a new vector where each component is the absolute value of... |
-| [AngleBetween(Vector, V...][19] | `float`      | Computes the angle (in radians) between two vectors (using dot prod... |
-| [Ceil(Vector)][20]              | [Vector][38] | Computes a new vector with the ceiling of each component of the inp... |
-| [Cross(in Vector, in Ve...][21] | `float`      | Computes the cross-product of two vectors.                             |
-| [Cross(in Vector, float)][21]   | [Vector][38] | Computes the cross-product of a vector and a magnitude.                |
-| [Distance(in Vector, in...][22] | `float`      | Computes the euclidean distance between any two vectors.               |
-| [DistanceSquared(in Vec...][23] | `float`      | Computes the squared euclidean distance between any two vectors.       |
-| [Dot(in Vector, in Vector)][24] | `float`      | Computes the dot-product of two vectors.                               |
-| [Floor(Vector)][25]             | [Vector][38] | Computes a new vector with the floor of each component of the input... |
-| [Fraction(Vector)][26]          | [Vector][38] | Computes a new vector with the fractional portion of each component... |
-| [FromAngle(float)][27]          | [Vector][38] | Creates a unit length vector with the given angle from the x-axis.     |
-| [GetMaxComponent(Vector)][28]   | `float`      | Gets the maximal component in the input vector.                        |
-| [GetMinComponent(Vector)][29]   | `float`      | Gets the minimal component in the input vector.                        |
-| [Lerp(Vector, Vector, f...][30] | [Vector][38] | Interpolate two vectors.                                               |
-| [ManhattanDistance(in V...][31] | `float`      | Computes the manhattan distance between any two vectors.               |
-| [Max(Vector, Vector)][32]       | [Vector][38] | Computes a new vector where each component is the maximum component... |
-| [Min(Vector, Vector)][33]       | [Vector][38] | Computes a new vector where each component is the minimum component... |
-| [Normalize(Vector)][10]         | [Vector][38] | Normalizes the input vector and return it.                             |
-| [Normalize(ref Vector)][10]     | `void`       | Normalizes the input vector.                                           |
-| [Project(in Vector, in ...][34] | `float`      | Projects the first vector onto the second.                             |
-| [Project(in Vector, in ...][34] | `float`      | Projects a point onto a line segment.                                  |
-| [Reflect(in Vector, in ...][35] | [Vector][38] | Computes the reflection of the input vector about the specified axis.  |
-| [Rotate(Vector, float)][36]     | [Vector][38] | Rotates a vector by the specified angle.                               |
-| [Round(Vector)][37]             | [Vector][38] | Computes a new vector with the rounded value of each component of t... |
+| [Abs(Vector)][21]               | [Vector][41] | Computes a new vector where each component is the absolute value of... |
+| [AngleBetween(Vector, V...][22] | `float`      | Computes the angle (in radians) between two vectors (using dot prod... |
+| [Ceil(Vector)][23]              | [Vector][41] | Computes a new vector with the ceiling of each component of the inp... |
+| [Cross(in Vector, in Ve...][24] | `float`      | Computes the cross-product of two vectors.                             |
+| [Cross(in Vector, float)][24]   | [Vector][41] | Computes the cross-product of a vector and a magnitude.                |
+| [Distance(in Vector, in...][25] | `float`      | Computes the euclidean distance between any two vectors.               |
+| [DistanceSquared(in Vec...][26] | `float`      | Computes the squared euclidean distance between any two vectors.       |
+| [Dot(in Vector, in Vector)][27] | `float`      | Computes the dot-product of two vectors.                               |
+| [Floor(Vector)][28]             | [Vector][41] | Computes a new vector with the floor of each component of the input... |
+| [Fraction(Vector)][29]          | [Vector][41] | Computes a new vector with the fractional portion of each component... |
+| [FromAngle(float)][30]          | [Vector][41] | Creates a unit length vector with the given angle from the x-axis.     |
+| [GetMaxComponent(Vector)][31]   | `float`      | Gets the maximal component in the input vector.                        |
+| [GetMinComponent(Vector)][32]   | `float`      | Gets the minimal component in the input vector.                        |
+| [Lerp(Vector, Vector, f...][33] | [Vector][41] | Interpolate two vectors.                                               |
+| [ManhattanDistance(in V...][34] | `float`      | Computes the manhattan distance between any two vectors.               |
+| [Max(Vector, Vector)][35]       | [Vector][41] | Computes a new vector where each component is the maximum component... |
+| [Min(Vector, Vector)][36]       | [Vector][41] | Computes a new vector where each component is the minimum component... |
+| [Normalize(Vector)][12]         | [Vector][41] | Normalizes the input vector and return it.                             |
+| [Normalize(ref Vector)][12]     | `void`       | Normalizes the input vector.                                           |
+| [Project(in Vector, in ...][37] | `float`      | Projects the first vector onto the second.                             |
+| [Project(in Vector, in ...][37] | `float`      | Projects a point onto a line segment.                                  |
+| [Reflect(in Vector, in ...][38] | [Vector][41] | Computes the reflection of the input vector about the specified axis.  |
+| [Rotate(Vector, float)][39]     | [Vector][41] | Rotates a vector by the specified angle.                               |
+| [Round(Vector)][40]             | [Vector][41] | Computes a new vector with the rounded value of each component of t... |
 
 [0]: ../../Heirloom.Core.md
 [1]: Vector/X.md
@@ -119,32 +123,35 @@ IEquatable\<Vector>
 [7]: Vector/Normalized.md
 [8]: Vector/Perpendicular.md
 [9]: Vector/Deconstruct.md
-[10]: Vector/Normalize.md
-[11]: Vector/Set.md
-[12]: Vector/Down.md
-[13]: Vector/Left.md
-[14]: Vector/One.md
-[15]: Vector/Right.md
-[16]: Vector/Up.md
-[17]: Vector/Zero.md
-[18]: Vector/Abs.md
-[19]: Vector/AngleBetween.md
-[20]: Vector/Ceil.md
-[21]: Vector/Cross.md
-[22]: Vector/Distance.md
-[23]: Vector/DistanceSquared.md
-[24]: Vector/Dot.md
-[25]: Vector/Floor.md
-[26]: Vector/Fraction.md
-[27]: Vector/FromAngle.md
-[28]: Vector/GetMaxComponent.md
-[29]: Vector/GetMinComponent.md
-[30]: Vector/Lerp.md
-[31]: Vector/ManhattanDistance.md
-[32]: Vector/Max.md
-[33]: Vector/Min.md
-[34]: Vector/Project.md
-[35]: Vector/Reflect.md
-[36]: Vector/Rotate.md
-[37]: Vector/Round.md
-[38]: Vector.md
+[10]: Vector/Equals.md
+[11]: Vector/GetHashCode.md
+[12]: Vector/Normalize.md
+[13]: Vector/Set.md
+[14]: Vector/ToString.md
+[15]: Vector/Down.md
+[16]: Vector/Left.md
+[17]: Vector/One.md
+[18]: Vector/Right.md
+[19]: Vector/Up.md
+[20]: Vector/Zero.md
+[21]: Vector/Abs.md
+[22]: Vector/AngleBetween.md
+[23]: Vector/Ceil.md
+[24]: Vector/Cross.md
+[25]: Vector/Distance.md
+[26]: Vector/DistanceSquared.md
+[27]: Vector/Dot.md
+[28]: Vector/Floor.md
+[29]: Vector/Fraction.md
+[30]: Vector/FromAngle.md
+[31]: Vector/GetMaxComponent.md
+[32]: Vector/GetMinComponent.md
+[33]: Vector/Lerp.md
+[34]: Vector/ManhattanDistance.md
+[35]: Vector/Max.md
+[36]: Vector/Min.md
+[37]: Vector/Project.md
+[38]: Vector/Reflect.md
+[39]: Vector/Rotate.md
+[40]: Vector/Round.md
+[41]: Vector.md

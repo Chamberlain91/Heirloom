@@ -5,6 +5,8 @@ namespace Heirloom.Collections
     /// <summary>
     /// Represents a read-only view of a <see cref="Heap{T}"/>.
     /// </summary>
+    /// <tags>Heap, Priority</tags>
+    /// <category>Heap</category>
     public interface IReadOnlyHeap<T> : IReadOnlyCollection<T> // TODO: Implement all of ICollection<T>
     {
         /// <summary>

@@ -23,6 +23,10 @@ public struct FontMetrics
 
 [Height][4], [LineAdvance][5]
 
+### Methods
+
+[Equals][6], [GetHashCode][7]
+
 ## Fields
 
 #### Instance
@@ -42,9 +46,20 @@ public struct FontMetrics
 | [Height][4]      | `float` | The height of the line.                          |
 | [LineAdvance][5] | `float` | The spacing between baselines of multiline text. |
 
+## Methods
+
+#### Instance
+
+| Name                | Return Type | Summary |
+|---------------------|-------------|---------|
+| [Equals(object)][6] | `bool`      |         |
+| [GetHashCode()][7]  | `int`       |         |
+
 [0]: ../../Heirloom.Core.md
 [1]: FontMetrics/Ascent.md
 [2]: FontMetrics/Descent.md
 [3]: FontMetrics/LineGap.md
 [4]: FontMetrics/Height.md
 [5]: FontMetrics/LineAdvance.md
+[6]: FontMetrics/Equals.md
+[7]: FontMetrics/GetHashCode.md

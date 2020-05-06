@@ -13,6 +13,8 @@ namespace Heirloom.Collections
     /// <remarks>
     /// The heap always acts like a min-heap but inverts the result of comparison for max heaps.
     /// </remarks>
+    /// <tags>Heap, Priority</tags>
+    /// <category>Heap</category>
     public class Heap<T> : IHeap<T>
     {
         private readonly Dictionary<T, Node> _lookup;

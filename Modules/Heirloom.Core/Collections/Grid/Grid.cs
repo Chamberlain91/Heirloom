@@ -5,6 +5,7 @@ namespace Heirloom.Collections
     /// <summary>
     /// A finite grid (bounded by size) of values.
     /// </summary>
+    /// <category>Grids</category>
     public sealed class Grid<T> : IFiniteGrid<T>
     {
         private readonly T[] _data;

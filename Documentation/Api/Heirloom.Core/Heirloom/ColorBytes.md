@@ -27,15 +27,15 @@ IEquatable\<ColorBytes>
 
 ### Methods
 
-[Set][7]
+[Equals][7], [GetHashCode][8], [Set][9], [ToString][10]
 
 ### Static Properties
 
-[Black][8], [Blue][9], [Cyan][10], [DarkGray][11], [Gray][12], [Green][13], [Indigo][14], [LightGray][15], [Magenta][16], [Orange][17], [Pink][18], [Rainbow][19], [Random][20], [Red][21], [Transparent][22], [Violet][23], [White][24], [Yellow][25]
+[Black][11], [Blue][12], [Cyan][13], [DarkGray][14], [Gray][15], [Green][16], [Indigo][17], [LightGray][18], [Magenta][19], [Orange][20], [Pink][21], [Rainbow][22], [Random][23], [Red][24], [Transparent][25], [Violet][26], [White][27], [Yellow][28]
 
 ### Static Methods
 
-[Lerp][26], [Multiply][27], [Parse][28], [TryParse][29]
+[Lerp][29], [Multiply][30], [Parse][31], [TryParse][32]
 
 ## Fields
 
@@ -54,31 +54,31 @@ IEquatable\<ColorBytes>
 
 | Name            | Type             | Summary                                      |
 |-----------------|------------------|----------------------------------------------|
-| [Inverted][5]   | [ColorBytes][30] | The inversion of this color.                 |
+| [Inverted][5]   | [ColorBytes][33] | The inversion of this color.                 |
 | [Luminosity][6] | ` byte`          | Computes a luminosity component (grayscale). |
 
 #### Static
 
 | Name              | Type                        | Summary |
 |-------------------|-----------------------------|---------|
-| [Black][8]        | [ColorBytes][30]            |         |
-| [Blue][9]         | [ColorBytes][30]            |         |
-| [Cyan][10]        | [ColorBytes][30]            |         |
-| [DarkGray][11]    | [ColorBytes][30]            |         |
-| [Gray][12]        | [ColorBytes][30]            |         |
-| [Green][13]       | [ColorBytes][30]            |         |
-| [Indigo][14]      | [ColorBytes][30]            |         |
-| [LightGray][15]   | [ColorBytes][30]            |         |
-| [Magenta][16]     | [ColorBytes][30]            |         |
-| [Orange][17]      | [ColorBytes][30]            |         |
-| [Pink][18]        | [ColorBytes][30]            |         |
-| [Rainbow][19]     | `IReadOnlyList<ColorBytes>` |         |
-| [Random][20]      | [ColorBytes][30]            |         |
-| [Red][21]         | [ColorBytes][30]            |         |
-| [Transparent][22] | [ColorBytes][30]            |         |
-| [Violet][23]      | [ColorBytes][30]            |         |
-| [White][24]       | [ColorBytes][30]            |         |
-| [Yellow][25]      | [ColorBytes][30]            |         |
+| [Black][11]       | [ColorBytes][33]            |         |
+| [Blue][12]        | [ColorBytes][33]            |         |
+| [Cyan][13]        | [ColorBytes][33]            |         |
+| [DarkGray][14]    | [ColorBytes][33]            |         |
+| [Gray][15]        | [ColorBytes][33]            |         |
+| [Green][16]       | [ColorBytes][33]            |         |
+| [Indigo][17]      | [ColorBytes][33]            |         |
+| [LightGray][18]   | [ColorBytes][33]            |         |
+| [Magenta][19]     | [ColorBytes][33]            |         |
+| [Orange][20]      | [ColorBytes][33]            |         |
+| [Pink][21]        | [ColorBytes][33]            |         |
+| [Rainbow][22]     | `IReadOnlyList<ColorBytes>` |         |
+| [Random][23]      | [ColorBytes][33]            |         |
+| [Red][24]         | [ColorBytes][33]            |         |
+| [Transparent][25] | [ColorBytes][33]            |         |
+| [Violet][26]      | [ColorBytes][33]            |         |
+| [White][27]       | [ColorBytes][33]            |         |
+| [Yellow][28]      | [ColorBytes][33]            |         |
 
 ## Methods
 
@@ -86,16 +86,20 @@ IEquatable\<ColorBytes>
 
 | Name                           | Return Type | Summary                            |
 |--------------------------------|-------------|------------------------------------|
-| [Set(byte, byte, byte, ...][7] | `void`      | Sets the components of this color. |
+| [Equals(object)][7]            | `bool`      |                                    |
+| [Equals(ColorBytes)][7]        | `bool`      |                                    |
+| [GetHashCode()][8]             | `int`       |                                    |
+| [Set(byte, byte, byte, ...][9] | `void`      | Sets the components of this color. |
+| [ToString()][10]               | `string`    |                                    |
 
 #### Static
 
 | Name                            | Return Type      | Summary                                                                |
 |---------------------------------|------------------|------------------------------------------------------------------------|
-| [Lerp(ColorBytes, Color...][26] | [ColorBytes][30] | Interpolate two colors together.                                       |
-| [Multiply(in ColorBytes...][27] | `void`           | Multiplies two ColorBytes together. Behaves the same as Color .        |
-| [Parse(string)][28]             | [ColorBytes][30] | Parses a hex-string representation of a color. May be formatted as ... |
-| [TryParse(string, out C...][29] | `bool`           | Parses a hex-string representation of a color. May be formatted as ... |
+| [Lerp(ColorBytes, Color...][29] | [ColorBytes][33] | Interpolate two colors together.                                       |
+| [Multiply(in ColorBytes...][30] | `void`           | Multiplies two ColorBytes together. Behaves the same as Color .        |
+| [Parse(string)][31]             | [ColorBytes][33] | Parses a hex-string representation of a color. May be formatted as ... |
+| [TryParse(string, out C...][32] | `bool`           | Parses a hex-string representation of a color. May be formatted as ... |
 
 [0]: ../../Heirloom.Core.md
 [1]: ColorBytes/A.md
@@ -104,27 +108,30 @@ IEquatable\<ColorBytes>
 [4]: ColorBytes/R.md
 [5]: ColorBytes/Inverted.md
 [6]: ColorBytes/Luminosity.md
-[7]: ColorBytes/Set.md
-[8]: ColorBytes/Black.md
-[9]: ColorBytes/Blue.md
-[10]: ColorBytes/Cyan.md
-[11]: ColorBytes/DarkGray.md
-[12]: ColorBytes/Gray.md
-[13]: ColorBytes/Green.md
-[14]: ColorBytes/Indigo.md
-[15]: ColorBytes/LightGray.md
-[16]: ColorBytes/Magenta.md
-[17]: ColorBytes/Orange.md
-[18]: ColorBytes/Pink.md
-[19]: ColorBytes/Rainbow.md
-[20]: ColorBytes/Random.md
-[21]: ColorBytes/Red.md
-[22]: ColorBytes/Transparent.md
-[23]: ColorBytes/Violet.md
-[24]: ColorBytes/White.md
-[25]: ColorBytes/Yellow.md
-[26]: ColorBytes/Lerp.md
-[27]: ColorBytes/Multiply.md
-[28]: ColorBytes/Parse.md
-[29]: ColorBytes/TryParse.md
-[30]: ColorBytes.md
+[7]: ColorBytes/Equals.md
+[8]: ColorBytes/GetHashCode.md
+[9]: ColorBytes/Set.md
+[10]: ColorBytes/ToString.md
+[11]: ColorBytes/Black.md
+[12]: ColorBytes/Blue.md
+[13]: ColorBytes/Cyan.md
+[14]: ColorBytes/DarkGray.md
+[15]: ColorBytes/Gray.md
+[16]: ColorBytes/Green.md
+[17]: ColorBytes/Indigo.md
+[18]: ColorBytes/LightGray.md
+[19]: ColorBytes/Magenta.md
+[20]: ColorBytes/Orange.md
+[21]: ColorBytes/Pink.md
+[22]: ColorBytes/Rainbow.md
+[23]: ColorBytes/Random.md
+[24]: ColorBytes/Red.md
+[25]: ColorBytes/Transparent.md
+[26]: ColorBytes/Violet.md
+[27]: ColorBytes/White.md
+[28]: ColorBytes/Yellow.md
+[29]: ColorBytes/Lerp.md
+[30]: ColorBytes/Multiply.md
+[31]: ColorBytes/Parse.md
+[32]: ColorBytes/TryParse.md
+[33]: ColorBytes.md

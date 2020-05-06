@@ -17,7 +17,7 @@ public abstract class GraphicsContext
 
 ### Methods
 
-[Apply][13], [Blit][14], [Clear][15], [Commit][16], [ComputePerFrameStats][17], [Dispose][18], [DrawCircle][19], [DrawCircleOutline][20], [DrawCross][21], [DrawCurve][22], [DrawImage][23], [DrawLine][24], [DrawMesh][25], [DrawNineSlice][26], [DrawPolygon][27], [DrawPolygonOutline][28], [DrawRect][29], [DrawRectOutline][30], [DrawSprite][31], [DrawSubImage][32], [DrawText][33], [DrawTriangle][34], [DrawTriangleOutline][35], [Flush][36], [GetDrawCounts][37], [GrabPixels][38], [PopState][39], [PushState][40], [ResetState][41], [SetCameraTransform][42], [SwapBuffers][43]
+[Apply][13], [Blit][14], [Clear][15], [Commit][16], [ComputePerFrameStats][17], [Dispose][18], [DrawCircle][19], [DrawCircleOutline][20], [DrawCross][21], [DrawCurve][22], [DrawImage][23], [DrawLine][24], [DrawMesh][25], [DrawNineSlice][26], [DrawPolygon][27], [DrawPolygonOutline][28], [DrawRect][29], [DrawRectOutline][30], [DrawSprite][31], [DrawSubImage][32], [DrawText][33], [DrawTriangle][34], [DrawTriangleOutline][35], [Finalize][36], [Flush][37], [GetDrawCounts][38], [GrabPixels][39], [PopState][40], [PushState][41], [ResetState][42], [SetCameraTransform][43], [SwapBuffers][44]
 
 ## Properties
 
@@ -25,18 +25,18 @@ public abstract class GraphicsContext
 
 | Name                        | Type                                     | Summary                                                                |
 |-----------------------------|------------------------------------------|------------------------------------------------------------------------|
-| [Blending][1]               | [Blending][44]                           | Gets or sets the current blending mode.                                |
-| [Color][2]                  | [Color][45]                              | Gets or sets the current blending color.                               |
+| [Blending][1]               | [Blending][45]                           | Gets or sets the current blending mode.                                |
+| [Color][2]                  | [Color][46]                              | Gets or sets the current blending color.                               |
 | [CurrentFPS][3]             | `float`                                  | Gets how often the default surface is presented to the screen per s... |
-| [GlobalTransform][4]        | [Matrix][46]                             | Get or sets the global transform.                                      |
-| [InverseGlobalTransform][5] | [Matrix][46]                             | Gets the inverse of the current global transform.                      |
+| [GlobalTransform][4]        | [Matrix][47]                             | Get or sets the global transform.                                      |
+| [InverseGlobalTransform][5] | [Matrix][47]                             | Gets the inverse of the current global transform.                      |
 | [IsDisposed][6]             | `bool`                                   | Gets a value determining if this GraphicsContext was disposed.         |
 | [IsInitialized][7]          | `bool`                                   | Gets a value determining if this GraphicsContext has been initialized. |
-| [Performance][8]            | [GraphicsContext.PerformanceMetrics][47] | Gets drawing performance information.                                  |
-| [Screen][9]                 | [Screen][48]                             | Gets the screen this graphics context is responsible for.              |
-| [Shader][10]                | [Shader][49]                             | Gets or sets the active shader.                                        |
-| [Surface][11]               | [Surface][50]                            | Gets or sets the current surface.                                      |
-| [Viewport][12]              | [IntRectangle][51]                       | Gets or sets the viewport in pixel coordinates.                        |
+| [Performance][8]            | [GraphicsContext.PerformanceMetrics][48] | Gets drawing performance information.                                  |
+| [Screen][9]                 | [Screen][49]                             | Gets the screen this graphics context is responsible for.              |
+| [Shader][10]                | [Shader][50]                             | Gets or sets the active shader.                                        |
+| [Surface][11]               | [Surface][51]                            | Gets or sets the current surface.                                      |
+| [Viewport][12]              | [IntRectangle][52]                       | Gets or sets the viewport in pixel coordinates.                        |
 
 ## Methods
 
@@ -93,15 +93,16 @@ public abstract class GraphicsContext
 | [DrawTriangle(in Vector...][34] | `void`                           | Draw a triangle outline to the current surface.                        |
 | [DrawTriangleOutline(in...][35] | `void`                           | Draw a triangle outline to the current surface.                        |
 | [DrawTriangleOutline(in...][35] | `void`                           | Draw a triangle outline to the current surface.                        |
-| [Flush(bool)][36]               | `void`                           | Submit all pending drawing operations, optionally blocking for comp... |
-| [GetDrawCounts()][37]           | [GraphicsContext.DrawCounts][52] | Populates and returns drawing metrics.                                 |
-| [GrabPixels(IntRectangle)][38]  | [Image][53]                      | Grab the pixels from a subregion of the current surface and return ... |
-| [GrabPixels()][38]              | [Image][53]                      | Grab the pixels from the current surface and return that image. (ie... |
-| [PopState()][39]                | `void`                           | Restore the context state (pop from the state stack).                  |
-| [PushState(bool)][40]           | `void`                           | Save the context state (push it on the state stack).                   |
-| [ResetState()][41]              | `void`                           | Reset current context state to defaults (default surface, full view... |
-| [SetCameraTransform(Vec...][42] | `void`                           | Sets GlobalTransform to mimic a 2D camera. The center of the camera... |
-| [SwapBuffers()][43]             | `void`                           | Causes the back and front buffers to be swapped.                       |
+| [Finalize()][36]                | `void`                           | Graphics Finalizer.                                                    |
+| [Flush(bool)][37]               | `void`                           | Submit all pending drawing operations, optionally blocking for comp... |
+| [GetDrawCounts()][38]           | [GraphicsContext.DrawCounts][53] | Populates and returns drawing metrics.                                 |
+| [GrabPixels(IntRectangle)][39]  | [Image][54]                      | Grab the pixels from a subregion of the current surface and return ... |
+| [GrabPixels()][39]              | [Image][54]                      | Grab the pixels from the current surface and return that image. (ie... |
+| [PopState()][40]                | `void`                           | Restore the context state (pop from the state stack).                  |
+| [PushState(bool)][41]           | `void`                           | Save the context state (push it on the state stack).                   |
+| [ResetState()][42]              | `void`                           | Reset current context state to defaults (default surface, full view... |
+| [SetCameraTransform(Vec...][43] | `void`                           | Sets GlobalTransform to mimic a 2D camera. The center of the camera... |
+| [SwapBuffers()][44]             | `void`                           | Causes the back and front buffers to be swapped.                       |
 
 [0]: ../../Heirloom.Core.md
 [1]: GraphicsContext/Blending.md
@@ -139,21 +140,22 @@ public abstract class GraphicsContext
 [33]: GraphicsContext/DrawText.md
 [34]: GraphicsContext/DrawTriangle.md
 [35]: GraphicsContext/DrawTriangleOutline.md
-[36]: GraphicsContext/Flush.md
-[37]: GraphicsContext/GetDrawCounts.md
-[38]: GraphicsContext/GrabPixels.md
-[39]: GraphicsContext/PopState.md
-[40]: GraphicsContext/PushState.md
-[41]: GraphicsContext/ResetState.md
-[42]: GraphicsContext/SetCameraTransform.md
-[43]: GraphicsContext/SwapBuffers.md
-[44]: Blending.md
-[45]: Color.md
-[46]: Matrix.md
-[47]: GraphicsContext.PerformanceMetrics.md
-[48]: Screen.md
-[49]: Shader.md
-[50]: Surface.md
-[51]: IntRectangle.md
-[52]: GraphicsContext.DrawCounts.md
-[53]: Image.md
+[36]: GraphicsContext/Finalize.md
+[37]: GraphicsContext/Flush.md
+[38]: GraphicsContext/GetDrawCounts.md
+[39]: GraphicsContext/GrabPixels.md
+[40]: GraphicsContext/PopState.md
+[41]: GraphicsContext/PushState.md
+[42]: GraphicsContext/ResetState.md
+[43]: GraphicsContext/SetCameraTransform.md
+[44]: GraphicsContext/SwapBuffers.md
+[45]: Blending.md
+[46]: Color.md
+[47]: Matrix.md
+[48]: GraphicsContext.PerformanceMetrics.md
+[49]: Screen.md
+[50]: Shader.md
+[51]: Surface.md
+[52]: IntRectangle.md
+[53]: GraphicsContext.DrawCounts.md
+[54]: Image.md
