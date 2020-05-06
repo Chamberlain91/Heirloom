@@ -10,11 +10,13 @@
 
 ### ContainsType<X>()
 
+Does the dictionary contain any object that inherits from the specified type.
+
 ```cs
 public bool ContainsType<X>()
 ```
 
-> **Returns** - `bool`
+> **Returns** - `bool` - True if any object inherit from this type.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../TypeDictionary[T].md

@@ -10,6 +10,8 @@
 
 ### Add(T)
 
+Add a new object to the type dictionary.
+
 ```cs
 public bool Add(T item)
 ```

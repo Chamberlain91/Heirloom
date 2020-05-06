@@ -126,45 +126,44 @@
 
 ### Class
 
-| Name                               | Summary                                                                |
-|------------------------------------|------------------------------------------------------------------------|
-| [BvhSpatialCollection\<T>][93]     | A spatial collection to store and query elements in 2D space, imple... |
-| [DirectedGraph\<T>][94]            | A directed graph implemented using adjacency lists.                    |
-| [FreeList\<T>][95]                 | A free list an allocation-centric data structure that allows insert... |
-| [Graph\<T>][96]                    | An undirected graph implemented using adjacency lists.                 |
-| [Grid\<T>][97]                     | A finite grid (bounded by size) of values.                             |
-| [GridUtilities][98]                | Provides extra utilities for interacting with a grid.                  |
-| [Heap\<T>][99]                     | Represents a heap data structure. Allows the insertion and removal ... |
-| [LinearSpatialCollection\<T>][100] | DO NOT USE! This is incredibly slow, but useful for behaviour testi... |
-| [SparseGrid\<T>][101]              | An infinite, sparse grid of values.                                    |
-| [TypeDictionary\<T>][102]          | Manages objects by their type hierarchy up to the base type, allowi... |
+| Name                           | Summary                                                                |
+|--------------------------------|------------------------------------------------------------------------|
+| [BvhSpatialCollection\<T>][93] | A spatial collection to store and query elements in 2D space, imple... |
+| [DirectedGraph\<T>][94]        | A directed graph implemented using adjacency lists.                    |
+| [FreeList\<T>][95]             | A free list an allocation-centric data structure that allows insert... |
+| [Graph\<T>][96]                | An undirected graph implemented using adjacency lists.                 |
+| [Grid\<T>][97]                 | A finite grid (bounded by size) of values.                             |
+| [GridUtilities][98]            | Provides extra utilities for interacting with a grid.                  |
+| [Heap\<T>][99]                 | Represents a heap data structure. Allows the insertion and removal ... |
+| [SparseGrid\<T>][100]          | An infinite, sparse grid of values.                                    |
+| [TypeDictionary\<T>][101]      | Manages objects by their type hierarchy up to the base type, allowi... |
 
 ### Interface
 
 | Name                                  | Summary                                                                |
 |---------------------------------------|------------------------------------------------------------------------|
-| [IDirectedGraph\<T>][103]             | An interface that represents a graph.                                  |
-| [IFiniteGrid\<T>][104]                | A finite grid (bounded by IFiniteGrid<T>.Width and IFiniteGrid<T>.H... |
-| [IGraph\<T>][105]                     | An interface that represents a graph.                                  |
-| [IGrid\<T>][106]                      | A 2D grid of values.                                                   |
-| [IHeap\<T>][107]                      | Represents a heap data structure. Allowing the access and removal o... |
-| [IReadOnlyGrid\<T>][108]              | A read-only view of a 2D grid of values.                               |
-| [IReadOnlyHeap\<T>][109]              | Represents a read-only view of a Heap<T> .                             |
-| [IReadOnlySparseGrid\<T>][110]        | A sparse 2D grid of values.                                            |
-| [IReadOnlySpatialCollection\<T>][111] | A read-only view of a spatial collection to query elements in 2D sp... |
-| [IReadOnlyTypeDictionary\<T>][112]    | A read-only view of ITypeDictionary<T> .                               |
-| [ISparseGrid\<T>][113]                | A sparse 2D grid of values.                                            |
-| [ISpatialCollection\<T>][114]         | A spatial collection to store and query elements in 2D space.          |
-| [ISpatialQuery\<T>][115]              | Provides methods for querying elements in 2D space.                    |
-| [ITypeDictionary\<T>][116]            | Manages objects by their type hierarchy up to the base type, allowi... |
+| [IDirectedGraph\<T>][102]             | An interface that represents a graph.                                  |
+| [IFiniteGrid\<T>][103]                | A finite grid (bounded by IFiniteGrid<T>.Width and IFiniteGrid<T>.H... |
+| [IGraph\<T>][104]                     | An interface that represents a graph.                                  |
+| [IGrid\<T>][105]                      | A 2D grid of values.                                                   |
+| [IHeap\<T>][106]                      | Represents a heap data structure. Allowing the access and removal o... |
+| [IReadOnlyGrid\<T>][107]              | A read-only view of a 2D grid of values.                               |
+| [IReadOnlyHeap\<T>][108]              | Represents a read-only view of a Heap<T> .                             |
+| [IReadOnlySparseGrid\<T>][109]        | A sparse 2D grid of values.                                            |
+| [IReadOnlySpatialCollection\<T>][110] | A read-only view of a spatial collection to query elements in 2D sp... |
+| [IReadOnlyTypeDictionary\<T>][111]    | A read-only view of ITypeDictionary<T> .                               |
+| [ISparseGrid\<T>][112]                | A sparse 2D grid of values.                                            |
+| [ISpatialCollection\<T>][113]         | A spatial collection to store and query elements in 2D space.          |
+| [ISpatialQuery\<T>][114]              | Provides methods for querying elements in 2D space.                    |
+| [ITypeDictionary\<T>][115]            | Manages objects by their type hierarchy up to the base type, allowi... |
 
 ### Enum
 
 | Name                    | Summary                                      |
 |-------------------------|----------------------------------------------|
-| [GridNeighborType][117] | Describes the choice of neighbors in a grid. |
-| [HeapType][118]         | Describes the behaviour of a Heap<T> .       |
-| [TraversalMethod][119]  | Represents a choice of traversing a graph.   |
+| [GridNeighborType][116] | Describes the choice of neighbors in a grid. |
+| [HeapType][117]         | Describes the behaviour of a Heap<T> .       |
+| [TraversalMethod][118]  | Represents a choice of traversing a graph.   |
 
 ## Heirloom.Geometry
 
@@ -172,33 +171,33 @@
 
 | Name                 | Summary                                                                |
 |----------------------|------------------------------------------------------------------------|
-| [Curve][120]         |                                                                        |
-| [CurveTools][121]    | Utility function for computation with quadratic and cubic curves.      |
-| [GeometryTools][122] | Provides utilities for generating and manipulating shapes.             |
-| [Polygon][123]       | Represents a simple polygon.                                           |
-| [PolygonTools][124]  | Provides several operations for polygons represented as a read-only... |
+| [Curve][119]         |                                                                        |
+| [CurveTools][120]    | Utility function for computation with quadratic and cubic curves.      |
+| [GeometryTools][121] | Provides utilities for generating and manipulating shapes.             |
+| [Polygon][122]       | Represents a simple polygon.                                           |
+| [PolygonTools][123]  | Provides several operations for polygons represented as a read-only... |
 
 ### Struct
 
 | Name               | Summary                                                 |
 |--------------------|---------------------------------------------------------|
-| [Circle][125]      | Represents a circle via center position and radius.     |
-| [LineSegment][126] | Represents a line segment defined by two end points.    |
-| [Ray][127]         | Represents a ray by orgin point and directional vector. |
-| [RayContact][128]  | Represents the result of a ray to shape intersection.   |
-| [Triangle][129]    |                                                         |
+| [Circle][124]      | Represents a circle via center position and radius.     |
+| [LineSegment][125] | Represents a line segment defined by two end points.    |
+| [Ray][126]         | Represents a ray by orgin point and directional vector. |
+| [RayContact][127]  | Represents the result of a ray to shape intersection.   |
+| [Triangle][128]    |                                                         |
 
 ### Interface
 
 | Name          | Summary                                                                |
 |---------------|------------------------------------------------------------------------|
-| [IShape][130] | Represents the general interface of a shape and common operators ea... |
+| [IShape][129] | Represents the general interface of a shape and common operators ea... |
 
 ### Enum
 
 | Name             | Summary |
 |------------------|---------|
-| [CurveType][131] |         |
+| [CurveType][130] |         |
 
 ## Heirloom.IO
 
@@ -206,14 +205,14 @@
 
 | Name                | Summary                                                        |
 |---------------------|----------------------------------------------------------------|
-| [EmbeddedFile][132] | Represents an embedded file.                                   |
-| [Files][133]        | A utility to unify access of embedded files and files on disk. |
+| [EmbeddedFile][131] | Represents an embedded file.                                   |
+| [Files][132]        | A utility to unify access of embedded files and files on disk. |
 
 ### Struct
 
 | Name            | Summary                                                                |
 |-----------------|------------------------------------------------------------------------|
-| [BitField][134] | A structured byte to configure the 8 individual bits as a method of... |
+| [BitField][133] | A structured byte to configure the 8 individual bits as a method of... |
 
 ## Heirloom.Sound
 
@@ -221,21 +220,21 @@
 
 | Name                  | Summary                                                                |
 |-----------------------|------------------------------------------------------------------------|
-| [AudioClip][135]      | An object to contain (and decode) audio data into raw samples.         |
-| [AudioEffect][136]    | An audio effect. Implementations of this class mutate the audio for... |
-| [BandPassFilter][137] | An audio effect that implements a band pass filter.                    |
-| [HighPassFilter][138] | An audio effect that implements a high pass filter.                    |
-| [LowPassFilter][139]  | An audio effect that implements a low pass filter.                     |
-| [ReverbEffect][140]   | An audio effect that implements a Schroeder reverb.                    |
-| [AudioNode][141]      | Represents a node in the audio mixing tree.                            |
-| [AudioGroup][142]     | An AudioNode to mix and apply effects to a group of other nodes.       |
-| [AudioSource][143]    | An instance of playable audio.                                         |
+| [AudioClip][134]      | An object to contain (and decode) audio data into raw samples.         |
+| [AudioEffect][135]    | An audio effect. Implementations of this class mutate the audio for... |
+| [BandPassFilter][136] | An audio effect that implements a band pass filter.                    |
+| [HighPassFilter][137] | An audio effect that implements a high pass filter.                    |
+| [LowPassFilter][138]  | An audio effect that implements a low pass filter.                     |
+| [ReverbEffect][139]   | An audio effect that implements a Schroeder reverb.                    |
+| [AudioNode][140]      | Represents a node in the audio mixing tree.                            |
+| [AudioGroup][141]     | An AudioNode to mix and apply effects to a group of other nodes.       |
+| [AudioSource][142]    | An instance of playable audio.                                         |
 
 ### Delegate
 
 | Name                        | Summary |
 |-----------------------------|---------|
-| [AudioCaptureCallback][144] |         |
+| [AudioCaptureCallback][143] |         |
 
 [0]: Heirloom.Core.md
 [1]: Heirloom.Core/Heirloom/Calc.md
@@ -337,48 +336,47 @@
 [97]: Heirloom.Core/Heirloom.Collections/Grid[T].md
 [98]: Heirloom.Core/Heirloom.Collections/GridUtilities.md
 [99]: Heirloom.Core/Heirloom.Collections/Heap[T].md
-[100]: Heirloom.Core/Heirloom.Collections/LinearSpatialCollection[T].md
-[101]: Heirloom.Core/Heirloom.Collections/SparseGrid[T].md
-[102]: Heirloom.Core/Heirloom.Collections/TypeDictionary[T].md
-[103]: Heirloom.Core/Heirloom.Collections/IDirectedGraph[T].md
-[104]: Heirloom.Core/Heirloom.Collections/IFiniteGrid[T].md
-[105]: Heirloom.Core/Heirloom.Collections/IGraph[T].md
-[106]: Heirloom.Core/Heirloom.Collections/IGrid[T].md
-[107]: Heirloom.Core/Heirloom.Collections/IHeap[T].md
-[108]: Heirloom.Core/Heirloom.Collections/IReadOnlyGrid[T].md
-[109]: Heirloom.Core/Heirloom.Collections/IReadOnlyHeap[T].md
-[110]: Heirloom.Core/Heirloom.Collections/IReadOnlySparseGrid[T].md
-[111]: Heirloom.Core/Heirloom.Collections/IReadOnlySpatialCollection[T].md
-[112]: Heirloom.Core/Heirloom.Collections/IReadOnlyTypeDictionary[T].md
-[113]: Heirloom.Core/Heirloom.Collections/ISparseGrid[T].md
-[114]: Heirloom.Core/Heirloom.Collections/ISpatialCollection[T].md
-[115]: Heirloom.Core/Heirloom.Collections/ISpatialQuery[T].md
-[116]: Heirloom.Core/Heirloom.Collections/ITypeDictionary[T].md
-[117]: Heirloom.Core/Heirloom.Collections/GridNeighborType.md
-[118]: Heirloom.Core/Heirloom.Collections/HeapType.md
-[119]: Heirloom.Core/Heirloom.Collections/TraversalMethod.md
-[120]: Heirloom.Core/Heirloom.Geometry/Curve.md
-[121]: Heirloom.Core/Heirloom.Geometry/CurveTools.md
-[122]: Heirloom.Core/Heirloom.Geometry/GeometryTools.md
-[123]: Heirloom.Core/Heirloom.Geometry/Polygon.md
-[124]: Heirloom.Core/Heirloom.Geometry/PolygonTools.md
-[125]: Heirloom.Core/Heirloom.Geometry/Circle.md
-[126]: Heirloom.Core/Heirloom.Geometry/LineSegment.md
-[127]: Heirloom.Core/Heirloom.Geometry/Ray.md
-[128]: Heirloom.Core/Heirloom.Geometry/RayContact.md
-[129]: Heirloom.Core/Heirloom.Geometry/Triangle.md
-[130]: Heirloom.Core/Heirloom.Geometry/IShape.md
-[131]: Heirloom.Core/Heirloom.Geometry/CurveType.md
-[132]: Heirloom.Core/Heirloom.IO/EmbeddedFile.md
-[133]: Heirloom.Core/Heirloom.IO/Files.md
-[134]: Heirloom.Core/Heirloom.IO/BitField.md
-[135]: Heirloom.Core/Heirloom.Sound/AudioClip.md
-[136]: Heirloom.Core/Heirloom.Sound/AudioEffect.md
-[137]: Heirloom.Core/Heirloom.Sound/BandPassFilter.md
-[138]: Heirloom.Core/Heirloom.Sound/HighPassFilter.md
-[139]: Heirloom.Core/Heirloom.Sound/LowPassFilter.md
-[140]: Heirloom.Core/Heirloom.Sound/ReverbEffect.md
-[141]: Heirloom.Core/Heirloom.Sound/AudioNode.md
-[142]: Heirloom.Core/Heirloom.Sound/AudioGroup.md
-[143]: Heirloom.Core/Heirloom.Sound/AudioSource.md
-[144]: Heirloom.Core/Heirloom.Sound/AudioCaptureCallback.md
+[100]: Heirloom.Core/Heirloom.Collections/SparseGrid[T].md
+[101]: Heirloom.Core/Heirloom.Collections/TypeDictionary[T].md
+[102]: Heirloom.Core/Heirloom.Collections/IDirectedGraph[T].md
+[103]: Heirloom.Core/Heirloom.Collections/IFiniteGrid[T].md
+[104]: Heirloom.Core/Heirloom.Collections/IGraph[T].md
+[105]: Heirloom.Core/Heirloom.Collections/IGrid[T].md
+[106]: Heirloom.Core/Heirloom.Collections/IHeap[T].md
+[107]: Heirloom.Core/Heirloom.Collections/IReadOnlyGrid[T].md
+[108]: Heirloom.Core/Heirloom.Collections/IReadOnlyHeap[T].md
+[109]: Heirloom.Core/Heirloom.Collections/IReadOnlySparseGrid[T].md
+[110]: Heirloom.Core/Heirloom.Collections/IReadOnlySpatialCollection[T].md
+[111]: Heirloom.Core/Heirloom.Collections/IReadOnlyTypeDictionary[T].md
+[112]: Heirloom.Core/Heirloom.Collections/ISparseGrid[T].md
+[113]: Heirloom.Core/Heirloom.Collections/ISpatialCollection[T].md
+[114]: Heirloom.Core/Heirloom.Collections/ISpatialQuery[T].md
+[115]: Heirloom.Core/Heirloom.Collections/ITypeDictionary[T].md
+[116]: Heirloom.Core/Heirloom.Collections/GridNeighborType.md
+[117]: Heirloom.Core/Heirloom.Collections/HeapType.md
+[118]: Heirloom.Core/Heirloom.Collections/TraversalMethod.md
+[119]: Heirloom.Core/Heirloom.Geometry/Curve.md
+[120]: Heirloom.Core/Heirloom.Geometry/CurveTools.md
+[121]: Heirloom.Core/Heirloom.Geometry/GeometryTools.md
+[122]: Heirloom.Core/Heirloom.Geometry/Polygon.md
+[123]: Heirloom.Core/Heirloom.Geometry/PolygonTools.md
+[124]: Heirloom.Core/Heirloom.Geometry/Circle.md
+[125]: Heirloom.Core/Heirloom.Geometry/LineSegment.md
+[126]: Heirloom.Core/Heirloom.Geometry/Ray.md
+[127]: Heirloom.Core/Heirloom.Geometry/RayContact.md
+[128]: Heirloom.Core/Heirloom.Geometry/Triangle.md
+[129]: Heirloom.Core/Heirloom.Geometry/IShape.md
+[130]: Heirloom.Core/Heirloom.Geometry/CurveType.md
+[131]: Heirloom.Core/Heirloom.IO/EmbeddedFile.md
+[132]: Heirloom.Core/Heirloom.IO/Files.md
+[133]: Heirloom.Core/Heirloom.IO/BitField.md
+[134]: Heirloom.Core/Heirloom.Sound/AudioClip.md
+[135]: Heirloom.Core/Heirloom.Sound/AudioEffect.md
+[136]: Heirloom.Core/Heirloom.Sound/BandPassFilter.md
+[137]: Heirloom.Core/Heirloom.Sound/HighPassFilter.md
+[138]: Heirloom.Core/Heirloom.Sound/LowPassFilter.md
+[139]: Heirloom.Core/Heirloom.Sound/ReverbEffect.md
+[140]: Heirloom.Core/Heirloom.Sound/AudioNode.md
+[141]: Heirloom.Core/Heirloom.Sound/AudioGroup.md
+[142]: Heirloom.Core/Heirloom.Sound/AudioSource.md
+[143]: Heirloom.Core/Heirloom.Sound/AudioCaptureCallback.md

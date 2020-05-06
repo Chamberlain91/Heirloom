@@ -10,8 +10,10 @@
 
 #### BlueBits
 
+The number of blue bits in the color space supported by the mode.
+
 ```cs
-public int BlueBits
+public readonly int BlueBits
 ```
 
 [0]: ../../../Heirloom.Desktop.md

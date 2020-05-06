@@ -10,8 +10,10 @@
 
 #### GreenBits
 
+The number of green bits in the color space supported by the mode.
+
 ```cs
-public int GreenBits
+public readonly int GreenBits
 ```
 
 [0]: ../../../Heirloom.Desktop.md

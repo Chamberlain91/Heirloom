@@ -10,6 +10,8 @@
 
 ### Vendor
 
+Gets the vendor of the GPU.
+
 ```cs
 public GpuVendor Vendor { get; }
 ```

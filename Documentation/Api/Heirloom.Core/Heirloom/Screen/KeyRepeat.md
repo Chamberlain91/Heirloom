@@ -10,11 +10,15 @@
 
 #### KeyRepeat
 
+An event raised when a key has been 'repeated' on the keyboard.
+
 ```cs
 public Action<Screen, KeyEvent> KeyRepeat { add; remove; }
 ```
 
 Type: `Action<Screen, KeyEvent>`
+
+This occurs when holding the key for an extended time.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Screen.md

@@ -10,8 +10,10 @@
 
 #### Height
 
+The height in pixels.
+
 ```cs
-public int Height
+public readonly int Height
 ```
 
 [0]: ../../../Heirloom.Desktop.md

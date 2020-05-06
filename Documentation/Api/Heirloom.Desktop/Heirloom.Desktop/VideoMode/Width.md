@@ -10,8 +10,10 @@
 
 #### Width
 
+The width in pixels.
+
 ```cs
-public int Width
+public readonly int Width
 ```
 
 [0]: ../../../Heirloom.Desktop.md

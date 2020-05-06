@@ -10,8 +10,10 @@
 
 #### RefreshRate
 
+The refresh rate (in hertz) of the mode.
+
 ```cs
-public int RefreshRate
+public readonly int RefreshRate
 ```
 
 [0]: ../../../Heirloom.Desktop.md

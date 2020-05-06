@@ -13,7 +13,7 @@
 Gets the size of the screen.
 
 ```cs
-public IntSize Size { get; }
+public IntSize Size { get; set; }
 ```
 
 > **Returns**: [IntSize][2]

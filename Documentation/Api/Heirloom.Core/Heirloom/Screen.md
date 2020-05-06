@@ -50,19 +50,19 @@ public abstract class Screen : IInputSource, IDisposable
 
 | Name                      | Handler Type                       | Summary                                                                |
 |---------------------------|------------------------------------|------------------------------------------------------------------------|
-| [CharacterTyped][29]      | `Action<Screen, CharacterEvent>`   |                                                                        |
+| [CharacterTyped][29]      | `Action<Screen, CharacterEvent>`   | An event raised when a character has been typed on the keyboard.       |
 | [Closed][30]              | `Action<Screen>`                   | Event called when the screen has closed.                               |
 | [Closing][31]             | `Func<Screen, bool>`               | Event called when the screen is trying to close. Returning false wi... |
 | [ContentScaleChanged][32] | `Action<Screen, Vector>`           | Event called when the content scaling of this screen changes.          |
 | [FocusChanged][33]        | `Action<Screen, bool>`             | Event called when the focused state of this screen changes.            |
 | [FramebufferResized][34]  | `Action<Screen, IntSize>`          | Event called when the screen surface is resized. On certain platfor... |
-| [KeyPressed][35]          | `Action<Screen, KeyEvent>`         |                                                                        |
-| [KeyReleased][36]         | `Action<Screen, KeyEvent>`         |                                                                        |
-| [KeyRepeat][37]           | `Action<Screen, KeyEvent>`         |                                                                        |
-| [MouseMoved][38]          | `Action<Screen, MouseMoveEvent>`   |                                                                        |
-| [MousePressed][39]        | `Action<Screen, MouseButtonEvent>` |                                                                        |
-| [MouseReleased][40]       | `Action<Screen, MouseButtonEvent>` |                                                                        |
-| [MouseScrolled][41]       | `Action<Screen, MouseScrollEvent>` |                                                                        |
+| [KeyPressed][35]          | `Action<Screen, KeyEvent>`         | An event raised when a key has been pressed on the keyboard.           |
+| [KeyReleased][36]         | `Action<Screen, KeyEvent>`         | An event raised when a key has been released on the keyboard.          |
+| [KeyRepeat][37]           | `Action<Screen, KeyEvent>`         | An event raised when a key has been 'repeated' on the keyboard.        |
+| [MouseMoved][38]          | `Action<Screen, MouseMoveEvent>`   | An event raised when the user moves the mouse.                         |
+| [MousePressed][39]        | `Action<Screen, MouseButtonEvent>` | An event raised when a mouse button has been pressed.                  |
+| [MouseReleased][40]       | `Action<Screen, MouseButtonEvent>` | An event raised when a mouse button has been released.                 |
+| [MouseScrolled][41]       | `Action<Screen, MouseScrollEvent>` | An event raised when the user scrolls the mouse wheel.                 |
 | [Resized][42]             | `Action<Screen, IntSize>`          | Event called when the screen is resized. On certain platforms, the ... |
 
 ## Methods

@@ -10,8 +10,10 @@
 
 #### RedBits
 
+The number of red bits in the color space supported by the mode.
+
 ```cs
-public int RedBits
+public readonly int RedBits
 ```
 
 [0]: ../../../Heirloom.Desktop.md

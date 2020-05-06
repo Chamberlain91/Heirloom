@@ -10,6 +10,8 @@
 
 ### Show()
 
+Shows the window, making it visible.
+
 ```cs
 public void Show()
 ```

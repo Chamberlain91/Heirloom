@@ -10,6 +10,8 @@
 
 ### Name
 
+Gets the name of the GPU.
+
 ```cs
 public string Name { get; }
 ```
