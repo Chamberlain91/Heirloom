@@ -37,17 +37,25 @@ namespace Heirloom
         /// <summary>
         /// Gets the size of the screen.
         /// </summary>
-        public IntSize Size { get; private set; }
+        public abstract IntSize Size { get; set; }
 
         /// <summary>
         /// Gets the width of the screen.
         /// </summary>
-        public int Width => Size.Width;
+        public int Width
+        {
+            get => Size.Width;
+            set => Size = new IntSize(value, Height);
+        }
 
         /// <summary>
         /// Gets the height of the screen.
         /// </summary>
-        public int Height => Size.Height;
+        public int Height
+        {
+            get => Size.Height;
+            set => Size = new IntSize(Width, value);
+        }
 
         /// <summary>
         /// Gets a value that determines if this screen has been closed.
@@ -154,9 +162,27 @@ namespace Heirloom
 
         #region Keyboard
 
+        /// <summary>
+        /// An event raised when a character has been typed on the keyboard.
+        /// </summary>
         public event Action<Screen, CharacterEvent> CharacterTyped;
+
+        /// <summary>
+        /// An event raised when a key has been pressed on the keyboard.
+        /// </summary>
         public event Action<Screen, KeyEvent> KeyPressed;
+
+        /// <summary>
+        /// An event raised when a key has been released on the keyboard.
+        /// </summary>
         public event Action<Screen, KeyEvent> KeyReleased;
+
+        /// <summary>
+        /// An event raised when a key has been 'repeated' on the keyboard.
+        /// </summary>
+        /// <remarks>
+        /// This occurs when holding the key for an extended time.
+        /// </remarks>
         public event Action<Screen, KeyEvent> KeyRepeat;
 
         /// <inheritdoc/>
@@ -214,9 +240,24 @@ namespace Heirloom
 
         #region Mouse
 
+        /// <summary>
+        /// An event raised when a mouse button has been pressed.
+        /// </summary>
         public event Action<Screen, MouseButtonEvent> MousePressed;
+
+        /// <summary>
+        /// An event raised when a mouse button has been released.
+        /// </summary>
         public event Action<Screen, MouseButtonEvent> MouseReleased;
+
+        /// <summary>
+        /// An event raised when the user scrolls the mouse wheel.
+        /// </summary>
         public event Action<Screen, MouseScrollEvent> MouseScrolled;
+
+        /// <summary>
+        /// An event raised when the user moves the mouse.
+        /// </summary>
         public event Action<Screen, MouseMoveEvent> MouseMoved;
 
         bool IInputSource.TryGetButton(MouseButton button, out ButtonState state)

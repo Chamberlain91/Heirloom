@@ -1,22 +1,22 @@
 namespace Heirloom.Desktop.Hardware
 {
     /// <summary>
-    /// Represents known CPU vendors.
+    /// Represents CPU vendors.
     /// </summary>
     public enum CpuVendor
     {
         /// <summary>
-        /// CPU vendor was not known.
+        /// The vendor was unknown.
         /// </summary>
         Unknown,
 
         /// <summary>
-        /// CPU is branded by Intel.
+        /// The CPU was produced by Intel.
         /// </summary>
         Intel,
 
         /// <summary>
-        /// CPU is branded by AMD.
+        /// The CPU was produced by AMD.
         /// </summary>
         AMD
     }

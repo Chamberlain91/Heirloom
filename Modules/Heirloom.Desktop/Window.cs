@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Runtime.InteropServices;
 
 namespace Heirloom.Desktop
@@ -200,6 +199,9 @@ namespace Heirloom.Desktop
             Graphics = Application.CreateGraphics(this, vsync);
         }
 
+        /// <summary>
+        /// Performs final cleanup of <see cref="Window"/> before garbase collection.
+        /// </summary>
         ~Window()
         {
             Dispose(false);
@@ -297,7 +299,7 @@ namespace Heirloom.Desktop
         /// <summary>
         /// Gets or sets the window size in screen units.
         /// </summary>
-        public IntSize Size
+        public override IntSize Size
         {
             get => Bounds.Size;
 
@@ -374,21 +376,33 @@ namespace Heirloom.Desktop
 
         #region Window State (Show, Maximize, etc)
 
+        /// <summary>
+        /// Shows the window, making it visible.
+        /// </summary>
         public void Show()
         {
             Application.Invoke(() => Glfw.ShowWindow(Handle));
         }
 
+        /// <summary>
+        /// Hides the window, minimizing it.
+        /// </summary>
         public void Hide()
         {
             Application.Invoke(() => Glfw.HideWindow(Handle));
         }
 
+        /// <summary>
+        /// Brings focus to this window.
+        /// </summary>
         public void Focus()
         {
             Application.Invoke(() => Glfw.FocusWindow(Handle));
         }
 
+        /// <summary>
+        /// Closes this window.
+        /// </summary>
         public override void Close()
         {
             OnClosed();
@@ -551,19 +565,11 @@ namespace Heirloom.Desktop
         private static Image[] LoadDefaultIcons()
         {
             return new Image[] {
-                new Image(GetStream("Files.icon_128.png")),
-                new Image(GetStream("Files.icon_64.png")),
-                new Image(GetStream("Files.icon_32.png")),
-                new Image(GetStream("Files.icon_16.png"))
+                new Image("Embedded/icon_128.png"),
+                new Image("Embedded/icon_64.png"),
+                new Image("Embedded/icon_32.png"),
+                new Image("Embedded/icon_16.png")
             };
-
-            static Stream GetStream(string file)
-            {
-                var type = typeof(Window);
-
-                // Return stream
-                return type.Assembly.GetManifestResourceStream($"{type.Namespace}.{file}");
-            }
         }
 
         #endregion
