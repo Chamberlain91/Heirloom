@@ -277,7 +277,7 @@ namespace Heirloom
         /// <returns>True if the graph is determined to be cycle free, otherwise false.</returns>
         public static bool DetectCyclicGraph<T>(IGraph<T> graph, T start)
         {
-            return DetectCyclicGraph(start, graph.GetSuccessors);
+            return DetectCyclicGraph(start, graph.GetNeighbors);
         }
 
         /// <summary>

@@ -10,12 +10,8 @@
 An interface that represents a graph.
 
 ```cs
-public interface IDirectedGraph<T> : IEnumerable<T>, IEnumerable
+public interface IDirectedGraph<T>
 ```
-
-### Inherits
-
-IEnumerable\<T>, IEnumerable
 
 ### Properties
 

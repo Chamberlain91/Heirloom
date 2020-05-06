@@ -10,12 +10,8 @@
 An interface that represents a graph.
 
 ```cs
-public interface IGraph<T> : IEnumerable<T>, IEnumerable
+public interface IGraph<T>
 ```
-
-### Inherits
-
-IEnumerable\<T>, IEnumerable
 
 ### Properties
 
@@ -23,18 +19,18 @@ IEnumerable\<T>, IEnumerable
 
 ### Methods
 
-[AddEdge][5], [AddVertex][6], [Clear][7], [ContainsEdge][8], [ContainsVertex][9], [FindMinimumSpanningTree][10], [FindPath][11], [GetEdgeWeight][12], [GetSuccessors][13], [RemoveEdge][14], [RemoveVertex][15], [SetEdgeWeight][16], [Traverse][17]
+[AddEdge][5], [AddVertex][6], [Clear][7], [ContainsEdge][8], [ContainsVertex][9], [FindMinimumSpanningTree][10], [FindPath][11], [GetEdgeWeight][12], [GetNeighbors][13], [RemoveEdge][14], [RemoveVertex][15], [SetEdgeWeight][16], [Traverse][17]
 
 ## Properties
 
 #### Instance
 
-| Name             | Type                            | Summary                                                 |
-|------------------|---------------------------------|---------------------------------------------------------|
-| [EdgeCount][1]   | `int`                           | Gets the number of edges in the graph.                  |
-| [Edges][2]       | `IEnumerable<ValueTuple<T, T>>` | Gets a collection containing the edges in the graph.    |
-| [VertexCount][3] | `int`                           | Gets the number of vertices in the graph.               |
-| [Vertices][4]    | `IEnumerable<T>`                | Gets a collection containing the vertices in the graph. |
+| Name             | Type                            | Summary                                   |
+|------------------|---------------------------------|-------------------------------------------|
+| [EdgeCount][1]   | `int`                           | Gets the number of edges in the graph.    |
+| [Edges][2]       | `IEnumerable<ValueTuple<T, T>>` | Gets the edges in the graph.              |
+| [VertexCount][3] | `int`                           | Gets the number of vertices in the graph. |
+| [Vertices][4]    | `IEnumerable<T>`                | Gets the vertices in the graph.           |
 
 ## Methods
 
@@ -51,7 +47,7 @@ IEnumerable\<T>, IEnumerable
 | [FindPath(T, T, Heurist...][11] | `IReadOnlyList<T>` | Attempts to finds a path between `start` and `goal` vertices using ... |
 | [FindPath(T, Func<T, bo...][11] | `IReadOnlyList<T>` | Attempts to finds a path between `start` and `goal` vertices using ... |
 | [GetEdgeWeight(T, T)][12]       | `float`            | Gets the weight of some edge.                                          |
-| [GetSuccessors(T)][13]          | `IEnumerable<T>`   | Gets the successor (outgoing neighbor) vertices.                       |
+| [GetNeighbors(T)][13]           | `IEnumerable<T>`   | Gets the neighboring vertices.                                         |
 | [RemoveEdge(T, T)][14]          | `bool`             | Removes an edge from the graph.                                        |
 | [RemoveVertex(T)][15]           | `bool`             | Removes a vertex from the graph.                                       |
 | [SetEdgeWeight(T, T, fl...][16] | `void`             | Sets the weight of some edge.                                          |
@@ -70,7 +66,7 @@ IEnumerable\<T>, IEnumerable
 [10]: IGraph[T]/FindMinimumSpanningTree.md
 [11]: IGraph[T]/FindPath.md
 [12]: IGraph[T]/GetEdgeWeight.md
-[13]: IGraph[T]/GetSuccessors.md
+[13]: IGraph[T]/GetNeighbors.md
 [14]: IGraph[T]/RemoveEdge.md
 [15]: IGraph[T]/RemoveVertex.md
 [16]: IGraph[T]/SetEdgeWeight.md

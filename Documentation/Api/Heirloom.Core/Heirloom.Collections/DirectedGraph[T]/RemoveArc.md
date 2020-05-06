@@ -21,7 +21,7 @@ public bool RemoveArc(T a, T b)
 | a    | `T`  |         |
 | b    | `T`  |         |
 
-> **Returns** - `bool`
+> **Returns** - `bool` - True, if the item was successfully removed.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../DirectedGraph[T].md

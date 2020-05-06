@@ -10,12 +10,12 @@
 A directed graph implemented using adjacency lists.
 
 ```cs
-public sealed class DirectedGraph<T> : IDirectedGraph<T>, IEnumerable<T>, IEnumerable
+public sealed class DirectedGraph<T> : IDirectedGraph<T>
 ```
 
 ### Inherits
 
-[IDirectedGraph\<T>][1], IEnumerable\<T>, IEnumerable
+[IDirectedGraph\<T>][1]
 
 ### Properties
 
@@ -23,7 +23,7 @@ public sealed class DirectedGraph<T> : IDirectedGraph<T>, IEnumerable<T>, IEnume
 
 ### Methods
 
-[AddArc][6], [AddVertex][7], [Clear][8], [ContainsArc][9], [ContainsVertex][10], [FindPath][11], [GetArcWeight][12], [GetEnumerator][13], [GetPredecessors][14], [GetSuccessors][15], [RemoveArc][16], [RemoveVertex][17], [SetArcWeight][18], [Traverse][19]
+[AddArc][6], [AddVertex][7], [Clear][8], [ContainsArc][9], [ContainsVertex][10], [FindPath][11], [GetArcWeight][12], [GetPredecessors][13], [GetSuccessors][14], [RemoveArc][15], [RemoveVertex][16], [SetArcWeight][17], [Traverse][18]
 
 ## Properties
 
@@ -50,13 +50,12 @@ public sealed class DirectedGraph<T> : IDirectedGraph<T>, IEnumerable<T>, IEnume
 | [FindPath(T, T, Heurist...][11] | `IReadOnlyList<T>` | Attempts to finds a path between `start` and `goal` vertices using ... |
 | [FindPath(T, Func<T, bo...][11] | `IReadOnlyList<T>` | Attempts to finds a path between `start` and `goal` vertices using ... |
 | [GetArcWeight(T, T)][12]        | `float`            | Gets the weight of some arc.                                           |
-| [GetEnumerator()][13]           | `IEnumerator<T>`   |                                                                        |
-| [GetPredecessors(T)][14]        | `IEnumerable<T>`   | Gets the predecessors (incoming neighbor) vertices.                    |
-| [GetSuccessors(T)][15]          | `IEnumerable<T>`   | Gets the successor (outgoing neighbor) vertices.                       |
-| [RemoveArc(T, T)][16]           | `bool`             | Removes an arc from the directed graph.                                |
-| [RemoveVertex(T)][17]           | `bool`             | Removes a vertex from the directed graph.                              |
-| [SetArcWeight(T, T, float)][18] | `void`             | Sets the weight of some arc.                                           |
-| [Traverse(T, TraversalM...][19] | `IEnumerable<T>`   | Traverses the graph by the specified method.                           |
+| [GetPredecessors(T)][13]        | `IEnumerable<T>`   | Gets the predecessors (incoming neighbor) vertices.                    |
+| [GetSuccessors(T)][14]          | `IEnumerable<T>`   | Gets the successor (outgoing neighbor) vertices.                       |
+| [RemoveArc(T, T)][15]           | `bool`             | Removes an arc from the directed graph.                                |
+| [RemoveVertex(T)][16]           | `bool`             | Removes a vertex from the directed graph.                              |
+| [SetArcWeight(T, T, float)][17] | `void`             | Sets the weight of some arc.                                           |
+| [Traverse(T, TraversalM...][18] | `IEnumerable<T>`   | Traverses the graph by the specified method.                           |
 
 [0]: ../../Heirloom.Core.md
 [1]: IDirectedGraph[T].md
@@ -71,10 +70,9 @@ public sealed class DirectedGraph<T> : IDirectedGraph<T>, IEnumerable<T>, IEnume
 [10]: DirectedGraph[T]/ContainsVertex.md
 [11]: DirectedGraph[T]/FindPath.md
 [12]: DirectedGraph[T]/GetArcWeight.md
-[13]: DirectedGraph[T]/GetEnumerator.md
-[14]: DirectedGraph[T]/GetPredecessors.md
-[15]: DirectedGraph[T]/GetSuccessors.md
-[16]: DirectedGraph[T]/RemoveArc.md
-[17]: DirectedGraph[T]/RemoveVertex.md
-[18]: DirectedGraph[T]/SetArcWeight.md
-[19]: DirectedGraph[T]/Traverse.md
+[13]: DirectedGraph[T]/GetPredecessors.md
+[14]: DirectedGraph[T]/GetSuccessors.md
+[15]: DirectedGraph[T]/RemoveArc.md
+[16]: DirectedGraph[T]/RemoveVertex.md
+[17]: DirectedGraph[T]/SetArcWeight.md
+[18]: DirectedGraph[T]/Traverse.md

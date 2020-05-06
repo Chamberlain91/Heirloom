@@ -3,17 +3,17 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]
 
-## Graph\<T>.GetSuccessors (Method)
+## IGraph\<T>.GetNeighbors (Method)
 
 > **Namespace**: [Heirloom.Collections][0]  
-> **Declaring Type**: [Graph\<T>][1]
+> **Declaring Type**: [IGraph\<T>][1]
 
-### GetSuccessors(T)
+### GetNeighbors(T)
 
-Gets the successor (outgoing neighbor) vertices.
+Gets the neighboring vertices.
 
 ```cs
-public IEnumerable<T> GetSuccessors(T v)
+public abstract IEnumerable<T> GetNeighbors(T v)
 ```
 
 | Name | Type | Summary |
@@ -23,4 +23,4 @@ public IEnumerable<T> GetSuccessors(T v)
 > **Returns** - `IEnumerable<T>`
 
 [0]: ../../../Heirloom.Core.md
-[1]: ../Graph[T].md
+[1]: ../IGraph[T].md

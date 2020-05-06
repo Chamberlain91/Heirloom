@@ -21,7 +21,7 @@ public abstract bool ContainsArc(T a, T b)
 | a    | `T`  |         |
 | b    | `T`  |         |
 
-> **Returns** - `bool`
+> **Returns** - `bool` - True, if the item was contained.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IDirectedGraph[T].md
