@@ -157,22 +157,6 @@ namespace Heirloom
 
         #endregion
 
-        #region Draw Sprite
-
-        /// <summary>
-        /// Draw a sprite to the current surface.
-        /// </summary> 
-        /// <param name="sprite">Some sprite.</param>
-        /// <param name="index">Some valid frame number within the sprite.</param>
-        /// <param name="transform">Some transform to draw the sprite.</param>
-        public void DrawSprite(Sprite sprite, int index, in Matrix transform)
-        {
-            var frame = sprite.Frames[index];
-            DrawImage(frame.Image, in transform);
-        }
-
-        #endregion
-
         #region Draw Nine Slice
 
         public void DrawNineSlice(NineSlice slice, Rectangle rectangle)
