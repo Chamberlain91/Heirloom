@@ -10,6 +10,8 @@
 
 #### CharacterTyped
 
+An event raised when a character has been typed on the keyboard.
+
 ```cs
 public Action<Screen, CharacterEvent> CharacterTyped { add; remove; }
 ```

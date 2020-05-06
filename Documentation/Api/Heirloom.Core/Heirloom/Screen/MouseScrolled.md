@@ -10,6 +10,8 @@
 
 #### MouseScrolled
 
+An event raised when the user scrolls the mouse wheel.
+
 ```cs
 public Action<Screen, MouseScrollEvent> MouseScrolled { add; remove; }
 ```

@@ -10,6 +10,8 @@
 
 ### Remove(T)
 
+Remove an object from the type dictionary.
+
 ```cs
 public bool Remove(T item)
 ```
@@ -18,7 +20,7 @@ public bool Remove(T item)
 |------|------|---------|
 | item | `T`  |         |
 
-> **Returns** - `bool`
+> **Returns** - `bool` - True if the object was contained and successfully removed.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../TypeDictionary[T].md

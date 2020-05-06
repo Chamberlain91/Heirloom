@@ -10,6 +10,8 @@
 
 ### Hide()
 
+Hides the window, minimizing it.
+
 ```cs
 public void Hide()
 ```

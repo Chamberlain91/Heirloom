@@ -13,7 +13,7 @@
 Gets the width of the screen.
 
 ```cs
-public int Width { get; }
+public int Width { get; set; }
 ```
 
 > **Returns**: `int`

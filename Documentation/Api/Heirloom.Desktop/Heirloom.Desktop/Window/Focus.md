@@ -10,6 +10,8 @@
 
 ### Focus()
 
+Brings focus to this window.
+
 ```cs
 public void Focus()
 ```

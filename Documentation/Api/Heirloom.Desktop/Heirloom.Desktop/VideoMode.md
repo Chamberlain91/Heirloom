@@ -7,9 +7,13 @@
 
 > **Namespace**: [Heirloom.Desktop][0]
 
+Represents a video mode a [Monitor][1] can be in.
+
 ```cs
 public struct VideoMode : IEquatable<VideoMode>
 ```
+
+`IsReadOnlyAttribute`
 
 ### Inherits
 
@@ -17,25 +21,26 @@ IEquatable\<VideoMode>
 
 ### Fields
 
-[BlueBits][1], [GreenBits][2], [Height][3], [RedBits][4], [RefreshRate][5], [Width][6]
+[BlueBits][2], [GreenBits][3], [Height][4], [RedBits][5], [RefreshRate][6], [Width][7]
 
 ## Fields
 
 #### Instance
 
-| Name             | Type  | Summary |
-|------------------|-------|---------|
-| [BlueBits][1]    | `int` |         |
-| [GreenBits][2]   | `int` |         |
-| [Height][3]      | `int` |         |
-| [RedBits][4]     | `int` |         |
-| [RefreshRate][5] | `int` |         |
-| [Width][6]       | `int` |         |
+| Name             | Type  | Summary                                                            |
+|------------------|-------|--------------------------------------------------------------------|
+| [BlueBits][2]    | `int` | The number of blue bits in the color space supported by the mode.  |
+| [GreenBits][3]   | `int` | The number of green bits in the color space supported by the mode. |
+| [Height][4]      | `int` | The height in pixels.                                              |
+| [RedBits][5]     | `int` | The number of red bits in the color space supported by the mode.   |
+| [RefreshRate][6] | `int` | The refresh rate (in hertz) of the mode.                           |
+| [Width][7]       | `int` | The width in pixels.                                               |
 
 [0]: ../../Heirloom.Desktop.md
-[1]: VideoMode/BlueBits.md
-[2]: VideoMode/GreenBits.md
-[3]: VideoMode/Height.md
-[4]: VideoMode/RedBits.md
-[5]: VideoMode/RefreshRate.md
-[6]: VideoMode/Width.md
+[1]: Monitor.md
+[2]: VideoMode/BlueBits.md
+[3]: VideoMode/GreenBits.md
+[4]: VideoMode/Height.md
+[5]: VideoMode/RedBits.md
+[6]: VideoMode/RefreshRate.md
+[7]: VideoMode/Width.md

@@ -7,6 +7,8 @@
 
 > **Namespace**: [Heirloom.Desktop.Hardware][0]
 
+Represents information about the GPU on some device.
+
 ```cs
 public struct GpuInfo : IEquatable<GpuInfo>
 ```
@@ -25,10 +27,10 @@ IEquatable\<GpuInfo>
 
 #### Instance
 
-| Name        | Type           | Summary |
-|-------------|----------------|---------|
-| [Name][1]   | `string`       |         |
-| [Vendor][2] | [GpuVendor][3] |         |
+| Name        | Type           | Summary                     |
+|-------------|----------------|-----------------------------|
+| [Name][1]   | `string`       | Gets the name of the GPU.   |
+| [Vendor][2] | [GpuVendor][3] | Gets the vendor of the GPU. |
 
 [0]: ../../Heirloom.Desktop.md
 [1]: GpuInfo/Name.md

@@ -7,16 +7,16 @@
 
 > **Namespace**: [Heirloom.Desktop.Hardware][0]
 
-Represents known CPU vendors.
+Represents CPU vendors.
 
 ```cs
 public enum CpuVendor : IComparable, IFormattable, IConvertible
 ```
 
-| Name    | Summary                   |
-|---------|---------------------------|
-| AMD     | CPU is branded by AMD.    |
-| Intel   | CPU is branded by Intel.  |
-| Unknown | CPU vendor was not known. |
+| Name    | Summary                        |
+|---------|--------------------------------|
+| AMD     | The CPU was produced by AMD.   |
+| Intel   | The CPU was produced by Intel. |
+| Unknown | The vendor was unknown.        |
 
 [0]: ../../Heirloom.Desktop.md

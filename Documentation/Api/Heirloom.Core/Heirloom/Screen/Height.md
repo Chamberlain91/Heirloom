@@ -13,7 +13,7 @@
 Gets the height of the screen.
 
 ```cs
-public int Height { get; }
+public int Height { get; set; }
 ```
 
 > **Returns**: `int`

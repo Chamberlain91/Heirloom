@@ -10,6 +10,8 @@
 
 ### Contains(T)
 
+Does this type dictionary contain this object?
+
 ```cs
 public bool Contains(T item)
 ```
@@ -18,7 +20,7 @@ public bool Contains(T item)
 |------|------|---------|
 | item | `T`  |         |
 
-> **Returns** - `bool`
+> **Returns** - `bool` - True if the object is contained.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../TypeDictionary[T].md

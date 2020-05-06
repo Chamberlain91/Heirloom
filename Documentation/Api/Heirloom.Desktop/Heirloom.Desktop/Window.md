@@ -56,11 +56,11 @@ public sealed class Window : Screen, IInputSource, IDisposable
 | [BeginFullscreen(Monitor)][17]  | `void`      | Sets the window to fullscreen using the specified monitor and exist... |
 | [BeginFullscreen(VideoM...][17] | `void`      | Puts the window into fullscreen using the nearest monitor and speci... |
 | [BeginFullscreen(VideoM...][17] | `void`      | Sets the window to fullscreen using the specified monitor and video... |
-| [Close()][18]                   | `void`      |                                                                        |
+| [Close()][18]                   | `void`      | Closes this window.                                                    |
 | [Dispose(bool)][19]             | `void`      |                                                                        |
 | [EndFullscreen()][20]           | `void`      | Disables fullscreen mode.                                              |
-| [Focus()][21]                   | `void`      |                                                                        |
-| [Hide()][22]                    | `void`      |                                                                        |
+| [Focus()][21]                   | `void`      | Brings focus to this window.                                           |
+| [Hide()][22]                    | `void`      | Hides the window, minimizing it.                                       |
 | [HideSoftwareKeyboard()][23]    | `void`      | Hides the software keyboard.                                           |
 | [Maximize()][24]                | `void`      | Sets the window to a maximized state.                                  |
 | [Minimize()][25]                | `void`      | Sets the window to a minimized state.                                  |
@@ -72,7 +72,7 @@ public sealed class Window : Screen, IInputSource, IDisposable
 | [SetCursor(Image, IntVe...][28] | `void`      | Changes the appearance of the cursor on this window.                   |
 | [SetIcon(Image)][29]            | `void`      | Assigns a new icon image to the window.                                |
 | [SetIcons(Image[])][30]         | `void`      |                                                                        |
-| [Show()][31]                    | `void`      |                                                                        |
+| [Show()][31]                    | `void`      | Shows the window, making it visible.                                   |
 | [ShowSoftwareKeyboard()][32]    | `void`      | Attempts to show the software keyboard.                                |
 
 [0]: ../../Heirloom.Desktop.md

@@ -10,6 +10,8 @@
 
 #### KeyPressed
 
+An event raised when a key has been pressed on the keyboard.
+
 ```cs
 public Action<Screen, KeyEvent> KeyPressed { add; remove; }
 ```

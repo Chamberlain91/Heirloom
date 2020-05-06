@@ -37,14 +37,14 @@ public sealed class TypeDictionary<T> : ITypeDictionary<T>, IReadOnlyTypeDiction
 
 #### Instance
 
-| Name                     | Return Type      | Summary |
-|--------------------------|------------------|---------|
-| [Add(T)][4]              | `bool`           |         |
-| [Contains(T)][5]         | `bool`           |         |
-| [ContainsType<X>()][6]   | `bool`           |         |
-| [GetEnumerator()][7]     | `IEnumerator<T>` |         |
-| [GetItemsByType<X>()][8] | `IEnumerable<X>` |         |
-| [Remove(T)][9]           | `bool`           |         |
+| Name                     | Return Type      | Summary                                                                |
+|--------------------------|------------------|------------------------------------------------------------------------|
+| [Add(T)][4]              | `bool`           | Add a new object to the type dictionary.                               |
+| [Contains(T)][5]         | `bool`           | Does this type dictionary contain this object?                         |
+| [ContainsType<X>()][6]   | `bool`           | Does the dictionary contain any object that inherits from the speci... |
+| [GetEnumerator()][7]     | `IEnumerator<T>` |                                                                        |
+| [GetItemsByType<X>()][8] | `IEnumerable<X>` | Enumerates any object that inherits from the specified type.           |
+| [Remove(T)][9]           | `bool`           | Remove an object from the type dictionary.                             |
 
 [0]: ../../Heirloom.Core.md
 [1]: ITypeDictionary[T].md

@@ -10,6 +10,8 @@
 
 ### Close()
 
+Closes this window.
+
 ```cs
 public void Close()
 ```
