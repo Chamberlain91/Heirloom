@@ -3,6 +3,9 @@ using System.IO;
 
 namespace Heirloom.Sound
 {
+    /// <summary>
+    /// A delegate for a callback when audio samples are captured by a input device.
+    /// </summary>
     public delegate void AudioCaptureCallback(Span<float> inputSamples);
 
     internal abstract class AudioAdapter : IDisposable

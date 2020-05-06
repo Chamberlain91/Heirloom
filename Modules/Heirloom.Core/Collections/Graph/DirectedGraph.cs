@@ -7,6 +7,8 @@ namespace Heirloom.Collections
     /// <summary>
     /// A directed graph implemented using adjacency lists.
     /// </summary>
+    /// <tags>Graph, Directed</tags>
+    /// <category>Graph</category>
     public sealed class DirectedGraph<T> : IDirectedGraph<T>
     {
         private readonly Dictionary<T, List<Edge<T>>> _outgoing;

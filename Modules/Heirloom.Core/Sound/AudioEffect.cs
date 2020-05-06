@@ -5,8 +5,7 @@ namespace Heirloom.Sound
     /// </summary>
     /// <seealso cref="LowPassFilter"/>
     /// <seealso cref="HighPassFilter"/>
-    /// <seealso cref="BandPassFilter"/>
-    /// <seealso cref="BitCrushEffect"/>
+    /// <seealso cref="BandPassFilter"/> 
     /// <seealso cref="ReverbEffect"/>
     public abstract class AudioEffect
     {

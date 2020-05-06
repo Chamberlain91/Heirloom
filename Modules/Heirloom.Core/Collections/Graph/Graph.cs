@@ -7,6 +7,8 @@ namespace Heirloom.Collections
     /// <summary>
     /// An undirected graph implemented using adjacency lists.
     /// </summary>
+    /// <tags>Graph, Undirected</tags>
+    /// <category>Graph</category>
     public sealed class Graph<T> : IGraph<T>
     {
         private readonly Dictionary<T, List<Edge<T>>> _outgoing;

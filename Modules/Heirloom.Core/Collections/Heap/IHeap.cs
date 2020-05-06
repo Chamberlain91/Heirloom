@@ -7,6 +7,8 @@ namespace Heirloom.Collections
     /// Allowing the access and removal of items by a priority ordering.
     /// </summary>
     /// <typeparam name="T">Type of the elements.</typeparam>
+    /// <tags>Heap, Priority</tags>
+    /// <category>Heap</category>
     public interface IHeap<T> : IReadOnlyHeap<T>
     {
         /// <summary>

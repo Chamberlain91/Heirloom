@@ -23,11 +23,11 @@ IDisposable
 
 ### Methods
 
-[Dispose][3], [SetUniform][4], [SetUniform\<T>][5]
+[Dispose][3], [Finalize][4], [SetUniform][5], [SetUniform\<T>][6]
 
 ### Static Properties
 
-[Default][6]
+[Default][7]
 
 ## Properties
 
@@ -42,7 +42,7 @@ IDisposable
 
 | Name         | Type        | Summary                                    |
 |--------------|-------------|--------------------------------------------|
-| [Default][6] | [Shader][7] | Gets the default (ie, "no effect") shader. |
+| [Default][7] | [Shader][8] | Gets the default (ie, "no effect") shader. |
 
 ## Methods
 
@@ -51,18 +51,20 @@ IDisposable
 | Name                           | Return Type | Summary                                     |
 |--------------------------------|-------------|---------------------------------------------|
 | [Dispose()][3]                 | `void`      |                                             |
-| [SetUniform(string, flo...][4] | `void`      |                                             |
-| [SetUniform(string, int[])][4] | `void`      |                                             |
-| [SetUniform(string, uin...][4] | `void`      |                                             |
-| [SetUniform(string, boo...][4] | `void`      |                                             |
-| [SetUniform(string, Ima...][4] | `void`      | Updates one of the shader uniforms by name. |
-| [SetUniform<T>(string, T)][5]  | `void`      | Updates one of the shader uniforms by name. |
+| [Finalize()][4]                | `void`      |                                             |
+| [SetUniform(string, flo...][5] | `void`      |                                             |
+| [SetUniform(string, int[])][5] | `void`      |                                             |
+| [SetUniform(string, uin...][5] | `void`      |                                             |
+| [SetUniform(string, boo...][5] | `void`      |                                             |
+| [SetUniform(string, Ima...][5] | `void`      | Updates one of the shader uniforms by name. |
+| [SetUniform<T>(string, T)][6]  | `void`      | Updates one of the shader uniforms by name. |
 
 [0]: ../../Heirloom.Core.md
 [1]: Shader/Paths.md
 [2]: Shader/Uniforms.md
 [3]: Shader/Dispose.md
-[4]: Shader/SetUniform.md
-[5]: Shader/SetUniform[T].md
-[6]: Shader/Default.md
-[7]: Shader.md
+[4]: Shader/Finalize.md
+[5]: Shader/SetUniform.md
+[6]: Shader/SetUniform[T].md
+[7]: Shader/Default.md
+[8]: Shader.md

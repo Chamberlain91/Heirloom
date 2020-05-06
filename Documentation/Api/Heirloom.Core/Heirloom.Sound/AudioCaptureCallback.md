@@ -7,6 +7,8 @@
 
 > **Namespace**: [Heirloom.Sound][0]
 
+A delegate for a callback when audio samples are captured by a input device.
+
 ```cs
 public void AudioCaptureCallback(Span<float> inputSamples)
 ```

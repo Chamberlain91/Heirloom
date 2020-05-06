@@ -25,11 +25,11 @@ public struct Triangle : IShape, IEquatable<Triangle>, IEnumerable<Vector>, IEnu
 
 ### Methods
 
-[Barycentric][9], [Contains][10], [Deconstruct][11], [GetEdge][12], [GetEnumerator][13], [GetNearestPoint][14], [Overlaps][15], [Project][16], [Raycast][17], [Set][18], [ToPolygon][19]
+[Barycentric][9], [Contains][10], [Deconstruct][11], [Equals][12], [GetEdge][13], [GetEnumerator][14], [GetHashCode][15], [GetNearestPoint][16], [Overlaps][17], [Project][18], [Raycast][19], [Set][20], [ToPolygon][21], [ToString][22]
 
 ### Static Methods
 
-[Barycentric][9], [ContainsPoint][20], [CreateCircumcircle][21]
+[Barycentric][9], [ContainsPoint][23], [CreateCircumcircle][24]
 
 ## Fields
 
@@ -37,9 +37,9 @@ public struct Triangle : IShape, IEquatable<Triangle>, IEnumerable<Vector>, IEnu
 
 | Name   | Type         | Summary           |
 |--------|--------------|-------------------|
-| [A][2] | [Vector][22] | The first point.  |
-| [B][3] | [Vector][22] | The second point. |
-| [C][4] | [Vector][22] | The third point.  |
+| [A][2] | [Vector][25] | The first point.  |
+| [B][3] | [Vector][25] | The second point. |
+| [C][4] | [Vector][25] | The third point.  |
 
 ## Properties
 
@@ -48,9 +48,9 @@ public struct Triangle : IShape, IEquatable<Triangle>, IEnumerable<Vector>, IEnu
 | Name          | Type            | Summary                                              |
 |---------------|-----------------|------------------------------------------------------|
 | [Area][5]     | `float`         | Gets the area of this triangle.                      |
-| [Bounds][6]   | [Rectangle][23] | Gets the bounds of this triangle.                    |
-| [Centroid][7] | [Vector][22]    | Gets the center of triangle (mean of corner points). |
-| [Indexer][8]  | [Vector][22]    |                                                      |
+| [Bounds][6]   | [Rectangle][26] | Gets the bounds of this triangle.                    |
+| [Centroid][7] | [Vector][25]    | Gets the center of triangle (mean of corner points). |
+| [Indexer][8]  | [Vector][25]    |                                                      |
 
 ## Methods
 
@@ -61,29 +61,33 @@ public struct Triangle : IShape, IEquatable<Triangle>, IEnumerable<Vector>, IEnu
 | [Barycentric(in Vector,...][9]  | `void`                | Computes the barycentric coefficients of the point `p` within the t... |
 | [Contains(in Vector)][10]       | `bool`                | Determines if this triangle contains the specified point.              |
 | [Deconstruct(out Vector...][11] | `void`                |                                                                        |
-| [GetEdge(int)][12]              | [LineSegment][24]     |                                                                        |
-| [GetEnumerator()][13]           | `IEnumerator<Vector>` |                                                                        |
-| [GetNearestPoint(in Vec...][14] | [Vector][22]          | Gets the closest point on the triangle to the specified point.         |
-| [Overlaps(IShape)][15]          | `bool`                | Determines if this triangle overlaps another shape.                    |
-| [Overlaps(in Circle)][15]       | `bool`                | Determines if this triangle overlaps the specified circle.             |
-| [Overlaps(in Triangle)][15]     | `bool`                | Determines if this triangle overlaps another triangle.                 |
-| [Overlaps(in Rectangle)][15]    | `bool`                | Determines if this triangle overlaps the specified rectangle.          |
-| [Overlaps(IReadOnlyList...][15] | `bool`                | Determines if this triangle overlaps the specified convex polygon.     |
-| [Overlaps(Polygon)][15]         | `bool`                | Determines if this triangle overlaps the specified simple polygon.     |
-| [Project(in Vector)][16]        | [Range][25]           | Project this polygon onto the specified axis.                          |
-| [Raycast(in Ray)][17]           | `bool`                | Peforms a raycast onto this rectangle, returning true upon intersec... |
-| [Raycast(in Ray, out Ra...][17] | `bool`                | Peforms a raycast onto this rectangle, returning true upon intersec... |
-| [Set(in Vector, in Vect...][18] | `void`                | Sets each point of the triangle.                                       |
-| [ToPolygon()][19]               | [Polygon][26]         | Create a polygon from this triangle.                                   |
+| [Equals(object)][12]            | `bool`                |                                                                        |
+| [Equals(Triangle)][12]          | `bool`                |                                                                        |
+| [GetEdge(int)][13]              | [LineSegment][27]     |                                                                        |
+| [GetEnumerator()][14]           | `IEnumerator<Vector>` |                                                                        |
+| [GetHashCode()][15]             | `int`                 |                                                                        |
+| [GetNearestPoint(in Vec...][16] | [Vector][25]          | Gets the closest point on the triangle to the specified point.         |
+| [Overlaps(IShape)][17]          | `bool`                | Determines if this triangle overlaps another shape.                    |
+| [Overlaps(in Circle)][17]       | `bool`                | Determines if this triangle overlaps the specified circle.             |
+| [Overlaps(in Triangle)][17]     | `bool`                | Determines if this triangle overlaps another triangle.                 |
+| [Overlaps(in Rectangle)][17]    | `bool`                | Determines if this triangle overlaps the specified rectangle.          |
+| [Overlaps(IReadOnlyList...][17] | `bool`                | Determines if this triangle overlaps the specified convex polygon.     |
+| [Overlaps(Polygon)][17]         | `bool`                | Determines if this triangle overlaps the specified simple polygon.     |
+| [Project(in Vector)][18]        | [Range][28]           | Project this polygon onto the specified axis.                          |
+| [Raycast(in Ray)][19]           | `bool`                | Peforms a raycast onto this rectangle, returning true upon intersec... |
+| [Raycast(in Ray, out Ra...][19] | `bool`                | Peforms a raycast onto this rectangle, returning true upon intersec... |
+| [Set(in Vector, in Vect...][20] | `void`                | Sets each point of the triangle.                                       |
+| [ToPolygon()][21]               | [Polygon][29]         | Create a polygon from this triangle.                                   |
+| [ToString()][22]                | `string`              |                                                                        |
 
 #### Static
 
 | Name                            | Return Type  | Summary                                                                |
 |---------------------------------|--------------|------------------------------------------------------------------------|
 | [Barycentric(in Vector,...][9]  | `void`       | Computes the barycentric coefficients of the point `p` within the t... |
-| [ContainsPoint(in Vecto...][20] | `bool`       | Determines if the triangle defined by `a` , `b` , `c` contains the ... |
-| [CreateCircumcircle(in ...][21] | [Circle][27] | Computes the circumcircle for the specified triangle.                  |
-| [CreateCircumcircle(in ...][21] | [Circle][27] | Computes the circumcircle for the specified triangle.                  |
+| [ContainsPoint(in Vecto...][23] | `bool`       | Determines if the triangle defined by `a` , `b` , `c` contains the ... |
+| [CreateCircumcircle(in ...][24] | [Circle][30] | Computes the circumcircle for the specified triangle.                  |
+| [CreateCircumcircle(in ...][24] | [Circle][30] | Computes the circumcircle for the specified triangle.                  |
 
 [0]: ../../Heirloom.Core.md
 [1]: IShape.md
@@ -97,19 +101,22 @@ public struct Triangle : IShape, IEquatable<Triangle>, IEnumerable<Vector>, IEnu
 [9]: Triangle/Barycentric.md
 [10]: Triangle/Contains.md
 [11]: Triangle/Deconstruct.md
-[12]: Triangle/GetEdge.md
-[13]: Triangle/GetEnumerator.md
-[14]: Triangle/GetNearestPoint.md
-[15]: Triangle/Overlaps.md
-[16]: Triangle/Project.md
-[17]: Triangle/Raycast.md
-[18]: Triangle/Set.md
-[19]: Triangle/ToPolygon.md
-[20]: Triangle/ContainsPoint.md
-[21]: Triangle/CreateCircumcircle.md
-[22]: ../Heirloom/Vector.md
-[23]: ../Heirloom/Rectangle.md
-[24]: LineSegment.md
-[25]: ../Heirloom/Range.md
-[26]: Polygon.md
-[27]: Circle.md
+[12]: Triangle/Equals.md
+[13]: Triangle/GetEdge.md
+[14]: Triangle/GetEnumerator.md
+[15]: Triangle/GetHashCode.md
+[16]: Triangle/GetNearestPoint.md
+[17]: Triangle/Overlaps.md
+[18]: Triangle/Project.md
+[19]: Triangle/Raycast.md
+[20]: Triangle/Set.md
+[21]: Triangle/ToPolygon.md
+[22]: Triangle/ToString.md
+[23]: Triangle/ContainsPoint.md
+[24]: Triangle/CreateCircumcircle.md
+[25]: ../Heirloom/Vector.md
+[26]: ../Heirloom/Rectangle.md
+[27]: LineSegment.md
+[28]: ../Heirloom/Range.md
+[29]: Polygon.md
+[30]: Circle.md

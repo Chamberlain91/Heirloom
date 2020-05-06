@@ -3,6 +3,7 @@ namespace Heirloom.Collections
     /// <summary>
     /// Describes the choice of neighbors in a grid.
     /// </summary>
+    /// <category>Grids</category>
     public enum GridNeighborType
     {
         /// <summary>

@@ -7,6 +7,7 @@ namespace Heirloom.Collections
     /// <summary>
     /// Provides methods for querying elements in 2D space.
     /// </summary>
+    /// <category>Spatial Collections</category>
     public interface ISpatialQuery<T>
     {
         /// <summary>

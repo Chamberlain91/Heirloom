@@ -5,6 +5,7 @@ namespace Heirloom.Collections
     /// <summary>
     /// An infinite, sparse grid of values.
     /// </summary>
+    /// <category>Grids</category>
     public sealed class SparseGrid<T> : ISparseGrid<T>
     {
         private readonly Dictionary<IntVector, T> _data;

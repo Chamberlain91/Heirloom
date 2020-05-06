@@ -3,6 +3,8 @@ namespace Heirloom.Collections
     /// <summary>
     /// Represents a choice of traversing a graph.
     /// </summary>
+    /// <tags>Graph, Traverse, Traversal</tags>
+    /// <category>Graph</category>
     public enum TraversalMethod
     {
         /// <summary>

@@ -6,6 +6,8 @@ namespace Heirloom.Collections
     /// <summary>
     /// An interface that represents a graph.
     /// </summary>
+    /// <tags>Graph, Directed</tags>
+    /// <category>Graph</category>
     public interface IDirectedGraph<T>
     {
         /// <summary>

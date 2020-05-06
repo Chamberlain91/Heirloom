@@ -9,6 +9,7 @@ namespace Heirloom.Collections
     /// <summary>
     /// A spatial collection to store and query elements in 2D space, implemented as a BVH style tree and has infinite bounds.
     /// </summary>
+    /// <category>Spatial Collections</category>
     public sealed class BvhSpatialCollection<T> : ISpatialCollection<T>
     {
         private readonly Dictionary<T, Node> _nodes;

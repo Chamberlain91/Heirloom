@@ -21,20 +21,36 @@ IEquatable\<TextDrawState>
 
 [Color][1], [Position][2], [Transform][3]
 
+### Methods
+
+[Equals][4], [GetHashCode][5]
+
 ## Fields
 
 #### Instance
 
 | Name           | Type        | Summary                                                                |
 |----------------|-------------|------------------------------------------------------------------------|
-| [Color][1]     | [Color][4]  | The color of the current glyph.                                        |
-| [Position][2]  | [Vector][5] | The position of top left corner of the current glyph image.            |
-| [Transform][3] | [Matrix][6] | The relative transform to apply to the current glyph image (set to ... |
+| [Color][1]     | [Color][6]  | The color of the current glyph.                                        |
+| [Position][2]  | [Vector][7] | The position of top left corner of the current glyph image.            |
+| [Transform][3] | [Matrix][8] | The relative transform to apply to the current glyph image (set to ... |
+
+## Methods
+
+#### Instance
+
+| Name                       | Return Type | Summary |
+|----------------------------|-------------|---------|
+| [Equals(object)][4]        | `bool`      |         |
+| [Equals(TextDrawState)][4] | `bool`      |         |
+| [GetHashCode()][5]         | `int`       |         |
 
 [0]: ../../Heirloom.Core.md
 [1]: TextDrawState/Color.md
 [2]: TextDrawState/Position.md
 [3]: TextDrawState/Transform.md
-[4]: Color.md
-[5]: Vector.md
-[6]: Matrix.md
+[4]: TextDrawState/Equals.md
+[5]: TextDrawState/GetHashCode.md
+[6]: Color.md
+[7]: Vector.md
+[8]: Matrix.md

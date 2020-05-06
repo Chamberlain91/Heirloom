@@ -5,6 +5,7 @@ namespace Heirloom.Collections
     /// <summary>
     /// Provides extra utilities for interacting with a grid.
     /// </summary>
+    /// <category>Grids</category>
     public static class GridUtilities
     {
         #region GetNeighbors Extension Methods

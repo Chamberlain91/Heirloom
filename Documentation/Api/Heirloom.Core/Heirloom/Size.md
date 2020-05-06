@@ -25,11 +25,11 @@ IEquatable\<Size>, IComparable\<Size>
 
 ### Methods
 
-[CompareTo][6], [Deconstruct][7], [Set][8]
+[CompareTo][6], [Deconstruct][7], [Equals][8], [GetHashCode][9], [Set][10], [ToString][11]
 
 ### Static Fields
 
-[Infinite][9], [Max][10], [One][11], [Zero][12]
+[Infinite][12], [Max][13], [One][14], [Zero][15]
 
 ## Fields
 
@@ -42,12 +42,12 @@ IEquatable\<Size>, IComparable\<Size>
 
 #### Static
 
-| Name          | Type       | Summary                                  |
-|---------------|------------|------------------------------------------|
-| [Infinite][9] | [Size][13] | An infinite size.                        |
-| [Max][10]     | [Size][13] | The maximum representable size possible. |
-| [One][11]     | [Size][13] | A 1x1 size.                              |
-| [Zero][12]    | [Size][13] | A 0x0 size.                              |
+| Name           | Type       | Summary                                  |
+|----------------|------------|------------------------------------------|
+| [Infinite][12] | [Size][16] | An infinite size.                        |
+| [Max][13]      | [Size][16] | The maximum representable size possible. |
+| [One][14]      | [Size][16] | A 1x1 size.                              |
+| [Zero][15]     | [Size][16] | A 0x0 size.                              |
 
 ## Properties
 
@@ -67,7 +67,11 @@ IEquatable\<Size>, IComparable\<Size>
 |--------------------------------|-------------|-----------------------------------|
 | [CompareTo(Size)][6]           | `int`       |                                   |
 | [Deconstruct(out float,...][7] | `void`      |                                   |
-| [Set(float, float)][8]         | `void`      | Sets the components of this size. |
+| [Equals(object)][8]            | `bool`      |                                   |
+| [Equals(Size)][8]              | `bool`      |                                   |
+| [GetHashCode()][9]             | `int`       |                                   |
+| [Set(float, float)][10]        | `void`      | Sets the components of this size. |
+| [ToString()][11]               | `string`    |                                   |
 
 [0]: ../../Heirloom.Core.md
 [1]: Size/Height.md
@@ -77,9 +81,12 @@ IEquatable\<Size>, IComparable\<Size>
 [5]: Size/Indexer.md
 [6]: Size/CompareTo.md
 [7]: Size/Deconstruct.md
-[8]: Size/Set.md
-[9]: Size/Infinite.md
-[10]: Size/Max.md
-[11]: Size/One.md
-[12]: Size/Zero.md
-[13]: Size.md
+[8]: Size/Equals.md
+[9]: Size/GetHashCode.md
+[10]: Size/Set.md
+[11]: Size/ToString.md
+[12]: Size/Infinite.md
+[13]: Size/Max.md
+[14]: Size/One.md
+[15]: Size/Zero.md
+[16]: Size.md
