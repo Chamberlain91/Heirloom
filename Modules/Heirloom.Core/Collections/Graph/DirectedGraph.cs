@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -100,6 +99,7 @@ namespace Heirloom.Collections
             // Validate vertices
             if (!ContainsVertex(a)) { throw new ArgumentException($"Unable to add arc, vertex does not exist.", nameof(a)); }
             if (!ContainsVertex(b)) { throw new ArgumentException($"Unable to add arc, vertex does not exist.", nameof(b)); }
+            if (Equals(a, b)) { throw new InvalidOperationException($"Unable to add arc, vertices must be different."); }
 
             // Create and insert arc into arc lookup
             var arc = new Edge<T>(a, b, weight);
@@ -172,6 +172,8 @@ namespace Heirloom.Collections
         /// <inheritdoc/>
         public IEnumerable<T> GetSuccessors(T v)
         {
+            if (!ContainsVertex(v)) { throw new ArgumentException($"Unable to return neighbors, vertex does not exist.", nameof(v)); }
+
             // Return outgoing arc targets (ie, successors)
             return _outgoing[v].Select(e => e.GetOther(v));
         }
@@ -179,6 +181,8 @@ namespace Heirloom.Collections
         /// <inheritdoc/>
         public IEnumerable<T> GetPredecessors(T v)
         {
+            if (!ContainsVertex(v)) { throw new ArgumentException($"Unable to return neighbors, vertex does not exist.", nameof(v)); }
+
             // Return incoming arc sources (ie, predecessors)
             return _incoming[v].Select(e => e.GetOther(v));
         }
@@ -188,18 +192,28 @@ namespace Heirloom.Collections
         /// <inheritdoc/>
         public IReadOnlyList<T> FindPath(T start, T goal, HeuristicCost<T> heuristic)
         {
+            if (!ContainsVertex(start)) { throw new ArgumentException($"Unable to find path, vertex does not exist.", nameof(start)); }
+            if (!ContainsVertex(goal)) { throw new ArgumentException($"Unable to find path, vertex does not exist.", nameof(goal)); }
+            if (heuristic is null) { throw new ArgumentNullException(nameof(heuristic)); }
+
             return Search.HeuristicSearch(start, goal, GetSuccessors, GetArcWeight, heuristic);
         }
 
         /// <inheritdoc/>
         public IReadOnlyList<T> FindPath(T start, Func<T, bool> goalCondition, HeuristicCost<T> heuristic)
         {
+            if (!ContainsVertex(start)) { throw new ArgumentException($"Unable to find path, vertex does not exist.", nameof(start)); }
+            if (goalCondition is null) { throw new ArgumentNullException(nameof(goalCondition)); }
+            if (heuristic is null) { throw new ArgumentNullException(nameof(heuristic)); }
+
             return Search.HeuristicSearch(start, goalCondition, GetSuccessors, GetArcWeight, heuristic);
         }
 
         /// <inheritdoc/>
         public IEnumerable<T> Traverse(T start, TraversalMethod method)
         {
+            if (!ContainsVertex(start)) { throw new ArgumentException($"Unable to traverse graph, vertex does not exist.", nameof(start)); }
+
             return method switch
             {
                 TraversalMethod.BreadthFirst => Search.BreadthFirst(start, GetSuccessors),
@@ -207,24 +221,6 @@ namespace Heirloom.Collections
 
                 _ => throw new ArgumentException($"Invalid traversal method.", nameof(method)),
             };
-        }
-
-        #endregion
-
-        #region Enumerator
-
-        /// <inheritdoc/>
-        public IEnumerator<T> GetEnumerator()
-        {
-            foreach (var v in Vertices)
-            {
-                yield return v;
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
 
         #endregion

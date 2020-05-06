@@ -10,7 +10,7 @@
 
 ### Edges
 
-Gets a collection containing the edges in the graph.
+Gets the edges in the graph.
 
 ```cs
 public IEnumerable<ValueTuple<T, T>> Edges { get; }

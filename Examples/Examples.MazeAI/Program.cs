@@ -88,7 +88,7 @@ namespace Examples.MazeAI
             // Draw Graph
             foreach (var source in Maze.Graph.Vertices)
             {
-                foreach (var target in Maze.Graph.GetSuccessors(source))
+                foreach (var target in Maze.Graph.GetNeighbors(source))
                 {
                     var a = (12, 12) + source * 16F;
                     var b = (12, 12) + target * 16F;

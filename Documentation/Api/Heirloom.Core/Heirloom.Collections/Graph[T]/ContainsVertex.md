@@ -20,7 +20,7 @@ public bool ContainsVertex(T v)
 |------|------|---------|
 | v    | `T`  |         |
 
-> **Returns** - `bool`
+> **Returns** - `bool` - True, if the item was contained.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Graph[T].md

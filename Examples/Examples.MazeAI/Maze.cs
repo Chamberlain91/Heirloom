@@ -20,7 +20,7 @@ namespace Examples.MazeAI
             foreach (var source in Graph.Vertices)
             {
                 // For each place visible
-                foreach (var target in Graph.GetSuccessors(source))
+                foreach (var target in Graph.GetNeighbors(source))
                 {
                     var aco = (1, 1) + (source * 2);
                     var bco = (1, 1) + (target * 2);

@@ -10,7 +10,7 @@
 
 ### Vertices
 
-Gets a collection containing the vertices in the graph.
+Gets the vertices in the graph.
 
 ```cs
 public IEnumerable<T> Vertices { get; }
