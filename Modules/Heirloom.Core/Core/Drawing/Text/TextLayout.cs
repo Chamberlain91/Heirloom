@@ -60,19 +60,27 @@ namespace Heirloom
             if (layoutBox.Width <= 0 || layoutBox.Height <= 0) { throw new ArgumentException($"Layout box size must be greater than zero.", nameof(layoutBox)); }
             if (fontSize <= 0) { throw new ArgumentException($"Font size must be greater than zero."); }
 
-            // Get font atlas
-            var glyphTable = GlyphTable.GetGlyphTable(font, fontSize);
-
-            // Layout text, keeping track of the glyph box
-            var measure = Rectangle.InvertedInfinite;
-            PerformLayout(text, layoutBox, TextAlign.Left | TextAlign.Top, glyphTable, (string _, int index, ref TextLayoutState state) =>
+            // Empty text, zero size.
+            if (string.IsNullOrEmpty(text))
             {
-                // Include extents of glyph box
-                measure.Include(state.Position);
-                measure.Include(state.Position + (state.Metrics.AdvanceWidth, glyphTable.Metrics.LineAdvance));
-            });
+                return new Rectangle(layoutBox.Position, Size.Zero);
+            }
+            else
+            {
+                // Get font table
+                var glyphTable = GlyphTable.GetGlyphTable(font, fontSize);
 
-            return measure;
+                // Layout text, keeping track of the glyph box
+                var measure = Rectangle.InvertedInfinite;
+                PerformLayout(text, layoutBox, TextAlign.Left | TextAlign.Top, glyphTable, (string _, int index, ref TextLayoutState state) =>
+                {
+                    // Include extents of glyph box
+                    measure.Include(state.Position);
+                    measure.Include(state.Position + (state.Metrics.AdvanceWidth, glyphTable.Metrics.LineAdvance));
+                });
+
+                return measure;
+            }
         }
 
         #endregion
