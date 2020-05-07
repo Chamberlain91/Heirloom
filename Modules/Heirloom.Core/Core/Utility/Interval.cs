@@ -15,7 +15,7 @@ namespace Heirloom
         private double _time;
 
         /// <summary>
-        /// Constructs a new timer.
+        /// Constructs a new interval timer.
         /// </summary>
         public Interval(float duration)
         {

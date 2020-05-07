@@ -420,13 +420,10 @@ namespace Heirloom
         /// <summary>
         /// Computes the reflection of the input vector about the specified axis.
         /// </summary>
+        /// <param name="axis">The axis of reflection, normalized.</param>
         public static Vector Reflect(in Vector v, in Vector axis)
         {
-            Vector result;
-            var val = Dot(v, axis) * 2.0f;
-            result.X = v.X - (axis.X * val);
-            result.Y = v.Y - (axis.Y * val);
-            return result;
+            return v - (2 * Dot(v, axis) * axis);
         }
 
         #endregion

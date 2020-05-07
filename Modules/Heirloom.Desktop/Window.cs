@@ -142,11 +142,11 @@ namespace Heirloom.Desktop
                         break;
 
                     case KeyAction.Release:
-                        OnKeyPressed(new KeyEvent(code, key, modifiers, ButtonState.Released));
+                        OnKeyReleased(new KeyEvent(code, key, modifiers, ButtonState.Released));
                         break;
 
                     case KeyAction.Repeat:
-                        OnKeyPressed(new KeyEvent(code, key, modifiers, ButtonState.Down));
+                        OnKeyRepeat(new KeyEvent(code, key, modifiers, ButtonState.Down));
                         break;
                 }
             });

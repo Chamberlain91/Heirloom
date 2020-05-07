@@ -5,7 +5,7 @@ namespace Heirloom
     /// <summary>
     /// Represents a single 32 bit Unicode character.
     /// </summary>
-    public struct UnicodeCharacter : IComparable<UnicodeCharacter>, IEquatable<UnicodeCharacter>
+    public readonly struct UnicodeCharacter : IComparable<UnicodeCharacter>, IEquatable<UnicodeCharacter>
     {
         private readonly int _value;
 
@@ -75,7 +75,7 @@ namespace Heirloom
         /// <returns>The instance's hashcode.</returns>
         public override int GetHashCode()
         {
-            return _value.GetHashCode();
+            return HashCode.Combine(_value);
         }
 
         /// <summary>
@@ -84,12 +84,12 @@ namespace Heirloom
         /// <returns></returns>
         public override string ToString()
         {
-            return $"{_value} ({(char) _value})";
+            return (string) this;
         }
 
         #endregion
 
-        #region Operators
+        #region Relational Operators
 
         /// <summary>
         /// Implements the equality operator.
@@ -186,6 +186,15 @@ namespace Heirloom
         public static explicit operator char(UnicodeCharacter codePoint)
         {
             return (char) codePoint._value;
+        }
+
+        /// <summary>
+        /// Implements an explicit conversion from <see cref="UnicodeCharacter"/> to <see cref="string"/>.
+        /// </summary>
+        /// <param name="codePoint">The codepoint value.</param>
+        public static explicit operator string(UnicodeCharacter codePoint)
+        {
+            return char.ConvertFromUtf32(codePoint._value);
         }
 
         #endregion

@@ -51,7 +51,7 @@ namespace Heirloom
             /// </summary>
             public Statistics FrameRate { get; private set; }
 
-            internal void ComputeStatistics(GraphicsContext.DrawCounts info)
+            internal void ComputeStatistics(DrawCounts info)
             {
                 // If enough time has passed, compute average
                 if (_timer.Check(out _))

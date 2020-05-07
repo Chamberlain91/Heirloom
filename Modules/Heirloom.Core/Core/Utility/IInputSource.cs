@@ -20,6 +20,12 @@ namespace Heirloom
         /// </summary>
         bool SupportsSoftwareKeyboard { get; }
 
+        /// <summary>
+        /// Attempts to retreive the state of the specified key.
+        /// </summary>
+        /// <param name="key">Some key.</param>
+        /// <param name="state">The output of the current state of the key.</param>
+        /// <returns>True if the value was sucessfully retreived.</returns>
         bool TryGetKey(Key key, out ButtonState state);
 
         /// <summary>
