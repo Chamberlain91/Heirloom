@@ -26,7 +26,7 @@ namespace Examples.Input
                 Screen = new Window("Game Input Example", (800, 480)) { IsResizable = false };
 
                 // Create chatbox
-                Chatbox = new Chatbox((8, Screen.Surface.Height - 100 - 8, 300, 100));
+                Chatbox = new Chatbox((8, 8, 300, 100));
 
                 CreateBoxes(20, 24);
                 CreateBoxes(10, 48);
@@ -61,7 +61,7 @@ namespace Examples.Input
                 if (Focus is Box focusBox)
                 {
                     focusBox.Position = Input.MousePosition + _focusOffset;
-                    focusBox.Velocity.Set(0, 0);
+                    focusBox.Velocity = Input.MouseDelta;
 
                     // Released
                     if (Input.CheckMouse(MouseButton.Left, ButtonState.Released))
@@ -91,53 +91,36 @@ namespace Examples.Input
             // Draw boxes
             foreach (var box in Boxes)
             {
+                // box.Velocity += (0, 1 / 8F); // Gravity
                 box.Update(gfx);
             }
 
             // Handle Box-Box Collision
+            // https://gamedevelopment.tutsplus.com/series/how-to-create-a-custom-physics-engine--gamedev-12715
+            // https://en.wikipedia.org/wiki/Inelastic_collision
             for (var i = 0; i < Boxes.Count; i++)
             {
                 for (var j = 0; j < Boxes.Count; j++)
                 {
+                    // Skip self
                     if (i == j) { continue; }
 
+                    var b1 = Boxes[i];
+                    var b2 = Boxes[j];
+
                     // If boxes are colliding, respond to that collision
-                    if (Boxes[i].CheckCollision(gfx, Boxes[j], out var push))
+                    if (b1.CheckCollision(gfx, b2, out var push))
                     {
                         // We require some overlap...
                         // todo: Somehow push is 0,0 when there is a collision detected
                         //       This check avoids that by requiring push by a small threshold
                         if (push.LengthSquared > Calc.Epsilon)
                         {
-                            // Get weight by area
-                            var m1 = Boxes[i].Size.Area;
-                            var m2 = Boxes[j].Size.Area;
+                            // Remove overlap due to collision
+                            PositionalCorrection(b1, b2, push);
 
-                            // Push out, correcting overlap
-                            Boxes[i].Position -= push / 2;
-                            Boxes[j].Position += push / 2;
-
-                            // Get velocity references
-                            ref var v1 = ref Boxes[i].Velocity;
-                            ref var v2 = ref Boxes[j].Velocity;
-
-                            // Material Properties
-                            var restitution = .5F; // somewhat bouncy
-
-                            // Compute normal 
-                            var normal = Vector.Normalize(push);
-
-                            // Compute magnitude of velocity along collision normal
-                            var u1 = Vector.Project(v1, normal);
-                            var u2 = Vector.Project(v2, normal);
-
-                            // Compute normal impulse
-                            // https://en.wikipedia.org/wiki/Inelastic_collision
-                            var normalImpulse = m1 * m2 / (m1 + m2) * (1 + restitution) * (u2 - u1);
-
-                            // Apply impulse to velocities
-                            v1 += normalImpulse / m1 * normal;
-                            v2 -= normalImpulse / m2 * normal;
+                            // Resolve collisions
+                            ResolveCollision(b1, b2, push);
                         }
                     }
                 }
@@ -147,126 +130,89 @@ namespace Examples.Input
             Chatbox.Update(gfx, dt);
         }
 
-        public class Box
+        private static void PositionalCorrection(Box b1, Box b2, Vector push)
         {
-            public readonly (Color, Color) Colors;
+            const float THRESHOLD = 0.1F;
 
-            public readonly Size Size;
-
-            public Vector Position;
-
-            public Vector Velocity;
-
-            public Box(Vector position, Size size, (Color, Color) colors)
+            // Only push if enough overlap has occurred to help prevent jitter.
+            if (push.LengthSquared > THRESHOLD * THRESHOLD)
             {
-                Colors = colors;
-                Position = position;
-                Size = size;
+                // Get mass (todo, for now use by area)
+                var m1 = b1.Size.Area;
+                var m2 = b2.Size.Area;
+
+                // Get inverse mass (todo)
+                var invM1 = (m1 > 0F) ? 1F / m1 : 0F;
+                var invM2 = (m2 > 0F) ? 1F / m2 : 0F;
+
+                var correction = push / (invM1 + invM2);
+
+                // Push out, correcting overlap
+                b1.Position -= invM1 * correction;
+                b2.Position += invM2 * correction;
+            }
+        }
+
+        private static void ResolveCollision(Box b1, Box b2, Vector push)
+        {
+            // Get mass (todo, for now use by area)
+            var m1 = b1.Size.Area;
+            var m2 = b2.Size.Area;
+
+            // Get inverse mass (todo)
+            var invM1 = (m1 > 0F) ? 1F / m1 : 0F;
+            var invM2 = (m2 > 0F) ? 1F / m2 : 0F;
+
+            // Get velocity references
+            ref var v1 = ref b1.Velocity;
+            ref var v2 = ref b2.Velocity;
+
+            // TODO: GET FROM PHYSICS MATERIAL
+            var restitution = .25F; // somewhat bouncy   (use lowest from material pair)
+
+            // Compute normal 
+            var normal = Vector.Normalize(push);
+
+            // Compute magnitude of relative velocity along collision normal
+            var normalRelVel = Vector.Project(v2 - v1, normal);
+            if (normalRelVel > 0) { return; } // shapes moving apart should be ignored
+
+            // Compute normal impulse
+            var normalImpulse = m1 * m2 / (m1 + m2) * normalRelVel;
+
+            // Apply impulse to velocities
+            v1 += normalImpulse / m1 * normal * (1 + restitution);
+            v2 -= normalImpulse / m2 * normal * (1 + restitution);
+
+            // Compute magnitude of relative velocity along collision normal
+            var rv = v2 - v1;
+            var tangent = Vector.Normalize(rv - Vector.Dot(rv, normal) * normal);
+            var frictionRelVel = Vector.Project(v2 - v1, tangent);
+
+            // TODO: GET FROM PHYSICS MATERIAL
+            var staticFrictionA = 0.1F;
+            var staticFrictionB = 0.1F;
+            var dynamicFrictionA = 0.25F;
+            var dynamicFrictionB = 0.25F;
+
+            // Compute normal impulse
+            var frictionImpulse = m1 * m2 / (m1 + m2) * frictionRelVel;
+            var mu = PythagoreanSolve(staticFrictionA, staticFrictionB);
+
+            // Dynamic friction threshold...?
+            if (Calc.Abs(frictionImpulse) >= normalImpulse * mu)
+            {
+                var dynamicFriction = PythagoreanSolve(dynamicFrictionA, dynamicFrictionB);
+                frictionImpulse = frictionImpulse * dynamicFriction;
             }
 
-            public Rectangle Bounds => new Rectangle(Position, Size);
+            // Apply impulse to velocities
+            v1 += tangent * frictionImpulse * invM1;
+            v2 -= tangent * frictionImpulse * invM2;
 
-            public void Update(GraphicsContext gfx)
+            static float PythagoreanSolve(float a, float b)
             {
-                Position += Velocity;
-
-                // 
-                Bounce(gfx);
-
-                // Draw Box
-                gfx.Color = Colors.Item2;
-                gfx.DrawRect(Bounds);
-                gfx.Color = Colors.Item1;
-                gfx.DrawRectOutline(Bounds, 3);
-            }
-
-            private void Bounce(GraphicsContext gfx)
-            {
-                // Bounce...
-                if (Bounds.Left < 0)
-                {
-                    Position.X -= Bounds.Left;
-                    Velocity.X *= -1 * 0.2F;
-                }
-
-                if (Bounds.Top < 0)
-                {
-                    Position.Y -= Bounds.Top;
-                    Velocity.Y *= -1 * 0.2F;
-                }
-
-                if (Bounds.Right >= gfx.Screen.Width)
-                {
-                    Position.X -= Bounds.Right - gfx.Screen.Width;
-                    Velocity.X *= -1 * 0.2F;
-                }
-
-                if (Bounds.Bottom >= gfx.Screen.Height)
-                {
-                    Position.Y -= Bounds.Bottom - gfx.Screen.Height;
-                    Velocity.Y *= -1 * 0.2F;
-                }
-            }
-
-            public bool CheckCollision(GraphicsContext gfx, Box other, out Vector push)
-            {
-                if (Bounds.Overlaps(other.Bounds))
-                {
-                    push = Vector.Zero;
-
-                    if (Bounds.Top <= other.Bounds.Top && Bounds.Bottom > other.Bounds.Top)
-                    {
-                        // Collision Top
-                        push.Y += Bounds.Bottom - other.Bounds.Top;
-                    }
-                    else
-                    if (Bounds.Bottom >= other.Bounds.Bottom && Bounds.Top < other.Bounds.Bottom)
-                    {
-                        // Collison Bottom
-                        push.Y += Bounds.Top - other.Bounds.Bottom;
-                    }
-
-                    if (Bounds.Right > other.Bounds.Left && Bounds.Left < other.Bounds.Left)
-                    {
-                        // Collision Left
-                        push.X += Bounds.Right - other.Bounds.Left;
-                    }
-                    else
-                    if (Bounds.Right >= other.Bounds.Right && Bounds.Left < other.Bounds.Right)
-                    {
-                        // Collison Right
-                        push.X += Bounds.Left - other.Bounds.Right;
-                    }
-
-                    Vector point;
-
-                    // Push along smaller penetration
-                    if (Calc.Abs(push.X) < Calc.Abs(push.Y))
-                    {
-                        push.Y = 0;
-
-                        if (push.X < 0) { point = (Bounds.TopLeft + Bounds.BottomLeft) / 2F; }
-                        else { point = (Bounds.TopRight + Bounds.BottomRight) / 2F; }
-                    }
-                    else
-                    {
-                        push.X = 0;
-
-                        if (push.Y < 0) { point = (Bounds.TopLeft + Bounds.TopRight) / 2F; }
-                        else { point = (Bounds.BottomLeft + Bounds.BottomRight) / 2F; }
-                    }
-
-                    gfx.Color = Color.Yellow;
-                    gfx.DrawLine(point - push, point + push, 4);
-                    gfx.Color = Color.White;
-
-                    return true;
-                }
-                else
-                {
-                    push = default;
-                    return false;
-                }
+                return Calc.Sqrt((a * a) + (b * b));
             }
         }
     }
