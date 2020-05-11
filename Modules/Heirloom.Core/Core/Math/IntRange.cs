@@ -130,6 +130,20 @@ namespace Heirloom
 
         #endregion
 
+        public IntRange Intersect(in IntRange other)
+        {
+            var min = Calc.Max(Min, other.Min);
+            var max = Calc.Min(Max, other.Max);
+            return new IntRange(min, max);
+        }
+
+        public IntRange Union(in IntRange other)
+        {
+            var min = Calc.Min(Min, other.Min);
+            var max = Calc.Max(Max, other.Max);
+            return new IntRange(min, max);
+        }
+
         #region Deconstruct
 
         public void Deconstruct(out int min, out int max)
