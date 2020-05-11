@@ -27,11 +27,11 @@ IEquatable\<IntRange>, IEnumerable\<int>, IEnumerable
 
 ### Methods
 
-[Contains][6], [Deconstruct][7], [Equals][8], [GetEnumerator][9], [GetHashCode][10], [Include][11], [Overlaps][12], [Set][13], [ToString][14]
+[Contains][6], [Deconstruct][7], [GetEnumerator][8], [Include][9], [Intersect][10], [Overlaps][11], [Set][12], [Union][13]
 
 ### Static Fields
 
-[Huge][15], [Indeterminate][16], [Zero][17]
+[Huge][14], [Indeterminate][15], [Zero][16]
 
 ## Fields
 
@@ -46,9 +46,9 @@ IEquatable\<IntRange>, IEnumerable\<int>, IEnumerable
 
 | Name                | Type           | Summary                                                                |
 |---------------------|----------------|------------------------------------------------------------------------|
-| [Huge][15]          | [IntRange][18] | Range from int.MinValue to int.MaxValue (the widest possible range).   |
-| [Indeterminate][16] | [IntRange][18] | Range from int.MaxValue to int.MinValue useful for an indeterminate... |
-| [Zero][17]          | [IntRange][18] | Zero width range centered on zero.                                     |
+| [Huge][14]          | [IntRange][17] | Range from int.MinValue to int.MaxValue (the widest possible range).   |
+| [Indeterminate][15] | [IntRange][17] | Range from int.MaxValue to int.MinValue useful for an indeterminate... |
+| [Zero][16]          | [IntRange][17] | Zero width range centered on zero.                                     |
 
 ## Properties
 
@@ -68,15 +68,13 @@ IEquatable\<IntRange>, IEnumerable\<int>, IEnumerable
 |--------------------------------|--------------------|------------------------------------------------------------------|
 | [Contains(in int)][6]          | `bool`             | Determines if this range contains the specified value.           |
 | [Deconstruct(out int, o...][7] | `void`             |                                                                  |
-| [Equals(object)][8]            | `bool`             |                                                                  |
-| [Equals(IntRange)][8]          | `bool`             |                                                                  |
-| [GetEnumerator()][9]           | `IEnumerator<int>` |                                                                  |
-| [GetHashCode()][10]            | `int`              |                                                                  |
-| [Include(int)][11]             | `void`             | Mutate this range (by expansion) to include the specified value. |
-| [Include(IntRange)][11]        | `void`             | Mutate this range (by expansion) to include the specified range. |
-| [Overlaps(in IntRange)][12]    | `bool`             | Determines if this range overlaps another integer range.         |
-| [Set(int, int)][13]            | `void`             | Sets the components of this range.                               |
-| [ToString()][14]               | `string`           |                                                                  |
+| [GetEnumerator()][8]           | `IEnumerator<int>` |                                                                  |
+| [Include(int)][9]              | `void`             | Mutate this range (by expansion) to include the specified value. |
+| [Include(IntRange)][9]         | `void`             | Mutate this range (by expansion) to include the specified range. |
+| [Intersect(in IntRange)][10]   | [IntRange][17]     |                                                                  |
+| [Overlaps(in IntRange)][11]    | `bool`             | Determines if this range overlaps another integer range.         |
+| [Set(int, int)][12]            | `void`             | Sets the components of this range.                               |
+| [Union(in IntRange)][13]       | [IntRange][17]     |                                                                  |
 
 [0]: ../../Heirloom.Core.md
 [1]: IntRange/Min.md
@@ -86,14 +84,13 @@ IEquatable\<IntRange>, IEnumerable\<int>, IEnumerable
 [5]: IntRange/Size.md
 [6]: IntRange/Contains.md
 [7]: IntRange/Deconstruct.md
-[8]: IntRange/Equals.md
-[9]: IntRange/GetEnumerator.md
-[10]: IntRange/GetHashCode.md
-[11]: IntRange/Include.md
-[12]: IntRange/Overlaps.md
-[13]: IntRange/Set.md
-[14]: IntRange/ToString.md
-[15]: IntRange/Huge.md
-[16]: IntRange/Indeterminate.md
-[17]: IntRange/Zero.md
-[18]: IntRange.md
+[8]: IntRange/GetEnumerator.md
+[9]: IntRange/Include.md
+[10]: IntRange/Intersect.md
+[11]: IntRange/Overlaps.md
+[12]: IntRange/Set.md
+[13]: IntRange/Union.md
+[14]: IntRange/Huge.md
+[15]: IntRange/Indeterminate.md
+[16]: IntRange/Zero.md
+[17]: IntRange.md

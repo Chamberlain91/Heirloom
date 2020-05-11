@@ -38,5 +38,20 @@ public static Vector Cross(in Vector a, float s)
 
 > **Returns** - [Vector][1]
 
+### Cross(float, in Vector)
+
+Computes the cross-product of a vector and a magnitude.
+
+```cs
+public static Vector Cross(float s, in Vector a)
+```
+
+| Name | Type        | Summary |
+|------|-------------|---------|
+| s    | `float`     |         |
+| a    | [Vector][1] |         |
+
+> **Returns** - [Vector][1]
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../Vector.md

@@ -19,7 +19,7 @@ public static class Input
 
 ### Static Methods
 
-[AddInputSource][4], [CheckKey][5], [CheckMouse][6], [GetKey][7], [GetMouse][8], [HideSoftKeyboard][9], [RemoveInputSource][10], [ShowSoftKeyboard][11]
+[AddInputSource][4], [CheckButton][5], [CheckKey][6], [GetButton][7], [GetKey][8], [HideSoftKeyboard][9], [RemoveInputSource][10], [ShowSoftKeyboard][11]
 
 ### Static Events
 
@@ -51,10 +51,10 @@ public static class Input
 | Name                            | Return Type       | Summary                                                                |
 |---------------------------------|-------------------|------------------------------------------------------------------------|
 | [AddInputSource(IInputS...][4]  | `void`            | Adds and begins tracking input from an input source.                   |
-| [CheckKey(Key, ButtonSt...][5]  | `bool`            | Checks if the lastest state of a button on the keyboard matcheas th... |
-| [CheckMouse(MouseButton...][6]  | `bool`            | Checks if the lastest state of a mouse button matcheas the desired ... |
-| [GetKey(Key)][7]                | [ButtonState][21] | Gets the latest state of a button the keyboard.                        |
-| [GetMouse(MouseButton)][8]      | [ButtonState][21] | Gets the latest state of a mouse button.                               |
+| [CheckButton(MouseButto...][5]  | `bool`            | Checks if the lastest state of a mouse button matcheas the desired ... |
+| [CheckKey(Key, ButtonSt...][6]  | `bool`            | Checks if the lastest state of a button on the keyboard matches the... |
+| [GetButton(MouseButton)][7]     | [ButtonState][21] | Gets the latest state of a mouse button.                               |
+| [GetKey(Key)][8]                | [ButtonState][21] | Gets the latest state of a button the keyboard.                        |
 | [HideSoftKeyboard()][9]         | `void`            | Hides the software keyboard.                                           |
 | [RemoveInputSource(IInp...][10] | `void`            | Removes and tops tracking input from an input source.                  |
 | [ShowSoftKeyboard()][11]        | `void`            | Shows the software keyboard.                                           |
@@ -64,10 +64,10 @@ public static class Input
 [2]: Input/MousePosition.md
 [3]: Input/SupportsSoftwareKeyboard.md
 [4]: Input/AddInputSource.md
-[5]: Input/CheckKey.md
-[6]: Input/CheckMouse.md
-[7]: Input/GetKey.md
-[8]: Input/GetMouse.md
+[5]: Input/CheckButton.md
+[6]: Input/CheckKey.md
+[7]: Input/GetButton.md
+[8]: Input/GetKey.md
 [9]: Input/HideSoftKeyboard.md
 [10]: Input/RemoveInputSource.md
 [11]: Input/ShowSoftKeyboard.md

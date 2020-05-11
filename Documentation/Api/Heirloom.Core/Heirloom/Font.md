@@ -19,17 +19,17 @@ IDisposable
 
 ### Methods
 
-[Dispose][1], [Finalize][2], [GetGlyph][3], [GetKerning][4], [GetMetrics][5]
+[Dispose][1], [GetGlyph][2], [GetKerning][3], [GetMetrics][4]
 
 ### Static Properties
 
-[Default][6]
+[Default][5]
 
 ## Properties
 
 | Name         | Type      | Summary                                                                |
 |--------------|-----------|------------------------------------------------------------------------|
-| [Default][6] | [Font][7] | A default pixel font for easily rendering text to debug, show metri... |
+| [Default][5] | [Font][6] | A default pixel font for easily rendering text to debug, show metri... |
 
 ## Methods
 
@@ -39,19 +39,17 @@ IDisposable
 |--------------------------------|------------------|-----------------------------------------------------------------------|
 | [Dispose(bool)][1]             | `void`           |                                                                       |
 | [Dispose()][1]                 | `void`           | Dispose the current font, freeing unmanaged resources.                |
-| [Finalize()][2]                | `void`           |                                                                       |
-| [GetGlyph(char)][3]            | [Glyph][8]       | Gets the information about a particular glyph in this font.           |
-| [GetGlyph(UnicodeCharac...][3] | [Glyph][8]       | Gets the information about a particular glyph in this font.           |
-| [GetKerning(UnicodeChar...][4] | `float`          | Gets the spacing adjustment (ie, kerning) between any two characters. |
-| [GetMetrics(float)][5]         | [FontMetrics][9] | Get the vertical metrics of the this font at the specified size.      |
+| [GetGlyph(char)][2]            | [Glyph][7]       | Gets the information about a particular glyph in this font.           |
+| [GetGlyph(UnicodeCharac...][2] | [Glyph][7]       | Gets the information about a particular glyph in this font.           |
+| [GetKerning(UnicodeChar...][3] | `float`          | Gets the spacing adjustment (ie, kerning) between any two characters. |
+| [GetMetrics(float)][4]         | [FontMetrics][8] | Get the vertical metrics of the this font at the specified size.      |
 
 [0]: ../../Heirloom.Core.md
 [1]: Font/Dispose.md
-[2]: Font/Finalize.md
-[3]: Font/GetGlyph.md
-[4]: Font/GetKerning.md
-[5]: Font/GetMetrics.md
-[6]: Font/Default.md
-[7]: Font.md
-[8]: Glyph.md
-[9]: FontMetrics.md
+[2]: Font/GetGlyph.md
+[3]: Font/GetKerning.md
+[4]: Font/GetMetrics.md
+[5]: Font/Default.md
+[6]: Font.md
+[7]: Glyph.md
+[8]: FontMetrics.md

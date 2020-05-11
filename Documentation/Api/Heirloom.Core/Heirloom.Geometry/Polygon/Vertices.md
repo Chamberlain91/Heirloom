@@ -10,7 +10,7 @@
 
 ### Vertices
 
-Gets a read-only view of this polygon's vertices.
+Gets a read-only view of the polygon's vertices.
 
 ```cs
 public IReadOnlyList<Vector> Vertices { get; }

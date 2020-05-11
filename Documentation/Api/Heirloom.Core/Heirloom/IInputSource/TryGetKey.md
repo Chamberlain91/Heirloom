@@ -10,16 +10,18 @@
 
 ### TryGetKey(Key, out ButtonState)
 
+Attempts to retreive the state of the specified key.
+
 ```cs
 public abstract bool TryGetKey(Key key, out ButtonState state)
 ```
 
-| Name  | Type             | Summary |
-|-------|------------------|---------|
-| key   | [Key][2]         |         |
-| state | [ButtonState][3] |         |
+| Name  | Type             | Summary                                     |
+|-------|------------------|---------------------------------------------|
+| key   | [Key][2]         | Some key.                                   |
+| state | [ButtonState][3] | The output of the current state of the key. |
 
-> **Returns** - `bool`
+> **Returns** - `bool` - True if the value was sucessfully retreived.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IInputSource.md

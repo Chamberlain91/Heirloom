@@ -16,10 +16,10 @@ Computes the reflection of the input vector about the specified axis.
 public static Vector Reflect(in Vector v, in Vector axis)
 ```
 
-| Name | Type        | Summary |
-|------|-------------|---------|
-| v    | [Vector][1] |         |
-| axis | [Vector][1] |         |
+| Name | Type        | Summary                             |
+|------|-------------|-------------------------------------|
+| v    | [Vector][1] |                                     |
+| axis | [Vector][1] | The axis of reflection, normalized. |
 
 > **Returns** - [Vector][1]
 

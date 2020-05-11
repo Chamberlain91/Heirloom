@@ -25,17 +25,13 @@ IEquatable\<TextLayoutState>
 
 [Character][2], [Metrics][3]
 
-### Methods
-
-[Equals][4], [GetHashCode][5]
-
 ## Fields
 
 #### Instance
 
 | Name          | Type        | Summary                                                     |
 |---------------|-------------|-------------------------------------------------------------|
-| [Position][1] | [Vector][6] | The position of top left corner of the current glyph image. |
+| [Position][1] | [Vector][4] | The position of top left corner of the current glyph image. |
 
 ## Properties
 
@@ -43,25 +39,13 @@ IEquatable\<TextLayoutState>
 
 | Name           | Type                  | Summary                                  |
 |----------------|-----------------------|------------------------------------------|
-| [Character][2] | [UnicodeCharacter][7] | The current character.                   |
-| [Metrics][3]   | [GlyphMetrics][8]     | The metrics of the glyph being rendered. |
-
-## Methods
-
-#### Instance
-
-| Name                         | Return Type | Summary |
-|------------------------------|-------------|---------|
-| [Equals(object)][4]          | `bool`      |         |
-| [Equals(TextLayoutState)][4] | `bool`      |         |
-| [GetHashCode()][5]           | `int`       |         |
+| [Character][2] | [UnicodeCharacter][5] | The current character.                   |
+| [Metrics][3]   | [GlyphMetrics][6]     | The metrics of the glyph being rendered. |
 
 [0]: ../../Heirloom.Core.md
 [1]: TextLayoutState/Position.md
 [2]: TextLayoutState/Character.md
 [3]: TextLayoutState/Metrics.md
-[4]: TextLayoutState/Equals.md
-[5]: TextLayoutState/GetHashCode.md
-[6]: Vector.md
-[7]: UnicodeCharacter.md
-[8]: GlyphMetrics.md
+[4]: Vector.md
+[5]: UnicodeCharacter.md
+[6]: GlyphMetrics.md

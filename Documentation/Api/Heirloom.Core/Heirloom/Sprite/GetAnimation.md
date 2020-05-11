@@ -10,18 +10,18 @@
 
 ### GetAnimation(string)
 
-Gets an animation sequence by name.
+Gets an animation contained by this sprite.
 
 ```cs
-public Sprite.Animation GetAnimation(string name)
+public SpriteAnimation GetAnimation(string name)
 ```
 
 | Name | Type     | Summary |
 |------|----------|---------|
 | name | `string` |         |
 
-> **Returns** - [Sprite.Animation][2]
+> **Returns** - [SpriteAnimation][2]
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Sprite.md
-[2]: ../Sprite.Animation.md
+[2]: ../SpriteAnimation.md

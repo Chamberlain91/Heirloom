@@ -10,7 +10,7 @@
 
 ### Sample(INoise1D, float, int, float)
 
-Sample one-dimensional octave noise.
+Provides extension methods various types within Heirloom.
 
 ```cs
 public static float Sample(INoise1D noise, float x, int octaves, float persistence = 0.5)

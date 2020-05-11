@@ -52,12 +52,12 @@ public interface IInputSource
 
 #### Instance
 
-| Name                           | Return Type | Summary                                 |
-|--------------------------------|-------------|-----------------------------------------|
-| [HideSoftwareKeyboard()][2]    | `void`      | Hides the software keyboard.            |
-| [ShowSoftwareKeyboard()][3]    | `void`      | Attempts to show the software keyboard. |
-| [TryGetButton(MouseButt...][4] | `bool`      |                                         |
-| [TryGetKey(Key, out But...][5] | `bool`      |                                         |
+| Name                           | Return Type | Summary                                              |
+|--------------------------------|-------------|------------------------------------------------------|
+| [HideSoftwareKeyboard()][2]    | `void`      | Hides the software keyboard.                         |
+| [ShowSoftwareKeyboard()][3]    | `void`      | Attempts to show the software keyboard.              |
+| [TryGetButton(MouseButt...][4] | `bool`      |                                                      |
+| [TryGetKey(Key, out But...][5] | `bool`      | Attempts to retreive the state of the specified key. |
 
 [0]: ../../Heirloom.Core.md
 [1]: IInputSource/SupportsSoftwareKeyboard.md
