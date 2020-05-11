@@ -10,7 +10,7 @@
 
 ### CheckKey(Key, ButtonState)
 
-Checks if the lastest state of a button on the keyboard matcheas the desired state.
+Checks if the lastest state of a button on the keyboard matches the desired state.
 
 ```cs
 public static bool CheckKey(Key key, ButtonState state)

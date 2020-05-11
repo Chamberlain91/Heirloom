@@ -103,6 +103,44 @@ public static bool Intersects(Vector p1, Vector p2, Vector p3, Vector p4, out Ve
 
 > **Returns** - `bool`
 
+### Intersects(LineSegment, LineSegment, out Vector, out Vector, out Vector)
+
+Checks if two line segments intersect.
+
+```cs
+public static bool Intersects(LineSegment lineA, LineSegment lineB, out Vector point, out Vector closestA, out Vector closestB)
+```
+
+| Name     | Type             | Summary |
+|----------|------------------|---------|
+| lineA    | [LineSegment][1] |         |
+| lineB    | [LineSegment][1] |         |
+| point    | [Vector][2]      |         |
+| closestA | [Vector][2]      |         |
+| closestB | [Vector][2]      |         |
+
+> **Returns** - `bool`
+
+### Intersects(Vector, Vector, Vector, Vector, out Vector, out Vector, out Vector)
+
+Checks if two line segments intersect.
+
+```cs
+public static bool Intersects(Vector p1, Vector p2, Vector q1, Vector q2, out Vector point, out Vector closestA, out Vector closestB)
+```
+
+| Name     | Type        | Summary |
+|----------|-------------|---------|
+| p1       | [Vector][2] |         |
+| p2       | [Vector][2] |         |
+| q1       | [Vector][2] |         |
+| q2       | [Vector][2] |         |
+| point    | [Vector][2] |         |
+| closestA | [Vector][2] |         |
+| closestB | [Vector][2] |         |
+
+> **Returns** - `bool`
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../LineSegment.md
 [2]: ../../Heirloom/Vector.md

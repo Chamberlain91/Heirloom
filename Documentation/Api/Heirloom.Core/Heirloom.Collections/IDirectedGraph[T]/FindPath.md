@@ -38,7 +38,7 @@ public abstract IReadOnlyList<T> FindPath(T start, Func<T, bool> goalCondition, 
 | goalCondition | `Func<T, bool>`        | Some goal condition.                               |
 | heuristic     | [HeuristicCost\<T>][2] | Some heuristic evaluation of the cost to the goal. |
 
-> **Returns** - `IReadOnlyList<T>` - If exists, the path from `start` to the vertex that satisfied the `goalCondition` , otherwise null.
+> **Returns** - `IReadOnlyList<T>` - If exists, the path from `start` to the vertex that satisfied the `...
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IDirectedGraph[T].md

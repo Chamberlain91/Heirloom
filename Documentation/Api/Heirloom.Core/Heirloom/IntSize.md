@@ -27,11 +27,11 @@ IEquatable\<IntSize>, IComparable\<IntSize>
 
 ### Methods
 
-[CompareTo][6], [Deconstruct][7], [Equals][8], [GetHashCode][9], [Set][10], [ToString][11]
+[CompareTo][6], [Deconstruct][7], [Set][8]
 
 ### Static Fields
 
-[Max][12], [One][13], [Zero][14]
+[Max][9], [One][10], [Zero][11]
 
 ## Fields
 
@@ -46,9 +46,9 @@ IEquatable\<IntSize>, IComparable\<IntSize>
 
 | Name       | Type          | Summary                                  |
 |------------|---------------|------------------------------------------|
-| [Max][12]  | [IntSize][15] | The maximum representable size possible. |
-| [One][13]  | [IntSize][15] | A 1x1 size.                              |
-| [Zero][14] | [IntSize][15] | A 0x0 size.                              |
+| [Max][9]   | [IntSize][12] | The maximum representable size possible. |
+| [One][10]  | [IntSize][12] | A 1x1 size.                              |
+| [Zero][11] | [IntSize][12] | A 0x0 size.                              |
 
 ## Properties
 
@@ -68,11 +68,7 @@ IEquatable\<IntSize>, IComparable\<IntSize>
 |--------------------------------|-------------|-----------------------------------|
 | [CompareTo(IntSize)][6]        | `int`       |                                   |
 | [Deconstruct(out int, o...][7] | `void`      |                                   |
-| [Equals(object)][8]            | `bool`      |                                   |
-| [Equals(IntSize)][8]           | `bool`      |                                   |
-| [GetHashCode()][9]             | `int`       |                                   |
-| [Set(int, int)][10]            | `void`      | Sets the components of this size. |
-| [ToString()][11]               | `string`    |                                   |
+| [Set(int, int)][8]             | `void`      | Sets the components of this size. |
 
 [0]: ../../Heirloom.Core.md
 [1]: IntSize/Height.md
@@ -82,11 +78,8 @@ IEquatable\<IntSize>, IComparable\<IntSize>
 [5]: IntSize/Indexer.md
 [6]: IntSize/CompareTo.md
 [7]: IntSize/Deconstruct.md
-[8]: IntSize/Equals.md
-[9]: IntSize/GetHashCode.md
-[10]: IntSize/Set.md
-[11]: IntSize/ToString.md
-[12]: IntSize/Max.md
-[13]: IntSize/One.md
-[14]: IntSize/Zero.md
-[15]: IntSize.md
+[8]: IntSize/Set.md
+[9]: IntSize/Max.md
+[10]: IntSize/One.md
+[11]: IntSize/Zero.md
+[12]: IntSize.md

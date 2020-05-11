@@ -23,7 +23,7 @@ public sealed class SparseGrid<T> : ISparseGrid<T>, IReadOnlySparseGrid<T>, IRea
 
 ### Methods
 
-[Clear][7], [ClearValue][8], [HasValue][9], [IsValidCoordinate][10]
+[Clear][7], [HasValue][8], [IsValidCoordinate][9], [Remove][10]
 
 ## Properties
 
@@ -39,15 +39,15 @@ public sealed class SparseGrid<T> : ISparseGrid<T>, IReadOnlySparseGrid<T>, IRea
 
 #### Instance
 
-| Name                            | Return Type | Summary                                                             |
-|---------------------------------|-------------|---------------------------------------------------------------------|
-| [Clear()][7]                    | `void`      | Removes all values in the grid, marking everything as unoccupied.   |
-| [ClearValue(in int, in ...][8]  | `void`      | Clears the assigned valueon this cell of the sparse grid.           |
-| [ClearValue(in IntVector)][8]   | `void`      | Clears the assigned valueon this cell of the sparse grid.           |
-| [HasValue(in int, in int)][9]   | `bool`      | Determines if a value has been set on this cell of the sparse grid. |
-| [HasValue(in IntVector)][9]     | `bool`      | Determines if a value has been set on this cell of the sparse grid. |
-| [IsValidCoordinate(in i...][10] | `bool`      | Is the specified coordinate valid on this grid?                     |
-| [IsValidCoordinate(in I...][10] | `bool`      | Is the specified coordinate valid on this grid?                     |
+| Name                           | Return Type | Summary                                                             |
+|--------------------------------|-------------|---------------------------------------------------------------------|
+| [Clear()][7]                   | `void`      | Removes all values in the grid, marking everything as unoccupied.   |
+| [HasValue(in int, in int)][8]  | `bool`      | Determines if a value has been set on this cell of the sparse grid. |
+| [HasValue(in IntVector)][8]    | `bool`      | Determines if a value has been set on this cell of the sparse grid. |
+| [IsValidCoordinate(in i...][9] | `bool`      | Is the specified coordinate valid on this grid?                     |
+| [IsValidCoordinate(in I...][9] | `bool`      | Is the specified coordinate valid on this grid?                     |
+| [Remove(in int, in int)][10]   | `void`      | Clears the assigned valueon this cell of the sparse grid.           |
+| [Remove(in IntVector)][10]     | `void`      | Clears the assigned valueon this cell of the sparse grid.           |
 
 [0]: ../../Heirloom.Core.md
 [1]: ISparseGrid[T].md
@@ -57,6 +57,6 @@ public sealed class SparseGrid<T> : ISparseGrid<T>, IReadOnlySparseGrid<T>, IRea
 [5]: SparseGrid[T]/Indexer.md
 [6]: SparseGrid[T]/Keys.md
 [7]: SparseGrid[T]/Clear.md
-[8]: SparseGrid[T]/ClearValue.md
-[9]: SparseGrid[T]/HasValue.md
-[10]: SparseGrid[T]/IsValidCoordinate.md
+[8]: SparseGrid[T]/HasValue.md
+[9]: SparseGrid[T]/IsValidCoordinate.md
+[10]: SparseGrid[T]/Remove.md

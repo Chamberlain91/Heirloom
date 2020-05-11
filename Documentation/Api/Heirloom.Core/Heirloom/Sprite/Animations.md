@@ -10,13 +10,13 @@
 
 ### Animations
 
-Gets the name of each known animation sequence.
+Gets a read-only view of the animations table.
 
 ```cs
-public IReadOnlyCollection<string> Animations { get; }
+public IReadOnlyDictionary<string, SpriteAnimation> Animations { get; }
 ```
 
-> **Returns**: `IReadOnlyCollection<string>`
+> **Returns**: `IReadOnlyDictionary<string, SpriteAnimation>`
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Sprite.md

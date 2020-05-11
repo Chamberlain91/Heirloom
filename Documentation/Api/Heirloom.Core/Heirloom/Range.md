@@ -27,11 +27,11 @@ IEquatable\<Range>
 
 ### Methods
 
-[Contains][6], [Deconstruct][7], [Equals][8], [GetHashCode][9], [Include][10], [Overlaps][11], [Rescale][12], [Set][13], [ToString][14]
+[Contains][6], [Deconstruct][7], [Include][8], [Intersect][9], [Overlaps][10], [Rescale][11], [Set][12], [Union][13]
 
 ### Static Fields
 
-[Indeterminate][15], [Infinite][16], [Zero][17]
+[Indeterminate][14], [Infinite][15], [Zero][16]
 
 ## Fields
 
@@ -46,9 +46,9 @@ IEquatable\<Range>
 
 | Name                | Type        | Summary                                                                |
 |---------------------|-------------|------------------------------------------------------------------------|
-| [Indeterminate][15] | [Range][18] | Range from float.PositiveInfinity to float.NegativeInfinity useful ... |
-| [Infinite][16]      | [Range][18] | Range from float.NegativeInfinity to float.PositiveInfinity (the wi... |
-| [Zero][17]          | [Range][18] | Zero width range centered on zero.                                     |
+| [Indeterminate][14] | [Range][17] | Range from float.PositiveInfinity to float.NegativeInfinity useful ... |
+| [Infinite][15]      | [Range][17] | Range from float.NegativeInfinity to float.PositiveInfinity (the wi... |
+| [Zero][16]          | [Range][17] | Zero width range centered on zero.                                     |
 
 ## Properties
 
@@ -68,16 +68,14 @@ IEquatable\<Range>
 |---------------------------------|-------------|------------------------------------------------------------------|
 | [Contains(in float)][6]         | `bool`      | Determines if this range contains the specified value.           |
 | [Deconstruct(out float,...][7]  | `void`      |                                                                  |
-| [Equals(object)][8]             | `bool`      |                                                                  |
-| [Equals(Range)][8]              | `bool`      |                                                                  |
-| [GetHashCode()][9]              | `int`       |                                                                  |
-| [Include(in float)][10]         | `void`      | Mutate this range (by expansion) to include the specified value. |
-| [Include(in Range)][10]         | `void`      | Mutate this range (by expansion) to include the specified range. |
-| [Overlaps(in Range)][11]        | `bool`      | Determines if this range overlaps another range.                 |
-| [Rescale(in float, in f...][12] | `float`     | Scales `x` from input domain (this range) to output range.       |
-| [Rescale(in float, in R...][12] | `float`     | Scales `x` from input domain (this range) to output range.       |
-| [Set(float, float)][13]         | `void`      | Sets the components of this range.                               |
-| [ToString()][14]                | `string`    |                                                                  |
+| [Include(in float)][8]          | `void`      | Mutate this range (by expansion) to include the specified value. |
+| [Include(in Range)][8]          | `void`      | Mutate this range (by expansion) to include the specified range. |
+| [Intersect(in Range)][9]        | [Range][17] |                                                                  |
+| [Overlaps(in Range)][10]        | `bool`      | Determines if this range overlaps another range.                 |
+| [Rescale(in float, in f...][11] | `float`     | Scales `x` from input domain (this range) to output range.       |
+| [Rescale(in float, in R...][11] | `float`     | Scales `x` from input domain (this range) to output range.       |
+| [Set(float, float)][12]         | `void`      | Sets the components of this range.                               |
+| [Union(in Range)][13]           | [Range][17] |                                                                  |
 
 [0]: ../../Heirloom.Core.md
 [1]: Range/Min.md
@@ -87,14 +85,13 @@ IEquatable\<Range>
 [5]: Range/Size.md
 [6]: Range/Contains.md
 [7]: Range/Deconstruct.md
-[8]: Range/Equals.md
-[9]: Range/GetHashCode.md
-[10]: Range/Include.md
-[11]: Range/Overlaps.md
-[12]: Range/Rescale.md
-[13]: Range/Set.md
-[14]: Range/ToString.md
-[15]: Range/Indeterminate.md
-[16]: Range/Infinite.md
-[17]: Range/Zero.md
-[18]: Range.md
+[8]: Range/Include.md
+[9]: Range/Intersect.md
+[10]: Range/Overlaps.md
+[11]: Range/Rescale.md
+[12]: Range/Set.md
+[13]: Range/Union.md
+[14]: Range/Indeterminate.md
+[15]: Range/Infinite.md
+[16]: Range/Zero.md
+[17]: Range.md

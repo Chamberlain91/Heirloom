@@ -8,16 +8,17 @@
 > **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [GameLoop][1]
 
-### Create(GraphicsContext, GameLoop.UpdateFunction)
+### Create(GraphicsContext, GameLoop.UpdateFunction, int)
 
 ```cs
-public static GameLoop Create(GraphicsContext gfx, GameLoop.UpdateFunction update)
+public static GameLoop Create(GraphicsContext gfx, GameLoop.UpdateFunction update, int frameRate = -1)
 ```
 
-| Name   | Type                         | Summary |
-|--------|------------------------------|---------|
-| gfx    | [GraphicsContext][2]         |         |
-| update | [GameLoop.UpdateFunction][3] |         |
+| Name      | Type                         | Summary |
+|-----------|------------------------------|---------|
+| gfx       | [GraphicsContext][2]         |         |
+| update    | [GameLoop.UpdateFunction][3] |         |
+| frameRate | `int`                        |         |
 
 > **Returns** - [GameLoop][1]
 

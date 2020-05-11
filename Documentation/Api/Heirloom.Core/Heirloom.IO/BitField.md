@@ -25,7 +25,7 @@ IEquatable\<BitField>, IReadOnlyList\<bool>, IReadOnlyCollection\<bool>, IEnumer
 
 ### Methods
 
-[Equals][3], [GetBit][4], [GetEnumerator][5], [GetHashCode][6], [SetBit][7]
+[GetBit][3], [GetEnumerator][4], [SetBit][5]
 
 ## Properties
 
@@ -42,18 +42,13 @@ IEquatable\<BitField>, IReadOnlyList\<bool>, IReadOnlyCollection\<bool>, IEnumer
 
 | Name                   | Return Type         | Summary                               |
 |------------------------|---------------------|---------------------------------------|
-| [Equals(object)][3]    | `bool`              |                                       |
-| [Equals(BitField)][3]  | `bool`              |                                       |
-| [GetBit(int)][4]       | `bool`              | Gets the bit value at `index` offset. |
-| [GetEnumerator()][5]   | `IEnumerator<bool>` |                                       |
-| [GetHashCode()][6]     | `int`               |                                       |
-| [SetBit(int, bool)][7] | `void`              | Sets the bit value at `index` offset. |
+| [GetBit(int)][3]       | `bool`              | Gets the bit value at `index` offset. |
+| [GetEnumerator()][4]   | `IEnumerator<bool>` |                                       |
+| [SetBit(int, bool)][5] | `void`              | Sets the bit value at `index` offset. |
 
 [0]: ../../Heirloom.Core.md
 [1]: BitField/Count.md
 [2]: BitField/Indexer.md
-[3]: BitField/Equals.md
-[4]: BitField/GetBit.md
-[5]: BitField/GetEnumerator.md
-[6]: BitField/GetHashCode.md
-[7]: BitField/SetBit.md
+[3]: BitField/GetBit.md
+[4]: BitField/GetEnumerator.md
+[5]: BitField/SetBit.md
