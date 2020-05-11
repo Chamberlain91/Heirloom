@@ -1,5 +1,4 @@
-using Heirloom.Drawing;
-using Heirloom.Math;
+using Heirloom;
 
 namespace Examples.Drawing
 {
@@ -10,10 +9,10 @@ namespace Examples.Drawing
         public SurfaceDemo()
             : base("Surface")
         {
-            LowResSurface = new Surface(350, 200, MultisampleQuality.None);
+            LowResSurface = new Surface(350, 200);
         }
 
-        internal override void Draw(Graphics ctx, Rectangle contentBounds)
+        internal override void Draw(GraphicsContext ctx, Rectangle contentBounds)
         {
             // == Draw curve to low res surface
 
@@ -43,7 +42,7 @@ namespace Examples.Drawing
 
             var rect = new Rectangle(contentBounds.X + offset, contentBounds.Y, newWidth, newHeight);
 
-            ctx.Surface = ctx.DefaultSurface;
+            ctx.Surface = ctx.Screen.Surface;
             ctx.DrawImage(LowResSurface, rect);
         }
     }

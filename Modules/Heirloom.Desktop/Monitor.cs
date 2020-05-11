@@ -1,5 +1,3 @@
-using Heirloom.Math;
-
 namespace Heirloom.Desktop
 {
     /// <summary>

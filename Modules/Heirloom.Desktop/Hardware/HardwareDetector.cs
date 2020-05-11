@@ -4,8 +4,6 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
-using Heirloom.Drawing;
-
 namespace Heirloom.Desktop.Hardware
 {
     /// <summary>

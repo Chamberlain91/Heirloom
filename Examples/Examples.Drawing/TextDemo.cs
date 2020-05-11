@@ -1,6 +1,5 @@
-using Heirloom.Drawing;
+using Heirloom;
 using Heirloom.IO;
-using Heirloom.Math;
 
 namespace Examples.Drawing
 {
@@ -14,9 +13,10 @@ namespace Examples.Drawing
             _text = Files.ReadText("files/alice.txt");
         }
 
-        internal override void Draw(Graphics ctx, Rectangle contentBounds)
+        internal override void Draw(GraphicsContext ctx, Rectangle contentBounds)
         {
-            ctx.DrawText(_text, contentBounds, Font.Default, 32, TextAlign.Left);
+            ctx.Color = Color.White;
+            ctx.DrawText(_text, contentBounds, Font.Default, 32);
         }
     }
 }

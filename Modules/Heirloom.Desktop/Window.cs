@@ -1,19 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Runtime.InteropServices;
-using System.Threading;
-
-using Heirloom.Drawing;
-using Heirloom.IO;
-using Heirloom.Math;
 
 namespace Heirloom.Desktop
 {
-    public class Window
+    /// <summary>
+    /// Represents a physical window on a desktop platform, implements <see cref="Screen"/>.
+    /// </summary>
+    public sealed class Window : Screen
     {
         private IntRectangle _bounds, _restoreBounds;
-        private IntSize _framebufferSize;
         private Vector _contentScale;
         private string _title;
 
@@ -70,6 +66,8 @@ namespace Heirloom.Desktop
             // Extract 
             HasTransparentFramebuffer = transparent && Application.SupportsTransparentFramebuffer;
 
+            IntSize framebufferSize = default;
+
             // 
             Handle = Application.Invoke(() =>
             {
@@ -83,15 +81,39 @@ namespace Heirloom.Desktop
                 var handle = Glfw.CreateWindow(size.Width, size.Height, title, MonitorHandle.None, Application.ShareContext);
 
                 // Query intial window properties
+                Glfw.GetFramebufferSize(handle, out framebufferSize.Width, out framebufferSize.Height);
                 Glfw.GetWindowSize(handle, out _bounds.Width, out _bounds.Height);
                 Glfw.GetWindowPosition(handle, out _bounds.X, out _bounds.Y);
-                Glfw.GetFramebufferSize(handle, out _framebufferSize.Width, out _framebufferSize.Height);
 
                 // Return window handle
                 return handle;
             });
 
             // == Bind Callbacks
+
+            Glfw.SetWindowSizeCallback(Handle, _windowSizeCallback = (_, w, h) =>
+            {
+                _bounds.Size = new IntSize(w, h);
+                OnResized(_bounds.Size);
+            });
+
+            Glfw.SetFramebufferSizeCallback(Handle, _framebufferSizeCallback = (_, w, h) =>
+            {
+                framebufferSize = new IntSize(w, h);
+                OnFramebufferResized(framebufferSize);
+            });
+
+            Glfw.SetWindowContentScaleCallback(Handle, _windowContentScaleCallback = (_, xs, ys) =>
+            {
+                _contentScale = new Vector(xs, ys);
+                OnContentScaleChanged(_contentScale);
+            });
+
+            Glfw.SetWindowPositionCallback(Handle, _windowPositionCallback = (_, x, y) =>
+            {
+                _bounds.Position = (x, y);
+                // todo: Window moved event
+            });
 
             Glfw.SetWindowCloseCallback(Handle, _windowCloseCallback = _ =>
             {
@@ -100,38 +122,69 @@ namespace Heirloom.Desktop
                 if (shouldClose) { Dispose(); }
             });
 
-            Glfw.SetFramebufferSizeCallback(Handle, _framebufferSizeCallback = (_, w, h) =>
+            // [Keyboard Callbacks]
+
+            Glfw.SetCharCallback(Handle, _charCallback = (_, cp) =>
             {
-                _framebufferSize = (w, h);
-                OnFramebufferResized(w, h);
+                var e = new CharacterEvent((UnicodeCharacter) cp);
+                OnCharacterTyped(e);
             });
 
-            Glfw.SetWindowSizeCallback(Handle, _windowSizeCallback = (_, w, h) =>
+            Glfw.SetKeyCallback(Handle, _keyCallback = (_, key, code, action, modifiers) =>
             {
-                _bounds.Size = (w, h);
-                OnWindowResized(w, h);
+                switch (action)
+                {
+                    default:
+                        throw new InvalidOperationException("Encountered illegal key action");
+
+                    case KeyAction.Press:
+                        OnKeyPressed(new KeyEvent(code, key, modifiers, ButtonState.Pressed));
+                        break;
+
+                    case KeyAction.Release:
+                        OnKeyReleased(new KeyEvent(code, key, modifiers, ButtonState.Released));
+                        break;
+
+                    case KeyAction.Repeat:
+                        OnKeyRepeat(new KeyEvent(code, key, modifiers, ButtonState.Down));
+                        break;
+                }
             });
 
-            Glfw.SetWindowPositionCallback(Handle, _windowPositionCallback = (_, x, y) =>
+            // [Mouse callbacks]
+
+            Glfw.SetCursorPositionCallback(Handle, _cursorPositionCallback = (_, x, y) =>
             {
-                _bounds.Position = (x, y);
-                OnWindowMoved(x, y);
+                // Compute delta motion
+                var prevPosition = _mousePosition;
+                _mousePosition.Set((float) x, (float) y);
+                _mouseDelta = _mousePosition - prevPosition;
+
+                OnMouseMoved(new MouseMoveEvent(_mousePosition, _mouseDelta));
             });
 
-            Glfw.SetWindowContentScaleCallback(Handle, _windowContentScaleCallback = (_, xs, ys) =>
+            Glfw.SetMouseButtonCallback(Handle, _mouseButtonCallback = (_, button, action, modifiers) =>
             {
-                _contentScale = (xs, ys);
-                OnContentScaleChanged(xs, ys);
+                switch (action)
+                {
+                    default:
+                        throw new InvalidOperationException("Encountered illegal mosue button action");
+
+                    case KeyAction.Press:
+                        OnMousePressed(new MouseButtonEvent((MouseButton) button, modifiers, ButtonState.Pressed, _mousePosition));
+                        break;
+
+                    case KeyAction.Release:
+                        OnMouseReleased(new MouseButtonEvent((MouseButton) button, modifiers, ButtonState.Released, _mousePosition));
+                        break;
+                }
             });
 
-            // Key callbacks
-            Glfw.SetCharCallback(Handle, _charCallback = (_, cp) => OnCharTyped((UnicodeCharacter) cp));
-            Glfw.SetKeyCallback(Handle, _keyCallback = (_, k, c, a, m) => OnKeyPressed(k, c, a, m));
-
-            // Mouse callbacks
-            Glfw.SetCursorPositionCallback(Handle, _cursorPositionCallback = (_, x, y) => OnMouseMove((float) x, (float) y));
-            Glfw.SetMouseButtonCallback(Handle, _mouseButtonCallback = (_, b, a, m) => OnMousePressed(b, a, m));
-            Glfw.SetScrollCallback(Handle, _scrollCallback = (_, x, y) => OnMouseScroll((float) x, (float) y));
+            Glfw.SetScrollCallback(Handle, _scrollCallback = (_, x, y) =>
+            {
+                var e = new MouseScrollEvent((float) x, (float) y);
+                OnMouseScrolled(e);
+            });
 
             // Set the default icons
             SetIcons(_defaultWindowIcons);
@@ -139,12 +192,16 @@ namespace Heirloom.Desktop
             // Inform system to track this window
             Application.AddWindow(this);
 
-            // == Construct Graphics Context
+            // Create "default surface"
+            Surface = new Surface(framebufferSize, multisample, SurfaceType.UnsignedByte, true);
 
-            var surface = new Surface(1, 1, multisample, true);
-            Graphics = Application.GraphicsFactory.CreateGraphics(this, surface, vsync);
+            // Create graphics context for this window
+            Graphics = Application.CreateGraphics(this, vsync);
         }
 
+        /// <summary>
+        /// Performs final cleanup of <see cref="Window"/> before garbase collection.
+        /// </summary>
         ~Window()
         {
             Dispose(false);
@@ -160,24 +217,9 @@ namespace Heirloom.Desktop
         internal WindowHandle Handle { get; }
 
         /// <summary>
-        /// Gets a value that determines if this window been disposed.
-        /// </summary>
-        public bool IsDisposed { get; private set; }
-
-        /// <summary>
-        /// Gets a value that determines if this window been closed.
-        /// </summary>
-        public bool IsClosed { get; private set; }
-
-        /// <summary>
         /// Gets a value that determines if this window supports a transparent framebuffer.
         /// </summary>
         public bool HasTransparentFramebuffer { get; private set; }
-
-        /// <summary>
-        /// Gets the graphics context associated with this window.
-        /// </summary>
-        public Graphics Graphics { get; }
 
         /// <summary>
         /// Gets a value that determines if the window is visible.
@@ -257,7 +299,7 @@ namespace Heirloom.Desktop
         /// <summary>
         /// Gets or sets the window size in screen units.
         /// </summary>
-        public IntSize Size
+        public override IntSize Size
         {
             get => Bounds.Size;
 
@@ -267,11 +309,6 @@ namespace Heirloom.Desktop
                 _bounds.Size = value;
             });
         }
-
-        /// <summary>
-        /// The size of the underlying framebuffer in pixels.
-        /// </summary>
-        public IntSize FramebufferSize => _framebufferSize;
 
         /// <summary>
         /// Gets the content scaling factor.
@@ -337,156 +374,38 @@ namespace Heirloom.Desktop
 
         #endregion
 
-        #region Events
-
-        public event Action<Window> Resized;
-
-        public event Action<Window> FramebufferResized;
-
-        public event Action<Window, WindowEvents> ContentScaleChanged;
-
-        public event Action<Window, KeyEvent> KeyPress;
-
-        public event Action<Window, KeyEvent> KeyRelease;
-
-        public event Action<Window, KeyEvent> KeyRepeat;
-
-        public event Action<Window, CharacterEvent> CharacterTyped;
-
-        public event Action<Window, MouseButtonEvent> MousePress;
-
-        public event Action<Window, MouseButtonEvent> MouseRelease;
-
-        public event Action<Window, MouseScrollEvent> MouseScroll;
-
-        public event Action<Window, MouseMoveEvent> MouseMove;
-
-        public event Func<Window, bool> Closing;
-
-        public event Action<Window> Closed;
-
-        #endregion
-
-        #region OnEvents
-
-        protected virtual void OnWindowResized(int w, int h)
-        {
-            Resized?.Invoke(this);
-        }
-
-        protected virtual void OnFramebufferResized(int w, int h)
-        {
-            FramebufferResized?.Invoke(this);
-        }
-
-        protected virtual void OnContentScaleChanged(float xScale, float yScale)
-        {
-            var ev = new WindowEvents(xScale, yScale);
-            ContentScaleChanged?.Invoke(this, ev);
-        }
-
-        protected virtual void OnWindowMoved(int x, int y)
-        {
-            // Does nothing by default
-        }
-
-        protected virtual void OnKeyPressed(Key key, int scanCode, ButtonAction action, KeyModifiers modifiers)
-        {
-            var ev = new KeyEvent(key, scanCode, action, modifiers);
-
-            switch (action)
-            {
-                default:
-                    throw new InvalidOperationException("Encountered illegal key action");
-
-                case ButtonAction.Press:
-                    KeyPress?.Invoke(this, ev);
-                    break;
-
-                case ButtonAction.Release:
-                    KeyRelease?.Invoke(this, ev);
-                    break;
-
-                case ButtonAction.Repeat:
-                    KeyRepeat?.Invoke(this, ev);
-                    break;
-            }
-        }
-
-        protected virtual void OnCharTyped(UnicodeCharacter character)
-        {
-            var ev = new CharacterEvent(character);
-            CharacterTyped?.Invoke(this, ev);
-        }
-
-        protected virtual void OnMousePressed(int button, ButtonAction action, KeyModifiers modifiers)
-        {
-            var ev = new MouseButtonEvent(button, action, modifiers, _mousePosition);
-            switch (action)
-            {
-                default:
-                    throw new InvalidOperationException("Encountered illegal mosue button action");
-
-                case ButtonAction.Press:
-                    MousePress?.Invoke(this, ev);
-                    break;
-
-                case ButtonAction.Release:
-                    MouseRelease?.Invoke(this, ev);
-                    break;
-            }
-        }
-
-        protected virtual void OnMouseMove(float x, float y)
-        {
-            // Compute delta motion
-            var prevPosition = _mousePosition;
-            _mousePosition.Set(x, y);
-            _mouseDelta = _mousePosition - prevPosition;
-
-            var ev = new MouseMoveEvent(_mousePosition, _mouseDelta);
-            MouseMove?.Invoke(this, ev);
-        }
-
-        protected virtual void OnMouseScroll(float x, float y)
-        {
-            var ev = new MouseScrollEvent(x, y);
-            MouseScroll?.Invoke(this, ev);
-        }
-
-        protected virtual bool OnClosing()
-        {
-            // note: returns true to allow the window to close by default
-            return Closing?.Invoke(this) ?? true;
-        }
-
-        protected virtual void OnClosed()
-        {
-            Dispose();
-        }
-
-        #endregion
-
         #region Window State (Show, Maximize, etc)
 
+        /// <summary>
+        /// Shows the window, making it visible.
+        /// </summary>
         public void Show()
         {
             Application.Invoke(() => Glfw.ShowWindow(Handle));
         }
 
+        /// <summary>
+        /// Hides the window, minimizing it.
+        /// </summary>
         public void Hide()
         {
             Application.Invoke(() => Glfw.HideWindow(Handle));
         }
 
-        public void Close()
-        {
-            OnClosed();
-        }
-
+        /// <summary>
+        /// Brings focus to this window.
+        /// </summary>
         public void Focus()
         {
             Application.Invoke(() => Glfw.FocusWindow(Handle));
+        }
+
+        /// <summary>
+        /// Closes this window.
+        /// </summary>
+        public override void Close()
+        {
+            OnClosed();
         }
 
         /// <summary>
@@ -643,6 +562,16 @@ namespace Heirloom.Desktop
             SetIcons(new[] { icon });
         }
 
+        private static Image[] LoadDefaultIcons()
+        {
+            return new Image[] {
+                new Image("Embedded/icon_128.png"),
+                new Image("Embedded/icon_64.png"),
+                new Image("Embedded/icon_32.png"),
+                new Image("Embedded/icon_16.png")
+            };
+        }
+
         #endregion
 
         #region Set Cursor Image
@@ -670,7 +599,7 @@ namespace Heirloom.Desktop
         {
             if (cursor is null) { throw new ArgumentNullException(nameof(cursor)); }
 
-            SetCursor(cursor, (IntVector) cursor.Origin);
+            SetCursor(cursor, cursor.Origin);
         }
 
         /// <summary>
@@ -710,37 +639,33 @@ namespace Heirloom.Desktop
 
         #endregion
 
-        private static Image[] LoadDefaultIcons()
+        #region Software Keyboard
+
+        /// <inheritdoc/>
+        public override bool SupportsSoftwareKeyboard => false;
+
+        /// <inheritdoc/>
+        public override void ShowSoftwareKeyboard()
         {
-            return new Image[] {
-                new Image(GetStream("Files.icon_128.png")),
-                new Image(GetStream("Files.icon_64.png")),
-                new Image(GetStream("Files.icon_32.png")),
-                new Image(GetStream("Files.icon_16.png"))
-            };
-
-            static Stream GetStream(string file)
-            {
-                var type = typeof(Window);
-
-                // Return stream
-                return type.Assembly.GetManifestResourceStream($"{type.Namespace}.{file}");
-            }
+            throw new NotImplementedException();
         }
+
+        /// <inheritdoc/>
+        public override void HideSoftwareKeyboard()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
 
         #region Dispose
 
-        protected virtual void Dispose(bool disposeManaged)
+        /// <inheritdoc/>
+        protected override void Dispose(bool disposeManaged)
         {
             if (!IsDisposed)
             {
-                IsDisposed = true;
-
-                if (disposeManaged)
-                {
-                    // Terminate rendering context
-                    Graphics.Dispose();
-                }
+                base.Dispose(disposeManaged);
 
                 // Destroy window
                 Application.Invoke(() => Glfw.DestroyWindow(Handle));
@@ -762,18 +687,6 @@ namespace Heirloom.Desktop
                 GC.KeepAlive(_mouseButtonCallback);
                 GC.KeepAlive(_scrollCallback);
             }
-        }
-
-        public void Dispose()
-        {
-            if (!IsClosed)
-            {
-                IsClosed = true;
-                Closed?.Invoke(this);
-            }
-
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         #endregion

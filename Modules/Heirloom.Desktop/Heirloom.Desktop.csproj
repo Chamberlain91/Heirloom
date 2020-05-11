@@ -1,7 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <!-- Project Info -->
     <TargetFramework>netstandard2.1</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RootNamespace>Heirloom.Desktop</RootNamespace>
+    <!-- Package Info -->
     <Authors>Chris Chamberlain</Authors>
     <Version>1.0.0-beta</Version>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -15,18 +19,13 @@
     <Description>Desktop infrastructure for Heirloom applications.</Description>
     <PackageTags>glfw, windows, graphics, desktop, drawing</PackageTags>
     <LangVersion>latest</LangVersion>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Files\icon_128.png" />
-    <None Remove="Files\icon_16.png" />
-    <None Remove="Files\icon_32.png" />
-    <None Remove="Files\icon_64.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Heirloom.Drawing.OpenGLES\Heirloom.Drawing.OpenGLES.csproj" />
+    <None Remove="Embedded\icon_128.png" />
+    <None Remove="Embedded\icon_16.png" />
+    <None Remove="Embedded\icon_32.png" />
+    <None Remove="Embedded\icon_64.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,10 +42,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Files\icon_128.png" />
-    <EmbeddedResource Include="Files\icon_16.png" />
-    <EmbeddedResource Include="Files\icon_32.png" />
-    <EmbeddedResource Include="Files\icon_64.png" />
+    <EmbeddedResource Include="Embedded\icon_128.png" />
+    <EmbeddedResource Include="Embedded\icon_16.png" />
+    <EmbeddedResource Include="Embedded\icon_32.png" />
+    <EmbeddedResource Include="Embedded\icon_64.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Heirloom.Core\Heirloom.Core.csproj" />
+    <ProjectReference Include="..\Heirloom.MiniAudio\Heirloom.MiniAudio.csproj" />
+    <ProjectReference Include="..\Heirloom.OpenGLES\Heirloom.OpenGLES.csproj" />
   </ItemGroup>
 
 </Project>

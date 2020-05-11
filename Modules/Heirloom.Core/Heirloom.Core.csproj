@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Project Info -->
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>STBSHARP_INTERNAL</DefineConstants>
+    <RootNamespace>Heirloom</RootNamespace>
+    <!-- Package Info -->
+    <Authors>Chris Chamberlain</Authors>
+    <Version>1.0.0-beta</Version>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageOutputPath>../../Nuget/$(Configuration)</PackageOutputPath>
+    <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
+    <Description>A 2D graphical applications development framework.</Description>
+    <PackageTags>opengl, gles, glsl, shader, drawing, math, 2D, vector, matrix, polygon, audio, sound, ogg, mp3, files, stream, embedded</PackageTags>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Embedded\monogram_extended.ttf" />
+    <None Remove="Embedded\Shaders\blur.frag" />
+    <None Remove="Embedded\Shaders\default.frag" />
+    <None Remove="Embedded\Shaders\default.vert" />
+    <None Remove="Embedded\Shaders\distort.frag" />
+    <None Remove="Embedded\Shaders\grayscale.frag" />
+    <None Remove="Embedded\Shaders\invert.frag" />
+    <None Remove="Embedded\Shaders\standard\standard.frag" />
+    <None Remove="Embedded\Shaders\standard\standard.glsl" />
+    <None Remove="Embedded\Shaders\standard\standard.vert" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Embedded\monogram_extended.ttf" />
+    <EmbeddedResource Include="Embedded\Shaders\blur.frag" />
+    <EmbeddedResource Include="Embedded\Shaders\default.frag" />
+    <EmbeddedResource Include="Embedded\Shaders\default.vert" />
+    <EmbeddedResource Include="Embedded\Shaders\distort.frag" />
+    <EmbeddedResource Include="Embedded\Shaders\grayscale.frag" />
+    <EmbeddedResource Include="Embedded\Shaders\invert.frag" />
+    <EmbeddedResource Include="Embedded\Shaders\standard\standard.frag" />
+    <EmbeddedResource Include="Embedded\Shaders\standard\standard.glsl" />
+    <EmbeddedResource Include="Embedded\Shaders\standard\standard.vert" />
+  </ItemGroup>
+</Project>

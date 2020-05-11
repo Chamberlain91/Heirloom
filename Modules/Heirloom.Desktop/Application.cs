@@ -5,11 +5,16 @@ using System.Reflection;
 using System.Threading;
 
 using Heirloom.Desktop.Hardware;
-using Heirloom.Drawing;
+using Heirloom.MiniAudio;
 using Heirloom.OpenGLES;
+using Heirloom.Sound;
 
 namespace Heirloom.Desktop
 {
+    /// <summary>
+    /// Controls a desktop application.
+    /// Use this class to initialize window system and process events.
+    /// </summary>
     public static class Application
     {
         private const double WaitEventsTimeout = 1.0 / 100.0;
@@ -26,10 +31,15 @@ namespace Heirloom.Desktop
         /// <summary>
         /// Gets the graphics adapter.
         /// </summary>
+        internal static AudioAdapter AudioContext { get; private set; }
+
+        /// <summary>
+        /// Gets the graphics adapter.
+        /// </summary>
         internal static GraphicsAdapter GraphicsAdapter { get; private set; }
 
         /// <summary>
-        /// Gest the graphics factory.
+        /// Gets the window graphics factory.
         /// </summary>
         internal static IWindowGraphicsFactory GraphicsFactory { get; private set; }
 
@@ -145,10 +155,24 @@ namespace Heirloom.Desktop
         #endregion
 
         /// <summary>
+        /// Creates an instance of <typeparamref name="TGameLoop"/> runs <see cref="GameLoop.Start"/>.
+        /// </summary>
+        /// <seealso cref="Run(Action)"/>
+        /// <typeparam name="TGameLoop">Some game loop.</typeparam>
+        public static void Run<TGameLoop>() where TGameLoop : GameLoop, new()
+        {
+            Run(() =>
+            {
+                var loop = Activator.CreateInstance<TGameLoop>();
+                loop.Start();
+            });
+        }
+
+        /// <summary>
         /// Initializes windowing utilities, executes <paramref name="startup"/> and 
         /// then continuously processes window events until all windows are closed. This is a blocking function.
         /// </summary>
-        /// <see cref="IsInitialized"/>
+        /// <seealso cref="IsInitialized"/>
         public static void Run(Action startup)
         {
             EnsureMainThread();
@@ -193,8 +217,11 @@ namespace Heirloom.Desktop
                 // Initializes monitor list and callback
                 InitializeMonitors();
 
-                // Initialize graphics contexts
-                InitializeGraphics();
+                // Initialize graphics adapter
+                InitializeGraphicsAdapter();
+
+                // Initialize audio context
+                InitializeAudioContext();
 
                 // Determine if transparent framebuffers are possible
                 SupportsTransparentFramebuffer = Glfw.GetWindowAttribute(ShareContext, WindowAttribute.TransparentFramebuffer) != 0;
@@ -212,7 +239,12 @@ namespace Heirloom.Desktop
             IsInitialized = true;
         }
 
-        private static void InitializeGraphics()
+        internal static GraphicsContext CreateGraphics(Window window, bool vsync)
+        {
+            return GraphicsFactory.CreateGraphics(window, vsync);
+        }
+
+        private static void InitializeGraphicsAdapter()
         {
             // Set GLFW hints to use OpenGL 3.2 core (forward compatible)
             // We are assuming OpenGL is the only implementation relevant here. Sorry Vulkan!
@@ -251,6 +283,18 @@ namespace Heirloom.Desktop
             // Reset default window creation hints
             Glfw.SetWindowCreationHint(WindowAttribute.FocusOnShow, true);
             Glfw.SetWindowCreationHint(WindowAttribute.Visible, true);
+        }
+
+        private static void InitializeAudioContext()
+        {
+            // 
+            AudioContext = new MiniAudioContext(AudioAdapter.DefaultSampleRate, false);
+            AudioContext.Initialize();
+
+            // Dispose device when process exits, finalizer isn't being called
+            // but this reliably is called on Window .NET and Linux Mono 5.2
+            // todo: see behaviour on Android, macOS.
+            AppDomain.CurrentDomain.ProcessExit += (s, e) => AudioContext.Dispose();
         }
 
         private static void InitializeMonitors()

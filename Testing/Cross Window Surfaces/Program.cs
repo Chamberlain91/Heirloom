@@ -1,10 +1,7 @@
-using System;
 using System.Threading;
-using System.Threading.Tasks;
 
+using Heirloom;
 using Heirloom.Desktop;
-using Heirloom.Drawing;
-using Heirloom.Math;
 
 namespace Cross_Window_Surfaces
 {
@@ -29,10 +26,10 @@ namespace Cross_Window_Surfaces
                 winB.Closed += WindowClosed;
 
                 // 
-                var surface = new Surface(winA.FramebufferSize);
+                var surface = new Surface(winA.Surface.Size);
                 var counter = 0;
 
-                Task.Run(() =>
+                RunThread(() =>
                 {
                     var c = surface.Width / 2F;
 
@@ -71,17 +68,24 @@ namespace Cross_Window_Surfaces
                         // Note: No need to commit here because RefreshScreen will
 
                         // Refresh Windows (Swap Buffers)
-                        winA.Graphics.RefreshScreen();
-                        winB.Graphics.RefreshScreen();
+                        winA.Graphics.Screen.Refresh();
+                        winB.Graphics.Screen.Refresh();
                     }
                 });
 
-                void WindowClosed(Window obj)
+                void WindowClosed(Screen s)
                 {
                     if (!winA.IsClosed) { winA.Close(); }
                     if (!winB.IsClosed) { winB.Close(); }
                 }
             });
+        }
+
+        private static Thread RunThread(ThreadStart action)
+        {
+            var thread = new Thread(action) { IsBackground = true };
+            thread.Start();
+            return thread;
         }
     }
 }

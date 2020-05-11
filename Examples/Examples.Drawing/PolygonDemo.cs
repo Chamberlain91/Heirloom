@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
-using Heirloom.Drawing;
-using Heirloom.Math;
+using Heirloom;
+using Heirloom.Geometry;
 
 namespace Examples.Drawing
 {
@@ -14,7 +14,7 @@ namespace Examples.Drawing
             : base("Polygon")
         {
             // Create a classic 5 point star
-            Polygon = Polygon.CreateStar(5, 1);
+            Polygon = new Polygon(GeometryTools.GenerateStar(5, 1));
 
             // Construct the convex hull
             PolygonHull = Polygon.CreateConvexHull(Polygon.Vertices);
@@ -23,7 +23,7 @@ namespace Examples.Drawing
             Triangles = Polygon.Triangulate();
         }
 
-        internal override void Draw(Graphics ctx, Rectangle contentBounds)
+        internal override void Draw(GraphicsContext ctx, Rectangle contentBounds)
         {
             // Draws a circle, polygon and regular polygon in each row
             for (var i = 0; i < 4; i++)
