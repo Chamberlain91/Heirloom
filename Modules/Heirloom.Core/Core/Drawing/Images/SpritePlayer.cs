@@ -8,7 +8,8 @@ namespace Heirloom.Core.Drawing.Images
     public sealed class SpritePlayer
     {
         private float _frameTime;
-        private int _frameIndex;
+        private int _frameNumber;
+        private AnimationDirection _direction;
 
         /// <summary>
         /// Construcs a new <see cref="SpritePlayer"/> with the specified <see cref="Heirloom.Sprite"/>.
@@ -43,13 +44,13 @@ namespace Heirloom.Core.Drawing.Images
         /// </summary>
         public int FrameNumber
         {
-            get => _frameIndex;
+            get => _frameNumber;
 
             set
             {
                 if (value >= 0 && value < Animation.Length)
                 {
-                    _frameIndex = value;
+                    _frameNumber = value;
                     _frameTime = 0;
                 }
                 else
@@ -75,7 +76,12 @@ namespace Heirloom.Core.Drawing.Images
             {
                 Animation = Sprite.GetAnimation(animation);
 
-                // Begin playback
+                // Reset animation progress
+                _direction = Animation.Direction;
+                if (_direction == AnimationDirection.PingPong) { _direction = AnimationDirection.Forward; }
+                FrameNumber = 0;
+                _frameTime = 0;
+
                 Play();
             }
             else
@@ -112,8 +118,51 @@ namespace Heirloom.Core.Drawing.Images
 
                 while (_frameTime > Animation[FrameNumber].Delay)
                 {
+                    // Remove frame length from elapsed time
                     _frameTime -= Animation[FrameNumber].Delay;
-                    FrameNumber++;
+
+                    // If animating forward
+                    if (_direction == AnimationDirection.Forward)
+                    {
+                        // Advance a frame
+                        var nextFrame = FrameNumber + 1;
+                        if (nextFrame >= Animation.Length)
+                        {
+                            // If a ping pong style animation, flip direction
+                            if (Animation.Direction == AnimationDirection.PingPong)
+                            {
+                                _direction = AnimationDirection.Reverse;
+                                nextFrame = Animation.Length - 1;
+                            }
+                            else
+                            {
+                                nextFrame = 0;
+                            }
+                        }
+
+                        FrameNumber = nextFrame;
+                    }
+                    // Animating reverse
+                    else
+                    {
+                        // Advance a frame
+                        var nextFrame = FrameNumber - 1;
+                        if (nextFrame < 0)
+                        {
+                            // If a ping pong style animation, flip direction
+                            if (Animation.Direction == AnimationDirection.PingPong)
+                            {
+                                _direction = AnimationDirection.Forward;
+                                nextFrame = 0;
+                            }
+                            else
+                            {
+                                nextFrame = Animation.Length - 1;
+                            }
+                        }
+
+                        FrameNumber = nextFrame;
+                    }
                 }
             }
         }

@@ -9,11 +9,11 @@ namespace Heirloom.Collections
         /// <summary>
         /// Clears the assigned valueon this cell of the sparse grid.
         /// </summary>
-        void ClearValue(in int x, in int y);
+        void Remove(in int x, in int y);
 
         /// <summary>
         /// Clears the assigned valueon this cell of the sparse grid.
         /// </summary>
-        void ClearValue(in IntVector co);
+        void Remove(in IntVector co);
     }
 }

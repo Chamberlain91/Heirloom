@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-using static Heirloom.Geometry.GeometryTools;
-
 namespace Heirloom.Geometry
 {
     /// <summary>
@@ -12,9 +10,11 @@ namespace Heirloom.Geometry
     /// </summary>
     public partial class Polygon : IShape
     // todo: find shared edges, and skip them in collision checks?
+    // todo: IReadOnlyPolygon
     // This should help in the design of computing the contacts needed for collision response.
     {
         private readonly List<Vector> _vertices;
+        private readonly List<Vector> _normals;
 
         private List<Vector[]> _convexPartitions;
         private bool _isConvex;
@@ -32,8 +32,9 @@ namespace Heirloom.Geometry
             ConvexPartitions = 1 << 1,
             Metrics = 1 << 2,
             Bounds = 1 << 3,
+            Normals = 1 << 4,
 
-            Everything = IsConvex | ConvexPartitions | Metrics | Bounds
+            Everything = IsConvex | ConvexPartitions | Metrics | Bounds | Normals
         }
 
         #region Constructors
@@ -44,6 +45,7 @@ namespace Heirloom.Geometry
         public Polygon()
         {
             _vertices = new List<Vector>();
+            _normals = new List<Vector>();
         }
 
         /// <summary>
@@ -60,32 +62,24 @@ namespace Heirloom.Geometry
 
         #endregion
 
-        #region Indexer
-
-        public Vector this[int index]
-        {
-            get => _vertices[index];
-
-            set
-            {
-                _dirty |= Dirty.Everything;
-                _vertices[index] = value;
-            }
-        }
-
-        #endregion
-
         #region Properties
 
         /// <summary>
-        /// Gets a read-only view of this polygon's vertices.
+        /// Gets a read-only view of the polygon's vertices.
         /// </summary>
         public IReadOnlyList<Vector> Vertices => _vertices;
 
         /// <summary>
-        /// Gets the number of vertices in this polygon.
+        /// Gets a read-only view of the polygon's normals.
         /// </summary>
-        public int Count => _vertices.Count;
+        public IReadOnlyList<Vector> Normals
+        {
+            get
+            {
+                LazyComputeNormals();
+                return _normals;
+            }
+        }
 
         /// <summary>
         /// Gets the area of the polygon.
@@ -219,6 +213,24 @@ namespace Heirloom.Geometry
                 }
 
                 _dirty &= ~Dirty.ConvexPartitions;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void LazyComputeNormals()
+        {
+            if (_dirty.HasFlag(Dirty.Normals))
+            {
+                _normals.Clear();
+
+                // Compute normals
+                for (var i = 0; i < Vertices.Count; i++)
+                {
+                    var normal = PolygonTools.GetNormal(_vertices, i);
+                    _normals.Add(normal);
+                }
+
+                _dirty &= ~Dirty.Normals;
             }
         }
 
@@ -517,6 +529,6 @@ namespace Heirloom.Geometry
             return new Polygon(PolygonTools.ComputeConvexHull(points));
         }
 
-        #endregion 
+        #endregion
     }
 }

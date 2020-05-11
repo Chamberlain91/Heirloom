@@ -260,9 +260,9 @@ namespace Heirloom
             var length = vec.Length;
 
             // Avoid divide by zero
-            if (Calc.NearZero(length))
+            if (length == 0F || length < Calc.Epsilon)
             {
-                // Improper behaviour, but should be more stable than NaN
+                // Improper behaviour, but should be more stable than NaN?
                 vec = Zero;
             }
             else
@@ -347,7 +347,7 @@ namespace Heirloom
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Dot(in Vector a, in Vector b)
         {
-            return a.X * b.X + a.Y * b.Y;
+            return (a.X * b.X) + (a.Y * b.Y);
         }
 
         #endregion
@@ -370,6 +370,15 @@ namespace Heirloom
         public static Vector Cross(in Vector a, float s)
         {
             return new Vector(s * a.Y, -s * a.X);
+        }
+
+        /// <summary>
+        /// Computes the cross-product of a vector and a magnitude.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector Cross(float s, in Vector a)
+        {
+            return new Vector(-s * a.Y, s * a.X);
         }
 
         #endregion
