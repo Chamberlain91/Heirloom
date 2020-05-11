@@ -155,10 +155,24 @@ namespace Heirloom.Desktop
         #endregion
 
         /// <summary>
+        /// Creates an instance of <typeparamref name="TGameLoop"/> runs <see cref="GameLoop.Start"/>.
+        /// </summary>
+        /// <seealso cref="Run(Action)"/>
+        /// <typeparam name="TGameLoop">Some game loop.</typeparam>
+        public static void Run<TGameLoop>() where TGameLoop : GameLoop, new()
+        {
+            Run(() =>
+            {
+                var loop = Activator.CreateInstance<TGameLoop>();
+                loop.Start();
+            });
+        }
+
+        /// <summary>
         /// Initializes windowing utilities, executes <paramref name="startup"/> and 
         /// then continuously processes window events until all windows are closed. This is a blocking function.
         /// </summary>
-        /// <see cref="IsInitialized"/>
+        /// <seealso cref="IsInitialized"/>
         public static void Run(Action startup)
         {
             EnsureMainThread();
