@@ -104,7 +104,7 @@ namespace Heirloom
         }
 
         /// <summary>
-        /// Checks if the lastest state of a button on the keyboard matcheas the desired state.
+        /// Checks if the lastest state of a button on the keyboard matches the desired state.
         /// </summary>
         /// <param name="key">Some key.</param>
         /// <param name="state">Some desired comparison state.</param>
@@ -155,7 +155,7 @@ namespace Heirloom
         /// Gets the latest state of a mouse button.
         /// </summary>
         /// <param name="button">Some button.</param>
-        public static ButtonState GetMouse(MouseButton button)
+        public static ButtonState GetButton(MouseButton button)
         {
             foreach (var source in _sources)
             {
@@ -175,9 +175,9 @@ namespace Heirloom
         /// </summary>
         /// <param name="button">Some button.</param>
         /// <param name="state">Some desired comparison state.</param>
-        public static bool CheckMouse(MouseButton button, ButtonState state)
+        public static bool CheckButton(MouseButton button, ButtonState state)
         {
-            return GetMouse(button).HasFlag(state);
+            return GetButton(button).HasFlag(state);
         }
 
         internal static void UpdateMouse(Vector position, Vector delta)

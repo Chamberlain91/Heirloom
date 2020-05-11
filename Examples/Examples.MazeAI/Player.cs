@@ -29,7 +29,7 @@ namespace Examples.MazeAI
         public void Update(Maze maze, float dt)
         {
             // User input, click to move player
-            if (Input.CheckMouse(MouseButton.Left, ButtonState.Pressed))
+            if (Input.CheckButton(MouseButton.Left, ButtonState.Pressed))
             {
                 // Convert mouse to maze coordinates
                 var coordinate = (IntVector) Vector.Floor(((Input.MousePosition - (8, 8)) / (2 * 16)));
