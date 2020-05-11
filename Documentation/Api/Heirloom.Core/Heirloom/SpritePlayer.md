@@ -5,7 +5,7 @@
 
 ## SpritePlayer (Class)
 
-> **Namespace**: [Heirloom.Core.Drawing.Images][0]
+> **Namespace**: [Heirloom][0]
 
 A utility class to help drive sprite based animation.
 
@@ -53,6 +53,6 @@ public sealed class SpritePlayer
 [6]: SpritePlayer/Play.md
 [7]: SpritePlayer/Stop.md
 [8]: SpritePlayer/Update.md
-[9]: ../Heirloom/SpriteAnimation.md
-[10]: ../Heirloom/Image.md
-[11]: ../Heirloom/Sprite.md
+[9]: SpriteAnimation.md
+[10]: Image.md
+[11]: Sprite.md

@@ -38,91 +38,92 @@
 | [Sprite][27]                   | A representation of an animated sprite. May also contains per-frame... |
 | [SpriteAnimation][28]          | Represents an image based per frame animation.                         |
 | [SpriteFrame][29]              | Represents a single frame of a SpriteAnimation .                       |
-| [StyledText][30]               | Styled text compiled by a StyledTextParser .                           |
-| [StyledTextParser][31]         | Provides an ability to parse text with some sort of markup into Sty... |
-| [StandardStyledTextParser][32] | Provides implementation of a BBCode-esque text markup parser.          |
-| [SurfaceEffect][33]            |                                                                        |
-| [SurfacePool][34]              | Provides a mechanism for requesting temporary surfaces and recyclin... |
-| [TextLayout][35]               | Utility to measure text and manually invoke the text layout functio... |
-| [Time][36]                     |                                                                        |
-| [UniformInfo][37]              | Contains information of a uniform from a Shader .                      |
+| [SpritePlayer][30]             | A utility class to help drive sprite based animation.                  |
+| [StyledText][31]               | Styled text compiled by a StyledTextParser .                           |
+| [StyledTextParser][32]         | Provides an ability to parse text with some sort of markup into Sty... |
+| [StandardStyledTextParser][33] | Provides implementation of a BBCode-esque text markup parser.          |
+| [SurfaceEffect][34]            |                                                                        |
+| [SurfacePool][35]              | Provides a mechanism for requesting temporary surfaces and recyclin... |
+| [TextLayout][36]               | Utility to measure text and manually invoke the text layout functio... |
+| [Time][37]                     |                                                                        |
+| [UniformInfo][38]              | Contains information of a uniform from a Shader .                      |
 
 ### Struct
 
 | Name                             | Summary                                                                |
 |----------------------------------|------------------------------------------------------------------------|
-| [CharacterEvent][38]             |                                                                        |
-| [Color][39]                      | Color encoded as 4 component floats.                                   |
-| [ColorBytes][40]                 | Color encoded as 4 component bytes.                                    |
-| [FontMetrics][41]                | Contains information about a font (ie, the vertical metrics).          |
-| [GlyphMetrics][42]               | Contains information about a glyph (ie, the horizontal metrics).       |
-| [GraphicsContext.DrawCounts][43] |                                                                        |
-| [IntRange][44]                   | Represents a range of integers from IntRange.Min to IntRange.Max .     |
-| [IntRectangle][45]               | Represents a rectangle defined with integer coordinates.               |
-| [IntSize][46]                    | Represents a size or dimensions defined with integer fields.           |
-| [IntVector][47]                  | Represents a vector with two integer values.                           |
-| [KeyEvent][48]                   |                                                                        |
-| [Matrix][49]                     | A 2x3 transformation matrix.                                           |
-| [MouseButtonEvent][50]           |                                                                        |
-| [MouseMoveEvent][51]             |                                                                        |
-| [MouseScrollEvent][52]           |                                                                        |
-| [Range][53]                      | Represents a range of single-precision floating point numbers from ... |
-| [Rectangle][54]                  |                                                                        |
-| [Size][55]                       |                                                                        |
-| [Statistics][56]                 | Represents statistics of some data.                                    |
-| [TextDrawState][57]              | Represents information of any particular glyph when drawing text.      |
-| [TextLayoutState][58]            | Represents information of any particular glyph during text layout.     |
-| [Touch][59]                      |                                                                        |
-| [TouchEvent][60]                 |                                                                        |
-| [UnicodeCharacter][61]           | Represents a single 32 bit Unicode character.                          |
-| [UnicodeRange][62]               | Represents a range of unicode 32 bit code points.                      |
-| [Vector][63]                     | Represents a vector with two single-precision floating-point values.   |
-| [Vertex][64]                     | Represents a vertex of Mesh .                                          |
+| [CharacterEvent][39]             |                                                                        |
+| [Color][40]                      | Color encoded as 4 component floats.                                   |
+| [ColorBytes][41]                 | Color encoded as 4 component bytes.                                    |
+| [FontMetrics][42]                | Contains information about a font (ie, the vertical metrics).          |
+| [GlyphMetrics][43]               | Contains information about a glyph (ie, the horizontal metrics).       |
+| [GraphicsContext.DrawCounts][44] |                                                                        |
+| [IntRange][45]                   | Represents a range of integers from IntRange.Min to IntRange.Max .     |
+| [IntRectangle][46]               | Represents a rectangle defined with integer coordinates.               |
+| [IntSize][47]                    | Represents a size or dimensions defined with integer fields.           |
+| [IntVector][48]                  | Represents a vector with two integer values.                           |
+| [KeyEvent][49]                   |                                                                        |
+| [Matrix][50]                     | A 2x3 transformation matrix.                                           |
+| [MouseButtonEvent][51]           |                                                                        |
+| [MouseMoveEvent][52]             |                                                                        |
+| [MouseScrollEvent][53]           |                                                                        |
+| [Range][54]                      | Represents a range of single-precision floating point numbers from ... |
+| [Rectangle][55]                  |                                                                        |
+| [Size][56]                       |                                                                        |
+| [Statistics][57]                 | Represents statistics of some data.                                    |
+| [TextDrawState][58]              | Represents information of any particular glyph when drawing text.      |
+| [TextLayoutState][59]            | Represents information of any particular glyph during text layout.     |
+| [Touch][60]                      |                                                                        |
+| [TouchEvent][61]                 |                                                                        |
+| [UnicodeCharacter][62]           | Represents a single 32 bit Unicode character.                          |
+| [UnicodeRange][63]               | Represents a range of unicode 32 bit code points.                      |
+| [Vector][64]                     | Represents a vector with two single-precision floating-point values.   |
+| [Vertex][65]                     | Represents a vertex of Mesh .                                          |
 
 ### Interface
 
 | Name                                  | Summary                                                     |
 |---------------------------------------|-------------------------------------------------------------|
-| [GraphicsAdapter.IShaderFactory][65]  |                                                             |
-| [GraphicsAdapter.ISurfaceFactory][66] |                                                             |
-| [IInputSource][67]                    | Represents the functionality of an input source.            |
-| [ILogHandler][68]                     |                                                             |
-| [INoise1D][69]                        | Provides an interface for sampling one-dimensional noise.   |
-| [INoise2D][70]                        | Provides an interface for sampling two-dimensional noise.   |
-| [INoise3D][71]                        | Provides an interface for sampling three-dimensional noise. |
+| [GraphicsAdapter.IShaderFactory][66]  |                                                             |
+| [GraphicsAdapter.ISurfaceFactory][67] |                                                             |
+| [IInputSource][68]                    | Represents the functionality of an input source.            |
+| [ILogHandler][69]                     |                                                             |
+| [INoise1D][70]                        | Provides an interface for sampling one-dimensional noise.   |
+| [INoise2D][71]                        | Provides an interface for sampling two-dimensional noise.   |
+| [INoise3D][72]                        | Provides an interface for sampling three-dimensional noise. |
 
 ### Enum
 
 | Name                         | Summary                                                                |
 |------------------------------|------------------------------------------------------------------------|
-| [AnimationDirection][72]     | Represents animation direction options.                                |
-| [Axis][73]                   | Represents an axis of the 2D plane.                                    |
-| [Blending][74]               | Controls how drawing operations are blended into existing pixels.      |
-| [ButtonState][75]            | Represents the state of a button.                                      |
-| [GamepadAxis][76]            |                                                                        |
-| [GamepadButton][77]          |                                                                        |
-| [InterpolationMode][78]      | Represents the behaviour when sampling an image on a non-integer co... |
-| [Key][79]                    | Standard virtual key mapping (standard US keyboard layout) from GLFW.  |
-| [KeyModifiers][80]           |                                                                        |
-| [LogVerbosity][81]           | Controls the verbosity of Log .                                        |
-| [MouseButton][82]            |                                                                        |
-| [MultisampleQuality][83]     | Multisampling levels                                                   |
-| [PackingAlgorithm][84]       | An enumeration of rectangle packing algorithms.                        |
-| [PerformanceOverlayMode][85] | Controls showing the performance overlay on a GraphicsContext object.  |
-| [RepeatMode][86]             | Represents the behaviour when sampling an image outside its natural... |
-| [SurfaceType][87]            | Represents the surface type.                                           |
-| [TextAlign][88]              | Controls how text is aligned to the layout rectangle.                  |
-| [TimeUnit][89]               | Represents units of time, such as a millisecond.                       |
-| [UniformType][90]            | Represents the type of a uniform in a Shader .                         |
+| [AnimationDirection][73]     | Represents animation direction options.                                |
+| [Axis][74]                   | Represents an axis of the 2D plane.                                    |
+| [Blending][75]               | Controls how drawing operations are blended into existing pixels.      |
+| [ButtonState][76]            | Represents the state of a button.                                      |
+| [GamepadAxis][77]            |                                                                        |
+| [GamepadButton][78]          |                                                                        |
+| [InterpolationMode][79]      | Represents the behaviour when sampling an image on a non-integer co... |
+| [Key][80]                    | Standard virtual key mapping (standard US keyboard layout) from GLFW.  |
+| [KeyModifiers][81]           |                                                                        |
+| [LogVerbosity][82]           | Controls the verbosity of Log .                                        |
+| [MouseButton][83]            |                                                                        |
+| [MultisampleQuality][84]     | Multisampling levels                                                   |
+| [PackingAlgorithm][85]       | An enumeration of rectangle packing algorithms.                        |
+| [PerformanceOverlayMode][86] | Controls showing the performance overlay on a GraphicsContext object.  |
+| [RepeatMode][87]             | Represents the behaviour when sampling an image outside its natural... |
+| [SurfaceType][88]            | Represents the surface type.                                           |
+| [TextAlign][89]              | Controls how text is aligned to the layout rectangle.                  |
+| [TimeUnit][90]               | Represents units of time, such as a millisecond.                       |
+| [UniformType][91]            | Represents the type of a uniform in a Shader .                         |
 
 ### Delegate
 
 | Name                     | Summary                                                     |
 |--------------------------|-------------------------------------------------------------|
-| [ActualCost\<T>][91]     | Gets the known cost between two values.                     |
-| [DrawTextCallback][92]   | Delegate type for the callback when drawing text.           |
-| [HeuristicCost\<T>][93]  | Gets the estimated cost of the some value.                  |
-| [TextLayoutCallback][94] | Delegate type for the callback when performing text layout. |
+| [ActualCost\<T>][92]     | Gets the known cost between two values.                     |
+| [DrawTextCallback][93]   | Delegate type for the callback when drawing text.           |
+| [HeuristicCost\<T>][94]  | Gets the estimated cost of the some value.                  |
+| [TextLayoutCallback][95] | Delegate type for the callback when performing text layout. |
 
 ## Heirloom.Collections
 
@@ -130,52 +131,44 @@
 
 | Name                                   | Summary                                                                |
 |----------------------------------------|------------------------------------------------------------------------|
-| [BvhSpatialCollection\<T>][95]         | A spatial collection to store and query elements in 2D space, imple... |
-| [DirectedGraph\<T>][96]                | A directed graph implemented using adjacency lists.                    |
-| [FreeList\<T>][97]                     | A free list an allocation-centric data structure that allows insert... |
-| [Graph\<T>][98]                        | An undirected graph implemented using adjacency lists.                 |
-| [Grid\<T>][99]                         | A finite grid (bounded by size) of values.                             |
-| [GridUtilities][100]                   | Provides extra utilities for interacting with a grid.                  |
-| [Heap\<T>][101]                        | Represents a heap data structure. Allows the insertion and removal ... |
-| [ObjectPool\<T>][102]                  | Implements an object pool to recycle objects and reduce allocatio s... |
-| [SparseGrid\<T>][103]                  | An infinite, sparse grid of values.                                    |
-| [SparseGridSpatialCollection\<T>][104] |                                                                        |
-| [TypeDictionary\<T>][105]              | Manages objects by their type hierarchy up to the base type, allowi... |
+| [BvhSpatialCollection\<T>][96]         | A spatial collection to store and query elements in 2D space, imple... |
+| [DirectedGraph\<T>][97]                | A directed graph implemented using adjacency lists.                    |
+| [FreeList\<T>][98]                     | A free list an allocation-centric data structure that allows insert... |
+| [Graph\<T>][99]                        | An undirected graph implemented using adjacency lists.                 |
+| [Grid\<T>][100]                        | A finite grid (bounded by size) of values.                             |
+| [GridUtilities][101]                   | Provides extra utilities for interacting with a grid.                  |
+| [Heap\<T>][102]                        | Represents a heap data structure. Allows the insertion and removal ... |
+| [ObjectPool\<T>][103]                  | Implements an object pool to recycle objects and reduce allocatio s... |
+| [SparseGrid\<T>][104]                  | An infinite, sparse grid of values.                                    |
+| [SparseGridSpatialCollection\<T>][105] |                                                                        |
+| [TypeDictionary\<T>][106]              | Manages objects by their type hierarchy up to the base type, allowi... |
 
 ### Interface
 
 | Name                                  | Summary                                                                |
 |---------------------------------------|------------------------------------------------------------------------|
-| [IDirectedGraph\<T>][106]             | An interface that represents a graph.                                  |
-| [IFiniteGrid\<T>][107]                | A finite grid (bounded by IFiniteGrid<T>.Width and IFiniteGrid<T>.H... |
-| [IGraph\<T>][108]                     | An interface that represents a graph.                                  |
-| [IGrid\<T>][109]                      | A 2D grid of values.                                                   |
-| [IHeap\<T>][110]                      | Represents a heap data structure. Allowing the access and removal o... |
-| [IReadOnlyGrid\<T>][111]              | A read-only view of a 2D grid of values.                               |
-| [IReadOnlyHeap\<T>][112]              | Represents a read-only view of a Heap<T> .                             |
-| [IReadOnlySparseGrid\<T>][113]        | A sparse 2D grid of values.                                            |
-| [IReadOnlySpatialCollection\<T>][114] | A read-only view of a spatial collection to query elements in 2D sp... |
-| [IReadOnlyTypeDictionary\<T>][115]    | A read-only view of ITypeDictionary<T> .                               |
-| [ISparseGrid\<T>][116]                | A sparse 2D grid of values.                                            |
-| [ISpatialCollection\<T>][117]         | A spatial collection to store and query elements in 2D space.          |
-| [ISpatialQuery\<T>][118]              | Provides methods for querying elements in 2D space.                    |
-| [ITypeDictionary\<T>][119]            | Manages objects by their type hierarchy up to the base type, allowi... |
+| [IDirectedGraph\<T>][107]             | An interface that represents a graph.                                  |
+| [IFiniteGrid\<T>][108]                | A finite grid (bounded by IFiniteGrid<T>.Width and IFiniteGrid<T>.H... |
+| [IGraph\<T>][109]                     | An interface that represents a graph.                                  |
+| [IGrid\<T>][110]                      | A 2D grid of values.                                                   |
+| [IHeap\<T>][111]                      | Represents a heap data structure. Allowing the access and removal o... |
+| [IReadOnlyGrid\<T>][112]              | A read-only view of a 2D grid of values.                               |
+| [IReadOnlyHeap\<T>][113]              | Represents a read-only view of a Heap<T> .                             |
+| [IReadOnlySparseGrid\<T>][114]        | A sparse 2D grid of values.                                            |
+| [IReadOnlySpatialCollection\<T>][115] | A read-only view of a spatial collection to query elements in 2D sp... |
+| [IReadOnlyTypeDictionary\<T>][116]    | A read-only view of ITypeDictionary<T> .                               |
+| [ISparseGrid\<T>][117]                | A sparse 2D grid of values.                                            |
+| [ISpatialCollection\<T>][118]         | A spatial collection to store and query elements in 2D space.          |
+| [ISpatialQuery\<T>][119]              | Provides methods for querying elements in 2D space.                    |
+| [ITypeDictionary\<T>][120]            | Manages objects by their type hierarchy up to the base type, allowi... |
 
 ### Enum
 
 | Name                    | Summary                                      |
 |-------------------------|----------------------------------------------|
-| [GridNeighborType][120] | Describes the choice of neighbors in a grid. |
-| [HeapType][121]         | Describes the behaviour of a Heap<T> .       |
-| [TraversalMethod][122]  | Represents a choice of traversing a graph.   |
-
-## Heirloom.Core.Drawing.Images
-
-### Class
-
-| Name                | Summary                                               |
-|---------------------|-------------------------------------------------------|
-| [SpritePlayer][123] | A utility class to help drive sprite based animation. |
+| [GridNeighborType][121] | Describes the choice of neighbors in a grid. |
+| [HeapType][122]         | Describes the behaviour of a Heap<T> .       |
+| [TraversalMethod][123]  | Represents a choice of traversing a graph.   |
 
 ## Heirloom.Geometry
 
@@ -281,100 +274,100 @@
 [27]: Heirloom.Core/Heirloom/Sprite.md
 [28]: Heirloom.Core/Heirloom/SpriteAnimation.md
 [29]: Heirloom.Core/Heirloom/SpriteFrame.md
-[30]: Heirloom.Core/Heirloom/StyledText.md
-[31]: Heirloom.Core/Heirloom/StyledTextParser.md
-[32]: Heirloom.Core/Heirloom/StandardStyledTextParser.md
-[33]: Heirloom.Core/Heirloom/SurfaceEffect.md
-[34]: Heirloom.Core/Heirloom/SurfacePool.md
-[35]: Heirloom.Core/Heirloom/TextLayout.md
-[36]: Heirloom.Core/Heirloom/Time.md
-[37]: Heirloom.Core/Heirloom/UniformInfo.md
-[38]: Heirloom.Core/Heirloom/CharacterEvent.md
-[39]: Heirloom.Core/Heirloom/Color.md
-[40]: Heirloom.Core/Heirloom/ColorBytes.md
-[41]: Heirloom.Core/Heirloom/FontMetrics.md
-[42]: Heirloom.Core/Heirloom/GlyphMetrics.md
-[43]: Heirloom.Core/Heirloom/GraphicsContext.DrawCounts.md
-[44]: Heirloom.Core/Heirloom/IntRange.md
-[45]: Heirloom.Core/Heirloom/IntRectangle.md
-[46]: Heirloom.Core/Heirloom/IntSize.md
-[47]: Heirloom.Core/Heirloom/IntVector.md
-[48]: Heirloom.Core/Heirloom/KeyEvent.md
-[49]: Heirloom.Core/Heirloom/Matrix.md
-[50]: Heirloom.Core/Heirloom/MouseButtonEvent.md
-[51]: Heirloom.Core/Heirloom/MouseMoveEvent.md
-[52]: Heirloom.Core/Heirloom/MouseScrollEvent.md
-[53]: Heirloom.Core/Heirloom/Range.md
-[54]: Heirloom.Core/Heirloom/Rectangle.md
-[55]: Heirloom.Core/Heirloom/Size.md
-[56]: Heirloom.Core/Heirloom/Statistics.md
-[57]: Heirloom.Core/Heirloom/TextDrawState.md
-[58]: Heirloom.Core/Heirloom/TextLayoutState.md
-[59]: Heirloom.Core/Heirloom/Touch.md
-[60]: Heirloom.Core/Heirloom/TouchEvent.md
-[61]: Heirloom.Core/Heirloom/UnicodeCharacter.md
-[62]: Heirloom.Core/Heirloom/UnicodeRange.md
-[63]: Heirloom.Core/Heirloom/Vector.md
-[64]: Heirloom.Core/Heirloom/Vertex.md
-[65]: Heirloom.Core/Heirloom/GraphicsAdapter.IShaderFactory.md
-[66]: Heirloom.Core/Heirloom/GraphicsAdapter.ISurfaceFactory.md
-[67]: Heirloom.Core/Heirloom/IInputSource.md
-[68]: Heirloom.Core/Heirloom/ILogHandler.md
-[69]: Heirloom.Core/Heirloom/INoise1D.md
-[70]: Heirloom.Core/Heirloom/INoise2D.md
-[71]: Heirloom.Core/Heirloom/INoise3D.md
-[72]: Heirloom.Core/Heirloom/AnimationDirection.md
-[73]: Heirloom.Core/Heirloom/Axis.md
-[74]: Heirloom.Core/Heirloom/Blending.md
-[75]: Heirloom.Core/Heirloom/ButtonState.md
-[76]: Heirloom.Core/Heirloom/GamepadAxis.md
-[77]: Heirloom.Core/Heirloom/GamepadButton.md
-[78]: Heirloom.Core/Heirloom/InterpolationMode.md
-[79]: Heirloom.Core/Heirloom/Key.md
-[80]: Heirloom.Core/Heirloom/KeyModifiers.md
-[81]: Heirloom.Core/Heirloom/LogVerbosity.md
-[82]: Heirloom.Core/Heirloom/MouseButton.md
-[83]: Heirloom.Core/Heirloom/MultisampleQuality.md
-[84]: Heirloom.Core/Heirloom/PackingAlgorithm.md
-[85]: Heirloom.Core/Heirloom/PerformanceOverlayMode.md
-[86]: Heirloom.Core/Heirloom/RepeatMode.md
-[87]: Heirloom.Core/Heirloom/SurfaceType.md
-[88]: Heirloom.Core/Heirloom/TextAlign.md
-[89]: Heirloom.Core/Heirloom/TimeUnit.md
-[90]: Heirloom.Core/Heirloom/UniformType.md
-[91]: Heirloom.Core/Heirloom/ActualCost[T].md
-[92]: Heirloom.Core/Heirloom/DrawTextCallback.md
-[93]: Heirloom.Core/Heirloom/HeuristicCost[T].md
-[94]: Heirloom.Core/Heirloom/TextLayoutCallback.md
-[95]: Heirloom.Core/Heirloom.Collections/BvhSpatialCollection[T].md
-[96]: Heirloom.Core/Heirloom.Collections/DirectedGraph[T].md
-[97]: Heirloom.Core/Heirloom.Collections/FreeList[T].md
-[98]: Heirloom.Core/Heirloom.Collections/Graph[T].md
-[99]: Heirloom.Core/Heirloom.Collections/Grid[T].md
-[100]: Heirloom.Core/Heirloom.Collections/GridUtilities.md
-[101]: Heirloom.Core/Heirloom.Collections/Heap[T].md
-[102]: Heirloom.Core/Heirloom.Collections/ObjectPool[T].md
-[103]: Heirloom.Core/Heirloom.Collections/SparseGrid[T].md
-[104]: Heirloom.Core/Heirloom.Collections/SparseGridSpatialCollection[T].md
-[105]: Heirloom.Core/Heirloom.Collections/TypeDictionary[T].md
-[106]: Heirloom.Core/Heirloom.Collections/IDirectedGraph[T].md
-[107]: Heirloom.Core/Heirloom.Collections/IFiniteGrid[T].md
-[108]: Heirloom.Core/Heirloom.Collections/IGraph[T].md
-[109]: Heirloom.Core/Heirloom.Collections/IGrid[T].md
-[110]: Heirloom.Core/Heirloom.Collections/IHeap[T].md
-[111]: Heirloom.Core/Heirloom.Collections/IReadOnlyGrid[T].md
-[112]: Heirloom.Core/Heirloom.Collections/IReadOnlyHeap[T].md
-[113]: Heirloom.Core/Heirloom.Collections/IReadOnlySparseGrid[T].md
-[114]: Heirloom.Core/Heirloom.Collections/IReadOnlySpatialCollection[T].md
-[115]: Heirloom.Core/Heirloom.Collections/IReadOnlyTypeDictionary[T].md
-[116]: Heirloom.Core/Heirloom.Collections/ISparseGrid[T].md
-[117]: Heirloom.Core/Heirloom.Collections/ISpatialCollection[T].md
-[118]: Heirloom.Core/Heirloom.Collections/ISpatialQuery[T].md
-[119]: Heirloom.Core/Heirloom.Collections/ITypeDictionary[T].md
-[120]: Heirloom.Core/Heirloom.Collections/GridNeighborType.md
-[121]: Heirloom.Core/Heirloom.Collections/HeapType.md
-[122]: Heirloom.Core/Heirloom.Collections/TraversalMethod.md
-[123]: Heirloom.Core/Heirloom.Core.Drawing.Images/SpritePlayer.md
+[30]: Heirloom.Core/Heirloom/SpritePlayer.md
+[31]: Heirloom.Core/Heirloom/StyledText.md
+[32]: Heirloom.Core/Heirloom/StyledTextParser.md
+[33]: Heirloom.Core/Heirloom/StandardStyledTextParser.md
+[34]: Heirloom.Core/Heirloom/SurfaceEffect.md
+[35]: Heirloom.Core/Heirloom/SurfacePool.md
+[36]: Heirloom.Core/Heirloom/TextLayout.md
+[37]: Heirloom.Core/Heirloom/Time.md
+[38]: Heirloom.Core/Heirloom/UniformInfo.md
+[39]: Heirloom.Core/Heirloom/CharacterEvent.md
+[40]: Heirloom.Core/Heirloom/Color.md
+[41]: Heirloom.Core/Heirloom/ColorBytes.md
+[42]: Heirloom.Core/Heirloom/FontMetrics.md
+[43]: Heirloom.Core/Heirloom/GlyphMetrics.md
+[44]: Heirloom.Core/Heirloom/GraphicsContext.DrawCounts.md
+[45]: Heirloom.Core/Heirloom/IntRange.md
+[46]: Heirloom.Core/Heirloom/IntRectangle.md
+[47]: Heirloom.Core/Heirloom/IntSize.md
+[48]: Heirloom.Core/Heirloom/IntVector.md
+[49]: Heirloom.Core/Heirloom/KeyEvent.md
+[50]: Heirloom.Core/Heirloom/Matrix.md
+[51]: Heirloom.Core/Heirloom/MouseButtonEvent.md
+[52]: Heirloom.Core/Heirloom/MouseMoveEvent.md
+[53]: Heirloom.Core/Heirloom/MouseScrollEvent.md
+[54]: Heirloom.Core/Heirloom/Range.md
+[55]: Heirloom.Core/Heirloom/Rectangle.md
+[56]: Heirloom.Core/Heirloom/Size.md
+[57]: Heirloom.Core/Heirloom/Statistics.md
+[58]: Heirloom.Core/Heirloom/TextDrawState.md
+[59]: Heirloom.Core/Heirloom/TextLayoutState.md
+[60]: Heirloom.Core/Heirloom/Touch.md
+[61]: Heirloom.Core/Heirloom/TouchEvent.md
+[62]: Heirloom.Core/Heirloom/UnicodeCharacter.md
+[63]: Heirloom.Core/Heirloom/UnicodeRange.md
+[64]: Heirloom.Core/Heirloom/Vector.md
+[65]: Heirloom.Core/Heirloom/Vertex.md
+[66]: Heirloom.Core/Heirloom/GraphicsAdapter.IShaderFactory.md
+[67]: Heirloom.Core/Heirloom/GraphicsAdapter.ISurfaceFactory.md
+[68]: Heirloom.Core/Heirloom/IInputSource.md
+[69]: Heirloom.Core/Heirloom/ILogHandler.md
+[70]: Heirloom.Core/Heirloom/INoise1D.md
+[71]: Heirloom.Core/Heirloom/INoise2D.md
+[72]: Heirloom.Core/Heirloom/INoise3D.md
+[73]: Heirloom.Core/Heirloom/AnimationDirection.md
+[74]: Heirloom.Core/Heirloom/Axis.md
+[75]: Heirloom.Core/Heirloom/Blending.md
+[76]: Heirloom.Core/Heirloom/ButtonState.md
+[77]: Heirloom.Core/Heirloom/GamepadAxis.md
+[78]: Heirloom.Core/Heirloom/GamepadButton.md
+[79]: Heirloom.Core/Heirloom/InterpolationMode.md
+[80]: Heirloom.Core/Heirloom/Key.md
+[81]: Heirloom.Core/Heirloom/KeyModifiers.md
+[82]: Heirloom.Core/Heirloom/LogVerbosity.md
+[83]: Heirloom.Core/Heirloom/MouseButton.md
+[84]: Heirloom.Core/Heirloom/MultisampleQuality.md
+[85]: Heirloom.Core/Heirloom/PackingAlgorithm.md
+[86]: Heirloom.Core/Heirloom/PerformanceOverlayMode.md
+[87]: Heirloom.Core/Heirloom/RepeatMode.md
+[88]: Heirloom.Core/Heirloom/SurfaceType.md
+[89]: Heirloom.Core/Heirloom/TextAlign.md
+[90]: Heirloom.Core/Heirloom/TimeUnit.md
+[91]: Heirloom.Core/Heirloom/UniformType.md
+[92]: Heirloom.Core/Heirloom/ActualCost[T].md
+[93]: Heirloom.Core/Heirloom/DrawTextCallback.md
+[94]: Heirloom.Core/Heirloom/HeuristicCost[T].md
+[95]: Heirloom.Core/Heirloom/TextLayoutCallback.md
+[96]: Heirloom.Core/Heirloom.Collections/BvhSpatialCollection[T].md
+[97]: Heirloom.Core/Heirloom.Collections/DirectedGraph[T].md
+[98]: Heirloom.Core/Heirloom.Collections/FreeList[T].md
+[99]: Heirloom.Core/Heirloom.Collections/Graph[T].md
+[100]: Heirloom.Core/Heirloom.Collections/Grid[T].md
+[101]: Heirloom.Core/Heirloom.Collections/GridUtilities.md
+[102]: Heirloom.Core/Heirloom.Collections/Heap[T].md
+[103]: Heirloom.Core/Heirloom.Collections/ObjectPool[T].md
+[104]: Heirloom.Core/Heirloom.Collections/SparseGrid[T].md
+[105]: Heirloom.Core/Heirloom.Collections/SparseGridSpatialCollection[T].md
+[106]: Heirloom.Core/Heirloom.Collections/TypeDictionary[T].md
+[107]: Heirloom.Core/Heirloom.Collections/IDirectedGraph[T].md
+[108]: Heirloom.Core/Heirloom.Collections/IFiniteGrid[T].md
+[109]: Heirloom.Core/Heirloom.Collections/IGraph[T].md
+[110]: Heirloom.Core/Heirloom.Collections/IGrid[T].md
+[111]: Heirloom.Core/Heirloom.Collections/IHeap[T].md
+[112]: Heirloom.Core/Heirloom.Collections/IReadOnlyGrid[T].md
+[113]: Heirloom.Core/Heirloom.Collections/IReadOnlyHeap[T].md
+[114]: Heirloom.Core/Heirloom.Collections/IReadOnlySparseGrid[T].md
+[115]: Heirloom.Core/Heirloom.Collections/IReadOnlySpatialCollection[T].md
+[116]: Heirloom.Core/Heirloom.Collections/IReadOnlyTypeDictionary[T].md
+[117]: Heirloom.Core/Heirloom.Collections/ISparseGrid[T].md
+[118]: Heirloom.Core/Heirloom.Collections/ISpatialCollection[T].md
+[119]: Heirloom.Core/Heirloom.Collections/ISpatialQuery[T].md
+[120]: Heirloom.Core/Heirloom.Collections/ITypeDictionary[T].md
+[121]: Heirloom.Core/Heirloom.Collections/GridNeighborType.md
+[122]: Heirloom.Core/Heirloom.Collections/HeapType.md
+[123]: Heirloom.Core/Heirloom.Collections/TraversalMethod.md
 [124]: Heirloom.Core/Heirloom.Geometry/Collision.md
 [125]: Heirloom.Core/Heirloom.Geometry/Curve.md
 [126]: Heirloom.Core/Heirloom.Geometry/CurveTools.md

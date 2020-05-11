@@ -1,6 +1,6 @@
 using System;
 
-namespace Heirloom.Core.Drawing.Images
+namespace Heirloom
 {
     /// <summary>
     /// A utility class to help drive sprite based animation.

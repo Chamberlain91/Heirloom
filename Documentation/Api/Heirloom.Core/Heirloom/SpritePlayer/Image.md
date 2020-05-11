@@ -3,20 +3,21 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]
 
-## SpritePlayer.Stop (Method)
+## SpritePlayer.Image (Property)
 
-> **Namespace**: [Heirloom.Core.Drawing.Images][0]  
+> **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [SpritePlayer][1]
 
-### Stop()
+### Image
 
-Stops playback of the active animation.
+Gets the image for the current frame of the active animation.
 
 ```cs
-public void Stop()
+public Image Image { get; }
 ```
 
-> **Returns** - `void`
+> **Returns**: [Image][2]
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../SpritePlayer.md
+[2]: ../Image.md
