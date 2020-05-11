@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 
-using Heirloom.Drawing;
-using Heirloom.Math;
-using Heirloom.Math.Extras;
+using Heirloom.Geometry;
 
 namespace Heirloom.Benchmark
 {
@@ -35,10 +33,10 @@ namespace Heirloom.Benchmark
             }
 
             // Triangulate
-            _triangles = Delaunay.Triangulate(_positions);
+            _triangles = GeometryTools.Triangulate(_positions);
         }
 
-        protected override void Update(Graphics gfx, in Rectangle bounds, float delta)
+        protected override void Update(GraphicsContext gfx, in Rectangle bounds, float delta)
         {
             // Draw triangles
             foreach (var triangle in _triangles)

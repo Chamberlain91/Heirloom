@@ -1,6 +1,5 @@
-using Heirloom.Drawing;
-using Heirloom.Math;
-using Heirloom.Math.Extras;
+using Heirloom.Extras;
+using Heirloom.Geometry;
 
 namespace Heirloom.Benchmark
 {
@@ -38,7 +37,7 @@ namespace Heirloom.Benchmark
             }
         }
 
-        protected override void Update(Graphics gfx, in Rectangle bounds, float delta)
+        protected override void Update(GraphicsContext gfx, in Rectangle bounds, float delta)
         {
             // Move points semi-randomly
             for (var i = 0; i < _positions.Length; i++)
@@ -57,7 +56,7 @@ namespace Heirloom.Benchmark
             }
 
             // Triangulate
-            var triangles = Delaunay.Triangulate(_positions);
+            var triangles = GeometryTools.Triangulate(_positions);
 
             // Draw triangles
             foreach (var triangle in triangles)

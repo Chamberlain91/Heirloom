@@ -1,7 +1,5 @@
+using Heirloom;
 using Heirloom.Desktop;
-using Heirloom.Drawing;
-using Heirloom.IO;
-using Heirloom.Math;
 
 namespace GPU_Memory_Leak
 {
@@ -15,22 +13,22 @@ namespace GPU_Memory_Leak
                 window.Graphics.Performance.OverlayMode = PerformanceOverlayMode.Simple;
 
                 var hue = 0;
-                var loop = RenderLoop.Create(window.Graphics, (gfx, dt) =>
+                var loop = GameLoop.Create(window.Graphics, (gfx, dt) =>
                 {
                     // Get next color
                     var color = Color.FromHSV(hue, 1, 1);
                     hue = (hue + 1) % 360;
 
                     // Create Image
-                    var image = Image.CreateCheckerboardPattern(window.FramebufferSize, color);
+                    var image = Image.CreateCheckerboardPattern(window.Surface.Size, color);
 
                     // Image -> Surface
-                    var surface = new Surface(window.FramebufferSize, MultisampleQuality.None);
+                    var surface = new Surface(window.Surface.Size, MultisampleQuality.None);
                     gfx.Surface = surface;
                     gfx.DrawImage(image, Vector.Zero);
 
                     // Surface -> Window
-                    gfx.Surface = gfx.DefaultSurface;
+                    gfx.Surface = gfx.Screen.Surface;
                     gfx.DrawImage(surface, Vector.Zero);
                 });
 

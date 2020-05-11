@@ -3,21 +3,53 @@ using System.Runtime.InteropServices;
 
 namespace Heirloom.Desktop
 {
+    /// <summary>
+    /// Represents a video mode a <see cref="Monitor"/> can be in.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct VideoMode : IEquatable<VideoMode>
+    public readonly struct VideoMode : IEquatable<VideoMode>
     {
-        public int Width;
+        /// <summary>
+        /// The width in pixels.
+        /// </summary>
+        public readonly int Width;
 
-        public int Height;
+        /// <summary>
+        /// The height in pixels.
+        /// </summary>
+        public readonly int Height;
 
-        public int RedBits;
+        /// <summary>
+        /// The number of red bits in the color space supported by the mode.
+        /// </summary>
+        public readonly int RedBits;
 
-        public int GreenBits;
+        /// <summary>
+        /// The number of green bits in the color space supported by the mode.
+        /// </summary>
+        public readonly int GreenBits;
 
-        public int BlueBits;
+        /// <summary>
+        /// The number of blue bits in the color space supported by the mode.
+        /// </summary>
+        public readonly int BlueBits;
 
-        public int RefreshRate;
+        /// <summary>
+        /// The refresh rate (in hertz) of the mode.
+        /// </summary>
+        public readonly int RefreshRate;
 
+        #region Constructors
+
+        /// <summary>
+        /// Constructs a new <see cref="VideoMode"/>.
+        /// </summary>
+        /// <param name="width">The width in pixels.</param>
+        /// <param name="height">The height in pixels.</param>
+        /// <param name="redBits">The number of red bits.</param>
+        /// <param name="greenBits">The number of green bits.</param>
+        /// <param name="blueBits">The number of blue bits.</param>
+        /// <param name="refreshRate">The refresh rate (in hertz).</param>
         public VideoMode(int width, int height, int redBits, int greenBits, int blueBits, int refreshRate)
         {
             Width = width;
@@ -28,29 +60,80 @@ namespace Heirloom.Desktop
             RefreshRate = refreshRate;
         }
 
+        /// <summary>
+        /// Constructs a new <see cref="VideoMode"/> with default bit depth.
+        /// </summary>
+        /// <param name="width">The width in pixels.</param>
+        /// <param name="height">The height in pixels.</param>
+        /// <param name="refreshRate">The refresh rate (in hertz).</param>
         public VideoMode(int width, int height, int refreshRate)
             : this(width, height, 0, 0, 0, refreshRate)
         { }
 
+        /// <summary>
+        /// Constructs a new <see cref="VideoMode"/> with the default refresh rate and bit depth.
+        /// </summary>
+        /// <param name="width">The width in pixels.</param>
+        /// <param name="height">The height in pixels.</param>
         public VideoMode(int width, int height)
             : this(width, height, 0)
         { }
 
+        #endregion
+
+        #region Equality
+
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
-            return obj is VideoMode mode ? Equals(mode) : false;
+            return obj is VideoMode mode
+                && Equals(mode);
         }
 
-        public bool Equals(VideoMode obj)
+        /// <summary>
+        /// Compares the <see cref="VideoMode"/> again another for equality.
+        /// </summary>
+        /// <param name="other">Some other <see cref="VideoMode"/>.</param>
+        /// <returns>True, if all fields are equal.</returns>
+        public bool Equals(VideoMode other)
         {
-            return obj.Width == Width
-                && obj.Height == Height
-                && obj.RedBits == RedBits
-                && obj.GreenBits == GreenBits
-                && obj.BlueBits == BlueBits
-                && obj.RefreshRate == RefreshRate;
+            return other.Width == Width
+                && other.Height == Height
+                && other.RedBits == RedBits
+                && other.GreenBits == GreenBits
+                && other.BlueBits == BlueBits
+                && other.RefreshRate == RefreshRate;
         }
 
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(
+                Width, Height, RefreshRate,
+                RedBits, GreenBits, BlueBits);
+        }
+
+        /// <summary>
+        /// Compares two <see cref="VideoMode"/> for equality.
+        /// </summary>
+        public static bool operator ==(VideoMode a, VideoMode b)
+        {
+            return a.Equals(b);
+        }
+
+        /// <summary>
+        /// Compares two <see cref="VideoMode"/> for inequality.
+        /// </summary>
+        public static bool operator !=(VideoMode a, VideoMode b)
+        {
+            return !a.Equals(b);
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Converts this video mode into a string representation.
+        /// </summary>
         public override string ToString()
         {
             return string.Format("VideoMode(width: {0}, height: {1}, redBits: {2}, greenBits: {3}, blueBits: {4}, refreshRate: {5})",
@@ -61,31 +144,6 @@ namespace Heirloom.Desktop
                 BlueBits.ToString(),
                 RefreshRate.ToString()
             );
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                var hash = 17;
-                hash = hash * 23 + Width.GetHashCode();
-                hash = hash * 23 + Height.GetHashCode();
-                hash = hash * 23 + RedBits.GetHashCode();
-                hash = hash * 23 + GreenBits.GetHashCode();
-                hash = hash * 23 + BlueBits.GetHashCode();
-                hash = hash * 23 + RefreshRate.GetHashCode();
-                return hash;
-            }
-        }
-
-        public static bool operator ==(VideoMode a, VideoMode b)
-        {
-            return a.Equals(b);
-        }
-
-        public static bool operator !=(VideoMode a, VideoMode b)
-        {
-            return !a.Equals(b);
         }
     }
 }

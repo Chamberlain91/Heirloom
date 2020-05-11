@@ -1,6 +1,5 @@
+using Heirloom;
 using Heirloom.Desktop;
-using Heirloom.Drawing;
-using Heirloom.Math;
 
 namespace Examples.FakeWindow
 {
@@ -38,20 +37,20 @@ namespace Examples.FakeWindow
                 _window.IsDecorated = false;
 
                 // 
-                _window.MousePress += OnMouseClick;
-                _window.MouseRelease += OnMouseClick;
-                _window.MouseMove += OnMouseMove;
+                _window.MousePressed += OnMouseClick;
+                _window.MouseReleased += OnMouseClick;
+                _window.MouseMoved += OnMouseMove;
 
                 // Initial card position
                 _cardPos = (Vector) _window.Size / 2F;
 
                 // Begin render loop
-                var loop = RenderLoop.Create(_window.Graphics, OnDraw);
+                var loop = GameLoop.Create(_window.Graphics, OnDraw);
                 loop.Start();
             });
         }
 
-        private static void OnDraw(Graphics gfx, float dt)
+        private static void OnDraw(GraphicsContext gfx, float dt)
         {
             gfx.Clear(Color.Transparent);
             gfx.DrawNineSlice(_frame, new Rectangle(Vector.Zero, _window.Size));
@@ -73,9 +72,9 @@ namespace Examples.FakeWindow
             gfx.DrawText("Try dragging the window and card", (2, 0), Font.Default, 16);
         }
 
-        private static void OnMouseClick(Window w, MouseButtonEvent e)
+        private static void OnMouseClick(Screen w, MouseButtonEvent e)
         {
-            if (e.Action == ButtonAction.Press)
+            if (e.State == ButtonState.Pressed)
             {
                 if (e.Position.Y < 30 && e.Position.X < _window.Size.Width - 40)
                 {
@@ -93,7 +92,7 @@ namespace Examples.FakeWindow
                 }
             }
             else
-            if (e.Action == ButtonAction.Release)
+            if (e.State == ButtonState.Released)
             {
                 if (_isHoverClose)
                 {
@@ -106,8 +105,10 @@ namespace Examples.FakeWindow
             }
         }
 
-        private static void OnMouseMove(Window w, MouseMoveEvent e)
+        private static void OnMouseMove(Screen s, MouseMoveEvent e)
         {
+            var w = s as Window;
+
             if (_isMoveWindow)
             {
                 var delta = w.Position + e.Position - _dragStart;

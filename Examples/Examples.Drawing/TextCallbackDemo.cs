@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-using Heirloom.Drawing;
+using Heirloom;
 using Heirloom.IO;
-using Heirloom.Math;
 
 namespace Examples.Drawing
 {
@@ -17,7 +16,7 @@ namespace Examples.Drawing
             _richText = new RichText(Files.ReadText("files/alice.txt"));
         }
 
-        internal override void Draw(Graphics ctx, Rectangle contentBounds)
+        internal override void Draw(GraphicsContext ctx, Rectangle contentBounds)
         {
             ctx.DrawText(_richText.Text, contentBounds, Font.Default, 32, TextAlign.Left, _richText.CharacterCallback);
         }

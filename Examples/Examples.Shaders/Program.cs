@@ -1,6 +1,5 @@
+using Heirloom;
 using Heirloom.Desktop;
-using Heirloom.Drawing;
-using Heirloom.Math;
 
 namespace Examples.Shaders
 {
@@ -46,12 +45,12 @@ namespace Examples.Shaders
                 };
 
                 // 
-                var loop = RenderLoop.Create(window.Graphics, Update);
+                var loop = GameLoop.Create(window.Graphics, Update);
                 loop.Start();
             });
         }
 
-        private static void Update(Graphics gfx, float dt)
+        private static void Update(GraphicsContext gfx, float dt)
         {
             Time += dt;
 

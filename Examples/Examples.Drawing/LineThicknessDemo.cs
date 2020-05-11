@@ -1,5 +1,4 @@
-using Heirloom.Drawing;
-using Heirloom.Math;
+using Heirloom;
 
 namespace Examples.Drawing
 {
@@ -9,7 +8,7 @@ namespace Examples.Drawing
             : base("Line Thickness")
         { }
 
-        internal override void Draw(Graphics ctx, Rectangle contentBounds)
+        internal override void Draw(GraphicsContext ctx, Rectangle contentBounds)
         {
             var min = contentBounds.Min;
             var max = contentBounds.Max;

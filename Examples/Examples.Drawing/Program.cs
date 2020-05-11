@@ -1,6 +1,5 @@
+using Heirloom;
 using Heirloom.Desktop;
-using Heirloom.Drawing;
-using Heirloom.Math;
 
 namespace Examples.Drawing
 {
@@ -11,7 +10,7 @@ namespace Examples.Drawing
 
         public Demo CurrentDemo => _demos[_demoIndex];
 
-        public RenderLoop Loop;
+        public GameLoop Loop;
         public Window Window;
 
         public Program()
@@ -28,8 +27,8 @@ namespace Examples.Drawing
                 new RichTextDemo(),
                 // Lines
                 new LineThicknessDemo(),
-                new QuadraticCurveDemo(),
-                new CubicCurveDemo(),
+                new SimpleCurvesDemo(),
+                new BezierCurveDemo(),
                 // Polygon / Mesh
                 new PrimitivesDemo(),
                 new PolygonDemo(),
@@ -44,14 +43,14 @@ namespace Examples.Drawing
             Window.IsResizable = false;
 
             // Create render loop
-            Loop = RenderLoop.Create(Window.Graphics, Update);
+            Loop = GameLoop.Create(Window.Graphics, Update);
             Loop.Start();
 
             // Register key events
-            Window.KeyPress += Window_KeyPress;
+            Window.KeyPressed += Window_KeyPress;
         }
 
-        private void Update(Graphics gfx, float dt)
+        private void Update(GraphicsContext gfx, float dt)
         {
             gfx.Clear(Color.DarkGray);
 
@@ -82,9 +81,9 @@ namespace Examples.Drawing
             }
         }
 
-        private void Window_KeyPress(Window win, KeyEvent ev)
+        private void Window_KeyPress(Screen w, KeyEvent ev)
         {
-            if (ev.Action == ButtonAction.Press)
+            if (ev.State == ButtonState.Pressed)
             {
                 if (ev.Key == Key.Up)
                 {

@@ -1,5 +1,3 @@
-using Heirloom.Drawing;
-
 namespace Heirloom.Desktop
 {
     internal interface IWindowGraphicsFactory
@@ -7,6 +5,6 @@ namespace Heirloom.Desktop
         /// <summary>
         /// Creates a graphics context associated with the specified window.
         /// </summary>
-        Graphics CreateGraphics(Window window, Surface surface, bool vsync);
+        GraphicsContext CreateGraphics(Window window, bool vsync);
     }
 }

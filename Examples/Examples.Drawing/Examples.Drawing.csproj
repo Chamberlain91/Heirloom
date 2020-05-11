@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Modules\Heirloom.Desktop\Heirloom.Desktop.csproj" />
-    <ProjectReference Include="..\..\Modules\Heirloom.IO\Heirloom.IO.csproj" />
   </ItemGroup>
 
 </Project>
