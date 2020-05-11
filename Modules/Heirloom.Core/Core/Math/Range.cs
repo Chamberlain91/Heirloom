@@ -122,6 +122,20 @@ namespace Heirloom
 
         #endregion
 
+        public Range Intersect(in Range other)
+        {
+            var min = Calc.Max(Min, other.Min);
+            var max = Calc.Min(Max, other.Max);
+            return new Range(min, max);
+        }
+
+        public Range Union(in Range other)
+        {
+            var min = Calc.Min(Min, other.Min);
+            var max = Calc.Max(Max, other.Max);
+            return new Range(min, max);
+        }
+
         #region Rescale
 
         /// <summary>
