@@ -63,15 +63,15 @@ namespace Heirloom.Collections
         /// <summary>
         /// Clears the assigned valueon this cell of the sparse grid.
         /// </summary>
-        public void ClearValue(in int x, in int y)
+        public void Remove(in int x, in int y)
         {
-            ClearValue(new IntVector(x, y));
+            Remove(new IntVector(x, y));
         }
 
         /// <summary>
         /// Clears the assigned valueon this cell of the sparse grid.
         /// </summary>
-        public void ClearValue(in IntVector co)
+        public void Remove(in IntVector co)
         {
             _data.Remove(co);
         }

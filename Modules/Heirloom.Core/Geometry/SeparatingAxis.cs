@@ -5,12 +5,12 @@ namespace Heirloom.Geometry
     /// <summary>
     /// Implementation of 2D collisions/overlap using separating axis theorem.
     /// </summary>
-    internal static class SeparatingAxis
+    public static class SeparatingAxis
     {
         /// <summary>
-        /// Determines if a (convex) polygon and a circle are overlapping.
+        /// Determines if a convex polygon and a circle are overlapping.
         /// </summary>
-        internal static bool Overlaps(IReadOnlyList<Vector> polygon, in Circle circle) // Ω(2n), O(3n)
+        internal static bool Overlaps(IReadOnlyList<Vector> polygon, in Circle circle)
         {
             // If the circle center is contained
             if (PolygonTools.ContainsPoint(polygon, in circle.Position)) // O(n)
@@ -19,7 +19,7 @@ namespace Heirloom.Geometry
             }
 
             // Get the nearest point on the polygon to the circle
-            var nearPoint = PolygonTools.GetClosestPointOutline(polygon, in circle.Position); // Ω(n), O(2n)
+            var nearPoint = PolygonTools.GetClosestPointOutline(polygon, in circle.Position);
 
             // Compute axis (normalize displacement vector from nearest point to circle)
             var axis = Vector.Normalize(circle.Position - nearPoint);
@@ -35,11 +35,12 @@ namespace Heirloom.Geometry
         }
 
         /// <summary>
-        /// Determines if a (convex) polygon overlaps another (convex) polygon.
+        /// Determines if a convex polygon overlaps another convex polygon.
         /// </summary>
         internal static bool Overlaps(IReadOnlyList<Vector> polygonA, IReadOnlyList<Vector> polygonB)
         {
-            for (var pass = 0; pass < 2; pass++) // two pass to test each axes set
+            // We need to perform two passes, for the axii of each shape
+            for (var pass = 0; pass < 2; pass++)
             {
                 // For each edge in polygon A
                 for (var i = 0; i < polygonA.Count; i++)

@@ -1,0 +1,77 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\emote_alert.png" />
+    <None Remove="Assets\emote_anger.png" />
+    <None Remove="Assets\emote_angry.png" />
+    <None Remove="Assets\emote_broken_heart.png" />
+    <None Remove="Assets\emote_cash.png" />
+    <None Remove="Assets\emote_cross.png" />
+    <None Remove="Assets\emote_dots1.png" />
+    <None Remove="Assets\emote_dots2.png" />
+    <None Remove="Assets\emote_dots3.png" />
+    <None Remove="Assets\emote_exclamation.png" />
+    <None Remove="Assets\emote_happy.png" />
+    <None Remove="Assets\emote_heart.png" />
+    <None Remove="Assets\emote_hearts.png" />
+    <None Remove="Assets\emote_idea.png" />
+    <None Remove="Assets\emote_laugh.png" />
+    <None Remove="Assets\emote_music.png" />
+    <None Remove="Assets\emote_question.png" />
+    <None Remove="Assets\emote_sad.png" />
+    <None Remove="Assets\emote_sleep.png" />
+    <None Remove="Assets\emote_star.png" />
+    <None Remove="Assets\emote_stars.png" />
+    <None Remove="Assets\emote_swirl.png" />
+    <None Remove="Assets\p1_spritesheet.png" />
+    <None Remove="Assets\p1_spritesheet.txt" />
+    <None Remove="Assets\Tiles\bush.png" />
+    <None Remove="Assets\Tiles\cloud1.png" />
+    <None Remove="Assets\Tiles\cloud2.png" />
+    <None Remove="Assets\Tiles\cloud3.png" />
+    <None Remove="Assets\Tiles\grassCenter.png" />
+    <None Remove="Assets\Tiles\grassMid.png" />
+    <None Remove="Assets\Tiles\rock.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Emotes\emote_alert.png" />
+    <EmbeddedResource Include="Assets\Emotes\emote_anger.png" />
+    <EmbeddedResource Include="Assets\Emotes\emote_angry.png" />
+    <EmbeddedResource Include="Assets\Emotes\emote_broken_heart.png" />
+    <EmbeddedResource Include="Assets\Emotes\emote_cash.png" />
+    <EmbeddedResource Include="Assets\Emotes\emote_cross.png" />
+    <EmbeddedResource Include="Assets\Emotes\emote_exclamation.png" />
+    <EmbeddedResource Include="Assets\Emotes\emote_happy.png" />
+    <EmbeddedResource Include="Assets\Emotes\emote_heart.png" />
+    <EmbeddedResource Include="Assets\Emotes\emote_hearts.png" />
+    <EmbeddedResource Include="Assets\Emotes\emote_idea.png" />
+    <EmbeddedResource Include="Assets\Emotes\emote_laugh.png" />
+    <EmbeddedResource Include="Assets\Emotes\emote_music.png" />
+    <EmbeddedResource Include="Assets\Emotes\emote_question.png" />
+    <EmbeddedResource Include="Assets\Emotes\emote_sad.png" />
+    <EmbeddedResource Include="Assets\Emotes\emote_sleep.png" />
+    <EmbeddedResource Include="Assets\Emotes\emote_star.png" />
+    <EmbeddedResource Include="Assets\Emotes\emote_stars.png" />
+    <EmbeddedResource Include="Assets\Emotes\emote_swirl.png" />
+    <EmbeddedResource Include="Assets\p1_spritesheet.png" />
+    <EmbeddedResource Include="Assets\p1_spritesheet.txt" />
+    <EmbeddedResource Include="Assets\Tiles\bush.png" />
+    <EmbeddedResource Include="Assets\Tiles\cloud1.png" />
+    <EmbeddedResource Include="Assets\Tiles\cloud2.png" />
+    <EmbeddedResource Include="Assets\Tiles\cloud3.png" />
+    <EmbeddedResource Include="Assets\Tiles\grassCenter.png" />
+    <EmbeddedResource Include="Assets\Tiles\grassMid.png" />
+    <EmbeddedResource Include="Assets\Tiles\rock.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Heirloom.Desktop\Heirloom.Desktop.csproj" />
+  </ItemGroup>
+
+</Project>

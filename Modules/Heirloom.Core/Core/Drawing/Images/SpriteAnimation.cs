@@ -71,7 +71,7 @@ namespace Heirloom
         public void Add(Image image, float delay)
         {
             // Insert at the end
-            Insert(Length - 1, image, delay);
+            Insert(Length, image, delay);
         }
 
         /// <summary>

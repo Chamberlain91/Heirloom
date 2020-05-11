@@ -106,6 +106,23 @@ namespace Heirloom.Geometry
             return intersect;
         }
 
+        /// <summary>
+        /// Checks if two line segments intersect.
+        /// </summary>
+        public static bool Intersects(LineSegment lineA, LineSegment lineB, out Vector point, out Vector closestA, out Vector closestB)
+        {
+            return Intersects(lineA.A, lineA.B, lineB.A, lineB.B, out point, out closestA, out closestB);
+        }
+
+        /// <summary>
+        /// Checks if two line segments intersect.
+        /// </summary>
+        public static bool Intersects(Vector p1, Vector p2, Vector q1, Vector q2, out Vector point, out Vector closestA, out Vector closestB)
+        {
+            Intersects(p1, p2, q1, q2, out _, out var intersect, out _, out point, out closestA, out closestB);
+            return intersect;
+        }
+
         // Find the point of intersection between
         // the lines p1 --> p2 and q1 --> q2.
         private static void Intersects(
