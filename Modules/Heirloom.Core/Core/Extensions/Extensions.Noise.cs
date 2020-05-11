@@ -3,7 +3,7 @@ namespace Heirloom
     public static partial class Extensions
     {
         /// <summary>
-        /// Sample one-dimensional octave noise.
+        /// Provides extension methods various types within Heirloom.
         /// </summary>
         public static float Sample(this INoise1D noise, float x, int octaves, float persistence = 0.5F)
         {

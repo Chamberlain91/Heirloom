@@ -5,6 +5,9 @@ using Heirloom.Collections;
 
 namespace Heirloom
 {
+    /// <summary>
+    /// Provides extension methods various types within Heirloom.
+    /// </summary>
     public static partial class Extensions
     {
         /// <summary>

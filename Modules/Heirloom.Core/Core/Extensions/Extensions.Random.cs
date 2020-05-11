@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 namespace Heirloom
 {
     /// <summary>
-    /// Provides extension methods for <see cref="Random"/> and other related random operations.
+    /// Provides extension methods various types within Heirloom.
     /// </summary>
     public static partial class Extensions
     {
@@ -111,7 +111,40 @@ namespace Heirloom
             return new Vector(x, y);
         }
 
-        #endregion 
+        #endregion
+
+        #region Next Color
+
+        /// <summary>
+        /// Returns a random RGB color (optionally RGBA).
+        /// </summary>
+        /// <param name="random">The instance this extension method operates on.</param>
+        /// <param name="useAlpha">Should this call randomize the alpha or use an alpha of 1.0?</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color NextColor(this Random random, bool useAlpha = false)
+        {
+            var r = NextFloat(random, 0F, 1F);
+            var g = NextFloat(random, 0F, 1F);
+            var b = NextFloat(random, 0F, 1F);
+            var a = useAlpha ? NextFloat(random, 0F, 1F) : 1F;
+            return new Color(r, g, b, a);
+        }
+
+        /// <summary>
+        /// Returns a color with random hue.
+        /// </summary>
+        /// <param name="random">The instance this extension method operates on.</param>
+        /// <param name="saturation">The saturation to use.</param>
+        /// <param name="value">The brightness to use.</param>
+        /// <param name="alpha">The alpha to use.</param> 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color NextColorHue(this Random random, float saturation = 0.7F, float value = 0.9F, float alpha = 1F)
+        {
+            var hue = NextFloat(random, 0F, 360F);
+            return Color.FromHSV(hue, saturation, value, alpha);
+        }
+
+        #endregion
 
         #region Chance and Choice
 

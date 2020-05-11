@@ -6,7 +6,7 @@ using Heirloom.IO;
 namespace Heirloom
 {
     /// <summary>
-    /// Provides extensions to strings.
+    /// Provides extension methods various types within Heirloom.
     /// </summary>
     public static partial class Extensions
     {
