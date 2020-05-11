@@ -61,8 +61,6 @@ namespace Heirloom.Collections
             if (_nodes.ContainsKey(item)) { throw new ArgumentException($"Spatial item already exists in collection, unable to add."); }
             else
             {
-                var bounds = boundingShape.Bounds;
-
                 // Create node
                 var node = Node.Create(item, boundingShape, _margin);
 

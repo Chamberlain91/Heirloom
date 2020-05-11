@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Heirloom
 {
+    /// <summary>
+    /// Provides extension methods various types within Heirloom.
+    /// </summary>
     public static partial class Extensions
     {
         public static void Randomize<T>(this IList<T> items)

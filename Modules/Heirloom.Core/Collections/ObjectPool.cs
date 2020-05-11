@@ -3,21 +3,37 @@ using System.Collections.Generic;
 
 namespace Heirloom.Collections
 {
+    /// <summary>
+    /// Implements an object pool to recycle objects and reduce allocatio stress.
+    /// </summary>
+    /// <typeparam name="T">Some reference type.</typeparam>
     public class ObjectPool<T> where T : class
     {
         private readonly HashSet<T> _owned = new HashSet<T>();
         private readonly Queue<T> _queue = new Queue<T>();
 
+        /// <summary>
+        /// Constructs an instance of <typeparamref name="T"/>.
+        /// </summary>
+        /// <returns>An newly allocated instance of <typeparamref name="T"/>.</returns>
         protected virtual T CreateItem()
         {
             return Activator.CreateInstance<T>();
         }
 
+        /// <summary>
+        /// When <see cref="ObjectPool{T}"/> is subclassed, this can be overriden to clear state on recycled objects.
+        /// </summary>
+        /// <param name="item">A recycled object.</param>
         protected virtual void ResetItem(T item)
         {
             // Do Nothing
         }
 
+        /// <summary>
+        /// Requests an object from the <see cref="ObjectPool{T}"/>.
+        /// </summary>
+        /// <returns>An object owned by this pool.</returns>
         public T Request()
         {
             lock (_queue)
@@ -37,6 +53,10 @@ namespace Heirloom.Collections
             }
         }
 
+        /// <summary>
+        /// Recycles an object owned by this pool for layer reuse with <see cref="Request"/>.
+        /// </summary>
+        /// <param name="item">An object owned by this pool.</param>
         public void Recycle(T item)
         {
             lock (_queue)
