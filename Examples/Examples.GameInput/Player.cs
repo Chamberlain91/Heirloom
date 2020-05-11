@@ -32,7 +32,7 @@ namespace Examples.GameInput
         {
             // Update physics
             Position += Velocity * dt;
-            Velocity += (0, 10);
+            Velocity += (0, 500 * dt);
 
             // Update sprite player
             SpritePlayer.Update(dt);
@@ -59,7 +59,7 @@ namespace Examples.GameInput
             {
                 if (_onGround && Input.CheckKey(Key.Space, ButtonState.Down))
                 {
-                    Velocity -= (0, 500);
+                    Velocity -= (0, 300);
                     SpritePlayer.Play("jump");
                     _onGround = false;
                 }
@@ -76,12 +76,12 @@ namespace Examples.GameInput
 
                     if (pressLeft)
                     {
-                        Velocity.X -= 10;
+                        Velocity.X -= 300 * dt;
                         _flip = true;
                     }
                     else
                     {
-                        Velocity.X += 10;
+                        Velocity.X += 300 * dt;
                         _flip = false;
                     }
                 }

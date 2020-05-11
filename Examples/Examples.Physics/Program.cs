@@ -16,7 +16,7 @@ namespace Examples.Physics
         private float _fixedTime = 0;
 
         public Program()
-            : base(new Window("Physics Example", MultisampleQuality.High))
+            : base(new Window("Physics Example", MultisampleQuality.High), 60)
         {
             Graphics.Performance.OverlayMode = PerformanceOverlayMode.Simple;
 

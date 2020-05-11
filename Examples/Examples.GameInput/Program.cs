@@ -22,6 +22,7 @@ namespace Examples.GameInput
             Application.Run(() =>
             {
                 Screen = new Window("Game Input Example", (800, 480)) { IsResizable = false };
+                Screen.Graphics.Performance.OverlayMode = PerformanceOverlayMode.Full;
 
                 // 
                 GroundTop = new Image("assets/tiles/grassMid.png");
@@ -61,10 +62,8 @@ namespace Examples.GameInput
             // Draw World
             gfx.PushState(true);
             {
-                // Snaps to integer coordiantes to correct for subpixel weirdness...
-                // todo: Investigate if there is a good way to fix subpixel weirdness
                 var camera = Player.Position - (0, 100);
-                gfx.SetCameraTransform((IntVector) camera);
+                gfx.SetCameraTransform(camera);
 
                 // Draw environment
                 for (var i = -12; i < 12; i++)
