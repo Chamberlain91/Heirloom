@@ -5,7 +5,7 @@
 
 ## SpritePlayer.FrameNumber (Property)
 
-> **Namespace**: [Heirloom.Core.Drawing.Images][0]  
+> **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [SpritePlayer][1]
 
 ### FrameNumber

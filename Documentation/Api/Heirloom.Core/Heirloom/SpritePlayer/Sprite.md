@@ -5,7 +5,7 @@
 
 ## SpritePlayer.Sprite (Property)
 
-> **Namespace**: [Heirloom.Core.Drawing.Images][0]  
+> **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [SpritePlayer][1]
 
 ### Sprite
@@ -20,4 +20,4 @@ public Sprite Sprite { get; }
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../SpritePlayer.md
-[2]: ../../Heirloom/Sprite.md
+[2]: ../Sprite.md

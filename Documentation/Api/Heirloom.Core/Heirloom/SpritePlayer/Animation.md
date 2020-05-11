@@ -5,7 +5,7 @@
 
 ## SpritePlayer.Animation (Property)
 
-> **Namespace**: [Heirloom.Core.Drawing.Images][0]  
+> **Namespace**: [Heirloom][0]  
 > **Declaring Type**: [SpritePlayer][1]
 
 ### Animation
@@ -20,4 +20,4 @@ public SpriteAnimation Animation { get; }
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../SpritePlayer.md
-[2]: ../../Heirloom/SpriteAnimation.md
+[2]: ../SpriteAnimation.md
