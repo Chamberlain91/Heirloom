@@ -10,7 +10,7 @@
 
 ### Indices
 
-Gets the (optional) indices defining triangles by index of the vertex list.
+Gets the indices defining triangles by index of the vertex list.
 
 ```cs
 public IReadOnlyList<int> Indices { get; }
