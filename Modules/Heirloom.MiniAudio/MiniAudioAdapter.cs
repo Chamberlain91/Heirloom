@@ -7,12 +7,12 @@ using static Heirloom.MiniAudio.NativeApi;
 
 namespace Heirloom.MiniAudio
 {
-    internal sealed unsafe class MiniAudioContext : AudioAdapter
+    internal sealed unsafe class MiniAudioAdapter : AudioAdapter
     {
         private readonly void* _device;
         private readonly DataProcessCallback _dataProc;
 
-        internal MiniAudioContext(int sampleRate, bool enableAudioCapture)
+        internal MiniAudioAdapter(int sampleRate, bool enableAudioCapture)
             : base(sampleRate, enableAudioCapture)
         {
             // Build device type flags
@@ -60,7 +60,7 @@ namespace Heirloom.MiniAudio
             GC.KeepAlive(_dataProc);
         }
 
-        internal override AudioDecoder CreateDecoder(Stream stream)
+        protected override IAudioDecoder CreateDecoder(Stream stream)
         {
             return new MiniAudioDecoder(stream);
         }

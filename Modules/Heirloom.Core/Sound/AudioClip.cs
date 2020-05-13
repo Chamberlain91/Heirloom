@@ -16,7 +16,6 @@ namespace Heirloom.Sound
         /// <summary>
         /// Constructs a new audio clip from the given stream, fully decoding all samples.
         /// </summary>
-        /// <param name="device">The audio device to use parameters during the decode.</param>
         /// <param name="stream">A stream to a file of a supported format.</param>
         public AudioClip(Stream stream)
             : this(DecodeFiniteStream(stream))
@@ -25,17 +24,15 @@ namespace Heirloom.Sound
         /// <summary>
         /// Constructs a new audio clip from the given in-memory file, fully decoding all samples.
         /// </summary>
-        /// <param name="device">The audio device to use parameters during the decode.</param>
-        /// <param name="stream">An in-memory copy of a file of a supported format.</param>
+        /// <param name="file">The raw bytes of a audio file, as if it were on disk.</param>
         public AudioClip(byte[] file)
             : this(new MemoryStream(file))
         { }
 
         /// <summary>
-        /// Constructs a new audio clip from existing samples decoded or generated elsewhere.
-        /// The samples must be interleved to the number of channels in the device and at the sample rate of the device.
+        /// Constructs a new audio clip from existing audio samples.
+        /// The samples must be interleved to the expected number of channels in the device and at the sample rate of the device.
         /// </summary>
-        /// <param name="device">The audio device to use parameters during the decode.</param>
         /// <param name="samples">Raw PCM samples interleved.</param>
         public AudioClip(short[] samples)
         {
@@ -73,7 +70,7 @@ namespace Heirloom.Sound
                 var samples = new short[decoder.Length];
 
                 // Read all samples from decoder in one go
-                var read = decoder.Decode(samples, 0, decoder.Length);
+                var read = decoder.Decode(new Span<short>(samples, 0, decoder.Length));
                 if (read != decoder.Length)
                 {
                     throw new InvalidOperationException($"Error when decoding, read {read} samples but expected {decoder.Length}.");
@@ -94,7 +91,7 @@ namespace Heirloom.Sound
                 //   and terminate reading and throw exception with relevant exception?
                 // 
 
-                const long BLOCK_SIZE = 22050;
+                const int BLOCK_SIZE = 22050;
 
                 long count, total = 0;
                 var blocks = new List<short[]>();
@@ -105,7 +102,7 @@ namespace Heirloom.Sound
                     var block = new short[BLOCK_SIZE * AudioAdapter.Channels];
 
                     // Read samples into block
-                    count = decoder.Decode(block, 0, BLOCK_SIZE);
+                    count = decoder.Decode(new Span<short>(block, 0, BLOCK_SIZE));
                     if (count > 0)
                     {
                         // Far too much data, probably was a infinite stream (ie, internet radio)

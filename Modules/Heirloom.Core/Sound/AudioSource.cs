@@ -183,6 +183,7 @@ namespace Heirloom.Sound
 
         #endregion
 
+        /// <inheritdoc/>
         protected override void PopulateBuffer(Span<float> output)
         {
             // Ensure read buffer is large enough
@@ -192,7 +193,7 @@ namespace Heirloom.Sound
             }
 
             // Read samples
-            var read = _provider.ReadSamples(_samplesBuffer, 0, output.Length);
+            var read = _provider.ReadSamples(new Span<short>(_samplesBuffer, 0, output.Length));
 
             // End of audio detected
             if (read == 0 || read < output.Length)
@@ -211,7 +212,7 @@ namespace Heirloom.Sound
                     while (read < output.Length)
                     {
                         // Read the remaining samples into the buffer.
-                        var readMore = _provider.ReadSamples(_samplesBuffer, read, output.Length - read);
+                        var readMore = _provider.ReadSamples(new Span<short>(_samplesBuffer, read, output.Length - read));
                         if (readMore == 0) { break; } else { read += readMore; }
                     }
                 }

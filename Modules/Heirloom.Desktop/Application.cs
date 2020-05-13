@@ -288,7 +288,7 @@ namespace Heirloom.Desktop
         private static void InitializeAudioContext()
         {
             // 
-            AudioContext = new MiniAudioContext(AudioAdapter.DefaultSampleRate, false);
+            AudioContext = new MiniAudioAdapter(AudioAdapter.DefaultSampleRate, false);
             AudioContext.Initialize();
 
             // Dispose device when process exits, finalizer isn't being called

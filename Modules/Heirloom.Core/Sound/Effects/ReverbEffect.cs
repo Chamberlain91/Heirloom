@@ -22,6 +22,11 @@ namespace Heirloom.Sound
         private float _roomsize;
         private float _damping;
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="ReverbEffect"/>.
+        /// </summary>
+        /// <param name="roomSize">THe </param>
+        /// <param name="damping"></param>
         public ReverbEffect(float roomSize = InitialRoomSize, float damping = InitialDamp)
         {
             const float ConversionSampleRate = 44100F;
@@ -54,6 +59,7 @@ namespace Heirloom.Sound
         /// <summary>
         /// Gets or sets the damping value. Larger values soften the sound earlier.
         /// </summary>
+        /// <value>This value ranges from 0.0 to 1.0.</value>
         public float Damping
         {
             get => _damping;
@@ -72,6 +78,7 @@ namespace Heirloom.Sound
         /// <summary>
         /// Gets or sets the room size. Larger values mean longer reverb.
         /// </summary>
+        /// <value>This value ranges from 0.0 to 1.0.</value>
         public float RoomSize
         {
             get => _roomsize;
@@ -88,6 +95,7 @@ namespace Heirloom.Sound
             }
         }
 
+        /// <inheritdoc/>
         public override float Process(float sample, int channel)
         {
             // Process current samples 

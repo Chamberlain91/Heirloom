@@ -12,6 +12,9 @@ namespace Heirloom.Sound
         private float _balance = 0F;
         private float _volume = 1F;
 
+        /// <summary>
+        /// Constructs an audio node.
+        /// </summary>
         protected AudioNode()
         {
             Effects = new List<AudioEffect>();
@@ -95,6 +98,15 @@ namespace Heirloom.Sound
             }
         }
 
+        /// <summary>
+        /// This function is called when more samples are needed for playback.
+        /// </summary>
+        /// <remarks>
+        /// Copy the next block of samples into <paramref name="buffer"/>.
+        /// The number of samples to copy length of the <see cref="Span{T}"/>. <para/>
+        /// Note: The number of samples may not be consistent across subsequent calls.
+        /// </remarks>
+        /// <param name="buffer">The buffer to copy the next block of samples into.</param>
         protected abstract void PopulateBuffer(Span<float> buffer);
     }
 }
