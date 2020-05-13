@@ -1,10 +1,11 @@
+using System;
 using System.IO;
 
 namespace Heirloom.Sound
 {
     internal sealed class AudioStreamProvider : IAudioProvider
     {
-        private readonly AudioDecoder _decoder;
+        private readonly IAudioDecoder _decoder;
         private readonly Stream _stream;
 
         public AudioStreamProvider(Stream stream)
@@ -19,9 +20,9 @@ namespace Heirloom.Sound
 
         public int Position { get; private set; }
 
-        public int ReadSamples(short[] samples, int offset, int count)
+        public int ReadSamples(Span<short> samples)
         {
-            count = _decoder.Decode(samples, offset, count);
+            var count = _decoder.Decode(samples);
             Position += count;
             return count;
         }

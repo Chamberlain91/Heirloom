@@ -39,9 +39,8 @@ namespace Examples.MusicPlayer
                 var songLookup = new Dictionary<string, SongInfo>();
                 foreach (var info in songData) { songLookup.Add(CreateIdentifier(info.Name), info); }
 
-                // Add "using Heirloom.Sound.Effects;" above and uncomment some (or both) of the
-                // lines below to listen to different effects and filters. When collectively
-                // enabled, the filters should somewhat mimic "a cheap radio in a garage"
+                // Uncomment some (or all) of the lines below to listen to different effects and filters.
+                // When collectively enabled, the filters should somewhat mimic "a cheap radio in a garage"
 
                 //AudioGroup.Default.Effects.Add(new BandPassFilter(6000, 9000));
                 //AudioGroup.Default.Effects.Add(new ReverbEffect(0.1F, 0.7F));

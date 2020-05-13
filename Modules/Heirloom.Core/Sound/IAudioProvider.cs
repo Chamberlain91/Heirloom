@@ -1,3 +1,5 @@
+using System;
+
 namespace Heirloom.Sound
 {
     internal interface IAudioProvider
@@ -8,7 +10,7 @@ namespace Heirloom.Sound
 
         bool CanSeek { get; }
 
-        int ReadSamples(short[] samples, int offset, int count);
+        int ReadSamples(Span<short> samples);
 
         void Seek(int offset);
     }

@@ -12,6 +12,10 @@ namespace Heirloom.Sound
 
         private float _frequency;
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="HighPassFilter"/>.
+        /// </summary>
+        /// <param name="cutoff">The frequency cutoff in hertz.</param>
         public HighPassFilter(float cutoff)
         {
             Frequency = cutoff;
@@ -21,8 +25,9 @@ namespace Heirloom.Sound
         }
 
         /// <summary>
-        /// Gets or sets the filter cutoff frequency in hertz.
+        /// Gets or sets the frequency cutoff frequency in hertz.
         /// </summary>
+        /// <value>This value ranges from 0.0 to <see cref="AudioAdapter.SampleRate"/>.</value>
         public float Frequency
         {
             get => _frequency;
@@ -34,6 +39,7 @@ namespace Heirloom.Sound
             }
         }
 
+        /// <inheritdoc/>
         public override float Process(float sample, int channel)
         {
             // Compute alpha

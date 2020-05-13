@@ -10,12 +10,13 @@ namespace Heirloom.MiniAudio
     /// <summary>
     /// An object to assist with converting audio formats into raw PCM frames.
     /// </summary>
-    internal sealed unsafe class MiniAudioDecoder : AudioDecoder
+    internal sealed unsafe class MiniAudioDecoder : IAudioDecoder
     {
         private readonly void* _decoder;
         private readonly DecoderReadCallback _readProc;
         private readonly DecoderSeekCallback _seekProc;
         private byte[] _readBuffer;
+        private readonly Stream _stream;
 
         #region Constructors
 
@@ -24,8 +25,9 @@ namespace Heirloom.MiniAudio
         /// </summary>
         /// <param name="stream">A stream to a file or streaming audio source in one of the supported formats.</param> 
         public MiniAudioDecoder(Stream stream)
-            : base(stream)
         {
+            _stream = stream;
+
             // We want signed 2 channel 16 bit audio
             var config = ma_decoder_config_init(SampleFormat.S16, (uint) AudioAdapter.Channels, (uint) AudioAdapter.SampleRate);
 
@@ -41,26 +43,29 @@ namespace Heirloom.MiniAudio
             Length = (int) ma_decoder_get_length_in_pcm_frames(_decoder) * 2;
         }
 
-        /// <summary>
-        /// Constructs a new decoder instance from an in memory copy of one of the supported file formats.
-        /// </summary>
-        /// <param name="file">An in memory copy of a file in one of the supported formats.</param>
-        public MiniAudioDecoder(byte[] file)
-            : this(new MemoryStream(file))
-        { }
+        ~MiniAudioDecoder()
+        {
+            Dispose(false);
+        }
 
         #endregion
+
+        /// <inheritdoc/>
+        public bool IsDisposed { get; private set; }
+
+        /// <inheritdoc/>
+        public int Length { get; }
 
         #region Decoder Callbacks
 
         private ulong ReadBytes(void* _, void* pWriteBuffer, ulong bytesToRead)
         {
-            if (Stream.CanRead)
+            if (_stream.CanRead)
             {
                 // Read the next chunk of bytes
                 var size = (int) bytesToRead;
                 if ((_readBuffer?.Length ?? 0) < size) { Array.Resize(ref _readBuffer, size); }
-                var read = Stream.Read(_readBuffer, 0, size);
+                var read = _stream.Read(_readBuffer, 0, size);
 
                 // Copy from read buffer to write buffer
                 fixed (byte* pReadBuffer = _readBuffer)
@@ -79,10 +84,10 @@ namespace Heirloom.MiniAudio
 
         private int SeekBytes(void* _, int byteOffset, SeekOrigin origin)
         {
-            if (Stream.CanSeek)
+            if (_stream.CanSeek)
             {
-                if (origin == SeekOrigin.FromCurrent) { Stream.Seek(byteOffset, System.IO.SeekOrigin.Current); }
-                else { Stream.Seek(byteOffset, System.IO.SeekOrigin.Begin); }
+                if (origin == SeekOrigin.FromCurrent) { _stream.Seek(byteOffset, System.IO.SeekOrigin.Current); }
+                else { _stream.Seek(byteOffset, System.IO.SeekOrigin.Begin); }
 
                 return 1;
             }
@@ -100,25 +105,27 @@ namespace Heirloom.MiniAudio
         /// <summary>
         /// Decodes the next several samples.
         /// </summary>
-        public override int Decode(short[] samples, long offset, long count)
+        public int Decode(Span<short> samples)
         {
+            var count = samples.Length;
+
             fixed (short* pSamples = samples)
             {
-                return (int) ma_decoder_read_pcm_frames(_decoder, pSamples + offset, (ulong) (count / AudioAdapter.Channels)) * AudioAdapter.Channels;
+                return (int) ma_decoder_read_pcm_frames(_decoder, pSamples, (ulong) (count / AudioAdapter.Channels)) * AudioAdapter.Channels;
             }
         }
 
         /// <summary>
         /// Seek to start decoding at the given offset.
         /// </summary>
-        public override bool Seek(int offset)
+        public bool Seek(int offset)
         {
             var result = ma_decoder_seek_to_pcm_frame(_decoder, (ulong) offset);
 
             // Log error...
             if (result != Result.Success)
             {
-                Console.WriteLine($"Unable to seek decoder: {result}");
+                Log.Warning($"Unable to seek decoder: {result}");
             }
 
             // Return true on success
@@ -129,13 +136,13 @@ namespace Heirloom.MiniAudio
 
         #region Dispose
 
-        protected override void Dispose(bool disposeManaged)
+        private void Dispose(bool disposeManaged)
         {
             if (!IsDisposed)
             {
                 if (disposeManaged)
                 {
-                    Stream.Dispose();
+                    _stream.Dispose();
                 }
 
                 // 
@@ -147,6 +154,12 @@ namespace Heirloom.MiniAudio
 
                 IsDisposed = true;
             }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion 

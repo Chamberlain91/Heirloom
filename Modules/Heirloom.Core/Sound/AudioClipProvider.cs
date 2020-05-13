@@ -17,16 +17,16 @@ namespace Heirloom.Sound
 
         public bool CanSeek => true;
 
-        public int ReadSamples(short[] samples, int offset, int count)
+        public int ReadSamples(Span<short> samples)
         {
             // Compute how much can actually be read
             var remaining = Length - Position;
-            var samplesToRead = Math.Min(remaining, count);
+            var samplesToRead = Math.Min(remaining, samples.Length);
 
             // Copy from clip array to samples array
             for (var i = 0; i < samplesToRead; i++)
             {
-                samples[offset + i] = Clip[Position + i];
+                samples[i] = Clip[Position + i];
             }
 
             // Move clip cursor along

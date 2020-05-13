@@ -68,6 +68,7 @@ namespace Heirloom.Sound
 
         internal IEnumerable<AudioNode> Children => _sources.Concat(_sourcesAdd);
 
+        /// <inheritdoc/>
         protected override void PopulateBuffer(Span<float> output)
         {
             lock (_sources)

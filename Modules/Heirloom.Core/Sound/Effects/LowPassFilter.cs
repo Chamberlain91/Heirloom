@@ -10,6 +10,10 @@ namespace Heirloom.Sound
         private readonly float[] _out;
         private float _cutoff;
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="LowPassFilter"/>.
+        /// </summary>
+        /// <param name="cutoff">The frequency cutoff in hertz.</param>
         public LowPassFilter(float cutoff)
         {
             _out = new float[AudioAdapter.Channels];
@@ -17,8 +21,9 @@ namespace Heirloom.Sound
         }
 
         /// <summary>
-        /// Gets or sets the filter cutoff in hertz.
+        /// Gets or sets the frequency cutoff in hertz.
         /// </summary>
+        /// <value>This value ranges from 0.0 to <see cref="AudioAdapter.SampleRate"/>.</value>
         public float Frequency
         {
             get => _cutoff;
@@ -30,6 +35,7 @@ namespace Heirloom.Sound
             }
         }
 
+        /// <inheritdoc/>
         public override float Process(float sample, int channel)
         {
             // Compute alpha
