@@ -5,6 +5,7 @@ namespace Heirloom
     /// <summary>
     /// A special stretchable rectangle of an image.
     /// </summary>
+    /// <category>Drawing</category>
     public class NineSlice
     {
         /// <summary>

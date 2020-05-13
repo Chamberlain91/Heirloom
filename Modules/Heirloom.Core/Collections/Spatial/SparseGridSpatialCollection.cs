@@ -13,6 +13,7 @@ namespace Heirloom.Collections
     /// <summary>
     /// Implements <see cref="ISpatialCollection{T}"/> using a <see cref="SparseGrid{T}"/>.
     /// </summary>
+    /// <category>Spatial Collections</category>
     public sealed class SparseGridSpatialCollection<T> : ISpatialCollection<T>
     {
         private readonly SparseGrid<HashSet<T>> _grid = new SparseGrid<HashSet<T>>();

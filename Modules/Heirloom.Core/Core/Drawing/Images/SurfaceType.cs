@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Represents the surface type.
     /// </summary>
+    /// <category>Drawing</category>
     public enum SurfaceType
     {
         /// <summary>

@@ -6,6 +6,7 @@ namespace Heirloom
     /// <summary>
     /// Provides a mechanism for requesting temporary surfaces and recycling them for reuse later.
     /// </summary>
+    /// <category>Drawing</category>
     public static class SurfacePool
     // todo: Heuristic for discarding excessive surfaces?
     //       Find surfaces two "generations" old...?

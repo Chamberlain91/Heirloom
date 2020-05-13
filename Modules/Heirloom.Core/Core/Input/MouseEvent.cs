@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Contains the data of an event when a mouse button has been pressed or released on some input source.
     /// </summary>
+    /// <category>User Input</category>
     public readonly struct MouseButtonEvent
     {
         /// <summary>

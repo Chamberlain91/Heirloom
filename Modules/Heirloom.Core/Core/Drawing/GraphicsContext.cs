@@ -7,6 +7,7 @@ namespace Heirloom
     /// <summary>
     /// Represents the graphical context for performing drawing operations on some <see cref="Surface"/>.
     /// </summary>
+    /// <category>Drawing</category>
     public abstract partial class GraphicsContext
     {
         private static readonly Mesh _quadMesh = Mesh.CreateQuad(1, 1);

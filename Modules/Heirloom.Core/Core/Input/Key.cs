@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Standardized virtual key mapping from GLFW.
     /// </summary>
+    /// <category>User Input</category>
     public enum Key
     {
         /// <summary>

@@ -9,6 +9,7 @@ namespace Heirloom
     /// Provides various math operations for <see cref="float"/> and <see cref="int"/> types including
     /// a few genric utility functions such as <see cref="Swap{T}(ref T, ref T)"/> or <see cref="Lerp(float, float, float)"/>.
     /// </summary>
+    /// <category>Mathematics</category>
     public static class Calc
     {
         #region Constants

@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Multisampling levels
     /// </summary>
+    /// <category>Drawing</category>
     public enum MultisampleQuality
     {
         /// <summary>

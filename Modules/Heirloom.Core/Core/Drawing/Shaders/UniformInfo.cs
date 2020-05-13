@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Contains information of a uniform from a <see cref="Shader"/>.
     /// </summary>
+    /// <category>Shaders and Effects</category>
     public sealed class UniformInfo
     {
         internal UniformInfo(string name, UniformType type, IntSize dimensions, int arraySize)

@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Distortion shader.
     /// </summary>
+    /// <category>Shaders and Effects</category>
     public sealed class DistortionShader : Shader
     {
         private Image _distortionMap;

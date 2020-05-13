@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Contains the data of an event when the mouse wheel has been scrolled on some input source.
     /// </summary>
+    /// <category>User Input</category>
     public readonly struct MouseScrollEvent
     {
         /// <summary>

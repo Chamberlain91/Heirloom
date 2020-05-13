@@ -8,6 +8,7 @@ namespace Heirloom
     /// <summary>
     /// Implements methods for sampling 1D, 2D and 3D perlin noise.
     /// </summary>
+    /// <category>Mathematics</category>
     public class PerlinNoise : INoise1D, INoise2D, INoise3D
     {
         private readonly int[] _p;

@@ -10,6 +10,7 @@ namespace Heirloom
     /// or <see cref="Line(IntVector, IntVector)"/> commands can be used to compute positions to place tiles when drawing
     /// building plots or roads.
     /// </remarks>
+    /// <category>Utility</category>
     public static class Rasterizer
     {
         #region Rectangle

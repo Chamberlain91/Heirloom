@@ -5,6 +5,8 @@ namespace Heirloom
         /// <summary>
         /// Contains information pertaining to draw performance.
         /// </summary>
+        /// <seealso cref="Performance"/>
+        /// <category>Drawing</category>
         public sealed class PerformanceMetrics
         {
             private readonly Interval _timer;

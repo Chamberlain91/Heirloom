@@ -6,6 +6,7 @@ namespace Heirloom
     /// <summary>
     /// Represents information of any particular glyph during text layout.
     /// </summary>
+    /// <category>Text</category>
     public struct TextLayoutState : IEquatable<TextLayoutState>
     {
         /// <summary>

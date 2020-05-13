@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Represents the buttons on a standard gamepad.
     /// </summary>
+    /// <category>User Input</category>
     public enum GamepadButton
     {
         /// <summary>

@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Contains the data of an event when a character has been typed on some input source.
     /// </summary>
+    /// <category>User Input</category>
     public readonly struct CharacterEvent
     {
         /// <summary>

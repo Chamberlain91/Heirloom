@@ -7,6 +7,7 @@ namespace Heirloom
     /// <summary>
     /// A glyph represents the metrics and rendering of a character from the associated <see cref="Font"/>.
     /// </summary>
+    /// <category>Text</category>
     public sealed class Glyph
     {
         private readonly int _advanceWidth;

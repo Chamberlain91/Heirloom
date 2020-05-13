@@ -5,6 +5,7 @@ namespace Heirloom
     /// <summary>
     /// Vector blur shader.
     /// </summary>
+    /// <category>Shaders and Effects</category>
     public sealed class VectorBlurShader : Shader
     {
         private Vector _vector;

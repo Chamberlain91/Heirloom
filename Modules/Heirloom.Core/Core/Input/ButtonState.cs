@@ -5,6 +5,7 @@ namespace Heirloom
     /// <summary>
     /// Represents the state of a button.
     /// </summary>
+    /// <category>User Input</category>
     [Flags]
     public enum ButtonState
     {

@@ -9,6 +9,7 @@ namespace Heirloom
     /// <summary>
     /// Represents a rectangle, defined by the top left corner position and size.
     /// </summary>
+    /// <category>Mathematics</category>
     public struct Rectangle : IShape, IEquatable<Rectangle>
     {
         /// <summary>

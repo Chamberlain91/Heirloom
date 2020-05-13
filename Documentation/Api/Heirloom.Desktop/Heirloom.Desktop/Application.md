@@ -38,7 +38,7 @@ public static class Application
 | Name                  | Return Type | Summary                                                                |
 |-----------------------|-------------|------------------------------------------------------------------------|
 | [Run(Action)][8]      | `void`      | Initializes windowing utilities, executes `startup` and then contin... |
-| [Run<TGameLoop>()][9] | `void`      | Creates an instance of `TGameLoop` runs GameLoop.Start .               |
+| [Run<TGameLoop>()][9] | `void`      | Creates an instance of `TGameLoop` and then runs GameLoop.Start .      |
 
 [0]: ../../Heirloom.Desktop.md
 [1]: Application/CpuInfo.md

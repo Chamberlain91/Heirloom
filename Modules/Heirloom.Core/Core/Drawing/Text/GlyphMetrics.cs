@@ -5,6 +5,7 @@ namespace Heirloom
     /// <summary>
     /// Contains information about a glyph (ie, the horizontal metrics).
     /// </summary>
+    /// <category>Text</category>
     public readonly struct GlyphMetrics
     {
         private readonly IntRectangle _box;

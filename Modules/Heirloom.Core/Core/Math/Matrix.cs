@@ -7,6 +7,7 @@ namespace Heirloom
     /// <summary>
     /// A 2x3 transformation matrix.
     /// </summary>
+    /// <category>Mathematics</category>
     [StructLayout(LayoutKind.Sequential, Size = 4 * 6, Pack = 4)]
     public struct Matrix : IEquatable<Matrix>
     {

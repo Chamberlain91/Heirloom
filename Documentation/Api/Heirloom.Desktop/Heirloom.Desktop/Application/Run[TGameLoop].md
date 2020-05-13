@@ -10,7 +10,7 @@
 
 ### Run<TGameLoop>()
 
-Creates an instance of `TGameLoop` runs [Start][2] .
+Creates an instance of `TGameLoop` and then runs [Start][2] .
 
 ```cs
 public static void Run<TGameLoop>()

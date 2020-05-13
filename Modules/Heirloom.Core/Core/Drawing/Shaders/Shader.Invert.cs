@@ -1,8 +1,9 @@
-﻿namespace Heirloom
+namespace Heirloom
 {
     /// <summary>
     /// Invert shader.
     /// </summary>
+    /// <category>Shaders and Effects</category>
     public sealed class InvertShader : Shader
     {
         private float _blend;

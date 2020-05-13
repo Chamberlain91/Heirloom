@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Contains the data of an event when the mouse has been moved on some input source.
     /// </summary>
+    /// <category>User Input</category>
     public readonly struct MouseMoveEvent
     {
         /// <summary>

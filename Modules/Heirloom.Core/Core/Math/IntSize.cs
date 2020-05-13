@@ -7,6 +7,7 @@ namespace Heirloom
     /// <summary>
     /// Represents two dimensional size by a measure in each axis.
     /// </summary>
+    /// <category>Mathematics</category>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct IntSize : IEquatable<IntSize>
     {

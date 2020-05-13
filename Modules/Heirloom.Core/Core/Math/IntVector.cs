@@ -7,6 +7,7 @@ namespace Heirloom
     /// <summary>
     /// Represents a vector with two integer values.
     /// </summary>
+    /// <category>Mathematics</category>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct IntVector : IEquatable<IntVector>
     {

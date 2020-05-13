@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Represents units of time, such as a millisecond.
     /// </summary>
+    /// <category>Utility</category>
     public enum TimeUnit
     {
         /// <summary>

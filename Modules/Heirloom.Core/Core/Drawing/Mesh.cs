@@ -11,6 +11,7 @@ namespace Heirloom
     /// <summary>
     /// Represents a triangle based mesh.
     /// </summary>
+    /// <category>Drawing</category>
     public sealed class Mesh
     {
         private readonly List<Vertex> _vertices;

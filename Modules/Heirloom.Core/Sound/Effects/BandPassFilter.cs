@@ -3,6 +3,7 @@ namespace Heirloom.Sound
     /// <summary>
     /// An audio effect that implements a band pass filter.
     /// </summary>
+    /// <category>Effects and Filters</category>
     public class BandPassFilter : AudioEffect
     {
         private readonly LowPassFilter _lo;

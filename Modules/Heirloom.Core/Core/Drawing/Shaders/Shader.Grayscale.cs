@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Grayscale shader.
     /// </summary>
+    /// <category>Shaders and Effects</category>
     public sealed class GrayscaleShader : Shader
     {
         private float _blend;

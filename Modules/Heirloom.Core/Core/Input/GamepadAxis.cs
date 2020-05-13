@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Represents the various axis on a standard game pad.
     /// </summary>
+    /// <category>User Input</category>
     public enum GamepadAxis
     {
         /// <summary>

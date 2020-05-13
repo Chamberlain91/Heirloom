@@ -10,6 +10,7 @@ namespace Heirloom
     /// <summary>
     /// Represents a rectangle defined with integer coordinates.
     /// </summary>
+    /// <category>Mathematics</category>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct IntRectangle : IEquatable<IntRectangle>
     {

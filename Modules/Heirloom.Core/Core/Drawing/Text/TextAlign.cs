@@ -5,6 +5,7 @@ namespace Heirloom
     /// <summary>
     /// Controls how text is aligned to the layout rectangle.
     /// </summary>
+    /// <category>Text</category>
     [Flags]
     public enum TextAlign
     {

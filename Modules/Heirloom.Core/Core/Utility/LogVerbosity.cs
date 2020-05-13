@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Controls the verbosity of <see cref="Log"/>.
     /// </summary>
+    /// <category>Logging</category>
     public enum LogVerbosity
     {
         /// <summary>
