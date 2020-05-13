@@ -21,7 +21,7 @@ public static class PolygonTools
 
 | Name                            | Return Type                              | Summary                                                                |
 |---------------------------------|------------------------------------------|------------------------------------------------------------------------|
-| [ComputeMetrics(IReadOn...][1]  | `void`                                   |                                                                        |
+| [ComputeMetrics(IReadOn...][1]  | `void`                                   | Computes general metrics about the specified polygon. Outputs the `... |
 | [ContainsPoint(IReadOnl...][2]  | `bool`                                   | Assuming the polygon is convex, checks if the point is contained.      |
 | [DecomposeConvex(IReadO...][3]  | `IEnumerable<Polygon>`                   | Converts a simple polygon into one or more convex polygons. If the ... |
 | [DecomposeConvexIndices...][4]  | `IEnumerable<IReadOnlyList<int>>`        | Converts a simple polygon into one or more convex polygons enumerat... |

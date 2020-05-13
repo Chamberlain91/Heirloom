@@ -42,11 +42,11 @@ IEquatable\<Ray>
 
 #### Instance
 
-| Name                           | Return Type | Summary                           |
-|--------------------------------|-------------|-----------------------------------|
-| [Deconstruct(out Vector...][3] | `void`      |                                   |
-| [GetPoint(float)][4]           | [Vector][9] | Gets a point along the ray.       |
-| [Set(in Vector, in Vector)][5] | `void`      | Sets the components of this size. |
+| Name                           | Return Type | Summary                                            |
+|--------------------------------|-------------|----------------------------------------------------|
+| [Deconstruct(out Vector...][3] | `void`      | Deconstructs this Ray into constituent components. |
+| [GetPoint(float)][4]           | [Vector][9] | Gets a point along the ray.                        |
+| [Set(in Vector, in Vector)][5] | `void`      | Sets the components of this size.                  |
 
 #### Static
 

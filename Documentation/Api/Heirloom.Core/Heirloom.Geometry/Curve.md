@@ -7,6 +7,8 @@
 
 > **Namespace**: [Heirloom.Geometry][0]
 
+An implementation of a multi-point bezier curve using multiple 'segments' of simple curves.
+
 ```cs
 public sealed class Curve
 ```
@@ -31,21 +33,21 @@ public sealed class Curve
 
 #### Instance
 
-| Name                            | Return Type     | Summary                                         |
-|---------------------------------|-----------------|-------------------------------------------------|
-| [Add(Vector, Vector, Ve...][2]  | `void`          | Adds a segment to the end of the curve.         |
-| [GetCurveType(int)][3]          | [CurveType][15] |                                                 |
-| [GetInHandle(int)][4]           | [Vector][16]    |                                                 |
-| [GetOutHandle(int)][5]          | [Vector][16]    |                                                 |
-| [GetPoint(int)][6]              | [Vector][16]    |                                                 |
-| [Insert(int, Vector, Ve...][7]  | `void`          | Inserts a segment into the curve.               |
-| [Interpolate(float)][8]         | [Vector][16]    | Computes a point interpolated across the curve. |
-| [InterpolateDerivative(...][9]  | [Vector][16]    | Computes the interpolated point.                |
-| [RemoveAt(int)][10]             | `void`          | Removes a segment from the curve.               |
-| [SetCurveType(int, Curv...][11] | `void`          |                                                 |
-| [SetInHandle(int, Vector)][12]  | `void`          |                                                 |
-| [SetOutHandle(int, Vector)][13] | `void`          |                                                 |
-| [SetPoint(int, Vector)][14]     | `void`          |                                                 |
+| Name                            | Return Type     | Summary                                                                |
+|---------------------------------|-----------------|------------------------------------------------------------------------|
+| [Add(Vector, Vector, Ve...][2]  | `void`          | Adds a segment to the end of the curve.                                |
+| [GetCurveType(int)][3]          | [CurveType][15] | Gets the type of curve of the segment following the point at the sp... |
+| [GetInHandle(int)][4]           | [Vector][16]    | Gets the incoming handle point of the curve at the specified index.    |
+| [GetOutHandle(int)][5]          | [Vector][16]    | Gets the outgoing handle point of the curve at the specified index.    |
+| [GetPoint(int)][6]              | [Vector][16]    | Gets the point of the curve at the specified index.                    |
+| [Insert(int, Vector, Ve...][7]  | `void`          | Inserts a segment into the curve.                                      |
+| [Interpolate(float)][8]         | [Vector][16]    | Computes a point interpolated across the curve.                        |
+| [InterpolateDerivative(...][9]  | [Vector][16]    | Computes the derivative of a point interpolated across the curve.      |
+| [RemoveAt(int)][10]             | `void`          | Removes a segment from the curve.                                      |
+| [SetCurveType(int, Curv...][11] | `void`          | Sets the type of curve of the segment following the point at the sp... |
+| [SetInHandle(int, Vector)][12]  | `void`          | Sets the incoming handle point of the curve at the specified index.    |
+| [SetOutHandle(int, Vector)][13] | `void`          | Sets the outgoing handle point of the curve at the specified index.    |
+| [SetPoint(int, Vector)][14]     | `void`          | Sets the point of the curve at the specified index.                    |
 
 [0]: ../../Heirloom.Core.md
 [1]: Curve/Count.md

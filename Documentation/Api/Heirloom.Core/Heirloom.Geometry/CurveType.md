@@ -7,15 +7,17 @@
 
 > **Namespace**: [Heirloom.Geometry][0]
 
+Represents the type of curve.
+
 ```cs
 public enum CurveType : IComparable, IFormattable, IConvertible
 ```
 
-| Name      | Summary |
-|-----------|---------|
-| Cubic     |         |
-| Linear    |         |
-| Quadratic |         |
-| Stepped   |         |
+| Name      | Summary                               |
+|-----------|---------------------------------------|
+| Cubic     | A cubic curve.                        |
+| Linear    | A linear curve (aka, a line).         |
+| Quadratic | A quadratic curve (aka, parabola).    |
+| Stepped   | A stepped curve (ie, constant value). |
 
 [0]: ../../Heirloom.Core.md

@@ -50,11 +50,11 @@ public class Polygon : IShape
 
 | Name                            | Return Type             | Summary                                                                |
 |---------------------------------|-------------------------|------------------------------------------------------------------------|
-| [Add(Vector)][10]               | `void`                  |                                                                        |
-| [Clear()][11]                   | `void`                  |                                                                        |
+| [Add(Vector)][10]               | `void`                  | Adds a vertex to the end of polygon's vertex list.                     |
+| [Clear()][11]                   | `void`                  | Removes all vertices from the polygon.                                 |
 | [Contains(in Vector)][12]       | `bool`                  | Determines if the specified point is contained by this polygon.        |
 | [GetNearestPoint(in Vec...][13] | [Vector][23]            | Gets the nearest point on the polygon to the specified point.          |
-| [Insert(int, Vector)][14]       | `void`                  |                                                                        |
+| [Insert(int, Vector)][14]       | `void`                  | Inserts a vertex into the polygon's vertex list.                       |
 | [Overlaps(IShape)][15]          | `bool`                  | Checks for an overlap between this polygon and another shape.          |
 | [Overlaps(in Rectangle)][15]    | `bool`                  | Determines if this polygon overlaps the specified rectangle.           |
 | [Overlaps(in Circle)][15]       | `bool`                  | Determines if this polygon overlaps the specified circle.              |
@@ -63,7 +63,7 @@ public class Polygon : IShape
 | [Project(in Vector)][16]        | [Range][24]             | Project this polygon onto the specified axis.                          |
 | [Raycast(in Ray)][17]           | `bool`                  | Checks if a ray intersects this polygon.                               |
 | [Raycast(in Ray, out Ra...][17] | `bool`                  | Checks if a ray intersects this polygon and outputs information on ... |
-| [RemoveAt(int)][18]             | `void`                  |                                                                        |
+| [RemoveAt(int)][18]             | `void`                  | Removes a vertex from the polygon's vertex list.                       |
 | [Triangulate()][19]             | `IEnumerable<Triangle>` | Decompose this polygon into triangles.                                 |
 
 #### Static

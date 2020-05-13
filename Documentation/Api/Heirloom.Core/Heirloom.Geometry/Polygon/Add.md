@@ -10,13 +10,15 @@
 
 ### Add(Vector)
 
+Adds a vertex to the end of polygon's vertex list.
+
 ```cs
 public void Add(Vector item)
 ```
 
-| Name | Type        | Summary |
-|------|-------------|---------|
-| item | [Vector][2] |         |
+| Name | Type        | Summary            |
+|------|-------------|--------------------|
+| item | [Vector][2] | The vertex to add. |
 
 > **Returns** - `void`
 

@@ -10,14 +10,16 @@
 
 ### Deconstruct(out Vector, out Vector)
 
+Deconstructs this [Ray][1] into constituent components.
+
 ```cs
 public void Deconstruct(out Vector origin, out Vector direction)
 ```
 
-| Name      | Type        | Summary |
-|-----------|-------------|---------|
-| origin    | [Vector][2] |         |
-| direction | [Vector][2] |         |
+| Name      | Type        | Summary                          |
+|-----------|-------------|----------------------------------|
+| origin    | [Vector][2] | The ray origin point.            |
+| direction | [Vector][2] | The direction vector of the ray. |
 
 > **Returns** - `void`
 

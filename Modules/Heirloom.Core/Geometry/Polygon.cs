@@ -238,24 +238,40 @@ namespace Heirloom.Geometry
 
         #region Vertex List (Clear, Add, Insert, RemoveAt)
 
+        /// <summary>
+        /// Removes all vertices from the polygon.
+        /// </summary>
         public void Clear()
         {
             _vertices.Clear();
             _dirty = Dirty.Everything;
         }
 
+        /// <summary>
+        /// Adds a vertex to the end of polygon's vertex list.
+        /// </summary>
+        /// <param name="item">The vertex to add.</param>
         public void Add(Vector item)
         {
             _vertices.Add(item);
             _dirty |= Dirty.Everything;
         }
 
+        /// <summary>
+        /// Inserts a vertex into the polygon's vertex list.
+        /// </summary>
+        /// <param name="index">The place in the vertex list to insert the vertex.</param>
+        /// <param name="item">The vertex to insert.</param>
         public void Insert(int index, Vector item)
         {
             _vertices.Insert(index, item);
             _dirty |= Dirty.Everything;
         }
 
+        /// <summary>
+        /// Removes a vertex from the polygon's vertex list.
+        /// </summary>
+        /// <param name="index">The index of the vertex to remove.</param>
         public void RemoveAt(int index)
         {
             _dirty |= Dirty.Everything;

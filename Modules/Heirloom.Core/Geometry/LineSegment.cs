@@ -25,6 +25,11 @@ namespace Heirloom.Geometry
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs a new <see cref="LineSegment"/>.
+        /// </summary>
+        /// <param name="a">The first end-point of this <see cref="LineSegment"/>.</param>
+        /// <param name="b">The second end-point of this <see cref="LineSegment"/>.</param>
         public LineSegment(Vector a, Vector b)
         {
             A = a;
@@ -218,11 +223,17 @@ namespace Heirloom.Geometry
 
         #region Comparison Operators
 
+        /// <summary>
+        /// Compares two instances of <see cref="LineSegment"/> for equality.
+        /// </summary>
         public static bool operator ==(LineSegment left, LineSegment right)
         {
             return left.Equals(right);
         }
 
+        /// <summary>
+        /// Compares two instances of <see cref="LineSegment"/> for inequality.
+        /// </summary>
         public static bool operator !=(LineSegment left, LineSegment right)
         {
             return !(left == right);
@@ -232,18 +243,27 @@ namespace Heirloom.Geometry
 
         #region Equality
 
+        /// <summary>
+        /// Compares this <see cref="LineSegment"/> for equality with another object.
+        /// </summary>
         public override bool Equals(object obj)
         {
             return obj is LineSegment edge
                 && Equals(edge);
         }
 
+        /// <summary>
+        /// Compares this <see cref="LineSegment"/> for equality with another <see cref="LineSegment"/>.
+        /// </summary>
         public bool Equals(LineSegment other)
         {
             return (A.Equals(other.A) && B.Equals(other.B))
                 || (A.Equals(other.B) && B.Equals(other.A));
         }
 
+        /// <summary>
+        /// Returns the hash code for this <see cref="LineSegment"/>.
+        /// </summary>
         public override int GetHashCode()
         {
             return A.GetHashCode() ^ B.GetHashCode();
