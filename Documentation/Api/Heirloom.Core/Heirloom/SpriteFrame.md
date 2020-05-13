@@ -10,7 +10,7 @@
 Represents a single frame of a [SpriteAnimation][1] .
 
 ```cs
-public class SpriteFrame
+public sealed class SpriteFrame
 ```
 
 ### Properties

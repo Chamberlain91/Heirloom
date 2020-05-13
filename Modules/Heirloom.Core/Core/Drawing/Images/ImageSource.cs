@@ -1,7 +1,7 @@
 namespace Heirloom
 {
     /// <summary>
-    /// Represents the abstract representation of an image.
+    /// An abstract representation of an image.
     /// </summary>
     /// <seealso cref="Surface"/>
     /// <seealso cref="Image"/>

@@ -5,6 +5,8 @@ namespace Heirloom
     /// <summary>
     /// A utility class to help drive sprite based animation.
     /// </summary>
+    /// <seealso cref="Sprite"/>
+    /// <seealso cref="SpriteAnimation"/>
     /// <category>Drawing</category>
     public sealed class SpritePlayer
     {
