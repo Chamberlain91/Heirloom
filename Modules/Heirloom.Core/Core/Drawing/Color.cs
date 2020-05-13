@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Heirloom
@@ -33,47 +32,97 @@ namespace Heirloom
 
         #region Constants
 
+        /// <summary>
+        /// The color red (#FF0000).
+        /// </summary>
         public static Color Red { get; } = Parse("FF0000");
 
+        /// <summary>
+        /// The color green (#00FF00).
+        /// </summary>
         public static Color Green { get; } = Parse("00FF00");
 
+        /// <summary>
+        /// The color blue (#0000FF).
+        /// </summary>
         public static Color Blue { get; } = Parse("0000FF");
 
+        /// <summary>
+        /// The color yellow (#FFFF00).
+        /// </summary>
         public static Color Yellow { get; } = Parse("FFFF00");
 
+        /// <summary>
+        /// The color cyan (#00FFFF).
+        /// </summary>
         public static Color Cyan { get; } = Parse("00FFFF");
 
+        /// <summary>
+        /// The color magenta (#FF00FF).
+        /// </summary>
         public static Color Magenta { get; } = Parse("FF00FF");
 
+        /// <summary>
+        /// The color white (#FFFFFF).
+        /// </summary>
         public static Color White { get; } = Parse("FFFFFF");
 
+        /// <summary>
+        /// The color black (#000000).
+        /// </summary>
         public static Color Black { get; } = Parse("000000");
 
+        /// <summary>
+        /// The color gray (#999999).
+        /// </summary>
         public static Color Gray { get; } = Parse("999999");
 
+        /// <summary>
+        /// The color dark gray (#333333).
+        /// </summary>
         public static Color DarkGray { get; } = Parse("333333");
 
+        /// <summary>
+        /// The color light gray (#CCCCCC).
+        /// </summary>
         public static Color LightGray { get; } = Parse("CCCCCC");
 
+        /// <summary>
+        /// The color orange (#FF8811).
+        /// </summary>
         public static Color Orange { get; } = Parse("FF8811");
 
-        public static Color Indigo { get; } = Parse("FF4B0082");
+        /// <summary>
+        /// The color indigo (#4B0082).
+        /// </summary>
+        public static Color Indigo { get; } = Parse("4B0082");
 
-        public static Color Violet { get; } = Parse("FF8A2BE2");
+        /// <summary>
+        /// The color violet (#8A2BE2).
+        /// </summary>
+        public static Color Violet { get; } = Parse("8A2BE2");
 
+        /// <summary>
+        /// The color pink (#DD55AA).
+        /// </summary>
         public static Color Pink { get; } = Parse("DD55AA");
 
+        /// <summary>
+        /// The color transparent black (#00000000).
+        /// </summary>
         public static Color Transparent { get; } = Parse("00000000");
-
-        public static IReadOnlyList<Color> Rainbow { get; } = new[] { Red, Orange, Yellow, Green, Blue, Indigo, Violet };
-
-        public static Color Random
-            => new Color(Calc.Random.NextFloat(), Calc.Random.NextFloat(), Calc.Random.NextFloat());
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="Color"/>.
+        /// </summary>
+        /// <param name="r">The red component.</param>
+        /// <param name="g">The green component.</param>
+        /// <param name="b">The blue component.</param>
+        /// <param name="a">The alpha component.</param>
         public Color(float r, float g, float b, float a = 1F)
         {
             R = r;
@@ -402,7 +451,7 @@ namespace Heirloom
         /// </summary>
         /// <param name="source">Source color</param>
         /// <param name="target">Target color.</param>
-        /// <param name="factor">Blending factor (0.0 to 1.0)</param>
+        /// <param name="t">Blending factor (0.0 to 1.0)</param>
         /// <returns>The interpolated color.</returns>
         public static Color Lerp(Color source, Color target, float t)
         {
@@ -416,6 +465,9 @@ namespace Heirloom
 
         #region Arithmetic Operators
 
+        /// <summary>
+        /// Performs a component-wise sum of two instances of <see cref="Color"/>.
+        /// </summary>
         public static Color operator +(Color c1, Color c2)
         {
             var r = c1.R + c2.R;
@@ -426,6 +478,9 @@ namespace Heirloom
             return new Color(r, g, b, a);
         }
 
+        /// <summary>
+        /// Performs a component-wise difference of two instances of <see cref="Color"/>.
+        /// </summary>
         public static Color operator -(Color c1, Color c2)
         {
             var r = c1.R - c2.R;
@@ -436,6 +491,9 @@ namespace Heirloom
             return new Color(r, g, b, a);
         }
 
+        /// <summary>
+        /// Performs a component-wise multiplication of two instances of <see cref="Color"/>.
+        /// </summary>
         public static Color operator *(Color c1, Color c2)
         {
             var r = c1.R * c2.R;
@@ -446,6 +504,9 @@ namespace Heirloom
             return new Color(r, g, b, a);
         }
 
+        /// <summary>
+        /// Performs a component-wise division of two instances of <see cref="Color"/>.
+        /// </summary>
         public static Color operator /(Color c1, Color c2)
         {
             var r = c1.R / c2.R;
@@ -456,6 +517,9 @@ namespace Heirloom
             return new Color(r, g, b, a);
         }
 
+        /// <summary>
+        /// Performs a component-wise scale of a <see cref="Color"/>.
+        /// </summary>
         public static Color operator *(float x, Color c2)
         {
             var r = x * c2.R;
@@ -466,6 +530,9 @@ namespace Heirloom
             return new Color(r, g, b, a);
         }
 
+        /// <summary>
+        /// Performs a component-wise scale of a <see cref="Color"/>.
+        /// </summary>
         public static Color operator *(Color c1, float x)
         {
             var r = c1.R * x;
@@ -476,6 +543,9 @@ namespace Heirloom
             return new Color(r, g, b, a);
         }
 
+        /// <summary>
+        /// Performs a component-wise scale of a <see cref="Color"/>.
+        /// </summary>
         public static Color operator /(Color c1, float x)
         {
             var r = c1.R / x;
@@ -490,6 +560,13 @@ namespace Heirloom
 
         #region Conversion Operators
 
+        /// <summary>
+        /// Converts this <see cref="Color"/> into <see cref="ColorBytes"/>.
+        /// </summary>
+        /// <remarks>
+        /// It is possible to overflow the 8 bit integer components of <see cref="ColorBytes"/> if the components of
+        /// this <see cref="Color"/> are outside the range of 0.0 to 1.0.
+        /// </remarks>
         public static implicit operator ColorBytes(Color c)
         {
             var r = (byte) (c.R * 255);
@@ -500,21 +577,17 @@ namespace Heirloom
             return new ColorBytes(r, g, b, a);
         }
 
-        public static explicit operator uint(Color c)
-        {
-            return (uint) (ColorBytes) c;
-        }
-
-        public static explicit operator int(Color c)
-        {
-            return (int) (ColorBytes) c;
-        }
-
+        /// <summary>
+        /// Converts the integer representation of a 32 bit color into a <see cref="Color"/> structure.
+        /// </summary>
         public static explicit operator Color(uint c)
         {
             return (ColorBytes) c;
         }
 
+        /// <summary>
+        /// Converts the integer representation of a 32 bit color into a <see cref="Color"/> structure.
+        /// </summary>
         public static explicit operator Color(int c)
         {
             return (ColorBytes) c;
@@ -524,11 +597,17 @@ namespace Heirloom
 
         #region Comparison Operators
 
+        /// <summary>
+        /// Compares two instances of <see cref="Color"/> for equality.
+        /// </summary>
         public static bool operator ==(Color color1, Color color2)
         {
             return color1.Equals(color2);
         }
 
+        /// <summary>
+        /// Compares two instances of <see cref="Color"/> for inequality.
+        /// </summary>
         public static bool operator !=(Color color1, Color color2)
         {
             return !(color1 == color2);
@@ -538,12 +617,18 @@ namespace Heirloom
 
         #region Equality
 
+        /// <summary>
+        /// Compares this <see cref="Color"/> for equality with another object.
+        /// </summary>
         public override bool Equals(object obj)
         {
             return obj is Color color
                 && Equals(color);
         }
 
+        /// <summary>
+        /// Compares this <see cref="Color"/> for equality with another <see cref="Color"/>.
+        /// </summary>
         public bool Equals(Color other)
         {
             return Calc.NearEquals(R, other.R)
@@ -552,6 +637,9 @@ namespace Heirloom
                 && Calc.NearEquals(A, other.A);
         }
 
+        /// <summary>
+        /// Returns the hash code for this instance of <see cref="Color"/>.
+        /// </summary>
         public override int GetHashCode()
         {
             return HashCode.Combine(R, G, B, A);
@@ -559,6 +647,9 @@ namespace Heirloom
 
         #endregion
 
+        /// <summary>
+        /// Converts this <see cref="Color"/> into string representation.
+        /// </summary>
         public override string ToString()
         {
             return $"({R}, {G}, {B}, {A})";

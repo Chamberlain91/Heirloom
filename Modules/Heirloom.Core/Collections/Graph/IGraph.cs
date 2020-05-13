@@ -102,9 +102,9 @@ namespace Heirloom.Collections
         /// <exception cref="ArgumentException">Thrown when <paramref name="goal"/> vertex does not exist.</exception>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="heuristic"/> is null.</exception>
         IReadOnlyList<T> FindPath(T start, T goal, HeuristicCost<T> heuristic);
-
+        
         /// <summary>
-        /// Attempts to finds a path between <paramref name="start"/> and <paramref name="goal"/> vertices using the specified <paramref name="heuristic"/>.
+        /// Attempts to finds a path between <paramref name="start"/> until the first vertex to satisfy the <paramref name="goalCondition"/> using the specified <paramref name="heuristic"/>.
         /// </summary>
         /// <param name="start">Some starting vertex.</param>
         /// <param name="goalCondition">Some goal condition.</param>

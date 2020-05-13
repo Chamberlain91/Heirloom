@@ -10,6 +10,9 @@ using static Heirloom.Vector;
 
 namespace Heirloom.Collections
 {
+    /// <summary>
+    /// Implements <see cref="ISpatialCollection{T}"/> using a <see cref="SparseGrid{T}"/>.
+    /// </summary>
     public sealed class SparseGridSpatialCollection<T> : ISpatialCollection<T>
     {
         private readonly SparseGrid<HashSet<T>> _grid = new SparseGrid<HashSet<T>>();
@@ -18,13 +21,19 @@ namespace Heirloom.Collections
 
         private readonly int _cellSize;
 
+        /// <summary>
+        /// Constructs new instance of <see cref="SparseGridSpatialCollection{T}"/>.
+        /// </summary>
+        /// <param name="cellSize">The size of a square grid cell.</param>
         public SparseGridSpatialCollection(int cellSize)
         {
             _cellSize = cellSize;
         }
 
+        /// <inheritdoc/>
         public int Count => _itemRects.Count;
 
+        /// <inheritdoc/>
         public void Clear()
         {
             _items.Clear();
@@ -32,6 +41,7 @@ namespace Heirloom.Collections
             _grid.Clear();
         }
 
+        /// <inheritdoc/>
         public void Add(in T item, in IShape boundingShape)
         {
             if (_items.Add(item))
@@ -45,12 +55,14 @@ namespace Heirloom.Collections
             }
         }
 
+        /// <inheritdoc/>
         public void Update(in T item, in IShape boundingShape)
         {
             Erase(item); // remove item from cells and populate new cells
             PopulateItems(item, GetRect(boundingShape.Bounds));
         }
 
+        /// <inheritdoc/>
         public bool Remove(in T item)
         {
             if (_items.Remove(item))
@@ -93,11 +105,13 @@ namespace Heirloom.Collections
             }
         }
 
+        /// <inheritdoc/>
         public bool Contains(in T item)
         {
             return _items.Contains(item);
         }
 
+        /// <inheritdoc/>
         public IEnumerable<T> Query(Vector point)
         {
             return Iterate().Distinct();
@@ -116,6 +130,7 @@ namespace Heirloom.Collections
             }
         }
 
+        /// <inheritdoc/>
         public IEnumerable<T> Query(IShape queryShape)
         {
             return Iterate().Distinct();
@@ -136,6 +151,7 @@ namespace Heirloom.Collections
             }
         }
 
+        /// <inheritdoc/>
         public IEnumerable<T> Query(Ray ray, float maxDistance)
         {
             if (!float.IsFinite(maxDistance)) { throw new NotImplementedException("Must specify a finite distance with ray queries."); }
@@ -180,6 +196,7 @@ namespace Heirloom.Collections
             return new IntRectangle(x, y, w, h);
         }
 
+        /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator()
         {
             return _items.GetEnumerator();

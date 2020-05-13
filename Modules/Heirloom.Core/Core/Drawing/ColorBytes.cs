@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Heirloom
@@ -33,47 +32,97 @@ namespace Heirloom
 
         #region Constants
 
+        /// <summary>
+        /// The color red (#FF0000).
+        /// </summary>
         public static ColorBytes Red { get; } = Parse("FF0000");
 
+        /// <summary>
+        /// The color green (#00FF00).
+        /// </summary>
         public static ColorBytes Green { get; } = Parse("00FF00");
 
+        /// <summary>
+        /// The color blue (#0000FF).
+        /// </summary>
         public static ColorBytes Blue { get; } = Parse("0000FF");
 
+        /// <summary>
+        /// The color yellow (#FFFF00).
+        /// </summary>
         public static ColorBytes Yellow { get; } = Parse("FFFF00");
 
+        /// <summary>
+        /// The color cyan (#00FFFF).
+        /// </summary>
         public static ColorBytes Cyan { get; } = Parse("00FFFF");
 
+        /// <summary>
+        /// The color magenta (#FF00FF).
+        /// </summary>
         public static ColorBytes Magenta { get; } = Parse("FF00FF");
 
+        /// <summary>
+        /// The color white (#FFFFFF).
+        /// </summary>
         public static ColorBytes White { get; } = Parse("FFFFFF");
 
+        /// <summary>
+        /// The color black (#000000).
+        /// </summary>
         public static ColorBytes Black { get; } = Parse("000000");
 
+        /// <summary>
+        /// The color gray (#999999).
+        /// </summary>
         public static ColorBytes Gray { get; } = Parse("999999");
 
+        /// <summary>
+        /// The color dark gray (#333333).
+        /// </summary>
         public static ColorBytes DarkGray { get; } = Parse("333333");
 
+        /// <summary>
+        /// The color light gray (#CCCCCC).
+        /// </summary>
         public static ColorBytes LightGray { get; } = Parse("CCCCCC");
 
+        /// <summary>
+        /// The color orange (#FF8811).
+        /// </summary>
         public static ColorBytes Orange { get; } = Parse("FF8811");
 
-        public static ColorBytes Indigo { get; } = Parse("FF4B0082");
+        /// <summary>
+        /// The color indigo (#4B0082).
+        /// </summary>
+        public static ColorBytes Indigo { get; } = Parse("4B0082");
 
-        public static ColorBytes Violet { get; } = Parse("FF8A2BE2");
+        /// <summary>
+        /// The color violet (#8A2BE2).
+        /// </summary>
+        public static ColorBytes Violet { get; } = Parse("8A2BE2");
 
+        /// <summary>
+        /// The color pink (#DD55AA).
+        /// </summary>
         public static ColorBytes Pink { get; } = Parse("DD55AA");
 
+        /// <summary>
+        /// The color transparent black (#00000000).
+        /// </summary>
         public static ColorBytes Transparent { get; } = Parse("00000000");
-
-        public static IReadOnlyList<ColorBytes> Rainbow { get; } = new[] { Red, Orange, Yellow, Green, Blue, Indigo, Violet };
-
-        public static ColorBytes Random
-            => new ColorBytes((byte) (Calc.Random.Next() & 0xFF), (byte) (Calc.Random.Next() & 0xFF), (byte) (Calc.Random.Next() & 0xFF));
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="ColorBytes"/>.
+        /// </summary>
+        /// <param name="r">The red component.</param>
+        /// <param name="g">The green component.</param>
+        /// <param name="b">The blue component.</param>
+        /// <param name="a">The alpha component.</param>
         public ColorBytes(byte r, byte g, byte b, byte a = 255)
         {
             R = r;
@@ -239,6 +288,9 @@ namespace Heirloom
 
         #region Arithmetic Operators
 
+        /// <summary>
+        /// Performs a component-wise sum of two instances of <see cref="ColorBytes"/>.
+        /// </summary>
         public static ColorBytes operator +(ColorBytes c1, ColorBytes c2)
         {
             var r = c1.R + c2.R;
@@ -249,6 +301,9 @@ namespace Heirloom
             return new ColorBytes((byte) r, (byte) g, (byte) b, (byte) a);
         }
 
+        /// <summary>
+        /// Performs a component-wise difference of two instances of <see cref="ColorBytes"/>.
+        /// </summary>
         public static ColorBytes operator -(ColorBytes c1, ColorBytes c2)
         {
             var r = c1.R - c2.R;
@@ -259,81 +314,60 @@ namespace Heirloom
             return new ColorBytes((byte) r, (byte) g, (byte) b, (byte) a);
         }
 
+        /// <summary>
+        /// Performs a component-wise multiplication of two instances of <see cref="ColorBytes"/>, normalizing back into byte range.
+        /// </summary>
+        /// <seealso cref="Multiply(in ColorBytes, in ColorBytes, ref ColorBytes)"/>
         public static ColorBytes operator *(ColorBytes c1, ColorBytes c2)
         {
             Multiply(in c1, in c2, ref c1);
             return c1;
         }
 
-        public static ColorBytes operator /(ColorBytes c1, ColorBytes c2)
-        {
-            var r = c1.R * 255 / c2.R;
-            var g = c1.G * 255 / c2.G;
-            var b = c1.B * 255 / c2.B;
-            var a = c1.A * 255 / c2.A;
-
-            return new ColorBytes((byte) r, (byte) g, (byte) b, (byte) a);
-        }
-
-        public static ColorBytes operator *(float x, ColorBytes c2)
-        {
-            var r = x * c2.R / 255;
-            var g = x * c2.G / 255;
-            var b = x * c2.B / 255;
-            var a = x * c2.A / 255;
-
-            return new ColorBytes((byte) r, (byte) g, (byte) b, (byte) a);
-        }
-
-        public static ColorBytes operator *(ColorBytes c1, int x)
-        {
-            var r = c1.R * x / 255;
-            var g = c1.G * x / 255;
-            var b = c1.B * x / 255;
-            var a = c1.A * x / 255;
-
-            return new ColorBytes((byte) r, (byte) g, (byte) b, (byte) a);
-        }
-
-        public static ColorBytes operator /(ColorBytes c1, float x)
-        {
-            var r = c1.R * 255 / x;
-            var g = c1.G * 255 / x;
-            var b = c1.B * 255 / x;
-            var a = c1.A * 255 / x;
-
-            return new ColorBytes((byte) r, (byte) g, (byte) b, (byte) a);
-        }
-
         #endregion
 
         #region Conversion Operators
 
-        public static implicit operator Color(ColorBytes p)
+        /// <summary>
+        /// Converts a <see cref="ColorBytes"/> into <see cref="Color"/>.
+        /// </summary>
+        public static implicit operator Color(ColorBytes c)
         {
-            var r = p.R / 255F;
-            var g = p.G / 255F;
-            var b = p.B / 255F;
-            var a = p.A / 255F;
+            var r = c.R / 255F;
+            var g = c.G / 255F;
+            var b = c.B / 255F;
+            var a = c.A / 255F;
 
             return new Color(r, g, b, a);
         }
 
+        /// <summary>
+        /// Converts a <see cref="ColorBytes"/> structure into 32 bit integer representation.
+        /// </summary>
         public static explicit operator uint(ColorBytes p)
         {
             return *(uint*) &p;
         }
 
+        /// <summary>
+        /// Converts a <see cref="ColorBytes"/> structure into 32 bit integer representation.
+        /// </summary>
         public static explicit operator int(ColorBytes p)
         {
             return *(int*) &p;
         }
 
+        /// <summary>
+        /// Converts the integer representation of a 32 bit color into a <see cref="ColorBytes"/> structure.
+        /// </summary>
         public static explicit operator ColorBytes(uint p)
         {
             return *(ColorBytes*) &p;
         }
 
+        /// <summary>
+        /// Converts the integer representation of a 32 bit color into a <see cref="ColorBytes"/> structure.
+        /// </summary>
         public static explicit operator ColorBytes(int p)
         {
             return *(ColorBytes*) &p;
@@ -343,11 +377,17 @@ namespace Heirloom
 
         #region Comparison Operators
 
+        /// <summary>
+        /// Compares two instances of <see cref="ColorBytes"/> for equality.
+        /// </summary>
         public static bool operator ==(ColorBytes color1, ColorBytes color2)
         {
             return color1.Equals(color2);
         }
 
+        /// <summary>
+        /// Compares two instances of <see cref="ColorBytes"/> for inequality.
+        /// </summary>
         public static bool operator !=(ColorBytes color1, ColorBytes color2)
         {
             return !(color1 == color2);
@@ -357,12 +397,18 @@ namespace Heirloom
 
         #region Equality
 
+        /// <summary>
+        /// Compares this <see cref="Color"/> for equality with another object.
+        /// </summary>
         public override bool Equals(object obj)
         {
             return obj is ColorBytes bytes
                 && Equals(bytes);
         }
 
+        /// <summary>
+        /// Compares this <see cref="Color"/> for equality with another <see cref="ColorBytes"/>.
+        /// </summary>
         public bool Equals(ColorBytes other)
         {
             return R == other.R
@@ -371,18 +417,19 @@ namespace Heirloom
                 && A == other.A;
         }
 
+        /// <summary>
+        /// Returns the hash code for this instance of <see cref="ColorBytes"/>.
+        /// </summary>
         public override int GetHashCode()
         {
-            var hashCode = 1960784236;
-            hashCode = hashCode * -1521134295 + R.GetHashCode();
-            hashCode = hashCode * -1521134295 + G.GetHashCode();
-            hashCode = hashCode * -1521134295 + B.GetHashCode();
-            hashCode = hashCode * -1521134295 + A.GetHashCode();
-            return hashCode;
+            return HashCode.Combine(R, G, B, A);
         }
 
         #endregion
 
+        /// <summary>
+        /// Converts this <see cref="ColorBytes"/> into string representation.
+        /// </summary>
         public override string ToString()
         {
             return $"({R}, {G}, {B}, {A})";
