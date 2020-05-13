@@ -15,6 +15,7 @@ namespace Heirloom
     /// <summary>
     /// Represents an image as a grid of <see cref="ColorBytes"/>.
     /// </summary>
+    /// <category>Drawing</category>
     public sealed class Image : ImageSource
     {
         /// <summary>

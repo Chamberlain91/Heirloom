@@ -9,12 +9,14 @@ namespace Heirloom
     /// <param name="text">The text currently set for layout.</param>
     /// <param name="index">The index of the current character being considered for layout.</param>
     /// <param name="state">The state of the current character in layout.</param>
+    /// <category>Text</category>
     public delegate void TextLayoutCallback(string text, int index, ref TextLayoutState state);
 
     /// <summary>
     /// Utility to measure text and manually invoke the text layout function. <para/> Internally used by 
     /// <see cref="GraphicsContext.DrawText(string, in Rectangle, Font, int, TextAlign, DrawTextCallback)"/> and its variants.
     /// </summary>
+    /// <category>Text</category>
     public static class TextLayout
     {
         #region Measure

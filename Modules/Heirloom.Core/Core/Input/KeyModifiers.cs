@@ -5,6 +5,7 @@ namespace Heirloom
     /// <summary>
     /// Flags that represent the modifier keys pressed or toggled when an associated input event occured.
     /// </summary>
+    /// <category>User Input</category>
     [Flags]
     public enum KeyModifiers
     {

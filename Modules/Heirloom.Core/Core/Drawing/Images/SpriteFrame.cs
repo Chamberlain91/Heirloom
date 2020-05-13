@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 
 namespace Heirloom
 {
     /// <summary>
     /// Represents a single frame of a <see cref="SpriteAnimation"/>.
     /// </summary>
+    /// <category>Drawing</category>
     public class SpriteFrame
     {
         internal SpriteFrame(Image image, float delay)

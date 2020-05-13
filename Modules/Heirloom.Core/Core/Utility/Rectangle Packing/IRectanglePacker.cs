@@ -5,6 +5,7 @@ namespace Heirloom
     /// <summary>
     /// An interface for packing rectangles into a larger container rectangle.
     /// </summary>
+    /// <category>Utility</category>
     internal interface IRectanglePacker<TElement>
     {
         /// <summary>

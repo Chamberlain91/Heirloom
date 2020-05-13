@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Contains the data of an event when a key has been pressed or released on some input source.
     /// </summary>
+    /// <category>User Input</category>
     public readonly struct KeyEvent
     {
         /// <summary>

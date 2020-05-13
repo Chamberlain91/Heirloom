@@ -8,6 +8,7 @@ namespace Heirloom
     /// Provides a centralized query style input layer.
     /// This is useful for implementing games.
     /// </summary>
+    /// <category>User Input</category>
     public static class Input
     {
         private static readonly HashSet<IInputSource> _sources;

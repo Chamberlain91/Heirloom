@@ -14,6 +14,7 @@ namespace Heirloom
     /// An object to represent a truetype font.
     /// Provides functionality to query and measure aspects of the font.
     /// </summary>
+    /// <category>Text</category>
     public unsafe class Font : IDisposable
     {
         static Font()

@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Controls how drawing operations are blended into existing pixels.
     /// </summary>
+    /// <category>Drawing</category>
     public enum Blending
     {
         /// <summary>

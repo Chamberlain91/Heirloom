@@ -5,6 +5,7 @@ namespace Heirloom
     /// <summary>
     /// Represents a vertex of <see cref="Mesh"/>.
     /// </summary>
+    /// <category>Drawing</category>
     [StructLayout(LayoutKind.Sequential, Pack = 4, Size = 16)]
     public struct Vertex
     {

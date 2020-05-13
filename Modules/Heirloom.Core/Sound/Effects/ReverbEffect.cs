@@ -6,6 +6,7 @@ namespace Heirloom.Sound
     /// An audio effect that implements a Schroeder reverb.
     /// </summary>
     /// <remarks> Based on Freeverb. </remarks>
+    /// <category>Effects and Filters</category>
     public class ReverbEffect : AudioEffect
     {
         private readonly AllpassFilter[] _allpassFilters;

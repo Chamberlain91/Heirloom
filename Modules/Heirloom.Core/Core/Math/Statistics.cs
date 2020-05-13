@@ -6,6 +6,7 @@ namespace Heirloom
     /// <summary>
     /// Represents statistics of some data.
     /// </summary>
+    /// <category>Mathematics</category>
     public readonly struct Statistics : IEquatable<Statistics>
     {
         /// <summary>

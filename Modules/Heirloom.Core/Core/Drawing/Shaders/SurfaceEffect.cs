@@ -4,6 +4,7 @@ namespace Heirloom
     /// The abstract representation of a particular surface effect.
     /// </summary>
     /// <remarks>A surface effect modifies the content of a surface through a shader based post processing step.</remarks>
+    /// <category>Shaders and Effects</category>
     public abstract class SurfaceEffect
     {
         /// <summary>

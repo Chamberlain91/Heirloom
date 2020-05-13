@@ -5,6 +5,7 @@ namespace Heirloom
     /// <summary>
     /// Represents the functionality of an input source.
     /// </summary>
+    /// <category>User Input</category>
     public interface IInputSource
     {
         #region Keyboard

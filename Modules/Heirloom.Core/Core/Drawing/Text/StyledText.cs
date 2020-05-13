@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Styled text compiled by a <see cref="StyledTextParser"/>.
     /// </summary>
+    /// <category>Text</category>
     public abstract class StyledText
     {
         /// <summary>

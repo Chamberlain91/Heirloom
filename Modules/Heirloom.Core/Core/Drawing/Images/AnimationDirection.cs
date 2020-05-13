@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Represents animation direction options.
     /// </summary>
+    /// <category>Drawing</category>
     public enum AnimationDirection : byte
     {
         /// <summary>

@@ -7,6 +7,7 @@ namespace Heirloom
     /// Color encoded as 4 component bytes.
     /// </summary>
     /// <seealso cref="Color"/>
+    /// <category>Drawing</category>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public unsafe struct ColorBytes : IEquatable<ColorBytes>
     {

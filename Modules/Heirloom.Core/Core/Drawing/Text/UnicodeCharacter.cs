@@ -5,6 +5,7 @@ namespace Heirloom
     /// <summary>
     /// Represents a single 32 bit Unicode character.
     /// </summary>
+    /// <category>Text</category>
     public readonly struct UnicodeCharacter : IComparable<UnicodeCharacter>, IEquatable<UnicodeCharacter>
     {
         private readonly int _value;

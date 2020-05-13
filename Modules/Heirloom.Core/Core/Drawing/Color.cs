@@ -7,6 +7,7 @@ namespace Heirloom
     /// Color encoded as 4 component floats.
     /// </summary>
     /// <seealso cref="ColorBytes"/>
+    /// <category>Drawing</category>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct Color : IEquatable<Color>
     {

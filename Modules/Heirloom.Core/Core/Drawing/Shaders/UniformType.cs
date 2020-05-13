@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Represents the type of a uniform in a <see cref="Shader"/>.
     /// </summary>
+    /// <category>Shaders and Effects</category>
     public enum UniformType
     {
         /// <summary>

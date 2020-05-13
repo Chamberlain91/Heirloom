@@ -5,6 +5,7 @@ namespace Heirloom
     /// <summary>
     /// A utility object to check if an interval of time has occured.
     /// </summary>
+    /// <category>Utility</category>
     public sealed class Interval
     {
         private static readonly double _ticksToSeconds = 1.0 / Stopwatch.Frequency;

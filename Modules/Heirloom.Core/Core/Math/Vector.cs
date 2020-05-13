@@ -7,6 +7,7 @@ namespace Heirloom
     /// <summary>
     /// Represents a vector with two single-precision floating-point values.
     /// </summary>
+    /// <category>Mathematics</category>
     [StructLayout(LayoutKind.Explicit, Pack = 4, Size = 8)]
     public unsafe struct Vector : IEquatable<Vector>
     {

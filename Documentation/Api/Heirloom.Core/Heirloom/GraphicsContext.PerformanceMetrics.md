@@ -13,9 +13,11 @@ Contains information pertaining to draw performance.
 sealed class GraphicsContext.PerformanceMetrics
 ```
 
+**See Also:** [Performance][1]
+
 ### Properties
 
-[BatchCount][1], [DrawCount][2], [FrameRate][3], [OverlayMode][4], [TriangleCount][5]
+[BatchCount][2], [DrawCount][3], [FrameRate][4], [OverlayMode][5], [TriangleCount][6]
 
 ## Properties
 
@@ -23,17 +25,18 @@ sealed class GraphicsContext.PerformanceMetrics
 
 | Name               | Type                        | Summary                                                                |
 |--------------------|-----------------------------|------------------------------------------------------------------------|
-| [BatchCount][1]    | [Statistics][6]             | Statistics of the number of batches.                                   |
-| [DrawCount][2]     | [Statistics][6]             | Statistics of the number of 'things' drawn.                            |
-| [FrameRate][3]     | [Statistics][6]             | Statistics of the frame rate.                                          |
-| [OverlayMode][4]   | [PerformanceOverlayMode][7] | Gets or sets a value that will enable or disable drawing the perfor... |
-| [TriangleCount][5] | [Statistics][6]             | Statistics of the number of triangles.                                 |
+| [BatchCount][2]    | [Statistics][7]             | Statistics of the number of batches.                                   |
+| [DrawCount][3]     | [Statistics][7]             | Statistics of the number of 'things' drawn.                            |
+| [FrameRate][4]     | [Statistics][7]             | Statistics of the frame rate.                                          |
+| [OverlayMode][5]   | [PerformanceOverlayMode][8] | Gets or sets a value that will enable or disable drawing the perfor... |
+| [TriangleCount][6] | [Statistics][7]             | Statistics of the number of triangles.                                 |
 
 [0]: ../../Heirloom.Core.md
-[1]: GraphicsContext.PerformanceMetrics/BatchCount.md
-[2]: GraphicsContext.PerformanceMetrics/DrawCount.md
-[3]: GraphicsContext.PerformanceMetrics/FrameRate.md
-[4]: GraphicsContext.PerformanceMetrics/OverlayMode.md
-[5]: GraphicsContext.PerformanceMetrics/TriangleCount.md
-[6]: Statistics.md
-[7]: PerformanceOverlayMode.md
+[1]: GraphicsContext/Performance.md
+[2]: GraphicsContext.PerformanceMetrics/BatchCount.md
+[3]: GraphicsContext.PerformanceMetrics/DrawCount.md
+[4]: GraphicsContext.PerformanceMetrics/FrameRate.md
+[5]: GraphicsContext.PerformanceMetrics/OverlayMode.md
+[6]: GraphicsContext.PerformanceMetrics/TriangleCount.md
+[7]: Statistics.md
+[8]: PerformanceOverlayMode.md

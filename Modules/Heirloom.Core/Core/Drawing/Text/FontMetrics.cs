@@ -5,6 +5,7 @@ namespace Heirloom
     /// <summary>
     /// Contains information about a font (ie, the vertical metrics).
     /// </summary>
+    /// <category>Text</category>
     public readonly struct FontMetrics
     {
         /// <summary>

@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Represents the interface for handling log messages from <see cref="Log"/>.
     /// </summary>
+    /// <category>Logging</category>
     public interface ILogHandler
     {
         /// <summary>

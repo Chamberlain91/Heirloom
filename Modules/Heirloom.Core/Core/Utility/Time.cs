@@ -5,6 +5,7 @@ namespace Heirloom
     /// <summary>
     /// Provides utility functions for converting time between units of measure and string representation.
     /// </summary>
+    /// <category>Utility</category>
     public static class Time
     {
         /// <summary>

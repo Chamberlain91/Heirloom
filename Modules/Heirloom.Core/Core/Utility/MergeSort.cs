@@ -6,6 +6,7 @@ namespace Heirloom
     /// <summary>
     /// Implements merge sort as extension methods to provide stable sorting.
     /// </summary>
+    /// <category>Utility</category>
     public static class MergeSort
     {
         /// <summary>

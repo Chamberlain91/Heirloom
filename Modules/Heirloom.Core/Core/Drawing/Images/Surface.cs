@@ -5,6 +5,7 @@ namespace Heirloom
     /// <summary>
     /// Represents a surface a <see cref="GraphicsContext"/> object can draw on.
     /// </summary>
+    /// <category>Drawing</category>
     public sealed class Surface : ImageSource
     {
         #region Constructors

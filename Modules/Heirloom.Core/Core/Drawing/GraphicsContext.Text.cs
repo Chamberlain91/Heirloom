@@ -9,6 +9,7 @@ namespace Heirloom
     /// <param name="text">The complete string being drawn.</param>
     /// <param name="index">The index of the character currently being drawn.</param>
     /// <param name="state">The state of the character currently being drawn.</param>
+    /// <category>Drawing</category>
     public delegate void DrawTextCallback(string text, int index, ref TextDrawState state);
 
     public abstract partial class GraphicsContext

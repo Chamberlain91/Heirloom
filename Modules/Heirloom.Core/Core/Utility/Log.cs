@@ -8,6 +8,7 @@ namespace Heirloom
     /// <summary>
     /// Provides a simple mechanism to log debug and info messages.
     /// </summary>
+    /// <category>Logging</category>
     public static class Log
     {
 #if DEBUG

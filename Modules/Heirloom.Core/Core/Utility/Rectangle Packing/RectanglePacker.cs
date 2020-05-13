@@ -9,6 +9,7 @@ namespace Heirloom
     /// <remarks>
     /// Useful for creating things like sprite sheets, font atlases, etc.
     /// </remarks>
+    /// <category>Utility</category>
     public sealed class RectanglePacker<T> : IRectanglePacker<T>
     {
         private readonly RectanglePackerImpl<T> _impl;

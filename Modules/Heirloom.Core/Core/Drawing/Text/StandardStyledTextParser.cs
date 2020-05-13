@@ -6,6 +6,7 @@ namespace Heirloom
     /// <summary>
     /// Provides implementation of a BBCode-esque text markup parser.
     /// </summary>
+    /// <category>Text</category>
     public abstract class StandardStyledTextParser : StyledTextParser
     {
         private const char TagBegin = '[';

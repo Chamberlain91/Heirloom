@@ -8,6 +8,7 @@ namespace Heirloom.Sound
     /// <seealso cref="HighPassFilter"/>
     /// <seealso cref="BandPassFilter"/> 
     /// <seealso cref="ReverbEffect"/>
+    /// <category>Effects and Filters</category>
     public abstract class AudioEffect
     {
         /// <summary>

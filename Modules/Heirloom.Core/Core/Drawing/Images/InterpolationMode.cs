@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Represents the behaviour when sampling an image on a non-integer coordinates.
     /// </summary>
+    /// <category>Drawing</category>
     public enum InterpolationMode
     {
         /// <summary>

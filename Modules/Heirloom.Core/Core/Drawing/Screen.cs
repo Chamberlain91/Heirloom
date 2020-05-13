@@ -7,6 +7,7 @@ namespace Heirloom
     /// <summary>
     /// An abstract representation of the screen (ie, window, view, etc).
     /// </summary>
+    /// <category>Drawing</category>
     public abstract class Screen : IInputSource, IDisposable
     {
         private readonly InputBuffer _inputs;

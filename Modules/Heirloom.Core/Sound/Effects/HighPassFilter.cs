@@ -5,6 +5,7 @@ namespace Heirloom.Sound
     /// <summary>
     /// An audio effect that implements a high pass filter.
     /// </summary>
+    /// <category>Effects and Filters</category>
     public class HighPassFilter : AudioEffect
     {
         private readonly float[] _out;

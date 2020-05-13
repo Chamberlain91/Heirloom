@@ -11,6 +11,7 @@ namespace Heirloom
     /// A representation of an animated sprite.
     /// May also contains per-frame and animation sequence information for animating the sprite.
     /// </summary>
+    /// <category>Drawing</category>
     public sealed class Sprite
     {
         private readonly Dictionary<string, SpriteAnimation> _animations;

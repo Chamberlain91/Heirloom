@@ -8,16 +8,19 @@ namespace Heirloom
     /// <summary>
     /// Gets the known cost between two values.
     /// </summary>
+    /// <category>Utility</category>
     public delegate float ActualCost<T>(T a, T b);
 
     /// <summary>
     /// Gets the estimated cost of the some value.
     /// </summary>
+    /// <category>Utility</category>
     public delegate float HeuristicCost<T>(T a);
 
     /// <summary>
     /// Contains search related features.
     /// </summary>
+    /// <category>Utility</category>
     public static class Search
     {
         #region Heuristic Search

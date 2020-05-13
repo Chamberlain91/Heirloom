@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// An enumeration of rectangle packing algorithms.
     /// </summary>
+    /// <category>Utility</category>
     public enum PackingAlgorithm
     {
         /// <summary>

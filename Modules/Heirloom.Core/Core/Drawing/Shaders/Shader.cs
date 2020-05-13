@@ -10,6 +10,7 @@ namespace Heirloom
     /// <summary>
     /// Provides GLSL shader support for custom image effects and other visual processing.
     /// </summary>
+    /// <category>Shaders and Effects</category>
     public abstract partial class Shader : IDisposable
     {
         private readonly string[] _paths;

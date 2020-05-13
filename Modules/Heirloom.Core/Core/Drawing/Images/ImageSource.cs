@@ -5,6 +5,7 @@ namespace Heirloom
     /// </summary>
     /// <seealso cref="Surface"/>
     /// <seealso cref="Image"/>
+    /// <category>Drawing</category>
     public abstract class ImageSource
     {
         internal ImageSource()

@@ -5,6 +5,7 @@ namespace Heirloom
     /// <summary>
     /// A utility class to help drive sprite based animation.
     /// </summary>
+    /// <category>Drawing</category>
     public sealed class SpritePlayer
     {
         private float _frameTime;

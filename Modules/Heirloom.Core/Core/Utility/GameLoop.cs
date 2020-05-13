@@ -5,15 +5,17 @@ using System.Threading;
 namespace Heirloom
 {
     /// <summary>
+    /// Update function called every iteration of the game loop.
+    /// </summary>
+    /// <category>Utility</category>
+    public delegate void UpdateFunction(GraphicsContext gfx, float dt);
+
+    /// <summary>
     /// Provides a thread to manage invoking a render/update function continuously.
     /// </summary>
+    /// <category>Utility</category>
     public abstract class GameLoop
     {
-        /// <summary>
-        /// Update function called every iteration of the game loop.
-        /// </summary>
-        public delegate void UpdateFunction(GraphicsContext gfx, float dt);
-
         private Thread _thread;
 
         #region Constructor

@@ -10,6 +10,7 @@ namespace Heirloom
     /// <summary>
     /// Represents a range of integers from <see cref="Min"/> to <see cref="Max"/>.
     /// </summary>
+    /// <category>Mathematics</category>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct IntRange : IEquatable<IntRange>, IEnumerable<int>
     {

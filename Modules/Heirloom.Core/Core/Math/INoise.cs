@@ -3,6 +3,7 @@ namespace Heirloom
     /// <summary>
     /// Provides an interface for sampling one-dimensional noise.
     /// </summary>
+    /// <category>Mathematics</category>
     public interface INoise1D
     {
         /// <summary>
@@ -14,6 +15,7 @@ namespace Heirloom
     /// <summary>
     /// Provides an interface for sampling two-dimensional noise.
     /// </summary>
+    /// <category>Mathematics</category>
     public interface INoise2D
     {
         /// <summary>
@@ -25,6 +27,7 @@ namespace Heirloom
     /// <summary>
     /// Provides an interface for sampling three-dimensional noise.
     /// </summary>
+    /// <category>Mathematics</category>
     public interface INoise3D
     {
         /// <summary>

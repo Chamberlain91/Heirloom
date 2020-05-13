@@ -7,6 +7,7 @@ namespace Heirloom
     /// <summary>
     /// Implements methods for sampling 2D and 3D simplex noise.
     /// </summary>
+    /// <category>Mathematics</category>
     public class SimplexNoise : INoise2D, INoise3D
     {
         private readonly float _h0 = 0.1030F;
