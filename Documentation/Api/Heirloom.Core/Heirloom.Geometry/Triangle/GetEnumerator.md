@@ -10,6 +10,8 @@
 
 ### GetEnumerator()
 
+Returns an enumerator to iterate over the points of the triangle.
+
 ```cs
 public IEnumerator<Vector> GetEnumerator()
 ```

@@ -10,14 +10,16 @@
 
 ### SetInHandle(int, Vector)
 
+Sets the incoming handle point of the curve at the specified index.
+
 ```cs
-public void SetInHandle(int segment, Vector handle)
+public void SetInHandle(int index, Vector point)
 ```
 
-| Name    | Type        | Summary |
-|---------|-------------|---------|
-| segment | `int`       |         |
-| handle  | [Vector][2] |         |
+| Name  | Type        | Summary                          |
+|-------|-------------|----------------------------------|
+| index | `int`       | The index of the point.          |
+| point | [Vector][2] | The value to set the point with. |
 
 > **Returns** - `void`
 

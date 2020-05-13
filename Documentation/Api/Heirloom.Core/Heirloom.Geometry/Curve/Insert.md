@@ -16,13 +16,13 @@ Inserts a segment into the curve.
 public void Insert(int index, Vector controlPoint, Vector inHandle, Vector outHandle, CurveType type = Cubic)
 ```
 
-| Name         | Type           | Summary                                                     |
-|--------------|----------------|-------------------------------------------------------------|
-| index        | `int`          | Some index within the curve.                                |
-| controlPoint | [Vector][2]    | The control point.                                          |
-| inHandle     | [Vector][2]    | The first handle, relative to this newly added point.       |
-| outHandle    | [Vector][2]    | The second handle, relative to the next point in the curve. |
-| type         | [CurveType][3] |                                                             |
+| Name         | Type           | Summary                                                                |
+|--------------|----------------|------------------------------------------------------------------------|
+| index        | `int`          | Some index within the curve.                                           |
+| controlPoint | [Vector][2]    | The control point.                                                     |
+| inHandle     | [Vector][2]    | The first handle, relative to this newly added point.                  |
+| outHandle    | [Vector][2]    | The second handle, relative to the next point in the curve.            |
+| type         | [CurveType][3] | The type of curve the segment after this point represents will act ... |
 
 > **Returns** - `void`
 

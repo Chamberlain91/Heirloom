@@ -33,11 +33,17 @@ namespace Heirloom.Geometry
 
         #region Comparison Operators
 
+        /// <summary>
+        /// Compares two instances of <see cref="RayContact"/> for equality.
+        /// </summary>
         public static bool operator ==(RayContact left, RayContact right)
         {
             return left.Equals(right);
         }
 
+        /// <summary>
+        /// Compares two instances of <see cref="RayContact"/> for inequality.
+        /// </summary>
         public static bool operator !=(RayContact left, RayContact right)
         {
             return !(left == right);
@@ -47,12 +53,18 @@ namespace Heirloom.Geometry
 
         #region Equality
 
+        /// <summary>
+        /// Compares this <see cref="RayContact"/> for equality with another object.
+        /// </summary>
         public override bool Equals(object obj)
         {
             return obj is RayContact contact
                 && Equals(contact);
         }
 
+        /// <summary>
+        /// Compares this <see cref="RayContact"/> for equality with another <see cref="RayContact"/>.
+        /// </summary>
         public bool Equals(RayContact other)
         {
             return Position.Equals(other.Position)
@@ -60,6 +72,9 @@ namespace Heirloom.Geometry
                 && Distance == other.Distance;
         }
 
+        /// <summary>
+        /// Returns the hash code for this instance.
+        /// </summary>
         public override int GetHashCode()
         {
             return HashCode.Combine(Position, Normal, Distance);

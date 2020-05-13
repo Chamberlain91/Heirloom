@@ -10,15 +10,17 @@
 
 ### Deconstruct(out Vector, out Vector, out Vector)
 
+Deconstructs the triangle into constituient points.
+
 ```cs
 public void Deconstruct(out Vector a, out Vector b, out Vector c)
 ```
 
-| Name | Type        | Summary |
-|------|-------------|---------|
-| a    | [Vector][2] |         |
-| b    | [Vector][2] |         |
-| c    | [Vector][2] |         |
+| Name | Type        | Summary           |
+|------|-------------|-------------------|
+| a    | [Vector][2] | The first point.  |
+| b    | [Vector][2] | The second point. |
+| c    | [Vector][2] | The third point.  |
 
 > **Returns** - `void`
 

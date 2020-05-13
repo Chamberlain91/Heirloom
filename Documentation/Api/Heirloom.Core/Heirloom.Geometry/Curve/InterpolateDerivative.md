@@ -10,7 +10,7 @@
 
 ### InterpolateDerivative(float)
 
-Computes the interpolated point.
+Computes the derivative of a point interpolated across the curve.
 
 ```cs
 public Vector InterpolateDerivative(float t)

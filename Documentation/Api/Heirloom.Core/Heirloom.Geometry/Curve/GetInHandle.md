@@ -10,15 +10,17 @@
 
 ### GetInHandle(int)
 
+Gets the incoming handle point of the curve at the specified index.
+
 ```cs
-public Vector GetInHandle(int segment)
+public Vector GetInHandle(int index)
 ```
 
-| Name    | Type  | Summary |
-|---------|-------|---------|
-| segment | `int` |         |
+| Name  | Type  | Summary                 |
+|-------|-------|-------------------------|
+| index | `int` | The index of the point. |
 
-> **Returns** - [Vector][2]
+> **Returns** - [Vector][2] - The incoming handle point at the specified index.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Curve.md

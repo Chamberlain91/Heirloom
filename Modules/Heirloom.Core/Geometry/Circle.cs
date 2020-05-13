@@ -23,10 +23,21 @@ namespace Heirloom.Geometry
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="Circle"/>.
+        /// </summary>
+        /// <param name="x">The x-coordinate of the center of the circle.</param>
+        /// <param name="y">The y-coordiante of the center of the circle.</param>
+        /// <param name="radius">The radius of the circle.</param>
         public Circle(float x, float y, float radius)
             : this((x, y), radius)
         { }
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="Circle"/>.
+        /// </summary>
+        /// <param name="position">The center of the circle.</param>
+        /// <param name="radius">The radius of the circle.</param>
         public Circle(Vector position, float radius)
         {
             Position = position;
@@ -281,11 +292,17 @@ namespace Heirloom.Geometry
 
         #region Comparison Operators
 
+        /// <summary>
+        /// Compares two instances of <see cref="Circle"/> for equality.
+        /// </summary>
         public static bool operator ==(Circle left, Circle right)
         {
             return left.Equals(right);
         }
 
+        /// <summary>
+        /// Compares two instances of <see cref="Circle"/> for inequality.
+        /// </summary>
         public static bool operator !=(Circle left, Circle right)
         {
             return !(left == right);
@@ -295,18 +312,27 @@ namespace Heirloom.Geometry
 
         #region Equality
 
+        /// <summary>
+        /// Compares this <see cref="Circle"/> for equality with another object.
+        /// </summary>
         public override bool Equals(object obj)
         {
             return obj is Circle circle
                 && Equals(circle);
         }
 
+        /// <summary>
+        /// Compares this <see cref="Circle"/> for equality with another <see cref="Circle"/>.
+        /// </summary>
         public bool Equals(Circle other)
         {
             return Position.Equals(other.Position)
                 && Calc.NearEquals(Radius, other.Radius);
         }
 
+        /// <summary>
+        /// Returns the hash code for this <see cref="Circle"/>.
+        /// </summary>
         public override int GetHashCode()
         {
             return HashCode.Combine(Position, Radius);
@@ -314,6 +340,9 @@ namespace Heirloom.Geometry
 
         #endregion
 
+        /// <summary>
+        /// Gets the string representation of this <see cref="Circle"/>.
+        /// </summary>
         public override string ToString()
         {
             return $"(Circle, {Position}, {Radius})";

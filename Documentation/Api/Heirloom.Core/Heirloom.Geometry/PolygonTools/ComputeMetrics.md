@@ -10,16 +10,18 @@
 
 ### ComputeMetrics(IReadOnlyList<Vector>, out float, out Vector, out Vector)
 
+Computes general metrics about the specified polygon. Outputs the `area` , `center` and `centroid` .
+
 ```cs
 public static void ComputeMetrics(IReadOnlyList<Vector> polygon, out float area, out Vector center, out Vector centroid)
 ```
 
-| Name     | Type                    | Summary |
-|----------|-------------------------|---------|
-| polygon  | `IReadOnlyList<Vector>` |         |
-| area     | `float`                 |         |
-| center   | [Vector][2]             |         |
-| centroid | [Vector][2]             |         |
+| Name     | Type                    | Summary                                     |
+|----------|-------------------------|---------------------------------------------|
+| polygon  | `IReadOnlyList<Vector>` | Some polygon.                               |
+| area     | `float`                 | The area occupied by the polygon.           |
+| center   | [Vector][2]             | The center of the polygon by average.       |
+| centroid | [Vector][2]             | The center of the polygon weighted by area. |
 
 > **Returns** - `void`
 

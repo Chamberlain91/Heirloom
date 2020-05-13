@@ -3,10 +3,16 @@ using System.Collections.Generic;
 
 namespace Heirloom.Geometry
 {
+    /// <summary>
+    /// An implementation of a multi-point bezier curve using multiple 'segments' of simple curves.
+    /// </summary>
     public sealed class Curve
     {
         private readonly List<Segment> _segments;
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="Curve"/>.
+        /// </summary>
         public Curve()
         {
             _segments = new List<Segment>();
@@ -23,6 +29,7 @@ namespace Heirloom.Geometry
         /// <param name="controlPoint">The control point.</param>
         /// <param name="inHandle">The first handle, relative to this newly added point.</param>
         /// <param name="outHandle">The second handle, relative to the next point in the curve.</param>
+        /// <param name="type">The type of curve the segment after this point represents will act like.</param>
         public void Add(Vector controlPoint, Vector inHandle, Vector outHandle, CurveType type = CurveType.Cubic)
         {
             var segment = new Segment(controlPoint, inHandle, outHandle, type);
@@ -36,6 +43,7 @@ namespace Heirloom.Geometry
         /// <param name="controlPoint">The control point.</param>
         /// <param name="inHandle">The first handle, relative to this newly added point.</param>
         /// <param name="outHandle">The second handle, relative to the next point in the curve.</param>
+        /// <param name="type">The type of curve the segment after this point represents will act like.</param>
         public void Insert(int index, Vector controlPoint, Vector inHandle, Vector outHandle, CurveType type = CurveType.Cubic)
         {
             var s = new Segment(controlPoint, inHandle, outHandle, type);
@@ -55,7 +63,7 @@ namespace Heirloom.Geometry
         }
 
         /// <summary>
-        /// Computes the interpolated point.
+        /// Computes the derivative of a point interpolated across the curve.
         /// </summary>
         public Vector InterpolateDerivative(float t)
         {
@@ -69,50 +77,99 @@ namespace Heirloom.Geometry
         /// <summary>
         /// Removes a segment from the curve.
         /// </summary>
-        /// <param name="segment">Some index within the curve.</param>
-        public void RemoveAt(int segment)
+        /// <param name="index">Some index within the curve.</param>
+        /// <exception cref="IndexOutOfRangeException">If the <paramref name="index"/> is less than zero or greater than or equal to <see cref="Count"/>.</exception>
+        public void RemoveAt(int index)
         {
-            _segments.RemoveAt(segment);
+            _segments.RemoveAt(index);
         }
 
-        public Vector GetPoint(int segment)
+        /// <summary>
+        /// Gets the point of the curve at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the point.</param>
+        /// <returns>The point at the specified index.</returns>
+        /// <exception cref="IndexOutOfRangeException">If the <paramref name="index"/> is less than zero or greater than or equal to <see cref="Count"/>.</exception>
+        public Vector GetPoint(int index)
         {
-            return _segments[segment].Point;
+            return _segments[index].Point;
         }
 
-        public void SetPoint(int segment, Vector point)
+        /// <summary>
+        /// Sets the point of the curve at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the point.</param>
+        /// <param name="point">The value to set the point with.</param>
+        /// <exception cref="IndexOutOfRangeException">If the <paramref name="index"/> is less than zero or greater than or equal to <see cref="Count"/>.</exception>
+        public void SetPoint(int index, Vector point)
         {
-            _segments[segment].Point = point;
+            _segments[index].Point = point;
         }
 
-        public Vector GetInHandle(int segment)
+        /// <summary>
+        /// Gets the incoming handle point of the curve at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the point.</param>
+        /// <returns>The incoming handle point at the specified index.</returns>
+        /// <exception cref="IndexOutOfRangeException">If the <paramref name="index"/> is less than zero or greater than or equal to <see cref="Count"/>.</exception>
+        public Vector GetInHandle(int index)
         {
-            return _segments[segment].InHandle;
+            return _segments[index].InHandle;
         }
 
-        public void SetInHandle(int segment, Vector handle)
+        /// <summary>
+        /// Sets the incoming handle point of the curve at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the point.</param>
+        /// <param name="point">The value to set the point with.</param>
+        /// <exception cref="IndexOutOfRangeException">If the <paramref name="index"/> is less than zero or greater than or equal to <see cref="Count"/>.</exception>
+        public void SetInHandle(int index, Vector point)
         {
-            _segments[segment].InHandle = handle;
+            _segments[index].InHandle = point;
         }
 
-        public Vector GetOutHandle(int segment)
+        /// <summary>
+        /// Gets the outgoing handle point of the curve at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the point.</param>
+        /// <returns>The outgoing handle point at the specified index.</returns>
+        /// <exception cref="IndexOutOfRangeException">If the <paramref name="index"/> is less than zero or greater than or equal to <see cref="Count"/>.</exception>
+        public Vector GetOutHandle(int index)
         {
-            return _segments[segment].OutHandle;
+            return _segments[index].OutHandle;
         }
 
-        public void SetOutHandle(int segment, Vector handle)
+        /// <summary>
+        /// Sets the outgoing handle point of the curve at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the point.</param>
+        /// <param name="point">The value to set the point with.</param>
+        /// <exception cref="IndexOutOfRangeException">If the <paramref name="index"/> is less than zero or greater than or equal to <see cref="Count"/>.</exception>
+        public void SetOutHandle(int index, Vector point)
         {
-            _segments[segment].OutHandle = handle;
+            _segments[index].OutHandle = point;
         }
 
-        public void SetCurveType(int segment, CurveType type)
+        /// <summary>
+        /// Sets the type of curve of the segment following the point at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the point.</param>
+        /// <param name="type">The type of curve the segment will act like.</param>
+        /// <exception cref="IndexOutOfRangeException">If the <paramref name="index"/> is less than zero or greater than or equal to <see cref="Count"/>.</exception>
+        public void SetCurveType(int index, CurveType type)
         {
-            _segments[segment].CurveType = type;
+            _segments[index].CurveType = type;
         }
 
-        public CurveType GetCurveType(int segment)
+        /// <summary>
+        /// Gets the type of curve of the segment following the point at the specified index.
+        /// </summary>
+        /// <param name="index">The index of the point.</param>
+        /// <returns>The type of curve the segment acts like.</returns>
+        /// <exception cref="IndexOutOfRangeException">If the <paramref name="index"/> is less than zero or greater than or equal to <see cref="Count"/>.</exception>
+        public CurveType GetCurveType(int index)
         {
-            return _segments[segment].CurveType;
+            return _segments[index].CurveType;
         }
 
         private class Segment

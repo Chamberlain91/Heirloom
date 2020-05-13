@@ -10,14 +10,16 @@
 
 ### SetOutHandle(int, Vector)
 
+Sets the outgoing handle point of the curve at the specified index.
+
 ```cs
-public void SetOutHandle(int segment, Vector handle)
+public void SetOutHandle(int index, Vector point)
 ```
 
-| Name    | Type        | Summary |
-|---------|-------------|---------|
-| segment | `int`       |         |
-| handle  | [Vector][2] |         |
+| Name  | Type        | Summary                          |
+|-------|-------------|----------------------------------|
+| index | `int`       | The index of the point.          |
+| point | [Vector][2] | The value to set the point with. |
 
 > **Returns** - `void`
 

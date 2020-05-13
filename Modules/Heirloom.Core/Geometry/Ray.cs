@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -23,10 +22,13 @@ namespace Heirloom.Geometry
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="Ray"/>.
+        /// </summary>
+        /// <param name="origin">The ray origin point.</param>
+        /// <param name="direction">The direction vector of the ray.</param>
         public Ray(Vector origin, Vector direction)
         {
-            Debug.Assert(Calc.NearEquals(direction.LengthSquared, 1F, 0.001F));
-
             Origin = origin;
             Direction = direction;
         }
@@ -128,6 +130,11 @@ namespace Heirloom.Geometry
 
         #region Deconstruct
 
+        /// <summary>
+        /// Deconstructs this <see cref="Ray"/> into constituent components.
+        /// </summary>
+        /// <param name="origin">The ray origin point.</param>
+        /// <param name="direction">The direction vector of the ray.</param>
         public void Deconstruct(out Vector origin, out Vector direction)
         {
             origin = Origin;
@@ -138,11 +145,17 @@ namespace Heirloom.Geometry
 
         #region Comparison Operators
 
+        /// <summary>
+        /// Compares two instances of <see cref="Ray"/> for equality.
+        /// </summary>
         public static bool operator ==(Ray left, Ray right)
         {
             return left.Equals(right);
         }
 
+        /// <summary>
+        /// Compares two instances of <see cref="Ray"/> for inequality.
+        /// </summary>
         public static bool operator !=(Ray left, Ray right)
         {
             return !(left == right);
@@ -152,18 +165,27 @@ namespace Heirloom.Geometry
 
         #region Equality
 
+        /// <summary>
+        /// Compares this <see cref="Ray"/> for equality with another object.
+        /// </summary>
         public override bool Equals(object obj)
         {
             return obj is Ray ray
                 && Equals(ray);
         }
 
+        /// <summary>
+        /// Compares this <see cref="Ray"/> for equality with another <see cref="Ray"/>.
+        /// </summary>
         public bool Equals(Ray other)
         {
             return Origin.Equals(other.Origin)
                 && Direction.Equals(other.Direction);
         }
 
+        /// <summary>
+        /// Returns the hash code for this instance.
+        /// </summary>
         public override int GetHashCode()
         {
             return HashCode.Combine(Origin, Direction);
@@ -171,6 +193,9 @@ namespace Heirloom.Geometry
 
         #endregion
 
+        /// <summary>
+        /// Gets the string representation of this <see cref="Ray"/>.
+        /// </summary>
         public override string ToString()
         {
             return $"({Origin} -> {Direction})";

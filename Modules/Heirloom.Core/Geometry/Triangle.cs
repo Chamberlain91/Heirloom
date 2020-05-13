@@ -5,6 +5,9 @@ using System.Runtime.CompilerServices;
 
 namespace Heirloom.Geometry
 {
+    /// <summary>
+    /// Represents a triangle shape defined by three points.
+    /// </summary>
     public unsafe struct Triangle : IShape, IEquatable<Triangle>, IEnumerable<Vector>
     {
         /// <summary>
@@ -24,6 +27,12 @@ namespace Heirloom.Geometry
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs a new <see cref="Triangle"/>.
+        /// </summary>
+        /// <param name="a">The first point.</param>
+        /// <param name="b">The second point.</param>
+        /// <param name="c">The third point.</param>
         public Triangle(Vector a, Vector b, Vector c)
         {
             A = a;
@@ -54,6 +63,11 @@ namespace Heirloom.Geometry
 
         #region Indexer
 
+        /// <summary>
+        /// Accesses the points of a triangle by numerical index in <see cref="A"/>, <see cref="B"/>, <see cref="C"/> order.
+        /// </summary>
+        /// <param name="index">The index of a point to access.</param>
+        /// <returns>The point of this triangle.</returns>
         public Vector this[int index]
         {
             get => index switch
@@ -338,17 +352,22 @@ namespace Heirloom.Geometry
 
         #region Get Edge
 
+        /// <summary>
+        /// Gets an edge of this triangle represented by <see cref="LineSegment"/>.
+        /// </summary>
+        /// <param name="index">The edge number.</param>
+        /// <returns>A <see cref="LineSegment"/> representing the specified edge.</returns>
+        /// <exception cref="IndexOutOfRangeException">Exception thrown when the index less than zero or greater than two.</exception>
         public LineSegment GetEdge(int index)
         {
-            switch (index)
+            return index switch
             {
-                case 0: return new LineSegment(A, B);
-                case 1: return new LineSegment(B, C);
-                case 2: return new LineSegment(C, A);
+                0 => new LineSegment(A, B),
+                1 => new LineSegment(B, C),
+                2 => new LineSegment(C, A),
 
-                default:
-                    throw new IndexOutOfRangeException("Edge index must be 0, 1 or 2 on a triangle.");
-            }
+                _ => throw new IndexOutOfRangeException("Edge index must be 0, 1 or 2 on a triangle."),
+            };
         }
 
         #endregion
@@ -406,6 +425,12 @@ namespace Heirloom.Geometry
 
         #region Deconstruct
 
+        /// <summary>
+        /// Deconstructs the triangle into constituient points.
+        /// </summary>
+        /// <param name="a">The first point.</param>
+        /// <param name="b">The second point.</param>
+        /// <param name="c">The third point.</param>
         public void Deconstruct(out Vector a, out Vector b, out Vector c)
         {
             a = A;
@@ -417,6 +442,9 @@ namespace Heirloom.Geometry
 
         #region Enumerator
 
+        /// <summary>
+        /// Returns an enumerator to iterate over the points of the triangle.
+        /// </summary>
         public IEnumerator<Vector> GetEnumerator()
         {
             yield return A;
@@ -433,11 +461,17 @@ namespace Heirloom.Geometry
 
         #region Comparison Operators
 
+        /// <summary>
+        /// Compares two tringles for equality.
+        /// </summary>
         public static bool operator ==(Triangle left, Triangle right)
         {
             return left.Equals(right);
         }
 
+        /// <summary>
+        /// Compares two triangles for inequality.
+        /// </summary>
         public static bool operator !=(Triangle left, Triangle right)
         {
             return !(left == right);
@@ -447,12 +481,18 @@ namespace Heirloom.Geometry
 
         #region Equality
 
+        /// <summary>
+        /// Compares the triangle for equality with another object.
+        /// </summary>
         public override bool Equals(object obj)
         {
             return obj is Triangle triangle
                 && Equals(triangle);
         }
 
+        /// <summary>
+        /// Compares the triangle for equality with another triangle.
+        /// </summary>
         public bool Equals(Triangle other)
         {
             return A.Equals(other.A)
@@ -462,6 +502,9 @@ namespace Heirloom.Geometry
                 && Area == other.Area;
         }
 
+        /// <summary>
+        /// Returns the hash code for this triangle.
+        /// </summary>
         public override int GetHashCode()
         {
             return HashCode.Combine(A, B, C, Bounds, Area);
@@ -469,6 +512,9 @@ namespace Heirloom.Geometry
 
         #endregion
 
+        /// <summary>
+        /// Returns the triangle representation of this triangle.
+        /// </summary>
         public override string ToString()
         {
             return $"(Triangle, {A}, {B}, {C})";

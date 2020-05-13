@@ -10,6 +10,8 @@
 
 ### Clear()
 
+Removes all vertices from the polygon.
+
 ```cs
 public void Clear()
 ```

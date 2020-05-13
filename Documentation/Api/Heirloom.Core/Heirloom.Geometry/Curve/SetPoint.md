@@ -10,14 +10,16 @@
 
 ### SetPoint(int, Vector)
 
+Sets the point of the curve at the specified index.
+
 ```cs
-public void SetPoint(int segment, Vector point)
+public void SetPoint(int index, Vector point)
 ```
 
-| Name    | Type        | Summary |
-|---------|-------------|---------|
-| segment | `int`       |         |
-| point   | [Vector][2] |         |
+| Name  | Type        | Summary                          |
+|-------|-------------|----------------------------------|
+| index | `int`       | The index of the point.          |
+| point | [Vector][2] | The value to set the point with. |
 
 > **Returns** - `void`
 

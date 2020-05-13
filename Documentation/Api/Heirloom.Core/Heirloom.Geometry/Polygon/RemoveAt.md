@@ -10,13 +10,15 @@
 
 ### RemoveAt(int)
 
+Removes a vertex from the polygon's vertex list.
+
 ```cs
 public void RemoveAt(int index)
 ```
 
-| Name  | Type  | Summary |
-|-------|-------|---------|
-| index | `int` |         |
+| Name  | Type  | Summary                            |
+|-------|-------|------------------------------------|
+| index | `int` | The index of the vertex to remove. |
 
 > **Returns** - `void`
 

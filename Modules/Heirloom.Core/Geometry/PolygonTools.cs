@@ -404,9 +404,7 @@ namespace Heirloom.Geometry
                 }
             }
 
-            /**
-             * Attempts to merge a triangle into the given polygon.
-             */
+            // Attempts to merge a triangle into the given polygon.
             bool TryMergeTriangle(List<int> polygon, int a, int b, int c)
             {
                 // Is empty merge set, add triangle
@@ -586,9 +584,7 @@ namespace Heirloom.Geometry
                 return false;
             }
 
-            /// <summary>
-            /// Determines if the ith point is an 'ear' (convex and does not overlap vertices)
-            /// </summary>
+            // Determines if the ith point is an 'ear' (convex and does not overlap vertices)
             bool IsEar(int i)
             {
                 // Triangle is always an ear (always convex and non-overlapping)
@@ -688,6 +684,13 @@ namespace Heirloom.Geometry
 
         #region Compute Metrics
 
+        /// <summary>
+        /// Computes general metrics about the specified polygon. Outputs the <paramref name="area"/>, <paramref name="center"/> and <paramref name="centroid"/>.
+        /// </summary>
+        /// <param name="polygon">Some polygon.</param>
+        /// <param name="area">The area occupied by the polygon.</param>
+        /// <param name="center">The center of the polygon by average.</param>
+        /// <param name="centroid">The center of the polygon weighted by area.</param>
         public static void ComputeMetrics(IReadOnlyList<Vector> polygon, out float area, out Vector center, out Vector centroid)
         {
             // 

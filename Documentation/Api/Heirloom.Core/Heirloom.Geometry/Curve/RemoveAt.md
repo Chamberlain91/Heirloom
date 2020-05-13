@@ -13,12 +13,12 @@
 Removes a segment from the curve.
 
 ```cs
-public void RemoveAt(int segment)
+public void RemoveAt(int index)
 ```
 
-| Name    | Type  | Summary                      |
-|---------|-------|------------------------------|
-| segment | `int` | Some index within the curve. |
+| Name  | Type  | Summary                      |
+|-------|-------|------------------------------|
+| index | `int` | Some index within the curve. |
 
 > **Returns** - `void`
 

@@ -7,6 +7,8 @@
 
 > **Namespace**: [Heirloom.Geometry][0]
 
+Represents a triangle shape defined by three points.
+
 ```cs
 public struct Triangle : IShape, IEquatable<Triangle>, IEnumerable<Vector>, IEnumerable
 ```
@@ -60,9 +62,9 @@ public struct Triangle : IShape, IEquatable<Triangle>, IEnumerable<Vector>, IEnu
 |---------------------------------|-----------------------|------------------------------------------------------------------------|
 | [Barycentric(in Vector,...][9]  | `void`                | Computes the barycentric coefficients of the point `p` within the t... |
 | [Contains(in Vector)][10]       | `bool`                | Determines if this triangle contains the specified point.              |
-| [Deconstruct(out Vector...][11] | `void`                |                                                                        |
-| [GetEdge(int)][12]              | [LineSegment][24]     |                                                                        |
-| [GetEnumerator()][13]           | `IEnumerator<Vector>` |                                                                        |
+| [Deconstruct(out Vector...][11] | `void`                | Deconstructs the triangle into constituient points.                    |
+| [GetEdge(int)][12]              | [LineSegment][24]     | Gets an edge of this triangle represented by LineSegment .             |
+| [GetEnumerator()][13]           | `IEnumerator<Vector>` | Returns an enumerator to iterate over the points of the triangle.      |
 | [GetNearestPoint(in Vec...][14] | [Vector][22]          | Gets the closest point on the triangle to the specified point.         |
 | [Overlaps(IShape)][15]          | `bool`                | Determines if this triangle overlaps another shape.                    |
 | [Overlaps(in Circle)][15]       | `bool`                | Determines if this triangle overlaps the specified circle.             |
