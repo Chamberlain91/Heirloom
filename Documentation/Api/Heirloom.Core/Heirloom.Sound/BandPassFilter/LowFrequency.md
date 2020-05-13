@@ -3,17 +3,17 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]
 
-## BandPassFilter.Cutoff (Property)
+## BandPassFilter.LowFrequency (Property)
 
 > **Namespace**: [Heirloom.Sound][0]  
 > **Declaring Type**: [BandPassFilter][1]
 
-### Cutoff
+### LowFrequency
 
-Gets or sets the filter cutoff in hertz.
+Gets or sets the low frequency cutoff in hertz.
 
 ```cs
-public float Cutoff { get; set; }
+public float LowFrequency { get; set; }
 ```
 
 > **Returns**: `float`

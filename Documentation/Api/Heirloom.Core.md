@@ -228,21 +228,28 @@
 
 | Name                  | Summary                                                                |
 |-----------------------|------------------------------------------------------------------------|
-| [AudioClip][142]      | An object to contain (and decode) audio data into raw samples.         |
-| [AudioEffect][143]    | An audio effect. Implementations of this class mutate the audio for... |
-| [BandPassFilter][144] | An audio effect that implements a band pass filter.                    |
-| [HighPassFilter][145] | An audio effect that implements a high pass filter.                    |
-| [LowPassFilter][146]  | An audio effect that implements a low pass filter.                     |
-| [ReverbEffect][147]   | An audio effect that implements a Schroeder reverb.                    |
-| [AudioNode][148]      | Represents a node in the audio mixing tree.                            |
-| [AudioGroup][149]     | An AudioNode to mix and apply effects to a group of other nodes.       |
-| [AudioSource][150]    | An instance of playable audio.                                         |
+| [AudioAdapter][142]   | The abstraction of a low level audio system.                           |
+| [AudioClip][143]      | An object to contain (and decode) audio data into raw samples.         |
+| [AudioEffect][144]    | An abstarct representation of an audio effect. Implementations of t... |
+| [BandPassFilter][145] | An audio effect that implements a band pass filter.                    |
+| [HighPassFilter][146] | An audio effect that implements a high pass filter.                    |
+| [LowPassFilter][147]  | An audio effect that implements a low pass filter.                     |
+| [ReverbEffect][148]   | An audio effect that implements a Schroeder reverb.                    |
+| [AudioNode][149]      | Represents a node in the audio mixing tree.                            |
+| [AudioGroup][150]     | An AudioNode to mix and apply effects to a group of other nodes.       |
+| [AudioSource][151]    | An instance of playable audio.                                         |
+
+### Interface
+
+| Name                 | Summary                                     |
+|----------------------|---------------------------------------------|
+| [IAudioDecoder][152] | An interface representing an audio decoder. |
 
 ### Delegate
 
 | Name                        | Summary                                                                |
 |-----------------------------|------------------------------------------------------------------------|
-| [AudioCaptureCallback][151] | A delegate for a callback when audio samples are captured by a inpu... |
+| [AudioCaptureCallback][153] | A delegate for a callback when audio samples are captured by a inpu... |
 
 [0]: Heirloom.Core.md
 [1]: Heirloom.Core/Heirloom/Calc.md
@@ -386,13 +393,15 @@
 [139]: Heirloom.Core/Heirloom.IO/EmbeddedFile.md
 [140]: Heirloom.Core/Heirloom.IO/Files.md
 [141]: Heirloom.Core/Heirloom.IO/BitField.md
-[142]: Heirloom.Core/Heirloom.Sound/AudioClip.md
-[143]: Heirloom.Core/Heirloom.Sound/AudioEffect.md
-[144]: Heirloom.Core/Heirloom.Sound/BandPassFilter.md
-[145]: Heirloom.Core/Heirloom.Sound/HighPassFilter.md
-[146]: Heirloom.Core/Heirloom.Sound/LowPassFilter.md
-[147]: Heirloom.Core/Heirloom.Sound/ReverbEffect.md
-[148]: Heirloom.Core/Heirloom.Sound/AudioNode.md
-[149]: Heirloom.Core/Heirloom.Sound/AudioGroup.md
-[150]: Heirloom.Core/Heirloom.Sound/AudioSource.md
-[151]: Heirloom.Core/Heirloom.Sound/AudioCaptureCallback.md
+[142]: Heirloom.Core/Heirloom.Sound/AudioAdapter.md
+[143]: Heirloom.Core/Heirloom.Sound/AudioClip.md
+[144]: Heirloom.Core/Heirloom.Sound/AudioEffect.md
+[145]: Heirloom.Core/Heirloom.Sound/BandPassFilter.md
+[146]: Heirloom.Core/Heirloom.Sound/HighPassFilter.md
+[147]: Heirloom.Core/Heirloom.Sound/LowPassFilter.md
+[148]: Heirloom.Core/Heirloom.Sound/ReverbEffect.md
+[149]: Heirloom.Core/Heirloom.Sound/AudioNode.md
+[150]: Heirloom.Core/Heirloom.Sound/AudioGroup.md
+[151]: Heirloom.Core/Heirloom.Sound/AudioSource.md
+[152]: Heirloom.Core/Heirloom.Sound/IAudioDecoder.md
+[153]: Heirloom.Core/Heirloom.Sound/AudioCaptureCallback.md

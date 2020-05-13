@@ -10,7 +10,7 @@
 
 ### Frequency
 
-Gets or sets the filter cutoff in hertz.
+Gets or sets the frequency cutoff in hertz.
 
 ```cs
 public float Frequency { get; set; }

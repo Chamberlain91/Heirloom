@@ -29,17 +29,17 @@ public class LowPassFilter : AudioEffect
 
 #### Instance
 
-| Name           | Type    | Summary                                  |
-|----------------|---------|------------------------------------------|
-| [Frequency][2] | `float` | Gets or sets the filter cutoff in hertz. |
+| Name           | Type    | Summary                                     |
+|----------------|---------|---------------------------------------------|
+| [Frequency][2] | `float` | Gets or sets the frequency cutoff in hertz. |
 
 ## Methods
 
 #### Instance
 
-| Name                     | Return Type | Summary |
-|--------------------------|-------------|---------|
-| [Process(float, int)][3] | `float`     |         |
+| Name                     | Return Type | Summary                                                                |
+|--------------------------|-------------|------------------------------------------------------------------------|
+| [Process(float, int)][3] | `float`     | This function is called to alter a sample for some implementation o... |
 
 [0]: ../../Heirloom.Core.md
 [1]: AudioEffect.md

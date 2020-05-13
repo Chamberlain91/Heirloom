@@ -40,9 +40,9 @@ Based on Freeverb.
 
 #### Instance
 
-| Name                     | Return Type | Summary |
-|--------------------------|-------------|---------|
-| [Process(float, int)][4] | `float`     |         |
+| Name                     | Return Type | Summary                                                                |
+|--------------------------|-------------|------------------------------------------------------------------------|
+| [Process(float, int)][4] | `float`     | This function is called to alter a sample for some implementation o... |
 
 [0]: ../../Heirloom.Core.md
 [1]: AudioEffect.md

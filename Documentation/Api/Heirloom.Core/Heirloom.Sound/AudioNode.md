@@ -35,9 +35,9 @@ public abstract class AudioNode
 
 #### Instance
 
-| Name                           | Return Type | Summary |
-|--------------------------------|-------------|---------|
-| [PopulateBuffer(Span<fl...][4] | `void`      |         |
+| Name                           | Return Type | Summary                                                            |
+|--------------------------------|-------------|--------------------------------------------------------------------|
+| [PopulateBuffer(Span<fl...][4] | `void`      | This function is called when more samples are needed for playback. |
 
 [0]: ../../Heirloom.Core.md
 [1]: AudioNode/Balance.md

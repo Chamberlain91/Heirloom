@@ -10,16 +10,18 @@
 
 ### Process(float, int)
 
+This function is called to alter a sample for some implementation of an effect.
+
 ```cs
 public float Process(float sample, int channel)
 ```
 
-| Name    | Type    | Summary |
-|---------|---------|---------|
-| sample  | `float` |         |
-| channel | `int`   |         |
+| Name    | Type    | Summary                                    |
+|---------|---------|--------------------------------------------|
+| sample  | `float` | The incoming sample to alter.              |
+| channel | `int`   | The channel number this sample belongs to. |
 
-> **Returns** - `float`
+> **Returns** - `float` - The altered sample.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../HighPassFilter.md

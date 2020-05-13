@@ -3,17 +3,17 @@
 > **Framework**: .NETStandard,Version=v2.1  
 > **Assembly**: [Heirloom.Core][0]
 
-## BandPassFilter.MinFrequency (Property)
+## BandPassFilter.HighFrequency (Property)
 
 > **Namespace**: [Heirloom.Sound][0]  
 > **Declaring Type**: [BandPassFilter][1]
 
-### MinFrequency
+### HighFrequency
 
-Gets or sets the filter cutoff in hertz.
+Gets or sets the high frequency cutoff in hertz.
 
 ```cs
-public float MinFrequency { get; set; }
+public float HighFrequency { get; set; }
 ```
 
 > **Returns**: `float`
