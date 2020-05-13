@@ -13,13 +13,15 @@ A utility class to help drive sprite based animation.
 public sealed class SpritePlayer
 ```
 
+**See Also:** [Sprite][1], [SpriteAnimation][2]
+
 ### Properties
 
-[Animation][1], [FrameNumber][2], [Image][3], [IsPlaying][4], [Sprite][5]
+[Animation][3], [FrameNumber][4], [Image][5], [IsPlaying][6], [Sprite][1]
 
 ### Methods
 
-[Play][6], [Stop][7], [Update][8]
+[Play][7], [Stop][8], [Update][9]
 
 ## Properties
 
@@ -27,11 +29,11 @@ public sealed class SpritePlayer
 
 | Name             | Type                 | Summary                                                                |
 |------------------|----------------------|------------------------------------------------------------------------|
-| [Animation][1]   | [SpriteAnimation][9] | Gets the active animation.                                             |
-| [FrameNumber][2] | `int`                | Gets which frame number the player is currently at.                    |
-| [Image][3]       | [Image][10]          | Gets the image for the current frame of the active animation.          |
-| [IsPlaying][4]   | `bool`               | Gets a value that determines if the player is performing playback o... |
-| [Sprite][5]      | [Sprite][11]         | Gets the Sprite the player is reponsible for.                          |
+| [Animation][3]   | [SpriteAnimation][2] | Gets the active animation.                                             |
+| [FrameNumber][4] | `int`                | Gets which frame number the player is currently at.                    |
+| [Image][5]       | [Image][10]          | Gets the image for the current frame of the active animation.          |
+| [IsPlaying][6]   | `bool`               | Gets a value that determines if the player is performing playback o... |
+| [Sprite][1]      | [Sprite][11]         | Gets the Sprite the player is reponsible for.                          |
 
 ## Methods
 
@@ -39,20 +41,20 @@ public sealed class SpritePlayer
 
 | Name               | Return Type | Summary                                                  |
 |--------------------|-------------|----------------------------------------------------------|
-| [Play(string)][6]  | `void`      | Begins playback of the specified animation.              |
-| [Play()][6]        | `void`      | Resumes playback of the active animation.                |
-| [Stop()][7]        | `void`      | Stops playback of the active animation.                  |
-| [Update(float)][8] | `void`      | Updates the player, advancing animation by elapsed time. |
+| [Play(string)][7]  | `void`      | Begins playback of the specified animation.              |
+| [Play()][7]        | `void`      | Resumes playback of the active animation.                |
+| [Stop()][8]        | `void`      | Stops playback of the active animation.                  |
+| [Update(float)][9] | `void`      | Updates the player, advancing animation by elapsed time. |
 
 [0]: ../../Heirloom.Core.md
-[1]: SpritePlayer/Animation.md
-[2]: SpritePlayer/FrameNumber.md
-[3]: SpritePlayer/Image.md
-[4]: SpritePlayer/IsPlaying.md
-[5]: SpritePlayer/Sprite.md
-[6]: SpritePlayer/Play.md
-[7]: SpritePlayer/Stop.md
-[8]: SpritePlayer/Update.md
-[9]: SpriteAnimation.md
+[1]: SpritePlayer/Sprite.md
+[2]: SpriteAnimation.md
+[3]: SpritePlayer/Animation.md
+[4]: SpritePlayer/FrameNumber.md
+[5]: SpritePlayer/Image.md
+[6]: SpritePlayer/IsPlaying.md
+[7]: SpritePlayer/Play.md
+[8]: SpritePlayer/Stop.md
+[9]: SpritePlayer/Update.md
 [10]: Image.md
 [11]: Sprite.md

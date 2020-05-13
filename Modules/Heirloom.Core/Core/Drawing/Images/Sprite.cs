@@ -8,8 +8,7 @@ using Heirloom.IO;
 namespace Heirloom
 {
     /// <summary>
-    /// A representation of an animated sprite.
-    /// May also contains per-frame and animation sequence information for animating the sprite.
+    /// An animated sprite. A sprite is a collection of <see cref="SpriteAnimation"/>.
     /// </summary>
     /// <category>Drawing</category>
     public sealed class Sprite

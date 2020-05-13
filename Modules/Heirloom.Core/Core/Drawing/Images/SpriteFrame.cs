@@ -6,7 +6,7 @@ namespace Heirloom
     /// Represents a single frame of a <see cref="SpriteAnimation"/>.
     /// </summary>
     /// <category>Drawing</category>
-    public class SpriteFrame
+    public sealed class SpriteFrame
     {
         internal SpriteFrame(Image image, float delay)
         {

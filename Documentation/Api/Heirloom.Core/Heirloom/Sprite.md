@@ -7,7 +7,7 @@
 
 > **Namespace**: [Heirloom][0]
 
-A representation of an animated sprite. May also contains per-frame and animation sequence information for animating the sprite.
+An animated sprite. A sprite is a collection of [SpriteAnimation][1] .
 
 ```cs
 public sealed class Sprite
@@ -15,11 +15,11 @@ public sealed class Sprite
 
 ### Properties
 
-[Animations][1]
+[Animations][2]
 
 ### Methods
 
-[AddAnimation][2], [ContainsAnimation][3], [GetAnimation][4], [RemoveAnimation][5]
+[AddAnimation][3], [ContainsAnimation][4], [GetAnimation][5], [RemoveAnimation][6]
 
 ## Properties
 
@@ -27,7 +27,7 @@ public sealed class Sprite
 
 | Name            | Type                                           | Summary                                        |
 |-----------------|------------------------------------------------|------------------------------------------------|
-| [Animations][1] | `IReadOnlyDictionary<string, SpriteAnimation>` | Gets a read-only view of the animations table. |
+| [Animations][2] | `IReadOnlyDictionary<string, SpriteAnimation>` | Gets a read-only view of the animations table. |
 
 ## Methods
 
@@ -35,15 +35,15 @@ public sealed class Sprite
 
 | Name                           | Return Type          | Summary                                                     |
 |--------------------------------|----------------------|-------------------------------------------------------------|
-| [AddAnimation(SpriteAni...][2] | `void`               | Adds an animation to this sprite.                           |
-| [ContainsAnimation(string)][3] | `bool`               | Determines if this sprite contains the specified animation. |
-| [GetAnimation(string)][4]      | [SpriteAnimation][6] | Gets an animation contained by this sprite.                 |
-| [RemoveAnimation(Sprite...][5] | `bool`               | Removes an animation from this sprite.                      |
+| [AddAnimation(SpriteAni...][3] | `void`               | Adds an animation to this sprite.                           |
+| [ContainsAnimation(string)][4] | `bool`               | Determines if this sprite contains the specified animation. |
+| [GetAnimation(string)][5]      | [SpriteAnimation][1] | Gets an animation contained by this sprite.                 |
+| [RemoveAnimation(Sprite...][6] | `bool`               | Removes an animation from this sprite.                      |
 
 [0]: ../../Heirloom.Core.md
-[1]: Sprite/Animations.md
-[2]: Sprite/AddAnimation.md
-[3]: Sprite/ContainsAnimation.md
-[4]: Sprite/GetAnimation.md
-[5]: Sprite/RemoveAnimation.md
-[6]: SpriteAnimation.md
+[1]: SpriteAnimation.md
+[2]: Sprite/Animations.md
+[3]: Sprite/AddAnimation.md
+[4]: Sprite/ContainsAnimation.md
+[5]: Sprite/GetAnimation.md
+[6]: Sprite/RemoveAnimation.md

@@ -6,7 +6,7 @@ namespace Heirloom
     /// <summary>
     /// Provides extension methods various types within Heirloom.
     /// </summary>
-    /// <category>Extension Methods</category>
+    /// <category>Utility</category>
     public static partial class Extensions
     {
         /// <summary>
