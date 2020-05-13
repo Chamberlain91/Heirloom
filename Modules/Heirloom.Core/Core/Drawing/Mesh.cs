@@ -38,14 +38,9 @@ namespace Heirloom
         public IReadOnlyList<Vertex> Vertices => _vertices;
 
         /// <summary>
-        /// Gets the (optional) indices defining triangles by index of the vertex list.
+        /// Gets the indices defining triangles by index of the vertex list.
         /// </summary>
         public IReadOnlyList<int> Indices => _indices;
-
-        /// <summary>
-        /// Is this mesh constructed triangles specified by indexed?
-        /// </summary>
-        public bool IsIndexed => _indices.Count > 0;
 
         /// <summary>
         /// The version number of the mesh.
@@ -111,55 +106,58 @@ namespace Heirloom
         }
 
         /// <summary>
-        /// Appends a triangle index to this mesh. Until <see cref="Clear"/> is called, this mesh becomes indexed.
+        /// Appends and defines a triangle face to add to this mesh.
         /// </summary>
-        /// <seealso cref="IsIndexed"/>
-        public void AddIndex(int index)
+        public void AddTriangle(int a, int b, int c)
         {
-            CheckIndex(index);
+            CheckIndex(a);
+            CheckIndex(b);
+            CheckIndex(c);
 
-            // Append index
-            _indices.Add(index);
+            // Append indices
+            _indices.Add(a);
+            _indices.Add(b);
+            _indices.Add(c);
+
             UpdateVersionNumber();
         }
 
         /// <summary>
-        /// Appends a triangle index to this mesh. Until <see cref="Clear"/> is called, this mesh becomes indexed.
+        /// Appends and defines multiple triangle faces to add to this mesh.
         /// </summary>
-        /// <seealso cref="IsIndexed"/>
-        public void AddIndices(params int[] indices)
+        public void AddTriangles(params int[] indices)
         {
-            CheckIndices(indices);
-
-            // Append indices
-            _indices.AddRange(indices);
-            UpdateVersionNumber();
+            if (indices.Length == 0) { throw new InvalidOperationException("Must specify at least three indices."); }
+            AddTriangles((IReadOnlyList<int>) indices);
         }
 
         /// <summary>
-        /// Appends a triangle index to this mesh. Until <see cref="Clear"/> is called, this mesh becomes indexed.
+        /// Appends and defines multiple triangle faces to add to this mesh.
         /// </summary>
-        /// <seealso cref="IsIndexed"/>
-        public void AddIndices(IEnumerable<int> indices)
+        public void AddTriangles(IReadOnlyList<int> indices)
         {
-            CheckIndices(indices);
+            if (indices.Count % 3 != 0) { throw new ArgumentException($"Triangle indices must be provided in a multiple of three."); }
 
-            // Append indices
-            _indices.AddRange(indices);
-            UpdateVersionNumber();
-        }
-
-        [Conditional("DEBUG")]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void CheckIndices(IEnumerable<int> indices)
-        {
-            foreach (var index in indices)
+            for (var i = 0; i < indices.Count; i += 3)
             {
-                CheckIndex(index);
+                var a = indices[i + 0];
+                var b = indices[i + 1];
+                var c = indices[i + 2];
+
+                // Validate indices
+                CheckIndex(a);
+                CheckIndex(b);
+                CheckIndex(c);
+
+                // Append indices
+                _indices.Add(a);
+                _indices.Add(b);
+                _indices.Add(c);
             }
+
+            UpdateVersionNumber();
         }
 
-        [Conditional("DEBUG")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void CheckIndex(int index)
         {
