@@ -273,9 +273,7 @@ namespace Heirloom
             _temporaryMesh.AddVertex(new Vertex(c, Vector.Zero));
 
             // Append indices
-            _temporaryMesh.AddIndices(0);
-            _temporaryMesh.AddIndices(1);
-            _temporaryMesh.AddIndices(2);
+            _temporaryMesh.AddTriangle(0, 1, 2);
 
             // Draw mesh
             DrawMesh(Image.Default, _temporaryMesh, Matrix.Identity);
@@ -333,9 +331,7 @@ namespace Heirloom
             // Append indices
             for (var i = 1; i < (sides - 1); i++)
             {
-                _temporaryMesh.AddIndex(0);
-                _temporaryMesh.AddIndex(i + 0);
-                _temporaryMesh.AddIndex(i + 1);
+                _temporaryMesh.AddTriangle(0, i, i + 1);
             }
 
             // 
@@ -413,9 +409,7 @@ namespace Heirloom
                 // Append indices
                 foreach (var (a, b, c) in PolygonTools.TriangulateIndices(polygon))
                 {
-                    _temporaryMesh.AddIndices(a);
-                    _temporaryMesh.AddIndices(b);
-                    _temporaryMesh.AddIndices(c);
+                    _temporaryMesh.AddTriangle(a, b, c);
                 }
 
                 // Draw mesh

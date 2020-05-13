@@ -33,7 +33,7 @@ namespace Heirloom.OpenGLES
                 // Copy data into defensive copy mesh
                 _copyMesh = _meshPool.Request();
                 _copyMesh.AddVertices(mesh.Vertices);
-                _copyMesh.AddIndices(mesh.Indices);
+                _copyMesh.AddTriangles(mesh.Indices);
 
                 // Track mesh information
                 _baseMeshVersion = mesh.Version;

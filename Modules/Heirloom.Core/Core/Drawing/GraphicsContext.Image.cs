@@ -145,12 +145,8 @@ namespace Heirloom
             _temporaryMesh.AddVertex(new Vertex(d, ud));
 
             // Append indices
-            _temporaryMesh.AddIndices(0);
-            _temporaryMesh.AddIndices(1);
-            _temporaryMesh.AddIndices(2);
-            _temporaryMesh.AddIndices(0);
-            _temporaryMesh.AddIndices(2);
-            _temporaryMesh.AddIndices(3);
+            _temporaryMesh.AddTriangle(0, 1, 2);
+            _temporaryMesh.AddTriangle(0, 2, 3);
 
             DrawMesh(image, _temporaryMesh, in transform);
         }
