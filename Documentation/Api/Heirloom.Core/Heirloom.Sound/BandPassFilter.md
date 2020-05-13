@@ -19,7 +19,7 @@ public class BandPassFilter : AudioEffect
 
 ### Properties
 
-[Cutoff][2], [MinFrequency][3]
+[HighFrequency][2], [LowFrequency][3]
 
 ### Methods
 
@@ -29,21 +29,21 @@ public class BandPassFilter : AudioEffect
 
 #### Instance
 
-| Name              | Type    | Summary                                  |
-|-------------------|---------|------------------------------------------|
-| [Cutoff][2]       | `float` | Gets or sets the filter cutoff in hertz. |
-| [MinFrequency][3] | `float` | Gets or sets the filter cutoff in hertz. |
+| Name               | Type    | Summary                                          |
+|--------------------|---------|--------------------------------------------------|
+| [HighFrequency][2] | `float` | Gets or sets the high frequency cutoff in hertz. |
+| [LowFrequency][3]  | `float` | Gets or sets the low frequency cutoff in hertz.  |
 
 ## Methods
 
 #### Instance
 
-| Name                     | Return Type | Summary |
-|--------------------------|-------------|---------|
-| [Process(float, int)][4] | `float`     |         |
+| Name                     | Return Type | Summary                                                                |
+|--------------------------|-------------|------------------------------------------------------------------------|
+| [Process(float, int)][4] | `float`     | This function is called to alter a sample for some implementation o... |
 
 [0]: ../../Heirloom.Core.md
 [1]: AudioEffect.md
-[2]: BandPassFilter/Cutoff.md
-[3]: BandPassFilter/MinFrequency.md
+[2]: BandPassFilter/HighFrequency.md
+[3]: BandPassFilter/LowFrequency.md
 [4]: BandPassFilter/Process.md

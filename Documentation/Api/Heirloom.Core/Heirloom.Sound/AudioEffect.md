@@ -7,7 +7,7 @@
 
 > **Namespace**: [Heirloom.Sound][0]
 
-An audio effect. Implementations of this class mutate the audio for various effects.
+An abstarct representation of an audio effect. Implementations of this class mutate the audio for various effects.
 
 ```cs
 public abstract class AudioEffect
@@ -21,9 +21,9 @@ public abstract class AudioEffect
 
 #### Instance
 
-| Name                     | Return Type | Summary |
-|--------------------------|-------------|---------|
-| [Process(float, int)][1] | `float`     |         |
+| Name                     | Return Type | Summary                                                                |
+|--------------------------|-------------|------------------------------------------------------------------------|
+| [Process(float, int)][1] | `float`     | This function is called to alter a sample for some implementation o... |
 
 [0]: ../../Heirloom.Core.md
 [1]: AudioEffect/Process.md
