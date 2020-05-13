@@ -14,14 +14,25 @@ namespace Heirloom
 
         private readonly Dictionary<string, DrawTextCallback> _callbacks;
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="StandardStyledTextParser"/>.
+        /// </summary>
         protected StandardStyledTextParser()
         {
             _callbacks = new Dictionary<string, DrawTextCallback>();
         }
 
-        protected void AddKeyword(string keyword, DrawTextCallback callback)
+        /// <summary>
+        /// Defines a new tag with the specified callback.
+        /// </summary>
+        /// <param name="name">A non-empty tag name.</param>
+        /// <param name="callback">The callback </param>
+        protected void DefineTag(string name, DrawTextCallback callback)
         {
-            _callbacks.Add(keyword, callback);
+            if (string.IsNullOrEmpty(name)) { throw new ArgumentException("The tag name must not be null or empty.", nameof(name)); }
+            if (callback is null) { throw new ArgumentNullException(nameof(callback)); }
+
+            _callbacks.Add(name, callback);
         }
 
         /// <summary>

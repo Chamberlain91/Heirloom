@@ -59,6 +59,13 @@ namespace Heirloom
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="IntRectangle"/>.
+        /// </summary>
+        /// <param name="x">The x position of the rectangle.</param>
+        /// <param name="y">The y position of the rectangle.</param>
+        /// <param name="width">The width of the rectangle.</param>
+        /// <param name="height">The height of the rectangle.</param>
         public IntRectangle(int x, int y, int width, int height)
         {
             X = x;
@@ -67,10 +74,20 @@ namespace Heirloom
             Height = height;
         }
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="IntRectangle"/>.
+        /// </summary>
+        /// <param name="position">The position of the rectangle.</param>
+        /// <param name="size">The size of the rectangle.</param>
         public IntRectangle(IntVector position, IntSize size)
             : this(position.X, position.Y, size.Width, size.Height)
         { }
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="IntRectangle"/> using minimum and maximum points.
+        /// </summary>
+        /// <param name="min">The minimum point.</param>
+        /// <param name="max">The maximum point.</param>
         public IntRectangle(IntVector min, IntVector max)
             : this(min, (IntSize) (max - min))
         { }
@@ -474,6 +491,13 @@ namespace Heirloom
 
         #region Deconstruct
 
+        /// <summary>
+        /// Deconstructs this rectangle into consituent components.
+        /// </summary>
+        /// <param name="x">The x position of the rectangle.</param>
+        /// <param name="y">The y position of the rectangle.</param>
+        /// <param name="w">The width of the rectangle.</param>
+        /// <param name="h">The height of the rectangle.</param>
         public void Deconstruct(out int x, out int y, out int w, out int h)
         {
             x = X;
@@ -482,6 +506,11 @@ namespace Heirloom
             h = Height;
         }
 
+        /// <summary>
+        /// Deconstructs this rectangle into consituent parts.
+        /// </summary>
+        /// <param name="position">The position of the rectangle.</param>
+        /// <param name="size">The size of the rectangle.</param>
         public void Deconstruct(out IntVector position, out IntSize size)
         {
             position = Position;
@@ -492,6 +521,9 @@ namespace Heirloom
 
         #region Conversion Operators
 
+        /// <summary>
+        /// Converts a <see cref="IntRectangle"/> into <see cref="Rectangle"/>.
+        /// </summary>
         public static implicit operator Rectangle(IntRectangle rect)
         {
             var x = rect.X;
@@ -502,30 +534,37 @@ namespace Heirloom
             return new Rectangle(x, y, w, h);
         }
 
+        /// <summary>
+        /// Converts a rectangle formatted tuple into <see cref="IntRectangle"/>.
+        /// </summary>
         public static implicit operator IntRectangle((int x, int y, int width, int height) rect)
         {
             return new IntRectangle(rect.x, rect.y, rect.width, rect.height);
         }
 
+        /// <summary>
+        /// Converts a rectangle formatted tuple into <see cref="IntRectangle"/>.
+        /// </summary>
         public static implicit operator IntRectangle((IntVector position, IntSize size) rect)
         {
             return new IntRectangle(rect.position, rect.size);
-        }
-
-        public static implicit operator (int x, int y, int width, int height)(IntRectangle rect)
-        {
-            return (rect.X, rect.Y, rect.Width, rect.Height);
         }
 
         #endregion
 
         #region Comparison Operators
 
+        /// <summary>
+        /// Compares two rectangles for equality.
+        /// </summary>
         public static bool operator ==(IntRectangle a, IntRectangle b)
         {
             return a.Equals(b);
         }
 
+        /// <summary>
+        /// Compares two rectangles for inequality.
+        /// </summary>
         public static bool operator !=(IntRectangle a, IntRectangle b)
         {
             return !(a == b);
@@ -535,12 +574,18 @@ namespace Heirloom
 
         #region Equality
 
+        /// <summary>
+        /// Compares this rectangle for equalty with another object.
+        /// </summary>
         public override bool Equals(object obj)
         {
             return obj is IntRectangle rect
                 && Equals(rect);
         }
 
+        /// <summary>
+        /// Compares this rectangle for equalty with another rectangle.
+        /// </summary>
         public bool Equals(IntRectangle b)
         {
             return X == b.X
@@ -549,18 +594,19 @@ namespace Heirloom
                 && Height == b.Height;
         }
 
+        /// <summary>
+        /// Returns the hash code for this rectangle.
+        /// </summary>
         public override int GetHashCode()
         {
-            var hashCode = 466501756;
-            hashCode = hashCode * -1521134295 + X.GetHashCode();
-            hashCode = hashCode * -1521134295 + Y.GetHashCode();
-            hashCode = hashCode * -1521134295 + Width.GetHashCode();
-            hashCode = hashCode * -1521134295 + Height.GetHashCode();
-            return hashCode;
+            return HashCode.Combine(X, Y, Width, Height);
         }
 
         #endregion
 
+        /// <summary>
+        /// Returns the string representation of this rectangle.
+        /// </summary>
         public override string ToString()
         {
             return $"({Position}, {Size})";

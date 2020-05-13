@@ -43,30 +43,36 @@ namespace Heirloom
 
         #region Equals / GetHashCode / ToString
 
+        /// <summary>
+        /// Compares this unicode character for equality with another unicode character.
+        /// </summary>
         public bool Equals(UnicodeCharacter other)
         {
             return _value.Equals(other._value);
         }
 
+
+        /// <summary>
+        /// Compares this unicode character for equality with another object.
+        /// </summary>
         public override bool Equals(object obj)
         {
-            var codepoint = obj as UnicodeCharacter?;
-            if (codepoint == null)
-            {
-                return false;
-            }
-
-            return Equals(codepoint);
+            if (obj is UnicodeCharacter ch) { return Equals(ch); }
+            else { return false; }
         }
 
         /// <summary>
-        /// Returns the hash code for this instance.
+        /// Returns the hash code for this <see cref="UnicodeCharacter"/>.
         /// </summary>
         public override int GetHashCode()
         {
             return HashCode.Combine(_value);
         }
 
+        /// <summary>
+        /// Returns the string representation of this <see cref="UnicodeCharacter"/>.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return (string) this;

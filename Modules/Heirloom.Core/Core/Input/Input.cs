@@ -19,20 +19,44 @@ namespace Heirloom
             _sources = new HashSet<IInputSource>();
         }
 
+        /// <summary>
+        /// Event raised when a character has been typed by some input source.
+        /// </summary>
         public static event Action<Screen, CharacterEvent> CharacterTyped;
 
+        /// <summary>
+        /// Event raised when a key has been pressed by some input source.
+        /// </summary>
         public static event Action<Screen, KeyEvent> KeyPressed;
 
+        /// <summary>
+        /// Event raised when a key has been released by some input source.
+        /// </summary>
         public static event Action<Screen, KeyEvent> KeyReleased;
 
+        /// <summary>
+        /// Event raised when a key has been repeated by some input source.
+        /// </summary>
         public static event Action<Screen, KeyEvent> KeyRepeat;
 
+        /// <summary>
+        /// Event raised when a mouse button has been pressed by some input source.
+        /// </summary>
         public static event Action<Screen, MouseButtonEvent> MousePressed;
 
+        /// <summary>
+        /// Event raised when a mouse button has been released by some input source.
+        /// </summary>
         public static event Action<Screen, MouseButtonEvent> MouseReleased;
 
+        /// <summary>
+        /// Event raised when a mouse button has been scrolled by some input source.
+        /// </summary>
         public static event Action<Screen, MouseScrollEvent> MouseScrolled;
 
+        /// <summary>
+        /// Event raised when a mouse button has been moved by some input source.
+        /// </summary>
         public static event Action<Screen, MouseMoveEvent> MouseMoved;
 
         #region Add/Remove Sources

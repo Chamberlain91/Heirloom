@@ -78,7 +78,7 @@ namespace Heirloom.Desktop
         ContextVersionRevision = 0x00022004,
 
         /// <summary>
-        /// The <see cref="Platforms.Desktop.ContextRobustness"/> set during context creation.
+        /// A flag set during context creation to enable a robust context.
         /// </summary>
         ContextRobustness = 0x00022005,
 
@@ -93,7 +93,7 @@ namespace Heirloom.Desktop
         OpenGLDebugContext = 0x00022007,
 
         /// <summary>
-        /// The <see cref="Platforms.Desktop.OpenGLProfile"/> set during context creation.
+        /// The flag set during context creation to indicate the type of OpenGL profile.
         /// </summary>
         OpenGLProfile = 0x00022008
     }

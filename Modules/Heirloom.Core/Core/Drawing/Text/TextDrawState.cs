@@ -25,11 +25,17 @@ namespace Heirloom
 
         #region Equality
 
+        /// <summary>
+        /// Compares this <see cref="TextDrawState"/> for equality with another object.
+        /// </summary>
         public override bool Equals(object obj)
         {
             return obj is TextDrawState state && Equals(state);
         }
 
+        /// <summary>
+        /// Compares this <see cref="TextDrawState"/> for equality with another <see cref="TextDrawState"/>.
+        /// </summary>
         public bool Equals(TextDrawState other)
         {
             return EqualityComparer<Matrix>.Default.Equals(Transform, other.Transform) &&
@@ -37,16 +43,25 @@ namespace Heirloom
                    Color.Equals(other.Color);
         }
 
+        /// <summary>
+        /// Returns the hash code for this <see cref="TextDrawState"/>.
+        /// </summary>
         public override int GetHashCode()
         {
             return HashCode.Combine(Transform, Position, Color);
         }
 
+        /// <summary>
+        /// Compares two instances of <see cref="TextDrawState"/> for equality.
+        /// </summary>
         public static bool operator ==(TextDrawState left, TextDrawState right)
         {
             return left.Equals(right);
         }
 
+        /// <summary>
+        /// Compares two instances of <see cref="TextDrawState"/> for inequality.
+        /// </summary>
         public static bool operator !=(TextDrawState left, TextDrawState right)
         {
             return !(left == right);

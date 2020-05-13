@@ -16,14 +16,23 @@ namespace Heirloom
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="SimplexNoise"/>.
+        /// </summary>
         public SimplexNoise()
             : this(new Random())
         { }
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="SimplexNoise"/> with the specified seed.
+        /// </summary>
         public SimplexNoise(int seed)
             : this(new Random(seed))
         { }
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="SimplexNoise"/> with the specified <see cref="System.Random"/> instance.
+        /// </summary>
         public SimplexNoise(Random random)
         {
             // Seed hash function values
@@ -37,6 +46,7 @@ namespace Heirloom
 
         #region 2D Noise
 
+        /// <inheritdoc/>
         public float Sample(float x, float y)
         // ref: (2D) https://www.shadertoy.com/view/Msf3WH
         {
@@ -105,6 +115,7 @@ namespace Heirloom
 
         #region 3D Noise
 
+        /// <inheritdoc/>
         public float Sample(float x, float y, float z)
         // ref: (3D) https://www.shadertoy.com/view/XsX3zB
         {

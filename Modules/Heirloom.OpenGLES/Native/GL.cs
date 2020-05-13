@@ -2251,7 +2251,7 @@ namespace Heirloom.OpenGLES
         #endregion
 
         /// <summary>
-        /// An elaborate error check, calls <see cref="GetError"/> until no error is returned and concatinates a string response and throws exception.
+        /// An elaborate error check, calls <see cref="glGetError"/> until no error is returned and concatinates a string response and throws exception.
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>

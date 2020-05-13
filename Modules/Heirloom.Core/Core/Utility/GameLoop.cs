@@ -9,21 +9,31 @@ namespace Heirloom
     /// </summary>
     public abstract class GameLoop
     {
+        /// <summary>
+        /// Update function called every iteration of the game loop.
+        /// </summary>
         public delegate void UpdateFunction(GraphicsContext gfx, float dt);
 
         private Thread _thread;
-        private int _frameRate;
 
         #region Constructor
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="GameLoop"/>.
+        /// </summary>
         protected GameLoop(Screen screen, int frameRate = -1)
             : this(screen.Graphics, frameRate)
         { }
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="GameLoop"/>.
+        /// </summary>
         protected GameLoop(GraphicsContext graphics, int frameRate = -1)
         {
+            if (frameRate <= 0 && frameRate != -1) { throw new ArgumentException("Must be greater than zero or equal to -1.", nameof(frameRate)); }
+
             Graphics = graphics;
-            _frameRate = frameRate;
+            FixedFrameRate = frameRate;
         }
 
         #endregion
@@ -40,8 +50,19 @@ namespace Heirloom
         /// </summary>
         public bool IsRunning { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the fixed frame rate.
+        /// </summary>
+        /// <remarks>
+        /// Set to -1 to 'unlock' the framerate.
+        /// </remarks>
+        public int FixedFrameRate { get; set; }
+
         #endregion
 
+        /// <summary>
+        /// Called every iteration of the game loop to update and/or render the application "every frame".
+        /// </summary>
         protected abstract void Update(GraphicsContext gfx, float dt);
 
         /// <summary>
@@ -87,16 +108,16 @@ namespace Heirloom
                 var delta = (float) stopwatch.Elapsed.TotalSeconds + errorTime;
 
                 // Fixed frame rate
-                var fixedDelta = 1F / _frameRate;
+                var fixedDelta = 1F / FixedFrameRate;
 
                 // If enough time has elapsed or infinite frame rate
-                if (delta >= fixedDelta || _frameRate == -1)
+                if (delta >= fixedDelta || FixedFrameRate == -1)
                 {
                     // Begin measuring time from zero
                     stopwatch.Restart();
 
                     // Get the amount of time exceeded for next iteration
-                    if (_frameRate > 0)
+                    if (FixedFrameRate > 0)
                     {
                         errorTime = delta - fixedDelta;
                         delta = fixedDelta;

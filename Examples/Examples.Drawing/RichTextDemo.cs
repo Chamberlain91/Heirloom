@@ -30,9 +30,9 @@ namespace Examples.Drawing
             {
                 _demo = demo;
 
-                AddKeyword("i", ItalicsCallback);
-                AddKeyword("fire", FireCallback);
-                AddKeyword("o", OtherCallback);
+                DefineTag("i", ItalicsCallback);
+                DefineTag("fire", FireCallback);
+                DefineTag("o", OtherCallback);
             }
 
             private void ItalicsCallback(string text, int index, ref TextDrawState state)

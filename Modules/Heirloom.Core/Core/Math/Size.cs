@@ -4,8 +4,11 @@ using System.Runtime.InteropServices;
 
 namespace Heirloom
 {
+    /// <summary>
+    /// Represents two dimensional size by a measure in each axis.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    public struct Size : IEquatable<Size>, IComparable<Size>
+    public struct Size : IEquatable<Size>
     {
         /// <summary>
         /// The width (horizontal size measure).
@@ -43,6 +46,11 @@ namespace Heirloom
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="Size"/>.
+        /// </summary>
+        /// <param name="width">The width value.</param>
+        /// <param name="height">The height value.</param>
         public Size(float width, float height)
         {
             Width = width;
@@ -67,6 +75,9 @@ namespace Heirloom
 
         #region Indexer
 
+        /// <summary>
+        /// Accesses the <see cref="Width"/> and <see cref="Height"/> components by numeric index respectively.
+        /// </summary>
         public float this[int i]
         {
             get => i switch
@@ -102,6 +113,11 @@ namespace Heirloom
 
         #region Deconstruct
 
+        /// <summary>
+        /// Deconstructs this <see cref="Size"/> int constituent components.
+        /// </summary>
+        /// <param name="width">Outputs the width component.</param>
+        /// <param name="height">Outputs the height comonent.</param>
         public void Deconstruct(out float width, out float height)
         {
             width = Width;
@@ -112,6 +128,10 @@ namespace Heirloom
 
         #region Conversion Operators
 
+        /// <summary>
+        /// Converts a size structure into a <see cref="Vector"/> by convention of <see cref="Width"/> and <see cref="Height"/>
+        /// to <see cref="Vector.X"/> and <see cref="Vector.Y"/> respectively.
+        /// </summary>
         public static explicit operator Vector(Size size)
         {
             var x = size.Width;
@@ -120,6 +140,10 @@ namespace Heirloom
             return new Vector(x, y);
         }
 
+        /// <summary>
+        /// Converts a size structure into a <see cref="IntVector"/> by convention of <see cref="Width"/> and <see cref="Height"/>
+        /// to <see cref="IntVector.X"/> and <see cref="IntVector.Y"/> respectively.
+        /// </summary>
         public static explicit operator IntVector(Size size)
         {
             var x = (int) size.Width;
@@ -128,6 +152,9 @@ namespace Heirloom
             return new IntVector(x, y);
         }
 
+        /// <summary>
+        /// Converts a <see cref="Size"/> structure into <see cref="IntSize"/> by integer truncation.
+        /// </summary>
         public static explicit operator IntSize(Size size)
         {
             var width = (int) size.Width;
@@ -136,20 +163,21 @@ namespace Heirloom
             return new IntSize(width, height);
         }
 
+        /// <summary>
+        /// Converts a formatted tuple into <see cref="Size"/>.
+        /// </summary>
         public static implicit operator Size((float width, float height) size)
         {
             return new Size(size.width, size.height);
-        }
-
-        public static implicit operator (float width, float height)(Size size)
-        {
-            return (size.Width, size.Height);
         }
 
         #endregion
 
         #region Arithmetic Operators
 
+        /// <summary>
+        /// Returns the negated version of a size structure.
+        /// </summary>
         public static Size operator -(Size v)
         {
             var width = -v.Width;
@@ -157,8 +185,11 @@ namespace Heirloom
             return new Size(width, height);
         }
 
-        #region Addition
+        #region Addition / Subtraction
 
+        /// <summary>
+        /// Performs the addition of two size structures.
+        /// </summary>
         public static Size operator +(Size a, Size b)
         {
             var width = a.Width + b.Width;
@@ -166,39 +197,10 @@ namespace Heirloom
             return new Size(width, height);
         }
 
-        public static Size operator +(IntSize a, Size b)
-        {
-            var width = a.Width + b.Width;
-            var height = a.Height + b.Height;
-            return new Size(width, height);
-        }
-
-        public static Size operator +(Size a, IntSize b)
-        {
-            var width = a.Width + b.Width;
-            var height = a.Height + b.Height;
-            return new Size(width, height);
-        }
-
-        #endregion
-
-        #region Subtraction
-
+        /// <summary>
+        /// Performs the subtraction of two size structures.
+        /// </summary>
         public static Size operator -(Size a, Size b)
-        {
-            var width = a.Width - b.Width;
-            var height = a.Height - b.Height;
-            return new Size(width, height);
-        }
-
-        public static Size operator -(IntSize a, Size b)
-        {
-            var width = a.Width - b.Width;
-            var height = a.Height - b.Height;
-            return new Size(width, height);
-        }
-
-        public static Size operator -(Size a, IntSize b)
         {
             var width = a.Width - b.Width;
             var height = a.Height - b.Height;
@@ -209,6 +211,20 @@ namespace Heirloom
 
         #region Multiply / Divide
 
+        /// <summary>
+        /// Performs the component-wise multiplication of two size structures.
+        /// </summary>
+        public static Size operator *(Size a, Size b)
+        {
+            var width = a.Width * b.Width;
+            var height = a.Height * b.Height;
+
+            return new Size(width, height);
+        }
+
+        /// <summary>
+        /// Performs the component-wise division of two size structures.
+        /// </summary>
         public static Size operator /(Size a, Size b)
         {
             var width = a.Width / b.Width;
@@ -217,6 +233,9 @@ namespace Heirloom
             return new Size(width, height);
         }
 
+        /// <summary>
+        /// Performs the component-wise scaling of a size structure.
+        /// </summary>
         public static Size operator *(Size a, float v)
         {
             var width = a.Width * v;
@@ -224,6 +243,9 @@ namespace Heirloom
             return new Size(width, height);
         }
 
+        /// <summary>
+        /// Performs the component-wise scaling of a size structure.
+        /// </summary>
         public static Size operator *(float v, Size a)
         {
             var width = a.Width * v;
@@ -231,6 +253,9 @@ namespace Heirloom
             return new Size(width, height);
         }
 
+        /// <summary>
+        /// Performs the component-wise scaling of a size structure via division.
+        /// </summary>
         public static Size operator /(Size a, float v)
         {
             var width = a.Width / v;
@@ -238,6 +263,9 @@ namespace Heirloom
             return new Size(width, height);
         }
 
+        /// <summary>
+        /// Performs the component-wise scaling of a size structure via division.
+        /// </summary>
         public static Size operator /(float v, Size a)
         {
             var width = v / a.Width;
@@ -249,38 +277,45 @@ namespace Heirloom
 
         #endregion
 
-        #region Comparison Operators
+        #region Equality
 
-        public int CompareTo(Size other)
+        /// <summary>
+        /// Compares this <see cref="IntSize"/> for equality with another object.
+        /// </summary>
+        public override bool Equals(object obj)
         {
-            return Area.CompareTo(other.Area);
+            return obj is Size size
+                && Equals(size);
         }
 
-        public static bool operator <(Size left, Size right)
+        /// <summary>
+        /// Compares this <see cref="Size"/> for equality with another <see cref="Size"/>.
+        /// </summary>
+        public bool Equals(Size other)
         {
-            return left.CompareTo(right) < 0;
+            return Width == other.Width
+                && Height == other.Height;
         }
 
-        public static bool operator <=(Size left, Size right)
+        /// <summary>
+        /// Returns the hash code for this <see cref="Size"/>.
+        /// </summary>
+        public override int GetHashCode()
         {
-            return left.CompareTo(right) <= 0;
+            return HashCode.Combine(Width, Height);
         }
 
-        public static bool operator >(Size left, Size right)
-        {
-            return left.CompareTo(right) > 0;
-        }
-
-        public static bool operator >=(Size left, Size right)
-        {
-            return left.CompareTo(right) >= 0;
-        }
-
+        /// <summary>
+        /// Compares two instances of <see cref="Size"/> for equality.
+        /// </summary>
         public static bool operator ==(Size size1, Size size2)
         {
             return size1.Equals(size2);
         }
 
+        /// <summary>
+        /// Compares two instances of <see cref="Size"/> for inequality.
+        /// </summary>
         public static bool operator !=(Size size1, Size size2)
         {
             return !(size1 == size2);
@@ -288,30 +323,9 @@ namespace Heirloom
 
         #endregion
 
-        #region Equality
-
-        public override bool Equals(object obj)
-        {
-            return obj is Size size
-                && Equals(size);
-        }
-
-        public bool Equals(Size other)
-        {
-            return Width == other.Width
-                && Height == other.Height;
-        }
-
-        public override int GetHashCode()
-        {
-            var hashCode = 859600377;
-            hashCode = hashCode * -1521134295 + Width.GetHashCode();
-            hashCode = hashCode * -1521134295 + Height.GetHashCode();
-            return hashCode;
-        }
-
-        #endregion
-
+        /// <summary>
+        /// Returns the string representation of this <see cref="Size"/>.
+        /// </summary>
         public override string ToString()
         {
             return $"{Width} x {Height}";

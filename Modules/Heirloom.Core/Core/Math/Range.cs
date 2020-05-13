@@ -1,4 +1,7 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -41,6 +44,9 @@ namespace Heirloom
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs a new <see cref="Range"/>.
+        /// </summary>
         public Range(float min, float max)
         {
             Min = min;
@@ -122,6 +128,9 @@ namespace Heirloom
 
         #endregion
 
+        /// <summary>
+        /// Computes the intersection of this range with another.
+        /// </summary>
         public Range Intersect(in Range other)
         {
             var min = Calc.Max(Min, other.Min);
@@ -129,6 +138,9 @@ namespace Heirloom
             return new Range(min, max);
         }
 
+        /// <summary>
+        /// Computes the union of this range with another.
+        /// </summary>
         public Range Union(in Range other)
         {
             var min = Calc.Min(Min, other.Min);
@@ -158,8 +170,37 @@ namespace Heirloom
 
         #endregion
 
+        /// <summary>
+        /// Creates an instance of <see cref="Range"/> from the extreme values of the given collection of numbers.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">Thrown when a <paramref name="values"/> is null.</exception>
+        public static Range FromValues(IEnumerable<float> values)
+        {
+            if (values is null) { throw new ArgumentNullException(nameof(values)); }
+
+            if (!values.Any()) { return Zero; }
+            else
+            {
+                var max = float.NegativeInfinity;
+                var min = float.PositiveInfinity;
+
+                foreach (var val in values)
+                {
+                    max = Calc.Max(max, val);
+                    min = Calc.Min(min, val);
+                }
+
+                return new Range(min, max);
+            }
+        }
+
         #region Deconstruct
 
+        /// <summary>
+        /// Deconstructs this <see cref="Range"/> into consituent parts.
+        /// </summary>
+        /// <param name="min">Outputs the minumum value of the range.</param>
+        /// <param name="max">Outputs the maximum value of the range.</param>
         public void Deconstruct(out float min, out float max)
         {
             min = Min;
@@ -170,6 +211,10 @@ namespace Heirloom
 
         #region Conversion Operators
 
+        /// <summary>
+        /// Converts an <see cref="Vector"/> into <see cref="Range"/>
+        /// by convention of <see cref="Vector.X"/> and <see cref="Vector.Y"/> as <see cref="Min"/> and <see cref="Max"/> respectively.
+        /// </summary>
         public static explicit operator Range(Vector vec)
         {
             var width = vec.X;
@@ -178,6 +223,10 @@ namespace Heirloom
             return new Range(width, height);
         }
 
+        /// <summary>
+        /// Converts an <see cref="Range"/> into <see cref="Vector"/>
+        /// by convention of <see cref="Min"/> and <see cref="Max"/> to <see cref="Vector.X"/> and <see cref="Vector.Y"/> respectively.
+        /// </summary>
         public static explicit operator Vector(Range range)
         {
             var x = range.Min;
@@ -186,11 +235,17 @@ namespace Heirloom
             return new Vector(x, y);
         }
 
+        /// <summary>
+        /// Converts <see cref="Range"/> into a formatted tuple.
+        /// </summary>
         public static implicit operator (float min, float max)(Range range)
         {
             return (range.Min, range.Max);
         }
 
+        /// <summary>
+        /// Converts a formatted tuple into a <see cref="Range"/>.
+        /// </summary>
         public static implicit operator Range((float min, float max) vec)
         {
             return new Range(vec.min, vec.max);
@@ -200,11 +255,17 @@ namespace Heirloom
 
         #region Comparison Operators
 
+        /// <summary>
+        /// Compares two ranges for equality.
+        /// </summary>
         public static bool operator ==(Range range1, Range range2)
         {
             return range1.Equals(range2);
         }
 
+        /// <summary>
+        /// Compares two ranges for inequality.
+        /// </summary>
         public static bool operator !=(Range range1, Range range2)
         {
             return !(range1 == range2);
@@ -214,28 +275,37 @@ namespace Heirloom
 
         #region Equality
 
+        /// <summary>
+        /// Compares this range for equality with another object.
+        /// </summary>
         public override bool Equals(object obj)
         {
             return obj is Range range
                 && Equals(range);
         }
 
+        /// <summary>
+        /// Compares this range for equality with another range.
+        /// </summary>
         public bool Equals(Range other)
         {
             return Calc.NearEquals(Min, other.Min)
                 && Calc.NearEquals(Max, other.Max);
         }
 
+        /// <summary>
+        /// Returns the hash code for this range.
+        /// </summary>
         public override int GetHashCode()
         {
-            var hashCode = 1537547080;
-            hashCode = hashCode * -1521134295 + Min.GetHashCode();
-            hashCode = hashCode * -1521134295 + Max.GetHashCode();
-            return hashCode;
+            return HashCode.Combine(Min, Max);
         }
 
         #endregion
 
+        /// <summary>
+        /// Returns the string representation of this <see cref="Range"/>.
+        /// </summary>
         public override string ToString()
         {
             return $"({Min} to {Max})";
