@@ -25,11 +25,17 @@ namespace Heirloom
 
         #region Equality
 
+        /// <summary>
+        /// Compares this <see cref="TextLayoutState"/> for equality with another object.
+        /// </summary>
         public override bool Equals(object obj)
         {
             return obj is TextLayoutState state && Equals(state);
         }
 
+        /// <summary>
+        /// Compares this <see cref="TextLayoutState"/> for equality with another <see cref="TextLayoutState"/>.
+        /// </summary>
         public bool Equals(TextLayoutState other)
         {
             return Character.Equals(other.Character) &&
@@ -37,16 +43,25 @@ namespace Heirloom
                    EqualityComparer<GlyphMetrics>.Default.Equals(Metrics, other.Metrics);
         }
 
+        /// <summary>
+        /// Returns the hash code for this <see cref="TextLayoutState"/>.
+        /// </summary>
         public override int GetHashCode()
         {
             return HashCode.Combine(Character, Position, Metrics);
         }
 
+        /// <summary>
+        /// Compares two instances of <see cref="TextLayoutState"/> for equality.
+        /// </summary>
         public static bool operator ==(TextLayoutState left, TextLayoutState right)
         {
             return left.Equals(right);
         }
 
+        /// <summary>
+        /// Compares two instances of <see cref="TextLayoutState"/> for inequality.
+        /// </summary>
         public static bool operator !=(TextLayoutState left, TextLayoutState right)
         {
             return !(left == right);

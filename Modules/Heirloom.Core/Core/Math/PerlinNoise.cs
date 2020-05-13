@@ -16,14 +16,23 @@ namespace Heirloom
 
         #region Constructors
 
+        /// <summary>
+        /// Construcs a new instance of <see cref="PerlinNoise"/>.
+        /// </summary>
         public PerlinNoise()
             : this(new Random())
         { }
 
+        /// <summary>
+        /// Construcs a new instance of <see cref="PerlinNoise"/> with the specified seed.
+        /// </summary>
         public PerlinNoise(int seed)
             : this(new Random(seed))
         { }
 
+        /// <summary>
+        /// Construcs a new instance of <see cref="PerlinNoise"/> with the specified <see cref="System.Random"/> instance.
+        /// </summary>
         public PerlinNoise(Random random)
         {
             _p = CreateArray(random);

@@ -14,13 +14,13 @@ namespace Heirloom
         private fixed float _components[4];
 
         /// <summary>
-        /// The x-coordinate of this vector.
+        /// The x-component of this vector.
         /// </summary>
         [FieldOffset(0 * 4)]
         public float X;
 
         /// <summary>
-        /// The y-coordinate of this vector.
+        /// The y-component of this vector.
         /// </summary>
         [FieldOffset(1 * 4)]
         public float Y;
@@ -129,7 +129,7 @@ namespace Heirloom
         #region Indexer
 
         /// <summary>
-        /// Accesses this vectors components by numerican index in <see cref="X"/>, <see cref="Y"/> order.
+        /// Accesses the <see cref="X"/> and <see cref="Y"/> components by numerical index in respective order.
         /// </summary>
         public float this[int i]
         {

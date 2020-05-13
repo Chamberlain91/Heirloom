@@ -152,16 +152,36 @@ namespace Heirloom
 
         #region Get or Set Pixels
 
+        /// <summary>
+        /// Gets the pixel at the specified coordinates.
+        /// </summary>
+        /// <param name="x">The x-coordinate of the pixel.</param>
+        /// <param name="y">The y-coordinate of the pixel.</param>
+        /// <returns>The color value at the specified coordinate.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when the requested coordinate is outsid the image.</exception>
         public ColorBytes GetPixel(int x, int y)
         {
+            if (x < 0 || x >= Width) { throw new ArgumentOutOfRangeException(nameof(x)); }
+            if (y < 0 || y >= Height) { throw new ArgumentOutOfRangeException(nameof(y)); }
+
             return Pixels[x + (y * Width)];
         }
 
+        /// <summary>
+        /// Gets the pixel at the specified coordinates.
+        /// </summary>
+        /// <param name="co">The coordinate of the pixel.</param>
+        /// <returns>The color value at the specified coordinate.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when the requested coordinate is outsid the image.</exception>
         public ColorBytes GetPixel(IntVector co)
         {
             return GetPixel(co.X, co.Y);
         }
 
+        /// <summary>
+        /// Gets a copy of all the pixels in this image.
+        /// </summary>
+        /// <returns>A newly allocated copy of the pixels.</returns>
         public ColorBytes[] GetPixels()
         {
             var pixels = new ColorBytes[Pixels.Length];
@@ -169,19 +189,59 @@ namespace Heirloom
             return pixels;
         }
 
+        /// <summary>
+        /// Copies the image pixels into an already allocated buffer.
+        /// </summary>
+        /// <param name="buffer">A span of the buffer to copy into.</param>
+        /// <returns>A newly allocated copy of the pixels.</returns>
+        public void GetPixels(Span<ColorBytes> buffer)
+        {
+            if (buffer.Length < Pixels.Length) { throw new ArgumentException("Copy buffer was not large enough."); }
+            Pixels.CopyTo(buffer);
+        }
+
+        /// <summary>
+        /// Copies the image pixels into an already allocated buffer.
+        /// </summary>
+        /// <param name="buffer">The buffer to copy into.</param>
+        /// <param name="offset">The offset of buffer to copy into.</param>
+        /// <returns>A newly allocated copy of the pixels.</returns>
+        public void GetPixels(ColorBytes[] buffer, int offset)
+        {
+            GetPixels(new Span<ColorBytes>(buffer, offset, Pixels.Length));
+        }
+
+        /// <summary>
+        /// Sets the color of a pixel at the specified coordinate.
+        /// </summary>
+        /// <param name="x">The x-coordinate of the pixel.</param>
+        /// <param name="y">The y-coordinate of the pixel.</param>
+        /// <param name="color">The color to assign to the pixel.</param>
         public void SetPixel(int x, int y, in ColorBytes color)
         {
             Pixels[x + (y * Width)] = color;
             IncrementVersion();
         }
 
+        /// <summary>
+        /// Sets the color of a pixel at the specified coordinate.
+        /// </summary>
+        /// <param name="co">The coordinate of the pixel.</param>
+        /// <param name="color">The color to assign to the pixel.</param>
         public void SetPixel(IntVector co, in ColorBytes color)
         {
             SetPixel(co.X, co.Y, in color);
         }
 
+        /// <summary>
+        /// Sets the color of all pixels in the image.
+        /// </summary>
+        /// <param name="pixels">Th</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="pixels"/> is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when the input array identical length as the internal pixel array.</exception>
         public unsafe void SetPixels(ColorBytes[] pixels)
         {
+            if (pixels is null) { throw new ArgumentNullException(nameof(pixels)); }
             if (Pixels.Length != pixels.Length) { throw new ArgumentException("Incoming pixel array must be the same size as image."); }
 
             fixed (ColorBytes* src = pixels)
@@ -262,11 +322,22 @@ namespace Heirloom
 
         #region Copy To
 
+        /// <summary>
+        /// Copies a region of this image to another.
+        /// </summary>
+        /// <param name="region">The region to copy.</param>
+        /// <param name="target">The target image to copy pixels to.</param>
+        /// <param name="targetOffset">The offset within the target image to copy to.</param>
         public void CopyTo(in IntRectangle region, Image target, in IntVector targetOffset)
         {
             Copy(this, in region, target, in targetOffset);
         }
 
+        /// <summary>
+        /// Copies this image to another image.
+        /// </summary>
+        /// <param name="target">The target image to copy pixels to.</param>
+        /// <param name="targetOffset">The offset within the target image to copy to.</param>
         public void CopyTo(Image target, in IntVector targetOffset)
         {
             Copy(this, (0, 0, Width, Height), target, in targetOffset);
@@ -491,9 +562,20 @@ namespace Heirloom
 
         #region Copy (Static)
 
+        /// <summary>
+        /// Copies a region of the <paramref name="source"/> image into the <paramref name="target"/> image at the specified offset.
+        /// </summary>
+        /// <param name="source">The source image.</param>
+        /// <param name="sourceRegion">The region to copy within the source image.</param>
+        /// <param name="target">The target image.</param>
+        /// <param name="targetOffset">The offset in the target to copy the source rectangle to.</param>
+        /// <exception cref="ArgumentNullException">Thrown when either image is null.</exception>
         public static unsafe void Copy(Image source, in IntRectangle sourceRegion,
                                        Image target, in IntVector targetOffset)
         {
+            if (source is null) { throw new ArgumentNullException(nameof(source)); }
+            if (target is null) { throw new ArgumentNullException(nameof(target)); }
+
             if (source == target) { throw new ArgumentException("Unable to copy from self to self."); }
 
             fixed (ColorBytes* sourcePtr = source.Pixels)
@@ -507,19 +589,41 @@ namespace Heirloom
             }
         }
 
+        /// <summary>
+        /// Copies a region of the <paramref name="source"/> image into the <paramref name="targetPtr"/> buffer at the specified offset.
+        /// </summary>
+        /// <param name="source">The source image.</param>
+        /// <param name="sourceRegion">The region to copy within the source image.</param>
+        /// <param name="targetPtr">The target image buffer.</param>
+        /// <param name="targetWidth">The width of the target image.</param>
+        /// <param name="targetOffset">The offset in the target to copy the source rectangle to.</param>
+        /// <exception cref="ArgumentNullException">Thrown when either image is null.</exception>
         public static unsafe void Copy(Image source, in IntRectangle sourceRegion,
-                                       ColorBytes* target, int targetWidth, in IntVector targetOffset)
+                                       ColorBytes* targetPtr, int targetWidth, in IntVector targetOffset)
         {
+            if (source is null) { throw new ArgumentNullException(nameof(source)); }
+
             fixed (ColorBytes* sourcePtr = source.Pixels)
             {
                 Copy(sourcePtr, source.Width, in sourceRegion,
-                     target, targetWidth, in targetOffset);
+                     targetPtr, targetWidth, in targetOffset);
             }
         }
 
+        /// <summary>
+        /// Copies a region of the <paramref name="sourcePtr"/> image into the <paramref name="target"/> buffer at the specified offset.
+        /// </summary>
+        /// <param name="sourcePtr">The source image buffer.</param>
+        /// <param name="sourceWidth">The width of the source image.</param>
+        /// <param name="sourceRegion">The region to copy within the source image.</param>
+        /// <param name="target">The target image.</param>
+        /// <param name="targetOffset">The offset in the target to copy the source rectangle to.</param>
+        /// <exception cref="ArgumentNullException">Thrown when either image is null.</exception>
         public static unsafe void Copy(ColorBytes* sourcePtr, int sourceWidth, in IntRectangle sourceRegion,
                                        Image target, in IntVector targetOffset)
         {
+            if (target is null) { throw new ArgumentNullException(nameof(target)); }
+
             fixed (ColorBytes* targetPtr = target.Pixels)
             {
                 Copy(sourcePtr, sourceWidth, in sourceRegion,
@@ -530,10 +634,22 @@ namespace Heirloom
             }
         }
 
-        public static unsafe void Copy(ColorBytes* source, int sourceWidth, in IntRectangle sourceRegion,
-                                       ColorBytes* target, int targetWidth, in IntVector targetOffset)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourcePtr">The source image buffer.</param>
+        /// <param name="sourceWidth">The width of the source image.</param>
+        /// <param name="sourceRegion">The region to copy within the source image.</param>
+        /// <param name="targetPtr">The target image buffer.</param>
+        /// <param name="targetWidth">The width of the target image.</param>
+        /// <param name="targetOffset">The offset in the target to copy the source rectangle to.</param>
+        /// <exception cref="ArgumentNullException">Thrown when either image is null.</exception>
+        public static unsafe void Copy(ColorBytes* sourcePtr, int sourceWidth, in IntRectangle sourceRegion,
+                                       ColorBytes* targetPtr, int targetWidth, in IntVector targetOffset)
         {
-            if (source == target) { throw new ArgumentException("Unable to copy from self to self."); }
+            if (sourcePtr == targetPtr) { throw new ArgumentException("Unable to copy from self to self."); }
+            if (sourcePtr == (void*) 0) { throw new ArgumentNullException(nameof(sourcePtr)); }
+            if (targetPtr == (void*) 0) { throw new ArgumentNullException(nameof(targetPtr)); }
 
             // Compute the number of bytes to copy per row.
             var rowByteLength = sourceRegion.Width * sizeof(ColorBytes);
@@ -542,8 +658,8 @@ namespace Heirloom
 
             for (var y = 0; y < sourceRegion.Height; y++)
             {
-                var sourceRow = source + (sourceWidth * (y + sourceRegion.Y)) + sourceRegion.X;
-                var targetRow = target + (targetWidth * (y + targetOffset.Y)) + targetOffset.X;
+                var sourceRow = sourcePtr + (sourceWidth * (y + sourceRegion.Y)) + sourceRegion.X;
+                var targetRow = targetPtr + (targetWidth * (y + targetOffset.Y)) + targetOffset.X;
                 Buffer.MemoryCopy(sourceRow, targetRow, rowByteLength, rowByteLength);
             }
         }

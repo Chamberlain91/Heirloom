@@ -11,12 +11,12 @@ namespace Heirloom
     public struct IntVector : IEquatable<IntVector>
     {
         /// <summary>
-        /// The x-coordinate of this vector.
+        /// The x-component of this vector.
         /// </summary>
         public int X;
 
         /// <summary>
-        /// The y-coordinate of this vector.
+        /// The y-component of this vector.
         /// </summary>
         public int Y;
 
@@ -56,6 +56,11 @@ namespace Heirloom
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="IntVector"/>.
+        /// </summary>
+        /// <param name="x">The x component.</param>
+        /// <param name="y">The y component.</param>
         public IntVector(int x, int y)
         {
             X = x;
@@ -85,6 +90,9 @@ namespace Heirloom
 
         #region Indexer
 
+        /// <summary>
+        /// Accesses the <see cref="X"/> and <see cref="Y"/> components by numerical index in respective order.
+        /// </summary>
         public int this[int i]
         {
             get => i switch
@@ -209,6 +217,11 @@ namespace Heirloom
 
         #region Deconstruct
 
+        /// <summary>
+        /// Deconstructs this <see cref="IntVector"/> into constituent components.
+        /// </summary>
+        /// <param name="x">Outputs the x component.</param>
+        /// <param name="y">Outputs the y component.</param>
         public void Deconstruct(out int x, out int y)
         {
             x = X;
@@ -219,6 +232,10 @@ namespace Heirloom
 
         #region Conversion Operators
 
+        /// <summary>
+        /// Converts an <see cref="IntVector"/> into a <see cref="IntSize"/> by convention of
+        /// <see cref="X"/> and <see cref="Y"/> to <see cref="IntSize.Width"/> and <see cref="IntSize.Height"/> respectively.
+        /// </summary>
         public static explicit operator IntSize(IntVector vec)
         {
             var width = vec.X;
@@ -227,6 +244,10 @@ namespace Heirloom
             return new IntSize(width, height);
         }
 
+        /// <summary>
+        /// Converts an <see cref="IntVector"/> into a <see cref="Size"/> by convention of
+        /// <see cref="X"/> and <see cref="Y"/> to <see cref="Size.Width"/> and <see cref="Size.Height"/> respectively.
+        /// </summary>
         public static explicit operator Size(IntVector vec)
         {
             var width = vec.X;
@@ -235,6 +256,9 @@ namespace Heirloom
             return new Size(width, height);
         }
 
+        /// <summary>
+        /// Converts an <see cref="IntVector"/> into <see cref="Vector"/>.
+        /// </summary>
         public static implicit operator Vector(IntVector vec)
         {
             var x = vec.X;
@@ -243,11 +267,9 @@ namespace Heirloom
             return new Vector(x, y);
         }
 
-        public static implicit operator (int x, int y)(IntVector vec)
-        {
-            return (vec.X, vec.Y);
-        }
-
+        /// <summary>
+        /// Converts a formatted tuple into an <see cref="IntVector"/>.
+        /// </summary>
         public static implicit operator IntVector((int x, int y) vec)
         {
             return new IntVector(vec.x, vec.y);
@@ -257,6 +279,9 @@ namespace Heirloom
 
         #region Arithmetic Operators
 
+        /// <summary>
+        /// Returns a negated copy of a vector.
+        /// </summary>
         public static IntVector operator -(IntVector v)
         {
             var x = -v.X;
@@ -264,6 +289,9 @@ namespace Heirloom
             return new IntVector(x, y);
         }
 
+        /// <summary>
+        /// Returns a copy of this vector.
+        /// </summary>
         public static IntVector operator +(IntVector v)
         {
             return v;
@@ -271,6 +299,9 @@ namespace Heirloom
 
         #region Add
 
+        /// <summary>
+        /// Performs the addition of two vectors.
+        /// </summary>
         public static IntVector operator +(IntVector a, IntVector b)
         {
             var x = a.X + b.X;
@@ -282,6 +313,9 @@ namespace Heirloom
 
         #region Subtract
 
+        /// <summary>
+        /// Performs the subtraction of two vectors.
+        /// </summary>
         public static IntVector operator -(IntVector a, IntVector b)
         {
             var x = a.X - b.X;
@@ -293,6 +327,9 @@ namespace Heirloom
 
         #region Multiply
 
+        /// <summary>
+        /// Performs a component-wise multiplication of two vectors.
+        /// </summary>
         public static IntVector operator *(IntVector a, IntVector b)
         {
             var x = a.X * b.X;
@@ -300,6 +337,9 @@ namespace Heirloom
             return new IntVector(x, y);
         }
 
+        /// <summary>
+        /// Performs a scaling of a vector.
+        /// </summary>
         public static IntVector operator *(int v, IntVector a)
         {
             var x = a.X * v;
@@ -307,6 +347,9 @@ namespace Heirloom
             return new IntVector(x, y);
         }
 
+        /// <summary>
+        /// Performs a scaling of a vector.
+        /// </summary>
         public static IntVector operator *(IntVector a, int v)
         {
             var x = a.X * v;
@@ -314,6 +357,9 @@ namespace Heirloom
             return new IntVector(x, y);
         }
 
+        /// <summary>
+        /// Performs a scaling of a vector.
+        /// </summary>
         public static Vector operator *(float v, IntVector a)
         {
             var x = a.X * v;
@@ -321,6 +367,9 @@ namespace Heirloom
             return new Vector(x, y);
         }
 
+        /// <summary>
+        /// Performs a scaling of a vector.
+        /// </summary>
         public static Vector operator *(IntVector a, float v)
         {
             var x = a.X * v;
@@ -332,6 +381,9 @@ namespace Heirloom
 
         #region Divide
 
+        /// <summary>
+        /// Performs a scaling of a vector via division.
+        /// </summary>
         public static IntVector operator /(IntVector a, int v)
         {
             var x = a.X / v;
@@ -339,6 +391,9 @@ namespace Heirloom
             return new IntVector(x, y);
         }
 
+        /// <summary>
+        /// Performs a scaling of a vector via division.
+        /// </summary>
         public static Vector operator /(float v, IntVector b)
         {
             var x = v / b.X;
@@ -352,11 +407,17 @@ namespace Heirloom
 
         #region Comparison Operators
 
+        /// <summary>
+        /// Compares two vectors for equality.
+        /// </summary>
         public static bool operator ==(IntVector vector1, IntVector vector2)
         {
             return vector1.Equals(vector2);
         }
 
+        /// <summary>
+        /// Compares two vectors for inequality.
+        /// </summary>
         public static bool operator !=(IntVector vector1, IntVector vector2)
         {
             return !(vector1 == vector2);
@@ -366,28 +427,38 @@ namespace Heirloom
 
         #region Equality
 
+        /// <summary>
+        /// Compares this <see cref="IntVector"/> for equality with another object.
+        /// </summary>
         public override bool Equals(object obj)
         {
             return obj is IntVector vec
                 && Equals(vec);
         }
 
+        /// <summary>
+        /// Compares this <see cref="IntVector"/> for equality with another <see cref="IntVector"/>.
+        /// </summary>
         public bool Equals(IntVector other)
         {
             return X == other.X
                 && Y == other.Y;
         }
 
+        /// <summary>
+        /// Returns the hash code for this <see cref="IntVector"/>.
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
-            var hashCode = 1861411795;
-            hashCode = hashCode * -1521134295 + X.GetHashCode();
-            hashCode = hashCode * -1521134295 + Y.GetHashCode();
-            return hashCode;
+            return HashCode.Combine(X, Y);
         }
 
         #endregion
 
+        /// <summary>
+        /// Returns the string representation of this <see cref="IntVector"/>.
+        /// </summary>
         public override string ToString()
         {
             return $"{X}, {Y}";

@@ -13,7 +13,7 @@ namespace Heirloom.OpenGLES
         Zero = 0,
 
         /// <summary>
-        /// Sets the stencil buffer value to ref, as specified by <see cref="GL.StencilFunc(StencilFunction, int, uint)"/>.
+        /// Sets the stencil buffer value to ref, as specified by <see cref="GL.StencilFunction(StencilFunction, int, uint)"/>.
         /// </summary>
         Replace = 0x1E01,
 

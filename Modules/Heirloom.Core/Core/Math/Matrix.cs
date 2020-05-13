@@ -10,21 +10,35 @@ namespace Heirloom
     [StructLayout(LayoutKind.Sequential, Size = 4 * 6, Pack = 4)]
     public struct Matrix : IEquatable<Matrix>
     {
-        // row 0
-        public float M0; // sx *  c
-        public float M1; // sy * -s
-        public float M2; // tx
+        /// <summary>
+        /// The value in the row 0, column 0.
+        /// </summary>
+        public float M0;
 
-        // row 1
-        public float M3; // sx *  s
-        public float M4; // sy *  c
-        public float M5; // ty 
+        /// <summary>
+        /// The value in the row 0, column 1.
+        /// </summary>
+        public float M1;
 
-        // 3x3
-        // note, for glsl uniform buffers the missing float in each row
-        // 0 1 2 x
-        // 3 4 5 x
-        // 6 7 8 x
+        /// <summary>
+        /// The value in the row 0, column 2.
+        /// </summary>
+        public float M2;
+
+        /// <summary>
+        /// The value in the row 1, column 0.
+        /// </summary>
+        public float M3;
+
+        /// <summary>
+        /// The value in the row 1, column 1.
+        /// </summary>
+        public float M4;
+
+        /// <summary>
+        /// The value in the row 1, column 2.
+        /// </summary>
+        public float M5;
 
         #region Constants
 
@@ -37,6 +51,9 @@ namespace Heirloom
 
         #region Indexer
 
+        /// <summary>
+        /// Accesses the components of this matrix by row and column.
+        /// </summary>
         public float this[int r, int c]
         {
             get
@@ -90,23 +107,21 @@ namespace Heirloom
             }
         }
 
+        /// <summary>
+        /// Accesses the components of this matrix by numerical index.
+        /// </summary>
         public float this[int i]
         {
-            get
+            get => i switch
             {
-                switch (i)
-                {
-                    case 0: return M0;
-                    case 1: return M1;
-                    case 2: return M2;
-                    case 3: return M3;
-                    case 4: return M4;
-                    case 5: return M5;
-
-                    default:
-                        throw new InvalidOperationException();
-                }
-            }
+                0 => M0,
+                1 => M1,
+                2 => M2,
+                3 => M3,
+                4 => M4,
+                5 => M5,
+                _ => throw new InvalidOperationException(),
+            };
 
             set
             {
@@ -129,6 +144,9 @@ namespace Heirloom
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="Matrix"/> by 6 components.
+        /// </summary>
         public Matrix(float m0, float m1, float m2, float m3, float m4, float m5)
         {
             M0 = m0;
@@ -562,6 +580,12 @@ namespace Heirloom
 
         #region Deconstruct / Extrat Affine Components
 
+        /// <summary>
+        /// Deconstructs this <see cref="Matrix"/> into affine components.
+        /// </summary>
+        /// <param name="position">Outputs the position or translational component.</param>
+        /// <param name="rotation">Outputs the rotational component.</param>
+        /// <param name="scale">Outputs the scalar component.</param>
         public void Deconstruct(out Vector position, out float rotation, out Vector scale)
         // ref: https://stackoverflow.com/questions/4361242/extract-rotation-scale-values-from-2d-transformation-matrix
         {
@@ -610,6 +634,9 @@ namespace Heirloom
 
         #region Arithmetic Operators
 
+        /// <summary>
+        /// Performs the multiplication of two matrices.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix operator *(Matrix a, Matrix b)
         {
@@ -617,6 +644,9 @@ namespace Heirloom
             return b;
         }
 
+        /// <summary>
+        /// Performs the multiplication of a matrix and vector, transforming the vector.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector operator *(Matrix m, Vector v)
         {
@@ -628,11 +658,17 @@ namespace Heirloom
 
         #region Comparison Operators
 
+        /// <summary>
+        /// Compares two matrices for equality.
+        /// </summary>
         public static bool operator ==(Matrix left, Matrix right)
         {
             return left.Equals(right);
         }
 
+        /// <summary>
+        /// Compares two matrices for inequality.
+        /// </summary>
         public static bool operator !=(Matrix left, Matrix right)
         {
             return !(left == right);
@@ -642,12 +678,18 @@ namespace Heirloom
 
         #region Equality
 
+        /// <summary>
+        /// Compares this <see cref="Matrix"/> for equality with another object.
+        /// </summary>
         public override bool Equals(object obj)
         {
             return obj is Matrix matrix
                 && Equals(matrix);
         }
 
+        /// <summary>
+        /// Compares this <see cref="Matrix"/> for equality with another <see cref="Matrix"/>.
+        /// </summary>
         public bool Equals(Matrix other)
         {
             return Calc.NearEquals(M0, other.M0)
@@ -658,6 +700,9 @@ namespace Heirloom
                 && Calc.NearEquals(M5, other.M5);
         }
 
+        /// <summary>
+        /// Returns the hash code for this <see cref="Matrix"/>.
+        /// </summary>
         public override int GetHashCode()
         {
             return HashCode.Combine(M0, M1, M2, M3, M4, M5);
