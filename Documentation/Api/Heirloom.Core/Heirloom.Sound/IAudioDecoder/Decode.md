@@ -20,7 +20,7 @@ public abstract int Decode(Span<short> samples)
 |---------|---------------|-------------------------------------------|
 | samples | `Span<short>` | The buffer to write decoded samples into. |
 
-> **Returns** - `int` - The actual number of samples decoded, will be less than or equal to...
+> **Returns** - `int` - The actual number of samples decoded, will be less than or equal to the length `samples` .
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IAudioDecoder.md

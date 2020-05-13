@@ -12,6 +12,8 @@
 
 Gets or sets the room size. Larger values mean longer reverb.
 
+This value ranges from 0.0 to 1.0.
+
 ```cs
 public float RoomSize { get; set; }
 ```

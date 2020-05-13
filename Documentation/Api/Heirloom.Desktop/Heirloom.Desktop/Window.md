@@ -23,7 +23,7 @@ public sealed class Window : Screen, IInputSource, IDisposable
 
 ### Methods
 
-[BeginFullscreen][17], [Close][18], [Dispose][19], [EndFullscreen][20], [Focus][21], [Hide][22], [HideSoftwareKeyboard][23], [Maximize][24], [Minimize][25], [MoveToCenter][26], [Restore][27], [SetCursor][28], [SetIcon][29], [SetIcons][30], [Show][31], [ShowSoftwareKeyboard][32]
+[BeginFullscreen][17], [Close][18], [Dispose][19], [EndFullscreen][20], [Finalize][21], [Focus][22], [Hide][23], [HideSoftwareKeyboard][24], [Maximize][25], [Minimize][26], [MoveToCenter][27], [Restore][28], [SetCursor][29], [SetIcon][30], [SetIcons][31], [Show][32], [ShowSoftwareKeyboard][33]
 
 ## Properties
 
@@ -31,18 +31,18 @@ public sealed class Window : Screen, IInputSource, IDisposable
 
 | Name                           | Type                   | Summary                                                                |
 |--------------------------------|------------------------|------------------------------------------------------------------------|
-| [Bounds][3]                    | [IntRectangle][33]     | Gets or sets the window bounds in screen units.                        |
-| [ContentScale][4]              | [Vector][34]           | Gets the content scaling factor.                                       |
+| [Bounds][3]                    | [IntRectangle][34]     | Gets or sets the window bounds in screen units.                        |
+| [ContentScale][4]              | [Vector][35]           | Gets the content scaling factor.                                       |
 | [HasTransparentFramebuffer][5] | `bool`                 | Gets a value that determines if this window supports a transparent ... |
 | [Icons][6]                     | `IReadOnlyList<Image>` | Gets this windows icon set.                                            |
 | [IsDecorated][7]               | `bool`                 | Gets a value that determines if the window is decorated.               |
 | [IsFloating][8]                | `bool`                 | Gets a value that determines if the window "always on top".            |
 | [IsResizable][9]               | `bool`                 | Gets a value that determines if the window be resized.                 |
 | [IsVisible][10]                | `bool`                 | Gets a value that determines if the window is visible.                 |
-| [Monitor][11]                  | [Monitor][35]          | Gets the monitor this window is positioned on by checking the cente... |
-| [Position][12]                 | [IntVector][36]        | Gets or sets the window position in screen coordinates.                |
-| [Size][13]                     | [IntSize][37]          | Gets or sets the window size in screen units.                          |
-| [State][14]                    | [WindowState][38]      | Gets the current state of the window.                                  |
+| [Monitor][11]                  | [Monitor][36]          | Gets the monitor this window is positioned on by checking the cente... |
+| [Position][12]                 | [IntVector][37]        | Gets or sets the window position in screen coordinates.                |
+| [Size][13]                     | [IntSize][38]          | Gets or sets the window size in screen units.                          |
+| [State][14]                    | [WindowState][39]      | Gets the current state of the window.                                  |
 | [SupportsSoftwareKeyboard][15] | `bool`                 | Gets a value that determines if a software keyboard is supported on... |
 | [Title][16]                    | `string`               | Gets or set the window title text.                                     |
 
@@ -59,21 +59,22 @@ public sealed class Window : Screen, IInputSource, IDisposable
 | [Close()][18]                   | `void`      | Closes this window.                                                    |
 | [Dispose(bool)][19]             | `void`      |                                                                        |
 | [EndFullscreen()][20]           | `void`      | Disables fullscreen mode.                                              |
-| [Focus()][21]                   | `void`      | Brings focus to this window.                                           |
-| [Hide()][22]                    | `void`      | Hides the window, minimizing it.                                       |
-| [HideSoftwareKeyboard()][23]    | `void`      | Hides the software keyboard.                                           |
-| [Maximize()][24]                | `void`      | Sets the window to a maximized state.                                  |
-| [Minimize()][25]                | `void`      | Sets the window to a minimized state.                                  |
-| [MoveToCenter()][26]            | `void`      | Moves the window to the center of the nearest monitor.                 |
-| [MoveToCenter(Monitor)][26]     | `void`      | Moves the window to the center of the specified monitor.               |
-| [Restore()][27]                 | `void`      | Sets the window to a default size state.                               |
-| [SetCursor(StandardCursor)][28] | `void`      | Changes the appearance of the cursor on this window.                   |
-| [SetCursor(Image)][28]          | `void`      | Changes the appearance of the cursor on this window.                   |
-| [SetCursor(Image, IntVe...][28] | `void`      | Changes the appearance of the cursor on this window.                   |
-| [SetIcon(Image)][29]            | `void`      | Assigns a new icon image to the window.                                |
-| [SetIcons(Image[])][30]         | `void`      |                                                                        |
-| [Show()][31]                    | `void`      | Shows the window, making it visible.                                   |
-| [ShowSoftwareKeyboard()][32]    | `void`      | Attempts to show the software keyboard.                                |
+| [Finalize()][21]                | `void`      | Performs final cleanup of Window before garbase collection.            |
+| [Focus()][22]                   | `void`      | Brings focus to this window.                                           |
+| [Hide()][23]                    | `void`      | Hides the window, minimizing it.                                       |
+| [HideSoftwareKeyboard()][24]    | `void`      | Hides the software keyboard.                                           |
+| [Maximize()][25]                | `void`      | Sets the window to a maximized state.                                  |
+| [Minimize()][26]                | `void`      | Sets the window to a minimized state.                                  |
+| [MoveToCenter()][27]            | `void`      | Moves the window to the center of the nearest monitor.                 |
+| [MoveToCenter(Monitor)][27]     | `void`      | Moves the window to the center of the specified monitor.               |
+| [Restore()][28]                 | `void`      | Sets the window to a default size state.                               |
+| [SetCursor(StandardCursor)][29] | `void`      | Changes the appearance of the cursor on this window.                   |
+| [SetCursor(Image)][29]          | `void`      | Changes the appearance of the cursor on this window.                   |
+| [SetCursor(Image, IntVe...][29] | `void`      | Changes the appearance of the cursor on this window.                   |
+| [SetIcon(Image)][30]            | `void`      | Assigns a new icon image to the window.                                |
+| [SetIcons(Image[])][31]         | `void`      |                                                                        |
+| [Show()][32]                    | `void`      | Shows the window, making it visible.                                   |
+| [ShowSoftwareKeyboard()][33]    | `void`      | Attempts to show the software keyboard.                                |
 
 [0]: ../../Heirloom.Desktop.md
 [1]: ../../Heirloom.Core/Heirloom/Screen.md
@@ -96,21 +97,22 @@ public sealed class Window : Screen, IInputSource, IDisposable
 [18]: Window/Close.md
 [19]: Window/Dispose.md
 [20]: Window/EndFullscreen.md
-[21]: Window/Focus.md
-[22]: Window/Hide.md
-[23]: Window/HideSoftwareKeyboard.md
-[24]: Window/Maximize.md
-[25]: Window/Minimize.md
-[26]: Window/MoveToCenter.md
-[27]: Window/Restore.md
-[28]: Window/SetCursor.md
-[29]: Window/SetIcon.md
-[30]: Window/SetIcons.md
-[31]: Window/Show.md
-[32]: Window/ShowSoftwareKeyboard.md
-[33]: ../../Heirloom.Core/Heirloom/IntRectangle.md
-[34]: ../../Heirloom.Core/Heirloom/Vector.md
-[35]: Monitor.md
-[36]: ../../Heirloom.Core/Heirloom/IntVector.md
-[37]: ../../Heirloom.Core/Heirloom/IntSize.md
-[38]: WindowState.md
+[21]: Window/Finalize.md
+[22]: Window/Focus.md
+[23]: Window/Hide.md
+[24]: Window/HideSoftwareKeyboard.md
+[25]: Window/Maximize.md
+[26]: Window/Minimize.md
+[27]: Window/MoveToCenter.md
+[28]: Window/Restore.md
+[29]: Window/SetCursor.md
+[30]: Window/SetIcon.md
+[31]: Window/SetIcons.md
+[32]: Window/Show.md
+[33]: Window/ShowSoftwareKeyboard.md
+[34]: ../../Heirloom.Core/Heirloom/IntRectangle.md
+[35]: ../../Heirloom.Core/Heirloom/Vector.md
+[36]: Monitor.md
+[37]: ../../Heirloom.Core/Heirloom/IntVector.md
+[38]: ../../Heirloom.Core/Heirloom/IntSize.md
+[39]: WindowState.md

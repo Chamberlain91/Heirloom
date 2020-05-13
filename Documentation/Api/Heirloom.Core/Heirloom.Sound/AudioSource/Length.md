@@ -19,5 +19,10 @@ public int Length { get; }
 
 > **Returns**: `int`
 
+**See Also:** [Time][2], [Duration][3], [Position][4]
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../AudioSource.md
+[2]: Time.md
+[3]: Duration.md
+[4]: Position.md

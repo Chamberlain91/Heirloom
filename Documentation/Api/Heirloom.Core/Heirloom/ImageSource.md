@@ -13,9 +13,11 @@ Represents the abstract representation of an image.
 public abstract class ImageSource
 ```
 
+**See Also:** [Surface][1], [Image][2]
+
 ### Properties
 
-[Height][1], [Interpolation][2], [Origin][3], [Repeat][4], [Size][5], [Width][6]
+[Height][3], [Interpolation][4], [Origin][5], [Repeat][6], [Size][7], [Width][8]
 
 ## Properties
 
@@ -23,21 +25,23 @@ public abstract class ImageSource
 
 | Name               | Type                   | Summary                                                         |
 |--------------------|------------------------|-----------------------------------------------------------------|
-| [Height][1]        | `int`                  | The height of the image (in pixels).                            |
-| [Interpolation][2] | [InterpolationMode][7] | Interpolation mode.                                             |
-| [Origin][3]        | [IntVector][8]         | The offset used to 'center' the image around a non-zero origin. |
-| [Repeat][4]        | [RepeatMode][9]        | Repeat mode.                                                    |
-| [Size][5]          | [IntSize][10]          | The size of this image.                                         |
-| [Width][6]         | `int`                  | The width of the image (in pixels).                             |
+| [Height][3]        | `int`                  | The height of the image (in pixels).                            |
+| [Interpolation][4] | [InterpolationMode][9] | Interpolation mode.                                             |
+| [Origin][5]        | [IntVector][10]        | The offset used to 'center' the image around a non-zero origin. |
+| [Repeat][6]        | [RepeatMode][11]       | Repeat mode.                                                    |
+| [Size][7]          | [IntSize][12]          | The size of this image.                                         |
+| [Width][8]         | `int`                  | The width of the image (in pixels).                             |
 
 [0]: ../../Heirloom.Core.md
-[1]: ImageSource/Height.md
-[2]: ImageSource/Interpolation.md
-[3]: ImageSource/Origin.md
-[4]: ImageSource/Repeat.md
-[5]: ImageSource/Size.md
-[6]: ImageSource/Width.md
-[7]: InterpolationMode.md
-[8]: IntVector.md
-[9]: RepeatMode.md
-[10]: IntSize.md
+[1]: Surface.md
+[2]: Image.md
+[3]: ImageSource/Height.md
+[4]: ImageSource/Interpolation.md
+[5]: ImageSource/Origin.md
+[6]: ImageSource/Repeat.md
+[7]: ImageSource/Size.md
+[8]: ImageSource/Width.md
+[9]: InterpolationMode.md
+[10]: IntVector.md
+[11]: RepeatMode.md
+[12]: IntSize.md

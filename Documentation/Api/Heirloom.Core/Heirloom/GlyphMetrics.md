@@ -23,6 +23,10 @@ public struct GlyphMetrics
 
 [Offset][3], [Size][4]
 
+### Methods
+
+[Equals][5], [GetHashCode][6]
+
 ## Fields
 
 #### Instance
@@ -38,13 +42,33 @@ public struct GlyphMetrics
 
 | Name        | Type           | Summary                                 |
 |-------------|----------------|-----------------------------------------|
-| [Offset][3] | [IntVector][5] | The glyph offset from the pen position. |
-| [Size][4]   | [IntSize][6]   | The glyph bounds size.                  |
+| [Offset][3] | [IntVector][7] | The glyph offset from the pen position. |
+| [Size][4]   | [IntSize][8]   | The glyph bounds size.                  |
+
+## Methods
+
+#### Instance
+
+| Name                | Return Type | Summary                                                      |
+|---------------------|-------------|--------------------------------------------------------------|
+| [Equals(object)][5] | `bool`      | Compares this GlyphMetrics for equality with another object. |
+| [GetHashCode()][6]  | `int`       | Returns the hash code this GlyphMetrics .                    |
+
+## Operators
+
+| Name                            | Return Type | Summary                                                |
+|---------------------------------|-------------|--------------------------------------------------------|
+| [Equality(GlyphMetrics,...][9]  | `bool`      | Compares two instances of GlyphMetrics for equality.   |
+| [Inequality(GlyphMetric...][10] | `bool`      | Compares two instances of GlyphMetrics for inequality. |
 
 [0]: ../../Heirloom.Core.md
 [1]: GlyphMetrics/AdvanceWidth.md
 [2]: GlyphMetrics/Bearing.md
 [3]: GlyphMetrics/Offset.md
 [4]: GlyphMetrics/Size.md
-[5]: IntVector.md
-[6]: IntSize.md
+[5]: GlyphMetrics/Equals.md
+[6]: GlyphMetrics/GetHashCode.md
+[7]: IntVector.md
+[8]: IntSize.md
+[9]: GlyphMetrics/op_Equality.md
+[10]: GlyphMetrics/op_Inequality.md

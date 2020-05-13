@@ -22,5 +22,8 @@ public static string ReadText(string path)
 
 > **Returns** - `string` - String contents of a file.
 
+**See Also:** [OpenStream][2]
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../Files.md
+[2]: OpenStream.md

@@ -18,6 +18,9 @@ public static void Run<TGameLoop>()
 
 > **Returns** - `void`
 
+**See Also:** [Run][3]
+
 [0]: ../../../Heirloom.Desktop.md
 [1]: ../Application.md
 [2]: ../../../Heirloom.Core/Heirloom/GameLoop/Start.md
+[3]: Run.md

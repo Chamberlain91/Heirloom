@@ -47,9 +47,9 @@ public abstract class GameLoop
 
 #### Static
 
-| Name                           | Return Type   | Summary |
-|--------------------------------|---------------|---------|
-| [Create(GraphicsContext...][7] | [GameLoop][9] |         |
+| Name                           | Return Type   | Summary                                                                |
+|--------------------------------|---------------|------------------------------------------------------------------------|
+| [Create(GraphicsContext...][7] | [GameLoop][9] | Creates a render loop instance from the given context and method re... |
 
 [0]: ../../Heirloom.Core.md
 [1]: GameLoop/FixedFrameRate.md

@@ -27,7 +27,7 @@ public struct Circle : IShape, IEquatable<Circle>
 
 ### Methods
 
-[Contains][6], [GetNearestPoint][7], [Overlaps][8], [Project][9], [Raycast][10], [Set][11], [ToPolygon][12]
+[Contains][6], [Equals][7], [GetHashCode][8], [GetNearestPoint][9], [Overlaps][10], [Project][11], [Raycast][12], [Set][13], [ToPolygon][14], [ToString][15]
 
 ## Fields
 
@@ -35,7 +35,7 @@ public struct Circle : IShape, IEquatable<Circle>
 
 | Name          | Type         | Summary                            |
 |---------------|--------------|------------------------------------|
-| [Position][2] | [Vector][13] | The center position of the circle. |
+| [Position][2] | [Vector][16] | The center position of the circle. |
 | [Radius][3]   | `float`      | The radius of the circle.          |
 
 ## Properties
@@ -45,7 +45,7 @@ public struct Circle : IShape, IEquatable<Circle>
 | Name        | Type            | Summary                                     |
 |-------------|-----------------|---------------------------------------------|
 | [Area][4]   | `float`         | Gets the area of the circle.                |
-| [Bounds][5] | [Rectangle][14] | Gets the bounding rectangle of this circle. |
+| [Bounds][5] | [Rectangle][17] | Gets the bounding rectangle of this circle. |
 
 ## Methods
 
@@ -55,18 +55,29 @@ public struct Circle : IShape, IEquatable<Circle>
 |---------------------------------|---------------|-----------------------------------------------------------------------|
 | [Contains(in Vector)][6]        | `bool`        | Determines if the specified point is contained by the circle.         |
 | [Contains(in Circle)][6]        | `bool`        | Determines if this circle contains another circle.                    |
-| [GetNearestPoint(in Vec...][7]  | [Vector][13]  | Gets the nearest point on the circle to the specified point.          |
-| [Overlaps(IShape)][8]           | `bool`        | Determines if this circle overlaps another shape.                     |
-| [Overlaps(in Circle)][8]        | `bool`        | Determines if this circle overlaps another circle.                    |
-| [Overlaps(in Rectangle)][8]     | `bool`        | Determines if this circle overlaps the specified rectangle.           |
-| [Overlaps(in Triangle)][8]      | `bool`        | Determines if this circle overlaps the specified triangle.            |
-| [Overlaps(Polygon)][8]          | `bool`        | Determines if this circle overlaps the specified simple polygon.      |
-| [Overlaps(IReadOnlyList...][8]  | `bool`        | Determines if this circle overlaps the specified convex polygon.      |
-| [Project(in Vector)][9]         | [Range][15]   | Project this circle onto the specified axis.                          |
-| [Raycast(in Ray)][10]           | `bool`        | Peforms a raycast onto this circle, returning true upon intersection. |
-| [Raycast(in Ray, out Ra...][10] | `bool`        | Peforms a raycast onto this circle, returning true upon intersection. |
-| [Set(in Vector, float)][11]     | `void`        | Sets the components of this circle.                                   |
-| [ToPolygon()][12]               | [Polygon][16] | Create a polygon from this rectangle.                                 |
+| [Equals(object)][7]             | `bool`        | Compares this Circle for equality with another object.                |
+| [Equals(Circle)][7]             | `bool`        | Compares this Circle for equality with another Circle .               |
+| [GetHashCode()][8]              | `int`         | Returns the hash code for this Circle .                               |
+| [GetNearestPoint(in Vec...][9]  | [Vector][16]  | Gets the nearest point on the circle to the specified point.          |
+| [Overlaps(IShape)][10]          | `bool`        | Determines if this circle overlaps another shape.                     |
+| [Overlaps(in Circle)][10]       | `bool`        | Determines if this circle overlaps another circle.                    |
+| [Overlaps(in Rectangle)][10]    | `bool`        | Determines if this circle overlaps the specified rectangle.           |
+| [Overlaps(in Triangle)][10]     | `bool`        | Determines if this circle overlaps the specified triangle.            |
+| [Overlaps(Polygon)][10]         | `bool`        | Determines if this circle overlaps the specified simple polygon.      |
+| [Overlaps(IReadOnlyList...][10] | `bool`        | Determines if this circle overlaps the specified convex polygon.      |
+| [Project(in Vector)][11]        | [Range][18]   | Project this circle onto the specified axis.                          |
+| [Raycast(in Ray)][12]           | `bool`        | Peforms a raycast onto this circle, returning true upon intersection. |
+| [Raycast(in Ray, out Ra...][12] | `bool`        | Peforms a raycast onto this circle, returning true upon intersection. |
+| [Set(in Vector, float)][13]     | `void`        | Sets the components of this circle.                                   |
+| [ToPolygon()][14]               | [Polygon][19] | Create a polygon from this rectangle.                                 |
+| [ToString()][15]                | `string`      | Gets the string representation of this Circle .                       |
+
+## Operators
+
+| Name                            | Return Type | Summary                                          |
+|---------------------------------|-------------|--------------------------------------------------|
+| [Equality(Circle, Circle)][20]  | `bool`      | Compares two instances of Circle for equality.   |
+| [Inequality(Circle, Cir...][21] | `bool`      | Compares two instances of Circle for inequality. |
 
 [0]: ../../Heirloom.Core.md
 [1]: IShape.md
@@ -75,13 +86,18 @@ public struct Circle : IShape, IEquatable<Circle>
 [4]: Circle/Area.md
 [5]: Circle/Bounds.md
 [6]: Circle/Contains.md
-[7]: Circle/GetNearestPoint.md
-[8]: Circle/Overlaps.md
-[9]: Circle/Project.md
-[10]: Circle/Raycast.md
-[11]: Circle/Set.md
-[12]: Circle/ToPolygon.md
-[13]: ../Heirloom/Vector.md
-[14]: ../Heirloom/Rectangle.md
-[15]: ../Heirloom/Range.md
-[16]: Polygon.md
+[7]: Circle/Equals.md
+[8]: Circle/GetHashCode.md
+[9]: Circle/GetNearestPoint.md
+[10]: Circle/Overlaps.md
+[11]: Circle/Project.md
+[12]: Circle/Raycast.md
+[13]: Circle/Set.md
+[14]: Circle/ToPolygon.md
+[15]: Circle/ToString.md
+[16]: ../Heirloom/Vector.md
+[17]: ../Heirloom/Rectangle.md
+[18]: ../Heirloom/Range.md
+[19]: Polygon.md
+[20]: Circle/op_Equality.md
+[21]: Circle/op_Inequality.md

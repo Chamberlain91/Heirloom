@@ -34,6 +34,9 @@ public void AddIndices(IEnumerable<int> indices)
 
 > **Returns** - `void`
 
+**See Also:** [IsIndexed][3]
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../Mesh.md
 [2]: Clear.md
+[3]: IsIndexed.md
