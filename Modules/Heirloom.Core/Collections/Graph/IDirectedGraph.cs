@@ -107,7 +107,7 @@ namespace Heirloom.Collections
         IReadOnlyList<T> FindPath(T start, T goal, HeuristicCost<T> heuristic);
 
         /// <summary>
-        /// Attempts to finds a path between <paramref name="start"/> and <paramref name="goal"/> vertices using the specified <paramref name="heuristic"/>.
+        /// Attempts to finds a path between <paramref name="start"/> until the first vertex to satisfy the <paramref name="goalCondition"/> using the specified <paramref name="heuristic"/>.
         /// </summary>
         /// <param name="start">Some starting vertex.</param>
         /// <param name="goalCondition">Some goal condition.</param>

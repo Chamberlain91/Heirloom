@@ -13,8 +13,14 @@ using static StbImageWriteSharp.StbImageWrite;
 
 namespace Heirloom
 {
+    /// <summary>
+    /// Represents an image as a grid of <see cref="ColorBytes"/>.
+    /// </summary>
     public sealed class Image : ImageSource
     {
+        /// <summary>
+        /// The max allowable image size for any dimension.
+        /// </summary>
         public const int MaxImageDimension = 8192;
 
         /// <summary>
@@ -38,6 +44,7 @@ namespace Heirloom
         /// <summary>
         /// Loads an image by a file path resolved by <see cref="Files.OpenStream(string)"/>.
         /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown if an error was encountered when loading the image.</exception>
         public Image(string path)
             : this(Files.OpenStream(path))
         { }
@@ -45,6 +52,7 @@ namespace Heirloom
         /// <summary>
         /// Loads an image from a stream.
         /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown if an error was encountered when loading the image.</exception>
         public Image(Stream stream)
             : this(stream.ReadAllBytes())
         { }
@@ -52,31 +60,44 @@ namespace Heirloom
         /// <summary>
         /// Loads an image directly from a block of bytes.
         /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown if an error was encountered when loading the image.</exception>
         public unsafe Image(byte[] file)
         {
-            fixed (byte* buffer = file)
+            // Decode from file to raw RGBA bytes
+            var result = ImageResult.FromMemory(file, ColorComponents.RedGreenBlueAlpha);
+
+            var width = result.Width;
+            var height = result.Height;
+
+            // Ensure image size is acceptable and no error while loading occurred
+            ValidateImageSize(in width, in height);
+
+            // Allocate pixels
+            Pixels = new ColorBytes[width * height];
+            _size = new IntSize(width, height);
+
+            // Copy grabbed pixels to image
+            fixed (byte* ptr = result.Data)
             {
-                // Decode from file to raw RGBA bytes
-                int width, height, comp;
-                var pResult = stbi_load_from_memory(buffer, file.Length, &width, &height, &comp, 4);
-                ValidateImageSize(in width, in height);
-
-                // Allocate pixels
-                Pixels = new ColorBytes[width * height];
-                _size = new IntSize(width, height);
-
-                // Copy grabbed pixels to image 
-                Copy((ColorBytes*) pResult, width, (0, 0, width, height), this, IntVector.Zero);
-
-                // Free stb bitmap
-                CRuntime.free(pResult);
+                Copy((ColorBytes*) ptr, width, (0, 0, width, height), this, IntVector.Zero);
             }
         }
 
+        /// <summary>
+        /// Constructs a new blank image of the specified size.
+        /// </summary>
+        /// <param name="size">The size of the image in pixels.</param>
+        /// <exception cref="ArgumentException">Thrown when any dimension is negative or exceeds <see cref="MaxImageDimension"/>.</exception>
         public Image(IntSize size)
             : this(size.Width, size.Height)
         { }
 
+        /// <summary>
+        /// Constructs a new blank image of the specified size.
+        /// </summary>
+        /// <param name="width">The width of the image in pixels.</param>
+        /// <param name="height">The height of the image in pixels.</param>
+        /// <exception cref="ArgumentException">Thrown when any dimension is negative or exceeds <see cref="MaxImageDimension"/>.</exception>
         public Image(int width, int height)
         {
             ValidateImageSize(in width, in height);
@@ -533,8 +554,8 @@ namespace Heirloom
             {
                 _writeStream = stream;
 
-                // StbSharp is out of date...?
-                // Stb.stbi_flip_vertically_on_write(1);
+                // Flip vertically!
+                stbi_flip_vertically_on_write(1);
 
                 fixed (ColorBytes* pPixels = image.Pixels)
                 {
@@ -557,8 +578,8 @@ namespace Heirloom
 
                 _writeStream = stream;
 
-                // StbSharp is out of date...?
-                // Stb.stbi_flip_vertically_on_write(1);
+                // Flip vertically!
+                stbi_flip_vertically_on_write(1);
 
                 fixed (ColorBytes* pPixels = image.Pixels)
                 {
@@ -590,34 +611,6 @@ namespace Heirloom
             return size;
         }
 
-        #endregion
-
-        #region Load (Static)
-
-        public static unsafe Image Load(Stream stream)
-        {
-            return Load(stream.ReadAllBytes());
-        }
-
-        public static unsafe Image Load(byte[] file)
-        {
-            fixed (byte* filePtr = file)
-            {
-                // Decode from file to raw RGBA bytes
-                int width, height, comp;
-                var imagePtr = stbi_load_from_memory(filePtr, file.Length, &width, &height, &comp, 4);
-
-                var data = new Image(width, height);
-                Copy((ColorBytes*) imagePtr, width, (0, 0, width, height), data, (0, 0));
-
-                // Free stb image
-                CRuntime.free(imagePtr);
-
-                // Return image data
-                return data;
-            }
-        }
-
-        #endregion
+        #endregion 
     }
 }

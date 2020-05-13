@@ -3,159 +3,144 @@ using System.Runtime.InteropServices;
 
 namespace StbImageSharp
 {
-#pragma warning disable IDE1006 // Naming Styles
-#pragma warning disable CS0649  // Default value null
-#pragma warning disable CS0169  // Unassigned
-
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0007:Use implicit type", Justification = "C to C# Ported Code")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "C to C# Ported Code")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0011:Add braces", Justification = "C to C# Ported Code")]
     internal static unsafe class CRuntime
-    {
-        public static void* malloc(ulong size)
-        {
-            return malloc((long) size);
-        }
+	{
+		public static void* malloc(ulong size)
+		{
+			return malloc((long)size);
+		}
 
-        public static void* malloc(long size)
-        {
-            var ptr = Marshal.AllocHGlobal((int) size);
-            return ptr.ToPointer();
-        }
+		public static void* malloc(long size)
+		{
+			var ptr = Marshal.AllocHGlobal((int)size);
 
-        public static void memcpy(void* a, void* b, long size)
-        {
-            var ap = (byte*) a;
-            var bp = (byte*) b;
-            for (long i = 0; i < size; ++i)
-            {
-                *ap++ = *bp++;
-            }
-        }
+			MemoryStats.Allocated();
 
-        public static void memcpy(void* a, void* b, ulong size)
-        {
-            memcpy(a, b, (long) size);
-        }
+			return ptr.ToPointer();
+		}
 
-        public static void memmove(void* a, void* b, long size)
-        {
-            void* temp = null;
+		public static void memcpy(void* a, void* b, long size)
+		{
+			var ap = (byte*)a;
+			var bp = (byte*)b;
+			for (long i = 0; i < size; ++i)
+				*ap++ = *bp++;
+		}
 
-            try
-            {
-                temp = malloc(size);
-                memcpy(temp, b, size);
-                memcpy(a, temp, size);
-            }
+		public static void memcpy(void* a, void* b, ulong size)
+		{
+			memcpy(a, b, (long)size);
+		}
 
-            finally
-            {
-                if (temp != null)
-                {
-                    free(temp);
-                }
-            }
-        }
+		public static void memmove(void* a, void* b, long size)
+		{
+			void* temp = null;
 
-        public static void memmove(void* a, void* b, ulong size)
-        {
-            memmove(a, b, (long) size);
-        }
+			try
+			{
+				temp = malloc(size);
+				memcpy(temp, b, size);
+				memcpy(a, temp, size);
+			}
 
-        public static int memcmp(void* a, void* b, long size)
-        {
-            var result = 0;
-            var ap = (byte*) a;
-            var bp = (byte*) b;
-            for (long i = 0; i < size; ++i)
-            {
-                if (*ap != *bp)
-                {
-                    result += 1;
-                }
+			finally
+			{
+				if (temp != null)
+					free(temp);
+			}
+		}
 
-                ap++;
-                bp++;
-            }
+		public static void memmove(void* a, void* b, ulong size)
+		{
+			memmove(a, b, (long)size);
+		}
 
-            return result;
-        }
+		public static int memcmp(void* a, void* b, long size)
+		{
+			var result = 0;
+			var ap = (byte*)a;
+			var bp = (byte*)b;
+			for (long i = 0; i < size; ++i)
+			{
+				if (*ap != *bp)
+					result += 1;
 
-        public static int memcmp(void* a, void* b, ulong size)
-        {
-            return memcmp(a, b, (long) size);
-        }
+				ap++;
+				bp++;
+			}
 
-        public static int memcmp(byte* a, byte[] b, ulong size)
-        {
-            fixed (void* bptr = b)
-            {
-                return memcmp(a, bptr, (long) size);
-            }
-        }
+			return result;
+		}
 
-        public static void free(void* a)
-        {
-            if (a == null)
-            {
-                return;
-            }
+		public static int memcmp(void* a, void* b, ulong size)
+		{
+			return memcmp(a, b, (long)size);
+		}
 
-            var ptr = new IntPtr(a);
-            Marshal.FreeHGlobal(ptr);
-        }
+		public static int memcmp(byte* a, byte[] b, ulong size)
+		{
+			fixed (void* bptr = b)
+			{
+				return memcmp(a, bptr, (long)size);
+			}
+		}
 
-        public static void memset(void* ptr, int value, long size)
-        {
-            var bptr = (byte*) ptr;
-            var bval = (byte) value;
-            for (long i = 0; i < size; ++i)
-            {
-                *bptr++ = bval;
-            }
-        }
+		public static void free(void* a)
+		{
+			if (a == null)
+				return;
 
-        public static void memset(void* ptr, int value, ulong size)
-        {
-            memset(ptr, value, (long) size);
-        }
+			var ptr = new IntPtr(a);
+			Marshal.FreeHGlobal(ptr);
+			MemoryStats.Freed();
+		}
 
-        public static uint _lrotl(uint x, int y)
-        {
-            return (x << y) | (x >> (32 - y));
-        }
+		public static void memset(void* ptr, int value, long size)
+		{
+			var bptr = (byte*)ptr;
+			var bval = (byte)value;
+			for (long i = 0; i < size; ++i)
+				*bptr++ = bval;
+		}
 
-        public static void* realloc(void* a, long newSize)
-        {
-            if (a == null)
-            {
-                return malloc(newSize);
-            }
+		public static void memset(void* ptr, int value, ulong size)
+		{
+			memset(ptr, value, (long)size);
+		}
 
-            var ptr = new IntPtr(a);
-            var result = Marshal.ReAllocHGlobal(ptr, new IntPtr(newSize));
+		public static uint _lrotl(uint x, int y)
+		{
+			return (x << y) | (x >> (32 - y));
+		}
 
-            return result.ToPointer();
-        }
+		public static void* realloc(void* a, long newSize)
+		{
+			if (a == null)
+				return malloc(newSize);
 
-        public static void* realloc(void* a, ulong newSize)
-        {
-            return realloc(a, (long) newSize);
-        }
+			var ptr = new IntPtr(a);
+			var result = Marshal.ReAllocHGlobal(ptr, new IntPtr(newSize));
 
-        public static int abs(int v)
-        {
-            return Math.Abs(v);
-        }
+			return result.ToPointer();
+		}
 
-        public static void SetArray<T>(T[] data, T value)
-        {
-            for (var i = 0; i < data.Length; ++i)
-            {
-                data[i] = value;
-            }
-        }
-    }
+		public static void* realloc(void* a, ulong newSize)
+		{
+			return realloc(a, (long)newSize);
+		}
 
-#pragma warning restore IDE1006 // Naming Styles
-#pragma warning restore CS0649  // Default value null
-#pragma warning restore CS0169  // Unassigned
+		public static int abs(int v)
+		{
+			return Math.Abs(v);
+		}
+
+		public static void SetArray<T>(T[] data, T value)
+		{
+			for (var i = 0; i < data.Length; ++i)
+				data[i] = value;
+		}
+	}
 }

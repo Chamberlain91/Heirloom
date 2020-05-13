@@ -222,7 +222,7 @@ namespace Heirloom
             }
 
             // Free stb bitmap
-            stbtt_FreeBitmap(pBitmap);
+            stbtt_FreeBitmap(pBitmap, null);
         }
 
         #region Helper Functions
