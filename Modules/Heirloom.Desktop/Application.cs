@@ -155,7 +155,7 @@ namespace Heirloom.Desktop
         #endregion
 
         /// <summary>
-        /// Creates an instance of <typeparamref name="TGameLoop"/> runs <see cref="GameLoop.Start"/>.
+        /// Creates an instance of <typeparamref name="TGameLoop"/> and then runs <see cref="GameLoop.Start"/>.
         /// </summary>
         /// <seealso cref="Run(Action)"/>
         /// <typeparam name="TGameLoop">Some game loop.</typeparam>

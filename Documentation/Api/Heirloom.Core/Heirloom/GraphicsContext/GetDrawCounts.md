@@ -20,6 +20,8 @@ protected abstract GraphicsContext.DrawCounts GetDrawCounts()
 
 Counts should be reset in the implementation of `M:Heirloom.GraphicsContext.EndFrame` .
 
+**See Also:** `M:Heirloom.GraphicsContext.EndFrame`
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../GraphicsContext.md
 [2]: ../GraphicsContext.DrawCounts.md

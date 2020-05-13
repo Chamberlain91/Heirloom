@@ -13,29 +13,31 @@ Color encoded as 4 component bytes.
 public struct ColorBytes : IEquatable<ColorBytes>
 ```
 
+**See Also:** [Color][1]
+
 ### Inherits
 
 IEquatable\<ColorBytes>
 
 ### Fields
 
-[A][1], [B][2], [G][3], [R][4]
+[A][2], [B][3], [G][4], [R][5]
 
 ### Properties
 
-[Inverted][5], [Luminosity][6]
+[Inverted][6], [Luminosity][7]
 
 ### Methods
 
-[Set][7]
+[Equals][8], [GetHashCode][9], [Set][10], [ToString][11]
 
 ### Static Properties
 
-[Black][8], [Blue][9], [Cyan][10], [DarkGray][11], [Gray][12], [Green][13], [Indigo][14], [LightGray][15], [Magenta][16], [Orange][17], [Pink][18], [Red][19], [Transparent][20], [Violet][21], [White][22], [Yellow][23]
+[Black][12], [Blue][13], [Cyan][14], [DarkGray][15], [Gray][16], [Green][17], [Indigo][18], [LightGray][19], [Magenta][20], [Orange][21], [Pink][22], [Red][23], [Transparent][24], [Violet][25], [White][26], [Yellow][27]
 
 ### Static Methods
 
-[Lerp][24], [Multiply][25], [Parse][26], [TryParse][27]
+[Lerp][28], [Multiply][29], [Parse][30], [TryParse][31]
 
 ## Fields
 
@@ -43,10 +45,10 @@ IEquatable\<ColorBytes>
 
 | Name   | Type    | Summary                           |
 |--------|---------|-----------------------------------|
-| [A][1] | ` byte` | The alpha/transparency component. |
-| [B][2] | ` byte` | The blue component.               |
-| [G][3] | ` byte` | The green component.              |
-| [R][4] | ` byte` | The red component.                |
+| [A][2] | ` byte` | The alpha/transparency component. |
+| [B][3] | ` byte` | The blue component.               |
+| [G][4] | ` byte` | The green component.              |
+| [R][5] | ` byte` | The red component.                |
 
 ## Properties
 
@@ -54,73 +56,103 @@ IEquatable\<ColorBytes>
 
 | Name            | Type             | Summary                                      |
 |-----------------|------------------|----------------------------------------------|
-| [Inverted][5]   | [ColorBytes][28] | The inversion of this color.                 |
-| [Luminosity][6] | ` byte`          | Computes a luminosity component (grayscale). |
+| [Inverted][6]   | [ColorBytes][32] | The inversion of this color.                 |
+| [Luminosity][7] | ` byte`          | Computes a luminosity component (grayscale). |
 
 #### Static
 
 | Name              | Type             | Summary                                  |
 |-------------------|------------------|------------------------------------------|
-| [Black][8]        | [ColorBytes][28] | The color black (#000000).               |
-| [Blue][9]         | [ColorBytes][28] | The color blue (#0000FF).                |
-| [Cyan][10]        | [ColorBytes][28] | The color cyan (#00FFFF).                |
-| [DarkGray][11]    | [ColorBytes][28] | The color dark gray (#333333).           |
-| [Gray][12]        | [ColorBytes][28] | The color gray (#999999).                |
-| [Green][13]       | [ColorBytes][28] | The color green (#00FF00).               |
-| [Indigo][14]      | [ColorBytes][28] | The color indigo (#4B0082).              |
-| [LightGray][15]   | [ColorBytes][28] | The color light gray (#CCCCCC).          |
-| [Magenta][16]     | [ColorBytes][28] | The color magenta (#FF00FF).             |
-| [Orange][17]      | [ColorBytes][28] | The color orange (#FF8811).              |
-| [Pink][18]        | [ColorBytes][28] | The color pink (#DD55AA).                |
-| [Red][19]         | [ColorBytes][28] | The color red (#FF0000).                 |
-| [Transparent][20] | [ColorBytes][28] | The color transparent black (#00000000). |
-| [Violet][21]      | [ColorBytes][28] | The color violet (#8A2BE2).              |
-| [White][22]       | [ColorBytes][28] | The color white (#FFFFFF).               |
-| [Yellow][23]      | [ColorBytes][28] | The color yellow (#FFFF00).              |
+| [Black][12]       | [ColorBytes][32] | The color black (#000000).               |
+| [Blue][13]        | [ColorBytes][32] | The color blue (#0000FF).                |
+| [Cyan][14]        | [ColorBytes][32] | The color cyan (#00FFFF).                |
+| [DarkGray][15]    | [ColorBytes][32] | The color dark gray (#333333).           |
+| [Gray][16]        | [ColorBytes][32] | The color gray (#999999).                |
+| [Green][17]       | [ColorBytes][32] | The color green (#00FF00).               |
+| [Indigo][18]      | [ColorBytes][32] | The color indigo (#4B0082).              |
+| [LightGray][19]   | [ColorBytes][32] | The color light gray (#CCCCCC).          |
+| [Magenta][20]     | [ColorBytes][32] | The color magenta (#FF00FF).             |
+| [Orange][21]      | [ColorBytes][32] | The color orange (#FF8811).              |
+| [Pink][22]        | [ColorBytes][32] | The color pink (#DD55AA).                |
+| [Red][23]         | [ColorBytes][32] | The color red (#FF0000).                 |
+| [Transparent][24] | [ColorBytes][32] | The color transparent black (#00000000). |
+| [Violet][25]      | [ColorBytes][32] | The color violet (#8A2BE2).              |
+| [White][26]       | [ColorBytes][32] | The color white (#FFFFFF).               |
+| [Yellow][27]      | [ColorBytes][32] | The color yellow (#FFFF00).              |
 
 ## Methods
 
 #### Instance
 
-| Name                           | Return Type | Summary                            |
-|--------------------------------|-------------|------------------------------------|
-| [Set(byte, byte, byte, ...][7] | `void`      | Sets the components of this color. |
+| Name                            | Return Type | Summary                                                    |
+|---------------------------------|-------------|------------------------------------------------------------|
+| [Equals(object)][8]             | `bool`      | Compares this Color for equality with another object.      |
+| [Equals(ColorBytes)][8]         | `bool`      | Compares this Color for equality with another ColorBytes . |
+| [GetHashCode()][9]              | `int`       | Returns the hash code for this instance of ColorBytes .    |
+| [Set(byte, byte, byte, ...][10] | `void`      | Sets the components of this color.                         |
+| [ToString()][11]                | `string`    | Converts this ColorBytes into string representation.       |
 
 #### Static
 
 | Name                            | Return Type      | Summary                                                                |
 |---------------------------------|------------------|------------------------------------------------------------------------|
-| [Lerp(ColorBytes, Color...][24] | [ColorBytes][28] | Interpolate two colors together.                                       |
-| [Multiply(in ColorBytes...][25] | `void`           | Multiplies two ColorBytes together. Behaves the same as Color .        |
-| [Parse(string)][26]             | [ColorBytes][28] | Parses a hex-string representation of a color. May be formatted as ... |
-| [TryParse(string, out C...][27] | `bool`           | Parses a hex-string representation of a color. May be formatted as ... |
+| [Lerp(ColorBytes, Color...][28] | [ColorBytes][32] | Interpolate two colors together.                                       |
+| [Multiply(in ColorBytes...][29] | `void`           | Multiplies two ColorBytes together. Behaves the same as Color .        |
+| [Parse(string)][30]             | [ColorBytes][32] | Parses a hex-string representation of a color. May be formatted as ... |
+| [TryParse(string, out C...][31] | `bool`           | Parses a hex-string representation of a color. May be formatted as ... |
+
+## Operators
+
+| Name                            | Return Type      | Summary                                                                |
+|---------------------------------|------------------|------------------------------------------------------------------------|
+| [Addition(ColorBytes, C...][33] | [ColorBytes][32] | Performs a component-wise sum of two instances of ColorBytes .         |
+| [Equality(ColorBytes, C...][34] | `bool`           | Compares two instances of ColorBytes for equality.                     |
+| [Explicit(ColorBytes)][35]      | `uint`           |                                                                        |
+| [Explicit(ColorBytes)][35]      | `int`            |                                                                        |
+| [Explicit(uint)][35]            | [ColorBytes][32] |                                                                        |
+| [Explicit(int)][35]             | [ColorBytes][32] |                                                                        |
+| [Implicit(ColorBytes)][36]      | [Color][1]       |                                                                        |
+| [Inequality(ColorBytes,...][37] | `bool`           | Compares two instances of ColorBytes for inequality.                   |
+| [Multiply(ColorBytes, C...][38] | [ColorBytes][32] | Performs a component-wise multiplication of two instances of ColorB... |
+| [Subtraction(ColorBytes...][39] | [ColorBytes][32] | Performs a component-wise difference of two instances of ColorBytes .  |
 
 [0]: ../../Heirloom.Core.md
-[1]: ColorBytes/A.md
-[2]: ColorBytes/B.md
-[3]: ColorBytes/G.md
-[4]: ColorBytes/R.md
-[5]: ColorBytes/Inverted.md
-[6]: ColorBytes/Luminosity.md
-[7]: ColorBytes/Set.md
-[8]: ColorBytes/Black.md
-[9]: ColorBytes/Blue.md
-[10]: ColorBytes/Cyan.md
-[11]: ColorBytes/DarkGray.md
-[12]: ColorBytes/Gray.md
-[13]: ColorBytes/Green.md
-[14]: ColorBytes/Indigo.md
-[15]: ColorBytes/LightGray.md
-[16]: ColorBytes/Magenta.md
-[17]: ColorBytes/Orange.md
-[18]: ColorBytes/Pink.md
-[19]: ColorBytes/Red.md
-[20]: ColorBytes/Transparent.md
-[21]: ColorBytes/Violet.md
-[22]: ColorBytes/White.md
-[23]: ColorBytes/Yellow.md
-[24]: ColorBytes/Lerp.md
-[25]: ColorBytes/Multiply.md
-[26]: ColorBytes/Parse.md
-[27]: ColorBytes/TryParse.md
-[28]: ColorBytes.md
+[1]: Color.md
+[2]: ColorBytes/A.md
+[3]: ColorBytes/B.md
+[4]: ColorBytes/G.md
+[5]: ColorBytes/R.md
+[6]: ColorBytes/Inverted.md
+[7]: ColorBytes/Luminosity.md
+[8]: ColorBytes/Equals.md
+[9]: ColorBytes/GetHashCode.md
+[10]: ColorBytes/Set.md
+[11]: ColorBytes/ToString.md
+[12]: ColorBytes/Black.md
+[13]: ColorBytes/Blue.md
+[14]: ColorBytes/Cyan.md
+[15]: ColorBytes/DarkGray.md
+[16]: ColorBytes/Gray.md
+[17]: ColorBytes/Green.md
+[18]: ColorBytes/Indigo.md
+[19]: ColorBytes/LightGray.md
+[20]: ColorBytes/Magenta.md
+[21]: ColorBytes/Orange.md
+[22]: ColorBytes/Pink.md
+[23]: ColorBytes/Red.md
+[24]: ColorBytes/Transparent.md
+[25]: ColorBytes/Violet.md
+[26]: ColorBytes/White.md
+[27]: ColorBytes/Yellow.md
+[28]: ColorBytes/Lerp.md
+[29]: ColorBytes/Multiply.md
+[30]: ColorBytes/Parse.md
+[31]: ColorBytes/TryParse.md
+[32]: ColorBytes.md
+[33]: ColorBytes/op_Addition.md
+[34]: ColorBytes/op_Equality.md
+[35]: ColorBytes/op_Explicit.md
+[36]: ColorBytes/op_Implicit.md
+[37]: ColorBytes/op_Inequality.md
+[38]: ColorBytes/op_Multiply.md
+[39]: ColorBytes/op_Subtraction.md

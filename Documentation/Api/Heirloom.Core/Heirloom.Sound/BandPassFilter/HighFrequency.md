@@ -12,6 +12,8 @@
 
 Gets or sets the high frequency cutoff in hertz.
 
+This value ranges from 0.0 to [SampleRate][2] .
+
 ```cs
 public float HighFrequency { get; set; }
 ```
@@ -20,3 +22,4 @@ public float HighFrequency { get; set; }
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../BandPassFilter.md
+[2]: ../AudioAdapter/SampleRate.md

@@ -21,7 +21,7 @@ public bool TryAdd(T element, IntSize itemSize)
 | element  | `T`          | The element to pack.     |
 | itemSize | [IntSize][2] | The size of the element. |
 
-> **Returns** - `bool` - Will return false if the item was not packed successfully or alread...
+> **Returns** - `bool` - Will return false if the item was not packed successfully or already existed, otherwise true.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../RectanglePacker[T].md

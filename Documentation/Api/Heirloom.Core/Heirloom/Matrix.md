@@ -27,15 +27,15 @@ IEquatable\<Matrix>
 
 ### Methods
 
-[Deconstruct][9], [GetAffineRotation][10], [GetAffineScale][11], [GetAffineTranslation][12], [Multiply][13], [MultiplyVector][14], [Set][15], [SetRotation][16], [SetScale][17], [SetShear][18], [SetTranslation][19]
+[Deconstruct][9], [Equals][10], [GetAffineRotation][11], [GetAffineScale][12], [GetAffineTranslation][13], [GetHashCode][14], [Multiply][15], [MultiplyVector][16], [Set][17], [SetRotation][18], [SetScale][19], [SetShear][20], [SetTranslation][21]
 
 ### Static Fields
 
-[Identity][20]
+[Identity][22]
 
 ### Static Methods
 
-[CreateRotation][21], [CreateScale][22], [CreateShear][23], [CreateTransform][24], [CreateTranslation][25], [Inverse][26], [Multiply][13], [MultiplyVector][14], [RectangleProjection][27]
+[CreateRotation][23], [CreateScale][24], [CreateShear][25], [CreateTransform][26], [CreateTranslation][27], [Inverse][28], [Multiply][15], [MultiplyVector][16], [RectangleProjection][29]
 
 ## Fields
 
@@ -54,7 +54,7 @@ IEquatable\<Matrix>
 
 | Name           | Type         | Summary              |
 |----------------|--------------|----------------------|
-| [Identity][20] | [Matrix][28] | The identity matrix. |
+| [Identity][22] | [Matrix][30] | The identity matrix. |
 
 ## Properties
 
@@ -64,7 +64,7 @@ IEquatable\<Matrix>
 |---------------|--------------|----------------------------------|
 | [Indexer][7]  | `float`      |                                  |
 | [Indexer][7]  | `float`      |                                  |
-| [Inverted][8] | [Matrix][28] | Gets the inverse of this matrix. |
+| [Inverted][8] | [Matrix][30] | Gets the inverse of this matrix. |
 
 ## Methods
 
@@ -73,43 +73,55 @@ IEquatable\<Matrix>
 | Name                            | Return Type  | Summary                                                                |
 |---------------------------------|--------------|------------------------------------------------------------------------|
 | [Deconstruct(out Vector...][9]  | `void`       | Deconstructs this Matrix into affine components.                       |
-| [GetAffineRotation()][10]       | `float`      | Extracts affine rotational component (the angle) from this matrix.     |
-| [GetAffineScale()][11]          | [Vector][29] | Extracts affine scaling components from this matrix.                   |
-| [GetAffineTranslation()][12]    | [Vector][29] | Extracts affine translational components from this matrix.             |
-| [Multiply(in Vector)][13]       | [Vector][29] | Multiplies a vector against this matrix.                               |
-| [MultiplyVector(in Vector)][14] | [Vector][29] | Multiplies a vector against this matrix ignoring the translational ... |
-| [Set(float, float, floa...][15] | `void`       | Sets the components of this matrix.                                    |
-| [SetRotation(float)][16]        | `void`       | Configures this matrix as a rotation matrix.                           |
-| [SetScale(float, float)][17]    | `void`       | Configures this matrix as a scaling matrix.                            |
-| [SetShear(float, float)][18]    | `void`       | Configures this matrix as a shearing matrix.                           |
-| [SetTranslation(float, ...][19] | `void`       | Configures this matrix as a translation matrix.                        |
+| [Equals(object)][10]            | `bool`       | Compares this Matrix for equality with another object.                 |
+| [Equals(Matrix)][10]            | `bool`       | Compares this Matrix for equality with another Matrix .                |
+| [GetAffineRotation()][11]       | `float`      | Extracts affine rotational component (the angle) from this matrix.     |
+| [GetAffineScale()][12]          | [Vector][31] | Extracts affine scaling components from this matrix.                   |
+| [GetAffineTranslation()][13]    | [Vector][31] | Extracts affine translational components from this matrix.             |
+| [GetHashCode()][14]             | `int`        | Returns the hash code for this Matrix .                                |
+| [Multiply(in Vector)][15]       | [Vector][31] | Multiplies a vector against this matrix.                               |
+| [MultiplyVector(in Vector)][16] | [Vector][31] | Multiplies a vector against this matrix ignoring the translational ... |
+| [Set(float, float, floa...][17] | `void`       | Sets the components of this matrix.                                    |
+| [SetRotation(float)][18]        | `void`       | Configures this matrix as a rotation matrix.                           |
+| [SetScale(float, float)][19]    | `void`       | Configures this matrix as a scaling matrix.                            |
+| [SetShear(float, float)][20]    | `void`       | Configures this matrix as a shearing matrix.                           |
+| [SetTranslation(float, ...][21] | `void`       | Configures this matrix as a translation matrix.                        |
 
 #### Static
 
 | Name                            | Return Type  | Summary                                                                |
 |---------------------------------|--------------|------------------------------------------------------------------------|
-| [CreateRotation(float)][21]     | [Matrix][28] | Constructs a new rotation matrix.                                      |
-| [CreateScale(float, float)][22] | [Matrix][28] | Constructs a new scaling matrix.                                       |
-| [CreateScale(in Size)][22]      | [Matrix][28] | Constructs a new scaling matrix.                                       |
-| [CreateScale(in Vector)][22]    | [Matrix][28] | Constructs a new scaling matrix.                                       |
-| [CreateScale(float)][22]        | [Matrix][28] | Constructs a new uniform scaling matrix.                               |
-| [CreateShear(in Vector)][23]    | [Matrix][28] | Constructs a new shearing matrix.                                      |
-| [CreateShear(float, float)][23] | [Matrix][28] | Constructs a new shearing matrix.                                      |
-| [CreateTransform(in flo...][24] | [Matrix][28] | Creates a transform matrix with postion, rotation and scale.           |
-| [CreateTransform(in Vec...][24] | [Matrix][28] | Creates a transform matrix with postion, rotation and scale.           |
-| [CreateTransform(in Vec...][24] | [Matrix][28] | Creates a transform matrix with postion, rotation and scale.           |
-| [CreateTranslation(floa...][25] | [Matrix][28] | Constructs a new translation matrix.                                   |
-| [CreateTranslation(in V...][25] | [Matrix][28] | Constructs a new translation matrix.                                   |
-| [Inverse(in Matrix)][26]        | [Matrix][28] | Computes the inverse of this matrix.                                   |
-| [Inverse(in Matrix, ref...][26] | `void`       | Computes the inverse of the matrix and stores the resulting matrix ... |
-| [Multiply(in Matrix, in...][13] | `void`       | Multiply two matrices together and store the result in `dest` .        |
-| [Multiply(in Matrix, in...][13] | [Matrix][28] | Multiply two matrices together.                                        |
-| [Multiply(in Matrix, in...][13] | `void`       | Multiplies a vector and matrix together and stores the resulting ve... |
-| [Multiply(in Matrix, in...][13] | [Vector][29] | Multiplies a vector and matrix together.                               |
-| [MultiplyVector(in Matr...][14] | `void`       | Multiplies a vector and matrix together ignoring the translational ... |
-| [MultiplyVector(in Matr...][14] | [Vector][29] | Multiplies a vector and matrix together ignoring the translational ... |
-| [RectangleProjection(Re...][27] | [Matrix][28] | Constructs a matrix that transforms a rectangular region to normali... |
-| [RectangleProjection(fl...][27] | [Matrix][28] | Constructs a matrix that transforms a rectangular region to normali... |
+| [CreateRotation(float)][23]     | [Matrix][30] | Constructs a new rotation matrix.                                      |
+| [CreateScale(float, float)][24] | [Matrix][30] | Constructs a new scaling matrix.                                       |
+| [CreateScale(in Size)][24]      | [Matrix][30] | Constructs a new scaling matrix.                                       |
+| [CreateScale(in Vector)][24]    | [Matrix][30] | Constructs a new scaling matrix.                                       |
+| [CreateScale(float)][24]        | [Matrix][30] | Constructs a new uniform scaling matrix.                               |
+| [CreateShear(in Vector)][25]    | [Matrix][30] | Constructs a new shearing matrix.                                      |
+| [CreateShear(float, float)][25] | [Matrix][30] | Constructs a new shearing matrix.                                      |
+| [CreateTransform(in flo...][26] | [Matrix][30] | Creates a transform matrix with postion, rotation and scale.           |
+| [CreateTransform(in Vec...][26] | [Matrix][30] | Creates a transform matrix with postion, rotation and scale.           |
+| [CreateTransform(in Vec...][26] | [Matrix][30] | Creates a transform matrix with postion, rotation and scale.           |
+| [CreateTranslation(floa...][27] | [Matrix][30] | Constructs a new translation matrix.                                   |
+| [CreateTranslation(in V...][27] | [Matrix][30] | Constructs a new translation matrix.                                   |
+| [Inverse(in Matrix)][28]        | [Matrix][30] | Computes the inverse of this matrix.                                   |
+| [Inverse(in Matrix, ref...][28] | `void`       | Computes the inverse of the matrix and stores the resulting matrix ... |
+| [Multiply(in Matrix, in...][15] | `void`       | Multiply two matrices together and store the result in `dest` .        |
+| [Multiply(in Matrix, in...][15] | [Matrix][30] | Multiply two matrices together.                                        |
+| [Multiply(in Matrix, in...][15] | `void`       | Multiplies a vector and matrix together and stores the resulting ve... |
+| [Multiply(in Matrix, in...][15] | [Vector][31] | Multiplies a vector and matrix together.                               |
+| [MultiplyVector(in Matr...][16] | `void`       | Multiplies a vector and matrix together ignoring the translational ... |
+| [MultiplyVector(in Matr...][16] | [Vector][31] | Multiplies a vector and matrix together ignoring the translational ... |
+| [RectangleProjection(Re...][29] | [Matrix][30] | Constructs a matrix that transforms a rectangular region to normali... |
+| [RectangleProjection(fl...][29] | [Matrix][30] | Constructs a matrix that transforms a rectangular region to normali... |
+
+## Operators
+
+| Name                            | Return Type  | Summary                                                                |
+|---------------------------------|--------------|------------------------------------------------------------------------|
+| [Equality(Matrix, Matrix)][32]  | `bool`       | Compares two matrices for equality.                                    |
+| [Inequality(Matrix, Mat...][33] | `bool`       | Compares two matrices for inequality.                                  |
+| [Multiply(Matrix, Matrix)][34]  | [Matrix][30] | Performs the multiplication of two matrices.                           |
+| [Multiply(Matrix, Vector)][34]  | [Vector][31] | Performs the multiplication of a matrix and vector, transforming th... |
 
 [0]: ../../Heirloom.Core.md
 [1]: Matrix/M0.md
@@ -121,23 +133,28 @@ IEquatable\<Matrix>
 [7]: Matrix/Indexer.md
 [8]: Matrix/Inverted.md
 [9]: Matrix/Deconstruct.md
-[10]: Matrix/GetAffineRotation.md
-[11]: Matrix/GetAffineScale.md
-[12]: Matrix/GetAffineTranslation.md
-[13]: Matrix/Multiply.md
-[14]: Matrix/MultiplyVector.md
-[15]: Matrix/Set.md
-[16]: Matrix/SetRotation.md
-[17]: Matrix/SetScale.md
-[18]: Matrix/SetShear.md
-[19]: Matrix/SetTranslation.md
-[20]: Matrix/Identity.md
-[21]: Matrix/CreateRotation.md
-[22]: Matrix/CreateScale.md
-[23]: Matrix/CreateShear.md
-[24]: Matrix/CreateTransform.md
-[25]: Matrix/CreateTranslation.md
-[26]: Matrix/Inverse.md
-[27]: Matrix/RectangleProjection.md
-[28]: Matrix.md
-[29]: Vector.md
+[10]: Matrix/Equals.md
+[11]: Matrix/GetAffineRotation.md
+[12]: Matrix/GetAffineScale.md
+[13]: Matrix/GetAffineTranslation.md
+[14]: Matrix/GetHashCode.md
+[15]: Matrix/Multiply.md
+[16]: Matrix/MultiplyVector.md
+[17]: Matrix/Set.md
+[18]: Matrix/SetRotation.md
+[19]: Matrix/SetScale.md
+[20]: Matrix/SetShear.md
+[21]: Matrix/SetTranslation.md
+[22]: Matrix/Identity.md
+[23]: Matrix/CreateRotation.md
+[24]: Matrix/CreateScale.md
+[25]: Matrix/CreateShear.md
+[26]: Matrix/CreateTransform.md
+[27]: Matrix/CreateTranslation.md
+[28]: Matrix/Inverse.md
+[29]: Matrix/RectangleProjection.md
+[30]: Matrix.md
+[31]: Vector.md
+[32]: Matrix/op_Equality.md
+[33]: Matrix/op_Inequality.md
+[34]: Matrix/op_Multiply.md

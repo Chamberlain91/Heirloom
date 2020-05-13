@@ -22,5 +22,8 @@ public static void Run(Action startup)
 
 > **Returns** - `void`
 
+**See Also:** [IsInitialized][2]
+
 [0]: ../../../Heirloom.Desktop.md
 [1]: ../Application.md
+[2]: IsInitialized.md

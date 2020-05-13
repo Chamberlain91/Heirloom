@@ -13,9 +13,11 @@ An abstarct representation of an audio effect. Implementations of this class mut
 public abstract class AudioEffect
 ```
 
+**See Also:** [LowPassFilter][1], [HighPassFilter][2], [BandPassFilter][3], [ReverbEffect][4]
+
 ### Methods
 
-[Process][1]
+[Process][5]
 
 ## Methods
 
@@ -23,7 +25,11 @@ public abstract class AudioEffect
 
 | Name                     | Return Type | Summary                                                                |
 |--------------------------|-------------|------------------------------------------------------------------------|
-| [Process(float, int)][1] | `float`     | This function is called to alter a sample for some implementation o... |
+| [Process(float, int)][5] | `float`     | This function is called to alter a sample for some implementation o... |
 
 [0]: ../../Heirloom.Core.md
-[1]: AudioEffect/Process.md
+[1]: LowPassFilter.md
+[2]: HighPassFilter.md
+[3]: BandPassFilter.md
+[4]: ReverbEffect.md
+[5]: AudioEffect/Process.md

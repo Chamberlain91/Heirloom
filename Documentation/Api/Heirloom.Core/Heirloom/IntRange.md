@@ -27,15 +27,15 @@ IEquatable\<IntRange>, IEnumerable\<int>, IEnumerable
 
 ### Methods
 
-[Contains][6], [Deconstruct][7], [GetEnumerator][8], [Include][9], [Intersect][10], [Overlaps][11], [Set][12], [Union][13]
+[Contains][6], [Deconstruct][7], [Equals][8], [GetEnumerator][9], [GetHashCode][10], [Include][11], [Intersect][12], [Overlaps][13], [Set][14], [ToString][15], [Union][16]
 
 ### Static Fields
 
-[Huge][14], [Indeterminate][15], [Zero][16]
+[Huge][17], [Indeterminate][18], [Zero][19]
 
 ### Static Methods
 
-[FromValues][17]
+[FromValues][20]
 
 ## Fields
 
@@ -50,9 +50,9 @@ IEquatable\<IntRange>, IEnumerable\<int>, IEnumerable
 
 | Name                | Type           | Summary                                                                |
 |---------------------|----------------|------------------------------------------------------------------------|
-| [Huge][14]          | [IntRange][18] | Range from int.MinValue to int.MaxValue (the widest possible range).   |
-| [Indeterminate][15] | [IntRange][18] | Range from int.MaxValue to int.MinValue useful for an indeterminate... |
-| [Zero][16]          | [IntRange][18] | Zero width range centered on zero.                                     |
+| [Huge][17]          | [IntRange][21] | Range from int.MinValue to int.MaxValue (the widest possible range).   |
+| [Indeterminate][18] | [IntRange][21] | Range from int.MaxValue to int.MinValue useful for an indeterminate... |
+| [Zero][19]          | [IntRange][21] | Zero width range centered on zero.                                     |
 
 ## Properties
 
@@ -72,19 +72,35 @@ IEquatable\<IntRange>, IEnumerable\<int>, IEnumerable
 |--------------------------------|--------------------|------------------------------------------------------------------------|
 | [Contains(in int)][6]          | `bool`             | Determines if this range contains the specified value.                 |
 | [Deconstruct(out int, o...][7] | `void`             | Deconstructs this IntRange into consituent parts.                      |
-| [GetEnumerator()][8]           | `IEnumerator<int>` | Returns an enumerator that will iterate over all integer values fro... |
-| [Include(int)][9]              | `void`             | Mutate this range (by expansion) to include the specified value.       |
-| [Include(IntRange)][9]         | `void`             | Mutate this range (by expansion) to include the specified range.       |
-| [Intersect(in IntRange)][10]   | [IntRange][18]     | Computes the intersection of this range with another.                  |
-| [Overlaps(in IntRange)][11]    | `bool`             | Determines if this range overlaps another integer range.               |
-| [Set(int, int)][12]            | `void`             | Sets the components of this range.                                     |
-| [Union(in IntRange)][13]       | [IntRange][18]     | Computes the union of this range with another.                         |
+| [Equals(object)][8]            | `bool`             | Compares this range for equality with another object.                  |
+| [Equals(IntRange)][8]          | `bool`             | Compares this range for equality with another range.                   |
+| [GetEnumerator()][9]           | `IEnumerator<int>` | Returns an enumerator that will iterate over all integer values fro... |
+| [GetHashCode()][10]            | `int`              | Returns the hash code for this range.                                  |
+| [Include(int)][11]             | `void`             | Mutate this range (by expansion) to include the specified value.       |
+| [Include(IntRange)][11]        | `void`             | Mutate this range (by expansion) to include the specified range.       |
+| [Intersect(in IntRange)][12]   | [IntRange][21]     | Computes the intersection of this range with another.                  |
+| [Overlaps(in IntRange)][13]    | `bool`             | Determines if this range overlaps another integer range.               |
+| [Set(int, int)][14]            | `void`             | Sets the components of this range.                                     |
+| [ToString()][15]               | `string`           | Returns the string representation of this IntRange .                   |
+| [Union(in IntRange)][16]       | [IntRange][21]     | Computes the union of this range with another.                         |
 
 #### Static
 
 | Name                            | Return Type    | Summary                                                                |
 |---------------------------------|----------------|------------------------------------------------------------------------|
-| [FromValues(IEnumerable...][17] | [IntRange][18] | Creates an instance of IntRange from the extreme values of the give... |
+| [FromValues(IEnumerable...][20] | [IntRange][21] | Creates an instance of IntRange from the extreme values of the give... |
+
+## Operators
+
+| Name                            | Return Type            | Summary                             |
+|---------------------------------|------------------------|-------------------------------------|
+| [Equality(IntRange, Int...][22] | `bool`                 | Compares two ranges for equality.   |
+| [Explicit(IntVector)][23]       | [IntRange][21]         |                                     |
+| [Explicit(IntRange)][23]        | [IntVector][24]        |                                     |
+| [Implicit(IntRange)][25]        | [Range][26]            |                                     |
+| [Implicit(IntRange)][25]        | `ValueTuple<int, int>` |                                     |
+| [Implicit(ValueTuple<in...][25] | [IntRange][21]         |                                     |
+| [Inequality(IntRange, I...][27] | `bool`                 | Compares two ranges for inequality. |
 
 [0]: ../../Heirloom.Core.md
 [1]: IntRange/Min.md
@@ -94,14 +110,23 @@ IEquatable\<IntRange>, IEnumerable\<int>, IEnumerable
 [5]: IntRange/Size.md
 [6]: IntRange/Contains.md
 [7]: IntRange/Deconstruct.md
-[8]: IntRange/GetEnumerator.md
-[9]: IntRange/Include.md
-[10]: IntRange/Intersect.md
-[11]: IntRange/Overlaps.md
-[12]: IntRange/Set.md
-[13]: IntRange/Union.md
-[14]: IntRange/Huge.md
-[15]: IntRange/Indeterminate.md
-[16]: IntRange/Zero.md
-[17]: IntRange/FromValues.md
-[18]: IntRange.md
+[8]: IntRange/Equals.md
+[9]: IntRange/GetEnumerator.md
+[10]: IntRange/GetHashCode.md
+[11]: IntRange/Include.md
+[12]: IntRange/Intersect.md
+[13]: IntRange/Overlaps.md
+[14]: IntRange/Set.md
+[15]: IntRange/ToString.md
+[16]: IntRange/Union.md
+[17]: IntRange/Huge.md
+[18]: IntRange/Indeterminate.md
+[19]: IntRange/Zero.md
+[20]: IntRange/FromValues.md
+[21]: IntRange.md
+[22]: IntRange/op_Equality.md
+[23]: IntRange/op_Explicit.md
+[24]: IntVector.md
+[25]: IntRange/op_Implicit.md
+[26]: Range.md
+[27]: IntRange/op_Inequality.md

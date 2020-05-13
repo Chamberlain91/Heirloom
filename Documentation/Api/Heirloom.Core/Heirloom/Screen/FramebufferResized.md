@@ -18,5 +18,8 @@ public Action<Screen, IntSize> FramebufferResized { add; remove; }
 
 Type: `Action<Screen, IntSize>`
 
+**See Also:** `E:Heirloom.Screen.ContentScaleChanged`, [Surface][2]
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../Screen.md
+[2]: Surface.md

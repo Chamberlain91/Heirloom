@@ -22,5 +22,8 @@ public static byte[] ReadBytes(string path)
 
 > **Returns** - ` byte[]` - Raw byte contents of a file.
 
+**See Also:** [OpenStream][2]
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../Files.md
+[2]: OpenStream.md

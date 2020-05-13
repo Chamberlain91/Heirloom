@@ -10,15 +10,17 @@
 
 ### Create(GraphicsContext, GameLoop.UpdateFunction, int)
 
+Creates a render loop instance from the given context and method reference.
+
 ```cs
 public static GameLoop Create(GraphicsContext gfx, GameLoop.UpdateFunction update, int frameRate = -1)
 ```
 
-| Name      | Type                         | Summary |
-|-----------|------------------------------|---------|
-| gfx       | [GraphicsContext][2]         |         |
-| update    | [GameLoop.UpdateFunction][3] |         |
-| frameRate | `int`                        |         |
+| Name      | Type                         | Summary                                           |
+|-----------|------------------------------|---------------------------------------------------|
+| gfx       | [GraphicsContext][2]         | The relevant graphics context.                    |
+| update    | [GameLoop.UpdateFunction][3] | The relevant update function.                     |
+| frameRate | `int`                        | The desired fixed frame rate or -1 for unlimited. |
 
 > **Returns** - [GameLoop][1]
 

@@ -16,11 +16,11 @@ Perform collision detection between two shapes. Both shapes are assumed to alrea
 public static bool Collide(in IShape s1, in IShape s2, out CollisionData result)
 ```
 
-| Name   | Type               | Summary                                                                |
-|--------|--------------------|------------------------------------------------------------------------|
-| s1     | [IShape][2]        | The first shape.                                                       |
-| s2     | [IShape][2]        | The second shape.                                                      |
-| result | [CollisionData][3] | This value is populated with collision data upon a successful colli... |
+| Name   | Type               | Summary                                                                  |
+|--------|--------------------|--------------------------------------------------------------------------|
+| s1     | [IShape][2]        | The first shape.                                                         |
+| s2     | [IShape][2]        | The second shape.                                                        |
+| result | [CollisionData][3] | This value is populated with collision data upon a successful collision. |
 
 > **Returns** - `bool` - True, if a collision was detected.
 
@@ -34,11 +34,11 @@ Perform collision detection between two circles. Both shapes are assumed to alre
 public static bool Collide(in Circle c1, in Circle c2, out CollisionData result)
 ```
 
-| Name   | Type               | Summary                                                                |
-|--------|--------------------|------------------------------------------------------------------------|
-| c1     | [Circle][5]        | The first shape.                                                       |
-| c2     | [Circle][5]        | The second shape.                                                      |
-| result | [CollisionData][3] | This value is populated with collision data upon a successful colli... |
+| Name   | Type               | Summary                                                                  |
+|--------|--------------------|--------------------------------------------------------------------------|
+| c1     | [Circle][5]        | The first shape.                                                         |
+| c2     | [Circle][5]        | The second shape.                                                        |
+| result | [CollisionData][3] | This value is populated with collision data upon a successful collision. |
 
 > **Returns** - `bool` - True, if a collision was detected.
 
@@ -50,11 +50,11 @@ Perform collision detection between a circle and a convex polygon. Both shapes a
 public static bool Collide(in Circle c1, Polygon p2, out CollisionData result)
 ```
 
-| Name   | Type               | Summary                                                                |
-|--------|--------------------|------------------------------------------------------------------------|
-| c1     | [Circle][5]        | The first shape.                                                       |
-| p2     | [Polygon][4]       | The second shape.                                                      |
-| result | [CollisionData][3] | This value is populated with collision data upon a successful colli... |
+| Name   | Type               | Summary                                                                  |
+|--------|--------------------|--------------------------------------------------------------------------|
+| c1     | [Circle][5]        | The first shape.                                                         |
+| p2     | [Polygon][4]       | The second shape.                                                        |
+| result | [CollisionData][3] | This value is populated with collision data upon a successful collision. |
 
 > **Returns** - `bool` - True, if a collision was detected.
 
@@ -66,11 +66,11 @@ Perform collision detection between a convex polygon and a circle. Both shapes a
 public static bool Collide(in Polygon p1, Circle c2, out CollisionData result)
 ```
 
-| Name   | Type               | Summary                                                                |
-|--------|--------------------|------------------------------------------------------------------------|
-| p1     | [Polygon][4]       | The first shape.                                                       |
-| c2     | [Circle][5]        | The second shape.                                                      |
-| result | [CollisionData][3] | This value is populated with collision data upon a successful colli... |
+| Name   | Type               | Summary                                                                  |
+|--------|--------------------|--------------------------------------------------------------------------|
+| p1     | [Polygon][4]       | The first shape.                                                         |
+| c2     | [Circle][5]        | The second shape.                                                        |
+| result | [CollisionData][3] | This value is populated with collision data upon a successful collision. |
 
 > **Returns** - `bool` - True, if a collision was detected.
 
@@ -82,11 +82,11 @@ Perform collision detection between two convex polygons. Both shapes are assumed
 public static bool Collide(in Polygon p1, Polygon p2, out CollisionData result)
 ```
 
-| Name   | Type               | Summary                                                                |
-|--------|--------------------|------------------------------------------------------------------------|
-| p1     | [Polygon][4]       | The first shape.                                                       |
-| p2     | [Polygon][4]       | The second shape.                                                      |
-| result | [CollisionData][3] | This value is populated with collision data upon a successful colli... |
+| Name   | Type               | Summary                                                                  |
+|--------|--------------------|--------------------------------------------------------------------------|
+| p1     | [Polygon][4]       | The first shape.                                                         |
+| p2     | [Polygon][4]       | The second shape.                                                        |
+| result | [CollisionData][3] | This value is populated with collision data upon a successful collision. |
 
 > **Returns** - `bool` - True, if a collision was detected.
 

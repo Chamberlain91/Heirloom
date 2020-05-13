@@ -12,6 +12,8 @@
 
 Gets or sets the damping value. Larger values soften the sound earlier.
 
+This value ranges from 0.0 to 1.0.
+
 ```cs
 public float Damping { get; set; }
 ```

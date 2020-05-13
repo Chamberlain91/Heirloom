@@ -20,7 +20,7 @@ public int CompareTo(UnicodeCharacter other)
 |-------|-----------------------|-----------------------|
 | other | [UnicodeCharacter][1] | The value to compare. |
 
-> **Returns** - `int` - A signed number indicating the relative values of this instance and...
+> **Returns** - `int` - A signed number indicating the relative values of this instance and `other` .
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../UnicodeCharacter.md

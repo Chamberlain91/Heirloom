@@ -16,12 +16,12 @@ Adds a segment to the end of the curve.
 public void Add(Vector controlPoint, Vector inHandle, Vector outHandle, CurveType type = Cubic)
 ```
 
-| Name         | Type           | Summary                                                                |
-|--------------|----------------|------------------------------------------------------------------------|
-| controlPoint | [Vector][2]    | The control point.                                                     |
-| inHandle     | [Vector][2]    | The first handle, relative to this newly added point.                  |
-| outHandle    | [Vector][2]    | The second handle, relative to the next point in the curve.            |
-| type         | [CurveType][3] | The type of curve the segment after this point represents will act ... |
+| Name         | Type           | Summary                                                                  |
+|--------------|----------------|--------------------------------------------------------------------------|
+| controlPoint | [Vector][2]    | The control point.                                                       |
+| inHandle     | [Vector][2]    | The first handle, relative to this newly added point.                    |
+| outHandle    | [Vector][2]    | The second handle, relative to the next point in the curve.              |
+| type         | [CurveType][3] | The type of curve the segment after this point represents will act like. |
 
 > **Returns** - `void`
 

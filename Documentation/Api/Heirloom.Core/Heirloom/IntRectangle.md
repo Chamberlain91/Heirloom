@@ -27,15 +27,15 @@ IEquatable\<IntRectangle>
 
 ### Methods
 
-[ClosestPoint][20], [Contains][21], [Deconstruct][22], [Include][23], [Inflate][24], [Offset][25], [Overlaps][26], [Set][27], [ToPolygon][28]
+[ClosestPoint][20], [Contains][21], [Deconstruct][22], [Equals][23], [GetHashCode][24], [Include][25], [Inflate][26], [Offset][27], [Overlaps][28], [Set][29], [ToPolygon][30], [ToString][31]
 
 ### Static Properties
 
-[Infinite][29], [InvertedInfinite][30], [One][31], [Zero][32]
+[Infinite][32], [InvertedInfinite][33], [One][34], [Zero][35]
 
 ### Static Methods
 
-[FromPoints][33], [Inflate][24], [Merge][34], [Offset][25]
+[FromPoints][36], [Inflate][26], [Merge][37], [Offset][27]
 
 ## Fields
 
@@ -56,28 +56,28 @@ IEquatable\<IntRectangle>
 |------------------|-----------------|------------------------------------------------------------------------|
 | [Area][5]        | `int`           | Gets the area of this rectangle.                                       |
 | [Bottom][6]      | `int`           | Gets the bottom extent of this rectangle.                              |
-| [BottomLeft][7]  | [IntVector][35] | Gets the bottom left corner of this rectangle.                         |
-| [BottomRight][8] | [IntVector][35] | Gets the bottom right corner of this rectangle.                        |
-| [Center][9]      | [IntVector][35] | Gets or sets the center position of this rectangle.                    |
+| [BottomLeft][7]  | [IntVector][38] | Gets the bottom left corner of this rectangle.                         |
+| [BottomRight][8] | [IntVector][38] | Gets the bottom right corner of this rectangle.                        |
+| [Center][9]      | [IntVector][38] | Gets or sets the center position of this rectangle.                    |
 | [IsValid][10]    | `bool`          | Determines if the values of this rectangle are considered to be val... |
 | [Left][11]       | `int`           | Gets the left extent of this rectangle.                                |
-| [Max][12]        | [IntVector][35] | Gets the maximum corner of this rectangle.                             |
-| [Min][13]        | [IntVector][35] | Gets the minimum corner of this rectangle.                             |
-| [Position][14]   | [IntVector][35] | Gets or sets the position of this rectangle.                           |
+| [Max][12]        | [IntVector][38] | Gets the maximum corner of this rectangle.                             |
+| [Min][13]        | [IntVector][38] | Gets the minimum corner of this rectangle.                             |
+| [Position][14]   | [IntVector][38] | Gets or sets the position of this rectangle.                           |
 | [Right][15]      | `int`           | Gets the right extent of this rectangle.                               |
-| [Size][16]       | [IntSize][36]   | Gets or sets the size of this rectangle.                               |
+| [Size][16]       | [IntSize][39]   | Gets or sets the size of this rectangle.                               |
 | [Top][17]        | `int`           | Gets the top extent of this rectangle.                                 |
-| [TopLeft][18]    | [IntVector][35] | Gets the top left corner of this rectangle.                            |
-| [TopRight][19]   | [IntVector][35] | Gets the top right corner of this rectangle.                           |
+| [TopLeft][18]    | [IntVector][38] | Gets the top left corner of this rectangle.                            |
+| [TopRight][19]   | [IntVector][38] | Gets the top right corner of this rectangle.                           |
 
 #### Static
 
 | Name                   | Type               | Summary                                                                |
 |------------------------|--------------------|------------------------------------------------------------------------|
-| [Infinite][29]         | [IntRectangle][37] | A rectangle that spans the entire 2D integer plane.                    |
-| [InvertedInfinite][30] | [IntRectangle][37] | A rectangle that spans the entire 2D integer plane (but inverted, w... |
-| [One][31]              | [IntRectangle][37] | A 1x1 rectangle that is positioned at the origin.                      |
-| [Zero][32]             | [IntRectangle][37] | A 0x0 rectangle that is positioned at the origin.                      |
+| [Infinite][32]         | [IntRectangle][40] | A rectangle that spans the entire 2D integer plane.                    |
+| [InvertedInfinite][33] | [IntRectangle][40] | A rectangle that spans the entire 2D integer plane (but inverted, w... |
+| [One][34]              | [IntRectangle][40] | A 1x1 rectangle that is positioned at the origin.                      |
+| [Zero][35]             | [IntRectangle][40] | A 0x0 rectangle that is positioned at the origin.                      |
 
 ## Methods
 
@@ -85,34 +85,48 @@ IEquatable\<IntRectangle>
 
 | Name                            | Return Type     | Summary                                                        |
 |---------------------------------|-----------------|----------------------------------------------------------------|
-| [ClosestPoint(in IntVec...][20] | [IntVector][35] | Returns the nearest point on the rectangle to the given point. |
+| [ClosestPoint(in IntVec...][20] | [IntVector][38] | Returns the nearest point on the rectangle to the given point. |
 | [Contains(in Vector)][21]       | `bool`          | Determines if this rectangle contains the given point?         |
 | [Contains(in IntVector)][21]    | `bool`          | Determines if this rectangle contains the given point?         |
 | [Contains(in IntRectangle)][21] | `bool`          | Determines if this rectangle contains another rectangle?       |
 | [Deconstruct(out int, o...][22] | `void`          | Deconstructs this rectangle into consituent components.        |
 | [Deconstruct(out IntVec...][22] | `void`          | Deconstructs this rectangle into consituent parts.             |
-| [Include(IntVector)][23]        | `void`          | Mutates this rectangle to accommodate the given point.         |
-| [Include(in IntRectangle)][23]  | `void`          | Mutates this rectangle to accommodate the given rectangle.     |
-| [Inflate(int)][24]              | `void`          | Expands (or shrinks) the rectangle by a factor on both axis.   |
-| [Inflate(int, int)][24]         | `void`          | Expands (or shrinks) the rectangle by a factor on each axis.   |
-| [Offset(int, int)][25]          | `void`          | Translates this rectangle.                                     |
-| [Offset(IntVector)][25]         | `void`          | Translates this rectangle.                                     |
-| [Overlaps(IntRectangle)][26]    | `bool`          | Determines if this rectangle overlaps another rectangle.       |
-| [Set(int, int, int, int)][27]   | `void`          | Sets the components of this rectangle.                         |
-| [ToPolygon()][28]               | [Polygon][38]   | Create a polygon from this rectangle.                          |
+| [Equals(object)][23]            | `bool`          | Compares this rectangle for equalty with another object.       |
+| [Equals(IntRectangle)][23]      | `bool`          | Compares this rectangle for equalty with another rectangle.    |
+| [GetHashCode()][24]             | `int`           | Returns the hash code for this rectangle.                      |
+| [Include(IntVector)][25]        | `void`          | Mutates this rectangle to accommodate the given point.         |
+| [Include(in IntRectangle)][25]  | `void`          | Mutates this rectangle to accommodate the given rectangle.     |
+| [Inflate(int)][26]              | `void`          | Expands (or shrinks) the rectangle by a factor on both axis.   |
+| [Inflate(int, int)][26]         | `void`          | Expands (or shrinks) the rectangle by a factor on each axis.   |
+| [Offset(int, int)][27]          | `void`          | Translates this rectangle.                                     |
+| [Offset(IntVector)][27]         | `void`          | Translates this rectangle.                                     |
+| [Overlaps(IntRectangle)][28]    | `bool`          | Determines if this rectangle overlaps another rectangle.       |
+| [Set(int, int, int, int)][29]   | `void`          | Sets the components of this rectangle.                         |
+| [ToPolygon()][30]               | [Polygon][41]   | Create a polygon from this rectangle.                          |
+| [ToString()][31]                | `string`        | Returns the string representation of this rectangle.           |
 
 #### Static
 
 | Name                            | Return Type        | Summary                                                            |
 |---------------------------------|--------------------|--------------------------------------------------------------------|
-| [FromPoints(params IntV...][33] | [IntRectangle][37] |                                                                    |
-| [FromPoints(IEnumerable...][33] | [IntRectangle][37] | Computes the bounding rectangle of the given set of points.        |
-| [Inflate(IntRectangle, ...][24] | [IntRectangle][37] | Expands (or shrinks) the input rectangle by a factor on both axis. |
-| [Inflate(IntRectangle, ...][24] | [IntRectangle][37] | Expands (or shrinks) the input rectangle by a factor on each axis. |
-| [Merge(in IntRectangle,...][34] | [IntRectangle][37] | Merges the given rectangles into one potentially larger rectangle. |
-| [Merge(params IntRectan...][34] | [IntRectangle][37] |                                                                    |
-| [Offset(IntRectangle, i...][25] | [IntRectangle][37] | Copies and translates the given rectangle.                         |
-| [Offset(IntRectangle, I...][25] | [IntRectangle][37] | Copies and translates the given rectangle.                         |
+| [FromPoints(params IntV...][36] | [IntRectangle][40] |                                                                    |
+| [FromPoints(IEnumerable...][36] | [IntRectangle][40] | Computes the bounding rectangle of the given set of points.        |
+| [Inflate(IntRectangle, ...][26] | [IntRectangle][40] | Expands (or shrinks) the input rectangle by a factor on both axis. |
+| [Inflate(IntRectangle, ...][26] | [IntRectangle][40] | Expands (or shrinks) the input rectangle by a factor on each axis. |
+| [Merge(in IntRectangle,...][37] | [IntRectangle][40] | Merges the given rectangles into one potentially larger rectangle. |
+| [Merge(params IntRectan...][37] | [IntRectangle][40] |                                                                    |
+| [Offset(IntRectangle, i...][27] | [IntRectangle][40] | Copies and translates the given rectangle.                         |
+| [Offset(IntRectangle, I...][27] | [IntRectangle][40] | Copies and translates the given rectangle.                         |
+
+## Operators
+
+| Name                            | Return Type        | Summary                                 |
+|---------------------------------|--------------------|-----------------------------------------|
+| [Equality(IntRectangle,...][42] | `bool`             | Compares two rectangles for equality.   |
+| [Implicit(IntRectangle)][43]    | [Rectangle][44]    |                                         |
+| [Implicit(ValueTuple<in...][43] | [IntRectangle][40] |                                         |
+| [Implicit(ValueTuple<In...][43] | [IntRectangle][40] |                                         |
+| [Inequality(IntRectangl...][45] | `bool`             | Compares two rectangles for inequality. |
 
 [0]: ../../Heirloom.Core.md
 [1]: IntRectangle/Height.md
@@ -137,19 +151,26 @@ IEquatable\<IntRectangle>
 [20]: IntRectangle/ClosestPoint.md
 [21]: IntRectangle/Contains.md
 [22]: IntRectangle/Deconstruct.md
-[23]: IntRectangle/Include.md
-[24]: IntRectangle/Inflate.md
-[25]: IntRectangle/Offset.md
-[26]: IntRectangle/Overlaps.md
-[27]: IntRectangle/Set.md
-[28]: IntRectangle/ToPolygon.md
-[29]: IntRectangle/Infinite.md
-[30]: IntRectangle/InvertedInfinite.md
-[31]: IntRectangle/One.md
-[32]: IntRectangle/Zero.md
-[33]: IntRectangle/FromPoints.md
-[34]: IntRectangle/Merge.md
-[35]: IntVector.md
-[36]: IntSize.md
-[37]: IntRectangle.md
-[38]: ../Heirloom.Geometry/Polygon.md
+[23]: IntRectangle/Equals.md
+[24]: IntRectangle/GetHashCode.md
+[25]: IntRectangle/Include.md
+[26]: IntRectangle/Inflate.md
+[27]: IntRectangle/Offset.md
+[28]: IntRectangle/Overlaps.md
+[29]: IntRectangle/Set.md
+[30]: IntRectangle/ToPolygon.md
+[31]: IntRectangle/ToString.md
+[32]: IntRectangle/Infinite.md
+[33]: IntRectangle/InvertedInfinite.md
+[34]: IntRectangle/One.md
+[35]: IntRectangle/Zero.md
+[36]: IntRectangle/FromPoints.md
+[37]: IntRectangle/Merge.md
+[38]: IntVector.md
+[39]: IntSize.md
+[40]: IntRectangle.md
+[41]: ../Heirloom.Geometry/Polygon.md
+[42]: IntRectangle/op_Equality.md
+[43]: IntRectangle/op_Implicit.md
+[44]: Rectangle.md
+[45]: IntRectangle/op_Inequality.md

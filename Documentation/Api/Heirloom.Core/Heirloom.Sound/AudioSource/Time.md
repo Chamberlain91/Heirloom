@@ -18,5 +18,10 @@ public float Time { get; }
 
 > **Returns**: `float`
 
+**See Also:** [Position][2], [Duration][3], [Length][4]
+
 [0]: ../../../Heirloom.Core.md
 [1]: ../AudioSource.md
+[2]: Position.md
+[3]: Duration.md
+[4]: Length.md
