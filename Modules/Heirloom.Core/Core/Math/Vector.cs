@@ -61,6 +61,11 @@ namespace Heirloom
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="Vector"/>.
+        /// </summary>
+        /// <param name="x">The x component.</param>
+        /// <param name="y">The y component.</param>
         public Vector(float x, float y)
         {
             X = x;
@@ -123,6 +128,9 @@ namespace Heirloom
 
         #region Indexer
 
+        /// <summary>
+        /// Accesses this vectors components by numerican index in <see cref="X"/>, <see cref="Y"/> order.
+        /// </summary>
         public float this[int i]
         {
             get => _components[i];
@@ -429,10 +437,11 @@ namespace Heirloom
         /// <summary>
         /// Computes the reflection of the input vector about the specified axis.
         /// </summary>
+        /// <param name="vec">The vector to reflect.</param>
         /// <param name="axis">The axis of reflection, normalized.</param>
-        public static Vector Reflect(in Vector v, in Vector axis)
+        public static Vector Reflect(in Vector vec, in Vector axis)
         {
-            return v - (2 * Dot(v, axis) * axis);
+            return vec - (2 * Dot(vec, axis) * axis);
         }
 
         #endregion
@@ -491,6 +500,11 @@ namespace Heirloom
 
         #region Deconstruct
 
+        /// <summary>
+        /// Deconstructs this <see cref="Vector"/> into constituent components.
+        /// </summary>
+        /// <param name="x">Outputs the x component.</param>
+        /// <param name="y">Outputs the y component.</param>
         public void Deconstruct(out float x, out float y)
         {
             x = X;
@@ -501,6 +515,9 @@ namespace Heirloom
 
         #region Conversion Operators
 
+        /// <summary>
+        /// Converts a <see cref="Vector"/> into <see cref="Size"/>.
+        /// </summary>
         public static explicit operator Size(Vector vec)
         {
             var width = vec.X;
@@ -509,6 +526,9 @@ namespace Heirloom
             return new Size(width, height);
         }
 
+        /// <summary>
+        /// Converts a <see cref="Vector"/> into <see cref="IntSize"/> by truncating each component to integer.
+        /// </summary>
         public static explicit operator IntSize(Vector vec)
         {
             var width = (int) vec.X;
@@ -517,6 +537,9 @@ namespace Heirloom
             return new IntSize(width, height);
         }
 
+        /// <summary>
+        /// Converts a <see cref="Vector"/> into <see cref="IntVector"/> by truncating each component to integer.
+        /// </summary>
         public static explicit operator IntVector(Vector vec)
         {
             var x = (int) vec.X;
@@ -525,11 +548,17 @@ namespace Heirloom
             return new IntVector(x, y);
         }
 
+        /// <summary>
+        /// Converts the x, y formatted tuple into <see cref="Vector"/>.
+        /// </summary>
         public static implicit operator Vector((float x, float y) vec)
         {
             return new Vector(vec.x, vec.y);
         }
 
+        /// <summary>
+        /// Converts the <see cref="Vector"/> into a x, y formatted tuple.
+        /// </summary>
         public static implicit operator (float x, float y)(Vector vec)
         {
             return (vec.X, vec.Y);
@@ -539,6 +568,9 @@ namespace Heirloom
 
         #region Arithmetic Operators
 
+        /// <summary>
+        /// Negates a <see cref="Vector"/>.
+        /// </summary>
         public static Vector operator -(Vector v)
         {
             var x = -v.X;
@@ -547,6 +579,9 @@ namespace Heirloom
             return new Vector(x, y);
         }
 
+        /// <summary>
+        /// Returns the same vector.
+        /// </summary>
         public static Vector operator +(Vector v)
         {
             return v;
@@ -554,6 +589,9 @@ namespace Heirloom
 
         #region Addition
 
+        /// <summary>
+        /// Performs the addition of two vectors.
+        /// </summary>
         public static Vector operator +(Vector a, Vector b)
         {
             var x = a.X + b.X;
@@ -562,6 +600,9 @@ namespace Heirloom
             return new Vector(x, y);
         }
 
+        /// <summary>
+        /// Performs the addition of two vectors.
+        /// </summary>
         public static Vector operator +(Vector a, IntVector b)
         {
             var x = a.X + b.X;
@@ -570,6 +611,9 @@ namespace Heirloom
             return new Vector(x, y);
         }
 
+        /// <summary>
+        /// Performs the addition of two vectors.
+        /// </summary>
         public static Vector operator +(IntVector a, Vector b)
         {
             var x = a.X + b.X;
@@ -582,6 +626,9 @@ namespace Heirloom
 
         #region Subtraction
 
+        /// <summary>
+        /// Performs the subtraction of two vectors.
+        /// </summary>
         public static Vector operator -(Vector a, Vector b)
         {
             var x = a.X - b.X;
@@ -589,6 +636,9 @@ namespace Heirloom
             return new Vector(x, y);
         }
 
+        /// <summary>
+        /// Performs the subtraction of two vectors.
+        /// </summary>
         public static Vector operator -(Vector a, IntVector b)
         {
             var x = a.X - b.X;
@@ -596,6 +646,9 @@ namespace Heirloom
             return new Vector(x, y);
         }
 
+        /// <summary>
+        /// Performs the subtraction of two vectors.
+        /// </summary>
         public static Vector operator -(IntVector a, Vector b)
         {
             var x = a.X - b.X;
@@ -607,6 +660,9 @@ namespace Heirloom
 
         #region Multiply
 
+        /// <summary>
+        /// Performs the component-wise multiplication of two vectors.
+        /// </summary>
         public static Vector operator *(Vector a, Vector b)
         {
             var x = a.X * b.X;
@@ -615,6 +671,9 @@ namespace Heirloom
             return new Vector(x, y);
         }
 
+        /// <summary>
+        /// Performs the scaling of a vector.
+        /// </summary>
         public static Vector operator *(Vector a, float b)
         {
             var x = a.X * b;
@@ -623,6 +682,9 @@ namespace Heirloom
             return new Vector(x, y);
         }
 
+        /// <summary>
+        /// Performs the scaling of a vector.
+        /// </summary>
         public static Vector operator *(float a, Vector b)
         {
             var x = a * b.X;
@@ -635,6 +697,9 @@ namespace Heirloom
 
         #region Divide
 
+        /// <summary>
+        /// Performs the component-wise division of two vectors.
+        /// </summary>
         public static Vector operator /(Vector a, Vector b)
         {
             var x = a.X / b.X;
@@ -643,6 +708,9 @@ namespace Heirloom
             return new Vector(x, y);
         }
 
+        /// <summary>
+        /// Performs the scaling of a vector via per-component division.
+        /// </summary>
         public static Vector operator /(float a, Vector b)
         {
             var x = a / b.X;
@@ -651,6 +719,9 @@ namespace Heirloom
             return new Vector(x, y);
         }
 
+        /// <summary>
+        /// Performs the scaling of a vector via per-component division.
+        /// </summary>
         public static Vector operator /(Vector a, float b)
         {
             var x = a.X / b;
@@ -665,11 +736,17 @@ namespace Heirloom
 
         #region Comparison Operators
 
+        /// <summary>
+        /// Compares two vectors for equality.
+        /// </summary>
         public static bool operator ==(Vector v1, Vector v2)
         {
             return v1.Equals(v2);
         }
 
+        /// <summary>
+        /// Compares two vectors for inequality.
+        /// </summary>
         public static bool operator !=(Vector v1, Vector v2)
         {
             return v1.Equals(v2) == false;
@@ -679,28 +756,37 @@ namespace Heirloom
 
         #region Equality
 
+        /// <summary>
+        /// Compares this vector for equality with another object.
+        /// </summary>
         public override bool Equals(object obj)
         {
             return obj is Vector vec
                 && Equals(vec);
         }
 
+        /// <summary>
+        /// Compares this vector for equality with another vector.
+        /// </summary>
         public bool Equals(Vector other)
         {
             return Calc.NearEquals(X, other.X)
                 && Calc.NearEquals(Y, other.Y);
         }
 
+        /// <summary>
+        /// Returns the hash code for this vector.
+        /// </summary>
         public override int GetHashCode()
         {
-            var hashCode = 1861411795;
-            hashCode = hashCode * -1521134295 + X.GetHashCode();
-            hashCode = hashCode * -1521134295 + Y.GetHashCode();
-            return hashCode;
+            return HashCode.Combine(X, Y);
         }
 
         #endregion
 
+        /// <summary>
+        /// Converts this <see cref="Vector"/> into string representation.
+        /// </summary>
         public override string ToString()
         {
             return $"{X}, {Y}";

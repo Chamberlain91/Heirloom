@@ -136,7 +136,7 @@ namespace Heirloom
         /// </summary>
         /// <param name="gfx">The relevant graphics context.</param>
         /// <param name="update">The relevant update function.</param>
-        /// <returns></returns>
+        /// <param name="frameRate">The desired fixed frame rate or -1 for unlimited.</param>
         public static GameLoop Create(GraphicsContext gfx, UpdateFunction update, int frameRate = -1)
         {
             if (gfx is null) { throw new ArgumentNullException(nameof(gfx)); }

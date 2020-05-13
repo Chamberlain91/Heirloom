@@ -41,6 +41,9 @@ namespace Heirloom
 
         #region Equality
 
+        /// <summary>
+        /// Compares this <see cref="FontMetrics"/> for equality with another object.
+        /// </summary>
         public override bool Equals(object obj)
         {
             if (obj is FontMetrics metrics)
@@ -53,16 +56,25 @@ namespace Heirloom
             return false;
         }
 
+        /// <summary>
+        /// Returns the hash code for this <see cref="FontMetrics"/>.
+        /// </summary>
         public override int GetHashCode()
         {
             return HashCode.Combine(Ascent, Descent, LineGap);
         }
 
+        /// <summary>
+        /// Compares two instances of <see cref="FontMetrics"/> for equality.
+        /// </summary>
         public static bool operator ==(FontMetrics left, FontMetrics right)
         {
             return left.Equals(right);
         }
 
+        /// <summary>
+        /// Compares two instances of <see cref="FontMetrics"/> for inequality.
+        /// </summary>
         public static bool operator !=(FontMetrics left, FontMetrics right)
         {
             return !(left == right);

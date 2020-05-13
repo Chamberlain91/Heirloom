@@ -749,17 +749,17 @@ namespace Heirloom
         /// <param name="x"> Some unsigned integer </param>
         /// <returns> The nearest upper power of 2 to x </returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint UpperPowerOfTwo(uint v)
+        public static uint UpperPowerOfTwo(uint x)
         {
-            v--;
-            v |= v >> 1;
-            v |= v >> 2;
-            v |= v >> 4;
-            v |= v >> 8;
-            v |= v >> 16;
-            v++;
+            x--;
+            x |= x >> 1;
+            x |= x >> 2;
+            x |= x >> 4;
+            x |= x >> 8;
+            x |= x >> 16;
+            x++;
 
-            return v;
+            return x;
         }
 
         /// <summary>
@@ -768,17 +768,17 @@ namespace Heirloom
         /// <param name="x"> Some integer </param>
         /// <returns> The nearest upper power of 2 to x </returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int UpperPowerOfTwo(int v)
+        public static int UpperPowerOfTwo(int x)
         {
-            v--;
-            v |= v >> 1;
-            v |= v >> 2;
-            v |= v >> 4;
-            v |= v >> 8;
-            v |= v >> 16;
-            v++;
+            x--;
+            x |= x >> 1;
+            x |= x >> 2;
+            x |= x >> 4;
+            x |= x >> 8;
+            x |= x >> 16;
+            x++;
 
-            return v;
+            return x;
         }
 
         /// <summary>

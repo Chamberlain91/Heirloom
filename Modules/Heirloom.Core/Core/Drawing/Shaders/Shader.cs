@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
+using Heirloom.IO;
+
 namespace Heirloom
 {
     /// <summary>
@@ -83,6 +85,9 @@ namespace Heirloom
             }
         }
 
+        /// <summary>
+        /// Cleans up unmanaged resources before being collected.
+        /// </summary>
         ~Shader()
         {
             Dispose(false);
@@ -110,40 +115,44 @@ namespace Heirloom
         /// Updates one of the shader uniforms by name.
         /// </summary>
         /// <param name="name">The name of the uniform.</param>
+        /// <param name="values">The array of values.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected void SetUniform(string name, float[] arr)
+        protected void SetUniform(string name, float[] values)
         {
-            SetUniformValue(name, arr);
+            SetUniformValue(name, values);
         }
 
         /// <summary>
         /// Updates one of the shader uniforms by name.
         /// </summary>
         /// <param name="name">The name of the uniform.</param>
+        /// <param name="values">The array of values.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected void SetUniform(string name, int[] arr)
+        protected void SetUniform(string name, int[] values)
         {
-            SetUniformValue(name, arr);
+            SetUniformValue(name, values);
         }
 
         /// <summary>
         /// Updates one of the shader uniforms by name.
         /// </summary>
         /// <param name="name">The name of the uniform.</param>
+        /// <param name="values">The array of values.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected void SetUniform(string name, uint[] arr)
+        protected void SetUniform(string name, uint[] values)
         {
-            SetUniformValue(name, arr);
+            SetUniformValue(name, values);
         }
 
         /// <summary>
         /// Updates one of the shader uniforms by name.
         /// </summary>
         /// <param name="name">The name of the uniform.</param>
+        /// <param name="values">The array of values.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected void SetUniform(string name, bool[] arr)
+        protected void SetUniform(string name, bool[] values)
         {
-            SetUniformValue(name, arr);
+            SetUniformValue(name, values);
         }
 
         /// <summary>
@@ -224,6 +233,9 @@ namespace Heirloom
             }
         }
 
+        /// <summary>
+        /// Disposes any unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
@@ -263,59 +275,93 @@ namespace Heirloom
                 Value = value;
             }
 
+            #region Tuple to Define
+
+            /// <summary>
+            /// Converts the formatted tuple into a <see cref="Define"/> structure.
+            /// </summary>
             public static implicit operator Define((string name, string val) tuple)
             {
                 return new Define(tuple.name, tuple.val);
             }
 
+            /// <summary>
+            /// Converts the formatted tuple into a <see cref="Define"/> structure.
+            /// </summary>
             public static implicit operator Define((string name, float val) tuple)
             {
                 return new Define(tuple.name, $"{tuple.val}");
             }
 
+            /// <summary>
+            /// Converts the formatted tuple into a <see cref="Define"/> structure.
+            /// </summary>
             public static implicit operator Define((string name, float[] val) tuple)
             {
                 return new Define(tuple.name, $"float[]({string.Join(", ", tuple.val)}");
             }
 
+            /// <summary>
+            /// Converts the formatted tuple into a <see cref="Define"/> structure.
+            /// </summary>
             public static implicit operator Define((string name, int val) tuple)
             {
                 return new Define(tuple.name, $"{tuple.val}");
             }
 
+            /// <summary>
+            /// Converts the formatted tuple into a <see cref="Define"/> structure.
+            /// </summary>
             public static implicit operator Define((string name, int[] val) tuple)
             {
                 return new Define(tuple.name, $"int[]({string.Join(", ", tuple.val)}");
             }
 
+            /// <summary>
+            /// Converts the formatted tuple into a <see cref="Define"/> structure.
+            /// </summary>
             public static implicit operator Define((string name, bool val) tuple)
             {
                 return new Define(tuple.name, $"{tuple.val}");
             }
 
+            /// <summary>
+            /// Converts the formatted tuple into a <see cref="Define"/> structure.
+            /// </summary>
             public static implicit operator Define((string name, Vector val) tuple)
             {
                 var vec = tuple.val;
                 return new Define(tuple.name, $"vec2({vec.X}, {vec.Y})");
             }
 
+            /// <summary>
+            /// Converts the formatted tuple into a <see cref="Define"/> structure.
+            /// </summary>
             public static implicit operator Define((string name, Vector[] val) tuple)
             {
                 var vecs = tuple.val.Select(vec => $"vec2({vec.X}, {vec.Y})");
                 return new Define(tuple.name, $"vec2[]({string.Join(", ", vecs)}");
             }
 
+            /// <summary>
+            /// Converts the formatted tuple into a <see cref="Define"/> structure.
+            /// </summary>
             public static implicit operator Define((string name, Size val) tuple)
             {
                 var siz = tuple.val;
                 return new Define(tuple.name, $"vec2({siz.Width}, {siz.Height})");
             }
 
+            /// <summary>
+            /// Converts the formatted tuple into a <see cref="Define"/> structure.
+            /// </summary>
             public static implicit operator Define((string name, Color val) tuple)
             {
                 var col = tuple.val;
                 return new Define(tuple.name, $"vec4({col.R}, {col.G}, {col.B}, {col.A})");
             }
+
+            #endregion
         }
 
         #endregion

@@ -99,9 +99,17 @@ namespace Heirloom
             DrawLine(p, p3, width);
         }
 
+        /// <summary>
+        /// Draws a bezier curve to the current surface.
+        /// </summary>
+        /// <param name="curve">Some bezier curve.</param>
+        /// <param name="width">The thickness of the line in pixels.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="curve"/> is null.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawCurve(Curve curve, float width = 1F)
         {
+            if (curve is null) { throw new ArgumentNullException(nameof(curve)); }
+
             for (var i = 0; i < curve.Count - 1; i++)
             {
                 var current = curve.GetPoint(i);
@@ -254,7 +262,6 @@ namespace Heirloom
         /// <param name="a">The first point.</param>
         /// <param name="b">The second point.</param>
         /// <param name="c">The third point.</param>
-        /// <param name="width">The thickness of the line in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawTriangle(in Vector a, in Vector b, in Vector c)
         {
@@ -307,6 +314,7 @@ namespace Heirloom
         /// <summary>
         /// Draws a regular polygon to the current surface.
         /// </summary> 
+        /// <param name="position">The center position of the regular polygon.</param>
         /// <param name="sides">The number of sides in the regular polygon.</param>
         /// <param name="radius">The radius of the regular polygon.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -337,6 +345,7 @@ namespace Heirloom
         /// <summary>
         /// Draws the outline of a regular polygon to the current surface.
         /// </summary> 
+        /// <param name="position">The center position of the regular polygon.</param>
         /// <param name="sides">The number of sides in the regular polygon.</param>
         /// <param name="radius">The radius of the regular polygon.</param>
         /// <param name="width">Width of the outline in pixels.</param>

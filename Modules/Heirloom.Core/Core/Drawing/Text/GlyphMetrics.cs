@@ -47,6 +47,9 @@ namespace Heirloom
 
         #region Equality
 
+        /// <summary>
+        /// Compares this <see cref="GlyphMetrics"/> for equality with another object.
+        /// </summary>
         public override bool Equals(object obj)
         {
             if (obj is GlyphMetrics metrics)
@@ -59,16 +62,25 @@ namespace Heirloom
             return false;
         }
 
+        /// <summary>
+        /// Returns the hash code this <see cref="GlyphMetrics"/>.
+        /// </summary>
         public override int GetHashCode()
         {
             return HashCode.Combine(AdvanceWidth, Bearing, _box);
         }
 
+        /// <summary>
+        /// Compares two instances of <see cref="GlyphMetrics"/> for equality.
+        /// </summary>
         public static bool operator ==(GlyphMetrics left, GlyphMetrics right)
         {
             return left.Equals(right);
         }
 
+        /// <summary>
+        /// Compares two instances of <see cref="GlyphMetrics"/> for inequality.
+        /// </summary>
         public static bool operator !=(GlyphMetrics left, GlyphMetrics right)
         {
             return !(left == right);

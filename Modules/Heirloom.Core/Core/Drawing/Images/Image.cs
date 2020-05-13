@@ -8,7 +8,6 @@ using Heirloom.IO;
 
 using StbImageSharp;
 
-using static StbImageSharp.StbImage;
 using static StbImageWriteSharp.StbImageWrite;
 
 namespace Heirloom
@@ -28,7 +27,7 @@ namespace Heirloom
         /// </summary>
         internal readonly ColorBytes[] Pixels;
 
-        readonly private IntSize _size;
+        private readonly IntSize _size;
 
         #region Constants
 
@@ -133,6 +132,7 @@ namespace Heirloom
 
         #region Properties
 
+        /// <inheritdoc/>
         public override IntSize Size
         {
             get => _size;
@@ -337,6 +337,7 @@ namespace Heirloom
         /// </summary>
         /// <param name="size">Size of the image in pixels.</param>
         /// <param name="color">Color to base the grid pattern on.</param>
+        /// <param name="cellSize">The size of a grid cell in pixels.</param>
         /// <param name="borderWidth">Size of the line between each cell.</param>
         /// <returns>An image filled with the grid pattern.</returns>
         public static Image CreateGridPattern(IntSize size, Color color, int cellSize, int borderWidth = 1)
@@ -350,6 +351,7 @@ namespace Heirloom
         /// <param name="width">Width of the image in pixels.</param>
         /// <param name="height">Height of the image in pixels.</param>
         /// <param name="color">Color to base the grid pattern on.</param>
+        /// <param name="cellSize">The size of a grid cell in pixels.</param>
         /// <param name="borderWidth">Size of the line between each cell.</param>
         /// <returns>An image filled with the grid pattern.</returns>
         public static Image CreateGridPattern(int width, int height, Color color, int cellSize, int borderWidth = 1)
@@ -407,6 +409,7 @@ namespace Heirloom
         /// <param name="scale">The approximate size of a 'noise blob'.</param>
         /// <param name="octaves">Number of noise layers.</param>
         /// <param name="persistence">How persistent each noise layer is.</param>
+        /// <param name="offset">Value to offset the noise by.</param>
         /// <returns>A noisy image with noise generated on all four components.</returns>
         public static Image CreateNoise(IntSize size, float scale = 1, int octaves = 4, float persistence = 0.5F, Vector offset = default)
         {
@@ -421,6 +424,7 @@ namespace Heirloom
         /// <param name="scale">The approximate size of a 'noise blob'.</param>
         /// <param name="octaves">Number of noise layers.</param>
         /// <param name="persistence">How persistent each noise layer is.</param>
+        /// <param name="offset">Value to offset the noise by.</param>
         /// <returns>A noisy image with noise generated on all four components.</returns>
         public static Image CreateNoise(int width, int height, float scale = 1, int octaves = 4, float persistence = 0.5F, Vector offset = default)
         {
@@ -435,6 +439,7 @@ namespace Heirloom
         /// <param name="scale">The approximate size of a 'noise blob'.</param>
         /// <param name="octaves">Number of noise layers.</param>
         /// <param name="persistence">How persistent each noise layer is.</param>
+        /// <param name="offset">Value to offset the noise by.</param>
         /// <returns>A noisy image with noise generated on all four components.</returns>
         public static Image CreateNoise(IntSize size, INoise2D noise, float scale = 1, int octaves = 4, float persistence = 0.5F, Vector offset = default)
         {
@@ -450,6 +455,7 @@ namespace Heirloom
         /// <param name="scale">The approximate size of a 'noise blob'.</param>
         /// <param name="octaves">Number of noise layers.</param>
         /// <param name="persistence">How persistent each noise layer is.</param>
+        /// <param name="offset">Value to offset the noise by.</param>
         /// <returns>A noisy image with noise generated on all four components.</returns>
         public static Image CreateNoise(int width, int height, INoise2D noise, float scale = 1, int octaves = 4, float persistence = 0.5F, Vector offset = default)
         {
@@ -548,18 +554,23 @@ namespace Heirloom
 
         [ThreadStatic] private static Stream _writeStream;
 
-        public static unsafe void WriteAsPng(Image image, Stream stream)
+        /// <summary>
+        /// Writes the image to the stream as a PNG file format.
+        /// </summary>
+        public unsafe void WritePNG(Stream stream)
         {
-            lock (image.Pixels)
+            if (stream is null) { throw new ArgumentNullException(nameof(stream)); }
+
+            lock (Pixels)
             {
                 _writeStream = stream;
 
                 // Flip vertically!
                 stbi_flip_vertically_on_write(1);
 
-                fixed (ColorBytes* pPixels = image.Pixels)
+                fixed (ColorBytes* pPixels = Pixels)
                 {
-                    if (stbi_write_png_to_func(WriteImageCallback, null, image.Width, image.Height, 4, pPixels, image.Width * 4) == 0)
+                    if (stbi_write_png_to_func(WriteImageCallback, null, Width, Height, 4, pPixels, Width * 4) == 0)
                     {
                         throw new InvalidOperationException("Unable to write png image to stream.");
                     }
@@ -567,9 +578,12 @@ namespace Heirloom
             }
         }
 
-        public static unsafe void WriteAsJpg(Image image, Stream stream, int quality = 85)
+        /// <summary>
+        /// Writes the image to the stream as a PNG file format.
+        /// </summary>
+        public unsafe void WriteJPG(Stream stream, int quality = 85)
         {
-            lock (image.Pixels)
+            lock (Pixels)
             {
                 if (quality < 1 || quality > 100)
                 {
@@ -581,9 +595,9 @@ namespace Heirloom
                 // Flip vertically!
                 stbi_flip_vertically_on_write(1);
 
-                fixed (ColorBytes* pPixels = image.Pixels)
+                fixed (ColorBytes* pPixels = Pixels)
                 {
-                    if (stbi_write_jpg_to_func(WriteImageCallback, null, image.Width, image.Height, 4, pPixels, quality) == 0)
+                    if (stbi_write_jpg_to_func(WriteImageCallback, null, Width, Height, 4, pPixels, quality) == 0)
                     {
                         throw new InvalidOperationException("Unable to write jpg image to stream.");
                     }

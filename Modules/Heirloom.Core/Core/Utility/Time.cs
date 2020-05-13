@@ -2,15 +2,49 @@ using System;
 
 namespace Heirloom
 {
+    /// <summary>
+    /// Provides utility functions for converting time between units of measure and string representation.
+    /// </summary>
     public static class Time
     {
+        /// <summary>
+        /// A value of one nanosecond measured in seconds.
+        /// </summary>
         public const float NanosecondAsSeconds = 1e-9F;
+
+        /// <summary>
+        /// A value of one microsecond measured in seconds.
+        /// </summary>
         public const float MicrosecondAsSeconds = 1e-6F;
+
+        /// <summary>
+        /// A value of one millisecond measured in seconds.
+        /// </summary>
         public const float MillisecondAsSeconds = 1e-3F;
+
+        /// <summary>
+        /// A value of one second measured in seconds.
+        /// </summary>
         public const float SecondAsSeconds = 1F;
+
+        /// <summary>
+        /// A value of one minute measured in seconds.
+        /// </summary>
         public const float MinuteAsSeconds = 60 * SecondAsSeconds;
+
+        /// <summary>
+        /// A value of one hour measured in seconds.
+        /// </summary>
         public const float HourAsSeconds = 60 * MinuteAsSeconds;
+
+        /// <summary>
+        /// A value of one day measured in seconds.
+        /// </summary>
         public const float DayAsSeconds = 24 * HourAsSeconds;
+
+        /// <summary>
+        /// A value of one week measured in seconds.
+        /// </summary>
         public const float WeekAsSeconds = 7 * DayAsSeconds;
 
         /// <summary>
@@ -43,25 +77,24 @@ namespace Heirloom
         }
 
         /// <summary>
-        /// Gets a short name of the time unit (or its plural).
+        /// Gets a short name of the time unit.
         /// </summary>
         /// <param name="unit">Some time unit.</param>
-        /// <param name="plural">Should it be plural?</param> 
         public static string GetShortTimeName(TimeUnit unit)
         {
-            switch (unit)
+            return unit switch
             {
-                case TimeUnit.Week: return "w";
-                case TimeUnit.Day: return "d";
-                case TimeUnit.Hour: return "h";
-                case TimeUnit.Minute: return "m";
-                case TimeUnit.Second: return "s";
-                case TimeUnit.Millisecond: return "ms";
-                case TimeUnit.Microsecond: return "us";
-                case TimeUnit.Nanosecond: return "ns";
-            }
+                TimeUnit.Week => "w",
+                TimeUnit.Day => "d",
+                TimeUnit.Hour => "h",
+                TimeUnit.Minute => "m",
+                TimeUnit.Second => "s",
+                TimeUnit.Millisecond => "ms",
+                TimeUnit.Microsecond => "us",
+                TimeUnit.Nanosecond => "ns",
 
-            throw new InvalidOperationException($"Unable to get short {nameof(TimeUnit)} name for {unit}.");
+                _ => throw new InvalidOperationException($"Unable to get short {nameof(TimeUnit)} name for {unit}."),
+            };
         }
 
         /// <summary>
@@ -71,19 +104,19 @@ namespace Heirloom
         /// <param name="plural">Should it be plural?</param> 
         public static string GetTimeName(TimeUnit unit, bool plural = false)
         {
-            switch (unit)
+            return unit switch
             {
-                case TimeUnit.Week: return plural ? "weeks" : "week";
-                case TimeUnit.Day: return plural ? "days" : "day";
-                case TimeUnit.Hour: return plural ? "hours" : "hour";
-                case TimeUnit.Minute: return plural ? "minutes" : "minute";
-                case TimeUnit.Second: return plural ? "seconds" : "second";
-                case TimeUnit.Millisecond: return plural ? "milliseconds" : "millisecond";
-                case TimeUnit.Microsecond: return plural ? "microseconds" : "microsecond";
-                case TimeUnit.Nanosecond: return plural ? "nanoseconds" : "nanosecond";
-            }
+                TimeUnit.Week => plural ? "weeks" : "week",
+                TimeUnit.Day => plural ? "days" : "day",
+                TimeUnit.Hour => plural ? "hours" : "hour",
+                TimeUnit.Minute => plural ? "minutes" : "minute",
+                TimeUnit.Second => plural ? "seconds" : "second",
+                TimeUnit.Millisecond => plural ? "milliseconds" : "millisecond",
+                TimeUnit.Microsecond => plural ? "microseconds" : "microsecond",
+                TimeUnit.Nanosecond => plural ? "nanoseconds" : "nanosecond",
 
-            throw new InvalidOperationException($"Unable to get short {nameof(TimeUnit)} name for {unit}.");
+                _ => throw new InvalidOperationException($"Unable to get short {nameof(TimeUnit)} name for {unit}."),
+            };
         }
 
         /// <summary>

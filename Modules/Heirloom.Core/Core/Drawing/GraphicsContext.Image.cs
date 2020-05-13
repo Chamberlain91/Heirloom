@@ -159,6 +159,11 @@ namespace Heirloom
 
         #region Draw Nine Slice
 
+        /// <summary>
+        /// Draws a nine-slice image onto the current surface.
+        /// </summary>
+        /// <param name="slice">The nine-slice image.</param>
+        /// <param name="rectangle">The target rectangle the nine-slice is fitted to.</param>
         public void DrawNineSlice(NineSlice slice, Rectangle rectangle)
         {
             var TH = slice.Center.Top;

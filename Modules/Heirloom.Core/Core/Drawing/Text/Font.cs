@@ -88,6 +88,9 @@ namespace Heirloom
             _glyphs = new Glyph[Info.numGlyphs];
         }
 
+        /// <summary>
+        /// Performs cleanup of unmanaged resources before garbage collection.
+        /// </summary>
         ~Font()
         {
             Dispose(false);
