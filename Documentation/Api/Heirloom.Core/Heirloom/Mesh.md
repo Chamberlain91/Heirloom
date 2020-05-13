@@ -15,61 +15,59 @@ public sealed class Mesh
 
 ### Properties
 
-[Indices][1], [IsIndexed][2], [Version][3], [Vertices][4]
+[Indices][1], [Version][2], [Vertices][3]
 
 ### Methods
 
-[AddIndex][5], [AddIndices][6], [AddVertex][7], [AddVertices][8], [Clear][9]
+[AddTriangle][4], [AddTriangles][5], [AddVertex][6], [AddVertices][7], [Clear][8]
 
 ### Static Methods
 
-[CreateFromConvexPolygon][10], [CreateFromPolygon][11], [CreateQuad][12]
+[CreateFromConvexPolygon][9], [CreateFromPolygon][10], [CreateQuad][11]
 
 ## Properties
 
 #### Instance
 
-| Name           | Type                    | Summary                                                                |
-|----------------|-------------------------|------------------------------------------------------------------------|
-| [Indices][1]   | `IReadOnlyList<int>`    | Gets the (optional) indices defining triangles by index of the vert... |
-| [IsIndexed][2] | `bool`                  | Is this mesh constructed triangles specified by indexed?               |
-| [Version][3]   | `uint`                  | The version number of the mesh. Modifications to the mesh data incr... |
-| [Vertices][4]  | `IReadOnlyList<Vertex>` | Gets the vertices contained by this mesh.                              |
+| Name          | Type                    | Summary                                                                |
+|---------------|-------------------------|------------------------------------------------------------------------|
+| [Indices][1]  | `IReadOnlyList<int>`    | Gets the indices defining triangles by index of the vertex list.       |
+| [Version][2]  | `uint`                  | The version number of the mesh. Modifications to the mesh data incr... |
+| [Vertices][3] | `IReadOnlyList<Vertex>` | Gets the vertices contained by this mesh.                              |
 
 ## Methods
 
 #### Instance
 
-| Name                           | Return Type | Summary                                                                |
-|--------------------------------|-------------|------------------------------------------------------------------------|
-| [AddIndex(int)][5]             | `void`      | Appends a triangle index to this mesh. Until Clear is called, this ... |
-| [AddIndices(params int[])][6]  | `void`      |                                                                        |
-| [AddIndices(IEnumerable...][6] | `void`      | Appends a triangle index to this mesh. Until Clear is called, this ... |
-| [AddVertex(Vertex)][7]         | `void`      | Appends a vertex to this mesh.                                         |
-| [AddVertices(IEnumerabl...][8] | `void`      | Appends multiple vertices to this mesh.                                |
-| [AddVertices(params Ver...][8] | `void`      |                                                                        |
-| [Clear()][9]                   | `void`      | Clears the mesh data.                                                  |
+| Name                           | Return Type | Summary                                                          |
+|--------------------------------|-------------|------------------------------------------------------------------|
+| [AddTriangle(int, int, ...][4] | `void`      | Appends and defines a triangle face to add to this mesh.         |
+| [AddTriangles(params in...][5] | `void`      |                                                                  |
+| [AddTriangles(IReadOnly...][5] | `void`      | Appends and defines multiple triangle faces to add to this mesh. |
+| [AddVertex(Vertex)][6]         | `void`      | Appends a vertex to this mesh.                                   |
+| [AddVertices(IEnumerabl...][7] | `void`      | Appends multiple vertices to this mesh.                          |
+| [AddVertices(params Ver...][7] | `void`      |                                                                  |
+| [Clear()][8]                   | `void`      | Clears the mesh data.                                            |
 
 #### Static
 
 | Name                            | Return Type | Summary                                                                |
 |---------------------------------|-------------|------------------------------------------------------------------------|
-| [CreateFromConvexPolygo...][10] | [Mesh][13]  | Constructs a mesh from the given convex polygon. UV coordinates are... |
-| [CreateFromPolygon(Poly...][11] | [Mesh][13]  | Constructs a mesh from the given polygon via Polygon.Triangulate . ... |
-| [CreateFromPolygon(IRea...][11] | [Mesh][13]  | Constructs a mesh from the given polygon via Polygon.Triangulate . ... |
-| [CreateQuad(float, float)][12]  | [Mesh][13]  | Creates a simple quad mesh.                                            |
+| [CreateFromConvexPolygo...][9]  | [Mesh][12]  | Constructs a mesh from the given convex polygon. UV coordinates are... |
+| [CreateFromPolygon(Poly...][10] | [Mesh][12]  | Constructs a mesh from the given polygon via Polygon.Triangulate . ... |
+| [CreateFromPolygon(IRea...][10] | [Mesh][12]  | Constructs a mesh from the given polygon via Polygon.Triangulate . ... |
+| [CreateQuad(float, float)][11]  | [Mesh][12]  | Creates a simple quad mesh.                                            |
 
 [0]: ../../Heirloom.Core.md
 [1]: Mesh/Indices.md
-[2]: Mesh/IsIndexed.md
-[3]: Mesh/Version.md
-[4]: Mesh/Vertices.md
-[5]: Mesh/AddIndex.md
-[6]: Mesh/AddIndices.md
-[7]: Mesh/AddVertex.md
-[8]: Mesh/AddVertices.md
-[9]: Mesh/Clear.md
-[10]: Mesh/CreateFromConvexPolygon.md
-[11]: Mesh/CreateFromPolygon.md
-[12]: Mesh/CreateQuad.md
-[13]: Mesh.md
+[2]: Mesh/Version.md
+[3]: Mesh/Vertices.md
+[4]: Mesh/AddTriangle.md
+[5]: Mesh/AddTriangles.md
+[6]: Mesh/AddVertex.md
+[7]: Mesh/AddVertices.md
+[8]: Mesh/Clear.md
+[9]: Mesh/CreateFromConvexPolygon.md
+[10]: Mesh/CreateFromPolygon.md
+[11]: Mesh/CreateQuad.md
+[12]: Mesh.md
