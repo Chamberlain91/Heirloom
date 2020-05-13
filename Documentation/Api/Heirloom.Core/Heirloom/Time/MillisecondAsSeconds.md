@@ -10,6 +10,8 @@
 
 #### MillisecondAsSeconds
 
+A value of one millisecond measured in seconds.
+
 ```cs
 public const float MillisecondAsSeconds = 0.001
 ```

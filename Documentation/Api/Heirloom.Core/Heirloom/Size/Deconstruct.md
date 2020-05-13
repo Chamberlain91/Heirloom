@@ -10,14 +10,16 @@
 
 ### Deconstruct(out float, out float)
 
+Deconstructs this [Size][1] int constituent components.
+
 ```cs
 public void Deconstruct(out float width, out float height)
 ```
 
-| Name   | Type    | Summary |
-|--------|---------|---------|
-| width  | `float` |         |
-| height | `float` |         |
+| Name   | Type    | Summary                      |
+|--------|---------|------------------------------|
+| width  | `float` | Outputs the width component. |
+| height | `float` | Outputs the height comonent. |
 
 > **Returns** - `void`
 

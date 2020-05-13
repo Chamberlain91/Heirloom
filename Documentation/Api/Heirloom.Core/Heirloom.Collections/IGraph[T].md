@@ -45,7 +45,7 @@ public interface IGraph<T>
 | [ContainsVertex(T)][9]          | `bool`             | Determines if the graph contains the specified vertex.                 |
 | [FindMinimumSpanningTree()][10] | [IGraph\<T>][18]   | Finds and returns a minimum spanning tree.                             |
 | [FindPath(T, T, Heurist...][11] | `IReadOnlyList<T>` | Attempts to finds a path between `start` and `goal` vertices using ... |
-| [FindPath(T, Func<T, bo...][11] | `IReadOnlyList<T>` | Attempts to finds a path between `start` and `goal` vertices using ... |
+| [FindPath(T, Func<T, bo...][11] | `IReadOnlyList<T>` | Attempts to finds a path between `start` until the first vertex to ... |
 | [GetEdgeWeight(T, T)][12]       | `float`            | Gets the weight of some edge.                                          |
 | [GetNeighbors(T)][13]           | `IEnumerable<T>`   | Gets the neighboring vertices.                                         |
 | [RemoveEdge(T, T)][14]          | `bool`             | Removes an edge from the graph.                                        |

@@ -10,6 +10,8 @@
 
 ### Dispose()
 
+Disposes any unmanaged resources.
+
 ```cs
 public void Dispose()
 ```

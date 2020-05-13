@@ -10,6 +10,8 @@
 
 ### Union(in IntRange)
 
+Computes the union of this range with another.
+
 ```cs
 public IntRange Union(in IntRange other)
 ```

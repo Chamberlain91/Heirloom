@@ -10,6 +10,8 @@
 
 ### Union(in Range)
 
+Computes the union of this range with another.
+
 ```cs
 public Range Union(in Range other)
 ```

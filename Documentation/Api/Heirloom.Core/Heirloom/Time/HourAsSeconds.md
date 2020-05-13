@@ -10,6 +10,8 @@
 
 #### HourAsSeconds
 
+A value of one hour measured in seconds.
+
 ```cs
 public const float HourAsSeconds = 3600
 ```

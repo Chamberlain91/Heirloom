@@ -10,6 +10,8 @@
 
 ### DarkGray
 
+The color dark gray (#333333).
+
 ```cs
 public static Color DarkGray { get; }
 ```

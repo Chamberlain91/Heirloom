@@ -10,6 +10,8 @@
 
 #### Modifiers
 
+The modifier keys pressed when the event was generated.
+
 ```cs
 public readonly KeyModifiers Modifiers
 ```

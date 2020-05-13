@@ -10,6 +10,8 @@
 
 ### Gray
 
+The color gray (#999999).
+
 ```cs
 public static ColorBytes Gray { get; }
 ```

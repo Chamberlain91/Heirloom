@@ -10,6 +10,8 @@
 
 ### Magenta
 
+The color magenta (#FF00FF).
+
 ```cs
 public static ColorBytes Magenta { get; }
 ```

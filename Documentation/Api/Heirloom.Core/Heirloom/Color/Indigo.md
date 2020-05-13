@@ -10,6 +10,8 @@
 
 ### Indigo
 
+The color indigo (#4B0082).
+
 ```cs
 public static Color Indigo { get; }
 ```

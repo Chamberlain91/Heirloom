@@ -50,7 +50,7 @@ IDisposable
 
 | Name                           | Return Type | Summary                                     |
 |--------------------------------|-------------|---------------------------------------------|
-| [Dispose()][3]                 | `void`      |                                             |
+| [Dispose()][3]                 | `void`      | Disposes any unmanaged resources.           |
 | [SetUniform(string, flo...][4] | `void`      |                                             |
 | [SetUniform(string, int[])][4] | `void`      |                                             |
 | [SetUniform(string, uin...][4] | `void`      |                                             |

@@ -10,6 +10,8 @@
 
 ### Cyan
 
+The color cyan (#00FFFF).
+
 ```cs
 public static Color Cyan { get; }
 ```

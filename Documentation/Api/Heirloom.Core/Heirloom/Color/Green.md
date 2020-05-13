@@ -10,6 +10,8 @@
 
 ### Green
 
+The color green (#00FF00).
+
 ```cs
 public static Color Green { get; }
 ```

@@ -10,6 +10,8 @@
 
 #### MaxImageDimension
 
+The max allowable image size for any dimension.
+
 ```cs
 public const int MaxImageDimension = 8192
 ```

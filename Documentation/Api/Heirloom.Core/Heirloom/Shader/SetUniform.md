@@ -11,52 +11,52 @@
 ### SetUniform(string, float[])
 
 ```cs
-protected void SetUniform(string name, float[] arr)
+protected void SetUniform(string name, float[] values)
 ```
 
-| Name | Type      | Summary |
-|------|-----------|---------|
-| name | `string`  |         |
-| arr  | `float[]` |         |
+| Name   | Type      | Summary |
+|--------|-----------|---------|
+| name   | `string`  |         |
+| values | `float[]` |         |
 
 > **Returns** - `void`
 
 ### SetUniform(string, int[])
 
 ```cs
-protected void SetUniform(string name, int[] arr)
+protected void SetUniform(string name, int[] values)
 ```
 
-| Name | Type     | Summary |
-|------|----------|---------|
-| name | `string` |         |
-| arr  | `int[]`  |         |
+| Name   | Type     | Summary |
+|--------|----------|---------|
+| name   | `string` |         |
+| values | `int[]`  |         |
 
 > **Returns** - `void`
 
 ### SetUniform(string, uint[])
 
 ```cs
-protected void SetUniform(string name, uint[] arr)
+protected void SetUniform(string name, uint[] values)
 ```
 
-| Name | Type     | Summary |
-|------|----------|---------|
-| name | `string` |         |
-| arr  | `uint[]` |         |
+| Name   | Type     | Summary |
+|--------|----------|---------|
+| name   | `string` |         |
+| values | `uint[]` |         |
 
 > **Returns** - `void`
 
 ### SetUniform(string, bool[])
 
 ```cs
-protected void SetUniform(string name, bool[] arr)
+protected void SetUniform(string name, bool[] values)
 ```
 
-| Name | Type     | Summary |
-|------|----------|---------|
-| name | `string` |         |
-| arr  | `bool[]` |         |
+| Name   | Type     | Summary |
+|--------|----------|---------|
+| name   | `string` |         |
+| values | `bool[]` |         |
 
 > **Returns** - `void`
 

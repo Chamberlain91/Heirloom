@@ -10,6 +10,8 @@
 
 ### Size
 
+Gets the size of the container rectangle.
+
 ```cs
 public IntSize Size { get; }
 ```

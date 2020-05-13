@@ -16,11 +16,11 @@ Interpolate two colors together.
 public static Color Lerp(Color source, Color target, float t)
 ```
 
-| Name   | Type       | Summary       |
-|--------|------------|---------------|
-| source | [Color][1] | Source color  |
-| target | [Color][1] | Target color. |
-| t      | `float`    |               |
+| Name   | Type       | Summary                      |
+|--------|------------|------------------------------|
+| source | [Color][1] | Source color                 |
+| target | [Color][1] | Target color.                |
+| t      | `float`    | Blending factor (0.0 to 1.0) |
 
 > **Returns** - [Color][1] - The interpolated color.
 

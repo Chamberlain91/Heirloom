@@ -10,6 +10,8 @@
 
 #### DayAsSeconds
 
+A value of one day measured in seconds.
+
 ```cs
 public const float DayAsSeconds = 86400
 ```

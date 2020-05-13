@@ -10,14 +10,16 @@
 
 ### Deconstruct(out float, out float)
 
+Deconstructs this [Vector][1] into constituent components.
+
 ```cs
 public void Deconstruct(out float x, out float y)
 ```
 
-| Name | Type    | Summary |
-|------|---------|---------|
-| x    | `float` |         |
-| y    | `float` |         |
+| Name | Type    | Summary                  |
+|------|---------|--------------------------|
+| x    | `float` | Outputs the x component. |
+| y    | `float` | Outputs the y component. |
 
 > **Returns** - `void`
 

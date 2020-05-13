@@ -10,6 +10,8 @@
 
 ### Blue
 
+The color blue (#0000FF).
+
 ```cs
 public static Color Blue { get; }
 ```

@@ -10,6 +10,8 @@
 
 #### KeyRepeat
 
+Event raised when a key has been repeated by some input source.
+
 ```cs
 public static Action<Screen, KeyEvent> KeyRepeat { add; remove; }
 ```

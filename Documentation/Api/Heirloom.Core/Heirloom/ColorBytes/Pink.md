@@ -10,6 +10,8 @@
 
 ### Pink
 
+The color pink (#DD55AA).
+
 ```cs
 public static ColorBytes Pink { get; }
 ```

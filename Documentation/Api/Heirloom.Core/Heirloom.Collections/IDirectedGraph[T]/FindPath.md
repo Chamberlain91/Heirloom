@@ -26,7 +26,7 @@ public abstract IReadOnlyList<T> FindPath(T start, T goal, HeuristicCost<T> heur
 
 ### FindPath(T, Func<T, bool>, HeuristicCost<T>)
 
-Attempts to finds a path between `start` and `goal` vertices using the specified `heuristic` .
+Attempts to finds a path between `start` until the first vertex to satisfy the `goalCondition` using the specified `heuristic` .
 
 ```cs
 public abstract IReadOnlyList<T> FindPath(T start, Func<T, bool> goalCondition, HeuristicCost<T> heuristic)

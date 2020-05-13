@@ -37,27 +37,27 @@ public interface IInputSource
 
 #### Instance
 
-| Name                | Handler Type                       | Summary |
-|---------------------|------------------------------------|---------|
-| [CharacterTyped][6] | `Action<Screen, CharacterEvent>`   |         |
-| [KeyPressed][7]     | `Action<Screen, KeyEvent>`         |         |
-| [KeyReleased][8]    | `Action<Screen, KeyEvent>`         |         |
-| [KeyRepeat][9]      | `Action<Screen, KeyEvent>`         |         |
-| [MouseMoved][10]    | `Action<Screen, MouseMoveEvent>`   |         |
-| [MousePressed][11]  | `Action<Screen, MouseButtonEvent>` |         |
-| [MouseReleased][12] | `Action<Screen, MouseButtonEvent>` |         |
-| [MouseScrolled][13] | `Action<Screen, MouseScrollEvent>` |         |
+| Name                | Handler Type                       | Summary                                                       |
+|---------------------|------------------------------------|---------------------------------------------------------------|
+| [CharacterTyped][6] | `Action<Screen, CharacterEvent>`   | An event raised when a character has been typed.              |
+| [KeyPressed][7]     | `Action<Screen, KeyEvent>`         | An event raised when a button on the keyboard was pressed.    |
+| [KeyReleased][8]    | `Action<Screen, KeyEvent>`         | An event raised when a button on the keyboard was released.   |
+| [KeyRepeat][9]      | `Action<Screen, KeyEvent>`         | An event raised when a button on the keyboard was 'repeated'. |
+| [MouseMoved][10]    | `Action<Screen, MouseMoveEvent>`   | An event raised when mouse has been moved.                    |
+| [MousePressed][11]  | `Action<Screen, MouseButtonEvent>` | An event raised when a button the mouse is pressed.           |
+| [MouseReleased][12] | `Action<Screen, MouseButtonEvent>` | An event raised when a button the mouse is released.          |
+| [MouseScrolled][13] | `Action<Screen, MouseScrollEvent>` | An event raised when mouse has been scrolled.                 |
 
 ## Methods
 
 #### Instance
 
-| Name                           | Return Type | Summary                                              |
-|--------------------------------|-------------|------------------------------------------------------|
-| [HideSoftwareKeyboard()][2]    | `void`      | Hides the software keyboard.                         |
-| [ShowSoftwareKeyboard()][3]    | `void`      | Attempts to show the software keyboard.              |
-| [TryGetButton(MouseButt...][4] | `bool`      |                                                      |
-| [TryGetKey(Key, out But...][5] | `bool`      | Attempts to retreive the state of the specified key. |
+| Name                           | Return Type | Summary                                                       |
+|--------------------------------|-------------|---------------------------------------------------------------|
+| [HideSoftwareKeyboard()][2]    | `void`      | Hides the software keyboard.                                  |
+| [ShowSoftwareKeyboard()][3]    | `void`      | Attempts to show the software keyboard.                       |
+| [TryGetButton(MouseButt...][4] | `bool`      | Attempts to retreive the state of the specified mouse button. |
+| [TryGetKey(Key, out But...][5] | `bool`      | Attempts to retreive the state of the specified key.          |
 
 [0]: ../../Heirloom.Core.md
 [1]: IInputSource/SupportsSoftwareKeyboard.md

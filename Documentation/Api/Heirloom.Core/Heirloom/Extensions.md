@@ -41,8 +41,8 @@ public static class Extensions
 | [NextVector(Random, in ...][13] | [Vector][29]           | Returns a random point within the specified rectangular domain.        |
 | [NextVectorDisk(Random)][14]    | [Vector][29]           | Returns a random point within a unit circle.                           |
 | [NextVectorDisk(Random,...][14] | [Vector][29]           | Returns a random point within a circle.                                |
-| [Randomize<T>(IList<T>)][15]    | `void`                 |                                                                        |
-| [Randomize<T>(IList<T>,...][15] | `void`                 |                                                                        |
+| [Randomize<T>(IList<T>)][15]    | `void`                 | Scrambles the items in a list into a randomized order.                 |
+| [Randomize<T>(IList<T>,...][15] | `void`                 | Scrambles the items in a list into a randomized order.                 |
 | [ReadAllBytes(Stream)][16]      | ` byte[]`              | Reads the entire contents of the stream as blob of bytes.              |
 | [ReadAllText(Stream)][17]       | `string`               | Reads the entire contents of the stream as a block of text.            |
 | [ReadLines(Stream)][18]         | `IEnumerable<string>`  | Reads the entire contents of the stream line by line.                  |

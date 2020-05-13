@@ -10,6 +10,8 @@
 
 #### Button
 
+The mouse button associated with the event.
+
 ```cs
 public readonly MouseButton Button
 ```

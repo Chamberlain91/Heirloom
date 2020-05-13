@@ -10,6 +10,8 @@
 
 ### Size
 
+The size of this image.
+
 ```cs
 public IntSize Size { get; set; }
 ```

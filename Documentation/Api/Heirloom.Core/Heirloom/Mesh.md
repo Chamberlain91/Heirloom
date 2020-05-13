@@ -7,6 +7,8 @@
 
 > **Namespace**: [Heirloom][0]
 
+Represents a triangle based mesh.
+
 ```cs
 public sealed class Mesh
 ```

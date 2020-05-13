@@ -10,6 +10,8 @@
 
 ### Query(Vector)
 
+Finds spatial elements that overlap the specified point.
+
 ```cs
 public IEnumerable<T> Query(Vector point)
 ```
@@ -22,6 +24,8 @@ public IEnumerable<T> Query(Vector point)
 
 ### Query(IShape)
 
+Finds spatial elements that overlap the specified rectangle.
+
 ```cs
 public IEnumerable<T> Query(IShape queryShape)
 ```
@@ -33,6 +37,8 @@ public IEnumerable<T> Query(IShape queryShape)
 > **Returns** - `IEnumerable<T>`
 
 ### Query(Ray, float)
+
+Finds spatial elements that intersect the specified ray.
 
 ```cs
 public IEnumerable<T> Query(Ray ray, float maxDistance)

@@ -10,29 +10,33 @@
 
 ### Deconstruct(out float, out float, out float, out float)
 
+Deconstructs this rectangle into consituent components.
+
 ```cs
 public void Deconstruct(out float x, out float y, out float w, out float h)
 ```
 
-| Name | Type    | Summary |
-|------|---------|---------|
-| x    | `float` |         |
-| y    | `float` |         |
-| w    | `float` |         |
-| h    | `float` |         |
+| Name | Type    | Summary                          |
+|------|---------|----------------------------------|
+| x    | `float` | The x position of the rectangle. |
+| y    | `float` | The y position of the rectangle. |
+| w    | `float` | The width of the rectangle.      |
+| h    | `float` | The height of the rectangle.     |
 
 > **Returns** - `void`
 
 ### Deconstruct(out Vector, out Size)
 
+Deconstructs this rectangle into consituent parts.
+
 ```cs
 public void Deconstruct(out Vector position, out Size size)
 ```
 
-| Name     | Type        | Summary |
-|----------|-------------|---------|
-| position | [Vector][2] |         |
-| size     | [Size][3]   |         |
+| Name     | Type        | Summary                        |
+|----------|-------------|--------------------------------|
+| position | [Vector][2] | The position of the rectangle. |
+| size     | [Size][3]   | The size of the rectangle.     |
 
 > **Returns** - `void`
 

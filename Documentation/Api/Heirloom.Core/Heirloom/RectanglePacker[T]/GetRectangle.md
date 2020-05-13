@@ -10,15 +10,17 @@
 
 ### GetRectangle(T)
 
+Gets the packed rectangle of the specified element.
+
 ```cs
 public IntRectangle GetRectangle(T element)
 ```
 
-| Name    | Type | Summary |
-|---------|------|---------|
-| element | `T`  |         |
+| Name    | Type | Summary                                    |
+|---------|------|--------------------------------------------|
+| element | `T`  | Some element contained by this collection. |
 
-> **Returns** - [IntRectangle][2]
+> **Returns** - [IntRectangle][2] - The rectangle of the packed element.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../RectanglePacker[T].md

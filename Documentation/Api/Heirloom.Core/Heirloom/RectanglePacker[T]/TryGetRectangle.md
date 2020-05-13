@@ -10,16 +10,18 @@
 
 ### TryGetRectangle(T, out IntRectangle)
 
+Attempts to get the packed rectangle of the specified element.
+
 ```cs
 public bool TryGetRectangle(T element, out IntRectangle rectangle)
 ```
 
-| Name      | Type              | Summary |
-|-----------|-------------------|---------|
-| element   | `T`               |         |
-| rectangle | [IntRectangle][2] |         |
+| Name      | Type              | Summary                                                            |
+|-----------|-------------------|--------------------------------------------------------------------|
+| element   | `T`               | Some element potentially contained by this collection.             |
+| rectangle | [IntRectangle][2] | Outputs the rectangle of the packed element, if call returns true. |
 
-> **Returns** - `bool`
+> **Returns** - `bool` - True if the element was contained by this collection.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../RectanglePacker[T].md

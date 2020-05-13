@@ -10,14 +10,16 @@
 
 ### Deconstruct(out int, out int)
 
+Deconstructs this [IntVector][1] into constituent components.
+
 ```cs
 public void Deconstruct(out int x, out int y)
 ```
 
-| Name | Type  | Summary |
-|------|-------|---------|
-| x    | `int` |         |
-| y    | `int` |         |
+| Name | Type  | Summary                  |
+|------|-------|--------------------------|
+| x    | `int` | Outputs the x component. |
+| y    | `int` | Outputs the y component. |
 
 > **Returns** - `void`
 

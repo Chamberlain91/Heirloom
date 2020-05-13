@@ -7,6 +7,8 @@
 
 > **Namespace**: [Heirloom][0]
 
+Contains the data of an event when a mouse button has been pressed or released on some input source.
+
 ```cs
 public struct MouseButtonEvent
 ```
@@ -21,12 +23,12 @@ public struct MouseButtonEvent
 
 #### Instance
 
-| Name           | Type              | Summary |
-|----------------|-------------------|---------|
-| [Button][1]    | [MouseButton][5]  |         |
-| [Modifiers][2] | [KeyModifiers][6] |         |
-| [Position][3]  | [Vector][7]       |         |
-| [State][4]     | [ButtonState][8]  |         |
+| Name           | Type              | Summary                                                     |
+|----------------|-------------------|-------------------------------------------------------------|
+| [Button][1]    | [MouseButton][5]  | The mouse button associated with the event.                 |
+| [Modifiers][2] | [KeyModifiers][6] | The modifier keys pressed when the event was generated.     |
+| [Position][3]  | [Vector][7]       | The position of the mouse when the event was generated.     |
+| [State][4]     | [ButtonState][8]  | The state of the mouse button when the event was generated. |
 
 [0]: ../../Heirloom.Core.md
 [1]: MouseButtonEvent/Button.md

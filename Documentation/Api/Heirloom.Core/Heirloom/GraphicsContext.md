@@ -7,13 +7,15 @@
 
 > **Namespace**: [Heirloom][0]
 
+Represents the graphical context for performing drawing operations on some [Surface][1] .
+
 ```cs
 public abstract class GraphicsContext
 ```
 
 ### Properties
 
-[Blending][1], [Color][2], [CurrentFPS][3], [GlobalTransform][4], [InverseGlobalTransform][5], [IsDisposed][6], [IsInitialized][7], [Performance][8], [Screen][9], [Shader][10], [Surface][11], [Viewport][12]
+[Blending][2], [Color][3], [CurrentFPS][4], [GlobalTransform][5], [InverseGlobalTransform][6], [IsDisposed][7], [IsInitialized][8], [Performance][9], [Screen][10], [Shader][11], [Surface][1], [Viewport][12]
 
 ### Methods
 
@@ -25,17 +27,17 @@ public abstract class GraphicsContext
 
 | Name                        | Type                                     | Summary                                                                |
 |-----------------------------|------------------------------------------|------------------------------------------------------------------------|
-| [Blending][1]               | [Blending][43]                           | Gets or sets the current blending mode.                                |
-| [Color][2]                  | [Color][44]                              | Gets or sets the current blending color.                               |
-| [CurrentFPS][3]             | `float`                                  | Gets how often the default surface is presented to the screen per s... |
-| [GlobalTransform][4]        | [Matrix][45]                             | Get or sets the global transform.                                      |
-| [InverseGlobalTransform][5] | [Matrix][45]                             | Gets the inverse of the current global transform.                      |
-| [IsDisposed][6]             | `bool`                                   | Gets a value determining if this GraphicsContext was disposed.         |
-| [IsInitialized][7]          | `bool`                                   | Gets a value determining if this GraphicsContext has been initialized. |
-| [Performance][8]            | [GraphicsContext.PerformanceMetrics][46] | Gets drawing performance information.                                  |
-| [Screen][9]                 | [Screen][47]                             | Gets the screen this graphics context is responsible for.              |
-| [Shader][10]                | [Shader][48]                             | Gets or sets the active shader.                                        |
-| [Surface][11]               | [Surface][49]                            | Gets or sets the current surface.                                      |
+| [Blending][2]               | [Blending][43]                           | Gets or sets the current blending mode.                                |
+| [Color][3]                  | [Color][44]                              | Gets or sets the current blending color.                               |
+| [CurrentFPS][4]             | `float`                                  | Gets how often the default surface is presented to the screen per s... |
+| [GlobalTransform][5]        | [Matrix][45]                             | Get or sets the global transform.                                      |
+| [InverseGlobalTransform][6] | [Matrix][45]                             | Gets the inverse of the current global transform.                      |
+| [IsDisposed][7]             | `bool`                                   | Gets a value determining if this GraphicsContext was disposed.         |
+| [IsInitialized][8]          | `bool`                                   | Gets a value determining if this GraphicsContext has been initialized. |
+| [Performance][9]            | [GraphicsContext.PerformanceMetrics][46] | Gets drawing performance information.                                  |
+| [Screen][10]                | [Screen][47]                             | Gets the screen this graphics context is responsible for.              |
+| [Shader][11]                | [Shader][48]                             | Gets or sets the active shader.                                        |
+| [Surface][1]                | [Surface][49]                            | Gets or sets the current surface.                                      |
 | [Viewport][12]              | [IntRectangle][50]                       | Gets or sets the viewport in pixel coordinates.                        |
 
 ## Methods
@@ -58,7 +60,7 @@ public abstract class GraphicsContext
 | [DrawCross(in Vector, f...][21] | `void`                           | Draws a simple axis aligned 'cross' or 'plus' shape, useful for deb... |
 | [DrawCurve(Vector, Vect...][22] | `void`                           | Draws a quadratic curve using three control points to the current s... |
 | [DrawCurve(Vector, Vect...][22] | `void`                           | Draws a cubic curve using four control points to the current surface.  |
-| [DrawCurve(Curve, float)][22]   | `void`                           |                                                                        |
+| [DrawCurve(Curve, float)][22]   | `void`                           | Draws a bezier curve to the current surface.                           |
 | [DrawImage(ImageSource,...][23] | `void`                           | Draws an image to the current surface.                                 |
 | [DrawImage(ImageSource,...][23] | `void`                           | Draws an image to the current surface.                                 |
 | [DrawImage(ImageSource,...][23] | `void`                           | Draws an image to the current surface.                                 |
@@ -66,7 +68,7 @@ public abstract class GraphicsContext
 | [DrawImage(ImageSource,...][23] | `void`                           | Draws an image to the current surface.                                 |
 | [DrawLine(in Vector, in...][24] | `void`                           | Draws a line segment between two points to the current surface.        |
 | [DrawMesh(ImageSource, ...][25] | `void`                           | Draws a mesh with the given image to the current surface.              |
-| [DrawNineSlice(NineSlic...][26] | `void`                           |                                                                        |
+| [DrawNineSlice(NineSlic...][26] | `void`                           | Draws a nine-slice image onto the current surface.                     |
 | [DrawPolygon(in Vector,...][27] | `void`                           | Draws a regular polygon to the current surface.                        |
 | [DrawPolygon(Polygon)][27]      | `void`                           | Draws a simple polygon to the current surface.                         |
 | [DrawPolygon(Polygon, i...][27] | `void`                           | Draws a simple polygon to the current surface.                         |
@@ -103,17 +105,17 @@ public abstract class GraphicsContext
 | [SwapBuffers()][42]             | `void`                           | Causes the back and front buffers to be swapped.                       |
 
 [0]: ../../Heirloom.Core.md
-[1]: GraphicsContext/Blending.md
-[2]: GraphicsContext/Color.md
-[3]: GraphicsContext/CurrentFPS.md
-[4]: GraphicsContext/GlobalTransform.md
-[5]: GraphicsContext/InverseGlobalTransform.md
-[6]: GraphicsContext/IsDisposed.md
-[7]: GraphicsContext/IsInitialized.md
-[8]: GraphicsContext/Performance.md
-[9]: GraphicsContext/Screen.md
-[10]: GraphicsContext/Shader.md
-[11]: GraphicsContext/Surface.md
+[1]: GraphicsContext/Surface.md
+[2]: GraphicsContext/Blending.md
+[3]: GraphicsContext/Color.md
+[4]: GraphicsContext/CurrentFPS.md
+[5]: GraphicsContext/GlobalTransform.md
+[6]: GraphicsContext/InverseGlobalTransform.md
+[7]: GraphicsContext/IsDisposed.md
+[8]: GraphicsContext/IsInitialized.md
+[9]: GraphicsContext/Performance.md
+[10]: GraphicsContext/Screen.md
+[11]: GraphicsContext/Shader.md
 [12]: GraphicsContext/Viewport.md
 [13]: GraphicsContext/Apply.md
 [14]: GraphicsContext/Blit.md

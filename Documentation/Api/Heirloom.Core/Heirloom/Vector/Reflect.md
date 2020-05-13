@@ -13,12 +13,12 @@
 Computes the reflection of the input vector about the specified axis.
 
 ```cs
-public static Vector Reflect(in Vector v, in Vector axis)
+public static Vector Reflect(in Vector vec, in Vector axis)
 ```
 
 | Name | Type        | Summary                             |
 |------|-------------|-------------------------------------|
-| v    | [Vector][1] |                                     |
+| vec  | [Vector][1] | The vector to reflect.              |
 | axis | [Vector][1] | The axis of reflection, normalized. |
 
 > **Returns** - [Vector][1]

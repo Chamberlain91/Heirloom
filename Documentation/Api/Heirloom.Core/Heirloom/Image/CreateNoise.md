@@ -22,7 +22,7 @@ public static Image CreateNoise(IntSize size, float scale = 1, int octaves = 4, 
 | scale       | `float`      | The approximate size of a 'noise blob'. |
 | octaves     | `int`        | Number of noise layers.                 |
 | persistence | `float`      | How persistent each noise layer is.     |
-| offset      | [Vector][3]  |                                         |
+| offset      | [Vector][3]  | Value to offset the noise by.           |
 
 > **Returns** - [Image][1] - A noisy image with noise generated on all four components.
 
@@ -41,7 +41,7 @@ public static Image CreateNoise(int width, int height, float scale = 1, int octa
 | scale       | `float`     | The approximate size of a 'noise blob'. |
 | octaves     | `int`       | Number of noise layers.                 |
 | persistence | `float`     | How persistent each noise layer is.     |
-| offset      | [Vector][3] |                                         |
+| offset      | [Vector][3] | Value to offset the noise by.           |
 
 > **Returns** - [Image][1] - A noisy image with noise generated on all four components.
 
@@ -60,7 +60,7 @@ public static Image CreateNoise(IntSize size, INoise2D noise, float scale = 1, i
 | scale       | `float`       | The approximate size of a 'noise blob'. |
 | octaves     | `int`         | Number of noise layers.                 |
 | persistence | `float`       | How persistent each noise layer is.     |
-| offset      | [Vector][3]   |                                         |
+| offset      | [Vector][3]   | Value to offset the noise by.           |
 
 > **Returns** - [Image][1] - A noisy image with noise generated on all four components.
 
@@ -80,7 +80,7 @@ public static Image CreateNoise(int width, int height, INoise2D noise, float sca
 | scale       | `float`       | The approximate size of a 'noise blob'. |
 | octaves     | `int`         | Number of noise layers.                 |
 | persistence | `float`       | How persistent each noise layer is.     |
-| offset      | [Vector][3]   |                                         |
+| offset      | [Vector][3]   | Value to offset the noise by.           |
 
 > **Returns** - [Image][1] - A noisy image with noise generated on all four components.
 

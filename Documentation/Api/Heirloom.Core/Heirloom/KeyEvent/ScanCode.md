@@ -10,6 +10,8 @@
 
 #### ScanCode
 
+The scan code associated with some key.
+
 ```cs
 public readonly int ScanCode
 ```

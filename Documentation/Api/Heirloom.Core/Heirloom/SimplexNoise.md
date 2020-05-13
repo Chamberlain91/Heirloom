@@ -25,10 +25,10 @@ public class SimplexNoise : INoise2D, INoise3D
 
 #### Instance
 
-| Name                           | Return Type | Summary |
-|--------------------------------|-------------|---------|
-| [Sample(float, float)][3]      | `float`     |         |
-| [Sample(float, float, f...][3] | `float`     |         |
+| Name                           | Return Type | Summary                         |
+|--------------------------------|-------------|---------------------------------|
+| [Sample(float, float)][3]      | `float`     | Sample two-dimensional noise.   |
+| [Sample(float, float, f...][3] | `float`     | Sample three-dimensional noise. |
 
 [0]: ../../Heirloom.Core.md
 [1]: INoise2D.md

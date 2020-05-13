@@ -7,6 +7,8 @@
 
 > **Namespace**: [Heirloom][0]
 
+Represents a rectangle, defined by the top left corner position and size.
+
 ```cs
 public struct Rectangle : IShape, IEquatable<Rectangle>
 ```
@@ -85,8 +87,8 @@ public struct Rectangle : IShape, IEquatable<Rectangle>
 |---------------------------------|-----------------|------------------------------------------------------------------------|
 | [Contains(in Vector)][21]       | `bool`          | Determines if this rectangle contains the given point?                 |
 | [Contains(in Rectangle)][21]    | `bool`          | Determines if this rectangle contains another rectangle?               |
-| [Deconstruct(out float,...][22] | `void`          |                                                                        |
-| [Deconstruct(out Vector...][22] | `void`          |                                                                        |
+| [Deconstruct(out float,...][22] | `void`          | Deconstructs this rectangle into consituent components.                |
+| [Deconstruct(out Vector...][22] | `void`          | Deconstructs this rectangle into consituent parts.                     |
 | [GetNearestPoint(in Vec...][23] | [Vector][39]    | Returns the nearest point on the rectangle to the given point.         |
 | [Include(Vector)][24]           | `void`          | Mutates this rectangle to accommodate the given point.                 |
 | [Include(in Rectangle)][24]     | `void`          | Mutates this rectangle to accommodate the given rectangle.             |

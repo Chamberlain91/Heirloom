@@ -10,6 +10,8 @@
 
 ### Transparent
 
+The color transparent black (#00000000).
+
 ```cs
 public static Color Transparent { get; }
 ```

@@ -89,8 +89,8 @@ IEquatable\<IntRectangle>
 | [Contains(in Vector)][21]       | `bool`          | Determines if this rectangle contains the given point?         |
 | [Contains(in IntVector)][21]    | `bool`          | Determines if this rectangle contains the given point?         |
 | [Contains(in IntRectangle)][21] | `bool`          | Determines if this rectangle contains another rectangle?       |
-| [Deconstruct(out int, o...][22] | `void`          |                                                                |
-| [Deconstruct(out IntVec...][22] | `void`          |                                                                |
+| [Deconstruct(out int, o...][22] | `void`          | Deconstructs this rectangle into consituent components.        |
+| [Deconstruct(out IntVec...][22] | `void`          | Deconstructs this rectangle into consituent parts.             |
 | [Include(IntVector)][23]        | `void`          | Mutates this rectangle to accommodate the given point.         |
 | [Include(in IntRectangle)][23]  | `void`          | Mutates this rectangle to accommodate the given rectangle.     |
 | [Inflate(int)][24]              | `void`          | Expands (or shrinks) the rectangle by a factor on both axis.   |

@@ -10,6 +10,8 @@
 
 ### Update(GraphicsContext, float)
 
+Called every iteration of the game loop to update and/or render the application "every frame".
+
 ```cs
 protected abstract void Update(GraphicsContext gfx, float dt)
 ```

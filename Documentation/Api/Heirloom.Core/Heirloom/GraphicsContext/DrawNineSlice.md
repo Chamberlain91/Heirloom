@@ -10,14 +10,16 @@
 
 ### DrawNineSlice(NineSlice, Rectangle)
 
+Draws a nine-slice image onto the current surface.
+
 ```cs
 public void DrawNineSlice(NineSlice slice, Rectangle rectangle)
 ```
 
-| Name      | Type           | Summary |
-|-----------|----------------|---------|
-| slice     | [NineSlice][2] |         |
-| rectangle | [Rectangle][3] |         |
+| Name      | Type           | Summary                                           |
+|-----------|----------------|---------------------------------------------------|
+| slice     | [NineSlice][2] | The nine-slice image.                             |
+| rectangle | [Rectangle][3] | The target rectangle the nine-slice is fitted to. |
 
 > **Returns** - `void`
 

@@ -10,6 +10,8 @@
 
 ### GetEnumerator()
 
+Returns an enumerator that will iterate over all integer values from [Min][2] to [Max][3] .
+
 ```cs
 public IEnumerator<int> GetEnumerator()
 ```
@@ -18,3 +20,5 @@ public IEnumerator<int> GetEnumerator()
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IntRange.md
+[2]: Min.md
+[3]: Max.md

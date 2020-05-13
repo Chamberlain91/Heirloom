@@ -10,6 +10,8 @@
 
 #### CharacterTyped
 
+Event raised when a character has been typed by some input source.
+
 ```cs
 public static Action<Screen, CharacterEvent> CharacterTyped { add; remove; }
 ```

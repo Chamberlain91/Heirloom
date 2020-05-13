@@ -10,7 +10,7 @@
 A glyph represents the metrics and rendering of a character from the associated [Font][1] .
 
 ```cs
-public class Glyph
+public sealed class Glyph
 ```
 
 ### Properties

@@ -7,13 +7,15 @@
 
 > **Namespace**: [Heirloom][0]
 
+Represents two dimensional size by a measure in each axis.
+
 ```cs
-public struct Size : IEquatable<Size>, IComparable<Size>
+public struct Size : IEquatable<Size>
 ```
 
 ### Inherits
 
-IEquatable\<Size>, IComparable\<Size>
+IEquatable\<Size>
 
 ### Fields
 
@@ -25,11 +27,11 @@ IEquatable\<Size>, IComparable\<Size>
 
 ### Methods
 
-[CompareTo][6], [Deconstruct][7], [Set][8]
+[Deconstruct][6], [Set][7]
 
 ### Static Fields
 
-[Infinite][9], [Max][10], [One][11], [Zero][12]
+[Infinite][8], [Max][9], [One][10], [Zero][11]
 
 ## Fields
 
@@ -44,10 +46,10 @@ IEquatable\<Size>, IComparable\<Size>
 
 | Name          | Type       | Summary                                  |
 |---------------|------------|------------------------------------------|
-| [Infinite][9] | [Size][13] | An infinite size.                        |
-| [Max][10]     | [Size][13] | The maximum representable size possible. |
-| [One][11]     | [Size][13] | A 1x1 size.                              |
-| [Zero][12]    | [Size][13] | A 0x0 size.                              |
+| [Infinite][8] | [Size][12] | An infinite size.                        |
+| [Max][9]      | [Size][12] | The maximum representable size possible. |
+| [One][10]     | [Size][12] | A 1x1 size.                              |
+| [Zero][11]    | [Size][12] | A 0x0 size.                              |
 
 ## Properties
 
@@ -63,11 +65,10 @@ IEquatable\<Size>, IComparable\<Size>
 
 #### Instance
 
-| Name                           | Return Type | Summary                           |
-|--------------------------------|-------------|-----------------------------------|
-| [CompareTo(Size)][6]           | `int`       |                                   |
-| [Deconstruct(out float,...][7] | `void`      |                                   |
-| [Set(float, float)][8]         | `void`      | Sets the components of this size. |
+| Name                           | Return Type | Summary                                            |
+|--------------------------------|-------------|----------------------------------------------------|
+| [Deconstruct(out float,...][6] | `void`      | Deconstructs this Size int constituent components. |
+| [Set(float, float)][7]         | `void`      | Sets the components of this size.                  |
 
 [0]: ../../Heirloom.Core.md
 [1]: Size/Height.md
@@ -75,11 +76,10 @@ IEquatable\<Size>, IComparable\<Size>
 [3]: Size/Area.md
 [4]: Size/Aspect.md
 [5]: Size/Indexer.md
-[6]: Size/CompareTo.md
-[7]: Size/Deconstruct.md
-[8]: Size/Set.md
-[9]: Size/Infinite.md
-[10]: Size/Max.md
-[11]: Size/One.md
-[12]: Size/Zero.md
-[13]: Size.md
+[6]: Size/Deconstruct.md
+[7]: Size/Set.md
+[8]: Size/Infinite.md
+[9]: Size/Max.md
+[10]: Size/One.md
+[11]: Size/Zero.md
+[12]: Size.md

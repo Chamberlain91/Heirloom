@@ -19,7 +19,7 @@ public abstract class StandardStyledTextParser : StyledTextParser
 
 ### Methods
 
-[AddKeyword][2], [Parse][3]
+[DefineTag][2], [Parse][3]
 
 ## Methods
 
@@ -27,11 +27,11 @@ public abstract class StandardStyledTextParser : StyledTextParser
 
 | Name                           | Return Type     | Summary                                               |
 |--------------------------------|-----------------|-------------------------------------------------------|
-| [AddKeyword(string, Dra...][2] | `void`          |                                                       |
+| [DefineTag(string, Draw...][2] | `void`          | Defines a new tag with the specified callback.        |
 | [Parse(string)][3]             | [StyledText][4] | Parse the input text and returns a StyledText object. |
 
 [0]: ../../Heirloom.Core.md
 [1]: StyledTextParser.md
-[2]: StandardStyledTextParser/AddKeyword.md
+[2]: StandardStyledTextParser/DefineTag.md
 [3]: StandardStyledTextParser/Parse.md
 [4]: StyledText.md

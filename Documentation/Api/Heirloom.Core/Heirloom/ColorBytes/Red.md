@@ -10,6 +10,8 @@
 
 ### Red
 
+The color red (#FF0000).
+
 ```cs
 public static ColorBytes Red { get; }
 ```

@@ -10,6 +10,8 @@
 
 ### Contains(in T)
 
+Determines if the specified element exists in this collection.
+
 ```cs
 public bool Contains(in T item)
 ```

@@ -10,6 +10,8 @@
 
 #### MinuteAsSeconds
 
+A value of one minute measured in seconds.
+
 ```cs
 public const float MinuteAsSeconds = 60
 ```

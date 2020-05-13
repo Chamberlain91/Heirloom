@@ -31,11 +31,11 @@ IEquatable\<Color>
 
 ### Static Properties
 
-[Black][12], [Blue][13], [Cyan][14], [DarkGray][15], [Gray][16], [Green][17], [Indigo][18], [LightGray][19], [Magenta][20], [Orange][21], [Pink][22], [Rainbow][23], [Random][24], [Red][25], [Transparent][26], [Violet][27], [White][28], [Yellow][29]
+[Black][12], [Blue][13], [Cyan][14], [DarkGray][15], [Gray][16], [Green][17], [Indigo][18], [LightGray][19], [Magenta][20], [Orange][21], [Pink][22], [Red][23], [Transparent][24], [Violet][25], [White][26], [Yellow][27]
 
 ### Static Methods
 
-[FromHSV][30], [Lerp][31], [Parse][32], [TryParse][33]
+[FromHSV][28], [Lerp][29], [Parse][30], [TryParse][31]
 
 ## Fields
 
@@ -56,32 +56,30 @@ IEquatable\<Color>
 |-----------------|-------------|--------------------------------------------------------|
 | [Brightness][5] | `float`     | Gets or sets the (HSV) brightness value of this color. |
 | [Hue][6]        | `float`     | Gets or sets the (HSV) hue of this color.              |
-| [Inverted][7]   | [Color][34] | The inversion of this color.                           |
+| [Inverted][7]   | [Color][32] | The inversion of this color.                           |
 | [Luminosity][8] | `float`     | Computes a luminosity component (grayscale).           |
 | [Saturation][9] | `float`     | Gets or sets the (HSV) saturation of this color.       |
 
 #### Static
 
-| Name              | Type                   | Summary |
-|-------------------|------------------------|---------|
-| [Black][12]       | [Color][34]            |         |
-| [Blue][13]        | [Color][34]            |         |
-| [Cyan][14]        | [Color][34]            |         |
-| [DarkGray][15]    | [Color][34]            |         |
-| [Gray][16]        | [Color][34]            |         |
-| [Green][17]       | [Color][34]            |         |
-| [Indigo][18]      | [Color][34]            |         |
-| [LightGray][19]   | [Color][34]            |         |
-| [Magenta][20]     | [Color][34]            |         |
-| [Orange][21]      | [Color][34]            |         |
-| [Pink][22]        | [Color][34]            |         |
-| [Rainbow][23]     | `IReadOnlyList<Color>` |         |
-| [Random][24]      | [Color][34]            |         |
-| [Red][25]         | [Color][34]            |         |
-| [Transparent][26] | [Color][34]            |         |
-| [Violet][27]      | [Color][34]            |         |
-| [White][28]       | [Color][34]            |         |
-| [Yellow][29]      | [Color][34]            |         |
+| Name              | Type        | Summary                                  |
+|-------------------|-------------|------------------------------------------|
+| [Black][12]       | [Color][32] | The color black (#000000).               |
+| [Blue][13]        | [Color][32] | The color blue (#0000FF).                |
+| [Cyan][14]        | [Color][32] | The color cyan (#00FFFF).                |
+| [DarkGray][15]    | [Color][32] | The color dark gray (#333333).           |
+| [Gray][16]        | [Color][32] | The color gray (#999999).                |
+| [Green][17]       | [Color][32] | The color green (#00FF00).               |
+| [Indigo][18]      | [Color][32] | The color indigo (#4B0082).              |
+| [LightGray][19]   | [Color][32] | The color light gray (#CCCCCC).          |
+| [Magenta][20]     | [Color][32] | The color magenta (#FF00FF).             |
+| [Orange][21]      | [Color][32] | The color orange (#FF8811).              |
+| [Pink][22]        | [Color][32] | The color pink (#DD55AA).                |
+| [Red][23]         | [Color][32] | The color red (#FF0000).                 |
+| [Transparent][24] | [Color][32] | The color transparent black (#00000000). |
+| [Violet][25]      | [Color][32] | The color violet (#8A2BE2).              |
+| [White][26]       | [Color][32] | The color white (#FFFFFF).               |
+| [Yellow][27]      | [Color][32] | The color yellow (#FFFF00).              |
 
 ## Methods
 
@@ -96,10 +94,10 @@ IEquatable\<Color>
 
 | Name                            | Return Type | Summary                                                                |
 |---------------------------------|-------------|------------------------------------------------------------------------|
-| [FromHSV(float, float, ...][30] | [Color][34] | Converts HSV values into a RGBA color.                                 |
-| [Lerp(Color, Color, float)][31] | [Color][34] | Interpolate two colors together.                                       |
-| [Parse(string)][32]             | [Color][34] | Parses a hex-string representation of a color. May be formatted as ... |
-| [TryParse(string, out C...][33] | `bool`      | Parses a hex-string representation of a color. May be formatted as ... |
+| [FromHSV(float, float, ...][28] | [Color][32] | Converts HSV values into a RGBA color.                                 |
+| [Lerp(Color, Color, float)][29] | [Color][32] | Interpolate two colors together.                                       |
+| [Parse(string)][30]             | [Color][32] | Parses a hex-string representation of a color. May be formatted as ... |
+| [TryParse(string, out C...][31] | `bool`      | Parses a hex-string representation of a color. May be formatted as ... |
 
 [0]: ../../Heirloom.Core.md
 [1]: Color/A.md
@@ -124,15 +122,13 @@ IEquatable\<Color>
 [20]: Color/Magenta.md
 [21]: Color/Orange.md
 [22]: Color/Pink.md
-[23]: Color/Rainbow.md
-[24]: Color/Random.md
-[25]: Color/Red.md
-[26]: Color/Transparent.md
-[27]: Color/Violet.md
-[28]: Color/White.md
-[29]: Color/Yellow.md
-[30]: Color/FromHSV.md
-[31]: Color/Lerp.md
-[32]: Color/Parse.md
-[33]: Color/TryParse.md
-[34]: Color.md
+[23]: Color/Red.md
+[24]: Color/Transparent.md
+[25]: Color/Violet.md
+[26]: Color/White.md
+[27]: Color/Yellow.md
+[28]: Color/FromHSV.md
+[29]: Color/Lerp.md
+[30]: Color/Parse.md
+[31]: Color/TryParse.md
+[32]: Color.md

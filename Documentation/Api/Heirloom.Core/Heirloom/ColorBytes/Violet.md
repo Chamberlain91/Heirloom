@@ -10,6 +10,8 @@
 
 ### Violet
 
+The color violet (#8A2BE2).
+
 ```cs
 public static ColorBytes Violet { get; }
 ```
