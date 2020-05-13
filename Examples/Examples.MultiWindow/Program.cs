@@ -1,7 +1,7 @@
 using System;
 
+using Heirloom;
 using Heirloom.Desktop;
-using Heirloom.Drawing;
 
 namespace Examples.MultiWindow
 {
@@ -22,7 +22,7 @@ namespace Examples.MultiWindow
             });
         }
 
-        private class WindowExample : RenderLoop
+        private class WindowExample : GameLoop
         {
             public WindowExample(int index, Color color)
                 : this(new Window($"Window {index}", vsync: false))
@@ -42,7 +42,7 @@ namespace Examples.MultiWindow
 
             public Color Color { get; }
 
-            protected override void Update(Graphics ctx, float dt)
+            protected override void Update(GraphicsContext ctx, float dt)
             {
                 ctx.Clear(Color.Gray * Color);
                 ctx.DrawText($"I am positioned at {Window.Position}\nI am also {Window.Size} pixels in size.", (16, 16), Font.Default, 32);

@@ -20,10 +20,9 @@
     <EmbeddedResource Include="Files\cardHeartsQ.png" />
     <EmbeddedResource Include="Files\cardJoker.png" />
   </ItemGroup>
- 
+
   <ItemGroup>
     <ProjectReference Include="..\..\Modules\Heirloom.Desktop\Heirloom.Desktop.csproj" />
-    <ProjectReference Include="..\..\Modules\Heirloom.Drawing\Heirloom.Drawing.csproj" />
   </ItemGroup>
 
 </Project>

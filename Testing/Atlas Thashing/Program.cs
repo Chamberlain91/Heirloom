@@ -1,7 +1,5 @@
+using Heirloom;
 using Heirloom.Desktop;
-using Heirloom.Drawing;
-using Heirloom.Drawing.Utilities;
-using Heirloom.Math;
 
 namespace Atlas_Thashing
 {
@@ -20,10 +18,10 @@ namespace Atlas_Thashing
 
                 // Using the shelf packer here for fast visualization sake.
                 // The skyline is the actual packer used by the texture atlas system.
-                var packer = new ShelfPacker<Image>(window.Size);
+                var packer = new RectanglePacker<Image>(window.Surface.Size, PackingAlgorithm.Skyline);
 
                 // Create the main loop
-                var loop = RenderLoop.Create(window.Graphics, (gfx, dt) =>
+                var loop = GameLoop.Create(window.Graphics, (gfx, dt) =>
                 {
                     packer.Clear();
 
@@ -40,7 +38,7 @@ namespace Atlas_Thashing
 
                         // Attempt to pack image, if unable break
                         var image = Image.CreateColor(w, h, new Color(r, g, b));
-                        if (!packer.Add(image, image.Size)) { break; }
+                        if (!packer.TryAdd(image, image.Size)) { break; }
 
                         var packed = packer.GetRectangle(image);
                         window.Graphics.DrawImage(image, packed.Position);

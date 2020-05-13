@@ -1,17 +1,17 @@
-using Heirloom.Drawing;
-using Heirloom.Math;
+using Heirloom;
+using Heirloom.Geometry;
 
 namespace Examples.Drawing
 {
     public sealed class PrimitivesDemo : Demo
     {
-        public Polygon StarPolygon = Polygon.CreateStar(5, 1);
+        public Polygon StarPolygon = new Polygon(GeometryTools.GenerateStar(5, 1));
 
         public PrimitivesDemo()
             : base("Primitives")
         { }
 
-        internal override void Draw(Graphics ctx, Rectangle contentBounds)
+        internal override void Draw(GraphicsContext ctx, Rectangle contentBounds)
         {
             // Two rows (outline and filled)
             for (var j = 0; j < 2; j++)

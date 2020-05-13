@@ -5,7 +5,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 using Heirloom.Desktop.Hardware;
-using Heirloom.IO;
 
 namespace Heirloom.Benchmark
 {

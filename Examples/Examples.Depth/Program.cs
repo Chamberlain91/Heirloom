@@ -1,9 +1,8 @@
 using System.Linq;
 
+using Heirloom;
 using Heirloom.Desktop;
-using Heirloom.Drawing;
 using Heirloom.IO;
-using Heirloom.Math;
 
 namespace Examples.Depth
 {
@@ -21,7 +20,7 @@ namespace Examples.Depth
         private float _time;
 
         public Program()
-            : base(new Window("Post Processing Effects", MultisampleQuality.None, vsync: false), MultisampleQuality.None)
+            : base(new Window("Post Processing Effects", MultisampleQuality.Low), MultisampleQuality.Low)
         {
             Window.Graphics.Performance.OverlayMode = PerformanceOverlayMode.Standard;
             Window.Maximize();
@@ -71,7 +70,7 @@ namespace Examples.Depth
 
             public Vector Velocity = Calc.Random.NextUnitVector() * 10;
 
-            internal override void Draw(Graphics gfx, float dt)
+            internal override void Draw(GraphicsContext gfx, float dt)
             {
                 gfx.Color = Color.Lerp(Color.DarkGray, Color.White, Calc.Between(Depth, -10, +10));
                 gfx.DrawImage(Image, Position, Angle, Vector.One);
@@ -92,7 +91,7 @@ namespace Examples.Depth
 
         private static void Main(string[] args)
         {
-            Log.SetVerbosity(LogVerbosity.Debug, "Heirloom.Drawing.OpenGLES");
+            Log.SetVerbosity(LogVerbosity.Debug, "Heirloom.OpenGLES");
             Log.SetVerbosity(LogVerbosity.Debug, "Heirloom.Drawing");
             Log.SetVerbosity(LogVerbosity.Debug);
 

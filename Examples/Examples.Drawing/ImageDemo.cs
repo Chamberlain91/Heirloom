@@ -1,6 +1,5 @@
-using Heirloom.Drawing;
+using Heirloom;
 using Heirloom.IO;
-using Heirloom.Math;
 
 namespace Examples.Drawing
 {
@@ -14,7 +13,7 @@ namespace Examples.Drawing
             _image = new Image(Files.OpenStream("files/colored_castle.png"));
         }
 
-        internal override void Draw(Graphics ctx, Rectangle contentBounds)
+        internal override void Draw(GraphicsContext ctx, Rectangle contentBounds)
         {
             // Compute image centering
             var yScale = contentBounds.Height / _image.Height;

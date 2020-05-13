@@ -1,6 +1,5 @@
-using Heirloom.Drawing;
+using Heirloom;
 using Heirloom.IO;
-using Heirloom.Math;
 
 namespace Examples.Drawing
 {
@@ -18,7 +17,7 @@ namespace Examples.Drawing
             _richText = parser.Parse(Files.ReadText("files/example.txt"));
         }
 
-        internal override void Draw(Graphics ctx, Rectangle contentBounds)
+        internal override void Draw(GraphicsContext ctx, Rectangle contentBounds)
         {
             ctx.DrawText(_richText, contentBounds, Font.Default, 32);
         }
@@ -31,9 +30,9 @@ namespace Examples.Drawing
             {
                 _demo = demo;
 
-                AddKeyword("i", ItalicsCallback);
-                AddKeyword("fire", FireCallback);
-                AddKeyword("o", OtherCallback);
+                DefineTag("i", ItalicsCallback);
+                DefineTag("fire", FireCallback);
+                DefineTag("o", OtherCallback);
             }
 
             private void ItalicsCallback(string text, int index, ref TextDrawState state)

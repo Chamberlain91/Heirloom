@@ -1,7 +1,4 @@
-using Examples.Shaders;
-
-using Heirloom.Drawing;
-using Heirloom.Math;
+using Heirloom;
 
 namespace Examples.Drawing
 {
@@ -23,7 +20,7 @@ namespace Examples.Drawing
             _distort = new DistortionShader(_noise) { Strength = 0.05F };
         }
 
-        internal override void Draw(Graphics ctx, Rectangle contentBounds)
+        internal override void Draw(GraphicsContext ctx, Rectangle contentBounds)
         {
             _distort.Offset = new Vector(Time / 2, Time / 4);
 

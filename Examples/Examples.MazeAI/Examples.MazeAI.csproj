@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Files\tile_0000.png" />
+    <None Remove="Files\tile_0001.png" />
+    <None Remove="Files\tile_0002.png" />
+    <None Remove="Files\tile_0003.png" />
+    <None Remove="Files\tile_0004.png" />
+    <None Remove="Files\tile_0005.png" />
+    <None Remove="Files\tile_0006.png" />
+    <None Remove="Files\tile_0007.png" />
+    <None Remove="Files\tile_0008.png" />
+    <None Remove="Files\tile_0009.png" />
+    <None Remove="Files\tile_0010.png" />
+    <None Remove="Files\tile_0011.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Files\tile_0000.png" />
+    <EmbeddedResource Include="Files\tile_0001.png" />
+    <EmbeddedResource Include="Files\tile_0002.png" />
+    <EmbeddedResource Include="Files\tile_0003.png" />
+    <EmbeddedResource Include="Files\tile_0004.png" />
+    <EmbeddedResource Include="Files\tile_0005.png" />
+    <EmbeddedResource Include="Files\tile_0006.png" />
+    <EmbeddedResource Include="Files\tile_0007.png" />
+    <EmbeddedResource Include="Files\tile_0008.png" />
+    <EmbeddedResource Include="Files\tile_0009.png" />
+    <EmbeddedResource Include="Files\tile_0010.png" />
+    <EmbeddedResource Include="Files\tile_0011.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Heirloom.Desktop\Heirloom.Desktop.csproj" />
+  </ItemGroup>
+
+</Project>

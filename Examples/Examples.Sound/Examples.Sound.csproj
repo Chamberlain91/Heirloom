@@ -22,9 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Modules\Heirloom.IO\Heirloom.IO.csproj" />
-    <ProjectReference Include="..\..\Modules\Heirloom.Math\Heirloom.Math.csproj" />
-    <ProjectReference Include="..\..\Modules\Heirloom.Sound\Heirloom.Sound.csproj" />
+    <ProjectReference Include="..\..\Modules\Heirloom.Desktop\Heirloom.Desktop.csproj" />
   </ItemGroup>
 
 </Project>

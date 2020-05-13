@@ -1,10 +1,9 @@
+using Heirloom;
 using Heirloom.Desktop;
-using Heirloom.Drawing;
-using Heirloom.Math;
 
 namespace Examples.SplitScreen
 {
-    internal class SplitScreen : RenderLoop
+    internal class SplitScreen : GameLoop
     {
         // Stage
         public static readonly Color StageColor = Color.Parse("AA555555");
@@ -17,8 +16,8 @@ namespace Examples.SplitScreen
             : base(window.Graphics)
         {
             // Bind keyboard event
-            window.KeyRelease += OnKeyEvent;
-            window.KeyPress += OnKeyEvent;
+            window.KeyReleased += OnKeyEvent;
+            window.KeyPressed += OnKeyEvent;
 
             // Set window size
             window.IsResizable = false;
@@ -32,7 +31,7 @@ namespace Examples.SplitScreen
             };
         }
 
-        protected override void Update(Graphics gfx, float dt)
+        protected override void Update(GraphicsContext gfx, float dt)
         {
             // Update Players
             foreach (var player in Players)
@@ -82,7 +81,7 @@ namespace Examples.SplitScreen
             gfx.DrawText("<ARROW> to control Green", (gfx.Viewport.Width - 16, 16), Font.Default, 32, TextAlign.Right);
         }
 
-        private void DrawWorld(Graphics gfx)
+        private void DrawWorld(GraphicsContext gfx)
         {
             // Draw Stage
             gfx.Color = StageColor;
@@ -95,9 +94,9 @@ namespace Examples.SplitScreen
             }
         }
 
-        private void OnKeyEvent(Window w, KeyEvent e)
+        private void OnKeyEvent(Screen s, KeyEvent e)
         {
-            var isDown = e.Action == ButtonAction.Press;
+            var isDown = e.State.HasFlag(ButtonState.Down);
 
             // WASD for player 1
             if (e.Key == Key.W) { Players[0].OnInput(isDown, Player.Input.Forward); }

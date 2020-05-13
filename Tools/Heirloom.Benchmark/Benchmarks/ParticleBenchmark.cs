@@ -2,9 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Heirloom.Drawing;
-using Heirloom.Math;
-
 namespace Heirloom.Benchmark
 {
     public abstract class ParticleBenchmark : Benchmark
@@ -88,7 +85,7 @@ namespace Heirloom.Benchmark
             else { return NominalEvaluationDuration; }
         }
 
-        protected override void Update(Graphics gfx, in Rectangle bounds, float dt)
+        protected override void Update(GraphicsContext gfx, in Rectangle bounds, float dt)
         {
             _evaluationTime -= dt;
 
@@ -215,7 +212,7 @@ namespace Heirloom.Benchmark
             }
         }
 
-        private void DrawParticles(Graphics gfx)
+        private void DrawParticles(GraphicsContext gfx)
         {
             for (var i = 0; i < _particleCount; i++)
             {

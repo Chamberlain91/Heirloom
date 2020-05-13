@@ -1,14 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using Heirloom;
 using Heirloom.Desktop;
-using Heirloom.Drawing;
-using Heirloom.Math;
-using Heirloom.Math.Extras;
 
 namespace Examples.CpuRasterizer
 {
-    internal class Program : RenderLoop
+    internal class Program : GameLoop
     {
         public readonly Window Window;
 
@@ -20,7 +18,7 @@ namespace Examples.CpuRasterizer
             Window = window;
 
             // 
-            Image = new Image(Window.FramebufferSize);
+            Image = new Image(Window.Surface.Size);
             Image.Clear(Color.DarkGray);
 
             // Rasterize into image (CPU rendering)
@@ -41,7 +39,7 @@ namespace Examples.CpuRasterizer
             });
         }
 
-        protected override void Update(Graphics gfx, float dt)
+        protected override void Update(GraphicsContext gfx, float dt)
         {
             Window.Graphics.DrawImage(Image, new Rectangle(Vector.Zero, Window.Size));
         }

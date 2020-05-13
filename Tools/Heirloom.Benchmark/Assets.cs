@@ -2,9 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using Heirloom.Drawing;
 using Heirloom.IO;
-using Heirloom.Math;
 
 namespace Heirloom.Benchmark
 {

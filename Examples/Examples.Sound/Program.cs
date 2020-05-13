@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
+using Heirloom.Desktop;
 using Heirloom.IO;
 using Heirloom.Sound;
 
@@ -14,134 +15,136 @@ namespace Examples.MusicPlayer
 
         private static void Main(string[] args)
         {
-            /**
-             * Licenses for Embedded MP3 Files:
-             * 
-             * Music from https://filmmusic.io
-             * "Easy Lemon" by Kevin MacLeod (https://incompetech.com)
-             * "Funk Game Loop" by Kevin MacLeod (https://incompetech.com)
-             * "Too Cool" by Kevin MacLeod (https://incompetech.com)
-             * License: CC BY(http://creativecommons.org/licenses/by/4.0/)
-             */
-
-            // Song database
-            var songData = new[] {
-                new SongInfo("Easy Lemon", "Kevin MacLeod", "files/easy-lemon-by-kevin-macleod.mp3"),
-                new SongInfo("Funk Game Loop", "Kevin MacLeod", "files/funk-game-loop-by-kevin-macleod.mp3"),
-                new SongInfo("Too Cool", "Kevin MacLeod", "files/too-cool-by-kevin-macleod.mp3"),
-                new SongInfo("Effect Me", "Chris Chamberlain", "files/effect-me-by-chris-chamberlain.mp3")
-            };
-
-            // Construct song lookup
-            var songLookup = new Dictionary<string, SongInfo>();
-            foreach (var info in songData) { songLookup.Add(CreateIdentifier(info.Name), info); }
-
-            // Add "using Heirloom.Sound.Effects;" above and uncomment some (or both) of the
-            // lines below to listen to different effects and filters. When collectively
-            // enabled, the filters should somewhat mimic "a cheap radio in a garage"
-
-            //AudioGroup.Default.Effects.Add(new BandPassFilter(6000, 9000));
-            //AudioGroup.Default.Effects.Add(new ReverbEffect(0.1F, 0.7F));
-            //AudioGroup.Default.Volume = 3; // 3x louder
-
-            AudioSource currentSource = null;
-
-            while (true)
+            Application.Run(() =>
             {
-                DrawSongMenu();
+                /**
+                 * Licenses for Embedded MP3 Files:
+                 * 
+                 * Music from https://filmmusic.io
+                 * "Easy Lemon" by Kevin MacLeod (https://incompetech.com)
+                 * "Funk Game Loop" by Kevin MacLeod (https://incompetech.com)
+                 * "Too Cool" by Kevin MacLeod (https://incompetech.com)
+                 * License: CC BY(http://creativecommons.org/licenses/by/4.0/)
+                 */
 
-                // Ask for selection
-                Console.Write("Enter song name (or 'exit'): ");
-                var choice = CreateIdentifier(Console.ReadLine());
+                // Song database
+                var songData = new[] {
+                    new SongInfo("Easy Lemon", "Kevin MacLeod", "files/easy-lemon-by-kevin-macleod.mp3"),
+                    new SongInfo("Funk Game Loop", "Kevin MacLeod", "files/funk-game-loop-by-kevin-macleod.mp3"),
+                    new SongInfo("Too Cool", "Kevin MacLeod", "files/too-cool-by-kevin-macleod.mp3"),
+                    new SongInfo("Effect Me", "Chris Chamberlain", "files/effect-me-by-chris-chamberlain.mp3")
+                };
 
-                // Was the choice valid?
-                if (songLookup.ContainsKey(choice))
+                // Construct song lookup
+                var songLookup = new Dictionary<string, SongInfo>();
+                foreach (var info in songData) { songLookup.Add(CreateIdentifier(info.Name), info); }
+
+                // Uncomment some (or all) of the lines below to listen to different effects and filters.
+                // When collectively enabled, the filters should somewhat mimic "a cheap radio in a garage"
+
+                //AudioGroup.Default.Effects.Add(new BandPassFilter(6000, 9000));
+                //AudioGroup.Default.Effects.Add(new ReverbEffect(0.1F, 0.7F));
+                //AudioGroup.Default.Volume = 3; // 3x louder
+
+                AudioSource currentSource = null;
+
+                while (true)
                 {
-                    var info = songLookup[choice];
+                    DrawSongMenu();
 
-                    // Stop previous source
-                    currentSource?.Stop();
+                    // Ask for selection
+                    Console.Write("Enter song name (or 'exit'): ");
+                    var choice = CreateIdentifier(Console.ReadLine());
 
-                    // Create new source and play
-                    currentSource = new AudioSource(Files.OpenStream(info.Path)) { IsLooping = true };
-                    currentSource.Play();
-
-                    var funkIndex = 0;
-                    while (!Console.KeyAvailable)
+                    // Was the choice valid?
+                    if (songLookup.ContainsKey(choice))
                     {
-                        Console.CursorVisible = false;
+                        var info = songLookup[choice];
+
+                        // Stop previous source
+                        currentSource?.Stop();
+
+                        // Create new source and play
+                        currentSource = new AudioSource(Files.OpenStream(info.Path)) { IsLooping = true };
+                        currentSource.Play();
+
+                        var funkIndex = 0;
+                        while (!Console.KeyAvailable)
+                        {
+                            Console.CursorVisible = false;
+                            Console.Clear();
+
+                            // Draw song name
+                            Console.ForegroundColor = _funkColors[funkIndex % _funkColors.Length];
+                            var nowPlaying = $"Now Playing \"{info.Name}\" by {info.Author}.";
+                            Console.WriteLine($"\n  {nowPlaying}");
+
+                            // Draw progress bar
+                            Console.ForegroundColor = ConsoleColor.Gray;
+                            var prog = MathF.Round(currentSource.Time / currentSource.Duration * (nowPlaying.Length - 2));
+                            Console.Write($"  -");
+                            for (var i = 1; i < (nowPlaying.Length - 2); i++) { Console.Write(i < prog ? '-' : ' '); }
+                            Console.WriteLine();
+
+                            // Draw menu hint
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                            Console.WriteLine($"\n  Press any key to show menu");
+
+                            // 
+                            Thread.Sleep(200);
+                            funkIndex++;
+                        }
+
+                        // eat "key press to show menu" above
+                        Console.ReadKey(true);
+
+                        // Reset state for menu
+                        Console.CursorVisible = true;
+                        Console.ResetColor();
                         Console.Clear();
-
-                        // Draw song name
-                        Console.ForegroundColor = _funkColors[funkIndex % _funkColors.Length];
-                        var nowPlaying = $"Now Playing \"{info.Name}\" by {info.Author}.";
-                        Console.WriteLine($"\n  {nowPlaying}");
-
-                        // Draw progress bar
-                        Console.ForegroundColor = ConsoleColor.Gray;
-                        var prog = MathF.Round(currentSource.Time / currentSource.Duration * (nowPlaying.Length - 2));
-                        Console.Write($"  -");
-                        for (var i = 1; i < (nowPlaying.Length - 2); i++) { Console.Write(i < prog ? '-' : ' '); }
-                        Console.WriteLine();
-
-                        // Draw menu hint
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                        Console.WriteLine($"\n  Press any key to show menu");
-
-                        // 
-                        Thread.Sleep(200);
-                        funkIndex++;
                     }
-
-                    // eat "key press to show menu" above
-                    Console.ReadKey(true);
-
-                    // Reset state for menu
-                    Console.CursorVisible = true;
-                    Console.ResetColor();
-                    Console.Clear();
-                }
-                else
-                {
-                    // Exit commands (
-                    if (choice == "exit") { break; }
-                    else if (choice == "quit") { break; }
                     else
                     {
-                        Console.Clear();
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"Unknown choice.\n");
+                        // Exit commands (
+                        if (choice == "exit") { break; }
+                        else if (choice == "quit") { break; }
+                        else
+                        {
+                            Console.Clear();
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine($"Unknown choice.\n");
+                        }
                     }
                 }
-            }
 
-            void DrawSongMenu()
-            {
-                Console.ResetColor();
-                Console.WriteLine("Song Choices");
-
-                foreach (var group in songData.GroupBy(i => i.Author))
+                void DrawSongMenu()
                 {
                     Console.ResetColor();
-                    Console.WriteLine($"\n  {group.Key}");
+                    Console.WriteLine("Song Choices");
 
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    foreach (var info in group)
+                    foreach (var group in songData.GroupBy(i => i.Author))
                     {
-                        Console.WriteLine($"    {info.Name}");
+                        Console.ResetColor();
+                        Console.WriteLine($"\n  {group.Key}");
+
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        foreach (var info in group)
+                        {
+                            Console.WriteLine($"    {info.Name}");
+                        }
                     }
+
+                    Console.ResetColor();
+                    Console.WriteLine();
                 }
 
-                Console.ResetColor();
-                Console.WriteLine();
-            }
-
-            static string CreateIdentifier(string str)
-            {
-                str = str.Trim().ToLower();
-                str = str.Replace(" ", "");
-                return str;
-            }
+                static string CreateIdentifier(string str)
+                {
+                    str = str.Trim().ToLower();
+                    str = str.Replace(" ", "");
+                    return str;
+                }
+            });
         }
 
         private struct SongInfo
