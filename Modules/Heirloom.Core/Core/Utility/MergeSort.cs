@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Heirloom
 {
+    /// <summary>
+    /// Implements merge sort as extension methods to provide stable sorting.
+    /// </summary>
     public static class MergeSort
     {
         /// <summary>

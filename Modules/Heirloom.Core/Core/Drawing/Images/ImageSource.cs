@@ -1,5 +1,10 @@
 namespace Heirloom
 {
+    /// <summary>
+    /// Represents the abstract representation of an image.
+    /// </summary>
+    /// <seealso cref="Surface"/>
+    /// <seealso cref="Image"/>
     public abstract class ImageSource
     {
         internal ImageSource()

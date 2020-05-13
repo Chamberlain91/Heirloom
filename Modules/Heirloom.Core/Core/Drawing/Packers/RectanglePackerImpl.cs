@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Heirloom
@@ -36,11 +35,12 @@ namespace Heirloom
             return _elements.ContainsKey(element);
         }
 
-        public bool Add(TElement element, IntSize itemSize)
+        public bool TryAdd(TElement element, IntSize itemSize)
         {
             if (Contains(element))
             {
-                throw new InvalidOperationException("Unable to pack rectangle element, already contained by packer.");
+                // Already packed.
+                return false;
             }
             else if (Insert(itemSize, out var rectangle))
             {

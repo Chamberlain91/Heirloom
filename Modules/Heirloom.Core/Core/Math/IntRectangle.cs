@@ -453,7 +453,7 @@ namespace Heirloom
         /// </summary>
         public bool Overlaps(IntRectangle other)
         {
-            /**
+            /*
              * .---.
              * | A |--.
              * `---`B |

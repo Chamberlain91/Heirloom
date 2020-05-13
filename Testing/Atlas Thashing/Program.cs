@@ -38,7 +38,7 @@ namespace Atlas_Thashing
 
                         // Attempt to pack image, if unable break
                         var image = Image.CreateColor(w, h, new Color(r, g, b));
-                        if (!packer.Add(image, image.Size)) { break; }
+                        if (!packer.TryAdd(image, image.Size)) { break; }
 
                         var packed = packer.GetRectangle(image);
                         window.Graphics.DrawImage(image, packed.Position);

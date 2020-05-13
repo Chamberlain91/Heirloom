@@ -43,21 +43,11 @@ namespace Heirloom
 
         #region Equals / GetHashCode / ToString
 
-        /// <summary>
-        /// Returns a value indicating whether this instance is equal to the specified object.
-        /// </summary>
-        /// <param name="obj">The object to compare.</param>
-        /// <returns><c>true</c> if this instance equals <paramref name="other"/>; otherwise, <c>false</c>.</returns>
         public bool Equals(UnicodeCharacter other)
         {
             return _value.Equals(other._value);
         }
 
-        /// <summary>
-        /// Returns a value indicating whether this instance is equal to the specified object.
-        /// </summary>
-        /// <param name="obj">The object to compare.</param>
-        /// <returns><c>true</c> if this instance equals <paramref name="obj"/>; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
             var codepoint = obj as UnicodeCharacter?;
@@ -72,16 +62,11 @@ namespace Heirloom
         /// <summary>
         /// Returns the hash code for this instance.
         /// </summary>
-        /// <returns>The instance's hashcode.</returns>
         public override int GetHashCode()
         {
             return HashCode.Combine(_value);
         }
 
-        /// <summary>
-        /// Converts the value to its equivalent string representation.
-        /// </summary>
-        /// <returns></returns>
         public override string ToString()
         {
             return (string) this;

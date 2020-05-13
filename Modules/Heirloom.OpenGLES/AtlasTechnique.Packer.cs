@@ -73,7 +73,7 @@ namespace Heirloom.OpenGLES
 
         private bool SubmitImage(Image image, out AtlasEntry entry)
         {
-            if (_packer.Add(image, image.Size))
+            if (_packer.TryAdd(image, image.Size))
             {
                 // Successfully added image to packing
                 var rect = _packer.GetRectangle(image);

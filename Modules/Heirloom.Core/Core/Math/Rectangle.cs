@@ -507,7 +507,7 @@ namespace Heirloom
         /// </summary>
         public bool Overlaps(in Rectangle other)
         {
-            /**
+            /*
              * .---.
              * | A |--.
              * `---`B |

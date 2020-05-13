@@ -7,7 +7,7 @@ namespace Heirloom
     /// <summary>
     /// A glyph represents the metrics and rendering of a character from the associated <see cref="Font"/>.
     /// </summary>
-    public class Glyph
+    public sealed class Glyph
     {
         private readonly int _advanceWidth;
         private readonly int _bearing;
@@ -131,10 +131,13 @@ namespace Heirloom
             Font.RenderTo(Index, scale, image, x, y);
         }
 
+        /// <summary>
+        /// Converts this glyph into a string representation.
+        /// </summary>
         public override string ToString()
         {
-            var c = char.ConvertFromUtf32((int) Character);
-            return $"{c}";
+            var str = char.ConvertFromUtf32((int) Character);
+            return $"Glyph '{str}'";
         }
     }
 }

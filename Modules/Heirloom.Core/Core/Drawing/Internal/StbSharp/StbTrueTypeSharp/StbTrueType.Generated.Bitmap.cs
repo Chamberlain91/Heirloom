@@ -371,13 +371,14 @@ namespace StbTrueTypeSharp
 				j = (int)(n - 1);
 				for (; ; )
 				{
+#pragma warning disable CS1717 // Assignment made to same variable
 					for (i = (int)(i); ; ++i)
 					{
 						if (!(((&p[i])->y0) < ((&p[0])->y0)))
 							break;
 					}
-					for (j = (int)(j); ; --j)
-					{
+                    for (j = (int)(j); ; --j)
+                    {
 						if (!(((&p[0])->y0) < ((&p[j])->y0)))
 							break;
 					}
@@ -388,6 +389,7 @@ namespace StbTrueTypeSharp
 					p[j] = (stbtt__edge)(t);
 					++i;
 					--j;
+#pragma warning restore CS1717 // Assignment made to same variable
 				}
 				if ((j) < (n - i))
 				{

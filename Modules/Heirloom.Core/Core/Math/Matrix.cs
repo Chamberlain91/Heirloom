@@ -274,7 +274,7 @@ namespace Heirloom
         }
 
         /// <summary>
-        /// Multiplies a vector and matrix together ignoring the translational components and stores the resulting vector into <paramref name="dest"/>.
+        /// Multiplies a vector and matrix together ignoring the translational components and stores the resulting vector into <paramref name="r"/>.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void MultiplyVector(in Matrix a, in Vector v, ref Vector r)

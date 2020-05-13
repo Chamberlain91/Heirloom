@@ -8,6 +8,9 @@ using Heirloom.Geometry;
 
 namespace Heirloom
 {
+    /// <summary>
+    /// Represents a triangle based mesh.
+    /// </summary>
     public sealed class Mesh
     {
         private readonly List<Vertex> _vertices;
@@ -15,6 +18,9 @@ namespace Heirloom
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="Mesh"/>.
+        /// </summary>
         public Mesh()
         {
             _vertices = new List<Vertex>();
