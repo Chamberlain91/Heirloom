@@ -10,6 +10,8 @@
 
 ### Clear()
 
+Clears all elements from this spatial collection.
+
 ```cs
 public void Clear()
 ```

@@ -10,6 +10,8 @@
 
 ### Clear()
 
+Removes all packed elements from this collection.
+
 ```cs
 public void Clear()
 ```

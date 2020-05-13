@@ -10,6 +10,8 @@
 
 ### Yellow
 
+The color yellow (#FFFF00).
+
 ```cs
 public static ColorBytes Yellow { get; }
 ```

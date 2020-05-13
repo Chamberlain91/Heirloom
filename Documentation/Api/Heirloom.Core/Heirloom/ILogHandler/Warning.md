@@ -10,6 +10,8 @@
 
 ### Warning(object)
 
+Logs a warning message.
+
 ```cs
 public abstract void Warning(object message)
 ```

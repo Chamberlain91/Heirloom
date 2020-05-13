@@ -7,6 +7,8 @@
 
 > **Namespace**: [Heirloom][0]
 
+Implements merge sort as extension methods to provide stable sorting.
+
 ```cs
 public static class MergeSort
 ```

@@ -33,6 +33,10 @@ IEquatable\<IntRange>, IEnumerable\<int>, IEnumerable
 
 [Huge][14], [Indeterminate][15], [Zero][16]
 
+### Static Methods
+
+[FromValues][17]
+
 ## Fields
 
 #### Instance
@@ -46,9 +50,9 @@ IEquatable\<IntRange>, IEnumerable\<int>, IEnumerable
 
 | Name                | Type           | Summary                                                                |
 |---------------------|----------------|------------------------------------------------------------------------|
-| [Huge][14]          | [IntRange][17] | Range from int.MinValue to int.MaxValue (the widest possible range).   |
-| [Indeterminate][15] | [IntRange][17] | Range from int.MaxValue to int.MinValue useful for an indeterminate... |
-| [Zero][16]          | [IntRange][17] | Zero width range centered on zero.                                     |
+| [Huge][14]          | [IntRange][18] | Range from int.MinValue to int.MaxValue (the widest possible range).   |
+| [Indeterminate][15] | [IntRange][18] | Range from int.MaxValue to int.MinValue useful for an indeterminate... |
+| [Zero][16]          | [IntRange][18] | Zero width range centered on zero.                                     |
 
 ## Properties
 
@@ -64,17 +68,23 @@ IEquatable\<IntRange>, IEnumerable\<int>, IEnumerable
 
 #### Instance
 
-| Name                           | Return Type        | Summary                                                          |
-|--------------------------------|--------------------|------------------------------------------------------------------|
-| [Contains(in int)][6]          | `bool`             | Determines if this range contains the specified value.           |
-| [Deconstruct(out int, o...][7] | `void`             |                                                                  |
-| [GetEnumerator()][8]           | `IEnumerator<int>` |                                                                  |
-| [Include(int)][9]              | `void`             | Mutate this range (by expansion) to include the specified value. |
-| [Include(IntRange)][9]         | `void`             | Mutate this range (by expansion) to include the specified range. |
-| [Intersect(in IntRange)][10]   | [IntRange][17]     |                                                                  |
-| [Overlaps(in IntRange)][11]    | `bool`             | Determines if this range overlaps another integer range.         |
-| [Set(int, int)][12]            | `void`             | Sets the components of this range.                               |
-| [Union(in IntRange)][13]       | [IntRange][17]     |                                                                  |
+| Name                           | Return Type        | Summary                                                                |
+|--------------------------------|--------------------|------------------------------------------------------------------------|
+| [Contains(in int)][6]          | `bool`             | Determines if this range contains the specified value.                 |
+| [Deconstruct(out int, o...][7] | `void`             | Deconstructs this IntRange into consituent parts.                      |
+| [GetEnumerator()][8]           | `IEnumerator<int>` | Returns an enumerator that will iterate over all integer values fro... |
+| [Include(int)][9]              | `void`             | Mutate this range (by expansion) to include the specified value.       |
+| [Include(IntRange)][9]         | `void`             | Mutate this range (by expansion) to include the specified range.       |
+| [Intersect(in IntRange)][10]   | [IntRange][18]     | Computes the intersection of this range with another.                  |
+| [Overlaps(in IntRange)][11]    | `bool`             | Determines if this range overlaps another integer range.               |
+| [Set(int, int)][12]            | `void`             | Sets the components of this range.                                     |
+| [Union(in IntRange)][13]       | [IntRange][18]     | Computes the union of this range with another.                         |
+
+#### Static
+
+| Name                            | Return Type    | Summary                                                                |
+|---------------------------------|----------------|------------------------------------------------------------------------|
+| [FromValues(IEnumerable...][17] | [IntRange][18] | Creates an instance of IntRange from the extreme values of the give... |
 
 [0]: ../../Heirloom.Core.md
 [1]: IntRange/Min.md
@@ -93,4 +103,5 @@ IEquatable\<IntRange>, IEnumerable\<int>, IEnumerable
 [14]: IntRange/Huge.md
 [15]: IntRange/Indeterminate.md
 [16]: IntRange/Zero.md
-[17]: IntRange.md
+[17]: IntRange/FromValues.md
+[18]: IntRange.md

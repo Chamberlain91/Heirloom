@@ -10,6 +10,8 @@
 
 #### NanosecondAsSeconds
 
+A value of one nanosecond measured in seconds.
+
 ```cs
 public const float NanosecondAsSeconds = 1E-09
 ```

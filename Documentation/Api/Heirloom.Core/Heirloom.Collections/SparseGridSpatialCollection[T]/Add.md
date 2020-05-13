@@ -10,6 +10,8 @@
 
 ### Add(in T, in IShape)
 
+Adds an element with rectangle bounds into this spatial collection.
+
 ```cs
 public void Add(in T item, in IShape boundingShape)
 ```

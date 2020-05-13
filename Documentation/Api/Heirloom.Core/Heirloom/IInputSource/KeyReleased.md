@@ -10,6 +10,8 @@
 
 #### KeyReleased
 
+An event raised when a button on the keyboard was released.
+
 ```cs
 public Action<Screen, KeyEvent> KeyReleased { add; remove; }
 ```

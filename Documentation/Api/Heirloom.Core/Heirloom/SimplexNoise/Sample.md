@@ -10,6 +10,8 @@
 
 ### Sample(float, float)
 
+Sample two-dimensional noise.
+
 ```cs
 public float Sample(float x, float y)
 ```
@@ -22,6 +24,8 @@ public float Sample(float x, float y)
 > **Returns** - `float`
 
 ### Sample(float, float, float)
+
+Sample three-dimensional noise.
 
 ```cs
 public float Sample(float x, float y, float z)

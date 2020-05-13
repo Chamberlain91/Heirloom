@@ -10,6 +10,8 @@
 
 #### MouseReleased
 
+Event raised when a mouse button has been released by some input source.
+
 ```cs
 public static Action<Screen, MouseButtonEvent> MouseReleased { add; remove; }
 ```

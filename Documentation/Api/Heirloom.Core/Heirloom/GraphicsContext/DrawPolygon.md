@@ -18,7 +18,7 @@ public void DrawPolygon(in Vector position, int sides, float radius)
 
 | Name     | Type        | Summary                                     |
 |----------|-------------|---------------------------------------------|
-| position | [Vector][2] |                                             |
+| position | [Vector][2] | The center position of the regular polygon. |
 | sides    | `int`       | The number of sides in the regular polygon. |
 | radius   | `float`     | The radius of the regular polygon.          |
 

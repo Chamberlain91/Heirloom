@@ -10,14 +10,16 @@
 
 ### Deconstruct(out int, out int)
 
+Deconstructs this [IntRange][1] into consituent parts.
+
 ```cs
 public void Deconstruct(out int min, out int max)
 ```
 
-| Name | Type  | Summary |
-|------|-------|---------|
-| min  | `int` |         |
-| max  | `int` |         |
+| Name | Type  | Summary                                 |
+|------|-------|-----------------------------------------|
+| min  | `int` | Outputs the minumum value of the range. |
+| max  | `int` | Outputs the maximum value of the range. |
 
 > **Returns** - `void`
 

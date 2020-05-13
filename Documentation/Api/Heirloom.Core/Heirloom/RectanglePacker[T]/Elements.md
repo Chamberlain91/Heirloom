@@ -10,6 +10,8 @@
 
 ### Elements
 
+Gets the elements packed into this collection.
+
 ```cs
 public IEnumerable<T> Elements { get; }
 ```

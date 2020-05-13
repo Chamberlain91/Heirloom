@@ -10,28 +10,32 @@
 
 ### GetPixel(int, int)
 
+Gets the pixel at the specified coordinates.
+
 ```cs
 public ColorBytes GetPixel(int x, int y)
 ```
 
-| Name | Type  | Summary |
-|------|-------|---------|
-| x    | `int` |         |
-| y    | `int` |         |
+| Name | Type  | Summary                        |
+|------|-------|--------------------------------|
+| x    | `int` | The x-coordinate of the pixel. |
+| y    | `int` | The y-coordinate of the pixel. |
 
-> **Returns** - [ColorBytes][2]
+> **Returns** - [ColorBytes][2] - The color value at the specified coordinate.
 
 ### GetPixel(IntVector)
+
+Gets the pixel at the specified coordinates.
 
 ```cs
 public ColorBytes GetPixel(IntVector co)
 ```
 
-| Name | Type           | Summary |
-|------|----------------|---------|
-| co   | [IntVector][3] |         |
+| Name | Type           | Summary                      |
+|------|----------------|------------------------------|
+| co   | [IntVector][3] | The coordinate of the pixel. |
 
-> **Returns** - [ColorBytes][2]
+> **Returns** - [ColorBytes][2] - The color value at the specified coordinate.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../Image.md

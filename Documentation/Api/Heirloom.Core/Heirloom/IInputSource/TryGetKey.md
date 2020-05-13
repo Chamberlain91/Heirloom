@@ -16,10 +16,10 @@ Attempts to retreive the state of the specified key.
 public abstract bool TryGetKey(Key key, out ButtonState state)
 ```
 
-| Name  | Type             | Summary                                     |
-|-------|------------------|---------------------------------------------|
-| key   | [Key][2]         | Some key.                                   |
-| state | [ButtonState][3] | The output of the current state of the key. |
+| Name  | Type             | Summary                                                       |
+|-------|------------------|---------------------------------------------------------------|
+| key   | [Key][2]         | Some key.                                                     |
+| state | [ButtonState][3] | Outputs the current state of the key, if call was successful. |
 
 > **Returns** - `bool` - True if the value was sucessfully retreived.
 

@@ -48,7 +48,7 @@ public sealed class DirectedGraph<T> : IDirectedGraph<T>
 | [ContainsArc(T, T)][9]          | `bool`             | Determines if the directed graph contains the specified arc.           |
 | [ContainsVertex(T)][10]         | `bool`             | Determines if the directed graph contains the specified vertex.        |
 | [FindPath(T, T, Heurist...][11] | `IReadOnlyList<T>` | Attempts to finds a path between `start` and `goal` vertices using ... |
-| [FindPath(T, Func<T, bo...][11] | `IReadOnlyList<T>` | Attempts to finds a path between `start` and `goal` vertices using ... |
+| [FindPath(T, Func<T, bo...][11] | `IReadOnlyList<T>` | Attempts to finds a path between `start` until the first vertex to ... |
 | [GetArcWeight(T, T)][12]        | `float`            | Gets the weight of some arc.                                           |
 | [GetPredecessors(T)][13]        | `IEnumerable<T>`   | Gets the predecessors (incoming neighbor) vertices.                    |
 | [GetSuccessors(T)][14]          | `IEnumerable<T>`   | Gets the successor (outgoing neighbor) vertices.                       |

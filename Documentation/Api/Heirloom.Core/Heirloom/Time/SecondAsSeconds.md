@@ -10,6 +10,8 @@
 
 #### SecondAsSeconds
 
+A value of one second measured in seconds.
+
 ```cs
 public const float SecondAsSeconds = 1
 ```

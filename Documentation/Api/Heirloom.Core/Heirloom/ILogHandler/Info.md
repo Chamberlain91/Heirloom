@@ -10,6 +10,8 @@
 
 ### Info(object)
 
+Logs a information message.
+
 ```cs
 public abstract void Info(object message)
 ```

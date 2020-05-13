@@ -10,6 +10,8 @@
 
 ### Black
 
+The color black (#000000).
+
 ```cs
 public static Color Black { get; }
 ```

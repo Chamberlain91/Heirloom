@@ -10,7 +10,7 @@
 
 ### GetShortTimeName(TimeUnit)
 
-Gets a short name of the time unit (or its plural).
+Gets a short name of the time unit.
 
 ```cs
 public static string GetShortTimeName(TimeUnit unit)

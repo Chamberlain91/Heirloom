@@ -10,6 +10,8 @@
 
 #### WeekAsSeconds
 
+A value of one week measured in seconds.
+
 ```cs
 public const float WeekAsSeconds = 604800
 ```

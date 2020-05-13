@@ -7,6 +7,8 @@
 
 > **Namespace**: [Heirloom][0]
 
+Represents the abstract representation of an image.
+
 ```cs
 public abstract class ImageSource
 ```

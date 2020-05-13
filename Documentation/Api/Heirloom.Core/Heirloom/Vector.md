@@ -41,10 +41,10 @@ IEquatable\<Vector>
 
 #### Instance
 
-| Name   | Type    | Summary                          |
-|--------|---------|----------------------------------|
-| [X][1] | `float` | The x-coordinate of this vector. |
-| [Y][2] | `float` | The y-coordinate of this vector. |
+| Name   | Type    | Summary                         |
+|--------|---------|---------------------------------|
+| [X][1] | `float` | The x-component of this vector. |
+| [Y][2] | `float` | The y-component of this vector. |
 
 #### Static
 
@@ -74,11 +74,11 @@ IEquatable\<Vector>
 
 #### Instance
 
-| Name                           | Return Type | Summary                             |
-|--------------------------------|-------------|-------------------------------------|
-| [Deconstruct(out float,...][9] | `void`      |                                     |
-| [Normalize()][10]              | `void`      | Normalize this vector.              |
-| [Set(float, float)][11]        | `void`      | Sets the components of this vector. |
+| Name                           | Return Type | Summary                                               |
+|--------------------------------|-------------|-------------------------------------------------------|
+| [Deconstruct(out float,...][9] | `void`      | Deconstructs this Vector into constituent components. |
+| [Normalize()][10]              | `void`      | Normalize this vector.                                |
+| [Set(float, float)][11]        | `void`      | Sets the components of this vector.                   |
 
 #### Static
 

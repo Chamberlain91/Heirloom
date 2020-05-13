@@ -7,15 +7,15 @@
 
 > **Namespace**: [Heirloom][0]
 
-Represents a size or dimensions defined with integer fields.
+Represents two dimensional size by a measure in each axis.
 
 ```cs
-public struct IntSize : IEquatable<IntSize>, IComparable<IntSize>
+public struct IntSize : IEquatable<IntSize>
 ```
 
 ### Inherits
 
-IEquatable\<IntSize>, IComparable\<IntSize>
+IEquatable\<IntSize>
 
 ### Fields
 
@@ -27,11 +27,11 @@ IEquatable\<IntSize>, IComparable\<IntSize>
 
 ### Methods
 
-[CompareTo][6], [Deconstruct][7], [Set][8]
+[Deconstruct][6], [Set][7]
 
 ### Static Fields
 
-[Max][9], [One][10], [Zero][11]
+[Max][8], [One][9], [Zero][10]
 
 ## Fields
 
@@ -46,9 +46,9 @@ IEquatable\<IntSize>, IComparable\<IntSize>
 
 | Name       | Type          | Summary                                  |
 |------------|---------------|------------------------------------------|
-| [Max][9]   | [IntSize][12] | The maximum representable size possible. |
-| [One][10]  | [IntSize][12] | A 1x1 size.                              |
-| [Zero][11] | [IntSize][12] | A 0x0 size.                              |
+| [Max][8]   | [IntSize][11] | The maximum representable size possible. |
+| [One][9]   | [IntSize][11] | A 1x1 size.                              |
+| [Zero][10] | [IntSize][11] | A 0x0 size.                              |
 
 ## Properties
 
@@ -64,11 +64,10 @@ IEquatable\<IntSize>, IComparable\<IntSize>
 
 #### Instance
 
-| Name                           | Return Type | Summary                           |
-|--------------------------------|-------------|-----------------------------------|
-| [CompareTo(IntSize)][6]        | `int`       |                                   |
-| [Deconstruct(out int, o...][7] | `void`      |                                   |
-| [Set(int, int)][8]             | `void`      | Sets the components of this size. |
+| Name                           | Return Type | Summary                                               |
+|--------------------------------|-------------|-------------------------------------------------------|
+| [Deconstruct(out int, o...][6] | `void`      | Deconstructs this IntSize int constituent components. |
+| [Set(int, int)][7]             | `void`      | Sets the components of this size.                     |
 
 [0]: ../../Heirloom.Core.md
 [1]: IntSize/Height.md
@@ -76,10 +75,9 @@ IEquatable\<IntSize>, IComparable\<IntSize>
 [3]: IntSize/Area.md
 [4]: IntSize/Aspect.md
 [5]: IntSize/Indexer.md
-[6]: IntSize/CompareTo.md
-[7]: IntSize/Deconstruct.md
-[8]: IntSize/Set.md
-[9]: IntSize/Max.md
-[10]: IntSize/One.md
-[11]: IntSize/Zero.md
-[12]: IntSize.md
+[6]: IntSize/Deconstruct.md
+[7]: IntSize/Set.md
+[8]: IntSize/Max.md
+[9]: IntSize/One.md
+[10]: IntSize/Zero.md
+[11]: IntSize.md

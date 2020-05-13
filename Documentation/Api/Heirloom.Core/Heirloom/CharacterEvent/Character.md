@@ -10,6 +10,8 @@
 
 #### Character
 
+The unicode character.
+
 ```cs
 public readonly UnicodeCharacter Character
 ```

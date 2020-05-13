@@ -10,16 +10,18 @@
 
 ### TryGetButton(MouseButton, out ButtonState)
 
+Attempts to retreive the state of the specified mouse button.
+
 ```cs
 public abstract bool TryGetButton(MouseButton button, out ButtonState state)
 ```
 
-| Name   | Type             | Summary |
-|--------|------------------|---------|
-| button | [MouseButton][2] |         |
-| state  | [ButtonState][3] |         |
+| Name   | Type             | Summary                                                          |
+|--------|------------------|------------------------------------------------------------------|
+| button | [MouseButton][2] | The mouse button to query.                                       |
+| state  | [ButtonState][3] | Outputs the current state of the button, if call was successful. |
 
-> **Returns** - `bool`
+> **Returns** - `bool` - True if the value was sucessfully retreived.
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../IInputSource.md

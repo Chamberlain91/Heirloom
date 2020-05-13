@@ -31,11 +31,11 @@ IEquatable\<ColorBytes>
 
 ### Static Properties
 
-[Black][8], [Blue][9], [Cyan][10], [DarkGray][11], [Gray][12], [Green][13], [Indigo][14], [LightGray][15], [Magenta][16], [Orange][17], [Pink][18], [Rainbow][19], [Random][20], [Red][21], [Transparent][22], [Violet][23], [White][24], [Yellow][25]
+[Black][8], [Blue][9], [Cyan][10], [DarkGray][11], [Gray][12], [Green][13], [Indigo][14], [LightGray][15], [Magenta][16], [Orange][17], [Pink][18], [Red][19], [Transparent][20], [Violet][21], [White][22], [Yellow][23]
 
 ### Static Methods
 
-[Lerp][26], [Multiply][27], [Parse][28], [TryParse][29]
+[Lerp][24], [Multiply][25], [Parse][26], [TryParse][27]
 
 ## Fields
 
@@ -54,31 +54,29 @@ IEquatable\<ColorBytes>
 
 | Name            | Type             | Summary                                      |
 |-----------------|------------------|----------------------------------------------|
-| [Inverted][5]   | [ColorBytes][30] | The inversion of this color.                 |
+| [Inverted][5]   | [ColorBytes][28] | The inversion of this color.                 |
 | [Luminosity][6] | ` byte`          | Computes a luminosity component (grayscale). |
 
 #### Static
 
-| Name              | Type                        | Summary |
-|-------------------|-----------------------------|---------|
-| [Black][8]        | [ColorBytes][30]            |         |
-| [Blue][9]         | [ColorBytes][30]            |         |
-| [Cyan][10]        | [ColorBytes][30]            |         |
-| [DarkGray][11]    | [ColorBytes][30]            |         |
-| [Gray][12]        | [ColorBytes][30]            |         |
-| [Green][13]       | [ColorBytes][30]            |         |
-| [Indigo][14]      | [ColorBytes][30]            |         |
-| [LightGray][15]   | [ColorBytes][30]            |         |
-| [Magenta][16]     | [ColorBytes][30]            |         |
-| [Orange][17]      | [ColorBytes][30]            |         |
-| [Pink][18]        | [ColorBytes][30]            |         |
-| [Rainbow][19]     | `IReadOnlyList<ColorBytes>` |         |
-| [Random][20]      | [ColorBytes][30]            |         |
-| [Red][21]         | [ColorBytes][30]            |         |
-| [Transparent][22] | [ColorBytes][30]            |         |
-| [Violet][23]      | [ColorBytes][30]            |         |
-| [White][24]       | [ColorBytes][30]            |         |
-| [Yellow][25]      | [ColorBytes][30]            |         |
+| Name              | Type             | Summary                                  |
+|-------------------|------------------|------------------------------------------|
+| [Black][8]        | [ColorBytes][28] | The color black (#000000).               |
+| [Blue][9]         | [ColorBytes][28] | The color blue (#0000FF).                |
+| [Cyan][10]        | [ColorBytes][28] | The color cyan (#00FFFF).                |
+| [DarkGray][11]    | [ColorBytes][28] | The color dark gray (#333333).           |
+| [Gray][12]        | [ColorBytes][28] | The color gray (#999999).                |
+| [Green][13]       | [ColorBytes][28] | The color green (#00FF00).               |
+| [Indigo][14]      | [ColorBytes][28] | The color indigo (#4B0082).              |
+| [LightGray][15]   | [ColorBytes][28] | The color light gray (#CCCCCC).          |
+| [Magenta][16]     | [ColorBytes][28] | The color magenta (#FF00FF).             |
+| [Orange][17]      | [ColorBytes][28] | The color orange (#FF8811).              |
+| [Pink][18]        | [ColorBytes][28] | The color pink (#DD55AA).                |
+| [Red][19]         | [ColorBytes][28] | The color red (#FF0000).                 |
+| [Transparent][20] | [ColorBytes][28] | The color transparent black (#00000000). |
+| [Violet][21]      | [ColorBytes][28] | The color violet (#8A2BE2).              |
+| [White][22]       | [ColorBytes][28] | The color white (#FFFFFF).               |
+| [Yellow][23]      | [ColorBytes][28] | The color yellow (#FFFF00).              |
 
 ## Methods
 
@@ -92,10 +90,10 @@ IEquatable\<ColorBytes>
 
 | Name                            | Return Type      | Summary                                                                |
 |---------------------------------|------------------|------------------------------------------------------------------------|
-| [Lerp(ColorBytes, Color...][26] | [ColorBytes][30] | Interpolate two colors together.                                       |
-| [Multiply(in ColorBytes...][27] | `void`           | Multiplies two ColorBytes together. Behaves the same as Color .        |
-| [Parse(string)][28]             | [ColorBytes][30] | Parses a hex-string representation of a color. May be formatted as ... |
-| [TryParse(string, out C...][29] | `bool`           | Parses a hex-string representation of a color. May be formatted as ... |
+| [Lerp(ColorBytes, Color...][24] | [ColorBytes][28] | Interpolate two colors together.                                       |
+| [Multiply(in ColorBytes...][25] | `void`           | Multiplies two ColorBytes together. Behaves the same as Color .        |
+| [Parse(string)][26]             | [ColorBytes][28] | Parses a hex-string representation of a color. May be formatted as ... |
+| [TryParse(string, out C...][27] | `bool`           | Parses a hex-string representation of a color. May be formatted as ... |
 
 [0]: ../../Heirloom.Core.md
 [1]: ColorBytes/A.md
@@ -116,15 +114,13 @@ IEquatable\<ColorBytes>
 [16]: ColorBytes/Magenta.md
 [17]: ColorBytes/Orange.md
 [18]: ColorBytes/Pink.md
-[19]: ColorBytes/Rainbow.md
-[20]: ColorBytes/Random.md
-[21]: ColorBytes/Red.md
-[22]: ColorBytes/Transparent.md
-[23]: ColorBytes/Violet.md
-[24]: ColorBytes/White.md
-[25]: ColorBytes/Yellow.md
-[26]: ColorBytes/Lerp.md
-[27]: ColorBytes/Multiply.md
-[28]: ColorBytes/Parse.md
-[29]: ColorBytes/TryParse.md
-[30]: ColorBytes.md
+[19]: ColorBytes/Red.md
+[20]: ColorBytes/Transparent.md
+[21]: ColorBytes/Violet.md
+[22]: ColorBytes/White.md
+[23]: ColorBytes/Yellow.md
+[24]: ColorBytes/Lerp.md
+[25]: ColorBytes/Multiply.md
+[26]: ColorBytes/Parse.md
+[27]: ColorBytes/TryParse.md
+[28]: ColorBytes.md

@@ -24,7 +24,7 @@ public Vector MultiplyVector(in Vector v)
 
 ### MultiplyVector(in Matrix, in Vector, ref Vector)
 
-Multiplies a vector and matrix together ignoring the translational components and stores the resulting vector into `dest` .
+Multiplies a vector and matrix together ignoring the translational components and stores the resulting vector into `r` .
 
 ```cs
 public static void MultiplyVector(in Matrix a, in Vector v, ref Vector r)

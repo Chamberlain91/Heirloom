@@ -7,6 +7,8 @@
 
 > **Namespace**: [Heirloom][0]
 
+Provides utility functions for converting time between units of measure and string representation.
+
 ```cs
 public static class Time
 ```
@@ -21,16 +23,16 @@ public static class Time
 
 ## Fields
 
-| Name                      | Type    | Summary |
-|---------------------------|---------|---------|
-| [DayAsSeconds][1]         | `float` |         |
-| [HourAsSeconds][2]        | `float` |         |
-| [MicrosecondAsSeconds][3] | `float` |         |
-| [MillisecondAsSeconds][4] | `float` |         |
-| [MinuteAsSeconds][5]      | `float` |         |
-| [NanosecondAsSeconds][6]  | `float` |         |
-| [SecondAsSeconds][7]      | `float` |         |
-| [WeekAsSeconds][8]        | `float` |         |
+| Name                      | Type    | Summary                                         |
+|---------------------------|---------|-------------------------------------------------|
+| [DayAsSeconds][1]         | `float` | A value of one day measured in seconds.         |
+| [HourAsSeconds][2]        | `float` | A value of one hour measured in seconds.        |
+| [MicrosecondAsSeconds][3] | `float` | A value of one microsecond measured in seconds. |
+| [MillisecondAsSeconds][4] | `float` | A value of one millisecond measured in seconds. |
+| [MinuteAsSeconds][5]      | `float` | A value of one minute measured in seconds.      |
+| [NanosecondAsSeconds][6]  | `float` | A value of one nanosecond measured in seconds.  |
+| [SecondAsSeconds][7]      | `float` | A value of one second measured in seconds.      |
+| [WeekAsSeconds][8]        | `float` | A value of one week measured in seconds.        |
 
 ## Methods
 
@@ -39,7 +41,7 @@ public static class Time
 | [Convert(float, TimeUni...][9]  | `float`     | Converts time from unit to another.                             |
 | [GetDuration(TimeUnit)][10]     | `float`     | Gets the duration of a time unit in seconds.                    |
 | [GetEnglishTime(float, ...][11] | `string`    | Gets a human readable format for the time specified in seconds. |
-| [GetShortTimeName(TimeU...][12] | `string`    | Gets a short name of the time unit (or its plural).             |
+| [GetShortTimeName(TimeU...][12] | `string`    | Gets a short name of the time unit.                             |
 | [GetTimeName(TimeUnit, ...][13] | `string`    | Gets the name of the time unit (or its plural).                 |
 | [GetTimeString(float, T...][14] | `string`    | Gets a human readable format for the given time and unit.       |
 

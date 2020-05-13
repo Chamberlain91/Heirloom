@@ -10,6 +10,8 @@
 
 ### Error(object)
 
+Logs an error message.
+
 ```cs
 public abstract void Error(object message)
 ```

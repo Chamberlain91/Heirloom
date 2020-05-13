@@ -10,6 +10,8 @@
 
 ### Update(in T, in IShape)
 
+Updates an exising element with new bounds in the collection.
+
 ```cs
 public void Update(in T item, in IShape boundingShape)
 ```

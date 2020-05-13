@@ -7,6 +7,8 @@
 
 > **Namespace**: [Heirloom][0]
 
+Contains the data of an event when the mouse has been moved on some input source.
+
 ```cs
 public struct MouseMoveEvent
 ```
@@ -21,10 +23,10 @@ public struct MouseMoveEvent
 
 #### Instance
 
-| Name          | Type        | Summary |
-|---------------|-------------|---------|
-| [Delta][1]    | [Vector][3] |         |
-| [Position][2] | [Vector][3] |         |
+| Name          | Type        | Summary                                                               |
+|---------------|-------------|-----------------------------------------------------------------------|
+| [Delta][1]    | [Vector][3] | The difference in position of the mouse when the event was generated. |
+| [Position][2] | [Vector][3] | The position of the mouse when the event was generated.               |
 
 [0]: ../../Heirloom.Core.md
 [1]: MouseMoveEvent/Delta.md

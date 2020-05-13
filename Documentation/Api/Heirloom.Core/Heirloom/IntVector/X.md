@@ -10,7 +10,7 @@
 
 #### X
 
-The x-coordinate of this vector.
+The x-component of this vector.
 
 ```cs
 public int X

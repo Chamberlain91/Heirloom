@@ -10,6 +10,8 @@
 
 ### Debug(object)
 
+Logs a debug message.
+
 ```cs
 public abstract void Debug(object message)
 ```

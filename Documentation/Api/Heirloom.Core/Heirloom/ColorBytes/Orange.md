@@ -10,6 +10,8 @@
 
 ### Orange
 
+The color orange (#FF8811).
+
 ```cs
 public static ColorBytes Orange { get; }
 ```

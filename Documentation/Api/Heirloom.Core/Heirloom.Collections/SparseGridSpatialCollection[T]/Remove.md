@@ -10,6 +10,8 @@
 
 ### Remove(in T)
 
+Removes an element from this spatial collection.
+
 ```cs
 public bool Remove(in T item)
 ```

@@ -10,6 +10,8 @@
 
 ### Intersect(in IntRange)
 
+Computes the intersection of this range with another.
+
 ```cs
 public IntRange Intersect(in IntRange other)
 ```

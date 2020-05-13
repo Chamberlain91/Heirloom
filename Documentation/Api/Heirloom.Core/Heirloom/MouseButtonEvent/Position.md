@@ -10,6 +10,8 @@
 
 #### Position
 
+The position of the mouse when the event was generated.
+
 ```cs
 public readonly Vector Position
 ```

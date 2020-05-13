@@ -10,6 +10,8 @@
 
 ### White
 
+The color white (#FFFFFF).
+
 ```cs
 public static ColorBytes White { get; }
 ```

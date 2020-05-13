@@ -10,7 +10,7 @@
 
 #### Y
 
-The y-coordinate of this vector.
+The y-component of this vector.
 
 ```cs
 public int Y

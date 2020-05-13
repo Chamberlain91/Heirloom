@@ -10,6 +10,8 @@
 
 ### Randomize<T>(IList<T>)
 
+Scrambles the items in a list into a randomized order.
+
 ```cs
 public static void Randomize<T>(IList<T> items)
 ```
@@ -23,6 +25,8 @@ public static void Randomize<T>(IList<T> items)
 > **Returns** - `void`
 
 ### Randomize<T>(IList<T>, Random)
+
+Scrambles the items in a list into a randomized order.
 
 ```cs
 public static void Randomize<T>(IList<T> items, Random random)

@@ -10,14 +10,16 @@
 
 ### Deconstruct(out float, out float)
 
+Deconstructs this [Range][1] into consituent parts.
+
 ```cs
 public void Deconstruct(out float min, out float max)
 ```
 
-| Name | Type    | Summary |
-|------|---------|---------|
-| min  | `float` |         |
-| max  | `float` |         |
+| Name | Type    | Summary                                 |
+|------|---------|-----------------------------------------|
+| min  | `float` | Outputs the minumum value of the range. |
+| max  | `float` | Outputs the maximum value of the range. |
 
 > **Returns** - `void`
 

@@ -10,9 +10,12 @@
 
 #### Key
 
+The standard [Key][2] enum associated with this event.
+
 ```cs
 public readonly Key Key
 ```
 
 [0]: ../../../Heirloom.Core.md
 [1]: ../KeyEvent.md
+[2]: Key.md

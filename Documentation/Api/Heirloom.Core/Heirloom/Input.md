@@ -35,16 +35,16 @@ public static class Input
 
 ## Events
 
-| Name                 | Handler Type                       | Summary |
-|----------------------|------------------------------------|---------|
-| [CharacterTyped][12] | `Action<Screen, CharacterEvent>`   |         |
-| [KeyPressed][13]     | `Action<Screen, KeyEvent>`         |         |
-| [KeyReleased][14]    | `Action<Screen, KeyEvent>`         |         |
-| [KeyRepeat][15]      | `Action<Screen, KeyEvent>`         |         |
-| [MouseMoved][16]     | `Action<Screen, MouseMoveEvent>`   |         |
-| [MousePressed][17]   | `Action<Screen, MouseButtonEvent>` |         |
-| [MouseReleased][18]  | `Action<Screen, MouseButtonEvent>` |         |
-| [MouseScrolled][19]  | `Action<Screen, MouseScrollEvent>` |         |
+| Name                 | Handler Type                       | Summary                                                                |
+|----------------------|------------------------------------|------------------------------------------------------------------------|
+| [CharacterTyped][12] | `Action<Screen, CharacterEvent>`   | Event raised when a character has been typed by some input source.     |
+| [KeyPressed][13]     | `Action<Screen, KeyEvent>`         | Event raised when a key has been pressed by some input source.         |
+| [KeyReleased][14]    | `Action<Screen, KeyEvent>`         | Event raised when a key has been released by some input source.        |
+| [KeyRepeat][15]      | `Action<Screen, KeyEvent>`         | Event raised when a key has been repeated by some input source.        |
+| [MouseMoved][16]     | `Action<Screen, MouseMoveEvent>`   | Event raised when a mouse button has been moved by some input source.  |
+| [MousePressed][17]   | `Action<Screen, MouseButtonEvent>` | Event raised when a mouse button has been pressed by some input sou... |
+| [MouseReleased][18]  | `Action<Screen, MouseButtonEvent>` | Event raised when a mouse button has been released by some input so... |
+| [MouseScrolled][19]  | `Action<Screen, MouseScrollEvent>` | Event raised when a mouse button has been scrolled by some input so... |
 
 ## Methods
 

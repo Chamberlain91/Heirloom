@@ -13,12 +13,12 @@
 Computes the upper power of 2 nearest to x.
 
 ```cs
-public static uint UpperPowerOfTwo(uint v)
+public static uint UpperPowerOfTwo(uint x)
 ```
 
-| Name | Type   | Summary |
-|------|--------|---------|
-| v    | `uint` |         |
+| Name | Type   | Summary               |
+|------|--------|-----------------------|
+| x    | `uint` | Some unsigned integer |
 
 > **Returns** - `uint` - The nearest upper power of 2 to x
 
@@ -27,12 +27,12 @@ public static uint UpperPowerOfTwo(uint v)
 Computes the upper power of 2 nearest to x.
 
 ```cs
-public static int UpperPowerOfTwo(int v)
+public static int UpperPowerOfTwo(int x)
 ```
 
-| Name | Type  | Summary |
-|------|-------|---------|
-| v    | `int` |         |
+| Name | Type  | Summary      |
+|------|-------|--------------|
+| x    | `int` | Some integer |
 
 > **Returns** - `int` - The nearest upper power of 2 to x
 

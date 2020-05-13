@@ -10,6 +10,8 @@
 
 #### Scroll
 
+The amount the mouse wheel was scrolled when the event was generated.
+
 ```cs
 public readonly Vector Scroll
 ```

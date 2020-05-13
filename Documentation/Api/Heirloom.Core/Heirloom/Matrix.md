@@ -41,14 +41,14 @@ IEquatable\<Matrix>
 
 #### Instance
 
-| Name    | Type    | Summary |
-|---------|---------|---------|
-| [M0][1] | `float` |         |
-| [M1][2] | `float` |         |
-| [M2][3] | `float` |         |
-| [M3][4] | `float` |         |
-| [M4][5] | `float` |         |
-| [M5][6] | `float` |         |
+| Name    | Type    | Summary                           |
+|---------|---------|-----------------------------------|
+| [M0][1] | `float` | The value in the row 0, column 0. |
+| [M1][2] | `float` | The value in the row 0, column 1. |
+| [M2][3] | `float` | The value in the row 0, column 2. |
+| [M3][4] | `float` | The value in the row 1, column 0. |
+| [M4][5] | `float` | The value in the row 1, column 1. |
+| [M5][6] | `float` | The value in the row 1, column 2. |
 
 #### Static
 
@@ -72,7 +72,7 @@ IEquatable\<Matrix>
 
 | Name                            | Return Type  | Summary                                                                |
 |---------------------------------|--------------|------------------------------------------------------------------------|
-| [Deconstruct(out Vector...][9]  | `void`       |                                                                        |
+| [Deconstruct(out Vector...][9]  | `void`       | Deconstructs this Matrix into affine components.                       |
 | [GetAffineRotation()][10]       | `float`      | Extracts affine rotational component (the angle) from this matrix.     |
 | [GetAffineScale()][11]          | [Vector][29] | Extracts affine scaling components from this matrix.                   |
 | [GetAffineTranslation()][12]    | [Vector][29] | Extracts affine translational components from this matrix.             |

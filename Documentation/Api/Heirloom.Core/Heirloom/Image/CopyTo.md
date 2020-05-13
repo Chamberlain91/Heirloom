@@ -10,28 +10,32 @@
 
 ### CopyTo(in IntRectangle, Image, in IntVector)
 
+Copies a region of this image to another.
+
 ```cs
 public void CopyTo(in IntRectangle region, Image target, in IntVector targetOffset)
 ```
 
-| Name         | Type              | Summary |
-|--------------|-------------------|---------|
-| region       | [IntRectangle][2] |         |
-| target       | [Image][1]        |         |
-| targetOffset | [IntVector][3]    |         |
+| Name         | Type              | Summary                                        |
+|--------------|-------------------|------------------------------------------------|
+| region       | [IntRectangle][2] | The region to copy.                            |
+| target       | [Image][1]        | The target image to copy pixels to.            |
+| targetOffset | [IntVector][3]    | The offset within the target image to copy to. |
 
 > **Returns** - `void`
 
 ### CopyTo(Image, in IntVector)
 
+Copies this image to another image.
+
 ```cs
 public void CopyTo(Image target, in IntVector targetOffset)
 ```
 
-| Name         | Type           | Summary |
-|--------------|----------------|---------|
-| target       | [Image][1]     |         |
-| targetOffset | [IntVector][3] |         |
+| Name         | Type           | Summary                                        |
+|--------------|----------------|------------------------------------------------|
+| target       | [Image][1]     | The target image to copy pixels to.            |
+| targetOffset | [IntVector][3] | The offset within the target image to copy to. |
 
 > **Returns** - `void`
 

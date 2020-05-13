@@ -10,6 +10,8 @@
 
 #### MouseMoved
 
+An event raised when mouse has been moved.
+
 ```cs
 public Action<Screen, MouseMoveEvent> MouseMoved { add; remove; }
 ```

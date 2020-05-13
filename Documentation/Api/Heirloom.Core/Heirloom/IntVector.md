@@ -41,10 +41,10 @@ IEquatable\<IntVector>
 
 #### Instance
 
-| Name   | Type  | Summary                          |
-|--------|-------|----------------------------------|
-| [X][1] | `int` | The x-coordinate of this vector. |
-| [Y][2] | `int` | The y-coordinate of this vector. |
+| Name   | Type  | Summary                         |
+|--------|-------|---------------------------------|
+| [X][1] | `int` | The x-component of this vector. |
+| [Y][2] | `int` | The y-component of this vector. |
 
 #### Static
 
@@ -72,10 +72,10 @@ IEquatable\<IntVector>
 
 #### Instance
 
-| Name                           | Return Type | Summary                             |
-|--------------------------------|-------------|-------------------------------------|
-| [Deconstruct(out int, o...][7] | `void`      |                                     |
-| [Set(int, int)][8]             | `void`      | Sets the components of this vector. |
+| Name                           | Return Type | Summary                                                  |
+|--------------------------------|-------------|----------------------------------------------------------|
+| [Deconstruct(out int, o...][7] | `void`      | Deconstructs this IntVector into constituent components. |
+| [Set(int, int)][8]             | `void`      | Sets the components of this vector.                      |
 
 #### Static
 

@@ -7,9 +7,13 @@
 
 > **Namespace**: [Heirloom][0]
 
+The abstract representation of a particular surface effect.
+
 ```cs
 public abstract class SurfaceEffect
 ```
+
+A surface effect modifies the content of a surface through a shader based post processing step.
 
 ### Static Fields
 

@@ -10,6 +10,8 @@
 
 #### MousePressed
 
+Event raised when a mouse button has been pressed by some input source.
+
 ```cs
 public static Action<Screen, MouseButtonEvent> MousePressed { add; remove; }
 ```

@@ -10,6 +10,8 @@
 
 #### State
 
+The state of the key when the event was generated.
+
 ```cs
 public readonly ButtonState State
 ```

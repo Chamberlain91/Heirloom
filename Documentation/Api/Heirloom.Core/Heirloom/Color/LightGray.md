@@ -10,6 +10,8 @@
 
 ### LightGray
 
+The color light gray (#CCCCCC).
+
 ```cs
 public static Color LightGray { get; }
 ```

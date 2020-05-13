@@ -45,14 +45,16 @@ public void DrawCurve(Vector p0, Vector p1, Vector p2, Vector p3, float width = 
 
 ### DrawCurve(Curve, float)
 
+Draws a bezier curve to the current surface.
+
 ```cs
 public void DrawCurve(Curve curve, float width = 1)
 ```
 
-| Name  | Type       | Summary |
-|-------|------------|---------|
-| curve | [Curve][3] |         |
-| width | `float`    |         |
+| Name  | Type       | Summary                              |
+|-------|------------|--------------------------------------|
+| curve | [Curve][3] | Some bezier curve.                   |
+| width | `float`    | The thickness of the line in pixels. |
 
 > **Returns** - `void`
 
