@@ -101,7 +101,7 @@ namespace Heirloom.OpenGLES
                         _instancingTechnique.DrawBatch();
 
                         // Advance main loop by instances
-                        i += instances;
+                        i += instances - 1;
                     }
                     else
                     {

@@ -43,9 +43,14 @@ namespace Heirloom
         #region Properties
 
         /// <summary>
-        /// Gets the associated render context.
+        /// Gets the graphics context associated with this loop.
         /// </summary>
         public GraphicsContext Graphics { get; }
+
+        /// <summary>
+        /// Gets the screen associated with <see cref="Graphics"/>.
+        /// </summary>
+        public Screen Screen => Graphics.Screen;
 
         /// <summary>
         /// Is the render thread active?
@@ -65,7 +70,7 @@ namespace Heirloom
         /// <summary>
         /// Called every iteration of the game loop to update and/or render the application "every frame".
         /// </summary>
-        protected abstract void Update(GraphicsContext gfx, float dt);
+        protected abstract void Update(float dt);
 
         /// <summary>
         /// Start the render thread.
@@ -145,7 +150,7 @@ namespace Heirloom
 
                         // Draw Application
                         Graphics.ResetState();
-                        Update(Graphics, delta);
+                        Update(delta);
 
                         // Push pixels to screen
                         Graphics.Screen.Refresh();
@@ -178,9 +183,9 @@ namespace Heirloom
                 _update = update ?? throw new ArgumentNullException(nameof(update));
             }
 
-            protected override void Update(GraphicsContext gfx, float delta)
+            protected override void Update(float delta)
             {
-                _update(gfx, delta);
+                _update(Graphics, delta);
             }
         }
     }

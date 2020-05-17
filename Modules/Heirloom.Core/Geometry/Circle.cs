@@ -290,6 +290,27 @@ namespace Heirloom.Geometry
 
         #endregion
 
+        #region Inflate
+
+        /// <summary>
+        /// Adjusts the circle radius by <paramref name="factor"/>.
+        /// </summary>
+        public void Inflate(float factor)
+        {
+            this = Inflate(this, factor);
+        }
+
+        /// <summary>
+        /// Creates a new circle with the radius extended (or shrunk) by <paramref name="factor"/>.
+        /// </summary>
+        public static Circle Inflate(Circle circle, float factor)
+        {
+            circle.Radius += factor;
+            return circle;
+        }
+
+        #endregion
+
         #region Comparison Operators
 
         /// <summary>

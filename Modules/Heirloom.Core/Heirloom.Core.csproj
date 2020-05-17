@@ -8,7 +8,7 @@
     <RootNamespace>Heirloom</RootNamespace>
     <!-- Package Info -->
     <Authors>Chris Chamberlain</Authors>
-    <Version>1.0.2-beta</Version>
+    <Version>1.0.3-beta</Version>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

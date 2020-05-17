@@ -9,6 +9,7 @@ namespace Heirloom
         /// <summary>
         /// Sample one-dimensional noise.
         /// </summary>
+        /// <returns>A noise value from -1.0 to +1.0.</returns>
         float Sample(float x);
     }
 
@@ -21,6 +22,7 @@ namespace Heirloom
         /// <summary>
         /// Sample two-dimensional noise.
         /// </summary>
+        /// <returns>A noise value from -1.0 to +1.0.</returns>
         float Sample(float x, float y);
     }
 
@@ -33,6 +35,7 @@ namespace Heirloom
         /// <summary>
         /// Sample three-dimensional noise.
         /// </summary>
+        /// <returns>A noise value from -1.0 to +1.0.</returns>
         float Sample(float x, float y, float z);
     }
 }

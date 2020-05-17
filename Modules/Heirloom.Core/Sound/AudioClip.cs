@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+using Heirloom.IO;
+
 namespace Heirloom.Sound
 {
     /// <summary>
@@ -12,6 +14,14 @@ namespace Heirloom.Sound
         private readonly short[] _samples;
 
         #region Constructors
+
+        /// <summary>
+        /// Constructs a new audio clip from the given stream, fully decoding all samples.
+        /// </summary>
+        /// <param name="path">A path to a file resolved using <see cref="Files.OpenStream(string)"/>.</param>
+        public AudioClip(string path)
+            : this(Files.OpenStream(path))
+        { }
 
         /// <summary>
         /// Constructs a new audio clip from the given stream, fully decoding all samples.

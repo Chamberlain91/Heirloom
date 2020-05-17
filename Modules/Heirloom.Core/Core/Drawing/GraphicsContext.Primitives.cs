@@ -238,8 +238,8 @@ namespace Heirloom
             //       the global transformation and the subsequent scaling between screen space 
             //       and drawing space.
 
-            var s = (int) (Calc.Sqrt(radius) * 2.8F);
-            return Calc.Clamp(s, 3, 64);
+            var s = (int) (Calc.Sqrt(radius) * Calc.Pi);
+            return Calc.Clamp(s, 5, 64);
         }
 
         #endregion

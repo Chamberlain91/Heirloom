@@ -46,8 +46,8 @@ namespace Heirloom.Sound
 
         private AudioSource(IAudioProvider provider, AudioGroup group)
         {
-            _provider = provider;
-            _group = group;
+            _provider = provider ?? throw new ArgumentNullException(nameof(provider));
+            _group = group ?? throw new ArgumentNullException(nameof(group));
         }
 
         #endregion
