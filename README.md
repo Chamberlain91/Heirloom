@@ -1,10 +1,10 @@
 # Heirloom
 
-A C# framework that provides *drawing, audio playback, mathematics, data structures and more*. Useful for prototyping and implementating games, tools and other graphical applications. Heirloom currently is supported on *Windows, Linux and macOS*.
+A C# framework that provides utilities for *2D graphics, audio, mathematics, data structures and more*. Useful for prototyping and implementating games and other graphical applications. Heirloom currently is supported on *Windows, Linux and macOS*.
 
 ![screenshots](./Documentation/screenshots.png)
 
-I've been developing this framework with **Visual Studio 2019**. Using the `dotnet` CLI has been straight forward enough experience to build and run the examples so using `VS Code` (or your favorite editor) and basic comprehension of the command line should work well to contribute and/or use **Heirloom**.
+I've been developing this framework with **Visual Studio 2019**. Using the `dotnet` CLI has been straight forward enough experience to build and run the examples so using `VS Code` (or your otherwise favorite editor) and a basic comprehension of the command line should work well to contribute and/or use **Heirloom**.
 
 Libraries are `NET Standard 2.1` compiant and examples run on `NET Core 3.1`. 
 
