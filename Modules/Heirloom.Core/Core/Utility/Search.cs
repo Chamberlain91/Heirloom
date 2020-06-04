@@ -26,11 +26,10 @@ namespace Heirloom
         #region Heuristic Search
 
         /// <summary>
-        /// Finds the path in some problem space from a starting state until a goal state has been reached. <para/>
-        /// A common application of a heuristic search is implementing path finding.
+        /// Finds the path in some problem space from a starting state until a goal state has been reached.
         /// </summary>
         /// <remarks>
-        /// This search implements the famous A* algorithm.
+        /// This search implements the A* algorithm.
         /// </remarks>
         /// <typeparam name="T">Type of the state elements.</typeparam>
         /// <param name="start">Starting state</param>
@@ -45,11 +44,10 @@ namespace Heirloom
         }
 
         /// <summary>
-        /// Finds the path in some problem space from a starting state until a goal condition is satified. <para/>
-        /// A common application of a heuristic search is implementing path finding.
+        /// Finds the path in some problem space from a starting state until a goal condition is satified.
         /// </summary>
         /// <remarks>
-        /// This search implements the famous A* algorithm.
+        /// This search implements the A* algorithm.
         /// </remarks>
         /// <typeparam name="T">Type of the state elements.</typeparam>
         /// <param name="start">Starting state</param>
@@ -60,13 +58,10 @@ namespace Heirloom
         /// <returns>A sequence of states from start (inclusive) to goal (inclusive).</returns>
         public static IReadOnlyList<T> HeuristicSearch<T>(T start, Func<T, bool> goalCondition, Func<T, IEnumerable<T>> getSuccessors, ActualCost<T> cost, HeuristicCost<T> heuristic)
         {
-            // 
-            var nodes = new Dictionary<T, Node<T>>();
-
-            // 
-            var frontier = new Heap<Node<T>>
+            // Constructs a dictionary to map values to nodes with default starting node
+            var nodes = new Dictionary<T, Node<T>>
             {
-                new Node<T>(start)
+                [start] = new Node<T>(start)
                 {
                     State = start,
                     FScore = heuristic(start),
@@ -74,32 +69,12 @@ namespace Heirloom
                 }
             };
 
-            Node<T> GetNode(T state)
+            // Constructs frontier heap to prioritize minimal cost nodes
+            // with the initialized with the start node
+            var frontier = new Heap<Node<T>>
             {
-                if (!nodes.TryGetValue(state, out var node))
-                {
-                    node = new Node<T>(state);
-                    nodes[state] = node;
-                }
-
-                return node;
-            }
-
-            static IReadOnlyList<TState> ConstructPath<TState>(Node<TState> node)
-            {
-                // Reconstruct path!
-                var path = new List<TState>();
-
-                do
-                {
-                    path.Add(node.State);
-                    node = node.Ancestor;
-                } while (node != null);
-
-                // Return path
-                path.Reverse();
-                return path;
-            }
+                nodes[start]
+            };
 
             // While we have items to process
             while (frontier.Count > 0)
@@ -107,17 +82,27 @@ namespace Heirloom
                 // Get lowest cost node
                 var current = frontier.Remove();
 
+                // Mark the current item as visited
+                current.Visited = true;
+
                 // Is the current state the target state?
                 if (goalCondition(current.State))
                 {
-                    // We have found what we want
+                    // We have found the goal state, so we need to now reconstruct the path back to
+                    // the starting node.
                     return ConstructPath(current);
                 }
 
-                // 
-                current.Visited = true;
+                // Advances the frontier by adding and prioritizing adjacent nodes
+                // by known + heuristic costs.
+                AdvanceFrontier(current);
+            }
 
-                // For each adjacent state
+            // No path to target state!
+            return null;
+
+            void AdvanceFrontier(Node<T> current)
+            {
                 foreach (var adjacent in getSuccessors(current.State))
                 {
                     var neighbor = GetNode(adjacent);
@@ -137,7 +122,7 @@ namespace Heirloom
                         else if (tentativeScore >= neighbor.GScore)
                         {
                             // Was not a better option for this state.
-                            continue;
+                            return;
                         }
 
                         // Best path (shortest), so we update the node.
@@ -151,8 +136,33 @@ namespace Heirloom
                 }
             }
 
-            // No path to target state!
-            return null;
+            Node<T> GetNode(T state)
+            {
+                if (!nodes.TryGetValue(state, out var node))
+                {
+                    node = new Node<T>(state);
+                    nodes[state] = node;
+                }
+
+                return node;
+            }
+
+            // Constructs a path by walking backwards from current node until start
+            static IReadOnlyList<TState> ConstructPath<TState>(Node<TState> node)
+            {
+                var path = new List<TState>();
+
+                do
+                {
+                    path.Add(node.State);
+                    node = node.Ancestor;
+                }
+                while (node != null);
+
+                // Reverse path to make the sequence begin at the starting node
+                path.Reverse();
+                return path;
+            }
         }
 
         private class Node<T> : IComparable<Node<T>>, IEquatable<Node<T>>

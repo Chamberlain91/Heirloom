@@ -32,14 +32,12 @@ namespace Examples.MazeAI
             });
         }
 
-        protected override void Update(GraphicsContext gfx, float dt)
+        protected override void Update(float dt)
         {
             // Process Player
             Player.Update(Maze, dt);
-
-            // Render Game
-            gfx.GlobalTransform = Matrix.CreateScale(2F);
-            gfx.Clear(Color.DarkGray);
+            Graphics.GlobalTransform = Matrix.CreateScale(2F);
+            Graphics.Clear(Color.DarkGray);
 
             // Draw Tile Grid
             foreach (var co in Maze.GetCoordinates(31, 31))
@@ -48,38 +46,32 @@ namespace Examples.MazeAI
                 if (tileIndex >= 0)
                 {
                     var image = Assets.GetImage(tileIndex);
-                    gfx.DrawImage(image, co * 8);
+                    Graphics.DrawImage(image, co * 8);
                 }
                 else
                 {
-                    // Bad tile!
-                    gfx.PushState();
-                    gfx.Color = Color.Orange;
-                    gfx.DrawRect((co * 8, (8, 8)));
-                    gfx.PopState();
+                    Graphics.PushState();
+                    Graphics.Color = Color.Orange;
+                    Graphics.DrawRect((co * 8, (8, 8)));
+                    Graphics.PopState();
                 }
             }
-
-            // Draw player
-            gfx.PushState();
-            gfx.DrawImage(Assets.GetImage(11), (8, 8) + Player.Position * 16);
+            Graphics.PushState();
+            Graphics.DrawImage(Assets.GetImage(11), (8, 8) + Player.Position * 16);
             if (Player.TargetPosition != Player.Goal)
             {
-                // Draw path
-                gfx.Color = WetAsphalt;
+                Graphics.Color = WetAsphalt;
                 foreach (var co in Player.MoveQueue)
                 {
-                    gfx.DrawCross((12, 12) + co * 16, 1);
+                    Graphics.DrawCross((12, 12) + co * 16, 1);
                 }
-
-                // 
-                gfx.Color = Sunflower;
-                gfx.DrawCross((12, 12) + Player.Goal * 16, 1);
+                Graphics.Color = Sunflower;
+                Graphics.DrawCross((12, 12) + Player.Goal * 16, 1);
             }
-            gfx.PopState();
+            Graphics.PopState();
 
             // Draw graph debug
-            DrawGraphDebug(gfx);
+            DrawGraphDebug(Graphics);
         }
 
         [Conditional("DEBUG")]
