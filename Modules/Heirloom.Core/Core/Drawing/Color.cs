@@ -140,7 +140,7 @@ namespace Heirloom
         /// Computes a luminosity component (grayscale).
         /// </summary>
         public float Luminosity
-            => ((R * 0.299F) + (G * 0.587F) + (B * 0.114F)) * A;
+            => (R * 0.299F) + (G * 0.587F) + (B * 0.114F);
 
         /// <summary>
         /// The inversion of this color.
