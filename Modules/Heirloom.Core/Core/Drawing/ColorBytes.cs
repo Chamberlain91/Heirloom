@@ -140,7 +140,7 @@ namespace Heirloom
         /// Computes a luminosity component (grayscale).
         /// </summary>
         public byte Luminosity
-            => (byte) (((R * 299) + (G * 587) + (B * 114)) / 1000);
+            => (byte) (((R * 2126) + (G * 7152) + (B * 722)) / 10000);
 
         /// <summary>
         /// The inversion of this color.

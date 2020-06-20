@@ -140,7 +140,7 @@ namespace Heirloom
         /// Computes a luminosity component (grayscale).
         /// </summary>
         public float Luminosity
-            => (R * 0.299F) + (G * 0.587F) + (B * 0.114F);
+            => (R * 0.2126F) + (G * 0.7152F) + (B * 0.0722F);
 
         /// <summary>
         /// The inversion of this color.
@@ -463,6 +463,41 @@ namespace Heirloom
 
             return new Color(r, g, b, a);
         }
+
+        #region Distance
+
+        /// <summary>
+        /// Computes the perceived distance between two colors using lumosity.
+        /// </summary>
+        public static float LumaDistance(in Color a, Color b)
+        {
+            var c = b - a;
+            var luma = (c * c).Luminosity;
+            return luma;
+        }
+
+        /// <summary>
+        /// Computes the perceived distance between two colors.
+        /// </summary>
+        public static float Distance(in Color a, in Color b)
+        {
+            return Calc.Sqrt(DistanceSquared(a, b));
+        }
+
+        /// <summary>
+        /// Computes the perceived squared distance between two colors.
+        /// </summary>
+        public static float DistanceSquared(in Color a, in Color b)
+        {
+            var c = b - a;
+            var r = (a.R + b.R) / 2F;
+            if (r < 0.5F) { return (2 * pow2(c.R)) + (4 * pow2(c.G)) + (3 * pow2(c.B)); }
+            else { return (3 * pow2(c.R)) + (4 * pow2(c.G)) + (2 * pow2(c.B)); }
+
+            static float pow2(float x) => x * x;
+        }
+
+        #endregion
 
         #region Arithmetic Operators
 

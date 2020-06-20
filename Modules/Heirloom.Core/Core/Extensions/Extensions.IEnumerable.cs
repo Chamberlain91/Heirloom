@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Heirloom.Collections;
 
@@ -85,6 +86,90 @@ namespace Heirloom
             }
 
             return true;
+        }
+
+        #endregion
+
+        #region Find Minimal and Maximal
+
+        /// <summary>
+        /// Finds the minimal element based on a scoring function.
+        /// </summary>
+        /// <param name="elements">Some elements.</param>
+        /// <param name="getScore">A function that ranks an element.</param>
+        public static T FindMinimal<T, N>(this IEnumerable<T> elements, Func<T, N> getScore) where N : IComparable<N>
+        {
+            if (elements is null) { throw new ArgumentNullException(nameof(elements)); }
+            if (getScore is null) { throw new ArgumentNullException(nameof(getScore)); }
+
+            if (elements.Any())
+            {
+                var first = elements.First();
+
+                // Get the score of the first element
+                var maxScore = getScore(first);
+                var maxElement = first;
+
+                // For each element (except the first)
+                foreach (var element in elements.Skip(1))
+                {
+                    // Get the score for this element
+                    var score = getScore(element);
+
+                    // If this is the maximal score thus far, record it.
+                    if (score.CompareTo(maxScore) < 0)
+                    {
+                        maxElement = element;
+                        maxScore = score;
+                    }
+                }
+
+                return maxElement;
+            }
+            else
+            {
+                throw new InvalidOperationException("No elements in sequence.");
+            }
+        }
+
+        /// <summary>
+        /// Finds the maximal element based on a scoring function.
+        /// </summary>
+        /// <param name="elements">Some elements.</param>
+        /// <param name="getScore">A function that ranks an element.</param>
+        public static T FindMaximal<T, N>(this IEnumerable<T> elements, Func<T, N> getScore) where N : IComparable<N>
+        {
+            if (elements is null) { throw new ArgumentNullException(nameof(elements)); }
+            if (getScore is null) { throw new ArgumentNullException(nameof(getScore)); }
+
+            if (elements.Any())
+            {
+                var first = elements.First();
+
+                // Get the score of the first element
+                var maxScore = getScore(first);
+                var maxElement = first;
+
+                // For each element (except the first)
+                foreach (var element in elements.Skip(1))
+                {
+                    // Get the score for this element
+                    var score = getScore(element);
+
+                    // If this is the maximal score thus far, record it.
+                    if (score.CompareTo(maxScore) > 0)
+                    {
+                        maxElement = element;
+                        maxScore = score;
+                    }
+                }
+
+                return maxElement;
+            }
+            else
+            {
+                throw new InvalidOperationException("No elements in sequence.");
+            }
         }
 
         #endregion
