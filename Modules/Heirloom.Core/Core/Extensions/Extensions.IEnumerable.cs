@@ -93,6 +93,90 @@ namespace Heirloom
         #region Find Minimal and Maximal
 
         /// <summary>
+        /// Finds the index of the minimal element based on a scoring function.
+        /// </summary>
+        /// <param name="elements">Some elements.</param>
+        /// <param name="getScore">A function that ranks an element.</param>
+        public static int FindMinimalIndex<T, N>(this IReadOnlyList<T> elements, Func<T, N> getScore) where N : IComparable<N>
+        {
+            if (elements is null) { throw new ArgumentNullException(nameof(elements)); }
+            if (getScore is null) { throw new ArgumentNullException(nameof(getScore)); }
+
+            if (elements.Count > 0)
+            {
+                var first = elements[0];
+
+                // Get the score of the first element
+                var minScore = getScore(first);
+                var minIndex = 0;
+
+                // For each element (except the first)
+                for (var i = 1; i < elements.Count; i++)
+                {
+                    var element = elements[i];
+
+                    // Get the score for this element
+                    var score = getScore(element);
+
+                    // If this is the maximal score thus far, record it.
+                    if (score.CompareTo(minScore) < 0)
+                    {
+                        minIndex = i;
+                        minScore = score;
+                    }
+                }
+
+                return minIndex;
+            }
+            else
+            {
+                throw new InvalidOperationException("No elements in sequence.");
+            }
+        }
+
+        /// <summary>
+        /// Finds the index of the minimal element based on a scoring function.
+        /// </summary>
+        /// <param name="elements">Some elements.</param>
+        /// <param name="getScore">A function that ranks an element.</param>
+        public static int FindMaximalIndex<T, N>(this IReadOnlyList<T> elements, Func<T, N> getScore) where N : IComparable<N>
+        {
+            if (elements is null) { throw new ArgumentNullException(nameof(elements)); }
+            if (getScore is null) { throw new ArgumentNullException(nameof(getScore)); }
+
+            if (elements.Count > 0)
+            {
+                var first = elements[0];
+
+                // Get the score of the first element
+                var maxScore = getScore(first);
+                var maxIndex = 0;
+
+                // For each element (except the first)
+                for (var i = 1; i < elements.Count; i++)
+                {
+                    var element = elements[i];
+
+                    // Get the score for this element
+                    var score = getScore(element);
+
+                    // If this is the maximal score thus far, record it.
+                    if (score.CompareTo(maxScore) > 0)
+                    {
+                        maxIndex = i;
+                        maxScore = score;
+                    }
+                }
+
+                return maxIndex;
+            }
+            else
+            {
+                throw new InvalidOperationException("No elements in sequence.");
+            }
+        }
+
+        /// <summary>
         /// Finds the minimal element based on a scoring function.
         /// </summary>
         /// <param name="elements">Some elements.</param>
