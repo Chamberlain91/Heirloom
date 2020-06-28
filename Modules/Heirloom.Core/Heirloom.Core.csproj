@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Embedded\LDR_RGB1_0.png" />
     <None Remove="Embedded\monogram_extended.ttf" />
     <None Remove="Embedded\Shaders\blur.frag" />
     <None Remove="Embedded\Shaders\default.frag" />
@@ -43,6 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Embedded\LDR_RGB1_0.png" />
     <EmbeddedResource Include="Embedded\monogram_extended.ttf" />
     <EmbeddedResource Include="Embedded\Shaders\blur.frag" />
     <EmbeddedResource Include="Embedded\Shaders\default.frag" />
