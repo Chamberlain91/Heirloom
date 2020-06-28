@@ -42,10 +42,10 @@ namespace Examples.MultiWindow
 
             public Color Color { get; }
 
-            protected override void Update(GraphicsContext ctx, float dt)
+            protected override void Update(float dt)
             {
-                ctx.Clear(Color.Gray * Color);
-                ctx.DrawText($"I am positioned at {Window.Position}\nI am also {Window.Size} pixels in size.", (16, 16), Font.Default, 32);
+                Graphics.Clear(Color.Gray * Color);
+                Graphics.DrawText($"I am positioned at {Window.Position}\nI am also {Window.Size} pixels in size.", (16, 16), Font.Default, 32);
             }
         }
     }

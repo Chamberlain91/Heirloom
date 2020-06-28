@@ -45,7 +45,7 @@ namespace Examples.FakeWindow
                 _cardPos = (Vector) _window.Size / 2F;
 
                 // Begin render loop
-                var loop = GameLoop.Create(_window.Graphics, OnDraw);
+                var loop = new DefaultGameLoop(_window, OnDraw);
                 loop.Start();
             });
         }

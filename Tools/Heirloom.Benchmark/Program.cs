@@ -6,13 +6,31 @@ using Heirloom.Desktop;
 
 namespace Heirloom.Benchmark
 {
-    internal class Program
+    internal class Program : GameLoop
     {
-        private static void Main(string[] args)
+        private readonly Benchmark[] _benchmarks;
+        private int _benchmarkIndex;
+
+        private Rectangle _bounds;
+
+        public Program()
+            : base(new Window("Heirloom Benchmark", vsync: false))
         {
-            // 
-            var benchmarkIndex = 0;
-            var benchmarks = new Benchmark[]
+            Graphics.Performance.OverlayMode = PerformanceOverlayMode.Simple;
+
+            // Go fullscreen!
+            Window.BeginFullscreen(Application.DefaultMonitor);
+            // window.Maximize();
+
+            // Compute world bounds and when the framebuffer size changes, resize the application bounds.
+            _bounds = (0, 0, Window.Surface.Width, Window.Surface.Height);
+            Window.FramebufferResized += (f, s) =>
+            {
+                _bounds = (0, 0, Window.Surface.Width, Window.Surface.Height);
+            };
+
+            // Create benchmarks
+            _benchmarks = new Benchmark[]
             {
                 new DynamicTriangulation(),
                 new StaticTriangulation(),
@@ -21,115 +39,94 @@ namespace Heirloom.Benchmark
                 new CasinoBenchmark()
             };
 
-            var bounds = new Rectangle(0, 0, 0, 0);
+            // Initialize first benchmark
+            _benchmarks[0].Initialize(in _bounds);
 
-            Window window;
+            // Bind window events
+            Window.KeyPressed += OnKeyPress;
+        }
 
-            Application.Run(() =>
+        public Window Window => Screen as Window;
+
+        private static void Main(string[] args)
+        {
+            Application.Run<Program>();
+        }
+
+        private static void OnKeyPress(Screen s, KeyEvent e)
+        {
+            // Kill window
+            if (e.Key == Key.Escape) { s.Close(); }
+        }
+
+        private void GotoNextBenchmark()
+        {
+            // Move to next index (if possible)
+            if (_benchmarkIndex < _benchmarks.Length) { _benchmarkIndex++; }
+
+            // If still a valid index, initialize stage
+            if (_benchmarkIndex < _benchmarks.Length)
             {
-                // Create fullscreen window
-                window = new Window("Heirloom Benchmark", vsync: false);
-                window.Graphics.Performance.OverlayMode = PerformanceOverlayMode.Simple;
-
-                // Go fullscreen!
-                window.BeginFullscreen(Application.DefaultMonitor);
-                // window.Maximize();
-
-                // Compute world bounds
-                bounds = (0, 0, window.Surface.Width, window.Surface.Height);
-
-                // When the framebuffer size changes, resize the application bounds.
-                window.FramebufferResized += (f, s) =>
-                    bounds = (0, 0, window.Surface.Width, window.Surface.Height);
-
-                // Initialize first benchmark
-                benchmarks[0].Initialize(in bounds);
-
-                // Launch render loop
-                var loop = GameLoop.Create(window.Graphics, Update);
-                loop.Start();
-
-                // Bind window events
-                window.KeyPressed += OnKeyPress;
-            });
-
-            static void OnKeyPress(Screen s, KeyEvent e)
-            {
-                // Kill window
-                if (e.Key == Key.Escape) { s.Close(); }
+                var benchmark = _benchmarks[_benchmarkIndex];
+                benchmark.Initialize(in _bounds);
             }
-
-            void GotoNextBenchmark()
+            else
             {
-                // Move to next index (if possible)
-                if (benchmarkIndex < benchmarks.Length) { benchmarkIndex++; }
+                var cpu = Application.CpuInfo;
+                var gpu = Application.GpuInfo;
 
-                // If still a valid index, initialize stage
-                if (benchmarkIndex < benchmarks.Length)
+                // Results
+                var results = new BenchmarkResults(gpu, cpu);
+                foreach (var benchmark in _benchmarks)
                 {
-                    var benchmark = benchmarks[benchmarkIndex];
-                    benchmark.Initialize(in bounds);
+                    results.Scores[benchmark.Name.ToIdentifier()] = benchmark.Score;
                 }
-                else
-                {
-                    var cpu = Application.CpuInfo;
-                    var gpu = Application.GpuInfo;
 
-                    // Results
-                    var results = new BenchmarkResults(gpu, cpu);
-                    foreach (var benchmark in benchmarks)
-                    {
-                        results.Scores[benchmark.Name.ToIdentifier()] = benchmark.Score;
-                    }
+                // Write
+                using var fs = new FileStream(results.GenerateFilename(), FileMode.Create);
+                using var wr = new StreamWriter(fs);
+                wr.Write(BenchmarkResults.ToJson(results));
 
-                    // Write
-                    using var fs = new FileStream(results.GenerateFilename(), FileMode.Create);
-                    using var wr = new StreamWriter(fs);
-                    wr.Write(BenchmarkResults.ToJson(results));
+                // Leave fullscreen
+                Window.Graphics.Performance.OverlayMode = PerformanceOverlayMode.Disabled;
+                Window.EndFullscreen();
 
-                    // Leave fullscreen
-                    window.Graphics.Performance.OverlayMode = PerformanceOverlayMode.Disabled;
-                    window.EndFullscreen();
-
-                    // Size window
-                    var rect = TextLayout.Measure(GetResultsText(benchmarks), Font.Default, 32);
-                    window.Size = (IntSize) rect.Size + (32, 32);
-                }
+                // Size window
+                var rect = TextLayout.Measure(GetResultsText(_benchmarks), Font.Default, 32);
+                Window.Size = (IntSize) rect.Size + (32, 32);
             }
+        }
+        protected override void Update(float dt)
+        {
+            Graphics.Clear(Color.DarkGray);
 
-            void Update(GraphicsContext gfx, float dt)
+            // 
+            if (_benchmarkIndex < _benchmarks.Length)
             {
-                // 
-                gfx.Clear(Color.DarkGray);
+                var benchmark = _benchmarks[_benchmarkIndex];
 
-                // 
-                if (benchmarkIndex < benchmarks.Length)
+                // Update and draw stage
+                benchmark.UpdateBenchmark(Graphics, in _bounds, dt);
+
+                // If the stage is complete, move to the next stage
+                if (benchmark.IsComplete)
                 {
-                    var benchmark = benchmarks[benchmarkIndex];
-
-                    // Update and draw stage
-                    benchmark.UpdateBenchmark(gfx, in bounds, dt);
-
-                    // If the stage is complete, move to the next stage
-                    if (benchmark.IsComplete)
-                    {
-                        Console.WriteLine($"{benchmark.Name}: {benchmark.Score}");
-
-                        // 
-                        GotoNextBenchmark();
-                    }
+                    Console.WriteLine($"{benchmark.Name}: {benchmark.Score}");
 
                     // 
-                    DrawInformation(gfx, $"\"{benchmark.Name}\" - {benchmark.Progress * 100F:N2}% - {gfx.CurrentFPS:N0} FPS");
+                    GotoNextBenchmark();
                 }
-                else
-                {
-                    var results = GetResultsText(benchmarks);
 
-                    // Draw Results Stage
-                    DrawInformation(gfx, results);
-                    Thread.Sleep(2); // force to render slower
-                }
+                // 
+                DrawInformation(Graphics, $"\"{benchmark.Name}\" - {benchmark.Progress * 100F:N2}% - {Graphics.CurrentFPS:N0} FPS");
+            }
+            else
+            {
+                var results = GetResultsText(_benchmarks);
+
+                // Draw Results Stage
+                DrawInformation(Graphics, results);
+                Thread.Sleep(2); // force to render slower
             }
         }
 

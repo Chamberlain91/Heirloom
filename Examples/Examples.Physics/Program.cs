@@ -58,9 +58,9 @@ namespace Examples.Physics
             }
         }
 
-        protected override void Update(GraphicsContext gfx, float dt)
+        protected override void Update(float dt)
         {
-            gfx.Clear(Background);
+            Graphics.Clear(Background);
 
             _fixedTime += dt;
             while (_fixedTime >= FixedTimeStep)
@@ -69,7 +69,7 @@ namespace Examples.Physics
                 Simulation.Step(FixedTimeStep);
             }
 
-            Simulation.Render(gfx);
+            Simulation.Render(Graphics);
         }
 
         private static void Main(string[] args)

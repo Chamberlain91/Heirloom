@@ -17,7 +17,7 @@ namespace Examples.Depth
             Window = window ?? throw new ArgumentNullException(nameof(window));
 
             Renderer = new Renderer(multisample);
-            Loop = GameLoop.Create(Window.Graphics, OnUpdate);
+            Loop = new DefaultGameLoop(Window, OnUpdate);
         }
 
         public Window Window { get; }

@@ -34,7 +34,7 @@ namespace Heirloom
         {
             if (frameRate <= 0 && frameRate != -1) { throw new ArgumentException("Must be greater than zero or equal to -1.", nameof(frameRate)); }
 
-            Graphics = graphics;
+            Graphics = graphics ?? throw new ArgumentNullException(nameof(graphics));
             FixedFrameRate = frameRate;
         }
 
@@ -156,36 +156,6 @@ namespace Heirloom
                         Graphics.Screen.Refresh();
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Creates a render loop instance from the given context and method reference.
-        /// </summary>
-        /// <param name="gfx">The relevant graphics context.</param>
-        /// <param name="update">The relevant update function.</param>
-        /// <param name="frameRate">The desired fixed frame rate or -1 for unlimited.</param>
-        public static GameLoop Create(GraphicsContext gfx, UpdateFunction update, int frameRate = -1)
-        {
-            if (gfx is null) { throw new ArgumentNullException(nameof(gfx)); }
-            if (update is null) { throw new ArgumentNullException(nameof(update)); }
-
-            return new DefaultRenderLoop(gfx, update, frameRate);
-        }
-
-        private sealed class DefaultRenderLoop : GameLoop
-        {
-            private readonly UpdateFunction _update;
-
-            public DefaultRenderLoop(GraphicsContext context, UpdateFunction update, int frameRate)
-                : base(context, frameRate)
-            {
-                _update = update ?? throw new ArgumentNullException(nameof(update));
-            }
-
-            protected override void Update(float delta)
-            {
-                _update(Graphics, delta);
             }
         }
     }

@@ -44,7 +44,7 @@ namespace Examples.GameInput
                 Chatbox.EmoteDetected += emote => Player.SubmitEmote(emote);
 
                 // Begin Render Loop
-                var loop = GameLoop.Create(Screen.Graphics, OnUpdate);
+                var loop = new DefaultGameLoop(Screen, OnUpdate);
                 loop.Start();
             });
         }

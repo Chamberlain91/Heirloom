@@ -8,17 +8,13 @@ namespace Examples.CpuRasterizer
 {
     internal class Program : GameLoop
     {
-        public readonly Window Window;
-
         public readonly Image Image;
 
-        public Program(Window window)
-            : base(window.Graphics)
+        public Program()
+            : base(new Window("CPU Rasterizer", (512, 512)) { IsResizable = false })
         {
-            Window = window;
-
             // 
-            Image = new Image(Window.Surface.Size);
+            Image = new Image(Screen.Surface.Size);
             Image.Clear(Color.DarkGray);
 
             // Rasterize into image (CPU rendering)
@@ -39,26 +35,14 @@ namespace Examples.CpuRasterizer
             });
         }
 
-        protected override void Update(GraphicsContext gfx, float dt)
+        protected override void Update(float dt)
         {
-            Window.Graphics.DrawImage(Image, new Rectangle(Vector.Zero, Window.Size));
+            Graphics.DrawImage(Image, new Rectangle(Vector.Zero, Screen.Size));
         }
 
         private static void Main(string[] args)
         {
-            Application.Run(() =>
-            {
-                // Create window
-                var window = new Window("CPU Rasterizer")
-                {
-                    Size = (512, 512),
-                    IsResizable = false
-                };
-
-                // 
-                var program = new Program(window);
-                program.Start();
-            });
+            Application.Run<Program>();
         }
     }
 }

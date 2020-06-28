@@ -43,7 +43,7 @@ namespace Examples.Drawing
             Window.IsResizable = false;
 
             // Create render loop
-            Loop = GameLoop.Create(Window.Graphics, Update);
+            Loop = new DefaultGameLoop(Window, Update);
             Loop.Start();
 
             // Register key events

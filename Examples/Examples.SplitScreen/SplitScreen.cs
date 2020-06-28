@@ -31,7 +31,7 @@ namespace Examples.SplitScreen
             };
         }
 
-        protected override void Update(GraphicsContext gfx, float dt)
+        protected override void Update(float dt)
         {
             // Update Players
             foreach (var player in Players)
@@ -39,8 +39,8 @@ namespace Examples.SplitScreen
                 player.Update(dt);
             }
 
-            var w = gfx.Surface.Width / 2;
-            var h = gfx.Surface.Height;
+            var w = Graphics.Surface.Width / 2;
+            var h = Graphics.Surface.Height;
 
             /*
               _   _                _              _  _     _        _ 
@@ -49,17 +49,17 @@ namespace Examples.SplitScreen
 
              */
 
-            gfx.Viewport = (0, 0, w, h);
+            Graphics.Viewport = (0, 0, w, h);
 
             // Set "camera" to follow Player 1
-            gfx.SetCameraTransform(Players[0].SmoothPosition);
-            gfx.Clear(Color.DarkGray * Players[0].Color);
-            DrawWorld(gfx);
+            Graphics.SetCameraTransform(Players[0].SmoothPosition);
+            Graphics.Clear(Color.DarkGray * Players[0].Color);
+            DrawWorld(Graphics);
 
             // Draw Player 1 HUD
-            gfx.GlobalTransform = Matrix.Identity;
-            gfx.Color = Players[0].Color;
-            gfx.DrawText("<WASD> to control Red", (16, 16), Font.Default, 32);
+            Graphics.GlobalTransform = Matrix.Identity;
+            Graphics.Color = Players[0].Color;
+            Graphics.DrawText("<WASD> to control Red", (16, 16), Font.Default, 32);
 
             /*
               _   _                _              _  _    ___        _  
@@ -68,29 +68,29 @@ namespace Examples.SplitScreen
 
             */
 
-            gfx.Viewport = (w, 0, w, h);
+            Graphics.Viewport = (w, 0, w, h);
 
             // Set "camera" to follow Player 2
-            gfx.SetCameraTransform(Players[1].SmoothPosition);
-            gfx.Clear(Color.DarkGray * Players[1].Color);
-            DrawWorld(gfx);
+            Graphics.SetCameraTransform(Players[1].SmoothPosition);
+            Graphics.Clear(Color.DarkGray * Players[1].Color);
+            DrawWorld(Graphics);
 
             // Draw Player 2 HUD
-            gfx.GlobalTransform = Matrix.Identity;
-            gfx.Color = Players[1].Color;
-            gfx.DrawText("<ARROW> to control Green", (gfx.Viewport.Width - 16, 16), Font.Default, 32, TextAlign.Right);
+            Graphics.GlobalTransform = Matrix.Identity;
+            Graphics.Color = Players[1].Color;
+            Graphics.DrawText("<ARROW> to control Green", (Graphics.Viewport.Width - 16, 16), Font.Default, 32, TextAlign.Right);
         }
 
-        private void DrawWorld(GraphicsContext gfx)
+        private void DrawWorld(GraphicsContext graphics)
         {
             // Draw Stage
-            gfx.Color = StageColor;
-            gfx.DrawCircle(Vector.Zero, StageRadius);
+            graphics.Color = StageColor;
+            graphics.DrawCircle(Vector.Zero, StageRadius);
 
             // Draw Players
             foreach (var player in Players)
             {
-                player.Draw(gfx);
+                player.Draw(graphics);
             }
         }
 

@@ -45,7 +45,7 @@ namespace Examples.Shaders
                 };
 
                 // 
-                var loop = GameLoop.Create(window.Graphics, Update);
+                var loop = new DefaultGameLoop(window, Update);
                 loop.Start();
             });
         }

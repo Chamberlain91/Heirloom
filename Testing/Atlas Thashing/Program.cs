@@ -21,7 +21,7 @@ namespace Atlas_Thashing
                 var packer = new RectanglePacker<Image>(window.Surface.Size, PackingAlgorithm.Skyline);
 
                 // Create the main loop
-                var loop = GameLoop.Create(window.Graphics, (gfx, dt) =>
+                var loop = new DefaultGameLoop(window, (gfx, dt) =>
                 {
                     packer.Clear();
 
