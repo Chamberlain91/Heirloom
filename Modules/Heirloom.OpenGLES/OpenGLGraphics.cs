@@ -43,6 +43,7 @@ namespace Heirloom.OpenGLES
         private Texture _texture;
 
         // Blending State
+        private bool _blendModeDirty;
         private Blending _blendMode;
         private Color _blendColor;
 
@@ -203,7 +204,7 @@ namespace Heirloom.OpenGLES
                 GL.SetViewport(x, y, w, h);
                 GL.SetScissor(x, y, w, h);
 
-                // 
+                // No longer dirty
                 _viewportDirty = false;
             }
         }
@@ -215,7 +216,17 @@ namespace Heirloom.OpenGLES
         public override Blending Blending
         {
             get => _blendMode;
-            set => UseBlending(value);
+
+            set
+            {
+                if (_blendMode != value)
+                {
+                    Flush();
+
+                    _blendModeDirty = true;
+                    _blendMode = value;
+                }
+            }
         }
 
         public override Color Color
@@ -224,55 +235,51 @@ namespace Heirloom.OpenGLES
             set => _blendColor = value;
         }
 
-        private void UseBlending(Blending blending)
+        private void UpdateBlending()
         {
-            if (_blendMode != blending)
+            if (_blendModeDirty)
             {
-                Invoke(() =>
+                // 
+                switch (_blendMode)
                 {
-                    // Complete previous work
-                    Flush();
+                    default:
+                        throw new InvalidOperationException("Unable to set unknown blend mode.");
 
-                    // Store mode
-                    _blendMode = blending;
+                    case Blending.Opaque:
+                        GL.SetBlendEquation(BlendEquation.Add);
+                        GL.SetBlendFunction(BlendFunction.One, BlendFunction.Zero);
+                        break;
 
-                    // 
-                    switch (_blendMode)
-                    {
-                        default:
-                            throw new InvalidOperationException("Unable to set unknown blend mode.");
+                    case Blending.Alpha:
+                        GL.SetBlendEquation(BlendEquation.Add, BlendEquation.Add);
+                        GL.SetBlendFunction(BlendFunction.SourceAlpha, BlendFunction.OneMinusSourceAlpha, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
+                        break;
 
-                        case Blending.Opaque:
-                            GL.SetBlendEquation(BlendEquation.Add);
-                            GL.SetBlendFunction(BlendFunction.One, BlendFunction.Zero);
-                            break;
+                    case Blending.Additive:
+                        GL.SetBlendEquation(BlendEquation.Add);
+                        // GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
+                        GL.SetBlendFunction(BlendFunction.SourceAlpha, BlendFunction.One);
+                        break;
 
-                        case Blending.Alpha:
-                            GL.SetBlendEquation(BlendEquation.Add, BlendEquation.Add);
-                            GL.SetBlendFunction(BlendFunction.SourceAlpha, BlendFunction.OneMinusSourceAlpha, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
-                            break;
+                    case Blending.Subtractive: // Opposite of Additive (DST - SRC)
+                        GL.SetBlendEquation(BlendEquation.ReverseSubtract);
+                        // GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha, BlendFunction.One);
+                        GL.SetBlendFunction(BlendFunction.SourceAlpha, BlendFunction.One);
+                        break;
 
-                        case Blending.Additive:
-                            GL.SetBlendEquation(BlendEquation.Add);
-                            GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
-                            break;
+                    case Blending.Multiply:
+                        GL.SetBlendEquation(BlendEquation.Add);
+                        GL.SetBlendFunction(BlendFunction.DestinationColor, BlendFunction.OneMinusSourceAlpha);
+                        break;
 
-                        case Blending.Subtractive: // Opposite of Additive (DST - SRC)
-                            GL.SetBlendEquation(BlendEquation.ReverseSubtract);
-                            GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha, BlendFunction.One);
-                            break;
+                    case Blending.Invert:
+                        GL.SetBlendEquation(BlendEquation.Subtract);
+                        GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.Zero);
+                        break;
+                }
 
-                        case Blending.Multiply:
-                            GL.SetBlendEquation(BlendEquation.Add);
-                            GL.SetBlendFunction(BlendFunction.DestinationColor, BlendFunction.OneMinusSourceAlpha);
-                            break;
-
-                        case Blending.Invert:
-                            GL.SetBlendEquation(BlendEquation.Subtract);
-                            GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.Zero);
-                            break;
-                    }
-                }, false);
+                // No longer dirty
+                _blendModeDirty = false;
             }
         }
 
@@ -968,6 +975,9 @@ namespace Heirloom.OpenGLES
             {
                 Invoke(() =>
                 {
+                    // Update blend mode
+                    UpdateBlending();
+
                     // Update viewport and scissor
                     UpdateViewportScissor();
 
