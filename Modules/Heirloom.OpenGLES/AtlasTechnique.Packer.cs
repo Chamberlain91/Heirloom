@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 
 using Heirloom.IO;
 
@@ -29,9 +30,30 @@ namespace Heirloom.OpenGLES
         {
             Log.Warning($"Evicting {_entries.Count} images");
 
+            // DumpAtlasToDisk();
+
             _changeSet.Clear();
             _entries.Clear();
             _packer.Clear();
+        }
+
+        public void DumpAtlasToDisk()
+        {
+            // Copy entire atlas to disk
+            var image = new Image(_texture.Width, _texture.Height);
+            foreach (var (im, en) in _entries)
+            {
+                // Copy each image to disk...
+                foreach (var co in Rasterizer.Rectangle(en.Rect))
+                {
+                    var co2 = co - en.Rect.Position;
+                    image.SetPixel(co, im.GetPixel(co2));
+                }
+            }
+
+            // Shuttle image to disk
+            using var fs = new FileStream("atlas.png", FileMode.Create);
+            image.WritePNG(fs);
         }
 
         internal override bool Submit(Image image, out Texture texture, out Rectangle uvRect)
