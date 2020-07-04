@@ -85,6 +85,16 @@ namespace Heirloom
             Max = max;
         }
 
+        /// <summary>
+        /// Sets both components to a constant value.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Set(float constant)
+        {
+            Min = constant;
+            Max = constant;
+        }
+
         #region Contains, Overlaps
 
         /// <summary>
