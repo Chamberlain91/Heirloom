@@ -3,42 +3,24 @@ using System;
 namespace Heirloom
 {
     /// <summary>
-    /// A utility class to help drive sprite based animation.
+    /// A utility class to help drive image based animation.
     /// </summary>
     /// <seealso cref="Sprite"/>
-    /// <seealso cref="SpriteAnimation"/>
+    /// <seealso cref="ImageSequence"/>
     /// <category>Drawing</category>
-    public sealed class SpriteAnimator
+    public sealed class Animator
     {
+        private AnimationDirection _direction;
         private float _frameTime;
         private int _frameNumber;
-        private AnimationDirection _direction;
-
-        /// <summary>
-        /// Construcs a new <see cref="SpriteAnimator"/> with the specified <see cref="Heirloom.Sprite"/>.
-        /// </summary>
-        /// <param name="sprite">Some sprite.</param>
-        /// <param name="initialAnimation">The starting / default animation.</param>
-        public SpriteAnimator(Sprite sprite, string initialAnimation)
-        {
-            Sprite = sprite ?? throw new ArgumentNullException(nameof(sprite));
-
-            // Begin the default anim
-            Play(initialAnimation);
-        }
-
-        /// <summary>
-        /// Gets the <see cref="Heirloom.Sprite"/> the player is reponsible for.
-        /// </summary>
-        public Sprite Sprite { get; }
 
         /// <summary>
         /// Gets the active animation.
         /// </summary>
-        public SpriteAnimation Animation { get; private set; }
+        public ImageSequence Current { get; private set; }
 
         /// <summary>
-        /// Gets a value that determines if the player is performing playback of <see cref="Animation"/>.
+        /// Gets a value that determines if the player is performing playback of <see cref="Current"/>.
         /// </summary>
         public bool IsPlaying { get; private set; }
 
@@ -51,7 +33,7 @@ namespace Heirloom
 
             set
             {
-                if (value >= 0 && value < Animation.Length)
+                if (value >= 0 && value < Current.Length)
                 {
                     _frameNumber = value;
                     _frameTime = 0;
@@ -66,31 +48,24 @@ namespace Heirloom
         /// <summary>
         /// Gets the image for the current frame of the active animation.
         /// </summary>
-        public Image Image => Animation[FrameNumber].Image;
+        public Image Image => Current.GetImage(FrameNumber);
 
         /// <summary>
         /// Begins playback of the specified animation.
         /// </summary>
         /// <param name="animation">The name of some animation.</param>
         /// <exception cref="ArgumentException">An animation with the specified name does not exist.</exception>
-        public void Play(string animation)
+        public void Play(ImageSequence animation)
         {
-            if (Sprite.ContainsAnimation(animation))
-            {
-                Animation = Sprite.GetAnimation(animation);
+            Current = animation ?? throw new ArgumentNullException(nameof(animation));
 
-                // Reset animation progress
-                _direction = Animation.Direction;
-                if (_direction == AnimationDirection.PingPong) { _direction = AnimationDirection.Forward; }
-                FrameNumber = 0;
-                _frameTime = 0;
+            // Reset animation progress
+            _direction = Current.Direction;
+            if (_direction == AnimationDirection.PingPong) { _direction = AnimationDirection.Forward; }
+            FrameNumber = 0;
+            _frameTime = 0;
 
-                Play();
-            }
-            else
-            {
-                throw new ArgumentException("The specified animation does not exist.");
-            }
+            Play();
         }
 
         /// <summary>
@@ -98,6 +73,11 @@ namespace Heirloom
         /// </summary>
         public void Play()
         {
+            if (Current == null)
+            {
+                throw new InvalidOperationException("Unable to result playback, no active animation.");
+            }
+
             IsPlaying = true;
         }
 
@@ -110,7 +90,7 @@ namespace Heirloom
         }
 
         /// <summary>
-        /// Updates the player, advancing animation by elapsed time.
+        /// Updates the player, advancing the animation by elapsed time.
         /// </summary>
         /// <param name="dt">The difference in time in seconds since last update.</param>
         public void Update(float dt)
@@ -119,23 +99,23 @@ namespace Heirloom
             {
                 _frameTime += dt;
 
-                while (_frameTime > Animation[FrameNumber].Delay)
+                while (_frameTime > Current.GetDelay(FrameNumber))
                 {
                     // Remove frame length from elapsed time
-                    _frameTime -= Animation[FrameNumber].Delay;
+                    _frameTime -= Current.GetDelay(FrameNumber);
 
                     // If animating forward
                     if (_direction == AnimationDirection.Forward)
                     {
                         // Advance a frame
                         var nextFrame = FrameNumber + 1;
-                        if (nextFrame >= Animation.Length)
+                        if (nextFrame >= Current.Length)
                         {
                             // If a ping pong style animation, flip direction
-                            if (Animation.Direction == AnimationDirection.PingPong)
+                            if (Current.Direction == AnimationDirection.PingPong)
                             {
                                 _direction = AnimationDirection.Reverse;
-                                nextFrame = Animation.Length - 1;
+                                nextFrame = Current.Length - 1;
                             }
                             else
                             {
@@ -153,14 +133,14 @@ namespace Heirloom
                         if (nextFrame < 0)
                         {
                             // If a ping pong style animation, flip direction
-                            if (Animation.Direction == AnimationDirection.PingPong)
+                            if (Current.Direction == AnimationDirection.PingPong)
                             {
                                 _direction = AnimationDirection.Forward;
                                 nextFrame = 0;
                             }
                             else
                             {
-                                nextFrame = Animation.Length - 1;
+                                nextFrame = Current.Length - 1;
                             }
                         }
 

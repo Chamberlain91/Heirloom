@@ -8,12 +8,12 @@ using Heirloom.IO;
 namespace Heirloom
 {
     /// <summary>
-    /// An animated sprite. A sprite is a collection of <see cref="SpriteAnimation"/>.
+    /// A sprite is a collection of named <see cref="ImageSequence"/>.
     /// </summary>
     /// <category>Drawing</category>
     public sealed class Sprite
     {
-        private readonly Dictionary<string, SpriteAnimation> _animations;
+        private readonly Dictionary<string, ImageSequence> _animations;
 
         #region Constructors
 
@@ -22,7 +22,7 @@ namespace Heirloom
         /// </summary>
         public Sprite()
         {
-            _animations = new Dictionary<string, SpriteAnimation>();
+            _animations = new Dictionary<string, ImageSequence>();
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Heirloom
             foreach (var tag in ase.Tags)
             {
                 // Collect frames for specific sequence
-                var animation = new SpriteAnimation(tag.Name, tag.Direction);
+                var animation = new ImageSequence(tag.Direction);
                 for (var i = tag.From; i <= tag.To; i++)
                 {
                     var frame = ase.Frames[i];
@@ -80,7 +80,7 @@ namespace Heirloom
         /// <summary>
         /// Gets a read-only view of the animations table.
         /// </summary>
-        public IReadOnlyDictionary<string, SpriteAnimation> Animations => _animations;
+        public IReadOnlyDictionary<string, ImageSequence> Animations => _animations;
 
         #endregion
 
@@ -89,21 +89,20 @@ namespace Heirloom
         /// <summary>
         /// Adds an animation to this sprite.
         /// </summary>
-        public void AddAnimation(SpriteAnimation animation)
+        public void AddAnimation(string name, ImageSequence animation)
         {
-            // 
-            if (_animations.ContainsKey(animation.Name))
+            if (_animations.ContainsKey(name))
             {
-                throw new InvalidOperationException($"Unable to add animation, an animation named '{animation.Name}' already exists.");
+                throw new InvalidOperationException($"Unable to add animation, an animation named '{name}' already exists.");
             }
 
-            _animations[animation.Name] = animation;
+            _animations[name] = animation;
         }
 
         /// <summary>
         /// Gets an animation contained by this sprite.
         /// </summary>
-        public SpriteAnimation GetAnimation(string name)
+        public ImageSequence GetAnimation(string name)
         {
             if (_animations.TryGetValue(name, out var animation))
             {
@@ -116,9 +115,9 @@ namespace Heirloom
         /// <summary>
         /// Removes an animation from this sprite.
         /// </summary>
-        public bool RemoveAnimation(SpriteAnimation animation)
+        public bool RemoveAnimation(string name)
         {
-            return _animations.Remove(animation.Name);
+            return _animations.Remove(name);
         }
 
         /// <summary>

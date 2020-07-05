@@ -9,7 +9,8 @@ namespace Examples.GameInput
 {
     internal sealed class Player
     {
-        public readonly SpritePlayer SpritePlayer;
+        public readonly Sprite Sprite;
+        public readonly Animator Animator;
 
         public Vector Position;
         public Vector Velocity;
@@ -23,7 +24,11 @@ namespace Examples.GameInput
 
         public Player()
         {
-            SpritePlayer = new SpritePlayer(LoadSprite(), "idle");
+            Sprite = LoadSprite();
+
+            Animator = new Animator();
+            Animator.Play(Sprite.GetAnimation("idle"));
+
             _emoteQueue = new Queue<Emote>();
         }
 
@@ -34,16 +39,16 @@ namespace Examples.GameInput
             Velocity += (0, 500 * dt);
 
             // Update sprite player
-            SpritePlayer.Update(dt);
+            Animator.Update(dt);
 
             // Hit "floor"
             if (Position.Y > 0)
             {
                 _onGround = true;
 
-                if (Velocity.X == 0F && SpritePlayer.Animation.Name != "idle")
+                if (Velocity.X == 0F && Animator.Current != Sprite.GetAnimation("idle"))
                 {
-                    SpritePlayer.Play("idle");
+                    Animator.Play(Sprite.GetAnimation("idle"));
                 }
 
                 Position.Y = 0;
@@ -59,7 +64,7 @@ namespace Examples.GameInput
                 if (_onGround && Input.CheckKey(Key.Space, ButtonState.Down))
                 {
                     Velocity -= (0, 300);
-                    SpritePlayer.Play("jump");
+                    Animator.Play(Sprite.GetAnimation("jump"));
                     _onGround = false;
                 }
 
@@ -68,9 +73,9 @@ namespace Examples.GameInput
                 if (pressLeft || pressRight)
                 {
                     // If on the ground, begin walking
-                    if (_onGround && SpritePlayer.Animation.Name != "walk")
+                    if (_onGround && Animator.Current != Sprite.GetAnimation("walk"))
                     {
-                        SpritePlayer.Play("walk");
+                        Animator.Play(Sprite.GetAnimation("walk"));
                     }
 
                     if (pressLeft)
@@ -87,7 +92,7 @@ namespace Examples.GameInput
                 else if (_onGround)
                 {
                     // Stop
-                    SpritePlayer.Play("idle");
+                    Animator.Play(Sprite.GetAnimation("idle"));
                     Velocity.X = 0F;
                 }
             }
@@ -151,12 +156,12 @@ namespace Examples.GameInput
             // Draw current frame
             gfx.Color = Color.White;
             var matrix = Matrix.CreateTransform(Position, 0, (_flip ? -1 : 1, 1));
-            gfx.DrawImage(SpritePlayer.Image, matrix);
+            gfx.DrawImage(Animator.Image, matrix);
 
             // Draw emote
             if (_emoteImage != null)
             {
-                gfx.DrawImage(_emoteImage, Position - (0, SpritePlayer.Image.Height + 2));
+                gfx.DrawImage(_emoteImage, Position - (0, Animator.Image.Height + 2));
             }
         }
 
@@ -190,15 +195,15 @@ namespace Examples.GameInput
 
             var sprite = new Sprite();
 
-            sprite.AddAnimation(new SpriteAnimation("idle") {
+            sprite.AddAnimation("idle", new ImageSequence {
                 { submap["p1_front"], FrameDelay }
             });
 
-            sprite.AddAnimation(new SpriteAnimation("jump") {
+            sprite.AddAnimation("jump", new ImageSequence  {
                 { submap["p1_jump"], FrameDelay }
             });
 
-            sprite.AddAnimation(new SpriteAnimation("walk") {
+            sprite.AddAnimation("walk", new ImageSequence {
                 { submap["p1_walk01"], FrameDelay },
                 { submap["p1_walk02"], FrameDelay },
                 { submap["p1_walk03"], FrameDelay },
