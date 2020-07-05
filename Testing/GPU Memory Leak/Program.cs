@@ -13,7 +13,7 @@ namespace GPU_Memory_Leak
                 window.Graphics.Performance.OverlayMode = PerformanceOverlayMode.Simple;
 
                 var hue = 0;
-                var loop = GameLoop.Create(window.Graphics, (gfx, dt) =>
+                var loop = new DefaultGameLoop(window.Graphics, (gfx, dt) =>
                 {
                     // Get next color
                     var color = Color.FromHSV(hue, 1, 1);
