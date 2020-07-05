@@ -71,65 +71,142 @@ namespace Heirloom.IO
         #endregion
 
         /// <summary>
-        /// Loads an asset with inference by specified type and file extension.
+        /// Checks if an asset with the specified identifier has been loaded.
+        /// </summary>
+        public static bool IsLoaded(string identifier)
+        {
+            // Try to get the asset
+            if (_assets.TryGetValue(identifier, out var reference))
+            {
+                // Asset was loaded, now return if it is still alive
+                return reference.IsAlive;
+            }
+
+            // Asset was never loaded or has been collected
+            return false;
+        }
+
+        /// <summary>
+        /// Attempts to retreive an asset with the specified identifier.
         /// </summary>
         /// <typeparam name="T">Some asset type.</typeparam>
+        /// <param name="identifier">Some identifier representing an asset.</param>
+        /// <param name="asset">Outputs the asset, if loaded.</param>
+        /// <returns>True if the asset was retrieved successfully, otherwise false.</returns>
+        /// <exception cref="InvalidCastException">Generic type mismatch, asset was not assignable to a value of <typeparamref name="T"/>.</exception>
+        public static bool TryGet<T>(string identifier, out T asset)
+        {
+            // Try to get the asset
+            if (_assets.TryGetValue(identifier, out var reference))
+            {
+                // Is the reference to the asset still valid?
+                if (reference.IsAlive)
+                {
+                    // Is the reference to the asset still valid?
+                    if (reference.Target is T _asset)
+                    {
+                        asset = _asset;
+                        return true;
+                    }
+                    else
+                    {
+                        // The asset was loaded, but we are requesting the wrong type.
+                        throw new InvalidCastException($"Unable to get asset '{identifier}', was not of type {typeof(T).Name}.");
+                    }
+                }
+            }
+
+            // Asset was never loaded or was collected
+            asset = default;
+            return false;
+        }
+
+        /// <summary>
+        /// Retreives a loaded asset with the specified identifier.
+        /// </summary>
+        /// <typeparam name="T">Some asset type.</typeparam>
+        /// <param name="identifier">Some identifier representing an asset.</param>
+        /// <returns>Returns the associated asset.</returns>
+        /// <exception cref="InvalidCastException">Generic type mismatch, asset was not assignable to a value of <typeparamref name="T"/>.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when the asset requested has not been loaded into memory.</exception>
+        public static T Get<T>(string identifier)
+        {
+            if (TryGet<T>(identifier, out var value))
+            {
+                return value;
+            }
+            else
+            {
+                // Can't get an unloaded asset
+                throw new InvalidOperationException($"Unable to get asset. Asset was not loaded.");
+            }
+        }
+
+        /// <summary>
+        /// Stores an asset with the specified identifier.
+        /// </summary>
+        /// <typeparam name="T">Some asset type.</typeparam>
+        /// <param name="identifier">Some identifier representing an asset.</param>
+        /// <exception cref="InvalidOperationException">Thrown when the identifier already exists has not been loaded into memory.</exception>
+        public static void Set<T>(string identifier, T asset)
+        {
+            if (_assets.ContainsKey(identifier))
+            {
+                throw new InvalidOperationException($"Unable to store asset. An asset with the specified identifier already exists.");
+            }
+            else
+            {
+                _assets[identifier] = new WeakReference(asset);
+            }
+        }
+
+        /// <summary>
+        /// Loads an asset with inference by specified type and file extension. If the asset is already loaded, this simply returns it.
+        /// </summary>
+        /// <typeparam name="T">Some asset type.</typeparam>
+        /// <param name="identifier">Some identifier to represent the resource.</param>
         /// <param name="path">Some path to a resource.</param>
         /// <returns>The loaded asset</returns>
         /// <exception cref="InvalidCastException">Thrown when the asset has been loaded, but the specified type is incorrect.</exception>
         /// <exception cref="NotImplementedException">Thrown when all asset loaders fail to load the resource.</exception>
         /// <exception cref="FileNotFoundException">Thrown when the file at the specified path does not exist.</exception>
-        public static T Load<T>(string path)
+        public static T Load<T>(string identifier, string path)
         {
             // Try to get the asset
-            if (_assets.TryGetValue(path, out var reference))
+            if (TryGet<T>(identifier, out var asset))
             {
-                if (reference.IsAlive)
+                // Was loaded already, so just return it!
+                return asset;
+            }
+            else
+            {
+                // Was not loaded, so we must attempt to locate and load this asset.
+                // Check if the file exists (this check will check for embedded and on disk).
+                if (Files.Exists(path))
                 {
-                    if (reference.Target is T asset)
+                    // Try each known loader for the specified asset type.
+                    foreach (var loader in GetLoaders<T>())
                     {
-                        // Asset was loaded and the correct type.
-                        return asset;
+                        // Try to load the asset
+                        if (loader.TryLoad(path, out asset))
+                        {
+                            Log.Debug($"Loaded: {path}");
+
+                            // Asset loaded succesfully. We will store the asset
+                            // with by the specified identifier.
+                            Set(identifier, asset);
+                            return asset;
+                        }
                     }
-                    else
-                    {
-                        // Asset was loaded, but we are requesting the wrong type.
-                        throw new InvalidCastException($"Unable to return asset '{path}', was not of type {typeof(T).Name}.");
-                    }
+
+                    // All loaders failed to load resource
+                    throw new NotImplementedException($"Unable to load asset, no successful loader.");
                 }
                 else
                 {
-                    // Reference was GC'd
+                    // Resource could not be found
+                    throw new FileNotFoundException($"Unable to load asset, file not found.");
                 }
-            }
-            else
-            {
-                // Was never loaded
-            }
-
-            if (Files.Exists(path))
-            {
-                // Have to load the resource
-                foreach (var loader in GetLoaders<T>())
-                {
-                    // ...try to load the resource
-                    if (loader.TryLoad(path, out var asset))
-                    {
-                        Log.Debug($"Loaded: {path}");
-
-                        // Asset loaded succesfully
-                        _assets[path] = new WeakReference(asset);
-                        return asset;
-                    }
-                }
-
-                // All loaders failed to load resource
-                throw new NotImplementedException($"Unable to load asset, no successful loader.");
-            }
-            else
-            {
-                // Resource could not be found
-                throw new FileNotFoundException($"Unable to load asset, file not found.");
             }
         }
 

@@ -8,7 +8,7 @@ namespace Heirloom
     /// <summary>
     /// Represents an image based per frame animation.
     /// </summary>
-    /// <seealso cref="SpritePlayer"/>
+    /// <seealso cref="SpriteAnimator"/>
     /// <category>Drawing</category>
     public class SpriteAnimation : IReadOnlyList<SpriteFrame>
     {

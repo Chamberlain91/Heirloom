@@ -614,6 +614,22 @@ namespace Heirloom
         }
 
         /// <summary>
+        /// Converts a 3-tuple into a <see cref="Color"/> structure.
+        /// </summary>
+        public static implicit operator Color((float r, float g, float b) color)
+        {
+            return new Color(color.r, color.g, color.b);
+        }
+
+        /// <summary>
+        /// Converts a 4-tuple into a <see cref="Color"/> structure.
+        /// </summary>
+        public static implicit operator Color((float r, float g, float b, float a) color)
+        {
+            return new Color(color.r, color.g, color.b, color.a);
+        }
+
+        /// <summary>
         /// Converts the integer representation of a 32 bit color into a <see cref="Color"/> structure.
         /// </summary>
         public static explicit operator Color(uint c)

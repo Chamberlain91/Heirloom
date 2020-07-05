@@ -262,6 +262,14 @@ namespace Heirloom
             return new Range(vec.min, vec.max);
         }
 
+        /// <summary>
+        /// Converts a single value into a <see cref="Range"/> with <see cref="Min"/> and <see cref="Max"/> set to <paramref name="constant"/>.
+        /// </summary>
+        public static implicit operator Range(float constant)
+        {
+            return new Range(constant, constant);
+        }
+
         #endregion
 
         #region Comparison Operators

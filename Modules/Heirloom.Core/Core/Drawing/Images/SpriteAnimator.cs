@@ -8,18 +8,18 @@ namespace Heirloom
     /// <seealso cref="Sprite"/>
     /// <seealso cref="SpriteAnimation"/>
     /// <category>Drawing</category>
-    public sealed class SpritePlayer
+    public sealed class SpriteAnimator
     {
         private float _frameTime;
         private int _frameNumber;
         private AnimationDirection _direction;
 
         /// <summary>
-        /// Construcs a new <see cref="SpritePlayer"/> with the specified <see cref="Heirloom.Sprite"/>.
+        /// Construcs a new <see cref="SpriteAnimator"/> with the specified <see cref="Heirloom.Sprite"/>.
         /// </summary>
         /// <param name="sprite">Some sprite.</param>
         /// <param name="initialAnimation">The starting / default animation.</param>
-        public SpritePlayer(Sprite sprite, string initialAnimation)
+        public SpriteAnimator(Sprite sprite, string initialAnimation)
         {
             Sprite = sprite ?? throw new ArgumentNullException(nameof(sprite));
 
