@@ -1,7 +1,6 @@
 using System;
 
 using Heirloom;
-using Heirloom.Geometry;
 
 using static Heirloom.Vector;
 
@@ -71,7 +70,7 @@ namespace Examples.Physics
         internal override void Draw(GraphicsContext gfx)
         {
             gfx.Color = Color;
-            gfx.DrawPolygon(_worldPolygon);
+            gfx.DrawPolygonOutline(_worldPolygon);
         }
 
         #region Update Polygon

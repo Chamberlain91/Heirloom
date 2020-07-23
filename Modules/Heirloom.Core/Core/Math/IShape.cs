@@ -1,7 +1,9 @@
-namespace Heirloom.Geometry
+using Heirloom.Geometry;
+
+namespace Heirloom
 {
     /// <summary>
-    /// Represents the general interface of a shape and common operators each shape should support.
+    /// Represents the general interface of a shape.
     /// </summary>
     public interface IShape
     {
@@ -11,9 +13,19 @@ namespace Heirloom.Geometry
         Rectangle Bounds { get; }
 
         /// <summary>
+        /// Gets the center (or an approximate center) of this shape.
+        /// </summary>
+        Vector Center { get; }
+
+        /// <summary>
         /// Gets the area of this shape.
         /// </summary>
         float Area { get; }
+
+        /// <summary>
+        /// Gets a value that determines if this shape is convex.
+        /// </summary>
+        bool IsConvex { get; }
 
         /// <summary>
         /// Gets the nearest point on the shape to the specified point.
@@ -21,12 +33,17 @@ namespace Heirloom.Geometry
         Vector GetNearestPoint(in Vector point);
 
         /// <summary>
+        /// Gets the support point (ie, deepest) in the specified direction.
+        /// </summary>
+        Vector GetSupport(in Vector direction);
+
+        /// <summary>
         /// Determines if this shape contains the specified point.
         /// </summary>
         bool Contains(in Vector point);
 
         /// <summary>
-        /// Determines if this shape overlaps the specified shape.
+        /// Determines if this shape overlap with the specified shape.
         /// </summary>
         bool Overlaps(IShape shape);
 
@@ -39,10 +56,5 @@ namespace Heirloom.Geometry
         /// Performs a raycast against this shape.
         /// </summary>
         bool Raycast(in Ray ray);
-
-        /// <summary>
-        /// Project this shape onto the specified axis.
-        /// </summary>
-        Range Project(in Vector axis);
     }
 }

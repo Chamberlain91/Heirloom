@@ -1,565 +1,372 @@
 using System;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-
-using Heirloom.Collections;
-
-using static Heirloom.Calc;
-using static Heirloom.Vector;
+using System.Collections.Generic;
 
 namespace Heirloom.Geometry
 {
     /// <summary>
-    /// Collision detection routines.
+    /// Contains methods for computing the collision of shapes.
     /// </summary>
     public static class Collision
-    // Code here has been refactored is ultimately has just been ported to Heirloom
-    // from Randy Gaul's "Impulse Engine" (http://RandyGaul.net)
-    // The zlib license requires "state changes and keep the notice",
-    // hopefully this counts as that notice.
     {
-        private static readonly ObjectPool<Polygon> _polygonPool = new ObjectPool<Polygon>();
+        private static readonly float _edgeThreshold = 0.0001F;
+        private static readonly int _maxIterations = 24;
+
+        [ThreadStatic] private static IShape _shapeA;
+        [ThreadStatic] private static IShape _shapeB;
+
+        [ThreadStatic] private static List<Support> _gjkPolygon;
+        [ThreadStatic] private static Vector _direction;
+
+        private enum GJKIterationResult { Failure, Success, Incomplete };
+
+        #region Check Collision
 
         /// <summary>
-        /// Perform collision detection between two shapes.
-        /// Both shapes are assumed to already be in the same space.
+        /// Performs an overlap test of two shapes.
         /// </summary>
-        /// <remarks>
-        /// Note: <see cref="Polygon"/> are assumed to be convex.
-        /// </remarks>
-        /// <param name="s1">The first shape.</param>
-        /// <param name="s2">The second shape.</param>
-        /// <param name="result">This value is populated with collision data upon a successful collision.</param>
-        /// <returns>True, if a collision was detected.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Collide(in IShape s1, in IShape s2, out CollisionData result)
+        /// <param name="shapeA">The first shape.</param>
+        /// <param name="shapeB">The secodn shape.</param>
+        /// <returns>True if the shapes are overlapping.</returns>
+        public static bool CheckCollision(IShape shapeA, IShape shapeB)
         {
-            switch (s1)
+            // Store the collision shapes
+            _shapeA = shapeA ?? throw new ArgumentNullException(nameof(shapeA));
+            _shapeB = shapeB ?? throw new ArgumentNullException(nameof(shapeB));
+
+            // If both shapes are convex, we can use GJK
+            if (shapeA.IsConvex && shapeB.IsConvex)
             {
-                case Circle c1:
+                // Reset (or create) simplex/polygon
+                if (_gjkPolygon == null) { _gjkPolygon = new List<Support>(); }
+                _gjkPolygon.Clear();
+
+                // Perform the GJK algorithm
+                var result = GJKIterationResult.Incomplete;
+                while (result == GJKIterationResult.Incomplete)
                 {
-                    switch (s2)
+                    result = GJKIteration();
+                }
+
+                // Return success if an intersection was indeed found
+                return result == GJKIterationResult.Success;
+            }
+            else
+            {
+                // Dispatch to a non-convex collision method
+                return CheckCollisionNonGJK(shapeA, shapeB);
+            }
+
+            // GJK
+            static GJKIterationResult GJKIteration()
+            {
+                switch (_gjkPolygon.Count)
+                {
+                    case 0:
                     {
-                        case Circle c2:
-                            return Collide(c1, c2, out result);
+                        _direction = _shapeB.Center - _shapeA.Center;
+                    }
+                    break;
 
-                        case Polygon p2:
-                            return Collide(c1, p2, out result);
+                    case 1:
+                    {
+                        _direction = -_direction;
+                    }
+                    break;
 
-                        case Rectangle r2:
+                    case 2:
+                    {
+                        var b = _gjkPolygon[1];
+                        var c = _gjkPolygon[0];
+
+                        // line cb is the line formed by the first two vertices
+                        var cb = b.Minkowski - c.Minkowski;
+
+                        // calculate a direction perpendicular to line cb in the direction of the origin
+                        _direction = GetPerpendicular(cb, c.Minkowski);
+                    }
+                    break;
+
+                    case 3:
+                    {
+                        // calculate if the simplex contains the origin
+                        var a = _gjkPolygon[2];
+                        var b = _gjkPolygon[1];
+                        var c = _gjkPolygon[0];
+
+                        var ab = b.Minkowski - a.Minkowski; // v2 to v1
+                        var ac = c.Minkowski - a.Minkowski; // v2 to v0
+
+                        var abPerp = GetPerpendicular(ab, ac);
+                        var acPerp = GetPerpendicular(ac, ab);
+
+                        // the origin is outside line ab
+                        if (Vector.Dot(abPerp, a.Minkowski) < -Calc.Epsilon)
                         {
-                            // Temporarily convert rectangle into polygon
-                            var p = GetTempPolygon(in r2);
-                            var status = Collide(c1, p, out result);
-                            _polygonPool.Recycle(p);
-                            return status;
+                            // get rid of c and add a new support in the direction of abPerp
+                            _gjkPolygon.RemoveAt(0);
+                            _direction = abPerp;
                         }
-
-                        case Triangle t2:
+                        else
+                        // the origin is outside line ac
+                        if (Vector.Dot(acPerp, a.Minkowski) < -Calc.Epsilon)
                         {
-                            // Temporarily convert triangle into polygon
-                            var p = GetTempPolygon(in t2);
-                            var status = Collide(c1, p, out result);
-                            _polygonPool.Recycle(p);
-                            return status;
+                            // get rid of b and add a new support in the direction of acPerp
+                            _gjkPolygon.RemoveAt(1);
+                            _direction = acPerp;
+                        }
+                        else
+                        {
+                            // the origin is inside both ab and ac,
+                            // so it must be inside the triangle!
+                            return GJKIterationResult.Success;
                         }
                     }
-
                     break;
+
+                    default:
+                        throw new InvalidOperationException("Can\'t have simplex with ${vertices.length} verts!");
                 }
 
-                case Polygon p1:
+                // 
+                return AddSupportToSimplex(in _direction);
+            }
+
+            static GJKIterationResult AddSupportToSimplex(in Vector dir)
+            {
+                // Compute the next support point to use when evolving the simplex
+                var minkowskiSupport = GetMinkowskiSupport(in dir);
+                _gjkPolygon.Add(minkowskiSupport);
+
+                // todo: explain this one to yourself...(the support is on the correct side of the origin?)
+                return (Vector.Dot(in dir, in minkowskiSupport.Minkowski) > 0) ? GJKIterationResult.Incomplete
+                                                                               : GJKIterationResult.Failure;
+            }
+        }
+
+        private static bool CheckCollisionNonGJK(IShape shapeA, IShape shapeB)
+        {
+            // This function should only be called when shapeA and/or shapeB is non-convex.
+            // If both are convex, it should have been handled by the GJK implementation.
+
+            // todo: defer/refactor instance overlap methods to alternative static methods
+
+            if (_shapeB.IsConvex)
+            {
+                // Shape A must be concave
+                if (_shapeA is Polygon polygonA)
                 {
-                    switch (s2)
-                    {
-                        case Circle c2:
-                            return Collide(p1, c2, out result);
-
-                        case Polygon p2:
-                            return Collide(p1, p2, out result);
-
-                        case Rectangle r2:
-                        {
-                            // Temporarily convert rectangle into polygon
-                            var p = GetTempPolygon(in r2);
-                            var status = Collide(p1, p, out result);
-                            _polygonPool.Recycle(p);
-                            return status;
-                        }
-
-                        case Triangle t2:
-                        {
-                            // Temporarily convert triangle into polygon
-                            var p = GetTempPolygon(in t2);
-                            var status = Collide(p1, p, out result);
-                            _polygonPool.Recycle(p);
-                            return status;
-                        }
-                    }
-
-                    break;
+                    // Polygon vs Shape
+                    return polygonA.Overlaps(shapeB);
                 }
-
-                case Rectangle r1:
+            }
+            else
+            if (_shapeA.IsConvex)
+            {
+                // Shape B must be concave
+                if (_shapeB is Polygon polygonB)
                 {
-                    // Temporarily convert rectangle into polygon
-                    var p = GetTempPolygon(in r1);
-                    var status = Collide(p, s2, out result);
-                    _polygonPool.Recycle(p);
-                    return status;
+                    // Shape vs Polygon
+                    return polygonB.Overlaps(shapeA);
                 }
-
-                case Triangle t1:
+            }
+            else
+            {
+                // Both shapes must concave
+                if (_shapeA is Polygon polygonA && _shapeB is Polygon polygonB)
                 {
-                    // Temporarily convert triangle into polygon and recurse
-                    var p = GetTempPolygon(in t1);
-                    var status = Collide(p, s2, out result);
-                    _polygonPool.Recycle(p);
-                    return status;
+                    // Polygon vs Polygon
+                    return polygonA.Overlaps(polygonB);
                 }
             }
 
-            // 
-            throw new InvalidOperationException($"Unable to determine collision between {s1.GetType().Name} and {s2.GetType().Name}.");
-        }
-
-        /// <summary>
-        /// Perform collision detection between two circles.
-        /// Both shapes are assumed to already be in the same space.
-        /// </summary>
-        /// <param name="c1">The first shape.</param>
-        /// <param name="c2">The second shape.</param>
-        /// <param name="result">This value is populated with collision data upon a successful collision.</param>
-        /// <returns>True, if a collision was detected.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Collide(in Circle c1, in Circle c2, out CollisionData result)
-        {
-            result = CircleToCircle(in c1, in c2);
-            return result.Count > 0;
-        }
-
-        /// <summary>
-        /// Perform collision detection between a circle and a convex polygon.
-        /// Both shapes are assumed to already be in the same space.
-        /// </summary>
-        /// <param name="c1">The first shape.</param>
-        /// <param name="p2">The second shape.</param>
-        /// <param name="result">This value is populated with collision data upon a successful collision.</param>
-        /// <returns>True, if a collision was detected.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Collide(in Circle c1, Polygon p2, out CollisionData result)
-        {
-            result = CircleToPolygon(in c1, p2);
-            return result.Count > 0;
-        }
-
-        /// <summary>
-        /// Perform collision detection between a convex polygon and a circle.
-        /// Both shapes are assumed to already be in the same space.
-        /// </summary>
-        /// <param name="p1">The first shape.</param>
-        /// <param name="c2">The second shape.</param>
-        /// <param name="result">This value is populated with collision data upon a successful collision.</param>
-        /// <returns>True, if a collision was detected.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Collide(in Polygon p1, Circle c2, out CollisionData result)
-        {
-            result = PolygonToCircle(p1, in c2);
-            return result.Count > 0;
-        }
-
-        /// <summary>
-        /// Perform collision detection between two convex polygons.
-        /// Both shapes are assumed to already be in the same space.
-        /// </summary>
-        /// <param name="p1">The first shape.</param>
-        /// <param name="p2">The second shape.</param>
-        /// <param name="result">This value is populated with collision data upon a successful collision.</param>
-        /// <returns>True, if a collision was detected.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Collide(in Polygon p1, Polygon p2, out CollisionData result)
-        {
-            result = PolygonToPolygon(p1, p2);
-            return result.Count > 0;
-        }
-
-        #region Get Temporary Polygon
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static Polygon GetTempPolygon(in Triangle tri)
-        {
-            var polygon = _polygonPool.Request();
-            polygon.Clear();
-            polygon.Add(tri.A);
-            polygon.Add(tri.B);
-            polygon.Add(tri.C);
-            return polygon;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static Polygon GetTempPolygon(in Rectangle rect)
-        {
-            var polygon = _polygonPool.Request();
-            polygon.Clear();
-            polygon.Add(rect.TopLeft);
-            polygon.Add(rect.TopRight);
-            polygon.Add(rect.BottomRight);
-            polygon.Add(rect.BottomLeft);
-            return polygon;
+            // Should not get here unless the user implemented IShape themselves.
+            throw new InvalidOperationException("Unable to perform collision check with custom non-convex shapes.");
         }
 
         #endregion
 
-        #region Collision Implementation
+        #region Check Collision (w/ Contact)
 
-        internal static CollisionData CircleToCircle(in Circle a, in Circle b)
+        /// <summary>
+        /// Performs the static collision of two convex shapes.
+        /// </summary>
+        /// <param name="shapeA">The first shape.</param>
+        /// <param name="shapeB">The secodn shape.</param>
+        /// <param name="contact">
+        /// The collision results, viewed from the perspective of <paramref name="shapeA"/>.
+        /// Only valid if a collision has occurred.
+        /// </param>
+        /// <returns>True if the shapes are overlapping.</returns>
+        public static bool CheckCollision(IShape shapeA, IShape shapeB, out Contact contact)
         {
-            var m = default(CollisionData);
+            if (shapeA is null) { throw new ArgumentNullException(nameof(shapeA)); }
+            if (shapeB is null) { throw new ArgumentNullException(nameof(shapeB)); }
 
-            // Calculate translational vector, which is normal
-            var normal = b.Position - a.Position;
-
-            var dist_sqr = normal.LengthSquared;
-            var radius = a.Radius + b.Radius;
-
-            // Not in contact
-            if (dist_sqr >= radius * radius)
+            if (shapeA.IsConvex && shapeB.IsConvex)
             {
-                return m;
-            }
-
-            var distance = Sqrt(dist_sqr);
-
-            if (distance == 0.0f)
-            {
-                m.Penetration = a.Radius;
-                m.Normal = Right;
-                m.AddContact(a.Position);
+                // Both shapes are convex, we can proceed with GJK
+                if (CheckCollision(shapeA, shapeB))
+                {
+                    // A collision has occured, we now proceed with EPA
+                    contact = ComputePenetration();
+                    return true;
+                }
+                else
+                {
+                    // No collision, return default
+                    contact = default;
+                    return false;
+                }
             }
             else
             {
-                m.Penetration = radius - distance;
-                m.Normal = normal / distance; // Faster than using Normalized since we already performed sqrt
-                m.AddContact((m.Normal * a.Radius) + a.Position);
+                throw new InvalidOperationException("Unable to compute collisions w/ contacts with non-convex shapes.");
             }
 
-            return m;
+            // EPA
+            static Contact ComputePenetration()
+            {
+                // Gets the winding of the triangle simplex
+                var e0 = _gjkPolygon[1].Minkowski - _gjkPolygon[0].Minkowski;
+                var e1 = _gjkPolygon[2].Minkowski - _gjkPolygon[0].Minkowski;
+
+                // Ensure simplex winding is ... anti-clockwise?
+                if (Vector.Cross(e0, e1) < 0) { Calc.Swap(_gjkPolygon, 1, 2); }
+
+                // Penetration information
+                var penetration = Vector.Zero;
+                var penetrationEdge = 0;
+
+                var minDistance = float.PositiveInfinity;
+
+                // Iteratively find closest edge
+                for (var i = 0; i < _maxIterations; i++)
+                {
+                    var edge = FindClosestEdge();
+
+                    // Get the support in the direction of the edge
+                    var support = GetMinkowskiSupport(edge.Normal);
+                    var supportDistance = Vector.Dot(support.Minkowski, edge.Normal);
+
+                    // Keep smallest penetration vector
+                    if (supportDistance < minDistance)
+                    {
+                        // Store contact information
+                        penetration = edge.Normal * supportDistance;
+                        penetrationEdge = edge.Index;
+
+                        minDistance = supportDistance;
+                    }
+
+                    // If the distance to the support is equivalent to the distance to the nearest edge.
+                    if (Calc.NearEquals(supportDistance, edge.Distance, _edgeThreshold))
+                    {
+                        // We have found edge nearest edge of the minkowski difference. edge!
+                        // We can now exit the loop.
+                        break;
+                    }
+                    else
+                    {
+                        _gjkPolygon.Insert(edge.Index, support);
+                    }
+                }
+
+                // Get contact edge supports
+                var supportA = _gjkPolygon[Calc.Wrap(penetrationEdge - 1, _gjkPolygon.Count)];
+                var supportB = _gjkPolygon[penetrationEdge];
+
+                // Compute the contact points in world space
+                var t = Vector.Project(supportA.Minkowski, supportB.Minkowski, penetration);
+                var a = Vector.Lerp(supportA.ShapeA, supportB.ShapeA, t);
+                // var b = Vector.Lerp(supportA.ShapeB, supportB.ShapeB, t);
+
+                return new Contact(a, penetration);
+            }
+
+            static EdgeInfo FindClosestEdge()
+            {
+                var edgeDistance = float.PositiveInfinity;
+                var edgeNormal = Vector.Zero;
+                var edgeIndex = 0;
+
+                // For each vertex (ie, for each edge of the polygon)
+                for (var i = 0; i < _gjkPolygon.Count; i++)
+                {
+                    // Get the far index of the edge
+                    var j = (i + 1) % _gjkPolygon.Count;
+
+                    // Computes the direction along the edge
+                    var e0 = _gjkPolygon[j].Minkowski - _gjkPolygon[i].Minkowski;
+
+                    // If the edge is non-zero in side (ie, points did not overlap)
+                    if (e0.LengthSquared > Calc.Epsilon)
+                    {
+                        // Compute the edge normal (compensate for simplex winding order)
+                        var normal = Vector.Normalize(e0.Perpendicular);
+
+                        // Calculate the distance of the edge from the origin
+                        var distance = Vector.Dot(normal, _gjkPolygon[i].Minkowski);
+                        if (distance < edgeDistance)
+                        {
+                            edgeDistance = distance;
+                            edgeNormal = normal;
+                            edgeIndex = j;
+                        }
+                    }
+                }
+
+                return new EdgeInfo(edgeDistance, edgeNormal, edgeIndex);
+            }
         }
 
-        internal static CollisionData CircleToPolygon(in Circle a, Polygon b)
+        #endregion
+
+        #region GJK/EPA Utilities
+
+        private static Support GetMinkowskiSupport(in Vector direction)
         {
-            var m = default(CollisionData);
-
-            // Transform circle center to Polygon model space
-            var center = a.Position;
-
-            // Find edge with minimum penetration
-            // Exact concept as using support points in Polygon vs Polygon
-            var separation = float.MinValue;
-            var faceNormal = 0;
-            for (var i = 0; i < b.Vertices.Count; ++i)
-            {
-                var s = Dot(b.Normals[i], center - b.Vertices[i]);
-
-                if (s > a.Radius)
-                {
-                    return m;
-                }
-
-                if (s > separation)
-                {
-                    separation = s;
-                    faceNormal = i;
-                }
-            }
-
-            // Grab face's vertices
-            var v1 = b.Vertices[faceNormal];
-            var i2 = faceNormal + 1 < b.Vertices.Count ? faceNormal + 1 : 0;
-            var v2 = b.Vertices[i2];
-
-            // Check to see if center is within polygon
-            if (separation < Epsilon)
-            {
-                m.Normal = -b.Normals[faceNormal];
-                m.AddContact((m.Normal * a.Radius) + a.Position);
-                m.Penetration = a.Radius;
-                return m;
-            }
-
-            // Determine which voronoi region of the edge center of circle lies within
-            var dot1 = Dot(center - v1, v2 - v1);
-            var dot2 = Dot(center - v2, v1 - v2);
-            m.Penetration = a.Radius - separation;
-
-            // Closest to v1
-            if (dot1 <= 0.0f)
-            {
-                if (DistanceSquared(center, v1) > a.Radius * a.Radius)
-                {
-                    return m;
-                }
-
-                var n = v1 - center;
-
-                n.Normalize();
-                m.Normal = n;
-                m.AddContact(v1);
-            }
-
-            // Closest to v2
-            else if (dot2 <= 0.0f)
-            {
-                if (DistanceSquared(center, v2) > a.Radius * a.Radius)
-                {
-                    return m;
-                }
-
-                m.AddContact(v2);
-                m.Normal = Normalize(v2 - center);
-            }
-            // Closest to face
-            else
-            {
-                var n = b.Normals[faceNormal];
-                if (Dot(center - v1, n) > a.Radius)
-                {
-                    return m;
-                }
-
-                m.Normal = -n;
-                m.AddContact((m.Normal * a.Radius) + a.Position);
-            }
-
-            return m;
+            var a = _shapeA.GetSupport(direction);
+            var b = _shapeB.GetSupport(-direction);
+            return new Support(a, b);
         }
 
-        internal static CollisionData PolygonToCircle(Polygon a, in Circle b)
+        private static Vector GetPerpendicular(Vector edge, Vector target)
         {
-            var m = CircleToPolygon(in b, a);
-            m.Normal = -m.Normal;
-            return m;
+            var perp = edge.Perpendicular;
+            return Vector.Dot(perp, target) < 0 ? perp : -perp;
         }
 
-        internal static CollisionData PolygonToPolygon(Polygon a, Polygon b)
+        private readonly struct Support
         {
-            var m = default(CollisionData);
+            public readonly Vector ShapeA;
 
-            // Check for a separating axis with A's face planes
-            var penetrationA = FindAxisLeastPenetration(out var faceA, a, b);
-            if (penetrationA >= 0.0f)
+            public readonly Vector ShapeB;
+
+            public readonly Vector Minkowski;
+
+            public Support(Vector a, Vector b)
             {
-                return m;
+                ShapeA = a;
+                ShapeB = b;
+
+                Minkowski = a - b;
             }
-
-            // Check for a separating axis with B's face planes
-            var penetrationB = FindAxisLeastPenetration(out var faceB, b, a);
-            if (penetrationB >= 0.0f)
-            {
-                return m;
-            }
-
-            int referenceIndex;
-            bool flip; // Always point from a to b
-
-            Polygon refPoly; // Reference
-            Polygon IncPoly; // Incident
-
-            // Determine which shape contains reference face
-            if (penetrationA > penetrationB)
-            {
-                refPoly = a;
-                IncPoly = b;
-                referenceIndex = faceA;
-                flip = false;
-            }
-            else
-            {
-                refPoly = b;
-                IncPoly = a;
-                referenceIndex = faceB;
-                flip = true;
-            }
-
-            // World space incident face
-            Span<Vector> incidentFace = stackalloc Vector[2];
-            FindIncidentFace(incidentFace, refPoly, IncPoly, referenceIndex);
-
-            //        y
-            //        ^  .n       ^
-            //      +---c ------posPlane--
-            //  x < | i |\
-            //      +---+ c-----negPlane--
-            //             \       v
-            //              r
-            //
-            //  r : reference face
-            //  i : incident poly
-            //  c : clipped point
-            //  n : incident normal
-
-            // Setup reference face vertices
-            var v1 = refPoly.Vertices[referenceIndex];
-            referenceIndex = referenceIndex + 1 == refPoly.Vertices.Count ? 0 : referenceIndex + 1;
-            var v2 = refPoly.Vertices[referenceIndex];
-
-            // Calculate reference face side normal in world space
-            var sidePlaneNormal = Normalize(v2 - v1);
-
-            // Orthogonalize
-            var refFaceNormal = new Vector(sidePlaneNormal.Y, -sidePlaneNormal.X);
-
-            // ax + by = c
-            // c is distance from origin
-            var refC = Dot(refFaceNormal, v1);
-            var negSide = -Dot(sidePlaneNormal, v1);
-            var posSide = Dot(sidePlaneNormal, v2);
-
-            // Clip incident face to reference face side planes
-            if (Clip(-sidePlaneNormal, negSide, incidentFace) < 2)
-            {
-                return m; // Due to floating point error, possible to not have required points
-            }
-
-            if (Clip(sidePlaneNormal, posSide, incidentFace) < 2)
-            {
-                return m; // Due to floating point error, possible to not have required points
-            }
-
-            // Flip
-            m.Normal = flip ? -refFaceNormal : refFaceNormal;
-
-            // Keep points behind reference face
-            var cp = 0; // clipped points behind reference face
-            var separation = Dot(refFaceNormal, incidentFace[0]) - refC;
-
-            if (separation <= 0.0f)
-            {
-                m.AddContact(incidentFace[0]);
-                m.Penetration = -separation;
-                ++cp;
-            }
-            else
-            {
-                m.Penetration = 0;
-            }
-
-            separation = Dot(refFaceNormal, incidentFace[1]) - refC;
-            if (separation <= 0.0f)
-            {
-                m.AddContact(incidentFace[1]);
-                m.Penetration += -separation;
-                ++cp;
-
-                // Average penetration
-                m.Penetration /= cp;
-            }
-
-            return m;
         }
 
-        private static float FindAxisLeastPenetration(out int faceIndex, Polygon a, Polygon b)
+        private readonly struct EdgeInfo
         {
-            var bestDistance = float.MinValue;
-            var bestIndex = -1;
+            public readonly float Distance;
 
-            for (var i = 0; i < a.Vertices.Count; i++)
+            public readonly Vector Normal;
+
+            public readonly int Index;
+
+            public EdgeInfo(float distance, Vector normal, int index)
             {
-                // Retrieve a face normal from A
-                var n = a.Normals[i];
-
-                // Retrieve support point from B along -n
-                var s = GetSupport(b, -n);
-
-                // Compute penetration distance
-                var d = Dot(n, s - a.Vertices[i]);
-
-                // Store greatest distance
-                if (d > bestDistance)
-                {
-                    bestDistance = d;
-                    bestIndex = i;
-                }
+                Distance = distance;
+                Normal = normal;
+                Index = index;
             }
-
-            faceIndex = bestIndex;
-            return bestDistance;
-        }
-
-        // The extreme point along a direction within a polygon
-        private static Vector GetSupport(Polygon p, Vector dir)
-        {
-            var bestProjection = float.MinValue;
-            Vector bestVertex = default;
-
-            for (var i = 0; i < p.Vertices.Count; ++i)
-            {
-                var v = p.Vertices[i];
-                var projection = Dot(v, dir);
-
-                if (projection > bestProjection)
-                {
-                    bestVertex = v;
-                    bestProjection = projection;
-                }
-            }
-
-            return bestVertex;
-        }
-
-        private static void FindIncidentFace(Span<Vector> v, Polygon refPoly, Polygon incPoly, int referenceIndex)
-        {
-            var referenceNormal = refPoly.Normals[referenceIndex];
-
-            // Find most anti-normal face on incident polygon
-            var incidentFace = 0;
-            var minDot = float.MaxValue;
-            for (var i = 0; i < incPoly.Vertices.Count; ++i)
-            {
-                var dot = Dot(referenceNormal, incPoly.Normals[i]);
-                if (dot < minDot)
-                {
-                    minDot = dot;
-                    incidentFace = i;
-                }
-            }
-
-            // Assign face vertices for incidentFace
-            v[0] = incPoly.Vertices[incidentFace];
-            incidentFace = incidentFace + 1 >= incPoly.Vertices.Count ? 0 : incidentFace + 1;
-            v[1] = incPoly.Vertices[incidentFace];
-        }
-
-        private static int Clip(Vector n, float c, Span<Vector> face)
-        {
-            var sp = 0;
-            Span<Vector> @out = stackalloc Vector[2] { face[0], face[1] };
-
-            // Retrieve distances from each endpoint to the line
-            // d = ax + by - c
-            var d1 = Dot(n, face[0]) - c;
-            var d2 = Dot(n, face[1]) - c;
-
-            // If negative (behind plane) clip
-            if (d1 <= 0.0f) { @out[sp++] = face[0]; }
-            if (d2 <= 0.0f) { @out[sp++] = face[1]; }
-
-            // If the points are on different sides of the plane
-            if (d1 * d2 < 0.0f) // less than to ignore -0.0f
-            {
-                // Push interesection point
-                var alpha = d1 / (d1 - d2);
-                @out[sp] = face[0] + alpha * (face[1] - face[0]);
-                ++sp;
-            }
-
-            // Assign our new converted values
-            face[0] = @out[0];
-            face[1] = @out[1];
-
-            Debug.Assert(sp != 3);
-
-            return sp;
         }
 
         #endregion

@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace Heirloom.Geometry
+using Heirloom.Geometry;
+
+namespace Heirloom
 {
     /// <summary>
     /// Provides several operations for polygons represented as a read-only list of vectors.
@@ -741,6 +743,14 @@ namespace Heirloom.Geometry
         }
 
         #endregion
+
+        /// <summary>
+        /// Gets the support point (ie, deepest) in the specified direction.
+        /// </summary>
+        public static Vector GetSupport(IEnumerable<Vector> polygon, Vector direction)
+        {
+            return polygon.FindMaximal(v => Vector.Dot(v, direction));
+        }
 
         #region Temporary Polygons
 

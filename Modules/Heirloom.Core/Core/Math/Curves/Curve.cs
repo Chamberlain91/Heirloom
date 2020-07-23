@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Heirloom.Geometry
+namespace Heirloom
 {
     /// <summary>
     /// An implementation of a multi-point bezier curve using multiple 'segments' of simple curves.

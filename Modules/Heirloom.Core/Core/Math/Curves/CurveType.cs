@@ -1,4 +1,4 @@
-namespace Heirloom.Geometry
+namespace Heirloom
 {
     /// <summary>
     /// Represents the type of curve.

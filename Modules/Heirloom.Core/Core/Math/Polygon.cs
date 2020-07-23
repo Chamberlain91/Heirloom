@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace Heirloom.Geometry
+using Heirloom.Geometry;
+
+namespace Heirloom
 {
     /// <summary>
     /// Represents a simple polygon.
@@ -312,6 +314,12 @@ namespace Heirloom.Geometry
         }
 
         #endregion
+
+        /// <inheritdoc/>
+        public Vector GetSupport(in Vector direction)
+        {
+            return PolygonTools.GetSupport(_vertices, direction);
+        }
 
         #region Contains Point
 

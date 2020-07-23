@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Heirloom.Geometry
+namespace Heirloom
 {
     /// <summary>
     /// Represents a line segment defined by two end points.

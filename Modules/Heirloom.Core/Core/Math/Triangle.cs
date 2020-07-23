@@ -1,14 +1,15 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace Heirloom.Geometry
+using Heirloom.Geometry;
+
+namespace Heirloom
 {
     /// <summary>
     /// Represents a triangle shape defined by three points.
     /// </summary>
-    public unsafe struct Triangle : IShape, IEquatable<Triangle>, IEnumerable<Vector>
+    public unsafe struct Triangle : IShape, IEquatable<Triangle>
     {
         /// <summary>
         /// The first point.
@@ -44,6 +45,11 @@ namespace Heirloom.Geometry
 
         #region Properties
 
+        Vector IShape.Center => Centroid;
+
+        // A triangle is always convex
+        bool IShape.IsConvex => true;
+
         /// <summary>
         /// Gets the bounds of this triangle.
         /// </summary>
@@ -60,39 +66,6 @@ namespace Heirloom.Geometry
         public Vector Centroid => (A + B + C) / 3F;
 
         #endregion
-
-        #region Indexer
-
-        /// <summary>
-        /// Accesses the points of a triangle by numerical index in <see cref="A"/>, <see cref="B"/>, <see cref="C"/> order.
-        /// </summary>
-        /// <param name="index">The index of a point to access.</param>
-        /// <returns>The point of this triangle.</returns>
-        public Vector this[int index]
-        {
-            get => index switch
-            {
-                0 => A,
-                1 => B,
-                2 => C,
-                _ => throw new IndexOutOfRangeException("Index must be 0, 1 or 2 on a triangle."),
-            };
-
-            set
-            {
-                switch (index)
-                {
-                    case 0: A = value; break;
-                    case 1: B = value; break;
-                    case 2: C = value; break;
-
-                    default:
-                        throw new IndexOutOfRangeException("Index must be 0, 1 or 2 on a triangle.");
-                }
-            }
-        }
-
-        #endregion 
 
         /// <summary>
         /// Sets each point of the triangle.
@@ -118,6 +91,23 @@ namespace Heirloom.Geometry
             PolygonTools.RecycleTempPolygon(vertices);
             return polygon;
         }
+
+        #region Support
+
+        /// <inheritdoc/>
+        public Vector GetSupport(in Vector direction)
+        {
+            return PolygonTools.GetSupport(EnumerateCorners(), direction);
+        }
+
+        private IEnumerable<Vector> EnumerateCorners()
+        {
+            yield return A;
+            yield return B;
+            yield return C;
+        }
+
+        #endregion
 
         #region Closest Point
 
@@ -436,25 +426,6 @@ namespace Heirloom.Geometry
             a = A;
             b = B;
             c = C;
-        }
-
-        #endregion
-
-        #region Enumerator
-
-        /// <summary>
-        /// Returns an enumerator to iterate over the points of the triangle.
-        /// </summary>
-        public IEnumerator<Vector> GetEnumerator()
-        {
-            yield return A;
-            yield return B;
-            yield return C;
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
 
         #endregion

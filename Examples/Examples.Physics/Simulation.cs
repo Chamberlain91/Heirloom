@@ -22,7 +22,7 @@ namespace Examples.Physics
         private readonly List<Manifold> _contacts = new List<Manifold>();
         private int _iterations;
 
-        public Simulation(Vector gravity, int iterations = 7)
+        public Simulation(Vector gravity, int iterations = 5)
         {
             Iterations = iterations;
             Gravity = gravity;
@@ -75,11 +75,11 @@ namespace Examples.Physics
                     if (a.IsStatic && b.IsStatic) { continue; }
 
                     // Narrow Phase?
-                    if (Collision.Collide(a.Collider.WorldShape, b.Collider.WorldShape, out var data))
+                    if (Collision.CheckCollision(a.Collider.WorldShape, b.Collider.WorldShape, out var contact))
                     {
                         // Assembly manifold
                         var manifold = _manifoldPool.Request();
-                        manifold.Set(a, b, data);
+                        manifold.Set(a, b, contact);
 
                         // Append manifold to contacts list
                         _contacts.Add(manifold);
@@ -160,7 +160,7 @@ namespace Examples.Physics
             //    for (var i = 0; i < manifold.Contact.Count; i++)
             //    {
             //        var c = manifold.Contact.GetPoint(i);
-            //        gfx.DrawLine(c, c + manifold.Contact.Normal * manifold.Contact.Penetration);
+            //        gfx.DrawLine(c, c + manifold.Contact.Normal * manifold.Contact.Depth);
             //    }
             //}
 
@@ -174,13 +174,13 @@ namespace Examples.Physics
             public RigidBody A;
             public RigidBody B;
 
-            public CollisionData Contact;
+            public Contact Contact;
 
             public float MixedRestitution;
             public float MixedDynamicFriction;
             public float MixedStaticFriction;
 
-            internal void Set(RigidBody a, RigidBody b, CollisionData contact)
+            internal void Set(RigidBody a, RigidBody b, Contact contact)
             {
                 A = a;
                 B = b;
@@ -202,7 +202,7 @@ namespace Examples.Physics
                 const float k_slop = 0.02f; // Penetration allowance
                 const float percent = 0.33f; // Penetration percentage to correct
 
-                var correction = Max(Contact.Penetration - k_slop, 0.0f) / (A.InverseMass + B.InverseMass) * Contact.Normal * percent;
+                var correction = Max(Contact.Depth - k_slop, 0.0f) / (A.InverseMass + B.InverseMass) * Contact.Normal * percent;
                 A.Position -= correction * A.InverseMass;
                 B.Position += correction * B.InverseMass;
             }
@@ -218,66 +218,61 @@ namespace Examples.Physics
                     return;
                 }
 
-                for (var i = 0; i < Contact.Count; ++i)
-                {
-                    // Calculate radii from COM to contact
-                    var ra = Contact.GetPoint(i) - A.Position;
-                    var rb = Contact.GetPoint(i) - B.Position;
+                // Calculate radii from COM to contact
+                var ra = Contact.Position - A.Position;
+                var rb = Contact.Position - B.Position;
 
-                    // Relative velocity
-                    var rv = B.Velocity + Cross(B.AngularVelocity, rb) -
-                             A.Velocity - Cross(A.AngularVelocity, ra);
-
-                    // Relative velocity along the normal
-                    var contactVel = Dot(rv, Contact.Normal);
-
-                    // Do not resolve if velocities are separating
-                    if (contactVel > 0) { return; }
-
-                    var raCrossN = Cross(ra, Contact.Normal);
-                    var rbCrossN = Cross(rb, Contact.Normal);
-                    var invMassSum = A.InverseMass + B.InverseMass + (Pow(raCrossN, 2) * A.InverseIntertia) + (Pow(rbCrossN, 2) * B.InverseIntertia);
-
-                    // Calculate impulse scalar
-                    var j = -(1.0f + MixedRestitution) * contactVel;
-                    j /= invMassSum;
-                    j /= Contact.Count;
-
-                    // Apply impulse
-                    var impulse = Contact.Normal * j;
-                    A.ApplyImpulse(-impulse, ra);
-                    B.ApplyImpulse(impulse, rb);
-
-                    // Friction impulse
-                    rv = B.Velocity + Cross(B.AngularVelocity, rb) -
+                // Relative velocity
+                var rv = B.Velocity + Cross(B.AngularVelocity, rb) -
                          A.Velocity - Cross(A.AngularVelocity, ra);
 
-                    var t = rv - (Contact.Normal * Dot(rv, Contact.Normal));
-                    t.Normalize();
+                // Relative velocity along the normal
+                var contactVel = Dot(rv, Contact.Normal);
 
-                    // j tangent magnitude
-                    var jt = -Dot(rv, t);
-                    jt /= Contact.Count;
-                    jt /= invMassSum;
+                // Do not resolve if velocities are separating
+                if (contactVel > 0) { return; }
 
-                    // Don't apply tiny friction impulses
-                    if (NearEquals(jt, 0.0f)) { return; }
+                var raCrossN = Cross(ra, Contact.Normal);
+                var rbCrossN = Cross(rb, Contact.Normal);
+                var invMassSum = A.InverseMass + B.InverseMass + (Pow(raCrossN, 2) * A.InverseIntertia) + (Pow(rbCrossN, 2) * B.InverseIntertia);
 
-                    // Coulumb's law
-                    Vector tangentImpulse;
-                    if (Abs(jt) < j * MixedStaticFriction)
-                    {
-                        tangentImpulse = t * jt;
-                    }
-                    else
-                    {
-                        tangentImpulse = t * -j * MixedDynamicFriction;
-                    }
+                // Calculate impulse scalar
+                var j = -(1.0f + MixedRestitution) * contactVel;
+                j /= invMassSum;
 
-                    // Apply friction impulse
-                    A.ApplyImpulse(-tangentImpulse, ra);
-                    B.ApplyImpulse(tangentImpulse, rb);
+                // Apply impulse
+                var impulse = Contact.Normal * j;
+                A.ApplyImpulse(-impulse, ra);
+                B.ApplyImpulse(impulse, rb);
+
+                // Friction impulse
+                rv = B.Velocity + Cross(B.AngularVelocity, rb) -
+                     A.Velocity - Cross(A.AngularVelocity, ra);
+
+                var t = rv - (Contact.Normal * Dot(rv, Contact.Normal));
+                t.Normalize();
+
+                // j tangent magnitude
+                var jt = -Dot(rv, t);
+                jt /= invMassSum;
+
+                // Don't apply tiny friction impulses
+                if (NearEquals(jt, 0.0f)) { return; }
+
+                // Coulumb's law
+                Vector tangentImpulse;
+                if (Abs(jt) < j * MixedStaticFriction)
+                {
+                    tangentImpulse = t * jt;
                 }
+                else
+                {
+                    tangentImpulse = t * -j * MixedDynamicFriction;
+                }
+
+                // Apply friction impulse
+                A.ApplyImpulse(-tangentImpulse, ra);
+                B.ApplyImpulse(tangentImpulse, rb);
             }
         }
     }

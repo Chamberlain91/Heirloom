@@ -97,6 +97,9 @@ namespace Heirloom
 
         Rectangle IShape.Bounds => this;
 
+        // A rectangle is always convex
+        bool IShape.IsConvex => true;
+
         /// <summary>
         /// Gets the area of this rectangle.
         /// </summary>
@@ -222,6 +225,24 @@ namespace Heirloom
             PolygonTools.RecycleTempPolygon(vertices);
             return polygon;
         }
+
+        #region Support
+
+        /// <inheritdoc/>
+        public Vector GetSupport(in Vector direction)
+        {
+            return PolygonTools.GetSupport(EnumerateCorners(), direction);
+        }
+
+        private IEnumerable<Vector> EnumerateCorners()
+        {
+            yield return TopLeft;
+            yield return TopRight;
+            yield return BottomRight;
+            yield return BottomLeft;
+        }
+
+        #endregion
 
         #region Transform (Offset)
 

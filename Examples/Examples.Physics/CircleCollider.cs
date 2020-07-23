@@ -1,5 +1,4 @@
 using Heirloom;
-using Heirloom.Geometry;
 
 using static Heirloom.Calc;
 
@@ -33,7 +32,7 @@ namespace Examples.Physics
         internal override void Draw(GraphicsContext gfx)
         {
             gfx.Color = Color;
-            gfx.DrawCircle(_worldCircle);
+            gfx.DrawCircle(in _worldCircle);
         }
     }
 }

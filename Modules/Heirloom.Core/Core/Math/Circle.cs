@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Heirloom.Geometry
+using Heirloom.Geometry;
+
+namespace Heirloom
 {
     /// <summary>
     /// Represents a circle via center position and radius.
@@ -48,6 +50,11 @@ namespace Heirloom.Geometry
 
         #region Properties
 
+        Vector IShape.Center => Position;
+
+        // A circle is always convex
+        bool IShape.IsConvex => true;
+
         /// <summary>
         /// Gets the area of the circle.
         /// </summary>
@@ -87,6 +94,12 @@ namespace Heirloom.Geometry
             // Approximates a circle with a 24 point regular polygon
             var points = GeometryTools.GenerateRegularPolygon(Position, 24, Radius);
             return new Polygon(points);
+        }
+
+        /// <inheritdoc/>
+        public Vector GetSupport(in Vector dir)
+        {
+            return Position + (Radius * Vector.Normalize(dir));
         }
 
         #region Closest Point

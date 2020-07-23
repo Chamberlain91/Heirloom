@@ -2,7 +2,6 @@ using System.Collections.Generic;
 
 using Heirloom;
 using Heirloom.Desktop;
-using Heirloom.Geometry;
 
 namespace Examples.Physics
 {
@@ -29,7 +28,7 @@ namespace Examples.Physics
             Simulation.Add(new RigidBody(floor, (450F, 250F), StaticBody) { Rotation = Calc.HalfPi });
 
             // Add shapes
-            for (var i = 0; i < 80; i++)
+            for (var i = 0; i < 100; i++)
             {
                 if (i % 3 == 0)
                 {
