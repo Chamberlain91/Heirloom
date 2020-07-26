@@ -344,14 +344,14 @@ namespace Heirloom
         #region Merge (Rectangles) 
 
         /// <summary>
-        /// Merges the given rectangles into one potentially larger rectangle.
+        /// Merges a pair of rectangles into a (potentially larger) bounding rectangle.
         /// </summary>
         /// <remarks>
         /// Useful for computing a bounding rectangle.
         /// </remarks>
         /// <param name="a">Some rectangle '<paramref name="a"/>'.</param>
         /// <param name="b">Some rectangle '<paramref name="b"/>'.</param>
-        /// <returns> A potentially larger rectangle comprised of the two given. </returns>
+        /// <returns> The bounding rectangle of the input rectangles. </returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Rectangle Merge(in Rectangle a, in Rectangle b)
         {
@@ -362,13 +362,13 @@ namespace Heirloom
         }
 
         /// <summary>
-        /// Merges the given rectangles into one potentially larger rectangle.
+        /// Merges a set of rectangles into a (potentially larger) bounding rectangle.
         /// </summary>
         /// <remarks>
         /// Useful for computing a bounding rectangle.
         /// </remarks>
         /// <param name="rects">A collection of rectangles to merge.</param>
-        /// <returns> A potentially larger rectangle comprised of the two given. </returns>
+        /// <returns> The bounding rectangle of the input rectangles. </returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Rectangle Merge(params Rectangle[] rects)
         {
@@ -383,6 +383,27 @@ namespace Heirloom
             }
 
             return new Rectangle(min, max);
+        }
+
+        /// <summary>
+        /// Merges a set of rectangles into a (potentially larger) bounding rectangle.
+        /// </summary>
+        /// <remarks>
+        /// Useful for computing a bounding rectangle.
+        /// </remarks>
+        /// <param name="rects">A collection of rectangles to merge.</param>
+        /// <returns> The bounding rectangle of the input rectangles. </returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle Merge(IEnumerable<Rectangle> rects)
+        {
+            var merged = InvertedInfinite;
+
+            foreach (var rect in rects)
+            {
+                merged.Include(rect);
+            }
+
+            return merged;
         }
 
         #endregion
