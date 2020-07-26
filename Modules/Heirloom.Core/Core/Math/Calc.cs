@@ -356,10 +356,10 @@ namespace Heirloom
         #region Sqrt
 
         /// <summary>
-        /// Returns the absolute value of some number.
+        /// Returns the square root value of some number.
         /// </summary>
         /// <param name="x">Some value.</param>
-        /// <returns>The absolute value.</returns>
+        /// <returns>The square root value.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Sqrt(float x)
         {
