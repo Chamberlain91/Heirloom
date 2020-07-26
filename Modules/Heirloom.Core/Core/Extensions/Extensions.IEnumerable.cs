@@ -331,5 +331,39 @@ namespace Heirloom
         }
 
         #endregion
+
+        #region Min / Max (Vector)
+
+        /// <summary>
+        /// Computes the maximum component-wise vector of a sequence of vectors.
+        /// </summary>
+        public static Vector Max(this IEnumerable<Vector> vectors)
+        {
+            var max = Vector.One * float.NegativeInfinity;
+
+            foreach (var vec in vectors)
+            {
+                max = Vector.Max(max, vec);
+            }
+
+            return max;
+        }
+
+        /// <summary>
+        /// Computes the minimum component-wise vector of a sequence of vectors.
+        /// </summary>
+        public static Vector Min(this IEnumerable<Vector> vectors)
+        {
+            var min = Vector.One * float.PositiveInfinity;
+
+            foreach (var vec in vectors)
+            {
+                min = Vector.Min(min, vec);
+            }
+
+            return min;
+        }
+
+        #endregion
     }
 }
