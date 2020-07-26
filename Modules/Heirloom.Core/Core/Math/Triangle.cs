@@ -95,7 +95,7 @@ namespace Heirloom
         #region Support
 
         /// <inheritdoc/>
-        public Vector GetSupport(in Vector direction)
+        public Vector GetSupport(Vector direction)
         {
             return PolygonTools.GetSupport(EnumerateCorners(), direction);
         }
@@ -114,7 +114,7 @@ namespace Heirloom
         /// <summary>
         /// Gets the closest point on the triangle to the specified point.
         /// </summary>
-        public Vector GetNearestPoint(in Vector point)
+        public Vector GetNearestPoint(Vector point)
         {
             // Get temporary polygon representation
             var polygon = PolygonTools.RequestTempPolygon(in this);
@@ -134,7 +134,7 @@ namespace Heirloom
         /// <summary>
         /// Determines if this triangle contains the specified point.
         /// </summary>
-        public bool Contains(in Vector point)
+        public bool Contains(Vector point)
         {
             return ContainsPoint(in A, in B, in C, point);
         }
@@ -281,9 +281,9 @@ namespace Heirloom
         /// Peforms a raycast onto this rectangle, returning true upon intersection.
         /// </summary>
         /// <param name="ray">Some ray.</param>
-        public bool Raycast(in Ray ray)
+        public bool Raycast(Ray ray)
         {
-            return Raycast(in ray, out _);
+            return Raycast(ray, out _);
         }
 
         /// <summary>
@@ -291,7 +291,7 @@ namespace Heirloom
         /// </summary>
         /// <param name="ray">Some ray.</param>
         /// <param name="contact">Ray intersection information.</param>
-        public bool Raycast(in Ray ray, out RayContact contact)
+        public bool Raycast(Ray ray, out RayContact contact)
         {
             // Get temporary polygon representation
             var polygon = PolygonTools.RequestTempPolygon(in this);

@@ -7,7 +7,7 @@ namespace Examples.Physics
 {
     internal class Program : GameLoop
     {
-        public static readonly Color Background = Color.Parse("222f3E");
+        public static readonly Color Background = Color.Parse("222F3E");
 
         public readonly Simulation Simulation = new Simulation((0, 200));
 
@@ -15,33 +15,28 @@ namespace Examples.Physics
         private float _fixedTime = 0;
 
         public Program()
-            : base(new Window("Physics Example", MultisampleQuality.High), 60)
+            : base(new Window("Physics Example", MultisampleQuality.High))
         {
-            Graphics.Performance.OverlayMode = PerformanceOverlayMode.Simple;
+            Graphics.Performance.OverlayMode = PerformanceOverlayMode.Full;
 
             var floor = new Rectangle(-212.5F, -12.5F, 425, 25);
 
             // Add Scene Borders
             const float StaticBody = float.PositiveInfinity; // Infinite density/mass
-            Simulation.Add(new RigidBody(floor, (250, 475), StaticBody));
-            Simulation.Add(new RigidBody(floor, (50F, 250F), StaticBody) { Rotation = Calc.HalfPi });
-            Simulation.Add(new RigidBody(floor, (450F, 250F), StaticBody) { Rotation = Calc.HalfPi });
+            Simulation.Add(new RigidBody(floor, (250, 475), Vector.One, StaticBody));
+            Simulation.Add(new RigidBody(floor, (50F, 250F), Vector.One, StaticBody) { Rotation = Calc.HalfPi });
+            Simulation.Add(new RigidBody(floor, (450F, 250F), Vector.One, StaticBody) { Rotation = Calc.HalfPi });
 
             // Add shapes
-            for (var i = 0; i < 100; i++)
+            for (var i = 0; i < 50; i++)
             {
-                if (i % 3 == 0)
+                var x = Calc.Random.NextFloat(250, 350);
+
+                if (i % 2 == 0)
                 {
-                    var position = new Vector(350, 200 - (i * 30));
+                    var position = new Vector(x, 200 - (i * 30));
                     var shape = new Circle(Vector.Zero, 16);
-                    Simulation.Add(new RigidBody(shape, position));
-                }
-                else
-                if (i % 3 == 1)
-                {
-                    var position = new Vector(250, 200 - (i * 30));
-                    var shape = new Rectangle(-16, -16, 32, 32);
-                    Simulation.Add(new RigidBody(shape, position));
+                    Simulation.Add(new RigidBody(shape, position, RandomScale()));
                 }
                 else
                 {
@@ -50,10 +45,17 @@ namespace Examples.Physics
                     {
                         points.Add(Calc.Random.NextVectorDisk() * 32);
                     }
-                    var position = new Vector(150, 200 - (i * 30));
+                    var position = new Vector(x, 200 - (i * 30));
                     var shape = Polygon.CreateConvexHull(points);
-                    Simulation.Add(new RigidBody(shape, position));
+                    Simulation.Add(new RigidBody(shape, position, RandomScale()));
                 }
+            }
+
+            static Vector RandomScale()
+            {
+                var sx = Calc.Random.NextFloat(1F, 2F);
+                var sy = Calc.Random.NextFloat(1F, 2F);
+                return new Vector(sx, sy);
             }
         }
 

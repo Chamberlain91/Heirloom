@@ -1,7 +1,6 @@
 using System;
 
 using Heirloom;
-using Heirloom.Geometry;
 
 namespace Examples.Physics
 {
@@ -14,13 +13,19 @@ namespace Examples.Physics
         internal float InverseMass;
         private float _density;
 
-        public RigidBody(IShape shape, Vector position, float density = 1F)
+        public RigidBody(IShape shape, Vector position,Vector scale, float density = 1F)
         {
             Collider = CreateCollider(shape);
+            Collider.RegisterBody(this);
+
+            Scale = scale;
+
             Position = position;
             Density = density;
             UpdateCollider();
         }
+
+        public Vector Scale { get; set; } = Vector.One;
 
         public Vector Position { get; set; }
         public Vector Velocity { get; set; }
@@ -91,8 +96,7 @@ namespace Examples.Physics
 
         internal void UpdateCollider()
         {
-            Collider.UpdateWorldShape(this);
-            Bounds = Collider.WorldShape.Bounds;
+            Bounds = Collider.Shape.Bounds.Transform(Collider.Matrix);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Heirloom
         Rectangle Bounds { get; }
 
         /// <summary>
-        /// Gets the center (or an approximate center) of this shape.
+        /// Gets the center (or an approximated center) of this shape.
         /// </summary>
         Vector Center { get; }
 
@@ -30,17 +30,17 @@ namespace Heirloom
         /// <summary>
         /// Gets the nearest point on the shape to the specified point.
         /// </summary>
-        Vector GetNearestPoint(in Vector point);
+        Vector GetNearestPoint(Vector point);
 
         /// <summary>
         /// Gets the support point (ie, deepest) in the specified direction.
         /// </summary>
-        Vector GetSupport(in Vector direction);
+        Vector GetSupport(Vector direction);
 
         /// <summary>
         /// Determines if this shape contains the specified point.
         /// </summary>
-        bool Contains(in Vector point);
+        bool Contains(Vector point);
 
         /// <summary>
         /// Determines if this shape overlap with the specified shape.
@@ -50,11 +50,11 @@ namespace Heirloom
         /// <summary>
         /// Performs a raycast against this shape.
         /// </summary>
-        bool Raycast(in Ray ray, out RayContact contact);
+        bool Raycast(Ray ray, out RayContact contact);
 
         /// <summary>
         /// Performs a raycast against this shape.
         /// </summary>
-        bool Raycast(in Ray ray);
+        bool Raycast(Ray ray);
     }
 }

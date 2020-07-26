@@ -11,8 +11,8 @@ namespace Heirloom.Geometry
         private static readonly float _edgeThreshold = 0.0001F;
         private static readonly int _maxIterations = 24;
 
-        [ThreadStatic] private static IShape _shapeA;
-        [ThreadStatic] private static IShape _shapeB;
+        [ThreadStatic] private static ShapeProxy _shapeA;
+        [ThreadStatic] private static ShapeProxy _shapeB;
 
         [ThreadStatic] private static List<Support> _gjkPolygon;
         [ThreadStatic] private static Vector _direction;
@@ -25,36 +25,267 @@ namespace Heirloom.Geometry
         /// Performs an overlap test of two shapes.
         /// </summary>
         /// <param name="shapeA">The first shape.</param>
-        /// <param name="shapeB">The secodn shape.</param>
-        /// <returns>True if the shapes are overlapping.</returns>
-        public static bool CheckCollision(IShape shapeA, IShape shapeB)
+        /// <param name="shapeB">The second shape.</param>
+        /// <returns>A boolean value that determines if the shapes are overlapping. </returns>
+        public static bool CheckOverlap(IShape shapeA, IShape shapeB)
         {
-            // Store the collision shapes
-            _shapeA = shapeA ?? throw new ArgumentNullException(nameof(shapeA));
-            _shapeB = shapeB ?? throw new ArgumentNullException(nameof(shapeB));
+            return CheckOverlap(shapeA, in Matrix.Identity, shapeB, in Matrix.Identity);
+        }
+
+        /// <summary>
+        /// Performs an overlap test of two shapes.
+        /// </summary>
+        /// <param name="shapeA">The first shape.</param>
+        /// <param name="matrixA">The transform of the first shape.</param>
+        /// <param name="shapeB">The second shape.</param>
+        /// <param name="matrixB">The transform of the second shape.</param>
+        /// <returns>A boolean value that determines if the shapes are overlapping. </returns>
+        public static bool CheckOverlap(IShape shapeA, in Matrix matrixA, IShape shapeB, in Matrix matrixB)
+        {
+            if (shapeA is null) { throw new ArgumentNullException(nameof(shapeA)); }
+            if (shapeB is null) { throw new ArgumentNullException(nameof(shapeB)); }
+
+            // Avoid check against self
+            if (shapeA == shapeB) { return false; }
 
             // If both shapes are convex, we can use GJK
             if (shapeA.IsConvex && shapeB.IsConvex)
             {
-                // Reset (or create) simplex/polygon
-                if (_gjkPolygon == null) { _gjkPolygon = new List<Support>(); }
-                _gjkPolygon.Clear();
+                // Get shape proxy
+                var a = new ShapeProxy(shapeA, in matrixA);
+                var b = new ShapeProxy(shapeB, in matrixB);
 
-                // Perform the GJK algorithm
-                var result = GJKIterationResult.Incomplete;
-                while (result == GJKIterationResult.Incomplete)
+                // Dispatch to GJK
+                return EvaluateOverlap(in a, in b);
+            }
+            else if (shapeB.IsConvex)
+            {
+                // CASE: Shape A must be concave
+
+                // Polygon vs Shape
+                if (shapeA is Polygon polygonA)
                 {
-                    result = GJKIteration();
-                }
+                    var b = new ShapeProxy(shapeB, in matrixB);
 
-                // Return success if an intersection was indeed found
-                return result == GJKIterationResult.Success;
+                    foreach (var convex in polygonA.ConvexPartitions)
+                    {
+                        var a = new ShapeProxy(convex, in matrixA);
+
+                        if (EvaluateOverlap(in a, in b))
+                        {
+                            return true;
+                        }
+                    }
+
+                    // No overlap detected
+                    return false;
+                }
+            }
+            else if (shapeA.IsConvex)
+            {
+                // CASE: Shape B must be concave
+
+                // Shape vs Polygon
+                if (shapeB is Polygon polygonB)
+                {
+                    var a = new ShapeProxy(shapeA, in matrixA);
+
+                    foreach (var convex in polygonB.ConvexPartitions)
+                    {
+                        var b = new ShapeProxy(convex, in matrixB);
+
+                        if (EvaluateOverlap(in a, in b))
+                        {
+                            return true;
+                        }
+                    }
+
+                    // No overlap detected
+                    return false;
+                }
             }
             else
             {
-                // Dispatch to a non-convex collision method
-                return CheckCollisionNonGJK(shapeA, shapeB);
+                // CASE: Both shapes must concave
+
+                // Polygon vs Polygon
+                if (shapeA is Polygon polygonA && shapeB is Polygon polygonB)
+                {
+                    foreach (var convexA in polygonA.ConvexPartitions)
+                    {
+                        var a = new ShapeProxy(convexA, in matrixA);
+
+                        foreach (var convexB in polygonB.ConvexPartitions)
+                        {
+                            var b = new ShapeProxy(convexB, in matrixB);
+
+                            if (EvaluateOverlap(in a, in b))
+                            {
+                                return true;
+                            }
+                        }
+
+                    }
+
+                    // No overlap detected
+                    return false;
+                }
             }
+
+            // Should not get here unless the user implemented IShape themselves.
+            throw new InvalidOperationException("Unable to perform collision check with custom non-convex shapes.");
+        }
+
+        #endregion
+
+        #region Check Collision (w/ Contact)
+
+        /// <summary>
+        /// Performs the static collision of two convex shapes.
+        /// </summary>
+        /// <param name="shapeA">The first shape.</param>
+        /// <param name="shapeB">The second shape.</param>
+        /// <param name="contact">
+        /// The collision results, viewed from the perspective of <paramref name="shapeA"/>.
+        /// Only valid if a collision has occurred.
+        /// </param>
+        /// <returns>A boolean value that determines if a collision has occurred. </returns>
+        public static bool CheckCollision(IShape shapeA, IShape shapeB, out Contact contact)
+        {
+            return CheckCollision(shapeA, in Matrix.Identity, shapeB, in Matrix.Identity, out contact);
+        }
+
+        /// <summary>
+        /// Performs the static collision of two convex shapes.
+        /// </summary>
+        /// <param name="shapeA">The first shape.</param>
+        /// <param name="matrixA">The transform of the first shape.</param>
+        /// <param name="shapeB">The second shape.</param>
+        /// <param name="matrixB">The transform of the second shape.</param>
+        /// <param name="contact">
+        /// The collision results, viewed from the perspective of <paramref name="shapeA"/>.
+        /// Only valid if a collision has occurred.
+        /// </param>
+        /// <returns>A boolean value that determines if a collision has occurred. </returns>
+        public static bool CheckCollision(IShape shapeA, in Matrix matrixA, IShape shapeB, in Matrix matrixB, out Contact contact)
+        {
+            if (shapeA is null) { throw new ArgumentNullException(nameof(shapeA)); }
+            if (shapeB is null) { throw new ArgumentNullException(nameof(shapeB)); }
+
+            if (shapeA.IsConvex && shapeB.IsConvex)
+            {
+                // Both shapes are convex, we can proceed with GJK
+                if (CheckOverlap(shapeA, in matrixA, shapeB, in matrixB))
+                {
+                    // A collision has occured, we now proceed with EPA
+                    contact = ComputePenetration();
+                    return true;
+                }
+                else
+                {
+                    // No collision, return default
+                    contact = default;
+                    return false;
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException("Unable to compute collisions w/ contacts with non-convex shapes.");
+            }
+        }
+
+        #endregion
+
+        private readonly struct ShapeProxy
+        {
+            public readonly Func<Vector, Vector> GetSupport;
+
+            public readonly Vector Center;
+
+            #region Constructors
+
+            public ShapeProxy(IShape shape, in Matrix matrix)
+            {
+                if (shape is null) { throw new ArgumentNullException(nameof(shape)); }
+
+                if (!shape.IsConvex) { throw new ArgumentException("Shape must not be non-convex."); }
+
+                GetSupport = LocalToWorld(shape.GetSupport, matrix);
+                Center = LocalToWorld(shape.Center, matrix);
+            }
+
+            public ShapeProxy(IEnumerable<Vector> polygon, in Matrix matrix)
+            {
+                if (polygon is null) { throw new ArgumentNullException(nameof(polygon)); }
+
+                GetSupport = LocalToWorld(d => PolygonTools.GetSupport(polygon, d), matrix);
+                Center = LocalToWorld(polygon.Average(), matrix);
+            }
+
+            #endregion
+
+            #region Affine Transform Wrapper (Static)
+
+            private static Func<Vector, Vector> LocalToWorld(Func<Vector, Vector> getSupport, Matrix matrix)
+            {
+                if (!IsIdentity(in matrix))
+                {
+                    // Compute the transpose of the linear portion of the affine matrix (inverse 2x2)
+                    var mTranspose = matrix;
+                    Calc.Swap(ref mTranspose.M1, ref mTranspose.M3);
+
+                    return direction =>
+                    {
+                        // Transform the direction vector into 'local space'
+                        Matrix.MultiplyVector(in mTranspose, direction, ref direction);
+
+                        // Get the local space support and transform back to 'world space'
+                        return Matrix.Multiply(in matrix, getSupport(direction));
+                    };
+                }
+                else
+                {
+                    // Identity, return incoming support function
+                    return getSupport;
+                }
+            }
+
+            private static Vector LocalToWorld(Vector center, Matrix matrix)
+            {
+                return Matrix.Multiply(in matrix, in center);
+            }
+
+            private static bool IsIdentity(in Matrix matrix)
+            {
+                var dia = matrix.M0 + matrix.M4; // diagonal sum to 2
+                var zer = matrix.M1 + matrix.M2 + matrix.M3 + matrix.M5; // remaining sum to 0
+                return Calc.NearEquals(dia, 2) && Calc.NearZero(zer);
+            }
+
+            #endregion
+        }
+
+        #region GJK/EPA Implementation
+
+        // GJK
+        private static bool EvaluateOverlap(in ShapeProxy shapeA, in ShapeProxy shapeB)
+        {
+            _shapeA = shapeA;
+            _shapeB = shapeB;
+
+            // Reset (or create) simplex/polygon
+            if (_gjkPolygon == null) { _gjkPolygon = new List<Support>(); }
+            _gjkPolygon.Clear();
+
+            // Perform the GJK algorithm
+            var result = GJKIterationResult.Incomplete;
+            while (result == GJKIterationResult.Incomplete)
+            {
+                result = GJKIteration();
+            }
+
+            // Return success if an intersection was indeed found
+            return result == GJKIterationResult.Success;
 
             // GJK
             static GJKIterationResult GJKIteration()
@@ -143,145 +374,64 @@ namespace Heirloom.Geometry
             }
         }
 
-        private static bool CheckCollisionNonGJK(IShape shapeA, IShape shapeB)
+        // EPA
+        private static Contact ComputePenetration()
         {
-            // This function should only be called when shapeA and/or shapeB is non-convex.
-            // If both are convex, it should have been handled by the GJK implementation.
+            // Gets the winding of the triangle simplex
+            var e0 = _gjkPolygon[1].Minkowski - _gjkPolygon[0].Minkowski;
+            var e1 = _gjkPolygon[2].Minkowski - _gjkPolygon[0].Minkowski;
 
-            // todo: defer/refactor instance overlap methods to alternative static methods
+            // Ensure simplex winding is ... anti-clockwise?
+            if (Vector.Cross(e0, e1) < 0) { Calc.Swap(_gjkPolygon, 1, 2); }
 
-            if (_shapeB.IsConvex)
+            // Penetration information
+            var penetration = Vector.Zero;
+            var penetrationEdge = 0;
+
+            var minDistance = float.PositiveInfinity;
+
+            // Iteratively find closest edge
+            for (var i = 0; i < _maxIterations; i++)
             {
-                // Shape A must be concave
-                if (_shapeA is Polygon polygonA)
+                var edge = FindClosestEdge();
+
+                // Get the support in the direction of the edge
+                var support = GetMinkowskiSupport(edge.Normal);
+                var supportDistance = Vector.Dot(support.Minkowski, edge.Normal);
+
+                // Keep smallest penetration vector
+                if (supportDistance < minDistance)
                 {
-                    // Polygon vs Shape
-                    return polygonA.Overlaps(shapeB);
+                    // Store contact information
+                    penetration = edge.Normal * supportDistance;
+                    penetrationEdge = edge.Index;
+
+                    minDistance = supportDistance;
                 }
-            }
-            else
-            if (_shapeA.IsConvex)
-            {
-                // Shape B must be concave
-                if (_shapeB is Polygon polygonB)
+
+                // If the distance to the support is equivalent to the distance to the nearest edge.
+                if (Calc.NearEquals(supportDistance, edge.Distance, _edgeThreshold))
                 {
-                    // Shape vs Polygon
-                    return polygonB.Overlaps(shapeA);
-                }
-            }
-            else
-            {
-                // Both shapes must concave
-                if (_shapeA is Polygon polygonA && _shapeB is Polygon polygonB)
-                {
-                    // Polygon vs Polygon
-                    return polygonA.Overlaps(polygonB);
-                }
-            }
-
-            // Should not get here unless the user implemented IShape themselves.
-            throw new InvalidOperationException("Unable to perform collision check with custom non-convex shapes.");
-        }
-
-        #endregion
-
-        #region Check Collision (w/ Contact)
-
-        /// <summary>
-        /// Performs the static collision of two convex shapes.
-        /// </summary>
-        /// <param name="shapeA">The first shape.</param>
-        /// <param name="shapeB">The secodn shape.</param>
-        /// <param name="contact">
-        /// The collision results, viewed from the perspective of <paramref name="shapeA"/>.
-        /// Only valid if a collision has occurred.
-        /// </param>
-        /// <returns>True if the shapes are overlapping.</returns>
-        public static bool CheckCollision(IShape shapeA, IShape shapeB, out Contact contact)
-        {
-            if (shapeA is null) { throw new ArgumentNullException(nameof(shapeA)); }
-            if (shapeB is null) { throw new ArgumentNullException(nameof(shapeB)); }
-
-            if (shapeA.IsConvex && shapeB.IsConvex)
-            {
-                // Both shapes are convex, we can proceed with GJK
-                if (CheckCollision(shapeA, shapeB))
-                {
-                    // A collision has occured, we now proceed with EPA
-                    contact = ComputePenetration();
-                    return true;
+                    // We have found edge nearest edge of the minkowski difference. edge!
+                    // We can now exit the loop.
+                    break;
                 }
                 else
                 {
-                    // No collision, return default
-                    contact = default;
-                    return false;
+                    _gjkPolygon.Insert(edge.Index, support);
                 }
             }
-            else
-            {
-                throw new InvalidOperationException("Unable to compute collisions w/ contacts with non-convex shapes.");
-            }
 
-            // EPA
-            static Contact ComputePenetration()
-            {
-                // Gets the winding of the triangle simplex
-                var e0 = _gjkPolygon[1].Minkowski - _gjkPolygon[0].Minkowski;
-                var e1 = _gjkPolygon[2].Minkowski - _gjkPolygon[0].Minkowski;
+            // Get contact edge supports
+            var supportA = _gjkPolygon[Calc.Wrap(penetrationEdge - 1, _gjkPolygon.Count)];
+            var supportB = _gjkPolygon[penetrationEdge];
 
-                // Ensure simplex winding is ... anti-clockwise?
-                if (Vector.Cross(e0, e1) < 0) { Calc.Swap(_gjkPolygon, 1, 2); }
+            // Compute the contact points in world space
+            var t = Vector.Project(supportA.Minkowski, supportB.Minkowski, penetration);
+            var a = Vector.Lerp(supportA.ShapeA, supportB.ShapeA, t);
+            // var b = Vector.Lerp(supportA.ShapeB, supportB.ShapeB, t);
 
-                // Penetration information
-                var penetration = Vector.Zero;
-                var penetrationEdge = 0;
-
-                var minDistance = float.PositiveInfinity;
-
-                // Iteratively find closest edge
-                for (var i = 0; i < _maxIterations; i++)
-                {
-                    var edge = FindClosestEdge();
-
-                    // Get the support in the direction of the edge
-                    var support = GetMinkowskiSupport(edge.Normal);
-                    var supportDistance = Vector.Dot(support.Minkowski, edge.Normal);
-
-                    // Keep smallest penetration vector
-                    if (supportDistance < minDistance)
-                    {
-                        // Store contact information
-                        penetration = edge.Normal * supportDistance;
-                        penetrationEdge = edge.Index;
-
-                        minDistance = supportDistance;
-                    }
-
-                    // If the distance to the support is equivalent to the distance to the nearest edge.
-                    if (Calc.NearEquals(supportDistance, edge.Distance, _edgeThreshold))
-                    {
-                        // We have found edge nearest edge of the minkowski difference. edge!
-                        // We can now exit the loop.
-                        break;
-                    }
-                    else
-                    {
-                        _gjkPolygon.Insert(edge.Index, support);
-                    }
-                }
-
-                // Get contact edge supports
-                var supportA = _gjkPolygon[Calc.Wrap(penetrationEdge - 1, _gjkPolygon.Count)];
-                var supportB = _gjkPolygon[penetrationEdge];
-
-                // Compute the contact points in world space
-                var t = Vector.Project(supportA.Minkowski, supportB.Minkowski, penetration);
-                var a = Vector.Lerp(supportA.ShapeA, supportB.ShapeA, t);
-                // var b = Vector.Lerp(supportA.ShapeB, supportB.ShapeB, t);
-
-                return new Contact(a, penetration);
-            }
+            return new Contact(a, penetration);
 
             static EdgeInfo FindClosestEdge()
             {
@@ -318,10 +468,6 @@ namespace Heirloom.Geometry
                 return new EdgeInfo(edgeDistance, edgeNormal, edgeIndex);
             }
         }
-
-        #endregion
-
-        #region GJK/EPA Utilities
 
         private static Support GetMinkowskiSupport(in Vector direction)
         {

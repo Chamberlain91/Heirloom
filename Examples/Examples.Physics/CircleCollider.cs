@@ -7,14 +7,13 @@ namespace Examples.Physics
     public sealed class CircleCollider : Collider
     {
         private readonly Circle _circle;
-        private Circle _worldCircle;
 
         internal CircleCollider(Circle circle)
         {
             _circle = circle;
         }
 
-        internal override IShape WorldShape => _worldCircle;
+        internal override IShape Shape => _circle;
 
         internal override void ComputeMassData(RigidBody body)
         {
@@ -24,15 +23,15 @@ namespace Examples.Physics
             body.InverseIntertia = body.IsStatic ? 0F : 1F / body.Inertia;
         }
 
-        internal override void UpdateWorldShape(RigidBody body)
-        {
-            _worldCircle = new Circle(body.Position + _circle.Position, _circle.Radius);
-        }
-
         internal override void Draw(GraphicsContext gfx)
         {
-            gfx.Color = Color;
-            gfx.DrawCircle(in _worldCircle);
+            gfx.PushState();
+            {
+                gfx.Color = Color;
+                gfx.GlobalTransform = Matrix;
+                gfx.DrawCircleOutline(in _circle);
+            }
+            gfx.PopState();
         }
     }
 }

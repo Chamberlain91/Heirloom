@@ -1,13 +1,12 @@
-using System;
-
 using Heirloom;
-using Heirloom.Geometry;
 
 namespace Examples.Physics
 {
     public abstract class Collider
     {
         protected readonly Color Color = GenerateColor();
+
+        private RigidBody _body;
 
         private static Color GenerateColor()
         {
@@ -20,11 +19,16 @@ namespace Examples.Physics
             // Internal here to prevent inheritance outside assembly
         }
 
-        internal abstract IShape WorldShape { get; }
+        internal void RegisterBody(RigidBody body)
+        {
+            _body = body;
+        }
+
+        internal Matrix Matrix => Matrix.CreateTransform(_body.Position, _body.Rotation, _body.Scale);
+
+        internal abstract IShape Shape { get; }
 
         internal abstract void ComputeMassData(RigidBody body);
-
-        internal abstract void UpdateWorldShape(RigidBody body);
 
         internal abstract void Draw(GraphicsContext gfx);
     }

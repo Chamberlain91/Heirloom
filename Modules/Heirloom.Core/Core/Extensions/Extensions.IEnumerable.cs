@@ -257,5 +257,79 @@ namespace Heirloom
         }
 
         #endregion
+
+        #region Sum (Vector, Color)
+
+        /// <summary>
+        /// Computes the sum vector of a sequence of vectors.
+        /// </summary>
+        public static Vector Sum(this IEnumerable<Vector> vectors)
+        {
+            var sum = Vector.Zero;
+
+            foreach (var v in vectors)
+            {
+                sum += v;
+            }
+
+            return sum;
+        }
+
+        /// <summary>
+        /// Computes the sum (additive color) of a sequence of colors.
+        /// </summary>
+        public static Color Sum(this IEnumerable<Color> colors)
+        {
+            var sum = Color.Transparent;
+
+            foreach (var color in colors)
+            {
+                sum += color;
+            }
+
+            return sum;
+        }
+
+        #endregion
+
+        #region Average (Vector, Color)
+
+        /// <summary>
+        /// Computes the average vector of a sequence of vectors.
+        /// </summary>
+        public static Vector Average(this IEnumerable<Vector> vectors)
+        {
+            var sum = Vector.Zero;
+            var count = 0;
+
+            foreach (var vec in vectors)
+            {
+                sum += vec;
+                count++;
+            }
+
+            if (count > 0) { return sum / count; }
+            else { return sum; }
+        }
+
+        /// <summary>
+        /// Computes the average color of a sequence of colors.
+        /// </summary>
+        public static Color Average(this IEnumerable<Color> colors)
+        {
+            var sum = Color.Transparent;
+            var count = 0;
+
+            foreach (var color in colors)
+            {
+                sum += color;
+                count++;
+            }
+
+            if (count > 0) { return sum / count; }
+            else { return sum; }
+        }
+
+        #endregion
     }
 }

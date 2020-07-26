@@ -287,7 +287,7 @@ namespace Heirloom
         /// <summary>
         /// Gets the nearest point on the polygon to the specified point.
         /// </summary>
-        public Vector GetNearestPoint(in Vector point)
+        public Vector GetNearestPoint(Vector point)
         {
             // Is convex, simple test
             if (IsConvex) { return PolygonTools.GetClosestPoint(_vertices, in point); }
@@ -316,7 +316,7 @@ namespace Heirloom
         #endregion
 
         /// <inheritdoc/>
-        public Vector GetSupport(in Vector direction)
+        public Vector GetSupport(Vector direction)
         {
             return PolygonTools.GetSupport(_vertices, direction);
         }
@@ -327,7 +327,7 @@ namespace Heirloom
         /// Determines if the specified point is contained by this polygon.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Contains(in Vector point)
+        public bool Contains(Vector point)
         {
             // Check for containment in each convex fragment
             foreach (var convex in ConvexPartitions)
@@ -467,7 +467,7 @@ namespace Heirloom
         /// Checks if a ray intersects this polygon.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Raycast(in Ray ray)
+        public bool Raycast(Ray ray)
         {
             return PolygonTools.Raycast(_vertices, in ray, out _);
         }
@@ -476,7 +476,7 @@ namespace Heirloom
         /// Checks if a ray intersects this polygon and outputs information on the contact point.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Raycast(in Ray ray, out RayContact hit)
+        public bool Raycast(Ray ray, out RayContact hit)
         {
             return PolygonTools.Raycast(_vertices, in ray, out hit);
         }

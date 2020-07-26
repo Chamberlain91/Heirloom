@@ -97,7 +97,7 @@ namespace Heirloom
         }
 
         /// <inheritdoc/>
-        public Vector GetSupport(in Vector dir)
+        public Vector GetSupport(Vector dir)
         {
             return Position + (Radius * Vector.Normalize(dir));
         }
@@ -107,7 +107,7 @@ namespace Heirloom
         /// <summary>
         /// Gets the nearest point on the circle to the specified point.
         /// </summary>
-        public Vector GetNearestPoint(in Vector point)
+        public Vector GetNearestPoint(Vector point)
         {
             var offset = Vector.Normalize(point - Position);
             return Position + (offset * Radius);
@@ -120,7 +120,7 @@ namespace Heirloom
         /// <summary>
         /// Determines if the specified point is contained by the circle.
         /// </summary>
-        public bool Contains(in Vector point)
+        public bool Contains(Vector point)
         {
             return Vector.DistanceSquared(Position, point) < (Radius * Radius);
         }
@@ -128,7 +128,7 @@ namespace Heirloom
         /// <summary>
         /// Determines if this circle contains another circle.
         /// </summary>
-        public bool Contains(in Circle circle)
+        public bool Contains(Circle circle)
         {
             var d = Vector.DistanceSquared(in Position, in circle.Position);
             return Radius > (d + circle.Radius);
@@ -145,9 +145,9 @@ namespace Heirloom
         {
             return shape switch
             {
-                Circle cir => Overlaps(in cir),
-                Triangle tri => Overlaps(in tri),
-                Rectangle rec => Overlaps(in rec),
+                Circle cir => Overlaps(cir),
+                Triangle tri => Overlaps(tri),
+                Rectangle rec => Overlaps(rec),
                 Polygon pol => Overlaps(pol),
 
                 // Unknown shape
@@ -159,7 +159,7 @@ namespace Heirloom
         /// Determines if this circle overlaps another circle.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(in Circle b)
+        public bool Overlaps(Circle b)
         {
             var c = b.Position - Position;
             var r = Radius + b.Radius;
@@ -171,7 +171,7 @@ namespace Heirloom
         /// Determines if this circle overlaps the specified rectangle.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(in Rectangle rectangle)
+        public bool Overlaps(Rectangle rectangle)
         {
             // Assembly temporary polygon representation of the rectangle
             var polygon = PolygonTools.RequestTempPolygon(in rectangle);
@@ -254,9 +254,9 @@ namespace Heirloom
         /// Peforms a raycast onto this circle, returning true upon intersection.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Raycast(in Ray ray)
+        public bool Raycast(Ray ray)
         {
-            return Raycast(in ray, out _);
+            return Raycast(ray, out _);
         }
 
         /// <summary>
@@ -265,7 +265,7 @@ namespace Heirloom
         /// <param name="ray">Some ray.</param>
         /// <param name="contact">Ray intersection information.</param>
         /// <returns></returns>
-        public bool Raycast(in Ray ray, out RayContact contact)
+        public bool Raycast(Ray ray, out RayContact contact)
         {
             var v = ray.Origin - Position;
             var c = Vector.Dot(v, v) - (Radius * Radius);

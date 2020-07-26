@@ -22,7 +22,7 @@ namespace Examples.Physics
         private readonly List<Manifold> _contacts = new List<Manifold>();
         private int _iterations;
 
-        public Simulation(Vector gravity, int iterations = 5)
+        public Simulation(Vector gravity, int iterations = 8)
         {
             Iterations = iterations;
             Gravity = gravity;
@@ -75,7 +75,7 @@ namespace Examples.Physics
                     if (a.IsStatic && b.IsStatic) { continue; }
 
                     // Narrow Phase?
-                    if (Collision.CheckCollision(a.Collider.WorldShape, b.Collider.WorldShape, out var contact))
+                    if (Collision.CheckCollision(a.Collider.Shape, a.Collider.Matrix, b.Collider.Shape, b.Collider.Matrix, out var contact))
                     {
                         // Assembly manifold
                         var manifold = _manifoldPool.Request();
@@ -142,9 +142,9 @@ namespace Examples.Physics
 
         public void Render(GraphicsContext gfx)
         {
-            gfx.Color = Color.White;
             foreach (var body in _bodies)
             {
+                gfx.Color = Color.White;
                 body.Collider.Draw(gfx);
             }
 
@@ -154,15 +154,12 @@ namespace Examples.Physics
             //    gfx.DrawRectOutline(body.Bounds);
             //}
 
-            //gfx.Color = Color.Yellow;
-            //foreach (var manifold in _contacts)
-            //{
-            //    for (var i = 0; i < manifold.Contact.Count; i++)
-            //    {
-            //        var c = manifold.Contact.GetPoint(i);
-            //        gfx.DrawLine(c, c + manifold.Contact.Normal * manifold.Contact.Depth);
-            //    }
-            //}
+            gfx.Color = Color.Yellow;
+            foreach (var manifold in _contacts)
+            {
+                var contact = manifold.Contact;
+                gfx.DrawLine(contact.Position, contact.Position + (contact.Normal * contact.Depth), 2);
+            }
 
             gfx.PushState(true);
             gfx.DrawText($"Contacts: {_contacts.Count}\nBodies: {_bodies.Count}", (10, 10), Font.Default, 16);

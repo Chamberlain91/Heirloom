@@ -229,7 +229,7 @@ namespace Heirloom
         #region Support
 
         /// <inheritdoc/>
-        public Vector GetSupport(in Vector direction)
+        public Vector GetSupport(Vector direction)
         {
             return PolygonTools.GetSupport(EnumerateCorners(), direction);
         }
@@ -457,7 +457,7 @@ namespace Heirloom
         /// <summary>
         /// Returns the nearest point on the rectangle to the given point.
         /// </summary>
-        public Vector GetNearestPoint(in Vector point)
+        public Vector GetNearestPoint(Vector point)
         {
             Vector closest;
             closest.X = (point.X < Min.X) ? Min.X : (point.X > Max.X) ? Max.X : point.X;
@@ -472,7 +472,7 @@ namespace Heirloom
         /// <summary>
         /// Determines if this rectangle contains the given point?
         /// </summary>
-        public bool Contains(in Vector point)
+        public bool Contains(Vector point)
         {
             var xMax = X + Width;
             var yMax = Y + Height;
@@ -489,7 +489,7 @@ namespace Heirloom
         /// <summary>
         /// Determines if this rectangle contains another rectangle?
         /// </summary>
-        public bool Contains(in Rectangle other)
+        public bool Contains(Rectangle other)
         {
             if (other.Right > Right || other.Left < Left) { return false; }
             if (other.Top < Top || other.Bottom > Bottom) { return false; }
@@ -521,17 +521,17 @@ namespace Heirloom
         /// Determines if this rectangle overlaps the specified circle.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(in Circle circle)
+        public bool Overlaps(Circle circle)
         {
             // circle has the implementation
-            return circle.Overlaps(in this);
+            return circle.Overlaps(this);
         }
 
         /// <summary>
         /// Determines if this rectangle overlaps the specified triangle.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(in Triangle triangle)
+        public bool Overlaps(Triangle triangle)
         {
             // Get temporary polygon representation
             var polygon = PolygonTools.RequestTempPolygon(in this);
@@ -547,7 +547,7 @@ namespace Heirloom
         /// <summary>
         /// Determines if this rectangle overlaps another rectangle.
         /// </summary>
-        public bool Overlaps(in Rectangle other)
+        public bool Overlaps(Rectangle other)
         {
             /*
              * .---.
@@ -619,9 +619,9 @@ namespace Heirloom
         /// Peforms a raycast onto this rectangle, returning true upon intersection.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Raycast(in Ray ray)
+        public bool Raycast(Ray ray)
         {
-            return Raycast(in ray, out _);
+            return Raycast(ray, out _);
         }
 
         /// <summary>
@@ -630,7 +630,7 @@ namespace Heirloom
         /// <param name="ray">Some ray.</param>
         /// <param name="contact">Ray intersection information.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Raycast(in Ray ray, out RayContact contact)
+        public bool Raycast(Ray ray, out RayContact contact)
         {
             // r.dir is unit direction vector of ray
             Vector dirfrac;
