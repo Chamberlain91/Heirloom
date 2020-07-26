@@ -100,7 +100,7 @@ namespace Heirloom
         public Vector Normalized => Normalize(this);
 
         /// <summary>
-        /// Gets a perpendicular copy of this vector.
+        /// Gets a perpendicular (anti-clockwise) copy of this vector.
         /// </summary>
         public Vector Perpendicular => Cross(this, 1.0f);
 
