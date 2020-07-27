@@ -11,7 +11,7 @@ namespace Heirloom
     /// <summary>
     /// Provides several operations for polygons represented as a read-only list of vectors.
     /// </summary>
-    public static class PolygonTools
+    internal static class PolygonTools
     {
         #region Closest Point (IReadOnlyList<Vector>)
 
@@ -98,47 +98,7 @@ namespace Heirloom
 
         #endregion
 
-        #region Overlaps (IReadOnlyList<Vector>)
-
-        /// <summary>
-        /// Tests if a (convex) polygon overlaps the specified shape.
-        /// </summary>
-        public static bool Overlaps(IReadOnlyList<Vector> polygon, IShape shape)
-        {
-            // pol - pol
-            return shape switch
-            {
-                Circle cir => cir.Overlaps(polygon),
-                Triangle tri => tri.Overlaps(polygon),
-                Rectangle rec => rec.Overlaps(polygon),
-                Polygon pol => pol.Overlaps(polygon),
-
-                // Unknown shape
-                _ => throw new InvalidOperationException("Unable to determine overlap, shape was not a known type."),
-            };
-        }
-
-        #endregion
-
         #region Raycast (IReadOnlyList<Vector>)
-
-        /// <summary>
-        /// Checks if a ray intersects this polygon.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Raycast(IReadOnlyList<Vector> polygon, in Ray ray)
-        {
-            return Raycast(polygon, in ray.Origin, in ray.Direction, out _);
-        }
-
-        /// <summary>
-        /// Checks if a ray intersects this polygon.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Raycast(IReadOnlyList<Vector> polygon, in Vector origin, in Vector direction)
-        {
-            return Raycast(polygon, in origin, in direction, out _);
-        }
 
         /// <summary>
         /// Checks if a ray intersects this polygon and outputs information on the contact point.
@@ -146,15 +106,10 @@ namespace Heirloom
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Raycast(IReadOnlyList<Vector> polygon, in Ray ray, out RayContact contact)
         {
-            return Raycast(polygon, in ray.Origin, in ray.Direction, out contact);
-        }
+            // return Raycast(polygon, in ray.Origin, in ray.Direction, out contact);
 
-        /// <summary>
-        /// Checks if a ray intersects this polygon and outputs information on the contact point.
-        /// </summary>
-        public static bool Raycast(IReadOnlyList<Vector> polygon, in Vector origin, in Vector direction, out RayContact contact)
-        // ref: https://github.com/RandyGaul/cute_headers/blob/master/cute_c2.h
-        {
+            // ref: https://github.com/RandyGaul/cute_headers/blob/master/cute_c2.h
+
             var lo = 0F;
             var hi = float.MaxValue;
             var index = ~0;
@@ -163,8 +118,8 @@ namespace Heirloom
             for (var i = 0; i < polygon.Count; ++i)
             {
                 var nor = GetScaledNormal(polygon, i);
-                var num = Vector.Dot(nor, polygon[i] - origin);
-                var den = Vector.Dot(nor, direction);
+                var num = Vector.Dot(nor, polygon[i] - ray.Origin);
+                var den = Vector.Dot(nor, ray.Direction);
 
                 // degenerate case (avoids divide by zero)
                 if (Calc.NearZero(den) && num < 0)
@@ -196,7 +151,7 @@ namespace Heirloom
             {
                 // Create contact
                 contact = new RayContact(
-                    position: origin + (direction * lo),
+                    position: ray.Origin + (ray.Direction * lo),
                     normal: GetNormal(polygon, index),
                     distance: lo);
 
@@ -210,38 +165,9 @@ namespace Heirloom
 
         #endregion
 
-        #region Axis Projection
-
-        /// <summary>
-        /// Project a polygon onto the specified axis.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Range Project(IReadOnlyList<Vector> polygon, in Vector axis)
-        {
-            if (polygon is null) { throw new ArgumentNullException(nameof(polygon)); }
-
-            var min = Vector.Project(polygon[0], in axis);
-            var max = min;
-
-            // For each edge in polygon A
-            for (var i = 1; i < polygon.Count; i++)
-            {
-                var v = polygon[i];
-                var t = Vector.Project(in v, in axis);
-
-                // 
-                max = Calc.Max(t, max);
-                min = Calc.Min(t, min);
-            }
-
-            return new Range(min, max);
-        }
-
-        #endregion
-
         #region Compute Convex Hull
 
-        internal static IEnumerable<Vector> ComputeConvexHull(IEnumerable<Vector> points)
+        internal static Polygon ComputeConvexHull(IEnumerable<Vector> points)
         // Somewhat ported from https://www.geeksforgeeks.org/convex-hull-set-2-graham-scan/
         {
             if (points.Any())
@@ -312,7 +238,7 @@ namespace Heirloom
                 }
 
                 // 
-                return stack;
+                return new Polygon(stack);
             }
             else
             {
@@ -324,18 +250,7 @@ namespace Heirloom
         #endregion
 
         #region Convex Decomposition
-
-        /// <summary>
-        /// Converts a simple polygon into one or more convex polygons.
-        /// If the polygon is already convex, this simply clones it.
-        /// </summary>
-        public static IEnumerable<Polygon> DecomposeConvex(IReadOnlyList<Vector> polygon)
-        {
-            // Convert convex indices to polygons
-            return DecomposeConvexIndices(polygon)
-                  .Select(indices => new Polygon(indices.Select(i => polygon[i])));
-        }
-
+         
         /// <summary>
         /// Converts a simple polygon into one or more convex polygons enumerated by indices of the original polygon.
         /// </summary>

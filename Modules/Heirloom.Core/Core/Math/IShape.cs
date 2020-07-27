@@ -28,7 +28,7 @@ namespace Heirloom
         bool IsConvex { get; }
 
         /// <summary>
-        /// Gets the nearest point on the shape to the specified point.
+        /// Gets the nearest point on the shape boundary to the specified point.
         /// </summary>
         Vector GetNearestPoint(Vector point);
 
@@ -43,7 +43,7 @@ namespace Heirloom
         bool Contains(Vector point);
 
         /// <summary>
-        /// Determines if this shape overlap with the specified shape.
+        /// Determines if this shape overlaps another shape.
         /// </summary>
         bool Overlaps(IShape shape);
 
@@ -51,10 +51,5 @@ namespace Heirloom
         /// Performs a raycast against this shape.
         /// </summary>
         bool Raycast(Ray ray, out RayContact contact);
-
-        /// <summary>
-        /// Performs a raycast against this shape.
-        /// </summary>
-        bool Raycast(Ray ray);
     }
 }

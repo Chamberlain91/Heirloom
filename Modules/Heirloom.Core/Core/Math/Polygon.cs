@@ -18,6 +18,7 @@ namespace Heirloom
         private readonly List<Vector> _vertices;
         private readonly List<Vector> _normals;
 
+        // todo: class ConvexPartition : IShape
         private List<Vector[]> _convexPartitions;
         private bool _isConvex;
 
@@ -282,7 +283,7 @@ namespace Heirloom
 
         #endregion
 
-        #region Closest Point
+        #region Nearest Point / Support
 
         /// <summary>
         /// Gets the nearest point on the polygon to the specified point.
@@ -313,13 +314,13 @@ namespace Heirloom
             }
         }
 
-        #endregion
-
         /// <inheritdoc/>
         public Vector GetSupport(Vector direction)
         {
             return PolygonTools.GetSupport(_vertices, direction);
         }
+
+        #endregion
 
         #region Contains Point
 
@@ -348,115 +349,7 @@ namespace Heirloom
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Overlaps(IShape shape)
         {
-            // For each convex partition on this polygon,
-            foreach (var partition in ConvexPartitions)
-            {
-                // check if this partition overlaps the shape.
-                if (PolygonTools.Overlaps(partition, shape))
-                {
-                    // An overlap was detected
-                    return true;
-                }
-            }
-
-            // No overlap was detected
-            return false;
-        }
-
-        /// <summary>
-        /// Determines if this polygon overlaps the specified rectangle.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(in Rectangle rectangle)
-        {
-            // For each convex partition on this polygon,
-            foreach (var partition in ConvexPartitions)
-            {
-                // check if this partition overlaps the shape.
-                if (rectangle.Overlaps(partition))
-                {
-                    // An overlap was detected
-                    return true;
-                }
-            }
-
-            // No overlap was detected
-            return false;
-        }
-
-        /// <summary>
-        /// Determines if this polygon overlaps the specified circle.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(in Circle circle)
-        {
-            // For each convex partition on this polygon,
-            foreach (var partition in ConvexPartitions)
-            {
-                // check if this partition overlaps the shape.
-                if (circle.Overlaps(partition))
-                {
-                    // An overlap was detected
-                    return true;
-                }
-            }
-
-            // No overlap was detected
-            return false;
-        }
-
-        /// <summary>
-        /// Determines if this polygon overlaps the specified triangle.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(in Triangle triangle)
-        {
-            // For each convex partition on this polygon,
-            foreach (var partition in ConvexPartitions)
-            {
-                // check if this partition overlaps the shape.
-                if (triangle.Overlaps(partition))
-                {
-                    // An overlap was detected
-                    return true;
-                }
-            }
-
-            // No overlap was detected
-            return false;
-        }
-
-        /// <summary>
-        /// Determines if this polygon overlaps the specified triangle.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(IReadOnlyList<Vector> polygon)
-        {
-            // For each convex partition on this polygon,
-            foreach (var partition in ConvexPartitions)
-            {
-                // check if this partition overlaps the shape.
-                if (SeparatingAxis.Overlaps(polygon, partition))
-                {
-                    // An overlap was detected
-                    return true;
-                }
-            }
-
-            // No overlap was detected
-            return false;
-        }
-
-        #endregion
-
-        #region Axis Projection
-
-        /// <summary>
-        /// Project this polygon onto the specified axis.
-        /// </summary>
-        public Range Project(in Vector axis)
-        {
-            return PolygonTools.Project(_vertices, in axis);
+            return Collision.CheckOverlap(this, shape);
         }
 
         #endregion
@@ -550,7 +443,7 @@ namespace Heirloom
         /// </summary>
         public static Polygon CreateConvexHull(IEnumerable<Vector> points)
         {
-            return new Polygon(PolygonTools.ComputeConvexHull(points));
+            return PolygonTools.ComputeConvexHull(points);
         }
 
         #endregion

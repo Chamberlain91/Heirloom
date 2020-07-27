@@ -78,38 +78,7 @@ namespace Heirloom
             C = c;
         }
 
-        /// <summary>
-        /// Create a polygon from this triangle.
-        /// </summary>
-        public Polygon ToPolygon()
-        {
-            // Clone this rectangle as a polygon
-            var vertices = PolygonTools.RequestTempPolygon(in this);
-            var polygon = new Polygon(vertices);
-
-            // Recycle temp poylgon and return clone.
-            PolygonTools.RecycleTempPolygon(vertices);
-            return polygon;
-        }
-
-        #region Support
-
-        /// <inheritdoc/>
-        public Vector GetSupport(Vector direction)
-        {
-            return PolygonTools.GetSupport(EnumerateCorners(), direction);
-        }
-
-        private IEnumerable<Vector> EnumerateCorners()
-        {
-            yield return A;
-            yield return B;
-            yield return C;
-        }
-
-        #endregion
-
-        #region Closest Point
+        #region Nearest Point / Support
 
         /// <summary>
         /// Gets the closest point on the triangle to the specified point.
@@ -125,6 +94,12 @@ namespace Heirloom
             // Recycle temporary polygon and return overlap status
             PolygonTools.RecycleTempPolygon(polygon);
             return result;
+        }
+
+        /// <inheritdoc/>
+        public Vector GetSupport(Vector direction)
+        {
+            return PolygonTools.GetSupport(EnumerateCorners(), direction);
         }
 
         #endregion
@@ -170,122 +145,13 @@ namespace Heirloom
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Overlaps(IShape shape)
         {
-            return shape switch
-            {
-                Circle cir => Overlaps(in cir),
-                Triangle tri => Overlaps(in tri),
-                Rectangle rec => Overlaps(in rec),
-                Polygon pol => Overlaps(pol),
-
-                // Unknown shape
-                _ => throw new InvalidOperationException("Unable to determine overlap, shape was not a known type."),
-            };
-        }
-
-        /// <summary>
-        /// Determines if this triangle overlaps the specified circle.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(in Circle circle)
-        {
-            // circle has the implementation
-            return circle.Overlaps(in this);
-        }
-
-        /// <summary>
-        /// Determines if this triangle overlaps another triangle.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(in Triangle triangle)
-        {
-            // Get temporary polygon representation
-            var polygon = PolygonTools.RequestTempPolygon(in this);
-
-            // Check for overlap
-            var result = triangle.Overlaps(polygon);
-
-            // Recycle temporary polygon and return overlap status
-            PolygonTools.RecycleTempPolygon(polygon);
-            return result;
-        }
-
-        /// <summary>
-        /// Determines if this triangle overlaps the specified rectangle.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(in Rectangle rectangle)
-        {
-            // Get temporary polygon representation
-            var polygon = PolygonTools.RequestTempPolygon(in this);
-
-            // Check for overlap
-            var result = rectangle.Overlaps(polygon);
-
-            // Recycle temporary polygon and return overlap status
-            PolygonTools.RecycleTempPolygon(polygon);
-            return result;
-        }
-
-        /// <summary>
-        /// Determines if this triangle overlaps the specified convex polygon.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(IReadOnlyList<Vector> polygon)
-        {
-            // Get temporary polygon representation
-            var other = PolygonTools.RequestTempPolygon(in this);
-
-            // Check for overlap
-            var result = SeparatingAxis.Overlaps(polygon, other);
-
-            // Recycle temporary polygon and return overlap status
-            PolygonTools.RecycleTempPolygon(other);
-            return result;
-        }
-
-        /// <summary>
-        /// Determines if this triangle overlaps the specified simple polygon.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(Polygon polygon)
-        {
-            // polygon has the implementation
-            return polygon.Overlaps(in this);
-        }
-
-        #endregion
-
-        #region Axis Projection
-
-        /// <summary>
-        /// Project this polygon onto the specified axis.
-        /// </summary>
-        public Range Project(in Vector axis)
-        {
-            // Get temporary polygon representation
-            var polygon = PolygonTools.RequestTempPolygon(in this);
-
-            // Project polygon onto axis
-            var result = PolygonTools.Project(polygon, in axis);
-
-            // Recycle temporary polygon and return overlap status
-            PolygonTools.RecycleTempPolygon(polygon);
-            return result;
+            return Collision.CheckOverlap(this, shape);
         }
 
         #endregion
 
         #region Raycast
-
-        /// <summary>
-        /// Peforms a raycast onto this rectangle, returning true upon intersection.
-        /// </summary>
-        /// <param name="ray">Some ray.</param>
-        public bool Raycast(Ray ray)
-        {
-            return Raycast(ray, out _);
-        }
-
+         
         /// <summary>
         /// Peforms a raycast onto this rectangle, returning true upon intersection.
         /// </summary>
@@ -412,6 +278,22 @@ namespace Heirloom
         }
 
         #endregion
+
+        /// <summary>
+        /// Create a polygon from this triangle.
+        /// </summary>
+        public Polygon ToPolygon()
+        {
+            // Clone this triangle as a polygon 
+            return new Polygon(EnumerateCorners());
+        }
+
+        private IEnumerable<Vector> EnumerateCorners()
+        {
+            yield return A;
+            yield return B;
+            yield return C;
+        }
 
         #region Deconstruct
 

@@ -13,7 +13,7 @@ namespace Examples.Physics
         internal float InverseMass;
         private float _density;
 
-        public RigidBody(IShape shape, Vector position,Vector scale, float density = 1F)
+        public RigidBody(IShape shape, Vector position, Vector scale, float density = 1F)
         {
             Collider = CreateCollider(shape);
             Collider.RegisterBody(this);
@@ -96,7 +96,7 @@ namespace Examples.Physics
 
         internal void UpdateCollider()
         {
-            Bounds = Collider.Shape.Bounds.Transform(Collider.Matrix);
+            Bounds = Rectangle.Transform(Collider.Shape.Bounds, Collider.Matrix);
         }
     }
 }

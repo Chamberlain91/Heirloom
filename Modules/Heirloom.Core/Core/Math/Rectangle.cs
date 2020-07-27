@@ -212,38 +212,6 @@ namespace Heirloom
             Height = h;
         }
 
-        /// <summary>
-        /// Create a polygon from this rectangle.
-        /// </summary>
-        public Polygon ToPolygon()
-        {
-            // Clone this rectangle as a polygon
-            var vertices = PolygonTools.RequestTempPolygon(in this);
-            var polygon = new Polygon(vertices);
-
-            // Recycle temp poylgon and return clone.
-            PolygonTools.RecycleTempPolygon(vertices);
-            return polygon;
-        }
-
-        #region Support
-
-        /// <inheritdoc/>
-        public Vector GetSupport(Vector direction)
-        {
-            return PolygonTools.GetSupport(EnumerateCorners(), direction);
-        }
-
-        private IEnumerable<Vector> EnumerateCorners()
-        {
-            yield return TopLeft;
-            yield return TopRight;
-            yield return BottomRight;
-            yield return BottomLeft;
-        }
-
-        #endregion
-
         #region Transform (Offset)
 
         /// <summary>
@@ -289,10 +257,9 @@ namespace Heirloom
         /// <summary>
         /// Transforms the four corners of this rectangle and updates itself to bound these points.
         /// </summary>
-        public Rectangle Transform(in Matrix matrix)
+        public void Transform(in Matrix matrix)
         {
             this = Transform(this, in matrix);
-            return this;
         }
 
         /// <summary>
@@ -341,7 +308,7 @@ namespace Heirloom
 
         #endregion
 
-        #region Merge (Rectangles) 
+        #region Create (From Rectangles) 
 
         /// <summary>
         /// Merges a pair of rectangles into a (potentially larger) bounding rectangle.
@@ -370,30 +337,6 @@ namespace Heirloom
         /// <param name="rects">A collection of rectangles to merge.</param>
         /// <returns> The bounding rectangle of the input rectangles. </returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Rectangle Merge(params Rectangle[] rects)
-        {
-            var min = rects[0].Min;
-            var max = rects[0].Max;
-
-            for (var i = 1; i < rects.Length; i++)
-            {
-                var b = rects[i];
-                min = Vector.Min(min, b.Min);
-                max = Vector.Max(max, b.Max);
-            }
-
-            return new Rectangle(min, max);
-        }
-
-        /// <summary>
-        /// Merges a set of rectangles into a (potentially larger) bounding rectangle.
-        /// </summary>
-        /// <remarks>
-        /// Useful for computing a bounding rectangle.
-        /// </remarks>
-        /// <param name="rects">A collection of rectangles to merge.</param>
-        /// <returns> The bounding rectangle of the input rectangles. </returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Rectangle Merge(IEnumerable<Rectangle> rects)
         {
             var merged = InvertedInfinite;
@@ -404,6 +347,30 @@ namespace Heirloom
             }
 
             return merged;
+        }
+
+        #endregion
+
+        #region Create (From Points)
+
+        /// <summary>
+        /// Computes the bounding rectangle of the given set of points.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle FromPoints(params Vector[] points)
+        {
+            return FromPoints((IEnumerable<Vector>) points);
+        }
+
+        /// <summary>
+        /// Computes the bounding rectangle of the given set of points.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Rectangle FromPoints(IEnumerable<Vector> points)
+        {
+            var b = InvertedInfinite;
+            foreach (var v in points) { b.Include(v); }
+            return b;
         }
 
         #endregion
@@ -449,31 +416,7 @@ namespace Heirloom
 
         #endregion
 
-        #region Create (Point Cloud)
-
-        /// <summary>
-        /// Computes the bounding rectangle of the given set of points.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Rectangle FromPoints(params Vector[] points)
-        {
-            return FromPoints((IEnumerable<Vector>) points);
-        }
-
-        /// <summary>
-        /// Computes the bounding rectangle of the given set of points.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Rectangle FromPoints(IEnumerable<Vector> points)
-        {
-            var b = InvertedInfinite;
-            foreach (var v in points) { b.Include(v); }
-            return b;
-        }
-
-        #endregion
-
-        #region Closest Point
+        #region Nearest Point / Support
 
         /// <summary>
         /// Returns the nearest point on the rectangle to the given point.
@@ -484,6 +427,12 @@ namespace Heirloom
             closest.X = (point.X < Min.X) ? Min.X : (point.X > Max.X) ? Max.X : point.X;
             closest.Y = (point.Y < Min.Y) ? Min.Y : (point.Y > Max.Y) ? Max.Y : point.Y;
             return closest;
+        }
+
+        /// <inheritdoc/>
+        public Vector GetSupport(Vector direction)
+        {
+            return PolygonTools.GetSupport(EnumerateCorners(), direction);
         }
 
         #endregion
@@ -526,43 +475,7 @@ namespace Heirloom
         /// </summary>
         public bool Overlaps(IShape shape)
         {
-            return shape switch
-            {
-                Circle cir => Overlaps(cir),
-                Triangle tri => Overlaps(tri),
-                Rectangle rec => Overlaps(rec),
-                Polygon pol => Overlaps(pol),
-
-                // Unknown shape
-                _ => throw new InvalidOperationException("Unable to determine overlap, shape was not a known type."),
-            };
-        }
-
-        /// <summary>
-        /// Determines if this rectangle overlaps the specified circle.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(Circle circle)
-        {
-            // circle has the implementation
-            return circle.Overlaps(this);
-        }
-
-        /// <summary>
-        /// Determines if this rectangle overlaps the specified triangle.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(Triangle triangle)
-        {
-            // Get temporary polygon representation
-            var polygon = PolygonTools.RequestTempPolygon(in this);
-
-            // Check for overlap
-            var result = triangle.Overlaps(polygon);
-
-            // Recycle temporary polygon and return overlap status
-            PolygonTools.RecycleTempPolygon(polygon);
-            return result;
+            return Collision.CheckOverlap(this, shape);
         }
 
         /// <summary>
@@ -587,63 +500,9 @@ namespace Heirloom
             return true;
         }
 
-        /// <summary>
-        /// Determines if this rectangle overlaps the specified convex polygon.
-        /// </summary>
-        public bool Overlaps(IReadOnlyList<Vector> polygon)
-        {
-            // Get temporary polygon representation
-            var other = PolygonTools.RequestTempPolygon(in this);
-
-            // Check for overlap
-            var result = SeparatingAxis.Overlaps(polygon, other);
-
-            // Recycle temporary polygon and return overlap status
-            PolygonTools.RecycleTempPolygon(other);
-            return result;
-        }
-
-        /// <summary>
-        /// Determines if this rectangle overlaps the specified simple polygon.
-        /// </summary>
-        public bool Overlaps(Polygon polygon)
-        {
-            // polygon has the implementation
-            return polygon.Overlaps(in this);
-        }
-
-        #endregion
-
-        #region Axis Projection
-
-        /// <summary>
-        /// Project this rectangle onto the specified axis.
-        /// </summary>
-        public Range Project(in Vector axis)
-        {
-            // Get temporary polygon representation
-            var polygon = PolygonTools.RequestTempPolygon(in this);
-
-            // Project polygon onto axis
-            var result = PolygonTools.Project(polygon, in axis);
-
-            // Recycle temporary polygon and return overlap status
-            PolygonTools.RecycleTempPolygon(polygon);
-            return result;
-        }
-
         #endregion
 
         #region Raycast
-
-        /// <summary>
-        /// Peforms a raycast onto this rectangle, returning true upon intersection.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Raycast(Ray ray)
-        {
-            return Raycast(ray, out _);
-        }
 
         /// <summary>
         /// Peforms a raycast onto this circle, returning true upon intersection.
@@ -703,6 +562,23 @@ namespace Heirloom
         }
 
         #endregion
+
+        /// <summary>
+        /// Create a polygon from this rectangle.
+        /// </summary>
+        public Polygon ToPolygon()
+        {
+            // Clone this rectangle as a polygon 
+            return new Polygon(EnumerateCorners());
+        }
+
+        private IEnumerable<Vector> EnumerateCorners()
+        {
+            yield return TopLeft;
+            yield return TopRight;
+            yield return BottomRight;
+            yield return BottomLeft;
+        }
 
         #region Deconstruct
 

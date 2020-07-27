@@ -223,7 +223,7 @@ namespace Heirloom.Collections
                     var node = _queryQueue.Dequeue();
 
                     // 
-                    if (node.Bounds.Raycast(ray))
+                    if (node.Bounds.Raycast(ray, out _))
                     {
                         // 
                         if (node.IsLeaf) { yield return node.Item; }

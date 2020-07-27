@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -86,31 +85,20 @@ namespace Heirloom
             Radius = radius;
         }
 
-        /// <summary>
-        /// Create a polygon from this rectangle.
-        /// </summary>
-        public Polygon ToPolygon()
-        {
-            // Approximates a circle with a 24 point regular polygon
-            var points = GeometryTools.GenerateRegularPolygon(Position, 24, Radius);
-            return new Polygon(points);
-        }
-
-        /// <inheritdoc/>
-        public Vector GetSupport(Vector dir)
-        {
-            return Position + (Radius * Vector.Normalize(dir));
-        }
-
-        #region Closest Point
+        #region Nearest Point / Support
 
         /// <summary>
         /// Gets the nearest point on the circle to the specified point.
         /// </summary>
         public Vector GetNearestPoint(Vector point)
         {
-            var offset = Vector.Normalize(point - Position);
-            return Position + (offset * Radius);
+            return GetSupport(point - Position);
+        }
+
+        /// <inheritdoc/>
+        public Vector GetSupport(Vector dir)
+        {
+            return Position + (Radius * Vector.Normalize(dir));
         }
 
         #endregion
@@ -143,121 +131,12 @@ namespace Heirloom
         /// </summary>
         public bool Overlaps(IShape shape)
         {
-            return shape switch
-            {
-                Circle cir => Overlaps(cir),
-                Triangle tri => Overlaps(tri),
-                Rectangle rec => Overlaps(rec),
-                Polygon pol => Overlaps(pol),
-
-                // Unknown shape
-                _ => throw new InvalidOperationException("Unable to determine overlap, shape was not a known type."),
-            };
-        }
-
-        /// <summary>
-        /// Determines if this circle overlaps another circle.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(Circle b)
-        {
-            var c = b.Position - Position;
-            var r = Radius + b.Radius;
-
-            return Vector.Dot(in c, in c) < (r * r);
-        }
-
-        /// <summary>
-        /// Determines if this circle overlaps the specified rectangle.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(Rectangle rectangle)
-        {
-            // Assembly temporary polygon representation of the rectangle
-            var polygon = PolygonTools.RequestTempPolygon(in rectangle);
-
-            // Test overlap with temp polygon
-            var overlap = SeparatingAxis.Overlaps(polygon, in this);
-
-            // Recycle temporary polygon and return overlap status
-            PolygonTools.RecycleTempPolygon(polygon);
-            return overlap;
-        }
-
-        /// <summary>
-        /// Determines if this circle overlaps the specified triangle.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(in Triangle triangle)
-        {
-            // Assembly temporary polygon representation of the triangle
-            var polygon = PolygonTools.RequestTempPolygon(in triangle);
-
-            // Test overlap with temp polygon
-            var overlap = SeparatingAxis.Overlaps(polygon, in this);
-
-            // Recycle temporary polygon and return overlap status
-            PolygonTools.RecycleTempPolygon(polygon);
-            return overlap;
-        }
-
-        /// <summary>
-        /// Determines if this circle overlaps the specified simple polygon.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(Polygon polygon)
-        {
-            if (polygon is null) { throw new ArgumentNullException(nameof(polygon)); }
-
-            // For each convex partition on this polygon,
-            foreach (var partition in polygon.ConvexPartitions)
-            {
-                // check if this partition overlaps the circle.
-                if (SeparatingAxis.Overlaps(partition, in this))
-                {
-                    // An overlap was detected
-                    return true;
-                }
-            }
-
-            // No overlap was detected
-            return false;
-        }
-
-        /// <summary>
-        /// Determines if this circle overlaps the specified convex polygon.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Overlaps(IReadOnlyList<Vector> polygon)
-        {
-            return SeparatingAxis.Overlaps(polygon, in this);
-        }
-
-        #endregion
-
-        #region Axis Projection
-
-        /// <summary>
-        /// Project this circle onto the specified axis.
-        /// </summary>
-        public Range Project(in Vector axis)
-        {
-            var t = Vector.Project(in Position, in axis);
-            return new Range(t - Radius, t + Radius);
+            return Collision.CheckOverlap(this, shape);
         }
 
         #endregion
 
         #region Raycast
-
-        /// <summary>
-        /// Peforms a raycast onto this circle, returning true upon intersection.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Raycast(Ray ray)
-        {
-            return Raycast(ray, out _);
-        }
 
         /// <summary>
         /// Peforms a raycast onto this circle, returning true upon intersection.
@@ -320,6 +199,34 @@ namespace Heirloom
         {
             circle.Radius += factor;
             return circle;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Creates an approximate polygon representation from this circle.
+        /// </summary>
+        /// <param name="pointCount">The number of points of the approximating n-gon.</param>
+        public Polygon ToPolygon(int pointCount = 24)
+        {
+            if (pointCount < 3) { throw new ArgumentException("Polygon approximation must have at least 3 points."); }
+
+            // Approximates a circle with a 24 point regular polygon
+            var points = GeometryTools.GenerateRegularPolygon(Position, pointCount, Radius);
+            return new Polygon(points);
+        }
+
+        #region Deconstruct
+
+        /// <summary>
+        /// Deconstructs the circle into constituient parts.
+        /// </summary>
+        /// <param name="center">The circle position.</param>
+        /// <param name="radius">The circle radius.</param>
+        public void Deconstruct(out Vector center, out float radius)
+        {
+            center = Position;
+            radius = Radius;
         }
 
         #endregion
