@@ -460,9 +460,43 @@ namespace Heirloom
             return clone;
         }
 
-        #endregion 
+        #endregion
 
         #region Procedural Images (Static)
+
+        /// <summary>
+        /// Creates a procedurally generated image.
+        /// </summary>
+        /// <param name="width">Width of the image in pixels.</param>
+        /// <param name="height">Height of the image in pixels.</param>
+        /// <param name="generatePixel">A function to generate the pixel color for some coordinate.</param>
+        /// <param name="runParallel">If true, will process each pixel multi-threaded.</param> 
+        /// <returns>An image filled procedurally.</returns>
+        public static Image CreateProcedural(int width, int height, Func<IntVector, Color> generatePixel, bool runParallel = true)
+        {
+            if (generatePixel is null) { throw new ArgumentNullException(nameof(generatePixel)); }
+
+            var im = new Image(width, height);
+
+            if (runParallel)
+            {
+                // Generate the color for each pixel
+                Parallel.ForEach(Rasterizer.Rectangle(0, 0, width, height), co =>
+                {
+                    im.SetPixel(co, generatePixel(co));
+                });
+            }
+            else
+            {
+                // Generate the color for each pixel
+                foreach (var co in Rasterizer.Rectangle(0, 0, im.Width, im.Height))
+                {
+                    im.SetPixel(co, generatePixel(co));
+                }
+            }
+
+            return im;
+        }
 
         /// <summary>
         /// Create an image with checkerboard pattern.
@@ -486,24 +520,20 @@ namespace Heirloom
         /// <returns>An image filled with the checkerboard pattern.</returns>
         public static Image CreateCheckerboardPattern(int width, int height, Color color, int cellSize = 16)
         {
-            var im = new Image(width, height);
-
-            // Compute checkerboard texture
-            foreach (var p in Rasterizer.Rectangle(0, 0, im.Width, im.Height))
+            return CreateProcedural(width, height, co =>
             {
-                var flag = ((p.Y & cellSize) == 0) ^ (p.X & cellSize) == 0;
+                // Computes checkerboard pattern
+                var flag = ((co.Y & cellSize) == 0) ^ (co.X & cellSize) == 0;
                 var pixel = (ColorBytes) ((flag ? Color.LightGray : Color.White) * color);
-                im.SetPixel(p.X, p.Y, pixel);
-            }
 
-            // Draw border
-            foreach (var edge in Rasterizer.RectangleOutline(0, 0, width, height))
-            {
-                var pixel = (ColorBytes) (Color.Gray * color);
-                im.SetPixel(edge.X, edge.Y, pixel);
-            }
+                // Draw edge color outline
+                if (co.X == 0 || co.Y == 0 || co.X == (width - 1) || co.Y == (height - 1))
+                {
+                    pixel = Color.Gray * color;
+                }
 
-            return im;
+                return pixel;
+            });
         }
 
         /// <summary>
@@ -530,17 +560,11 @@ namespace Heirloom
         /// <returns>An image filled with the grid pattern.</returns>
         public static Image CreateGridPattern(int width, int height, Color color, int cellSize, int borderWidth = 1)
         {
-            var im = new Image(width, height);
-
-            // Compute checkerboard texture
-            foreach (var p in Rasterizer.Rectangle(0, 0, im.Width, im.Height))
+            return CreateProcedural(width, height, co =>
             {
-                var flag = ((p.X % cellSize) < borderWidth) || ((p.Y % cellSize) < borderWidth);
-                var pixel = (ColorBytes) ((flag ? Color.LightGray : Color.White) * color);
-                im.SetPixel(p.X, p.Y, pixel);
-            }
-
-            return im;
+                var flag = ((co.X % cellSize) < borderWidth) || ((co.Y % cellSize) < borderWidth);
+                return (flag ? Color.LightGray : Color.White) * color;
+            });
         }
 
         /// <summary>
@@ -563,17 +587,53 @@ namespace Heirloom
         /// <returns>An image of only the specified color.</returns>
         public static Image CreateColor(int width, int height, Color color)
         {
-            var im = new Image(width, height);
+            return CreateProcedural(width, height, co => color);
+        }
 
-            var pixel = (ColorBytes) color;
-
-            // Draw border
-            foreach (var p in Rasterizer.Rectangle(0, 0, width, height))
+        /// <summary>
+        /// Creates an image filled with a gradient.
+        /// </summary>
+        /// <param name="width">Width of the image in pixels.</param>
+        /// <param name="height">Height of the image in pixels.</param>
+        /// <param name="gradient">Gradient to fill the image with.</param>
+        /// <param name="axis">The axis the gradient will fill across.</param>
+        /// <returns>An image filled with the specified gradient.</returns>
+        public static Image CreateGradient(int width, int height, Gradient gradient, Axis axis = Axis.Vertical)
+        {
+            if (axis == Axis.Vertical)
             {
-                im.SetPixel(p.X, p.Y, pixel);
+                // Evaluate gradient from top to bottom
+                return CreateProcedural(width, height, co => gradient.Evaluate(co.Y / (float) height));
             }
+            else
+            {
+                // Evaluate gradient from left to right
+                return CreateProcedural(width, height, co => gradient.Evaluate(co.X / (float) width));
+            }
+        }
 
-            return im;
+        /// <summary>
+        /// Creates an image filled with a radial gradient.
+        /// </summary>
+        /// <param name="width">Width of the image in pixels.</param>
+        /// <param name="height">Height of the image in pixels.</param>
+        /// <param name="gradient">Gradient to fill the image with.</param> 
+        /// <returns>An image filled with the specified gradient.</returns>
+        public static Image CreateRadialGradient(int width, int height, Gradient gradient)
+        {
+            var center = new Vector(width, height) / 2F;
+            var sqrt2 = Calc.Sqrt(2);
+
+            return CreateProcedural(width, height, co =>
+            {
+                // Compute normalized radial vector across image
+                var tx = (co.X - center.X) / center.X;
+                var ty = (co.Y - center.Y) / center.Y;
+
+                // Compute radial magnitude and normalize
+                var t = Calc.Clamp(Calc.Sqrt((tx * tx) + (ty * ty)) / sqrt2, 0F, 1F);
+                return gradient.Evaluate(t);
+            });
         }
 
         /// <summary>
@@ -635,30 +695,32 @@ namespace Heirloom
         {
             if (noise is null) { throw new ArgumentNullException(nameof(noise)); }
 
-            var im = new Image(width, height);
-
             // 
             scale = 1F / scale;
 
-            // Write pixels in parallel
-            Parallel.ForEach(Rasterizer.Rectangle(0, 0, width, height), co =>
-            {
-                var p0 = ((Vector) co + new Vector(0, 0) + offset) * scale;
-                var p1 = ((Vector) co + new Vector(10000, 0) + offset) * scale;
-                var p2 = ((Vector) co + new Vector(0, 10000) + offset) * scale;
-                var p3 = ((Vector) co + new Vector(10000, 10000) + offset) * scale;
+            // Create 4 offsets for unique "noise planes"
+            var seed0 = Calc.Random.NextVector((0, 0, ushort.MaxValue, ushort.MaxValue));
+            var seed1 = Calc.Random.NextVector((0, 0, ushort.MaxValue, ushort.MaxValue));
+            var seed2 = Calc.Random.NextVector((0, 0, ushort.MaxValue, ushort.MaxValue));
+            var seed3 = Calc.Random.NextVector((0, 0, ushort.MaxValue, ushort.MaxValue));
 
+            return CreateProcedural(width, height, runParallel: true, generatePixel: co =>
+            {
+                // Compute the 4 offset positions for unique "noise planes"
+                var p0 = ((Vector) co + seed0 + offset) * scale;
+                var p1 = ((Vector) co + seed1 + offset) * scale;
+                var p2 = ((Vector) co + seed2 + offset) * scale;
+                var p3 = ((Vector) co + seed3 + offset) * scale;
+
+                // Compute the value of each "noise plane"
                 var n0 = (noise.Sample(p0, octaves, persistence) + 1F) / 2F;
                 var n1 = (noise.Sample(p1, octaves, persistence) + 1F) / 2F;
                 var n2 = (noise.Sample(p2, octaves, persistence) + 1F) / 2F;
                 var n3 = (noise.Sample(p3, octaves, persistence) + 1F) / 2F;
 
-                // 
-                var color = (ColorBytes) new Color(n0, n1, n2, n3);
-                im.SetPixel(co.X, co.Y, color);
+                // Return the 4 "noise planes" as each color component
+                return new Color(n0, n1, n2, n3);
             });
-
-            return im;
         }
 
         #endregion
