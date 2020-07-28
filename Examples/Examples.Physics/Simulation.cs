@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using Heirloom;
 using Heirloom.Collections;
-using Heirloom.Geometry;
 
 using static Heirloom.Calc;
 using static Heirloom.Vector;
@@ -171,13 +170,13 @@ namespace Examples.Physics
             public RigidBody A;
             public RigidBody B;
 
-            public Contact Contact;
+            public ShapeContact Contact;
 
             public float MixedRestitution;
             public float MixedDynamicFriction;
             public float MixedStaticFriction;
 
-            internal void Set(RigidBody a, RigidBody b, Contact contact)
+            internal void Set(RigidBody a, RigidBody b, ShapeContact contact)
             {
                 A = a;
                 B = b;

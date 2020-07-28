@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 
-using Heirloom.Geometry;
-
 namespace Heirloom.Collections
 {
     /// <summary>

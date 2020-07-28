@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Heirloom.Geometry
+namespace Heirloom
 {
     /// <summary>
     /// Represents the result of a ray to shape intersection.

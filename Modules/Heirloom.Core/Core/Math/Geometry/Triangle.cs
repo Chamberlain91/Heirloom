@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-using Heirloom.Geometry;
-
 namespace Heirloom
 {
     /// <summary>

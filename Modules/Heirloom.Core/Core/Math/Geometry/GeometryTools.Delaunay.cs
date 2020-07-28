@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace Heirloom.Geometry
+namespace Heirloom
 {
     /// <summary>
     /// Provides utilities for generating and manipulating shapes.

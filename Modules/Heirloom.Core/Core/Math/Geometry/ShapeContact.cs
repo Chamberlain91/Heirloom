@@ -1,12 +1,12 @@
 using System.Runtime.InteropServices;
 
-namespace Heirloom.Geometry
+namespace Heirloom
 {
     /// <summary>
     /// Represents a point of contact between two overlapping shapes.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    public readonly struct Contact
+    public readonly struct ShapeContact
     {
         /// <summary>
         /// The point of contact (of the second shape on first).
@@ -25,7 +25,7 @@ namespace Heirloom.Geometry
 
         #region Constructors
 
-        internal Contact(Vector position, Vector penetration)
+        internal ShapeContact(Vector position, Vector penetration)
         {
             Position = position;
 

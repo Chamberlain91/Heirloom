@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Heirloom.Geometry
+namespace Heirloom
 {
     /// <summary>
     /// Contains methods for computing the collision of shapes.
@@ -150,7 +150,7 @@ namespace Heirloom.Geometry
         /// Only valid if a collision has occurred.
         /// </param>
         /// <returns>A boolean value that determines if a collision has occurred. </returns>
-        public static bool CheckCollision(IShape shapeA, IShape shapeB, out Contact contact)
+        public static bool CheckCollision(IShape shapeA, IShape shapeB, out ShapeContact contact)
         {
             return CheckCollision(shapeA, in Matrix.Identity, shapeB, in Matrix.Identity, out contact);
         }
@@ -167,7 +167,7 @@ namespace Heirloom.Geometry
         /// Only valid if a collision has occurred.
         /// </param>
         /// <returns>A boolean value that determines if a collision has occurred. </returns>
-        public static bool CheckCollision(IShape shapeA, in Matrix matrixA, IShape shapeB, in Matrix matrixB, out Contact contact)
+        public static bool CheckCollision(IShape shapeA, in Matrix matrixA, IShape shapeB, in Matrix matrixB, out ShapeContact contact)
         {
             if (shapeA is null) { throw new ArgumentNullException(nameof(shapeA)); }
             if (shapeB is null) { throw new ArgumentNullException(nameof(shapeB)); }
@@ -375,7 +375,7 @@ namespace Heirloom.Geometry
         }
 
         // EPA
-        private static Contact ComputePenetration()
+        private static ShapeContact ComputePenetration()
         {
             // Gets the winding of the triangle simplex
             var e0 = _gjkPolygon[1].Minkowski - _gjkPolygon[0].Minkowski;
@@ -431,7 +431,7 @@ namespace Heirloom.Geometry
             var a = Vector.Lerp(supportA.ShapeA, supportB.ShapeA, t);
             // var b = Vector.Lerp(supportA.ShapeB, supportB.ShapeB, t);
 
-            return new Contact(a, penetration);
+            return new ShapeContact(a, penetration);
 
             static EdgeInfo FindClosestEdge()
             {

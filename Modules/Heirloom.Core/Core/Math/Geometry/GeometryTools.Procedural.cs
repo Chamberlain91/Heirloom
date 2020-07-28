@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Heirloom.Geometry
+namespace Heirloom
 {
     public static partial class GeometryTools
     {

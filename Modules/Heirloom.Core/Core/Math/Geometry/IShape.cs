@@ -1,5 +1,3 @@
-using Heirloom.Geometry;
-
 namespace Heirloom
 {
     /// <summary>

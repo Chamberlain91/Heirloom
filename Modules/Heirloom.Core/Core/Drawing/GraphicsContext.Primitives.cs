@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-using Heirloom.Geometry;
-
 namespace Heirloom
 {
     public abstract partial class GraphicsContext

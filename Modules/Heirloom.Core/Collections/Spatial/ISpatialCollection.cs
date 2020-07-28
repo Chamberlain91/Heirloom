@@ -1,7 +1,5 @@
-using Heirloom.Geometry;
-
 namespace Heirloom.Collections
-{ 
+{
     /// <summary>
     /// A spatial collection to store and query elements in 2D space.
     /// </summary>

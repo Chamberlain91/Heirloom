@@ -2,7 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Heirloom.Geometry
+namespace Heirloom
 {
     /// <summary>
     /// Represents a ray by orgin point and directional vector.

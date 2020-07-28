@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-using Heirloom.Geometry;
-
 using static Heirloom.Calc;
 using static Heirloom.Vector;
 
