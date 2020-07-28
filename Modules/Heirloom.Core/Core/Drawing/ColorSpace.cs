@@ -78,7 +78,7 @@ namespace Heirloom
 
         #region XYZ & LAB
 
-        private static LabColor XYZtoLAB(XYZColor xyz)
+        private static ColorLab XYZtoLAB(XYZColor xyz)
         {
             var x = xyz.X / D65X;
             var y = xyz.Y / D65Y;
@@ -97,10 +97,10 @@ namespace Heirloom
             var A = 500 * (x - y);
             var B = 200 * (y - z);
 
-            return new LabColor(L, A, B);
+            return new ColorLab(L, A, B);
         }
 
-        private static XYZColor LABtoXYZ(LabColor lab)
+        private static XYZColor LABtoXYZ(ColorLab lab)
         {
             var y = (lab.L + 16) / 116F;
             var x = (lab.A / 500F) + y;
@@ -145,7 +145,7 @@ namespace Heirloom
         /// Converts a RGB color to CIE-LAB.
         /// </summary>
         /// <remarks>Note, the alpha component is discarded.</remarks>
-        public static LabColor RGBtoLAB(Color rgb)
+        internal static ColorLab RGBtoLAB(Color rgb)
         {
             return XYZtoLAB(RGBtoXYZ(rgb));
         }
@@ -153,7 +153,7 @@ namespace Heirloom
         /// <summary>
         /// Converts a CIE-LAB Color to RGB
         /// </summary>
-        public static Color LABtoRGB(LabColor lab)
+        internal static Color LABtoRGB(ColorLab lab)
         {
             return XYZtoRGB(LABtoXYZ(lab));
         }
@@ -165,11 +165,11 @@ namespace Heirloom
         /// <summary>
         /// Snaps a color to the nearest position in a color space described by the specified bits.
         /// </summary>
-        /// <param name="color"></param>
-        /// <param name="redBits"></param>
-        /// <param name="greenBits"></param>
-        /// <param name="blueBits"></param>
-        /// <returns></returns>
+        /// <param name="color">The orignial color.</param>
+        /// <param name="redBits">The number of red bits.</param>
+        /// <param name="greenBits">The number of green bits.</param>
+        /// <param name="blueBits">The number of blue bits.</param>
+        /// <returns>A bit-reduced color.</returns>
         public static Color ConvertBits(Color color, int redBits, int greenBits, int blueBits)
         {
             var redMax = (float) ((1 << redBits) - 1);
@@ -187,11 +187,14 @@ namespace Heirloom
         /// <summary>
         /// Snaps a color to the nearest position in a color space described by the specified bits using the specified dither pattern.
         /// </summary>
-        /// <param name="color"></param>
-        /// <param name="redBits"></param>
-        /// <param name="greenBits"></param>
-        /// <param name="blueBits"></param>
-        /// <returns></returns>
+        /// <param name="color">The orignial color.</param>
+        /// <param name="redBits">The number of red bits.</param>
+        /// <param name="greenBits">The number of green bits.</param>
+        /// <param name="blueBits">The number of blue bits.</param>
+        /// <param name="pattern">The dithering pattern to use.</param>
+        /// <param name="x">The x-coordinate to use for dither.</param>
+        /// <param name="y">The y-coordinate to use for dither.</param>
+        /// <returns>A dithered, bit-reduced color.</returns>
         public static Color ConvertBits(Color color, int redBits, int greenBits, int blueBits, DitherPattern pattern, int x, int y)
         {
             if (pattern is null) { throw new ArgumentNullException(nameof(pattern)); }

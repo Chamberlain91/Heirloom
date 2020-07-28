@@ -8,7 +8,7 @@ namespace Heirloom
     /// <summary>
     /// Represents an image based animation.
     /// </summary>
-    /// <seealso cref="SpriteAnimator"/>
+    /// <seealso cref="Animator"/>
     /// <category>Drawing</category>
     public sealed class ImageSequence : IEnumerable<Image>
     {

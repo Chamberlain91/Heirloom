@@ -62,8 +62,7 @@ namespace Heirloom
         /// <summary>
         /// Gets the value at the specified coordinate. These coordinates will wrap.
         /// </summary>
-        /// <param name="x">Some x-coordinate.</param>
-        /// <param name="y">Some y-coordinate.</param>
+        /// <param name="co">Some coordinate.</param>
         /// <returns>The value of the dither pattern.</returns>
         public float GetValue(IntVector co)
         {

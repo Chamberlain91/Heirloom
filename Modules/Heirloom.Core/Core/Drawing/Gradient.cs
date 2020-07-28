@@ -105,7 +105,7 @@ namespace Heirloom
                     return Mode switch
                     {
                         GradientMode.RGB => Color.Lerp(cLo, cHi, t),
-                        GradientMode.CIELab => (Color) LabColor.Lerp((LabColor) cLo, (LabColor) cHi, t),
+                        GradientMode.CIELab => (Color) ColorLab.Lerp((ColorLab) cLo, (ColorLab) cHi, t),
                         _ => throw new InvalidOperationException("Invalid gradient mode."),
                     };
                 }

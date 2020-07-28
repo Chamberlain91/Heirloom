@@ -4,9 +4,10 @@ using System.Runtime.InteropServices;
 namespace Heirloom
 {
     /// <summary>
-    /// Color encoded as 4 component bytes.
+    /// Color in RGBA format encoded as 4 component bytes.
     /// </summary>
     /// <seealso cref="Color"/>
+    /// <seealso cref="ColorLab"/>
     /// <category>Drawing</category>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public unsafe struct ColorBytes : IEquatable<ColorBytes>
@@ -275,18 +276,6 @@ namespace Heirloom
             return new ColorBytes(r, g, b, a);
         }
 
-        /// <summary>
-        /// Multiplies two <see cref="ColorBytes"/> together.
-        /// Behaves the same as <see cref="Color"/>.
-        /// </summary>
-        public static void Multiply(in ColorBytes c1, in ColorBytes c2, ref ColorBytes target)
-        {
-            target.R = (byte) (c1.R * c2.R / 255);
-            target.G = (byte) (c1.G * c2.G / 255);
-            target.B = (byte) (c1.B * c2.B / 255);
-            target.A = (byte) (c1.A * c2.A / 255);
-        }
-
         #region Arithmetic Operators
 
         /// <summary>
@@ -294,12 +283,12 @@ namespace Heirloom
         /// </summary>
         public static ColorBytes operator +(ColorBytes c1, ColorBytes c2)
         {
-            var r = c1.R + c2.R;
-            var g = c1.G + c2.G;
-            var b = c1.B + c2.B;
-            var a = c1.A + c2.A;
+            var r = (byte) (c1.R + c2.R);
+            var g = (byte) (c1.G + c2.G);
+            var b = (byte) (c1.B + c2.B);
+            var a = (byte) (c1.A + c2.A);
 
-            return new ColorBytes((byte) r, (byte) g, (byte) b, (byte) a);
+            return new ColorBytes(r, g, b, a);
         }
 
         /// <summary>
@@ -307,22 +296,25 @@ namespace Heirloom
         /// </summary>
         public static ColorBytes operator -(ColorBytes c1, ColorBytes c2)
         {
-            var r = c1.R - c2.R;
-            var g = c1.G - c2.G;
-            var b = c1.B - c2.B;
-            var a = c1.A - c2.A;
+            var r = (byte) (c1.R - c2.R);
+            var g = (byte) (c1.G - c2.G);
+            var b = (byte) (c1.B - c2.B);
+            var a = (byte) (c1.A - c2.A);
 
-            return new ColorBytes((byte) r, (byte) g, (byte) b, (byte) a);
+            return new ColorBytes(r, g, b, a);
         }
 
         /// <summary>
         /// Performs a component-wise multiplication of two instances of <see cref="ColorBytes"/>, normalizing back into byte range.
         /// </summary>
-        /// <seealso cref="Multiply(in ColorBytes, in ColorBytes, ref ColorBytes)"/>
         public static ColorBytes operator *(ColorBytes c1, ColorBytes c2)
         {
-            Multiply(in c1, in c2, ref c1);
-            return c1;
+            var r = (byte) (c1.R * c2.R / 255);
+            var g = (byte) (c1.G * c2.G / 255);
+            var b = (byte) (c1.B * c2.B / 255);
+            var a = (byte) (c1.A * c2.A / 255);
+
+            return new ColorBytes(r, g, b, a);
         }
 
         #endregion
@@ -399,7 +391,7 @@ namespace Heirloom
         #region Equality
 
         /// <summary>
-        /// Compares this <see cref="Color"/> for equality with another object.
+        /// Compares this <see cref="ColorBytes"/> for equality with another object.
         /// </summary>
         public override bool Equals(object obj)
         {
@@ -408,7 +400,7 @@ namespace Heirloom
         }
 
         /// <summary>
-        /// Compares this <see cref="Color"/> for equality with another <see cref="ColorBytes"/>.
+        /// Compares this <see cref="ColorBytes"/> for equality with another <see cref="ColorBytes"/>.
         /// </summary>
         public bool Equals(ColorBytes other)
         {
@@ -433,7 +425,7 @@ namespace Heirloom
         /// </summary>
         public override string ToString()
         {
-            return $"({R}, {G}, {B}, {A})";
+            return $"RGBA({R}, {G}, {B}, {A})";
         }
     }
 }

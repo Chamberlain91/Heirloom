@@ -4,8 +4,9 @@ using System.Runtime.InteropServices;
 namespace Heirloom
 {
     /// <summary>
-    /// Color encoded as 4 component floats.
+    /// Color in RGBA format encoded as 4 component floats.
     /// </summary>
+    /// <seealso cref="ColorLab"/>
     /// <seealso cref="ColorBytes"/>
     /// <category>Drawing</category>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
@@ -704,7 +705,7 @@ namespace Heirloom
         /// </summary>
         public override string ToString()
         {
-            return $"({R}, {G}, {B}, {A})";
+            return $"RGBA({R:0.00}, {G:0.00}, {B:0.00}, {A:0.00})";
         }
     }
 }
