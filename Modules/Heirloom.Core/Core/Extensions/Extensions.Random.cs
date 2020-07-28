@@ -111,6 +111,39 @@ namespace Heirloom
             return new Vector(x, y);
         }
 
+        /// <summary>
+        /// Returns a random point within the bounds of the specified shape.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector NextVector(this Random @this, in IShape shape)
+        {
+            switch (shape)
+            {
+                case Rectangle rect:
+                    return NextVector(@this, rect);
+
+                case Circle circle:
+                    return circle.Position + NextVectorDisk(@this, circle.Radius);
+
+                case Triangle triangle:
+                // todo: optimized randomization for triangle
+
+                case Polygon polygon:
+                // todo: optimized randomization for polygon
+
+                default:
+                {
+                    // This default case should always work (if IShape Bounds and Contains are implemented correctly),
+                    // but for some shapes with low surface area in respect to their bounds, this could be dreadfully ineffcient.
+                    while (true)
+                    {
+                        var pos = NextVector(@this, shape.Bounds);
+                        if (shape.Contains(pos)) { return pos; }
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region Next Color
