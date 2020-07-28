@@ -1,6 +1,7 @@
 using System;
 using System.Buffers;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -249,8 +250,109 @@ namespace Heirloom
             fixed (ColorBytes* dst = Pixels)
             {
                 var len = Pixels.Length * 4;
-                Buffer.MemoryCopy((void*) src, (void*) dst, len, len);
+                Buffer.MemoryCopy(src, dst, len, len);
                 IncrementVersion();
+            }
+        }
+
+        #endregion
+
+        #region Sample
+
+        /// <summary>
+        /// Samples an image for a color at the specified coordinate.
+        /// </summary>
+        /// <param name="co">Some coordinate,</param>
+        /// <param name="normalized">A value determining if the input coordinates are normalized.</param>
+        /// <param name="interpolationMode">The interpolation mode, controlling how pixels are interpolated.</param>
+        /// <param name="repeatMode">The repeat mode, controlling the behaviour of out-of-bounds coordinates.</param>
+        /// <returns>The pixel color sampled at the specified coordinates.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Color Sample(Vector co, InterpolationMode interpolationMode = InterpolationMode.Linear, RepeatMode repeatMode = RepeatMode.Repeat, bool normalized = false)
+        {
+            return Sample(co.X, co.Y, interpolationMode, repeatMode, normalized);
+        }
+
+        /// <summary>
+        /// Samples an image for a color at the specified coordinate.
+        /// </summary>
+        /// <param name="x">Some x-coordinate,</param>
+        /// <param name="y">Some y-coordinate.</param>
+        /// <param name="normalized">A value determining if the input coordinates are normalized.</param>
+        /// <param name="interpolationMode">The interpolation mode, controlling how pixels are interpolated.</param>
+        /// <param name="repeatMode">The repeat mode, controlling the behaviour of out-of-bounds coordinates.</param>
+        /// <returns>The pixel color sampled at the specified coordinates.</returns>
+        public Color Sample(float x, float y, InterpolationMode interpolationMode = InterpolationMode.Linear, RepeatMode repeatMode = RepeatMode.Repeat, bool normalized = false)
+        {
+            // Compute image space coordinate
+            if (normalized)
+            {
+                x *= Width;
+                y *= Height;
+            }
+
+            // Get integer (pixel) coordinate
+            var px = Calc.Floor(x); // or Round()?
+            var py = Calc.Floor(y);
+
+            switch (interpolationMode)
+            {
+                default:
+                    throw new ArgumentException("Invalid interpolation mode, unable to sample image.");
+
+                case InterpolationMode.Nearest:
+                    return getPixel(px, py);
+
+                case InterpolationMode.Linear:
+
+                    // Get fractional value of coordinates
+                    var fx = Calc.Fraction(x);
+                    var fy = Calc.Fraction(y);
+
+                    // Sample the 4 corners
+                    var p00 = getPixel(px, py);
+                    var p10 = getPixel(px + 1, py);
+                    var p11 = getPixel(px + 1, py + 1);
+                    var p01 = getPixel(px, py + 1);
+
+                    // Interpolate columns
+                    var p0 = Color.Lerp(p00, p10, fx);
+                    var p1 = Color.Lerp(p01, p11, fx);
+
+                    // Interpolate rows
+                    return Color.Lerp(p0, p1, fy);
+            }
+
+            Color getPixel(int x, int y)
+            {
+                switch (repeatMode)
+                {
+                    default:
+                        throw new ArgumentException("Invalid repeat mode, unable to sample image.");
+
+                    // Clamp to edge
+                    case RepeatMode.Clamp:
+                        x = Calc.Clamp(x, 0, Width - 1);
+                        y = Calc.Clamp(y, 0, Height - 1);
+                        break;
+
+                    // Transparent beyond edge
+                    case RepeatMode.Blank:
+                        if (x < 0 || x >= Width || y < 0 || y >= Height)
+                        {
+                            return Color.Transparent;
+                        }
+
+                        break;
+
+                    // Repeate image after edge
+                    case RepeatMode.Repeat:
+                        x = Calc.Wrap(x, Width);
+                        y = Calc.Wrap(y, Width);
+                        break;
+                }
+
+                return GetPixel(x, y);
             }
         }
 
@@ -282,7 +384,7 @@ namespace Heirloom
         /// <summary>
         /// Flips the image on the specified axis.
         /// </summary>
-        /// <param name="axis"></param>
+        /// <param name="axis">The axid to flip the image.</param>
         public void Flip(Axis axis)
         {
             if (axis == Axis.Vertical) { FlipVertical(); }
