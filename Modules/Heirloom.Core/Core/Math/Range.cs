@@ -12,7 +12,7 @@ namespace Heirloom
     /// </summary>
     /// <category>Mathematics</category>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    public struct Range : IEquatable<Range>
+    public struct Range : IEquatable<Range>, IFormattable
     {
         /// <summary>
         /// The minimum value in the range.
@@ -323,11 +323,21 @@ namespace Heirloom
         #endregion
 
         /// <summary>
-        /// Returns the string representation of this <see cref="Range"/>.
+        /// Converts this <see cref="Range"/> into string representation.
         /// </summary>
         public override string ToString()
         {
             return $"({Min} to {Max})";
+        }
+
+        /// <summary>
+        /// Converts this <see cref="Range"/> into string representation.
+        /// </summary>
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            var _Min = Min.ToString(format, formatProvider);
+            var _Max = Max.ToString(format, formatProvider);
+            return $"({_Min} to {_Max})";
         }
     }
 }

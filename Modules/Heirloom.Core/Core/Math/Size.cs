@@ -9,7 +9,7 @@ namespace Heirloom
     /// </summary>
     /// <category>Mathematics</category>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    public struct Size : IEquatable<Size>
+    public struct Size : IEquatable<Size>, IFormattable
     {
         /// <summary>
         /// The width (horizontal size measure).
@@ -325,11 +325,21 @@ namespace Heirloom
         #endregion
 
         /// <summary>
-        /// Returns the string representation of this <see cref="Size"/>.
+        /// Converts this <see cref="Size"/> into string representation.
         /// </summary>
         public override string ToString()
         {
             return $"{Width} x {Height}";
+        }
+
+        /// <summary>
+        /// Converts this <see cref="Size"/> into string representation.
+        /// </summary>
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            var _Width = Width.ToString(format, formatProvider);
+            var _Height = Height.ToString(format, formatProvider);
+            return $"{_Width} x {_Height}";
         }
     }
 }

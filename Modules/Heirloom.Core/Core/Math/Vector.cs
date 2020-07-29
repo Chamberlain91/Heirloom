@@ -9,7 +9,7 @@ namespace Heirloom
     /// </summary>
     /// <category>Mathematics</category>
     [StructLayout(LayoutKind.Explicit, Pack = 4, Size = 8)]
-    public unsafe struct Vector : IEquatable<Vector>
+    public unsafe struct Vector : IEquatable<Vector>, IFormattable
     {
         [FieldOffset(0)]
         private fixed float _components[4];
@@ -790,7 +790,17 @@ namespace Heirloom
         /// </summary>
         public override string ToString()
         {
-            return $"{X}, {Y}";
+            return $"({X}, {Y})";
+        }
+
+        /// <summary>
+        /// Converts this <see cref="Vector"/> into string representation.
+        /// </summary>
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            var _X = X.ToString(format, formatProvider);
+            var _Y = Y.ToString(format, formatProvider);
+            return $"({_X}, {_Y})";
         }
     }
 }

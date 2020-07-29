@@ -9,7 +9,7 @@ namespace Heirloom
     /// </summary>
     /// <category>Mathematics</category>
     [StructLayout(LayoutKind.Sequential, Size = 4 * 6, Pack = 4)]
-    public struct Matrix : IEquatable<Matrix>
+    public struct Matrix : IEquatable<Matrix>, IFormattable
     {
         /// <summary>
         /// The value in the row 0, column 0.
@@ -710,5 +710,28 @@ namespace Heirloom
         }
 
         #endregion
+
+        /// <summary>
+        /// Converts this <see cref="Matrix"/> into string representation.
+        /// </summary>
+        public override string ToString()
+        {
+            return $"[({M0}, {M1}, {M2}), ({M3}, {M4}, {M5})]";
+        }
+
+        /// <summary>
+        /// Converts this <see cref="Matrix"/> into string representation.
+        /// </summary>
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            var _M0 = M0.ToString(format, formatProvider);
+            var _M1 = M1.ToString(format, formatProvider);
+            var _M2 = M2.ToString(format, formatProvider);
+            var _M3 = M3.ToString(format, formatProvider);
+            var _M4 = M4.ToString(format, formatProvider);
+            var _M5 = M5.ToString(format, formatProvider);
+
+            return $"[({_M0}, {_M1}, {_M2}), ({_M3}, {_M4}, {_M5})]";
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace Heirloom
     /// </summary>
     /// <category>Mathematics</category>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    public struct IntRectangle : IEquatable<IntRectangle>
+    public struct IntRectangle : IEquatable<IntRectangle>, IFormattable
     {
         /// <summary>
         /// The x-coordinate of this rectangle.
@@ -604,11 +604,21 @@ namespace Heirloom
         #endregion
 
         /// <summary>
-        /// Returns the string representation of this rectangle.
+        /// Converts this <see cref="IntRectangle"/> into string representation.
         /// </summary>
         public override string ToString()
         {
             return $"({Position}, {Size})";
+        }
+
+        /// <summary>
+        /// Converts this <see cref="IntRectangle"/> into string representation.
+        /// </summary>
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            var _Position = Position.ToString(format, formatProvider);
+            var _Size = Size.ToString(format, formatProvider);
+            return $"({_Position}, {_Size})";
         }
     }
 }

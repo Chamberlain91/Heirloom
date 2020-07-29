@@ -7,7 +7,7 @@ namespace Heirloom
     /// Represents statistics of some data.
     /// </summary>
     /// <category>Mathematics</category>
-    public readonly struct Statistics : IEquatable<Statistics>
+    public readonly struct Statistics : IEquatable<Statistics>, IFormattable
     {
         /// <summary>
         /// The average value. Also known as the mean or expected value.
@@ -46,10 +46,22 @@ namespace Heirloom
             Deviation = Calc.Sqrt(variance);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Converts this <see cref="Statistics"/> into string representation.
+        /// </summary>
         public override string ToString()
         {
-            return $"{Average:N2} ± {Deviation:N2}";
+            return $"{Average} ± {Deviation}";
+        }
+
+        /// <summary>
+        /// Converts this <see cref="Statistics"/> into string representation.
+        /// </summary>
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            var _Average = Average.ToString(format, formatProvider);
+            var _Deviation = Deviation.ToString(format, formatProvider);
+            return $"{_Average} ± {_Deviation}";
         }
 
         #region Equality

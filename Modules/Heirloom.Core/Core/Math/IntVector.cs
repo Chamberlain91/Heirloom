@@ -9,7 +9,7 @@ namespace Heirloom
     /// </summary>
     /// <category>Mathematics</category>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    public struct IntVector : IEquatable<IntVector>
+    public struct IntVector : IEquatable<IntVector>, IFormattable
     {
         /// <summary>
         /// The x-component of this vector.
@@ -458,11 +458,21 @@ namespace Heirloom
         #endregion
 
         /// <summary>
-        /// Returns the string representation of this <see cref="IntVector"/>.
+        /// Converts this <see cref="IntVector"/> into string representation.
         /// </summary>
         public override string ToString()
         {
-            return $"{X}, {Y}";
+            return $"({X}, {Y})";
+        }
+
+        /// <summary>
+        /// Converts this <see cref="IntVector"/> into string representation.
+        /// </summary>
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            var _X = X.ToString(format, formatProvider);
+            var _Y = Y.ToString(format, formatProvider);
+            return $"({_X}, {_Y})";
         }
     }
 }
