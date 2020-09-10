@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 
 using Heirloom;
-using Heirloom.Geometry;
 
 namespace Examples.Drawing
 {

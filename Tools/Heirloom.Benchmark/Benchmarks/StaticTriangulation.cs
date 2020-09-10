@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 
-using Heirloom.Geometry;
-
 namespace Heirloom.Benchmark
 {
     public sealed class StaticTriangulation : Benchmark

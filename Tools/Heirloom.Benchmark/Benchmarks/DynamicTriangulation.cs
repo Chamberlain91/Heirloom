@@ -1,6 +1,3 @@
-using Heirloom.Extras;
-using Heirloom.Geometry;
-
 namespace Heirloom.Benchmark
 {
     public sealed class DynamicTriangulation : Benchmark

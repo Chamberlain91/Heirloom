@@ -1,5 +1,4 @@
 using Heirloom;
-using Heirloom.Geometry;
 
 namespace Examples.Drawing
 {
