@@ -351,8 +351,8 @@ namespace Heirloom
         /// </summary>
         public void SetCameraTransform(Vector center, float scale = 1F)
         {
-            var offset = (Vector) Viewport.Size / 2F;
-            GlobalTransform = Matrix.CreateTransform(offset - center, 0, scale);
+            var offset = (Vector) Viewport.Size / (2F * scale);
+            GlobalTransform = Matrix.CreateScale(scale) * Matrix.CreateTranslation(offset - center);
         }
 
         /// <summary>
