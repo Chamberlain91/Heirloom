@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 
@@ -17,6 +18,8 @@ namespace Heirloom
     public abstract class GameLoop
     {
         private Thread _thread;
+
+        private readonly List<(UpdateFunction Update, int SortIndex)> _updateCallbacks = new List<(UpdateFunction, int)>();
 
         #region Constructor
 
@@ -70,7 +73,14 @@ namespace Heirloom
         /// <summary>
         /// Called every iteration of the game loop to update and/or render the application "every frame".
         /// </summary>
-        protected abstract void Update(float dt);
+        protected virtual void Update(float dt)
+        {
+            // Process update functions
+            foreach (var (update, _) in _updateCallbacks)
+            {
+                update(Graphics, dt);
+            }
+        }
 
         /// <summary>
         /// Start the render thread.
@@ -100,6 +110,40 @@ namespace Heirloom
 
             // Wait for thread to exit
             _thread.Join();
+        }
+
+        /// <summary>
+        /// Adds a function to run during <see cref="Update(float)"/>.
+        /// </summary>
+        /// <remarks>
+        /// The <paramref name="priority"/> number controls the execution order of the callbacks.
+        /// </remarks>
+        /// <param name="callback">Some update callback.</param>
+        /// <param name="priority">A priority number to ensure callbacks happen in expected order.</param>
+        /// <exception cref="ArgumentException">Thrown when the callback function already exists.</exception>
+        public void AddUpdateCallback(UpdateFunction callback, int priority = 5000)
+        {
+            // Validate arguments
+            if (callback is null) { throw new ArgumentNullException(nameof(callback)); }
+            if (_updateCallbacks.FindIndex(c => c.Update == callback) >= 0)
+            {
+                throw new InvalidOperationException("Callback already registered.");
+            }
+
+            // Append the callback
+            _updateCallbacks.Add((callback, priority));
+            _updateCallbacks.Sort((a, b) => a.SortIndex.CompareTo(b.SortIndex));
+        }
+
+        /// <summary>
+        /// Removes an update callback previously added with <see cref="AddUpdateCallback(UpdateFunction, int)"/>.
+        /// </summary>
+        /// <exception cref="ArgumentException">Thrown when the callback function already exists.</exception>
+        public void RemoveUpdateCallback(UpdateFunction callback)
+        {
+            // Remove the callback
+            _updateCallbacks.RemoveAll(c => c.Update == callback);
+            _updateCallbacks.Sort((a, b) => a.SortIndex.CompareTo(b.SortIndex));
         }
 
         private void ThreadBody()
