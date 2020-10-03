@@ -43,18 +43,5 @@ namespace Meadows.Drawing
         /// Repeat mode.
         /// </summary>
         public RepeatMode Repeat { get; set; } = RepeatMode.Blank;
-
-        internal object Native;
-
-        internal void IncrementVersion()
-        {
-            Version++;
-
-            // If hit the maximum version number, wrap around.
-            if (Version == uint.MaxValue)
-            {
-                Version = 0;
-            }
-        }
     }
 }

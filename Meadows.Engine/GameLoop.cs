@@ -1,11 +1,16 @@
-﻿using Meadows.Engine.Input;
+using Meadows.Drawing;
+using Meadows.Engine.Input;
 
 namespace Meadows.Engine
 {
     public abstract class GameLoop
     {
+        public Screen Screen { get; }
+
         public GameLoop(Screen screen)
         {
+            Screen = screen;
+
             ConfigureInputDevices(screen);
         }
 
@@ -16,6 +21,11 @@ namespace Meadows.Engine
             Mouse.SetDevice(screen.Mouse);
             Gamepad.SetDevice(screen.Gamepad);
             Touch.SetDevice(screen.Touch);
+        }
+
+        protected virtual void Update(Surface surface)
+        {
+            Screen.Refresh();
         }
     }
 }

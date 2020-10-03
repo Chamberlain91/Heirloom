@@ -1,16 +1,26 @@
-using Meadows.Mathematics;
-
 using System;
+
+using Meadows.Mathematics;
 
 namespace Meadows.Drawing
 {
-    public abstract class Surface : Texture, IDrawCommands
+    public abstract class Surface : Texture, IDrawContext
     {
+        public Screen Screen { get; protected set; }
+
         public MultisampleQuality Multisample { get; init; }
+
+        public abstract BlendingMode Blending { get; set; }
+
+        public abstract Shader Shader { get; set; }
+
+        public abstract void SetViewport(Rectangle rectangle);
+
+        public abstract void SetCamera(Vector center, float scale = 1F, float rotation = 0F);
 
         public abstract void Clear(Color color);
 
-        public abstract void SetViewport(Rectangle rectangle);
+        #region Stencil
 
         public abstract void ClearMask();
 
@@ -18,10 +28,12 @@ namespace Meadows.Drawing
 
         public abstract void EndMask();
 
-        public abstract void Draw<X>(Vertex[] vertices, in Matrix matrix, in Material<X> material) where X : unmanaged;
+        #endregion
 
-        public abstract void Draw<X>(Vertex[] vertices, in ReadOnlySpan<Matrix> matrices, in Material<X> material) where X : unmanaged;
+        #region Draw
 
-        public abstract void Draw(DrawBuffer buffer);
+        public abstract void Draw(Texture texture, in ReadOnlySpan<Vertex> vertices, in ReadOnlySpan<Matrix> matrices);
+
+        #endregion
     }
 }
