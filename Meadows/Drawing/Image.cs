@@ -292,19 +292,25 @@ namespace Meadows.Drawing
                 y *= Height;
             }
 
-            // Get integer (pixel) coordinate
-            var px = Calc.Floor(x); // or Round()?
-            var py = Calc.Floor(y);
-
             switch (interpolationMode)
             {
                 default:
                     throw new ArgumentException("Invalid interpolation mode, unable to sample image.");
 
                 case InterpolationMode.Nearest:
+                {
+                    // Get integer (pixel) coordinate
+                    var px = Calc.Round(x);
+                    var py = Calc.Round(y);
+
                     return getPixel(px, py);
+                }
 
                 case InterpolationMode.Linear:
+                {
+                    // Get integer (pixel) coordinate
+                    var px = Calc.Floor(x);
+                    var py = Calc.Floor(y);
 
                     // Get fractional value of coordinates
                     var fx = Calc.Fraction(x);
@@ -322,6 +328,7 @@ namespace Meadows.Drawing
 
                     // Interpolate rows
                     return Color.Lerp(p0, p1, fy);
+                }
             }
 
             Color getPixel(int x, int y)

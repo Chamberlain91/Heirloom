@@ -106,7 +106,7 @@ namespace Meadows.Drawing
                 {
                     // Draw to surface
                     ctx.Color = state.Color;
-                    ctx.DrawImage(image, Matrix.CreateTranslation(state.Position + image.Origin) * state.Transform);
+                    ctx.DrawImage(image, Matrix.CreateTranslation(state.Position) * state.Transform);
                 }
             });
 

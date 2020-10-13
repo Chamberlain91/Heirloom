@@ -110,7 +110,7 @@ namespace Meadows.Drawing
         {
             // Creates an image to store the rendered glyph
             var imageSize = GetMetrics(size).Size;
-            var image = new Image(imageSize) { Origin = (IntVector) imageSize / 2 };
+            var image = new Image(imageSize);
 
             // Render glyph and return
             RenderTo(image, 0, 0, size);

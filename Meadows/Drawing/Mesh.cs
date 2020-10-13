@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,10 +21,13 @@ namespace Meadows.Drawing
         {
             return new Mesh(new[]
             {
-                new MeshVertex((0,0), (0,0), Color.White),
-                new MeshVertex((1,0), (1,0), Color.White),
-                new MeshVertex((1,1), (1,1), Color.White),
-                new MeshVertex((0,1), (0,1), Color.White)
+                new MeshVertex((0,0), (0,0), Color.White), // 0
+                new MeshVertex((1,0), (1,0), Color.White), // 1
+                new MeshVertex((1,1), (1,1), Color.White), // 2
+
+                new MeshVertex((0,0), (0,0), Color.White), // 0
+                new MeshVertex((1,1), (1,1), Color.White), // 2
+                new MeshVertex((0,1), (0,1), Color.White), // 3
             });
         }
     }

@@ -23,17 +23,7 @@ namespace Meadows.Drawing
         /// The height of the image (in pixels).
         /// </summary>
         public int Height => Size.Height;
-
-        /// <summary>
-        /// The offset used to 'center' the image around a non-zero origin.
-        /// </summary>
-        public IntVector Origin { get; set; }
-
-        /// <summary>
-        /// Interpolation mode.
-        /// </summary>
-        public InterpolationMode Interpolation { get; set; } = InterpolationMode.Nearest;
-
+         
         /// <summary>
         /// Repeat mode.
         /// </summary>

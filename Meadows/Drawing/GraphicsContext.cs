@@ -30,8 +30,10 @@ namespace Meadows.Drawing
             Blending = 1 << 3,
             Shader = 1 << 4,
 
+            Camera = 1 << 5,
+
             // 
-            All = Viewport | Surface | Interpolation | Blending | Shader
+            All = Viewport | Surface | Interpolation | Blending | Shader | Camera
         }
 
         protected struct RenderState
@@ -42,6 +44,8 @@ namespace Meadows.Drawing
 
             public IntRectangle Viewport;
             public Surface Surface;
+
+            public Matrix Camera;
 
             public Color Color;
         }
@@ -109,6 +113,10 @@ namespace Meadows.Drawing
             }
         }
 
+        protected Matrix CameraMatrix => _state.Camera;
+
+        // todo: camera inverse matrix?
+
         public Color Color { get; set; }
 
         public IntRectangle Viewport => _state.Viewport;
@@ -119,7 +127,34 @@ namespace Meadows.Drawing
 
         #region Render State (Methods)
 
-        public abstract void SetCamera(Vector center, float scale = 1F, float rotation = 0F);
+        public void SetCamera(Matrix matrix)
+        {
+            _state.Camera = matrix;
+            StateFlags |= StateDirtyFlags.Camera;
+        }
+
+        public void SetCamera(Vector center, float scale = 1F, float rotation = 0F)
+        {
+            var offset = (Vector) Viewport.Size / (2F * scale);
+
+            // Set translation
+            _state.Camera = Matrix.CreateTranslation(offset - center);
+
+            // If a scale is given, apply a scale transform
+            if (!Calc.NearEquals(scale, 1F))
+            {
+                _state.Camera = Matrix.CreateScale(scale) * _state.Camera;
+            }
+
+            // If a rotation is given, apply a rotation transform
+            if (!Calc.NearZero(rotation))
+            {
+                _state.Camera = Matrix.CreateRotation(rotation) * _state.Camera;
+            }
+
+            // Mark camera as dirty
+            StateFlags |= StateDirtyFlags.Camera;
+        }
 
         public virtual void SetRenderTarget(Surface surface, IntRectangle? viewport = null)
         {
@@ -162,6 +197,7 @@ namespace Meadows.Drawing
 
             // Set prior render target
             SetRenderTarget(state.Surface, state.Viewport);
+            SetCamera(state.Camera);
 
             // 
             Color = state.Color;
@@ -169,13 +205,13 @@ namespace Meadows.Drawing
 
         protected void SetDefaultState()
         {
-            InterpolationMode = InterpolationMode.Linear;
+            InterpolationMode = InterpolationMode.Nearest;
             BlendingMode = BlendingMode.Alpha;
             Shader = Shader.Default;
+            Color = Color.White;
 
             SetRenderTarget(Screen.Surface);
-
-            Color = Color.White;
+            SetCamera(Matrix.Identity);
         }
 
         #endregion
@@ -196,19 +232,19 @@ namespace Meadows.Drawing
         }
 
         // draw image
-        public unsafe void DrawImage(Texture texture, Matrix matrix)
+        public unsafe void DrawImage(Texture texture, Matrix transform)
         {
             var w = (float) texture.Width;
             var h = (float) texture.Height;
 
             // Scale to image dimensions
-            matrix.M0 *= w;
-            matrix.M3 *= w;
-            matrix.M1 *= h;
-            matrix.M4 *= h;
+            transform.M0 *= w;
+            transform.M3 *= w;
+            transform.M1 *= h;
+            transform.M4 *= h;
 
             // Submit draw
-            Draw(texture, Mesh.QuadMesh, in matrix);
+            Draw(texture, Mesh.QuadMesh, in transform);
         }
 
         // draw partial image
