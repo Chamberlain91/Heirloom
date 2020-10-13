@@ -6,8 +6,9 @@ namespace Meadows
 {
     public abstract class Screen
     {
-        protected Screen(IntSize size)
+        protected Screen(IntSize size, MultisampleQuality multisample)
         {
+            Surface = new Surface(size, multisample, SurfaceFormat.UnsignedByte, this);
             Size = size;
         }
 
@@ -21,8 +22,14 @@ namespace Meadows
 
         public abstract TouchDevice Touch { get; }
 
-        public abstract Surface Surface { get; }
+        public abstract GraphicsContext Graphics { get; }
 
-        public abstract void Refresh();
+        public Surface Surface { get; }
+
+        public void Refresh()
+        {
+            // todo: poll input...?
+            Graphics.CompleteFrame();
+        }
     }
 }

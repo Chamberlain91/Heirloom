@@ -2,11 +2,11 @@ using Meadows.Mathematics;
 
 namespace Meadows.Drawing
 {
-    public abstract class Texture
+    public abstract class Texture : NativeResource
     {
         internal Texture()
         {
-            // Only visible in Heirloom and friends
+            // Only visible to friends
         }
 
         /// <summary>
@@ -28,11 +28,6 @@ namespace Meadows.Drawing
         /// The offset used to 'center' the image around a non-zero origin.
         /// </summary>
         public IntVector Origin { get; set; }
-
-        /// <summary>
-        /// Version number to track changes against the image data.
-        /// </summary>
-        internal uint Version { get; private set; }
 
         /// <summary>
         /// Interpolation mode.

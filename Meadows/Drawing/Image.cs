@@ -144,7 +144,7 @@ namespace Meadows.Drawing
 
         #endregion
 
-        private void ValidateImageSize(in int width, in int height)
+        private static void ValidateImageSize(in int width, in int height)
         {
             if (width > MaxImageDimension || height > MaxImageDimension)
             {
@@ -832,79 +832,108 @@ namespace Meadows.Drawing
 
         #endregion
 
-        #region Write (Static)
-
-        [ThreadStatic] private static Stream _writeStream;
+        #region Write
 
         /// <summary>
-        /// Writes the image to the stream as a PNG file format.
+        /// Writes the image to a file encoded as one of the specified formats.
         /// </summary>
-        public unsafe void WritePNG(Stream stream)
+        /// <param name="quality">The compression quality (0-100) for image formats that this is relevant.</param>
+        public unsafe void Write(string file, int quality = 85)
         {
-            if (stream is null) { throw new ArgumentNullException(nameof(stream)); }
+            using var stream = new FileStream(file, FileMode.Create);
+            var extension = Path.GetExtension(file).ToLower();
 
-            lock (Pixels)
+            var format = extension switch
             {
-                _writeStream = stream;
+                ".jpg" => ImageFormat.Jpg,
+                ".jpeg" => ImageFormat.Jpg,
+                ".png" => ImageFormat.Png,
+                _ => throw new ArgumentException($"Unknown image type '{extension}'.")
+            };
 
-                // Flip vertically!
-                stbi_flip_vertically_on_write(1);
-
-                fixed (ColorBytes* pPixels = Pixels)
-                {
-                    if (stbi_write_png_to_func(WriteImageCallback, null, Width, Height, 4, pPixels, Width * 4) == 0)
-                    {
-                        throw new InvalidOperationException("Unable to write png image to stream.");
-                    }
-                }
-            }
+            Write(stream, format, quality);
         }
 
         /// <summary>
-        /// Writes the image to the stream as a PNG file format.
+        /// Writes the image to the stream encoded as one of the specified formats.
         /// </summary>
-        public unsafe void WriteJPG(Stream stream, int quality = 85)
+        /// <param name="quality">The compression quality (0-100) for image formats that this is relevant.</param>
+        public unsafe void Write(Stream stream, ImageFormat format, int quality = 85)
         {
-            lock (Pixels)
+            switch (format)
             {
-                if (quality < 1 || quality > 100)
+                case ImageFormat.Jpg:
+                    WriteJPG(stream, quality);
+                    break;
+
+                case ImageFormat.Png:
+                    WritePNG(stream);
+                    break;
+
+                default:
+                    throw new InvalidOperationException("Unable to write image to unkown format.");
+            }
+
+            unsafe void WritePNG(Stream stream)
+            {
+                if (stream is null) { throw new ArgumentNullException(nameof(stream)); }
+
+                lock (Pixels)
                 {
-                    throw new ArgumentException("Jpeg quality must be from 1 - 100.", nameof(quality));
-                }
+                    // Flip vertically!
+                    stbi_flip_vertically_on_write(1);
 
-                _writeStream = stream;
-
-                // Flip vertically!
-                stbi_flip_vertically_on_write(1);
-
-                fixed (ColorBytes* pPixels = Pixels)
-                {
-                    if (stbi_write_jpg_to_func(WriteImageCallback, null, Width, Height, 4, pPixels, quality) == 0)
+                    fixed (ColorBytes* pPixels = Pixels)
                     {
-                        throw new InvalidOperationException("Unable to write jpg image to stream.");
+                        if (stbi_write_png_to_func(WriteImageCallback, null, Width, Height, 4, pPixels, Width * 4) == 0)
+                        {
+                            throw new InvalidOperationException("Unable to write png image to stream.");
+                        }
                     }
                 }
             }
-        }
 
-        private static unsafe int WriteImageCallback(void* context, void* data, int size)
-        {
-            if (data == null || size <= 0)
+            unsafe void WriteJPG(Stream stream, int quality = 85)
             {
-                return 0;
+                lock (Pixels)
+                {
+                    if (quality < 1 || quality > 100)
+                    {
+                        throw new ArgumentException("Jpeg quality must be from 1 - 100.", nameof(quality));
+                    }
+
+                    // Flip vertically!
+                    stbi_flip_vertically_on_write(1);
+
+                    fixed (ColorBytes* pPixels = Pixels)
+                    {
+                        if (stbi_write_jpg_to_func(WriteImageCallback, null, Width, Height, 4, pPixels, quality) == 0)
+                        {
+                            throw new InvalidOperationException("Unable to write jpg image to stream.");
+                        }
+                    }
+                }
             }
 
-            // Copy bytes into temporary buffer
-            var buffer = ArrayPool<byte>.Shared.Rent(size);
-            Marshal.Copy((IntPtr) data, buffer, 0, size);
+            unsafe int WriteImageCallback(void* context, void* data, int size)
+            {
+                if (data == null || size <= 0)
+                {
+                    return 0;
+                }
 
-            // Write buffer into stream
-            _writeStream.Write(buffer, 0, size);
+                // Copy bytes into temporary buffer
+                var buffer = ArrayPool<byte>.Shared.Rent(size);
+                Marshal.Copy((IntPtr) data, buffer, 0, size);
 
-            // Return temporary buffer
-            ArrayPool<byte>.Shared.Return(buffer);
+                // Write buffer into stream
+                stream.Write(buffer, 0, size);
 
-            return size;
+                // Return temporary buffer
+                ArrayPool<byte>.Shared.Return(buffer);
+
+                return size;
+            }
         }
 
         #endregion 

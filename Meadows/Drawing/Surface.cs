@@ -1,39 +1,35 @@
-using System;
-
 using Meadows.Mathematics;
 
 namespace Meadows.Drawing
 {
-    public abstract class Surface : Texture, IDrawContext
+    public sealed class Surface : Texture
     {
-        public Screen Screen { get; protected set; }
+        #region Constructors
 
-        public MultisampleQuality Multisample { get; init; }
+        internal Surface(IntSize size, MultisampleQuality multisample, SurfaceFormat format, Screen screen)
+        {
+            Screen = screen;
+            Multisample = multisample;
+            Format = format;
+            Size = size;
+        }
 
-        public abstract BlendingMode Blending { get; set; }
+        public Surface(IntSize size, MultisampleQuality multisample = MultisampleQuality.None, SurfaceFormat format = SurfaceFormat.UnsignedByte)
+            : this(size, multisample, format, null)
+        { }
 
-        public abstract Shader Shader { get; set; }
-
-        public abstract void SetViewport(Rectangle rectangle);
-
-        public abstract void SetCamera(Vector center, float scale = 1F, float rotation = 0F);
-
-        public abstract void Clear(Color color);
-
-        #region Stencil
-
-        public abstract void ClearMask();
-
-        public abstract void BeginMask();
-
-        public abstract void EndMask();
+        public Surface(IntSize size, MultisampleQuality multisample)
+            : this(size, multisample, SurfaceFormat.UnsignedByte)
+        { }
 
         #endregion
 
-        #region Draw
+        public override IntSize Size { get; protected set; }
 
-        public abstract void Draw(Texture texture, in ReadOnlySpan<Vertex> vertices, in ReadOnlySpan<Matrix> matrices);
+        public MultisampleQuality Multisample { get; }
 
-        #endregion
+        public SurfaceFormat Format { get; }
+
+        internal Screen Screen { get; }
     }
 }

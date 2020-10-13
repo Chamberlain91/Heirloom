@@ -1,28 +1,20 @@
-using System;
-
 using Meadows.Drawing;
-using Meadows.Engine;
 using Meadows.Mathematics;
-using Meadows.Runtime.Desktop;
 
 namespace Meadows.Example.Sandbox
 {
-    internal sealed class Program : GameLoop
+    internal sealed class Program
     {
-        public Program()
-            : base(new Window("", (1280, 720)))
-        { }
-
-        protected override void Update(Surface surface)
-        {
-            // 
-            surface.Clear(Color.DarkGray);
-            surface.DrawText("Hello World", (Vector) surface.Size / 2F, TextAlign.Center | TextAlign.Middle, Font.Default, 16);
-        }
-
         private static void Main(string[] args)
         {
-            MeadowsApp.Run<Program>();
+            var gfx = new SoftwareGraphcsContext(512, 512);
+
+            gfx.Clear(Color.DarkGray);
+            gfx.DrawText("Hello World", (Vector) gfx.Surface.Size / 2F, Font.Default, 16, TextAlign.Center | TextAlign.Middle);
+
+            // Write rendered image to disk
+            var image = gfx.GrabPixels();
+            image.Write("example.png");
         }
     }
 }

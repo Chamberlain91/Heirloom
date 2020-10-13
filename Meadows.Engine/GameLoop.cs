@@ -23,7 +23,7 @@ namespace Meadows.Engine
             Touch.SetDevice(screen.Touch);
         }
 
-        protected virtual void Update(Surface surface)
+        protected virtual void Update(GraphicsContext gfx)
         {
             Screen.Refresh();
         }

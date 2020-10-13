@@ -4,7 +4,7 @@ namespace Meadows.Drawing
     /// Represents the surface type.
     /// </summary>
     /// <category>Drawing</category>
-    public enum SurfaceType
+    public enum SurfaceFormat
     {
         /// <summary>
         /// Color is encoded as uint8 per component.

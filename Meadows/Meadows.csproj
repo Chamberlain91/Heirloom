@@ -74,8 +74,4 @@
     <EmbeddedResource Include="Embedded\Shaders\standard\standard.vert" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Utilities\" />
-  </ItemGroup>
-
 </Project>

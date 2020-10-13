@@ -2,7 +2,7 @@ namespace Meadows.Drawing
 {
     public enum ImageFormat
     {
-        Jpeg,
+        Jpg,
         Png
     }
 }
