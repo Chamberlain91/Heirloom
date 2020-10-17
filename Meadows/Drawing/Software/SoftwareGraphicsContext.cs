@@ -1,41 +1,42 @@
 using System;
 using System.Threading.Tasks;
 
-using Meadows.Drawing;
 using Meadows.Input;
 using Meadows.Mathematics;
 
-namespace Meadows
+namespace Meadows.Drawing.Software
 {
-    public sealed class SoftwareGraphcsContext : GraphicsContext
+    public sealed class SoftwareGraphicsContext : GraphicsContext
     {
         private bool _stencilEnable;
         private byte _stencilReference;
         private bool _stencilWrite;
         private bool _colorWrite = true;
 
-        public SoftwareGraphcsContext(int width, int height)
-            : base(new SoftwareScreen((width, height)))
+        public SoftwareGraphicsContext(IntSize size)
+            : base(new SoftwareScreen(size))
         {
-            // Associate this context to the virtual screen 
-            Screen.SetGraphicsContext(this);
+            var softwareScreen = Screen as SoftwareScreen;
+            softwareScreen.SetGraphicsContext(this);
         }
 
-        private new SoftwareScreen Screen => base.Screen as SoftwareScreen;
+        public SoftwareGraphicsContext(int width, int height)
+            : this((width, height))
+        { }
 
         public override void Clear(Color color)
         {
-            var surface = GetNativeResource<SoftwareSurface>(Surface);
+            var surface = GetGlobalNativeObject<SoftwareSurface>(Surface);
             foreach (var co in Rasterizer.Rectangle(Viewport))
             {
                 surface.ColorBuffer.Set(co, color);
             }
         }
 
-        public override void Draw(Texture texture, in Rectangle uvRegion, in Mesh mesh, in Matrix matrix)
+        public override void Draw(Texture texture, Rectangle uvRegion, Mesh mesh, Matrix matrix)
         {
-            var softwareSurface = GetNativeResource<SoftwareSurface>(Surface);
-            var softwareTexture = GetNativeResource<ISoftwareTexture>(texture);
+            var softwareSurface = GetGlobalNativeObject<SoftwareSurface>(Surface);
+            var softwareTexture = GetGlobalNativeObject<ISoftwareTexture>(texture);
 
             // Compute final transformation matrix
             var transform = Matrix.RectangleProjection(0, 0, Viewport.Width, Viewport.Height);
@@ -229,7 +230,7 @@ namespace Meadows
         public override Image GrabPixels(IntRectangle region)
         {
             // todo: validate region will indeed fit in region
-            var surface = GetNativeResource<SoftwareSurface>(Surface);
+            var surface = GetGlobalNativeObject<SoftwareSurface>(Surface);
             return surface.ColorBuffer.GrabPixels(region);
         }
 
@@ -244,7 +245,12 @@ namespace Meadows
             // Just carry on!
         }
 
-        protected override object GenerateNativeResource(NativeResource resource)
+        protected override object GenerateContextNativeObject(NativeResource resource)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override object GenerateGlobalNativeObject(NativeResource resource)
         {
             switch (resource)
             {
@@ -263,7 +269,7 @@ namespace Meadows
 
         private sealed class SoftwareScreen : Screen
         {
-            private SoftwareGraphcsContext _graphicsContext;
+            private SoftwareGraphicsContext _graphicsContext;
 
             public SoftwareScreen(IntSize size)
                 : base(size, MultisampleQuality.None)
@@ -271,7 +277,7 @@ namespace Meadows
                 // todo: potentially dummy "null" input devices?
             }
 
-            public void SetGraphicsContext(SoftwareGraphcsContext graphics)
+            public void SetGraphicsContext(SoftwareGraphicsContext graphics)
             {
                 _graphicsContext = graphics;
             }

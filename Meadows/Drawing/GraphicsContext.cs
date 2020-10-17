@@ -7,6 +7,13 @@ using Meadows.Mathematics;
 namespace Meadows.Drawing
 {
     public abstract class GraphicsContext : IDisposable
+    /**
+     * When a shader is created, it requests from an active context for it to be compiled.
+     * This then can defer to whatever backend is running the context... this is to prevent a lazy compile of the shader.
+     * 
+     * Shader uniforms are apparently per-program, so once updated they should be the same across contexts. Only trick is making sure
+     * synchronization is predictable (as most parts of the GL backend)
+     */
     {
         private static readonly RecyclePool<int> _idPool = new RecyclePool<int>(() => _idCounter++);
         private static int _idCounter;
@@ -220,15 +227,15 @@ namespace Meadows.Drawing
 
         public abstract void Clear(Color color);
 
-        public abstract void Draw(Texture texture, in Rectangle uvRegion, in Mesh mesh, in Matrix matrix);
+        public abstract void Draw(Texture texture, Rectangle uvRegion, Mesh mesh, Matrix matrix);
 
         #region Basic Image Drawing
 
         // draw mesh
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Draw(Texture texture, in Mesh mesh, in Matrix matrix)
+        public void Draw(Texture texture, Mesh mesh, Matrix matrix)
         {
-            Draw(texture, Rectangle.One, in mesh, in matrix);
+            Draw(texture, Rectangle.One, mesh, matrix);
         }
 
         // draw image
@@ -244,7 +251,7 @@ namespace Meadows.Drawing
             transform.M4 *= h;
 
             // Submit draw
-            Draw(texture, Mesh.QuadMesh, in transform);
+            Draw(texture, Mesh.QuadMesh, transform);
         }
 
         // draw partial image
@@ -267,7 +274,7 @@ namespace Meadows.Drawing
             matrix.M4 *= h;
 
             // Submit draw
-            Draw(texture, uvRect, Mesh.QuadMesh, in matrix);
+            Draw(texture, uvRect, Mesh.QuadMesh, matrix);
         }
 
         #endregion
@@ -361,26 +368,48 @@ namespace Meadows.Drawing
 
         #region Native Resource Access
 
-        protected abstract object GenerateNativeResource(NativeResource resource);
+        protected abstract object GenerateContextNativeObject(NativeResource resource);
 
-        protected internal T GetNativeResource<T>(NativeResource resource) where T : class
+        protected abstract object GenerateGlobalNativeObject(NativeResource resource);
+
+        protected internal T GetGlobalNativeObject<T>(NativeResource resource) where T : class
         {
-            var native = resource.GetNativeResource<T>(this);
+            var obj = resource.GetGlobalNativeObject<T>();
 
-            if (native == null)
+            if (obj == null)
             {
-                // No native resource is known for this object, we must now create one
-                native = GenerateNativeResource(resource) as T;
-                if (native == null) { throw new InvalidOperationException("Context generated a native resource that does not match the requesting type!"); }
-                SetNativeResource<T>(resource, native);
+                // No global native object is known for this resource, we must now create one.
+                obj = GenerateGlobalNativeObject(resource) as T;
+                if (obj == null) { throw new InvalidOperationException("Generated a global native object that does not match the requested type!"); }
+                SetGlobalNativeObject(resource, obj);
             }
 
-            return native;
+            return obj;
         }
 
-        protected internal void SetNativeResource<T>(NativeResource resource, T native) where T : class
+        protected internal T GetContextNativeObject<T>(NativeResource resource) where T : class
         {
-            resource.SetNativeResource(this, native);
+            var obj = resource.GetContextNativeObject<T>(this);
+
+            if (obj == null)
+            {
+                // No context native object is known for this resources, we must now create one.
+                obj = GenerateContextNativeObject(resource) as T;
+                if (obj == null) { throw new InvalidOperationException("Generated a context native object that does not match the requested type!"); }
+                SetContextNativeObject(resource, obj);
+            }
+
+            return obj;
+        }
+
+        protected internal void SetContextNativeObject<T>(NativeResource resource, T obj) where T : class
+        {
+            resource.SetContextNativeObject(this, obj);
+        }
+
+        protected internal void SetGlobalNativeObject<T>(NativeResource resource, T obj) where T : class
+        {
+            resource.SetGlobalNativeObject(obj);
         }
 
         protected internal uint GetResourceVersion(NativeResource resource)
@@ -388,7 +417,7 @@ namespace Meadows.Drawing
             return resource.Version;
         }
 
-        protected internal void IncrementResourceVersion(NativeResource resource)
+        protected internal void IncrementVersion(NativeResource resource)
         {
             resource.IncrementVersion();
         }

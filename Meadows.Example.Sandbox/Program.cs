@@ -1,4 +1,5 @@
 using Meadows.Drawing;
+using Meadows.Drawing.Software;
 using Meadows.Mathematics;
 
 namespace Meadows.Example.Sandbox
@@ -7,11 +8,11 @@ namespace Meadows.Example.Sandbox
     {
         private static void Main(string[] args)
         {
-            var gfx = new SoftwareGraphcsContext(1280, 320);
+            var gfx = new SoftwareGraphicsContext(1280, 320);
             RenderStencilTest(gfx);
         }
 
-        private static void RenderStencilTest(SoftwareGraphcsContext gfx)
+        private static void RenderStencilTest(GraphicsContext gfx)
         {
             // Load image and set its origin to the center...
             var image = new Image("colorful.jpg");
