@@ -172,6 +172,48 @@ namespace Meadows.Mathematics
             return _segments[index].CurveType;
         }
 
+        internal IEnumerable<Vector> GenerateInterpolatedSequence()
+        {
+            yield return GetPoint(0);
+
+            for (var i = 0; i < Count - 1; i++)
+            {
+                var current = GetPoint(i);
+                var next = GetPoint(i + 1);
+
+                switch (GetCurveType(i))
+                {
+                    case CurveType.Cubic:
+
+                        var p0 = current;
+                        var p1 = current + GetInHandle(i);
+                        var p2 = next + GetOutHandle(i);
+                        var p3 = next;
+
+                        var t = 0F;
+
+                        // length of derivative curve
+                        var dLength = CurveTools.ApproximateLength(t => CurveTools.InterpolateDerivative(p0, p1, p2, p3, t), 4);
+                        var nominal = 0.15F;
+
+                        while (t < 1F)
+                        {
+                            // Emit intermediate point
+                            var p = CurveTools.Interpolate(p0, p1, p2, p3, t);
+                            yield return p;
+
+                            // Compute derivative to step long the line in a non-linear fashion to enhance curve quiality
+                            var derivative = CurveTools.InterpolateDerivative(p0, p1, p2, p3, t).Length / dLength;
+                            t += Calc.Clamp(nominal * derivative, 0.05F, 0.20F); // keeps steps within 5% to 20%
+                        }
+
+                        break;
+                }
+            }
+
+            yield return GetPoint(Count - 1);
+        }
+
         private class Segment
         {
             public Vector Point;

@@ -1,70 +1,47 @@
 using Meadows.Desktop;
 using Meadows.Drawing;
-using Meadows.Drawing.Software;
 using Meadows.Mathematics;
 using Meadows.Utilities;
 
-namespace Meadows.Example.Stencil
+namespace Meadows.Examples.Stencil
 {
     internal sealed class Program : Application
     {
         public readonly Window Window;
 
-        readonly public GameLoop Loop;
+        public Image Image;
 
         public Program()
         {
+            Image = new Image("zelda.jpg");
+
             // At this point desktop window, graphics and audio systems have been initialized.
             Window = new Window("Heirloom - Stencil Example", (1280, 320), MultisampleQuality.Medium) { IsResizable = false };
             RenderStencilTest(Window.Graphics, 10);
 
-            // Write hardware image to disk
+            // Write screengrab to disk
             var screenshot = Window.Graphics.GrabPixels();
-            screenshot.Write("hardware.jpg");
+            screenshot.Write("screengrab.jpg");
 
             var time = 0F;
-            Loop = new GameLoop(dt =>
+            GameLoop.StartNew(dt =>
             {
                 time += dt;
                 RenderStencilTest(Window.Graphics, 4 + Calc.Sin(time) * 6);
                 Window.Refresh();
             });
-            Loop.Start();
         }
 
-        private static void Main(string[] args)
+        private void RenderStencilTest(GraphicsContext gfx, float angle)
         {
-            var renderHardware = true;
-
-            // If running on hardware, we will run the application.
-            // Otherwise we will use a software renderer.
-            if (renderHardware) { Run<Program>(); }
-            else
-            {
-                // Initialize graphics system with a software backend.
-                // Only one backend can be established at a time.
-                using var backend = new SoftwareGraphicsBackend();
-                var context = backend.CreateContext(1280, 320);
-                RenderStencilTest(context, 10);
-
-                // Write software image to disk
-                var screenshot = context.GrabPixels();
-                screenshot.Write("software.jpg");
-            }
-        }
-
-        private static void RenderStencilTest(GraphicsContext gfx, float angle)
-        {
-            // Load a few images
-            var image = new Image("zelda.jpg");
-            var imageCenter = (IntVector) (image.Size / 2F);
+            var imageCenter = (IntVector) (Image.Size / 2F);
 
             gfx.InterpolationMode = InterpolationMode.Linear;
             gfx.Clear(Color.Yellow * Color.DarkGray);
 
             // Draw base image (darkened)
             gfx.Color = Color.DarkGray;
-            DrawBackgroundImages(gfx, image, imageCenter, angle);
+            DrawBackgroundImages(gfx, Image, imageCenter, angle);
 
             // Draw a stencil mask
             gfx.BeginDefineMask();
@@ -82,14 +59,14 @@ namespace Meadows.Example.Stencil
             gfx.Color = Color.White;
 
             // Draw image (uses above stencil)
-            DrawBackgroundImages(gfx, image, imageCenter, angle);
+            DrawBackgroundImages(gfx, Image, imageCenter, angle);
 
             // Clear the stencil, back to regular drawing.
             gfx.ClearMask();
 
             // Draw regular text again
             gfx.Color = Color.White;
-            gfx.SetCamera(Matrix.Identity);
+            //gfx.SetCamera(Matrix.Identity);
             gfx.DrawText("Heirloom 2D Graphics", (gfx.Surface.Width - 8, 8), Font.Default, 16, TextAlign.Top | TextAlign.Right);
         }
 
@@ -107,6 +84,11 @@ namespace Meadows.Example.Stencil
             return Matrix.CreateTranslation(center)
                  * Matrix.CreateRotation(rotation)
                  * Matrix.CreateTranslation(-center);
+        }
+
+        private static void Main(string[] args)
+        {
+            Run<Program>();
         }
     }
 }

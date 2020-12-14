@@ -19,6 +19,7 @@ namespace Meadows.Drawing.OpenGLES
         private ESTexture _texture;
         private bool _textureDirty;
 
+        private Matrix _compositeMatrix;
         private Matrix _viewMatrix;
 
         private readonly Dictionary<int, UniformData> _modifiedUniforms = new();
@@ -114,19 +115,32 @@ namespace Meadows.Drawing.OpenGLES
 
         #region Camera / View Matrix 
 
-        public override void SetCamera(Matrix matrix)
+        protected override void SetCameraMatrix(Matrix matrix)
         {
-            base.SetCamera(matrix);
-
-            // Compute a view matrix to accomodate the change in camera matrix
+            base.SetCameraMatrix(matrix);
             ComputeViewMatrix();
+        }
+
+        protected override void SetTransformMatrix(Matrix matrix)
+        {
+            base.SetTransformMatrix(matrix);
+            ComputeCompositeMatrix();
         }
 
         private void ComputeViewMatrix()
         {
-            // Compute view matrix matrix
+            // Compute new view matrix
             var projMatrix = Matrix.RectangleProjection(0, 0, Viewport.Width, Viewport.Height);
             Matrix.Multiply(in projMatrix, CameraMatrix, ref _viewMatrix);
+
+            // Compute composite matrix
+            ComputeCompositeMatrix();
+        }
+
+        private void ComputeCompositeMatrix()
+        {
+            // Compute view matrix matrix
+            Matrix.Multiply(in _viewMatrix, TransformMatrix, ref _compositeMatrix);
         }
 
         #endregion
@@ -136,7 +150,7 @@ namespace Meadows.Drawing.OpenGLES
             _batch.Clear(color);
         }
 
-        public override void Draw(Texture texture, Rectangle uvRect, Mesh mesh, Matrix matrix)
+        public override void Draw(Mesh mesh, Texture texture, Rectangle uvRect, Matrix matrix)
         {
             // Request es texture information
             RequestTextureInformation(texture, out var atlasTexture, out var atlasRect);
@@ -157,7 +171,7 @@ namespace Meadows.Drawing.OpenGLES
             }
 
             // Combine view matrix with object transform
-            Matrix.Multiply(_viewMatrix, in matrix, ref matrix);
+            Matrix.Multiply(_compositeMatrix, in matrix, ref matrix);
 
             // Uniform state has changed, flush changes.
             if (_modifiedUniforms.Count > 0)
@@ -194,13 +208,14 @@ namespace Meadows.Drawing.OpenGLES
 
             Invoke(() =>
             {
-                // todo: make part of batch queue (may optimize)?
-
                 // Commit any pending operations
                 Flush();
 
+                // Disable stencil testing
                 GLES.Disable(EnableCap.StencilTest);
-                GLES.SetStencilMask(0); // todo: probably not needed since is disabled
+
+                // Disable stencil writes and enable color writes
+                GLES.SetStencilMask(0x0);
                 GLES.SetColorMask(true);
             });
         }
@@ -213,12 +228,13 @@ namespace Meadows.Drawing.OpenGLES
 
             Invoke(() =>
             {
-                // todo: make part of batch queue (may optimize)?
-
                 // Commit any pending operations
                 Flush();
 
+                // Enable stencil testing
                 GLES.Enable(EnableCap.StencilTest);
+
+                // Enable stencil writes, disable color writes
                 GLES.SetStencilMask(0xFF);
                 GLES.SetColorMask(false);
 
@@ -226,7 +242,14 @@ namespace Meadows.Drawing.OpenGLES
                 _stencilReference++;
                 if (_stencilReference == byte.MaxValue)
                 {
-                    _stencilReference = 0;
+                    Log.Debug("Stencil Wrap");
+
+                    // 
+                    GLES.SetClearStencil(0xFF);
+                    GLES.Clear(OpenGLES.ClearMask.Stencil);
+
+                    // Set to zer0
+                    _stencilReference = 0x1;
                 }
 
                 // Update stencil reference
@@ -244,17 +267,16 @@ namespace Meadows.Drawing.OpenGLES
 
             Invoke(() =>
             {
-                // todo: make part of batch queue (may optimize)?
-
                 // Commit any pending operations
                 Flush();
 
+                // Disable stencil writes and enable color writes
                 GLES.SetStencilMask(0x0);
                 GLES.SetColorMask(true);
 
                 // Update stencil reference
-                GLES.StencilOperation(StencilOperation.Keep, StencilOperation.Keep, StencilOperation.Keep);
                 GLES.StencilFunction(StencilFunction.Equal, _stencilReference, 0xFF);
+                GLES.StencilOperation(StencilOperation.Keep, StencilOperation.Keep, StencilOperation.Keep);
             });
         }
 

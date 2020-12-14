@@ -1,4 +1,7 @@
 using System;
+using System.Buffers;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 using Meadows.Mathematics;
@@ -10,7 +13,8 @@ namespace Meadows.Drawing
         // used to center the line within the 1x1 pixel image to anchor at left-center
         private static readonly Matrix _lineOffsetMatrix = Matrix.CreateTranslation(0, -1 / 2F);
 
-        private static readonly Mesh _temporaryMesh = new Mesh();
+        private static readonly Mesh _mesh = new();
+        private static readonly List<Vector> _sequence = new();
 
         #region Draw Line / Curve
 
@@ -77,26 +81,33 @@ namespace Meadows.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawCurve(Vector p0, Vector p1, Vector p2, Vector p3, float width = 1F)
         {
-            var p = p0;
-            var t = 0F;
+            // Draw curve as a polyline
+            DrawPolyLine(GenerateInterpolatedSequence(), width);
 
-            // length of derivative curve
-            var dLength = CurveTools.ApproximateLength(t => CurveTools.InterpolateDerivative(p0, p1, p2, p3, t), 4);
-            var nominal = 0.06F;
-
-            while (t < 1F)
+            IEnumerable<Vector> GenerateInterpolatedSequence()
             {
-                // Draw segment
-                var v = CurveTools.Interpolate(p0, p1, p2, p3, t);
-                DrawLine(p, v, width);
+                yield return p0;
+                var t = 0F;
 
-                var d = CurveTools.InterpolateDerivative(p0, p1, p2, p3, t).Length / dLength;
-                t += Calc.Clamp(nominal * d, 0.02F, 0.1F); // keeps steps within 2% to 10%
-                p = v;
+                // length of derivative curve
+                var dLength = CurveTools.ApproximateLength(t => CurveTools.InterpolateDerivative(p0, p1, p2, p3, t), 4);
+                var nominal = 0.08F;
+
+                while (t < 1F)
+                {
+                    // Emit intermediate point
+                    var p = CurveTools.Interpolate(p0, p1, p2, p3, t);
+                    yield return p;
+
+                    // Compute derivative to step long the line in a non-linear fashion to enhance curve quiality
+                    var derivative = CurveTools.InterpolateDerivative(p0, p1, p2, p3, t).Length / dLength;
+                    t += Calc.Clamp(nominal * derivative, 0.05F, 0.15F); // keeps steps within 5% to 15% 
+
+                    DrawCross(p, 20);
+                }
+
+                yield return p3;
             }
-
-            // Draw last segment (to ensure a smooth join to the end point)
-            DrawLine(p, p3, width);
         }
 
         /// <summary>
@@ -110,44 +121,98 @@ namespace Meadows.Drawing
         {
             if (curve is null) { throw new ArgumentNullException(nameof(curve)); }
 
-            for (var i = 0; i < curve.Count - 1; i++)
-            {
-                var current = curve.GetPoint(i);
-                var next = curve.GetPoint(i + 1);
+            DrawPolyLine(curve.GenerateInterpolatedSequence(), width);
 
-                switch (curve.GetCurveType(i))
-                {
-                    case CurveType.Stepped:
-                        break; // hmm...
+            //for (var i = 0; i < curve.Count - 1; i++)
+            //{
+            //    var current = curve.GetPoint(i);
+            //    var next = curve.GetPoint(i + 1);
 
-                    case CurveType.Linear:
-                        DrawLine(current, next, width);
-                        break;
+            //    DrawCross(current, 50);
+            //    DrawCross(next, 50);
 
-                    case CurveType.Quadratic:
-                        DrawCurve(current, curve.GetInHandle(i), next, width);
-                        break;
+            //    //switch (curve.GetCurveType(i))
+            //    //{
+            //    //    case CurveType.Stepped:
+            //    //        break; // hmm...
 
-                    case CurveType.Cubic:
-                        DrawCurve(current, current + curve.GetInHandle(i), next + curve.GetOutHandle(i), next, width);
-                        break;
-                }
-            }
+            //    //    case CurveType.Linear:
+            //    //        DrawLine(current, next, width);
+            //    //        break;
+
+            //    //    case CurveType.Quadratic:
+            //    //        DrawCurve(current, curve.GetInHandle(i), next, width);
+            //    //        break;
+
+            //    //    case CurveType.Cubic:
+            //    //        DrawCurve(current, current + curve.GetInHandle(i), next + curve.GetOutHandle(i), next, width);
+            //    //        break;
+            //    //}
+            //}
         }
 
         #endregion
 
-        /// <summary>
-        /// Draws an image stretched to fill a rectangular region to the current surface ignoring the image origin offset.
-        /// </summary> 
-        /// <param name="image">Some image.</param>
-        /// <param name="rectangle">The bounds of the drawn image.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawImage(Texture image, in Rectangle rectangle)
+        public void DrawPolyLine(IEnumerable<Vector> points, float width = 1F)
         {
-            var transform = Matrix.CreateTransform(rectangle.Position, 0, (Vector) rectangle.Size);
-            Draw(image, Mesh.QuadMesh, transform);
+            // Copy enumerable into temporary list
+            _sequence.Clear();
+            _sequence.AddRange(points);
+
+            // Clear mesh
+            _mesh.Clear();
+
+            if (_sequence.Count >= 2)
+            {
+                var a = _sequence[0];
+                for (var i = 1; i < _sequence.Count; i++)
+                {
+                    var t0 = (i - 1) / (float) _sequence.Count;
+                    var t1 = (i + 0) / (float) _sequence.Count;
+
+                    var b = _sequence[i];
+
+                    var pA = Vector.Normalize(b - a).Perpendicular;
+                    var pB = pA;
+
+                    if (i < _sequence.Count - 1)
+                    {
+                        var c = _sequence[i + 1];
+                        pB = Vector.Normalize(c - b).Perpendicular;
+                    }
+
+                    // Add segment to mesh
+                    _mesh.AddVertex(new MeshVertex(a - pA * width, (t0, 0F)));
+                    _mesh.AddVertex(new MeshVertex(a + pA * width, (t0, 1F)));
+                    _mesh.AddVertex(new MeshVertex(b + pB * width, (t1, 1F)));
+                    _mesh.AddVertex(new MeshVertex(a - pA * width, (t0, 0F)));
+                    _mesh.AddVertex(new MeshVertex(b + pB * width, (t1, 1F)));
+                    _mesh.AddVertex(new MeshVertex(b - pB * width, (t1, 0F)));
+
+                    a = b;
+                }
+
+                // Draw mesh
+                Draw(Image.Default, _mesh, Matrix.Identity);
+            }
         }
+
+        #region Draw Cross
+
+        /// <summary>
+        /// Draws a simple axis aligned 'cross' or 'plus' shape, useful for debugging positions.
+        /// </summary> 
+        /// <param name="center">The position of the cross.</param>
+        /// <param name="size">Size in screen pixels (not world space).</param>
+        /// <param name="width">Width of the lines screen pixels (not world space).</param>
+        public void DrawCross(in Vector center, float size = 3, float width = 1F)
+        {
+            // Draw axis
+            DrawLine(center + (Vector.Left * size), center + (Vector.Right * size), width);
+            DrawLine(center + (Vector.Up * size), center + (Vector.Down * size), width);
+        }
+
+        #endregion
 
         #region Draw Rectangle
 
@@ -198,15 +263,15 @@ namespace Meadows.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawTriangle(in Vector a, in Vector b, in Vector c)
         {
-            _temporaryMesh.Clear();
+            _mesh.Clear();
 
             // Append vertices
-            _temporaryMesh.AddVertex(new MeshVertex(a, Vector.Zero));
-            _temporaryMesh.AddVertex(new MeshVertex(b, Vector.Zero));
-            _temporaryMesh.AddVertex(new MeshVertex(c, Vector.Zero));
+            _mesh.AddVertex(new MeshVertex(a, Vector.Zero));
+            _mesh.AddVertex(new MeshVertex(b, Vector.Zero));
+            _mesh.AddVertex(new MeshVertex(c, Vector.Zero));
 
             // Draw mesh
-            Draw(Image.Default, _temporaryMesh, Matrix.Identity);
+            Draw(Image.Default, _mesh, Matrix.Identity);
         }
 
         /// <summary>
@@ -235,6 +300,6 @@ namespace Meadows.Drawing
             DrawLine(in c, in a, width);
         }
 
-        #endregion 
+        #endregion
     }
 }

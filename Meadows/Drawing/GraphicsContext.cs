@@ -50,6 +50,7 @@ namespace Meadows.Drawing
             public IntRectangle Viewport;
             public Surface Surface;
 
+            public Matrix Transform;
             public Matrix Camera;
 
             public Color Color;
@@ -115,9 +116,21 @@ namespace Meadows.Drawing
             }
         }
 
-        protected Matrix CameraMatrix => _state.Camera;
+        public Matrix CameraMatrix
+        {
+            get => _state.Camera;
+            set => SetCameraMatrix(value);
+        }
 
         // todo: camera inverse matrix?
+
+        public Matrix TransformMatrix
+        {
+            get => _state.Transform;
+            set => SetTransformMatrix(value);
+        }
+
+        // todo: transform inverse matrix?
 
         public Color Color { get; set; }
 
@@ -131,7 +144,12 @@ namespace Meadows.Drawing
 
         #region Render State (Methods)
 
-        public virtual void SetCamera(Matrix matrix)
+        protected virtual void SetTransformMatrix(Matrix matrix)
+        {
+            _state.Transform = matrix;
+        }
+
+        protected virtual void SetCameraMatrix(Matrix matrix)
         {
             _state.Camera = matrix;
         }
@@ -156,7 +174,7 @@ namespace Meadows.Drawing
             }
 
             // 
-            SetCamera(camera);
+            SetCameraMatrix(camera);
         }
 
         public virtual void SetRenderTarget(Surface surface, IntRectangle? viewport = null)
@@ -213,7 +231,8 @@ namespace Meadows.Drawing
 
             // Set prior render target
             SetRenderTarget(state.Surface, state.Viewport);
-            SetCamera(state.Camera);
+            SetTransformMatrix(state.Transform);
+            SetCameraMatrix(state.Camera);
 
             // 
             Color = state.Color;
@@ -229,7 +248,8 @@ namespace Meadows.Drawing
             UseShader(Shader.Default);
 
             SetRenderTarget(Screen.Surface);
-            SetCamera(Matrix.Identity);
+            SetTransformMatrix(Matrix.Identity);
+            SetCameraMatrix(Matrix.Identity);
         }
 
         #endregion
@@ -238,18 +258,33 @@ namespace Meadows.Drawing
 
         public abstract void Clear(Color color);
 
-        public abstract void Draw(Texture texture, Rectangle uvRegion, Mesh mesh, Matrix matrix);
+        public abstract void Draw(Mesh mesh, Texture texture, Rectangle uvRegion, Matrix matrix);
 
         public abstract void SetUniform<T>(string name, T value);
 
-        #region Basic Image Drawing
+        #region Fundamental Drawing
 
-        // draw mesh
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Draw(Mesh mesh, Texture texture, Rectangle uvRegion)
+        {
+            Draw(mesh, texture, uvRegion, Matrix.Identity);
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Draw(Texture texture, Mesh mesh, Matrix matrix)
         {
-            Draw(texture, Rectangle.One, mesh, matrix);
+            Draw(mesh, texture, Rectangle.One, matrix);
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Draw(Mesh mesh, Texture texture)
+        {
+            Draw(mesh, texture, Rectangle.One);
+        }
+
+        #endregion
+
+        #region Basic Image Drawing
 
         // draw image
         public unsafe void DrawImage(Texture texture, Matrix transform)
@@ -265,6 +300,18 @@ namespace Meadows.Drawing
 
             // Submit draw
             Draw(texture, Mesh.QuadMesh, transform);
+        }
+
+        /// <summary>
+        /// Draws an image stretched to fill a rectangular region.
+        /// </summary> 
+        /// <param name="image">Some image.</param>
+        /// <param name="rectangle">The bounds of the drawn image.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void DrawImage(Texture image, in Rectangle rectangle)
+        {
+            var transform = Matrix.CreateTransform(rectangle.Position, 0, (Vector) rectangle.Size);
+            Draw(image, Mesh.QuadMesh, transform);
         }
 
         // draw partial image
@@ -287,7 +334,7 @@ namespace Meadows.Drawing
             matrix.M4 *= h;
 
             // Submit draw
-            Draw(texture, uvRect, Mesh.QuadMesh, matrix);
+            Draw(Mesh.QuadMesh, texture, uvRect, matrix);
         }
 
         #endregion

@@ -119,5 +119,12 @@ namespace Meadows.Utilities
                 }
             }
         }
+
+        public static GameLoop StartNew(UpdateFunction updateFunction, int frameRate = -1)
+        {
+            var loop = new GameLoop(updateFunction, frameRate);
+            loop.Start();
+            return loop;
+        }
     }
 }

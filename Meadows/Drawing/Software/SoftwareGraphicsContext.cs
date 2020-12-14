@@ -39,7 +39,7 @@ namespace Meadows.Drawing.Software
             }
         }
 
-        public override void Draw(Texture texture, Rectangle uvRegion, Mesh mesh, Matrix matrix)
+        public override void Draw(Mesh mesh, Texture texture, Rectangle uvRegion, Matrix matrix)
         {
             var softwareSurface = Backend.GetNativeObject<SoftwareSurface>(Surface);
             var softwareTexture = Backend.GetNativeObject<ISoftwareTexture>(texture);
