@@ -366,8 +366,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Meadows.Desktop\Meadows.Desktop.csproj" />
-    <ProjectReference Include="..\Meadows\Meadows.csproj" />
+    <ProjectReference Include="..\..\Meadows.Desktop\Meadows.Desktop.csproj" />
+    <ProjectReference Include="..\..\Meadows\Meadows.csproj" />
   </ItemGroup>
 
 </Project>

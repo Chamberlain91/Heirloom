@@ -2,19 +2,34 @@ using Meadows.Desktop;
 using Meadows.Drawing;
 using Meadows.Drawing.Software;
 using Meadows.Mathematics;
+using Meadows.Utilities;
 
-namespace Meadows.Example.Sandbox
+namespace Meadows.Example.Stencil
 {
     internal sealed class Program : Application
     {
         public readonly Window Window;
 
+        readonly public GameLoop Loop;
+
         public Program()
         {
             // At this point desktop window, graphics and audio systems have been initialized.
-            Window = new Window("Meadows Example", (1280, 320), MultisampleQuality.Medium) { IsResizable = false };
-            RenderStencilTest(Window.Graphics, "hardware.jpg");
-            Window.Refresh();
+            Window = new Window("Heirloom - Stencil Example", (1280, 320), MultisampleQuality.Medium) { IsResizable = false };
+            RenderStencilTest(Window.Graphics, 10);
+
+            // Write hardware image to disk
+            var screenshot = Window.Graphics.GrabPixels();
+            screenshot.Write("hardware.jpg");
+
+            var time = 0F;
+            Loop = new GameLoop(dt =>
+            {
+                time += dt;
+                RenderStencilTest(Window.Graphics, 4 + Calc.Sin(time) * 6);
+                Window.Refresh();
+            });
+            Loop.Start();
         }
 
         private static void Main(string[] args)
@@ -30,11 +45,15 @@ namespace Meadows.Example.Sandbox
                 // Only one backend can be established at a time.
                 using var backend = new SoftwareGraphicsBackend();
                 var context = backend.CreateContext(1280, 320);
-                RenderStencilTest(context, "software.jpg");
+                RenderStencilTest(context, 10);
+
+                // Write software image to disk
+                var screenshot = context.GrabPixels();
+                screenshot.Write("software.jpg");
             }
         }
 
-        private static void RenderStencilTest(GraphicsContext gfx, string fileName)
+        private static void RenderStencilTest(GraphicsContext gfx, float angle)
         {
             // Load a few images
             var image = new Image("zelda.jpg");
@@ -45,7 +64,7 @@ namespace Meadows.Example.Sandbox
 
             // Draw base image (darkened)
             gfx.Color = Color.DarkGray;
-            DrawBackgroundImages(gfx, image, imageCenter);
+            DrawBackgroundImages(gfx, image, imageCenter, angle);
 
             // Draw a stencil mask
             gfx.BeginDefineMask();
@@ -53,7 +72,7 @@ namespace Meadows.Example.Sandbox
             {
                 // Set camera pointed at zero and tilted.
                 // Then draw text at zero to populate the stencil.
-                gfx.SetCamera(Vector.Down * 66F, rotation: 6 * Calc.ToRadians);
+                gfx.SetCamera(Vector.Down * 66F, rotation: angle * 0.66F * Calc.ToRadians);
                 gfx.DrawText("Princess Zelda", Vector.Zero, Font.Default, 200, TextAlign.Center | TextAlign.Middle);
             }
             gfx.PopState();
@@ -63,7 +82,7 @@ namespace Meadows.Example.Sandbox
             gfx.Color = Color.White;
 
             // Draw image (uses above stencil)
-            DrawBackgroundImages(gfx, image, imageCenter);
+            DrawBackgroundImages(gfx, image, imageCenter, angle);
 
             // Clear the stencil, back to regular drawing.
             gfx.ClearMask();
@@ -72,18 +91,14 @@ namespace Meadows.Example.Sandbox
             gfx.Color = Color.White;
             gfx.SetCamera(Matrix.Identity);
             gfx.DrawText("Heirloom 2D Graphics", (gfx.Surface.Width - 8, 8), Font.Default, 16, TextAlign.Top | TextAlign.Right);
-
-            // Write rendered image to disk
-            var screenshot = gfx.GrabPixels();
-            screenshot.Write(fileName);
         }
 
-        private static void DrawBackgroundImages(GraphicsContext gfx, Image image, IntVector imageCenter)
+        private static void DrawBackgroundImages(GraphicsContext gfx, Image image, IntVector imageCenter, float angle)
         {
-            var imageTransform2 = Matrix.CreateTranslation((Vector) (gfx.Surface.Size - (image.Size * 10)) / 2) * ComputeCenteredRotation(imageCenter, 10 * Calc.ToRadians);
+            var imageTransform2 = Matrix.CreateTranslation((Vector) (gfx.Surface.Size - (image.Size * 10)) / 2) * ComputeCenteredRotation(imageCenter, angle / 10F * Calc.ToRadians);
             gfx.DrawImage(image, imageTransform2 * Matrix.CreateScale(10));
 
-            var imageTransform = Matrix.CreateTranslation((Vector) (gfx.Surface.Size - image.Size) / 2) * ComputeCenteredRotation(imageCenter, 10 * Calc.ToRadians);
+            var imageTransform = Matrix.CreateTranslation((Vector) (gfx.Surface.Size - image.Size) / 2) * ComputeCenteredRotation(imageCenter, angle * Calc.ToRadians);
             gfx.DrawImage(image, imageTransform);
         }
 
