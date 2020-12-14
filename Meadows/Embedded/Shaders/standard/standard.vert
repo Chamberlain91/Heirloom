@@ -32,7 +32,6 @@ void main()
 	// Transform from object space to projection space
 	vec3 vPosition = vec3(vertexProgram(aPosition), 1.0);
 	     vPosition = vec3(vPosition * aTransform, 1.0);
-         vPosition = vec3(vPosition * uMatrix, 1.0);
 	
 	// Emit atlas transform rect
 	uMainImage_UVRect = aAtlasRect;

@@ -4,6 +4,8 @@ precision highp float;
 #endif
 
 #define TRANSPARENT vec4(0.0)
+#define UV_EDGE_MIN 0.02
+#define UV_EDGE_MAX 0.98
 
 // Used to interpolate per-fragment data
 struct PerFragment
@@ -17,10 +19,9 @@ struct PerFragment
 
 // == Uniforms ==
 
-uniform Standard
-{
-	mat2x3 uMatrix;
-};
+// NO UNIFORMS
+
+// == Atlas Functions ==
 
 // nearest sampling
 vec4 _H_SampleAtlasNearest(sampler2D img, vec2 uv, vec4 rect)
@@ -57,10 +58,11 @@ vec4 _H_SampleAtlasLinear(sampler2D img, vec2 uv, vec4 rect)
 	rect = rect * vec4(size, size);
 
 	// Compute sampling positions (in pixel space)
-	vec2 st00 = mod((uv * rect.zw) + vec2(0, 0), rect.zw) + rect.xy;
-	vec2 st10 = mod((uv * rect.zw) + vec2(1, 0), rect.zw) + rect.xy;
-	vec2 st01 = mod((uv * rect.zw) + vec2(0, 1), rect.zw) + rect.xy;
-	vec2 st11 = mod((uv * rect.zw) + vec2(1, 1), rect.zw) + rect.xy;
+	vec2 st = uv * rect.zw;
+	vec2 st00 = mod(st + vec2(-0.5, -0.5), rect.zw) + rect.xy;
+	vec2 st10 = mod(st + vec2( 0.5, -0.5), rect.zw) + rect.xy;
+	vec2 st01 = mod(st + vec2(-0.5,  0.5), rect.zw) + rect.xy;
+	vec2 st11 = mod(st + vec2( 0.5,  0.5), rect.zw) + rect.xy;
 
 	// Get fractional component
 	vec2 fst = fract(st00);
@@ -126,10 +128,10 @@ vec4 atlas(sampler2D img, vec4 rect, vec2 uv)
 	// Note: Flags must be in descending order!
 	if (_H_CheckNegativeEncoding(rect.y, REPEAT_BLANK))
 	{
-		if (uv.x < 0.0) { return TRANSPARENT; }
-		if (uv.y < 0.0) { return TRANSPARENT; }
-		if (uv.x > 1.0) { return TRANSPARENT; }
-		if (uv.y > 1.0) { return TRANSPARENT; }
+		if (uv.x < UV_EDGE_MIN) { return TRANSPARENT; }
+		if (uv.y < UV_EDGE_MIN) { return TRANSPARENT; }
+		if (uv.x > UV_EDGE_MAX) { return TRANSPARENT; }
+		if (uv.y > UV_EDGE_MAX) { return TRANSPARENT; }
 	}
 	else 
 	if (_H_CheckNegativeEncoding(rect.y, REPEAT_REPEAT))
@@ -140,7 +142,7 @@ vec4 atlas(sampler2D img, vec4 rect, vec2 uv)
 	if (_H_CheckNegativeEncoding(rect.y, REPEAT_CLAMP))
 	{
 		// Clamp UV to zero-to-one box
-		uv = clamp(uv, vec2(0.0), vec2(1.0));
+		uv = clamp(uv, vec2(UV_EDGE_MIN), vec2(UV_EDGE_MAX));
 	}
 
 	// Filtering mode flags
@@ -159,7 +161,10 @@ vec4 atlas(sampler2D img, vec4 rect, vec2 uv)
 	}
 }
 
+// == Helper Functions ==
+
 // computes the luminance of a color
-float luminance(vec3 rgb) {
+float luminance(vec3 rgb) 
+{
 	return dot(rgb, vec3(0.299, 0.587, 0.114));
 }

@@ -20,6 +20,8 @@ namespace Meadows.Drawing
     /// <category>Drawing</category>
     public sealed class Image : Texture
     {
+        public object TEMP_TEST;
+
         /// <summary>
         /// The max allowable image size for any dimension.
         /// </summary>
@@ -29,8 +31,6 @@ namespace Meadows.Drawing
         /// The underlying pixel data.
         /// </summary>
         internal readonly ColorBytes[] Pixels;
-
-        private readonly IntSize _size;
 
         #region Constants
 
@@ -76,7 +76,7 @@ namespace Meadows.Drawing
 
             // Allocate pixels
             Pixels = new ColorBytes[width * height];
-            _size = new IntSize(width, height);
+            Size = new IntSize(width, height);
 
             // Copy grabbed pixels to image
             fixed (byte* ptr = result.Data)
@@ -106,7 +106,7 @@ namespace Meadows.Drawing
 
             // Allocate pixels
             Pixels = new ColorBytes[width * height];
-            _size = new IntSize(width, height);
+            Size = new IntSize(width, height);
         }
 
         #endregion
@@ -129,17 +129,6 @@ namespace Meadows.Drawing
         {
             get => GetPixel(x, y);
             set => SetPixel(x, y, value);
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <inheritdoc/>
-        public override IntSize Size
-        {
-            get => _size;
-            protected set => throw new NotSupportedException();
         }
 
         #endregion
@@ -595,7 +584,9 @@ namespace Meadows.Drawing
         /// <returns>An image of only the specified color.</returns>
         public static Image CreateColor(int width, int height, Color color)
         {
-            return CreateProcedural(width, height, co => color);
+            var image = CreateProcedural(width, height, co => color);
+            image.Repeat = RepeatMode.Repeat;
+            return image;
         }
 
         /// <summary>
@@ -820,9 +811,9 @@ namespace Meadows.Drawing
         public static unsafe void Copy(ColorBytes* sourcePtr, int sourceWidth, in IntRectangle sourceRegion,
                                        ColorBytes* targetPtr, int targetWidth, in IntVector targetOffset)
         {
-            if (sourcePtr == targetPtr) { throw new ArgumentException("Unable to copy from self to self."); }
             if (sourcePtr == (void*) 0) { throw new ArgumentNullException(nameof(sourcePtr)); }
             if (targetPtr == (void*) 0) { throw new ArgumentNullException(nameof(targetPtr)); }
+            if (sourcePtr == targetPtr) { throw new ArgumentException("Unable to copy from self to self."); }
 
             // Compute the number of bytes to copy per row.
             var rowByteLength = sourceRegion.Width * sizeof(ColorBytes);

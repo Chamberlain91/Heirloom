@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 
-using Meadows.Input;
 using Meadows.Mathematics;
 
 namespace Meadows.Drawing.Software
@@ -13,20 +12,27 @@ namespace Meadows.Drawing.Software
         private bool _stencilWrite;
         private bool _colorWrite = true;
 
-        public SoftwareGraphicsContext(IntSize size)
-            : base(new SoftwareScreen(size))
+        internal SoftwareGraphicsContext(SoftwareGraphicsBackend backend, IntSize size)
+            : base(backend, new SoftwareScreen(size))
         {
+            if (GraphicsBackend.Current is not SoftwareGraphicsBackend)
+            {
+                throw new InvalidOperationException("A software graphics context is only allowed with the software backend.");
+            }
+
+            // Associate this context with the virtual screen
             var softwareScreen = Screen as SoftwareScreen;
             softwareScreen.SetGraphicsContext(this);
+
+            // Ready to go immediately
+            IsInitialized = true;
         }
 
-        public SoftwareGraphicsContext(int width, int height)
-            : this((width, height))
-        { }
+        internal override bool IsInitialized { get; }
 
         public override void Clear(Color color)
         {
-            var surface = GetGlobalNativeObject<SoftwareSurface>(Surface);
+            var surface = Backend.GetNativeObject<SoftwareSurface>(Surface);
             foreach (var co in Rasterizer.Rectangle(Viewport))
             {
                 surface.ColorBuffer.Set(co, color);
@@ -35,8 +41,8 @@ namespace Meadows.Drawing.Software
 
         public override void Draw(Texture texture, Rectangle uvRegion, Mesh mesh, Matrix matrix)
         {
-            var softwareSurface = GetGlobalNativeObject<SoftwareSurface>(Surface);
-            var softwareTexture = GetGlobalNativeObject<ISoftwareTexture>(texture);
+            var softwareSurface = Backend.GetNativeObject<SoftwareSurface>(Surface);
+            var softwareTexture = Backend.GetNativeObject<ISoftwareTexture>(texture);
 
             // Compute final transformation matrix
             var transform = Matrix.RectangleProjection(0, 0, Viewport.Width, Viewport.Height);
@@ -200,6 +206,11 @@ namespace Meadows.Drawing.Software
             }
         }
 
+        public override void SetUniform<T>(string name, T value)
+        {
+            throw new NotImplementedException("Unable to set uniforms on software context");
+        }
+
         public override void ClearStencil()
         {
             _stencilWrite = false;
@@ -230,7 +241,7 @@ namespace Meadows.Drawing.Software
         public override Image GrabPixels(IntRectangle region)
         {
             // todo: validate region will indeed fit in region
-            var surface = GetGlobalNativeObject<SoftwareSurface>(Surface);
+            var surface = Backend.GetNativeObject<SoftwareSurface>(Surface);
             return surface.ColorBuffer.GrabPixels(region);
         }
 
@@ -245,228 +256,9 @@ namespace Meadows.Drawing.Software
             // Just carry on!
         }
 
-        protected override object GenerateContextNativeObject(NativeResource resource)
+        protected override object GenerateNativeObject(GraphicsResource resource)
         {
             throw new NotImplementedException();
         }
-
-        protected override object GenerateGlobalNativeObject(NativeResource resource)
-        {
-            switch (resource)
-            {
-                case Surface surface:
-                    return new SoftwareSurface(surface);
-
-                case Image image:
-                    return new SoftwareImage(image);
-
-                default:
-                    throw new InvalidOperationException($"Unable to generate native reresentation of {resource}");
-            }
-        }
-
-        #region Software Implementation Resources
-
-        private sealed class SoftwareScreen : Screen
-        {
-            private SoftwareGraphicsContext _graphicsContext;
-
-            public SoftwareScreen(IntSize size)
-                : base(size, MultisampleQuality.None)
-            {
-                // todo: potentially dummy "null" input devices?
-            }
-
-            public void SetGraphicsContext(SoftwareGraphicsContext graphics)
-            {
-                _graphicsContext = graphics;
-            }
-
-            public override GraphicsContext Graphics => _graphicsContext;
-
-            public override KeyboardDevice Keyboard { get; }
-
-            public override MouseDevice Mouse { get; }
-
-            public override GamepadDevice Gamepad { get; }
-
-            public override TouchDevice Touch { get; }
-        }
-
-        public interface ISoftwareTexture
-        {
-            Color Sample(Vector uv, InterpolationMode interpolation, RepeatMode repeat);
-        }
-
-        private sealed class SoftwareImage : ISoftwareTexture
-        {
-            public readonly Image Image;
-
-            public SoftwareImage(Image image)
-            {
-                Image = image;
-            }
-
-            public Color Sample(Vector uv, InterpolationMode interpolation, RepeatMode repeat)
-            {
-                return Image.Sample(uv, interpolation, repeat, true);
-            }
-        }
-
-        private sealed class SoftwareSurface : ISoftwareTexture
-        {
-            public readonly Surface Surface;
-
-            public readonly IColorBuffer ColorBuffer;
-
-            public readonly StencilBuffer StencilBuffer;
-
-            public SoftwareSurface(Surface surface)
-            {
-                Surface = surface;
-                StencilBuffer = new StencilBuffer(surface.Size);
-                ColorBuffer = CreateColorBuffer(surface);
-            }
-
-            private static IColorBuffer CreateColorBuffer(Surface texture)
-            {
-                IColorBuffer buffer;
-                if (texture.Format == SurfaceFormat.UnsignedByte)
-                {
-                    buffer = new UByteColorBuffer(texture.Width, texture.Height);
-                }
-                else
-                {
-                    buffer = new FloatColorBuffer(texture.Width, texture.Height);
-                }
-
-                return buffer;
-            }
-
-            public Color Sample(Vector uv, InterpolationMode interpolation, RepeatMode repeat)
-            {
-                var pos = (Vector) Surface.Size * uv;
-
-                if (interpolation == InterpolationMode.Nearest)
-                {
-                    return ColorBuffer.Get((IntVector) Vector.Floor(pos));
-                }
-                else
-                {
-                    var co = (IntVector) Vector.Floor(pos);
-                    var fr = Vector.Fraction(pos);
-
-                    var c00 = ColorBuffer.Get(co + (0, 0));
-                    var c10 = ColorBuffer.Get(co + (1, 0));
-                    var c01 = ColorBuffer.Get(co + (0, 1));
-                    var c11 = ColorBuffer.Get(co + (1, 1));
-
-                    var c0 = Color.Lerp(c00, c10, fr.X);
-                    var c1 = Color.Lerp(c01, c11, fr.X);
-
-                    return Color.Lerp(c0, c1, fr.Y);
-                }
-            }
-        }
-
-        #region Surface Buffers
-
-        public interface IColorBuffer
-        {
-            Color Get(IntVector co);
-
-            void Set(IntVector co, Color color);
-
-            Image GrabPixels(IntRectangle region);
-        }
-
-        private sealed class UByteColorBuffer : IColorBuffer
-        {
-            public Image Image;
-
-            public UByteColorBuffer(int width, int height)
-            {
-                Image = new Image(width, height);
-            }
-
-            public Color Get(IntVector co)
-            {
-                return Image.GetPixel(co);
-            }
-
-            public void Set(IntVector co, Color color)
-            {
-                // Clamp (saturate)
-                // todo: does this mimic GL properly?
-                color.R = Calc.Clamp(color.R, 0F, 1F);
-                color.G = Calc.Clamp(color.G, 0F, 1F);
-                color.B = Calc.Clamp(color.B, 0F, 1F);
-                color.A = Calc.Clamp(color.A, 0F, 1F);
-
-                // 
-                Image.SetPixel(co, color);
-            }
-
-            public Image GrabPixels(IntRectangle region)
-            {
-                var output = new Image(region.Size);
-                Image.CopyTo(region, output, IntVector.Zero);
-                return output;
-            }
-        }
-
-        private sealed class FloatColorBuffer : IColorBuffer
-        {
-            public Color[,] Colors;
-
-            public FloatColorBuffer(int width, int height)
-            {
-                Colors = new Color[height, width];
-            }
-
-            public Color Get(IntVector co)
-            {
-                return Colors[co.Y, co.X];
-            }
-
-            public void Set(IntVector co, Color color)
-            {
-                Colors[co.Y, co.X] = color;
-            }
-
-            public Image GrabPixels(IntRectangle region)
-            {
-                var output = new Image(region.Size);
-                foreach (var co in Rasterizer.Rectangle(region))
-                {
-                    output.SetPixel(co - region.Position, Colors[co.Y, co.X]);
-                }
-                return output;
-            }
-        }
-
-        private sealed class StencilBuffer
-        {
-            private readonly byte[,] _byte;
-
-            public StencilBuffer(IntSize size)
-            {
-                _byte = new byte[size.Height, size.Width];
-            }
-
-            public byte GetValue(IntVector co)
-            {
-                return _byte[co.Y, co.X];
-            }
-
-            public void SetValue(IntVector co, byte value)
-            {
-                _byte[co.Y, co.X] = value;
-            }
-        }
-
-        #endregion
-
-        #endregion
     }
 }

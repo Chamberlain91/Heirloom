@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 using Meadows.Mathematics;
 
@@ -20,7 +20,7 @@ namespace Meadows.Drawing.OpenGLES
             // need to be uniquely created for each graphics context.
             if (!_textures.TryGetValue(image, out var texture))
             {
-                texture = Context.GetGlobalNativeObject<ESTexture>(image);
+                texture = Context.Backend.GetNativeObject<ESTexture>(image);
                 _textures.Add(image, texture);
             }
 
@@ -30,7 +30,7 @@ namespace Meadows.Drawing.OpenGLES
                 Context.Invoke(() =>
                 {
                     GLES.BindTexture(TextureTarget.Texture2D, texture.Handle);
-                    texture.Update(0, 0, image as Image);
+                    texture.Update(0, 0, image);
                 });
 
                 texture.Version = image.Version;

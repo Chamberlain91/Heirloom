@@ -1,18 +1,115 @@
+using Meadows.Desktop;
 using Meadows.Drawing;
 using Meadows.Drawing.Software;
 using Meadows.Mathematics;
+using Meadows.Utilities;
 
 namespace Meadows.Example.Sandbox
 {
-    internal sealed class Program
+    internal sealed class Program : Application
     {
-        private static void Main(string[] args)
+        public readonly GameLoop Loop;
+
+        public readonly Window Window;
+
+        public Image[] Images;
+
+        public Particle[] Particles;
+
+        public Rectangle Bounds; 
+
+        public struct Particle
         {
-            var gfx = new SoftwareGraphicsContext(1280, 320);
-            RenderStencilTest(gfx);
+            public Vector Position;
+            public Vector Velocity;
+
+            public Image Image;
         }
 
-        private static void RenderStencilTest(GraphicsContext gfx)
+        public Program()
+        {
+            // At this point desktop window, graphics and audio systems have been initialized.
+            Window = new Window("Meadows Example", (1280, 320), MultisampleQuality.None);
+            RenderStencilTest(Window.Graphics, "hardware.jpg");
+
+            //
+            Window.Maximize();
+            Bounds = new Rectangle(Vector.Zero, Window.Size);
+
+            // 
+            Images = new Image[500];
+            for (var i = 0; i < Images.Length; i++)
+            {
+                var w = Calc.Random.Choose(16, 32, 64, 128);
+                var h = Calc.Random.Choose(16, 32, 64, 128);
+
+                Images[i] = new Image(w, h);
+                Images[i].Clear(Calc.Random.NextColorHue());
+            }
+
+            // 
+            Particles = new Particle[138000];
+            for (var i = 0; i < Particles.Length; i++)
+            {
+                Particles[i] = new Particle
+                {
+                    Position = Calc.Random.NextVector(Bounds),
+                    Velocity = Calc.Random.NextUnitVector(),
+                    Image = Calc.Random.Choose(Images)
+                };
+            }
+
+            // Create and start render loop
+            Loop = new GameLoop(Update);
+            Window.Closed += win => Loop.Stop();
+            Loop.Start();
+        }
+
+        private void Update(float dt)
+        {
+            // ...?
+            Window.Graphics.SetRenderTarget(Window.Surface);
+            Window.Graphics.Color = Color.White;
+
+            Window.Graphics.Clear(Color.DarkGray);
+
+            for (var i = 0; i < Particles.Length; i++)
+            {
+                var image = Particles[i].Image;
+
+                ref var vel = ref Particles[i].Velocity;
+                ref var pos = ref Particles[i].Position;
+                pos += vel;
+
+                // 
+                if (pos.X <= Bounds.Left || (pos.X + image.Width) >= Bounds.Right) { vel.X *= -1; }
+                if (pos.Y <= Bounds.Top || (pos.Y + image.Height) >= Bounds.Bottom) { vel.Y *= -1; }
+
+                Window.Graphics.DrawImage(image, Matrix.CreateTranslation(pos));
+            }
+
+            Window.Graphics.DrawText($"FPS: {Window.Graphics.Performance.FrameRate:0.00}", (10, 10), Font.Default, 32);
+            Window.Refresh();
+        }
+
+        private static void Main(string[] args)
+        {
+            var renderHardware = true;
+
+            // If running on hardware, we will run the application.
+            // Otherwise we will use a software renderer.
+            if (renderHardware) { Run<Program>(); }
+            else
+            {
+                // Initialize graphics system with a software backend.
+                // Only one backend can be established at a time.
+                using var backend = new SoftwareGraphicsBackend();
+                var context = backend.CreateContext(1280, 320);
+                RenderStencilTest(context, "software.jpg");
+            }
+        }
+
+        private static void RenderStencilTest(GraphicsContext gfx, string fileName)
         {
             // Load image and set its origin to the center...
             var image = new Image("colorful.jpg");
@@ -52,7 +149,7 @@ namespace Meadows.Example.Sandbox
 
             // Write rendered image to disk
             var screenshot = gfx.GrabPixels();
-            screenshot.Write("example.png");
+            screenshot.Write(fileName);
         }
 
         private static Matrix ComputeCenteredRotation(Vector center, float rotation)

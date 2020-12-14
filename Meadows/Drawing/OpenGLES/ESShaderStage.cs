@@ -46,7 +46,7 @@ namespace Meadows.Drawing.OpenGLES
                 }
 
                 // Schedule for deletion on a GL thread.
-                ESGraphicsContext.InvokeOnSomeThread(() =>
+                ESGraphicsBackend.Current.Invoke(() =>
                 {
                     Log.Debug($"[Dispose] Shader Stage ({Handle})");
                     GLES.DeleteShader(Handle);

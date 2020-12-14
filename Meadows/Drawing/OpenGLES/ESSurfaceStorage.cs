@@ -3,7 +3,7 @@ using System;
 namespace Meadows.Drawing.OpenGLES
 {
     // holds textures for a surface
-    internal sealed class ESSurfaceStorage
+    internal sealed class ESSurfaceStorage : IDisposable
     {
         public ESTexture MultisampleTexture;
 
@@ -30,6 +30,36 @@ namespace Meadows.Drawing.OpenGLES
             }
         }
 
+        ~ESSurfaceStorage()
+        {
+            Dispose(disposing: false);
+        }
+
         public bool HasMultisampleTarget => MultisampleTexture != null;
+
+        private bool _isDisposed;
+
+        private void Dispose(bool disposing)
+        {
+            if (!_isDisposed)
+            {
+                if (disposing)
+                {
+                    // no managed to dispose
+                }
+
+                // Dispose textures
+                MultisampleTexture?.Dispose();
+                Texture?.Dispose();
+
+                _isDisposed = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+            Dispose(disposing: true);
+        }
     }
 }

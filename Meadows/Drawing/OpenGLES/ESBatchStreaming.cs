@@ -16,8 +16,8 @@ namespace Meadows.Drawing.OpenGLES
         public ESBatchStreaming(ESGraphicsContext context)
             : base(context)
         {
-            _instanceBuffer = new VertexBuffer<InstanceData>(ushort.MaxValue, false);
-            _vertexBuffer = new VertexBuffer<VertexData>(ushort.MaxValue, true);
+            _instanceBuffer = new VertexBuffer<InstanceData>(BatchCapacity, false);
+            _vertexBuffer = new VertexBuffer<VertexData>(BatchCapacity, true);
 
             _vertexArray = new ESVertexArray(_instanceBuffer, _vertexBuffer);
 
@@ -41,6 +41,7 @@ namespace Meadows.Drawing.OpenGLES
             // If buffers will overflow, we need to force a flush
             if ((_vertexBuffer.Count + mesh.Vertices.Count) >= _vertexBuffer.Capacity)
             {
+                Log.Debug("Batch size exceeded, returning failure.");
                 return false;
             }
 
@@ -66,19 +67,19 @@ namespace Meadows.Drawing.OpenGLES
 
         public override void Commit()
         {
+            if (_clearColor.HasValue)
+            {
+                // Extract color from nullable
+                var color = _clearColor.Value;
+                _clearColor = null;
+
+                // Clear
+                GLES.SetClearColor(color.R, color.G, color.B, color.A);
+                GLES.Clear(ClearMask.Color);
+            }
+
             if (IsDirty)
             {
-                if (_clearColor.HasValue)
-                {
-                    // Extract color from nullable
-                    var color = _clearColor.Value;
-                    _clearColor = null;
-
-                    // Clear
-                    GLES.SetClearColor(color.R, color.G, color.B, color.A);
-                    GLES.Clear(ClearMask.Color);
-                }
-
                 // Upload buffers to GPU
                 _instanceBuffer.Upload();
                 _vertexBuffer.Upload();

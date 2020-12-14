@@ -74,4 +74,8 @@
     <EmbeddedResource Include="Embedded\Shaders\standard\standard.vert" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Sound\" />
+  </ItemGroup>
+
 </Project>

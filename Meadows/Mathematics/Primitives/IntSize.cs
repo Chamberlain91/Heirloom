@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -379,7 +379,7 @@ namespace Meadows.Mathematics
         /// </summary>
         public override string ToString()
         {
-            return $"{Width} x {Height}";
+            return $"{Width}x{Height}";
         }
 
         /// <summary>
@@ -389,7 +389,7 @@ namespace Meadows.Mathematics
         {
             var _Width = Width.ToString(format, formatProvider);
             var _Height = Height.ToString(format, formatProvider);
-            return $"{_Width} x {_Height}";
+            return $"{_Width}x{_Height}";
         }
     }
 }

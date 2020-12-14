@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Meadows.Drawing.OpenGLES
 {
@@ -32,7 +32,7 @@ namespace Meadows.Drawing.OpenGLES
             _surface = surface ?? throw new ArgumentNullException(nameof(surface));
 
             // Get surface storage (the backing ES textures)
-            _storage = context.GetGlobalNativeObject<ESSurfaceStorage>(surface);
+            _storage = context.Backend.GetNativeObject<ESSurfaceStorage>(surface);
             if (_storage == null) { throw new InvalidOperationException($"Framebufer storage was unexpectedly null."); }
 
             // Construct the standard texture's framebuffer

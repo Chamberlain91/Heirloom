@@ -23,4 +23,7 @@ void main(void)
 	outColor  = atlas(uMainImage, uMainImage_UVRect, frag.uv);
 	outColor  = fragmentProgram(outColor);
 	outColor *= frag.color;
+
+	// Cutoff alpha
+	if (outColor.a < 0.05) { discard; }
 }

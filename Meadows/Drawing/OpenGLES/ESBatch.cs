@@ -6,6 +6,8 @@ namespace Meadows.Drawing.OpenGLES
 {
     internal abstract class ESBatch
     {
+        protected static int BatchCapacity = ushort.MaxValue * 4;
+
         protected ESBatch(ESGraphicsContext context)
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));

@@ -44,19 +44,40 @@ namespace Meadows.Drawing.OpenGLES
             _textureUnits = new Dictionary<string, uint>();
             _locations = new Dictionary<string, int>();
 
-            // Create uniforms (global)
+            // Create uniforms
             foreach (var uniform in GLES.GetActiveUniforms(Handle))
             {
-                _uniforms[uniform.Name] = new Uniform(uniform);
+                var location = GLES.GetUniformLocation(Handle, uniform.Name);
+                _uniforms[uniform.Name] = new Uniform(uniform, location);
             }
 
             // For each block
             foreach (var block in GLES.GetActiveUniformBlocks(Handle))
             {
-                // 
+                // Store block information
                 _blocks[block.Name] = block;
 
-                // 
+                // Find or create associated uniform buffer (unique by block name)
+                if (ESGraphicsBackend.Current.UniformBuffers.TryGetValue(block.Name, out var buffer))
+                {
+                    // Ensure block and buffer are consistent
+                    // todo: perhaps further validate buffer/block structure?
+                    if (buffer.Size != block.DataSize)
+                    {
+                        throw new InvalidOperationException($"Inconsistency detected. " +
+                            $"Uniform block '{block.Name}' has differing size from currently known buffer (block: {block.DataSize} vs buffer: {buffer.Size}).");
+                    }
+                }
+                else
+                {
+                    Log.Debug($"Creating Uniform Buffer: {block.Name}");
+
+                    // Was not known, so create the buffer
+                    buffer = new ESUniformBuffer((uint) block.DataSize);
+                    ESGraphicsBackend.Current.UniformBuffers[block.Name] = buffer;
+                }
+
+                // Associate a binding for this block
                 GLES.UniformBlockBinding(Handle, block.Index, block.Index);
                 _blockBindings[block.Name] = block.Index;
 
@@ -249,7 +270,7 @@ namespace Meadows.Drawing.OpenGLES
                 }
 
                 // Schedule for deletion on a GL thread.
-                ESGraphicsContext.InvokeOnSomeThread(() =>
+                ESGraphicsBackend.Current.Invoke(() =>
                 {
                     Log.Debug($"[Dispose] Shader ({Handle})");
                     GLES.DeleteProgram(Handle);
@@ -273,9 +294,12 @@ namespace Meadows.Drawing.OpenGLES
 
             public ActiveUniformBlock BlockInfo;
 
-            public Uniform(ActiveUniform info)
+            readonly public int Location;
+
+            public Uniform(ActiveUniform info, int location)
             {
                 Info = info ?? throw new ArgumentNullException(nameof(info));
+                Location = location;
             }
         }
     }

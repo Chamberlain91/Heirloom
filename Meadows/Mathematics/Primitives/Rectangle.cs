@@ -8,7 +8,7 @@ namespace Meadows.Mathematics
     /// Represents a rectangle, defined by the top left corner position and size.
     /// </summary>
     /// <category>Mathematics</category>
-    public struct Rectangle : IShape, IEquatable<Rectangle>
+    public struct Rectangle : IShape, IEquatable<Rectangle>, IFormattable
     {
         /// <summary>
         /// The x-coordinate of this rectangle.
@@ -694,11 +694,21 @@ namespace Meadows.Mathematics
         #endregion
 
         /// <summary>
-        /// Returns the string representation of this rectangle.
+        /// Converts this <see cref="Rectangle"/> into string representation.
         /// </summary>
         public override string ToString()
         {
             return $"({Position}, {Size})";
+        }
+
+        /// <summary>
+        /// Converts this <see cref="Rectangle"/> into string representation.
+        /// </summary>
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            var _Position = Position.ToString(format, formatProvider);
+            var _Size = Size.ToString(format, formatProvider);
+            return $"({_Position}, {_Size})";
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
 
@@ -10,23 +11,25 @@ namespace Meadows.Drawing.OpenGLES
     public abstract class ESGraphicsContext : GraphicsContext
     {
         private readonly ConsumerThread _thread;
-        private bool _isGLESInitialized;
         private bool _isThreadRunning;
+        private bool _isInitialized;
 
         private byte _stencilReference;
 
         private ESTexture _texture;
         private bool _textureDirty;
 
+        private Matrix _viewMatrix;
+
+        private readonly Dictionary<int, UniformData> _modifiedUniforms = new();
+
         private ESBatch _batch;
         private ESAtlas _atlas;
 
-        private DeviceCapabilities _capabilities;
-
         #region Constructor
 
-        protected ESGraphicsContext(Screen screen)
-            : base(screen)
+        internal ESGraphicsContext(ESGraphicsBackend backend, Screen screen)
+            : base(backend, screen)
         {
             _thread = new ConsumerThread($"GLES Context Thread ({Id})");
             _thread.InvokeLater(() =>
@@ -35,28 +38,32 @@ namespace Meadows.Drawing.OpenGLES
                 MakeCurrent();
 
                 // Detect Device Capabilities
-                _capabilities = new DeviceCapabilities
+                Capabilities = new DeviceCapabilities
                 {
                     MaxTextureSize = GLES.GetInteger(GetParameter.MaxTextureSize)
                 };
 
                 // Initialize batch and atlas systems
-                _batch = new ESBatchStreaming(this);
-                _atlas = new ESAtlasSimple(this);
+                _batch = new ESBatchHybrid(this);
+                _atlas = new ESAtlasPacker(this);
 
                 // Enable required GL features
                 GLES.Enable(EnableCap.ScissorTest);
                 GLES.Enable(EnableCap.Blend);
 
                 // Mark context as initialized
-                _isGLESInitialized = true;
+                _isInitialized = true;
             });
 
             // When thread exits, context is no longer initialized
-            _thread.Exited += () => _isGLESInitialized = false;
+            _thread.Exited += () => _isInitialized = false;
         }
 
         #endregion
+
+        internal override bool IsInitialized => _isInitialized;
+
+        internal DeviceCapabilities Capabilities { get; private set; }
 
         #region GL Context Methods
 
@@ -74,7 +81,7 @@ namespace Meadows.Drawing.OpenGLES
                 _thread.Start();
 
                 // Wait For GL to truly be ready
-                SpinWait.SpinUntil(() => _isGLESInitialized);
+                SpinWait.SpinUntil(() => _isInitialized);
             }
             else
             {
@@ -105,6 +112,25 @@ namespace Meadows.Drawing.OpenGLES
 
         #endregion
 
+        #region Camera / View Matrix 
+
+        public override void SetCamera(Matrix matrix)
+        {
+            base.SetCamera(matrix);
+
+            // Compute a view matrix to accomodate the change in camera matrix
+            ComputeViewMatrix();
+        }
+
+        private void ComputeViewMatrix()
+        {
+            // Compute view matrix matrix
+            var projMatrix = Matrix.RectangleProjection(0, 0, Viewport.Width, Viewport.Height);
+            Matrix.Multiply(in projMatrix, CameraMatrix, ref _viewMatrix);
+        }
+
+        #endregion
+
         public override void Clear(Color color)
         {
             _batch.Clear(color);
@@ -121,17 +147,41 @@ namespace Meadows.Drawing.OpenGLES
             // Inconsistent texture, mark to rebind
             if (_texture != atlasTexture)
             {
-                Flush();
+                if (_texture != null)
+                {
+                    Flush();
+                }
 
                 _texture = atlasTexture;
                 _textureDirty = true;
             }
 
-            // If the shader state has changed, we need to flush.
-            // if (_shader.IsDirty) { Flush(); }
+            // Combine view matrix with object transform
+            Matrix.Multiply(_viewMatrix, in matrix, ref matrix);
+
+            // Uniform state has changed, flush changes.
+            if (_modifiedUniforms.Count > 0)
+            {
+                Flush();
+            }
 
             // While unable to submit to batch, flush pending operations.
-            while (!_batch.Submit(mesh, atlasRect, matrix, Color)) { Flush(); }
+            while (!_batch.Submit(mesh, uvRect, matrix, Color))
+            {
+                Flush();
+            }
+        }
+
+        public override void SetUniform<T>(string name, T value)
+        {
+            var uniform = Shader.GetUniform(name);
+
+            // Update uniform
+            _modifiedUniforms[uniform.Location] = new UniformData
+            {
+                Uniform = uniform,
+                Value = value
+            };
         }
 
         #region Stencil Methods
@@ -183,8 +233,6 @@ namespace Meadows.Drawing.OpenGLES
                 GLES.StencilOperation(StencilOperation.Keep, StencilOperation.Keep, StencilOperation.Replace);
                 GLES.StencilFunction(StencilFunction.Always, _stencilReference, 0xFF);
             });
-
-            throw new NotImplementedException();
         }
 
         public override void EndStencil()
@@ -208,8 +256,6 @@ namespace Meadows.Drawing.OpenGLES
                 GLES.StencilOperation(StencilOperation.Keep, StencilOperation.Keep, StencilOperation.Keep);
                 GLES.StencilFunction(StencilFunction.Equal, _stencilReference, 0xFF);
             });
-
-            throw new NotImplementedException();
         }
 
         #endregion
@@ -221,6 +267,12 @@ namespace Meadows.Drawing.OpenGLES
                 // Ensure all render jobs are submitted to the GPU
                 Flush();
 
+                // Validate region size is at least 1x1
+                if (region.Width == 0 || region.Height == 0)
+                {
+                    throw new InvalidOperationException("Unable to grab pixels, region size is zero.");
+                }
+
                 // If the current surface is the default surface.
                 if (Surface == Screen.Surface)
                 {
@@ -230,7 +282,7 @@ namespace Meadows.Drawing.OpenGLES
                 else
                 {
                     // Get and wait for the surface to be ready
-                    var esSurface = GetContextNativeObject<ESSurface>(Surface);
+                    var esSurface = GetNativeObject<ESSurface>(Surface);
                     esSurface.BindForRead();
                 }
 
@@ -248,45 +300,50 @@ namespace Meadows.Drawing.OpenGLES
 
         protected override void Flush(bool block = false)
         {
-            Invoke(() =>
+            if (_batch.IsDirty)
             {
-                if (StateFlags != 0) // state has been changed!
+                Invoke(() =>
                 {
-                    // Update each aspect if the respective flag is set
-                    if (StateFlags.HasFlag(StateDirtyFlags.Viewport)) { UpdateViewport(); }
-                    if (StateFlags.HasFlag(StateDirtyFlags.Surface)) { UpdateSurface(); }
-                    if (StateFlags.HasFlag(StateDirtyFlags.Shader)) { UpdateShader(); }
-                    if (StateFlags.HasFlag(StateDirtyFlags.Blending)) { UpdateBlending(); }
-                    if (StateFlags.HasFlag(StateDirtyFlags.Interpolation)) { UpdateInterpolation(); }
-                    if (StateFlags.HasFlag(StateDirtyFlags.Camera)) { UpdateCamera(); }
+                    if (StateFlags != 0) // state has been changed!
+                    {
+                        // Update each aspect if the respective flag is set
+                        if (StateFlags.HasFlag(StateDirtyFlags.Viewport)) { UpdateViewport(); }
+                        if (StateFlags.HasFlag(StateDirtyFlags.Surface)) { UpdateSurface(); }
+                        if (StateFlags.HasFlag(StateDirtyFlags.Shader)) { UpdateShader(); }
+                        if (StateFlags.HasFlag(StateDirtyFlags.Blending)) { UpdateBlending(); }
+                        if (StateFlags.HasFlag(StateDirtyFlags.Interpolation)) { UpdateInterpolation(); }
 
-                    // Clear state change flags
-                    StateFlags = 0;
-                }
+                        // Clear state change flags
+                        StateFlags = 0;
+                    }
 
-                // Commit changes to atlas
-                _atlas.Commit();
+                    // Commit changes to atlas
+                    _atlas.Commit();
 
-                // todo: a more sophisticated way to use texture units?
-                if (_textureDirty)
-                {
-                    GLES.ActiveTexture(0);
-                    GLES.BindTexture(TextureTarget.Texture2D, _texture.Handle);
-                    _textureDirty = false;
-                }
+                    // todo: a more sophisticated way to use texture units?
+                    if (_textureDirty)
+                    {
+                        GLES.ActiveTexture(0);
+                        GLES.BindTexture(TextureTarget.Texture2D, _texture.Handle);
+                        _textureDirty = false;
+                    }
 
-                // todo: process shader uniforms
+                    // Update uniforms
+                    // todo: is this dictionary loop efficient enough?
+                    foreach (var data in _modifiedUniforms.Values) { UpdateUniform(data.Uniform, data.Value); }
+                    _modifiedUniforms.Clear();
 
-                // Commit drawing operations
-                _batch.Commit();
+                    // Commit drawing operations
+                    _batch.Commit();
 
-                // Update the surface version number (marked dirty)
-                IncrementVersion(Surface);
+                    // Update the surface version number (marked dirty)
+                    IncrementVersion(Surface);
 
-                // Commit GL operations
-                if (block) { GLES.Finish(); }
-                else { GLES.Flush(); }
-            });
+                    // Commit GL operations
+                    if (block) { GLES.Finish(); }
+                    else { GLES.Flush(); }
+                });
+            }
 
             void UpdateViewport()
             {
@@ -301,37 +358,538 @@ namespace Meadows.Drawing.OpenGLES
                 // Set GL Viewport
                 GLES.SetViewport(x, y, w, h);
                 GLES.SetScissor(x, y, w, h);
+
+                // Compute a view matrix to accomodate this change in viewport
+                ComputeViewMatrix();
             }
 
             void UpdateSurface()
             {
-                throw new NotImplementedException();
+                if (Surface.Screen == Screen)
+                {
+                    // The current surface is the default (ie, window) framebuffer.
+                    GLES.BindFramebuffer(FramebufferTarget.DrawFramebuffer, 0);
+                }
+                else if (Surface.Screen != null)
+                {
+                    // Unable to read from or write to this surface, its a non-sharable resource.
+                    throw new InvalidOperationException($"Unable to assign a screen bound surface. Belongs to a different {nameof(GraphicsContext)} context.");
+                }
+                else
+                {
+                    // Bind the framebuffer associated with this surface for writing.
+                    var esSurface = GetNativeObject<ESSurface>(Surface);
+                    esSurface.BindForDraw();
+                }
             }
 
             void UpdateShader()
             {
-                throw new NotImplementedException();
+                // Begin use of this shader program
+                var esShader = Backend.GetNativeObject<ESShaderProgram>(Shader);
+                GLES.UseProgram(esShader.Handle);
+
+                // Bind uniform buffers
+                foreach (var block in esShader.Blocks)
+                {
+                    var buffer = ESGraphicsBackend.Current.UniformBuffers[block.Name];
+                    GLES.BindBufferBase(BufferTarget.UniformBuffer, block.Index, buffer.Handle);
+                }
             }
 
             void UpdateBlending()
             {
-                throw new NotImplementedException();
+                // todo: ensure blending modes are consistent and standardized for the kind of alpha (ie, "pre-multiplied" alpha or not)
+
+                switch (BlendingMode)
+                {
+                    default:
+                        throw new InvalidOperationException("Unable to set unknown blend mode.");
+
+                    case BlendingMode.Opaque:
+                        GLES.SetBlendEquation(BlendEquation.Add);
+                        GLES.SetBlendFunction(BlendFunction.One, BlendFunction.Zero);
+                        break;
+
+                    case BlendingMode.Alpha:
+                        GLES.SetBlendEquation(BlendEquation.Add, BlendEquation.Add);
+                        GLES.SetBlendFunction(BlendFunction.SourceAlpha, BlendFunction.OneMinusSourceAlpha, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
+                        break;
+
+                    case BlendingMode.Additive:
+                        GLES.SetBlendEquation(BlendEquation.Add);
+                        // GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
+                        GLES.SetBlendFunction(BlendFunction.SourceAlpha, BlendFunction.One);
+                        break;
+
+                    case BlendingMode.Subtractive: // Opposite of Additive (DST - SRC)
+                        GLES.SetBlendEquation(BlendEquation.ReverseSubtract);
+                        // GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha, BlendFunction.One);
+                        GLES.SetBlendFunction(BlendFunction.SourceAlpha, BlendFunction.One);
+                        break;
+
+                    case BlendingMode.Multiply:
+                        GLES.SetBlendEquation(BlendEquation.Add);
+                        GLES.SetBlendFunction(BlendFunction.DestinationColor, BlendFunction.OneMinusSourceAlpha);
+                        break;
+
+                    case BlendingMode.Invert:
+                        GLES.SetBlendEquation(BlendEquation.Subtract);
+                        GLES.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.Zero);
+                        break;
+                }
             }
 
             void UpdateInterpolation()
             {
-                throw new NotImplementedException();
-            }
-
-            void UpdateCamera()
-            {
-                throw new NotImplementedException();
+                Log.Warning("TODO: ESGraphicsContext.UpdateInterpolation");
             }
         }
 
-        protected struct DeviceCapabilities
+        private struct UniformData
         {
-            public int MaxTextureSize { get; init; }
+            public Uniform Uniform;
+
+            public object Value;
+        }
+
+        private unsafe void UpdateUniform(Uniform uniform, object value)
+        {
+            var location = uniform.Location;
+
+            Log.Debug($"Updating Uniform: {uniform.Name}");
+
+            switch (uniform.Type)
+            {
+                #region Integer
+
+                case UniformType.Integer when uniform.Dimensions == (1, 1):
+                {
+                    // Integer
+                    if (value is int x)
+                    {
+                        GLES.Uniform1(location, x);
+                    }
+                    // Integer Array
+                    else if (value is int[] arr)
+                    {
+                        GLES.Uniform1(location, arr);
+                    }
+                    else
+                    {
+                        goto BadUniformException;
+                    }
+                }
+                break;
+
+                case UniformType.Integer when uniform.Dimensions == (1, 2):
+                {
+                    // Tuple
+                    if (value is (int x, int y))
+                    {
+                        GLES.Uniform2(location, x, y);
+                    }
+                    // IntVector
+                    else if (value is IntVector vec)
+                    {
+                        GLES.Uniform2(location, vec.X, vec.Y);
+                    }
+                    // IntVector Array
+                    else if (value is IntVector[] vecs)
+                    {
+                        fixed (IntVector* ptr = vecs)
+                        {
+                            GLES.Uniform2(location, vecs.Length, (int*) ptr);
+                        }
+                    }
+                    // Integer Array
+                    else if (value is int[] arr)
+                    {
+                        GLES.Uniform2(location, arr);
+                    }
+                    else
+                    {
+                        goto BadUniformException;
+                    }
+                }
+                break;
+
+                case UniformType.Integer when uniform.Dimensions == (1, 3):
+                {
+                    // Tuple
+                    if (value is (int x, int y, int z))
+                    {
+                        GLES.Uniform3(location, x, y, z);
+                    }
+                    // Integer Array
+                    else if (value is int[] arr)
+                    {
+                        GLES.Uniform3(location, arr);
+                    }
+                    else
+                    {
+                        goto BadUniformException;
+                    }
+                }
+                break;
+
+                case UniformType.Integer when uniform.Dimensions == (1, 4):
+                {
+                    // Tuple
+                    if (value is (int x, int y, int z, int w))
+                    {
+                        GLES.Uniform4(location, x, y, z, w);
+                    }
+                    // Integer Array
+                    else if (value is int[] arr)
+                    {
+                        GLES.Uniform4(location, arr);
+                    }
+                    else
+                    {
+                        goto BadUniformException;
+                    }
+                }
+                break;
+
+                #endregion
+
+                #region Unsigned Integer
+
+                case UniformType.UnsignedInteger when uniform.Dimensions == (1, 1):
+                {
+                    // Unsigned Integer
+                    if (value is uint x)
+                    {
+                        GLES.Uniform1(location, x);
+                    }
+                    // Unsigned Integer Array
+                    else if (value is uint[] arr)
+                    {
+                        GLES.Uniform1(location, arr);
+                    }
+                    else
+                    {
+                        goto BadUniformException;
+                    }
+                }
+                break;
+
+                case UniformType.UnsignedInteger when uniform.Dimensions == (1, 2):
+                {
+                    // Tuple
+                    if (value is (uint x, uint y))
+                    {
+                        GLES.Uniform2(location, x, y);
+                    }
+                    // Unsigned Integer Array
+                    else if (value is uint[] arr)
+                    {
+                        GLES.Uniform2(location, arr);
+                    }
+                    else
+                    {
+                        goto BadUniformException;
+                    }
+                }
+                break;
+
+                case UniformType.UnsignedInteger when uniform.Dimensions == (1, 3):
+                {
+                    // Tuple
+                    if (value is (uint x, uint y, uint z))
+                    {
+                        GLES.Uniform3(location, x, y, z);
+                    }
+                    // Unsigned Integer Array
+                    else if (value is uint[] arr)
+                    {
+                        GLES.Uniform3(location, arr);
+                    }
+                    else
+                    {
+                        goto BadUniformException;
+                    }
+                }
+                break;
+
+                case UniformType.UnsignedInteger when uniform.Dimensions == (1, 4):
+                {
+                    // Tuple
+                    if (value is (uint x, uint y, uint z, uint w))
+                    {
+                        GLES.Uniform4(location, x, y, z, w);
+                    }
+                    // Unsigned Integer Array
+                    else if (value is uint[] arr)
+                    {
+                        GLES.Uniform4(location, arr);
+                    }
+                    else
+                    {
+                        goto BadUniformException;
+                    }
+                }
+                break;
+
+                #endregion
+
+                #region Boolean
+
+                case UniformType.Bool when uniform.Dimensions == (1, 1):
+                {
+                    // Boolean
+                    if (value is bool x)
+                    {
+                        GLES.Uniform1(location, x ? 1 : 0);
+                    }
+                    // Boolean Array
+                    else if (value is bool[] arr)
+                    {
+                        // todo: ArrayPool<int> and copy...?
+                        throw new NotSupportedException("Boolean arrays not (yet) supported! Poke the developer.");
+                    }
+                    else
+                    {
+                        goto BadUniformException;
+                    }
+                }
+                break;
+
+                case UniformType.Bool when uniform.Dimensions == (1, 2):
+                    throw new NotSupportedException("Boolean Vec2 not (yet) supported! Poke the developer.");
+
+                case UniformType.Bool when uniform.Dimensions == (1, 3):
+                    throw new NotSupportedException("Boolean Vec3 not (yet) supported! Poke the developer.");
+
+                case UniformType.Bool when uniform.Dimensions == (1, 4):
+                    throw new NotSupportedException("Boolean Vec4 not (yet) supported! Poke the developer.");
+
+                #endregion
+
+                #region Float
+
+                case UniformType.Float when uniform.Dimensions == (1, 1):
+                {
+                    // Float
+                    if (value is float x)
+                    {
+                        GLES.Uniform1(location, x);
+                    }
+                    // Float Array
+                    else if (value is float[] arr)
+                    {
+                        GLES.Uniform1(location, arr);
+                    }
+                    else
+                    {
+                        goto BadUniformException;
+                    }
+                }
+                break;
+
+                case UniformType.Float when uniform.Dimensions == (1, 2):
+                {
+                    // Tuple
+                    if (value is (float x, float y))
+                    {
+                        GLES.Uniform2(location, x, y);
+                    }
+                    // Vector
+                    else if (value is Vector vec)
+                    {
+                        GLES.Uniform2(location, vec.X, vec.Y);
+                    }
+                    // Vector Array
+                    else if (value is Vector[] vecs)
+                    {
+                        fixed (Vector* ptr = vecs)
+                        {
+                            GLES.Uniform2(location, vecs.Length, (float*) ptr);
+                        }
+                    }
+                    // Float Array
+                    else if (value is float[] arr)
+                    {
+                        GLES.Uniform2(location, arr);
+                    }
+                    else
+                    {
+                        goto BadUniformException;
+                    }
+                }
+                break;
+
+                case UniformType.Float when uniform.Dimensions == (1, 3):
+                {
+                    // Tuple
+                    if (value is (float x, float y, float z))
+                    {
+                        GLES.Uniform3(location, x, y, z);
+                    }
+                    // Float Array
+                    else if (value is float[] arr)
+                    {
+                        GLES.Uniform3(location, arr);
+                    }
+                    else
+                    {
+                        goto BadUniformException;
+                    }
+                }
+                break;
+
+                case UniformType.Float when uniform.Dimensions == (1, 4):
+                {
+                    // Tuple
+                    if (value is (float x, float y, float z, float w))
+                    {
+                        GLES.Uniform4(location, x, y, z, w);
+                    }
+                    // Color
+                    else if (value is Color col)
+                    {
+                        GLES.Uniform4(location, col.R, col.G, col.B, col.A);
+                    }
+                    // Color Array
+                    else if (value is Color[] cols)
+                    {
+                        fixed (Color* ptr = cols)
+                        {
+                            GLES.Uniform4(location, cols.Length, (float*) ptr);
+                        }
+                    }
+                    // Rectangle
+                    else if (value is Rectangle rect)
+                    {
+                        GLES.Uniform4(location, rect.X, rect.Y, rect.Width, rect.Height);
+                    }
+                    // Rectangle Array
+                    else if (value is Rectangle[] rects)
+                    {
+                        fixed (Rectangle* ptr = rects)
+                        {
+                            GLES.Uniform4(location, rects.Length, (float*) ptr);
+                        }
+                    }
+                    // Float Array
+                    else if (value is float[] arr)
+                    {
+                        GLES.Uniform4(location, arr);
+                    }
+                    else
+                    {
+                        goto BadUniformException;
+                    }
+                }
+                break;
+
+                #endregion
+
+                #region Matrix
+
+                case UniformType.Float when uniform.IsMatrix:
+                {
+                    // Matrix
+                    if (value is Matrix m)
+                    {
+                        GLES.UniformMatrix2x3(location, 1, (float*) &m);
+                    }
+                    // Matrix Array
+                    else if (value is Matrix[] arr)
+                    {
+                        fixed (Matrix* ptr = arr)
+                        {
+                            GLES.UniformMatrix2x3(location, arr.Length, (float*) ptr);
+                        }
+                    }
+                    // Float Array
+                    else if (value is float[] xs)
+                    {
+                        fixed (float* ptr = xs)
+                        {
+                            GLES.UniformMatrix2x3(location, xs.Length / 6, ptr);
+                        }
+                    }
+                    else
+                    {
+                        goto BadUniformException;
+                    }
+                }
+                break;
+
+                #endregion
+
+                case UniformType.Image:
+                {
+                    if (value is Texture texture)
+                    {
+                        // Get the texture information for this image source
+                        RequestTextureInformation(texture, out var esTexture, out var uvRect);
+
+                        // Get texture unit for sampler2D uniform.
+                        var unit = Shader.GetTextureUnit(uniform.Name);
+
+                        // Shader should reserve X of the N allowable texture units available
+                        // on the executing hardware. Thus if a shader requires the use of two
+                        // textures it would claim two of the units available and prevent their
+                        // use from the batching mechanism.
+
+                        // todo: Associate uniform with texture unit
+                        GLES.Uniform1(location, unit);
+
+                        // Bind texture
+                        // todo: only do this if the texture isn't already mapped
+                        GLES.ActiveTexture(unit);
+                        GLES.BindTexture(TextureTarget.Texture2D, esTexture.Handle);
+
+                        // Check if associated atlas rectangle (uvrect) exists. If it
+                        // does then we need to set that as well.
+                        var uvRectUniformName = GetAtlasRectUniformName(uniform.Name);
+                        if (Shader.HasUniform(uvRectUniformName))
+                        {
+                            var uvRectUniform = Shader.GetUniform(uvRectUniformName);
+                            UpdateUniform(uvRectUniform, uvRect);
+                        }
+                    }
+                    else
+                    {
+                        goto BadUniformException;
+                    }
+                }
+                break;
+            }
+
+            // Uniform state has been updated.
+            // Exit here to prevent falling into the exception below.
+            return;
+
+            // Uniform could not be set, a value of an invalid type was given.
+            BadUniformException:
+            throw new InvalidOperationException($"Unable to update uniform '{uniform.Name}' " +
+                $"({uniform.Type}{uniform.Dimensions}[{uniform.ArraySize}]) to mismatched type {value.GetType()}.");
+
+            static string GetAtlasRectUniformName(string uniform)
+            {
+                var suffix = "_UVRect";
+
+                // Check if uniform name is an array (ie, 'uImage[2]')
+                var lastBracket = uniform.LastIndexOf('[');
+                if (lastBracket >= 0)
+                {
+                    // Extract non-array name (ie 'uImage' )
+                    var name = uniform.Substring(0, lastBracket);
+                    var index = uniform.Substring(lastBracket);
+
+                    // Combine name with suffix (ie 'uImage_UVRect[2]')
+                    return name + suffix + index;
+                }
+                else
+                {
+                    // Combine name with suffix (ie 'uImage_UVRect')
+                    return uniform + suffix;
+                }
+            }
         }
 
         #region Texture System (Atlas & Units)
@@ -373,7 +931,7 @@ namespace Meadows.Drawing.OpenGLES
                 if (surface.Screen != null) { throw new ArgumentException("Unable to use screen bound surface as a texture."); }
 
                 // Get offscreen surface texture
-                var esSurface = GetContextNativeObject<ESSurface>(surface);
+                var esSurface = GetNativeObject<ESSurface>(surface);
                 if (esSurface.IsDirty)
                 {
                     Invoke(() => esSurface.BlitToTexture());
@@ -392,20 +950,12 @@ namespace Meadows.Drawing.OpenGLES
 
         #endregion
 
-        #region Native Object Access
-
-        protected override object GenerateGlobalNativeObject(NativeResource resource)
+        internal struct DeviceCapabilities
         {
-            return Invoke<object>(() => resource switch
-            {
-                Surface surface => new ESSurfaceStorage(surface),
-                Image image => new ESTexture(image.Size),
-
-                _ => throw new InvalidOperationException($"Unable to generate native reresentation of {resource}"),
-            });
+            public int MaxTextureSize { get; init; }
         }
 
-        protected override object GenerateContextNativeObject(NativeResource resource)
+        protected override object GenerateNativeObject(GraphicsResource resource)
         {
             return Invoke<object>(() =>
             {
@@ -416,14 +966,6 @@ namespace Meadows.Drawing.OpenGLES
                     _ => throw new InvalidOperationException($"Unable to generate native reresentation of {resource}"),
                 };
             });
-        }
-
-        #endregion
-
-        protected internal static void InvokeOnSomeThread(Action action)
-        {
-            // todo: keep track of alive and disposed contexts
-            throw new NotImplementedException("INVOKE ON SOME GL THREAD");
         }
     }
 }

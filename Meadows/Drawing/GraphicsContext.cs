@@ -6,7 +6,7 @@ using Meadows.Mathematics;
 
 namespace Meadows.Drawing
 {
-    public abstract class GraphicsContext : IDisposable
+    public abstract partial class GraphicsContext : IDisposable
     /**
      * When a shader is created, it requests from an active context for it to be compiled.
      * This then can defer to whatever backend is running the context... this is to prevent a lazy compile of the shader.
@@ -15,7 +15,7 @@ namespace Meadows.Drawing
      * synchronization is predictable (as most parts of the GL backend)
      */
     {
-        private static readonly RecyclePool<int> _idPool = new RecyclePool<int>(() => _idCounter++);
+        private static readonly RecyclePool<int> _idPool = new(() => _idCounter++);
         private static int _idCounter;
 
         protected internal readonly int Id = _idPool.Request();
@@ -37,10 +37,8 @@ namespace Meadows.Drawing
             Blending = 1 << 3,
             Shader = 1 << 4,
 
-            Camera = 1 << 5,
-
             // 
-            All = Viewport | Surface | Interpolation | Blending | Shader | Camera
+            All = Viewport | Surface | Interpolation | Blending | Shader
         }
 
         protected struct RenderState
@@ -59,9 +57,12 @@ namespace Meadows.Drawing
 
         #region Constructor
 
-        protected GraphicsContext(Screen screen)
+        protected GraphicsContext(GraphicsBackend backend, Screen screen)
         {
+            Backend = backend ?? throw new ArgumentNullException(nameof(backend));
             Screen = screen ?? throw new ArgumentNullException(nameof(screen));
+
+            Performance = new GraphicsPerformance();
 
             // 
             SetDefaultState();
@@ -73,6 +74,14 @@ namespace Meadows.Drawing
         }
 
         #endregion
+
+        public GraphicsPerformance Performance { get; }
+
+        internal abstract bool IsInitialized { get; }
+
+        internal bool IsDisposed => _isDisposed;
+
+        protected internal GraphicsBackend Backend { get; }
 
         public Screen Screen { get; }
 
@@ -106,20 +115,6 @@ namespace Meadows.Drawing
             }
         }
 
-        public Shader Shader
-        {
-            get => _state.Shader;
-
-            set
-            {
-                if (_state.Shader != value)
-                {
-                    _state.Shader = value;
-                    StateFlags |= StateDirtyFlags.Shader;
-                }
-            }
-        }
-
         protected Matrix CameraMatrix => _state.Camera;
 
         // todo: camera inverse matrix?
@@ -130,14 +125,15 @@ namespace Meadows.Drawing
 
         public Surface Surface => _state.Surface;
 
+        public Shader Shader => _state.Shader;
+
         #endregion
 
         #region Render State (Methods)
 
-        public void SetCamera(Matrix matrix)
+        public virtual void SetCamera(Matrix matrix)
         {
             _state.Camera = matrix;
-            StateFlags |= StateDirtyFlags.Camera;
         }
 
         public void SetCamera(Vector center, float scale = 1F, float rotation = 0F)
@@ -145,22 +141,22 @@ namespace Meadows.Drawing
             var offset = (Vector) Viewport.Size / (2F * scale);
 
             // Set translation
-            _state.Camera = Matrix.CreateTranslation(offset - center);
+            var camera = Matrix.CreateTranslation(offset - center);
 
             // If a scale is given, apply a scale transform
             if (!Calc.NearEquals(scale, 1F))
             {
-                _state.Camera = Matrix.CreateScale(scale) * _state.Camera;
+                camera = Matrix.CreateScale(scale) * camera;
             }
 
             // If a rotation is given, apply a rotation transform
             if (!Calc.NearZero(rotation))
             {
-                _state.Camera = Matrix.CreateRotation(rotation) * _state.Camera;
+                camera = Matrix.CreateRotation(rotation) * camera;
             }
 
-            // Mark camera as dirty
-            StateFlags |= StateDirtyFlags.Camera;
+            // 
+            SetCamera(camera);
         }
 
         public virtual void SetRenderTarget(Surface surface, IntRectangle? viewport = null)
@@ -188,6 +184,17 @@ namespace Meadows.Drawing
             }
         }
 
+        public virtual void UseShader(Shader shader)
+        {
+            if (shader is null) { throw new ArgumentNullException(nameof(shader)); }
+
+            if (_state.Shader != shader)
+            {
+                _state.Shader = shader;
+                StateFlags |= StateDirtyFlags.Shader;
+            }
+        }
+
         public void PushState()
         {
             _stateStack.Push(_state);
@@ -200,7 +207,9 @@ namespace Meadows.Drawing
             // Set prior render state
             InterpolationMode = state.InterpolationMode;
             BlendingMode = state.BlendingMode;
-            Shader = state.Shader;
+
+            // Set prior shader
+            UseShader(state.Shader);
 
             // Set prior render target
             SetRenderTarget(state.Surface, state.Viewport);
@@ -214,8 +223,10 @@ namespace Meadows.Drawing
         {
             InterpolationMode = InterpolationMode.Nearest;
             BlendingMode = BlendingMode.Alpha;
-            Shader = Shader.Default;
             Color = Color.White;
+
+            // Set prior shader
+            UseShader(Shader.Default);
 
             SetRenderTarget(Screen.Surface);
             SetCamera(Matrix.Identity);
@@ -228,6 +239,8 @@ namespace Meadows.Drawing
         public abstract void Clear(Color color);
 
         public abstract void Draw(Texture texture, Rectangle uvRegion, Mesh mesh, Matrix matrix);
+
+        public abstract void SetUniform<T>(string name, T value);
 
         #region Basic Image Drawing
 
@@ -318,6 +331,7 @@ namespace Meadows.Drawing
             Flush(block: false);
 
             // todo: compute per-frame statistics, etc
+            Performance.NotifyFrame();
 
             // Exchange back and front buffers, causing the image to appear on screen.
             SwapBuffers();
@@ -368,56 +382,34 @@ namespace Meadows.Drawing
 
         #region Native Resource Access
 
-        protected abstract object GenerateContextNativeObject(NativeResource resource);
+        protected abstract object GenerateNativeObject(GraphicsResource resource);
 
-        protected abstract object GenerateGlobalNativeObject(NativeResource resource);
-
-        protected internal T GetGlobalNativeObject<T>(NativeResource resource) where T : class
+        protected internal T GetNativeObject<T>(GraphicsResource resource) where T : class, IDisposable
         {
-            var obj = resource.GetGlobalNativeObject<T>();
-
-            if (obj == null)
-            {
-                // No global native object is known for this resource, we must now create one.
-                obj = GenerateGlobalNativeObject(resource) as T;
-                if (obj == null) { throw new InvalidOperationException("Generated a global native object that does not match the requested type!"); }
-                SetGlobalNativeObject(resource, obj);
-            }
-
-            return obj;
-        }
-
-        protected internal T GetContextNativeObject<T>(NativeResource resource) where T : class
-        {
-            var obj = resource.GetContextNativeObject<T>(this);
-
-            if (obj == null)
+            if (resource.GetContextNativeObject(this) is not T obj)
             {
                 // No context native object is known for this resources, we must now create one.
-                obj = GenerateContextNativeObject(resource) as T;
+                obj = GenerateNativeObject(resource) as T;
                 if (obj == null) { throw new InvalidOperationException("Generated a context native object that does not match the requested type!"); }
-                SetContextNativeObject(resource, obj);
+
+                // Store the context object for next time
+                SetNativeObject(resource, obj);
             }
 
             return obj;
         }
 
-        protected internal void SetContextNativeObject<T>(NativeResource resource, T obj) where T : class
+        protected internal void SetNativeObject<T>(GraphicsResource resource, T obj) where T : class, IDisposable
         {
             resource.SetContextNativeObject(this, obj);
         }
 
-        protected internal void SetGlobalNativeObject<T>(NativeResource resource, T obj) where T : class
-        {
-            resource.SetGlobalNativeObject(obj);
-        }
-
-        protected internal uint GetResourceVersion(NativeResource resource)
+        protected internal uint GetResourceVersion(GraphicsResource resource)
         {
             return resource.Version;
         }
 
-        protected internal void IncrementVersion(NativeResource resource)
+        protected internal void IncrementVersion(GraphicsResource resource)
         {
             resource.IncrementVersion();
         }

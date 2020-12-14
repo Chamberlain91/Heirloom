@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using Meadows.Mathematics;
 
@@ -108,7 +108,7 @@ namespace Meadows.Drawing.OpenGLES
                 }
 
                 // Schedule deleting the GL texture resource
-                ESGraphicsContext.InvokeOnSomeThread(() =>
+                ESGraphicsBackend.Current.Invoke(() =>
                 {
                     Log.Debug($"[Dispose] Texture ({Handle})");
                     GLES.DeleteTexture(Handle);

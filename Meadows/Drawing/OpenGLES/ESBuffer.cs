@@ -87,7 +87,7 @@ namespace Meadows.Drawing.OpenGLES
                 }
 
                 // Schedule for deletion on a GL thread.
-                ESGraphicsContext.InvokeOnSomeThread(() =>
+                ESGraphicsBackend.Current.Invoke(() =>
                 {
                     Log.Debug($"[Dispose] {GetType().Name} ({Handle}).");
                     GLES.DeleteBuffer(Handle);

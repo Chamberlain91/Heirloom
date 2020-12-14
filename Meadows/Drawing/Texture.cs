@@ -2,7 +2,7 @@ using Meadows.Mathematics;
 
 namespace Meadows.Drawing
 {
-    public abstract class Texture : NativeResource
+    public abstract class Texture : GraphicsResource
     {
         internal Texture()
         {
@@ -12,7 +12,7 @@ namespace Meadows.Drawing
         /// <summary>
         /// The size of this image.
         /// </summary>
-        public abstract IntSize Size { get; protected set; }
+        public IntSize Size { get; protected set; }
 
         /// <summary>
         /// The width of the image (in pixels).
@@ -23,7 +23,7 @@ namespace Meadows.Drawing
         /// The height of the image (in pixels).
         /// </summary>
         public int Height => Size.Height;
-         
+
         /// <summary>
         /// Repeat mode.
         /// </summary>
