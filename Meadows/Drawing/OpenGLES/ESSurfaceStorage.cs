@@ -9,6 +9,8 @@ namespace Meadows.Drawing.OpenGLES
 
         public ESTexture Texture;
 
+        public ESTexture StencilTexture;
+
         public ESSurfaceStorage(Surface surface)
         {
             var textureFormat = surface.Format switch
@@ -16,17 +18,26 @@ namespace Meadows.Drawing.OpenGLES
                 SurfaceFormat.Float => TextureSizedFormat.RGBA16F,
                 SurfaceFormat.UnsignedByte => TextureSizedFormat.RGBA8,
 
-                _ => throw new ArgumentException("Unknown surface type.", nameof(surface.Format)),
+                _ => throw new ArgumentException("Unknown surface type.", nameof(surface)),
             };
 
             // Create a standard texture
             Texture = new ESTexture(surface.Size, textureFormat);
 
+            // todo: detect support for and use index8 to reduce memory usage
+            // #define GL_STENCIL_INDEX8  0x8D48
+
             // If multisampling is specifed...
             if (surface.Multisample > MultisampleQuality.None)
             {
-                // We must create a multisampled texture
+                // We must create a multisampled textures
                 MultisampleTexture = new ESTexture(surface.Size, textureFormat, (int) surface.Multisample);
+                StencilTexture = new ESTexture(surface.Size, TextureSizedFormat.Depth24_Stencil8, (int) surface.Multisample);
+            }
+            else
+            {
+                // Create stencil buffer
+                StencilTexture = new ESTexture(surface.Size, TextureSizedFormat.Depth24_Stencil8);
             }
         }
 

@@ -6,7 +6,6 @@ namespace Meadows.Drawing.OpenGLES
 {
     internal sealed class ESTexture : IDisposable
     {
-        private readonly bool _isMultisampled;
         private bool _isDisposed = false;
 
         #region Constructors
@@ -14,20 +13,21 @@ namespace Meadows.Drawing.OpenGLES
         public ESTexture(IntSize size, TextureSizedFormat format = TextureSizedFormat.RGBA8, int samples = 1)
         {
             Size = size;
-            _isMultisampled = samples > 1;
+            // Format = format;
+            Samples = samples;
 
             // Log the creation of this texture
-            if (_isMultisampled) { Log.Debug($"Creating {format} Texture({size} w/ {samples} samples)"); }
+            if (IsMultisampled) { Log.Debug($"Creating {format} Texture ({size} w/ {samples} samples)"); }
             else { Log.Debug($"Creating {format} Texture ({size})"); }
 
-            Target = _isMultisampled ? TextureTarget.Texture2DMultisample : TextureTarget.Texture2D;
+            Target = IsMultisampled ? TextureTarget.Texture2DMultisample : TextureTarget.Texture2D;
 
             // 
             Handle = GLES.GenTexture();
             GLES.BindTexture(Target, Handle);
             {
                 // Allocate texture memory, possibly multisampled
-                if (_isMultisampled) { GLES.TexStorage2DMultisample((TextureImageTarget) Target, samples, format, size.Width, size.Height); }
+                if (IsMultisampled) { GLES.TexStorage2DMultisample((TextureImageTarget) Target, samples, format, size.Width, size.Height); }
                 else
                 {
                     // Compute the max mip-map depth
@@ -64,7 +64,11 @@ namespace Meadows.Drawing.OpenGLES
 
         public IntSize Size { get; }
 
+        public int Samples { get; }
+
         public uint Version { get; internal set; }
+
+        public bool IsMultisampled => Samples > 1;
 
         #endregion
 
@@ -73,7 +77,7 @@ namespace Meadows.Drawing.OpenGLES
         /// </summary>
         public unsafe void Update(int x, int y, Image image)
         {
-            if (_isMultisampled)
+            if (IsMultisampled)
             {
                 throw new InvalidOperationException("Unable to write to multisampled texture from CPU side.");
             }

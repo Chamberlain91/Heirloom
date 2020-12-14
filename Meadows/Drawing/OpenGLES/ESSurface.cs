@@ -35,14 +35,17 @@ namespace Meadows.Drawing.OpenGLES
             _storage = context.Backend.GetNativeObject<ESSurfaceStorage>(surface);
             if (_storage == null) { throw new InvalidOperationException($"Framebufer storage was unexpectedly null."); }
 
-            // Construct the standard texture's framebuffer
-            TextureFramebuffer = new Framebuffer(context, _storage.Texture);
-
             // If surface is multisampled...
             if (_storage.HasMultisampleTarget)
             {
-                // Construct the multisampled texture's framebuffer
-                MultisampleFramebuffer = new Framebuffer(context, _storage.MultisampleTexture);
+                // Construct the multisample configuration
+                MultisampleFramebuffer = new Framebuffer(context, _storage.MultisampleTexture, _storage.StencilTexture);
+                TextureFramebuffer = new Framebuffer(context, _storage.Texture);
+            }
+            else
+            {
+                // Construct plain texture configuration
+                TextureFramebuffer = new Framebuffer(context, _storage.Texture, _storage.StencilTexture);
             }
         }
 
@@ -167,30 +170,32 @@ namespace Meadows.Drawing.OpenGLES
 
             private bool _isDisposed;
 
-            public ESTexture Texture;
-
             public uint Handle;
 
             #region Constructor
 
-            public Framebuffer(ESGraphicsContext context, ESTexture texture)
+            public Framebuffer(ESGraphicsContext context, ESTexture texture, ESTexture stencilTexture = null)
             {
                 _context = context;
-
-                Texture = texture;
 
                 // Generate framebuffer
                 Handle = GLES.GenFramebuffer();
                 GLES.BindFramebuffer(FramebufferTarget.Framebuffer, Handle);
 
-                // Attach to framebuffer
-                GLES.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.Color0, (TextureImageTarget) texture.Target, Texture.Handle, 0);
+                // Attach color texture
+                GLES.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.Color0, (TextureImageTarget) texture.Target, texture.Handle, 0);
+
+                if (stencilTexture != null)
+                {
+                    // Attach stencil buffer
+                    GLES.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.Stencil, (TextureImageTarget) stencilTexture.Target, stencilTexture.Handle, 0);
+                }
 
                 // Ensure framebuffer is valid
                 var status = GLES.CheckFramebufferStatus(FramebufferTarget.Framebuffer);
                 if (status != FramebufferStatus.Complete)
                 {
-                    throw new InvalidOperationException($"Unable to initialize multisample framebuffer. {status}");
+                    throw new InvalidOperationException($"Unable to initialize framebuffer. {status}");
                 }
 
                 // Unbind framebuffer

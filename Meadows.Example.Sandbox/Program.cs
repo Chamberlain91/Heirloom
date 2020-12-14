@@ -38,10 +38,8 @@ namespace Meadows.Example.Sandbox
         {
             // Load a few images
             var image = new Image("zelda.jpg");
-
             var imageCenter = (IntVector) (image.Size / 2F);
 
-            // 
             gfx.InterpolationMode = InterpolationMode.Linear;
             gfx.Clear(Color.Yellow * Color.DarkGray);
 
