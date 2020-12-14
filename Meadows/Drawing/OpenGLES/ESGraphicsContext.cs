@@ -186,7 +186,7 @@ namespace Meadows.Drawing.OpenGLES
 
         #region Stencil Methods
 
-        public override void ClearStencil()
+        public override void ClearMask()
         {
             // stencil enable = false
             // stencil write = false
@@ -205,7 +205,7 @@ namespace Meadows.Drawing.OpenGLES
             });
         }
 
-        public override void BeginStencil()
+        public override void BeginDefineMask()
         {
             // stencil enable = true
             // stencil write = true
@@ -235,7 +235,7 @@ namespace Meadows.Drawing.OpenGLES
             });
         }
 
-        public override void EndStencil()
+        public override void EndDefineMask()
         {
             // stencil write = false
             // color write = true

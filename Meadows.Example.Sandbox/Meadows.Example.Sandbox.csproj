@@ -6,12 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="41611788_p0.jpg" />
-    <None Remove="colorful.jpg" />
+    <None Remove="zelda.jpg" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="colorful.jpg" />
+    <EmbeddedResource Include="zelda.jpg" />
   </ItemGroup>
 
   <ItemGroup>

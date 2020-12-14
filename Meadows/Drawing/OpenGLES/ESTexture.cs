@@ -30,9 +30,10 @@ namespace Meadows.Drawing.OpenGLES
                 if (_isMultisampled) { GLES.TexStorage2DMultisample((TextureImageTarget) Target, samples, format, size.Width, size.Height); }
                 else
                 {
-                    GLES.TexStorage2D((TextureImageTarget) Target, 1, format, size.Width, size.Height);
-
-                    GLES.SetTextureParameter(Target, TextureParameter.MaxLod, 1);
+                    // Compute the max mip-map depth
+                    var maxLod = 1 + (int) Calc.Log(Calc.Min(size.Width, size.Height), 2);
+                    GLES.TexStorage2D((TextureImageTarget) Target, maxLod, format, size.Width, size.Height);
+                    GLES.SetTextureParameter(Target, TextureParameter.MaxLod, maxLod);
 
                     // Configure with point filtering and repeating UVs
                     GLES.SetTextureParameter(Target, TextureParameter.MinFilter, (int) TextureMinFilter.NearestMipNearest);
@@ -94,6 +95,11 @@ namespace Meadows.Drawing.OpenGLES
                                    TexturePixelFormat.RGBA, TexturePixelType.UnsignedByte,
                                    (IntPtr) ptr);
             }
+        }
+
+        public void GenerateMips()
+        {
+            GLES.GenerateMipmap(Target);
         }
 
         #region Dispose

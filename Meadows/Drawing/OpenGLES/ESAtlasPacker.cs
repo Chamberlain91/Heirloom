@@ -12,8 +12,6 @@ namespace Meadows.Drawing.OpenGLES
 
         private readonly HashSet<Image> _changeSet = new();
 
-        private int _version;
-
         public ESAtlasPacker(ESGraphicsContext context)
             : base(context)
         {
@@ -29,7 +27,6 @@ namespace Meadows.Drawing.OpenGLES
 
         public override bool Submit(Image image, out ESTexture atlasTexture, out Rectangle atlasRect)
         {
-
             // If the image entry is already known...
             var entry = image.TEMP_TEST as AtlasEntry;
             // if (_entries.TryGetValue(image, out var entry))
@@ -115,9 +112,11 @@ namespace Meadows.Drawing.OpenGLES
                     _texture.Update(entry.Rect.X, entry.Rect.Y, image);
                 }
 
-                //
+                // Generate mip-maps for the atlas
+                _texture.GenerateMips();
+
+                // Clear changers and increment version
                 _changeSet.Clear();
-                _version++;
             }
         }
 

@@ -211,14 +211,14 @@ namespace Meadows.Drawing.Software
             throw new NotImplementedException("Unable to set uniforms on software context");
         }
 
-        public override void ClearStencil()
+        public override void ClearMask()
         {
             _stencilWrite = false;
             _stencilEnable = false;
             _colorWrite = true;
         }
 
-        public override void BeginStencil()
+        public override void BeginDefineMask()
         {
             _stencilEnable = true;
             _stencilWrite = true;
@@ -232,7 +232,7 @@ namespace Meadows.Drawing.Software
             }
         }
 
-        public override void EndStencil()
+        public override void EndDefineMask()
         {
             _stencilWrite = false;
             _colorWrite = true;

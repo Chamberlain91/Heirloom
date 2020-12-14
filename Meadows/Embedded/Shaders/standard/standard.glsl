@@ -3,9 +3,17 @@ precision highp sampler2DArray;
 precision highp float;
 #endif
 
+#define _H_REPEAT_BLANK  0
+#define _H_REPEAT_REPEAT 1
+#define _H_REPEAT_CLAMP  2
+
+#define _H_FILTER_NEAREST 0
+#define _H_FILTER_LINEAR  1
+
 #define TRANSPARENT vec4(0.0)
-#define UV_EDGE_MIN 0.02
-#define UV_EDGE_MAX 0.98
+
+#define MIN_UV_EDGE 0.001
+#define MAX_UV_EDGE 0.999
 
 // Used to interpolate per-fragment data
 struct PerFragment
@@ -23,85 +31,96 @@ struct PerFragment
 
 // == Atlas Functions ==
 
-// nearest sampling
-vec4 _H_SampleAtlasNearest(sampler2D img, vec2 uv, vec4 rect)
+int _H_ComputeMipLevel(in vec2 uv)
 {
-	// Acquire image size
-	ivec2 size = textureSize(img, 0);
+#ifdef FRAGMENT_SHADER
+	
+	vec2 dx = dFdx(uv);
+	vec2 dy = dFdy(uv);
+    float dt = max(dot(dx, dx), dot(dy, dy));
+    return int(0.5 * log2(dt));
 
-	// Transform atlas rect to pixels space
-	rect = rect * vec4(size, size);
+#else
 
-	// Compute sampling positions (in pixel space)
-	vec2 st = mod(uv * rect.zw, rect.zw) + rect.xy;
+	// Top mip (Vertex Shader)
+	return 0;
 
-	// We encode 'flip on y' in negative height atlas rectangle.
-	// So if we see this, we need to compensate for this.
-	if (rect.w < 0.0)
+#endif
+}
+
+// nearest sampling
+vec4 _H_SampleAtlasNearest(sampler2D img, ivec2 size, vec2 uv, vec4 rect, int repeat_mode)
+{
+	switch(repeat_mode)
 	{
-		// todo: This is probably incorrect in the general case,
-		// but appears to make surfaces work as I intended.
-		st.y += size.y;
+		case _H_REPEAT_REPEAT:
+			uv = mod(uv, vec2(1.0));
+			break;
+			
+		case _H_REPEAT_CLAMP:
+			uv = clamp(uv, vec2(MIN_UV_EDGE), vec2(MAX_UV_EDGE));
+			break;
+			
+		case _H_REPEAT_BLANK:
+			if (uv.x < MIN_UV_EDGE || uv.y < MIN_UV_EDGE) { return TRANSPARENT; }
+			if (uv.x > MAX_UV_EDGE || uv.y > MAX_UV_EDGE) { return TRANSPARENT; }
+			break;
 	}
 
+	// Map UV to atlas domain
+	uv = (uv * rect.zw) + rect.xy;
+	uv = uv * size;
+
+	// Adjust for appropriate mip-map level
+	int mip = max(_H_ComputeMipLevel(uv), 0);
+	uv /= 1 << mip;
+
 	// Fetch texel
-	return texelFetch(img, ivec2(st), 0);
+	return texelFetch(img, ivec2(uv), mip);
 }
 
 // linear sampling
-vec4 _H_SampleAtlasLinear(sampler2D img, vec2 uv, vec4 rect)
+vec4 _H_SampleAtlasLinear(sampler2D img, ivec2 size, vec2 uv, vec4 rect, int repeat_mode)
 {
-	// Acquire image size
-	ivec2 size = textureSize(img, 0);
+	// Compute the 'pixel space' coordinate
+	vec2 st = uv * size * rect.zw;
 
-	// Transform atlas rect to pixels space
-	rect = rect * vec4(size, size);
-
-	// Compute sampling positions (in pixel space)
-	vec2 st = uv * rect.zw;
-	vec2 st00 = mod(st + vec2(-0.5, -0.5), rect.zw) + rect.xy;
-	vec2 st10 = mod(st + vec2( 0.5, -0.5), rect.zw) + rect.xy;
-	vec2 st01 = mod(st + vec2(-0.5,  0.5), rect.zw) + rect.xy;
-	vec2 st11 = mod(st + vec2( 0.5,  0.5), rect.zw) + rect.xy;
-
-	// Get fractional component
-	vec2 fst = fract(st00);
-
-	// We encode 'flip on y' in negative height atlas rectangle.
-	// So if we see this, we need to compensate for this.
-	if (rect.w < 0.0)
+	// 
+	if (_H_ComputeMipLevel(st) < 0.0) 
+	// Magnification
 	{
-		// todo: This is probably incorrect in the general case,
-		// but appears to make surfaces work as I intended.
-		st00.y += size.y;
-		st10.y += size.y;
-		st01.y += size.y;
-		st11.y += size.y;
+		vec2 step = 1.0 / (rect.zw * size);
+
+		// Recompute 'centered' coordinate
+		uv -= step * 0.5;
+		st = uv * size * rect.zw;
+
+		// Sample 4 corners
+		vec4 t00 = _H_SampleAtlasNearest(img, size, uv,                     rect, repeat_mode);
+		vec4 t10 = _H_SampleAtlasNearest(img, size, uv + vec2(step.x, 0.0), rect, repeat_mode);
+		vec4 t01 = _H_SampleAtlasNearest(img, size, uv + vec2(0.0, step.y), rect, repeat_mode);
+		vec4 t11 = _H_SampleAtlasNearest(img, size, uv + step,              rect, repeat_mode);
+
+		// Compute fractional step between pixels
+		vec2 fr = fract(st);
+
+		// Interpolate
+		vec4 t0 = mix(t00, t10, fr.x);
+		vec4 t1 = mix(t01, t11, fr.x);
+		return mix(t0, t1, fr.y);
 	}
-
-	// Fetch texels
-	vec4 t00 = texelFetch(img, ivec2(st00), 0);
-	vec4 t10 = texelFetch(img, ivec2(st10), 0);
-	vec4 t01 = texelFetch(img, ivec2(st01), 0);
-	vec4 t11 = texelFetch(img, ivec2(st11), 0);
-
-	// Interpolate
-	vec4 t0 = mix(t00, t10, fst.x);
-	vec4 t1 = mix(t01, t11, fst.x);
-	return mix(t0, t1, fst.y);
+	else
+	// Minification
+	{
+		return _H_SampleAtlasNearest(img, size, uv, rect, repeat_mode);
+	}
 }
 
-bool _H_CheckNegativeEncoding(inout float val, float key) 
+int _H_GetNegativeEncoding(inout float val) 
 {
-	if (val >= key) 
-	{
-		// Detected encoding
-		val -= key; // remove encoded key
-		return true;
-	} else {
-		// Was not encoded
-		return false;
-	}
+	int key = -int(floor(val));
+	val += key; // remove key
+	return key;
 }
 
 vec2 atlasSize(sampler2D img, vec4 rect) 
@@ -120,44 +139,29 @@ vec4 atlas(sampler2D img, vec4 rect, vec2 uv)
 	// - Z ----
 	// - W (0: "none"     -1: "y-flip")
 
-	// Repeat mode flags
-	const float REPEAT_BLANK  =  0.0;
-	const float REPEAT_REPEAT = -1.0;
-	const float REPEAT_CLAMP  = -2.0;
+	// Get repeat mode
+	int filter_mode = _H_GetNegativeEncoding(rect.x);
+	int repeat_mode = _H_GetNegativeEncoding(rect.y);
+	// note: no z encoding
+	int flip_mode   = _H_GetNegativeEncoding(rect.w);
 
-	// Note: Flags must be in descending order!
-	if (_H_CheckNegativeEncoding(rect.y, REPEAT_BLANK))
+	// Vertical Flip UV
+	if (flip_mode == 1)
 	{
-		if (uv.x < UV_EDGE_MIN) { return TRANSPARENT; }
-		if (uv.y < UV_EDGE_MIN) { return TRANSPARENT; }
-		if (uv.x > UV_EDGE_MAX) { return TRANSPARENT; }
-		if (uv.y > UV_EDGE_MAX) { return TRANSPARENT; }
+		uv.y = 1.0 - uv.y;
 	}
-	else 
-	if (_H_CheckNegativeEncoding(rect.y, REPEAT_REPEAT))
-	{
-		// Does nothing
-	}
-	else
-	if (_H_CheckNegativeEncoding(rect.y, REPEAT_CLAMP))
-	{
-		// Clamp UV to zero-to-one box
-		uv = clamp(uv, vec2(UV_EDGE_MIN), vec2(UV_EDGE_MAX));
-	}
-
-	// Filtering mode flags
-	const float FILTER_NEAREST =  0.0;
-	const float FILTER_LINEAR  = -1.0;
+	 
+	// Acquire image size
+	ivec2 size = textureSize(img, 0);
 
 	// Select Filtering
-	if (_H_CheckNegativeEncoding(rect.x, FILTER_NEAREST))
+	if (filter_mode == _H_FILTER_NEAREST)
 	{
-		return _H_SampleAtlasNearest(img, uv, rect);
+		return _H_SampleAtlasNearest(img, size, uv, rect, repeat_mode);
 	}
-	else
-	if (_H_CheckNegativeEncoding(rect.x, FILTER_LINEAR))
+	else // _H_FILTER_LINEAR
 	{
-		return _H_SampleAtlasLinear(img, uv, rect);
+		return _H_SampleAtlasLinear(img, size, uv, rect, repeat_mode);
 	}
 }
 

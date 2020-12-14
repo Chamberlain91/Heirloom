@@ -294,11 +294,11 @@ namespace Meadows.Drawing
 
         #region Stencil
 
-        public abstract void ClearStencil();
+        public abstract void ClearMask();
 
-        public abstract void BeginStencil();
+        public abstract void BeginDefineMask();
 
-        public abstract void EndStencil();
+        public abstract void EndDefineMask();
 
         #endregion
 

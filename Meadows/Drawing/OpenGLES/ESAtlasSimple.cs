@@ -31,6 +31,7 @@ namespace Meadows.Drawing.OpenGLES
                 {
                     GLES.BindTexture(TextureTarget.Texture2D, texture.Handle);
                     texture.Update(0, 0, image);
+                    texture.GenerateMips();
                 });
 
                 texture.Version = image.Version;

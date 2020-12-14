@@ -273,9 +273,13 @@ namespace Meadows.Drawing
 
         internal static void InitializeDefaults()
         {
-            // Populate standard includes
-            ShaderFactory.StoreSource("standard/standard.frag", ShaderFactory.LoadSource("embedded/shaders/standard/standard.frag", Array.Empty<Define>(), false));
-            ShaderFactory.StoreSource("standard/standard.vert", ShaderFactory.LoadSource("embedded/shaders/standard/standard.vert", Array.Empty<Define>(), false));
+            // Load standard fragment shader library
+            var standardFragSource = ShaderFactory.LoadSource("embedded/shaders/standard/standard.frag", new Define[] { ("FRAGMENT_SHADER", 1) }, false);
+            ShaderFactory.StoreSource("standard/standard.frag", standardFragSource);
+
+            // Load standard vertex shader library
+            var standardVertSource = ShaderFactory.LoadSource("embedded/shaders/standard/standard.vert", new Define[] { ("VERTEX_SHADER", 1) }, false);
+            ShaderFactory.StoreSource("standard/standard.vert", standardVertSource);
 
             // Create default shader
             Default = new Shader("embedded/shaders/default.vert", "embedded/shaders/default.frag", Array.Empty<Define>(), isDefaultShader: true);
@@ -303,7 +307,7 @@ namespace Meadows.Drawing
                 return $"{version}\n";
             }
 
-            private static string GenerateDefines(Define[] defines)
+            private static string GenerateDefines(IEnumerable<Define> defines)
             {
                 var output = "";
                 foreach (var define in defines)
@@ -334,7 +338,7 @@ namespace Meadows.Drawing
             /// <summary>
             /// Load GLSL source code (does not do metadata processing).
             /// </summary>
-            public static string LoadSource(string path, Define[] defines, bool prependVersion)
+            public static string LoadSource(string path, IEnumerable<Define> defines, bool prependVersion)
             {
                 // Set to prevent cyclic inclusion
                 var included = new HashSet<string>();
@@ -397,13 +401,16 @@ namespace Meadows.Drawing
                         }
 
                         // 
-                        if (depth == 0 && prependVersion)
+                        if (depth == 0)
                         {
                             // Generates and prepends the preprocessor definitions
                             code = code.Insert(0, GenerateDefines(defines));
 
-                            // Generates and prepends the prefered version preprocessor (ie, 330 or 300 es)
-                            code = code.Insert(0, GenerateVersionHeader());
+                            if (prependVersion)
+                            {
+                                // Generates and prepends the prefered version preprocessor (ie, 330 or 300 es)
+                                code = code.Insert(0, GenerateVersionHeader());
+                            }
                         }
 
                         // Store processed source
