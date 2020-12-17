@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
@@ -12,22 +13,33 @@ namespace Meadows
     /// </summary>
     public static partial class Extensions
     {
-        /// <summary>
-        /// Converts this string into a standardized "identifier".
-        /// </summary>
-        public static string ToIdentifier(this string path)
-        {
-            return EmbeddedFiles.NormalizeManifestPath(path);
-        }
-
         private static readonly Regex _regexNumberedLabel = new Regex(@"[A-Z]+\d+", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Determines of this string matches the glob-like pattern.
+        /// </summary>
+        /// <param name="str">Some string to check against the pattern.</param>
+        /// <param name="pattern">A glob-like pattern.</param>
+        /// <returns>True, if the string matches the pattern.</returns>
+        /// <remarks>
+        /// This implementation only supports basic wildcards '*' and '?'.
+        /// It does not current support '**' or 'one of many' groups.
+        /// </remarks>
+        public static bool IsLikePattern(this string str, string pattern)
+        {
+            if (str == null) { throw new ArgumentException($"'{nameof(str)}' cannot be null.", nameof(str)); }
+            if (string.IsNullOrEmpty(pattern)) { throw new ArgumentException($"'{nameof(pattern)}' cannot be null or empty.", nameof(pattern)); }
+
+            var globPattern = "^" + Regex.Escape(pattern).Replace(@"\*", ".*").Replace(@"\?", ".") + "$";
+            return new Regex(globPattern, RegexOptions.IgnoreCase | RegexOptions.Singleline).IsMatch(str);
+        }
 
         /// <summary>
         /// Shortens a string by removing the center portion and replacing with "..." dependant on the given max length.
         /// This ensures the shortened string has maxLength or less characters.
         /// </summary>
-        /// <param name="this"></param>
-        /// <param name="maxLength"></param>
+        /// <param name="this">Some string to shorten.</param>
+        /// <param name="maxLength">The maximum string length desired.</param>
         /// <returns></returns>
         public static string Shorten(this string @this, int maxLength = 15)
         {
@@ -63,6 +75,25 @@ namespace Meadows
             return @this.ToSmartDisplayName()
                         .ToUpperInvariant()
                         .Replace(' ', '_');
+        }
+
+        /// <summary>
+        /// Converts this string into a standardized string identifier.
+        /// </summary>
+        /// <remarks>
+        /// Converts all slashes to dots, spaces and non-alphanumeric to single underscores and transforms to lowercase.
+        /// </remarks>
+        public static string ToIdentifier(this string path)
+        {
+            path = path.Replace('/', '.');
+            path = path.Replace('\\', '.');
+
+            // Should I be doing this?
+            path = Regex.Replace(path, @"\s+", "_");
+            path = Regex.Replace(path, @"[^\w\d\.]+", "_");
+            path = Regex.Replace(path, "_+", "_");
+
+            return path.ToLowerInvariant().Trim('_');
         }
 
         /// <summary>

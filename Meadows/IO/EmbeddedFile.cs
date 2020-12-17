@@ -9,7 +9,7 @@ namespace Meadows.IO
     /// <summary>
     /// Represents an embedded file.
     /// </summary>
-    public sealed class EmbeddedFile
+    internal sealed class EmbeddedFile
     {
         /// <summary>
         /// Which assembly did this embedded file originate?
@@ -19,7 +19,7 @@ namespace Meadows.IO
         /// <summary>
         /// The name of this file in the assembly manifest.
         /// </summary>
-        public string Path { get; }
+        public string ManifestIdentifier { get; }
 
         /// <summary>
         /// The known transformed identifiers.
@@ -29,7 +29,7 @@ namespace Meadows.IO
         internal EmbeddedFile(Assembly assembly, string manifestName, IEnumerable<string> identifiers)
         {
             Assembly = assembly ?? throw new ArgumentNullException(nameof(assembly));
-            Path = manifestName ?? throw new ArgumentNullException(nameof(manifestName));
+            ManifestIdentifier = manifestName ?? throw new ArgumentNullException(nameof(manifestName));
             Identifiers = identifiers.ToArray();
         }
 
@@ -38,7 +38,7 @@ namespace Meadows.IO
         /// </summary>
         public Stream OpenStream()
         {
-            return Assembly.GetManifestResourceStream(Path);
+            return Assembly.GetManifestResourceStream(ManifestIdentifier);
         }
     }
 }

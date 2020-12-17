@@ -35,7 +35,7 @@ namespace Meadows.IO
 
         public static EmbeddedFile GetFile(string identifier)
         {
-            identifier = NormalizeManifestPath(identifier);
+            identifier = identifier.ToIdentifier();
             return _aliasMap.ContainsKey(identifier) ? _aliasMap[identifier] : null;
         }
 
@@ -67,7 +67,7 @@ namespace Meadows.IO
                     foreach (var manifestName in assembly.GetManifestResourceNames())
                     {
                         // Create list default identifier
-                        var identifiers = new List<string> { NormalizeManifestPath(manifestName) };
+                        var identifiers = new List<string> { manifestName.ToIdentifier() };
 
                         // Find a shorter alias
                         foreach (var prefix in namespaces)
@@ -76,8 +76,8 @@ namespace Meadows.IO
                             if (manifestName.StartsWith(prefix))
                             {
                                 // Chop off the prefix and renormalize
-                                var identifier = manifestName.Substring(prefix.Length + 1);
-                                identifier = NormalizeManifestPath(identifier);
+                                var identifier = manifestName[(prefix.Length + 1)..];
+                                identifier = identifier.ToIdentifier();
 
                                 // Store the aliased reference to the embedded file
                                 identifiers.Add(identifier);
@@ -159,17 +159,21 @@ namespace Meadows.IO
             return GetFile(identifier) != null;
         }
 
-        internal static string NormalizeManifestPath(string name)
+        /// <summary>
+        /// Attempts to convert an embedded identifier into a path.
+        /// </summary>
+        public static string GuessIdentifierPath(string identifier)
         {
-            name = name.Replace('/', '.');
-            name = name.Replace('\\', '.');
-
-            // Should I be doing this?
-            name = Regex.Replace(name, @"\s+", "_");
-            name = Regex.Replace(name, @"[^\w\d\.]+", "_");
-            name = Regex.Replace(name, "_+", "_");
-
-            return name.ToLowerInvariant().Trim('_');
+            var parts = identifier.Split('.');
+            if (parts.Length > 2)
+            {
+                var directory = string.Join('/', parts[0..^2]);
+                return $"{directory}/{parts[^2]}.{parts[^1]}";
+            }
+            else
+            {
+                return identifier;
+            }
         }
     }
 }

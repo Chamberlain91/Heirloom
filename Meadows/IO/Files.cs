@@ -1,39 +1,152 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Meadows.IO
 {
     /// <summary>
-    /// A utility to unify access of embedded files and files on disk. <para/>
+    /// A utility to unify access of embedded files, virtual files and files on disk. <para/>
     /// </summary>
+    /// <remarks>Standardizes directory separators to UNIX-like.</remarks>
     public static class Files
     {
         private static readonly Regex _slashRegex = new(@"[\\/]+", RegexOptions.Compiled);
+        private static readonly HashSet<FileSystem> _fileSystems = new();
+
+        private static readonly PhysicalFileSystem _physicalFileSystem;
+
+        static Files()
+        {
+            _physicalFileSystem = new PhysicalFileSystem(".");
+
+            AddVirtualFileSystem(_physicalFileSystem);
+            AddVirtualFileSystem(new EmbeddedFileSystem());
+        }
+
+        #region Virtual File System
+
+        internal static void AddVirtualFileSystem(FileSystem fileSystem)
+        {
+            _fileSystems.Add(fileSystem);
+            // todo: validate path conflicts?
+        }
+
+        internal static void ChangePhysicalFileRoot(string path)
+        {
+            _physicalFileSystem.ChangeFileRoot(path);
+            // todo: validate path conflicts?
+        }
+
+        #endregion
+
+        #region Path Manipulation Functions
+
+        /// <summary>
+        /// Splits the specified path at directory separators.
+        /// </summary>
+        public static string[] Split(string path)
+        {
+            if (path is null) { throw new ArgumentNullException(nameof(path)); }
+
+            path = _slashRegex.Replace(path, "/");
+            return path.Split('/', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        }
+
+        /// <summary>
+        /// Joins two paths into one.
+        /// </summary>
+        public static string Join(string first, string second)
+        {
+            if (first is null) { throw new ArgumentNullException(nameof(first)); }
+            if (second is null) { throw new ArgumentNullException(nameof(second)); }
+
+            return NormalizePath($"{first}/{second}");
+        }
+
+        /// <summary>
+        /// Joins multiple paths into one.
+        /// </summary>
+        public static string Join(string first, params string[] remaning)
+        {
+            if (first is null) { throw new ArgumentNullException(nameof(first)); }
+            if (remaning is null) { throw new ArgumentNullException(nameof(remaning)); }
+
+            var path = string.Join('/', remaning);
+            return NormalizePath(path);
+        }
+
+        /// <summary>
+        /// Joins multiple paths into one path.
+        /// </summary>
+        public static string Join(IEnumerable<string> parts)
+        {
+            if (parts is null) { throw new ArgumentNullException(nameof(parts)); }
+
+            var path = string.Join('/', parts);
+            return NormalizePath(path);
+        }
 
         /// <summary>
         /// Normalizes a path (forward slades, removing doubles, etc)
         /// </summary>
         public static string NormalizePath(string path)
         {
-            // Normalize to foward slash, removing doubles.
+            if (path is null) { throw new ArgumentNullException(nameof(path)); }
+
+            // Normalize slashes
             path = _slashRegex.Replace(path, "/");
+            var isRootPath = path.StartsWith('/');
 
             // Collapse special path parts
             var resolved = new List<string>();
-            foreach (var part in path.Split('/'))
+            foreach (var part in Split(path))
             {
                 // If encountering special 'current path' characters.
-                if (part == "." && resolved.Count > 0) { continue; }
+                if (part == ".") { continue; }
                 // If encountering special 'parent path', try to remove the prior element.
-                else if (part == ".." && resolved.Count > 0) { resolved.RemoveAt(resolved.Count - 1); }
+                else if (part == ".." && resolved.Count > 0 && resolved[^1] != "..")
+                {
+                    resolved.RemoveAt(resolved.Count - 1);
+                }
                 // Otherwise, just append to list
-                else { resolved.Add(part); }
+                else
+                {
+                    resolved.Add(part);
+                }
             }
 
-            return string.Join('/', resolved);
+            // Reconstruct path
+            if (resolved.Count == 0) { path = "."; }
+            else { path = string.Join('/', resolved); }
+
+            // Prepend root
+            if (isRootPath && !path.StartsWith(".."))
+            {
+                path = $"/{path}";
+            }
+
+            return path;
+        }
+
+        #endregion
+
+        #region List Files and Open Stream
+
+        /// <summary>
+        /// Enumerates all files that match the given glob-like pattern (if specified).
+        /// </summary>
+        /// <param name="pattern">Some glob-like pattern or null for all files.</param>
+        /// <seealso cref="Extensions.IsLikePattern(string, string)"/>
+        public static IEnumerable<string> EnumerateFiles(string pattern = null)
+        {
+            foreach (var system in _fileSystems)
+            {
+                foreach (var file in system.EnumerateFiles(pattern))
+                {
+                    yield return file;
+                }
+            }
         }
 
         /// <summary>
@@ -46,21 +159,19 @@ namespace Meadows.IO
             {
                 throw new ArgumentException("Unable to open stream, null or blank path.", nameof(path));
             }
-            // Check disk path first
-            else if (File.Exists(path))
-            {
-                // Open file from disk for reading
-                return new FileStream(path, FileMode.Open, FileAccess.Read);
-            }
-            // Check embedded path next
-            else if (EmbeddedFiles.Exists(path))
-            {
-                // Open embedded file for reading
-                return EmbeddedFiles.OpenStream(path);
-            }
-            // No known file by this path
             else
             {
+                path = NormalizePath(path);
+
+                // Check each file system for this path
+                foreach (var system in _fileSystems)
+                {
+                    if (system.Exists(path))
+                    {
+                        return system.OpenStream(path);
+                    }
+                }
+
                 throw new FileNotFoundException($"Unable to find file.", path);
             }
         }
@@ -73,29 +184,26 @@ namespace Meadows.IO
             // No file, empty string
             if (string.IsNullOrWhiteSpace(path)) { return false; }
             // Check disk path first
-            else if (File.Exists(path)) { return true; }
-            // Check embedded path next
-            else if (EmbeddedFiles.Exists(path)) { return true; }
-            // No known file by this path
-            else { return false; }
+            else
+            {
+                path = NormalizePath(path);
+
+                // Check each file system for this path
+                foreach (var system in _fileSystems)
+                {
+                    if (system.Exists(path))
+                    {
+                        return true;
+                    }
+                }
+
+                // No known file by this path
+                return false;
+            }
         }
 
-        /// <summary>
-        /// Gets all known embedded files.
-        /// </summary>
-        public static EmbeddedFile[] GetEmbeddedFiles()
-        {
-            return EmbeddedFiles.GetFiles().ToArray();
-        }
-
-        /// <summary>
-        /// Gets information about the embedded file.
-        /// </summary>
-        public static EmbeddedFile GetEmbeddedInfo(string path)
-        {
-            return EmbeddedFiles.GetFile(path);
-        }
-
+        #endregion
+         
         #region Convenience (ReadText, etc)
 
         /// <summary>

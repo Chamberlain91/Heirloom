@@ -9,13 +9,9 @@ namespace Meadows.Benchmark
 {
     public static class Assets
     {
-        public static IEnumerable<Image> LoadImages(string prefix, bool center)
+        public static IEnumerable<Image> LoadImages(string directory)
         {
-            prefix = prefix.Replace("/", "."); // correct slashes to identifier format
-
-            var images = Files.GetEmbeddedFiles()
-                              .Where(ef => ef.Identifiers.Any(i => i.StartsWith(prefix)))
-                              .Select(ef => ef.Identifiers.First())
+            var images = Files.EnumerateFiles(Files.Join(directory, "*"))
                               .Where(HasImageExtension)
                               .Select(p => new Image(p))
                               .ToArray();
@@ -23,20 +19,9 @@ namespace Meadows.Benchmark
             // Something went wrong couldn't find files
             if (images.Length == 0)
             {
-                throw new FileNotFoundException($"Discovery of embedded with prefix '{prefix}' failed.");
+                throw new FileNotFoundException($"Discovery of embedded with prefix '{directory}' failed.");
             }
 
-            if (center)
-            {
-                // Set the origin of each images to its center
-                foreach (var image in images)
-                {
-                    // todo: do I want the origin thing, probably no.
-                    // image.Origin = (IntVector) image.Size / 2;
-                }
-            }
-
-            // Image.CreateAtlas(images);
             return images;
         }
 
