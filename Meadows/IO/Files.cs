@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -10,20 +11,29 @@ namespace Meadows.IO
     /// </summary>
     public static class Files
     {
-        private static readonly Regex _removeDoubles = new Regex("/+", RegexOptions.Compiled);
+        private static readonly Regex _slashRegex = new(@"[\\/]+", RegexOptions.Compiled);
 
         /// <summary>
         /// Normalizes a path (forward slades, removing doubles, etc)
         /// </summary>
         public static string NormalizePath(string path)
         {
-            // normalize to foward slash
-            path = path.Replace('\\', '/');
+            // Normalize to foward slash, removing doubles.
+            path = _slashRegex.Replace(path, "/");
 
-            // replace any doubles "a//b" to "a/b"
-            path = _removeDoubles.Replace(path, "/");
+            // Collapse special path parts
+            var resolved = new List<string>();
+            foreach (var part in path.Split('/'))
+            {
+                // If encountering special 'current path' characters.
+                if (part == "." && resolved.Count > 0) { continue; }
+                // If encountering special 'parent path', try to remove the prior element.
+                else if (part == ".." && resolved.Count > 0) { resolved.RemoveAt(resolved.Count - 1); }
+                // Otherwise, just append to list
+                else { resolved.Add(part); }
+            }
 
-            return path;
+            return string.Join('/', resolved);
         }
 
         /// <summary>
