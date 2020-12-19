@@ -7,7 +7,6 @@ in vec2 aUV;
 
 // == Per Instance Attributes ==
 
-// todo: repeat for each named image
 in vec4   aAtlasRect; // U, V, sU, sV
 
 in mat2x3 aTransform;
@@ -19,8 +18,18 @@ out vec4 uMainImage_UVRect;
 out PerFragment frag;
 
 // == Uniforms ==
+ 
+uniform mat2x3 uProjection;
+uniform bool uPixelPerfect;
 
-// -- NO UNIFORMS
+// == Helper Functions ==
+
+vec3 _H_SnapPixel(vec3 position) 
+{
+	position.x = floor(position.x);
+	position.y = floor(position.y);
+	return position;
+}
 
 // == Vertex Shader ==
 
@@ -29,9 +38,17 @@ vec2 vertexProgram(vec2 position);
 
 void main() 
 { 
-	// Transform from object space to projection space
+	// Transform from object space to pixel space
 	vec3 vPosition = vec3(vertexProgram(aPosition), 1.0);
 	     vPosition = vec3(vPosition * aTransform, 1.0);
+	
+	// If specified, snap to pixel space
+	if (uPixelPerfect) {
+		vPosition = _H_SnapPixel(vPosition); 
+	}
+	
+	// Transform from pixel space to normalized space
+	vPosition = vec3(vPosition * uProjection, 1.0);
 	
 	// Emit atlas transform rect
 	uMainImage_UVRect = aAtlasRect;

@@ -46,7 +46,7 @@ namespace Meadows.Drawing.Software
 
             // Compute final transformation matrix
             var transform = Matrix.RectangleProjection(0, 0, Viewport.Width, Viewport.Height);
-            Matrix.Multiply(transform, CameraMatrix, ref transform);
+            Matrix.Multiply(transform, CompositeMatrix, ref transform);
             Matrix.Multiply(transform, matrix, ref transform);
 
             // For each triangle of the mesh
@@ -82,7 +82,7 @@ namespace Meadows.Drawing.Software
                             var color = (wa * a.Color) + (wb * b.Color) + (wc * c.Color);
 
                             // Sample texture (this is the fragment shader phase)
-                            color *= softwareTexture.Sample(uv, InterpolationMode, texture.Repeat);
+                            color *= softwareTexture.Sample(uv, texture.Interpolation, texture.Repeat);
                             color *= Color;
 
                             // Discard alpha values too small
@@ -211,14 +211,14 @@ namespace Meadows.Drawing.Software
             throw new NotImplementedException("Unable to set uniforms on software context");
         }
 
-        public override void ClearMask()
+        public override void ClearStencil()
         {
             _stencilWrite = false;
             _stencilEnable = false;
             _colorWrite = true;
         }
 
-        public override void BeginDefineMask()
+        public override void BeginStencil()
         {
             _stencilEnable = true;
             _stencilWrite = true;
@@ -232,7 +232,7 @@ namespace Meadows.Drawing.Software
             }
         }
 
-        public override void EndDefineMask()
+        public override void EndStencil()
         {
             _stencilWrite = false;
             _colorWrite = true;

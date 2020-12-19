@@ -4,16 +4,16 @@ using System.Collections.Generic;
 namespace Meadows.Mathematics
 {
     /// <summary>
-    /// An implementation of a multi-point bezier curve using multiple 'segments' of simple curves.
+    /// An implementation of a bezier spline using multiple 'segments' of cubic curves.
     /// </summary>
-    public sealed class Curve
+    public sealed class Bezier
     {
         private readonly List<Segment> _segments;
 
         /// <summary>
-        /// Constructs a new instance of <see cref="Curve"/>.
+        /// Constructs a new instance of <see cref="Bezier"/>.
         /// </summary>
-        public Curve()
+        public Bezier()
         {
             _segments = new List<Segment>();
         }
@@ -30,9 +30,9 @@ namespace Meadows.Mathematics
         /// <param name="inHandle">The first handle, relative to this newly added point.</param>
         /// <param name="outHandle">The second handle, relative to the next point in the curve.</param>
         /// <param name="type">The type of curve the segment after this point represents will act like.</param>
-        public void Add(Vector controlPoint, Vector inHandle, Vector outHandle, CurveType type = CurveType.Cubic)
+        public void Add(Vector controlPoint, Vector inHandle, Vector outHandle)
         {
-            var segment = new Segment(controlPoint, inHandle, outHandle, type);
+            var segment = new Segment(controlPoint, inHandle, outHandle);
             _segments.Add(segment);
         }
 
@@ -44,34 +44,10 @@ namespace Meadows.Mathematics
         /// <param name="inHandle">The first handle, relative to this newly added point.</param>
         /// <param name="outHandle">The second handle, relative to the next point in the curve.</param>
         /// <param name="type">The type of curve the segment after this point represents will act like.</param>
-        public void Insert(int index, Vector controlPoint, Vector inHandle, Vector outHandle, CurveType type = CurveType.Cubic)
+        public void Insert(int index, Vector controlPoint, Vector inHandle, Vector outHandle)
         {
-            var s = new Segment(controlPoint, inHandle, outHandle, type);
+            var s = new Segment(controlPoint, inHandle, outHandle);
             _segments.Insert(index, s);
-        }
-
-        /// <summary>
-        /// Computes a point interpolated across the curve.
-        /// </summary>
-        public Vector Interpolate(float t)
-        {
-            var currentIndex = Calc.Floor(t);
-            var nextIndex = Calc.Ceil(t);
-            var current = _segments[currentIndex];
-            var next = nextIndex < _segments.Count ? _segments[nextIndex] : current;
-            return current.Interpolate(t - currentIndex, next.Point);
-        }
-
-        /// <summary>
-        /// Computes the derivative of a point interpolated across the curve.
-        /// </summary>
-        public Vector InterpolateDerivative(float t)
-        {
-            var currentIndex = Calc.Floor(t);
-            var nextIndex = Calc.Ceil(t);
-            var current = _segments[currentIndex];
-            var next = nextIndex < _segments.Count ? _segments[nextIndex] : current;
-            return current.InterpolateDerivative(t - currentIndex, next.Point);
         }
 
         /// <summary>
@@ -151,108 +127,95 @@ namespace Meadows.Mathematics
         }
 
         /// <summary>
-        /// Sets the type of curve of the segment following the point at the specified index.
+        /// Computes a point interpolated across the curve.
         /// </summary>
-        /// <param name="index">The index of the point.</param>
-        /// <param name="type">The type of curve the segment will act like.</param>
-        /// <exception cref="IndexOutOfRangeException">If the <paramref name="index"/> is less than zero or greater than or equal to <see cref="Count"/>.</exception>
-        public void SetCurveType(int index, CurveType type)
+        public Vector Interpolate(float t)
         {
-            _segments[index].CurveType = type;
+            var currentIndex = Calc.Floor(t);
+            var nextIndex = Calc.Ceil(t);
+            var current = _segments[currentIndex];
+            var next = nextIndex < _segments.Count ? _segments[nextIndex] : current;
+            return current.Interpolate(t - currentIndex, next.Point);
         }
 
         /// <summary>
-        /// Gets the type of curve of the segment following the point at the specified index.
+        /// Computes the derivative of a point interpolated across the curve.
         /// </summary>
-        /// <param name="index">The index of the point.</param>
-        /// <returns>The type of curve the segment acts like.</returns>
-        /// <exception cref="IndexOutOfRangeException">If the <paramref name="index"/> is less than zero or greater than or equal to <see cref="Count"/>.</exception>
-        public CurveType GetCurveType(int index)
+        public Vector InterpolateDerivative(float t)
         {
-            return _segments[index].CurveType;
+            var currentIndex = Calc.Floor(t);
+            var nextIndex = Calc.Ceil(t);
+            var current = _segments[currentIndex];
+            var next = nextIndex < _segments.Count ? _segments[nextIndex] : current;
+            return current.InterpolateDerivative(t - currentIndex, next.Point);
         }
 
         internal IEnumerable<Vector> GenerateInterpolatedSequence()
         {
-            yield return GetPoint(0);
+            const float StepNominal = 0.2F;
+            const float StepMin = StepNominal / 3F;
 
             for (var i = 0; i < Count - 1; i++)
             {
-                var current = GetPoint(i);
+                var curr = GetPoint(i + 0);
                 var next = GetPoint(i + 1);
 
-                switch (GetCurveType(i))
+                var p0 = curr;
+                var p1 = curr + GetInHandle(i);
+                var p2 = next + GetOutHandle(i);
+                var p3 = next;
+
+                var t = 0F;
+
+                // length of derivative curve
+                var derivitiveLength = CurveTools.ApproximateLength(t => CurveTools.InterpolateDerivative(p0, p1, p2, p3, t), resolution: 8);
+
+                while (t < 1F)
                 {
-                    case CurveType.Cubic:
+                    // Emit interpolated point
+                    yield return CurveTools.Interpolate(p0, p1, p2, p3, t);
 
-                        var p0 = current;
-                        var p1 = current + GetInHandle(i);
-                        var p2 = next + GetOutHandle(i);
-                        var p3 = next;
-
-                        var t = 0F;
-
-                        // length of derivative curve
-                        var dLength = CurveTools.ApproximateLength(t => CurveTools.InterpolateDerivative(p0, p1, p2, p3, t), 4);
-                        var nominal = 0.15F;
-
-                        while (t < 1F)
-                        {
-                            // Emit intermediate point
-                            var p = CurveTools.Interpolate(p0, p1, p2, p3, t);
-                            yield return p;
-
-                            // Compute derivative to step long the line in a non-linear fashion to enhance curve quiality
-                            var derivative = CurveTools.InterpolateDerivative(p0, p1, p2, p3, t).Length / dLength;
-                            t += Calc.Clamp(nominal * derivative, 0.05F, 0.20F); // keeps steps within 5% to 20%
-                        }
-
-                        break;
+                    // Compute derivative to step long the line in a non-linear fashion to enhance curve quiality
+                    var derivative = CurveTools.InterpolateDerivative(p0, p1, p2, p3, t).Length / derivitiveLength;
+                    t += Calc.Max(StepNominal * derivative, StepMin); // advance along line
                 }
             }
 
+            // Connect to final point
             yield return GetPoint(Count - 1);
         }
 
-        private class Segment
+        private sealed class Segment
         {
             public Vector Point;
             public Vector InHandle;
             public Vector OutHandle;
-            public CurveType CurveType;
 
-            public Segment(Vector point, Vector inHandle, Vector outHandle, CurveType curveType)
+            public Segment(Vector point, Vector inHandle, Vector outHandle)
             {
                 Point = point;
                 InHandle = inHandle;
                 OutHandle = outHandle;
-                CurveType = curveType;
             }
 
             internal Vector Interpolate(float t, Vector nextPoint)
             {
-                return CurveType switch
-                {
-                    CurveType.Cubic => CurveTools.Interpolate(Point, Point + InHandle, nextPoint + OutHandle, nextPoint, t),
-                    CurveType.Quadratic => CurveTools.Interpolate(Point, Point + InHandle, nextPoint, t),
-                    CurveType.Linear => Vector.Lerp(Point, nextPoint, t),
-                    CurveType.Stepped => Point,
+                var p0 = Point;
+                var p1 = Point + InHandle;
+                var p2 = nextPoint + OutHandle;
+                var p3 = nextPoint;
 
-                    _ => throw new ArgumentException($"Unable to interpolate, invalid curve type.", nameof(CurveType)),
-                };
+                return CurveTools.Interpolate(p0, p1, p2, p3, t);
             }
 
             internal Vector InterpolateDerivative(float t, Vector nextPoint)
             {
-                return CurveType switch
-                {
-                    CurveType.Cubic => CurveTools.InterpolateDerivative(Point, Point + InHandle, nextPoint + OutHandle, nextPoint, t),
-                    CurveType.Quadratic => CurveTools.InterpolateDerivative(Point, Point + InHandle, nextPoint, t),
-                    CurveType.Linear => nextPoint - Point,
-                    CurveType.Stepped => Vector.Zero,
+                var p0 = Point;
+                var p1 = Point + InHandle;
+                var p2 = nextPoint + OutHandle;
+                var p3 = nextPoint;
 
-                    _ => throw new ArgumentException($"Unable to interpolate, invalid curve type.", nameof(CurveType)),
-                };
+                return CurveTools.InterpolateDerivative(p0, p1, p2, p3, t);
             }
         }
     }

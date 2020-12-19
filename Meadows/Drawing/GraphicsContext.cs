@@ -8,22 +8,33 @@ namespace Meadows.Drawing
 {
     public abstract partial class GraphicsContext : IDisposable
     /**
-     * When a shader is created, it requests from an active context for it to be compiled.
-     * This then can defer to whatever backend is running the context... this is to prevent a lazy compile of the shader.
-     * 
-     * Shader uniforms are apparently per-program, so once updated they should be the same across contexts. Only trick is making sure
-     * synchronization is predictable (as most parts of the GL backend)
-     */
+    * When a shader is created, it requests from an active context for it to be compiled.
+    * This then can defer to whatever backend is running the context... this is to prevent a lazy compile of the shader.
+    * 
+    * Shader uniforms are apparently per-program, so once updated they should be the same across contexts. Only trick is making sure
+    * synchronization is predictable (as most parts of the GL backend)
+    */
     {
         private static readonly RecyclePool<int> _idPool = new(() => _idCounter++);
         private static int _idCounter;
 
         protected internal readonly int Id = _idPool.Request();
 
-        protected StateDirtyFlags StateFlags = ~(StateDirtyFlags) 0;
+        protected StateDirtyFlags StateFlags = StateDirtyFlags.All;
 
-        private readonly Stack<RenderState> _stateStack = new Stack<RenderState>();
+        private readonly Stack<RenderState> _stateStack = new();
         private RenderState _state;
+
+        private Matrix _compositeMatrix;
+
+        private Matrix _inverseCompositeMatrix;
+        private Matrix _inverseTransform;
+        private Matrix _inverseCamera;
+
+        private bool _compositeDirty;
+        private bool _inverseCompositeDirty;
+        private bool _inverseTransformDirty;
+        private bool _inverseCameraDirty;
 
         private bool _isDisposed;
 
@@ -33,17 +44,17 @@ namespace Meadows.Drawing
             Viewport = 1 << 0,
             Surface = 1 << 1,
 
-            Interpolation = 1 << 2,
-            Blending = 1 << 3,
-            Shader = 1 << 4,
+            Blending = 1 << 2,
+            Shader = 1 << 3,
+
+            PixelPerfect = 1 << 4,
 
             // 
-            All = Viewport | Surface | Interpolation | Blending | Shader
+            All = Viewport | Surface | Blending | Shader | PixelPerfect
         }
 
         protected struct RenderState
         {
-            public InterpolationMode InterpolationMode;
             public BlendingMode BlendingMode;
             public Shader Shader;
 
@@ -51,9 +62,11 @@ namespace Meadows.Drawing
             public Surface Surface;
 
             public Matrix Transform;
-            public Matrix Camera;
+            public Matrix CameraMatrix;
 
             public Color Color;
+
+            public bool PixelPerfect;
         }
 
         #region Constructor
@@ -66,7 +79,7 @@ namespace Meadows.Drawing
             Performance = new GraphicsPerformance();
 
             // 
-            SetDefaultState();
+            ResetState();
         }
 
         ~GraphicsContext()
@@ -88,16 +101,25 @@ namespace Meadows.Drawing
 
         #region Render State (Properties)
 
-        public InterpolationMode InterpolationMode
+        public float ApproximatePixelScale
         {
-            get => _state.InterpolationMode;
+            get
+            {
+                var scaleVec = 2F / CompositeMatrix.GetAffineScale();
+                return Vector.GetMinComponent(scaleVec / (Vector) Viewport.Size);
+            }
+        }
+
+        public bool PixelPerfect
+        {
+            get => _state.PixelPerfect;
 
             set
             {
-                if (_state.InterpolationMode != value)
+                if (_state.PixelPerfect != value)
                 {
-                    _state.InterpolationMode = value;
-                    StateFlags |= StateDirtyFlags.Interpolation;
+                    _state.PixelPerfect = value;
+                    StateFlags |= StateDirtyFlags.PixelPerfect;
                 }
             }
         }
@@ -116,22 +138,6 @@ namespace Meadows.Drawing
             }
         }
 
-        public Matrix CameraMatrix
-        {
-            get => _state.Camera;
-            set => SetCameraMatrix(value);
-        }
-
-        // todo: camera inverse matrix?
-
-        public Matrix TransformMatrix
-        {
-            get => _state.Transform;
-            set => SetTransformMatrix(value);
-        }
-
-        // todo: transform inverse matrix?
-
         public Color Color { get; set; }
 
         public IntRectangle Viewport => _state.Viewport;
@@ -140,18 +146,129 @@ namespace Meadows.Drawing
 
         public Shader Shader => _state.Shader;
 
+        #region Transform Matrix
+
+        public Matrix Transform
+        {
+            get => _state.Transform;
+
+            set
+            {
+                _state.Transform = value;
+
+                // Mark respective matrices as dirty
+                _inverseTransformDirty = true;
+                _inverseCompositeDirty = true;
+                _compositeDirty = true;
+            }
+        }
+
+        public Matrix InverseTransform
+        {
+            get
+            {
+                if (_inverseTransformDirty)
+                {
+                    // Compute the inverse of the camera matrix
+                    Matrix.Inverse(Transform, ref _inverseTransform);
+
+                    // Clear dirty flag
+                    _inverseTransformDirty = false;
+                }
+
+                return _inverseTransform;
+            }
+        }
+
+        #endregion
+
+        #region Camera Matrix
+
+        public Matrix CameraMatrix
+        {
+            get => _state.CameraMatrix;
+            set
+            {
+                _state.CameraMatrix = value;
+
+                // Mark respective matrices as dirty
+                _inverseCameraDirty = true;
+                _inverseCompositeDirty = true;
+                _compositeDirty = true;
+            }
+        }
+
+        public Matrix InverseCameraMatrix
+        {
+            get
+            {
+                if (_inverseCameraDirty)
+                {
+                    // Compute the inverse of the camera matrix
+                    Matrix.Inverse(CameraMatrix, ref _inverseCamera);
+
+                    // Clear dirty flag
+                    _inverseCameraDirty = false;
+                }
+
+                return _inverseCamera;
+            }
+        }
+
+        #endregion
+
+        #region Composite Matrix
+
+        public Matrix CompositeMatrix
+        {
+            get
+            {
+                if (_compositeDirty)
+                {
+                    // Compute new composite (proj * camera * world) matrix.
+                    Matrix.Multiply(CameraMatrix, Transform, ref _compositeMatrix);
+
+                    // Clear dirty flag
+                    _compositeDirty = false;
+                }
+
+                return _compositeMatrix;
+            }
+        }
+
+        public Matrix InverseCompositeMatrix
+        {
+            get
+            {
+                if (_inverseCompositeDirty)
+                {
+                    // Compute the inverse of the composite matrix
+                    Matrix.Inverse(CompositeMatrix, ref _inverseCompositeMatrix);
+
+                    // Clear dirty flag
+                    _inverseCompositeDirty = false;
+                }
+
+                return _inverseCompositeMatrix;
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Render State (Methods)
 
-        protected virtual void SetTransformMatrix(Matrix matrix)
+        private void SetViewport(IntRectangle viewport)
         {
-            _state.Transform = matrix;
-        }
+            // Potentially update viewport state
+            if (_state.Viewport != viewport)
+            {
+                _state.Viewport = viewport;
 
-        protected virtual void SetCameraMatrix(Matrix matrix)
-        {
-            _state.Camera = matrix;
+                // Mark viewport, projection matrix and transform matrix as dirty
+                StateFlags |= StateDirtyFlags.Viewport;
+            }
         }
 
         public void SetCamera(Vector center, float scale = 1F, float rotation = 0F)
@@ -170,11 +287,11 @@ namespace Meadows.Drawing
             // If a rotation is given, apply a rotation transform
             if (!Calc.NearZero(rotation))
             {
-                camera = Matrix.CreateRotation(rotation) * camera;
+                camera *= Matrix.CreateRotation(rotation);
             }
 
-            // 
-            SetCameraMatrix(camera);
+            //
+            CameraMatrix = camera;
         }
 
         public virtual void SetRenderTarget(Surface surface, IntRectangle? viewport = null)
@@ -186,18 +303,14 @@ namespace Meadows.Drawing
 
             // If viewport is not specified, use the surface size.
             viewport ??= (IntVector.Zero, surface.Size);
-
-            // Potentially update viewport state
-            if (_state.Viewport != viewport.Value)
-            {
-                _state.Viewport = viewport.Value;
-                StateFlags |= StateDirtyFlags.Viewport;
-            }
+            SetViewport(viewport.Value);
 
             // Potentially update surface (render target)
             if (_state.Surface != surface)
             {
                 _state.Surface = surface;
+
+                // Mark surface state dirty
                 StateFlags |= StateDirtyFlags.Surface;
             }
         }
@@ -209,6 +322,8 @@ namespace Meadows.Drawing
             if (_state.Shader != shader)
             {
                 _state.Shader = shader;
+
+                // Mark shader state dirty
                 StateFlags |= StateDirtyFlags.Shader;
             }
         }
@@ -222,34 +337,38 @@ namespace Meadows.Drawing
         {
             var state = _stateStack.Pop();
 
-            // Set prior render state
-            InterpolationMode = state.InterpolationMode;
+            // Set prior blending and color
             BlendingMode = state.BlendingMode;
-
-            // Set prior shader
-            UseShader(state.Shader);
-
-            // Set prior render target
-            SetRenderTarget(state.Surface, state.Viewport);
-            SetTransformMatrix(state.Transform);
-            SetCameraMatrix(state.Camera);
-
-            // 
             Color = state.Color;
+
+            // Restore prior shader
+            UseShader(state.Shader);
+            // todo: pixel snapping
+
+            // Restore prior render target
+            SetRenderTarget(state.Surface, state.Viewport);
+
+            // Restore prior matrices
+            CameraMatrix = state.CameraMatrix;
+            Transform = state.Transform;
         }
 
-        protected void SetDefaultState()
+        public void ResetState()
         {
-            InterpolationMode = InterpolationMode.Nearest;
+            // Set default blending and color
             BlendingMode = BlendingMode.Alpha;
             Color = Color.White;
 
-            // Set prior shader
+            // Default shader configuration
             UseShader(Shader.Default);
+            // todo: pixel snapping
 
+            // Set default surface
             SetRenderTarget(Screen.Surface);
-            SetTransformMatrix(Matrix.Identity);
-            SetCameraMatrix(Matrix.Identity);
+
+            // Set default matrices
+            CameraMatrix = Matrix.Identity;
+            Transform = Matrix.Identity;
         }
 
         #endregion
@@ -271,7 +390,7 @@ namespace Meadows.Drawing
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Draw(Texture texture, Mesh mesh, Matrix matrix)
+        public void Draw(Mesh mesh, Texture texture, Matrix matrix)
         {
             Draw(mesh, texture, Rectangle.One, matrix);
         }
@@ -299,7 +418,7 @@ namespace Meadows.Drawing
             transform.M4 *= h;
 
             // Submit draw
-            Draw(texture, Mesh.QuadMesh, transform);
+            Draw(Mesh.QuadMesh, texture, transform);
         }
 
         /// <summary>
@@ -311,11 +430,11 @@ namespace Meadows.Drawing
         public void DrawImage(Texture image, in Rectangle rectangle)
         {
             var transform = Matrix.CreateTransform(rectangle.Position, 0, (Vector) rectangle.Size);
-            Draw(image, Mesh.QuadMesh, transform);
+            Draw(Mesh.QuadMesh, image, transform);
         }
 
         // draw partial image
-        public void DrawSubImage(Texture texture, IntRectangle region, Matrix matrix)
+        public void DrawImage(Texture texture, IntRectangle region, Matrix matrix)
         {
             var w = (float) texture.Width;
             var h = (float) texture.Height;
@@ -341,11 +460,11 @@ namespace Meadows.Drawing
 
         #region Stencil
 
-        public abstract void ClearMask();
+        public abstract void ClearStencil();
 
-        public abstract void BeginDefineMask();
+        public abstract void BeginStencil();
 
-        public abstract void EndDefineMask();
+        public abstract void EndStencil();
 
         #endregion
 

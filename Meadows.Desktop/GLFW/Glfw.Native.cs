@@ -2,9 +2,6 @@ using System;
 using System.Runtime.InteropServices;
 using System.Security;
 
-using Meadows.Desktop;
-using Meadows.Input;
-
 namespace Meadows.Desktop.GLFW
 {
     internal static unsafe partial class Glfw

@@ -2,34 +2,18 @@ using System;
 
 namespace Meadows.Drawing
 {
+
     public abstract class GraphicsResource : IDisposable
     {
         private IDisposable[] _contextObjects = Array.Empty<IDisposable>();
         private IDisposable _backendObject;
 
-        private bool _isVersionDirty;
-        private uint _version;
+        private readonly Version _version = new();
 
         /// <summary>
         /// The version of this resource. It is incremented when changes are made to the object.
         /// </summary>
-        public uint Version
-        {
-            get
-            {
-                if (_isVersionDirty)
-                {
-                    // Increment version number
-                    if (_version == uint.MaxValue) { _version = 0; }
-                    else { _version++; }
-
-                    // Mark as no longer dirty
-                    _isVersionDirty = false;
-                }
-
-                return _version;
-            }
-        }
+        public uint Version => _version;
 
         ~GraphicsResource()
         {
@@ -38,7 +22,7 @@ namespace Meadows.Drawing
 
         protected internal void IncrementVersion()
         {
-            _isVersionDirty = true;
+            _version.Increment();
         }
 
         #region Backend Associated Native Objects

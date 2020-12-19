@@ -19,9 +19,6 @@ namespace Meadows.Drawing.OpenGLES
         private ESTexture _texture;
         private bool _textureDirty;
 
-        private Matrix _compositeMatrix;
-        private Matrix _viewMatrix;
-
         private readonly Dictionary<int, UniformData> _modifiedUniforms = new();
 
         private ESBatch _batch;
@@ -113,38 +110,6 @@ namespace Meadows.Drawing.OpenGLES
 
         #endregion
 
-        #region Camera / View Matrix 
-
-        protected override void SetCameraMatrix(Matrix matrix)
-        {
-            base.SetCameraMatrix(matrix);
-            ComputeViewMatrix();
-        }
-
-        protected override void SetTransformMatrix(Matrix matrix)
-        {
-            base.SetTransformMatrix(matrix);
-            ComputeCompositeMatrix();
-        }
-
-        private void ComputeViewMatrix()
-        {
-            // Compute new view matrix
-            var projMatrix = Matrix.RectangleProjection(0, 0, Viewport.Width, Viewport.Height);
-            Matrix.Multiply(in projMatrix, CameraMatrix, ref _viewMatrix);
-
-            // Compute composite matrix
-            ComputeCompositeMatrix();
-        }
-
-        private void ComputeCompositeMatrix()
-        {
-            // Compute view matrix matrix
-            Matrix.Multiply(in _viewMatrix, TransformMatrix, ref _compositeMatrix);
-        }
-
-        #endregion
-
         public override void Clear(Color color)
         {
             _batch.Clear(color);
@@ -170,14 +135,20 @@ namespace Meadows.Drawing.OpenGLES
                 _textureDirty = true;
             }
 
-            // Combine view matrix with object transform
-            Matrix.Multiply(_compositeMatrix, in matrix, ref matrix);
+            // Combine composite with (proj * camera * world * object)
+            Matrix.Multiply(CompositeMatrix, in matrix, ref matrix);
+
+            // Pixel perfect has changed, we need to flush non-perfect pixels
+            if (StateFlags.HasFlag(StateDirtyFlags.PixelPerfect))
+            {
+                // todo: write uPixelPerfect in uniform buffer (and flush)
+
+                // Update pixel perfect uniform
+                StateFlags &= ~StateDirtyFlags.PixelPerfect;
+            }
 
             // Uniform state has changed, flush changes.
-            if (_modifiedUniforms.Count > 0)
-            {
-                Flush();
-            }
+            if (_modifiedUniforms.Count > 0) { Flush(); }
 
             // While unable to submit to batch, flush pending operations.
             while (!_batch.Submit(mesh, uvRect, matrix, Color))
@@ -200,7 +171,7 @@ namespace Meadows.Drawing.OpenGLES
 
         #region Stencil Methods
 
-        public override void ClearMask()
+        public override void ClearStencil()
         {
             // stencil enable = false
             // stencil write = false
@@ -220,7 +191,7 @@ namespace Meadows.Drawing.OpenGLES
             });
         }
 
-        public override void BeginDefineMask()
+        public override void BeginStencil()
         {
             // stencil enable = true
             // stencil write = true
@@ -258,7 +229,7 @@ namespace Meadows.Drawing.OpenGLES
             });
         }
 
-        public override void EndDefineMask()
+        public override void EndStencil()
         {
             // stencil write = false
             // color write = true
@@ -329,14 +300,29 @@ namespace Meadows.Drawing.OpenGLES
                     if (StateFlags != 0) // state has been changed!
                     {
                         // Update each aspect if the respective flag is set
-                        if (StateFlags.HasFlag(StateDirtyFlags.Viewport)) { UpdateViewport(); }
-                        if (StateFlags.HasFlag(StateDirtyFlags.Surface)) { UpdateSurface(); }
-                        if (StateFlags.HasFlag(StateDirtyFlags.Shader)) { UpdateShader(); }
-                        if (StateFlags.HasFlag(StateDirtyFlags.Blending)) { UpdateBlending(); }
-                        if (StateFlags.HasFlag(StateDirtyFlags.Interpolation)) { UpdateInterpolation(); }
+                        if (StateFlags.HasFlag(StateDirtyFlags.Blending))
+                        {
+                            StateFlags &= ~StateDirtyFlags.Blending;
+                            UpdateBlending();
+                        }
 
-                        // Clear state change flags
-                        StateFlags = 0;
+                        if (StateFlags.HasFlag(StateDirtyFlags.Viewport))
+                        {
+                            StateFlags &= ~StateDirtyFlags.Viewport;
+                            UpdateViewport();
+                        }
+
+                        if (StateFlags.HasFlag(StateDirtyFlags.Surface))
+                        {
+                            StateFlags &= ~StateDirtyFlags.Surface;
+                            UpdateSurface();
+                        }
+
+                        if (StateFlags.HasFlag(StateDirtyFlags.Shader))
+                        {
+                            StateFlags &= ~StateDirtyFlags.Shader;
+                            UpdateShader();
+                        }
                     }
 
                     // Commit changes to atlas
@@ -349,6 +335,9 @@ namespace Meadows.Drawing.OpenGLES
                         GLES.BindTexture(TextureTarget.Texture2D, _texture.Handle);
                         _textureDirty = false;
                     }
+
+                    // todo: remove once uniform buffers are set
+                    SetUniform("uPixelPerfect", PixelPerfect);
 
                     // Update uniforms
                     // todo: is this dictionary loop efficient enough?
@@ -381,8 +370,9 @@ namespace Meadows.Drawing.OpenGLES
                 GLES.SetViewport(x, y, w, h);
                 GLES.SetScissor(x, y, w, h);
 
-                // Compute a view matrix to accomodate this change in viewport
-                ComputeViewMatrix();
+                // Compute projection matrix to convert from pixel space to normalized coordinates
+                var projectionMatrix = Matrix.RectangleProjection(0, 0, Viewport.Width, Viewport.Height);
+                SetUniform("uProjection", projectionMatrix);
             }
 
             void UpdateSurface()
@@ -460,11 +450,6 @@ namespace Meadows.Drawing.OpenGLES
                         GLES.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.Zero);
                         break;
                 }
-            }
-
-            void UpdateInterpolation()
-            {
-                Log.Warning("TODO: ESGraphicsContext.UpdateInterpolation");
             }
         }
 
@@ -931,7 +916,7 @@ namespace Meadows.Drawing.OpenGLES
             // - Y component encodes repeat mode
             // - Z component has no encoding currently.
             // - W component encodes vertical flip (to compensate for framebuffers).
-            uvRect.X -= (float) InterpolationMode;
+            uvRect.X -= (float) texture.Interpolation;
             uvRect.Y -= (float) texture.Repeat;
         }
 

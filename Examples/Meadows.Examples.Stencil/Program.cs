@@ -1,5 +1,6 @@
 using Meadows.Desktop;
 using Meadows.Drawing;
+using Meadows.Drawing.Software;
 using Meadows.Mathematics;
 using Meadows.Utilities;
 
@@ -9,19 +10,18 @@ namespace Meadows.Examples.Stencil
     {
         public readonly Window Window;
 
-        public Image Image;
+        public static Image Image;
 
         public Program()
         {
-            Image = new Image("zelda.jpg");
-
             // At this point desktop window, graphics and audio systems have been initialized.
             Window = new Window("Heirloom - Stencil Example", (1280, 320), MultisampleQuality.Medium) { IsResizable = false };
-            RenderStencilTest(Window.Graphics, 10);
 
-            // Write screengrab to disk
+            // Write hardware rendered image to disk. This is to compare with the software
+            // implementation. See Main() below.
+            RenderStencilTest(Window.Graphics, 10);
             var screenshot = Window.Graphics.GrabPixels();
-            screenshot.Write("screengrab.jpg");
+            screenshot.Write("hardware.png");
 
             var time = 0F;
             GameLoop.StartNew(dt =>
@@ -32,63 +32,81 @@ namespace Meadows.Examples.Stencil
             });
         }
 
-        private void RenderStencilTest(GraphicsContext gfx, float angle)
+        private static void RenderStencilTest(GraphicsContext gfx, float angle)
         {
-            var imageCenter = (IntVector) (Image.Size / 2F);
-
-            gfx.InterpolationMode = InterpolationMode.Linear;
             gfx.Clear(Color.Yellow * Color.DarkGray);
 
             // Draw base image (darkened)
             gfx.Color = Color.DarkGray;
-            DrawBackgroundImages(gfx, Image, imageCenter, angle);
+            DrawBackgroundImages(gfx, Image, angle);
 
             // Draw a stencil mask
-            gfx.BeginDefineMask();
+            gfx.BeginStencil();
             gfx.PushState();
             {
-                // Set camera pointed at zero and tilted.
-                // Then draw text at zero to populate the stencil.
-                gfx.SetCamera(Vector.Down * 66F, rotation: angle * 0.66F * Calc.ToRadians);
-                gfx.DrawText("Princess Zelda", Vector.Zero, Font.Default, 200, TextAlign.Center | TextAlign.Middle);
+                var center = (Vector) gfx.Surface.Size / 2F;
+                gfx.Transform = CreateRotationCenter(angle / 2F * Calc.ToRadians, center);
+                gfx.DrawText("Princess Zelda", center, Font.Default, 200, TextAlign.Center | TextAlign.Middle);
             }
             gfx.PopState();
-            gfx.EndDefineMask();
+            gfx.EndStencil();
 
             // White for full brightness
             gfx.Color = Color.White;
 
             // Draw image (uses above stencil)
-            DrawBackgroundImages(gfx, Image, imageCenter, angle);
+            DrawBackgroundImages(gfx, Image, angle);
 
             // Clear the stencil, back to regular drawing.
-            gfx.ClearMask();
+            gfx.ClearStencil();
 
             // Draw regular text again
-            gfx.Color = Color.White;
-            //gfx.SetCamera(Matrix.Identity);
-            gfx.DrawText("Heirloom 2D Graphics", (gfx.Surface.Width - 8, 8), Font.Default, 16, TextAlign.Top | TextAlign.Right);
+            gfx.DrawText($"Heirloom 2D Graphics\nFPS: {gfx.Performance.FPS:0}", (gfx.Surface.Width - 8, 8), Font.Default, 16, TextAlign.Top | TextAlign.Right);
         }
 
-        private static void DrawBackgroundImages(GraphicsContext gfx, Image image, IntVector imageCenter, float angle)
+        private static void DrawBackgroundImages(GraphicsContext gfx, Image image, float angle)
         {
-            var imageTransform2 = Matrix.CreateTranslation((Vector) (gfx.Surface.Size - (image.Size * 10)) / 2) * ComputeCenteredRotation(imageCenter, angle / 10F * Calc.ToRadians);
-            gfx.DrawImage(image, imageTransform2 * Matrix.CreateScale(10));
+            var center = (IntVector) (image.Size / 2F);
 
-            var imageTransform = Matrix.CreateTranslation((Vector) (gfx.Surface.Size - image.Size) / 2) * ComputeCenteredRotation(imageCenter, angle * Calc.ToRadians);
-            gfx.DrawImage(image, imageTransform);
+            var tranformA = Matrix.CreateTranslation((Vector) (gfx.Surface.Size - (image.Size * 10)) / 2) * CreateRotationCenter(angle / 10F * Calc.ToRadians, center);
+            gfx.DrawImage(image, tranformA * Matrix.CreateScale(10));
+
+            var transformB = Matrix.CreateTranslation((Vector) (gfx.Surface.Size - image.Size) / 2) * CreateRotationCenter(angle * Calc.ToRadians, center);
+            gfx.DrawImage(image, transformB);
         }
 
-        private static Matrix ComputeCenteredRotation(Vector center, float rotation)
+        private static Matrix CreateRotationCenter(float angle, Vector center)
         {
             return Matrix.CreateTranslation(center)
-                 * Matrix.CreateRotation(rotation)
+                 * Matrix.CreateRotation(angle)
                  * Matrix.CreateTranslation(-center);
         }
 
         private static void Main(string[] args)
         {
-            Run<Program>();
+            // Load our image
+            Image = new Image("zelda.jpg") { Interpolation = InterpolationMode.Linear };
+
+            var useSoftwareRenderer = true;
+
+            // Please Note: These are MUTUALLY EXCLUSIVE. You cannot switch between backends for the lifetime of an application.
+            // Either render a single frame with the software renderer (slow, can only render to in memory bitmaps)
+            if (useSoftwareRenderer) { RenderWithSoftwareImplementation(); }
+            // or render with hardware acceleration into a window.
+            else { Run<Program>(); }
+        }
+
+        private static void RenderWithSoftwareImplementation()
+        {
+            var softwareBackend = new SoftwareGraphicsBackend();
+
+            // Construct and render with software context
+            var graphics = softwareBackend.CreateContext(1280, 320);
+            RenderStencilTest(graphics, 10);
+
+            // Write software image to disk
+            var screengrab = graphics.GrabPixels();
+            screengrab.Write("software.png");
         }
     }
 }

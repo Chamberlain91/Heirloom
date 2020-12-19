@@ -25,5 +25,5 @@ void main(void)
 	outColor *= frag.color;
 
 	// Cutoff alpha
-	if (outColor.a < 0.05) { discard; }
+	if (outColor.a < 0.01) { discard; }
 }

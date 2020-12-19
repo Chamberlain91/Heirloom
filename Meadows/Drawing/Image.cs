@@ -289,27 +289,26 @@ namespace Meadows.Drawing
                 case InterpolationMode.Nearest:
                 {
                     // Get integer (pixel) coordinate
-                    var px = Calc.Round(x);
-                    var py = Calc.Round(y);
+                    var px = Calc.Floor(x);
+                    var py = Calc.Floor(y);
 
                     return getPixel(px, py);
                 }
 
                 case InterpolationMode.Linear:
                 {
-                    // Get integer (pixel) coordinate
-                    var px = Calc.Floor(x);
-                    var py = Calc.Floor(y);
+                    x -= 0.5F;
+                    y -= 0.5F;
 
                     // Get fractional value of coordinates
                     var fx = Calc.Fraction(x);
                     var fy = Calc.Fraction(y);
 
                     // Sample the 4 corners
-                    var p00 = getPixel(px, py);
-                    var p10 = getPixel(px + 1, py);
-                    var p11 = getPixel(px + 1, py + 1);
-                    var p01 = getPixel(px, py + 1);
+                    var p00 = Sample(x + 0, y + 0, InterpolationMode.Nearest, repeatMode, false);
+                    var p10 = Sample(x + 1, y + 0, InterpolationMode.Nearest, repeatMode, false);
+                    var p11 = Sample(x + 1, y + 1, InterpolationMode.Nearest, repeatMode, false);
+                    var p01 = Sample(x + 0, y + 1, InterpolationMode.Nearest, repeatMode, false);
 
                     // Interpolate columns
                     var p0 = Color.Lerp(p00, p10, fx);
@@ -335,7 +334,7 @@ namespace Meadows.Drawing
 
                     // Transparent beyond edge
                     case RepeatMode.Blank:
-                        if (x < 0 || x >= Width || y < 0 || y >= Height)
+                        if (x < 0 || y < 0 || x >= Width || y >= Height)
                         {
                             return Color.Transparent;
                         }
@@ -345,7 +344,7 @@ namespace Meadows.Drawing
                     // Repeate image after edge
                     case RepeatMode.Repeat:
                         x = Calc.Wrap(x, Width);
-                        y = Calc.Wrap(y, Width);
+                        y = Calc.Wrap(y, Height);
                         break;
                 }
 

@@ -88,11 +88,7 @@ namespace Meadows
             var theta = Calc.TwoPi * NextFloat(@this);
             var rho = r * Calc.Sqrt(NextFloat(@this));
 
-            // 
-            var x = rho * Calc.Cos(theta);
-            var y = rho * Calc.Sin(theta);
-
-            return new Vector(x, y);
+            return rho * Vector.FromAngle(theta);
         }
 
         /// <summary>

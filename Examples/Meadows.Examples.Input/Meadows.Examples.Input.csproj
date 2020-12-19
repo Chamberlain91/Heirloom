@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Meadows.Desktop\Meadows.Desktop.csproj" />
+    <ProjectReference Include="..\..\Meadows.ImGui\Meadows.ImGui.csproj" />
+    <ProjectReference Include="..\..\Meadows\Meadows.csproj" />
+  </ItemGroup>
+
+</Project>

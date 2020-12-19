@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 using Meadows.Desktop;
 using Meadows.Drawing;
 using Meadows.Mathematics;
@@ -15,33 +13,34 @@ namespace Meadows.Examples.Primitives
 
         public float Time;
 
-        public Curve[] Curves;
-        public Color[] Colors;
+        public Bezier Curve;
 
         public Program()
         {
             // Create window
-            Window = new Window("Heirloom - Primitives Demo", (512, 512), MultisampleQuality.Medium);
+            Window = new Window("Heirloom - Primitives Demo", (512, 512), MultisampleQuality.None);
             Window.Maximize();
 
-            Curves = new Curve[20];
-            Colors = new Color[Curves.Length];
-            for (var i = 0; i < Curves.Length; i++)
+            // Track user input from this window
+            Input.SetInputSource(Window);
+
+            // Random curve
+            Curve = new Bezier();
+
+            var phase = Calc.Random.NextFloat(0, Calc.TwoPi);
+
+            var h0 = Vector.Zero;
+            for (var s = 0; s <= 6; s++)
             {
-                // Randomize color
-                var fade = Calc.Lerp(0.8F, 0.9F, i / (float) Curves.Length);
-                Colors[i] = Calc.Random.NextColorHue(0.5F, fade);
+                var a0 = ((s + 0) / 6F * Calc.Pi) + phase;
+                var a1 = ((s + 1) / 6F * Calc.Pi) + phase;
 
-                // Random curve
-                var curve = Curves[i] = new Curve();
+                var p0 = Vector.FromAngle(a0) * 400F;
 
-                var h0 = Calc.Random.NextVectorDisk(100);
-                for (var l = 0; l < 8; l++)
-                {
-                    var h1 = Calc.Random.NextVectorDisk(100);
-                    curve.Add(Calc.Random.NextVectorDisk(500), h0, h1);
-                    h0 = -h1;
-                }
+                if (s == 0) { h0 = Calc.Random.NextVectorDisk() * 200; }
+                var h1 = Calc.Random.NextVectorDisk() * 200;
+                Curve.Add(p0, h0, h1);
+                h0 = -h1;
             }
 
             GameLoop.StartNew(Update);
@@ -55,18 +54,34 @@ namespace Meadows.Examples.Primitives
             // todo: automatically resize viewport if set to auto?
             Graphics.SetRenderTarget(Window.Surface);
             Graphics.SetCamera(Vector.Zero);
-            Graphics.Clear(Color.White);
+            Graphics.Clear(Color.DarkGray);
 
             // 
-            for (var i = 0; i < Curves.Length; i++)
-            {
-                Graphics.TransformMatrix = Matrix.Identity;
-                Graphics.Color = Colors[i];
-                Graphics.DrawCurve(Curves[i], 3F);
-            }
+            DrawCurve();
 
             // 
             Window.Refresh();
+        }
+
+        private void DrawCurve()
+        {
+            // Draw Curve
+            Graphics.Color = Color.Pink;
+            Graphics.Transform = Matrix.CreateTranslation(Input.MousePosition);
+            Graphics.DrawCurve(Curve, 3F);
+
+            // Draw Curve "Handles"
+            for (var c = 0; c < Curve.Count - 1; c++)
+            {
+                var p0 = Curve.GetPoint(c + 0);
+                var p1 = Curve.GetPoint(c + 0) + Curve.GetInHandle(c);
+                var p2 = Curve.GetPoint(c + 1) + Curve.GetOutHandle(c);
+                var p3 = Curve.GetPoint(c + 1);
+
+                Graphics.Color = (c % 2) == 1 ? Color.White : Color.Gray;
+                Graphics.DrawDottedLine(p0, p1);
+                Graphics.DrawDottedLine(p2, p3);
+            }
         }
 
         private static void Main(string[] args)

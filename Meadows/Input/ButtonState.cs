@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace Meadows.Input
+namespace Meadows
 {
     /// <summary>
     /// Represents the state of a button.

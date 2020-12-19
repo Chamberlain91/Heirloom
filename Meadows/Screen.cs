@@ -6,7 +6,7 @@ using Meadows.Mathematics;
 namespace Meadows
 {
     /// <summary>
-    /// A screen represents a window or otherwise "on screen" view of graphical content.
+    /// A screen represents a window or panel to view graphical content.
     /// </summary>
     /// <remarks>
     /// On certain platforms, the screen size and surface size may not be equal.
@@ -18,6 +18,9 @@ namespace Meadows
             Surface = new Surface(multisample, SurfaceFormat.UnsignedByte, this);
         }
 
+        /// <summary>
+        /// Gets or serts the size of this screen.
+        /// </summary>
         public abstract IntSize Size { get; set; }
 
         #region Graphics
@@ -28,7 +31,7 @@ namespace Meadows
         public abstract GraphicsContext Graphics { get; }
 
         /// <summary>
-        /// Gets the surfce associated with this screen.
+        /// Gets the surface associated with this screen (aka, the backbuffer).
         /// </summary>
         public Surface Surface { get; }
 
@@ -37,13 +40,15 @@ namespace Meadows
         #region Events
 
         /// <summary>
-        /// Event called when the content scaling of this screen changes.
+        /// Event called when the screen is resized.
         /// </summary>
-        public event Action<Screen, Vector> ContentScaleChanged;
+        /// <seealso cref="ContentScaleChanged"/>
+        /// <seealso cref="Surface"/>
+        public event Action<Screen, IntSize> Resized;
 
-        protected void OnContentScaleChanged(Vector scale)
+        protected void OnResized(IntSize size)
         {
-            ContentScaleChanged?.Invoke(this, scale);
+            Resized?.Invoke(this, size);
         }
 
         /// <summary>
@@ -58,23 +63,10 @@ namespace Meadows
             SurfaceResized?.Invoke(this, size);
         }
 
-        /// <summary>
-        /// Event called when the screen is resized.
-        /// </summary>
-        /// <seealso cref="ContentScaleChanged"/>
-        /// <seealso cref="Surface"/>
-        public event Action<Screen, IntSize> Resized;
-
-        protected void OnResized(IntSize size)
-        {
-            Resized?.Invoke(this, size);
-        }
-
         #endregion
 
-        public void Refresh()
+        public virtual void Refresh()
         {
-            // todo: poll input...?
             Graphics.CompleteFrame();
         }
     }

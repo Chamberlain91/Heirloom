@@ -1,4 +1,4 @@
-﻿namespace Meadows.Input
+namespace Meadows
 {
     /// <summary>
     /// Represents the various axis on a standard game pad.

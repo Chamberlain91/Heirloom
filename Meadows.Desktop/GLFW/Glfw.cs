@@ -3,8 +3,6 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-using Meadows.Input;
-
 namespace Meadows.Desktop.GLFW
 {
     internal static unsafe partial class Glfw

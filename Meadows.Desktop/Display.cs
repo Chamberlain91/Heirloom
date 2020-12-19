@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 
 using Meadows.Desktop.GLFW;
@@ -8,6 +9,8 @@ namespace Meadows.Desktop
     public sealed class Display
     {
         internal readonly MonitorHandle MonitorHandle;
+
+        private Window _window;
 
         internal Display(string name, MonitorHandle monitor)
         {
@@ -61,6 +64,44 @@ namespace Meadows.Desktop
         /// Gets the current video mode on this display.
         /// </summary>
         public VideoMode CurrentMode => Application.Invoke(() => Glfw.GetVideoMode(MonitorHandle));
+
+        #endregion
+
+        #region Fullscreen Manipulation
+
+        /// <summary>
+        /// Configure this window to be fullscreen on the specified display.
+        /// </summary>
+        public void BeginFullscreen(Window window)
+        {
+            if (window is null) { throw new ArgumentNullException(nameof(window)); }
+
+            BeginFullscreen(window, CurrentMode);
+        }
+
+        /// <summary>
+        /// Configure this window to be fullscreen on the specified display. The resolution is adjusted to the specified video mode.
+        /// </summary>
+        public void BeginFullscreen(Window window, VideoMode mode)
+        {
+            if (window is null) { throw new ArgumentNullException(nameof(window)); }
+
+            // Already was in fullscreen, so we will exit it now.
+            if (_window != null) { EndFullscreen(); }
+
+            // Store window and go fullscreen
+            _window = window;
+            _window.BeginFullscreen(this, mode);
+        }
+
+        /// <summary>
+        /// Configure this display to leave fullscreen.
+        /// </summary>
+        public void EndFullscreen()
+        {
+            _window?.EndFullscreen();
+            _window = null;
+        }
 
         #endregion
 

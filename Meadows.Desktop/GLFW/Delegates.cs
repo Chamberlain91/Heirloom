@@ -2,8 +2,6 @@ using System;
 using System.Runtime.InteropServices;
 using System.Security;
 
-using Meadows.Input;
-
 namespace Meadows.Desktop.GLFW
 {
     #region Window

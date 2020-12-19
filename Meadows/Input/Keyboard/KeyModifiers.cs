@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace Meadows.Input
+namespace Meadows
 {
     /// <summary>
     /// Flags that represent the modifier keys pressed or toggled when an associated input event occured.

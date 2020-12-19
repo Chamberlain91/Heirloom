@@ -25,6 +25,11 @@ namespace Meadows.Drawing
         public int Height => Size.Height;
 
         /// <summary>
+        /// Interpolation Mode.
+        /// </summary>
+        public InterpolationMode Interpolation { get; set; } = InterpolationMode.Nearest;
+
+        /// <summary>
         /// Repeat mode.
         /// </summary>
         public RepeatMode Repeat { get; set; } = RepeatMode.Blank;

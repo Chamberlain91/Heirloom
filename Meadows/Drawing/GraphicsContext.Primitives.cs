@@ -1,7 +1,5 @@
 using System;
-using System.Buffers;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 
 using Meadows.Mathematics;
@@ -36,6 +34,33 @@ namespace Meadows.Drawing
                           * _lineOffsetMatrix;
 
             DrawImage(Image.Default, transform);
+        }
+
+        /// <summary>
+        /// Draws a dotted line segment between two points to the current surface.
+        /// </summary> 
+        /// <param name="p0">The start point.</param>
+        /// <param name="p1">The end point.</param>
+        /// <param name="width">The thickness of the line in pixels.</param>
+        /// <param name="step">The length of each dash/dot segment.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void DrawDottedLine(in Vector p0, in Vector p1, float width = 1F, float step = 4F)
+        {
+            // Compute edge information
+            var edge = p1 - p0;
+            var edgeLength = edge.Length;
+            edge /= edgeLength;
+
+            // Compute number of steps along edge
+            var steps = Calc.Floor(edgeLength / step);
+
+            // Draw a line for each second step between endpoints
+            for (var i = 0; i < steps; i += 2)
+            {
+                var a = p0 + (edge * step * (i + 0));
+                var b = p0 + (edge * step * (i + 1));
+                DrawLine(a, b, width);
+            }
         }
 
         /// <summary>
@@ -117,38 +142,10 @@ namespace Meadows.Drawing
         /// <param name="width">The thickness of the line in pixels.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="curve"/> is null.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawCurve(Curve curve, float width = 1F)
+        public void DrawCurve(Bezier curve, float width = 1F)
         {
             if (curve is null) { throw new ArgumentNullException(nameof(curve)); }
-
             DrawPolyLine(curve.GenerateInterpolatedSequence(), width);
-
-            //for (var i = 0; i < curve.Count - 1; i++)
-            //{
-            //    var current = curve.GetPoint(i);
-            //    var next = curve.GetPoint(i + 1);
-
-            //    DrawCross(current, 50);
-            //    DrawCross(next, 50);
-
-            //    //switch (curve.GetCurveType(i))
-            //    //{
-            //    //    case CurveType.Stepped:
-            //    //        break; // hmm...
-
-            //    //    case CurveType.Linear:
-            //    //        DrawLine(current, next, width);
-            //    //        break;
-
-            //    //    case CurveType.Quadratic:
-            //    //        DrawCurve(current, curve.GetInHandle(i), next, width);
-            //    //        break;
-
-            //    //    case CurveType.Cubic:
-            //    //        DrawCurve(current, current + curve.GetInHandle(i), next + curve.GetOutHandle(i), next, width);
-            //    //        break;
-            //    //}
-            //}
         }
 
         #endregion
@@ -189,11 +186,13 @@ namespace Meadows.Drawing
                     _mesh.AddVertex(new MeshVertex(b + pB * width, (t1, 1F)));
                     _mesh.AddVertex(new MeshVertex(b - pB * width, (t1, 0F)));
 
+                    // DrawCross(a, 20, 1);
+
                     a = b;
                 }
 
                 // Draw mesh
-                Draw(Image.Default, _mesh, Matrix.Identity);
+                Draw(_mesh, Image.Default, Matrix.Identity);
             }
         }
 
@@ -271,7 +270,7 @@ namespace Meadows.Drawing
             _mesh.AddVertex(new MeshVertex(c, Vector.Zero));
 
             // Draw mesh
-            Draw(Image.Default, _mesh, Matrix.Identity);
+            Draw(_mesh, Image.Default, Matrix.Identity);
         }
 
         /// <summary>

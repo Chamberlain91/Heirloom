@@ -12,7 +12,7 @@ namespace Meadows.Drawing
             _stopwatch = Stopwatch.StartNew();
         }
 
-        public float FrameRate { get; private set; }
+        public float FPS { get; private set; }
 
         internal void NotifyFrame()
         {
@@ -21,7 +21,7 @@ namespace Meadows.Drawing
 
             if (_frameTime > 1F)
             {
-                FrameRate = _frameCount / _frameTime;
+                FPS = _frameCount / _frameTime;
 
                 _stopwatch.Restart();
                 _frameCount = 0;

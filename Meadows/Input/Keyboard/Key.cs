@@ -1,4 +1,4 @@
-﻿namespace Meadows.Input
+namespace Meadows
 {
     /// <summary>
     /// Standardized virtual key mapping from GLFW.

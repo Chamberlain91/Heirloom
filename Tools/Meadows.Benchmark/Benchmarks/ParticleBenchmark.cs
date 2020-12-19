@@ -197,7 +197,7 @@ namespace Meadows.Benchmark
             }
 
             // Accumulate FPS metric
-            _fpsAccum += gfx.Performance.FrameRate;
+            _fpsAccum += gfx.Performance.FPS;
             _fpsCount++;
 
             UpdateParticles(in bounds, in dt);

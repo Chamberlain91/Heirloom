@@ -18,7 +18,7 @@ namespace Meadows.Drawing
 
         internal static GraphicsBackend Current { get; private set; }
 
-        protected static void InitializeRenderingSystems(GraphicsBackend backend)
+        internal static void InitializeRenderingSystems(GraphicsBackend backend)
         {
             if (Current != null)
             {

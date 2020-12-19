@@ -26,7 +26,7 @@ namespace Meadows.Benchmark
             Window = new Window("Meadows Benchmark", (512, 512), vsync: false);
 
             // Go fullscreen!
-            Window.BeginFullscreen(Display.Primary);
+            Display.Primary.BeginFullscreen(Window);
             // Window.Maximize();
 
             // Compute world bounds and when the framebuffer size changes, resize the application bounds.
@@ -85,7 +85,7 @@ namespace Meadows.Benchmark
                 wr.Write(BenchmarkResults.ToJson(results));
 
                 // Leave fullscreen
-                Window.EndFullscreen();
+                Display.Primary.EndFullscreen();
 
                 // Size window
                 var rect = TextLayout.Measure(GetResultsText(_benchmarks), Font.Default, 32);
@@ -118,7 +118,7 @@ namespace Meadows.Benchmark
                 }
 
                 // 
-                DrawInformation(gfx, $"\"{benchmark.Name}\" - {benchmark.Progress * 100F:N2}% - {gfx.Performance.FrameRate:N0} FPS");
+                DrawInformation(gfx, $"\"{benchmark.Name}\" - {benchmark.Progress * 100F:N2}% - {gfx.Performance.FPS:N0} FPS");
             }
             else
             {

@@ -33,6 +33,11 @@ namespace Meadows.Mathematics
         public const float HalfPi = Pi * 0.5F;
 
         /// <summary>
+        /// Approximately the value <c>Sqrt(2)</c>.
+        /// </summary>
+        public const float Sqrt2 = 1.41421F;
+
+        /// <summary>
         /// Pi / 180.0
         /// </summary>
         public const float ToRadians = Pi / 180f;
@@ -116,7 +121,7 @@ namespace Meadows.Mathematics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Factorial(int x)
         {
-            return (int)Factorial((uint)x);
+            return (int) Factorial((uint) x);
         }
 
         /// <summary>
@@ -492,7 +497,7 @@ namespace Meadows.Mathematics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Floor(float x)
         {
-            return (int)MathF.Floor(x);
+            return (int) MathF.Floor(x);
         }
 
         /// <summary>
@@ -501,7 +506,7 @@ namespace Meadows.Mathematics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Ceil(float x)
         {
-            return (int)MathF.Ceiling(x);
+            return (int) MathF.Ceiling(x);
         }
 
         /// <summary>
@@ -510,7 +515,7 @@ namespace Meadows.Mathematics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Round(float x)
         {
-            return (int)MathF.Round(x);
+            return (int) MathF.Round(x);
         }
 
         /// <summary>
