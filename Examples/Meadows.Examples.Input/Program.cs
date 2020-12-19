@@ -13,9 +13,11 @@ namespace Meadows.Examples.UserInput
 
         public GraphicsContext Graphics => Window.Graphics;
 
+        public Image Icon = Image.CreateRadialGradient(16, 16, new Gradient { { 0F, Color.Magenta }, { 1F, Color.Cyan } });
+
         public Program()
         {
-            Window = new Window("Heirloom - Input Example", (512, 512)) { IsResizable = false };
+            Window = new Window("Heirloom - Input Example", (300, 400)) { IsResizable = false };
 
             // Launch loop
             GameLoop.StartNew(Update);
@@ -25,10 +27,30 @@ namespace Meadows.Examples.UserInput
         {
             ImGui.Graphics = Window.Graphics;
             ImGui.Graphics.PixelPerfect = true;
+            ImGui.Graphics.Clear(Color.Gray);
 
-            if (ImGui.Button((16, 16, 100, 24), "Click Me"))
+            // Set layout box to window
+            ImGuiLayout.SetLayoutBox((16, 16, ImGui.Graphics.Surface.Width - 32, ImGui.Graphics.Surface.Height - 32));
+
+            // todo: slider
+            // todo: checkbox
+            // todo: radio
+            // todo: textbox
+            // todo: window
+            // todo: panel
+            // todo: tabs
+            // todo: collapse label
+            // todo: combo box
+            // todo: list view
+            // todo: scroll panel
+
+            ImGuiLayout.Label("Select Stage:");
+            for (var i = 0; i < 10; i++)
             {
-                Console.WriteLine("Clicked!");
+                if (ImGuiLayout.Button($"Stage {i}", i < 4 ? Icon : null))
+                {
+                    Console.WriteLine($"Clicked on {i}.");
+                }
             }
 
             //

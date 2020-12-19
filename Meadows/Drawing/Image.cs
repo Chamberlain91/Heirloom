@@ -516,17 +516,25 @@ namespace Meadows.Drawing
         /// <returns>An image filled with the checkerboard pattern.</returns>
         public static Image CreateCheckerboardPattern(int width, int height, Color color, int cellSize = 16)
         {
+            return CreateCheckerboardPattern(width, height, color, color * Color.Gray, cellSize);
+        }
+
+        /// <summary>
+        /// Create an image with checkerboard pattern.
+        /// </summary>
+        /// <param name="width">Width of the image in pixels.</param>
+        /// <param name="height">Height of the image in pixels.</param>
+        /// <param name="color1">Color of the first type of tile.</param>
+        /// <param name="color2">Color of the second type of tile.</param>
+        /// <param name="cellSize">Size of each "checker" in the checkerboard.</param>
+        /// <returns>An image filled with the checkerboard pattern.</returns>
+        public static Image CreateCheckerboardPattern(int width, int height, Color color1, Color color2, int cellSize = 16)
+        {
             return CreateProcedural(width, height, co =>
             {
                 // Computes checkerboard pattern
                 var flag = ((co.Y & cellSize) == 0) ^ (co.X & cellSize) == 0;
-                var pixel = (ColorBytes) ((flag ? Color.LightGray : Color.White) * color);
-
-                // Draw edge color outline
-                if (co.X == 0 || co.Y == 0 || co.X == (width - 1) || co.Y == (height - 1))
-                {
-                    pixel = Color.Gray * color;
-                }
+                var pixel = (ColorBytes) (flag ? color1 : color2);
 
                 return pixel;
             });
