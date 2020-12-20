@@ -1,5 +1,6 @@
 using System;
 using System.Buffers;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -837,6 +838,79 @@ namespace Meadows.Drawing
 
         #endregion
 
+        #region Downsampling
+
+        /// <summary>
+        /// Creates a set of mipmaps by repeatedly invoking <see cref="Downsample(Image)"/> for the specified image.
+        /// The returned array begins with the input image.
+        /// </summary>
+        public static Image[] CreateMipChain(Image image)
+        {
+            if (image is null) { throw new ArgumentNullException(nameof(image)); }
+
+            var mips = new List<Image> { image };
+
+            while (mips[^1].Width > 1 && mips[^1].Height > 1)
+            {
+                // Compute half-size image
+                mips.Add(Downsample(mips[^1]));
+            }
+
+            return mips.ToArray();
+        }
+
+        /// <summary>
+        /// Downsamples an image (half size) using a simple averaging filter.
+        /// </summary>
+        public static Image Downsample(Image image)
+        {
+            var resized = new Image(image.Width / 2, image.Height / 2);
+
+            // Compute in parallel for each 2x2 patch
+            var coordinates = Rasterizer.Rectangle(resized.Size);
+            Parallel.ForEach(coordinates, AveragePool);
+
+            return resized;
+
+            void AveragePool(IntVector coord)
+            {
+                var x2 = coord.X * 2;
+                var y2 = coord.Y * 2;
+
+                var pixel = (Color) image.GetPixel(x2, y2);
+
+                var c = Color.Transparent;
+                var w = 0F;
+
+                Contribute(x2, y2);
+
+                // If 2x2 patch does not exceed image bounds, average.
+                if (x2 + 1 <= image.Width && y2 + 1 <= image.Height)
+                {
+                    // Average 2x2 patch
+                    Contribute(x2 + 1, y2);
+                    Contribute(x2 + 1, y2 + 1);
+                    Contribute(x2, y2 + 1);
+                }
+
+                // Divide to compute average.
+                if (w <= 0) { c = Color.Transparent; }
+                else { c /= w; }
+
+                resized.SetPixel(coord, c);
+
+                void Contribute(int x, int y)
+                {
+                    var pixel = (Color) image.GetPixel(x, y);
+
+                    c += pixel * pixel.A;
+                    w += pixel.A;
+                }
+            }
+        }
+
+        #endregion
+
         #region Write
 
         /// <summary>
@@ -886,7 +960,7 @@ namespace Meadows.Drawing
                 lock (Pixels)
                 {
                     // Flip vertically!
-                    stbi_flip_vertically_on_write(1);
+                    stbi_flip_vertically_on_write(0);
 
                     fixed (ColorBytes* pPixels = Pixels)
                     {
@@ -908,7 +982,7 @@ namespace Meadows.Drawing
                     }
 
                     // Flip vertically!
-                    stbi_flip_vertically_on_write(1);
+                    stbi_flip_vertically_on_write(0);
 
                     fixed (ColorBytes* pPixels = Pixels)
                     {
