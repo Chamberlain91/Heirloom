@@ -71,7 +71,7 @@ namespace Meadows.Drawing
         /// <param name="align">The text alignment.</param>
         /// <param name="callback">A callback for manipulating the style of the rendered text.</param> 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void DrawText(this GraphicsContext ctx, string text, in Rectangle bounds, Font font, int size, TextAlign align = TextAlign.Left, CharacterCallback callback = null)
+        public static Rectangle DrawText(this GraphicsContext ctx, string text, in Rectangle bounds, Font font, int size, TextAlign align = TextAlign.Left, CharacterCallback callback = null)
         {
             if (text is null) { throw new ArgumentNullException(nameof(text)); }
             if (font == null) { throw new ArgumentNullException(nameof(font)); }
@@ -87,7 +87,7 @@ namespace Meadows.Drawing
             var state = new TextRendererState { Color = color };
 
             // Layout text
-            TextLayout.PerformLayout(text, bounds, align, glyphTable, (string _, int index, ref TextLayoutState layout) =>
+            var measure = TextLayout.PerformLayout(text, bounds, align, glyphTable, (string _, int index, ref TextLayoutState layout) =>
             {
                 // Set initial state
                 state.Transform = Matrix.Identity;
@@ -112,6 +112,8 @@ namespace Meadows.Drawing
 
             // Restore context state
             ctx.Color = color;
+
+            return measure;
         }
     }
 }

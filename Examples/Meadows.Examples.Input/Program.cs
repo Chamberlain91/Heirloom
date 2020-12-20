@@ -2,6 +2,7 @@ using System;
 
 using Meadows.Desktop;
 using Meadows.Drawing;
+using Meadows.Mathematics;
 using Meadows.UI;
 using Meadows.Utilities;
 
@@ -13,7 +14,9 @@ namespace Meadows.Examples.UserInput
 
         public GraphicsContext Graphics => Window.Graphics;
 
-        public Image Icon = Image.CreateRadialGradient(16, 16, new Gradient { { 0F, Color.Magenta }, { 1F, Color.Cyan } });
+        public Image Icon = Image.CreateCheckerboardPattern(16, 16, Color.Red, 4);
+
+        public float SliderValue;
 
         public Program()
         {
@@ -25,12 +28,12 @@ namespace Meadows.Examples.UserInput
 
         private void Update(float dt)
         {
-            ImGui.Graphics = Window.Graphics;
-            ImGui.Graphics.PixelPerfect = true;
-            ImGui.Graphics.Clear(Color.Gray);
+            Gui.Graphics = Window.Graphics;
+            Gui.Graphics.PixelPerfect = true;
+            Gui.Graphics.Clear(Color.White);
 
             // Set layout box to window
-            ImGuiLayout.SetLayoutBox((16, 16, ImGui.Graphics.Surface.Width - 32, ImGui.Graphics.Surface.Height - 32));
+            Gui.SetLayoutBox((16, 16, Gui.Graphics.Surface.Width - 32, Gui.Graphics.Surface.Height - 32));
 
             // todo: slider
             // todo: checkbox
@@ -44,13 +47,18 @@ namespace Meadows.Examples.UserInput
             // todo: list view
             // todo: scroll panel
 
-            ImGuiLayout.Label("Select Stage:");
+            Gui.Label("Select Stage:");
             for (var i = 0; i < 10; i++)
             {
-                if (ImGuiLayout.Button($"Stage {i}", i < 4 ? Icon : null))
+                if (Gui.Button($"Stage {i}", i < 4 ? Icon : null))
                 {
                     Console.WriteLine($"Clicked on {i}.");
                 }
+            }
+
+            if (Gui.Slider("Brightness", ref SliderValue))
+            {
+                Console.WriteLine($"Slider: {SliderValue:0.00}");
             }
 
             //

@@ -95,16 +95,16 @@ namespace Meadows.Drawing
         /// <summary>
         /// Performs the layout of text around the given position with the specified font and size, invoking the callback at each location.
         /// </summary>
-        public static void PerformLayout(string text, Vector position, Font font, int size, TextAlign align, TextLayoutCallback layoutCallback)
+        public static Rectangle PerformLayout(string text, Vector position, Font font, int size, TextAlign align, TextLayoutCallback layoutCallback)
         {
             var bounds = GetPositionAnchoredTextBounds(text, font, size, position, align);
-            PerformLayout(text, bounds, font, size, align, layoutCallback);
+            return PerformLayout(text, bounds, font, size, align, layoutCallback);
         }
 
         /// <summary>
         /// Performs the layout of text within the given bounds with the specified font and size, invoking the callback at each location.
         /// </summary>
-        public static void PerformLayout(string text, Rectangle bounds, Font font, int size, TextAlign align, TextLayoutCallback layoutCallback)
+        public static Rectangle PerformLayout(string text, Rectangle bounds, Font font, int size, TextAlign align, TextLayoutCallback layoutCallback)
         {
             // Validate arguments
             if (text == null) { throw new ArgumentNullException(nameof(text)); }
@@ -114,10 +114,16 @@ namespace Meadows.Drawing
 
             // Get atlas, layout text
             var glyphTable = GlyphTable.GetGlyphTable(font, size);
-            PerformLayout(text, bounds, align, glyphTable, layoutCallback);
+            return PerformLayout(text, bounds, align, glyphTable, layoutCallback);
         }
+        /* 
+            // Include extents of glyph box
+            measure.Include(state.Position);
+            measure.Include(state.Position + (layout.Metrics.AdvanceWidth, glyphTable.Metrics.LineAdvance));
 
-        internal static void PerformLayout(string text, Rectangle bounds, TextAlign align, GlyphTable glyphTable, TextLayoutCallback layoutCallback)
+            return measure;
+        */
+        internal static Rectangle PerformLayout(string text, Rectangle bounds, TextAlign align, GlyphTable glyphTable, TextLayoutCallback layoutCallback)
         {
             // Extract atlas properties for brevity
             var fontSize = glyphTable.FontSize;
@@ -135,8 +141,8 @@ namespace Meadows.Drawing
             {
                 // todo: Optimize? GetPositionAnchoredTextBounds and this both measure the text...
                 //       There is likely a more optimized path that can only measure one or less times.
-                var measure = Measure(text, bounds, glyphTable.Font, glyphTable.FontSize);
-                var offsetY = bounds.Height - measure.Height;
+                var centerMeasure = Measure(text, bounds, glyphTable.Font, glyphTable.FontSize);
+                var offsetY = bounds.Height - centerMeasure.Height;
                 if (align.HasFlag(TextAlign.Middle)) { offsetY /= 2F; }
                 state.Position.Y += offsetY;
             }
@@ -145,6 +151,8 @@ namespace Meadows.Drawing
             var nextBreak = FindNextBreak(in text, 0, state.Character, in state.Position, in bounds, glyphTable, out var lineWidth);
             var offsetX = ComputeAlignmentOffset(bounds, align, lineWidth);
             state.Position.X += offsetX; // First line alignment offset
+
+            var measure = Rectangle.InvertedInfinite;
 
             // For each character
             for (var i = 0; i < text.Length; i++)
@@ -172,6 +180,10 @@ namespace Meadows.Drawing
                 // Process character, if kept, advance pen position
                 layoutCallback(text, i, ref state);
 
+                // Include extents of glyph box
+                measure.Include(state.Position);
+                measure.Include(state.Position + (state.Metrics.AdvanceWidth, glyphTable.Metrics.LineAdvance));
+
                 // Apply horizontal advance
                 state.Position.X += state.Metrics.AdvanceWidth;
 
@@ -188,6 +200,8 @@ namespace Meadows.Drawing
                     state.Position.X += offsetX;
                 }
             }
+
+            return measure;
         }
 
         internal static Rectangle GetPositionAnchoredTextBounds(in string text, in Font font, in int size, in Vector position, in TextAlign align)
