@@ -242,7 +242,9 @@ namespace Meadows.Drawing.Software
         {
             // todo: validate region will indeed fit in region
             var surface = Backend.GetNativeObject<SoftwareSurface>(Surface);
-            return surface.ColorBuffer.GrabPixels(region);
+            var image = surface.ColorBuffer.GrabPixels(region);
+            image.Flip(Axis.Vertical); // because surface
+            return image;
         }
 
         protected override void SwapBuffers()

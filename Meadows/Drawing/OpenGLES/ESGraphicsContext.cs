@@ -286,6 +286,7 @@ namespace Meadows.Drawing.OpenGLES
                     // Copy grabbed pixels to image
                     var image = new Image(region.Width, region.Height);
                     Image.Copy((ColorBytes*) ptrPixels, region.Width, (IntVector.Zero, region.Size), image, IntVector.Zero);
+                    image.Flip(Axis.Vertical); // because surface
                     return image;
                 }
             });
