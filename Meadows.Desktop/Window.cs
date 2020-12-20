@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 using Meadows.Desktop.GLFW;
 using Meadows.Drawing;
@@ -25,6 +26,8 @@ namespace Meadows.Desktop
         private readonly ScrollCallback _scrollCallback;
 
         private readonly InputSource _inputSource;
+
+        private Image[] _icons = Array.Empty<Image>();
 
         private IntRectangle _restoreBounds;
         private string _title;
@@ -163,6 +166,7 @@ namespace Meadows.Desktop
             }));
 
             // todo: set default icons
+            SetIcons(CreateDefaultIcons());
 
             // Create input source and assign window as input source if no other input source has been set.
             _inputSource = new InputSource(this);
@@ -453,6 +457,84 @@ namespace Meadows.Desktop
         }
 
         #endregion
+
+        private static Image[] CreateDefaultIcons()
+        {
+            return new[] {
+                // todo: load a better default icon?
+                Image.CreateCheckerboardPattern(16, 16, Color.Magenta, Color.DarkGray, 4),
+                Image.CreateCheckerboardPattern(32, 32, Color.Magenta, Color.DarkGray, 8),
+                Image.CreateCheckerboardPattern(64, 64, Color.Magenta, Color.DarkGray, 16),
+            };
+        }
+
+        /// <summary>
+        /// Assigns a set of icon images to the window (the image with the most desireable szie by the system is chosen).
+        /// </summary>
+        public void SetIcons(Image[] icons)
+        {
+            if (icons is null) { throw new ArgumentNullException(nameof(icons)); }
+
+            Application.Invoke(() =>
+            {
+                // 
+                var data = new ImageData[icons.Length];
+                var pins = new GCHandle[icons.Length];
+
+                // Pin each image and 
+                for (var i = 0; i < icons.Length; i++)
+                {
+                    var icon = icons[i];
+
+                    if (icon.Width != icon.Height)
+                    {
+                        throw new ArgumentException("Icon must be of square dimensions.");
+                    }
+
+                    // Pin the pixels (prevent GC collection)
+                    var pixels = icon.GetPixels();
+                    pins[i] = GCHandle.Alloc(pixels, GCHandleType.Pinned);
+
+                    // Construct image data
+                    data[i] = new ImageData
+                    {
+                        Width = icon.Width,
+                        Height = icon.Height,
+                        Pixels = pins[i].AddrOfPinnedObject(),
+                    };
+                }
+
+                _icons = icons;
+                Glfw.SetWindowIcons(Handle, data);
+
+                // Free GC Pins
+                for (var i = 0; i < icons.Length; i++)
+                {
+                    pins[i].Free();
+                }
+            });
+        }
+
+        /// <summary>
+        /// Assigns a new icon image to the window.
+        /// </summary>
+        public void SetIcons(Image icon)
+        {
+            if (icon.Width != icon.Height)
+            {
+                throw new ArgumentException("Icon must be of square dimensions.");
+            }
+
+            var icons = new List<Image>() { icon };
+            var count = (int) Calc.Max(Calc.Log(icon.Width) - 4, 0);
+            for (var i = 0; i < count; i++)
+            {
+                var resized = Image.Downsample(icons[^1]);
+                icons.Add(resized);
+            }
+
+            SetIcons(icons.ToArray());
+        }
 
         #region Dispose
 

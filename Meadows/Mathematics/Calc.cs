@@ -111,6 +111,28 @@ namespace Meadows.Mathematics
             return dx + dy;
         }
 
+        /// <summary>
+        /// Computes an approximation of euclidean distancing using
+        /// </summary>
+        /// <param name="x1"></param>
+        /// <param name="y1"></param>
+        /// <param name="x2"></param>
+        /// <param name="y2"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float ApproximateDistance(float x1, float y1, float x2, float y2)
+        // https://www.flipcode.com/archives/Fast_Approximate_Distance_Functions.shtml
+        {
+            const float MaxCoefficient = 1007 / 1024F;
+            const float MinCoefficient = 441 / 1024F;
+
+            var dx = Abs(x2 - x1);
+            var dy = Abs(y2 - y1);
+
+            if (dx < dy) { return (MaxCoefficient * dy) + (MinCoefficient * dx); }
+            else { return (MaxCoefficient * dx) + (MinCoefficient * dy); }
+        }
+
         #endregion
 
         #region Factorial

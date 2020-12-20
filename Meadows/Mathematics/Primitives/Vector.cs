@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -235,6 +235,15 @@ namespace Meadows.Mathematics
         public static float ManhattanDistance(in Vector a, in Vector b)
         {
             return Calc.ManhattanDistance(a.X, a.Y, b.X, b.Y);
+        }
+
+        /// <summary>
+        /// Computes an approximation to euclidean distance between any two vectors.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float ApproximateDistance(in Vector a, in Vector b)
+        {
+            return Calc.ApproximateDistance(a.X, a.Y, b.X, b.Y);
         }
 
         #endregion
@@ -532,8 +541,8 @@ namespace Meadows.Mathematics
         /// </summary>
         public static explicit operator IntSize(Vector vec)
         {
-            var width = (int)vec.X;
-            var height = (int)vec.Y;
+            var width = (int) vec.X;
+            var height = (int) vec.Y;
 
             return new IntSize(width, height);
         }
@@ -543,8 +552,8 @@ namespace Meadows.Mathematics
         /// </summary>
         public static explicit operator IntVector(Vector vec)
         {
-            var x = (int)vec.X;
-            var y = (int)vec.Y;
+            var x = (int) vec.X;
+            var y = (int) vec.Y;
 
             return new IntVector(x, y);
         }

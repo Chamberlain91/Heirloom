@@ -25,13 +25,16 @@ namespace Meadows.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawLine(in Vector p0, in Vector p1, float width = 1F)
         {
-            var off = p1 - p0;
-            var len = off.Length;
-            var dir = off * len;
+            var edge = p1 - p0;
+            var edgeLength = edge.Length;
+            var edgeDir = edge / edgeLength;
 
-            var angle = dir.Angle;
-            var transform = Matrix.CreateTransform(p0, angle, (len, width))
-                          * _lineOffsetMatrix;
+            // Approximates 1 pixel
+            var step = ApproximatePixelScale / edgeLength;
+
+            // todo: inline into one matrix construction
+            var transform = Matrix.CreateTransform(p0, edgeDir.Angle, (edgeLength, width))
+                          * Matrix.CreateTranslation(-step / 2F, -1 / 2F);
 
             DrawImage(Image.Default, transform);
         }

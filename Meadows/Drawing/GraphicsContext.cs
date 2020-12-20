@@ -101,14 +101,7 @@ namespace Meadows.Drawing
 
         #region Render State (Properties)
 
-        public float ApproximatePixelScale
-        {
-            get
-            {
-                var scaleVec = 2F / CompositeMatrix.GetAffineScale();
-                return Vector.GetMinComponent(scaleVec / (Vector) Viewport.Size);
-            }
-        }
+        public float ApproximatePixelScale => Vector.GetMinComponent(1F / CompositeMatrix.GetAffineScale());
 
         public bool PixelPerfect
         {
