@@ -5,11 +5,16 @@ namespace Meadows.UI
 {
     public static class Gui
     {
-        private const int BasicElementHeight = 22;
-        private const int BasicSpace = 3;
+        private const int BasicElementHeight = 23;
+        private const int BasicElementSpace = 2;
 
-        private const int PaddingX = 4;
-        private const int PaddingY = 2;
+        private const int BasicGroupSpace = BasicElementSpace * 3;
+
+        private const int TextPaddingX = 4;
+        private const int TextPaddingY = 2;
+
+        private const int ButtonPaddingX = 2;
+        private const int ButtonPaddingY = 2;
 
         private static IntRectangle _layoutBox;
         private static int _y;
@@ -29,7 +34,7 @@ namespace Meadows.UI
         private static IntRectangle GetNextLayoutBox(int height)
         {
             var box = new IntRectangle(_layoutBox.X, _y, _layoutBox.Width, height);
-            _y += height + BasicSpace;
+            _y += height + BasicElementSpace;
 
             return box;
         }
@@ -40,7 +45,7 @@ namespace Meadows.UI
             // todo: Clip text / shorten it if it would invalidate bounds?
             Graphics.Color = Theme.TextColor;
             var measure = Graphics.DrawText(text, bounds, Theme.Font, Theme.FontSize, TextAlign.Left | TextAlign.Middle);
-            ShrinkLeft(ref bounds, PaddingX + (int) measure.Width);
+            ShrinkLeft(ref bounds, TextPaddingX + (int) measure.Width);
         }
 
         public static void PrependIcon(Texture texture, ref IntRectangle bounds)
@@ -50,11 +55,16 @@ namespace Meadows.UI
             // Fit image into bounds
             var box = bounds;
             box.Width = (int) (bounds.Height * aspect);
-            ShrinkLeft(ref bounds, PaddingX + box.Width);
+            ShrinkLeft(ref bounds, TextPaddingX + box.Width);
 
             // Draw label
             Graphics.Color = Color.White;
             Graphics.DrawImage(texture, box);
+        }
+
+        public static void Space()
+        {
+            _y += BasicGroupSpace;
         }
 
         public static void Label(string text)
@@ -67,6 +77,21 @@ namespace Meadows.UI
             Graphics.DrawText(text, bounds, Theme.Font, Theme.FontSize, TextAlign.Left | TextAlign.Middle);
         }
 
+        public static void Tooltip(string text, IntVector position)
+        {
+            var bounds = (IntRectangle) TextLayout.Measure(text, Theme.Font, Theme.FontSize);
+            bounds.Position = position - (IntVector) bounds.Size;
+
+            var backgroundBounds = IntRectangle.Inflate(bounds, TextPaddingX, TextPaddingY);
+
+            Graphics.Color = Theme.BaseColor;
+            Graphics.DrawRect(backgroundBounds);
+            Graphics.Color = Theme.BorderColor;
+            Graphics.DrawRectOutline(backgroundBounds);
+
+            PrependText(text, ref bounds);
+        }
+
         public static bool Button(string text, Texture icon = null)
         {
             var bounds = GetNextLayoutBox(BasicElementHeight);
@@ -76,18 +101,16 @@ namespace Meadows.UI
             var isMouseDown = isMouseHover && Input.CheckButton(MouseButton.Left, ButtonState.Down);
             // todo: somehow track button click down and up to prevent "drag clicks"
 
+            // Draw button body
             Graphics.Color = isMouseDown ? Theme.ActiveColor : (isMouseHover ? Theme.HoverColor : Theme.BaseColor);
             Graphics.DrawRect(bounds);
-
             Graphics.Color = Theme.BorderColor;
-            Graphics.DrawRectOutline(bounds, 1F);
-
-            // Compensate for outline
-            bounds = IntRectangle.Inflate(bounds, -1);
-            bounds.Height -= 1; // fudge, why?
+            Graphics.DrawRectOutline(bounds);
+            Shrink(ref bounds, 1);
+            bounds.Height -= 1; // todo: fix this fudge factor
 
             // Collapse bounds to give border around button
-            Shrink(ref bounds, PaddingX, PaddingY);
+            Shrink(ref bounds, ButtonPaddingX, ButtonPaddingY);
 
             if (icon != null)
             {
@@ -106,7 +129,8 @@ namespace Meadows.UI
         {
             var bounds = GetNextLayoutBox(BasicElementHeight);
 
-            // Draw slider label
+            // Adjusts so label text starts in the same place as button
+            ShrinkLeft(ref bounds, TextPaddingX);
             PrependText(text, ref bounds);
 
             var isMouseHover = bounds.Contains(MousePosition);
@@ -117,25 +141,53 @@ namespace Meadows.UI
             Graphics.Color = isMouseHover ? Theme.HoverColor : Theme.BaseColor;
             Graphics.DrawRect(bounds);
             Graphics.Color = Theme.BorderColor;
-            Graphics.DrawRectOutline(bounds, 1F);
+            Graphics.DrawRectOutline(bounds);
+            Shrink(ref bounds, 1);
+            bounds.Height -= 1; // todo: fix this fudge factor
 
-            // Compute how in-between the slider value is
-            var between = Calc.Clamp(Calc.Between(value, min, max), 0F, 1F);
+            // Copy the bounds for drawin the slider box
+            var sliderBox = bounds;
+
+            // Shrink the bounds to prevent the handle from escaping the slider box
+            const int SLIDER_HANDLE_SIZE = 3;
+            ShrinkHorizontal(ref bounds, SLIDER_HANDLE_SIZE);
+
+            // Compute where in the slider the current value is
+            var valueBetween = Calc.Clamp(Calc.Between(value, min, max), 0F, 1F);
+            var sliderPosition = (int) Calc.Lerp(bounds.Left, bounds.Right, valueBetween);
+
+            // Compute the width of the slider value
+            sliderBox.Width = sliderPosition - bounds.Left;
+
+            // Draw handle
+            Graphics.Color = Theme.ActiveColor;
+            Graphics.DrawRect(sliderBox);
 
             // Compute the handle box
             var handleBox = bounds;
-            handleBox.X = ((int) Calc.Lerp(bounds.Left, bounds.Right, between)) - 2;
-            handleBox.Width = 5;
+            handleBox.X = sliderPosition - SLIDER_HANDLE_SIZE;
+            handleBox.Width = (SLIDER_HANDLE_SIZE * 2) + 1;
 
             Graphics.Color = Theme.BorderColor;
             Graphics.DrawRect(handleBox);
 
-            if (isMouseDown)
+            var isInsideHandle = handleBox.Contains(MousePosition);
+
+            if (isMouseDown || isInsideHandle)
             {
-                // Slider value has changed
-                between = Calc.Between(MousePosition.X, bounds.Left, bounds.Right);
-                value = Calc.Lerp(min, max, between);
-                return true;
+                var isModified = false;
+
+                if (isMouseDown)
+                {
+                    // Slider value has changed
+                    valueBetween = Calc.Clamp(Calc.Between(MousePosition.X, bounds.Left, bounds.Right), 0F, 1F);
+                    value = Calc.Lerp(min, max, valueBetween);
+                    isModified = true;
+                }
+
+                Tooltip($"{value:0.00}", handleBox.TopLeft);
+
+                return isModified;
             }
 
             return false;

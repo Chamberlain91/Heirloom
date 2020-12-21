@@ -198,7 +198,7 @@ namespace Meadows.Drawing
         /// <summary>
         /// Gets or sets the (HSV) brightness value of this color.
         /// </summary>
-        public float Brightness
+        public float Value
         {
             get => Calc.Max(R, G, B);
 

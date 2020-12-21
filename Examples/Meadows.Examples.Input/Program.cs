@@ -2,7 +2,6 @@ using System;
 
 using Meadows.Desktop;
 using Meadows.Drawing;
-using Meadows.Mathematics;
 using Meadows.UI;
 using Meadows.Utilities;
 
@@ -20,7 +19,7 @@ namespace Meadows.Examples.UserInput
 
         public Program()
         {
-            Window = new Window("Heirloom - Input Example", (300, 400)) { IsResizable = false };
+            Window = new Window("Heirloom - Input Example", (500, 500)) { IsResizable = false };
 
             // Launch loop
             GameLoop.StartNew(Update);
@@ -29,13 +28,13 @@ namespace Meadows.Examples.UserInput
         private void Update(float dt)
         {
             Gui.Graphics = Window.Graphics;
+            Gui.Graphics.Clear(Gui.Theme.Background);
             Gui.Graphics.PixelPerfect = true;
-            Gui.Graphics.Clear(Color.White);
 
             // Set layout box to window
-            Gui.SetLayoutBox((16, 16, Gui.Graphics.Surface.Width - 32, Gui.Graphics.Surface.Height - 32));
+            Gui.SetLayoutBox((16, 16, 200, Gui.Graphics.Surface.Height - 32));
 
-            // todo: slider
+            // todo: slider (en progress)
             // todo: checkbox
             // todo: radio
             // todo: textbox
@@ -55,6 +54,8 @@ namespace Meadows.Examples.UserInput
                     Console.WriteLine($"Clicked on {i}.");
                 }
             }
+
+            Gui.Space();
 
             if (Gui.Slider("Brightness", ref SliderValue))
             {

@@ -87,7 +87,7 @@ namespace Meadows.Examples.Stencil
             // Load our image
             Image = new Image("zelda.jpg") { Interpolation = InterpolationMode.Linear };
 
-            var useSoftwareRenderer = true;
+            var useSoftwareRenderer = !true;
 
             // Please Note: These are MUTUALLY EXCLUSIVE. You cannot switch between backends for the lifetime of an application.
             // Either render a single frame with the software renderer (slow, can only render to in memory bitmaps)
