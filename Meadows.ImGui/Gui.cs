@@ -8,9 +8,9 @@ namespace Meadows.UI
     public static class Gui
     {
         private const int BasicElementHeight = 23;
-        private const int BasicElementSpace = 2;
+        private const int BasicElementSpace = 3;
 
-        private const int BasicGroupSpace = BasicElementSpace * 3;
+        private const int BasicGroupSpace = BasicElementSpace * 2;
 
         private const int TextPaddingX = 4;
         private const int TextPaddingY = 2;
@@ -213,7 +213,7 @@ namespace Meadows.UI
             handleRect.Width = (SliderHandleSize * 2) + 1;
 
             // Draw the slider handle
-            Graphics.Color = Theme.BorderColor;
+            Graphics.Color = Theme.TextColor;
             Graphics.DrawRect(handleRect);
 
             // 

@@ -56,7 +56,7 @@ namespace Meadows.Examples.UserInput
             // todo: list view
 
             Gui.Label("Choose Theme:");
-            if (Gui.Button("Random")) { Gui.Theme = GuiTheme.CreateTheme(Calc.Random.NextColorHue()); }
+            if (Gui.Button("Random")) { Gui.Theme = GuiTheme.CreateTheme(Calc.Random.NextColor()); }
             if (Gui.Button("Light")) { Gui.Theme = GuiTheme.Light; }
             if (Gui.Button("Dark")) { Gui.Theme = GuiTheme.Dark; }
 

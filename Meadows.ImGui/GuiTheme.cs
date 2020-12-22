@@ -26,7 +26,7 @@ namespace Meadows.UI
 
         private static Color _textLight = Color.Parse("212121");
 
-        private static Color _textDark = Color.Parse("E0E0E0");
+        private static Color _textDark = Color.Parse("EEEEEE");
 
         public static Color ErrorColor { get; } = Color.Parse("E57373");
 
@@ -40,7 +40,7 @@ namespace Meadows.UI
 
         public static GuiTheme Dark { get; } = CreateTheme(Color.Parse("333"), _textDark);
 
-        public static GuiTheme Default { get; } = CreateTheme(Color.Parse("F00"));
+        public static GuiTheme Default { get; } = Dark;
 
         /// <summary>
         /// Constructs a theme based on the specified color.
@@ -53,15 +53,20 @@ namespace Meadows.UI
             focusColor ??= Color.FromHSV(baseColor.Hue + 180, 0.9F, 0.9F, baseColor.A);
 
             // Select text color based on brightness of base color
-            var textColor = baseColor.Value < 0.5 ? _textDark : _textLight;
+            var textColor = baseColor.Luminosity < 0.5 ? _textDark : _textLight;
+            var backColor = baseColor.Luminosity < 0.5 ? MixColor(baseColor, 0.15F, 0.3F) : MixColor(baseColor, 0.15F, 0.7F);
+
+            // 
+            var activeColor = baseColor.Luminosity > 0.5 ? MixColor(baseColor, 0.5F, 0.35F) : MixColor(baseColor, 0.5F, 0.65F);
+            var borderColor = baseColor.Luminosity > 0.5 ? MixColor(baseColor, 0.5F, 0.45F) : MixColor(baseColor, 0.5F, 0.55F);
 
             return new GuiTheme
             {
-                Background = MixColor(baseColor, 0.1F, 0.6F),
+                Background = backColor,
                 TextColor = textColor,
-                BorderColor = MixColor(baseColor, 1.0F, 0.4F),
+                BorderColor = borderColor,
                 BaseColor = baseColor,
-                ActiveColor = MixColor(baseColor, 0.3F, 0.7F),
+                ActiveColor = activeColor,
                 HoverColor = MixColor(baseColor, 1.0F, 0.5F),
 
                 FocusColor = focusColor.Value,
