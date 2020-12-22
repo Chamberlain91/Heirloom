@@ -17,6 +17,8 @@ namespace Meadows.Examples.UserInput
 
         public float SliderValue;
 
+        public float SliderValue2;
+
         public Program()
         {
             Window = new Window("Heirloom - Input Example", (500, 500)) { IsResizable = false };
@@ -27,12 +29,12 @@ namespace Meadows.Examples.UserInput
 
         private void Update(float dt)
         {
-            Gui.Graphics = Window.Graphics;
-            Gui.Graphics.Clear(Gui.Theme.Background);
-            Gui.Graphics.PixelPerfect = true;
+            Window.Graphics.Clear(Gui.Theme.Background);
+            Window.Graphics.PixelPerfect = true;
 
             // Set layout box to window
-            Gui.SetLayoutBox((16, 16, 200, Gui.Graphics.Surface.Height - 32));
+            Gui.BeginFrame(Window.Graphics);
+            Gui.SetLayoutBox((16, 16, 200, Window.Surface.Height - 32));
 
             // todo: slider (en progress)
             // todo: checkbox
@@ -59,7 +61,12 @@ namespace Meadows.Examples.UserInput
 
             if (Gui.Slider("Brightness", ref SliderValue))
             {
-                Console.WriteLine($"Slider: {SliderValue:0.00}");
+                Console.WriteLine($"Brightness: {SliderValue:0.00}");
+            }
+
+            if (Gui.Slider("Transparency", ref SliderValue2))
+            {
+                Console.WriteLine($"Transparency: {SliderValue2:0.00}");
             }
 
             //
