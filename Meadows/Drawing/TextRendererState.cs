@@ -17,9 +17,19 @@ namespace Meadows.Drawing
         public Matrix Transform;
 
         /// <summary>
-        /// The position of top left corner of the current glyph image.
+        /// The position of top left corner of the current glyph.
         /// </summary>
         public Vector Position;
+
+        /// <summary>
+        /// The bounding box size of the current glyph.
+        /// </summary>
+        internal Size Size;
+
+        /// <summary>
+        /// The bounding box current glyph.
+        /// </summary>
+        public Rectangle Bounds => new(Position, Size);
 
         /// <summary>
         /// The color of the current glyph.

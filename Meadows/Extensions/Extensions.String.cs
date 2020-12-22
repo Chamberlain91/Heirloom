@@ -48,6 +48,22 @@ namespace Meadows
             else { return @this; }
         }
 
+        public static int PreviousIndexOf(this string @this, char ch, int startIndex)
+        {
+            if (startIndex >= @this.Length) { throw new ArgumentException("Start index must be less than string length.", nameof(startIndex)); }
+            if (startIndex < 0) { throw new ArgumentException("Start index must be non-negative.", nameof(startIndex)); }
+
+            for (; startIndex >= 0; startIndex--)
+            {
+                if (@this[startIndex] == ch)
+                {
+                    return startIndex;
+                }
+            }
+
+            return -1;
+        }
+
         /// <summary>
         /// Gets the ith unicode character of this string.
         /// </summary>

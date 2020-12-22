@@ -158,7 +158,8 @@ namespace Meadows.Drawing
             for (var i = 0; i < text.Length; i++)
             {
                 // Beyond bottom of layout box, can't render anymore!
-                // This is a 'truncate' vertical overflow mode
+                // This is a 'truncate' vertical overflow mode.
+                // todo: box truncate modes
                 if (state.Position.Y > bounds.Bottom)
                 {
                     break;

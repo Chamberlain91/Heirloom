@@ -70,16 +70,7 @@ namespace Meadows.Mathematics
         #endregion
 
         #region Distance
-
-        /// <summary>
-        /// Computes the distance between a pair of one-dimensional points.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Distance(float x1, float x2)
-        {
-            return Abs(x1 - x2);
-        }
-
+         
         /// <summary>
         /// Computes the distance squared between a pair of two-dimensional points.
         /// </summary>

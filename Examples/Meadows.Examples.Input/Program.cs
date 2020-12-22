@@ -2,6 +2,7 @@ using System;
 
 using Meadows.Desktop;
 using Meadows.Drawing;
+using Meadows.IO;
 using Meadows.Mathematics;
 using Meadows.UI;
 using Meadows.Utilities;
@@ -20,11 +21,15 @@ namespace Meadows.Examples.UserInput
 
         public float Transparency;
 
-        public string TextBox = "Hello World!";
+        public string SomeText = "Hello World!";
+
+        public string Message = "Lorem Ipsum";
 
         public Program()
         {
-            Window = new Window("Heirloom - Input Example", (400, 800)) { IsResizable = false };
+            Window = new Window("Heirloom - Input Example", (400, 600)) { IsResizable = false };
+
+            Console.WriteLine(string.Join(", ", Files.EnumerateFiles()));
 
             // Launch loop
             GameLoop.StartNew(Update);
@@ -32,19 +37,19 @@ namespace Meadows.Examples.UserInput
 
         private void Update(float dt)
         {
-            Window.Graphics.Clear(Gui.Theme.Background);
+            Window.Graphics.Clear(Color.Black);
             Window.Graphics.PixelPerfect = true;
 
             // Set layout box to window
-            Gui.BeginFrame(Window.Graphics);
-            Gui.SetLayoutBox((16, 16, 200, Window.Surface.Height - 32));
+            Gui.BeginFrame(Window.Graphics, dt);
+            Gui.SetLayoutBox((16, 16, 250, Window.Surface.Height - 32));
 
             // todo: button (complete)
             // todo: slider (complete)
-            // todo: textbox
-            // todo: textarea
             // todo: checkbox
             // todo: radio
+            // todo: textbox
+            // todo: textarea
 
             // todo: panel
             // todo: collapse label
@@ -56,7 +61,6 @@ namespace Meadows.Examples.UserInput
             // todo: list view
 
             Gui.Label("Choose Theme:");
-            if (Gui.Button("Random")) { Gui.Theme = GuiTheme.CreateTheme(Calc.Random.NextColor()); }
             if (Gui.Button("Light")) { Gui.Theme = GuiTheme.Light; }
             if (Gui.Button("Dark")) { Gui.Theme = GuiTheme.Dark; }
 
@@ -72,9 +76,14 @@ namespace Meadows.Examples.UserInput
                 Console.WriteLine($"Transparency: {Transparency:0.00}");
             }
 
-            if (Gui.TextBox("Some Text", ref TextBox))
+            if (Gui.StringInput("Some Text", ref SomeText))
             {
-                Console.WriteLine($"Text Box: {TextBox}");
+                Console.WriteLine($"Text Box: {SomeText}");
+            }
+
+            if (Gui.StringInput("Message", ref Message))
+            {
+                Console.WriteLine($"Message: {Message}");
             }
 
             //

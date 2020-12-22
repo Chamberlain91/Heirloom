@@ -465,7 +465,7 @@ namespace Meadows.Drawing.OpenGLES
         {
             var location = uniform.Location;
 
-            Log.Debug($"Updating Uniform: {uniform.Name}");
+            // Log.Debug($"Updating Uniform: {uniform.Name}");
 
             switch (uniform.Type)
             {

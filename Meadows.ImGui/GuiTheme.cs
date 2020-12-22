@@ -1,4 +1,3 @@
-
 using Meadows.Drawing;
 using Meadows.Mathematics;
 
@@ -38,7 +37,7 @@ namespace Meadows.UI
 
         public static GuiTheme Light { get; } = CreateTheme(Color.Parse("CCC"), _textLight);
 
-        public static GuiTheme Dark { get; } = CreateTheme(Color.Parse("333"), _textDark);
+        public static GuiTheme Dark { get; } = CreateTheme(Color.Parse("333") );
 
         public static GuiTheme Default { get; } = Dark;
 

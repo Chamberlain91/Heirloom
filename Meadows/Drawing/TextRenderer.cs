@@ -87,12 +87,16 @@ namespace Meadows.Drawing
             var state = new TextRendererState { Color = color };
 
             // Layout text
+            var lineHeight = font.GetMetrics(size).Height;
             var measure = TextLayout.PerformLayout(text, bounds, align, glyphTable, (string _, int index, ref TextLayoutState layout) =>
             {
                 // Set initial state
                 state.Transform = Matrix.Identity;
                 state.Position = layout.Position;
                 state.Color = color;
+
+                // Size of the current glyph layout box
+                state.Size = new(layout.Metrics.AdvanceWidth, lineHeight);
 
                 // Process character (per character animation, etc)
                 callback?.Invoke(text, index, ref state);

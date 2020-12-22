@@ -9,7 +9,7 @@ namespace Meadows.Drawing
     public abstract partial class GraphicsContext
     {
         // used to center the line within the 1x1 pixel image to anchor at left-center
-        private static readonly Matrix _lineOffsetMatrix = Matrix.CreateTranslation(0, -1 / 2F);
+        private static readonly Matrix _lineCenterMatrix = Matrix.CreateTranslation(0, -1 / 2F);
 
         private static readonly Mesh _mesh = new();
         private static readonly List<Vector> _sequence = new();
@@ -24,17 +24,15 @@ namespace Meadows.Drawing
         /// <param name="width">The thickness of the line in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawLine(in Vector p0, in Vector p1, float width = 1F)
+        // todo: fix so it renders pixel perfect somehow
         {
             var edge = p1 - p0;
             var edgeLength = edge.Length;
             var edgeDir = edge / edgeLength;
 
-            // Approximates 1 pixel
-            var step = ApproximatePixelScale / edgeLength;
-
-            // todo: inline into one matrix construction
+            // todo: inline into one matrix construction?
             var transform = Matrix.CreateTransform(p0, edgeDir.Angle, (edgeLength, width))
-                          * Matrix.CreateTranslation(-step / 2F, -1 / 2F);
+                          * _lineCenterMatrix;
 
             DrawImage(Image.Default, transform);
         }
