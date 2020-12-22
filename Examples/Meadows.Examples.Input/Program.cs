@@ -2,6 +2,7 @@ using System;
 
 using Meadows.Desktop;
 using Meadows.Drawing;
+using Meadows.Mathematics;
 using Meadows.UI;
 using Meadows.Utilities;
 
@@ -15,13 +16,15 @@ namespace Meadows.Examples.UserInput
 
         public Image Icon = Image.CreateCheckerboardPattern(16, 16, Color.Red, 4);
 
-        public float SliderValue;
+        public float Brightness;
 
-        public float SliderValue2;
+        public float Transparency;
+
+        public string TextBox = "Hello World!";
 
         public Program()
         {
-            Window = new Window("Heirloom - Input Example", (500, 500)) { IsResizable = false };
+            Window = new Window("Heirloom - Input Example", (400, 800)) { IsResizable = false };
 
             // Launch loop
             GameLoop.StartNew(Update);
@@ -36,37 +39,42 @@ namespace Meadows.Examples.UserInput
             Gui.BeginFrame(Window.Graphics);
             Gui.SetLayoutBox((16, 16, 200, Window.Surface.Height - 32));
 
-            // todo: slider (en progress)
+            // todo: button (complete)
+            // todo: slider (complete)
+            // todo: textbox
+            // todo: textarea
             // todo: checkbox
             // todo: radio
-            // todo: textbox
-            // todo: window
+
             // todo: panel
-            // todo: tabs
             // todo: collapse label
+            // todo: tabs
+            // todo: window
+
+            // todo: scroll panel
             // todo: combo box
             // todo: list view
-            // todo: scroll panel
 
-            Gui.Label("Select Stage:");
-            for (var i = 0; i < 10; i++)
-            {
-                if (Gui.Button($"Stage {i}", i < 4 ? Icon : null))
-                {
-                    Console.WriteLine($"Clicked on {i}.");
-                }
-            }
+            Gui.Label("Choose Theme:");
+            if (Gui.Button("Random")) { Gui.Theme = GuiTheme.CreateTheme(Calc.Random.NextColorHue()); }
+            if (Gui.Button("Light")) { Gui.Theme = GuiTheme.Light; }
+            if (Gui.Button("Dark")) { Gui.Theme = GuiTheme.Dark; }
 
             Gui.Space();
 
-            if (Gui.Slider("Brightness", ref SliderValue))
+            if (Gui.Slider("Brightness", ref Brightness, step: 10))
             {
-                Console.WriteLine($"Brightness: {SliderValue:0.00}");
+                Console.WriteLine($"Brightness: {Brightness:0.00}");
             }
 
-            if (Gui.Slider("Transparency", ref SliderValue2))
+            if (Gui.Slider("Transparency", ref Transparency))
             {
-                Console.WriteLine($"Transparency: {SliderValue2:0.00}");
+                Console.WriteLine($"Transparency: {Transparency:0.00}");
+            }
+
+            if (Gui.TextBox("Some Text", ref TextBox))
+            {
+                Console.WriteLine($"Text Box: {TextBox}");
             }
 
             //

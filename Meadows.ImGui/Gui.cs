@@ -37,15 +37,12 @@ namespace Meadows.UI
             _input.Position = Input.MousePosition;
             _input.Button = Input.GetButton(MouseButton.Left);
 
-            // 
-            _input.LastActiveElement = _input.ActiveElement;
+            // Assign new active element 
+            _input.ActiveElement = _input.NextActiveElement;
 
-            // No input and the active element did not change
-            var hasInput = _input.IsDown || _input.IsPressed || _input.IsReleased;
-            if (!hasInput && _input.LastActiveElement == _input.ActiveElement)
-            {
-                _input.ActiveElement = 0;
-            }
+            // If we click, the active element will now change. This might change
+            // into the same element but thats still effectively like changing elements.
+            if (_input.IsPressed) { _input.NextActiveElement = 0; }
         }
 
         public static void SetLayoutBox(IntRectangle layoutBox)
@@ -60,6 +57,11 @@ namespace Meadows.UI
             _y += height + BasicElementSpace;
 
             return box;
+        }
+
+        private static void BeginElement(string title)
+        {
+            _input.CurrentElement = HashCode.Combine(title);
         }
 
         #region Element Construction
@@ -90,12 +92,12 @@ namespace Meadows.UI
             Graphics.DrawImage(texture, box);
         }
 
-        public static void PrependFrame(Color color, ref IntRectangle bounds)
+        public static void PrependFrame(Color baseColor, Color borderColor, ref IntRectangle bounds)
         {
-            Graphics.Color = color;
+            Graphics.Color = baseColor;
             Graphics.DrawRect(bounds);
 
-            Graphics.Color = Theme.BorderColor;
+            Graphics.Color = borderColor;
             Graphics.DrawRectOutline(bounds);
 
             Shrink(ref bounds, 1);
@@ -127,7 +129,7 @@ namespace Meadows.UI
             bounds.Position = position - (IntVector) bounds.Size;
 
             var backgroundBounds = IntRectangle.Inflate(bounds, TextPaddingX, TextPaddingY);
-            PrependFrame(Theme.BaseColor, ref backgroundBounds);
+            PrependFrame(Theme.BaseColor, Theme.BorderColor, ref backgroundBounds);
             PrependText(text, ref bounds, true);
         }
 
@@ -135,20 +137,24 @@ namespace Meadows.UI
 
         #region Interactive Elements
 
-        public static bool Button(string text, Texture icon = null)
+        public static bool Button(string title, Texture icon = null)
         {
-            var bounds = GetNextLayoutBox(BasicElementHeight);
-            var id = HashCode.Combine(text, icon);
+            BeginElement(title);
 
-            // Determine if the mouse is hovering this element.
-            // If clicked on, store id and determine if selected.
-            var isHovering = bounds.Contains(_input.Position);
-            if (isHovering && _input.IsPressed) { _input.ActiveElement = id; }
-            var isSelected = isHovering && _input.ActiveElement == id;
+            var bounds = GetNextLayoutBox(BasicElementHeight);
+
+            var isMouseOver = bounds.Contains(_input.Position);
+            if (isMouseOver && _input.IsPressed)
+            {
+                _input.MakeElementActive();
+            }
+
+            var isActiveMouseOver = isMouseOver && _input.IsActiveElement;
 
             // Draw button body
-            var buttonColor = (isSelected && _input.IsDown) ? Theme.ActiveColor : (isHovering ? Theme.HoverColor : Theme.BaseColor);
-            PrependFrame(buttonColor, ref bounds);
+            var buttonColor = (isActiveMouseOver && _input.IsDown) ? Theme.ActiveColor : (isMouseOver ? Theme.HoverColor : Theme.BaseColor);
+            var borderColor = _input.IsActiveElement ? Theme.FocusColor : Theme.BorderColor;
+            PrependFrame(buttonColor, borderColor, ref bounds);
 
             // Collapse bounds to give padding to the button text
             Shrink(ref bounds, ButtonPaddingX, ButtonPaddingY);
@@ -160,30 +166,29 @@ namespace Meadows.UI
             }
 
             // Draw button text
-            PrependText(text, ref bounds);
+            PrependText(title, ref bounds);
 
-            // 
-            return _input.IsReleased && isSelected;
+            return isActiveMouseOver && _input.IsReleased;
         }
 
-        public static bool Slider(string text, ref float value, float min = 0F, float max = 100F)
+        public static bool Slider(string title, ref float value, float min = 0F, float max = 100F, float step = 1F)
         {
+            BeginElement(title);
+
             var bounds = GetNextLayoutBox(BasicElementHeight);
-            var id = HashCode.Combine(text);
 
             // Draws text label
-            ShrinkLeft(ref bounds, TextPaddingX);
-            PrependText(text, ref bounds);
+            PrependText(title, ref bounds);
 
             // Determine if the mouse is hovering this element.
             // If clicked on, store id and determine if selected.
-            var isHoverSlider = bounds.Contains(_input.Position);
-            if (isHoverSlider && _input.IsPressed) { _input.ActiveElement = id; }
-            var isSelected = isHoverSlider && _input.ActiveElement == id;
+            var isHoverSliderFrame = bounds.Contains(_input.Position);
+            if (isHoverSliderFrame && _input.IsPressed) { _input.MakeElementActive(); }
 
             // Draw slider frame
-            var sliderColor = isHoverSlider ? Theme.HoverColor : Theme.BaseColor;
-            PrependFrame(sliderColor, ref bounds);
+            var sliderColor = isHoverSliderFrame ? Theme.HoverColor : Theme.BaseColor;
+            var borderColor = _input.IsActiveElement ? Theme.FocusColor : Theme.BorderColor;
+            PrependFrame(sliderColor, borderColor, ref bounds);
 
             // Copy the bounds for drawing the active slider value
             var valueRect = bounds;
@@ -213,24 +218,71 @@ namespace Meadows.UI
 
             // 
             var isHoverHandle = handleRect.Contains(_input.Position);
-            var isInteracting = isSelected && _input.IsDown;
+            var isInteracting = _input.IsActiveElement && _input.IsDown && isHoverSliderFrame;
+
+            var isModified = false;
 
             if (isInteracting || isHoverHandle)
             {
-                var isModified = false;
-
                 if (isInteracting)
                 {
                     // Slider value has changed
                     valueBetween = Calc.Clamp(Calc.Between(_input.Position.X, bounds.Left, bounds.Right), 0F, 1F);
+
                     value = Calc.Lerp(min, max, valueBetween);
+                    value = Calc.Round(value / step) * step;
+
                     isModified = true;
                 }
 
                 // Display tooltip
-                Tooltip($"{value:0.00}", handleRect.TopLeft);
+                Tooltip($"{value}", handleRect.TopLeft);
+            }
 
-                return isModified;
+            return isModified;
+        }
+
+        public static bool TextBox(string title, ref string text)
+        {
+            BeginElement(title);
+
+            var bounds = GetNextLayoutBox(BasicElementHeight);
+
+            // Prepend title
+            PrependText(title, ref bounds, false);
+
+            // Determine if the mouse is hovering this element.
+            // If clicked on, store id and determine if selected.
+            var isHovering = bounds.Contains(_input.Position);
+            if (isHovering && _input.IsPressed) { _input.MakeElementActive(); }
+
+            //
+            var bodyColor = _input.IsActiveElement ? Theme.ActiveColor : Theme.BaseColor;
+            var borderColor = _input.IsActiveElement ? Theme.FocusColor : Theme.BorderColor;
+            PrependFrame(bodyColor, borderColor, ref bounds);
+            Shrink(ref bounds, TextPaddingX, TextPaddingY);
+
+            //
+            var displayText = text;
+            if (_input.IsActiveElement) { displayText = $"{displayText}_"; }
+            PrependText(displayText, ref bounds, false);
+
+            // 
+            if (_input.IsActiveElement)
+            {
+                if (Input.CheckKey(Key.Backspace, ButtonState.Pressed))
+                // todo: ButtonState.Repeat?
+                {
+                    // Backspace
+                    if (text.Length > 0)
+                    {
+                        text = text[..^1];
+                    }
+                }
+                else if (Input.TextInput.Length > 0)
+                {
+                    text += Input.TextInput;
+                }
             }
 
             return false;
@@ -293,10 +345,6 @@ namespace Meadows.UI
 
             public Vector Position;
 
-            public int ActiveElement;
-
-            public int LastActiveElement;
-
             public bool IsDown => Button.HasFlag(ButtonState.Down);
 
             public bool IsPressed => Button.HasFlag(ButtonState.Pressed);
@@ -304,6 +352,21 @@ namespace Meadows.UI
             public bool IsReleased => Button.HasFlag(ButtonState.Released);
 
             public bool IsUp => Button.HasFlag(ButtonState.Up);
+
+            public bool HasMouseInput => IsDown || IsPressed || IsReleased;
+
+            public int ActiveElement;
+
+            public int NextActiveElement;
+
+            public int CurrentElement;
+
+            public bool IsActiveElement => ActiveElement == CurrentElement;
+
+            internal void MakeElementActive()
+            {
+                _input.NextActiveElement = _input.CurrentElement;
+            }
         }
     }
 }

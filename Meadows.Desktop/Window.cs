@@ -113,43 +113,52 @@ namespace Meadows.Desktop
 
             Glfw.SetCursorPositionCallback(Handle, _cursorPositionCallback = (_, x, y) =>
             {
-                // Compute delta position
-                var prevPosition = mousePosition;
-                mousePosition = new Vector((float) x, (float) y);
-                mouseDelta = mousePosition - prevPosition;
+                lock (_inputSource.MouseMoveEvents)
+                {
+                    // Compute delta position
+                    var prevPosition = mousePosition;
+                    mousePosition = new Vector((float) x, (float) y);
+                    mouseDelta = mousePosition - prevPosition;
 
-                // 
-                var ev = new MouseMoveEvent(mousePosition, mouseDelta);
-                _inputSource.MouseMoveEvents.Enqueue(ev);
+                    // 
+                    var ev = new MouseMoveEvent(mousePosition, mouseDelta);
+                    _inputSource.MouseMoveEvents.Enqueue(ev);
+                }
             });
 
             Glfw.SetMouseButtonCallback(Handle, _mouseButtonCallback = (_, button, action, modifiers) =>
             {
-                switch (action)
+                lock (_inputSource.MouseButtonEvents)
                 {
-                    default:
-                        throw new InvalidOperationException("Encountered illegal mosue button action");
-
-                    case KeyAction.Press:
+                    switch (action)
                     {
-                        var ev = new MouseButtonEvent((MouseButton) button, modifiers, ButtonState.Pressed, mousePosition);
-                        _inputSource.MouseButtonEvents.Enqueue(ev);
-                    }
-                    break;
+                        default:
+                            throw new InvalidOperationException("Encountered illegal mosue button action");
 
-                    case KeyAction.Release:
-                    {
-                        var ev = new MouseButtonEvent((MouseButton) button, modifiers, ButtonState.Released, mousePosition);
-                        _inputSource.MouseButtonEvents.Enqueue(ev);
+                        case KeyAction.Press:
+                        {
+                            var ev = new MouseButtonEvent((MouseButton) button, modifiers, ButtonState.Pressed, mousePosition);
+                            _inputSource.MouseButtonEvents.Enqueue(ev);
+                        }
+                        break;
+
+                        case KeyAction.Release:
+                        {
+                            var ev = new MouseButtonEvent((MouseButton) button, modifiers, ButtonState.Released, mousePosition);
+                            _inputSource.MouseButtonEvents.Enqueue(ev);
+                        }
+                        break;
                     }
-                    break;
                 }
             });
 
             Glfw.SetScrollCallback(Handle, _scrollCallback = (_, x, y) =>
             {
-                var ev = new MouseScrollEvent((float) x, (float) y);
-                _inputSource.MouseScrollEvents.Enqueue(ev);
+                lock (_inputSource.MouseScrollEvents)
+                {
+                    var ev = new MouseScrollEvent((float) x, (float) y);
+                    _inputSource.MouseScrollEvents.Enqueue(ev);
+                }
             });
 
             #endregion
@@ -719,31 +728,40 @@ namespace Meadows.Desktop
                 {
                     RemoveRecentFlag(_mouseStates);
 
-                    while (MouseButtonEvents.Count > 0)
-                    {
-                        var ev = MouseButtonEvents.Dequeue();
-
-                        // If the event is reporting a new press (ie, 'now')
-                        if (ev.State.HasFlag(ButtonState.Now))
-                        {
-                            _mouseStates[ev.Button] = ev.State;
-                        }
-                    }
-
                     _mouseScroll = Vector.Zero;
                     _mouseDelta = Vector.Zero;
 
-                    while (MouseScrollEvents.Count > 0)
+                    lock (MouseButtonEvents)
                     {
-                        var ev = MouseScrollEvents.Dequeue();
-                        _mouseScroll += ev.Scroll;
+                        while (MouseButtonEvents.Count > 0)
+                        {
+                            var ev = MouseButtonEvents.Dequeue();
+
+                            // If the event is reporting a new press (ie, 'now')
+                            if (ev.State.HasFlag(ButtonState.Now))
+                            {
+                                _mouseStates[ev.Button] = ev.State;
+                            }
+                        }
                     }
 
-                    while (MouseMoveEvents.Count > 0)
+                    lock (MouseScrollEvents)
                     {
-                        var ev = MouseMoveEvents.Dequeue();
-                        _mousePosition = ev.Position;
-                        _mouseDelta += ev.Delta;
+                        while (MouseScrollEvents.Count > 0)
+                        {
+                            var ev = MouseScrollEvents.Dequeue();
+                            _mouseScroll += ev.Scroll;
+                        }
+                    }
+
+                    lock (MouseMoveEvents)
+                    {
+                        while (MouseMoveEvents.Count > 0)
+                        {
+                            var ev = MouseMoveEvents.Dequeue();
+                            _mousePosition = ev.Position;
+                            _mouseDelta += ev.Delta;
+                        }
                     }
                 }
 
