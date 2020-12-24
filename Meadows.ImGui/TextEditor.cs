@@ -10,59 +10,70 @@ namespace Meadows.UI
     {
         private const float BlinkDuration = 0.5F;
 
+        private static bool _needsInitialize;
+
         private static Rectangle _bounds;
+
         private static string _text = string.Empty;
-        private static int _cursor;
+        private static int _cursor, _select;
 
         private static float _blinkTimer;
         private static bool _blink;
 
-        private static readonly List<CharacterCell> _characters = new();
-
-        public static bool ShowCursor => _blink;
+        private static readonly List<Rectangle> _selectionRectangles = new();
+        private static readonly List<Rectangle> _cells = new();
 
         public static string Text => _text;
 
-        private static int CursorIndex
-        {
-            get => _cursor;
+        /// <summary>
+        /// A value that determines if some text has been selected.
+        /// </summary>
+        public static bool HasSelection => _select != _cursor;
 
-            set
-            {
-                _cursor = value;
-                _cursor = Calc.Clamp(_cursor, 0, _text.Length);
-            }
-        }
+        /// <summary>
+        /// A collection of rectangle regions to draw text selection.
+        /// </summary>
+        public static IEnumerable<Rectangle> SelectionRectangles = _selectionRectangles;
 
+        private static int MinSelection => HasSelection ? Calc.Min(_select, _cursor) : _cursor;
+
+        private static int MaxSelection => HasSelection ? Calc.Max(_select, _cursor) : _cursor;
+
+        /// <summary>
+        /// The top-left corner of the text cursor.
+        /// </summary>
         public static Vector CursorPosition { get; internal set; }
 
-        private struct CharacterCell
-        {
-            public Rectangle Bounds;
-            public char Character;
-            public int Index;
-        }
-
-        public static void Initialize(string text, Rectangle bounds)
-        {
-            _bounds = bounds;
-
-            text ??= string.Empty;
-
-            if (_text != text)
-            {
-                CursorIndex = text.Length;
-                _text = text;
-            }
-
-            // 
-            _characters.Clear();
-        }
+        /// <summary>
+        /// Gets a boolean value that determines if the cursor should be drawn.
+        /// This is useful for animating a blinking cursor.
+        /// </summary>
+        public static bool ShowCursor => _blink;
 
         private static void ResetBlinkTimer()
         {
             _blinkTimer = 0F;
             _blink = true;
+        }
+
+        public static void Initialize(string text, Rectangle bounds)
+        {
+            // Ensure text is never null
+            text ??= string.Empty;
+
+            // If the text is different...
+            if (_text != text)
+            {
+                // We will need to initialize
+                _needsInitialize = true;
+
+                // Assign new text
+                _text = text;
+            }
+
+            //
+            _bounds = bounds;
+            _cells.Clear();
         }
 
         public static void Update(float dt)
@@ -78,112 +89,250 @@ namespace Meadows.UI
 
         public static void CharacterCallback(string text, int i, ref TextRendererState state)
         {
-            _characters.Add(new CharacterCell
-            {
-                Bounds = state.Bounds,
-                Character = text[i],
-                Index = i
-            });
+            _cells.Add(state.Bounds);
+        }
 
-            if (i == CursorIndex)
+        private static Rectangle GetCell(int i)
+        {
+            if (_cells.Count == 0)
             {
-                CursorPosition = state.Bounds.TopLeft;
+                // Special zero length text
+                return new(_bounds.Position, Size.Zero);
+            }
+            else
+            if (i >= _cells.Count)
+            {
+                // Special after text cell
+                var priorCell = _cells[^1];
+                return new(priorCell.TopRight, new Size(0, priorCell.Height));
+            }
+            else
+            {
+                // Regular character cell
+                return _cells[i];
             }
         }
 
-        internal static void ProcessInput(bool allowNewline)
+        public static void ProcessInput(bool allowNewline)
         {
-            // todo: ButtonState.Repeat
-
-            // Special case handling, end of text cursor
-            if (CursorIndex == Text.Length && _characters.Count > 0)
+            if (_needsInitialize)
             {
-                CursorPosition = _characters[^1].Bounds.TopRight;
+                // We are starting fresh (editor is newly focused) 
+                // Clear selection information
+                _selectionRectangles.Clear();
+                _cursor = _text.Length;
+                _select = _cursor;
             }
 
-            // No text, set cursor to top-left of bounds
-            if (_characters.Count == 0) { CursorPosition = _bounds.Position; }
-
             // 
+            CursorPosition = GetCell(_cursor).Position;
+
+            // Begin selection / place cursor at mouse
+            if (Input.IsMousePressed(MouseButton.Left) || _needsInitialize)
+            {
+                SetCursor(FindMouseCharacterIndex(Input.MousePosition));
+                ClearSelection();
+            }
+
+            // Mouse is dragging, place cursor at mouse (causing selection boxes)
             if (Input.IsMouseDown(MouseButton.Left))
             {
-                ResetBlinkTimer();
-                CursorIndex = JumpCursorToMouse();
+                SetCursor(FindMouseCharacterIndex(Input.MousePosition));
             }
 
             if (Input.IsKeyPressed(Key.Backspace, repeat: true))
             {
-                ResetBlinkTimer();
                 DeleteBackwards();
             }
             else if (Input.IsKeyPressed(Key.Delete, repeat: true))
             {
-                ResetBlinkTimer();
                 DeleteForwards();
             }
             else if (allowNewline && Input.IsKeyPressed(Key.Enter, repeat: true))
             {
-                ResetBlinkTimer();
                 Insert("\n");
             }
             else if (Input.IsKeyPressed(Key.Left, repeat: true))
             {
-                ResetBlinkTimer();
-                CursorIndex--;
+                SetCursor(_cursor - 1);
+                ClearSelection();
             }
             else if (Input.IsKeyPressed(Key.Right, repeat: true))
             {
-                ResetBlinkTimer();
-                CursorIndex++;
+                SetCursor(_cursor + 1);
+                ClearSelection();
             }
             else if (Input.IsKeyPressed(Key.Up, repeat: true))
             {
                 JumpCursorToPreviousLine();
-                ResetBlinkTimer();
+                ClearSelection();
             }
             else if (Input.IsKeyPressed(Key.Down, repeat: true))
             {
                 JumpCursorToNextLine();
-                ResetBlinkTimer();
+                ClearSelection();
             }
             else if (Input.IsKeyPressed(Key.End, repeat: true))
             {
-                CursorIndex = FindEndOfLine(CursorIndex);
-                ResetBlinkTimer();
+                SetCursor(FindEndOfLine(_cursor));
+                ClearSelection();
             }
             else if (Input.IsKeyPressed(Key.Home, repeat: true))
             {
-                CursorIndex = FindStartOfLine(CursorIndex);
-                ResetBlinkTimer();
+                SetCursor(FindStartOfLine(_cursor));
+                ClearSelection();
+            }
+            else if (Input.IsKeyDown(Key.LeftControl) && Input.IsKeyPressed(Key.A))
+            {
+                SelectAll();
             }
             else if (Input.TextInput.Length > 0)
             {
                 Insert(Input.TextInput);
-                ResetBlinkTimer();
+            }
+
+            // Update selection rects
+            UpdateSelectionRects();
+
+            // Mark as no longer needing initialization
+            _needsInitialize = false;
+        }
+
+        public static void SelectText(int min, int max)
+        {
+            // Zero sized selection, which means no selection.
+            if (min == max) { ClearSelection(); }
+            else
+            {
+                // Assign selection range
+                SetCursor(Calc.Max(min, max));
+                _select = Calc.Min(min, max);
             }
         }
 
-        private static int JumpCursorToMouse()
+        private static void SetCursor(int index)
+        {
+            _cursor = Calc.Clamp(index, 0, _text.Length);
+            ResetBlinkTimer();
+        }
+
+        private static void SelectAll()
+        {
+            SelectText(0, _text.Length);
+        }
+
+        private static void ClearSelection()
+        {
+            _select = _cursor;
+        }
+
+        private static void UpdateSelectionRects()
+        {
+            _selectionRectangles.Clear();
+
+            if (HasSelection)
+            {
+                // Get selection limits
+                var minIndex = MinSelection;
+                var maxIndex = MaxSelection;
+
+                while (true)
+                {
+                    // Find next end of line (or end of selection)
+                    var endIndex = Calc.Min(maxIndex, FindEndOfLine(minIndex));
+
+                    // Append selection rect for line
+                    var rectMin = GetCell(minIndex).Position;
+                    var rectMax = GetCell(endIndex).BottomLeft;
+
+                    _selectionRectangles.Add(new Rectangle(rectMin, rectMax));
+
+                    // If we have reached the max index, everything is highlighted
+                    if (endIndex == maxIndex) { break; }
+
+                    // We have more to select, move min index to new end of line
+                    minIndex = endIndex + 1;
+                }
+            }
+        }
+
+        private static void DeleteSelection()
+        {
+            // 
+            var minIndex = Calc.Min(_cursor, _select);
+            var maxIndex = Calc.Max(_cursor, _select);
+
+            Log.Warning($"delete selection: {minIndex} to {maxIndex}");
+
+            // Remove selection
+            _text = _text.Remove(minIndex, maxIndex - minIndex);
+
+            // Update cursor and selection index
+            SetCursor(minIndex);
+            _select = _cursor;
+        }
+
+        internal static void Insert(string str)
+        {
+            if (HasSelection) { DeleteSelection(); }
+
+            _text = _text.Insert(_cursor, str);
+            SetCursor(_cursor + str.Length);
+            _select = _cursor;
+        }
+
+        internal static void DeleteBackwards()
+        {
+            if (HasSelection) { DeleteSelection(); }
+            else
+            {
+                // Remove prior character
+                if (_text.Length > 0 && _cursor > 0)
+                {
+                    _text = _text.Remove(_cursor - 1, 1);
+                    SetCursor(_cursor - 1);
+                }
+
+                ClearSelection();
+            }
+        }
+
+        internal static void DeleteForwards()
+        {
+            if (HasSelection) { DeleteSelection(); }
+            else
+            {
+                // Remove next character
+                if (_cursor < _text.Length)
+                {
+                    _text = _text.Remove(_cursor, 1);
+                    ClearSelection();
+                }
+            }
+        }
+
+        private static int FindMouseCharacterIndex(Vector query)
         {
             var bestDist = float.MaxValue;
             var best = -1;
 
             // Check each character cell to find nearest to mouse
-            foreach (var cell in _characters)
+            for (var index = 0; index <= _cells.Count; index++)
             {
-                var xCenter = cell.Bounds.X;
-                var yCenter = cell.Bounds.Y + (cell.Bounds.Height / 2F);
-                CheckCell(cell.Index, xCenter, yCenter);
+                var cell = GetCell(index);
+                var xCenter = cell.X;
+                var yCenter = cell.Y + (cell.Height / 2F);
+                CheckCell(index, xCenter, yCenter);
             }
 
-            // Special case handling after last character
-            if (_characters.Count > 0)
-            {
-                var lastCharacter = _characters[^1];
-                var xCenter = lastCharacter.Bounds.Right;
-                var yCenter = lastCharacter.Bounds.Y + lastCharacter.Bounds.Height / 2F;
-                CheckCell(_text.Length, xCenter, yCenter);
-            }
+            //// Special case handling after last character
+            //if (_cells.Count > 0)
+            //{
+            //    var lastCharacter = _cells[^1];
+            //    var xCenter = lastCharacter.Right;
+            //    var yCenter = lastCharacter.Y + lastCharacter.Height / 2F;
+            //    CheckCell(_text.Length, xCenter, yCenter);
+            //}
 
             // Unable to detect cursor position, default to end of string.
             if (best == -1) { best = _text.Length; }
@@ -193,8 +342,8 @@ namespace Meadows.UI
 
             void CheckCell(int index, float xCenter, float yCenter)
             {
-                var xDist = Calc.Abs(xCenter - Input.MousePosition.X);
-                var yDist = Calc.Abs(yCenter - Input.MousePosition.Y);
+                var xDist = Calc.Abs(xCenter - query.X);
+                var yDist = Calc.Abs(yCenter - query.Y);
                 var dist = xDist + yDist * 2;
 
                 if (dist <= bestDist)
@@ -207,24 +356,22 @@ namespace Meadows.UI
 
         private static void JumpCursorToNextLine()
         {
-            if (_characters.Count > 0)
+            if (_cells.Count > 0)
             {
                 // Find the end of the current and following line
-                var endA = FindEndOfLine(CursorIndex);
+                var endA = FindEndOfLine(_cursor);
                 var endB = FindEndOfLine(endA + 1);
-
-                Console.WriteLine(endA + " " + endB);
 
                 if (endA != endB)
                 {
-                    var curr = _characters[CursorIndex];
+                    var curr = GetCell(_cursor);
                     var bestDist = float.MaxValue;
-                    var best = CursorIndex;
+                    var best = _cursor;
 
                     for (var i = endA + 1; i < endB; i++)
                     {
-                        var next = _characters[i];
-                        var dist = Calc.Abs(next.Bounds.X - curr.Bounds.X);
+                        var next = GetCell(i);
+                        var dist = Calc.Abs(next.X - curr.X);
                         if (dist < bestDist)
                         {
                             bestDist = dist;
@@ -233,33 +380,33 @@ namespace Meadows.UI
                     }
 
                     // Set cursor to new position
-                    CursorIndex = best;
+                    SetCursor(best);
                 }
             }
         }
 
         private static void JumpCursorToPreviousLine()
         {
-            if (_characters.Count > 0)
+            if (_cells.Count > 0)
             {
                 // Find the end of the current and following line
-                var startA = FindStartOfLine(CursorIndex);
+                var startA = FindStartOfLine(_cursor);
                 var startB = FindStartOfLine(startA - 1);
 
                 // Special case handling, cursor at the end of line
-                if (CursorIndex == _characters.Count) { CursorIndex = startA - 1; }
+                if (_cursor == _cells.Count) { SetCursor(startA - 1); }
                 else
                 {
                     if (startA != startB)
                     {
-                        var curr = _characters[CursorIndex];
+                        var curr = GetCell(_cursor);
                         var bestDist = float.MaxValue;
-                        var best = CursorIndex;
+                        var best = _cursor;
 
                         for (var i = startB; i < startA - 1; i++)
                         {
-                            var next = _characters[i];
-                            var dist = Calc.Abs(next.Bounds.X - curr.Bounds.X);
+                            var next = GetCell(i);
+                            var dist = Calc.Abs(next.X - curr.X);
                             if (dist < bestDist)
                             {
                                 bestDist = dist;
@@ -268,7 +415,7 @@ namespace Meadows.UI
                         }
 
                         // Set cursor to new position
-                        CursorIndex = best;
+                        SetCursor(best);
                     }
                 }
             }
@@ -278,12 +425,12 @@ namespace Meadows.UI
         {
             if (index > 0) // othwerwise its already at start
             {
-                index = Calc.Min(_text.Length - 1, index);
-                var curr = _characters[index];
+                index = Calc.Min(_cells.Count - 1, index);
+                var curr = GetCell(index);
                 for (var i = index - 1; i >= 0; i--)
                 {
-                    var next = _characters[i];
-                    if (next.Bounds.Position.Y < curr.Bounds.Position.Y)
+                    var next = GetCell(i);
+                    if (next.Position.Y < curr.Position.Y)
                     {
                         // We moved down a line
                         return i + 1;
@@ -298,13 +445,13 @@ namespace Meadows.UI
 
         private static int FindEndOfLine(int index)
         {
-            if (index < _text.Length) // othwerwise its already at end
+            if (index < _cells.Count) // othwerwise its already at end
             {
-                var curr = _characters[index];
-                for (var i = index + 1; i < _text.Length; i++)
+                var curr = GetCell(index);
+                for (var i = index + 1; i < _cells.Count; i++)
                 {
-                    var next = _characters[i];
-                    if (next.Bounds.Position.Y > curr.Bounds.Position.Y)
+                    var next = GetCell(i);
+                    if (next.Position.Y > curr.Position.Y)
                     {
                         // We moved down a line
                         return i - 1;
@@ -314,30 +461,7 @@ namespace Meadows.UI
             }
 
             // Could not find a visual line break, just go to end of text.
-            return _text.Length;
-        }
-
-        internal static void Insert(string str)
-        {
-            _text = _text.Insert(CursorIndex, str);
-            CursorIndex += str.Length;
-        }
-
-        internal static void DeleteBackwards()
-        {
-            if (_text.Length > 0 && CursorIndex > 0)
-            {
-                _text = _text.Remove(CursorIndex - 1, 1);
-                CursorIndex--;
-            }
-        }
-
-        internal static void DeleteForwards()
-        {
-            if (CursorIndex < _text.Length)
-            {
-                _text = _text.Remove(CursorIndex, 1);
-            }
+            return _cells.Count;
         }
     }
 }

@@ -338,7 +338,7 @@ namespace Meadows.UI
         {
             BeginElement(title);
 
-            var bounds = LayoutTitle(title, text, multiline);
+            var bounds = LayoutTitleAndBox(title, text, multiline);
 
             // If mouse has clicked on this box
             var isHovering = bounds.Contains(Mouse.Position);
@@ -348,9 +348,7 @@ namespace Meadows.UI
             }
 
             // Draw text box frame
-            var baseColor = GetInteractionColor(isHovering, false);
-            PrependRectangle(baseColor, ref bounds);
-
+            PrependRectangle(GetInteractionColor(isHovering, false), ref bounds);
             Shrink(ref bounds, Style.Text.Padding.X, Style.Text.Padding.Y);
 
             if (Element.IsActiveElement)
@@ -359,6 +357,13 @@ namespace Meadows.UI
             {
                 // Initialize the text editor
                 TextEditor.Initialize(text, bounds);
+
+                // Draw selections
+                Graphics.Color = Theme.ActiveColor;
+                foreach (var selectionRect in TextEditor.SelectionRectangles)
+                {
+                    Graphics.DrawRect(selectionRect);
+                }
 
                 // todo: scroll text into view?
                 Graphics.Color = Theme.TextColor;
@@ -371,7 +376,7 @@ namespace Meadows.UI
 
                     // Draw the cursor
                     Graphics.Color = Theme.TextColor;
-                    Graphics.DrawLine(TextEditor.CursorPosition, TextEditor.CursorPosition + (Vector.Down * lineHeight));
+                    Graphics.DrawLine(TextEditor.CursorPosition, TextEditor.CursorPosition + (Vector.Down * lineHeight), 2);
                 }
 
                 // Process text editor input
@@ -394,31 +399,28 @@ namespace Meadows.UI
             // Text is not modified.
             return false;
 
-            static IntRectangle LayoutTitle(string title, string text, bool multiline)
+            static IntRectangle LayoutTitleAndBox(string title, string text, bool multiline)
             {
-                // 
-                IntRectangle bounds;
                 if (multiline)
                 {
                     // Draw title
                     var titleHeight = (int) TextLayout.Measure(title, Style.Font, Style.FontSize).Height;
-                    bounds = GetNextLayoutBox(titleHeight, space: Style.Text.Padding.Y);
+                    var bounds = GetNextLayoutBox(titleHeight, space: Style.Text.Padding.Y);
                     var textboxWidth = bounds.Width - (Style.Text.Padding.X * 2);
                     PrependText(title, ref bounds, false);
 
-                    // Draw text area (multi-line)
+                    // Compute text area (multi-line)
                     var textMeasure = TextLayout.Measure(text, (textboxWidth, int.MaxValue), Style.Font, Style.FontSize);
-                    var textHeight = (int) Calc.Max(textMeasure.Height + Style.Button.Padding.Y * 2, Style.BasicElementHeight);
-                    bounds = GetNextLayoutBox(textHeight);
+                    var textHeight = (int) Calc.Max(textMeasure.Height + Style.Button.Padding.Y, Style.BasicElementHeight);
+                    return GetNextLayoutBox(textHeight);
                 }
                 else
                 {
                     // Tile and text area (single-line)
-                    bounds = GetNextLayoutBox();
+                    var bounds = GetNextLayoutBox();
                     PrependText(title, ref bounds, false);
+                    return bounds;
                 }
-
-                return bounds;
             }
         }
 
@@ -498,7 +500,8 @@ namespace Meadows.UI
 
             internal static int CurrentElement;
 
-            internal static bool IsActiveElement => ActiveElement == CurrentElement;
+            // an element is active if is current this frame and will be next frame
+            internal static bool IsActiveElement => ActiveElement == CurrentElement && NextActiveElement == CurrentElement;
 
             internal static void SetElementActive()
             {

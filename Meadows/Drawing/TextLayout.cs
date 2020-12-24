@@ -304,7 +304,7 @@ namespace Meadows.Drawing
             // Break on whitespaces
             if (char.IsWhiteSpace(c))
             {
-                if (c == '\n' || c == '\r') { return TextBreakCategory.Mandatory; }
+                if (c == '\n') { return TextBreakCategory.Mandatory; }
                 else { return TextBreakCategory.Opportunity; }
             }
 

@@ -26,7 +26,7 @@ namespace Meadows.Examples.UserInput
 
         public Program()
         {
-            Window = new Window("Heirloom - Input Example", (256 + 32, 400), MultisampleQuality.None) { IsResizable = false };
+            Window = new Window("Heirloom - Input Example", (256 + 32, 400), MultisampleQuality.None, vsync: false) { IsResizable = false };
             Window.Graphics.Performance.ShowOverlay = true;
 
             Console.WriteLine(string.Join("\n", Files.EnumerateFiles()));
