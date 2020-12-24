@@ -12,12 +12,11 @@ namespace Meadows.Drawing.OpenGLES
     {
         private readonly ConsumerThread _thread;
         private bool _isThreadRunning;
-        private bool _isInitialized;
 
         private byte _stencilReference;
 
-        private ESTexture _texture;
-        private bool _textureDirty;
+        private ESTexture _atlasTexture;
+        private bool _atlasTextureDirty;
 
         private readonly Dictionary<int, UniformData> _modifiedUniforms = new();
 
@@ -49,19 +48,19 @@ namespace Meadows.Drawing.OpenGLES
                 GLES.Enable(EnableCap.ScissorTest);
                 GLES.Enable(EnableCap.Blend);
 
-                // Mark context as initialized
-                _isInitialized = true;
+                // 
+                Initialize();
             });
 
             // When thread exits, context is no longer initialized
-            _thread.Exited += () => _isInitialized = false;
+            _thread.Exited += () => IsInitialized = false;
         }
 
         #endregion
 
-        internal override bool IsInitialized => _isInitialized;
-
         internal DeviceCapabilities Capabilities { get; private set; }
+
+        protected override bool HasPendingWork => _batch.IsDirty;
 
         #region GL Context Methods
 
@@ -79,7 +78,7 @@ namespace Meadows.Drawing.OpenGLES
                 _thread.Start();
 
                 // Wait For GL to truly be ready
-                SpinWait.SpinUntil(() => _isInitialized);
+                SpinWait.SpinUntil(() => IsInitialized);
             }
             else
             {
@@ -117,38 +116,31 @@ namespace Meadows.Drawing.OpenGLES
 
         public override void Draw(Mesh mesh, Texture texture, Rectangle uvRect, Matrix matrix)
         {
+            // todo: there is a logic error with the state changing flags...
+            //       set blending, draw, set blending, draw should flush on the second blending?
+
+            // if (StateFlags != 0) { Flush(); } 
+            // if (_modifiedUniforms.Count > 0) { Flush(); }
+
             // Request es texture information
             RequestTextureInformation(texture, out var atlasTexture, out var atlasRect);
 
             // Map UV rect into atlas rect
             MapAndEncodeUV(texture, ref uvRect, in atlasRect);
 
-            // Inconsistent texture, mark to rebind
-            if (_texture != atlasTexture)
+            // Inconsistent atlas texture, mark to rebind.
+            if (_atlasTexture != atlasTexture)
             {
-                if (_texture != null)
-                {
-                    Flush();
-                }
+                // We have work dependant on a prior texture, flush.
+                if (_atlasTexture != null) { Flush(); }
 
-                _texture = atlasTexture;
-                _textureDirty = true;
+                // Change atlas texture
+                _atlasTexture = atlasTexture;
+                _atlasTextureDirty = true;
             }
 
             // Combine composite with (proj * camera * world * object)
             Matrix.Multiply(CompositeMatrix, in matrix, ref matrix);
-
-            // Pixel perfect has changed, we need to flush non-perfect pixels
-            if (StateFlags.HasFlag(StateDirtyFlags.PixelPerfect))
-            {
-                // todo: write uPixelPerfect in uniform buffer (and flush)
-
-                // Update pixel perfect uniform
-                StateFlags &= ~StateDirtyFlags.PixelPerfect;
-            }
-
-            // Uniform state has changed, flush changes.
-            if (_modifiedUniforms.Count > 0) { Flush(); }
 
             // While unable to submit to batch, flush pending operations.
             while (!_batch.Submit(mesh, uvRect, matrix, Color))
@@ -258,13 +250,16 @@ namespace Meadows.Drawing.OpenGLES
             return Invoke(() =>
             {
                 // Ensure all render jobs are submitted to the GPU
-                Flush();
+                Flush(block: false);
 
                 // Validate region size is at least 1x1
                 if (region.Width == 0 || region.Height == 0)
                 {
                     throw new InvalidOperationException("Unable to grab pixels, region size is zero.");
                 }
+
+                // Flip Y axis to correct top-right to bottom-left coordinates
+                region.Y = Surface.Height - region.Y - region.Height;
 
                 // If the current surface is the default surface.
                 if (Surface == Screen.Surface)
@@ -294,10 +289,13 @@ namespace Meadows.Drawing.OpenGLES
 
         protected override void Flush(bool block = false)
         {
-            if (_batch.IsDirty)
+            if (HasPendingWork)
             {
                 Invoke(() =>
                 {
+                    // 
+                    Performance.NotifyBatch();
+
                     if (StateFlags != 0) // state has been changed!
                     {
                         // Update each aspect if the respective flag is set
@@ -330,15 +328,12 @@ namespace Meadows.Drawing.OpenGLES
                     _atlas.Commit();
 
                     // todo: a more sophisticated way to use texture units?
-                    if (_textureDirty)
+                    if (_atlasTextureDirty)
                     {
                         GLES.ActiveTexture(0);
-                        GLES.BindTexture(TextureTarget.Texture2D, _texture.Handle);
-                        _textureDirty = false;
+                        GLES.BindTexture(TextureTarget.Texture2D, _atlasTexture.Handle);
+                        _atlasTextureDirty = false;
                     }
-
-                    // todo: remove once uniform buffers are set
-                    SetUniform("uPixelPerfect", PixelPerfect);
 
                     // Update uniforms
                     // todo: is this dictionary loop efficient enough?
@@ -426,12 +421,11 @@ namespace Meadows.Drawing.OpenGLES
 
                     case BlendingMode.Alpha:
                         GLES.SetBlendEquation(BlendEquation.Add, BlendEquation.Add);
-                        GLES.SetBlendFunction(BlendFunction.SourceAlpha, BlendFunction.OneMinusSourceAlpha, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
+                        GLES.SetBlendFunction(BlendFunction.SourceAlpha, BlendFunction.OneMinusSourceAlpha);
                         break;
 
                     case BlendingMode.Additive:
                         GLES.SetBlendEquation(BlendEquation.Add);
-                        // GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha);
                         GLES.SetBlendFunction(BlendFunction.SourceAlpha, BlendFunction.One);
                         break;
 
@@ -927,10 +921,11 @@ namespace Meadows.Drawing.OpenGLES
             {
                 while (!_atlas.Submit(image, out atlasTexture, out atlasRect))
                 {
-                    // Submit pending operations
+                    // Unable to submit new image to atlas, we need to flush
+                    // all pending work that depends on the current state of the atlas.
                     Flush();
 
-                    // Evict atlas, we need space for this texture
+                    // Evict atlas, we need space for this new texture.
                     _atlas.Evict();
                 }
             }

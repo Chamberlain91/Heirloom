@@ -71,20 +71,22 @@ namespace Meadows.Drawing
         /// <param name="align">The text alignment.</param>
         /// <param name="callback">A callback for manipulating the style of the rendered text.</param> 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Rectangle DrawText(this GraphicsContext ctx, string text, in Rectangle bounds, Font font, int size, TextAlign align = TextAlign.Left, CharacterCallback callback = null)
+        public static Rectangle DrawText(this GraphicsContext gfx, string text, in Rectangle bounds, Font font, int size, TextAlign align = TextAlign.Left, CharacterCallback callback = null)
         {
             if (text is null) { throw new ArgumentNullException(nameof(text)); }
             if (font == null) { throw new ArgumentNullException(nameof(font)); }
             if (size < 1) { throw new ArgumentException("Font size must be greater than zero.", nameof(size)); }
 
             // Remember context state
-            var color = ctx.Color;
+            var color = gfx.Color;
 
             // Get glyph table for the font and size
             var glyphTable = GlyphTable.GetGlyphTable(font, size);
 
             // Character render state
             var state = new TextRendererState { Color = color };
+
+            var translate = Matrix.CreateTranslation(Vector.Zero);
 
             // Layout text
             var lineHeight = font.GetMetrics(size).Height;
@@ -108,16 +110,25 @@ namespace Meadows.Drawing
                 // Try to get image from glyph table
                 if (glyphTable.TryGetImage(layout.Character, out var image))
                 {
+                    // Ensure text is rendered on pixel coordinates.
+                    translate.M2 = SnapToPixels(state.Position.X);
+                    translate.M5 = SnapToPixels(state.Position.Y);
+
                     // Draw to surface
-                    ctx.Color = state.Color;
-                    ctx.DrawImage(image, Matrix.CreateTranslation(state.Position) * state.Transform);
+                    gfx.Color = state.Color;
+                    gfx.DrawImage(image, translate * state.Transform);
                 }
             });
 
             // Restore context state
-            ctx.Color = color;
+            gfx.Color = color;
 
             return measure;
+
+            float SnapToPixels(float x)
+            {
+                return Calc.Floor(x * gfx.ApproximatePixelScale) / gfx.ApproximatePixelScale;
+            }
         }
     }
 }

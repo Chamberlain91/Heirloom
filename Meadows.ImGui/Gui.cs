@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using Meadows.Drawing;
 using Meadows.Mathematics;
@@ -167,7 +168,7 @@ namespace Meadows.UI
             var isMouseOver = bounds.Contains(Mouse.Position);
             if (isMouseOver && Mouse.IsPressed)
             {
-                Element.MakeElementActive();
+                Element.SetElementActive();
             }
 
             var isActiveMouseOver = isMouseOver && Element.IsActiveElement;
@@ -176,6 +177,7 @@ namespace Meadows.UI
             var buttonColor = (isActiveMouseOver && Mouse.IsDown) ? Theme.ActiveColor : (isMouseOver ? Theme.HoverColor : Theme.BaseColor);
             var borderColor = Element.IsActiveElement ? Theme.FocusColor : Theme.BorderColor;
             PrependFrame(buttonColor, borderColor, ref bounds);
+            Graphics.DrawLine(bounds.BottomLeft, bounds.BottomRight);
 
             // Collapse bounds to give padding to the button text
             Shrink(ref bounds, ButtonPaddingX, ButtonPaddingY);
@@ -204,7 +206,7 @@ namespace Meadows.UI
             // Determine if the mouse is hovering this element.
             // If clicked on, store id and determine if selected.
             var isHoverSliderFrame = bounds.Contains(Mouse.Position);
-            if (isHoverSliderFrame && Mouse.IsPressed) { Element.MakeElementActive(); }
+            if (isHoverSliderFrame && Mouse.IsPressed) { Element.SetElementActive(); }
 
             // Draw slider frame
             var sliderColor = isHoverSliderFrame ? Theme.HoverColor : Theme.BaseColor;
@@ -268,78 +270,46 @@ namespace Meadows.UI
         {
             BeginElement(title);
 
+            // Returns the next layout slice to layout element within
             var bounds = GetNextLayoutBox();
 
-            // Prepend title
+            // Prepend title text
             PrependText(title, ref bounds, false);
 
-            // Determine if the mouse is hovering this element.
-            // If clicked on, store id and determine if selected.
+            // If mouse has clicked on this box
             var isHovering = bounds.Contains(Mouse.Position);
-            if (isHovering && Mouse.IsPressed) { Element.MakeElementActive(); }
-
-            // 
-            if (Element.IsActiveElement)
+            if (isHovering && Mouse.IsPressed)
             {
-                TextEditor.Prepare(text);
+                Element.SetElementActive();
             }
 
-            //
-            var bodyColor = Element.IsActiveElement ? Theme.ActiveColor : Theme.BaseColor;
+            // Draw text box frame
+            // todo: make visually distinct from buttons?
+            var baseColor = Element.IsActiveElement ? Theme.ActiveColor : Theme.BaseColor;
             var borderColor = Element.IsActiveElement ? Theme.FocusColor : Theme.BorderColor;
-            PrependFrame(bodyColor, borderColor, ref bounds);
+            PrependFrame(baseColor, borderColor, ref bounds);
+            Graphics.DrawLine(bounds.TopLeft, bounds.TopRight);
+
             Shrink(ref bounds, TextPaddingX, TextPaddingY);
-
-            var lineHeight = Theme.Font.GetMetrics(Theme.FontSize).Height;
-
-            var cursorPosition = Vector.Zero;
-            var cursorJumpDistance = float.MaxValue;
-            var cursorJumpIndex = -1;
-
-            // Draw text, using the renderer callback to position cursor
-            Graphics.Color = Theme.TextColor;
-            var layout = Graphics.DrawText(text, bounds, Theme.Font, Theme.FontSize, TextAlign.Middle | TextAlign.Top,
-                (string text, int i, ref TextRendererState state) =>
-                {
-                    if (Element.IsActiveElement)
-                    {
-                        // Click to move the cursor
-                        CheckJumpCursor(state.Position, i);
-
-                        // Special case handling, possibly jump cursor to end of string.
-                        if (i == (TextEditor.Text.Length - 1))
-                        {
-                            var afterPosition = state.Position;
-                            afterPosition.X += state.Bounds.Width;
-
-                            // Click to move the cursor to after the string
-                            CheckJumpCursor(afterPosition, i + 1);
-
-                            if (TextEditor.Cursor == (i + 1))
-                            {
-                                // The current position after the string is the visual position of the cursor.
-                                cursorPosition = afterPosition;
-                            }
-                        }
-
-                        if (TextEditor.Cursor == i)
-                        {
-                            // The current characer is the visual position of the cursor.
-                            cursorPosition = state.Position;
-                        }
-                    }
-                });
 
             if (Element.IsActiveElement)
             {
-                // Set editing cursor
-                if (cursorJumpIndex >= 0) { TextEditor.Cursor = cursorJumpIndex; }
+                // Initialize the text editor
+                TextEditor.Initialize(text);
+
+                // If the element is active, use the callback to track glyphs rendered.
+                // todo: scroll text into view?
+                Graphics.Color = Theme.TextColor;
+                Graphics.DrawText(text, bounds, Theme.Font, Theme.FontSize, TextAlign.Left | TextAlign.Middle, TextEditor.CharacterCallback);
 
                 // Render cursor
-                if (TextEditor.ShowCursor)
+                if (TextEditor.ShowCursor) // causes the cursor to blink
                 {
+                    var lineHeight = Theme.Font.GetMetrics(Theme.FontSize).Height;
+
+                    // Draw the cursor
                     Graphics.Color = Theme.TextColor;
-                    Graphics.DrawLine(cursorPosition, cursorPosition + (Vector.Down * lineHeight), 1);
+                    Graphics.DrawLine(TextEditor.CursorPosition, TextEditor.CursorPosition + (Vector.Down * lineHeight), 1);
                 }
 
                 // Process text editor input
@@ -352,27 +322,16 @@ namespace Meadows.UI
                     return true;
                 }
             }
+            else
+            {
+                // Simply draw the text
+                // todo: scroll text into view?
+                Graphics.Color = Theme.TextColor;
+                Graphics.DrawText(text, bounds, Theme.Font, Theme.FontSize, TextAlign.Left | TextAlign.Middle);
+            }
 
             // Text is not modified.
             return false;
-
-            void CheckJumpCursor(Vector anchor, int i)
-            {
-                if (Mouse.IsDown)
-                {
-                    // Graphics.DrawCross(anchor, 3);
-
-                    var xDistance = Calc.Abs(anchor.X - Mouse.Position.X);
-                    var yDistance = Calc.Abs(anchor.Y - Mouse.Position.Y);
-
-                    var distance = xDistance + (yDistance * 3);
-                    if (distance < cursorJumpDistance)
-                    {
-                        cursorJumpDistance = distance;
-                        cursorJumpIndex = i;
-                    }
-                }
-            }
         }
 
         #endregion
@@ -453,46 +412,63 @@ namespace Meadows.UI
 
             internal static bool IsActiveElement => ActiveElement == CurrentElement;
 
-            internal static void MakeElementActive()
+            internal static void SetElementActive()
             {
                 NextActiveElement = CurrentElement;
             }
         }
 
-        internal static class TextEditor
+        internal class TextEditor
         {
             private const float BlinkDuration = 0.5F;
+
+            private static string _text = string.Empty;
+            private static int _cursor;
 
             private static float _blinkTimer;
             private static bool _blink;
 
-            private static int _cursor;
-
             internal static bool ShowCursor => _blink;
 
-            internal static string Text { get; private set; } = string.Empty;
+            public static string Text => _text;
 
-            internal static int Cursor
+            private static int Cursor
             {
                 get => _cursor;
 
                 set
                 {
                     _cursor = value;
-                    _cursor = Calc.Clamp(_cursor, 0, Text.Length);
+                    _cursor = Calc.Clamp(_cursor, 0, _text.Length);
                 }
             }
 
-            internal static void Prepare(string text)
+            public static Vector CursorPosition { get; internal set; }
+
+            private static readonly List<CharacterCell> _characters = new();
+
+            private struct CharacterCell
             {
-                if (Text != text)
+                public Rectangle Bounds;
+                public char Character;
+                public int Index;
+            }
+
+            public static void Initialize(string text)
+            {
+                text ??= string.Empty;
+
+                if (_text != text)
                 {
                     Cursor = text.Length;
-                    Text = text;
+                    _text = text;
                 }
+
+                // 
+                _characters.Clear();
             }
 
-            internal static void Update(float dt)
+            public static void Update(float dt)
             {
                 // 
                 _blinkTimer += dt;
@@ -501,6 +477,16 @@ namespace Meadows.UI
                     _blinkTimer -= BlinkDuration;
                     _blink = !_blink;
                 }
+            }
+
+            public static void CharacterCallback(string text, int i, ref TextRendererState state)
+            {
+                _characters.Add(new CharacterCell
+                {
+                    Bounds = state.Bounds,
+                    Character = text[i],
+                    Index = i
+                });
             }
 
             internal static void ProcessInput()
@@ -533,11 +519,11 @@ namespace Meadows.UI
                 }
                 else if (Input.CheckKey(Key.End, ButtonState.Pressed))
                 {
-                    if (Cursor <= Text.Length) // othwerwise its already at end
+                    if (Cursor <= _text.Length) // othwerwise its already at end
                     {
                         // todo: somehow work on the visual text breaks...?
-                        var next = Text.IndexOf('\n', Cursor);
-                        if (next == -1) { next = Text.Length; }
+                        var next = _text.IndexOf('\n', Cursor);
+                        if (next == -1) { next = _text.Length; }
                         Cursor = next;
                     }
                 }
@@ -546,7 +532,7 @@ namespace Meadows.UI
                     if (Cursor > 0) // otherwise, its already at home
                     {
                         // todo: somehow work on the visual text breaks...?
-                        var next = Text.PreviousIndexOf('\n', Cursor - 1);
+                        var next = _text.PreviousIndexOf('\n', Cursor - 1);
                         if (next == -1) { next = 0; }
                         Cursor = next;
                     }
@@ -559,24 +545,24 @@ namespace Meadows.UI
 
             internal static void Insert(string str)
             {
-                Text = Text.Insert(Cursor, str);
+                _text = _text.Insert(Cursor, str);
                 Cursor += str.Length;
             }
 
             internal static void DeleteBackwards()
             {
-                if (Text.Length > 0 && Cursor > 0)
+                if (_text.Length > 0 && Cursor > 0)
                 {
-                    Text = Text.Remove(Cursor - 1, 1);
+                    _text = _text.Remove(Cursor - 1, 1);
                     Cursor--;
                 }
             }
 
             internal static void DeleteForwards()
             {
-                if (Cursor < Text.Length)
+                if (Cursor < _text.Length)
                 {
-                    Text = Text.Remove(Cursor, 1);
+                    _text = _text.Remove(Cursor, 1);
                 }
             }
         }

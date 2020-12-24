@@ -3,7 +3,6 @@ using System;
 using Meadows.Desktop;
 using Meadows.Drawing;
 using Meadows.IO;
-using Meadows.Mathematics;
 using Meadows.UI;
 using Meadows.Utilities;
 
@@ -27,9 +26,10 @@ namespace Meadows.Examples.UserInput
 
         public Program()
         {
-            Window = new Window("Heirloom - Input Example", (400, 600)) { IsResizable = false };
+            Window = new Window("Heirloom - Input Example", (400, 600), MultisampleQuality.None) { IsResizable = false };
+            Window.Graphics.Performance.ShowOverlay = true;
 
-            Console.WriteLine(string.Join(", ", Files.EnumerateFiles()));
+            Console.WriteLine(string.Join("\n", Files.EnumerateFiles()));
 
             // Launch loop
             GameLoop.StartNew(Update);
@@ -38,7 +38,7 @@ namespace Meadows.Examples.UserInput
         private void Update(float dt)
         {
             Window.Graphics.Clear(Color.Black);
-            Window.Graphics.PixelPerfect = true;
+            Window.Graphics.ResetState();
 
             // Set layout box to window
             Gui.BeginFrame(Window.Graphics, dt);

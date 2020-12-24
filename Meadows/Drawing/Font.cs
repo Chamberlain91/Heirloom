@@ -21,8 +21,11 @@ namespace Meadows.Drawing
         static Font()
         {
             // Load default pixel font
-            using var stream = Files.OpenStream("embedded/monogram_extended.ttf");
-            Default = new Font(stream);
+            Default = new Font("embedded/fonts/monogram_extended.ttf");
+
+            // Load default sans-serif fonts
+            SansSerif = new Font("embedded/fonts/montserrat/montserrat-regular.ttf");
+            SansSerifBold = new Font("embedded/fonts/montserrat/montserrat-bold.ttf");
         }
 
         internal stbtt_fontinfo Info;
@@ -37,11 +40,23 @@ namespace Meadows.Drawing
         private readonly int _lineGap;
 
         /// <summary>
-        /// A default pixel font for easily rendering text to debug, show metrics, etc.
+        /// A default monospaced pixel font for easily rendering text to debug, show metrics, etc.
         /// Recommended size is 16px.
         /// </summary>
         /// <remarks>https://datagoblin.itch.io/monogram</remarks>
         public static Font Default { get; }
+
+        /// <summary>
+        /// A default sans-serif font for easily rendering text to debug, show metrics, etc.
+        /// </summary>
+        /// <remarks>https://fonts.google.com/specimen/Montserrat</remarks>
+        public static Font SansSerif { get; }
+
+        /// <summary>
+        /// A default sans-serif font for easily rendering text to debug, show metrics, etc.
+        /// </summary>
+        /// <remarks>https://fonts.google.com/specimen/Montserrat</remarks>
+        public static Font SansSerifBold { get; }
 
         #region Constructors
 

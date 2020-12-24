@@ -16,6 +16,7 @@ namespace Meadows.Examples.Stencil
         {
             // At this point desktop window, graphics and audio systems have been initialized.
             Window = new Window("Heirloom - Stencil Example", (1280, 320), MultisampleQuality.Medium) { IsResizable = false };
+            Window.Graphics.Performance.ShowOverlay = true;
 
             // Write hardware rendered image to disk. This is to compare with the software
             // implementation. See Main() below.
@@ -61,7 +62,7 @@ namespace Meadows.Examples.Stencil
             gfx.ClearStencil();
 
             // Draw regular text again
-            gfx.DrawText($"Heirloom 2D Graphics\nFPS: {gfx.Performance.FPS:0}", (gfx.Surface.Width - 8, 8), Font.Default, 16, TextAlign.Top | TextAlign.Right);
+            gfx.DrawText($"Heirloom 2D Graphics", (gfx.Surface.Width - 8, 8), Font.Default, 16, TextAlign.Top | TextAlign.Right);
         }
 
         private static void DrawBackgroundImages(GraphicsContext gfx, Image image, float angle)

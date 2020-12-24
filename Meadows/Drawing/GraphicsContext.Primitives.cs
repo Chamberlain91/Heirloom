@@ -28,13 +28,29 @@ namespace Meadows.Drawing
         {
             var edge = p1 - p0;
             var edgeLength = edge.Length;
-            var edgeDir = edge / edgeLength;
+            if (edgeLength > 0)
+            {
+                // todo: should this be ApproximatePixelScale?
+                var step = 1F / edgeLength;
 
-            // todo: inline into one matrix construction?
-            var transform = Matrix.CreateTransform(p0, edgeDir.Angle, (edgeLength, width))
-                          * _lineCenterMatrix;
+                // todo: inline into one matrix construction?
+                var transform = Matrix.CreateRotation(edge.Angle)
+                              * Matrix.CreateTranslation(-step / 2F, -width / 2F)
+                              * Matrix.CreateScale(edgeLength + step, width);
 
-            DrawImage(Image.Default, transform);
+                // todo: confirm the sanity of this optimization (saves on 12 multiplies)
+                // transform = Matrix.CreateTranslation(p0 + (0.5F, 0.5F)) * transform;
+                transform.M2 += p0.X + 0.5F;
+                transform.M5 += p0.Y + 0.5F;
+
+                DrawImage(Image.Default, transform);
+            }
+            else
+            {
+                // A single pixel "DrawLine(a, a)"
+                var transform = Matrix.CreateTranslation(p0);
+                DrawImage(Image.Default, transform);
+            }
         }
 
         /// <summary>
@@ -157,6 +173,9 @@ namespace Meadows.Drawing
             _sequence.Clear();
             _sequence.AddRange(points);
 
+            // To make width radial
+            width /= 2F;
+
             // Clear mesh
             _mesh.Clear();
 
@@ -234,10 +253,21 @@ namespace Meadows.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawRectOutline(in Rectangle rectangle, float width = 1)
         {
-            DrawLine(rectangle.TopLeft, rectangle.BottomLeft, width);
-            DrawLine(rectangle.TopRight, rectangle.BottomRight, width);
-            DrawLine(rectangle.TopLeft, rectangle.TopRight, width);
-            DrawLine(rectangle.BottomLeft, rectangle.BottomRight, width);
+            var x0 = rectangle.X;
+            var y0 = rectangle.Y;
+
+            var x1 = rectangle.X + rectangle.Width;
+            var y1 = rectangle.Y + rectangle.Height;
+
+            var TL = new Vector(x0, y0);
+            var TR = new Vector(x1, y0);
+            var BL = new Vector(x0, y1);
+            var BR = new Vector(x1, y1);
+
+            DrawLine(TL, BL, width);
+            DrawLine(TR, BR, width);
+            DrawLine(TL, TR, width);
+            DrawLine(BL, BR, width);
         }
 
         #endregion

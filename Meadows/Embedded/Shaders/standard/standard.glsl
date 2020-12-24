@@ -12,8 +12,8 @@ precision highp float;
 
 #define TRANSPARENT vec4(0.0)
 
-#define MIN_UV_EDGE 0.001
-#define MAX_UV_EDGE 0.999
+#define MIN_UV_EDGE 0.0001
+#define MAX_UV_EDGE 0.9999
 
 // Used to interpolate per-fragment data
 struct PerFragment

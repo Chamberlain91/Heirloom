@@ -47,10 +47,8 @@ namespace Meadows.Drawing
             Blending = 1 << 2,
             Shader = 1 << 3,
 
-            PixelPerfect = 1 << 4,
-
             // 
-            All = Viewport | Surface | Blending | Shader | PixelPerfect
+            All = Viewport | Surface | Blending | Shader
         }
 
         protected struct RenderState
@@ -69,6 +67,12 @@ namespace Meadows.Drawing
             public bool PixelPerfect;
         }
 
+        private void MarkStateDirty(StateDirtyFlags flag)
+        {
+            if (StateFlags.HasFlag(flag) && HasPendingWork) { Flush(); }
+            StateFlags |= flag;
+        }
+
         #region Constructor
 
         protected GraphicsContext(GraphicsBackend backend, Screen screen)
@@ -77,9 +81,6 @@ namespace Meadows.Drawing
             Screen = screen ?? throw new ArgumentNullException(nameof(screen));
 
             Performance = new GraphicsPerformance();
-
-            // 
-            ResetState();
         }
 
         ~GraphicsContext()
@@ -91,31 +92,19 @@ namespace Meadows.Drawing
 
         public GraphicsPerformance Performance { get; }
 
-        internal abstract bool IsInitialized { get; }
+        public Screen Screen { get; }
 
-        internal bool IsDisposed => _isDisposed;
+        protected internal bool IsInitialized { get; protected set; }
 
         protected internal GraphicsBackend Backend { get; }
 
-        public Screen Screen { get; }
+        protected abstract bool HasPendingWork { get; }
+
+        internal bool IsDisposed => _isDisposed;
 
         #region Render State (Properties)
 
         public float ApproximatePixelScale => Vector.GetMinComponent(1F / CompositeMatrix.GetAffineScale());
-
-        public bool PixelPerfect
-        {
-            get => _state.PixelPerfect;
-
-            set
-            {
-                if (_state.PixelPerfect != value)
-                {
-                    _state.PixelPerfect = value;
-                    StateFlags |= StateDirtyFlags.PixelPerfect;
-                }
-            }
-        }
 
         public BlendingMode BlendingMode
         {
@@ -125,13 +114,17 @@ namespace Meadows.Drawing
             {
                 if (_state.BlendingMode != value)
                 {
+                    MarkStateDirty(StateDirtyFlags.Blending);
                     _state.BlendingMode = value;
-                    StateFlags |= StateDirtyFlags.Blending;
                 }
             }
         }
 
-        public Color Color { get; set; }
+        public Color Color
+        {
+            get => _state.Color;
+            set => _state.Color = value;
+        }
 
         public IntRectangle Viewport => _state.Viewport;
 
@@ -252,18 +245,6 @@ namespace Meadows.Drawing
 
         #region Render State (Methods)
 
-        private void SetViewport(IntRectangle viewport)
-        {
-            // Potentially update viewport state
-            if (_state.Viewport != viewport)
-            {
-                _state.Viewport = viewport;
-
-                // Mark viewport, projection matrix and transform matrix as dirty
-                StateFlags |= StateDirtyFlags.Viewport;
-            }
-        }
-
         public void SetCamera(Vector center, float scale = 1F, float rotation = 0F)
         {
             var offset = (Vector) Viewport.Size / (2F * scale);
@@ -287,6 +268,17 @@ namespace Meadows.Drawing
             CameraMatrix = camera;
         }
 
+        private void SetViewport(IntRectangle viewport)
+        {
+            // Potentially update viewport state
+            if (_state.Viewport != viewport)
+            {
+                // Mark viewport state as dirty
+                MarkStateDirty(StateDirtyFlags.Viewport);
+                _state.Viewport = viewport;
+            }
+        }
+
         public virtual void SetRenderTarget(Surface surface, IntRectangle? viewport = null)
         {
             if (surface is null)
@@ -301,10 +293,8 @@ namespace Meadows.Drawing
             // Potentially update surface (render target)
             if (_state.Surface != surface)
             {
+                MarkStateDirty(StateDirtyFlags.Surface);
                 _state.Surface = surface;
-
-                // Mark surface state dirty
-                StateFlags |= StateDirtyFlags.Surface;
             }
         }
 
@@ -314,12 +304,12 @@ namespace Meadows.Drawing
 
             if (_state.Shader != shader)
             {
+                MarkStateDirty(StateDirtyFlags.Shader);
                 _state.Shader = shader;
-
-                // Mark shader state dirty
-                StateFlags |= StateDirtyFlags.Shader;
             }
         }
+
+        #region State Stack
 
         public void PushState()
         {
@@ -336,7 +326,6 @@ namespace Meadows.Drawing
 
             // Restore prior shader
             UseShader(state.Shader);
-            // todo: pixel snapping
 
             // Restore prior render target
             SetRenderTarget(state.Surface, state.Viewport);
@@ -354,7 +343,6 @@ namespace Meadows.Drawing
 
             // Default shader configuration
             UseShader(Shader.Default);
-            // todo: pixel snapping
 
             // Set default surface
             SetRenderTarget(Screen.Surface);
@@ -363,6 +351,8 @@ namespace Meadows.Drawing
             CameraMatrix = Matrix.Identity;
             Transform = Matrix.Identity;
         }
+
+        #endregion
 
         #endregion
 
@@ -483,17 +473,58 @@ namespace Meadows.Drawing
 
         #endregion
 
+        protected void Initialize()
+        {
+            ResetState();
+            IsInitialized = true;
+        }
+
         internal void CompleteFrame()
         {
+            // If performance overlay is visible, draw it now.
+            if (Performance.ShowOverlay) { DrawPerformanceOverlay(); }
+
             // Flush pending work, the swap buffers call will
             // do the final block until the frame is actually drawn.
             Flush(block: false);
 
-            // todo: compute per-frame statistics, etc
+            // Computes per-frame statistics. Includes:
+            // * average frames per second
+            // * average batches per frame
             Performance.NotifyFrame();
 
             // Exchange back and front buffers, causing the image to appear on screen.
             SwapBuffers();
+        }
+
+        private void DrawPerformanceOverlay()
+        {
+            const float PaddingX = 8;
+            const float PaddingY = 4;
+
+            PushState();
+            {
+                ResetState();
+
+                var anchor = new Vector(Screen.Surface.Width - 10 - PaddingX, Screen.Surface.Height - 10 - PaddingY);
+                var text = $"FPS: {Performance.FPS,5:N1}\nBatches: {Performance.Batches,5:N1}";
+
+                // Measure text
+                var measure = TextLayout.Measure(text, Font.Default, 16);
+                measure.Position += (anchor.X - measure.Width, anchor.Y - measure.Height);
+                measure = Rectangle.Inflate(measure, PaddingX, PaddingY);
+
+                // Draw frame
+                Color = Color.DarkGray;
+                DrawRect(measure);
+                Color = Color.Black;
+                DrawRectOutline(measure);
+
+                // Draw text
+                Color = Color.LightGray;
+                this.DrawText(text, measure.BottomRight - (PaddingX, PaddingY), Font.Default, 16, TextAlign.Right | TextAlign.Bottom);
+            }
+            PopState();
         }
 
         /// <summary>

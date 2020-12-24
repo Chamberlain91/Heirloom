@@ -26,8 +26,8 @@ uniform bool uPixelPerfect;
 
 vec3 _H_SnapPixel(vec3 position) 
 {
-	position.x = floor(position.x);
-	position.y = floor(position.y);
+	position.x = int(position.x);
+	position.y = int(position.y);
 	return position;
 }
 

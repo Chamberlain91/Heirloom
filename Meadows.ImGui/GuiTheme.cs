@@ -1,3 +1,5 @@
+using System;
+
 using Meadows.Drawing;
 using Meadows.Mathematics;
 
@@ -37,7 +39,7 @@ namespace Meadows.UI
 
         public static GuiTheme Light { get; } = CreateTheme(Color.Parse("CCC"), _textLight);
 
-        public static GuiTheme Dark { get; } = CreateTheme(Color.Parse("333") );
+        public static GuiTheme Dark { get; } = CreateTheme(Color.Parse("333"));
 
         public static GuiTheme Default { get; } = Dark;
 
@@ -49,6 +51,21 @@ namespace Meadows.UI
         /// <returns></returns>
         public static GuiTheme CreateTheme(Color baseColor, Color? focusColor = null)
         {
+            return CreateTheme(Font.SansSerif, 12, baseColor, focusColor);
+        }
+
+        /// <summary>
+        /// Constructs a theme based on the specified color.
+        /// </summary>
+        /// <param name="font">The font to use</param>
+        /// <param name="baseColor">The base color.</param>
+        /// <param name="focusColor">If unspecified, uses the complement color from the base hue.</param>
+        /// <returns></returns>
+        public static GuiTheme CreateTheme(Font font, int fontSize, Color baseColor, Color? focusColor = null)
+        {
+            if (font is null) { throw new ArgumentNullException(nameof(font)); }
+            if (fontSize <= 0) { throw new ArgumentException("Font size must be greater than zero."); }
+
             focusColor ??= Color.FromHSV(baseColor.Hue + 180, 0.9F, 0.9F, baseColor.A);
 
             // Select text color based on brightness of base color
@@ -70,8 +87,8 @@ namespace Meadows.UI
 
                 FocusColor = focusColor.Value,
 
-                Font = Font.Default,
-                FontSize = 16
+                Font = font,
+                FontSize = fontSize
             };
 
             static Color MixColor(Color baseColor, float saturation, float brightness)

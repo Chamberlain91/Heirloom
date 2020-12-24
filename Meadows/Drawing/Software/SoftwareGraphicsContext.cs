@@ -25,10 +25,10 @@ namespace Meadows.Drawing.Software
             softwareScreen.SetGraphicsContext(this);
 
             // Ready to go immediately
-            IsInitialized = true;
+            Initialize();
         }
 
-        internal override bool IsInitialized { get; }
+        protected override bool HasPendingWork => false;
 
         public override void Clear(Color color)
         {
