@@ -22,16 +22,21 @@ namespace Meadows
         /// <summary>
         /// Button state changed this frame.
         /// </summary>
-        Now = 1 << 2,
+        Recent = 1 << 2,
+
+        /// <summary>
+        /// Button state is now repeating, this is dependant on the OS.
+        /// </summary>
+        Repeat = 1 << 3,
 
         /// <summary>
         /// Button was pressed this frame.
         /// </summary>
-        Pressed = Down | Now,
+        Pressed = Down | Recent,
 
         /// <summary>
         /// Button was pressed this frame.
         /// </summary>
-        Released = Up | Now
+        Released = Up | Recent
     }
 }

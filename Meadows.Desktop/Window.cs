@@ -99,7 +99,7 @@ namespace Meadows.Desktop
                         break;
 
                     case KeyAction.Repeat:
-                        _inputSource.KeyEvents.Enqueue(new KeyEvent(code, key, modifiers, ButtonState.Down));
+                        _inputSource.KeyEvents.Enqueue(new KeyEvent(code, key, modifiers, ButtonState.Repeat));
                         break;
                 }
             });
@@ -738,7 +738,7 @@ namespace Meadows.Desktop
                             var ev = MouseButtonEvents.Dequeue();
 
                             // If the event is reporting a new press (ie, 'now')
-                            if (ev.State.HasFlag(ButtonState.Now))
+                            if (ev.State.HasFlag(ButtonState.Recent))
                             {
                                 _mouseStates[ev.Button] = ev.State;
                             }
@@ -775,7 +775,7 @@ namespace Meadows.Desktop
                         var ev = KeyEvents.Dequeue();
 
                         // If the event is reporting a new press (ie, 'now')
-                        if (ev.State.HasFlag(ButtonState.Now))
+                        if (ev.State.HasFlag(ButtonState.Recent) || ev.State.HasFlag(ButtonState.Repeat))
                         {
                             _keyStates[ev.Key] = ev.State;
                         }
@@ -796,9 +796,13 @@ namespace Meadows.Desktop
                 foreach (var key in states.Keys)
                 {
                     var state = states[key];
-                    if (state.HasFlag(ButtonState.Now))
+                    if (state.HasFlag(ButtonState.Recent))
                     {
-                        states[key] = state & ~ButtonState.Now;
+                        states[key] = state & ~ButtonState.Recent;
+                    }
+                    if (state.HasFlag(ButtonState.Repeat))
+                    {
+                        states[key] = state & ~ButtonState.Repeat;
                     }
                 }
             }

@@ -1,31 +1,66 @@
 using System;
-using System.Collections.Generic;
 
 using Meadows.Drawing;
 using Meadows.Mathematics;
 
-using Microsoft.VisualBasic;
-
 namespace Meadows.UI
 {
+    public sealed class GuiStyle
+    {
+        public int BasicElementHeight { get; }
+
+        public int BasicElementSpace { get; }
+
+        public int BasicGroupSpace { get; init; }
+
+        public SliderStyle Slider { get; init; }
+
+        public BasicStyle Button { get; init; }
+
+        public BasicStyle Panel { get; init; }
+
+        public BasicStyle Text { get; init; }
+
+        public readonly Font Font;
+
+        public readonly Font FontBold;
+
+        public readonly int FontSize;
+
+        public GuiStyle(Font font, Font fontBold, int fontSize, int elementSpace = 4)
+        {
+            Font = font;
+            FontBold = fontBold;
+            FontSize = fontSize;
+
+            // 
+            BasicElementSpace = elementSpace;
+            BasicElementHeight = (BasicElementSpace * 2) + (int) Font.GetMetrics(fontSize).Height;
+
+            // Default element styles
+            Slider = new SliderStyle { Padding = (0, 4), HandleSize = 3, HandlePadding = 1 };
+            Button = new BasicStyle { Padding = (8, 8) };
+            Panel = new BasicStyle { Padding = (16, 16) };
+            Text = new BasicStyle { Padding = (8, 4) };
+        }
+    }
+
+    public readonly struct BasicStyle
+    {
+        public IntVector Padding { get; init; }
+    }
+
+    public readonly struct SliderStyle
+    {
+        public IntVector Padding { get; init; }
+
+        public int HandlePadding { get; init; }
+
+        public int HandleSize { get; init; }
+    }
+
     public static class Gui
     {
-        private const int BasicElementHeight = 23;
-        private const int BasicElementSpace = 3;
-
-        private const int BasicGroupSpace = BasicElementSpace * 1;
-
-        private const int TextPaddingX = BasicElementSpace * 2;
-        private const int TextPaddingY = BasicElementSpace;
-
-        private const int ButtonPaddingX = BasicElementSpace;
-        private const int ButtonPaddingY = BasicElementSpace;
-
-        private const int PanelPaddingX = BasicGroupSpace * 4;
-        private const int PanelPaddingY = BasicGroupSpace * 4;
-
-        private const int SliderHandleSize = 3; // 7 wide
-
         private static IntRectangle _layoutBox;
         private static int _y;
 
@@ -33,13 +68,15 @@ namespace Meadows.UI
 
         public static GuiTheme Theme { get; set; } = GuiTheme.Default;
 
+        public static GuiStyle Style { get; set; } = new GuiStyle(Font.SansSerif, Font.SansSerifBold, 12);
+
         public static void BeginFrame(GraphicsContext graphics, float dt)
         {
             Graphics = graphics;
 
             // Update mouse state
             Mouse.Position = Input.MousePosition;
-            Mouse.Button = Input.GetButton(MouseButton.Left);
+            Mouse.Button = Input.GetButtonState(MouseButton.Left);
 
             // Assign new active element 
             Element.ActiveElement = Element.NextActiveElement;
@@ -62,10 +99,13 @@ namespace Meadows.UI
             _y = layoutBox.Top;
         }
 
-        private static IntRectangle GetNextLayoutBox(int height = BasicElementHeight)
+        private static IntRectangle GetNextLayoutBox(int height = -1, int space = -1)
         {
+            if (height < 0) { height = Style.BasicElementHeight; }
+            if (space < 0) { space = Style.BasicElementSpace; }
+
             var box = new IntRectangle(_layoutBox.X, _y, _layoutBox.Width, height);
-            _y += height + BasicElementSpace;
+            _y += height + space;
 
             return box;
         }
@@ -74,6 +114,23 @@ namespace Meadows.UI
         {
             Element.CurrentElement = HashCode.Combine(title);
         }
+
+        #region Theme Helpers
+
+        public static Color GetInteractionColor(bool hover, bool click)
+        {
+            if (hover && click) { return Theme.ActiveColor; }
+            else if (hover) { return Theme.HoverColor; }
+            else { return Theme.BaseColor; }
+        }
+
+        public static Color GetBorderColor()
+        {
+            if (Element.IsActiveElement) { return Theme.FocusColor; }
+            else { return Theme.BorderColor; }
+        }
+
+        #endregion
 
         #region Element Construction
 
@@ -85,8 +142,8 @@ namespace Meadows.UI
             // Draw label
             // todo: Clip text / shorten it if it would invalidate bounds?
             Graphics.Color = Theme.TextColor;
-            var measure = Graphics.DrawText(text, bounds, Theme.Font, Theme.FontSize, textAlign | TextAlign.Middle);
-            ShrinkLeft(ref bounds, TextPaddingX + (int) measure.Width);
+            var measure = Graphics.DrawText(text, bounds, Style.Font, Style.FontSize, textAlign | TextAlign.Middle);
+            ShrinkLeft(ref bounds, Style.Text.Padding.X + (int) measure.Width);
         }
 
         public static void PrependIcon(Texture texture, ref IntRectangle bounds)
@@ -96,34 +153,32 @@ namespace Meadows.UI
             // Fit image into bounds
             var box = bounds;
             box.Width = (int) (bounds.Height * aspect);
-            ShrinkLeft(ref bounds, TextPaddingX + box.Width);
+            ShrinkLeft(ref bounds, Style.Text.Padding.X + box.Width);
 
             // Draw label
             Graphics.Color = Color.White;
             Graphics.DrawImage(texture, box);
         }
 
-        public static void PrependFrame(Color baseColor, Color borderColor, ref IntRectangle bounds)
+        public static void PrependRectangle(Color baseColor, ref IntRectangle bounds)
         {
-            Graphics.Color = baseColor;
-            Graphics.DrawRect(bounds);
+            var oldColor = Graphics.Color;
+            {
+                // Draw rectangle w/ base color
+                Graphics.Color = baseColor;
+                Graphics.DrawRect(bounds);
 
-            Graphics.Color = borderColor;
-            Graphics.DrawRectOutline(bounds);
-
-            Shrink(ref bounds, 1);
-            bounds.Height -= 1; // todo: fix this fudge factor
+                // Draw border
+                Graphics.Color = GetBorderColor();
+                Graphics.DrawRectOutline(bounds);
+            }
+            Graphics.Color = oldColor;
         }
 
         public static void PrependPanel(ref IntRectangle bounds)
         {
-            Graphics.Color = Theme.Background;
-            Graphics.DrawRect(bounds);
-
-            Graphics.Color = Theme.BorderColor;
-            Graphics.DrawRectOutline(bounds);
-
-            Shrink(ref bounds, PanelPaddingX, PanelPaddingY);
+            PrependRectangle(Theme.Background, ref bounds);
+            Shrink(ref bounds, Style.Panel.Padding.X, Style.Panel.Padding.Y);
         }
 
         #endregion
@@ -132,7 +187,7 @@ namespace Meadows.UI
 
         public static void Space()
         {
-            _y += BasicGroupSpace;
+            _y += Style.BasicGroupSpace;
         }
 
         public static void Label(string text)
@@ -142,22 +197,40 @@ namespace Meadows.UI
             // Draw label
             // todo: Clip text / shorten it if it would invalidate bounds.
             Graphics.Color = Theme.TextColor;
-            Graphics.DrawText(text, bounds, Theme.Font, Theme.FontSize, TextAlign.Left | TextAlign.Middle);
+            Graphics.DrawText(text, bounds, Style.FontBold, Style.FontSize, TextAlign.Left | TextAlign.Middle);
         }
 
         public static void Tooltip(string text, IntVector position)
         {
-            var bounds = (IntRectangle) TextLayout.Measure(text, Theme.Font, Theme.FontSize);
+            var bounds = (IntRectangle) TextLayout.Measure(text, Style.Font, Style.FontSize);
             bounds.Position = position - (IntVector) bounds.Size;
 
-            var backgroundBounds = IntRectangle.Inflate(bounds, TextPaddingX, TextPaddingY);
-            PrependFrame(Theme.BaseColor, Theme.BorderColor, ref backgroundBounds);
+            var backgroundBounds = IntRectangle.Inflate(bounds, Style.Text.Padding.X, Style.Text.Padding.Y);
+            PrependRectangle(Theme.BaseColor, ref backgroundBounds);
             PrependText(text, ref bounds, true);
         }
 
         #endregion
 
         #region Interactive Elements
+
+        public static bool Window(string title, ref IntRectangle bounds)
+        {
+            throw new NotImplementedException();
+            BeginElement(title);
+
+            // todo: titlebar, close?
+            SetLayoutBox(bounds);
+
+            return true; // did not close
+        }
+
+        public static int TabGroup(string[] names, int currentGroup, ref IntRectangle bounds)
+        {
+            throw new NotImplementedException();
+            // modify bounds to fit container?
+            // return current tab group
+        }
 
         public static bool Button(string title, Texture icon = null)
         {
@@ -174,13 +247,11 @@ namespace Meadows.UI
             var isActiveMouseOver = isMouseOver && Element.IsActiveElement;
 
             // Draw button body
-            var buttonColor = (isActiveMouseOver && Mouse.IsDown) ? Theme.ActiveColor : (isMouseOver ? Theme.HoverColor : Theme.BaseColor);
-            var borderColor = Element.IsActiveElement ? Theme.FocusColor : Theme.BorderColor;
-            PrependFrame(buttonColor, borderColor, ref bounds);
-            Graphics.DrawLine(bounds.BottomLeft, bounds.BottomRight);
+            var baseColor = GetInteractionColor(isMouseOver, Mouse.IsDown);
+            PrependRectangle(baseColor, ref bounds);
 
             // Collapse bounds to give padding to the button text
-            Shrink(ref bounds, ButtonPaddingX, ButtonPaddingY);
+            Shrink(ref bounds, Style.Button.Padding.X, Style.Button.Padding.Y);
 
             if (icon != null)
             {
@@ -208,32 +279,29 @@ namespace Meadows.UI
             var isHoverSliderFrame = bounds.Contains(Mouse.Position);
             if (isHoverSliderFrame && Mouse.IsPressed) { Element.SetElementActive(); }
 
-            // Draw slider frame
-            var sliderColor = isHoverSliderFrame ? Theme.HoverColor : Theme.BaseColor;
-            var borderColor = Element.IsActiveElement ? Theme.FocusColor : Theme.BorderColor;
-            PrependFrame(sliderColor, borderColor, ref bounds);
+            // Shrink
+            ShrinkVertical(ref bounds, Style.Button.Padding.Y);
 
             // Copy the bounds for drawing the active slider value
-            var valueRect = bounds;
+            var sliderRect = bounds;
 
             // Shrink the bounds to prevent the handle from escaping the slider frame
-            ShrinkHorizontal(ref bounds, SliderHandleSize);
+            ShrinkHorizontal(ref bounds, Style.Slider.HandleSize);
 
             // Compute where in the slider the current value is
             var valueBetween = Calc.Clamp(Calc.Between(value, min, max), 0F, 1F);
             var sliderPosition = (int) Calc.Lerp(bounds.Left, bounds.Right, valueBetween);
 
-            // Compute the width of the slider value
-            valueRect.Width = sliderPosition - bounds.Left;
-
             // Draw the active value representation
             Graphics.Color = Theme.ActiveColor;
-            Graphics.DrawRect(valueRect);
+            Graphics.DrawRect(sliderRect);
 
             // Compute the handle box
             var handleRect = bounds;
-            handleRect.X = sliderPosition - SliderHandleSize;
-            handleRect.Width = (SliderHandleSize * 2) + 1;
+            handleRect.X = sliderPosition - Style.Slider.HandleSize;
+            handleRect.Width = (Style.Slider.HandleSize * 2) + 1;
+            handleRect.Height += Style.Slider.HandlePadding * 2;
+            handleRect.Y -= Style.Slider.HandlePadding;
 
             // Draw the slider handle
             Graphics.Color = Theme.TextColor;
@@ -266,15 +334,11 @@ namespace Meadows.UI
             return isModified;
         }
 
-        public static bool StringInput(string title, ref string text)
+        public static bool TextInput(string title, ref string text, bool multiline = false)
         {
             BeginElement(title);
 
-            // Returns the next layout slice to layout element within
-            var bounds = GetNextLayoutBox();
-
-            // Prepend title text
-            PrependText(title, ref bounds, false);
+            var bounds = LayoutTitle(title, text, multiline);
 
             // If mouse has clicked on this box
             var isHovering = bounds.Contains(Mouse.Position);
@@ -284,36 +348,34 @@ namespace Meadows.UI
             }
 
             // Draw text box frame
-            // todo: make visually distinct from buttons?
-            var baseColor = Element.IsActiveElement ? Theme.ActiveColor : Theme.BaseColor;
-            var borderColor = Element.IsActiveElement ? Theme.FocusColor : Theme.BorderColor;
-            PrependFrame(baseColor, borderColor, ref bounds);
-            Graphics.DrawLine(bounds.TopLeft, bounds.TopRight);
+            var baseColor = GetInteractionColor(isHovering, false);
+            PrependRectangle(baseColor, ref bounds);
 
-            Shrink(ref bounds, TextPaddingX, TextPaddingY);
+            Shrink(ref bounds, Style.Text.Padding.X, Style.Text.Padding.Y);
 
             if (Element.IsActiveElement)
+            // todo: Element.IsElementFresh - frame to initialize element
+            // todo: Element.IsElementBlur - frame to deinitialize element
             {
                 // Initialize the text editor
-                TextEditor.Initialize(text);
+                TextEditor.Initialize(text, bounds);
 
-                // If the element is active, use the callback to track glyphs rendered.
                 // todo: scroll text into view?
                 Graphics.Color = Theme.TextColor;
-                Graphics.DrawText(text, bounds, Theme.Font, Theme.FontSize, TextAlign.Left | TextAlign.Middle, TextEditor.CharacterCallback);
+                Graphics.DrawText(text, bounds, Style.Font, Style.FontSize, TextEditor.CharacterCallback);
 
                 // Render cursor
                 if (TextEditor.ShowCursor) // causes the cursor to blink
                 {
-                    var lineHeight = Theme.Font.GetMetrics(Theme.FontSize).Height;
+                    var lineHeight = Style.Font.GetMetrics(Style.FontSize).Height;
 
                     // Draw the cursor
                     Graphics.Color = Theme.TextColor;
-                    Graphics.DrawLine(TextEditor.CursorPosition, TextEditor.CursorPosition + (Vector.Down * lineHeight), 1);
+                    Graphics.DrawLine(TextEditor.CursorPosition, TextEditor.CursorPosition + (Vector.Down * lineHeight));
                 }
 
                 // Process text editor input
-                TextEditor.ProcessInput();
+                TextEditor.ProcessInput(allowNewline: multiline);
 
                 // If the text isn't equivalent, it has been modified. 
                 if (text != TextEditor.Text)
@@ -324,14 +386,40 @@ namespace Meadows.UI
             }
             else
             {
-                // Simply draw the text
-                // todo: scroll text into view?
+                // Simply draw the text from the top
                 Graphics.Color = Theme.TextColor;
-                Graphics.DrawText(text, bounds, Theme.Font, Theme.FontSize, TextAlign.Left | TextAlign.Middle);
+                Graphics.DrawText(text, bounds, Style.Font, Style.FontSize);
             }
 
             // Text is not modified.
             return false;
+
+            static IntRectangle LayoutTitle(string title, string text, bool multiline)
+            {
+                // 
+                IntRectangle bounds;
+                if (multiline)
+                {
+                    // Draw title
+                    var titleHeight = (int) TextLayout.Measure(title, Style.Font, Style.FontSize).Height;
+                    bounds = GetNextLayoutBox(titleHeight, space: Style.Text.Padding.Y);
+                    var textboxWidth = bounds.Width - (Style.Text.Padding.X * 2);
+                    PrependText(title, ref bounds, false);
+
+                    // Draw text area (multi-line)
+                    var textMeasure = TextLayout.Measure(text, (textboxWidth, int.MaxValue), Style.Font, Style.FontSize);
+                    var textHeight = (int) Calc.Max(textMeasure.Height + Style.Button.Padding.Y * 2, Style.BasicElementHeight);
+                    bounds = GetNextLayoutBox(textHeight);
+                }
+                else
+                {
+                    // Tile and text area (single-line)
+                    bounds = GetNextLayoutBox();
+                    PrependText(title, ref bounds, false);
+                }
+
+                return bounds;
+            }
         }
 
         #endregion
@@ -415,155 +503,6 @@ namespace Meadows.UI
             internal static void SetElementActive()
             {
                 NextActiveElement = CurrentElement;
-            }
-        }
-
-        internal class TextEditor
-        {
-            private const float BlinkDuration = 0.5F;
-
-            private static string _text = string.Empty;
-            private static int _cursor;
-
-            private static float _blinkTimer;
-            private static bool _blink;
-
-            internal static bool ShowCursor => _blink;
-
-            public static string Text => _text;
-
-            private static int Cursor
-            {
-                get => _cursor;
-
-                set
-                {
-                    _cursor = value;
-                    _cursor = Calc.Clamp(_cursor, 0, _text.Length);
-                }
-            }
-
-            public static Vector CursorPosition { get; internal set; }
-
-            private static readonly List<CharacterCell> _characters = new();
-
-            private struct CharacterCell
-            {
-                public Rectangle Bounds;
-                public char Character;
-                public int Index;
-            }
-
-            public static void Initialize(string text)
-            {
-                text ??= string.Empty;
-
-                if (_text != text)
-                {
-                    Cursor = text.Length;
-                    _text = text;
-                }
-
-                // 
-                _characters.Clear();
-            }
-
-            public static void Update(float dt)
-            {
-                // 
-                _blinkTimer += dt;
-                while (_blinkTimer > BlinkDuration)
-                {
-                    _blinkTimer -= BlinkDuration;
-                    _blink = !_blink;
-                }
-            }
-
-            public static void CharacterCallback(string text, int i, ref TextRendererState state)
-            {
-                _characters.Add(new CharacterCell
-                {
-                    Bounds = state.Bounds,
-                    Character = text[i],
-                    Index = i
-                });
-            }
-
-            internal static void ProcessInput()
-            {
-                // todo: ButtonState.Repeat
-
-                if (Input.CheckKey(Key.Backspace, ButtonState.Pressed))
-                {
-                    DeleteBackwards();
-                }
-                else if (Input.CheckKey(Key.Delete, ButtonState.Pressed))
-                {
-                    DeleteForwards();
-                }
-                else if (Input.CheckKey(Key.Left, ButtonState.Pressed))
-                {
-                    Cursor--;
-                }
-                else if (Input.CheckKey(Key.Right, ButtonState.Pressed))
-                {
-                    Cursor++;
-                }
-                else if (Input.CheckKey(Key.Up, ButtonState.Pressed))
-                {
-                    // todo: somehow, find "equal" position in line above (if a line above)
-                }
-                else if (Input.CheckKey(Key.Down, ButtonState.Pressed))
-                {
-                    // todo: somehow, find "equal" position in line below (if a line below)
-                }
-                else if (Input.CheckKey(Key.End, ButtonState.Pressed))
-                {
-                    if (Cursor <= _text.Length) // othwerwise its already at end
-                    {
-                        // todo: somehow work on the visual text breaks...?
-                        var next = _text.IndexOf('\n', Cursor);
-                        if (next == -1) { next = _text.Length; }
-                        Cursor = next;
-                    }
-                }
-                else if (Input.CheckKey(Key.Home, ButtonState.Pressed))
-                {
-                    if (Cursor > 0) // otherwise, its already at home
-                    {
-                        // todo: somehow work on the visual text breaks...?
-                        var next = _text.PreviousIndexOf('\n', Cursor - 1);
-                        if (next == -1) { next = 0; }
-                        Cursor = next;
-                    }
-                }
-                else if (Input.TextInput.Length > 0)
-                {
-                    Insert(Input.TextInput);
-                }
-            }
-
-            internal static void Insert(string str)
-            {
-                _text = _text.Insert(Cursor, str);
-                Cursor += str.Length;
-            }
-
-            internal static void DeleteBackwards()
-            {
-                if (_text.Length > 0 && Cursor > 0)
-                {
-                    _text = _text.Remove(Cursor - 1, 1);
-                    Cursor--;
-                }
-            }
-
-            internal static void DeleteForwards()
-            {
-                if (Cursor < _text.Length)
-                {
-                    _text = _text.Remove(Cursor, 1);
-                }
             }
         }
     }

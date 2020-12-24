@@ -42,7 +42,7 @@ namespace Meadows
         /// Gets the latest state of a button the keyboard.
         /// </summary>
         /// <param name="key">Some key.</param>
-        public static ButtonState GetKey(Key key)
+        public static ButtonState GetKeyState(Key key)
         {
             if (InputSource != null)
             {
@@ -57,14 +57,31 @@ namespace Meadows
             return ButtonState.Up;
         }
 
-        /// <summary>
-        /// Checks if the lastest state of a button on the keyboard matches the desired state.
-        /// </summary>
-        /// <param name="key">Some key.</param>
-        /// <param name="state">Some desired comparison state.</param>
-        public static bool CheckKey(Key key, ButtonState state)
+        private static bool CheckKey(Key key, ButtonState state)
         {
-            return GetKey(key).HasFlag(state);
+            return GetKeyState(key).HasFlag(state);
+        }
+
+        public static bool IsKeyPressed(Key key, bool repeat = false)
+        {
+            var success = CheckKey(key, ButtonState.Pressed);
+            if (repeat) { success |= CheckKey(key, ButtonState.Repeat); }
+            return success;
+        }
+
+        public static bool IsKeyReleased(Key key)
+        {
+            return CheckKey(key, ButtonState.Released);
+        }
+
+        public static bool IsKeyDown(Key key)
+        {
+            return CheckKey(key, ButtonState.Down);
+        }
+
+        public static bool IsKeyUp(Key key)
+        {
+            return CheckKey(key, ButtonState.Up);
         }
 
         /// <summary>
@@ -107,7 +124,7 @@ namespace Meadows
         /// Gets the latest state of a mouse button.
         /// </summary>
         /// <param name="button">Some button.</param>
-        public static ButtonState GetButton(MouseButton button)
+        public static ButtonState GetButtonState(MouseButton button)
         {
             if (InputSource != null)
             {
@@ -122,14 +139,29 @@ namespace Meadows
             return ButtonState.Up;
         }
 
-        /// <summary>
-        /// Checks if the lastest state of a mouse button matcheas the desired state.
-        /// </summary>
-        /// <param name="button">Some button.</param>
-        /// <param name="state">Some desired comparison state.</param>
-        public static bool CheckButton(MouseButton button, ButtonState state)
+        private static bool CheckButton(MouseButton button, ButtonState state)
         {
-            return GetButton(button).HasFlag(state);
+            return GetButtonState(button).HasFlag(state);
+        }
+
+        public static bool IsMousePressed(MouseButton button)
+        {
+            return CheckButton(button, ButtonState.Pressed);
+        }
+
+        public static bool IsMouseReleased(MouseButton button)
+        {
+            return CheckButton(button, ButtonState.Released);
+        }
+
+        public static bool IsMouseDown(MouseButton button)
+        {
+            return CheckButton(button, ButtonState.Down);
+        }
+
+        public static bool IsMouseUp(MouseButton button)
+        {
+            return CheckButton(button, ButtonState.Up);
         }
 
         #endregion
