@@ -14,58 +14,45 @@ namespace Heirloom.Android.Examples.Stencil
         MainLauncher = true)]
     public sealed class MainActivity : GraphicsActivity
     {
-        public readonly GameLoop Loop;
-
-        public readonly Image Image = new Image("zelda.jpg");
-
         private float _time;
+
+        public static readonly Image Image = new Image("zelda.jpg");
+
+        public readonly GameLoop Loop;
 
         public MainActivity()
         {
             Loop = new GameLoop(Update);
         }
 
-        protected override void GraphicsInitialized()
+        protected override void GraphicsResume()
         {
-            Meadows.Log.Warning("GRAPHICS INITIALIZED");
-        }
-
-        protected override void GraphicsDisposed()
-        {
-            Meadows.Log.Warning("GRAPHICS DISPOSED");
-        }
-
-        protected override void OnResume()
-        {
-            base.OnResume();
             Loop.Start();
         }
 
-        protected override void OnPause()
+        protected override void GraphicsPause()
         {
-            base.OnPause();
             Loop.Stop();
         }
 
         public void Update(float dt)
         {
-            if (Graphics == null) { return; }
-
+            // Enable the performance overlay
             Graphics.Performance.ShowOverlay = true;
 
-            Graphics.ResetState();
-            Graphics.Clear(Color.DarkGray);
-
-            //
+            // Advance time
             _time += dt;
-            RenderStencilTest(Graphics, 4 + Calc.Sin(_time) * 6);
+
+            // Render stencil example
+            RenderStencilTest(Graphics, Calc.Sin(_time / 2F) * 60);
 
             // Present graphics to screen
             Graphics.Screen.Refresh();
         }
 
-        private void RenderStencilTest(GraphicsContext gfx, float angle)
+        private static void RenderStencilTest(GraphicsContext gfx, float angle)
         {
+            gfx.ResetState();
             gfx.Clear(Color.Yellow * Color.DarkGray);
 
             // Draw base image (darkened)

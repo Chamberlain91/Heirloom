@@ -112,9 +112,6 @@ namespace Meadows.Android
 
                 // 
                 _vsync = vsync;
-
-                // Run OpenGL thread
-                StartThread();
             }
 
             protected override void MakeCurrent()
@@ -123,7 +120,9 @@ namespace Meadows.Android
                 GLES.LoadFunctions(Egl.GetProcAddress);
 
                 // Waits until surface reference is known
+                Log.Warning("Waiting For EGL Surface");
                 SpinWait.SpinUntil(() => _view.EglSurface != null);
+                Log.Warning("Acquired EGL Surface");
 
                 // Makes context current on calling thread
                 Egl.MakeCurrent(_view.EglSurface, _backend.EglContext);
@@ -167,7 +166,7 @@ namespace Meadows.Android
                 Invoke(blocking: false, action: () =>
                 {
                     if (_view.EglSurface == null) { Log.Warning("Failed to swap buffers! (no surface)"); }
-                    if (_view.EglSurface.SwapBuffers() == false) { Log.Warning("Failed to swap buffers!"); }
+                    else if (_view.EglSurface.SwapBuffers() == false) { Log.Warning("Failed to swap buffers!"); }
                 });
             }
 

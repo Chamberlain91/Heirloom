@@ -12,9 +12,9 @@ namespace Meadows.Drawing.OpenGLES
     {
         [ThreadStatic] internal protected static bool IsGraphicsThread;
 
-        private readonly ConsumerThread _thread;
-        private bool _isThreadRunning;
+        private bool _shouldMakeCurrent;
 
+        private readonly ConsumerThread _thread;
         private byte _stencilReference;
 
         private ESTexture _atlasTexture;
@@ -65,17 +65,19 @@ namespace Meadows.Drawing.OpenGLES
 
         protected override bool HasPendingWork => _batch.IsDirty;
 
+        public bool IsThreadRunning { get; set; }
+
         #region GL Context Methods
 
         /// <summary>
         /// Launches the dedicated OpenGL thread associated with this context.
         /// </summary>
-        protected void StartThread()
+        internal protected void StartThread()
         {
-            if (!_isThreadRunning)
+            if (!IsThreadRunning)
             {
                 // Mark thread as running
-                _isThreadRunning = true;
+                IsThreadRunning = true;
 
                 // Begin consumer thread
                 _thread.Start();
@@ -89,6 +91,11 @@ namespace Meadows.Drawing.OpenGLES
             }
         }
 
+        internal void NotifyMakeCurrent()
+        {
+            _shouldMakeCurrent = true;
+        }
+
         protected abstract void MakeCurrent();
 
         #region Invoke
@@ -96,7 +103,7 @@ namespace Meadows.Drawing.OpenGLES
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected internal void Invoke(Action action, bool blocking = true)
         {
-            if (!_isThreadRunning) { throw new InvalidOperationException("Unable to invoke, context thread not started."); }
+            if (!IsThreadRunning) { throw new InvalidOperationException("Unable to invoke, context thread not started."); }
             if (blocking) { _thread.Invoke(action); }
             else { _thread.InvokeLater(action); }
         }
@@ -104,7 +111,7 @@ namespace Meadows.Drawing.OpenGLES
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected internal T Invoke<T>(Func<T> action)
         {
-            if (!_isThreadRunning) { throw new InvalidOperationException("Unable to invoke, context thread not started."); }
+            if (!IsThreadRunning) { throw new InvalidOperationException("Unable to invoke, context thread not started."); }
             return _thread.Invoke(action);
         }
 
@@ -346,6 +353,12 @@ namespace Meadows.Drawing.OpenGLES
 
         protected override void Flush(bool block = false)
         {
+            if (_shouldMakeCurrent)
+            {
+                _shouldMakeCurrent = false;
+                Invoke(MakeCurrent);
+            }
+
             if (HasPendingWork)
             {
                 Invoke(() =>

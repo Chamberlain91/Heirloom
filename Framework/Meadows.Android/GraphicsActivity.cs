@@ -15,6 +15,8 @@ namespace Meadows.Android
 
         public GraphicsContext Graphics => _view.Graphics;
 
+        public bool CanRender { get; private set; }
+
         protected struct GraphicsConfiguration
         {
             public IntSize? Resolution;
@@ -57,19 +59,24 @@ namespace Meadows.Android
             _view = new GraphicsView(this, resolution, config.Multisample, config.VSync);
             SetContentView(_view);
 
-            // Bind graphics ready/dispose callbacks
-            _view.GraphicsInitialized += () =>
+            _view.GraphicsEnabled += () =>
             {
                 SystemInformation.GpuInfo = DetectGPUInfo();
-                GraphicsInitialized();
+
+                GraphicsResume();
+                CanRender = true;
             };
 
-            _view.GraphicsDisposed += GraphicsDisposed;
+            _view.GraphicsDisable += () =>
+            {
+                CanRender = false;
+                GraphicsPause();
+            };
         }
 
-        protected abstract void GraphicsInitialized();
+        protected abstract void GraphicsResume();
 
-        protected abstract void GraphicsDisposed();
+        protected abstract void GraphicsPause();
 
         protected override void OnDestroy()
         {
