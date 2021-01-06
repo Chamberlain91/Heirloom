@@ -6,12 +6,11 @@ using Meadows.Drawing;
 using Meadows.Mathematics;
 using Meadows.Utilities;
 
-namespace App1
+namespace Heirloom.Android.Examples.Stencil
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme",
+    [Activity(Label = "Stencil Example",
         ScreenOrientation = ScreenOrientation.SensorLandscape,
         ConfigurationChanges = ConfigChanges.Orientation,
-        Immersive = true,
         MainLauncher = true)]
     public sealed class MainActivity : GraphicsActivity
     {
@@ -26,17 +25,9 @@ namespace App1
             Loop = new GameLoop(Update);
         }
 
-        protected override void GetUserGraphicsConfiguration(ref GraphicsConfiguration config)
-        {
-            // disable vsync
-            config.Multisample = MultisampleQuality.Ultra;
-            config.VSync = false;
-        }
-
         protected override void GraphicsInitialized()
         {
             Meadows.Log.Warning("GRAPHICS INITIALIZED");
-            Meadows.Log.Warning("GRAPHICS: " + Graphics.Surface.Multisample);
         }
 
         protected override void GraphicsDisposed()

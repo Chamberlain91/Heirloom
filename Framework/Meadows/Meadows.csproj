@@ -49,6 +49,7 @@
     <None Remove="Drawing\External\StbTrueTypeSharp\README.md" />
     <None Remove="Embedded\fonts\montserrat\Montserrat-Medium.ttf" />
     <None Remove="Embedded\fonts\montserrat\Montserrat-Bold.ttf" />
+    <None Remove="Embedded\icon.png" />
     <None Remove="Embedded\monogram_extended.ttf" />
     <None Remove="Embedded\LDR_RGB1_0.png" />
     <None Remove="Embedded\Shaders\blur.frag" />
@@ -66,6 +67,7 @@
     <EmbeddedResource Include="Embedded\fonts\montserrat\Montserrat-Regular.ttf" />
     <EmbeddedResource Include="Embedded\fonts\montserrat\Montserrat-Bold.ttf" />
     <EmbeddedResource Include="Embedded\fonts\monogram_extended.ttf" />
+    <EmbeddedResource Include="Embedded\icon.png" />
     <EmbeddedResource Include="Embedded\LDR_RGB1_0.png" />
     <EmbeddedResource Include="Embedded\Shaders\blur.frag" />
     <EmbeddedResource Include="Embedded\Shaders\default.frag" />

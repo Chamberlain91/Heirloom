@@ -264,8 +264,6 @@ namespace Meadows.Drawing.OpenGLES
                 _stencilReference++;
                 if (_stencilReference == byte.MaxValue)
                 {
-                    Log.Debug("Stencil Wrap");
-
                     // 
                     GLES.SetClearStencil(0xFF);
                     GLES.Clear(ClearMask.Stencil);

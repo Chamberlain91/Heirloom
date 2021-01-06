@@ -480,12 +480,20 @@ namespace Meadows.Desktop
 
         private static Image[] CreateDefaultIcons()
         {
-            return new[] {
-                // todo: load a better default icon?
-                Image.CreateCheckerboardPattern(16, 16, Color.Magenta, Color.DarkGray, 4),
-                Image.CreateCheckerboardPattern(32, 32, Color.Magenta, Color.DarkGray, 8),
-                Image.CreateCheckerboardPattern(64, 64, Color.Magenta, Color.DarkGray, 16),
-            };
+            return Generate().ToArray();
+
+            static IEnumerable<Image> Generate()
+            {
+                var icon = new Image("Meadows/Embedded/icon.png");
+
+                while (icon.Width > 32 && icon.Height > 32)
+                {
+                    yield return icon;
+                    icon = Image.Downsample(icon);
+                }
+
+                yield return icon;
+            }
         }
 
         /// <summary>
