@@ -6,9 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Meadows.Desktop\Meadows.Desktop.csproj" />
-    <ProjectReference Include="..\..\Meadows.ImGui\Meadows.ImGui.csproj" />
-    <ProjectReference Include="..\..\Meadows\Meadows.csproj" />
+    <ProjectReference Include="..\..\Framework\Meadows.Desktop\Meadows.Desktop.csproj" />
+    <ProjectReference Include="..\..\Framework\Meadows.ImGui\Meadows.ImGui.csproj" />
   </ItemGroup>
 
 </Project>

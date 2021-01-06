@@ -3,6 +3,7 @@ using System;
 using Meadows.Desktop;
 using Meadows.Drawing;
 using Meadows.IO;
+using Meadows.Mathematics;
 using Meadows.UI;
 using Meadows.Utilities;
 
@@ -11,8 +12,6 @@ namespace Meadows.Examples.UserInput
     public sealed class Program : Application
     {
         public readonly Window Window;
-
-        public GraphicsContext Graphics => Window.Graphics;
 
         public Image Icon = Image.CreateCheckerboardPattern(16, 16, Color.Red, 4);
 
@@ -26,10 +25,11 @@ namespace Meadows.Examples.UserInput
 
         public Program()
         {
-            Window = new Window("Heirloom - Input Example", (256 + 32, 400), MultisampleQuality.None, vsync: false) { IsResizable = false };
-            Window.Graphics.Performance.ShowOverlay = true;
-
             Console.WriteLine(string.Join("\n", Files.EnumerateFiles()));
+
+            // 
+            Window = new Window("Heirloom - Input Example", (256 + 32, 450), MultisampleQuality.None, vsync: false) { IsResizable = false };
+            Window.Graphics.Performance.ShowOverlay = true;
 
             // Launch loop
             GameLoop.StartNew(Update);
@@ -37,13 +37,6 @@ namespace Meadows.Examples.UserInput
 
         private void Update(float dt)
         {
-            Window.Graphics.Clear(Color.Black);
-            Window.Graphics.ResetState();
-
-            // Set layout box to window
-            Gui.BeginFrame(Window.Graphics, dt);
-            Gui.SetLayoutBox((16, 16, 256, Window.Surface.Height - 32));
-
             // todo: button (complete)
             // todo: checkbox
             // todo: radio
@@ -73,38 +66,58 @@ namespace Meadows.Examples.UserInput
 
             // todo: disable section
 
-            Gui.Label("Choose Theme:");
-            if (Gui.Button("Light")) { Gui.Theme = GuiTheme.Light; }
-            if (Gui.Button("Dark")) { Gui.Theme = GuiTheme.Dark; }
+            // todo: make individual contexts
+            Gui.BeginFrame(Window.Graphics, dt);
 
-            Gui.Space();
-
-            if (Gui.Slider("Brightness", ref Brightness, step: 10))
+            Gui.Panel("IMGUI Example", (IntVector.Zero, Window.Surface.Size), () =>
             {
-                Console.WriteLine($"Brightness: {Brightness:0.00}");
-            }
+                Gui.Label("Choose Style");
 
-            if (Gui.Slider("Transparency", ref Transparency))
-            {
-                Console.WriteLine($"Transparency: {Transparency:0.00}");
-            }
+                if (Gui.Button("Light")) { Gui.Style = GuiStyle.Light; }
+                if (Gui.Button("Dark")) { Gui.Style = GuiStyle.Dark; }
 
-            if (Gui.TextInput("Some Text", ref SomeText))
-            {
-                Console.WriteLine($"Text Box: {SomeText}");
-            }
+                Gui.Divider();
 
-            if (Gui.TextInput("Message", ref Message, multiline: true))
-            {
-                Console.WriteLine($"Message: {Message}");
-            }
+                if (Gui.Button("Warning", Icon)) { Log.Warning("A warning"); }
 
-            if (Gui.TextInput("Some Text 2", ref SomeText))
-            {
-                Console.WriteLine($"Text Box: {SomeText}");
-            }
+                Gui.Divider();
 
-            //
+                if (Gui.Slider("Brightness", ref Brightness, step: 10))
+                {
+                    Console.WriteLine($"Brightness: {Brightness:0.00}");
+                }
+
+                if (Gui.Slider("Transparency", ref Transparency))
+                {
+                    Console.WriteLine($"Transparency: {Transparency:0.00}");
+                }
+
+                Gui.Divider();
+
+                if (Gui.TextInput("Some Text", ref SomeText))
+                {
+                    Console.WriteLine($"Text Box: {SomeText}");
+                }
+
+                //Gui.Layout(-1); // Push to bottom of container
+                if (Gui.TextInput("Message", ref Message, multiline: true))
+                {
+                    Console.WriteLine($"Message: {Message}");
+                }
+            });
+
+            //var gui = new GuiContext(Window.Graphics);
+            //gui.Label("Quick Travel");
+            //gui.BeginScroll("quick_travel");
+            //for (var i = 0; i < 10; i++)
+            //{
+            //    if (gui.Button($"Area {i}"))
+            //    {
+            //        // Go to area
+            //    }
+            //}
+            //gui.EndScroll();
+
             Window.Refresh();
         }
 
