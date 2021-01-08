@@ -64,7 +64,11 @@ namespace Meadows.Utilities
             IsRunning = true;
 
             // Create and start thread
-            _thread = new Thread(ThreadBody) { IsBackground = true, Name = "Render Thread" };
+            _thread = new Thread(ThreadBody)
+            {
+                IsBackground = true,
+                Name = "Render Thread"
+            };
             _thread.Start();
         }
 

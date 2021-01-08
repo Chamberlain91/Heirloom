@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 using Meadows.Desktop.GLFW;
@@ -32,9 +33,14 @@ namespace Meadows.Desktop
         private IntRectangle _restoreBounds;
         private string _title;
 
+        private Display _fullscreenDisplay;
         private bool _visible = true;
 
         #region Constructors
+
+        public Window(string title, MultisampleQuality multisample = MultisampleQuality.None, bool vsync = true)
+            : this(title, (640, 480), multisample, vsync)
+        { }
 
         public Window(string title, IntSize size, MultisampleQuality multisample = MultisampleQuality.None, bool vsync = true)
         {
@@ -242,6 +248,16 @@ namespace Meadows.Desktop
         /// Gets a value that determines if this window been disposed.
         /// </summary>
         public bool IsDisposed { get; private set; }
+
+        /// <summary>
+        /// Gets a value that determines if this window is in fullscreen.
+        /// </summary>
+        public bool IsFullscreen => _fullscreenDisplay != null;
+
+        /// <summary>
+        /// Gets the fullscreen display this window is on. If not fullscreen, this value is null.
+        /// </summary>
+        public Display FullscreenDisplay => _fullscreenDisplay;
 
         #region Window Properties (Position, Size, State, etc)
 
@@ -462,9 +478,16 @@ namespace Meadows.Desktop
                 // If not already fullscreen, keep record of the current bounds
                 if (State != WindowState.Fullscreen) { _restoreBounds = Bounds; }
 
+                // If unset, use the display refresh rate
+                var refreshRate = mode.RefreshRate;
+                if (refreshRate == 0) { refreshRate = display.RefreshRate; }
+
                 // Enable fullscreen
-                Glfw.SetWindowMonitor(Handle, display.MonitorHandle, 0, 0, mode.Width, mode.Height, mode.RefreshRate);
+                Glfw.SetWindowMonitor(Handle, display.MonitorHandle, 0, 0, mode.Width, mode.Height, refreshRate);
             });
+
+            // Remember which display
+            _fullscreenDisplay = display;
         }
 
         internal void EndFullscreen()
@@ -474,6 +497,9 @@ namespace Meadows.Desktop
                 // Disable fullscreen, and restore bounds to pre-fullscreen bounds
                 Glfw.SetWindowMonitor(Handle, MonitorHandle.None, _restoreBounds.X, _restoreBounds.Y, _restoreBounds.Width, _restoreBounds.Height, -1);
             });
+
+            // Forget the fullscreen display
+            _fullscreenDisplay = null;
         }
 
         #endregion

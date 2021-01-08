@@ -32,7 +32,7 @@ namespace Meadows.Drawing.OpenGLES
         internal ESGraphicsContext(ESGraphicsBackend backend, IScreen screen)
             : base(backend, screen)
         {
-            _thread = new ConsumerThread($"GLES Context Thread ({Id})");
+            _thread = new ConsumerThread($"GLES Context Thread ({Id})", ThreadPriority.Highest);
             _thread.InvokeLater(() =>
             {
                 // Mark thread as graphics thread

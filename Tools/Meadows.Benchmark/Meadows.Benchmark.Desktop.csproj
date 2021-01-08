@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="OLD\**" />
+    <EmbeddedResource Remove="OLD\**" />
+    <None Remove="OLD\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Meadows.Desktop\Meadows.Desktop.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\Benchmark\Meadows.Benchmark\Meadows.Benchmark.projitems" Label="Shared" />
+
+</Project>

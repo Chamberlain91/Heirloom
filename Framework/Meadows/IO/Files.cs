@@ -203,7 +203,7 @@ namespace Meadows.IO
         }
 
         #endregion
-         
+
         #region Convenience (ReadText, etc)
 
         /// <summary>

@@ -17,7 +17,6 @@ namespace Meadows.Desktop
     {
         private const double WaitEventsTimeout = 1.0 / 200.0;
 
-        private static Application _application;
         private static GraphicsBackend _backend;
 
         private static ConsumerQueue _actionQueue;
@@ -35,7 +34,7 @@ namespace Meadows.Desktop
         /// <summary>
         /// Initialize application systems. This function blocks, processing all window events until all <see cref="Window"/> have been closed.
         /// </summary>
-        public static void Run<TApplication>() where TApplication : Application, new()
+        public static void Run<TApp>() where TApp : new()
         {
             // Ensure we have attempted to call this function recursively
             if (IsRunning) { throw new InvalidOperationException("Application has already been initialized and is currently running."); }
@@ -62,7 +61,7 @@ namespace Meadows.Desktop
             }
 
             // Create application instance
-            _application = Activator.CreateInstance<TApplication>();
+            Activator.CreateInstance<TApp>();
 
             // Perform main window / events loop
             ExecuteWindowLoop();
@@ -71,9 +70,6 @@ namespace Meadows.Desktop
             DisposeAudio();
             DisposeGraphics();
             DisposeWindowSystem();
-
-            // Discard application reference
-            _application = null;
 
             // Mark the application as no longer running
             IsRunning = false;

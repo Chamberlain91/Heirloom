@@ -4,10 +4,14 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 
+using Android.OS;
+
 using Meadows.Android.EGL;
 using Meadows.Drawing;
 using Meadows.Drawing.OpenGLES;
 using Meadows.Mathematics;
+
+using ThreadPriority = Android.OS.ThreadPriority;
 
 namespace Meadows.Android
 {
@@ -19,7 +23,7 @@ namespace Meadows.Android
 
         public ESAndroidGraphicsBackend(MultisampleQuality multisample)
         {
-            Log.Info($"[EGL] Creating OpenGL ES 3.0 Context");
+            Log.Debug($"[EGL] Creating OpenGL ES 3.0 Context");
 
             // Find best configuration for 24 bit with 8 bit stencil
             var configs = Egl.ChooseConfigs(new EglConfigAttributes
@@ -45,6 +49,9 @@ namespace Meadows.Android
                     break;
                 }
             }
+
+            // Load ES functions
+            GLES.LoadFunctions(Egl.GetProcAddress);
         }
 
         internal ESGraphicsContext CreateGraphics(GraphicsView view, bool vsync)
@@ -114,15 +121,25 @@ namespace Meadows.Android
                 _vsync = vsync;
             }
 
+            private static void SetThreadPriority(ThreadPriority priority)
+            {
+                var thread = Process.MyTid();
+                Process.SetThreadPriority(priority);
+                Log.Warning($"Setting {thread} to {priority} priority.");
+            }
+
             protected override void MakeCurrent()
             {
-                // Load ES functions
-                GLES.LoadFunctions(Egl.GetProcAddress);
+                // Elevate this thread to urgent display priority
+                SetThreadPriority(ThreadPriority.UrgentDisplay);
 
                 // Waits until surface reference is known
-                Log.Warning("Waiting For EGL Surface");
-                SpinWait.SpinUntil(() => _view.EglSurface != null);
-                Log.Warning("Acquired EGL Surface");
+                if (_view.EglSurface == null)
+                {
+                    Log.Warning("Waiting For EGL Surface");
+                    SpinWait.SpinUntil(() => _view.EglSurface != null);
+                    Log.Warning("Acquired EGL Surface");
+                }
 
                 // Makes context current on calling thread
                 Egl.MakeCurrent(_view.EglSurface, _backend.EglContext);

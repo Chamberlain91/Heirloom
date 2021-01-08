@@ -1,3 +1,4 @@
+using Android.OS;
 using Android.Util;
 using Android.Views;
 
@@ -12,6 +13,13 @@ namespace Meadows.Android
             // Set application to fullscreen
             activity.RequestWindowFeature(WindowFeatures.NoTitle);
             activity.Window.SetFlags(WindowManagerFlags.Fullscreen, WindowManagerFlags.Fullscreen);
+
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.P)
+            {
+                // This allows the window to be visible behind camera notch, etc
+                activity.Window.SetFlags(WindowManagerFlags.LayoutNoLimits, WindowManagerFlags.LayoutNoLimits);
+                activity.Window.Attributes.LayoutInDisplayCutoutMode = LayoutInDisplayCutoutMode.ShortEdges;
+            }
         }
 
         public static IntSize ComputeAutomaticResolution(this GraphicsActivity activity, int pixelsPerMM = 10)

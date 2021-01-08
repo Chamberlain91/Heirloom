@@ -40,6 +40,8 @@ namespace Meadows.Drawing
         {
             if (IsInitialized == false)
             {
+                Log.Debug($"Initializing Graphics Backend: {Current.GetType().Name}");
+
                 // Detect GPU information
                 Current.Capabilities = Current.GetGraphicsCapabilities();
                 Current.GpuInfo = Current.GetGpuInfo();
@@ -57,6 +59,8 @@ namespace Meadows.Drawing
 
         public virtual void Dispose()
         {
+            Log.Debug($"Initializing Graphics Backend: {GetType().Name}");
+
             GC.SuppressFinalize(this);
             IsInitialized = false;
             Current = null;

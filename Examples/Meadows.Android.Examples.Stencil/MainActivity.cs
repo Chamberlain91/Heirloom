@@ -6,7 +6,7 @@ using Meadows.Drawing;
 using Meadows.Mathematics;
 using Meadows.Utilities;
 
-namespace Heirloom.Android.Examples.Stencil
+namespace Meadows.Android.Examples.Stencil
 {
     [Activity(Label = "Stencil Example",
         ScreenOrientation = ScreenOrientation.SensorLandscape,

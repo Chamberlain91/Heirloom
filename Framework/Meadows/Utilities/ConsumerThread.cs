@@ -13,7 +13,7 @@ namespace Meadows.Utilities
         private readonly Thread _thread;
         private bool _isAlive;
 
-        public ConsumerThread(string name)
+        public ConsumerThread(string name, ThreadPriority priority = ThreadPriority.Normal)
         {
             // 
             _queue = new Queue<Action>();
@@ -22,6 +22,7 @@ namespace Meadows.Utilities
             _thread = new Thread(ThreadAction)
             {
                 IsBackground = true,
+                Priority = priority,
                 Name = name
             };
         }

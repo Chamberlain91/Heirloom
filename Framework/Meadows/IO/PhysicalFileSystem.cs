@@ -24,13 +24,25 @@ namespace Meadows.IO
 
         public override IEnumerable<string> EnumerateFiles(string pattern = null)
         {
-            foreach (var file in Directory.EnumerateFiles(Root, "*.*", SearchOption.AllDirectories))
+            foreach (var file in GetFiles())
             {
                 var path = Files.NormalizePath(file);
 
                 if (pattern == null || path.IsLikePattern(pattern))
                 {
                     yield return path;
+                }
+            }
+
+            IEnumerable<string> GetFiles()
+            {
+                try
+                {
+                    return Directory.EnumerateFiles(Root, "*.*", SearchOption.AllDirectories);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    return Array.Empty<string>();
                 }
             }
         }

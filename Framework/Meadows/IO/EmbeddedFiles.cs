@@ -61,7 +61,7 @@ namespace Meadows.IO
                 try
                 {
                     // Find namespace prefixes
-                    var namespaces = GetNamespaces(assembly);
+                    var namespaces = GetNamespaces(assembly).OrderByDescending(ns => ns.Length);
 
                     // Look at each file and alias any starting with a namespace
                     foreach (var manifestName in assembly.GetManifestResourceNames())
