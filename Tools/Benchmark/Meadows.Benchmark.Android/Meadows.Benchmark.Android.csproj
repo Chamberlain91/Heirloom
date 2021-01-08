@@ -107,16 +107,16 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Meadows.Android\Meadows.Android.csproj">
+    <ProjectReference Include="..\..\..\Framework\Meadows.Android\Meadows.Android.csproj">
       <Project>{54fba483-0269-4654-9c4c-07ec4efd0a94}</Project>
       <Name>Meadows.Android</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Meadows\Meadows.csproj">
+    <ProjectReference Include="..\..\..\Framework\Meadows\Meadows.csproj">
       <Project>{1217a446-2cb0-48be-9a52-80805a38ae7d}</Project>
       <Name>Meadows</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="..\..\Tools\Benchmark\Meadows.Benchmark\Meadows.Benchmark.projitems" Label="Shared" />
+  <Import Project="..\Meadows.Benchmark\Meadows.Benchmark.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
     Other similar extension points exist, see Microsoft.Common.targets.

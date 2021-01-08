@@ -36,6 +36,11 @@ namespace Meadows.Desktop
         public int Height => CurrentMode.Height;
 
         /// <summary>
+        /// Gets the dimensions (in pixels) of the display (in the current video mode).
+        /// </summary>
+        public IntSize Size => new IntSize(Width, Height);
+
+        /// <summary>
         /// Gets the refresh rate of the display (in the current video mode).
         /// </summary>
         public int RefreshRate => CurrentMode.RefreshRate;
