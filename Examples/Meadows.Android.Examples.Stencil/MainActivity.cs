@@ -44,7 +44,7 @@ namespace Meadows.Android.Examples.Stencil
             _time += dt;
 
             // Render stencil example
-            RenderStencilTest(Graphics, Calc.Sin(_time / 2F) * 60);
+            RenderStencilTest(Graphics, Calc.Sin(_time) * 15);
 
             // Present graphics to screen
             Graphics.Screen.Refresh();
@@ -56,7 +56,7 @@ namespace Meadows.Android.Examples.Stencil
             gfx.Clear(Color.Yellow * Color.DarkGray);
 
             // Draw base image (darkened)
-            gfx.Color = Color.DarkGray;
+            gfx.Color = Color.Gray;
             DrawBackgroundImages(gfx, Image, angle);
 
             // Draw a stencil mask
