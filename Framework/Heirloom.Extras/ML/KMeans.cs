@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-using Meadows.Mathematics;
+using Heirloom.Mathematics;
 
 namespace Heirloom.Extras.ML
 {

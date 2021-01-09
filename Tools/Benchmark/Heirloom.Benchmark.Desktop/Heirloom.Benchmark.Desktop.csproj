@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Framework\Heirloom.Desktop\Heirloom.Desktop.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\Heirloom.Benchmark\Heirloom.Benchmark.projitems" Label="Shared" />
+
+</Project>

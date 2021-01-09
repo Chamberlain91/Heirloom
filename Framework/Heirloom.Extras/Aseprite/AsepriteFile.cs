@@ -5,8 +5,8 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 
-using Meadows.Drawing;
-using Meadows.Mathematics;
+using Heirloom.Drawing;
+using Heirloom.Mathematics;
 
 using DWORD = System.UInt32;
 using FIXED = System.Single;
