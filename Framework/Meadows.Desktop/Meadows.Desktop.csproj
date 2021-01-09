@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Embedded\icon_128.png" />
+    <None Remove="Embedded\icon_16.png" />
+    <None Remove="Embedded\icon_32.png" />
+    <None Remove="Embedded\icon_64.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Embedded\icon_128.png" />
+    <EmbeddedResource Include="Embedded\icon_16.png" />
+    <EmbeddedResource Include="Embedded\icon_32.png" />
+    <EmbeddedResource Include="Embedded\icon_64.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Meadows\Meadows.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content CopyToOutputDirectory="PreserveNewest" Link="glfw3.dll" Include="runtimes/win-x64/glfw3.dll" Pack="true" PackagePath="runtimes/win-x64/native/" />
+    <Content CopyToOutputDirectory="PreserveNewest" Link="libglfw3.so" Include="runtimes/linux-x64/libglfw3.so" Pack="true" PackagePath="runtimes/linux-x64/native/" />
+    <Content CopyToOutputDirectory="PreserveNewest" Link="libglfw3.dylib" Include="runtimes/osx-x64/libglfw3.dylib" Pack="true" PackagePath="runtimes/osx-x64/native/" />
+  </ItemGroup>
+
+</Project>

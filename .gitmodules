@@ -1,0 +1,9 @@
+[submodule "Meadows/Drawing/External/StbImageSharp"]
+	path = Meadows/Drawing/External/StbImageSharp
+	url = https://github.com/StbSharp/StbImageSharp.git
+[submodule "Meadows/Drawing/External/StbImageWriteSharp"]
+	path = Meadows/Drawing/External/StbImageWriteSharp
+	url = https://github.com/StbSharp/StbImageWriteSharp.git
+[submodule "Meadows/Drawing/External/StbTrueTypeSharp"]
+	path = Meadows/Drawing/External/StbTrueTypeSharp
+	url = https://github.com/StbSharp/StbTrueTypeSharp.git
