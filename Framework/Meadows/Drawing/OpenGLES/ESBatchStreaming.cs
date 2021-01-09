@@ -55,7 +55,7 @@ namespace Meadows.Drawing.OpenGLES
                 vtx.Position = matrix * mVtx.Position;
                 vtx.AtlasRect = uvRect;
                 vtx.UV = mVtx.UV;
-                vtx.Color = color;
+                vtx.Color = mVtx.Color * color;
             }
 
             // Advance counters by mesh size

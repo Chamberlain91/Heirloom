@@ -6,6 +6,12 @@ using Meadows.Mathematics;
 
 namespace Meadows.Drawing
 {
+    public enum LineJoinType
+    {
+        None,
+        Bevel
+    }
+
     public abstract partial class GraphicsContext
     {
         private static readonly Mesh _mesh = new Mesh();
@@ -166,17 +172,14 @@ namespace Meadows.Drawing
 
         #endregion
 
-        public void DrawPolyLine(IEnumerable<Vector> points, float width = 1F, bool loop = false)
+        #region Draw PolyLine
+
+        public void DrawPolyLine(IEnumerable<Vector> points, float width = 1F, LineJoinType joinType = LineJoinType.Bevel, bool loop = false)
+        // todo: miter / round joins/
         {
             // Copy enumerable into temporary list
             _sequence.Clear();
             _sequence.AddRange(points);
-
-            if (loop)
-            {
-                // Connect to first vertex
-                _sequence.Add(_sequence[0]);
-            }
 
             // To make width radial
             width /= 2F;
@@ -186,42 +189,78 @@ namespace Meadows.Drawing
 
             if (_sequence.Count >= 2)
             {
-                var a = _sequence[0];
                 for (var i = 1; i < _sequence.Count; i++)
                 {
-                    var t0 = (i - 1) / (float) _sequence.Count;
-                    var t1 = (i + 0) / (float) _sequence.Count;
+                    // Get points around join
+                    var v0 = _sequence[i - 1];
+                    var v1 = _sequence[i + 0];
+                    var v2 = _sequence[(i + 1) % _sequence.Count];
 
-                    var b = _sequence[i];
+                    // Compute edge directions
+                    var e01 = Vector.Normalize(v1 - v0).Perpendicular;
+                    var e12 = Vector.Normalize(v2 - v1).Perpendicular;
 
-                    var pA = Vector.Normalize(b - a).Perpendicular;
-                    var pB = pA;
-
-                    if (i < _sequence.Count - 1)
+                    // Append segment and join
+                    AppendSegment(v0, v1, e01);
+                    if (i < _sequence.Count - 1 || loop)
                     {
-                        var c = _sequence[i + 1];
-                        pB = Vector.Normalize(c - b).Perpendicular;
+                        AppendJoin(v1, e01, e12);
                     }
+                }
 
-                    // todo: elbow somehow
+                // at least a triangle is required to make a loop
+                if (loop && _sequence.Count >= 3)
+                {
+                    // Get points around join
+                    var v0 = _sequence[^1];
+                    var v1 = _sequence[0];
+                    var v2 = _sequence[1];
 
-                    // Add segment to mesh
-                    _mesh.AddVertex(new MeshVertex(a - pA * width, (t0, 0F)));
-                    _mesh.AddVertex(new MeshVertex(a + pA * width, (t0, 1F)));
-                    _mesh.AddVertex(new MeshVertex(b + pA * width, (t1, 1F)));
-                    _mesh.AddVertex(new MeshVertex(a - pA * width, (t0, 0F)));
-                    _mesh.AddVertex(new MeshVertex(b + pA * width, (t1, 1F)));
-                    _mesh.AddVertex(new MeshVertex(b - pA * width, (t1, 0F)));
+                    // Compute edge directions
+                    var e01 = Vector.Normalize(v1 - v0).Perpendicular;
+                    var e12 = Vector.Normalize(v2 - v1).Perpendicular;
 
-                    // DrawCross(a, 20, 1);
-
-                    a = b;
+                    // Append segment and join
+                    AppendSegment(v0, v1, e01);
+                    AppendJoin(v1, e01, e12);
                 }
 
                 // Draw mesh
-                Draw(_mesh, Image.Default, Matrix.Identity);
+                Draw(_mesh, Texture.Default, Matrix.Identity);
+            }
+
+            void AppendSegment(Vector v0, Vector v1, Vector e01)
+            {
+                _mesh.AddVertex(new MeshVertex(v0 - e01 * width, Vector.Zero)); // tri 1
+                _mesh.AddVertex(new MeshVertex(v0 + e01 * width, Vector.Zero));
+                _mesh.AddVertex(new MeshVertex(v1 + e01 * width, Vector.Zero));
+                _mesh.AddVertex(new MeshVertex(v0 - e01 * width, Vector.Zero)); // tri 2
+                _mesh.AddVertex(new MeshVertex(v1 + e01 * width, Vector.Zero));
+                _mesh.AddVertex(new MeshVertex(v1 - e01 * width, Vector.Zero));
+            }
+
+            void AppendJoin(Vector v1, Vector e01, Vector e12)
+            {
+                // Must be greater than 1 pixel to have significance.
+                // todo: determine if this is sane
+                if (ApproximatePixelScale * width > 1)
+                {
+                    switch (joinType)
+                    {
+                        case LineJoinType.Bevel:
+                            _mesh.AddVertex(new MeshVertex(v1 - e01 * width, Vector.Zero)); // tri 1
+                            _mesh.AddVertex(new MeshVertex(v1 + e01 * width, Vector.Zero));
+                            _mesh.AddVertex(new MeshVertex(v1 + e12 * width, Vector.Zero));
+                            _mesh.AddVertex(new MeshVertex(v1 - e01 * width, Vector.Zero)); // tri 2
+                            _mesh.AddVertex(new MeshVertex(v1 + e12 * width, Vector.Zero));
+                            _mesh.AddVertex(new MeshVertex(v1 - e12 * width, Vector.Zero));
+                            break;
+                    }
+                }
             }
         }
+
+        #endregion
 
         #region Draw Cross
 
@@ -249,7 +288,7 @@ namespace Meadows.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawRect(in Rectangle rectangle)
         {
-            DrawImage(Image.Default, in rectangle);
+            DrawImage(Texture.Default, in rectangle);
         }
 
         /// <summary>
@@ -260,21 +299,7 @@ namespace Meadows.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawRectOutline(in Rectangle rectangle, float width = 1)
         {
-            var x0 = rectangle.X;
-            var y0 = rectangle.Y;
-
-            var x1 = rectangle.X + rectangle.Width;
-            var y1 = rectangle.Y + rectangle.Height;
-
-            var TL = new Vector(x0, y0);
-            var TR = new Vector(x1, y0);
-            var BL = new Vector(x0, y1);
-            var BR = new Vector(x1, y1);
-
-            DrawLine(TL, BL, width);
-            DrawLine(TR, BR, width);
-            DrawLine(TL, TR, width);
-            DrawLine(BL, BR, width);
+            DrawPolyLine(rectangle.GetVertices(), width, loop: true);
         }
 
         #endregion
@@ -308,7 +333,7 @@ namespace Meadows.Drawing
             _mesh.AddVertex(new MeshVertex(c, Vector.Zero));
 
             // Draw mesh
-            Draw(_mesh, Image.Default, Matrix.Identity);
+            Draw(_mesh, Texture.Default, Matrix.Identity);
         }
 
         /// <summary>
@@ -319,7 +344,7 @@ namespace Meadows.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawTriangleOutline(in Triangle triangle, float width = 1F)
         {
-            DrawTriangleOutline(in triangle.A, in triangle.B, in triangle.C, width);
+            DrawPolyLine(triangle.GetVertices(), width, loop: true);
         }
 
         /// <summary>
@@ -332,9 +357,84 @@ namespace Meadows.Drawing
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawTriangleOutline(in Vector a, in Vector b, in Vector c, float width = 1F)
         {
-            DrawLine(in a, in b, width);
-            DrawLine(in b, in c, width);
-            DrawLine(in c, in a, width);
+            DrawTriangleOutline(new Triangle(a, b, c), width);
+        }
+
+        #endregion
+
+        #region Draw Circle
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void DrawCircle(Vector center, float radius, float error = 1F)
+        {
+            var segments = GeometryTools.GetCircleApproximateSegmentCount(radius, error * ApproximatePixelScale);
+            DrawRegularPolygon(center, radius, segments);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void DrawCircleOutline(Vector center, float radius, float width = 1F, float error = 1F)
+        {
+            var segments = GeometryTools.GetCircleApproximateSegmentCount(radius, error * ApproximatePixelScale);
+            DrawRegularPolygonOutline(center, radius, segments, width);
+        }
+
+        #endregion
+
+        #region Draw Regular Polygon
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void DrawRegularPolygon(Vector center, float radius, int segments)
+        // todo: optimize/evaluate performance
+        {
+            //
+            _mesh.Clear();
+
+            // Append vertices
+            var vertices = GeometryTools.GenerateRegularPolygon(center, segments, radius);
+            foreach (var (a, b, c) in GeometryTools.TriangulateConvex(vertices))
+            {
+                _mesh.AddVertex(new MeshVertex(a, Vector.Zero));
+                _mesh.AddVertex(new MeshVertex(b, Vector.Zero));
+                _mesh.AddVertex(new MeshVertex(c, Vector.Zero));
+            }
+
+            // 
+            Draw(_mesh, Texture.Default);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void DrawRegularPolygonOutline(Vector center, float radius, int segments, float width = 1F)
+        // todo: optimize/evaluate performance
+        {
+            DrawPolyLine(GeometryTools.GenerateRegularPolygon(center, segments, radius), width, loop: true);
+        }
+
+        #endregion
+
+        #region Draw Polygon
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void DrawPolygon(Polygon polygon)
+        // todo: optimize/evaluate performance
+        {
+            _mesh.Clear();
+
+            // todo: is there a better algorithm for real-time performance?
+            foreach (var (a, b, c) in polygon.Triangulate())
+            {
+                _mesh.AddVertex(new MeshVertex(a, Vector.Zero));
+                _mesh.AddVertex(new MeshVertex(b, Vector.Zero));
+                _mesh.AddVertex(new MeshVertex(c, Vector.Zero));
+            }
+
+            // 
+            Draw(_mesh, Texture.Default);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void DrawPolygonOutline(Polygon polygon, float width = 1F)
+        {
+            DrawPolyLine(polygon.Vertices, width, loop: true);
         }
 
         #endregion

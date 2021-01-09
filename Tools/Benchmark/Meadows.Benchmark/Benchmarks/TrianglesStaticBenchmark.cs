@@ -28,7 +28,7 @@ namespace Meadows.Benchmark
             }
 
             // Triangulate
-            _triangles = GeometryTools.Triangulate(_particles);
+            _triangles = GeometryTools.TriangulatePointCloud(_particles);
         }
 
         protected override void UpdateScene(GraphicsContext gfx, float dt)

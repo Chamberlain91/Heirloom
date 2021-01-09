@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 using Meadows.Desktop;
 using Meadows.Drawing;
 using Meadows.Mathematics;
@@ -13,34 +16,43 @@ namespace Meadows.Examples.Primitives
 
         public float Time;
 
-        public Bezier Curve;
+        private readonly List<Example> _examples;
 
         public Program()
         {
             // Create window
-            Window = new Window("Heirloom - Primitives Demo", (512, 512), MultisampleQuality.None);
-            Window.Maximize();
+            Window = new Window("Heirloom - Primitives Demo", (1280, 720), MultisampleQuality.Medium) { IsResizable = false };
+            Window.Position = (IntVector) (Display.Primary.Size - Window.Size) / 2; // Center on display
+            Window.Graphics.Performance.ShowOverlay = true;
 
-            // Track user input from this window
-            Input.SetInputSource(Window);
-
-            // Random curve
-            Curve = new Bezier();
-
-            var phase = Calc.Random.NextFloat(0, Calc.TwoPi);
-
-            var h0 = Vector.Zero;
-            for (var s = 0; s <= 6; s++)
+            // Create examples
+            _examples = new List<Example>()
             {
-                var a0 = ((s + 0) / 6F * Calc.Pi) + phase;
-                var a1 = ((s + 1) / 6F * Calc.Pi) + phase;
+                new CircleExample(),
+                new TriangleExample(),
+                new RectangleExample(),
+                new PentagonExample(),
+                new PolygonExample(),
+            };
 
-                var p0 = Vector.FromAngle(a0) * 400F;
+            const int Padding = 12;
 
-                if (s == 0) { h0 = Calc.Random.NextVectorDisk() * 200; }
-                var h1 = Calc.Random.NextVectorDisk() * 200;
-                Curve.Add(p0, h0, h1);
-                h0 = -h1;
+            // Layout examples, grid layout "as square as possible"
+            var nCols = Calc.Ceil(Calc.Sqrt(_examples.Count));
+            var nRows = Calc.Ceil(_examples.Count / (float) nCols);
+            var w = (Window.Surface.Width - ((nCols + 1) * Padding)) / nCols;
+            var h = (Window.Surface.Height - ((nRows + 1) * Padding)) / nRows;
+            for (var i = 0; i < _examples.Count; i++)
+            {
+                var x = i % nCols * (w + Padding);
+                var y = i / nCols * (h + Padding);
+
+                // Set bounds
+                _examples[i].Bounds = new Rectangle(Padding + x, Padding + y, w, h);
+
+                // Compute color
+                var hue = i / (float) _examples.Count * 360F;
+                _examples[i].Color = Color.FromHSV(hue, 0.7F, 0.9F);
             }
 
             GameLoop.StartNew(Update);
@@ -50,43 +62,141 @@ namespace Meadows.Examples.Primitives
         {
             Time += dt;
 
-            // Configure camera
-            // todo: automatically resize viewport if set to auto?
-            Graphics.SetRenderTarget(Window.Surface);
-            Graphics.SetCamera(Vector.Zero);
-            Graphics.Clear(Color.DarkGray);
-
             // 
-            DrawCurve();
+            Graphics.Clear(Color.Gray);
+
+            // Draw examples
+            foreach (var example in _examples)
+            {
+                Graphics.Color = Color.LightGray;
+                Graphics.DrawRect(example.Bounds);
+
+                Graphics.Color = Color.Black;
+                Graphics.DrawRectOutline(example.Bounds, 4);
+
+                example.Update(Graphics, Time + example.Phase);
+            }
 
             // 
             Window.Refresh();
         }
 
-        private void DrawCurve()
-        {
-            // Draw Curve
-            Graphics.Color = Color.Pink;
-            Graphics.Transform = Matrix.CreateTranslation(Input.MousePosition);
-            Graphics.DrawCurve(Curve, 3F);
-
-            // Draw Curve "Handles"
-            for (var c = 0; c < Curve.Count - 1; c++)
-            {
-                var p0 = Curve.GetPoint(c + 0);
-                var p1 = Curve.GetPoint(c + 0) + Curve.GetInHandle(c);
-                var p2 = Curve.GetPoint(c + 1) + Curve.GetOutHandle(c);
-                var p3 = Curve.GetPoint(c + 1);
-
-                Graphics.Color = (c % 2) == 1 ? Color.White : Color.Gray;
-                Graphics.DrawDottedLine(p0, p1);
-                Graphics.DrawDottedLine(p2, p3);
-            }
-        }
-
         private static void Main(string[] args)
         {
             Run<Program>();
+        }
+
+        private abstract class Example
+        {
+            public Rectangle Bounds { get; set; }
+
+            public Color Color { get; set; }
+
+            public float Phase { get; } = Calc.Random.NextFloat(0, Calc.TwoPi);
+
+            internal protected abstract void Update(GraphicsContext gfx, float time);
+        }
+
+        private sealed class TriangleExample : Example
+        {
+            protected internal override void Update(GraphicsContext gfx, float time)
+            {
+                var center = Bounds.Center;
+                var radius = Calc.Min(Bounds.Width, Bounds.Height) / 2F - 8;
+
+                var t = Calc.TwoPi / 3F;
+                var a = center + Vector.FromAngle(time + (t * 0)) * radius;
+                var b = center + Vector.FromAngle(time + (t * 1)) * radius;
+                var c = center + Vector.FromAngle(time + (t * 2)) * radius;
+
+                gfx.Color = Color;
+                gfx.DrawTriangle(a, b, c);
+
+                gfx.Color = Color.Black;
+                gfx.DrawTriangleOutline(a, b, c, 6);
+            }
+        }
+
+        private sealed class CircleExample : Example
+        {
+            protected internal override void Update(GraphicsContext gfx, float time)
+            {
+                var center = Bounds.Center;
+                var radius = Calc.Min(Bounds.Width, Bounds.Height) / 2F - 8;
+
+                gfx.Color = Color;
+                gfx.DrawCircle(center, radius);
+
+                gfx.Color = Color.Black;
+                gfx.DrawCircleOutline(center, radius, 6);
+            }
+        }
+
+        private sealed class RectangleExample : Example
+        {
+            protected internal override void Update(GraphicsContext gfx, float time)
+            {
+                var center = Bounds.Center;
+                var radius = Calc.Min(Bounds.Width, Bounds.Height) / Calc.Sqrt2 - 8;
+
+                gfx.PushState();
+                {
+                    gfx.Transform = Matrix.CreateTransform(center, time, 1F);
+
+                    var rectangle = new Rectangle(-radius / 2, -radius / 2, radius, radius);
+
+                    gfx.Color = Color;
+                    gfx.DrawRect(rectangle);
+
+                    gfx.Color = Color.Black;
+                    gfx.DrawRectOutline(rectangle, 6);
+                }
+                gfx.PopState();
+            }
+        }
+
+        private sealed class PentagonExample : Example
+        {
+            protected internal override void Update(GraphicsContext gfx, float time)
+            {
+                var center = Bounds.Center;
+                var radius = Calc.Min(Bounds.Width, Bounds.Height) / 2F - 8;
+
+                gfx.PushState();
+                {
+                    gfx.Transform = Matrix.CreateTransform(center, time, 1F);
+
+                    gfx.Color = Color;
+                    gfx.DrawRegularPolygon(Vector.Zero, radius, 5);
+
+                    gfx.Color = Color.Black;
+                    gfx.DrawRegularPolygonOutline(Vector.Zero, radius, 5, 6);
+                }
+                gfx.PopState();
+            }
+        }
+
+        private sealed class PolygonExample : Example
+        {
+            protected internal override void Update(GraphicsContext gfx, float time)
+            {
+                var center = Bounds.Center;
+                var radius = Calc.Min(Bounds.Width, Bounds.Height) / 2F - 8;
+
+                var polygon = new Polygon(GeometryTools.GenerateStar(radius));
+
+                gfx.PushState();
+                {
+                    gfx.Transform = Matrix.CreateTransform(center, time, 1F);
+
+                    gfx.Color = Color;
+                    gfx.DrawPolygon(polygon);
+
+                    gfx.Color = Color.Black;
+                    gfx.DrawPolygonOutline(polygon, 6);
+                }
+                gfx.PopState();
+            }
         }
     }
 }

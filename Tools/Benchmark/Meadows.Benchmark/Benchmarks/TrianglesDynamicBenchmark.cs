@@ -48,7 +48,7 @@ namespace Meadows.Benchmark
             }
 
             // Triangulate
-            var triangles = GeometryTools.Triangulate(_particles.Select(x => x.Position));
+            var triangles = GeometryTools.TriangulatePointCloud(_particles.Select(x => x.Position));
 
             // Draw triangles
             foreach (var triangle in triangles)

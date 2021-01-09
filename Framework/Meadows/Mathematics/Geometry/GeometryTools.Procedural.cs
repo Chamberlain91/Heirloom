@@ -5,6 +5,29 @@ namespace Meadows.Mathematics
 {
     public static partial class GeometryTools
     {
+        /// <summary>
+        /// Triangulates a convex polygon.
+        /// </summary>
+        public static IEnumerable<Triangle> TriangulateConvex(IEnumerable<Vector> vertices)
+        {
+            var a0 = default(Vector);
+            var a1 = default(Vector);
+
+            var c = 0;
+
+            foreach (var point in vertices)
+            {
+                if (c == 0) { a0 = point; c++; }
+                else
+                if (c == 1) { a1 = point; c++; }
+                else
+                {
+                    yield return new Triangle(a0, a1, point);
+                    a1 = point;
+                }
+            }
+        }
+
         #region Generate Regular Polygon
 
         /// <summary>
@@ -171,7 +194,7 @@ namespace Meadows.Mathematics
         internal static int GetCircleApproximateSegmentCount(float radius, float error)
         {
             // todo: compute based on some arc error?
-            return 5 + (int) Calc.Sqrt(radius * Calc.Pi);
+            return 5 + (int) Calc.Sqrt(radius * 2 * Calc.Pi);
         }
 
         #endregion

@@ -11,17 +11,17 @@ namespace Meadows.Mathematics
         /// <summary>
         /// Constructs the Delaunay triangulation of a set of points.
         /// </summary>
-        public static List<Triangle> Triangulate(this IEnumerable<Vector> points)
+        public static List<Triangle> TriangulatePointCloud(this IEnumerable<Vector> points)
         {
             var triangles = new List<Triangle>();
-            Triangulate(points, triangles);
+            TriangulatePointCloud(points, triangles);
             return triangles;
         }
 
         /// <summary>
         /// Constructs the Delaunay triangulation of a set of points.
         /// </summary>
-        public static void Triangulate(this IEnumerable<Vector> points, List<Triangle> triangles)
+        public static void TriangulatePointCloud(this IEnumerable<Vector> points, List<Triangle> triangles)
         {
             Delaunay.Triangulate(points, triangles);
         }
