@@ -146,7 +146,7 @@ namespace Heirloom.Mathematics
         /// <param name="b0">The first point of the second line.</param>
         /// <param name="b1">The second point of the second line.</param>
         /// <param name="intersectionTime">The intersection time between <paramref name="a0"/> and <paramref name="a1"/>.</param>
-        /// <param name="clampSegment">Should the computation clamp to line segments?</param>
+        /// <param name="clampSegment">Should the computation be clamped to the line segments?</param>
         /// <returns>The point of intersection. If</returns>
         public static bool Intersects(in Vector a0, in Vector a1, in Vector b0, in Vector b1, out float intersectionTime, bool clampSegment = true)
         {
