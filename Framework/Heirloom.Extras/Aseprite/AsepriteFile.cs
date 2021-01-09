@@ -5,6 +5,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 
+using Meadows.Drawing;
 using Meadows.Mathematics;
 
 using DWORD = System.UInt32;
@@ -14,7 +15,7 @@ using SHORT = System.Int16;
 using STRING = System.String;
 using WORD = System.UInt16;
 
-namespace Meadows.Drawing
+namespace Heirloom.Extras.Aseprite
 {
     internal class AsepriteFile : IDisposable
     // todo: origin of each image

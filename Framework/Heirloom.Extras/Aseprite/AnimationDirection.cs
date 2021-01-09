@@ -1,4 +1,4 @@
-namespace Meadows.Drawing
+namespace Heirloom.Extras.Aseprite
 {
     /// <summary>
     /// Represents animation direction options.
