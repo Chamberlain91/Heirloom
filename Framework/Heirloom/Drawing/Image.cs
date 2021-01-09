@@ -21,8 +21,6 @@ namespace Heirloom.Drawing
     /// <category>Drawing</category>
     public sealed class Image : Texture
     {
-        public object TEMP_TEST;
-
         /// <summary>
         /// The max allowable image size for any dimension.
         /// </summary>

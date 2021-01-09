@@ -206,20 +206,18 @@ namespace Heirloom.Desktop
                 Glfw.SetWindowCreationHint(WindowAttribute.Visible, false);
                 ShareContext = Glfw.CreateWindow(256, 256, "GLFW Background Window");
 
-                // Use share context temporarily to load the GL functions and initialize the graphics adapter
+                // Make share context current so we can load the GL functions and initialize the graphics adapter
                 Glfw.MakeContextCurrent(ShareContext);
-                {
-                    // Loads the GL functions via GLFW lookup
-                    GLES.LoadFunctions(Glfw.GetProcAddress);
 
-                    // Initialize the OpenGL ES graphics backend. On desktop platforms this
-                    // only uses ES 3.0 features, but actually uses a OpenGL 3.2 context.
-                    backend = new ESWindowGraphicsBackend();
+                // Loads the GL functions via GLFW lookup
+                GLES.LoadFunctions(Glfw.GetProcAddress);
 
-                    // Compiles default shaders and other renderer initialization
-                    GraphicsBackend.InitializeBackend();
-                }
-                Glfw.MakeContextCurrent(WindowHandle.None);
+                // Initialize the OpenGL ES graphics backend. On desktop platforms this
+                // only uses ES 3.0 features, but actually uses a OpenGL 3.2 context.
+                backend = new ESWindowGraphicsBackend();
+
+                // Compiles default shaders and other renderer initialization
+                GraphicsBackend.InitializeBackend();
 
                 return backend;
             }

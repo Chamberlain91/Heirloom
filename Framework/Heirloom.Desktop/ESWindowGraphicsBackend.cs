@@ -36,23 +36,9 @@ namespace Heirloom.Desktop
             //    Log.Error("Unable to schedule action on GL thread. Backend has been disposed.");
             //}
 
-            lock (_graphics)
-            {
-                // Try to invoke on an existing graphics thread
-                foreach (var context in _graphics)
-                {
-                    // If graphics context is still initialized...
-                    if (context.IsInitialized)
-                    {
-                        // Invoke action on that thread and exit
-                        context.Invoke(action);
-                        return;
-                    }
-                }
-            }
-
-            // Was unable to invoke on a graphics thread, so we will temporarily make the window
-            // events thread a graphics thread to invoke the function.
+            // The application has a global GL context, we will schedule GL work there.
+            // This context is not associated to any graphics context, so we should avoid
+            // rendering and changing state. Just the allocation and manipulation of objects.
             Application.Invoke(() =>
             {
                 // Make the share context current here

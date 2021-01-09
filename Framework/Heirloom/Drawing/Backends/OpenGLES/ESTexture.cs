@@ -16,10 +16,6 @@ namespace Heirloom.Drawing.OpenGLES
             // Format = format;
             Samples = samples;
 
-            // Log the creation of this texture
-            if (IsMultisampled) { Log.Debug($"Creating {format} Texture ({size} w/ {samples} samples)"); }
-            else { Log.Debug($"Creating {format} Texture ({size})"); }
-
             Target = IsMultisampled ? TextureTarget.Texture2DMultisample : TextureTarget.Texture2D;
 
             // 
@@ -118,11 +114,7 @@ namespace Heirloom.Drawing.OpenGLES
                 }
 
                 // Schedule deleting the GL texture resource
-                ESGraphicsBackend.Current.Invoke(() =>
-                {
-                    Log.Debug($"[Dispose] Texture ({Handle})");
-                    GLES.DeleteTexture(Handle);
-                });
+                ESGraphicsBackend.Current.Invoke(() => GLES.DeleteTexture(Handle));
 
                 _isDisposed = true;
             }

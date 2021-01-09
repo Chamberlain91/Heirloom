@@ -222,11 +222,7 @@ namespace Heirloom.Drawing.OpenGLES
 
                     // Schedule for deletion on associated GL thread
                     // todo: if context is disposed of, this might pose a problem
-                    _context.Invoke(() =>
-                    {
-                        Log.Debug($"[Dispose] Framebuffer Texture ({Handle})");
-                        GLES.DeleteFramebuffer(Handle);
-                    });
+                    _context.Invoke(() => GLES.DeleteFramebuffer(Handle));
 
                     _isDisposed = true;
                 }

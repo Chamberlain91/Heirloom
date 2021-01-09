@@ -61,6 +61,7 @@ namespace Heirloom.Drawing.OpenGLES
 
                 // Dispose textures
                 MultisampleTexture?.Dispose();
+                StencilTexture?.Dispose();
                 Texture?.Dispose();
 
                 _isDisposed = true;

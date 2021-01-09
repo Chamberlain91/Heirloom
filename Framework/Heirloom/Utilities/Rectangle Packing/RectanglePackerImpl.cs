@@ -21,7 +21,7 @@ namespace Heirloom
 
         #region Properties
 
-        public IEnumerable<TElement> Elements => _elements.Keys;
+        public ICollection<TElement> Elements => _elements.Keys;
 
         public IntSize Size { get; }
 

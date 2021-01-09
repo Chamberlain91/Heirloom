@@ -50,14 +50,20 @@ namespace Heirloom.Desktop
             // 
             Handle = Application.Invoke(() =>
             {
+                // Temporarily release share context so we can create another window
+                Glfw.MakeContextCurrent(WindowHandle.None);
+
                 Log.Debug($"Creating Window (MSAA: {multisample})");
 
                 // Create a window with a non-transparent framebuffer and the specified multisampling quality
                 Glfw.SetWindowCreationHint(WindowCreationHint.Samples, (int) multisample);
                 Glfw.SetWindowCreationHint(WindowAttribute.TransparentFramebuffer, false);
 
-                // Create window
-                return Glfw.CreateWindow(size.Width, size.Height, title, MonitorHandle.None, Application.ShareContext);
+                var window = Glfw.CreateWindow(size.Width, size.Height, title, MonitorHandle.None, Application.ShareContext);
+
+                // Make share context active again
+                Glfw.MakeContextCurrent(Application.ShareContext);
+                return window;
             });
 
             #region Bind Window Callbacks

@@ -13,7 +13,7 @@ namespace Heirloom
         /// <summary>
         /// Gets the elements packed into this collection.
         /// </summary>
-        IEnumerable<TElement> Elements { get; }
+        ICollection<TElement> Elements { get; }
 
         /// <summary>
         /// Gets the size of the container rectangle.

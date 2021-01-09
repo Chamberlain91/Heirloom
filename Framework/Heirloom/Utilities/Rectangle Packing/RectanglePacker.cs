@@ -47,7 +47,7 @@ namespace Heirloom
         #endregion
 
         /// <inheritdoc/>
-        public IEnumerable<T> Elements => ((IRectanglePacker<T>) _impl).Elements;
+        public ICollection<T> Elements => ((IRectanglePacker<T>) _impl).Elements;
 
         /// <inheritdoc/>
         public IntSize Size => ((IRectanglePacker<T>) _impl).Size;
