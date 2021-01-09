@@ -369,7 +369,7 @@ namespace Heirloom
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Cross(in Vector a, in Vector b)
         {
-            return a.X * b.Y - a.Y * b.X;
+            return (a.X * b.Y) - (a.Y * b.X);
         }
 
         /// <summary>

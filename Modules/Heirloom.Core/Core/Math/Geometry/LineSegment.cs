@@ -62,129 +62,104 @@ namespace Heirloom
         /// <summary>
         /// Checks if this line segment intersects another.
         /// </summary>
-        public bool Intersects(LineSegment other)
+        public bool Intersects(in LineSegment other)
         {
-            return Intersects(this, other);
+            return Intersects(in this, in other);
         }
 
         /// <summary>
         /// Checks if this line segment intersects another.
         /// </summary>
-        public bool Intersects(LineSegment other, out Vector point)
+        public bool Intersects(in LineSegment other, out Vector point)
         {
-            return Intersects(this, other, out point);
+            return Intersects(in this, in other, out point);
         }
 
         /// <summary>
-        /// Checks if two line segments intersect.
+        /// Computes the intersection of two line segments.
+        /// This function may be unclamped to compute the intersection of two infinite lines.
         /// </summary>
-        public static bool Intersects(LineSegment s1, LineSegment s2)
+        /// <param name="a">The first line.</param>
+        /// <param name="b">The second line.</param>
+        /// <param name="clampSegment">Should the computatio clamp to line segments?</param>
+        /// <returns>The point of intersection. If</returns>
+        public static bool Intersects(in LineSegment a, in LineSegment b, bool clampSegment = true)
         {
-            Intersects(s1.A, s1.B, s2.A, s2.B, out _, out var intersect, out _, out _, out _, out _);
-            return intersect;
+            return Intersects(in a, in b, out _, clampSegment);
         }
 
         /// <summary>
-        /// Checks if two line segments intersect.
+        /// Computes the intersection of two line segments.
+        /// This function may be unclamped to compute the intersection of two infinite lines.
         /// </summary>
-        public static bool Intersects(LineSegment s1, LineSegment s2, out Vector point)
+        /// <param name="a0">The first point of the first line.</param>
+        /// <param name="a1">The second point of the first line.</param>
+        /// <param name="b0">The first point of the second line.</param>
+        /// <param name="b1">The second point of the second line.</param>
+        /// <param name="clampSegment">Should the computatio clamp to line segments?</param>
+        /// <returns>The point of intersection. If</returns>
+        public static bool Intersects(in Vector a0, in Vector a1, in Vector b0, in Vector b1, bool clampSegment = true)
         {
-            Intersects(s1.A, s1.B, s2.A, s2.B, out _, out var intersect, out _, out point, out _, out _);
-            return intersect;
+            return Intersects(a0, a1, b0, b1, out _, clampSegment);
         }
 
         /// <summary>
-        /// Checks if two line segments intersect.
+        /// Computes the intersection of two line segments.
+        /// This function may be unclamped to compute the intersection of two infinite lines.
         /// </summary>
-        public static bool Intersects(Vector p1, Vector p2, Vector q1, Vector q2)
+        /// <param name="a">The first line.</param>
+        /// <param name="b">The second line.</param>
+        /// <param name="intersection">The point of intersection.</param>
+        /// <param name="clampSegment">Should the computatio clamp to line segments?</param>
+        /// <returns>The point of intersection. If</returns>
+        public static bool Intersects(in LineSegment a, in LineSegment b, out Vector intersection, bool clampSegment = true)
         {
-            Intersects(p1, p2, q1, q2, out _, out var intersect, out _, out _, out _, out _);
-            return intersect;
+            return Intersects(a.A, in a.B, in b.A, in b.B, out intersection, clampSegment);
         }
 
         /// <summary>
-        /// Checks if two line segments intersect.
+        /// Computes the intersection of two line segments.
+        /// This function may be unclamped to compute the intersection of two infinite lines.
         /// </summary>
-        public static bool Intersects(Vector p1, Vector p2, Vector p3, Vector p4, out Vector point)
+        /// <param name="a0">The first point of the first line.</param>
+        /// <param name="a1">The second point of the first line.</param>
+        /// <param name="b0">The first point of the second line.</param>
+        /// <param name="b1">The second point of the second line.</param>
+        /// <param name="intersection">The point of intersection.</param>
+        /// <param name="clampSegment">Should the computatio clamp to line segments?</param>
+        /// <returns>The point of intersection. If</returns>
+        public static bool Intersects(in Vector a0, in Vector a1, in Vector b0, in Vector b1, out Vector intersection, bool clampSegment = true)
         {
-            Intersects(p1, p2, p3, p4, out _, out var intersect, out _, out point, out _, out _);
-            return intersect;
-        }
+            // Edge vectors
+            var ae = a1 - a0;
+            var be = b1 - b0;
 
-        /// <summary>
-        /// Checks if two line segments intersect.
-        /// </summary>
-        public static bool Intersects(LineSegment lineA, LineSegment lineB, out Vector point, out Vector closestA, out Vector closestB)
-        {
-            return Intersects(lineA.A, lineA.B, lineB.A, lineB.B, out point, out closestA, out closestB);
-        }
+            var denominator = Vector.Cross(be, ae);
 
-        /// <summary>
-        /// Checks if two line segments intersect.
-        /// </summary>
-        public static bool Intersects(Vector p1, Vector p2, Vector q1, Vector q2, out Vector point, out Vector closestA, out Vector closestB)
-        {
-            Intersects(p1, p2, q1, q2, out _, out var intersect, out _, out point, out closestA, out closestB);
-            return intersect;
-        }
-
-        // Find the point of intersection between
-        // the lines p1 --> p2 and q1 --> q2.
-        private static void Intersects(
-            Vector p1, Vector p2, Vector q1, Vector q2,
-            out bool lines_intersect, out bool segments_intersect, out bool parallel,
-            out Vector intersection,
-            out Vector close_p1, out Vector close_p2)
-        // http://csharphelper.com/blog/2014/08/determine-where-two-lines-intersect-in-c/
-        {
-            // todo: Model as Ray-Ray intersection to simplify/reduce code-duplication
-
-            // Get the segments' parameters.
-            var dx12 = p2.X - p1.X;
-            var dy12 = p2.Y - p1.Y;
-            var dx34 = q2.X - q1.X;
-            var dy34 = q2.Y - q1.Y;
-
-            // Solve for t1 and t2
-            var denominator = (dy12 * dx34) - (dx12 * dy34);
-
-            // 
-            // Modified to more safely check divide by 0
+            // Prevent divide by zero errors
             if (Calc.NearZero(denominator))
             {
-                // The lines are parallel (or close enough to it).
-                lines_intersect = false;
-                segments_intersect = false;
-                parallel = true;
-
-                intersection = new Vector(float.NaN, float.NaN);
-                close_p1 = new Vector(float.NaN, float.NaN);
-                close_p2 = new Vector(float.NaN, float.NaN);
-                return;
+                // todo: is this the most suitable point?
+                intersection = Vector.Zero;
+                return false;
             }
 
-            var t1 = (((p1.X - q1.X) * dy34) + ((q1.Y - p1.Y) * dx34)) / denominator;
-            var t2 = (((q1.X - p1.X) * dy12) + ((p1.Y - q1.Y) * dx12)) / -denominator;
-
-            lines_intersect = true;
-            parallel = false;
-
             // Find the point of intersection.
-            intersection = new Vector(p1.X + (dx12 * t1), p1.Y + (dy12 * t1));
+            // todo: what is this? A mixture of dot/cross?
+            var time = (((a0.X - b0.X) * be.Y) + ((b0.Y - a0.Y) * be.X)) / denominator;
+            var intersectionStatus = true;
 
-            // The segments intersect if t1 and t2 are between 0 and 1.
-            // Modified to have a better tolerance for segment edges
-            segments_intersect = (t1 > (0 + IntersectionTolerance)) && (t1 < (1 - IntersectionTolerance)) &&
-                                 (t2 > (0 + IntersectionTolerance)) && (t2 < (1 - IntersectionTolerance));
+            // If we are clamping to the line segment, we cannot extend beyond the segment.
+            // So we will clamp the intersection 'time' to the segment and return no intersection status.
+            if (clampSegment && (time < 0 || time > 1))
+            {
+                intersectionStatus = false;
+                time = Calc.Clamp(time, 0F, 1F);
+            }
 
-            // Clamp intersection times in order to
-            // find the closest points on the segments.
-            t1 = Calc.Clamp(t1, 0F, 1F);
-            t2 = Calc.Clamp(t2, 0F, 1F);
-
-            // ie, ray.GetPoint(t1)
-            close_p1 = new Vector(p1.X + (dx12 * t1), p1.Y + (dy12 * t1));
-            close_p2 = new Vector(q1.X + (dx34 * t2), q1.Y + (dy34 * t2));
+            // Compute point of intersection (or closest to segment)
+            intersection = a0 + (ae * time);
+            return intersectionStatus;
         }
 
         #endregion

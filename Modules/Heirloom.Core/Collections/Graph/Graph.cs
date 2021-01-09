@@ -9,9 +9,10 @@ namespace Heirloom.Collections
     /// </summary>
     /// <tags>Graph, Undirected</tags>
     /// <category>Graph</category>
-    public sealed class Graph<T> : IGraph<T>
+    public sealed class Graph<TVertex> : IGraph<TVertex>
     {
-        private readonly Dictionary<T, List<Edge<T>>> _outgoing;
+        private readonly Dictionary<TVertex, List<GraphEdge<TVertex>>> _neighbors;
+        private readonly Dictionary<TVertex, float> _weights;
         private readonly EdgeCollection _edges;
 
         /// <summary>
@@ -19,18 +20,19 @@ namespace Heirloom.Collections
         /// </summary>
         public Graph()
         {
-            _outgoing = new Dictionary<T, List<Edge<T>>>();
+            _neighbors = new Dictionary<TVertex, List<GraphEdge<TVertex>>>();
+            _weights = new Dictionary<TVertex, float>();
             _edges = new EdgeCollection();
         }
 
         /// <inheritdoc/>
-        public IEnumerable<T> Vertices => _outgoing.Keys;
+        public IEnumerable<TVertex> Vertices => _neighbors.Keys;
 
         /// <inheritdoc/>
-        public int VertexCount => _outgoing.Count;
+        public int VertexCount => _neighbors.Count;
 
         /// <inheritdoc/>
-        public IEnumerable<(T A, T B)> Edges => _edges.Select(e => (e.A, e.B));
+        public IEnumerable<(TVertex A, TVertex B)> Edges => _edges.Select(e => (e.A, e.B));
 
         /// <inheritdoc/>
         public int EdgeCount => _edges.Count;
@@ -38,14 +40,15 @@ namespace Heirloom.Collections
         /// <inheritdoc/>
         public void Clear()
         {
+            _neighbors.Clear();
+            _weights.Clear();
             _edges.Clear();
-            _outgoing.Clear();
         }
 
         #region Vertex Manipulation
 
         /// <inheritdoc/>
-        public void AddVertex(T v)
+        public void AddVertex(TVertex v, float weight = 1F)
         {
             if (ContainsVertex(v))
             {
@@ -53,18 +56,22 @@ namespace Heirloom.Collections
             }
 
             // Construct adjacency list for vertex
-            _outgoing[v] = new List<Edge<T>>();
+            _neighbors[v] = new List<GraphEdge<TVertex>>();
+            _weights[v] = weight;
         }
 
         /// <inheritdoc/>
-        public bool RemoveVertex(T v)
+        public bool RemoveVertex(TVertex v)
         {
             // Do we know about this vertex?
-            if (_outgoing.TryGetValue(v, out var outgoing))
+            if (_neighbors.TryGetValue(v, out var outgoing))
             {
                 // Disconnect outgoing edges connected to this vertex
                 outgoing.Apply(e => RemoveEdge(e.A, e.B));
-                _outgoing.Remove(v);
+                _neighbors.Remove(v);
+
+                // Remove weight record
+                _weights.Remove(v);
 
                 // Remove vertex and associated eges
                 return true;
@@ -75,9 +82,29 @@ namespace Heirloom.Collections
         }
 
         /// <inheritdoc/>
-        public bool ContainsVertex(T v)
+        public bool ContainsVertex(TVertex v)
         {
-            return _outgoing.ContainsKey(v);
+            return _neighbors.ContainsKey(v);
+        }
+
+        /// <inheritdoc/>
+        public float GetVertexWeight(TVertex v)
+        {
+            if (_weights.TryGetValue(v, out var weight))
+            {
+                return weight;
+            }
+            else
+            {
+                throw new ArgumentException($"Unable to get vertex weight, vertex does not exist.", nameof(v));
+            }
+        }
+
+        /// <inheritdoc/>
+        public void SetVertexWeight(TVertex v, float weight)
+        {
+            if (!ContainsVertex(v)) { throw new ArgumentException($"Unable to set vertex weight, vertex does not exist.", nameof(v)); }
+            _weights[v] = weight;
         }
 
         #endregion
@@ -85,7 +112,7 @@ namespace Heirloom.Collections
         #region Edge Manipulation
 
         /// <inheritdoc/>
-        public void AddEdge(T a, T b, float weight)
+        public void AddEdge(TVertex a, TVertex b, float weight = 1F)
         {
             // Validate vertices
             if (!ContainsVertex(a)) { throw new ArgumentException($"Unable to add edge, vertex does not exist.", nameof(a)); }
@@ -93,16 +120,16 @@ namespace Heirloom.Collections
             if (Equals(a, b)) { throw new InvalidOperationException($"Unable to add edge, vertices must be different."); }
 
             // Insert edge into edge collection
-            var edge = new Edge<T>(a, b, weight);
+            var edge = new GraphEdge<TVertex>(a, b, weight);
             _edges.AddEdge(edge);
 
             // Add edge to both
-            _outgoing[a].Add(edge);
-            _outgoing[b].Add(edge);
+            _neighbors[a].Add(edge);
+            _neighbors[b].Add(edge);
         }
 
         /// <inheritdoc/>
-        public bool RemoveEdge(T a, T b)
+        public bool RemoveEdge(TVertex a, TVertex b)
         {
             // Validate vertices
             if (!ContainsVertex(a)) { throw new ArgumentException($"Unable to remove edge, vertex does not exist.", nameof(a)); }
@@ -115,8 +142,8 @@ namespace Heirloom.Collections
                 _edges.RemoveEdge(edge);
 
                 // Remove from adjacency lists
-                _outgoing[a].Remove(edge);
-                _outgoing[b].Remove(edge);
+                _neighbors[a].Remove(edge);
+                _neighbors[b].Remove(edge);
 
                 // Edge was contained and removed
                 return true;
@@ -127,13 +154,13 @@ namespace Heirloom.Collections
         }
 
         /// <inheritdoc/>
-        public bool ContainsEdge(T a, T b)
+        public bool ContainsEdge(TVertex a, TVertex b)
         {
             return _edges.Contains(a, b);
         }
 
         /// <inheritdoc/>
-        public float GetEdgeWeight(T a, T b)
+        public float GetEdgeWeight(TVertex a, TVertex b)
         {
             if (_edges.TryGetEdge(a, b, out var edge))
             {
@@ -146,7 +173,7 @@ namespace Heirloom.Collections
         }
 
         /// <inheritdoc/>
-        public void SetEdgeWeight(T a, T b, float weight)
+        public void SetEdgeWeight(TVertex a, TVertex b, float weight)
         {
             if (_edges.TryGetEdge(a, b, out var edge))
             {
@@ -160,19 +187,31 @@ namespace Heirloom.Collections
 
         #endregion
 
+        #region Neighbors
+
         /// <inheritdoc/>
-        public IEnumerable<T> GetNeighbors(T v)
+        public IEnumerable<TVertex> GetNeighbors(TVertex v)
         {
             if (!ContainsVertex(v)) { throw new ArgumentException($"Unable to return neighbors, vertex does not exist.", nameof(v)); }
 
-            // Return outgoing edge targets (ie, successors)
-            return _outgoing[v].Select(e => e.GetOther(v));
+            // Return edge targets (ie, successors)
+            return _neighbors[v].Select(e => e.GetOther(v));
         }
+
+        /// <inheritdoc/>
+        public int GetDegree(TVertex v)
+        {
+            if (!ContainsVertex(v)) { throw new ArgumentException($"Unable to return degree, vertex does not exist.", nameof(v)); }
+
+            return _neighbors[v].Count;
+        }
+
+        #endregion
 
         #region Algorithms
 
         /// <inheritdoc/>
-        public IReadOnlyList<T> FindPath(T start, T goal, HeuristicCost<T> heuristic)
+        public IReadOnlyList<TVertex> FindPath(TVertex start, TVertex goal, HeuristicCost<TVertex> heuristic)
         {
             if (!ContainsVertex(start)) { throw new ArgumentException($"Unable to find path, vertex does not exist.", nameof(start)); }
             if (!ContainsVertex(goal)) { throw new ArgumentException($"Unable to find path, vertex does not exist.", nameof(goal)); }
@@ -182,7 +221,7 @@ namespace Heirloom.Collections
         }
 
         /// <inheritdoc/>
-        public IReadOnlyList<T> FindPath(T start, Func<T, bool> goalCondition, HeuristicCost<T> heuristic)
+        public IReadOnlyList<TVertex> FindPath(TVertex start, Func<TVertex, bool> goalCondition, HeuristicCost<TVertex> heuristic)
         {
             if (!ContainsVertex(start)) { throw new ArgumentException($"Unable to find path, vertex does not exist.", nameof(start)); }
             if (goalCondition is null) { throw new ArgumentNullException(nameof(goalCondition)); }
@@ -192,7 +231,7 @@ namespace Heirloom.Collections
         }
 
         /// <inheritdoc/>
-        public IEnumerable<T> Traverse(T start, TraversalMethod method)
+        public IEnumerable<TVertex> Traverse(TVertex start, TraversalMethod method)
         {
             if (!ContainsVertex(start)) { throw new ArgumentException($"Unable to traverse graph, vertex does not exist.", nameof(start)); }
 
@@ -206,15 +245,15 @@ namespace Heirloom.Collections
         }
 
         /// <inheritdoc/>
-        public Graph<T> FindMinimumSpanningTree()
+        public Graph<TVertex> FindMinimumSpanningTree()
         {
             // todo: recycle/optimize use of C E and Q?
-            var C = new Dictionary<T, float>();
-            var E = new Dictionary<T, T>();
-            var Q = new Heap<T>((a, b) => C[a].CompareTo(C[b]));
+            var C = new Dictionary<TVertex, float>();
+            var E = new Dictionary<TVertex, TVertex>();
+            var Q = new Heap<TVertex>((a, b) => C[a].CompareTo(C[b]));
 
             // Construct output graph (ie, the forest)
-            var F = new Graph<T>();
+            var F = new Graph<TVertex>();
 
             // Initialize
             foreach (var v in Vertices)
@@ -237,7 +276,7 @@ namespace Heirloom.Collections
                 }
 
                 // 
-                foreach (var edge in _outgoing[v])
+                foreach (var edge in _neighbors[v])
                 {
                     var w = edge.GetOther(v);
 
@@ -259,49 +298,18 @@ namespace Heirloom.Collections
         }
 
         /// <inheritdoc/>
-        IGraph<T> IGraph<T>.FindMinimumSpanningTree()
+        IGraph<TVertex> IGraph<TVertex>.FindMinimumSpanningTree()
         {
             return FindMinimumSpanningTree();
         }
 
         #endregion
 
-        private class EdgeCollection : EdgeCollection<EdgeCollection.Pair, T>
+        private class EdgeCollection : EdgeCollection<UnorderedPair<TVertex>, TVertex>
         {
-            protected override Pair CreatePair(T a, T b)
+            protected override UnorderedPair<TVertex> CreatePair(TVertex a, TVertex b)
             {
-                return new Pair(a, b);
-            }
-
-            internal readonly struct Pair : IEquatable<Pair>
-            {
-                public readonly T A;
-
-                public readonly T B;
-
-                public Pair(T a, T b)
-                {
-                    A = a;
-                    B = b;
-                }
-
-                public override bool Equals(object obj)
-                {
-                    return obj is Pair pair
-                        && Equals(pair);
-                }
-
-                public bool Equals(Pair other)
-                {
-                    return (A.Equals(other.A) && B.Equals(other.B))
-                        || (A.Equals(other.B) && B.Equals(other.A));
-                }
-
-                public override int GetHashCode()
-                {
-                    return HashCode.Combine(A, B)
-                         + HashCode.Combine(B, A);
-                }
+                return new UnorderedPair<TVertex>(a, b);
             }
         }
     }

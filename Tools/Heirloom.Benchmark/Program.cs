@@ -20,7 +20,7 @@ namespace Heirloom.Benchmark
 
             // Go fullscreen!
             Window.BeginFullscreen(Application.DefaultMonitor);
-            // window.Maximize();
+            // Window.Maximize();
 
             // Compute world bounds and when the framebuffer size changes, resize the application bounds.
             _bounds = (0, 0, Window.Surface.Width, Window.Surface.Height);

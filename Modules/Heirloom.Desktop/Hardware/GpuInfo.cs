@@ -42,7 +42,7 @@ namespace Heirloom.Desktop.Hardware
         /// <inheritdoc/>
         public override bool Equals(object obj)
         {
-            return obj is CpuInfo info
+            return obj is GpuInfo info
                 && Equals(info);
         }
 

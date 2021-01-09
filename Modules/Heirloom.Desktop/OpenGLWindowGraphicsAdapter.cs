@@ -110,8 +110,9 @@ namespace Heirloom.Desktop
                 // Enable quality MSAA
                 if (Screen.Surface.Multisample > MultisampleQuality.None)
                 {
-                    // Load glMinSampleShading, this could be cached... but this way makes it pretty
-                    // seamless to include.
+                    // Load 'glMinSampleShading', this is a GL4 function that lets the user control
+                    // the behaviour of multisampling. This could be cached... but this way makes
+                    // it pretty seamless to include.
                     var glMinSampleShader = LoadFunction<MinSampleShading>("glMinSampleShading");
 
                     // Enable multisampling explicity. From what I've read this is

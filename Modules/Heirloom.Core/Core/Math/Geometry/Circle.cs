@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -213,6 +215,116 @@ namespace Heirloom
             var points = GeometryTools.GenerateRegularPolygon(Position, pointCount, Radius);
             return new Polygon(points);
         }
+
+        #region Compute Bounding Circle
+
+        /// <summary>
+        /// Computes the tightest fitting bounding circle.
+        /// </summary>
+        /// <param name="points">Some points.</param>
+        /// <returns>The tightest fitting circle.</returns>
+        public static Circle FromPoints(IEnumerable<Vector> points)
+        {
+            var boundary = new List<Vector>(); // todo: may be able to make static, changes thread safety
+            return WelzlRecursion(points.ToHashSet(), boundary);
+
+            static Circle WelzlRecursion(HashSet<Vector> points, List<Vector> boundary)
+            {
+                if (points.Count == 0 || boundary.Count == 3)
+                {
+                    return ComputeCircleDirectly(boundary);
+                }
+                else
+                {
+                    // todo: A faster / GC-safe way OR is this actually fine?
+                    var p = points.Skip(Calc.Random.Next(0, points.Count)).First();
+
+                    // ...?
+                    points.Remove(p);
+
+                    // ...?
+                    var disk = WelzlRecursion(points, boundary);
+                    if (!disk.Contains(p)) // ...?
+                    {
+                        // ...?
+                        boundary.Add(p);
+                        disk = WelzlRecursion(points, boundary);
+
+                        // Restore state of set R, since we are using recursion
+                        // This allows a single instance to be used at all steps
+                        boundary.Remove(p);
+                    }
+
+                    // Restore state of set P, since we are using recursion
+                    // This allows a single instance to be used at all steps
+                    points.Add(p);
+
+                    return disk;
+                }
+            }
+
+            static Circle ComputeCircleDirectly(List<Vector> points)
+            {
+                switch (points.Count)
+                {
+                    case 3:
+                        return FitCircle(points[0], points[1], points[2]);
+
+                    case 2:
+                        var midpoint = (points[0] + points[1]) / 2F;
+                        return new Circle(midpoint, Vector.Distance(midpoint, points[0]));
+
+                    case 1:
+                        return new Circle(points[0], 0F);
+
+                    case 0:
+                        return new Circle(Vector.Zero, 0F);
+                }
+
+                throw new InvalidOperationException("Unable to compute minimal circle.");
+            }
+        }
+
+        /// <summary>
+        /// Computes the circumcircle to fit triangle.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        public static Circle FitCircle(Vector a, Vector b, Vector c)
+        {
+            var abm = (a + b) / 2F;
+            var acm = (a + c) / 2F;
+            var abp = (b - a).Perpendicular;
+            var acp = (c - a).Perpendicular;
+
+            var m0a = abm;
+            var m0b = abm + abp;
+
+            var m1a = acm;
+            var m1b = acm + acp;
+
+            if (LineSegment.Intersects(m0a, m0b, m1a, m1b, out var pt, clampSegment: false))
+            {
+                return new Circle(pt, Vector.Distance(pt, a));
+            }
+            else
+            {
+                // Was unable to compute intersection. This is most likely because the line segments were
+                // colinear. So we will just approximate the fit with a midpoint and radius.
+
+                // todo: Min and Max with 3+ via params
+                var min = Vector.Min(a, Vector.Min(b, c));
+                var max = Vector.Max(a, Vector.Max(b, c));
+                var off = (max - min) / 2F;
+
+                // Midpoint + radius
+                return new Circle(min + off, off.Length);
+            }
+        }
+
+        #endregion
 
         #region Deconstruct
 

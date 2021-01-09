@@ -1,28 +1,28 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace Heirloom.Collections
 {
-    internal abstract class EdgeCollection<P, T> : IEnumerable<Edge<T>>
+    internal abstract class EdgeCollection<TPair, TVertex> : IEnumerable<GraphEdge<TVertex>>
     {
-        private readonly Dictionary<P, Edge<T>> _edges;
+        private readonly Dictionary<TPair, GraphEdge<TVertex>> _edges;
 
         protected EdgeCollection()
         {
-            _edges = new Dictionary<P, Edge<T>>();
+            _edges = new Dictionary<TPair, GraphEdge<TVertex>>();
         }
 
         public int Count => _edges.Count;
 
-        protected abstract P CreatePair(T a, T b);
+        protected abstract TPair CreatePair(TVertex a, TVertex b);
 
         public void Clear()
         {
             _edges.Clear();
         }
 
-        public void AddEdge(Edge<T> edge)
+        public void AddEdge(GraphEdge<TVertex> edge)
         {
             var vertexPair = CreatePair(edge.A, edge.B);
 
@@ -35,25 +35,25 @@ namespace Heirloom.Collections
             _edges[vertexPair] = edge;
         }
 
-        public bool RemoveEdge(Edge<T> edge)
+        public bool RemoveEdge(GraphEdge<TVertex> edge)
         {
             var vertexPair = CreatePair(edge.A, edge.B);
             return _edges.Remove(vertexPair);
         }
 
-        public bool Contains(T a, T b)
+        public bool Contains(TVertex a, TVertex b)
         {
             var vertexPair = CreatePair(a, b);
             return _edges.ContainsKey(vertexPair);
         }
 
-        public bool TryGetEdge(T a, T b, out Edge<T> edge)
+        public bool TryGetEdge(TVertex a, TVertex b, out GraphEdge<TVertex> edge)
         {
             var vertexPair = CreatePair(a, b);
             return _edges.TryGetValue(vertexPair, out edge);
         }
 
-        public Edge<T> GetEdge(T a, T b)
+        public GraphEdge<TVertex> GetEdge(TVertex a, TVertex b)
         {
             if (TryGetEdge(a, b, out var edge))
             {
@@ -64,7 +64,7 @@ namespace Heirloom.Collections
             throw new InvalidOperationException($"Edge already exists between '{a}' and '{b}'.");
         }
 
-        public IEnumerator<Edge<T>> GetEnumerator()
+        public IEnumerator<GraphEdge<TVertex>> GetEnumerator()
         {
             foreach (var (_, edge) in _edges)
             {
