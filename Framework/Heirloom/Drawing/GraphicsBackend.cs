@@ -59,7 +59,7 @@ namespace Heirloom.Drawing
 
         public virtual void Dispose()
         {
-            Log.Debug($"Initializing Graphics Backend: {GetType().Name}");
+            Log.Debug($"Disposing Graphics Backend: {GetType().Name}");
 
             GC.SuppressFinalize(this);
             IsInitialized = false;

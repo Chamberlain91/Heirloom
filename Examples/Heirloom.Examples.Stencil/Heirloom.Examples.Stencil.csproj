@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\Heirloom.Desktop\Heirloom.Desktop.csproj" />
+    <ProjectReference Include="..\..\Framework\Heirloom.Sound\Heirloom.Sound.csproj" />
   </ItemGroup>
 
 </Project>

@@ -42,6 +42,7 @@
     <EnableLLVM>false</EnableLLVM>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <BundleAssemblies>false</BundleAssemblies>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -102,16 +103,23 @@
     </AndroidResource>
     <AndroidResource Include="Resources\values\ic_launcher_background.xml" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.2.0.5" />
-    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.0.0.1" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
+    <EmbeddedResource Include="music.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="StbVorbisSharp">
+      <Version>1.16.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\Heirloom.Android\Heirloom.Android.csproj">
       <Project>{54fba483-0269-4654-9c4c-07ec4efd0a94}</Project>
       <Name>Heirloom.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Heirloom.Sound\Heirloom.Sound.csproj">
+      <Project>{c83df996-a69e-4c87-8684-6fdb09a86f69}</Project>
+      <Name>Heirloom.Sound</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\Heirloom\Heirloom.csproj">
       <Project>{08476181-cdf9-4f8e-8636-bb253e95591c}</Project>
@@ -120,6 +128,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="zelda.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="music.ogg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
