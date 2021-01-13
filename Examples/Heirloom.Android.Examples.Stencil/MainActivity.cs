@@ -1,11 +1,11 @@
 using Android.App;
 using Android.Content.PM;
+using Android.OS;
 
 using Heirloom.Drawing;
 using Heirloom.IO;
 using Heirloom.Mathematics;
 using Heirloom.Sound;
-using Heirloom.Sound.Android;
 using Heirloom.Utilities;
 
 using Image = Heirloom.Drawing.Image;
@@ -27,14 +27,13 @@ namespace Heirloom.Android.Examples.Stencil
         public MainActivity()
         {
             Loop = new GameLoop(Update);
+        }
 
-            //var s = Files.OpenStream("music.mp3").ReadAllBytes();
-            //var d = new Mp3Decoder(s);
-            //var samples = new short[d.Length];
-            //d.Decode(samples);
+        protected override void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
 
-            var clip = new AudioClip(Files.OpenStream("music.mp3"));
-            var source = new AudioSource(clip);
+            var source = new AudioSource(Files.OpenStream("music.mp3"));
             source.Play();
         }
 

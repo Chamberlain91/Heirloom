@@ -60,7 +60,7 @@ namespace Heirloom.Sound.Android
         {
             fixed (short* p_samples = samples)
             {
-                return (int) NativeDecoder.drmp3_read_pcm_frames_s16(_ptr, (ulong) samples.Length, p_samples) * Channels;
+                return (int) NativeDecoder.drmp3_read_pcm_frames_s16(_ptr, (ulong) (samples.Length / Channels), p_samples) * Channels;
             }
         }
 
