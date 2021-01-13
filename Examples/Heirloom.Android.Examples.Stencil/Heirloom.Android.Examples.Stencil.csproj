@@ -18,14 +18,14 @@
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidUseAapt2>true</AndroidUseAapt2>
     <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
+    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
+    <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -43,6 +43,7 @@
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <BundleAssemblies>false</BundleAssemblies>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <MandroidI18n />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -72,11 +73,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
-    <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>
@@ -104,30 +103,23 @@
     <AndroidResource Include="Resources\values\ic_launcher_background.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="StbVorbisSharp">
-      <Version>1.16.2</Version>
-    </PackageReference>
     <PackageReference Include="Xamarin.Essentials" Version="1.6.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Heirloom.Android\Heirloom.Android.csproj">
-      <Project>{54fba483-0269-4654-9c4c-07ec4efd0a94}</Project>
-      <Name>Heirloom.Android</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Heirloom.Sound\Heirloom.Sound.csproj">
-      <Project>{c83df996-a69e-4c87-8684-6fdb09a86f69}</Project>
-      <Name>Heirloom.Sound</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Heirloom\Heirloom.csproj">
-      <Project>{08476181-cdf9-4f8e-8636-bb253e95591c}</Project>
-      <Name>Heirloom</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="zelda.jpg" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="bensound-dubstep.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Heirloom.Android\Heirloom.Android.csproj">
+      <Project>{54fba483-0269-4654-9c4c-07ec4efd0a94}</Project>
+      <Name>Heirloom.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Heirloom\Heirloom.csproj">
+      <Project>{08476181-cdf9-4f8e-8636-bb253e95591c}</Project>
+      <Name>Heirloom</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
