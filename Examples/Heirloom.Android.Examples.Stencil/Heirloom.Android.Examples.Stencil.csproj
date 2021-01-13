@@ -104,9 +104,6 @@
     <AndroidResource Include="Resources\values\ic_launcher_background.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="music.mp3" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="StbVorbisSharp">
       <Version>1.16.2</Version>
     </PackageReference>
@@ -130,7 +127,7 @@
     <EmbeddedResource Include="zelda.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="music.ogg" />
+    <EmbeddedResource Include="bensound-dubstep.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

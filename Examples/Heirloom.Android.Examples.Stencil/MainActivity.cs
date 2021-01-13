@@ -33,7 +33,7 @@ namespace Heirloom.Android.Examples.Stencil
         {
             base.OnCreate(savedInstanceState);
 
-            var source = new AudioSource(Files.OpenStream("music.mp3"));
+            var source = new AudioSource(Files.OpenStream("bensound-dubstep.mp3"));
             source.Play();
         }
 

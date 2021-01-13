@@ -6,11 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="music.mp3" />
+    <None Remove="bensound-dubstep.mp3" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="music.mp3" />
+    <EmbeddedResource Include="bensound-dubstep.mp3" />
   </ItemGroup>
 
   <ItemGroup>
