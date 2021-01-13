@@ -54,6 +54,10 @@ namespace Heirloom.Sound.Desktop
         /// <inheritdoc/>
         public int Length { get; }
 
+        public int SampleRate => AudioBackend.SampleRate;
+
+        public int Channels => AudioBackend.Channels;
+
         #region Decoder Callbacks
 
         private ulong ReadBytes(void* _, void* pWriteBuffer, ulong bytesToRead)

@@ -61,35 +61,5 @@ namespace Heirloom.Sound.Desktop
         {
             return new MiniAudioDecoder(stream);
         }
-
-        internal override AudioDevice GetDefaultPlaybackDevice()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal override AudioDevice GetDefaultCaptureDevice()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal override AudioDevice[] GetPlaybackDevices()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal override AudioDevice[] GetCaptureDevices()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal override void UsePlaybackDevice(AudioDevice device)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal override void UseCaptureDevice(AudioDevice device)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

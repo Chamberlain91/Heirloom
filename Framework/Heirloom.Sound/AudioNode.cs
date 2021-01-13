@@ -52,7 +52,7 @@ namespace Heirloom.Sound
         }
 
         internal void MixOutput(Span<float> output)
-        {
+        { 
             // Resize audio buffer
             if (_samples.Length < output.Length) { Array.Resize(ref _samples, output.Length); }
             var samples = new Span<float>(_samples, 0, output.Length); // Get span of exact length

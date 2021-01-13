@@ -27,6 +27,25 @@ namespace Heirloom.Sound
 
         #endregion
 
+        #region STB Vorbis
+
+        [DllImport("decoder", EntryPoint = "stb_vorbis_open_memory")]
+        public static extern void* stb_vorbis_open_memory(void* data, int len, void* error, void* alloc);
+
+        [DllImport("decoder", EntryPoint = "stb_vorbis_get_info")]
+        public static extern stb_vorbis_info stb_vorbis_get_info(void* vorbis);
+
+        [DllImport("decoder", EntryPoint = "stb_vorbis_stream_length_in_samples")]
+        public static extern uint stb_vorbis_stream_length_in_samples(void* vorbis);
+
+        [DllImport("decoder", EntryPoint = "stb_vorbis_get_samples_short_interleaved")]
+        public static extern int stb_vorbis_get_samples_short_interleaved(void* vorbis, int channels, short* buffer, int count);
+
+        [DllImport("decoder", EntryPoint = "stb_vorbis_seek")]
+        public static extern bool stb_vorbis_seek(void* vorbis, int sample);
+
+        #endregion
+
         #region Helper Functions
 
         [DllImport("decoder", EntryPoint = "alloc_mp3_struct")]
@@ -43,8 +62,21 @@ namespace Heirloom.Sound
 
         #endregion
 
+        public struct stb_vorbis_info
+        {
+            public uint sample_rate;
+            public int channels;
+
+            public uint setup_memory_required;
+            public uint setup_temp_memory_required;
+            public uint temp_memory_required;
+
+            public int max_frame_size;
+        }
+
 #pragma warning restore IDE1006 // Naming Styles
 #pragma warning restore CS0649  // Default value null
 #pragma warning restore CS0169  // Unassigned
+
     }
 }

@@ -12,18 +12,6 @@ namespace Heirloom.Sound
 
         internal abstract IAudioDecoder CreateDecoder(Stream stream);
 
-        internal abstract AudioDevice GetDefaultPlaybackDevice();
-
-        internal abstract AudioDevice GetDefaultCaptureDevice();
-
-        internal abstract AudioDevice[] GetPlaybackDevices();
-
-        internal abstract AudioDevice[] GetCaptureDevices();
-
-        internal abstract void UsePlaybackDevice(AudioDevice device);
-
-        internal abstract void UseCaptureDevice(AudioDevice device);
-
         private bool _isDisposed;
 
         protected virtual void Dispose(bool disposing)

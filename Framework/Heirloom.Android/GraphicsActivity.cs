@@ -90,13 +90,11 @@ namespace Heirloom.Android
 
         protected override void OnResume()
         {
-            // IsPaused = false;
             base.OnResume();
         }
 
         protected override void OnPause()
-        {
-            // IsPaused = true;
+        { 
             base.OnPause();
         }
 

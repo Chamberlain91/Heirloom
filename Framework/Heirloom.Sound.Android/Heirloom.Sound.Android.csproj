@@ -53,10 +53,10 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.6.0" />
 
     <!-- Dr.Soft Mp3 Decoder -->
-    <EmbeddedNativeLibrary Include="runtimes\armeabi-v7a\libdecoder.so" Link="libs\armeabi-v7a\libdecoder.so" Visible="false" />
-    <EmbeddedNativeLibrary Include="runtimes\arm64-v8a\libdecoder.so" Link="libs\arm64-v8a\libdecoder.so" Visible="false" />
-    <EmbeddedNativeLibrary Include="runtimes\x86_64\libdecoder.so" Link="libs\x86_64\libdecoder.so" Visible="false" />
-    <EmbeddedNativeLibrary Include="runtimes\x86\libdecoder.so" Link="libs\x86\libdecoder.so" Visible="false" />
+    <EmbeddedNativeLibrary Include="runtimes\armeabi-v7a\libdecoder.so" Link="libs\armeabi-v7a\libdecoder.so" />
+    <EmbeddedNativeLibrary Include="runtimes\arm64-v8a\libdecoder.so" Link="libs\arm64-v8a\libdecoder.so" />
+    <EmbeddedNativeLibrary Include="runtimes\x86_64\libdecoder.so" Link="libs\x86_64\libdecoder.so" />
+    <EmbeddedNativeLibrary Include="runtimes\x86\libdecoder.so" Link="libs\x86\libdecoder.so" />
 
   </ItemGroup>
 

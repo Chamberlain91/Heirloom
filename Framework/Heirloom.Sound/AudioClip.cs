@@ -80,16 +80,21 @@ namespace Heirloom.Sound
                 var samples = new short[decoder.Length];
 
                 // Read all samples from decoder in one go
-                var read = decoder.Decode(new Span<short>(samples, 0, decoder.Length));
-                if (read != decoder.Length)
-                {
-                    throw new InvalidOperationException($"Error when decoding, read {read} samples but expected {decoder.Length}.");
-                }
+                var read = decoder.Decode(samples);
+
+                Log.Warning($"{read} vs {decoder.Length}");
+
+                //if (read != decoder.Length)
+                //{
+                //    throw new InvalidOperationException($"Error when decoding, read {read} samples but expected {decoder.Length}.");
+                //}
 
                 return samples;
             }
             else
             {
+                Log.Warning("Decoding stream into clip, but length was not known.");
+
                 // 
                 // The size of the content is unknown, as long as its not infinite this will
                 // attempt to decode the content by reading a finite block of samples one at

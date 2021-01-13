@@ -6,7 +6,7 @@ namespace Heirloom.Sound
     public static class AudioBackend
     {
 #if ANDROID
-        public const int SampleRate = 22050;
+        public const int SampleRate = 44100; // 22050
 #else
         public const int SampleRate = 44100;
 #endif
@@ -85,31 +85,31 @@ namespace Heirloom.Sound
 
         #region Device Enumeration
 
-        // todo: make public when ready
-        internal static AudioDevice[] GetPlaybackDevices()
-        {
-            return _implementation.GetPlaybackDevices();
-        }
+        //// todo: make public when ready
+        //internal static AudioDevice[] GetPlaybackDevices()
+        //{
+        //    return _implementation.GetPlaybackDevices();
+        //}
 
-        // todo: make public when ready
-        internal static AudioDevice[] GetCaptureDevices()
-        {
-            return _implementation.GetCaptureDevices();
-        }
+        //// todo: make public when ready
+        //internal static AudioDevice[] GetCaptureDevices()
+        //{
+        //    return _implementation.GetCaptureDevices();
+        //}
 
-        // todo: make public when ready
-        internal static void UsePlaybackDevice(AudioDevice device)
-        {
-            device ??= _implementation.GetDefaultPlaybackDevice();
-            _implementation.UsePlaybackDevice(device);
-        }
+        //// todo: make public when ready
+        //internal static void UsePlaybackDevice(AudioDevice device)
+        //{
+        //    device ??= _implementation.GetDefaultPlaybackDevice();
+        //    _implementation.UsePlaybackDevice(device);
+        //}
 
-        // todo: make public when ready
-        internal static void UseCaptureDevice(AudioDevice device)
-        {
-            device ??= _implementation.GetDefaultCaptureDevice();
-            _implementation.UseCaptureDevice(device);
-        }
+        //// todo: make public when ready
+        //internal static void UseCaptureDevice(AudioDevice device)
+        //{
+        //    device ??= _implementation.GetDefaultCaptureDevice();
+        //    _implementation.UseCaptureDevice(device);
+        //}
 
         #endregion
 

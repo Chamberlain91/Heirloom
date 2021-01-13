@@ -8,7 +8,7 @@ namespace Heirloom.Sound
     /// </summary>
     public sealed class AudioSource : AudioNode
     {
-        [ThreadStatic] private static short[] _samplesBuffer = Array.Empty<short>();
+        private static short[] _samplesBuffer = Array.Empty<short>();
         private readonly IAudioProvider _provider;
 
         private bool _isActive;

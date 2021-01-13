@@ -1,12 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-
 using Android.App;
 using Android.Content.PM;
-using Android.Media;
-using Android.OS;
 
 using Heirloom.Drawing;
 using Heirloom.IO;
@@ -14,8 +7,6 @@ using Heirloom.Mathematics;
 using Heirloom.Sound;
 using Heirloom.Sound.Android;
 using Heirloom.Utilities;
-
-using static StbVorbisSharp.StbVorbis;
 
 using Image = Heirloom.Drawing.Image;
 
@@ -36,104 +27,26 @@ namespace Heirloom.Android.Examples.Stencil
         public MainActivity()
         {
             Loop = new GameLoop(Update);
+
+            //var s = Files.OpenStream("music.mp3").ReadAllBytes();
+            //var d = new Mp3Decoder(s);
+            //var samples = new short[d.Length];
+            //d.Decode(samples);
+
+            var clip = new AudioClip(Files.OpenStream("music.mp3"));
+            var source = new AudioSource(clip);
+            source.Play();
         }
 
         protected override void GraphicsResume()
         {
+            AudioBackend.Resume();
             Loop.Start();
-
-            // Begin audio pump
-            var thread = new System.Threading.Thread(AudioThread);
-            thread.Start();
-        }
-
-        private void AudioThread()
-        {
-            //global::Android.OS.Process.SetThreadPriority(ThreadPriority.Audio);
-
-            var formatBuilder = new AudioFormat.Builder();
-            formatBuilder.SetChannelMask(ChannelOut.Stereo);
-            formatBuilder.SetEncoding(Encoding.Pcm16bit);
-            formatBuilder.SetSampleRate(44100);
-
-            var trackBuilder = new AudioTrack.Builder();
-            trackBuilder.SetAudioFormat(formatBuilder.Build());
-            trackBuilder.SetPerformanceMode(AudioTrackPerformanceMode.LowLatency);
-            trackBuilder.SetTransferMode(AudioTrackMode.Stream);
-
-            var track = trackBuilder.Build();
-            track.Play();
-
-            Log.Warning("BEGIN DECODE");
-            //var rawBytes = Files.OpenStream("music.ogg").ReadAllBytes();
-            //var audio = DecodeOgg(rawBytes);
-            var rawBytes = Files.OpenStream("music.mp3").ReadAllBytes();
-
-            var decoder = new Mp3Decoder(rawBytes);
-            var audio = new short[decoder.Length];
-            decoder.Decode(new Span<short>(audio));
-
-            Log.Warning("END DECODE");
-
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-
-            var samples = new short[track.BufferSizeInFrames];
-            var time = 0;
-
-            var elapsedError = 0;
-            while (Loop.IsRunning)
-            {
-                var elapsedSeconds = stopwatch.ElapsedMilliseconds / 1000F;
-                var elapsedSamples = elapsedError + (int) (elapsedSeconds * 44100 * 2);
-
-                if (elapsedSamples >= samples.Length)
-                {
-                    elapsedError = elapsedSamples - samples.Length;
-                    stopwatch.Restart();
-
-                    // Gather output samples
-                    for (var i = 0; i < samples.Length; i++)
-                    {
-                        samples[i] = audio[(time + i) % audio.Length];
-                    }
-
-                    // Submit samples to stream
-                    track.Write(samples, 0, samples.Length);
-                    time += samples.Length;
-                }
-
-                // is this important?
-                System.Threading.Thread.Yield();
-            }
-
-            track.Dispose();
-        }
-
-        private unsafe short[] DecodeOgg(byte[] data)
-        {
-            stb_vorbis vorbis;
-            fixed (byte* b = data)
-            {
-                vorbis = stb_vorbis_open_memory(b, data.Length, null, null);
-            }
-
-            var info = stb_vorbis_get_info(vorbis);
-            var length = stb_vorbis_stream_length_in_samples(vorbis);
-            Log.Warning($"OGG is {length} samples.");
-
-            var samples = new short[length];
-            fixed (short* p_samples = samples)
-            {
-                var count = stb_vorbis_get_samples_short_interleaved(vorbis, 2, p_samples, (int) length);
-                Log.Warning($"OGG read {count} samples.");
-            }
-
-            return samples;
         }
 
         protected override void GraphicsPause()
         {
+            AudioBackend.Pause();
             Loop.Stop();
         }
 
