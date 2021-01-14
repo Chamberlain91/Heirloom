@@ -1,0 +1,58 @@
+<Project>
+
+  <PropertyGroup>
+    
+    <!-- Author and Repository -->
+    <RepositoryUrl>https://github.com/Chamberlain91/Heirloom</RepositoryUrl>
+    <Authors>Christopher Chamberlain</Authors>
+
+    <!-- License -->
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+
+    <!-- Tags, Icon and Version -->
+    <PackageTags>graphics, drawing, sound, audio, 2D, android, linux, windows</PackageTags>
+    <PackageIcon>icon.png</PackageIcon>
+    <Version>1.1.2</Version>
+
+    <!-- Assembly information -->
+    <AssemblyFileVersion>$(Version)</AssemblyFileVersion>
+    <AssemblyVersion>$(Version)</AssemblyVersion>
+    <Product>$(AssemblyName) ($(TargetFramework))</Product>
+
+    <!--Version of C# to use -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>preview</LangVersion>
+
+    <!-- Generate Nuget Packages -->
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <IncludeSymbols>true</IncludeSymbols>
+    <PackageOutputPath>../../Nuget/$(Configuration)</PackageOutputPath>
+    <PackageId>$(AssemblyName)</PackageId>
+    
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <!-- Package license and icon for nuget package -->
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)\Framework\Heirloom\Embedded\icon.png" Pack="true" PackagePath="" />
+    <None Include="$(MSBuildThisFileDirectory)\LICENSE.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <!-- Debug mode defaults -->
+  <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <!-- Release mode defaults -->
+  <PropertyGroup Condition=" '$(Configuration)'=='Release' ">
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+</Project>

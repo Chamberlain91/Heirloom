@@ -2,30 +2,14 @@
 
   <PropertyGroup>
 
+    <!-- Assembly Information -->
+    <AssemblyName>Heirloom.Android</AssemblyName>
+
+    <!-- Description -->
+    <Description>Package containing native binaries for Heirloom to run on Android.</Description>
+
     <!-- Target frameworks -->
     <TargetFramework>monoandroid11.0</TargetFramework>
-
-    <!-- Version and Author -->
-    <Version>1.0.0.0</Version>
-
-    <!-- Assembly information -->
-    <AssemblyName>Heirloom.Android</AssemblyName>
-    <AssemblyFileVersion>$(Version)</AssemblyFileVersion>
-    <AssemblyVersion>$(Version)</AssemblyVersion>
-    <Product>$(AssemblyName) ($(TargetFramework))</Product>
-
-    <!--Version of C# to use -->
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <RootNamespace>Heirloom</RootNamespace>
-    <LangVersion>preview</LangVersion>
-
-    <!-- Generate Nuget Packages -->
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <IncludeSymbols>true</IncludeSymbols>
-    <PackageOutputPath>../../Nuget/$(Configuration)</PackageOutputPath>
-    <PackageId>$(AssemblyName)</PackageId>
-    <PackageType></PackageType>
 
     <!-- Android Config -->
     <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
@@ -33,30 +17,18 @@
 
   </PropertyGroup>
 
-  <!-- DEBUG PROPERTIES -->
-  <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
-    <GenerateDocumentationFile>false</GenerateDocumentationFile>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
-  </PropertyGroup>
-
-  <!-- RELEASE PROPERTIES -->
-  <PropertyGroup Condition=" '$(Configuration)'=='Release' ">
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <DebugSymbols>True</DebugSymbols>
-    <DebugType>portable</DebugType>
-    <Optimize>True</Optimize>
-  </PropertyGroup>
+  <!-- Import standard project properties -->
+  <Import Project="../../Heirloom.targets" />
 
   <ItemGroup>
-    <None Remove="libs\arm64-v8a\libdecoder.so" />
-    <None Remove="libs\armeabi-v7a\libdecoder.so" />
+    <None Remove="native/**"/>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedNativeLibrary Include="libs\arm64-v8a\libdecoder.so" />
-    <EmbeddedNativeLibrary Include="libs\armeabi-v7a\libdecoder.so" />
+    <EmbeddedNativeLibrary Include="native\armeabi-v7a\libdecoder.so" Link="libs\armeabi-v7a\libdecoder.so" />
+    <EmbeddedNativeLibrary Include="native\arm64-v8a\libdecoder.so" Link="libs\arm64-v8a\libdecoder.so" />
+    <EmbeddedNativeLibrary Include="native\x86_64\libdecoder.so" Link="libs\x86_64\libdecoder.so" />
+    <EmbeddedNativeLibrary Include="native\x86\libdecoder.so" Link="libs\x86\libdecoder.so" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,63 +1,29 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
 
   <PropertyGroup>
+    
+    <!-- Assembly Information -->
+    <AssemblyName>Heirloom</AssemblyName>
+
+    <!-- Description -->
+    <Description>A 2D graphics and audio framework for Windows, Linux and Android.</Description>
 
     <!-- Target frameworks -->
     <TargetFrameworks>net5.0;monoandroid11.0</TargetFrameworks>
-    <DefineConstants>STBSHARP_INTERNAL</DefineConstants>
-
-    <!-- Version and Author -->
-    <Version>1.0.0.0</Version>
-
-    <!-- Assembly information -->
-    <AssemblyName>Heirloom</AssemblyName>
-    <AssemblyFileVersion>$(Version)</AssemblyFileVersion>
-    <AssemblyVersion>$(Version)</AssemblyVersion>
-    <Product>$(AssemblyName) ($(TargetFramework))</Product>
     
-    <!-- ... why? -->
-    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-
-    <!--Version of C# to use -->
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <!-- Constants and Namespace -->
+    <DefineConstants>STBSHARP_INTERNAL</DefineConstants>
     <RootNamespace>Heirloom</RootNamespace>
-    <LangVersion>preview</LangVersion>
-
-    <!-- Generate Nuget Packages -->
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <IncludeSymbols>true</IncludeSymbols>
-    <PackageOutputPath>../../Nuget/$(Configuration)</PackageOutputPath>
-    <PackageId>Heirloom</PackageId>
-    <PackageType></PackageType>
-
-    <!-- Manually Compile -->
-    <!--<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    <EnableDefaultNoneItems>false</EnableDefaultNoneItems>-->
 
   </PropertyGroup>
+  
+  <!-- Import standard project properties -->
+  <Import Project="../../Heirloom.targets" />
 
-  <!-- DEBUG PROPERTIES -->
-  <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
-    <GenerateDocumentationFile>false</GenerateDocumentationFile>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
-  </PropertyGroup>
-
-  <!-- RELEASE PROPERTIES -->
-  <PropertyGroup Condition=" '$(Configuration)'=='Release' ">
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <DebugSymbols>True</DebugSymbols>
-    <DebugType>portable</DebugType>
-    <Optimize>True</Optimize>
-  </PropertyGroup>
-
-  <!-- DEFAULT ITEMS -->
   <ItemGroup>
-    <Compile Remove="Platforms/Android/**/*.cs" />
-    <Compile Remove="Platforms/Desktop/**/*.cs" />
+    <!-- Disable compilation of all platform files until explicitly enabled -->
+    <Compile Remove="Platforms/**/*.cs" />
+    <None Include="Platforms/**/*.cs" />
   </ItemGroup>
 
   <!-- NET5 PROPERTIES -->
@@ -85,46 +51,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Drawing\External\StbImageSharp\generation\**" />
-    <Compile Remove="Drawing\External\StbImageSharp\tests\**" />
-    <Compile Remove="Drawing\External\StbImageWriteSharp\generation\**" />
-    <Compile Remove="Drawing\External\StbImageWriteSharp\tests\**" />
-    <Compile Remove="Drawing\External\StbTrueTypeSharp\generation\**" />
-    <Compile Remove="Drawing\External\StbTrueTypeSharp\samples\**" />
-    <EmbeddedResource Remove="Drawing\External\StbImageSharp\generation\**" />
-    <EmbeddedResource Remove="Drawing\External\StbImageSharp\tests\**" />
-    <EmbeddedResource Remove="Drawing\External\StbImageWriteSharp\generation\**" />
-    <EmbeddedResource Remove="Drawing\External\StbImageWriteSharp\tests\**" />
-    <EmbeddedResource Remove="Drawing\External\StbTrueTypeSharp\generation\**" />
-    <EmbeddedResource Remove="Drawing\External\StbTrueTypeSharp\samples\**" />
-    <None Remove="Drawing\External\StbImageSharp\generation\**" />
-    <None Remove="Drawing\External\StbImageSharp\tests\**" />
-    <None Remove="Drawing\External\StbImageWriteSharp\generation\**" />
-    <None Remove="Drawing\External\StbImageWriteSharp\tests\**" />
-    <None Remove="Drawing\External\StbTrueTypeSharp\generation\**" />
-    <None Remove="Drawing\External\StbTrueTypeSharp\samples\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Drawing\External\StbImageSharp\.git" />
-    <None Remove="Drawing\External\StbImageSharp\.gitattributes" />
-    <None Remove="Drawing\External\StbImageSharp\.gitignore" />
-    <None Remove="Drawing\External\StbImageSharp\appveyor.yml" />
-    <None Remove="Drawing\External\StbImageSharp\build_all.bat" />
-    <None Remove="Drawing\External\StbImageSharp\README.md" />
-    <None Remove="Drawing\External\StbImageWriteSharp\.git" />
-    <None Remove="Drawing\External\StbImageWriteSharp\.gitattributes" />
-    <None Remove="Drawing\External\StbImageWriteSharp\.gitignore" />
-    <None Remove="Drawing\External\StbImageWriteSharp\appveyor.yml" />
-    <None Remove="Drawing\External\StbImageWriteSharp\build_all.bat" />
-    <None Remove="Drawing\External\StbImageWriteSharp\README.md" />
-    <None Remove="Drawing\External\StbTrueTypeSharp\.git" />
-    <None Remove="Drawing\External\StbTrueTypeSharp\.gitattributes" />
-    <None Remove="Drawing\External\StbTrueTypeSharp\.gitignore" />
-    <None Remove="Drawing\External\StbTrueTypeSharp\appveyor.yml" />
-    <None Remove="Drawing\External\StbTrueTypeSharp\build_all.bat" />
-    <None Remove="Drawing\External\StbTrueTypeSharp\copy_zip_package_files.bat" />
-    <None Remove="Drawing\External\StbTrueTypeSharp\README.md" />
     <None Remove="Embedded\fonts\montserrat\Montserrat-Medium.ttf" />
     <None Remove="Embedded\fonts\montserrat\Montserrat-Bold.ttf" />
     <None Remove="Embedded\icon.png" />
@@ -145,7 +71,6 @@
     <EmbeddedResource Include="Embedded\fonts\montserrat\Montserrat-Regular.ttf" />
     <EmbeddedResource Include="Embedded\fonts\montserrat\Montserrat-Bold.ttf" />
     <EmbeddedResource Include="Embedded\fonts\monogram_extended.ttf" />
-    <EmbeddedResource Include="Embedded\icon.png" />
     <EmbeddedResource Include="Embedded\LDR_RGB1_0.png" />
     <EmbeddedResource Include="Embedded\Shaders\blur.frag" />
     <EmbeddedResource Include="Embedded\Shaders\default.frag" />
@@ -156,6 +81,36 @@
     <EmbeddedResource Include="Embedded\Shaders\standard\standard.frag" />
     <EmbeddedResource Include="Embedded\Shaders\standard\standard.glsl" />
     <EmbeddedResource Include="Embedded\Shaders\standard\standard.vert" />
+  </ItemGroup>
+
+  <!-- StbImageSharp -->
+  <ItemGroup>
+    <!-- remove all files -->
+    <None Remove="Drawing\External\StbImageSharp\**" />
+    <Compile Remove="Drawing\External\StbImageSharp\**" />
+    <EmbeddedResource Remove="Drawing\External\StbImageWriteSharp\**" />
+    <!-- reintroduce only source files -->
+    <Compile Include="Drawing\External\StbImageSharp\src\*.cs" />
+  </ItemGroup>
+
+  <!-- StbImageWriteSharp -->
+  <ItemGroup>
+    <!-- remove all files -->
+    <None Remove="Drawing\External\StbImageWriteSharp\**" />
+    <Compile Remove="Drawing\External\StbImageWriteSharp\**" />
+    <EmbeddedResource Remove="Drawing\External\StbImageWriteSharp\**" />
+    <!-- reintroduce only source files -->
+    <Compile Include="Drawing\External\StbImageWriteSharp\src\*.cs" />
+  </ItemGroup>
+
+  <!-- StbTrueTypeSharp -->
+  <ItemGroup>
+    <!-- remove all files -->
+    <None Remove="Drawing\External\StbTrueTypeSharp\**" />
+    <Compile Remove="Drawing\External\StbTrueTypeSharp\**" />
+    <EmbeddedResource Remove="Drawing\External\StbTrueTypeSharp\**" />
+    <!-- reintroduce only source files -->
+    <Compile Include="Drawing\External\StbTrueTypeSharp\src\*.cs" />
   </ItemGroup>
 
 </Project>

@@ -2,59 +2,35 @@
 
   <PropertyGroup>
 
+    <!-- Assembly Information -->
+    <AssemblyName>Heirloom.Desktop</AssemblyName>
+
+    <!-- Description -->
+    <Description>Package containing native binaries for Heirloom to run on Desktop (Windows and Linux).</Description>
+
     <!-- Target frameworks -->
     <TargetFramework>net5.0</TargetFramework>
-
-    <!-- Version and Author -->
-    <Version>1.0.0.0</Version>
-
-    <!-- Assembly information -->
-    <AssemblyName>Heirloom.Desktop</AssemblyName>
-    <AssemblyFileVersion>$(Version)</AssemblyFileVersion>
-    <AssemblyVersion>$(Version)</AssemblyVersion>
-    <Product>$(AssemblyName) ($(TargetFramework))</Product>
-
-    <!--Version of C# to use -->
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <RootNamespace>Heirloom</RootNamespace>
-    <LangVersion>preview</LangVersion>
-
-    <!-- Generate Nuget Packages -->
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <IncludeSymbols>true</IncludeSymbols>
-    <PackageOutputPath>../../Nuget/$(Configuration)</PackageOutputPath>
-    <PackageId>$(AssemblyName)</PackageId>
-
+    
   </PropertyGroup>
 
-  <!-- DEBUG PROPERTIES -->
-  <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
-    <GenerateDocumentationFile>false</GenerateDocumentationFile>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
-  </PropertyGroup>
+  <!-- Import standard project properties -->
+  <Import Project="../../Heirloom.targets" />
 
-  <!-- RELEASE PROPERTIES -->
-  <PropertyGroup Condition=" '$(Configuration)'=='Release' ">
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <DebugSymbols>True</DebugSymbols>
-    <DebugType>portable</DebugType>
-    <Optimize>True</Optimize>
-  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="native/**"/>
+  </ItemGroup>
 
   <ItemGroup>
 
     <!-- GLFW -->
-    <Content Include="runtimes/win-x64/glfw3.dll"      PackagePath="runtimes/win-x64/native/"   Link="glfw3.dll" Pack="true"      CopyToOutputDirectory="PreserveNewest" Visible="false" />
-    <Content Include="runtimes/linux-x64/libglfw3.so"  PackagePath="runtimes/linux-x64/native/" Link="libglfw3.so" Pack="true"    CopyToOutputDirectory="PreserveNewest" Visible="false" />
-    <Content Include="runtimes/osx-x64/libglfw3.dylib" PackagePath="runtimes/osx-x64/native/"   Link="libglfw3.dylib" Pack="true" CopyToOutputDirectory="PreserveNewest" Visible="false" />
+    <Content Include="native/win-x64/glfw3.dll" PackagePath="runtimes/win-x64/native/" Link="glfw3.dll" Pack="true" CopyToOutputDirectory="PreserveNewest" Visible="false" />
+    <Content Include="native/linux-x64/libglfw3.so" PackagePath="runtimes/linux-x64/native/" Link="libglfw3.so" Pack="true" CopyToOutputDirectory="PreserveNewest" Visible="false" />
+    <Content Include="native/osx-x64/libglfw3.dylib" PackagePath="runtimes/osx-x64/native/" Link="libglfw3.dylib" Pack="true" CopyToOutputDirectory="PreserveNewest" Visible="false" />
 
     <!-- miniaudio -->
-    <Content Include="runtimes/win-x64/miniaudio.dll"      PackagePath="runtimes/win-x64/native/"   Link="miniaudio.dll" Pack="true"      CopyToOutputDirectory="PreserveNewest" Visible="false" />
-    <Content Include="runtimes/linux-x64/libminiaudio.so"  PackagePath="runtimes/linux-x64/native/" Link="libminiaudio.so" Pack="true"    CopyToOutputDirectory="PreserveNewest" Visible="false" />
-    <Content Include="runtimes/osx-x64/libminiaudio.dylib" PackagePath="runtimes/osx-x64/native/"   Link="libminiaudio.dylib" Pack="true" CopyToOutputDirectory="PreserveNewest" Visible="false" />
+    <Content Include="native/win-x64/miniaudio.dll" PackagePath="runtimes/win-x64/native/" Link="miniaudio.dll" Pack="true" CopyToOutputDirectory="PreserveNewest" Visible="false" />
+    <Content Include="native/linux-x64/libminiaudio.so" PackagePath="runtimes/linux-x64/native/" Link="libminiaudio.so" Pack="true" CopyToOutputDirectory="PreserveNewest" Visible="false" />
+    <Content Include="native/osx-x64/libminiaudio.dylib" PackagePath="runtimes/osx-x64/native/" Link="libminiaudio.dylib" Pack="true" CopyToOutputDirectory="PreserveNewest" Visible="false" />
 
   </ItemGroup>
 
