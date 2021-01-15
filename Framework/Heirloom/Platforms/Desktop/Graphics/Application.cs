@@ -65,11 +65,10 @@ namespace Heirloom.Desktop
                 InitializeWindowSystem();
                 InitializeGraphics();
                 InitializeAudio();
-
-                // Collect System Information
-                SystemInformation.CpuInfo = HardwareDetector.DetectCpuInfo();
-                SystemInformation.GpuInfo = HardwareDetector.DetectGpuInfo();
             }
+
+            // Graphics is ready, so update GPU info.
+            SystemInformation.UpdateGPUInfo();
 
             // System are initialized
             appReady();

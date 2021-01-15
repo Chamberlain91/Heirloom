@@ -21,8 +21,6 @@
   <Import Project="../../Heirloom.targets" />
 
   <ItemGroup>
-    <!-- To make the file visible in VS Solution Explorer... -->
-    <Content Include="Embedded\icon.png" />
     <!-- Disable compilation of all platform files until explicitly enabled -->
     <Compile Remove="Platforms/**/*.cs" />
     <None Include="Platforms/**/*.cs" />
@@ -113,6 +111,9 @@
     <EmbeddedResource Remove="Drawing\External\StbTrueTypeSharp\**" />
     <!-- reintroduce only source files -->
     <Compile Include="Drawing\External\StbTrueTypeSharp\src\*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Hardware\HardwareDetector.cs" />
   </ItemGroup>
 
 </Project>

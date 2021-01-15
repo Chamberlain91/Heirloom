@@ -1,11 +1,9 @@
 using System;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 
 using Heirloom.Drawing;
-using Heirloom.Hardware;
 
-namespace Heirloom.Desktop
+namespace Heirloom.Hardware
 {
     /// <summary>
     /// Utility class for extracting metadata of the hardware.
@@ -23,19 +21,19 @@ namespace Heirloom.Desktop
             try
             {
                 // Query CPU info
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                if (SystemInformation.OperatingSystem == OperatingSystem.Windows)
                 {
                     // windows 10, windows 7, etc
                     GetWindowsProcessorInfo(out var name, out var clock, out var threads);
                     return new CpuInfo(name, clock, threads);
                 }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                else if (SystemInformation.OperatingSystem == OperatingSystem.Linux)
                 {
                     // linux, ubuntu, etc
                     GetLinuxProcessorInfo(out var name, out var clock, out var threads);
                     return new CpuInfo(name, clock, threads);
                 }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                else if (SystemInformation.OperatingSystem == OperatingSystem.OSX)
                 {
                     // macOS
                     GetMacProcessorInfo(out var name, out var clock, out var threads);
@@ -145,11 +143,9 @@ namespace Heirloom.Desktop
 
         #endregion
 
-        #endregion
-
         [Obsolete]
         private static string RunCommandLine(string exe, string args = "")
-        // TODO: I should as soon I have a free afternoon replace these executable queries with
+        // TODO: I should as soon I have a free weekend replace these executable queries with
         // system library pinvokes to defend against side affects.
         {
             var p = new Process();
@@ -168,5 +164,7 @@ namespace Heirloom.Desktop
             p.WaitForExit();
             return output;
         }
+
+        #endregion
     }
 }

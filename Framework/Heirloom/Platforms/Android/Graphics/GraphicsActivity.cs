@@ -6,6 +6,7 @@ using Android.Views;
 using Heirloom.Drawing;
 using Heirloom.Hardware;
 using Heirloom.Mathematics;
+using Heirloom.Sound;
 
 namespace Heirloom.Android
 {
@@ -37,9 +38,6 @@ namespace Heirloom.Android
             // Make activity fullscreen
             AndroidHelper.SetWindowFullscreen(this);
 
-            // Detect CPU Information
-            SystemInformation.CpuInfo = DetectCPUInfo();
-
             // Get the user graphics config
             var config = new GraphicsConfiguration
             {
@@ -62,16 +60,20 @@ namespace Heirloom.Android
 
             _view.GraphicsEnabled += () =>
             {
-                SystemInformation.GpuInfo = DetectGPUInfo();
+                SystemInformation.UpdateGPUInfo();
 
+                AudioBackend.Resume();
                 GraphicsResume();
+
                 CanRender = true;
             };
 
             _view.GraphicsDisable += () =>
             {
                 CanRender = false;
+
                 GraphicsPause();
+                AudioBackend.Pause();
             };
         }
 
@@ -95,7 +97,7 @@ namespace Heirloom.Android
         }
 
         protected override void OnPause()
-        { 
+        {
             base.OnPause();
         }
 
@@ -126,18 +128,6 @@ namespace Heirloom.Android
             uiOptions |= (int) SystemUiFlags.ImmersiveSticky;
 
             Window.DecorView.SystemUiVisibility = (StatusBarVisibility) uiOptions;
-        }
-
-        private GpuInfo DetectGPUInfo()
-        {
-            // Query GPU info
-            return GraphicsBackend.Current?.GpuInfo ?? GpuInfo.Unknown;
-        }
-
-        private CpuInfo DetectCPUInfo()
-        {
-            // todo: detect CPU info
-            return CpuInfo.Unknown;
         }
     }
 }
