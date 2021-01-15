@@ -20,30 +20,31 @@ namespace Heirloom.Hardware
         {
             try
             {
-                // Query CPU info
-                if (SystemInformation.OperatingSystem == OperatingSystem.Windows)
+                switch (SystemInformation.OperatingSystem)
                 {
-                    // windows 10, windows 7, etc
-                    GetWindowsProcessorInfo(out var name, out var clock, out var threads);
-                    return new CpuInfo(name, clock, threads);
-                }
-                else if (SystemInformation.OperatingSystem == OperatingSystem.Linux)
-                {
-                    // linux, ubuntu, etc
-                    GetLinuxProcessorInfo(out var name, out var clock, out var threads);
-                    return new CpuInfo(name, clock, threads);
-                }
-                else if (SystemInformation.OperatingSystem == OperatingSystem.OSX)
-                {
-                    // macOS
-                    GetMacProcessorInfo(out var name, out var clock, out var threads);
-                    return new CpuInfo(name, clock, threads);
+                    case OperatingSystem.Windows:
+                    {
+                        GetWindowsProcessorInfo(out var name, out var clock, out var threads);
+                        return new CpuInfo(name, clock, threads);
+                    }
+
+                    case OperatingSystem.Linux:
+                    {
+                        GetLinuxProcessorInfo(out var name, out var clock, out var threads);
+                        return new CpuInfo(name, clock, threads);
+                    }
+
+                    case OperatingSystem.OSX:
+                    {
+                        GetMacProcessorInfo(out var name, out var clock, out var threads);
+                        return new CpuInfo(name, clock, threads);
+                    }
                 }
             }
             catch
             {
                 // Whoop, something went wrong. We don't care though...
-                // We will just emit default values below.
+                // We will just emit default "unknown" values below.
             }
 
             // Unknown CPU
