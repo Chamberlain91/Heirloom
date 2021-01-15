@@ -67,9 +67,6 @@ namespace Heirloom.Desktop
                 InitializeAudio();
             }
 
-            // Graphics is ready, so update GPU info.
-            SystemInformation.UpdateGPUInfo();
-
             // System are initialized
             appReady();
 

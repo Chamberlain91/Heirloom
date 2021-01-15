@@ -10,12 +10,6 @@ namespace Heirloom.Hardware
     /// </summary>
     internal static class HardwareDetector
     {
-        internal static GpuInfo DetectGpuInfo()
-        {
-            // Query GPU info
-            return GraphicsBackend.Current?.GpuInfo ?? GpuInfo.Unknown;
-        }
-
         internal static CpuInfo DetectCpuInfo()
         {
             try

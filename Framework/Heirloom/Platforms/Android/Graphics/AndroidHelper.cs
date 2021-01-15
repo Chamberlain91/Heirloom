@@ -1,4 +1,5 @@
 #if ANDROID
+using Android.App;
 using Android.OS;
 using Android.Util;
 using Android.Views;
@@ -9,7 +10,7 @@ namespace Heirloom.Android
 {
     public static class AndroidHelper
     {
-        internal static void SetWindowFullscreen(GraphicsActivity activity)
+        internal static void SetWindowFullscreen(Activity activity)
         {
             // Set application to fullscreen
             activity.RequestWindowFeature(WindowFeatures.NoTitle);
@@ -23,7 +24,7 @@ namespace Heirloom.Android
             }
         }
 
-        public static IntSize ComputeAutomaticResolution(this GraphicsActivity activity, int pixelsPerMM = 10)
+        public static IntSize ComputeAutomaticResolution(Activity activity, int pixelsPerMM = 10)
         {
             var metrics = new DisplayMetrics();
             activity.WindowManager.DefaultDisplay.GetRealMetrics(metrics);

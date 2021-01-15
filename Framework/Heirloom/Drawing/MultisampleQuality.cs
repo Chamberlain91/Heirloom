@@ -6,6 +6,7 @@ namespace Heirloom.Drawing
         Low = 2,
         Medium = 4,
         High = 8,
-        Ultra = 16
+        Ultra = 16,
+        Beautiful = 32
     }
 }

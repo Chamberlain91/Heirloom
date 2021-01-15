@@ -6,6 +6,7 @@ using System.Threading;
 using Heirloom.Desktop.GLFW;
 using Heirloom.Drawing;
 using Heirloom.Drawing.OpenGLES;
+using Heirloom.Hardware;
 
 namespace Heirloom.Desktop
 {

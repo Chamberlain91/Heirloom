@@ -28,9 +28,9 @@ namespace Heirloom.Hardware
 #endif
         }
 
-        internal static void UpdateGPUInfo()
+        internal static void UpdateGPUInfo(GpuInfo gpu)
         {
-            Gpu = HardwareDetector.DetectGpuInfo();
+            Gpu = gpu;
         }
     }
 }

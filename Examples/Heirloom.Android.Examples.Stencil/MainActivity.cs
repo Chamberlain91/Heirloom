@@ -1,12 +1,8 @@
-using System;
-using System.Runtime.InteropServices;
-
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
 
 using Heirloom.Drawing;
-using Heirloom.Hardware;
 using Heirloom.IO;
 using Heirloom.Mathematics;
 using Heirloom.Sound;
@@ -43,10 +39,6 @@ namespace Heirloom.Android.Examples.Stencil
 
         protected override void GraphicsResume()
         {
-            Log.Warning($"{SystemInformation.OperatingSystem}");
-            Log.Warning($"{SystemInformation.Cpu}");
-            Log.Warning($"{SystemInformation.Gpu}");
-
             Loop.Start();
         }
 

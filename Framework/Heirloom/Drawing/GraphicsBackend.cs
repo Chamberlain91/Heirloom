@@ -24,8 +24,6 @@ namespace Heirloom.Drawing
 
         public GraphicsCapabilities Capabilities { get; private set; }
 
-        internal GpuInfo GpuInfo { get; private set; }
-
         #endregion
 
         protected abstract GraphicsCapabilities GetGraphicsCapabilities();
@@ -44,10 +42,13 @@ namespace Heirloom.Drawing
 
                 // Detect GPU information
                 Current.Capabilities = Current.GetGraphicsCapabilities();
-                Current.GpuInfo = Current.GetGpuInfo();
+                SystemInformation.UpdateGPUInfo(Current.GetGpuInfo());
 
                 // Log capabilities
-                Log.Debug(Current.Capabilities);
+                Log.Info(Current.Capabilities);
+                Log.Info(SystemInformation.OperatingSystem);
+                Log.Info(SystemInformation.Cpu);
+                Log.Info(SystemInformation.Gpu);
 
                 // Initialize shader backend
                 Shader.InitializeDefaults();

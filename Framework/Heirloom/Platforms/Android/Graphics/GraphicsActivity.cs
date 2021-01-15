@@ -1,4 +1,3 @@
-#if ANDROID
 using Android.App;
 using Android.OS;
 using Android.Views;
@@ -51,17 +50,12 @@ namespace Heirloom.Android
             // Initialize ES Graphics Backend
             _backend = new ESAndroidGraphicsBackend(config.Multisample);
 
-            // Get the backbuffer resolution, by default
-            var resolution = config.Resolution ?? AndroidHelper.ComputeAutomaticResolution(this);
-
             // Create graphics view
-            _view = new GraphicsView(this, resolution, config.Multisample, config.VSync);
+            _view = new GraphicsView(this, config.Resolution, config.Multisample, config.VSync);
             SetContentView(_view);
 
             _view.GraphicsEnabled += () =>
             {
-                SystemInformation.UpdateGPUInfo();
-
                 AudioBackend.Resume();
                 GraphicsResume();
 
@@ -91,26 +85,17 @@ namespace Heirloom.Android
             _backend = null;
         }
 
-        protected override void OnResume()
-        {
-            base.OnResume();
-        }
-
-        protected override void OnPause()
-        {
-            base.OnPause();
-        }
-
         public override void OnWindowFocusChanged(bool hasFocus)
         {
             base.OnWindowFocusChanged(hasFocus);
+
             if (hasFocus)
             {
-                HideSoftwareMenuBars();
+                SetImmersiveFullscreen();
             }
         }
 
-        private void HideSoftwareMenuBars()
+        private void SetImmersiveFullscreen()
         {
             // thanks to:
             // https://forums.xamarin.com/discussion/99255/android-immersive-mode
@@ -131,4 +116,3 @@ namespace Heirloom.Android
         }
     }
 }
-#endif
