@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
 
   <PropertyGroup>
-    
+
     <!-- Assembly Information -->
     <AssemblyName>Heirloom</AssemblyName>
 
@@ -10,17 +10,19 @@
 
     <!-- Target frameworks -->
     <TargetFrameworks>net5.0;monoandroid11.0</TargetFrameworks>
-    
+
     <!-- Constants and Namespace -->
     <DefineConstants>STBSHARP_INTERNAL</DefineConstants>
     <RootNamespace>Heirloom</RootNamespace>
 
   </PropertyGroup>
-  
+
   <!-- Import standard project properties -->
   <Import Project="../../Heirloom.targets" />
 
   <ItemGroup>
+    <!-- To make the file visible in VS Solution Explorer... -->
+    <Content Include="Embedded\icon.png" />
     <!-- Disable compilation of all platform files until explicitly enabled -->
     <Compile Remove="Platforms/**/*.cs" />
     <None Include="Platforms/**/*.cs" />

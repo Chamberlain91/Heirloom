@@ -5,7 +5,7 @@ using Heirloom.Utilities;
 
 namespace Heirloom.Testing.MemoryLeak
 {
-    public sealed class Program : Application
+    public sealed class Program
     {
         public Program()
         {
@@ -47,7 +47,7 @@ namespace Heirloom.Testing.MemoryLeak
 
         private static void Main(string[] args)
         {
-            Run<Program>();
+            Application.Run<Program>();
         }
     }
 }

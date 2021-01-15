@@ -35,8 +35,8 @@
   
   <ItemGroup>
     <!-- Package license and icon for nuget package -->
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)\Framework\Heirloom\Embedded\icon.png" Pack="true" PackagePath="" />
-    <None Include="$(MSBuildThisFileDirectory)\LICENSE.md" Pack="true" PackagePath="" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)\Framework\Heirloom\Embedded\icon.png" Pack="true" PackagePath="" Visible="false" />
+    <None Include="$(MSBuildThisFileDirectory)\LICENSE.md" Pack="true" PackagePath="" Visible="false" />
   </ItemGroup>
 
   <!-- Debug mode defaults -->

@@ -4,7 +4,7 @@ using Heirloom.Mathematics;
 
 namespace Heirloom.Testing.Lines
 {
-    public sealed class Program : Application
+    public sealed class Program
     {
         public readonly Window Window;
 
@@ -42,7 +42,7 @@ namespace Heirloom.Testing.Lines
 
         static void Main(string[] args)
         {
-            Run<Program>();
+            Application.Run<Program>();
         }
     }
 }

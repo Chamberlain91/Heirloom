@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Heirloom.Desktop\Heirloom.Desktop.csproj" />
     <ProjectReference Include="..\..\Framework\Heirloom.ImGui\Heirloom.ImGui.csproj" />
     <ProjectReference Include="..\..\Framework\Heirloom\Heirloom.csproj" />
   </ItemGroup>

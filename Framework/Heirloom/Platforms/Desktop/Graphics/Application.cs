@@ -1,4 +1,4 @@
- using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
@@ -9,11 +9,12 @@ using Heirloom.Desktop.GLFW;
 using Heirloom.Drawing;
 using Heirloom.Drawing.OpenGLES;
 using Heirloom.Hardware;
+using Heirloom.Sound;
 using Heirloom.Utilities;
 
 namespace Heirloom.Desktop
 {
-    public abstract class Application
+    public static class Application
     {
         private const double WaitEventsTimeout = 1.0 / 200.0;
 
@@ -32,9 +33,19 @@ namespace Heirloom.Desktop
         public static bool IsRunning { get; private set; }
 
         /// <summary>
-        /// Initialize application systems. This function blocks, processing all window events until all <see cref="Window"/> have been closed.
+        /// Initialize application systems.
+        /// This function blocks, processing all window events until all <see cref="Window"/> have been closed.
         /// </summary>
         public static void Run<TApp>() where TApp : new()
+        {
+            Run(() => InstantiateApplication<TApp>());
+        }
+
+        /// <summary>
+        /// Initialize application systems.
+        /// This function blocks, processing all window events until all <see cref="Window"/> have been closed.
+        /// </summary>
+        public static void Run(Action appReady)
         {
             // Ensure we have attempted to call this function recursively
             if (IsRunning) { throw new InvalidOperationException("Application has already been initialized and is currently running."); }
@@ -60,8 +71,8 @@ namespace Heirloom.Desktop
                 SystemInformation.GpuInfo = HardwareDetector.DetectGpuInfo();
             }
 
-            // Create application instance
-            Activator.CreateInstance<TApp>();
+            // System are initialized
+            appReady();
 
             // Perform main window / events loop
             ExecuteWindowLoop();
@@ -73,6 +84,15 @@ namespace Heirloom.Desktop
 
             // Mark the application as no longer running
             IsRunning = false;
+        }
+
+        private static void InstantiateApplication<TApp>() where TApp : new()
+        {
+            var instance = Activator.CreateInstance<TApp>();
+            if (instance is GameWrapper game)
+            {
+                game.Resume();
+            }
         }
 
         /// <summary>
@@ -243,12 +263,12 @@ namespace Heirloom.Desktop
 
         private static void InitializeAudio()
         {
-            Log.Warning("TODO: Initialize Audio System");
+            AudioBackend.Resume();
         }
 
         private static void DisposeAudio()
         {
-            Log.Warning("TODO: Dispose Audio System");
+            AudioBackend.Pause();
         }
 
         #endregion

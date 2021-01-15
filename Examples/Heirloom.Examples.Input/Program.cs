@@ -9,7 +9,7 @@ using Heirloom.Utilities;
 
 namespace Heirloom.Examples.UserInput
 {
-    public sealed class Program : Application
+    public sealed class Program
     {
         public readonly Window Window;
 
@@ -123,7 +123,7 @@ namespace Heirloom.Examples.UserInput
 
         static void Main(string[] args)
         {
-            Run<Program>();
+            Application.Run<Program>();
         }
     }
 }

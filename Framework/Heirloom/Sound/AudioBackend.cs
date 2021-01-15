@@ -31,7 +31,7 @@ namespace Heirloom.Sound
         /// <summary>
         /// Instantiate the audio backend (if not already created).
         /// </summary>
-        public static void Resume()
+        internal static void Resume()
         {
             if (_implementation == null)
             {
@@ -46,7 +46,7 @@ namespace Heirloom.Sound
         /// <summary>
         /// Dispose of the audio backend, pausing global playback.
         /// </summary>
-        public static void Pause()
+        internal static void Pause()
         {
             _implementation?.Dispose();
             _implementation = null;

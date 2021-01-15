@@ -3,7 +3,7 @@ using Heirloom.Mathematics;
 
 namespace Heirloom.Benchmark.Desktop
 {
-    internal class Program : Application
+    internal sealed class Program
     {
         public Window Window { get; }
 
@@ -25,7 +25,7 @@ namespace Heirloom.Benchmark.Desktop
 
         private static void Main(string[] args)
         {
-            Run<Program>();
+            Application.Run<BenchmarkApp>();
         }
     }
 }

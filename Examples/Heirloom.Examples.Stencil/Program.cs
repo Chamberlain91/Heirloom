@@ -6,7 +6,7 @@ using Heirloom.Utilities;
 
 namespace Heirloom.Examples.Stencil
 {
-    internal sealed class Program : Application
+    internal sealed class Program
     {
         public readonly Window Window;
 
@@ -94,7 +94,7 @@ namespace Heirloom.Examples.Stencil
             // Either render a single frame with the software renderer (slow, can only render to in memory bitmaps)
             if (useSoftwareRenderer) { RenderWithSoftwareImplementation(); }
             // or render with hardware acceleration into a window.
-            else { Run<Program>(); }
+            else { Application.Run<Program>(); }
         }
 
         private static void RenderWithSoftwareImplementation()

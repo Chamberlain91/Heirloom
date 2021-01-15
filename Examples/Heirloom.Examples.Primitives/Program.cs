@@ -7,7 +7,7 @@ using Heirloom.Utilities;
 
 namespace Heirloom.Examples.Primitives
 {
-    public class Program : Application
+    public class Program
     {
         public Window Window { get; }
 
@@ -82,7 +82,7 @@ namespace Heirloom.Examples.Primitives
 
         private static void Main(string[] args)
         {
-            Run<Program>();
+            Application.Run<Program>();
         }
 
         private abstract class Example

@@ -51,12 +51,22 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Examples.FingerPai
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Examples.PlayMusic", "Examples\Heirloom.Examples.PlayMusic\Heirloom.Examples.PlayMusic.csproj", "{EFF58658-45C6-4DFE-9A48-9208670FE9A2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{52CE0CD4-8143-444B-BE14-B57C6C238238}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_", "_", "{52CE0CD4-8143-444B-BE14-B57C6C238238}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		Heirloom.targets = Heirloom.targets
+		LICENSE.md = LICENSE.md
+		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{2D4D86D4-1505-4B3A-ADCA-D09E79F25530}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Tools\Benchmark\Heirloom.Benchmark\Heirloom.Benchmark.projitems*{541e747b-0e2d-45ff-89e9-331cd30a355f}*SharedItemsImports = 4
+		Tools\Benchmark\Heirloom.Benchmark\Heirloom.Benchmark.projitems*{6ee21b75-7da1-4e2c-861a-b4f02e3e2a4b}*SharedItemsImports = 13
+		Tools\Benchmark\Heirloom.Benchmark\Heirloom.Benchmark.projitems*{712bc48a-cc34-42f7-b38c-b438277da9f7}*SharedItemsImports = 5
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -145,7 +155,7 @@ Global
 		{9064AC04-9B3C-4E3F-9874-E9B2237AEFE1} = {78B2E4CD-A323-4F1F-B388-D0C0D2B7A8FC}
 		{0613D6DD-E5E8-4D9F-BF4C-85C194543B97} = {78B2E4CD-A323-4F1F-B388-D0C0D2B7A8FC}
 		{6EE21B75-7DA1-4E2C-861A-B4F02E3E2A4B} = {1B9BE4F5-9712-4CCF-BD50-B2E502DABF13}
-		{1B9BE4F5-9712-4CCF-BD50-B2E502DABF13} = {78B2E4CD-A323-4F1F-B388-D0C0D2B7A8FC}
+		{1B9BE4F5-9712-4CCF-BD50-B2E502DABF13} = {2D4D86D4-1505-4B3A-ADCA-D09E79F25530}
 		{712BC48A-CC34-42F7-B38C-B438277DA9F7} = {1B9BE4F5-9712-4CCF-BD50-B2E502DABF13}
 		{541E747B-0E2D-45FF-89E9-331CD30A355F} = {1B9BE4F5-9712-4CCF-BD50-B2E502DABF13}
 		{C748E030-B93A-4D2A-B153-F5D3257A1B2F} = {97C3E7D0-E5D3-4650-9B12-E1FD76CA8E48}
