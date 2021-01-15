@@ -82,8 +82,6 @@ namespace Heirloom.Sound
                 // Read all samples from decoder in one go
                 var read = decoder.Decode(samples);
 
-                Log.Warning($"{read} vs {decoder.Length}");
-
                 //if (read != decoder.Length)
                 //{
                 //    throw new InvalidOperationException($"Error when decoding, read {read} samples but expected {decoder.Length}.");
@@ -106,7 +104,8 @@ namespace Heirloom.Sound
                 //   and terminate reading and throw exception with relevant exception?
                 // 
 
-                const int BLOCK_SIZE = 22050;
+                const int BlockSize = AudioBackend.SampleRate * AudioBackend.Channels;
+                const int TooManyBlocks = 3600; // 1 hours
 
                 long count, total = 0;
                 var blocks = new List<short[]>();
@@ -114,10 +113,10 @@ namespace Heirloom.Sound
                 do
                 {
                     // Allocate next block
-                    var block = new short[BLOCK_SIZE * AudioBackend.Channels];
+                    var block = new short[BlockSize];
 
                     // Read samples into block
-                    count = decoder.Decode(new Span<short>(block, 0, BLOCK_SIZE));
+                    count = decoder.Decode(new Span<short>(block, 0, BlockSize));
                     if (count > 0)
                     {
                         // Far too much data, probably was a infinite stream (ie, internet radio)
@@ -132,12 +131,19 @@ namespace Heirloom.Sound
 
                         // Append block
                         blocks.Add(block);
+
+                        // Too many blocks, probably an infinite stream... (ie, radio)
+                        if (blocks.Count == TooManyBlocks)
+                        {
+                            throw new InvalidOperationException($"Unable to decode finite stream, appears to be infinite stream. " +
+                                $"Longer than {Time.GetEnglishTime(TooManyBlocks)}.");
+                        }
                     }
 
-                } while (count == BLOCK_SIZE);
+                } while (count == BlockSize);
 
                 // Concatinate blocks into total length array
-                var samples = new short[total * AudioBackend.Channels];
+                var samples = new short[total];
 
                 var i = 0;
                 foreach (var block in blocks)
@@ -149,7 +155,7 @@ namespace Heirloom.Sound
                     // sample are actually occupying the block via total
                     if (i == (blocks.Count - 1))
                     {
-                        blockSize = (int) (total * AudioBackend.Channels) % block.Length;
+                        blockSize = (int) (total) % block.Length;
                     }
 
                     // Copy block into final samples array

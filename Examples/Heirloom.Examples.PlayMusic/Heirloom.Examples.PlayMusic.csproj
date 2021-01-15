@@ -7,10 +7,12 @@
 
   <ItemGroup>
     <None Remove="bensound-dubstep.mp3" />
+    <None Remove="bensound-dubstep.ogg" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="bensound-dubstep.mp3" />
+    <EmbeddedResource Include="bensound-dubstep.ogg" />
   </ItemGroup>
 
   <ItemGroup>

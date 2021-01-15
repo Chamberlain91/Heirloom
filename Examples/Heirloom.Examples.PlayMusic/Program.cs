@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 
-using Heirloom.IO;
 using Heirloom.Sound;
 
 namespace Heirloom.Examples.PlayMusic
@@ -14,7 +13,8 @@ namespace Heirloom.Examples.PlayMusic
             Console.WriteLine("Now Playing: Dubstep from https://www.bensound.com/");
 
             // Create an (streaming) audio source and play
-            var source = new AudioSource(Files.OpenStream("bensound-dubstep.mp3"));
+            var clip = new AudioClip("bensound-dubstep.ogg");
+            var source = new AudioSource(clip);
             source.Play();
 
             // Sleep thread for duration of the song
