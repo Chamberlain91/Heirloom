@@ -421,10 +421,48 @@ namespace Heirloom.Mathematics
         /// </summary>
         public Vector GetNearestPoint(Vector point)
         {
-            Vector closest;
-            closest.X = (point.X < Min.X) ? Min.X : (point.X > Max.X) ? Max.X : point.X;
-            closest.Y = (point.Y < Min.Y) ? Min.Y : (point.Y > Max.Y) ? Max.Y : point.Y;
-            return closest;
+            const int side_top = 0;
+            const int side_right = 1;
+            const int side_bottom = 2;
+            const int side_left = 3;
+
+            if (Contains(point))
+            {
+                // Inside rectangle, snap nearest edge
+                // todo: is there a better implementation?
+
+                var side = side_top;
+                var best = float.MaxValue;
+                CheckEdge(ref best, point.X - Left, ref side, side_left);
+                CheckEdge(ref best, Right - point.X, ref side, side_right);
+                CheckEdge(ref best, point.Y - Top, ref side, side_top);
+                CheckEdge(ref best, Bottom - point.Y, ref side, side_bottom);
+
+                return side switch
+                {
+                    side_left => new Vector(Left, point.Y),
+                    side_right => new Vector(Right, point.Y),
+                    side_bottom => new Vector(point.X, Bottom),
+                    side_top => new Vector(point.X, Top),
+                    _ => throw new InvalidOperationException(),
+                };
+            }
+            else
+            {
+                // Outside rectangle, clamp edges
+                point.X = (point.X < Min.X) ? Min.X : (point.X > Max.X) ? Max.X : point.X;
+                point.Y = (point.Y < Min.Y) ? Min.Y : (point.Y > Max.Y) ? Max.Y : point.Y;
+                return point;
+            }
+
+            static void CheckEdge(ref float best, float dist, ref int side, int edge)
+            {
+                if (dist < best)
+                {
+                    best = dist;
+                    side = edge;
+                }
+            }
         }
 
         /// <inheritdoc/>

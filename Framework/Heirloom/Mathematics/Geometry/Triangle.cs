@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace Heirloom.Mathematics
@@ -87,7 +86,7 @@ namespace Heirloom.Mathematics
             var polygon = PolygonTools.RequestTempPolygon(in this);
 
             // Check for overlap
-            var result = PolygonTools.GetClosestPoint(polygon, point);
+            var result = PolygonTools.GetClosestPointOutline(polygon, point);
 
             // Recycle temporary polygon and return overlap status
             PolygonTools.RecycleTempPolygon(polygon);

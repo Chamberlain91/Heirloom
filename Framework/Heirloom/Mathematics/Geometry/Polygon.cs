@@ -296,28 +296,32 @@ namespace Heirloom.Mathematics
         /// </summary>
         public Vector GetNearestPoint(Vector point)
         {
-            // Is convex, simple test
-            if (IsConvex) { return PolygonTools.GetClosestPoint(_vertices, in point); }
-            else
-            {
-                var nearestDistance = float.PositiveInfinity;
-                var nearest = point;
+            // TODO: Is it really this simple?
+            return PolygonTools.GetClosestPointOutline(_vertices, in point);
 
-                foreach (var convex in ConvexPartitions)
-                {
-                    var v = PolygonTools.GetClosestPoint(convex, in point);
-                    var d = Vector.DistanceSquared(in v, in point);
+            //// Is convex, simple test
+            //if (IsConvex) { return PolygonTools.GetClosestPointOutline(_vertices, in point); }
+            //else
+            //{
+            //    var nearestDistance = float.PositiveInfinity;
+            //    var nearest = point;
 
-                    // Keep nearest found
-                    if (d < nearestDistance)
-                    {
-                        nearestDistance = d;
-                        nearest = v;
-                    }
-                }
+            //    foreach (var convex in ConvexPartitions)
+            //    {
+            //        // todo: implement a feature that can determine if a convex edge is a partition dummy edge or really on the boundary?
+            //        var v = PolygonTools.GetClosestPoint(convex, in point);
+            //        var d = Vector.DistanceSquared(in v, in point);
 
-                return nearest;
-            }
+            //        // Keep nearest found
+            //        if (d < nearestDistance)
+            //        {
+            //            nearestDistance = d;
+            //            nearest = v;
+            //        }
+            //    }
+
+            //    return nearest;
+            //}
         }
 
         /// <inheritdoc/>

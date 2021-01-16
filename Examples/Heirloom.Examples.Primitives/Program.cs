@@ -113,6 +113,12 @@ namespace Heirloom.Examples.Primitives
 
                 gfx.Color = Color.Black;
                 gfx.DrawTriangleOutline(a, b, c, 6);
+
+                // Draw nearest point to mouse
+                var triangle = new Triangle(a, b, c);
+                var point = triangle.GetNearestPoint(Input.MousePosition);
+                gfx.Color = Color.White;
+                gfx.DrawCircle(point, 8);
             }
         }
 
@@ -128,6 +134,12 @@ namespace Heirloom.Examples.Primitives
 
                 gfx.Color = Color.Black;
                 gfx.DrawCircleOutline(center, radius, 6);
+
+                // Draw nearest point to mouse
+                var circle = new Circle(center, radius);
+                var point = circle.GetNearestPoint(Input.MousePosition);
+                gfx.Color = Color.White;
+                gfx.DrawCircle(point, 8);
             }
         }
 
@@ -141,6 +153,7 @@ namespace Heirloom.Examples.Primitives
                 gfx.PushState();
                 {
                     gfx.Transform = Matrix.CreateTransform(center, time, 1F);
+                    var invTransform = Matrix.Inverse(gfx.Transform);
 
                     var rectangle = new Rectangle(-radius / 2, -radius / 2, radius, radius);
 
@@ -149,6 +162,11 @@ namespace Heirloom.Examples.Primitives
 
                     gfx.Color = Color.Black;
                     gfx.DrawRectOutline(rectangle, 6);
+
+                    // Draw nearest point to mouse
+                    var point = rectangle.GetNearestPoint(invTransform * Input.MousePosition);
+                    gfx.Color = Color.White;
+                    gfx.DrawCircle(point, 8);
                 }
                 gfx.PopState();
             }
@@ -187,12 +205,18 @@ namespace Heirloom.Examples.Primitives
                 gfx.PushState();
                 {
                     gfx.Transform = Matrix.CreateTransform(center, time, 1F);
+                    var invTransform = Matrix.Inverse(gfx.Transform);
 
                     gfx.Color = Color;
                     gfx.DrawPolygon(polygon);
 
                     gfx.Color = Color.Black;
                     gfx.DrawPolygonOutline(polygon, 6);
+
+                    // Draw nearest point to mouse
+                    var point = polygon.GetNearestPoint(invTransform * Input.MousePosition);
+                    gfx.Color = Color.White;
+                    gfx.DrawCircle(point, 8);
                 }
                 gfx.PopState();
             }
