@@ -12,11 +12,11 @@ namespace Heirloom.Desktop
 {
     public sealed class Window : IScreen, IDisposable, IInputSource
     {
-        private readonly WindowCloseCallback _windowCloseCallback;
-        private readonly WindowPositionCallback _windowPositionCallback;
         private readonly FramebufferSizeCallback _framebufferSizeCallback;
-        private readonly WindowContentScaleCallback _windowContentScaleCallback;
+        private readonly WindowCloseCallback _windowCloseCallback;
         private readonly WindowSizeCallback _windowSizeCallback;
+        // private readonly WindowContentScaleCallback _windowContentScaleCallback;
+        // private readonly WindowPositionCallback _windowPositionCallback;
 
         private readonly CharCallback _charCallback;
         private readonly KeyCallback _keyCallback;
@@ -633,8 +633,8 @@ namespace Heirloom.Desktop
 
                 // This will 'keep alive' callbacks until this point
                 GC.KeepAlive(_windowCloseCallback);
-                GC.KeepAlive(_windowPositionCallback);
-                GC.KeepAlive(_windowContentScaleCallback);
+                // GC.KeepAlive(_windowPositionCallback);
+                // GC.KeepAlive(_windowContentScaleCallback);
                 GC.KeepAlive(_framebufferSizeCallback);
                 GC.KeepAlive(_windowSizeCallback);
 
