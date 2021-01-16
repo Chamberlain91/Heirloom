@@ -18,11 +18,11 @@ namespace Heirloom.Collections
         /// <summary>
         /// Determines if a value has been set on this cell of the sparse grid.
         /// </summary>
-        bool HasValue(in int x, in int y);
+        bool HasValue(int x, int y);
 
         /// <summary>
         /// Determines if a value has been set on this cell of the sparse grid.
         /// </summary>
-        bool HasValue(in IntVector co);
+        bool HasValue(IntVector co);
     }
 }

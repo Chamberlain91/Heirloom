@@ -29,7 +29,7 @@ namespace Heirloom.Collections
         /// <summary>
         /// Gets or sets the value at the specified coordinate.
         /// </summary>
-        public T this[in IntVector co]
+        public T this[IntVector co]
         {
             get => _data.TryGetValue(co, out var value) ? value : default;
             set
@@ -43,7 +43,7 @@ namespace Heirloom.Collections
         /// <summary>
         /// Gets or sets the value at the specified coordinate.
         /// </summary>
-        public T this[in int x, in int y]
+        public T this[int x, int y]
         {
             get => this[new IntVector(x, y)];
             set => this[new IntVector(x, y)] = value;
@@ -65,7 +65,7 @@ namespace Heirloom.Collections
         /// <summary>
         /// Clears the assigned valueon this cell of the sparse grid.
         /// </summary>
-        public void Remove(in int x, in int y)
+        public void Remove(int x, int y)
         {
             Remove(new IntVector(x, y));
         }
@@ -73,7 +73,7 @@ namespace Heirloom.Collections
         /// <summary>
         /// Clears the assigned valueon this cell of the sparse grid.
         /// </summary>
-        public void Remove(in IntVector co)
+        public void Remove(IntVector co)
         {
             _data.Remove(co);
         }
@@ -81,7 +81,7 @@ namespace Heirloom.Collections
         /// <summary>
         /// Determines if a value has been set on this cell of the sparse grid.
         /// </summary>
-        public bool HasValue(in int x, in int y)
+        public bool HasValue(int x, int y)
         {
             return HasValue(new IntVector(x, y));
         }
@@ -89,7 +89,7 @@ namespace Heirloom.Collections
         /// <summary>
         /// Determines if a value has been set on this cell of the sparse grid.
         /// </summary>
-        public bool HasValue(in IntVector co)
+        public bool HasValue(IntVector co)
         {
             return _data.ContainsKey(co);
         }
@@ -97,7 +97,7 @@ namespace Heirloom.Collections
         /// <summary>
         /// Is the specified coordinate valid on this grid?
         /// </summary>
-        public bool IsValidCoordinate(in int x, in int y)
+        public bool IsValidCoordinate(int x, int y)
         {
             // All cells are valid in the sparse grid
             return true;
@@ -106,7 +106,7 @@ namespace Heirloom.Collections
         /// <summary>
         /// Is the specified coordinate valid on this grid?
         /// </summary>
-        public bool IsValidCoordinate(in IntVector co)
+        public bool IsValidCoordinate(IntVector co)
         {
             // All cells are valid in the sparse grid
             return true;

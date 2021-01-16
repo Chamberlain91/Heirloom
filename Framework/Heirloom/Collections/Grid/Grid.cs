@@ -51,7 +51,7 @@ namespace Heirloom.Collections
         /// <summary>
         /// Gets or sets the value at the specified coordinate.
         /// </summary>
-        public T this[in int x, in int y]
+        public T this[int x, int y]
         {
             get
             {
@@ -67,10 +67,10 @@ namespace Heirloom.Collections
         /// <summary>
         /// Gets or sets the value at the specified coordinate.
         /// </summary>
-        public T this[in IntVector co]
+        public T this[IntVector co]
         {
-            get => this[in co.X, in co.Y];
-            set => this[in co.X, in co.Y] = value;
+            get => this[co.X, co.Y];
+            set => this[co.X, co.Y] = value;
         }
 
         #endregion
@@ -94,7 +94,7 @@ namespace Heirloom.Collections
         /// <summary>
         /// Determines if the specified coordinate is a valid coordinate within the grid.
         /// </summary>
-        public bool IsValidCoordinate(in int x, in int y)
+        public bool IsValidCoordinate(int x, int y)
         {
             if (x < 0 || x >= Width) { return false; }
             if (y < 0 || y >= Height) { return false; }
@@ -105,9 +105,9 @@ namespace Heirloom.Collections
         /// <summary>
         /// Determines if the specified coordinate is a valid coordinate within the grid.
         /// </summary>
-        public bool IsValidCoordinate(in IntVector co)
+        public bool IsValidCoordinate(IntVector co)
         {
-            return IsValidCoordinate(in co.X, in co.Y);
+            return IsValidCoordinate(co.X, co.Y);
         }
     }
 }

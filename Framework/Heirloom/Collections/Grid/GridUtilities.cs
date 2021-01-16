@@ -27,7 +27,7 @@ namespace Heirloom.Collections
         {
             foreach (var neighbor in GetNeighborCoordinates(grid, x, y, neighborType))
             {
-                yield return grid[in neighbor];
+                yield return grid[neighbor];
             }
         }
 

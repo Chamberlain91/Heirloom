@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
+using Heirloom.Collections;
 using Heirloom.IO;
 using Heirloom.Mathematics;
 
@@ -19,7 +20,7 @@ namespace Heirloom.Drawing
     /// Represents an image as a grid of <see cref="ColorBytes"/>.
     /// </summary>
     /// <category>Drawing</category>
-    public sealed class Image : Texture
+    public sealed class Image : Texture, IFiniteGrid<ColorBytes>
     {
         /// <summary>
         /// The max allowable image size for any dimension.
@@ -1004,6 +1005,35 @@ namespace Heirloom.Drawing
             }
         }
 
-        #endregion 
+        #endregion
+
+        #region IFiniteGrid
+
+        int IFiniteGrid<ColorBytes>.Width => Width;
+
+        int IFiniteGrid<ColorBytes>.Height => Height;
+
+        void IFiniteGrid<ColorBytes>.Clear(ColorBytes color)
+        {
+            Clear(color);
+        }
+
+        void IGrid<ColorBytes>.Clear()
+        {
+            Clear(Color.Transparent);
+        }
+
+        bool IReadOnlyGrid<ColorBytes>.IsValidCoordinate(int x, int y)
+        {
+            return x >= 0 && y >= 0 && x < Width && y < Height;
+        }
+
+        bool IReadOnlyGrid<ColorBytes>.IsValidCoordinate(IntVector co)
+        {
+            var grid = (IReadOnlyGrid<ColorBytes>) this;
+            return grid.IsValidCoordinate(co.X, co.Y);
+        }
+
+        #endregion
     }
 }

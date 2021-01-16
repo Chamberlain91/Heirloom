@@ -11,7 +11,7 @@ namespace Heirloom.Collections
         /// <summary>
         /// Gets or sets the value at the specified coordinate.
         /// </summary>
-        T this[in IntVector co]
+        T this[IntVector co]
         {
             get => this[co.X, co.Y];
             set => this[co.X, co.Y] = value;
@@ -20,16 +20,16 @@ namespace Heirloom.Collections
         /// <summary>
         /// Gets or sets the value at the specified coordinate.
         /// </summary>
-        T this[in int x, in int y] { get; set; }
+        T this[int x, int y] { get; set; }
 
         /// <summary>
         /// Is the specified coordinate valid on this grid?
         /// </summary>
-        bool IsValidCoordinate(in int x, in int y);
+        bool IsValidCoordinate(int x, int y);
 
         /// <summary>
         /// Is the specified coordinate valid on this grid?
         /// </summary>
-        bool IsValidCoordinate(in IntVector co);
+        bool IsValidCoordinate(IntVector co);
     }
 }
