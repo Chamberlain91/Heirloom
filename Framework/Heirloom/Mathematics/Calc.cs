@@ -70,7 +70,7 @@ namespace Heirloom.Mathematics
         #endregion
 
         #region Distance
-         
+
         /// <summary>
         /// Computes the distance squared between a pair of two-dimensional points.
         /// </summary>
@@ -578,7 +578,7 @@ namespace Heirloom.Mathematics
         /// <param name="x2">End angle.</param>
         /// <param name="t">Interpolation factor</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double LerpAngle(float x1, float x2, float t)
+        public static float LerpAngle(float x1, float x2, float t)
         {
             var d1 = Abs(x1 - x2);
             var d2 = Abs(x1 - (x2 + TwoPi));
@@ -598,6 +598,20 @@ namespace Heirloom.Mathematics
             }
 
             return x1 % TwoPi;
+        }
+
+        /// <summary>
+        /// Computes a non-linear interpolation of two values adjusted for frame-rate.
+        /// </summary>
+        /// <param name="x1">The starting value.</param>
+        /// <param name="x2">The target value.</param>
+        /// <param name="t">The interpolation factor (percentage).</param>
+        /// <param name="delta">The time in seconds since last frame.</param>
+        /// <param name="duration">The length of time (in seconds) that the values are interpolated <paramref name="t"/> percent. </param>
+        /// <returns></returns>
+        public static float LerpTime(float x1, float x2, float t, float duration, float delta)
+        {
+            return Lerp(x1, x2, 1F - Pow(1F - t, delta / duration));
         }
 
         #endregion
