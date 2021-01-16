@@ -8,7 +8,6 @@ using Heirloom.Desktop.GLFW;
 
 using Heirloom.Drawing;
 using Heirloom.Drawing.OpenGLES;
-using Heirloom.Hardware;
 using Heirloom.Sound;
 using Heirloom.Utilities;
 

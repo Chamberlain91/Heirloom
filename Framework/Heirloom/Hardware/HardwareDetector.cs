@@ -1,8 +1,6 @@
 using System;
 using System.Diagnostics;
 
-using Heirloom.Drawing;
-
 namespace Heirloom.Hardware
 {
     /// <summary>

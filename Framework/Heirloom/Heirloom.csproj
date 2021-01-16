@@ -56,15 +56,15 @@
     <None Remove="Embedded\icon.png" />
     <None Remove="Embedded\monogram_extended.ttf" />
     <None Remove="Embedded\LDR_RGB1_0.png" />
-    <None Remove="Embedded\Shaders\blur.frag" />
-    <None Remove="Embedded\Shaders\default.frag" />
-    <None Remove="Embedded\Shaders\default.vert" />
-    <None Remove="Embedded\Shaders\distort.frag" />
-    <None Remove="Embedded\Shaders\grayscale.frag" />
-    <None Remove="Embedded\Shaders\invert.frag" />
-    <None Remove="Embedded\Shaders\standard\standard.frag" />
-    <None Remove="Embedded\Shaders\standard\standard.glsl" />
-    <None Remove="Embedded\Shaders\standard\standard.vert" />
+    <None Remove="Embedded\shaders\blur.frag" />
+    <None Remove="Embedded\shaders\default.frag" />
+    <None Remove="Embedded\shaders\default.vert" />
+    <None Remove="Embedded\shaders\distort.frag" />
+    <None Remove="Embedded\shaders\grayscale.frag" />
+    <None Remove="Embedded\shaders\invert.frag" />
+    <None Remove="Embedded\shaders\standard\standard.frag" />
+    <None Remove="Embedded\shaders\standard\standard.glsl" />
+    <None Remove="Embedded\shaders\standard\standard.vert" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,15 +72,15 @@
     <EmbeddedResource Include="Embedded\fonts\montserrat\Montserrat-Bold.ttf" />
     <EmbeddedResource Include="Embedded\fonts\monogram_extended.ttf" />
     <EmbeddedResource Include="Embedded\LDR_RGB1_0.png" />
-    <EmbeddedResource Include="Embedded\Shaders\blur.frag" />
-    <EmbeddedResource Include="Embedded\Shaders\default.frag" />
-    <EmbeddedResource Include="Embedded\Shaders\default.vert" />
-    <EmbeddedResource Include="Embedded\Shaders\distort.frag" />
-    <EmbeddedResource Include="Embedded\Shaders\grayscale.frag" />
-    <EmbeddedResource Include="Embedded\Shaders\invert.frag" />
-    <EmbeddedResource Include="Embedded\Shaders\standard\standard.frag" />
-    <EmbeddedResource Include="Embedded\Shaders\standard\standard.glsl" />
-    <EmbeddedResource Include="Embedded\Shaders\standard\standard.vert" />
+    <EmbeddedResource Include="Embedded\shaders\blur.frag" />
+    <EmbeddedResource Include="Embedded\shaders\default.frag" />
+    <EmbeddedResource Include="Embedded\shaders\default.vert" />
+    <EmbeddedResource Include="Embedded\shaders\distort.frag" />
+    <EmbeddedResource Include="Embedded\shaders\grayscale.frag" />
+    <EmbeddedResource Include="Embedded\shaders\invert.frag" />
+    <EmbeddedResource Include="Embedded\shaders\standard\standard.frag" />
+    <EmbeddedResource Include="Embedded\shaders\standard\standard.glsl" />
+    <EmbeddedResource Include="Embedded\shaders\standard\standard.vert" />
   </ItemGroup>
 
   <!-- StbImageSharp -->
