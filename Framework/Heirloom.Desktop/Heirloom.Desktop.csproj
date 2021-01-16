@@ -17,10 +17,6 @@
   <Import Project="../../Heirloom.targets" />
 
   <ItemGroup>
-    <None Remove="native/**"/>
-  </ItemGroup>
-
-  <ItemGroup>
 
     <!-- GLFW -->
     <Content Include="native/win-x64/glfw3.dll" PackagePath="runtimes/win-x64/native/" Link="glfw3.dll" Pack="true" CopyToOutputDirectory="PreserveNewest" Visible="false" />

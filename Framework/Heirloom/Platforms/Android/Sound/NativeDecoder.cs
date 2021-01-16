@@ -11,19 +11,38 @@ namespace Heirloom.Sound
         #region Dr Mp3
 
         [DllImport("decoder", EntryPoint = "drmp3_init_memory")]
-        public static extern bool drmp3_init_memory(void* pMP3, void* pData, int dataSize, void* allocationCallbacks);
+        public static extern bool drmp3_init_memory(void* ptr, void* pData, int dataSize, void* allocationCallbacks);
 
         [DllImport("decoder", EntryPoint = "drmp3_uninit")]
-        public static extern void drmp3_uninit(void* pMP3);
+        public static extern void drmp3_uninit(void* ptr);
 
         [DllImport("decoder", EntryPoint = "drmp3_read_pcm_frames_s16")]
-        public static extern ulong drmp3_read_pcm_frames_s16(void* pMP3, ulong framesToRead, short* pBufferOut);
+        public static extern ulong drmp3_read_pcm_frames_s16(void* ptr, ulong framesToRead, short* pBufferOut);
 
         [DllImport("decoder", EntryPoint = "drmp3_seek_to_pcm_frame")]
-        public static extern bool drmp3_seek_to_pcm_frame(void* pMP3, ulong frameIndex);
+        public static extern bool drmp3_seek_to_pcm_frame(void* ptr, ulong frameIndex);
 
         [DllImport("decoder", EntryPoint = "drmp3_get_pcm_frame_count")]
-        public static extern ulong drmp3_get_pcm_frame_count(void* pMP3);
+        public static extern ulong drmp3_get_pcm_frame_count(void* ptr);
+
+        #endregion
+
+        #region Dr Wav
+
+        [DllImport("decoder", EntryPoint = "drwav_init_memory")]
+        public static extern bool drwav_init_memory(void* ptr, void* pData, int dataSize, void* allocationCallbacks);
+
+        [DllImport("decoder", EntryPoint = "drwav_uninit")]
+        public static extern void drwav_uninit(void* ptr);
+
+        [DllImport("decoder", EntryPoint = "drwav_read_pcm_frames_s16")]
+        public static extern ulong drwav_read_pcm_frames_s16(void* ptr, ulong framesToRead, short* pBufferOut);
+
+        [DllImport("decoder", EntryPoint = "drwav_seek_to_pcm_frame")]
+        public static extern bool drwav_seek_to_pcm_frame(void* ptr, ulong frameIndex);
+
+        [DllImport("decoder", EntryPoint = "drwav_get_pcm_frame_count")]
+        public static extern ulong drwav_get_pcm_frame_count(void* ptr);
 
         #endregion
 
@@ -50,9 +69,6 @@ namespace Heirloom.Sound
 
         [DllImport("decoder", EntryPoint = "alloc_mp3_struct")]
         public static extern void* alloc_mp3_struct();
-
-        [DllImport("decoder", EntryPoint = "alloc_flac_struct")]
-        public static extern void* alloc_flac_struct();
 
         [DllImport("decoder", EntryPoint = "alloc_wav_struct")]
         public static extern void* alloc_wav_struct();

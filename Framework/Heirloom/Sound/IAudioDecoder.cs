@@ -8,16 +8,6 @@ namespace Heirloom.Sound
     public interface IAudioDecoder : IDisposable
     {
         /// <summary>
-        /// Gets the sample rate of the decoder.
-        /// </summary>
-        int SampleRate { get; }
-
-        /// <summary>
-        /// Gets the number of channels in the decoder.
-        /// </summary>
-        int Channels { get; }
-
-        /// <summary>
         /// Gets tha value that determines if this decoder been disposed.
         /// Once disposed, this instance is useless.
         /// </summary>

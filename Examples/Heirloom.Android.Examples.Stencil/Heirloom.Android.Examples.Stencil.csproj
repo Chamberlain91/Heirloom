@@ -109,9 +109,6 @@
     <EmbeddedResource Include="zelda.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="bensound-dubstep.mp3" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\Framework\Heirloom.Android\Heirloom.Android.csproj">
       <Project>{54fba483-0269-4654-9c4c-07ec4efd0a94}</Project>
       <Name>Heirloom.Android</Name>
@@ -120,6 +117,17 @@
       <Project>{08476181-cdf9-4f8e-8636-bb253e95591c}</Project>
       <Name>Heirloom</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Heirloom.Examples.PlayMusic\bensound-dubstep.mp3">
+      <Link>bensound-dubstep.mp3</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Heirloom.Examples.PlayMusic\bensound-dubstep.ogg">
+      <Link>bensound-dubstep.ogg</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Heirloom.Examples.PlayMusic\bensound-dubstep.wav">
+      <Link>bensound-dubstep.wav</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

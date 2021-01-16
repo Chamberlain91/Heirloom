@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 
 namespace Heirloom.Sound.Android
 {
-#if ANDROID
     public unsafe sealed class Mp3Decoder : IAudioDecoder
     {
         private readonly void* _data;
@@ -25,14 +24,8 @@ namespace Heirloom.Sound.Android
             // Initialize decoder
             if (!NativeDecoder.drmp3_init_memory(_ptr, _data, _dataSize, null))
             {
-                throw new InvalidOperationException("Unable to initialize mp3 decoder");
+                throw new InvalidOperationException("Unable to initialize MP3 decoder");
             }
-
-            // todo: Actually get from decoder
-            SampleRate = AudioBackend.SampleRate;
-            Channels = AudioBackend.Channels;
-
-            Log.Debug($"Creating MP3 Decoder (rate: {SampleRate} channels: {Channels})");
 
             // Gets the number of frames
             _length = NativeDecoder.drmp3_get_pcm_frame_count(_ptr);
@@ -42,10 +35,6 @@ namespace Heirloom.Sound.Android
         {
             Dispose(disposing: false);
         }
-
-        public int SampleRate { get; private set; }
-
-        public int Channels { get; private set; }
 
         public int Length => (int) _length;
 
@@ -60,7 +49,7 @@ namespace Heirloom.Sound.Android
         {
             fixed (short* p_samples = samples)
             {
-                return (int) NativeDecoder.drmp3_read_pcm_frames_s16(_ptr, (ulong) (samples.Length / Channels), p_samples) * Channels;
+                return (int) NativeDecoder.drmp3_read_pcm_frames_s16(_ptr, (ulong) (samples.Length / AudioBackend.Channels), p_samples) * AudioBackend.Channels;
             }
         }
 
@@ -74,8 +63,6 @@ namespace Heirloom.Sound.Android
                 {
                     // Nothing
                 }
-
-                Log.Warning("Disposing MP3 Decoder");
 
                 // Free native memory
                 Marshal.FreeHGlobal((IntPtr) _data);
@@ -91,5 +78,4 @@ namespace Heirloom.Sound.Android
             GC.SuppressFinalize(this);
         }
     }
-#endif
 }

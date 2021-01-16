@@ -1,9 +1,8 @@
-#if ANDROID
 using System;
 using System.Diagnostics;
-using System.IO;
 
 using Android.Media;
+using Android.OS;
 
 using Stream = System.IO.Stream;
 
@@ -29,9 +28,7 @@ namespace Heirloom.Sound.Android
 
         private void AudioThread()
         {
-            // global::Android.OS.Process.SetThreadPriority(ThreadPriority.Audio);
-
-            Log.Warning("[Audio Thread] Begin");
+            global::Android.OS.Process.SetThreadPriority(ThreadPriority.Audio);
 
             // Create streaming audio track to act as our output sink
             var track = CreateAudioTrack();
@@ -94,6 +91,8 @@ namespace Heirloom.Sound.Android
             else
             if (TryCreateOggDecoder(data, out decoder)) { return decoder; }
             else
+            if (TryCreateWavDecoder(data, out decoder)) { return decoder; }
+            else
             {
                 throw new NotImplementedException("Unable to create decoder for audio stream");
             }
@@ -127,7 +126,20 @@ namespace Heirloom.Sound.Android
             }
         }
 
+        private static bool TryCreateWavDecoder(byte[] data, out IAudioDecoder decoder)
+        {
+            try
+            {
+                decoder = new WavDecoder(data);
+                return true;
+            }
+            catch (InvalidOperationException)
+            {
+                decoder = default;
+                return false;
+            }
+        }
+
         #endregion 
     }
 }
-#endif

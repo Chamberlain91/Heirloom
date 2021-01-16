@@ -1,12 +1,14 @@
 # Heirloom
 
-A C# framework that provides *drawing, audio playback, mathematics, data structures and more*. Useful for prototyping and implementating games, tools and other graphical applications. Heirloom currently is supported on *Windows, Linux and macOS*.
+A C# framework that provides *drawing, audio, mathematics, data structures and more*. Useful for prototyping and implementating games, tools and other graphical applications. Heirloom currently is supported on *Windows, Linux and Android*.
+
+Note: The library *should* be able to run on *macOS* but I am not supporting this platform. Apple has deprecated OpenGL in addition to the fact I just don't have access to an apple computer to test. However, if someone in the larger world of the internet wants to help implement a *macOS* backend, please let me know.
 
 ![screenshots](./Documentation/screenshots.png)
 
-I've been developing this framework with **Visual Studio 2019**. Using the `dotnet` CLI has been straight forward enough experience to build and run the examples so using `VS Code` (or your favorite editor) and basic comprehension of the command line should work well to contribute and/or use **Heirloom**.
+I've been developing this framework with **Visual Studio 2019**. Using the `dotnet` CLI has been straight forward enough experience to build and run the examples, so using `VS Code` (or your favorite editor) should work well to contribute and/or use **Heirloom**.
 
-Libraries are `NET Standard 2.1` compiant and examples run on `NET Core 3.1`. 
+The framework is built against `NET 5.0` (and `MonoAndroid10.0` on Android).
 
 ## Tutorials and Documentation
 
@@ -18,7 +20,7 @@ You can also find [screenshots][screenshot_dir] and [api documentation][api_dir]
 
 I've compiled most of the projects and created nuget packages and put them up on [Nuget][nuget_search]. They may be out of date with respect to the repository, but I will try to keep them relevant.
 
-If you build the projects in the `Modules\` directory, it should generate the associated `*.nupkg`. You can then reference them manually if you desire.
+If you build the projects in the `Framework\` directory, it should generate the associated `*.nupkg`. You can then reference them manually if you desire.
 
 ## Building
 
@@ -34,35 +36,31 @@ If you build the projects in the `Modules\` directory, it should generate the as
 1. Clone this repository.
 2. Build or Run Examples
    * Run `dotnet build -c Release` in the solution or project folder
-     * Note: The solution build may fail because of experimental projects.
    * Run `dotnet run -c Release` in any example project folder
 
-*The projects are set to the standard `AnyCpu` platform, but it is important to note the native binaries are 64 bit.*
+*The projects are set to the standard `AnyCpu` configuration, but it is important to note the native binaries are actually 64-bit. This framework does not currently support 32-bit*.
 
 ## Overview
 
 **Note:** *Some projects may exist in the the repository (especially in a development branch) that are not mentioned here. You should consider these projects as experimental or 'in early development' and not rely on them whatsoever.*
 
-#### Heirloom.Core
+#### Heirloom
 
-The heart of **Heirloom** is the hardware accelerated 2D drawing. This includes features to *draw images, text and other shapes* with **support for shaders** and other compositing effects. In addition, Heirloom provides a collection of mathematical data types and functions useful for 2D math. Includes tools and utilities for manipulating and creating vectors, matrices, polygons and other shapes. 
+`Mathematics` - Heirloom provides a collection of mathematical data types and functions useful for 2D math. Includes tools and utilities for manipulating and creating vectors, matrices, polygons and other shapes.
 
-The `Sound` API provides mechanisms for controllnig audio playback, audio groups, effect chains (such as reverb) and more. Sound data can be either streamed from disk or loaded into memory first. Audio groups allow the user to mix sounds and apply effects in bulk.
+`Drawing` - The heart of **Heirloom** is the hardware accelerated 2D drawing. This includes features to *draw images, text and other shapes* with **support for GLSL shaders**.
 
-Additionally, Heirloom gives the user access to data structures and utility functions for general quality of life. For example, Heirloom contains data structures like `Grid<T>`, `BvhSpatialCollection<T>` and `Graph<T>` and functions like heuristic based search and stable sorting.
+`Sound` - **Heirloom** also supports an Audio API that allows audio playback, audio groups, effect chains (such as reverb) and more. Sound data can be either streamed from disk or loaded into memory first. Audio groups allow the user to mix sounds and apply effects in bulk. This API support decoding `.ogg`, `.mp3` and `.wav` files.
+
+`Collections` - Additionally, Heirloom gives the user access to data structures and utility functions for quality of life. For example, Heirloom contains data structures like `Grid<T>`, `BvhSpatialCollection<T>` and `Graph<T>` and functions like heuristic based search and stable sorting.
 
 #### Heirloom.Desktop
 
-Provides the complete backend for drawing, audio and user input on desktop platforms. This library gives the user the ability to create and manage windows. Implemented over `GLFW` and depends on `Heirloom.OpenGLES` and `Heirloom.MiniAudio`.
+Provides the native binaries for desktop platforms (Windows, Linux and macOS).
 
-#### Heirloom.OpenGLES
+#### Heirloom.Android
 
-Provides an implementation of the graphics system over `OpenGL ES 3.1` core features.
-
-#### Heirloom.MiniAudio
-
-Provides an implementation for audio playback over `miniaudio`.
-* Supports `.ogg` and `.mp3`
+Provides the native binaries for Android platform.
 
 ## License
 
@@ -80,7 +78,8 @@ Software
 * https://github.com/glfw/glfw
 * https://github.com/nothings/stb
 * https://github.com/rds1983/StbSharp
-* https://github.com/dr-soft/miniaudio
+* https://github.com/mackron/miniaudio
+* https://github.com/mackron/dr_libs
 
 [stbcsharp]: https://github.com/rds1983/StbSharp
 [nuget_search]: https://www.nuget.org/packages?q=heirloom

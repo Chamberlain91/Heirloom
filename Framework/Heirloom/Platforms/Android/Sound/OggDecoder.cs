@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 
 namespace Heirloom.Sound.Android
 {
-#if ANDROID
     public unsafe sealed class OggDecoder : IAudioDecoder
     {
         private readonly void* _data;
@@ -23,15 +22,8 @@ namespace Heirloom.Sound.Android
             _ptr = NativeDecoder.stb_vorbis_open_memory(_data, _dataSize, null, null);
             if (_ptr == null)
             {
-                throw new InvalidOperationException("Unable to initialize ogg decoder");
+                throw new InvalidOperationException("Unable to initialize OGG decoder");
             }
-
-            // Extract sample rate and channel info
-            var info = NativeDecoder.stb_vorbis_get_info(_ptr);
-            SampleRate = (int) info.sample_rate;
-            Channels = info.channels;
-
-            Log.Debug($"Creating OGG Decoder (rate: {SampleRate} channels: {Channels})");
 
             // Gets the number of samples
             _length = NativeDecoder.stb_vorbis_stream_length_in_samples(_ptr);
@@ -41,10 +33,6 @@ namespace Heirloom.Sound.Android
         {
             Dispose(disposing: false);
         }
-
-        public int SampleRate { get; private set; }
-
-        public int Channels { get; private set; }
 
         public int Length => (int) _length;
 
@@ -74,8 +62,6 @@ namespace Heirloom.Sound.Android
                     // Nothing
                 }
 
-                Log.Warning("Disposing OGG Decoder");
-
                 // Free native memory
                 Marshal.FreeHGlobal((IntPtr) _data);
                 NativeDecoder.free_struct(_ptr);
@@ -90,5 +76,4 @@ namespace Heirloom.Sound.Android
             GC.SuppressFinalize(this);
         }
     }
-#endif
 }

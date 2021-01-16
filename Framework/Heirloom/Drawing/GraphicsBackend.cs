@@ -44,12 +44,6 @@ namespace Heirloom.Drawing
                 Current.Capabilities = Current.GetGraphicsCapabilities();
                 SystemInformation.UpdateGPUInfo(Current.GetGpuInfo());
 
-                // Log capabilities
-                Log.Info(Current.Capabilities);
-                Log.Info(SystemInformation.OperatingSystem);
-                Log.Info(SystemInformation.Cpu);
-                Log.Info(SystemInformation.Gpu);
-
                 // Initialize shader backend
                 Shader.InitializeDefaults();
 

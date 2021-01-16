@@ -13,7 +13,7 @@ namespace Heirloom.Examples.PlayMusic
             Console.WriteLine("Now Playing: Dubstep from https://www.bensound.com/");
 
             // Create an (streaming) audio source and play
-            var clip = new AudioClip("bensound-dubstep.ogg");
+            var clip = new AudioClip("bensound-dubstep.wav");
             var source = new AudioSource(clip);
             source.Play();
 
