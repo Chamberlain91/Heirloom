@@ -8,13 +8,14 @@ namespace Heirloom.Mathematics
     /// <summary>
     /// Represents a simple polygon.
     /// </summary>
-    public partial class Polygon : IShape
+    public partial class Polygon : IShape, IReadOnlyPolygon
     // todo: find shared edges, and skip them in collision checks?
     // todo: IReadOnlyPolygon
     // This should help in the design of computing the contacts needed for collision response.
     {
         private readonly List<Vector> _vertices;
         private readonly List<Vector> _normals;
+        private readonly VerticesWrapper _vertexWrapper;
 
         // todo: class ConvexPartition : IShape
         private List<Vector[]> _convexPartitions;
@@ -47,6 +48,8 @@ namespace Heirloom.Mathematics
         {
             _vertices = new List<Vector>();
             _normals = new List<Vector>();
+
+            _vertexWrapper = new VerticesWrapper(this);
         }
 
         /// <summary>
@@ -66,9 +69,14 @@ namespace Heirloom.Mathematics
         #region Properties
 
         /// <summary>
-        /// Gets a read-only view of the polygon's vertices.
+        /// Gets the list vertices on this polygon.
         /// </summary>
-        public IReadOnlyList<Vector> Vertices => _vertices;
+        /// <remarks>
+        /// Note: Adjusting the vertices will invalidate cached properties (normals, convexity, triangulation, etc).
+        /// </remarks>
+        public IList<Vector> Vertices => _vertexWrapper;
+
+        IReadOnlyList<Vector> IReadOnlyPolygon.Vertices => _vertices;
 
         /// <summary>
         /// Gets a read-only view of the polygon's normals.
@@ -518,5 +526,95 @@ namespace Heirloom.Mathematics
         }
 
         #endregion
+
+        /// <summary>
+        /// Used to invalidate cached properties when the vertex list is manipulated.
+        /// </summary>
+        private sealed class VerticesWrapper : IList<Vector>
+        {
+            private readonly Polygon _polygon;
+
+            public VerticesWrapper(Polygon polygon)
+            {
+                _polygon = polygon ?? throw new ArgumentNullException(nameof(polygon));
+            }
+
+            public bool IsReadOnly => ((ICollection<Vector>) _polygon._vertices).IsReadOnly;
+
+            public int Count => _polygon._vertices.Count;
+
+            public int IndexOf(Vector item)
+            {
+                return _polygon._vertices.IndexOf(item);
+            }
+
+            public void Insert(int index, Vector item)
+            {
+                _polygon._dirty |= Dirty.Everything;
+                _polygon._vertices.Insert(index, item);
+            }
+
+            public void RemoveAt(int index)
+            {
+                _polygon._dirty |= Dirty.Everything;
+                _polygon._vertices.RemoveAt(index);
+            }
+
+            public Vector this[int index]
+            {
+                get => _polygon._vertices[index];
+
+                set
+                {
+                    _polygon._dirty |= Dirty.Everything;
+                    _polygon._vertices[index] = value;
+                }
+            }
+
+            public void Add(Vector item)
+            {
+                _polygon._dirty |= Dirty.Everything;
+                _polygon._vertices.Add(item);
+            }
+
+            public void Clear()
+            {
+                _polygon._dirty |= Dirty.Everything;
+                _polygon._vertices.Clear();
+            }
+
+            public bool Contains(Vector item)
+            {
+                return _polygon._vertices.Contains(item);
+            }
+
+            public void CopyTo(Vector[] array, int arrayIndex)
+            {
+                _polygon._vertices.CopyTo(array, arrayIndex);
+            }
+
+            public bool Remove(Vector item)
+            {
+                if (_polygon._vertices.Remove(item))
+                {
+                    _polygon._dirty |= Dirty.Everything;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            public IEnumerator<Vector> GetEnumerator()
+            {
+                return _polygon._vertices.GetEnumerator();
+            }
+
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+            {
+                return _polygon._vertices.GetEnumerator();
+            }
+        }
     }
 }
