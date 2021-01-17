@@ -1,9 +1,9 @@
-using Heirloom.Drawing;
-using Heirloom.Mathematics;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using Heirloom.Drawing;
+using Heirloom.Mathematics;
 
 namespace Heirloom
 {
@@ -81,10 +81,8 @@ namespace Heirloom
 
             if (elements.Count > 0)
             {
-                var first = elements[0];
-
                 // Get the score of the first element
-                var minScore = getScore(first);
+                var minScore = getScore(elements[0]);
                 var minIndex = 0;
 
                 // For each element (except the first)
@@ -123,10 +121,8 @@ namespace Heirloom
 
             if (elements.Count > 0)
             {
-                var first = elements[0];
-
                 // Get the score of the first element
-                var maxScore = getScore(first);
+                var maxScore = getScore(elements[0]);
                 var maxIndex = 0;
 
                 // For each element (except the first)
@@ -165,23 +161,34 @@ namespace Heirloom
 
             if (elements.Any())
             {
-                var first = elements.First();
-
-                // Get the score of the first element
-                var maxScore = getScore(first);
-                var maxElement = first;
+                var maxElement = default(T);
+                var maxScore = default(N);
+                var hasFirst = false;
 
                 // For each element (except the first)
-                foreach (var element in elements.Skip(1))
+                foreach (var element in elements)
                 {
                     // Get the score for this element
                     var score = getScore(element);
 
-                    // If this is the maximal score thus far, record it.
-                    if (score.CompareTo(maxScore) < 0)
+                    if (!hasFirst)
                     {
+                        // This is the first element, no comparison can be made.
+                        // So we will just record the element and score.
                         maxElement = element;
                         maxScore = score;
+
+                        // Mark that we have seen the first element
+                        hasFirst = true;
+                    }
+                    else
+                    {
+                        // If this is the maximal score thus far, record it.
+                        if (score.CompareTo(maxScore) < 0)
+                        {
+                            maxElement = element;
+                            maxScore = score;
+                        }
                     }
                 }
 
@@ -205,23 +212,34 @@ namespace Heirloom
 
             if (elements.Any())
             {
-                var first = elements.First();
-
-                // Get the score of the first element
-                var maxScore = getScore(first);
-                var maxElement = first;
+                var maxElement = default(T);
+                var maxScore = default(N);
+                var hasFirst = false;
 
                 // For each element (except the first)
-                foreach (var element in elements.Skip(1))
+                foreach (var element in elements)
                 {
                     // Get the score for this element
                     var score = getScore(element);
 
-                    // If this is the maximal score thus far, record it.
-                    if (score.CompareTo(maxScore) > 0)
+                    if (!hasFirst)
                     {
+                        // This is the first element, no comparison can be made.
+                        // So we will just record the element and score.
                         maxElement = element;
                         maxScore = score;
+
+                        // Mark that we have seen the first element
+                        hasFirst = true;
+                    }
+                    else
+                    {
+                        // If this is the maximal score thus far, record it.
+                        if (score.CompareTo(maxScore) > 0)
+                        {
+                            maxElement = element;
+                            maxScore = score;
+                        }
                     }
                 }
 
