@@ -194,7 +194,7 @@ namespace Heirloom.Mathematics
         internal static int GetCircleApproximateSegmentCount(float radius, float error)
         {
             // todo: compute based on some arc error?
-            return 5 + (int) Calc.Sqrt(radius * 2 * Calc.Pi);
+            return 5 + (int) (Calc.Sqrt(radius) * Calc.Pi);
         }
 
         #endregion

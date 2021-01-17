@@ -11,26 +11,12 @@ namespace Heirloom.Mathematics
     /// </summary>
     internal static class PolygonTools
     {
-        #region Closest Point (IReadOnlyList<Vector>)
+        #region Nearest Point (IReadOnlyList<Vector>)
 
         /// <summary>
-        /// Gets the closest point on the polygon to the specified point. 
-        /// If the point is contained by the polygon, the point itself is returned.
+        /// Gets the nearest point on the polygon to the specified point.
         /// </summary>
-        public static Vector GetClosestPoint(IReadOnlyList<Vector> polygon, in Vector point)
-        // todo: can this be optimized?
-        {
-            if (ContainsPoint(polygon, point)) { return point; }  // O(n)
-            else
-            {
-                return GetClosestPointOutline(polygon, in point); // O(n)
-            }
-        }
-
-        /// <summary>
-        /// Gets the closest point on the polygon outline to the specified point.
-        /// </summary>
-        public static Vector GetClosestPointOutline(IReadOnlyList<Vector> polygon, in Vector point)
+        public static Vector GetNearestPoint(IReadOnlyList<Vector> polygon, in Vector point)
         {
             var minD = float.MaxValue;
             var minP = Vector.Zero;
@@ -59,20 +45,21 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Assuming the polygon is convex, checks if the point is contained.
         /// </summary>
-        public static bool ContainsPoint(IReadOnlyList<Vector> poly, in Vector point)
+        public static bool ContainsPoint(IReadOnlyList<Vector> convex, in Vector point)
+        // todo: perhaps change to IEnumerable and use a memory/generator of the first point?
         // ref: https://stackoverflow.com/a/34689268
         {
             // Check if a triangle or higher n-gon
-            Debug.Assert(poly.Count >= 3);
+            Debug.Assert(convex.Count >= 3);
 
             // Keep track of cross product sign changes
             var pos = 0;
             var neg = 0;
 
-            for (var i = 0; i < poly.Count; i++)
+            for (var i = 0; i < convex.Count; i++)
             {
-                var p0 = poly[i];
-                var p1 = poly[i < poly.Count - 1 ? i + 1 : 0];
+                var p0 = convex[i];
+                var p1 = convex[i < convex.Count - 1 ? i + 1 : 0];
 
                 var e0 = point - p0;
                 var e1 = p1 - p0;
@@ -104,8 +91,7 @@ namespace Heirloom.Mathematics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Raycast(IReadOnlyList<Vector> polygon, in Ray ray, out RayContact contact)
         {
-            // return Raycast(polygon, in ray.Origin, in ray.Direction, out contact);
-
+            // todo: perhaps implement against LineSegment.Intersects? somehow comparitively see what is better
             // ref: https://github.com/RandyGaul/cute_headers/blob/master/cute_c2.h
 
             var lo = 0F;
@@ -167,6 +153,7 @@ namespace Heirloom.Mathematics
 
         internal static Polygon ComputeConvexHull(IEnumerable<Vector> points)
         // Somewhat ported from https://www.geeksforgeeks.org/convex-hull-set-2-graham-scan/
+        // todo: determine if there is a fast algorthim and record the time complexity.
         {
             if (points.Any())
             {
@@ -248,7 +235,7 @@ namespace Heirloom.Mathematics
         #endregion
 
         #region Convex Decomposition
-         
+
         /// <summary>
         /// Converts a simple polygon into one or more convex polygons enumerated by indices of the original polygon.
         /// </summary>
@@ -341,7 +328,7 @@ namespace Heirloom.Mathematics
                         var vj_c = polygon[Calc.Wrap(mj + 1, polygon.Count)];
 
                         // Will inserting the point cause the polygon to remain convex?
-                        if (IsConvexVertex(points[vi_a], points[vi_b], points[vi_c]) && IsConvexVertex(points[vj_a], points[vj_b], points[vj_c]))
+                        if (IsClockwise(points[vi_a], points[vi_b], points[vi_c]) && IsClockwise(points[vj_a], points[vj_b], points[vj_c]))
                         {
                             // Insert vertex into merge shape
                             polygon.Insert(mj, vi);
@@ -353,81 +340,81 @@ namespace Heirloom.Mathematics
                 // Was not able to merge triangle into polygon
                 return false;
             }
-        }
 
-        /// <summary>
-        /// Finds a shared edge in the given polygon, returning true when a shared edge can be found.
-        /// </summary>
-        /// <param name="polygon">Some polygon represented as indices of a vertex set.</param>
-        /// <param name="a">First vertex index of the triangle.</param>
-        /// <param name="b">Second vertex index of the triangle.</param>
-        /// <param name="c">Third vertex index of the triangle.</param>
-        /// <param name="mi">The position within <paramref name="polygon"/> to insert <paramref name="vMerge"/> after.</param>
-        /// <param name="vMerge">The vertex index to insert after <paramref name="mi"/>.</param>
-        private static bool FindSharedEdge(List<int> polygon, int a, int b, int c, out int mi, out int vMerge) // O(M)
-        {
-            for (mi = 0; mi < polygon.Count; mi++)
+            /// <summary>
+            /// Finds a shared edge in the given polygon, returning true when a shared edge can be found.
+            /// </summary>
+            /// <param name="polygon">Some polygon represented as indices of a vertex set.</param>
+            /// <param name="a">First vertex index of the triangle.</param>
+            /// <param name="b">Second vertex index of the triangle.</param>
+            /// <param name="c">Third vertex index of the triangle.</param>
+            /// <param name="mi">The position within <paramref name="polygon"/> to insert <paramref name="vMerge"/> after.</param>
+            /// <param name="vMerge">The vertex index to insert after <paramref name="mi"/>.</param>
+            static bool FindSharedEdge(List<int> polygon, int a, int b, int c, out int mi, out int vMerge) // O(M)
             {
-                var mj = (mi + 1) % polygon.Count;
-
-                var vi = polygon[mi];
-                var vj = polygon[mj];
-
-                // TODO: Maybe there is a better/shorter way to implement this?
-
-                if (vi == a)
+                for (mi = 0; mi < polygon.Count; mi++)
                 {
-                    if (vj == b)
+                    var mj = (mi + 1) % polygon.Count;
+
+                    var vi = polygon[mi];
+                    var vj = polygon[mj];
+
+                    // TODO: Maybe there is a better/shorter way to implement this?
+
+                    if (vi == a)
                     {
-                        // Insert C between AB
-                        vMerge = c;
-                        return true;
+                        if (vj == b)
+                        {
+                            // Insert C between AB
+                            vMerge = c;
+                            return true;
+                        }
+                        else if (vj == c)
+                        {
+                            // Insert B between CA
+                            vMerge = b;
+                            return true;
+                        }
                     }
-                    else if (vj == c)
+                    else
+                    if (vi == b)
                     {
-                        // Insert B between CA
-                        vMerge = b;
-                        return true;
+                        if (vj == c)
+                        {
+                            // Insert A between BC
+                            vMerge = a;
+                            return true;
+                        }
+                        else if (vj == a)
+                        {
+                            // Insert C between AB
+                            vMerge = c;
+                            return true;
+                        }
+                    }
+                    else
+                    if (vi == c)
+                    {
+                        if (vj == a)
+                        {
+                            // Insert B between CA
+                            vMerge = b;
+                            return true;
+                        }
+                        else if (vj == b)
+                        {
+                            // Insert A between BC
+                            vMerge = a;
+                            return true;
+                        }
                     }
                 }
-                else
-                if (vi == b)
-                {
-                    if (vj == c)
-                    {
-                        // Insert A between BC
-                        vMerge = a;
-                        return true;
-                    }
-                    else if (vj == a)
-                    {
-                        // Insert C between AB
-                        vMerge = c;
-                        return true;
-                    }
-                }
-                else
-                if (vi == c)
-                {
-                    if (vj == a)
-                    {
-                        // Insert B between CA
-                        vMerge = b;
-                        return true;
-                    }
-                    else if (vj == b)
-                    {
-                        // Insert A between BC
-                        vMerge = a;
-                        return true;
-                    }
-                }
+
+                vMerge = -1;
+                mi = -1;
+
+                return false;
             }
-
-            vMerge = -1;
-            mi = -1;
-
-            return false;
         }
 
         #endregion
@@ -509,7 +496,7 @@ namespace Heirloom.Mathematics
                 if (points.Count < 3) { return false; }
 
                 // An ear must be convex
-                if (IsConvexVertex(points, i))
+                if (IsClockwise(points, i))
                 {
                     // The vertices of the test triangle
                     var c = GetVertex(points, i + 0);
@@ -543,43 +530,45 @@ namespace Heirloom.Mathematics
 
         #endregion
 
-        #region Convex Check
+        #region Convex & Clockwise Checks
+
+        /// <summary>
+        /// Determines if the polygon is convex.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsConvexPolygon(IReadOnlyList<Vector> polygon)
+        {
+            int pos = 0, neg = 0;
+            for (var i = 0; i < polygon.Count; i++)
+            {
+                if (IsClockwise(polygon, i)) { pos++; }
+                else { neg++; }
+            }
+
+            // Polygon must bend only in one direction to be convex.
+            // If both values are positive, the polygon is concave.
+            return pos <= 0 || neg <= 0;
+        }
 
         /// <summary>
         /// Determines if the ith vertex is a convex (clockwise) vertex.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsConvexVertex(IReadOnlyList<Vector> polygon, int i)
+        public static bool IsClockwise(IReadOnlyList<Vector> polygon, int i)
         {
             var p = GetVertex(polygon, i - 1);
             var c = GetVertex(polygon, i + 0);
             var n = GetVertex(polygon, i + 1);
 
-            return IsConvexVertex(p, c, n);
-        }
-
-        /// <summary>
-        /// Determines if the polygon is considered convex (non-concave and oriented clockwise).
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsConvexPolygon(IReadOnlyList<Vector> polygon)
-        {
-            for (var i = 0; i < polygon.Count; i++)
-            {
-                if (!IsConvexVertex(polygon, i))
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return IsClockwise(in p, in c, in n);
         }
 
         /// <summary>
         /// Determines if the vertex '<paramref name="vCurr"/>' is convex (clockwise).
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsConvexVertex(in Vector vPrev, in Vector vCurr, in Vector vNext)
+        public static bool IsClockwise(in Vector vPrev, in Vector vCurr, in Vector vNext)
+        // todo: can be implemented against Vector.Cross, that's pretty much what is happening below.
         {
             // Does it have to be normalized?
             // var d1 = Vector.Normalize(c - p);
@@ -664,64 +653,6 @@ namespace Heirloom.Mathematics
         {
             return polygon.FindMaximal(v => Vector.Dot(v, direction));
         }
-
-        #region Temporary Polygons
-
-        private static readonly Queue<Vector[]>[] _tempPolygons = new[] { new Queue<Vector[]>(), new Queue<Vector[]>() };
-
-        internal static Vector[] RequestTempPolygon(in Rectangle rectangle)
-        {
-            // Get temporary polygon
-            var polygon = RequestTempPolygon(4);
-
-            // Copy into temp polygon
-            polygon[0] = rectangle.TopLeft;
-            polygon[1] = rectangle.TopRight;
-            polygon[2] = rectangle.BottomRight;
-            polygon[3] = rectangle.BottomLeft;
-
-            return polygon;
-        }
-
-        internal static Vector[] RequestTempPolygon(in Triangle triangle)
-        // todo: does winding matter?
-        {
-            // Get temporary polygon
-            var polygon = RequestTempPolygon(3);
-
-            // Copy into temp polygon
-            polygon[0] = triangle.A;
-            polygon[1] = triangle.B;
-            polygon[2] = triangle.C;
-
-            return polygon;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static Vector[] RequestTempPolygon(int size)
-        {
-            // Get next in queue or allocate a new polygon
-            var queue = GetTempPolygonQueue(size);
-            if (queue.Count > 0) { return queue.Dequeue(); }
-            else { return new Vector[size]; }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void RecycleTempPolygon(Vector[] polygon)
-        {
-            // Recycle polygon
-            var queue = GetTempPolygonQueue(polygon.Length);
-            queue.Enqueue(polygon);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static Queue<Vector[]> GetTempPolygonQueue(int size)
-        {
-            if (size < 3 || size > 4) { throw new ArgumentException(); }
-            return _tempPolygons[size - 3];
-        }
-
-        #endregion
 
         /// <summary>
         /// Gets the i-th vertex but also wraps beyond the domain (ie, -1 will access last vertex).

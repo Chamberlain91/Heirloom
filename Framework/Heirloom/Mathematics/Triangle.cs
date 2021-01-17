@@ -8,6 +8,8 @@ namespace Heirloom.Mathematics
     /// </summary>
     public unsafe struct Triangle : IShape, IEquatable<Triangle>
     {
+        [ThreadStatic] private static Vector[] _polygon;
+
         /// <summary>
         /// The first point.
         /// </summary>
@@ -82,15 +84,8 @@ namespace Heirloom.Mathematics
         /// </summary>
         public Vector GetNearestPoint(Vector point)
         {
-            // Get temporary polygon representation
-            var polygon = PolygonTools.RequestTempPolygon(in this);
-
-            // Check for overlap
-            var result = PolygonTools.GetClosestPointOutline(polygon, point);
-
-            // Recycle temporary polygon and return overlap status
-            PolygonTools.RecycleTempPolygon(polygon);
-            return result;
+            PopulatePolygon(in this);
+            return PolygonTools.GetNearestPoint(_polygon, point);
         }
 
         /// <inheritdoc/>
@@ -117,20 +112,8 @@ namespace Heirloom.Mathematics
         /// </summary>
         public static bool ContainsPoint(in Vector a, in Vector b, in Vector c, in Vector point)
         {
-            // Get temporary polygon representation
-            var polygon = PolygonTools.RequestTempPolygon(3);
-
-            // Configure temp polygon to input points
-            polygon[0] = a;
-            polygon[1] = b;
-            polygon[2] = c;
-
-            // Checks if the polygon contains the point
-            var result = PolygonTools.ContainsPoint(polygon, in point);
-
-            // Recycle temporary polygon and return containment status
-            PolygonTools.RecycleTempPolygon(polygon);
-            return result;
+            PopulatePolygon(in a, in b, in c);
+            return PolygonTools.ContainsPoint(_polygon, in point);
         }
 
         #endregion
@@ -157,15 +140,8 @@ namespace Heirloom.Mathematics
         /// <param name="contact">Ray intersection information.</param>
         public bool Raycast(Ray ray, out RayContact contact)
         {
-            // Get temporary polygon representation
-            var polygon = PolygonTools.RequestTempPolygon(in this);
-
-            // Raycast against polygon
-            var status = PolygonTools.Raycast(polygon, in ray, out contact);
-
-            // Recycle temporary polygon and return overlap status
-            PolygonTools.RecycleTempPolygon(polygon);
-            return status;
+            PopulatePolygon(in this);
+            return PolygonTools.Raycast(_polygon, in ray, out contact);
         }
 
         #endregion
@@ -355,6 +331,23 @@ namespace Heirloom.Mathematics
         }
 
         #endregion
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void PopulatePolygon(in Triangle triangle)
+        {
+            PopulatePolygon(in triangle.A, in triangle.B, in triangle.C);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void PopulatePolygon(in Vector a, in Vector b, in Vector c)
+        {
+            _polygon ??= new Vector[3];
+
+            // Set the three triangle points
+            _polygon[0] = a;
+            _polygon[1] = b;
+            _polygon[2] = c;
+        }
 
         /// <summary>
         /// Returns the triangle representation of this triangle.
