@@ -51,7 +51,7 @@ namespace Heirloom
         /// <summary>
         /// Gets a human readable format for the time specified in seconds.
         /// </summary>
-        public static string GetEnglishTime(float duration, string numberFormat = "0.0")
+        public static string GetEnglishTime(float duration, string numberFormat = "N1")
         {
             if (duration >= WeekAsSeconds) { return str(TimeUnit.Week); }
             else if (duration >= DayAsSeconds) { return str(TimeUnit.Day); }
@@ -64,7 +64,7 @@ namespace Heirloom
             else
             {
                 // unable to humanify the time
-                return duration.ToString();
+                return duration.ToString(numberFormat);
             }
 
             string str(TimeUnit unit)

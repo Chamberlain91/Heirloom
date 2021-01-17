@@ -34,7 +34,7 @@ namespace Heirloom.Drawing
 
         public IEnumerable<MeshTriangle> Clip(IEnumerable<Vector> clipPolygon)
         {
-            return Clip(Polygon.GetEdges(clipPolygon));
+            return Clip(PolygonTools.GetEdges(clipPolygon));
         }
 
         public IEnumerable<MeshTriangle> Clip(IEnumerable<(Vector, Vector)> clipEdges)

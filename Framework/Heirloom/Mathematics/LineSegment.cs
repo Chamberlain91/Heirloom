@@ -37,7 +37,7 @@ namespace Heirloom.Mathematics
         /// Sets the components of this line segment.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Set(in Vector a, in Vector b)
+        public void Set(Vector a, Vector b)
         {
             A = a;
             B = b;
@@ -58,17 +58,17 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Checks if this line segment intersects another.
         /// </summary>
-        public bool Intersects(in LineSegment other, bool clampSegment = true)
+        public bool Intersects(LineSegment other, bool clampSegment = true)
         {
-            return Intersects(in this, in other, clampSegment);
+            return Intersects(this, other, clampSegment);
         }
 
         /// <summary>
         /// Checks if this line segment intersects another.
         /// </summary>
-        public bool Intersects(in LineSegment other, out Vector point, bool clampSegment = true)
+        public bool Intersects(LineSegment other, out Vector point, bool clampSegment = true)
         {
-            return Intersects(in this, in other, out point, clampSegment);
+            return Intersects(this, other, out point, clampSegment);
         }
 
         /// <summary>
@@ -79,9 +79,9 @@ namespace Heirloom.Mathematics
         /// <param name="b">The second line.</param>
         /// <param name="clampSegment">Should the computatio clamp to line segments?</param>
         /// <returns>The point of intersection. If</returns>
-        public static bool Intersects(in LineSegment a, in LineSegment b, bool clampSegment = true)
+        public static bool Intersects(LineSegment a, LineSegment b, bool clampSegment = true)
         {
-            return Intersects(in a, in b, out _, clampSegment);
+            return Intersects(a, b, out _, clampSegment);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Heirloom.Mathematics
         /// <param name="b1">The second point of the second line.</param>
         /// <param name="clampSegment">Should the computatio clamp to line segments?</param>
         /// <returns>The point of intersection. If</returns>
-        public static bool Intersects(in Vector a0, in Vector a1, in Vector b0, in Vector b1, bool clampSegment = true)
+        public static bool Intersects(Vector a0, Vector a1, Vector b0, Vector b1, bool clampSegment = true)
         {
             return Intersects(a0, a1, b0, b1, out float _, clampSegment);
         }
@@ -108,9 +108,9 @@ namespace Heirloom.Mathematics
         /// <param name="intersection">The point of intersection.</param>
         /// <param name="clampSegment">Should the computatio clamp to line segments?</param>
         /// <returns>The point of intersection. If</returns>
-        public static bool Intersects(in LineSegment a, in LineSegment b, out Vector intersection, bool clampSegment = true)
+        public static bool Intersects(LineSegment a, LineSegment b, out Vector intersection, bool clampSegment = true)
         {
-            return Intersects(a.A, in a.B, in b.A, in b.B, out intersection, clampSegment);
+            return Intersects(a.A, a.B, b.A, b.B, out intersection, clampSegment);
         }
 
         /// <summary>
@@ -124,9 +124,9 @@ namespace Heirloom.Mathematics
         /// <param name="intersection">The point of intersection.</param>
         /// <param name="clampSegment">Should the computation clamp to line segments?</param>
         /// <returns>The point of intersection. If</returns>
-        public static bool Intersects(in Vector a0, in Vector a1, in Vector b0, in Vector b1, out Vector intersection, bool clampSegment = true)
+        public static bool Intersects(Vector a0, Vector a1, Vector b0, Vector b1, out Vector intersection, bool clampSegment = true)
         {
-            var intersectionStatus = Intersects(in a0, in a1, in b0, in b1, out float time, clampSegment);
+            var intersectionStatus = Intersects(a0, a1, b0, b1, out float time, clampSegment);
 
             // Interpolate point of intersection
             intersection = Vector.Lerp(a0, a1, time);
@@ -144,7 +144,7 @@ namespace Heirloom.Mathematics
         /// <param name="intersectionTime">The intersection time between <paramref name="a0"/> and <paramref name="a1"/>.</param>
         /// <param name="clampSegment">Should the computation be clamped to the line segments?</param>
         /// <returns>The point of intersection. If</returns>
-        public static bool Intersects(in Vector a0, in Vector a1, in Vector b0, in Vector b1, out float intersectionTime, bool clampSegment = true)
+        public static bool Intersects(Vector a0, Vector a1, Vector b0, Vector b1, out float intersectionTime, bool clampSegment = true)
         {
             // Edge vectors
             var ae = a1 - a0;

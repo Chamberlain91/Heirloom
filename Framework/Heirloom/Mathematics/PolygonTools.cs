@@ -9,7 +9,7 @@ namespace Heirloom.Mathematics
     /// <summary>
     /// Provides several operations for polygons represented as a read-only list of vectors.
     /// </summary>
-    internal static class PolygonTools
+    public static class PolygonTools
     {
         #region Nearest Point (IReadOnlyList<Vector>)
 
@@ -530,6 +530,61 @@ namespace Heirloom.Mathematics
 
         #endregion
 
+        #region Clip Polygon
+
+        /// <summary>
+        /// Clips the input polygon against the specified polygon.
+        /// </summary>
+        public static IEnumerable<Vector> Clip(IEnumerable<Vector> polygon, IEnumerable<Vector> clipPolygon)
+        {
+            return Clip(polygon, GetEdges(clipPolygon));
+        }
+
+        internal static IEnumerable<Vector> Clip(IEnumerable<Vector> polygon, IEnumerable<(Vector, Vector)> clipEdges)
+        {
+            var outputList = new List<Vector>(polygon);
+
+            foreach (var (clipA, clipB) in clipEdges)
+            {
+                // todo: is there a good way to optimize the use of lists?
+                var inputList = new List<Vector>(outputList);
+                outputList.Clear();
+
+                for (var i = 0; i < inputList.Count; i += 1)
+                {
+                    var current = inputList[i];
+                    var previous = inputList[(i + inputList.Count - 1) % inputList.Count];
+
+                    // Determine inside/outside via assumption of clockwise ordering
+                    var clipEdge = clipB - clipA;
+
+                    if (Vector.Cross(in clipEdge, current - clipA) >= 0)
+                    {
+                        // previous vertex is outside
+                        if (Vector.Cross(in clipEdge, previous - clipA) < 0)
+                        {
+                            // Edge is clipped by prior vertex.
+                            LineSegment.Intersects(previous, current, clipA, clipB, out Vector intersection, clampSegment: false);
+                            outputList.Add(intersection);
+                        }
+
+                        // current vertex is contained
+                        outputList.Add(current);
+                    }
+                    else if (Vector.Cross(in clipEdge, previous - clipA) >= 0)
+                    {
+                        // current vertex is outside
+                        LineSegment.Intersects(previous, current, clipA, clipB, out Vector intersection, clampSegment: false);
+                        outputList.Add(intersection);
+                    }
+                }
+            }
+
+            return outputList;
+        }
+
+        #endregion
+
         #region Convex & Clockwise Checks
 
         /// <summary>
@@ -621,7 +676,7 @@ namespace Heirloom.Mathematics
 
         #endregion
 
-        #region Get Normal
+        #region Get Normal, Support and Vertex
 
         /// <summary>
         /// Vector perpendicular to the i-th edge.
@@ -644,8 +699,6 @@ namespace Heirloom.Mathematics
             return (v2 - v1).Perpendicular;
         }
 
-        #endregion
-
         /// <summary>
         /// Gets the support point (ie, deepest) in the specified direction.
         /// </summary>
@@ -658,12 +711,40 @@ namespace Heirloom.Mathematics
         /// Gets the i-th vertex but also wraps beyond the domain (ie, -1 will access last vertex).
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static T GetVertex<T>(IReadOnlyList<T> data, int index)
+        internal static Vector GetVertex(IReadOnlyList<Vector> data, int index)
         {
             // todo: test if statements vs wrap (modulus heavy) has considerable performance effect?
             // if (index >= data.Count) { }
             // if (index <=) { }
             return data[Calc.Wrap(index, data.Count)];
         }
+
+        /// <summary>
+        /// Enumerates the polygon edges as vector-pairs.
+        /// </summary>
+        public static IEnumerable<(Vector, Vector)> GetEdges(IEnumerable<Vector> polygon)
+        {
+            if (polygon is null) { throw new ArgumentNullException(nameof(polygon)); }
+
+            var first = default(Vector);
+            var prior = default(Vector);
+            var hasFirst = false;
+
+            foreach (var vertex in polygon)
+            {
+                if (hasFirst) { yield return (prior, vertex); }
+                else
+                {
+                    hasFirst = true;
+                    first = vertex;
+                }
+
+                prior = vertex;
+            }
+
+            yield return (prior, first);
+        }
+
+        #endregion
     }
 }

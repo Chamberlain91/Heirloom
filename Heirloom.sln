@@ -55,6 +55,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{2D4D86D4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Experimental", "Experimental", "{DDFB6B26-4B9B-4129-ABED-2893523AB171}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Testing.Performance", "Testing\Heirloom.Testing.Performance\Heirloom.Testing.Performance.csproj", "{50796693-EA25-44F3-A6BA-672C378C2455}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Tools\Benchmark\Heirloom.Benchmark\Heirloom.Benchmark.projitems*{541e747b-0e2d-45ff-89e9-331cd30a355f}*SharedItemsImports = 4
@@ -126,6 +128,10 @@ Global
 		{EFF58658-45C6-4DFE-9A48-9208670FE9A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFF58658-45C6-4DFE-9A48-9208670FE9A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFF58658-45C6-4DFE-9A48-9208670FE9A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50796693-EA25-44F3-A6BA-672C378C2455}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50796693-EA25-44F3-A6BA-672C378C2455}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50796693-EA25-44F3-A6BA-672C378C2455}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50796693-EA25-44F3-A6BA-672C378C2455}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -149,6 +155,7 @@ Global
 		{D71B20EF-C51D-4DAC-865E-B9874804649C} = {97C3E7D0-E5D3-4650-9B12-E1FD76CA8E48}
 		{EFF58658-45C6-4DFE-9A48-9208670FE9A2} = {97C3E7D0-E5D3-4650-9B12-E1FD76CA8E48}
 		{DDFB6B26-4B9B-4129-ABED-2893523AB171} = {2D655A39-AE72-44F7-A21E-0DBE975B5E96}
+		{50796693-EA25-44F3-A6BA-672C378C2455} = {78B2E4CD-A323-4F1F-B388-D0C0D2B7A8FC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {696A41D8-DF3F-4D16-B3D9-514D627DCCE2}

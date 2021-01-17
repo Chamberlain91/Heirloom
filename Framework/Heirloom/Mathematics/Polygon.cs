@@ -10,12 +10,11 @@ namespace Heirloom.Mathematics
     /// </summary>
     public partial class Polygon : IShape, IReadOnlyPolygon
     // todo: find shared edges, and skip them in collision checks?
-    // todo: IReadOnlyPolygon
     // This should help in the design of computing the contacts needed for collision response.
     {
         private readonly List<Vector> _vertices;
         private readonly List<Vector> _normals;
-        private readonly VerticesWrapper _vertexWrapper;
+        private readonly VertexList _vertexWrapper;
 
         // todo: class ConvexPartition : IShape
         private List<Vector[]> _convexPartitions;
@@ -49,7 +48,7 @@ namespace Heirloom.Mathematics
             _vertices = new List<Vector>();
             _normals = new List<Vector>();
 
-            _vertexWrapper = new VerticesWrapper(this);
+            _vertexWrapper = new VertexList(this);
         }
 
         /// <summary>
@@ -74,7 +73,7 @@ namespace Heirloom.Mathematics
         /// <remarks>
         /// Note: Adjusting the vertices will invalidate cached properties (normals, convexity, triangulation, etc).
         /// </remarks>
-        public IList<Vector> Vertices => _vertexWrapper;
+        public VertexList Vertices => _vertexWrapper;
 
         IReadOnlyList<Vector> IReadOnlyPolygon.Vertices => _vertices;
 
@@ -433,112 +432,28 @@ namespace Heirloom.Mathematics
 
         #endregion
 
-        #region Clip Polygon
-
-        public static IEnumerable<Vector> Clip(IEnumerable<Vector> polygon, IEnumerable<Vector> clipPolygon)
-        {
-            return Clip(polygon, GetEdges(clipPolygon));
-        }
-
-        internal static IEnumerable<Vector> Clip(IEnumerable<Vector> polygon, IEnumerable<(Vector, Vector)> clipEdges)
-        {
-            var outputList = new List<Vector>(polygon);
-
-            foreach (var (clipA, clipB) in clipEdges)
-            {
-                // todo: is there a good way to optimize the use of lists?
-                var inputList = new List<Vector>(outputList);
-                outputList.Clear();
-
-                for (var i = 0; i < inputList.Count; i += 1)
-                {
-                    var current = inputList[i];
-                    var previous = inputList[(i + inputList.Count - 1) % inputList.Count];
-
-                    // Determine inside/outside via assumption of clockwise ordering
-                    var clipEdge = clipB - clipA;
-
-                    if (Vector.Cross(in clipEdge, current - clipA) >= 0)
-                    {
-                        // previous vertex is outside
-                        if (Vector.Cross(in clipEdge, previous - clipA) < 0)
-                        {
-                            // Edge is clipped by prior vertex.
-                            LineSegment.Intersects(previous, current, clipA, clipB, out Vector intersection, clampSegment: false);
-                            outputList.Add(intersection);
-                        }
-
-                        // current vertex is contained
-                        outputList.Add(current);
-                    }
-                    else if (Vector.Cross(in clipEdge, previous - clipA) >= 0)
-                    {
-                        // current vertex is outside
-                        LineSegment.Intersects(previous, current, clipA, clipB, out Vector intersection, clampSegment: false);
-                        outputList.Add(intersection);
-                    }
-                }
-            }
-
-            return outputList;
-        }
-
-        public static IEnumerable<(Vector, Vector)> GetEdges(IEnumerable<Vector> polygon)
-        {
-            var first = default(Vector);
-            var prior = default(Vector);
-            var hasFirst = false;
-
-            foreach (var vertex in polygon)
-            {
-                if (hasFirst) { yield return (prior, vertex); }
-                else
-                {
-                    hasFirst = true;
-                    first = vertex;
-                }
-
-                prior = vertex;
-            }
-
-            yield return (prior, first);
-        }
-
-        #endregion
-
         /// <summary>
         /// Used to invalidate cached properties when the vertex list is manipulated.
         /// </summary>
-        private sealed class VerticesWrapper : IList<Vector>
+        public sealed class VertexList : IList<Vector>, IReadOnlyList<Vector>
         {
             private readonly Polygon _polygon;
 
-            public VerticesWrapper(Polygon polygon)
+            internal VertexList(Polygon polygon)
             {
                 _polygon = polygon ?? throw new ArgumentNullException(nameof(polygon));
             }
 
-            public bool IsReadOnly => ((ICollection<Vector>) _polygon._vertices).IsReadOnly;
+            bool ICollection<Vector>.IsReadOnly => ((ICollection<Vector>) _polygon.Vertices).IsReadOnly;
 
+            /// <summary>
+            /// The number of vertices.
+            /// </summary>
             public int Count => _polygon._vertices.Count;
 
-            public int IndexOf(Vector item)
-            {
-                return _polygon._vertices.IndexOf(item);
-            }
-
-            public void Insert(int index, Vector item)
-            {
-                _polygon._dirty |= Dirty.Everything;
-                _polygon._vertices.Insert(index, item);
-            }
-
-            public void RemoveAt(int index)
-            {
-                _polygon._dirty |= Dirty.Everything;
-                _polygon._vertices.RemoveAt(index);
-            }
-
+            /// <summary>
+            /// Gets or sets some vertex at the specified index.
+            /// </summary>
             public Vector this[int index]
             {
                 get => _polygon._vertices[index];
@@ -550,28 +465,36 @@ namespace Heirloom.Mathematics
                 }
             }
 
-            public void Add(Vector item)
+            /// <summary>
+            /// Finds the index of the specified vertex.
+            /// </summary>
+            /// <returns>The index or -1 if not found.</returns>
+            public int IndexOf(Vector item)
+            {
+                return _polygon._vertices.IndexOf(item);
+            }
+
+            /// <summary>
+            /// Inserts a vertex at the specified index.
+            /// </summary>
+            public void Insert(int index, Vector item)
             {
                 _polygon._dirty |= Dirty.Everything;
-                _polygon._vertices.Add(item);
+                _polygon._vertices.Insert(index, item);
             }
 
-            public void Clear()
+            /// <summary>
+            /// Removes the vertex at the specified index.
+            /// </summary>
+            public void RemoveAt(int index)
             {
                 _polygon._dirty |= Dirty.Everything;
-                _polygon._vertices.Clear();
+                _polygon._vertices.RemoveAt(index);
             }
 
-            public bool Contains(Vector item)
-            {
-                return _polygon._vertices.Contains(item);
-            }
-
-            public void CopyTo(Vector[] array, int arrayIndex)
-            {
-                _polygon._vertices.CopyTo(array, arrayIndex);
-            }
-
+            /// <summary>
+            /// Removes the specified vertex.
+            /// </summary>
             public bool Remove(Vector item)
             {
                 if (_polygon._vertices.Remove(item))
@@ -585,6 +508,43 @@ namespace Heirloom.Mathematics
                 }
             }
 
+            /// <summary>
+            /// Adds the vertex to the end of the list.
+            /// </summary>
+            public void Add(Vector item)
+            {
+                _polygon._dirty |= Dirty.Everything;
+                _polygon._vertices.Add(item);
+            }
+
+            /// <summary>
+            /// Clears all vertices.
+            /// </summary>
+            public void Clear()
+            {
+                _polygon._dirty |= Dirty.Everything;
+                _polygon._vertices.Clear();
+            }
+
+            /// <summary>
+            /// Determines if this vertex is contained.
+            /// </summary>
+            public bool Contains(Vector item)
+            {
+                return _polygon._vertices.Contains(item);
+            }
+
+            /// <summary>
+            /// Copies the vertices into the specified array starting at the specified index.
+            /// </summary>
+            public void CopyTo(Vector[] array, int arrayIndex)
+            {
+                _polygon._vertices.CopyTo(array, arrayIndex);
+            }
+
+            /// <summary>
+            /// Gets the enumerator to iterate through the vertex list.
+            /// </summary>
             public IEnumerator<Vector> GetEnumerator()
             {
                 return _polygon._vertices.GetEnumerator();
