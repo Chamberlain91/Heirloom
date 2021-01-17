@@ -9,11 +9,6 @@ namespace Heirloom.Mathematics
     public struct LineSegment : IEquatable<LineSegment>
     {
         /// <summary>
-        /// A value to adjust the intersection tolerance to compensate for floating-point error.
-        /// </summary>
-        public static float IntersectionTolerance = 0.001F;
-
-        /// <summary>
         /// The first end-point.
         /// </summary>
         public Vector A;
@@ -51,8 +46,9 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Gets a intermediate point along the line segment.
         /// </summary>
+        /// <param name="t">A zero to one value of how much interpolation between endpoints.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Vector GetPoint(float t)
+        public Vector GetIntermediatePoint(float t)
         {
             return Vector.Lerp(A, B, t);
         }
@@ -62,17 +58,17 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Checks if this line segment intersects another.
         /// </summary>
-        public bool Intersects(in LineSegment other)
+        public bool Intersects(in LineSegment other, bool clampSegment = true)
         {
-            return Intersects(in this, in other);
+            return Intersects(in this, in other, clampSegment);
         }
 
         /// <summary>
         /// Checks if this line segment intersects another.
         /// </summary>
-        public bool Intersects(in LineSegment other, out Vector point)
+        public bool Intersects(in LineSegment other, out Vector point, bool clampSegment = true)
         {
-            return Intersects(in this, in other, out point);
+            return Intersects(in this, in other, out point, clampSegment);
         }
 
         /// <summary>
@@ -184,33 +180,33 @@ namespace Heirloom.Mathematics
 
         #endregion
 
-        #region Closest Point
+        #region Nearest Point
 
         /// <summary>
-        /// Gets the closest point on the line segment to the specified point.
+        /// Gets the nearest point on the line segment to the specified point.
         /// </summary>
-        public Vector GetClosestPoint(Vector p)
+        public Vector GetNearestPoint(Vector p, bool clampSegment = true)
         {
-            return GetClosestPoint(A, B, p);
+            return GetNearestPoint(A, B, p, clampSegment);
         }
 
         /// <summary>
-        /// Gets the closest point on a line segment to the specified point.
+        /// Gets the nearest point on a line segment to the specified point.
         /// </summary>
-        public static Vector GetClosestPoint(Vector a, Vector b, Vector p)
+        public static Vector GetNearestPoint(Vector a, Vector b, Vector p, bool clampSegment = true)
         {
-            var t = Vector.Project(a, b, p, true);
+            var t = Vector.Project(a, b, p, clampSegment);
             return a + (b - a) * t;
         }
 
         /// <summary>
-        /// Gets the closest point on a line segment to the specified point.
+        /// Gets the nearest point on a line segment to the specified point.
         /// </summary>
-        public static Vector ClosestPoint(Vector a, Vector b, Vector p, out float distance)
+        public static Vector GetNearestPoint(Vector a, Vector b, Vector p, out float distanceToLine, bool clampSegment = true)
         {
-            // todo: possibly extract distance from the projection itself to avoid the sqrt
-            var q = GetClosestPoint(a, b, p);
-            distance = Vector.Distance(q, p);
+            // todo: possibly extract distance from the projection itself to avoid the extra computation
+            var q = GetNearestPoint(a, b, p, clampSegment);
+            distanceToLine = Vector.Distance(q, p);
             return q;
         }
 

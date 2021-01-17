@@ -26,7 +26,7 @@ namespace Heirloom.Mathematics
                 var a = polygon[i];
                 var b = polygon[i + 1 == polygon.Count ? 0 : i + 1];
 
-                var p = LineSegment.ClosestPoint(a, b, point, out var d);
+                var p = LineSegment.GetNearestPoint(a, b, point, out var d);
 
                 if (d < minD)
                 {
