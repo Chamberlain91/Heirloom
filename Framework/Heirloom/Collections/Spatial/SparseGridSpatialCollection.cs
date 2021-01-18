@@ -44,7 +44,7 @@ namespace Heirloom.Collections
         }
 
         /// <inheritdoc/>
-        public void Add(in T item, in IShape boundingShape)
+        public void Add(T item, IShape boundingShape)
         {
             if (_items.Add(item))
             {
@@ -58,14 +58,14 @@ namespace Heirloom.Collections
         }
 
         /// <inheritdoc/>
-        public void Update(in T item, in IShape boundingShape)
+        public void Update(T item, IShape boundingShape)
         {
             Erase(item); // remove item from cells and populate new cells
             PopulateItems(item, GetRect(boundingShape.Bounds));
         }
 
         /// <inheritdoc/>
-        public bool Remove(in T item)
+        public bool Remove(T item)
         {
             if (_items.Remove(item))
             {
@@ -108,7 +108,7 @@ namespace Heirloom.Collections
         }
 
         /// <inheritdoc/>
-        public bool Contains(in T item)
+        public bool Contains(T item)
         {
             return _items.Contains(item);
         }

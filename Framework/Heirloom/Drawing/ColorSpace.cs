@@ -19,7 +19,7 @@ namespace Heirloom.Drawing
 
         #region RGB & XYZ
 
-        private static XYZColor RGBtoXYZ(in Color rgb)
+        private static XYZColor RGBtoXYZ(Color rgb)
         {
             // sR, sG and sB (Standard RGB) input range = 0 ÷ 255
             // X, Y and Z output refer to a D65/2° standard illuminant.
@@ -48,7 +48,7 @@ namespace Heirloom.Drawing
             return new XYZColor(X, Y, Z); // 0 - 100
         }
 
-        private static Color XYZtoRGB(in XYZColor color)
+        private static Color XYZtoRGB(XYZColor color)
         {
             //X, Y and Z input refer to a D65/2° standard illuminant.
             //sR, sG and sB (standard RGB) output range = 0 ÷ 255

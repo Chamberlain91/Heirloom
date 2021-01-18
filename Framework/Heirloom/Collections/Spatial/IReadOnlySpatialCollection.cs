@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Heirloom.Collections
 {
@@ -11,6 +11,6 @@ namespace Heirloom.Collections
         /// <summary>
         /// Determines if the specified element exists in this collection.
         /// </summary>
-        bool Contains(in T item);
+        bool Contains(T item);
     }
 }

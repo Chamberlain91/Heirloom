@@ -18,7 +18,7 @@ namespace Heirloom.Mathematics
         /// <param name="c">The curve ending point.</param>
         /// <param name="t">The interpolation factor along the curve.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector Interpolate(in Vector a, in Vector b, in Vector c, in float t)
+        public static Vector Interpolate(Vector a, Vector b, Vector c, float t)
         {
             // c*t^2 + 2*b*(1-t)*t + a*(1-t)^2 
             var r = 1 - t;
@@ -33,7 +33,7 @@ namespace Heirloom.Mathematics
         /// <param name="c">The curve ending point.</param>
         /// <param name="t">The interpolation factor along the curve.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector InterpolateDerivative(in Vector a, in Vector b, in Vector c, in float t)
+        public static Vector InterpolateDerivative(Vector a, Vector b, Vector c, float t)
         {
             // 2*((c-2*b+a)*t+b-a)
             return 2 * (((c - (2 * b) + a) * t) + b - a);
@@ -65,7 +65,7 @@ namespace Heirloom.Mathematics
         /// <param name="d">The curve's ending point.</param>
         /// <param name="t">The interpolation factor along the curve.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector Interpolate(in Vector a, in Vector b, in Vector c, in Vector d, in float t)
+        public static Vector Interpolate(Vector a, Vector b, Vector c, Vector d, float t)
         {
             // d*t^3+3*c*(1-t)*t^2+3*b*(1-t)^2*t+a*(1-t)^3
             return (d * t * t * t) + (3 * c * (1 - t) * t * t) + (3 * b * (1 - t) * (1 - t) * t) + (a * (1 - t) * (1 - t) * (1 - t));
@@ -80,7 +80,7 @@ namespace Heirloom.Mathematics
         /// <param name="d">The curve's ending point.</param>
         /// <param name="t">The interpolation factor along the curve.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector InterpolateDerivative(in Vector a, in Vector b, in Vector c, in Vector d, in float t)
+        public static Vector InterpolateDerivative(Vector a, Vector b, Vector c, Vector d, float t)
         {
             // 3*((d-3*c+3*b-a)*t^2+(2*c-4*b+2*a)*t+b-a) 
             return 3 * (((d - (3 * c) + (3 * b) - a) * t * t) + (((2 * c) - (4 * b) + (2 * a)) * t) + b - a);

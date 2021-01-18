@@ -70,7 +70,7 @@ namespace Heirloom.Mathematics
         /// Sets each point of the triangle.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Set(in Vector a, in Vector b, in Vector c)
+        public void Set(Vector a, Vector b, Vector c)
         {
             A = a;
             B = b;
@@ -84,7 +84,7 @@ namespace Heirloom.Mathematics
         /// </summary>
         public Vector GetNearestPoint(Vector point)
         {
-            PopulatePolygon(in this);
+            PopulatePolygon(this);
             return PolygonTools.GetNearestPoint(_polygon, point);
         }
 
@@ -104,16 +104,16 @@ namespace Heirloom.Mathematics
         /// </summary>
         public bool Contains(Vector point)
         {
-            return ContainsPoint(in A, in B, in C, point);
+            return ContainsPoint(A, B, C, point);
         }
 
         /// <summary>
         /// Determines if the triangle defined by <paramref name="a"/>, <paramref name="b"/>, <paramref name="c"/> contains the specified point.
         /// </summary>
-        public static bool ContainsPoint(in Vector a, in Vector b, in Vector c, in Vector point)
+        public static bool ContainsPoint(Vector a, Vector b, Vector c, Vector point)
         {
-            PopulatePolygon(in a, in b, in c);
-            return PolygonTools.ContainsPoint(_polygon, in point);
+            PopulatePolygon(a, b, c);
+            return PolygonTools.ContainsPoint(_polygon, point);
         }
 
         #endregion
@@ -140,8 +140,8 @@ namespace Heirloom.Mathematics
         /// <param name="contact">Ray intersection information.</param>
         public bool Raycast(Ray ray, out RayContact contact)
         {
-            PopulatePolygon(in this);
-            return PolygonTools.Raycast(_polygon, in ray, out contact);
+            PopulatePolygon(this);
+            return PolygonTools.Raycast(_polygon, ray, out contact);
         }
 
         #endregion
@@ -152,15 +152,15 @@ namespace Heirloom.Mathematics
         /// Computes the barycentric coefficients of the point <paramref name="p"/> within the triangle.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Barycentric(in Vector p, out float u, out float v, out float w)
+        public void Barycentric(Vector p, out float u, out float v, out float w)
         {
-            Barycentric(in p, in A, in B, in C, out u, out v, out w);
+            Barycentric(p, A, B, C, out u, out v, out w);
         }
 
         /// <summary>
         /// Computes the barycentric coefficients of the point <paramref name="p"/> within the triangle <paramref name="a"/>, <paramref name="b"/>, <paramref name="c"/>.
         /// </summary>
-        public static void Barycentric(in Vector p, in Vector a, in Vector b, in Vector c, out float u, out float v, out float w)
+        public static void Barycentric(Vector p, Vector a, Vector b, Vector c, out float u, out float v, out float w)
         {
             var v0 = b - a;
             var v1 = c - a;
@@ -208,15 +208,15 @@ namespace Heirloom.Mathematics
         /// Computes the circumcircle for the specified triangle.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Circle CreateCircumcircle(in Triangle tri)
+        public static Circle CreateCircumcircle(Triangle tri)
         {
-            return CreateCircumcircle(in tri.A, in tri.B, in tri.C);
+            return CreateCircumcircle(tri.A, tri.B, tri.C);
         }
 
         /// <summary>
         /// Computes the circumcircle for the specified triangle.
         /// </summary>
-        public static Circle CreateCircumcircle(in Vector a, in Vector b, in Vector c)
+        public static Circle CreateCircumcircle(Vector a, Vector b, Vector c)
         // https://gist.github.com/mutoo/5617691
         {
             var A = b.X - a.X;
@@ -333,13 +333,13 @@ namespace Heirloom.Mathematics
         #endregion
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void PopulatePolygon(in Triangle triangle)
+        private static void PopulatePolygon(Triangle triangle)
         {
-            PopulatePolygon(in triangle.A, in triangle.B, in triangle.C);
+            PopulatePolygon(triangle.A, triangle.B, triangle.C);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void PopulatePolygon(in Vector a, in Vector b, in Vector c)
+        private static void PopulatePolygon(Vector a, Vector b, Vector c)
         {
             _polygon ??= new Vector[3];
 

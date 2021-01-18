@@ -295,7 +295,7 @@ namespace Heirloom.Mathematics
         /// </summary>
         public Vector GetNearestPoint(Vector point)
         {
-            return PolygonTools.GetNearestPoint(_vertices, in point);
+            return PolygonTools.GetNearestPoint(_vertices, point);
         }
 
         /// <inheritdoc/>
@@ -317,7 +317,7 @@ namespace Heirloom.Mathematics
             // Check for containment in each convex fragment
             foreach (var convex in ConvexPartitions)
             {
-                if (PolygonTools.ContainsPoint(convex, in point)) { return true; }
+                if (PolygonTools.ContainsPoint(convex, point)) { return true; }
             }
 
             return false;
@@ -346,7 +346,7 @@ namespace Heirloom.Mathematics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Raycast(Ray ray)
         {
-            return PolygonTools.Raycast(_vertices, in ray, out _);
+            return PolygonTools.Raycast(_vertices, ray, out _);
         }
 
         /// <summary>
@@ -355,7 +355,7 @@ namespace Heirloom.Mathematics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Raycast(Ray ray, out RayContact hit)
         {
-            return PolygonTools.Raycast(_vertices, in ray, out hit);
+            return PolygonTools.Raycast(_vertices, ray, out hit);
         }
 
         #endregion
@@ -382,9 +382,9 @@ namespace Heirloom.Mathematics
         {
             return shape switch
             {
-                Circle circle => CreateFromShape(in circle),
-                Triangle triangle => CreateFromShape(in triangle),
-                Rectangle rectangle => CreateFromShape(in rectangle),
+                Circle circle => CreateFromShape(circle),
+                Triangle triangle => CreateFromShape(triangle),
+                Rectangle rectangle => CreateFromShape(rectangle),
 
                 // Clones the input polygon
                 Polygon polygon => new Polygon(polygon.Vertices),
@@ -397,7 +397,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Constructs a polygon representation of the specified triangle.
         /// </summary>
-        public static Polygon CreateFromShape(in Triangle triangle)
+        public static Polygon CreateFromShape(Triangle triangle)
         {
             return triangle.ToPolygon();
         }
@@ -405,7 +405,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Constructs a polygon representation of the specified rectangle.
         /// </summary>
-        public static Polygon CreateFromShape(in Rectangle rectangle)
+        public static Polygon CreateFromShape(Rectangle rectangle)
         {
             return rectangle.ToPolygon();
         }
@@ -413,7 +413,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Constructs a polygon representation of the specified circle.
         /// </summary>
-        public static Polygon CreateFromShape(in Circle circle)
+        public static Polygon CreateFromShape(Circle circle)
         {
             return circle.ToPolygon();
         }

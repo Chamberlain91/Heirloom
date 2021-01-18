@@ -472,7 +472,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Computes the perceived distance between two colors using lumosity.
         /// </summary>
-        public static float LumaDistance(in Color a, Color b)
+        public static float LumaDistance(Color a, Color b)
         {
             var c = b - a;
             var luma = (c * c).Luminosity;
@@ -482,7 +482,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Computes the perceived distance between two colors.
         /// </summary>
-        public static float Distance(in Color a, in Color b)
+        public static float Distance(Color a, Color b)
         {
             return Calc.Sqrt(DistanceSquared(a, b));
         }
@@ -490,7 +490,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Computes the perceived squared distance between two colors.
         /// </summary>
-        public static float DistanceSquared(in Color a, in Color b)
+        public static float DistanceSquared(Color a, Color b)
         {
             var c = b - a;
             var r = (a.R + b.R) / 2F;

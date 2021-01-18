@@ -56,11 +56,11 @@ namespace Heirloom.Drawing
 
                     // Determine inside/outside via assumption of clockwise ordering
                     var clipEdge = clipB - clipA;
-                    var isCurrentInside = Vector.Cross(in clipEdge, current.Position - clipA) >= 0;
+                    var isCurrentInside = Vector.Cross(clipEdge, current.Position - clipA) >= 0;
 
                     if (isCurrentInside)
                     {
-                        if (Vector.Cross(in clipEdge, previous.Position - clipA) < 0)
+                        if (Vector.Cross(clipEdge, previous.Position - clipA) < 0)
                         {
                             // Edge is clipped by prior vertex, insert interpolated vertex.
                             LineSegment.Intersects(previous.Position, current.Position, clipA, clipB, out float intersectionTime, clampSegment: false);
@@ -71,7 +71,7 @@ namespace Heirloom.Drawing
                         // Current vertex is contained, insert.
                         outputList.Add(current);
                     }
-                    else if (Vector.Cross(in clipEdge, previous.Position - clipA) >= 0)
+                    else if (Vector.Cross(clipEdge, previous.Position - clipA) >= 0)
                     {
                         // Edge is clipped by current vertex, insert interpolated vertex
                         LineSegment.Intersects(previous.Position, current.Position, clipA, clipB, out float intersectionTime, clampSegment: false);

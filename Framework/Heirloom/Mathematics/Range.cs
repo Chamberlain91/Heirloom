@@ -99,7 +99,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Determines if this range contains the specified value.
         /// </summary>
-        public bool Contains(in float x)
+        public bool Contains(float x)
         {
             if (x < Min) { return false; }
             if (x > Max) { return false; }
@@ -109,7 +109,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Determines if this range overlaps another range.
         /// </summary>
-        public bool Overlaps(in Range other)
+        public bool Overlaps(Range other)
         {
             return Min < other.Max && Max > other.Min;
         }
@@ -121,7 +121,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Mutate this range (by expansion) to include the specified value.
         /// </summary>
-        public void Include(in float val)
+        public void Include(float val)
         {
             Min = Calc.Min(Min, val);
             Max = Calc.Max(Max, val);
@@ -130,7 +130,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Mutate this range (by expansion) to include the specified range.
         /// </summary>
-        public void Include(in Range range)
+        public void Include(Range range)
         {
             Min = Calc.Min(Min, range.Min);
             Max = Calc.Max(Max, range.Max);
@@ -141,7 +141,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes the intersection of this range with another.
         /// </summary>
-        public Range Intersect(in Range other)
+        public Range Intersect(Range other)
         {
             var min = Calc.Max(Min, other.Min);
             var max = Calc.Min(Max, other.Max);
@@ -151,7 +151,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes the union of this range with another.
         /// </summary>
-        public Range Union(in Range other)
+        public Range Union(Range other)
         {
             var min = Calc.Min(Min, other.Min);
             var max = Calc.Max(Max, other.Max);
@@ -164,7 +164,7 @@ namespace Heirloom.Mathematics
         /// Scales <paramref name="x"/> from input domain (this range) to output range.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public float Rescale(in float x, in float outMin, in float outMax)
+        public float Rescale(float x, float outMin, float outMax)
         {
             return Calc.Rescale(x, Min, Max, outMin, outMax);
         }
@@ -173,7 +173,7 @@ namespace Heirloom.Mathematics
         /// Scales <paramref name="x"/> from input domain (this range) to output range.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public float Rescale(in float x, in Range outRange)
+        public float Rescale(float x, Range outRange)
         {
             return Calc.Rescale(x, Min, Max, outRange.Min, outRange.Max);
         }

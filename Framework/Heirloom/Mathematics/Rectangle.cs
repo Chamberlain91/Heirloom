@@ -255,15 +255,15 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Transforms the four corners of this rectangle and updates itself to bound these points.
         /// </summary>
-        public void Transform(in Matrix matrix)
+        public void Transform(Matrix matrix)
         {
-            this = Transform(this, in matrix);
+            this = Transform(this, matrix);
         }
 
         /// <summary>
         /// Transforms the four corners of this rectangle and returns the bounding rectangle of these points.
         /// </summary>
-        public static Rectangle Transform(Rectangle rectangle, in Matrix matrix)
+        public static Rectangle Transform(Rectangle rectangle, Matrix matrix)
         {
             var v0 = matrix * rectangle.TopLeft;
             var v1 = matrix * rectangle.TopRight;
@@ -299,9 +299,9 @@ namespace Heirloom.Mathematics
         /// Useful for computing a bounding rectangle.
         /// </remarks>
         /// <param name="rect">Some rectangle to include.</param>
-        public void Include(in Rectangle rect)
+        public void Include(Rectangle rect)
         {
-            this = Merge(in this, in rect);
+            this = Merge(this, rect);
         }
 
         #endregion
@@ -318,12 +318,15 @@ namespace Heirloom.Mathematics
         /// <param name="b">Some rectangle '<paramref name="b"/>'.</param>
         /// <returns> The bounding rectangle of the input rectangles. </returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Rectangle Merge(in Rectangle a, in Rectangle b)
+        public static Rectangle Merge(Rectangle a, Rectangle b)
         {
-            var min = Vector.Min(a.Min, b.Min);
-            var max = Vector.Max(a.Max, b.Max);
+            var minX = Calc.Min(a.X, b.X);
+            var minY = Calc.Min(a.Y, b.Y);
 
-            return new Rectangle(min, max);
+            var maxX = Calc.Max(a.X + a.Width, b.X + b.Width);
+            var maxY = Calc.Max(a.Y + a.Height, b.Y + b.Height);
+
+            return new Rectangle(minX, minY, maxX - minX, maxY - minY);
         }
 
         /// <summary>

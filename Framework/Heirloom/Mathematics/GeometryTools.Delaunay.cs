@@ -105,9 +105,9 @@ namespace Heirloom.Mathematics
                 foreach (var tri in _triangles)
                 {
                     // Skip triangles that connected to the vertices of the super triangle.
-                    if (SharesVertex(in tri, in super.A)) { continue; }
-                    if (SharesVertex(in tri, in super.B)) { continue; }
-                    if (SharesVertex(in tri, in super.C)) { continue; }
+                    if (SharesVertex(tri, super.A)) { continue; }
+                    if (SharesVertex(tri, super.B)) { continue; }
+                    if (SharesVertex(tri, super.C)) { continue; }
 
                     // Emit triangle
                     triangles.Add(new Triangle(tri.A, tri.B, tri.C));
@@ -118,7 +118,7 @@ namespace Heirloom.Mathematics
             /// Checks if this triangle shares the given vertex as one of its three vertices.
             /// </summary>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static bool SharesVertex(in Triangle triangle, in Vector vertex)
+            private static bool SharesVertex(Triangle triangle, Vector vertex)
             {
                 if (triangle.A == vertex) { return true; }
                 if (triangle.B == vertex) { return true; }
@@ -126,7 +126,7 @@ namespace Heirloom.Mathematics
                 return false;
             }
 
-            private static Triangle CreateSuperTriangle(in Rectangle bounds)
+            private static Triangle CreateSuperTriangle(Rectangle bounds)
             {
                 var dx = bounds.Width / 3F;
                 var dy = bounds.Height / 3F;

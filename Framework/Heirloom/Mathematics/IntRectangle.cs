@@ -281,9 +281,9 @@ namespace Heirloom.Mathematics
         /// Useful for computing a bounding rectangle.
         /// </remarks>
         /// <param name="rect">Some rectangle to include.</param>
-        public void Include(in IntRectangle rect)
+        public void Include(IntRectangle rect)
         {
-            this = Merge(in this, in rect);
+            this = Merge(this, rect);
         }
 
         #endregion
@@ -300,12 +300,15 @@ namespace Heirloom.Mathematics
         /// <param name="b">Some rectangle '<paramref name="b"/>'.</param>
         /// <returns> A potentially larger rectangle comprised of the two given. </returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IntRectangle Merge(in IntRectangle a, in IntRectangle b)
+        public static IntRectangle Merge(IntRectangle a, IntRectangle b)
         {
-            var min = IntVector.Min(a.Min, b.Min);
-            var max = IntVector.Max(a.Max, b.Max);
+            var minX = Calc.Min(a.X, b.X);
+            var minY = Calc.Min(a.Y, b.Y);
 
-            return new IntRectangle(min, max);
+            var maxX = Calc.Max(a.X + a.Width, b.X + b.Width);
+            var maxY = Calc.Max(a.Y + a.Height, b.Y + b.Height);
+
+            return new IntRectangle(minX, minY, maxX - minX, maxY - minY);
         }
 
         /// <summary>
@@ -407,17 +410,55 @@ namespace Heirloom.Mathematics
 
         #endregion
 
-        #region Closest Point
+        #region Nearest Point
 
         /// <summary>
         /// Returns the nearest point on the rectangle to the given point.
         /// </summary>
-        public IntVector ClosestPoint(in IntVector point)
+        public IntVector GetNearestPoint(IntVector point)
         {
-            IntVector closest;
-            closest.X = (point.X < Min.X) ? Min.X : (point.X > Max.X) ? Max.X : point.X;
-            closest.Y = (point.Y < Min.Y) ? Min.Y : (point.Y > Max.Y) ? Max.Y : point.Y;
-            return closest;
+            const int side_top = 0;
+            const int side_right = 1;
+            const int side_bottom = 2;
+            const int side_left = 3;
+
+            if (Contains(point))
+            {
+                // Inside rectangle, snap nearest edge
+                // todo: is there a better implementation?
+
+                var side = side_top;
+                var best = int.MaxValue;
+                CheckEdge(ref best, point.X - Left, ref side, side_left);
+                CheckEdge(ref best, Right - point.X, ref side, side_right);
+                CheckEdge(ref best, point.Y - Top, ref side, side_top);
+                CheckEdge(ref best, Bottom - point.Y, ref side, side_bottom);
+
+                return side switch
+                {
+                    side_left => new IntVector(Left, point.Y),
+                    side_right => new IntVector(Right, point.Y),
+                    side_bottom => new IntVector(point.X, Bottom),
+                    side_top => new IntVector(point.X, Top),
+                    _ => throw new InvalidOperationException(),
+                };
+            }
+            else
+            {
+                // Outside rectangle, clamp edges
+                point.X = (point.X < Min.X) ? Min.X : (point.X > Max.X) ? Max.X : point.X;
+                point.Y = (point.Y < Min.Y) ? Min.Y : (point.Y > Max.Y) ? Max.Y : point.Y;
+                return point;
+            }
+
+            static void CheckEdge(ref int best, int dist, ref int side, int edge)
+            {
+                if (dist < best)
+                {
+                    best = dist;
+                    side = edge;
+                }
+            }
         }
 
         #endregion
@@ -427,7 +468,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Determines if this rectangle contains the given point?
         /// </summary>
-        public bool Contains(in Vector point)
+        public bool Contains(Vector point)
         {
             var xMax = X + Width;
             var yMax = Y + Height;
@@ -444,7 +485,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Determines if this rectangle contains the given point?
         /// </summary>
-        public bool Contains(in IntVector point)
+        public bool Contains(IntVector point)
         {
             var xMax = X + Width;
             var yMax = Y + Height;
@@ -461,7 +502,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Determines if this rectangle contains another rectangle?
         /// </summary>
-        public bool Contains(in IntRectangle other)
+        public bool Contains(IntRectangle other)
         {
             if (other.Right > Right || other.Left < Left) { return false; }
             if (other.Top < Top || other.Bottom > Bottom) { return false; }

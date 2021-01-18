@@ -16,16 +16,16 @@ namespace Heirloom.Collections
         /// <summary>
         /// Adds an element with rectangle bounds into this spatial collection.
         /// </summary>
-        void Add(in T item, in IShape boundingShape);
+        void Add(T item, IShape boundingShape);
 
         /// <summary>
         /// Updates an exising element with new bounds in the collection.
         /// </summary>
-        void Update(in T item, in IShape boundingShape);
+        void Update(T item, IShape boundingShape);
 
         /// <summary>
         /// Removes an element from this spatial collection.
         /// </summary>
-        bool Remove(in T item);
+        bool Remove(T item);
     }
 }

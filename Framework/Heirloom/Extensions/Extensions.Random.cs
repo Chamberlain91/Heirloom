@@ -105,7 +105,7 @@ namespace Heirloom
         /// Returns a random point within the specified rectangular domain.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector NextVector(this Random @this, in Rectangle domain)
+        public static Vector NextVector(this Random @this, Rectangle domain)
         {
             var x = NextFloat(@this, domain.Left, domain.Right);
             var y = NextFloat(@this, domain.Top, domain.Bottom);
@@ -116,7 +116,7 @@ namespace Heirloom
         /// Returns a random point within the bounds of the specified shape.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector NextVector(this Random @this, in IShape shape)
+        public static Vector NextVector(this Random @this, IShape shape)
         {
             switch (shape)
             {

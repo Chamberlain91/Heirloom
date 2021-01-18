@@ -39,7 +39,7 @@ namespace Heirloom.Mathematics
         /// Sets the components of this size.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Set(in Vector origin, in Vector direction)
+        public void Set(Vector origin, Vector direction)
         {
             Origin = origin;
             Direction = direction;
@@ -60,7 +60,7 @@ namespace Heirloom.Mathematics
         /// Creates a ray from a line segment.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Ray FromLineSegment(in Vector origin, in Vector target)
+        public static Ray FromLineSegment(Vector origin, Vector target)
         {
             var dir = (target - origin).Normalized;
             return new Ray(origin, dir);
@@ -70,9 +70,9 @@ namespace Heirloom.Mathematics
         /// Creates a ray from a line segment.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Ray FromLineSegment(in LineSegment segment)
+        public static Ray FromLineSegment(LineSegment segment)
         {
-            return FromLineSegment(in segment.A, in segment.B);
+            return FromLineSegment(segment.A, segment.B);
         }
 
         /// <summary>

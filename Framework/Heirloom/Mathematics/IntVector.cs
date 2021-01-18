@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -183,6 +183,17 @@ namespace Heirloom.Mathematics
             return new IntVector(x, y);
         }
 
+        /// <summary>
+        /// Clamps this vector within a rectangular region.
+        /// </summary>
+        public IntVector Clamp(IntRectangle rect)
+        {
+            IntVector closest;
+            closest.X = (X < rect.Min.X) ? rect.Min.X : (X > rect.Max.X) ? rect.Max.X : X;
+            closest.Y = (Y < rect.Min.Y) ? rect.Min.Y : (Y > rect.Max.Y) ? rect.Max.Y : Y;
+            return closest;
+        }
+
         #endregion
 
         #region Distance
@@ -191,7 +202,7 @@ namespace Heirloom.Mathematics
         /// Computes the euclidean distance between any two vectors.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Distance(in Vector a, in Vector b)
+        public static float Distance(Vector a, Vector b)
         {
             return Calc.Distance(a.X, a.Y, b.X, b.Y);
         }
@@ -200,7 +211,7 @@ namespace Heirloom.Mathematics
         /// Computes the squared euclidean distance between any two vectors.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float DistanceSquared(in Vector a, in Vector b)
+        public static float DistanceSquared(Vector a, Vector b)
         {
             return Calc.DistanceSquared(a.X, a.Y, b.X, b.Y);
         }
@@ -209,7 +220,7 @@ namespace Heirloom.Mathematics
         /// Computes the manhattan distance between any two vectors.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float ManhattanDistance(in Vector a, in Vector b)
+        public static float ManhattanDistance(Vector a, Vector b)
         {
             return Calc.ManhattanDistance(a.X, a.Y, b.X, b.Y);
         }

@@ -26,7 +26,7 @@ namespace Heirloom.Drawing
         /// <param name="p1">The end point.</param>
         /// <param name="width">The thickness of the line in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawLine(in Vector p0, in Vector p1, float width = 1F)
+        public void DrawLine(Vector p0, Vector p1, float width = 1F)
         {
             var edge = p1 - p0;
             var edgeLength = edge.LengthSquared;
@@ -66,7 +66,7 @@ namespace Heirloom.Drawing
         /// <param name="width">The thickness of the line in pixels.</param>
         /// <param name="step">The length of each dash/dot segment.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawDottedLine(in Vector p0, in Vector p1, float width = 1F, float step = 4F)
+        public void DrawDottedLine(Vector p0, Vector p1, float width = 1F, float step = 4F)
         {
             // Compute edge information
             var edge = p1 - p0;
@@ -270,7 +270,7 @@ namespace Heirloom.Drawing
         /// <param name="center">The position of the cross.</param>
         /// <param name="size">Size in screen pixels (not world space).</param>
         /// <param name="width">Width of the lines screen pixels (not world space).</param>
-        public void DrawCross(in Vector center, float size = 3, float width = 1F)
+        public void DrawCross(Vector center, float size = 3, float width = 1F)
         {
             // Draw axis
             DrawLine(center + (Vector.Left * size), center + (Vector.Right * size), width);
@@ -286,9 +286,9 @@ namespace Heirloom.Drawing
         /// </summary> 
         /// <param name="rectangle">The rectangular region of the rectangle.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawRect(in Rectangle rectangle)
+        public void DrawRect(Rectangle rectangle)
         {
-            DrawImage(Texture.Default, in rectangle);
+            DrawImage(Texture.Default, rectangle);
         }
 
         /// <summary>
@@ -297,7 +297,7 @@ namespace Heirloom.Drawing
         /// <param name="rectangle">The rectangular region of the rectangle.</param>
         /// <param name="width">Width of the outline in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawRectOutline(in Rectangle rectangle, float width = 1)
+        public void DrawRectOutline(Rectangle rectangle, float width = 1)
         {
             DrawPolyLine(rectangle.GetVertices(), width, loop: true);
         }
@@ -311,9 +311,9 @@ namespace Heirloom.Drawing
         /// </summary> 
         /// <param name="triangle">The triangle to draw.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawTriangle(in Triangle triangle)
+        public void DrawTriangle(Triangle triangle)
         {
-            DrawTriangle(in triangle.A, in triangle.B, in triangle.C);
+            DrawTriangle(triangle.A, triangle.B, triangle.C);
         }
 
         /// <summary>
@@ -323,7 +323,7 @@ namespace Heirloom.Drawing
         /// <param name="b">The second point.</param>
         /// <param name="c">The third point.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawTriangle(in Vector a, in Vector b, in Vector c)
+        public void DrawTriangle(Vector a, Vector b, Vector c)
         {
             _mesh.Clear();
 
@@ -342,7 +342,7 @@ namespace Heirloom.Drawing
         /// <param name="triangle">The triangle to draw.</param>
         /// <param name="width">The thickness of the line in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawTriangleOutline(in Triangle triangle, float width = 1F)
+        public void DrawTriangleOutline(Triangle triangle, float width = 1F)
         {
             DrawPolyLine(triangle.GetVertices(), width, loop: true);
         }
@@ -355,7 +355,7 @@ namespace Heirloom.Drawing
         /// <param name="c">The third point.</param>
         /// <param name="width">The thickness of the line in pixels.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawTriangleOutline(in Vector a, in Vector b, in Vector c, float width = 1F)
+        public void DrawTriangleOutline(Vector a, Vector b, Vector c, float width = 1F)
         {
             DrawTriangleOutline(new Triangle(a, b, c), width);
         }

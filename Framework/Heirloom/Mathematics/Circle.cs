@@ -79,7 +79,7 @@ namespace Heirloom.Mathematics
         /// Sets the components of this circle.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Set(in Vector position, float radius)
+        public void Set(Vector position, float radius)
         {
             Position = position;
             Radius = radius;
@@ -118,7 +118,7 @@ namespace Heirloom.Mathematics
         /// </summary>
         public bool Contains(Circle circle)
         {
-            var d = Vector.DistanceSquared(in Position, in circle.Position);
+            var d = Vector.DistanceSquared(Position, circle.Position);
             return Radius > (d + circle.Radius);
         }
 

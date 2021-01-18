@@ -420,7 +420,7 @@ namespace Heirloom.Drawing
         /// <param name="image">Some image.</param>
         /// <param name="rectangle">The bounds of the drawn image.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void DrawImage(Texture image, in Rectangle rectangle)
+        public void DrawImage(Texture image, Rectangle rectangle)
         {
             var transform = Matrix.CreateTransform(rectangle.Position, 0, (Vector) rectangle.Size);
             Draw(Mesh.QuadMesh, image, transform);

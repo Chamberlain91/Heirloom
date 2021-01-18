@@ -23,4 +23,6 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Style", "CA2014", Justification = "C to C# Ported Code", Scope = "namespaceanddescendants", Target = "StbTrueTypeSharp")]
 
 // Doesn't appear to be working
+[assembly: SuppressMessage("Style", "CS1717", Justification = "C to C# Ported Code", Scope = "namespaceanddescendants", Target = "StbImageSharp")]
+[assembly: SuppressMessage("Style", "CS1717", Justification = "C to C# Ported Code", Scope = "namespaceanddescendants", Target = "StbImageWriteSharp")]
 [assembly: SuppressMessage("Style", "CS1717", Justification = "C to C# Ported Code", Scope = "namespaceanddescendants", Target = "StbTrueTypeSharp")]

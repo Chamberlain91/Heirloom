@@ -30,7 +30,7 @@ namespace Heirloom.Mathematics
         /// <returns>A boolean value that determines if the shapes are overlapping. </returns>
         public static bool CheckOverlap(IShape shapeA, IShape shapeB)
         {
-            return CheckOverlap(shapeA, in Matrix.Identity, shapeB, in Matrix.Identity);
+            return CheckOverlap(shapeA, Matrix.Identity, shapeB, Matrix.Identity);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Heirloom.Mathematics
         /// <param name="shapeB">The second shape.</param>
         /// <param name="matrixB">The transform of the second shape.</param>
         /// <returns>A boolean value that determines if the shapes are overlapping. </returns>
-        public static bool CheckOverlap(IShape shapeA, in Matrix matrixA, IShape shapeB, in Matrix matrixB)
+        public static bool CheckOverlap(IShape shapeA, Matrix matrixA, IShape shapeB, Matrix matrixB)
         {
             if (shapeA is null) { throw new ArgumentNullException(nameof(shapeA)); }
             if (shapeB is null) { throw new ArgumentNullException(nameof(shapeB)); }
@@ -53,11 +53,11 @@ namespace Heirloom.Mathematics
             if (shapeA.IsConvex && shapeB.IsConvex)
             {
                 // Get shape proxy
-                var a = new ShapeProxy(shapeA, in matrixA);
-                var b = new ShapeProxy(shapeB, in matrixB);
+                var a = new ShapeProxy(shapeA, matrixA);
+                var b = new ShapeProxy(shapeB, matrixB);
 
                 // Dispatch to GJK
-                return EvaluateOverlap(in a, in b);
+                return EvaluateOverlap(a, b);
             }
             else if (shapeB.IsConvex)
             {
@@ -66,13 +66,13 @@ namespace Heirloom.Mathematics
                 // Polygon vs Shape
                 if (shapeA is Polygon polygonA)
                 {
-                    var b = new ShapeProxy(shapeB, in matrixB);
+                    var b = new ShapeProxy(shapeB, matrixB);
 
                     foreach (var convex in polygonA.ConvexPartitions)
                     {
-                        var a = new ShapeProxy(convex, in matrixA);
+                        var a = new ShapeProxy(convex, matrixA);
 
-                        if (EvaluateOverlap(in a, in b))
+                        if (EvaluateOverlap(a, b))
                         {
                             return true;
                         }
@@ -89,13 +89,13 @@ namespace Heirloom.Mathematics
                 // Shape vs Polygon
                 if (shapeB is Polygon polygonB)
                 {
-                    var a = new ShapeProxy(shapeA, in matrixA);
+                    var a = new ShapeProxy(shapeA, matrixA);
 
                     foreach (var convex in polygonB.ConvexPartitions)
                     {
-                        var b = new ShapeProxy(convex, in matrixB);
+                        var b = new ShapeProxy(convex, matrixB);
 
-                        if (EvaluateOverlap(in a, in b))
+                        if (EvaluateOverlap(a, b))
                         {
                             return true;
                         }
@@ -114,13 +114,13 @@ namespace Heirloom.Mathematics
                 {
                     foreach (var convexA in polygonA.ConvexPartitions)
                     {
-                        var a = new ShapeProxy(convexA, in matrixA);
+                        var a = new ShapeProxy(convexA, matrixA);
 
                         foreach (var convexB in polygonB.ConvexPartitions)
                         {
-                            var b = new ShapeProxy(convexB, in matrixB);
+                            var b = new ShapeProxy(convexB, matrixB);
 
-                            if (EvaluateOverlap(in a, in b))
+                            if (EvaluateOverlap(a, b))
                             {
                                 return true;
                             }
@@ -153,7 +153,7 @@ namespace Heirloom.Mathematics
         /// <returns>A boolean value that determines if a collision has occurred. </returns>
         public static bool CheckCollision(IShape shapeA, IShape shapeB, out ShapeContact contact)
         {
-            return CheckCollision(shapeA, in Matrix.Identity, shapeB, in Matrix.Identity, out contact);
+            return CheckCollision(shapeA, Matrix.Identity, shapeB, Matrix.Identity, out contact);
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace Heirloom.Mathematics
         /// Only valid if a collision has occurred.
         /// </param>
         /// <returns>A boolean value that determines if a collision has occurred. </returns>
-        public static bool CheckCollision(IShape shapeA, in Matrix matrixA, IShape shapeB, in Matrix matrixB, out ShapeContact contact)
+        public static bool CheckCollision(IShape shapeA, Matrix matrixA, IShape shapeB, Matrix matrixB, out ShapeContact contact)
         {
             if (shapeA is null) { throw new ArgumentNullException(nameof(shapeA)); }
             if (shapeB is null) { throw new ArgumentNullException(nameof(shapeB)); }
@@ -176,7 +176,7 @@ namespace Heirloom.Mathematics
             if (shapeA.IsConvex && shapeB.IsConvex)
             {
                 // Both shapes are convex, we can proceed with GJK
-                if (CheckOverlap(shapeA, in matrixA, shapeB, in matrixB))
+                if (CheckOverlap(shapeA, matrixA, shapeB, matrixB))
                 {
                     // A collision has occured, we now proceed with EPA
                     contact = ComputePenetration();
@@ -205,7 +205,7 @@ namespace Heirloom.Mathematics
 
             #region Constructors
 
-            public ShapeProxy(IShape shape, in Matrix matrix)
+            public ShapeProxy(IShape shape, Matrix matrix)
             {
                 if (shape is null) { throw new ArgumentNullException(nameof(shape)); }
 
@@ -215,7 +215,7 @@ namespace Heirloom.Mathematics
                 Center = LocalToWorld(shape.Center, matrix);
             }
 
-            public ShapeProxy(IEnumerable<Vector> polygon, in Matrix matrix)
+            public ShapeProxy(IEnumerable<Vector> polygon, Matrix matrix)
             {
                 if (polygon is null) { throw new ArgumentNullException(nameof(polygon)); }
 
@@ -229,7 +229,7 @@ namespace Heirloom.Mathematics
 
             private static Func<Vector, Vector> LocalToWorld(Func<Vector, Vector> getSupport, Matrix matrix)
             {
-                if (!IsIdentity(in matrix))
+                if (!IsIdentity(matrix))
                 {
                     // Compute the transpose of the linear portion of the affine matrix (inverse 2x2)
                     var mTranspose = matrix;
@@ -238,10 +238,10 @@ namespace Heirloom.Mathematics
                     return direction =>
                     {
                         // Transform the direction vector into 'local space'
-                        Matrix.MultiplyVector(in mTranspose, direction, ref direction);
+                        Matrix.MultiplyVector(mTranspose, direction, ref direction);
 
                         // Get the local space support and transform back to 'world space'
-                        return Matrix.Multiply(in matrix, getSupport(direction));
+                        return Matrix.Multiply(matrix, getSupport(direction));
                     };
                 }
                 else
@@ -253,10 +253,10 @@ namespace Heirloom.Mathematics
 
             private static Vector LocalToWorld(Vector center, Matrix matrix)
             {
-                return Matrix.Multiply(in matrix, in center);
+                return Matrix.Multiply(matrix, center);
             }
 
-            private static bool IsIdentity(in Matrix matrix)
+            private static bool IsIdentity(Matrix matrix)
             {
                 var dia = matrix.M0 + matrix.M4; // diagonal sum to 2
                 var zer = matrix.M1 + matrix.M2 + matrix.M3 + matrix.M5; // remaining sum to 0
@@ -269,7 +269,7 @@ namespace Heirloom.Mathematics
         #region GJK/EPA Implementation
 
         // GJK
-        private static bool EvaluateOverlap(in ShapeProxy shapeA, in ShapeProxy shapeB)
+        private static bool EvaluateOverlap(ShapeProxy shapeA, ShapeProxy shapeB)
         {
             _shapeA = shapeA;
             _shapeB = shapeB;
@@ -360,18 +360,18 @@ namespace Heirloom.Mathematics
                 }
 
                 // 
-                return AddSupportToSimplex(in _direction);
+                return AddSupportToSimplex(_direction);
             }
 
-            static GJKIterationResult AddSupportToSimplex(in Vector dir)
+            static GJKIterationResult AddSupportToSimplex(Vector dir)
             {
                 // Compute the next support point to use when evolving the simplex
-                var minkowskiSupport = GetMinkowskiSupport(in dir);
+                var minkowskiSupport = GetMinkowskiSupport(dir);
                 _gjkPolygon.Add(minkowskiSupport);
 
                 // todo: explain this one to yourself...(the support is on the correct side of the origin?)
-                return (Vector.Dot(in dir, in minkowskiSupport.Minkowski) > 0) ? GJKIterationResult.Incomplete
-                                                                               : GJKIterationResult.Failure;
+                return (Vector.Dot(dir, minkowskiSupport.Minkowski) > 0) ? GJKIterationResult.Incomplete
+                                                                         : GJKIterationResult.Failure;
             }
         }
 
@@ -470,7 +470,7 @@ namespace Heirloom.Mathematics
             }
         }
 
-        private static Support GetMinkowskiSupport(in Vector direction)
+        private static Support GetMinkowskiSupport(Vector direction)
         {
             var a = _shapeA.GetSupport(direction);
             var b = _shapeB.GetSupport(-direction);

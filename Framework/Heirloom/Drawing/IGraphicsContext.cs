@@ -53,8 +53,8 @@ namespace Heirloom.Drawing
 
         #region Draw Line
 
-        void DrawLine(in Vector p0, in Vector p1, Texture texture, float width = 1);
-        void DrawLine(in Vector p0, in Vector p1, float width = 1);
+        void DrawLine(Vector p0, Vector p1, Texture texture, float width = 1);
+        void DrawLine(Vector p0, Vector p1, float width = 1);
 
         #endregion
 
@@ -100,26 +100,26 @@ namespace Heirloom.Drawing
 
         #region Draw Rectangle
 
-        void DrawRect(in Rectangle rectangle);
+        void DrawRect(Rectangle rectangle);
 
-        void DrawRectOutline(in Rectangle rectangle, float width = 1);
+        void DrawRectOutline(Rectangle rectangle, float width = 1);
 
         #endregion
 
         #region Draw Triangle
 
         // 
-        void DrawTriangle(in Vector a, in Vector b, in Vector c);
-        void DrawTriangle(in Triangle triangle);
+        void DrawTriangle(Vector a, Vector b, Vector c);
+        void DrawTriangle(Triangle triangle);
 
-        void DrawTriangleOutline(in Vector a, in Vector b, in Vector c, float width = 1);
-        void DrawTriangleOutline(in Triangle triangle, float width = 1);
+        void DrawTriangleOutline(Vector a, Vector b, Vector c, float width = 1);
+        void DrawTriangleOutline(Triangle triangle, float width = 1);
 
         #endregion
 
         #region Draw Utility Shapes
 
-        void DrawCross(in Vector center, float size = 3, float width = 1);
+        void DrawCross(Vector center, float size = 3, float width = 1);
 
         #endregion
 

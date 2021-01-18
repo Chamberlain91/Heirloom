@@ -32,7 +32,7 @@ namespace Heirloom
         /// Sample two-dimensional noise.
         /// </summary>
         /// <returns>A noise value from -1.0 to +1.0.</returns>
-        public static float Sample(this INoise2D noise, in Vector position)
+        public static float Sample(this INoise2D noise, Vector position)
         {
             return noise.Sample(position.X, position.Y);
         }
@@ -41,7 +41,7 @@ namespace Heirloom
         /// Sample two-dimensional octave noise.
         /// </summary>
         /// <returns>A noise value from -1.0 to +1.0.</returns>
-        public static float Sample(this INoise2D noise, in Vector position, int octaves, float persistence = 0.5F)
+        public static float Sample(this INoise2D noise, Vector position, int octaves, float persistence = 0.5F)
         {
             return Sample(noise, position.X, position.Y, octaves, persistence);
         }

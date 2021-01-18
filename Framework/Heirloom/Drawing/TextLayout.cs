@@ -30,7 +30,7 @@ namespace Heirloom.Drawing
 
     /// <summary>
     /// Utility to measure text and manually invoke the text layout function. <para/> Internally used by 
-    /// <see cref="GraphicsContext.DrawText(string, in Rectangle, Font, int, TextAlign, DrawTextCallback)"/> and its variants.
+    /// <see cref="GraphicsContext.DrawText(string, Rectangle, Font, int, TextAlign, DrawTextCallback)"/> and its variants.
     /// </summary>
     /// <category>Text</category>
     public static class TextLayout
@@ -58,7 +58,7 @@ namespace Heirloom.Drawing
         /// <param name="fontSize">The font size to use.</param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Rectangle Measure(string text, in Size layoutSize, Font font, int fontSize)
+        public static Rectangle Measure(string text, Size layoutSize, Font font, int fontSize)
         {
             return Measure(text, new Rectangle(Vector.Zero, layoutSize), font, fontSize);
         }
@@ -72,7 +72,7 @@ namespace Heirloom.Drawing
         /// <param name="fontSize">The size to measure the font with.</param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Rectangle Measure(string text, in Rectangle layoutBox, Font font, int fontSize)
+        public static Rectangle Measure(string text, Rectangle layoutBox, Font font, int fontSize)
         {
             if (text is null) { throw new ArgumentNullException(nameof(text)); }
             if (layoutBox.Width <= 0 || layoutBox.Height <= 0) { throw new ArgumentException($"Layout box size must be greater than zero.", nameof(layoutBox)); }
@@ -155,7 +155,7 @@ namespace Heirloom.Drawing
             }
 
             // Find the first break point (if none, set to -1)
-            var nextBreak = FindNextBreak(in text, 0, state.Character, in state.Position, in bounds, glyphTable, out var lineWidth);
+            var nextBreak = FindNextBreak(text, 0, state.Character, state.Position, bounds, glyphTable, out var lineWidth);
             var offsetX = ComputeAlignmentOffset(bounds, align, lineWidth);
             state.Position.X += offsetX; // First line alignment offset
 
@@ -204,7 +204,7 @@ namespace Heirloom.Drawing
                     state.Position.X = bounds.Left;
 
                     // Find the next break point
-                    nextBreak = FindNextBreak(in text, i + 1, state.Character, in state.Position, in bounds, glyphTable, out lineWidth);
+                    nextBreak = FindNextBreak(text, i + 1, state.Character, state.Position, bounds, glyphTable, out lineWidth);
                     offsetX = ComputeAlignmentOffset(bounds, align, lineWidth);
                     state.Position.X += offsetX;
                 }
@@ -213,7 +213,7 @@ namespace Heirloom.Drawing
             return measure;
         }
 
-        internal static Rectangle GetPositionAnchoredTextBounds(in string text, in Font font, in int size, in Vector position, in TextAlign align)
+        internal static Rectangle GetPositionAnchoredTextBounds(string text, Font font, int size, Vector position, TextAlign align)
         {
             var measure = Measure(text, font, size).Size;
 
@@ -230,7 +230,7 @@ namespace Heirloom.Drawing
             return new Rectangle(pos, measure);
         }
 
-        private static float ComputeAlignmentOffset(in Rectangle bounds, TextAlign align, float lineWidth)
+        private static float ComputeAlignmentOffset(Rectangle bounds, TextAlign align, float lineWidth)
         {
             var offset = 0F;
             if (align.HasFlag(TextAlign.Center) || align.HasFlag(TextAlign.Right)) { offset = bounds.Width - lineWidth; }
@@ -239,7 +239,7 @@ namespace Heirloom.Drawing
         }
 
         // checks if character should break (newline or word too long, etc)
-        private static int FindNextBreak(in string text, int index, UnicodeCharacter previous, in Vector position, in Rectangle bounds, GlyphTable glyphTable, out float width)
+        private static int FindNextBreak(string text, int index, UnicodeCharacter previous, Vector position, Rectangle bounds, GlyphTable glyphTable, out float width)
         {
             var opportunity = -1;
             var opportunityEdge = 0F;

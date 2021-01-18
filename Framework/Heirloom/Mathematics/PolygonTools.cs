@@ -16,7 +16,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Gets the nearest point on the polygon to the specified point.
         /// </summary>
-        public static Vector GetNearestPoint(IReadOnlyList<Vector> polygon, in Vector point)
+        public static Vector GetNearestPoint(IReadOnlyList<Vector> polygon, Vector point)
         {
             var minD = float.MaxValue;
             var minP = Vector.Zero;
@@ -45,7 +45,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Assuming the polygon is convex, checks if the point is contained.
         /// </summary>
-        public static bool ContainsPoint(IReadOnlyList<Vector> convex, in Vector point)
+        public static bool ContainsPoint(IReadOnlyList<Vector> convex, Vector point)
         // todo: perhaps change to IEnumerable and use a memory/generator of the first point?
         // ref: https://stackoverflow.com/a/34689268
         {
@@ -89,7 +89,7 @@ namespace Heirloom.Mathematics
         /// Checks if a ray intersects this polygon and outputs information on the contact point.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Raycast(IReadOnlyList<Vector> polygon, in Ray ray, out RayContact contact)
+        public static bool Raycast(IReadOnlyList<Vector> polygon, Ray ray, out RayContact contact)
         {
             // todo: perhaps implement against LineSegment.Intersects? somehow comparitively see what is better
             // ref: https://github.com/RandyGaul/cute_headers/blob/master/cute_c2.h
@@ -558,10 +558,10 @@ namespace Heirloom.Mathematics
                     // Determine inside/outside via assumption of clockwise ordering
                     var clipEdge = clipB - clipA;
 
-                    if (Vector.Cross(in clipEdge, current - clipA) >= 0)
+                    if (Vector.Cross(clipEdge, current - clipA) >= 0)
                     {
                         // previous vertex is outside
-                        if (Vector.Cross(in clipEdge, previous - clipA) < 0)
+                        if (Vector.Cross(clipEdge, previous - clipA) < 0)
                         {
                             // Edge is clipped by prior vertex.
                             LineSegment.Intersects(previous, current, clipA, clipB, out Vector intersection, clampSegment: false);
@@ -571,7 +571,7 @@ namespace Heirloom.Mathematics
                         // current vertex is contained
                         outputList.Add(current);
                     }
-                    else if (Vector.Cross(in clipEdge, previous - clipA) >= 0)
+                    else if (Vector.Cross(clipEdge, previous - clipA) >= 0)
                     {
                         // current vertex is outside
                         LineSegment.Intersects(previous, current, clipA, clipB, out Vector intersection, clampSegment: false);
@@ -615,14 +615,14 @@ namespace Heirloom.Mathematics
             var c = GetVertex(polygon, i + 0);
             var n = GetVertex(polygon, i + 1);
 
-            return IsClockwise(in p, in c, in n);
+            return IsClockwise(p, c, n);
         }
 
         /// <summary>
         /// Determines if the vertex '<paramref name="vCurr"/>' is convex (clockwise).
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsClockwise(in Vector vPrev, in Vector vCurr, in Vector vNext)
+        public static bool IsClockwise(Vector vPrev, Vector vCurr, Vector vNext)
         // todo: can be implemented against Vector.Cross, that's pretty much what is happening below.
         {
             // Does it have to be normalized?
@@ -636,7 +636,7 @@ namespace Heirloom.Mathematics
             // var n2 = new Vector(-d2.Y, d2.X);
             d2.Set(-d2.Y, d2.X);
 
-            return Vector.Dot(in d1, in d2) <= 0f;
+            return Vector.Dot(d1, d2) <= 0f;
         }
 
         #endregion

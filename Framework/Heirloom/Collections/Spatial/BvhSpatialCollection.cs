@@ -56,7 +56,7 @@ namespace Heirloom.Collections
         /// <summary>
         /// Adds an element with rectangle bounds into this spatial collection.
         /// </summary>
-        public void Add(in T item, in IShape boundingShape)
+        public void Add(T item, IShape boundingShape)
         {
             if (_nodes.ContainsKey(item)) { throw new ArgumentException($"Spatial item already exists in collection, unable to add."); }
             else
@@ -75,7 +75,7 @@ namespace Heirloom.Collections
         /// <summary>
         /// Updates an exising element with new bounds in the collection.
         /// </summary>
-        public void Update(in T item, in IShape boundingShape)
+        public void Update(T item, IShape boundingShape)
         {
             if (_nodes.TryGetValue(item, out var node))
             {
@@ -103,7 +103,7 @@ namespace Heirloom.Collections
         /// <summary>
         /// Removes an element from this spatial collection.
         /// </summary>
-        public bool Remove(in T item)
+        public bool Remove(T item)
         {
             // 
             if (_nodes.TryGetValue(item, out var node))
@@ -129,7 +129,7 @@ namespace Heirloom.Collections
         /// <summary>
         /// Determines if the specified element exists in this collection.
         /// </summary>
-        public bool Contains(in T item)
+        public bool Contains(T item)
         {
             return _nodes.ContainsKey(item);
         }

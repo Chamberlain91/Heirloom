@@ -92,7 +92,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Gets the squared magnitude of this vector.
         /// </summary>
-        public float LengthSquared => Dot(in this, in this);
+        public float LengthSquared => Dot(this, this);
 
         /// <summary>
         /// Gets a normalized copy of this vector.
@@ -206,6 +206,17 @@ namespace Heirloom.Mathematics
             return new Vector(x, y);
         }
 
+        /// <summary>
+        /// Clamps this vector within a rectangular region.
+        /// </summary>
+        public Vector Clamp(Rectangle rect)
+        {
+            Vector closest;
+            closest.X = (X < rect.Min.X) ? rect.Min.X : (X > rect.Max.X) ? rect.Max.X : X;
+            closest.Y = (Y < rect.Min.Y) ? rect.Min.Y : (Y > rect.Max.Y) ? rect.Max.Y : Y;
+            return closest;
+        }
+
         #endregion
 
         #region Distance
@@ -214,7 +225,7 @@ namespace Heirloom.Mathematics
         /// Computes the euclidean distance between any two vectors.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Distance(in Vector a, in Vector b)
+        public static float Distance(Vector a, Vector b)
         {
             return Calc.Distance(a.X, a.Y, b.X, b.Y);
         }
@@ -223,7 +234,7 @@ namespace Heirloom.Mathematics
         /// Computes the squared euclidean distance between any two vectors.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float DistanceSquared(in Vector a, in Vector b)
+        public static float DistanceSquared(Vector a, Vector b)
         {
             return Calc.DistanceSquared(a.X, a.Y, b.X, b.Y);
         }
@@ -232,7 +243,7 @@ namespace Heirloom.Mathematics
         /// Computes the manhattan distance between any two vectors.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float ManhattanDistance(in Vector a, in Vector b)
+        public static float ManhattanDistance(Vector a, Vector b)
         {
             return Calc.ManhattanDistance(a.X, a.Y, b.X, b.Y);
         }
@@ -241,7 +252,7 @@ namespace Heirloom.Mathematics
         /// Computes an approximation to euclidean distance between any two vectors.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float ApproximateDistance(in Vector a, in Vector b)
+        public static float ApproximateDistance(Vector a, Vector b)
         {
             return Calc.ApproximateDistance(a.X, a.Y, b.X, b.Y);
         }
@@ -363,7 +374,7 @@ namespace Heirloom.Mathematics
         /// Computes the dot-product of two vectors.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Dot(in Vector a, in Vector b)
+        public static float Dot(Vector a, Vector b)
         {
             return (a.X * b.X) + (a.Y * b.Y);
         }
@@ -376,7 +387,7 @@ namespace Heirloom.Mathematics
         /// Computes the cross-product of two vectors.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Cross(in Vector a, in Vector b)
+        public static float Cross(Vector a, Vector b)
         {
             return (a.X * b.Y) - (a.Y * b.X);
         }
@@ -385,7 +396,7 @@ namespace Heirloom.Mathematics
         /// Computes the cross-product of a vector and a magnitude.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector Cross(in Vector a, float s)
+        public static Vector Cross(Vector a, float s)
         {
             return new Vector(s * a.Y, -s * a.X);
         }
@@ -394,7 +405,7 @@ namespace Heirloom.Mathematics
         /// Computes the cross-product of a vector and a magnitude.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector Cross(float s, in Vector a)
+        public static Vector Cross(float s, Vector a)
         {
             return new Vector(-s * a.Y, s * a.X);
         }
@@ -410,9 +421,9 @@ namespace Heirloom.Mathematics
         /// <param name="v"> The second vector. </param>
         /// <returns>The 'progress' along <paramref name="v"/>.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Project(in Vector u, in Vector v)
+        public static float Project(Vector u, Vector v)
         {
-            return Dot(in u, in v) / Dot(in v, in v);
+            return Dot(u, v) / Dot(v, v);
         }
 
         /// <summary>
@@ -423,7 +434,7 @@ namespace Heirloom.Mathematics
         /// <param name="point">Point to project.</param>
         /// <param name="clamp">Should we clamp to the ends of the line segment?</param>
         /// <returns>The 'progress' along the line segment.</returns>
-        public static float Project(in Vector start, in Vector end, in Vector point, bool clamp = true)
+        public static float Project(Vector start, Vector end, Vector point, bool clamp = true)
         {
             var v = point - start;
             var e = end - start;
@@ -449,7 +460,7 @@ namespace Heirloom.Mathematics
         /// </summary>
         /// <param name="vec">The vector to reflect.</param>
         /// <param name="axis">The axis of reflection, normalized.</param>
-        public static Vector Reflect(in Vector vec, in Vector axis)
+        public static Vector Reflect(Vector vec, Vector axis)
         {
             return vec - (2 * Dot(vec, axis) * axis);
         }

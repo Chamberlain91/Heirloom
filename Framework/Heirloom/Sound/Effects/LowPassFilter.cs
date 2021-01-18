@@ -24,7 +24,7 @@ namespace Heirloom.Sound
         /// <summary>
         /// Gets or sets the frequency cutoff in hertz.
         /// </summary>
-        /// <value>This value ranges from 0.0 to <see cref="AudioAdapter.SampleRate"/>.</value>
+        /// <value>This value ranges from 0.0 to <see cref="AudioBackend.SampleRate"/>.</value>
         public float Frequency
         {
             get => _cutoff;

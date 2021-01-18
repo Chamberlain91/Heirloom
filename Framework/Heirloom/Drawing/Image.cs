@@ -63,7 +63,7 @@ namespace Heirloom.Drawing
             var height = result.Height;
 
             // Ensure image size is acceptable and no error while loading occurred
-            ValidateImageSize(in width, in height);
+            ValidateImageSize(width, height);
 
             // Allocate pixels
             Pixels = new ColorBytes[width * height];
@@ -93,7 +93,7 @@ namespace Heirloom.Drawing
         /// <exception cref="ArgumentException">Thrown when any dimension is negative or exceeds <see cref="MaxImageDimension"/>.</exception>
         public Image(int width, int height)
         {
-            ValidateImageSize(in width, in height);
+            ValidateImageSize(width, height);
 
             // Allocate pixels
             Pixels = new ColorBytes[width * height];
@@ -124,7 +124,7 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        private static void ValidateImageSize(in int width, in int height)
+        private static void ValidateImageSize(int width, int height)
         {
             if (width > MaxImageDimension || height > MaxImageDimension)
             {
@@ -200,7 +200,7 @@ namespace Heirloom.Drawing
         /// <param name="x">The x-coordinate of the pixel.</param>
         /// <param name="y">The y-coordinate of the pixel.</param>
         /// <param name="color">The color to assign to the pixel.</param>
-        public void SetPixel(int x, int y, in ColorBytes color)
+        public void SetPixel(int x, int y, ColorBytes color)
         {
             Pixels[x + (y * Width)] = color;
             IncrementVersion();
@@ -211,9 +211,9 @@ namespace Heirloom.Drawing
         /// </summary>
         /// <param name="co">The coordinate of the pixel.</param>
         /// <param name="color">The color to assign to the pixel.</param>
-        public void SetPixel(IntVector co, in ColorBytes color)
+        public void SetPixel(IntVector co, ColorBytes color)
         {
-            SetPixel(co.X, co.Y, in color);
+            SetPixel(co.X, co.Y, color);
         }
 
         /// <summary>
@@ -418,9 +418,9 @@ namespace Heirloom.Drawing
         /// <param name="region">The region to copy.</param>
         /// <param name="target">The target image to copy pixels to.</param>
         /// <param name="targetOffset">The offset within the target image to copy to.</param>
-        public void CopyTo(in IntRectangle region, Image target, in IntVector targetOffset)
+        public void CopyTo(IntRectangle region, Image target, IntVector targetOffset)
         {
-            Copy(this, in region, target, in targetOffset);
+            Copy(this, region, target, targetOffset);
         }
 
         /// <summary>
@@ -428,9 +428,9 @@ namespace Heirloom.Drawing
         /// </summary>
         /// <param name="target">The target image to copy pixels to.</param>
         /// <param name="targetOffset">The offset within the target image to copy to.</param>
-        public void CopyTo(Image target, in IntVector targetOffset)
+        public void CopyTo(Image target, IntVector targetOffset)
         {
-            Copy(this, (0, 0, Width, Height), target, in targetOffset);
+            Copy(this, (0, 0, Width, Height), target, targetOffset);
         }
 
         #endregion
@@ -732,8 +732,8 @@ namespace Heirloom.Drawing
         /// <param name="target">The target image.</param>
         /// <param name="targetOffset">The offset in the target to copy the source rectangle to.</param>
         /// <exception cref="ArgumentNullException">Thrown when either image is null.</exception>
-        public static unsafe void Copy(Image source, in IntRectangle sourceRegion,
-                                       Image target, in IntVector targetOffset)
+        public static unsafe void Copy(Image source, IntRectangle sourceRegion,
+                                       Image target, IntVector targetOffset)
         {
             if (source is null) { throw new ArgumentNullException(nameof(source)); }
             if (target is null) { throw new ArgumentNullException(nameof(target)); }
@@ -743,8 +743,8 @@ namespace Heirloom.Drawing
             fixed (ColorBytes* sourcePtr = source.Pixels)
             fixed (ColorBytes* targetPtr = target.Pixels)
             {
-                Copy(sourcePtr, source.Width, in sourceRegion,
-                     targetPtr, target.Width, in targetOffset);
+                Copy(sourcePtr, source.Width, sourceRegion,
+                     targetPtr, target.Width, targetOffset);
 
                 // Notify target of mutation
                 target.IncrementVersion();
@@ -760,15 +760,15 @@ namespace Heirloom.Drawing
         /// <param name="targetWidth">The width of the target image.</param>
         /// <param name="targetOffset">The offset in the target to copy the source rectangle to.</param>
         /// <exception cref="ArgumentNullException">Thrown when either image is null.</exception>
-        public static unsafe void Copy(Image source, in IntRectangle sourceRegion,
-                                       ColorBytes* targetPtr, int targetWidth, in IntVector targetOffset)
+        public static unsafe void Copy(Image source, IntRectangle sourceRegion,
+                                       ColorBytes* targetPtr, int targetWidth, IntVector targetOffset)
         {
             if (source is null) { throw new ArgumentNullException(nameof(source)); }
 
             fixed (ColorBytes* sourcePtr = source.Pixels)
             {
-                Copy(sourcePtr, source.Width, in sourceRegion,
-                     targetPtr, targetWidth, in targetOffset);
+                Copy(sourcePtr, source.Width, sourceRegion,
+                     targetPtr, targetWidth, targetOffset);
             }
         }
 
@@ -781,15 +781,15 @@ namespace Heirloom.Drawing
         /// <param name="target">The target image.</param>
         /// <param name="targetOffset">The offset in the target to copy the source rectangle to.</param>
         /// <exception cref="ArgumentNullException">Thrown when either image is null.</exception>
-        public static unsafe void Copy(ColorBytes* sourcePtr, int sourceWidth, in IntRectangle sourceRegion,
-                                       Image target, in IntVector targetOffset)
+        public static unsafe void Copy(ColorBytes* sourcePtr, int sourceWidth, IntRectangle sourceRegion,
+                                       Image target, IntVector targetOffset)
         {
             if (target is null) { throw new ArgumentNullException(nameof(target)); }
 
             fixed (ColorBytes* targetPtr = target.Pixels)
             {
-                Copy(sourcePtr, sourceWidth, in sourceRegion,
-                     targetPtr, target.Width, in targetOffset);
+                Copy(sourcePtr, sourceWidth, sourceRegion,
+                     targetPtr, target.Width, targetOffset);
 
                 // Notify target of mutation
                 target.IncrementVersion();
@@ -806,8 +806,8 @@ namespace Heirloom.Drawing
         /// <param name="targetWidth">The width of the target image.</param>
         /// <param name="targetOffset">The offset in the target to copy the source rectangle to.</param>
         /// <exception cref="ArgumentNullException">Thrown when either image is null.</exception>
-        public static unsafe void Copy(ColorBytes* sourcePtr, int sourceWidth, in IntRectangle sourceRegion,
-                                       ColorBytes* targetPtr, int targetWidth, in IntVector targetOffset)
+        public static unsafe void Copy(ColorBytes* sourcePtr, int sourceWidth, IntRectangle sourceRegion,
+                                       ColorBytes* targetPtr, int targetWidth, IntVector targetOffset)
         {
             if (sourcePtr == (void*) 0) { throw new ArgumentNullException(nameof(sourcePtr)); }
             if (targetPtr == (void*) 0) { throw new ArgumentNullException(nameof(targetPtr)); }

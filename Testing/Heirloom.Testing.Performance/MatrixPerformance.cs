@@ -27,27 +27,9 @@ namespace Heirloom.Testing.Performance
         }
 
         [Test]
-        public void MultiplyFunctionReadonly()
-        {
-            _c = Matrix.Multiply(in _a, in _b);
-        }
-
-        [Test]
         public void MultiplyFunctionRef()
         {
             Matrix.Multiply(_a, _b, ref _c);
-        }
-
-        [Test]
-        public void MultiplyFunctionReadonlyRef()
-        {
-            Matrix.Multiply(in _a, in _b, ref _c);
-        }
-
-        [Test]
-        public void InverseReadonly()
-        {
-            _c = Matrix.Inverse(in _a);
         }
 
         [Test]
@@ -57,15 +39,15 @@ namespace Heirloom.Testing.Performance
         }
 
         [Test]
-        public void InverseReadonlyRef()
-        {
-            Matrix.Inverse(in _a, ref _c);
-        }
-
-        [Test]
         public void InverseRef()
         {
             Matrix.Inverse(_a, ref _c);
+        }
+
+        [Test]
+        public void Inverted()
+        {
+            _c = _a.Inverted;
         }
     }
 }

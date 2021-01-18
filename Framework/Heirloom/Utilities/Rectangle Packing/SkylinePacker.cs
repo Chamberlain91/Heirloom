@@ -41,7 +41,7 @@ namespace Heirloom
             for (var i = 0; i < Strips.Count; i++)
             {
                 // Try to fit compact
-                if (CheckFit(i, in size))
+                if (CheckFit(i, size))
                 {
                     // Anchor image to 
                     rect = new IntRectangle(Strips[i].Position, size);
@@ -69,7 +69,7 @@ namespace Heirloom
             return Size.Height - shelf >= size.Height;
         }
 
-        private bool CheckFit(int index, in IntSize size)
+        private bool CheckFit(int index, IntSize size)
         {
             var root = Strips[index];
 
@@ -111,7 +111,7 @@ namespace Heirloom
             }
         }
 
-        private void InsertStrip(in Strip insert)
+        private void InsertStrip(Strip insert)
         {
             var adds = new List<Strip> { insert };
             var rems = new List<Strip>();
@@ -170,7 +170,7 @@ namespace Heirloom
 
             public IntVector Position => new IntVector(X, Y);
 
-            public bool CheckOverlap(in Strip strip, out OverlapType type)
+            public bool CheckOverlap(Strip strip, out OverlapType type)
             {
                 var aL = X;
                 var aR = X + Width;

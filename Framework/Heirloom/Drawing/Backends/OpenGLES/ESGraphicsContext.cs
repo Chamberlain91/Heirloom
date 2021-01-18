@@ -136,7 +136,7 @@ namespace Heirloom.Drawing.OpenGLES
             RequestTextureInformation(texture, out var atlasTexture, out var atlasRect);
 
             // Map UV rect into atlas rect
-            MapAndEncodeUV(texture, ref uvRect, in atlasRect);
+            MapAndEncodeUV(texture, ref uvRect, atlasRect);
 
             // Inconsistent atlas texture, mark to rebind.
             if (_atlasTexture != atlasTexture)
@@ -150,7 +150,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
 
             // Combine composite with local transform
-            Matrix.Multiply(CompositeMatrix, in matrix, ref matrix);
+            Matrix.Multiply(CompositeMatrix, matrix, ref matrix);
 
             // This call may perform clipping on the mesh (if set)
             if (ClipShape != null)
@@ -965,7 +965,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Texture System (Atlas & Units)
 
-        private void MapAndEncodeUV(Texture texture, ref Rectangle uvRect, in Rectangle atlasRect)
+        private void MapAndEncodeUV(Texture texture, ref Rectangle uvRect, Rectangle atlasRect)
         {
             // Map incoming uv region to the atlas region
             uvRect.X = atlasRect.X + (uvRect.X * atlasRect.Width);

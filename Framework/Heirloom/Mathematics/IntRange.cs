@@ -92,7 +92,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Determines if this range contains the specified value.
         /// </summary>
-        public bool Contains(in int x)
+        public bool Contains(  int x)
         {
             if (x < Min) { return false; }
             if (x > Max) { return false; }
@@ -102,7 +102,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Determines if this range overlaps another integer range.
         /// </summary>
-        public bool Overlaps(in IntRange other)
+        public bool Overlaps( IntRange other)
         {
             return Min < other.Max && Max > other.Min;
         }
@@ -134,7 +134,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes the intersection of this range with another.
         /// </summary>
-        public IntRange Intersect(in IntRange other)
+        public IntRange Intersect(  IntRange other)
         {
             var min = Calc.Max(Min, other.Min);
             var max = Calc.Min(Max, other.Max);
@@ -144,7 +144,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes the union of this range with another.
         /// </summary>
-        public IntRange Union(in IntRange other)
+        public IntRange Union(  IntRange other)
         {
             var min = Calc.Min(Min, other.Min);
             var max = Calc.Max(Max, other.Max);
