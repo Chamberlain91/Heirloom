@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
+using System.Threading;
 
 using Heirloom.Mathematics;
 
@@ -16,6 +17,9 @@ namespace Heirloom.Testing.Performance
 
         private static void PerformTests(Assembly assembly)
         {
+            // Set maximum thread priority
+            Thread.CurrentThread.Priority = ThreadPriority.Highest;
+
             foreach (var type in GetSubclassTypes<PerformanceTest>(assembly))
             {
                 // Allocate instance
@@ -40,15 +44,14 @@ namespace Heirloom.Testing.Performance
                     // For each test action...
                     foreach (var (name, action) in actions)
                     {
-                        const int IterationLimit = 200_000;
+                        const int IterationLimit = 100_000;
                         const int RunLimit = 10;
-                        // 2 million calls
 
                         // Clear prior action results
                         results.Clear();
 
                         // Warm Up
-                        WarmUp(action, IterationLimit, 1);
+                        WarmUp(action, IterationLimit);
 
                         // Perform Test
                         for (var c = 0; c < RunLimit; c++)
@@ -80,21 +83,21 @@ namespace Heirloom.Testing.Performance
             }
         }
 
-        private static void WarmUp(Action action, int iterationLimit, int warmupRuns = 5)
+        private static void WarmUp(Action action, int iterationLimit)
         {
-            for (var c = 0; c < warmupRuns; c++)
-            {
-                // Perform the action many times
-                RepeatAction(action, iterationLimit);
+            // Perform the action many times
+            RepeatAction(action, iterationLimit);
 
-                // Force absolute collection, now. We don't want GC to wander into the next iteration.
-                GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true);
-            }
+            // Force absolute collection, now. We don't want GC to wander into the next iteration.
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true);
+
+            // Give some time for JIT
+            Thread.Sleep(200);
         }
 
-        private static void RepeatAction(Action action, int iterationLimit)
+        private static void RepeatAction(Action action, int count)
         {
-            for (var i = 0; i < iterationLimit; i++)
+            for (var i = 0; i < count; i++)
             {
                 action();
             }
