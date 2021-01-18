@@ -25,7 +25,7 @@ namespace Heirloom.Benchmark.Desktop
 
         private static void Main(string[] args)
         {
-            Application.Run<BenchmarkApp>();
+            Application.Run<Program>();
         }
     }
 }
