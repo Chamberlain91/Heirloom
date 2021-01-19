@@ -13,7 +13,6 @@ namespace Heirloom.Drawing.OpenGLES
         public ESTexture(IntSize size, TextureSizedFormat format = TextureSizedFormat.RGBA8, int samples = 1)
         {
             Size = size;
-            // Format = format;
             Samples = samples;
 
             Target = IsMultisampled ? TextureTarget.Texture2DMultisample : TextureTarget.Texture2D;
@@ -69,6 +68,14 @@ namespace Heirloom.Drawing.OpenGLES
         #endregion
 
         /// <summary>
+        /// Bind this texture.
+        /// </summary>
+        public void Bind()
+        {
+            GLES.BindTexture(Target, Handle);
+        }
+
+        /// <summary>
         /// Submits new image data to the texture.
         /// </summary>
         public unsafe void Update(int x, int y, Image image)
@@ -97,8 +104,12 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
+        /// <summary>
+        /// Generates mipmaps
+        /// </summary>
         public void GenerateMips()
         {
+            // todo: validate this texture is bound?
             GLES.GenerateMipmap(Target);
         }
 

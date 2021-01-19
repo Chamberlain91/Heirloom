@@ -29,7 +29,7 @@ namespace Heirloom.Drawing.OpenGLES
             {
                 Context.Invoke(() =>
                 {
-                    GLES.BindTexture(TextureTarget.Texture2D, texture.Handle);
+                    texture.Bind();
                     texture.Update(0, 0, image);
                     texture.GenerateMips();
                 });

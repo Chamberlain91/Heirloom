@@ -401,7 +401,7 @@ namespace Heirloom.Drawing.OpenGLES
                     if (_atlasTextureDirty)
                     {
                         GLES.ActiveTexture(0);
-                        GLES.BindTexture(TextureTarget.Texture2D, _atlasTexture.Handle);
+                        _atlasTexture.Bind();
                         _atlasTextureDirty = false;
                     }
 
@@ -912,7 +912,7 @@ namespace Heirloom.Drawing.OpenGLES
                         // Bind texture
                         // todo: only do this if the texture isn't already mapped
                         GLES.ActiveTexture(unit);
-                        GLES.BindTexture(TextureTarget.Texture2D, esTexture.Handle);
+                        esTexture.Bind();
 
                         // Check if associated atlas rectangle (uvrect) exists. If it
                         // does then we need to set that as well.
@@ -965,23 +965,33 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Texture System (Atlas & Units)
 
+        private enum AtlasFlipMode
+        {
+            None = 0,
+            Vertical = 1,
+            Horizontal = 2,
+            Both = 3
+        }
+
         private void MapAndEncodeUV(Texture texture, ref Rectangle uvRect, Rectangle atlasRect)
         {
-            // Map incoming uv region to the atlas region
+            // Map incoming uv region to the atlas region (0.0 to 1.0)
             uvRect.X = atlasRect.X + (uvRect.X * atlasRect.Width);
             uvRect.Y = atlasRect.Y + (uvRect.Y * atlasRect.Height);
             uvRect.Width *= atlasRect.Width;
             uvRect.Height *= atlasRect.Height;
 
             // A simple meta data encoding trick. Because the UV rectangle describes a
-            // non-negative zero-to-one domain, we can use negative values to encode
-            // special meaning into each component of the rect.
+            // zero-to-one domain, we can use integers values to encode special meaning
+            // into each component of the rect and return it to a zero origin value
             // - X component encodes interpolation mode
             // - Y component encodes repeat mode
-            // - Z component has no encoding currently.
+            // - Z component encodes the atlas page
             // - W component encodes vertical flip (to compensate for framebuffers).
-            uvRect.X -= (float) texture.Interpolation;
-            uvRect.Y -= (float) texture.Repeat;
+            uvRect.X += (float) texture.Interpolation;
+            uvRect.Y += (float) texture.Repeat;
+            // uvRect.Width += (float) esTexture.AtlasPage;
+            // uvRect.Height += (float) flipMode;
         }
 
         private void RequestTextureInformation(Texture texture, out ESTexture atlasTexture, out Rectangle atlasRect)
@@ -1011,7 +1021,7 @@ namespace Heirloom.Drawing.OpenGLES
 
                 // 
                 atlasTexture = esSurface.Texture;
-                atlasRect = (0, 0, 1, -1);
+                atlasRect = (0, 0, 1, 1 + (int) AtlasFlipMode.Vertical);
             }
             else
             {

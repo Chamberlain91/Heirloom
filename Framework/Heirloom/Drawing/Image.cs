@@ -612,6 +612,17 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Creates an image filled with a radial gradient.
         /// </summary>
+        /// <param name="size">Dimensions of the image in pixels.</param>
+        /// <param name="gradient">Gradient to fill the image with.</param> 
+        /// <returns>An image filled with the specified gradient.</returns>
+        public static Image CreateRadialGradient(IntSize size, Gradient gradient)
+        {
+            return CreateRadialGradient(size.Width, size.Height, gradient);
+        }
+
+        /// <summary>
+        /// Creates an image filled with a radial gradient.
+        /// </summary>
         /// <param name="width">Width of the image in pixels.</param>
         /// <param name="height">Height of the image in pixels.</param>
         /// <param name="gradient">Gradient to fill the image with.</param> 

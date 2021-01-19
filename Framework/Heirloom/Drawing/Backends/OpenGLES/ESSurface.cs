@@ -129,6 +129,11 @@ namespace Heirloom.Drawing.OpenGLES
                     GLES.BindFramebuffer(FramebufferTarget.DrawFramebuffer, drawBuffer);
                 }
 
+                // Generate mips for surface
+                // todo: perhaps be able to flag a surface to disable this step
+                Texture.Bind();
+                Texture.GenerateMips();
+
                 // We should be up to date with the surface now
                 Texture.Version = _surface.Version;
                 _version = _surface.Version;

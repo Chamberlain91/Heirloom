@@ -10,6 +10,10 @@ precision highp float;
 #define _H_FILTER_NEAREST 0
 #define _H_FILTER_LINEAR  1
 
+#define _H_FLIP_VERT  1
+#define _H_FLIP_HORZ  2
+#define _H_FLIP_BOTH  3
+
 #define TRANSPARENT vec4(0.0)
 
 #define MIN_UV_EDGE 0.0001
@@ -126,19 +130,27 @@ vec4 _H_SampleAtlasLinear(sampler2D img, vec2 size, vec2 uv, vec4 rect, int repe
     }
 }
 
-int _H_GetNegativeEncoding(inout float val) 
+// 0.0 to 1.0, zero inclusive
+int _H_GetIntegerEncoding0(inout float val) 
 {
-    if (val < 0.0) 
+    float key = floor(val);
+    val -= key; // Remove key
+    return int(key);
+}
+
+// 0.0 to 1.0, one inclusive
+int _H_GetIntegerEncoding1(inout float val) 
+{
+    if (val > 1.0)
     {
-        // Negative means encoded value.
-        // This works with the assumption that all UV's are {0.0 <= x <= 1.0}.
-        float key = -floor(val);
-        val += key; // remove key
+        // 
+        float key = ceil(val) - 1.0;
+        val -= key; // Remove key
         return int(key);
-    } 
-    else 
+    }
+    else
     {
-        // Default value, no encoded key.
+        // Default (no encoding)
         return 0;
     }
 }
@@ -152,25 +164,23 @@ vec2 atlasSize(sampler2D img, vec4 rect)
 
 vec4 atlas(sampler2D img, vec4 rect, vec2 uv)
 {
-    // Parameter 'rect' has special encoding with negative
-    // values. The encoding is as follows:
-    // - X (0: "nearest"  -1: "linear")
-    // - Y (0: "blank"    -1: "repeat"  -2: "clamp")
-    // - Z ----
-    // - W (0: "none"     -1: "y-flip")
+    // Parameter 'rect' has special encoding with the integer component.
+    // The encoding is as follows:
+    // - X (0: "nearest"    1: "linear")
+    // - Y (0: "blank"      1: "repeat"     2: "clamp")
+    // - Z (0: "unit 0"     1: "unit 1"     N: "unit N" )
+    // - W (0: "none"       1: "y-flip"     2: "x-flip"     3: "xy-flip")
 
-    // Get repeat mode
-    int filter_mode = _H_GetNegativeEncoding(rect.x);
-    int repeat_mode = _H_GetNegativeEncoding(rect.y);
-    // note: no z encoding
-    int flip_mode   = _H_GetNegativeEncoding(rect.w);
+    // Extract encoded values
+    int filter_mode = _H_GetIntegerEncoding0(rect.x);
+    int repeat_mode = _H_GetIntegerEncoding0(rect.y); 
+    int page_number = _H_GetIntegerEncoding1(rect.z);
+    int flip_mode   = _H_GetIntegerEncoding1(rect.w);
 
-    // Vertical Flip UV
-    if (flip_mode == 1)
-    {
-        uv.y = 1.0 - uv.y;
-    }
-     
+    // Apply UV Flips
+    if (flip_mode == _H_FLIP_VERT || flip_mode == _H_FLIP_BOTH) { uv.y = 1.0 - uv.y; }
+    if (flip_mode == _H_FLIP_HORZ || flip_mode == _H_FLIP_BOTH) { uv.x = 1.0 - uv.x; }
+
     // Acquire image size
     vec2 size = vec2(textureSize(img, 0));
 

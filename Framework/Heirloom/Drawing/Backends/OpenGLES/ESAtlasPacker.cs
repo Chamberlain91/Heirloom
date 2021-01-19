@@ -138,7 +138,7 @@ namespace Heirloom.Drawing.OpenGLES
             {
                 if (_changes.Count > 0)
                 {
-                    GLES.BindTexture(TextureTarget.Texture2D, Texture.Handle);
+                    Texture.Bind();
 
                     // Process changes
                     foreach (var entry in _changes)
