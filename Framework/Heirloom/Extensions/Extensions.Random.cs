@@ -195,7 +195,7 @@ namespace Heirloom
         /// Randomly select one of the specified items.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Choose<T>(this Random @this, IReadOnlyList<T> items)
+        public static T Choice<T>(this Random @this, IReadOnlyList<T> items)
         {
             var index = @this.Next(0, items.Count);
             return items[index];
@@ -205,9 +205,9 @@ namespace Heirloom
         /// Randomly select one of the specified items.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Choose<T>(this Random @this, params T[] items)
+        public static T Choice<T>(this Random @this, params T[] items)
         {
-            return Choose(@this, (IReadOnlyList<T>) items);
+            return Choice(@this, (IReadOnlyList<T>) items);
         }
 
         #endregion

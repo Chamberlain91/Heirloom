@@ -12,7 +12,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// The average value. Also known as the mean or expected value.
         /// </summary>
-        public readonly float Average;
+        public readonly float Mean;
 
         /// <summary>
         /// The variance value.
@@ -39,7 +39,7 @@ namespace Heirloom.Mathematics
         /// <param name="range">The extents of the data.</param>
         public Statistics(float average, float variance, Range range)
         {
-            Average = average;
+            Mean = average;
             Variance = variance;
             Range = range;
 
@@ -47,11 +47,27 @@ namespace Heirloom.Mathematics
         }
 
         /// <summary>
+        /// Rescales some input value based on the mean and standard deviation to the target domain.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <param name="numDev"></param>
+        /// <returns></returns>
+        public float Rescale(float x, float min, float max, int numDev = 1)
+        {
+            if (numDev <= 0) { throw new ArgumentException("Must be greater than zero.", nameof(numDev)); }
+            var stdMin = Calc.Max(Range.Min, Mean - Deviation * numDev);
+            var stdMax = Calc.Min(Range.Max, Mean + Deviation * numDev);
+            return Calc.Rescale(x, stdMin, stdMax, min, max);
+        }
+
+        /// <summary>
         /// Converts this <see cref="Statistics"/> into string representation.
         /// </summary>
         public override string ToString()
         {
-            return $"{Average} ± {Deviation}";
+            return $"{Mean} ± {Deviation}";
         }
 
         /// <summary>
@@ -59,7 +75,7 @@ namespace Heirloom.Mathematics
         /// </summary>
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            var _Average = Average.ToString(format, formatProvider);
+            var _Average = Mean.ToString(format, formatProvider);
             var _Deviation = Deviation.ToString(format, formatProvider);
             return $"{_Average} ± {_Deviation}";
         }
@@ -75,7 +91,7 @@ namespace Heirloom.Mathematics
         /// <inheritdoc/>
         public bool Equals(Statistics other)
         {
-            return Calc.NearEquals(Average, other.Average) &&
+            return Calc.NearEquals(Mean, other.Mean) &&
                    Calc.NearEquals(Variance, other.Variance) &&
                    Calc.NearEquals(Deviation, other.Deviation);
         }
@@ -83,7 +99,7 @@ namespace Heirloom.Mathematics
         /// <inheritdoc/>
         public override int GetHashCode()
         {
-            return HashCode.Combine(Average, Variance, Deviation);
+            return HashCode.Combine(Mean, Variance, Deviation);
         }
 
         /// <inheritdoc/>

@@ -71,7 +71,7 @@ namespace Heirloom.Testing.Performance
 
                         // Report
                         var statistics = Statistics.Compute(results);
-                        Console.WriteLine($"{name,-30}: {Time.GetEnglishTime(statistics.Average)} ± {Time.GetEnglishTime(statistics.Deviation)}");
+                        Console.WriteLine($"{name,-30}: {Time.GetEnglishTime(statistics.Mean)} ± {Time.GetEnglishTime(statistics.Deviation)}");
                     }
 
                     // Just to space out test groups
