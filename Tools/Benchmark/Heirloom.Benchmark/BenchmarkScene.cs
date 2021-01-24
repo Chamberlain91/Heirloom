@@ -28,6 +28,9 @@ namespace Heirloom.Benchmark
             Score = 0;
             Time = 0;
 
+            // Ensure randomization produces same results
+            Calc.SetRandomSeed(0);
+
             // 
             InitializeScene();
         }

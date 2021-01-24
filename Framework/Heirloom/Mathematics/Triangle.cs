@@ -315,11 +315,10 @@ namespace Heirloom.Mathematics
         /// </summary>
         public bool Equals(Triangle other)
         {
-            return A.Equals(other.A)
-                && B.Equals(other.B)
-                && C.Equals(other.C)
-                && Bounds.Equals(other.Bounds)
-                && Area == other.Area;
+            // todo: is faulty on degenerate triangles (ie, when points overlap)
+            return (A == other.A || A == other.B || A == other.C)
+                && (B == other.A || B == other.B || B == other.C)
+                && (C == other.A || C == other.B || C == other.C);
         }
 
         /// <summary>
@@ -327,7 +326,10 @@ namespace Heirloom.Mathematics
         /// </summary>
         public override int GetHashCode()
         {
-            return HashCode.Combine(A, B, C, Bounds, Area);
+            var hashA = A.GetHashCode();
+            var hashB = B.GetHashCode();
+            var hashC = C.GetHashCode();
+            return hashA ^ hashB ^ hashC;
         }
 
         #endregion

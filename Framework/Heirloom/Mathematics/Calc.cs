@@ -55,19 +55,30 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// A static instance of the <see cref="Random"/> for convenience.
         /// </summary>
-        public static readonly Random Random = new Random();
+        public static Random Random { get; private set; } = new Random();
 
         /// <summary>
         /// A static instance of the <see cref="PerlinNoise"/> for convenience.
         /// </summary>
-        public static readonly PerlinNoise Perlin = new PerlinNoise(Random.Next());
+        public static PerlinNoise Perlin { get; private set; } = new PerlinNoise(Random.Next());
 
         /// <summary>
         /// A static instance of the <see cref="SimplexNoise"/> for convenience.
         /// </summary>
-        public static readonly SimplexNoise Simplex = new SimplexNoise(Random.Next());
+        public static SimplexNoise Simplex { get; private set; } = new SimplexNoise(Random.Next());
 
         #endregion
+
+        /// <summary>
+        /// Initializes <see cref="Random"/>, <see cref="Simplex"/> and <see cref="Perlin"/> with the specified seed.
+        /// </summary>
+        /// <param name="seed"></param>
+        public static void SetRandomSeed(int seed)
+        {
+            Random = new Random(seed);
+            Perlin = new PerlinNoise(seed);
+            Simplex = new SimplexNoise(seed);
+        }
 
         #region Distance
 

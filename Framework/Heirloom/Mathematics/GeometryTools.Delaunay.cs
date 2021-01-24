@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -9,108 +10,102 @@ namespace Heirloom.Mathematics
     public static partial class GeometryTools
     {
         /// <summary>
-        /// Constructs the Delaunay triangulation of a set of points.
+        /// Computes the Delaunay triangulation of a set of points (via bowyer-watson).
         /// </summary>
-        public static List<Triangle> TriangulatePointCloud(this IEnumerable<Vector> points)
+        public static List<Triangle> TriangulatePoints(this IEnumerable<Vector> points)
         {
-            var triangles = new List<Triangle>();
-            TriangulatePointCloud(points, triangles);
-            return triangles;
-        }
-
-        /// <summary>
-        /// Constructs the Delaunay triangulation of a set of points.
-        /// </summary>
-        public static void TriangulatePointCloud(this IEnumerable<Vector> points, List<Triangle> triangles)
-        {
-            Delaunay.Triangulate(points, triangles);
+            return new List<Triangle>(Delaunay.Triangulate(points));
         }
 
         /// <summary>
         /// An implementation of delaunay triangulation.
         /// </summary>
         private static class Delaunay
-        // todo: make thread safe with [ThreadStatic] and using some sort of struct/getter to initialize on each thread.
         {
-            private static readonly HashSet<Triangle> _invalidTriangles = new HashSet<Triangle>();
-            private static readonly HashSet<Triangle> _triangles = new HashSet<Triangle>();
-            private static readonly HashSet<LineSegment> _edges = new HashSet<LineSegment>();
-
             /// <summary>
             /// Constructs the Delaunay triangulation of a set of points.
             /// </summary>
-            internal static void Triangulate(IEnumerable<Vector> points, List<Triangle> triangles)
+            internal static IEnumerable<Triangle> Triangulate(IEnumerable<Vector> inPoints, float error = 0.01F)
             {
-                // Create super triangle
-                var bounds = Rectangle.FromPoints(points);
-                var super = CreateSuperTriangle(bounds);
+                // Compute super triangle
+                var super = CreateSuperTriangle(inPoints);
+
+                // Create point set
+                var points = new List<Vector> { super.A, super.B, super.C };
+                points.AddRange(inPoints);
 
                 // Initialize triangle set
-                _triangles.Clear();
-                _triangles.Add(super);
+                var triangles = new HashSet<TriangleIndex>() {
+                    new TriangleIndex(0, 1, 2, points, error)
+                };
 
                 // Insert each vertex
-                foreach (var point in points)
+                for (var i = 3; i < points.Count; i++)
                 {
-                    _invalidTriangles.Clear();
-                    _edges.Clear();
+                    var point = points[i];
+
+                    var invalidTriangles = new HashSet<TriangleIndex>();
+                    var edges = new HashSet<EdgeIndex>();
 
                     // == Invalidate and Remove triangles
 
-                    foreach (var triangle in _triangles)
+                    foreach (var triangle in triangles)
                     {
-                        // Compute the circum circle
-                        // too: perhaps precompute the circum circle?
-                        var circle = Triangle.CreateCircumcircle(triangle.A, triangle.B, triangle.C);
+                        var a = points[triangle.A];
+                        var b = points[triangle.B];
+                        var c = points[triangle.C];
 
                         // If the point is contained by this circle, invalidate the triangle
-                        if (circle.Contains(point))
+                        if (triangle.Circle.Contains(point))
                         {
-                            _invalidTriangles.Add(triangle);
+                            invalidTriangles.Add(triangle);
                         }
                     }
 
                     // Remove invalid triangles
-                    _triangles.ExceptWith(_invalidTriangles);
+                    triangles.ExceptWith(invalidTriangles);
 
                     // == Find Polygon Hole
 
-                    foreach (var triangle in _invalidTriangles)
+                    foreach (var triangle in invalidTriangles)
                     {
                         // For each edge A->B, B->C then C->A
-                        for (var i = 0; i < 3; i++)
+                        for (var e = 0; e < 3; e++)
                         {
                             // Get the ith edge
-                            var edge = triangle.GetEdge(i);
+                            var edge = triangle.GetEdge(e);
 
                             // Insert into edge set. If we receive a duplicate edge,
                             // we will remove the duplicate edge. Since an edge can only
-                            // share a max of two triangles (on each side), this is a safe.
-                            if (!_edges.Add(edge)) { _edges.Remove(edge); }
+                            // share a max of two triangles (on each side), this is safe.
+                            if (!edges.Add(edge)) { edges.Remove(edge); }
                         }
                     }
 
                     // == Fill Polygon Hole
 
-                    foreach (var edge in _edges)
+                    // Triangulates convex hole (triangle-fan)
+                    foreach (var edge in edges)
                     {
-                        // Constructs one of the triangles to fill the hole
-                        var triangle = new Triangle(edge.A, edge.B, point);
-                        _triangles.Add(triangle);
+                        var triangle = new TriangleIndex(edge.A, edge.B, i, points, error);
+                        triangles.Add(triangle);
                     }
                 }
 
                 // == Emit generated triangles
 
-                foreach (var tri in _triangles)
+                foreach (var triangle in triangles)
                 {
                     // Skip triangles that connected to the vertices of the super triangle.
-                    if (SharesVertex(tri, super.A)) { continue; }
-                    if (SharesVertex(tri, super.B)) { continue; }
-                    if (SharesVertex(tri, super.C)) { continue; }
+                    if (SharesVertex(triangle, 0)) { continue; }
+                    if (SharesVertex(triangle, 1)) { continue; }
+                    if (SharesVertex(triangle, 2)) { continue; }
 
-                    // Emit triangle
-                    triangles.Add(new Triangle(tri.A, tri.B, tri.C));
+                    var a = points[triangle.A];
+                    var b = points[triangle.B];
+                    var c = points[triangle.C];
+
+                    yield return new Triangle(a, b, c);
                 }
             }
 
@@ -118,24 +113,148 @@ namespace Heirloom.Mathematics
             /// Checks if this triangle shares the given vertex as one of its three vertices.
             /// </summary>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static bool SharesVertex(Triangle triangle, Vector vertex)
+            private static bool SharesVertex(TriangleIndex triangle, int vertex)
             {
                 if (triangle.A == vertex) { return true; }
                 if (triangle.B == vertex) { return true; }
                 if (triangle.C == vertex) { return true; }
+
                 return false;
             }
 
-            private static Triangle CreateSuperTriangle(Rectangle bounds)
+            private static Triangle CreateSuperTriangle(IEnumerable<Vector> points)
             {
-                var dx = bounds.Width / 3F;
-                var dy = bounds.Height / 3F;
+                var bounds = Rectangle.FromPoints(points);
 
-                var v0 = new Vector(bounds.Left - dx, bounds.Top - dy * 5);
-                var v1 = new Vector(bounds.Left - dx, bounds.Bottom + dy);
-                var v2 = new Vector(bounds.Right + dx * 5, bounds.Bottom + dy);
+                var m = Calc.Max(bounds.Width, bounds.Height);
+                var mx = bounds.Center.X;
+                var my = bounds.Center.Y;
+
+                var v0 = new Vector(mx - (20 * m), my - m);
+                var v1 = new Vector(mx, my + (20 * m));
+                var v2 = new Vector(mx + (20 * m), my - m);
 
                 return new Triangle(v0, v1, v2);
+            }
+
+            private readonly struct TriangleIndex : IEquatable<TriangleIndex>
+            {
+                public readonly int A;
+
+                public readonly int B;
+
+                public readonly int C;
+
+                public readonly Circle Circle;
+
+                public TriangleIndex(int a, int b, int c, IList<Vector> points, float error)
+                {
+                    A = a;
+                    B = b;
+                    C = c;
+
+                    // Compute the circumcircle
+                    Circle = Triangle.CreateCircumcircle(points[a], points[b], points[c]);
+                    Circle.Radius += error; // intentional error to correct behaviour on circular point sets
+                }
+
+                internal EdgeIndex GetEdge(int edgeIndex)
+                {
+                    if (edgeIndex == 0) { return new EdgeIndex(A, B); }
+                    else
+                    if (edgeIndex == 1) { return new EdgeIndex(B, C); }
+                    else
+                    if (edgeIndex == 2) { return new EdgeIndex(C, A); }
+                    else
+                    {
+                        throw new ArgumentOutOfRangeException(nameof(edgeIndex));
+                    }
+                }
+
+                #region Equality
+
+                public override bool Equals(object obj)
+                {
+                    return obj is TriangleIndex edge
+                        && Equals(edge);
+                }
+
+                public bool Equals(TriangleIndex other)
+                {
+                    return (A == other.A || A == other.B || A == other.C)
+                        && (B == other.A || B == other.B || B == other.C)
+                        && (C == other.A || C == other.B || C == other.C);
+                }
+
+                public override int GetHashCode()
+                {
+                    // might be bad for hash-collisions, but makes it "symmetric"
+                    var hashA = A.GetHashCode();
+                    var hashB = B.GetHashCode();
+                    var hashC = C.GetHashCode();
+
+                    return hashA ^ hashB ^ hashC;
+                }
+
+                public static bool operator ==(TriangleIndex left, TriangleIndex right)
+                {
+                    return left.Equals(right);
+                }
+
+                public static bool operator !=(TriangleIndex left, TriangleIndex right)
+                {
+                    return !(left == right);
+                }
+
+                #endregion
+            }
+
+            private readonly struct EdgeIndex : IEquatable<EdgeIndex>
+            {
+                public readonly int A;
+
+                public readonly int B;
+
+                public EdgeIndex(int a, int b)
+                {
+                    A = a;
+                    B = b;
+                }
+
+                #region Equality
+
+                public override bool Equals(object obj)
+                {
+                    return obj is EdgeIndex edge
+                        && Equals(edge);
+                }
+
+                public bool Equals(EdgeIndex other)
+                {
+                    return (A == other.A && B == other.B)
+                        || (B == other.A && A == other.B);
+                }
+
+                public override int GetHashCode()
+                {
+                    // might be bad for hash-collisions, but makes it "symmetric"
+                    var hashA = A.GetHashCode();
+                    var hashB = B.GetHashCode();
+
+                    return hashA ^ hashB;
+                }
+
+                public static bool operator ==(EdgeIndex left, EdgeIndex right)
+                {
+                    return left.Equals(right);
+                }
+
+                public static bool operator !=(EdgeIndex left, EdgeIndex right)
+                {
+                    return !(left == right);
+                }
+
+                #endregion
             }
         }
     }

@@ -257,6 +257,7 @@ namespace Heirloom.Mathematics
         /// </summary>
         public override int GetHashCode()
         {
+            // note: XOR is communitive
             return A.GetHashCode() ^ B.GetHashCode();
         }
 

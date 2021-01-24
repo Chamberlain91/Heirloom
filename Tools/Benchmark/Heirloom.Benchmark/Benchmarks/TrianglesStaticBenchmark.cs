@@ -28,7 +28,7 @@ namespace Heirloom.Benchmark
             }
 
             // Triangulate
-            _triangles = GeometryTools.TriangulatePointCloud(_particles);
+            _triangles = GeometryTools.TriangulatePoints(_particles);
         }
 
         protected override void UpdateScene(GraphicsContext gfx, float dt)
