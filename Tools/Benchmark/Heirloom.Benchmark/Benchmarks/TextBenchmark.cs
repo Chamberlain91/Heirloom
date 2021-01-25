@@ -24,7 +24,6 @@ namespace Heirloom.Benchmark
             gfx.Color = Color.DarkGray;
             gfx.DrawText(_text, (20, 20, gfx.Surface.Width - 40, gfx.Surface.Height - 40), Font.SansSerif, 15);
 
-            Score++; // Count Frames
             IsComplete = Time >= 10F;
         }
     }

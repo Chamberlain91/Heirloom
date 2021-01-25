@@ -14,11 +14,13 @@ namespace Heirloom.Benchmark
 
         public string Name { get; }
 
-        public float Score { get; protected set; }
+        public float Score { get; private set; }
 
         public bool IsComplete { get; protected set; }
 
         public float Time { get; protected set; }
+
+        public float TotalTime { get; private set; }
 
         public Rectangle Bounds { get; private set; }
 
@@ -26,6 +28,7 @@ namespace Heirloom.Benchmark
         {
             Bounds = bounds;
             Score = 0;
+            TotalTime = 0;
             Time = 0;
 
             // Ensure randomization produces same results
@@ -37,7 +40,9 @@ namespace Heirloom.Benchmark
 
         public void Update(GraphicsContext gfx, float dt)
         {
+            TotalTime += dt;
             Time += dt;
+            Score++;
 
             // Process scene
             UpdateScene(gfx, dt);

@@ -49,7 +49,6 @@ namespace Heirloom.Benchmark
                 gfx.DrawTriangleOutline(triangle, 2);
             }
 
-            Score++; // Count Frames
             IsComplete = Time >= 10F;
         }
 

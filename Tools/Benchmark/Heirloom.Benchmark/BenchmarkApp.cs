@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 
 using Heirloom.Drawing;
 using Heirloom.Mathematics;
@@ -66,18 +67,28 @@ namespace Heirloom.Benchmark
             }
             else
             {
+                // Compute resolution ratio (hopefully, compensates for different screen sizes)
+                var resolutionRatio = Graphics.Screen.Surface.Size.Area / (float) (1600 * 960);
+
                 // Draw results screen
                 var text = "";
-                var total = 0F;
+                var totalScore = 0F;
+                var totalTime = 0F;
                 foreach (var scene in _scenes)
                 {
-                    var name = scene.GetType().Name;
-                    text += $"{name}: {scene.Score}\n";
-                    total += scene.Score;
+                    // Show contribution of each test
+                    text += $"{scene.Name}: {scene.Score * resolutionRatio / scene.TotalTime: 0.0}\n";
+
+                    totalScore += scene.Score;
+                    totalTime += scene.TotalTime;
                 }
 
+                // Compute finalized score
+                var finalScore = totalScore * resolutionRatio / totalTime;
+
                 text += $"--------------------\n";
-                text += $"Final Score: {total}";
+                text += $"Elasped Time: {Time.GetEnglishTime(totalTime)}\n";
+                text += $"Final Score: {finalScore: 0.0}\n";
 
                 // Draw text
                 Graphics.Color = Color.Black;

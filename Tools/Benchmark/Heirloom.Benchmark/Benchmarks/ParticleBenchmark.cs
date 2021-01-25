@@ -11,7 +11,7 @@ namespace Heirloom.Benchmark
         private readonly Image[] _images;
         private Particle[] _particles;
 
-        private readonly int[] _densities = new int[] { 100, 1000, 10000, 50000 };
+        private readonly int[] _densities = new int[] { 250, 2500, 25000 };
         private int _densityIndex;
 
         public ParticleBenchmark(string name, Image[] images)
@@ -60,7 +60,6 @@ namespace Heirloom.Benchmark
                 Time -= 10F;
             }
 
-            Score++; // Count Frames
             if (_densityIndex >= _densities.Length)
             {
                 IsComplete = true;
