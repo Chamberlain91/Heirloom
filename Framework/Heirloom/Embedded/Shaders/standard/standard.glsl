@@ -16,9 +16,6 @@ precision highp float;
 
 #define TRANSPARENT vec4(0.0)
 
-#define MIN_UV_EDGE 0.0001
-#define MAX_UV_EDGE 0.9999
-
 // Used to interpolate per-fragment data
 struct PerFragment
 {
@@ -41,8 +38,8 @@ int _H_ComputeMipLevel(in vec2 uv)
 
 #ifdef GL_ES
 
-    // Android has a weird spike in magnitude at the edge of images.
-    // So, as a lame fix, disable mip sampling.
+    // Android (or at least on a Adreno 640) has this weird spike in dFdx magnitude
+    // at the edge of images. So, as a lame fix, use only 0 mip level.
     return 0;
 
 #else
@@ -62,28 +59,40 @@ int _H_ComputeMipLevel(in vec2 uv)
 #endif
 }
 
+vec2 _H_TransformUVToAtlas(in vec2 uv, in vec4 rect, in vec2 size)
+{
+    // Map UV to atlas domain
+    uv = (uv * rect.zw) + rect.xy;
+    return uv * size;
+}
+
 // nearest sampling
 vec4 _H_SampleAtlasNearest(sampler2D img, vec2 size, vec2 uv, vec4 rect, int repeat_mode)
 {
     switch(repeat_mode)
     {
         case _H_REPEAT_REPEAT:
-            uv = mod(uv, vec2(1.0));
+            uv = fract(uv);
             break;
             
         case _H_REPEAT_CLAMP:
-            uv = clamp(uv, vec2(MIN_UV_EDGE), vec2(MAX_UV_EDGE));
+            uv = clamp(uv, vec2(0.0), vec2(1.0));
             break;
             
         case _H_REPEAT_BLANK:
-            if (uv.x < MIN_UV_EDGE || uv.y < MIN_UV_EDGE) { return TRANSPARENT; }
-            if (uv.x > MAX_UV_EDGE || uv.y > MAX_UV_EDGE) { return TRANSPARENT; }
+            if (uv.x < 0.0 || uv.y < 0.0 || uv.x > 1.0 || uv.y > 1.0) 
+            {
+                // note: mapping here because dFdx/dFdy on some GPU's causes spike in mip
+                // even though we are exiting the function. On RTX 2080 this was not present, but
+                // is visible on AMD Vega 8. This however, did not fix the artifact on a Adreno 640.
+                uv = _H_TransformUVToAtlas(uv, rect, size);
+                return TRANSPARENT;
+            }
             break;
     }
 
     // Map UV to atlas domain
-    uv = (uv * rect.zw) + rect.xy;
-    uv = uv * size;
+    uv = _H_TransformUVToAtlas(uv, rect, size);
 
     // Adjust for appropriate mip-map level
     int mip = max(_H_ComputeMipLevel(uv), 0);
