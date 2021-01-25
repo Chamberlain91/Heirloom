@@ -34,7 +34,7 @@ namespace Heirloom.Sandbox.Triangulation
             Polygons = new[]{
                 ("5-star", new Polygon(GeometryTools.GenerateStar((150, 150), 5, 125))),
                 ("10-star", new Polygon(GeometryTools.GenerateStar((150, 150), 10, 125))),
-                ("c-shape",new Polygon(new[] {
+                ("c-shape", new Polygon(new[] {
                     new Vector(100, 100),
                     new Vector(200, 100),
                     new Vector(200, 120),

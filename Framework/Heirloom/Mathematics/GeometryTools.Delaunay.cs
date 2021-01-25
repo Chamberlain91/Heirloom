@@ -97,9 +97,9 @@ namespace Heirloom.Mathematics
                 foreach (var triangle in triangles)
                 {
                     // Skip triangles that connected to the vertices of the super triangle.
-                    if (SharesVertex(triangle, 0)) { continue; }
-                    if (SharesVertex(triangle, 1)) { continue; }
-                    if (SharesVertex(triangle, 2)) { continue; }
+                    if (triangle.SharesVertex(0)) { continue; }
+                    if (triangle.SharesVertex(1)) { continue; }
+                    if (triangle.SharesVertex(2)) { continue; }
 
                     var a = points[triangle.A];
                     var b = points[triangle.B];
@@ -107,19 +107,6 @@ namespace Heirloom.Mathematics
 
                     yield return new Triangle(a, b, c);
                 }
-            }
-
-            /// <summary>
-            /// Checks if this triangle shares the given vertex as one of its three vertices.
-            /// </summary>
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static bool SharesVertex(TriangleIndex triangle, int vertex)
-            {
-                if (triangle.A == vertex) { return true; }
-                if (triangle.B == vertex) { return true; }
-                if (triangle.C == vertex) { return true; }
-
-                return false;
             }
 
             private static Triangle CreateSuperTriangle(IEnumerable<Vector> points)
@@ -136,6 +123,8 @@ namespace Heirloom.Mathematics
 
                 return new Triangle(v0, v1, v2);
             }
+
+            #region Helper Structures
 
             private readonly struct TriangleIndex : IEquatable<TriangleIndex>
             {
@@ -156,6 +145,18 @@ namespace Heirloom.Mathematics
                     // Compute the circumcircle
                     Circle = Triangle.CreateCircumcircle(points[a], points[b], points[c]);
                     Circle.Radius += error; // intentional error to correct behaviour on circular point sets
+                }
+
+                /// <summary>
+                /// Checks if this triangle shares the given vertex as one of its three vertices.
+                /// </summary>
+                internal bool SharesVertex(int vertex)
+                {
+                    if (A == vertex) { return true; }
+                    if (B == vertex) { return true; }
+                    if (C == vertex) { return true; }
+
+                    return false;
                 }
 
                 internal EdgeIndex GetEdge(int edgeIndex)
@@ -256,6 +257,8 @@ namespace Heirloom.Mathematics
 
                 #endregion
             }
+
+            #endregion
         }
     }
 }
