@@ -43,20 +43,17 @@ namespace Heirloom.Examples.PathFinding
 
             var pathOffset = new Vector(8, 8);
 
-            //Graphics.Color = Color.Cyan;
-            //foreach (var (a, b) in Maze.Graph.Edges)
-            //{
-            //    Graphics.DrawLine((a * 16) + pathOffset, (b * 16) + pathOffset);
-            //}
-
+            // Draw start point
             Graphics.Color = Color.White;
             Graphics.DrawRect((_pathStart * 16, (16, 16)));
 
             if (_path != null)
             {
+                // Draw end point
                 Graphics.Color = Color.White;
                 Graphics.DrawRect((_pathTarget * 16, (16, 16)));
 
+                // Draw path betwen start and end points
                 Graphics.Color = Color.Orange;
                 for (var i = 1; i < _path.Count; i++)
                 {
@@ -117,7 +114,7 @@ namespace Heirloom.Examples.PathFinding
             // Generate stage
             foreach (var co in Rasterizer.Rectangle(Grid.Size))
             {
-                Grid[co] = Calc.Simplex.Sample((Vector) co / 4F) < 0.2F;
+                Grid[co] = Calc.Simplex.Sample((Vector) co / 5F) < 0.1F;
                 Graph.AddVertex(co);
             }
 

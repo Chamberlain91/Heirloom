@@ -57,108 +57,56 @@ namespace Heirloom.Collections
         /// <returns>A sequence of states from start (inclusive) to goal (inclusive).</returns>
         public static IReadOnlyList<T> HeuristicSearch<T>(T start, Func<T, bool> goalCondition, Func<T, IEnumerable<T>> getSuccessors, ActualCost<T> cost, HeuristicCost<T> heuristic)
         {
-            // Constructs a dictionary to map values to nodes with default starting node
-            var nodes = new Dictionary<T, Node<T>>
-            {
-                [start] = new Node<T>(start)
-                {
-                    State = start,
-                    FScore = heuristic(start),
-                    GScore = 0,
-                }
-            };
+            // todo: Optimize, prevent allocation of these structures, thread static? (micro optimization)
+            var groundScore = new Dictionary<T, float> { [start] = 0F };
+            var futureScore = new Dictionary<T, float> { [start] = heuristic(start) };
+            var frontier = new Heap<T>((a, b) => futureScore[a] < futureScore[b] ? -1 : 1) { start };
+            var ancestors = new Dictionary<T, T>();
 
-            // Constructs frontier heap to prioritize minimal cost nodes
-            // with the initialized with the start node
-            var frontier = new Heap<Node<T>>
-            {
-                nodes[start]
-            };
-
-            // While we have items to process
             while (frontier.Count > 0)
             {
-                // Get lowest cost node
                 var current = frontier.Remove();
 
-                // Mark the current item as visited
-                current.Visited = true;
-
-                // Is the current state the target state?
-                if (goalCondition(current.State))
+                if (goalCondition(current))
                 {
-                    // We have found the goal state, so we need to now reconstruct the path back to
-                    // the starting node.
-                    return ConstructPath(current);
+                    // Found target, return path
+                    return ReconstructPath(current);
                 }
-
-                // Advances the frontier by adding and prioritizing adjacent nodes
-                // by known + heuristic costs.
-                AdvanceFrontier(current);
-            }
-
-            // No path to target state!
-            return null;
-
-            void AdvanceFrontier(Node<T> current)
-            {
-                foreach (var adjacent in getSuccessors(current.State))
+                else
                 {
-                    var neighbor = GetNode(adjacent);
-
-                    // If neighboring node has not been visited...
-                    if (neighbor.Visited == false)
+                    foreach (var neighbor in getSuccessors(current))
                     {
-                        // Compute the estimated G score
-                        var tentativeScore = current.GScore + cost(current.State, adjacent);
-
-                        // Node was not visited, is it on the frontier?
-                        if (frontier.Contains(neighbor) == false)
+                        var tentative_score = groundScore[current] + cost(current, neighbor);
+                        if (!groundScore.ContainsKey(neighbor) || tentative_score < groundScore[neighbor])
                         {
-                            // Have not considered this state yet, add node.
-                            frontier.Add(neighbor);
-                        }
-                        else if (tentativeScore >= neighbor.GScore)
-                        {
-                            // Was not a better option for this state.
-                            return;
-                        }
+                            // Mark prior
+                            ancestors[neighbor] = current;
 
-                        // Best path (shortest), so we update the node.
-                        neighbor.GScore = tentativeScore;
-                        neighbor.FScore = tentativeScore + heuristic(adjacent);
-                        neighbor.Ancestor = current;
+                            // Update scores
+                            groundScore[neighbor] = tentative_score;
+                            futureScore[neighbor] = tentative_score + heuristic(neighbor);
 
-                        // Update node within heap
-                        frontier.Update(neighbor);
+                            // If unseen, add to open set otherwise bubble into proper place
+                            if (!frontier.Contains(neighbor)) { frontier.Add(neighbor); }
+                            else { frontier.Update(neighbor); }
+                        }
                     }
                 }
             }
 
-            Node<T> GetNode(T state)
+            // Unable to find path
+            return null;
+
+            IReadOnlyList<T> ReconstructPath(T current)
             {
-                if (!nodes.TryGetValue(state, out var node))
+                var path = new List<T>() { current };
+                while (ancestors.ContainsKey(current))
                 {
-                    node = new Node<T>(state);
-                    nodes[state] = node;
+                    current = ancestors[current];
+                    path.Add(current);
                 }
 
-                return node;
-            }
-
-            // Constructs a path by walking backwards from current node until start
-            static IReadOnlyList<TState> ConstructPath<TState>(Node<TState> node)
-            {
-                var path = new List<TState>();
-
-                do
-                {
-                    path.Add(node.State);
-                    node = node.Ancestor;
-                }
-                while (node != null);
-
-                // Reverse path to make the sequence begin at the starting node
+                // Flip path to sequence from the starting node
                 path.Reverse();
                 return path;
             }
