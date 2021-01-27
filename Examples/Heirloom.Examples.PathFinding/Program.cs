@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Heirloom.Collections;
 using Heirloom.Desktop;
@@ -31,17 +33,28 @@ namespace Heirloom.Examples.PathFinding
             Graphics.ResetState();
             Graphics.Clear(Color.DarkGray);
 
-            Graphics.Color = Color.Gray;
             foreach (var co in Rasterizer.Rectangle(Maze.Grid.Size))
             {
                 if (Maze.Grid[co])
                 {
                     var box = new Rectangle(co * 16, IntSize.One * 16);
+                    if (((co.X & 1) ^ (co.Y & 1)) == 0) { Graphics.Color = Color.LightGray * Color.LightGray; }
+                    else { Graphics.Color = Color.Gray; }
                     Graphics.DrawRect(box);
                 }
             }
 
             var pathOffset = new Vector(8, 8);
+
+            // Draw nav mesh
+            Graphics.Color = Fade(Color.DarkGray, 0.1F);
+            foreach (var (a, b) in Maze.Graph.Edges)
+            {
+                var p0 = (a * 16) + pathOffset;
+                var p1 = (b * 16) + pathOffset;
+
+                Graphics.DrawLine(p0, p1, 1);
+            }
 
             // Draw start point
             Graphics.Color = Color.White;
@@ -54,14 +67,8 @@ namespace Heirloom.Examples.PathFinding
                 Graphics.DrawRect((_pathTarget * 16, (16, 16)));
 
                 // Draw path betwen start and end points
-                Graphics.Color = Color.Orange;
-                for (var i = 1; i < _path.Count; i++)
-                {
-                    var prev = _path[i - 1];
-                    var curr = _path[i + 0];
-
-                    Graphics.DrawLine((prev * 16) + pathOffset, (curr * 16) + pathOffset, 2);
-                }
+                Graphics.Color = Color.Cyan;
+                Graphics.DrawPolyLine(_path.Select(x => (Vector) x * 16 + pathOffset), 2);
             }
 
             if (Input.IsMousePressed(MouseButton.Left))
@@ -83,16 +90,22 @@ namespace Heirloom.Examples.PathFinding
                     _phase = ClickPhase.First;
 
                     // Find path
-                    _path = Maze.Graph.FindPath(_pathStart, _pathTarget, (a, b) => 1, co => IntVector.ManhattanDistance(co, _pathTarget));
+                    _path = Maze.Graph.FindPath(_pathStart, _pathTarget, (a, b) => 1, co => IntVector.Distance(co, _pathTarget));
                 }
             }
 
             Graphics.Screen.Refresh();
         }
 
+        private static Color Fade(Color color, float alpha)
+        {
+            color.A = alpha;
+            return color;
+        }
+
         private static GraphicsContext CreateWindowGraphics()
         {
-            var window = new Window("Path Finding", (512, 512), MultisampleQuality.High);
+            var window = new Window("Path Finding", (512, 512), MultisampleQuality.High) { IsResizable = false };
             window.Position = (IntVector) (Display.Primary.Size - window.Size) / 2;
 
             return window.Graphics;
@@ -102,52 +115,5 @@ namespace Heirloom.Examples.PathFinding
         {
             Application.Run<Program>();
         }
-    }
-
-    public sealed class Maze
-    {
-        public Maze(int width, int height)
-        {
-            Graph = new Graph<IntVector, float>(directed: false, 1F);
-            Grid = new Grid<bool>(width, height);
-
-            // Generate stage
-            foreach (var co in Rasterizer.Rectangle(Grid.Size))
-            {
-                Grid[co] = Calc.Simplex.Sample((Vector) co / 5F) < 0.1F;
-                Graph.AddVertex(co);
-            }
-
-            // Generate graph
-            foreach (var co in Rasterizer.Rectangle(Grid.Size))
-            {
-                if (Grid[co])
-                {
-                    Connect(co, (+1, 0));
-                    Connect(co, (-1, 0));
-                    Connect(co, (0, +1));
-                    Connect(co, (0, -1));
-                }
-            }
-
-            // Keep only largest component
-            Graph = Graph.GetComponents().FindMaximal(graph => graph.Vertices.Count);
-
-            void Connect(IntVector src, IntVector offset)
-            {
-                var dst = src + offset;
-                if (Grid.IsValidCoordinate(dst) && Grid[dst])
-                {
-                    if (!Graph.ContainsEdge(src, dst))
-                    {
-                        Graph.AddEdge(src, dst);
-                    }
-                }
-            }
-        }
-
-        public Graph<IntVector, float> Graph { get; }
-
-        public Grid<bool> Grid { get; }
     }
 }
