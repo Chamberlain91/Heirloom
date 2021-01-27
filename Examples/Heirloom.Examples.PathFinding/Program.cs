@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,8 +23,6 @@ namespace Heirloom.Examples.PathFinding
             : base(CreateWindowGraphics())
         {
             Maze = new Maze(32, 32);
-
-            Graphics.Performance.ShowOverlay = true;
         }
 
         protected override void Update(float dt)
