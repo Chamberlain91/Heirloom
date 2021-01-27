@@ -9,7 +9,7 @@ namespace Heirloom.Collections
     /// </summary>
     /// <typeparam name="V">Some vertex type. Must properly implement equality checks.</typeparam>
     /// <typeparam name="E">Some data type for giving values to edges.</typeparam>
-    public class Graph<V, E> where E : struct
+    public class Graph<V, E> : IReadOnlyGraph<V, E> where E : struct
     {
         private readonly Dictionary<V, HashSet<V>> _outgoing; // null when undirected
         private readonly Dictionary<V, HashSet<V>> _incoming; // null when undirected
@@ -51,19 +51,13 @@ namespace Heirloom.Collections
 
         #region Properties
 
-        /// <summary>
-        /// Determines if edges are directed or undirected in this graph.
-        /// </summary>
+        /// <inheritdoc/>
         public bool IsDirected { get; }
 
-        /// <summary>
-        /// Gets the read-only collection of vertices contained in this graph.
-        /// </summary>
+        /// <inheritdoc/>
         public IReadOnlyCollection<V> Vertices => _adjacent.Keys;
 
-        /// <summary>
-        /// Gets the read-only collection of edges contained in this graph.
-        /// </summary>
+        /// <inheritdoc/>
         public IReadOnlyCollection<(V, V)> Edges => _edges;
 
         #endregion
@@ -125,7 +119,7 @@ namespace Heirloom.Collections
         /// <summary>
         /// Removes a vertex (and associated edges).
         /// </summary> 
-        /// <returns>Returns <see langword="true"/> if vertex existed and was removed successfully.</returns>
+        /// <returns>Returns <see langword="true"/> if the vertex existed and was removed successfully.</returns>
         public bool RemoveVertex(V vtx)
         {
             if (ContainsVertex(vtx))
@@ -146,9 +140,7 @@ namespace Heirloom.Collections
             }
         }
 
-        /// <summary>
-        /// Determines if the specified vertex is contained in this graph.
-        /// </summary>
+        /// <inheritdoc/>
         public bool ContainsVertex(V vtx)
         {
             return _adjacent.ContainsKey(vtx);
@@ -248,6 +240,12 @@ namespace Heirloom.Collections
             }
         }
 
+        /// <summary>
+        /// Removes the specified edge from the graph.
+        /// </summary>
+        /// <param name="a">The first (near) side of the edge.</param>
+        /// <param name="b">The second (far) side of the edge.</param>
+        /// <returns>Returns <see langword="true"/> if the edge existed and was removed successfully.</returns>
         public bool RemoveEdge(V a, V b)
         {
             if (!ContainsVertex(a)) { throw new KeyNotFoundException($"Unable to remove edge, argument vertex '{nameof(a)}' was not contained."); }
@@ -268,28 +266,18 @@ namespace Heirloom.Collections
             }
         }
 
-        /// <summary>
-        /// Determines if an edge exists between <paramref name="a"/> and <paramref name="b"/>.
-        /// </summary>
-        /// <param name="a">The first (near) side of the edge.</param>
-        /// <param name="b">The second (far) side of the edge.</param>
-        /// <returns>Will return <see langword="true"/> if the edge exists.</returns>
+        /// <inheritdoc/>
         public bool ContainsEdge(V a, V b)
         {
             return _edges.Contains(a, b);
         }
 
-        /// <summary>
-        /// Gets the data associated with some edge (ex, edge weight).
-        /// </summary>
-        /// <param name="a">The first (near) side of the edge.</param>
-        /// <param name="b">The second (far) side of the edge.</param>
-        /// <returns>The data associated with the edge.</returns>
-        public ref E GetEdgeProperty(V a, V b)
+        /// <inheritdoc/>
+        public E GetEdgeProperty(V a, V b)
         {
             if (_edges.TryGetEdge(a, b, out var edge))
             {
-                return ref edge.Property;
+                return edge.Property;
             }
             else
             {
@@ -315,9 +303,7 @@ namespace Heirloom.Collections
             }
         }
 
-        /// <summary>
-        /// Gets the collection of successors for the specified vertex.
-        /// </summary>
+        /// <inheritdoc/>
         public IReadOnlyCollection<V> GetSuccessors(V vtx)
         {
             if (ContainsVertex(vtx))
@@ -333,13 +319,12 @@ namespace Heirloom.Collections
             }
             else
             {
-                throw new KeyNotFoundException("Unable to return successor vertices, specified vertex not found.");
+                return Array.Empty<V>();
+                // throw new KeyNotFoundException("Unable to return successor vertices, specified vertex not found.");
             }
         }
 
-        /// <summary>
-        /// Gets the collection of predecessors for the specified vertex.
-        /// </summary>
+        /// <inheritdoc/>
         public IReadOnlyCollection<V> GetPredecessors(V vtx)
         {
             if (ContainsVertex(vtx))
@@ -355,13 +340,12 @@ namespace Heirloom.Collections
             }
             else
             {
-                throw new KeyNotFoundException("Unable to return predecessor vertices, specified vertex not found.");
+                return Array.Empty<V>();
+                // throw new KeyNotFoundException("Unable to return successor vertices, specified vertex not found.");
             }
         }
 
-        /// <summary>
-        /// Gets the collection of unique successors and predecessors for the specified vertex.
-        /// </summary>
+        /// <inheritdoc/>
         public IReadOnlyCollection<V> GetNeighbors(V vtx)
         {
             if (ContainsVertex(vtx))
@@ -370,86 +354,17 @@ namespace Heirloom.Collections
             }
             else
             {
-                throw new KeyNotFoundException("Unable to return adjacent vertices, specified vertex not found.");
+                return Array.Empty<V>();
+                // throw new KeyNotFoundException("Unable to return successor vertices, specified vertex not found.");
             }
         }
 
         #endregion
 
-        #region Clone Graph
+        #region Clone Graph & Subgraph
 
         /// <summary>
-        /// Duplicates this graph.
-        /// </summary>
-        public Graph<V, E> Clone()
-        {
-            var clone = new Graph<V, E>(directed: IsDirected);
-            foreach (var vtx in Vertices) { clone.AddVertex(vtx); }
-            foreach (var (a, b) in Edges) { clone.AddEdge(a, b, GetEdgeProperty(a, b)); }
-            return clone;
-        }
-
-        #endregion
-
-        #region Components (Strong & Weak)
-
-        /// <summary>
-        /// Finds the strong components and returns the vertices. <para/>
-        /// This is the first step of <see cref="GetStrongComponents"/>, and useful to skip generating the subgraph instances if they are not needed.
-        /// </summary>
-        public IEnumerable<IReadOnlyCollection<V>> GetStrongComponentVertices()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Finds the strong components and returns each subgraph. <para/>
-        /// This is the first step of <see cref="GetStrongComponents"/>, and useful to skip generating the subgraph instances if they are not needed.
-        /// </summary>
-        /// <remarks>
-        /// This will throw an exception in an undirected graph. 
-        /// </remarks>
-        public IEnumerable<Graph<V, E>> GetStrongComponents()
-        {
-            if (!IsDirected) { throw new InvalidOperationException("Unable to find strongly connected components in a directed graph."); }
-
-            foreach (var vertices in GetStrongComponentVertices())
-            {
-                yield return CreateSubgraph(vertices);
-            }
-        }
-
-        /// <summary>
-        /// Finds the weak components (union find) and returns the vertices. <para/>
-        /// This is the first step of <see cref="GetStrongComponents"/>, and useful to skip generating the subgraph instances if they are not needed.
-        /// </summary>
-        /// <remarks>
-        /// This will ignore edge direction in a directed graph. 
-        /// </remarks>
-        public IEnumerable<IReadOnlyCollection<V>> GetComponentVertices()
-        {
-            foreach (var union in Search.UnionFind(Vertices, GetNeighbors))
-            {
-                yield return union;
-            }
-        }
-
-        /// <summary>
-        /// Finds the weakly connected components (union find) and returns each respective subgraph. <para/>
-        /// This will ignore edge direction in a directed graph.
-        /// </summary>
-        public IEnumerable<Graph<V, E>> GetComponents()
-        {
-            foreach (var vertices in GetComponentVertices())
-            {
-                yield return CreateSubgraph(vertices);
-            }
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Extracts the subgraph of with the specified vertices.
+        /// Extracts a subgraph of the specified vertices.
         /// </summary>
         public Graph<V, E> CreateSubgraph(IEnumerable<V> vertices)
         {
@@ -466,12 +381,40 @@ namespace Heirloom.Collections
                 foreach (var b in GetSuccessors(a))
                 {
                     var property = GetEdgeProperty(a, b);
-                    graph.AddEdge(a, b, property);
+                    if (!graph.ContainsEdge(a, b))
+                    {
+                        graph.AddEdge(a, b, property);
+                    }
                 }
             }
 
             return graph;
         }
+
+        IReadOnlyGraph<V, E> IReadOnlyGraph<V, E>.CreateSubgraph(IEnumerable<V> vertices)
+        {
+            return CreateSubgraph(vertices);
+        }
+
+        /// <summary>
+        /// Duplicates this graph.
+        /// </summary>
+        public Graph<V, E> Clone()
+        {
+            var clone = new Graph<V, E>(directed: IsDirected);
+            foreach (var vtx in Vertices) { clone.AddVertex(vtx); }
+            foreach (var (a, b) in Edges)
+            {
+                if (!ContainsEdge(a, b))
+                {
+                    clone.AddEdge(a, b, GetEdgeProperty(a, b));
+                }
+            }
+
+            return clone;
+        }
+
+        #endregion
 
         #region Edge Collection
 

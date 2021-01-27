@@ -84,9 +84,10 @@ namespace Heirloom.Desktop
         private static void InstantiateApplication<TApp>() where TApp : new()
         {
             var instance = Activator.CreateInstance<TApp>();
+
             if (instance is GameWrapper game)
             {
-                game.Resume();
+                game.Loop.Start();
             }
         }
 

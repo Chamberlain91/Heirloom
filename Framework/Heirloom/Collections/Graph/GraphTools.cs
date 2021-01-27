@@ -5,7 +5,9 @@ namespace Heirloom.Collections
 {
     public static class GraphTools
     {
-        //#region Page Rank
+        // todo: somehow hook smoothly against IReadOnlyGraph<V,E>?
+
+        #region Page Rank
 
         //public static IReadOnlyDictionary<V, float> ComputePageRank<V>(this WeightedGraph<V> graph)
         //{
@@ -17,33 +19,128 @@ namespace Heirloom.Collections
         //    throw new NotImplementedException();
         //}
 
-        //#endregion
+        #endregion
 
-        //#region Community Detection
+        #region Community Detection
 
         //public abstract IEnumerable<ICollection<V>> DetectCommunities(); // streaming?, what algorithm?
 
-        //#endregion
+        #endregion
 
-        //#region Find Path (Heuristic Search, A*)
+        #region Find Path (Heuristic Search, A*)
 
-        //public IReadOnlyList<V> FindPath(V start, Func<V, bool> goalCondition, HeuristicCost<V> heuristic)
-        //{
-        //    return FindPath(start, goalCondition, GetEdgeProperty, heuristic);
-        //}
+        public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
+            V start,
+            Func<V, bool> goalCondition,
+            ActualCost<V> cost,
+            HeuristicCost<V> heuristic) where E : struct
+        {
+            return Search.HeuristicSearch(start, goalCondition, graph.GetSuccessors, cost, heuristic);
+        }
 
-        //public IReadOnlyList<V> FindPath(V start, V goal, HeuristicCost<V> heuristic)
-        //{
-        //    return FindPath(start, c => Equals(goal), GetEdgeProperty, heuristic);
-        //}
+        public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
+            V start,
+            Func<V, bool> goalCondition,
+            Func<E, float> getCost,
+            HeuristicCost<V> heuristic) where E : struct
+        {
+            return FindPath(graph, start, goalCondition, (a, b) => getCost(graph.GetEdgeProperty(a, b)), heuristic);
+        }
 
-        //public IReadOnlyList<V> FindPath(V start, V goal)
-        //{
-        //    // Causes A* to degenerate to Djikstras?
-        //    return FindPath(start, goal, GetEdgeProperty, x => 0F);
-        //}
+        public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
+            V start,
+            Func<V, bool> goalCondition,
+            Func<E, float> getCost) where E : struct
+        {
+            // degenerates to Djikstra's?
+            return FindPath(graph, start, goalCondition, getCost, x => 0);
+        }
 
-        //#endregion
+        public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
+            V start,
+            V target,
+            ActualCost<V> cost,
+            HeuristicCost<V> heuristic) where E : struct
+        {
+            return FindPath(graph, start, vtx => Equals(vtx, target), cost, heuristic);
+        }
+
+        public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
+            V start,
+            V target,
+            Func<E, float> getCost,
+            HeuristicCost<V> heuristic) where E : struct
+        {
+            return FindPath(graph, start, vtx => Equals(vtx, target), getCost, heuristic);
+        }
+
+        public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
+            V start,
+            V target,
+            Func<E, float> getCost) where E : struct
+        {
+            // degenerates to Djikstra's?
+            return FindPath(graph, start, vtx => Equals(vtx, target), getCost, x => 0);
+        }
+
+        #endregion
+
+        #region Components (Strong & Weak)
+
+        /// <summary>
+        /// Finds the strong components and returns the vertices. <para/>
+        /// This is the first step of <see cref="GetStrongComponents"/>, and useful to skip generating the subgraph instances if they are not needed.
+        /// </summary>
+        public static IEnumerable<IReadOnlyCollection<V>> GetStrongComponentVertices<V, E>(this Graph<V, E> graph) where E : struct
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Finds the strong components and returns each subgraph. <para/>
+        /// This is the first step of <see cref="GetStrongComponents"/>, and useful to skip generating the subgraph instances if they are not needed.
+        /// </summary>
+        /// <remarks>
+        /// This will throw an exception in an undirected graph. 
+        /// </remarks>
+        public static IEnumerable<Graph<V, E>> GetStrongComponents<V, E>(this Graph<V, E> graph) where E : struct
+        {
+            if (!graph.IsDirected) { throw new InvalidOperationException("Unable to find strongly connected components in a directed graph."); }
+
+            foreach (var vertices in GetStrongComponentVertices(graph))
+            {
+                yield return graph.CreateSubgraph(vertices);
+            }
+        }
+
+        /// <summary>
+        /// Finds the weak components (union find) and returns the vertices. <para/>
+        /// This is the first step of <see cref="GetStrongComponents"/>, and useful to skip generating the subgraph instances if they are not needed.
+        /// </summary>
+        /// <remarks>
+        /// This will ignore edge direction in a directed graph. 
+        /// </remarks>
+        public static IEnumerable<IReadOnlyCollection<V>> GetComponentVertices<V, E>(this Graph<V, E> graph) where E : struct
+        {
+            foreach (var union in Search.UnionFind(graph.Vertices, graph.GetNeighbors))
+            {
+                yield return union;
+            }
+        }
+
+        /// <summary>
+        /// Finds the weakly connected components (union find) and returns each respective subgraph. <para/>
+        /// This will ignore edge direction in a directed graph.
+        /// </summary>
+        public static IEnumerable<Graph<V, E>> GetComponents<V, E>(this Graph<V, E> graph) where E : struct
+        {
+            foreach (var vertices in GetComponentVertices(graph))
+            {
+                yield return graph.CreateSubgraph(vertices);
+            }
+        }
+
+        #endregion
 
         #region Minimum Spanning (Tree/Arborescence)
 

@@ -1,3 +1,5 @@
+using Heirloom.Mathematics;
+
 namespace Heirloom.Collections
 {
     /// <summary>
@@ -15,6 +17,11 @@ namespace Heirloom.Collections
         /// The height of this grid.
         /// </summary>
         int Height { get; }
+
+        /// <summary>
+        /// The dimensions of the grid.
+        /// </summary>
+        IntSize Size { get; }
 
         /// <summary>
         /// Clear the entire grid to some value.

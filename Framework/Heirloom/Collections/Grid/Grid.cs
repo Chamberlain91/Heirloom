@@ -34,15 +34,14 @@ namespace Heirloom.Collections
 
         #region Properties
 
-        /// <summary>
-        /// The width of this grid.
-        /// </summary>
+        /// <inheritdoc/>
         public int Width { get; }
 
-        /// <summary>
-        /// The height of this grid.
-        /// </summary>
+        /// <inheritdoc/>
         public int Height { get; }
+
+        /// <inheritdoc/>
+        public IntSize Size => new IntSize(Width, Height);
 
         #endregion
 
