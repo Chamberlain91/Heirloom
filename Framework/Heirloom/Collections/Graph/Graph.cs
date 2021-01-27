@@ -9,7 +9,7 @@ namespace Heirloom.Collections
     /// </summary>
     /// <typeparam name="V">Some vertex type. Must properly implement equality checks.</typeparam>
     /// <typeparam name="E">Some data type for giving values to edges.</typeparam>
-    public class Graph<V, E> : ICloneable where E : struct
+    public class Graph<V, E> where E : struct
     {
         private readonly Dictionary<V, HashSet<V>> _outgoing; // null when undirected
         private readonly Dictionary<V, HashSet<V>> _incoming; // null when undirected
@@ -387,11 +387,6 @@ namespace Heirloom.Collections
             foreach (var vtx in Vertices) { clone.AddVertex(vtx); }
             foreach (var (a, b) in Edges) { clone.AddEdge(a, b, GetEdgeProperty(a, b)); }
             return clone;
-        }
-
-        object ICloneable.Clone()
-        {
-            return Clone();
         }
 
         #endregion
