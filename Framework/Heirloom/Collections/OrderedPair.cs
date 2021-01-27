@@ -3,10 +3,10 @@ using System;
 namespace Heirloom.Collections
 {
     /// <summary>
-    /// An unordered pair.
+    /// An ordered pair.
     /// </summary>
     /// <typeparam name="T">The type of the elements.</typeparam>
-    public readonly struct UnorderedPair<T> : IEquatable<UnorderedPair<T>>
+    public readonly struct OrderedPair<T> : IEquatable<OrderedPair<T>>
     {
         /// <summary>
         /// The 'first' element in the pair.
@@ -23,7 +23,7 @@ namespace Heirloom.Collections
         /// </summary>
         /// <param name="a">The 'first' element.</param>
         /// <param name="b">The 'second' element.</param>
-        public UnorderedPair(T a, T b)
+        public OrderedPair(T a, T b)
         {
             A = a;
             B = b;
@@ -53,15 +53,15 @@ namespace Heirloom.Collections
         /// <summary>
         /// Implicitly convert an unordered pair into a 2-tuple.
         /// </summary>
-        public static implicit operator UnorderedPair<T>((T a, T b) tuple)
+        public static implicit operator OrderedPair<T>((T a, T b) tuple)
         {
-            return new UnorderedPair<T>(tuple.a, tuple.b);
+            return new OrderedPair<T>(tuple.a, tuple.b);
         }
 
         /// <summary>
         /// Implicitly convert a 2-tuple into an unordered pair.
         /// </summary>
-        public static implicit operator (T a, T b)(UnorderedPair<T> pair)
+        public static implicit operator (T a, T b)(OrderedPair<T> pair)
         {
             return (pair.A, pair.B);
         }
@@ -77,7 +77,7 @@ namespace Heirloom.Collections
         /// <returns>True, if the objects are considered equal.</returns>
         public override bool Equals(object obj)
         {
-            return obj is UnorderedPair<T> pair
+            return obj is OrderedPair<T> pair
                 && Equals(pair);
         }
 
@@ -86,29 +86,25 @@ namespace Heirloom.Collections
         /// </summary>
         /// <param name="other">Some other pair.</param>
         /// <returns>True, if the pairs are considered equal.</returns>
-        public bool Equals(UnorderedPair<T> other)
+        public bool Equals(OrderedPair<T> other)
         {
-            return (A.Equals(other.A) && B.Equals(other.B))
-                || (A.Equals(other.B) && B.Equals(other.A));
+            return A.Equals(other.A) && B.Equals(other.B);
         }
 
         /// <inheritdoc/>
         public override int GetHashCode()
         {
-            // Makes the hashcode symmetric, might not be the best for collisions however.
-            var hashA = A.GetHashCode();
-            var hashB = B.GetHashCode();
-            return hashA ^ hashB;
+            return HashCode.Combine(A, B);
         }
 
         /// <inheritdoc/>
-        public static bool operator ==(UnorderedPair<T> left, UnorderedPair<T> right)
+        public static bool operator ==(OrderedPair<T> left, OrderedPair<T> right)
         {
             return left.Equals(right);
         }
 
         /// <inheritdoc/>
-        public static bool operator !=(UnorderedPair<T> left, UnorderedPair<T> right)
+        public static bool operator !=(OrderedPair<T> left, OrderedPair<T> right)
         {
             return !(left == right);
         }

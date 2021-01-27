@@ -1,308 +1,642 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Heirloom.Collections
 {
     /// <summary>
-    /// An undirected graph implemented using adjacency lists.
+    /// Represents a directed or undirected graph.
     /// </summary>
-    /// <tags>Graph, Undirected</tags>
-    /// <category>Graph</category>
-    public sealed class Graph<T> : IGraph<T>
+    /// <typeparam name="V">Some vertex type. Must properly implement equality checks.</typeparam>
+    /// <typeparam name="E">Some data type for giving values to edges.</typeparam>
+    public class Graph<V, E> : ICloneable where E : struct
     {
-        private readonly Dictionary<T, List<Edge<T>>> _outgoing;
-        private readonly EdgeCollection _edges;
+        private readonly Dictionary<V, HashSet<V>> _outgoing; // null when undirected
+        private readonly Dictionary<V, HashSet<V>> _incoming; // null when undirected
+        private readonly Dictionary<V, HashSet<V>> _adjacent = new Dictionary<V, HashSet<V>>();
+
+        private readonly IEdgeCollection _edges;
+        private readonly E _defaultEdgeProperty;
+
+        #region Constructor
 
         /// <summary>
-        /// Constructs a new <see cref="Graph{T}"/>.
+        /// Constructs a new graph. It may be configured to be directed or undirected.
         /// </summary>
-        public Graph()
+        /// <param name="directed">Configures the graph to have directional arcs or edges.</param>
+        /// <param name="defaultEdgeProperty">The default property given to edges created with <see cref="AddEdge(V, V)"/>.</param>
+        public Graph(bool directed = false, E defaultEdgeProperty = default)
         {
-            _outgoing = new Dictionary<T, List<Edge<T>>>();
-            _edges = new EdgeCollection();
-        }
+            IsDirected = directed;
 
-        /// <inheritdoc/>
-        public IEnumerable<T> Vertices => _outgoing.Keys;
+            _defaultEdgeProperty = defaultEdgeProperty;
 
-        /// <inheritdoc/>
-        public int VertexCount => _outgoing.Count;
-
-        /// <inheritdoc/>
-        public IEnumerable<(T A, T B)> Edges => _edges.Select(e => (e.A, e.B));
-
-        /// <inheritdoc/>
-        public int EdgeCount => _edges.Count;
-
-        /// <inheritdoc/>
-        public void Clear()
-        {
-            _edges.Clear();
-            _outgoing.Clear();
-        }
-
-        #region Vertex Manipulation
-
-        /// <inheritdoc/>
-        public void AddVertex(T v)
-        {
-            if (ContainsVertex(v))
+            if (IsDirected)
             {
-                throw new ArgumentException($"Graph already contained the vertex '{v}'.", nameof(v));
+                _edges = new ArcCollection();
+
+                _outgoing = new Dictionary<V, HashSet<V>>();
+                _incoming = new Dictionary<V, HashSet<V>>();
             }
-
-            // Construct adjacency list for vertex
-            _outgoing[v] = new List<Edge<T>>();
-        }
-
-        /// <inheritdoc/>
-        public bool RemoveVertex(T v)
-        {
-            // Do we know about this vertex?
-            if (_outgoing.TryGetValue(v, out var outgoing))
+            else
             {
-                // Disconnect outgoing edges connected to this vertex
-                outgoing.Apply(e => RemoveEdge(e.A, e.B));
-                _outgoing.Remove(v);
+                _edges = new EdgeCollection();
 
-                // Remove vertex and associated eges
-                return true;
+                _outgoing = null;
+                _incoming = null;
             }
-
-            // Vertex was not contained, so return false.
-            return false;
-        }
-
-        /// <inheritdoc/>
-        public bool ContainsVertex(T v)
-        {
-            return _outgoing.ContainsKey(v);
         }
 
         #endregion
 
-        #region Edge Manipulation
+        #region Properties
 
-        /// <inheritdoc/>
-        public void AddEdge(T a, T b, float weight)
+        /// <summary>
+        /// Determines if edges are directed or undirected in this graph.
+        /// </summary>
+        public bool IsDirected { get; }
+
+        /// <summary>
+        /// Gets the read-only collection of vertices contained in this graph.
+        /// </summary>
+        public IReadOnlyCollection<V> Vertices => _adjacent.Keys;
+
+        /// <summary>
+        /// Gets the read-only collection of edges contained in this graph.
+        /// </summary>
+        public IReadOnlyCollection<(V, V)> Edges => _edges;
+
+        #endregion
+
+        /// <summary>
+        /// Clears the graph, making it empty.
+        /// </summary>
+        public void Clear()
         {
-            // Validate vertices
-            if (!ContainsVertex(a)) { throw new ArgumentException($"Unable to add edge, vertex does not exist.", nameof(a)); }
-            if (!ContainsVertex(b)) { throw new ArgumentException($"Unable to add edge, vertex does not exist.", nameof(b)); }
-            if (Equals(a, b)) { throw new InvalidOperationException($"Unable to add edge, vertices must be different."); }
+            _adjacent.Clear();
 
-            // Insert edge into edge collection
-            var edge = new Edge<T>(a, b, weight);
-            _edges.AddEdge(edge);
-
-            // Add edge to both
-            _outgoing[a].Add(edge);
-            _outgoing[b].Add(edge);
-        }
-
-        /// <inheritdoc/>
-        public bool RemoveEdge(T a, T b)
-        {
-            // Validate vertices
-            if (!ContainsVertex(a)) { throw new ArgumentException($"Unable to remove edge, vertex does not exist.", nameof(a)); }
-            if (!ContainsVertex(b)) { throw new ArgumentException($"Unable to remove edge, vertex does not exist.", nameof(b)); }
-
-            // Does edge exist?
-            if (_edges.TryGetEdge(a, b, out var edge))
+            if (IsDirected)
             {
-                // Remove edge from edge collection
-                _edges.RemoveEdge(edge);
-
-                // Remove from adjacency lists
-                _outgoing[a].Remove(edge);
-                _outgoing[b].Remove(edge);
-
-                // Edge was contained and removed
-                return true;
+                _outgoing.Clear();
+                _incoming.Clear();
             }
 
-            // Edge was not contained, unable to remove
-            return false;
+            _edges.Clear();
         }
 
-        /// <inheritdoc/>
-        public bool ContainsEdge(T a, T b)
+        #region Manipulate Vertices
+
+        /// <summary>
+        /// Adds several vertices to the graph at once.
+        /// </summary>
+        public void AddVertices(IEnumerable<V> vertices)
+        {
+            if (vertices is null) { throw new ArgumentNullException(nameof(vertices)); }
+
+            foreach (var vertex in vertices)
+            {
+                AddVertex(vertex);
+            }
+        }
+
+        /// <summary>
+        /// Add a vertex to the graph.
+        /// </summary>
+        /// <exception cref="ArgumentException">Thrown when the vertex already exists.</exception>
+        public void AddVertex(V vtx)
+        {
+            if (ContainsVertex(vtx) == false)
+            {
+                // Add vertex (and neighbor collections)
+                _adjacent.Add(vtx, new HashSet<V>());
+
+                if (IsDirected)
+                {
+                    _outgoing.Add(vtx, new HashSet<V>());
+                    _incoming.Add(vtx, new HashSet<V>());
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Unable to add vertex, already contained.");
+            }
+        }
+
+        /// <summary>
+        /// Removes a vertex (and associated edges).
+        /// </summary> 
+        /// <returns>Returns <see langword="true"/> if vertex existed and was removed successfully.</returns>
+        public bool RemoveVertex(V vtx)
+        {
+            if (ContainsVertex(vtx))
+            {
+                // Remove all edges associated to the vertex
+                DisconnectVertex(vtx);
+
+                // Remove vertex
+                _outgoing?.Remove(vtx);
+                _incoming?.Remove(vtx);
+                _adjacent.Remove(vtx);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Determines if the specified vertex is contained in this graph.
+        /// </summary>
+        public bool ContainsVertex(V vtx)
+        {
+            return _adjacent.ContainsKey(vtx);
+        }
+
+        private void DisconnectVertex(V vtx)
+        {
+            // successors are the same as adjacent for undirected
+            foreach (var other in GetSuccessors(vtx))
+            {
+                _edges.ScheduleRemoval(_edges.GetEdge(vtx, other));
+            }
+
+            if (IsDirected)
+            {
+                foreach (var other in GetPredecessors(vtx))
+                {
+                    _edges.ScheduleRemoval(_edges.GetEdge(other, vtx));
+                }
+            }
+
+            // Commit removal from edge collection, removing from neighbor sets as we go.
+            foreach (var edge in _edges.CommitRemoval())
+            {
+                if (IsDirected)
+                {
+                    _outgoing[edge.A].Remove(edge.B);
+                    _incoming[edge.B].Remove(edge.A);
+                }
+
+                // Remove adjacencies
+                _adjacent[edge.A].Remove(edge.B);
+                _adjacent[edge.B].Remove(edge.A);
+            }
+        }
+
+        #endregion
+
+        #region Manipulate Edges
+
+        /// <summary>
+        /// Adds several edges to the graph at once.
+        /// </summary>
+        public void AddEdges(IEnumerable<(V, V)> edges)
+        {
+            foreach (var (a, b) in edges)
+            {
+                AddEdge(a, b);
+            }
+        }
+
+        /// <summary>
+        /// Adds several edges (with properties) to the graph at once.
+        /// </summary>
+        public void AddEdges(IEnumerable<(V, V, E)> edges)
+        {
+            foreach (var (a, b, e) in edges)
+            {
+                AddEdge(a, b, e);
+            }
+        }
+
+        /// <summary>
+        /// Adds an edge to the graph (with default edge property).
+        /// </summary>
+        public void AddEdge(V a, V b)
+        {
+            AddEdge(a, b, _defaultEdgeProperty);
+        }
+
+        /// <summary>
+        /// Adds an edge to the graph.
+        /// </summary>
+        public void AddEdge(V a, V b, E property)
+        {
+            if (!ContainsVertex(a)) { throw new KeyNotFoundException($"Unable to add edge, argument vertex '{nameof(a)}' was not contained."); }
+            if (!ContainsVertex(b)) { throw new KeyNotFoundException($"Unable to add edge, argument vertex '{nameof(b)}' was not contained."); }
+
+            if (_edges.Contains(a, b) == false)
+            {
+                // var edge = new Edge(a, b, property);
+                _edges.AddEdge(a, b, property);
+
+                // A and B are adjacent
+                _adjacent[a].Add(b);
+                _adjacent[b].Add(a);
+
+                if (IsDirected)
+                {
+                    _outgoing[a].Add(b); // From A to B
+                    _incoming[b].Add(a); // To B from A
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException("Unable to add edge, edge already exists.");
+            }
+        }
+
+        public bool RemoveEdge(V a, V b)
+        {
+            if (!ContainsVertex(a)) { throw new KeyNotFoundException($"Unable to remove edge, argument vertex '{nameof(a)}' was not contained."); }
+            if (!ContainsVertex(b)) { throw new KeyNotFoundException($"Unable to remove edge, argument vertex '{nameof(b)}' was not contained."); }
+
+            if (_edges.TryGetEdge(a, b, out var edge))
+            {
+                // Remove edge immediately
+                _edges.ImmediateRemoval(edge);
+
+                // edge was contained and removed successfully
+                return true;
+            }
+            else
+            {
+                // edge was not contained
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Determines if an edge exists between <paramref name="a"/> and <paramref name="b"/>.
+        /// </summary>
+        /// <param name="a">The first (near) side of the edge.</param>
+        /// <param name="b">The second (far) side of the edge.</param>
+        /// <returns>Will return <see langword="true"/> if the edge exists.</returns>
+        public bool ContainsEdge(V a, V b)
         {
             return _edges.Contains(a, b);
         }
 
-        /// <inheritdoc/>
-        public float GetEdgeWeight(T a, T b)
+        /// <summary>
+        /// Gets the data associated with some edge (ex, edge weight).
+        /// </summary>
+        /// <param name="a">The first (near) side of the edge.</param>
+        /// <param name="b">The second (far) side of the edge.</param>
+        /// <returns>The data associated with the edge.</returns>
+        public ref E GetEdgeProperty(V a, V b)
         {
             if (_edges.TryGetEdge(a, b, out var edge))
             {
-                return edge.Weight;
+                return ref edge.Property;
             }
             else
             {
-                throw new ArgumentException($"Unable to retreive edge weight, graph does not contain the specified edge.");
+                throw new KeyNotFoundException("Unable to get edge property, edge does not exist.");
             }
         }
 
-        /// <inheritdoc/>
-        public void SetEdgeWeight(T a, T b, float weight)
+        /// <summary>
+        /// Gets the associated data associated with some edge (ex, edge weight).
+        /// </summary>
+        /// <param name="a">The first (near) side of the edge.</param>
+        /// <param name="b">The second (far) side of the edge.</param>
+        /// <param name="property">The new data to associate with the edge.</param> 
+        public void SetEdgeProperty(V a, V b, E property)
         {
             if (_edges.TryGetEdge(a, b, out var edge))
             {
-                edge.Weight = weight;
+                edge.Property = property;
             }
             else
             {
-                throw new ArgumentException($"Unable to set edge weight, graph does not contain the specified edge.");
+                throw new KeyNotFoundException("Unable to set edge property, edge does not exist.");
+            }
+        }
+
+        /// <summary>
+        /// Gets the collection of successors for the specified vertex.
+        /// </summary>
+        public IReadOnlyCollection<V> GetSuccessors(V vtx)
+        {
+            if (ContainsVertex(vtx))
+            {
+                if (IsDirected)
+                {
+                    return _outgoing[vtx];
+                }
+                else
+                {
+                    return _adjacent[vtx];
+                }
+            }
+            else
+            {
+                throw new KeyNotFoundException("Unable to return successor vertices, specified vertex not found.");
+            }
+        }
+
+        /// <summary>
+        /// Gets the collection of predecessors for the specified vertex.
+        /// </summary>
+        public IReadOnlyCollection<V> GetPredecessors(V vtx)
+        {
+            if (ContainsVertex(vtx))
+            {
+                if (IsDirected)
+                {
+                    return _incoming[vtx];
+                }
+                else
+                {
+                    return _adjacent[vtx];
+                }
+            }
+            else
+            {
+                throw new KeyNotFoundException("Unable to return predecessor vertices, specified vertex not found.");
+            }
+        }
+
+        /// <summary>
+        /// Gets the collection of unique successors and predecessors for the specified vertex.
+        /// </summary>
+        public IReadOnlyCollection<V> GetNeighbors(V vtx)
+        {
+            if (ContainsVertex(vtx))
+            {
+                return _adjacent[vtx];
+            }
+            else
+            {
+                throw new KeyNotFoundException("Unable to return adjacent vertices, specified vertex not found.");
             }
         }
 
         #endregion
 
-        /// <inheritdoc/>
-        public IEnumerable<T> GetNeighbors(T v)
-        {
-            if (!ContainsVertex(v)) { throw new ArgumentException($"Unable to return neighbors, vertex does not exist.", nameof(v)); }
+        #region Clone Graph
 
-            // Return outgoing edge targets (ie, successors)
-            return _outgoing[v].Select(e => e.GetOther(v));
+        /// <summary>
+        /// Duplicates this graph.
+        /// </summary>
+        public Graph<V, E> Clone()
+        {
+            var clone = new Graph<V, E>(directed: IsDirected);
+            foreach (var vtx in Vertices) { clone.AddVertex(vtx); }
+            foreach (var (a, b) in Edges) { clone.AddEdge(a, b, GetEdgeProperty(a, b)); }
+            return clone;
         }
 
-        #region Algorithms
-
-        /// <inheritdoc/>
-        public IReadOnlyList<T> FindPath(T start, T goal, HeuristicCost<T> heuristic)
+        object ICloneable.Clone()
         {
-            if (!ContainsVertex(start)) { throw new ArgumentException($"Unable to find path, vertex does not exist.", nameof(start)); }
-            if (!ContainsVertex(goal)) { throw new ArgumentException($"Unable to find path, vertex does not exist.", nameof(goal)); }
-            if (heuristic is null) { throw new ArgumentNullException(nameof(heuristic)); }
-
-            return Search.HeuristicSearch(start, goal, GetNeighbors, GetEdgeWeight, heuristic);
-        }
-
-        /// <inheritdoc/>
-        public IReadOnlyList<T> FindPath(T start, Func<T, bool> goalCondition, HeuristicCost<T> heuristic)
-        {
-            if (!ContainsVertex(start)) { throw new ArgumentException($"Unable to find path, vertex does not exist.", nameof(start)); }
-            if (goalCondition is null) { throw new ArgumentNullException(nameof(goalCondition)); }
-            if (heuristic is null) { throw new ArgumentNullException(nameof(heuristic)); }
-
-            return Search.HeuristicSearch(start, goalCondition, GetNeighbors, GetEdgeWeight, heuristic);
-        }
-
-        /// <inheritdoc/>
-        public IEnumerable<T> Traverse(T start, TraversalMethod method)
-        {
-            if (!ContainsVertex(start)) { throw new ArgumentException($"Unable to traverse graph, vertex does not exist.", nameof(start)); }
-
-            return method switch
-            {
-                TraversalMethod.BreadthFirst => Search.BreadthFirst(start, GetNeighbors),
-                TraversalMethod.DepthFirst => Search.DepthFirst(start, GetNeighbors),
-
-                _ => throw new ArgumentException($"Invalid traversal method.", nameof(method)),
-            };
-        }
-
-        /// <inheritdoc/>
-        public Graph<T> FindMinimumSpanningTree()
-        {
-            // todo: recycle/optimize use of C E and Q?
-            var C = new Dictionary<T, float>();
-            var E = new Dictionary<T, T>();
-            var Q = new Heap<T>((a, b) => C[a].CompareTo(C[b]));
-
-            // Construct output graph (ie, the forest)
-            var F = new Graph<T>();
-
-            // Initialize
-            foreach (var v in Vertices)
-            {
-                C[v] = float.PositiveInfinity;
-                Q.Add(v);
-            }
-
-            while (Q.Count > 0)
-            {
-                var v = Q.Remove();
-
-                // Insert vertex into tree
-                F.AddVertex(v);
-
-                // Add best edge to tree, if a minimum weight is known.
-                if (E.TryGetValue(v, out var e))
-                {
-                    F.AddEdge(e, v, C[v]);
-                }
-
-                // 
-                foreach (var edge in _outgoing[v])
-                {
-                    var w = edge.GetOther(v);
-
-                    if (Q.Contains(w))
-                    {
-                        if (edge.Weight < C[w])
-                        {
-                            C[w] = edge.Weight;
-                            E[w] = v;
-
-                            // Notify the queue the priority of the item has changed
-                            Q.Update(w);
-                        }
-                    }
-                }
-            }
-
-            return F;
-        }
-
-        /// <inheritdoc/>
-        IGraph<T> IGraph<T>.FindMinimumSpanningTree()
-        {
-            return FindMinimumSpanningTree();
+            return Clone();
         }
 
         #endregion
 
-        private class EdgeCollection : EdgeCollection<EdgeCollection.Pair, T>
+        #region Components (Strong & Weak)
+
+        /// <summary>
+        /// Finds the strong components and returns the vertices. <para/>
+        /// This is the first step of <see cref="GetStrongComponents"/>, and useful to skip generating the subgraph instances if they are not needed.
+        /// </summary>
+        public IEnumerable<IReadOnlyCollection<V>> GetStrongComponentVertices()
         {
-            protected override Pair CreatePair(T a, T b)
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Finds the strong components and returns each subgraph. <para/>
+        /// This is the first step of <see cref="GetStrongComponents"/>, and useful to skip generating the subgraph instances if they are not needed.
+        /// </summary>
+        /// <remarks>
+        /// This will throw an exception in an undirected graph. 
+        /// </remarks>
+        public IEnumerable<Graph<V, E>> GetStrongComponents()
+        {
+            if (!IsDirected) { throw new InvalidOperationException("Unable to find strongly connected components in a directed graph."); }
+
+            foreach (var vertices in GetStrongComponentVertices())
             {
-                return new Pair(a, b);
-            }
-
-            internal readonly struct Pair : IEquatable<Pair>
-            {
-                public readonly T A;
-
-                public readonly T B;
-
-                public Pair(T a, T b)
-                {
-                    A = a;
-                    B = b;
-                }
-
-                public override bool Equals(object obj)
-                {
-                    return obj is Pair pair
-                        && Equals(pair);
-                }
-
-                public bool Equals(Pair other)
-                {
-                    return (A.Equals(other.A) && B.Equals(other.B))
-                        || (A.Equals(other.B) && B.Equals(other.A));
-                }
-
-                public override int GetHashCode()
-                {
-                    return HashCode.Combine(A, B)
-                         + HashCode.Combine(B, A);
-                }
+                yield return CreateSubgraph(vertices);
             }
         }
+
+        /// <summary>
+        /// Finds the weak components (union find) and returns the vertices. <para/>
+        /// This is the first step of <see cref="GetStrongComponents"/>, and useful to skip generating the subgraph instances if they are not needed.
+        /// </summary>
+        /// <remarks>
+        /// This will ignore edge direction in a directed graph. 
+        /// </remarks>
+        public IEnumerable<IReadOnlyCollection<V>> GetComponentVertices()
+        {
+            foreach (var union in Search.UnionFind(Vertices, GetNeighbors))
+            {
+                yield return union;
+            }
+        }
+
+        /// <summary>
+        /// Finds the weakly connected components (union find) and returns each respective subgraph. <para/>
+        /// This will ignore edge direction in a directed graph.
+        /// </summary>
+        public IEnumerable<Graph<V, E>> GetComponents()
+        {
+            foreach (var vertices in GetComponentVertices())
+            {
+                yield return CreateSubgraph(vertices);
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Extracts the subgraph of with the specified vertices.
+        /// </summary>
+        public Graph<V, E> CreateSubgraph(IEnumerable<V> vertices)
+        {
+            if (vertices is null) { throw new ArgumentNullException(nameof(vertices)); }
+
+            var graph = new Graph<V, E>(directed: IsDirected);
+
+            // Add all vertices
+            graph.AddVertices(vertices);
+
+            // Connect all edges between vertices
+            foreach (var a in vertices)
+            {
+                foreach (var b in GetSuccessors(a))
+                {
+                    var property = GetEdgeProperty(a, b);
+                    graph.AddEdge(a, b, property);
+                }
+            }
+
+            return graph;
+        }
+
+        #region Edge Collection
+
+        private sealed class Edge
+        {
+            public readonly V A;
+
+            public readonly V B;
+
+            public E Property;
+
+            public Edge(V a, V b, E property)
+            {
+                A = a;
+                B = b;
+
+                Property = property;
+            }
+
+            public V GetOther(V x)
+            {
+                return Equals(A, x) ? B : A;
+            }
+        }
+
+        private interface IEdgeCollection : IReadOnlyCollection<Edge>, IReadOnlyCollection<(V, V)>
+        {
+            void Clear();
+
+            void AddEdge(V a, V b, E property);
+
+            void ImmediateRemoval(Edge edge);
+
+            void ScheduleRemoval(Edge edge);
+
+            IEnumerable<Edge> CommitRemoval();
+
+            bool Contains(V a, V b);
+
+            bool TryGetEdge(V a, V b, out Edge edge);
+
+            Edge GetEdge(V a, V b);
+        }
+
+        private abstract class EdgeCollection<P> : IEdgeCollection
+        {
+            private readonly Dictionary<P, Edge> _edges = new Dictionary<P, Edge>();
+            private readonly HashSet<P> _removal = new HashSet<P>();
+
+            public int Count => _edges.Count;
+
+            protected abstract P CreatePair(V a, V b);
+
+            public void Clear()
+            {
+                _edges.Clear();
+            }
+
+            public void AddEdge(V a, V b, E property)
+            {
+                var edge = new Edge(a, b, property);
+                var pair = CreatePair(edge.A, edge.B);
+
+                if (_edges.ContainsKey(pair))
+                {
+                    throw new InvalidOperationException($"Edge already exists between '{edge.A}' and '{edge.B}'.");
+                }
+
+                // Store edge
+                _edges[pair] = edge;
+            }
+
+            public void ImmediateRemoval(Edge edge)
+            {
+                var pair = CreatePair(edge.A, edge.B);
+                _edges.Remove(pair);
+            }
+
+            public void ScheduleRemoval(Edge edge)
+            {
+                var pair = CreatePair(edge.A, edge.B);
+                _removal.Add(pair);
+            }
+
+            public IEnumerable<Edge> CommitRemoval()
+            {
+                foreach (var pair in _removal)
+                {
+                    // Emit edge
+                    yield return _edges[pair];
+
+                    // Remove edge
+                    _edges.Remove(pair);
+                }
+
+                // Clear removal queue
+                _removal.Clear();
+            }
+
+            public bool Contains(V a, V b)
+            {
+                var pair = CreatePair(a, b);
+                return _edges.ContainsKey(pair);
+            }
+
+            public bool TryGetEdge(V a, V b, out Edge edge)
+            {
+                var pair = CreatePair(a, b);
+                return _edges.TryGetValue(pair, out edge);
+            }
+
+            public Edge GetEdge(V a, V b)
+            {
+                if (TryGetEdge(a, b, out var edge))
+                {
+                    return edge;
+                }
+
+                // Unable to get edge
+                throw new InvalidOperationException($"Edge already exists between '{a}' and '{b}'.");
+            }
+
+            public IEnumerator<Edge> GetEnumerator()
+            {
+                foreach (var (_, edge) in _edges)
+                {
+                    yield return edge;
+                }
+            }
+
+            IEnumerator<(V, V)> IEnumerable<(V, V)>.GetEnumerator()
+            {
+                foreach (var (_, edge) in _edges)
+                {
+                    yield return (edge.A, edge.B);
+                }
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+        }
+
+        private class EdgeCollection : EdgeCollection<UnorderedPair<V>>
+        {
+            protected override UnorderedPair<V> CreatePair(V a, V b)
+            {
+                return new UnorderedPair<V>(a, b);
+            }
+        }
+
+        private class ArcCollection : EdgeCollection<OrderedPair<V>>
+        {
+            protected override OrderedPair<V> CreatePair(V a, V b)
+            {
+                return new OrderedPair<V>(a, b);
+            }
+        }
+
+        #endregion
     }
 }

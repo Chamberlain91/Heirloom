@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Heirloom.Collections
 {
@@ -280,18 +281,6 @@ namespace Heirloom.Collections
         private enum AcyclicStatus { New, Active, Finished };
 
         /// <summary>
-        /// Determines if the specified graph is cyclic.
-        /// </summary>
-        /// <typeparam name="T">Type of the elements</typeparam>
-        /// <param name="start">Starting element.</param>
-        /// <param name="graph">Some graph.</param>
-        /// <returns>True if the graph is determined to be cycle free, otherwise false.</returns>
-        public static bool DetectCyclicGraph<T>(IGraph<T> graph, T start)
-        {
-            return DetectCyclicGraph(start, graph.GetNeighbors);
-        }
-
-        /// <summary>
         /// Determines if a graph is cyclic. Do not use on infinite graphs.
         /// </summary>
         /// <typeparam name="T">Type of the elements</typeparam>
@@ -348,5 +337,111 @@ namespace Heirloom.Collections
         }
 
         #endregion
+
+        #region Topological Order
+
+        /// <summary>
+        /// Produces a topological ordering of some directed acyclic graph.
+        /// </summary>
+        /// <returns>The topological ordering or <see langword="null"/> if the graph is cyclic.</returns>
+        public static IReadOnlyList<T> GetTopologicalOrder<T>(IEnumerable<T> nodes, Func<T, IEnumerable<T>> getSuccessors)
+        {
+            var marks = new Dictionary<T, bool>();
+            var output = new List<T>();
+
+            var items = new Bag<T>(nodes);
+            while (items.TryTake(out var start))
+            {
+                // Node has been marked, skip
+                // todo: this feels potentially inefficient, somehow implement bag to have O(1) remove intead of O(n) skips?
+                if (marks.ContainsKey(start)) { continue; }
+
+                // Visit this node
+                if (!Visit(start))
+                {
+                    return null; // cyclic
+                }
+            }
+
+            output.Reverse();
+            return output;
+
+            bool Visit(T node)
+            {
+                if (marks.ContainsKey(node))
+                {
+                    if (marks[node]) { return true; } // leaf node
+                    else { return false; } // cyclic
+                }
+
+                marks[node] = false; // temporary mark
+
+                foreach (var successor in getSuccessors(node))
+                {
+                    if (!Visit(successor)) { return false; }
+                }
+
+                marks[node] = true; // permanent mark
+
+                // 
+                output.Add(node);
+                return true;
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Finds distinct components (union find) of a graph.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items"></param>
+        /// <param name="getSuccessors"></param>
+        /// <returns></returns>
+        public static IEnumerable<IReadOnlyList<T>> UnionFind<T>(IEnumerable<T> items, Func<T, IEnumerable<T>> getSuccessors)
+        {
+            if (items is null) { throw new ArgumentNullException(nameof(items)); }
+            if (getSuccessors is null) { throw new ArgumentNullException(nameof(getSuccessors)); }
+
+            var free = new HashSet<T>(items);
+
+            // While we have possible components
+            while (free.Count > 0)
+            {
+                // Construct new frontier
+                var frontier = new Queue<T>();
+
+                // Populate the first vertex in the frontier
+                var first = free.First();
+                frontier.Enqueue(first);
+                free.Remove(first);
+
+                // 
+                var component = new List<T>();
+
+                // While we have a frontier to explore
+                while (frontier.Count > 0)
+                {
+                    // Get next element from frontier
+                    var v = frontier.Dequeue();
+
+                    // Insert vertex into component
+                    component.Add(v);
+
+                    // Enqueue neighbors
+                    foreach (var n in getSuccessors(v))
+                    {
+                        // Enqueue neighbor into frontier and remove from the free set
+                        if (free.Remove(n))
+                        {
+                            frontier.Enqueue(n);
+                        }
+                    }
+                }
+
+                // Emit component
+                yield return component;
+            }
+        }
     }
 }

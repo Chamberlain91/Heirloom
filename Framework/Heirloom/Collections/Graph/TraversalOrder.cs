@@ -5,7 +5,8 @@ namespace Heirloom.Collections
     /// </summary>
     /// <tags>Graph, Traverse, Traversal</tags>
     /// <category>Graph</category>
-    public enum TraversalMethod
+    public enum TraversalOrder
+
     {
         /// <summary>
         /// Depth-first traversal, prioritizing children.

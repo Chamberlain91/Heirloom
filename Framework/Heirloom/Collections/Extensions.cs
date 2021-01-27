@@ -27,6 +27,6 @@ namespace Heirloom.Collections
             return heap;
         }
 
-        #endregion
+        #endregion 
     }
 }
