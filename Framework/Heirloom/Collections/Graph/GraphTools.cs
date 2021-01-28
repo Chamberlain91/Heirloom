@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace Heirloom.Collections
 {
+    /// <summary>
+    /// Implementation of various algorithms implemented against <see cref="Graph{V, E}"/>.
+    /// Most of the methods here are implemented as extension methods.
+    /// </summary>
     public static class GraphTools
     {
         // todo: somehow hook smoothly against IReadOnlyGraph<V,E>?
@@ -29,6 +33,17 @@ namespace Heirloom.Collections
 
         #region Find Path (Heuristic Search, A*)
 
+        /// <summary>
+        /// Find a path from some starting vertex until a goal condition is reached.
+        /// </summary>
+        /// <typeparam name="V">Some vertex type.</typeparam>
+        /// <typeparam name="E">Some edge property type.</typeparam>
+        /// <param name="graph">Some graph to find a path within.</param>
+        /// <param name="start">Some vertex within the graph to start.</param>
+        /// <param name="goalCondition">Some condition to accept goal state.</param>
+        /// <param name="cost">The cost between neighboring vertices.</param>
+        /// <param name="heuristic">The cost estimation to reach the goal condition.</param>
+        /// <returns>A sequence of vertices from start (inclusive) to goal (inclusive).</returns>
         public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
             V start,
             Func<V, bool> goalCondition,
@@ -38,6 +53,17 @@ namespace Heirloom.Collections
             return Search.HeuristicSearch(start, goalCondition, graph.GetSuccessors, cost, heuristic);
         }
 
+        /// <summary>
+        /// Find a path from some starting vertex until a goal condition is reached.
+        /// </summary>
+        /// <typeparam name="V">Some vertex type.</typeparam>
+        /// <typeparam name="E">Some edge property type.</typeparam>
+        /// <param name="graph">Some graph to find a path within.</param>
+        /// <param name="start">Some vertex within the graph to start.</param>
+        /// <param name="goalCondition">Some condition to accept goal state.</param>
+        /// <param name="getCost">Gets the edge cost from <typeparamref name="E"/>.</param>
+        /// <param name="heuristic">The cost estimation to reach the goal condition.</param>
+        /// <returns>A sequence of vertices from start (inclusive) to goal (inclusive).</returns>
         public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
             V start,
             Func<V, bool> goalCondition,
@@ -47,6 +73,16 @@ namespace Heirloom.Collections
             return FindPath(graph, start, goalCondition, (a, b) => getCost(graph.GetEdgeProperty(a, b)), heuristic);
         }
 
+        /// <summary>
+        /// Find a path from some starting vertex until a goal condition is reached.
+        /// </summary>
+        /// <typeparam name="V">Some vertex type.</typeparam>
+        /// <typeparam name="E">Some edge property type.</typeparam>
+        /// <param name="graph">Some graph to find a path within.</param>
+        /// <param name="start">Some vertex within the graph to start.</param>
+        /// <param name="goalCondition">Some condition to accept goal state.</param>
+        /// <param name="getCost">Gets the edge cost from <typeparamref name="E"/>.</param>
+        /// <returns>A sequence of vertices from start (inclusive) to goal (inclusive).</returns>
         public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
             V start,
             Func<V, bool> goalCondition,
@@ -56,6 +92,17 @@ namespace Heirloom.Collections
             return FindPath(graph, start, goalCondition, getCost, x => 0);
         }
 
+        /// <summary>
+        /// Find a path between to vertices in the graph.
+        /// </summary>
+        /// <typeparam name="V">Some vertex type.</typeparam>
+        /// <typeparam name="E">Some edge property type.</typeparam>
+        /// <param name="graph">Some graph to find a path within.</param>
+        /// <param name="start">Some vertex within the graph to act as the start vertex.</param>
+        /// <param name="target">Some vertex within the graph to act as the goal vertex.</param>
+        /// <param name="cost">The cost between neighboring vertices.</param>
+        /// <param name="heuristic">The cost estimation to reach the goal condition.</param>
+        /// <returns>A sequence of vertices from start (inclusive) to goal (inclusive).</returns>
         public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
             V start,
             V target,
@@ -65,6 +112,17 @@ namespace Heirloom.Collections
             return FindPath(graph, start, vtx => Equals(vtx, target), cost, heuristic);
         }
 
+        /// <summary>
+        /// Find a path between to vertices in the graph.
+        /// </summary>
+        /// <typeparam name="V">Some vertex type.</typeparam>
+        /// <typeparam name="E">Some edge property type.</typeparam>
+        /// <param name="graph">Some graph to find a path within.</param>
+        /// <param name="start">Some vertex within the graph to act as the start vertex.</param>
+        /// <param name="target">Some vertex within the graph to act as the goal vertex.</param>
+        /// <param name="getCost">Gets the edge cost from <typeparamref name="E"/>.</param>
+        /// <param name="heuristic">The cost estimation to reach the goal condition.</param>
+        /// <returns>A sequence of vertices from start (inclusive) to goal (inclusive).</returns>
         public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
             V start,
             V target,
@@ -74,6 +132,16 @@ namespace Heirloom.Collections
             return FindPath(graph, start, vtx => Equals(vtx, target), getCost, heuristic);
         }
 
+        /// <summary>
+        /// Find a path between to vertices in the graph.
+        /// </summary>
+        /// <typeparam name="V">Some vertex type.</typeparam>
+        /// <typeparam name="E">Some edge property type.</typeparam>
+        /// <param name="graph">Some graph to find a path within.</param>
+        /// <param name="start">Some vertex within the graph to act as the start vertex.</param>
+        /// <param name="target">Some vertex within the graph to act as the goal vertex.</param>
+        /// <param name="getCost">Gets the edge cost from <typeparamref name="E"/>.</param>
+        /// <returns>A sequence of vertices from start (inclusive) to goal (inclusive).</returns>
         public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
             V start,
             V target,
@@ -87,13 +155,114 @@ namespace Heirloom.Collections
 
         #region Components (Strong & Weak)
 
+        private class TarjanNode<V>
+        {
+            public readonly V Vertex;
+
+            public bool OnStack;
+            public int Index;
+            public int LowLink;
+
+            public TarjanNode(V vertex)
+            {
+                Vertex = vertex;
+            }
+        }
+
         /// <summary>
         /// Finds the strong components and returns the vertices. <para/>
         /// This is the first step of <see cref="GetStrongComponents"/>, and useful to skip generating the subgraph instances if they are not needed.
         /// </summary>
-        public static IEnumerable<IReadOnlyCollection<V>> GetStrongComponentVertices<V, E>(this Graph<V, E> graph) where E : struct
+        /// <remarks>
+        /// Tarjan's strongly connected components algorithm.
+        /// </remarks>
+        public static IReadOnlyCollection<IReadOnlyCollection<V>> GetStrongComponentVertices<V, E>(this Graph<V, E> graph) where E : struct
         {
-            throw new NotImplementedException();
+            var nodes = new Dictionary<V, TarjanNode<V>>();
+
+            var output = new List<IReadOnlyCollection<V>>();
+
+            var index = 0;
+            var S = new Stack<TarjanNode<V>>();
+            foreach (var v in graph.Vertices)
+            {
+                if (HasNode(v) == false) // "index is undefined"
+                {
+                    StrongConnect(v);
+                }
+            }
+
+            return output;
+
+            void StrongConnect(V v_)
+            {
+                var v = GetNode(v_);
+
+                // Set the depth index for v to the smallest unused index
+                v.Index = index;
+                v.LowLink = index;
+                index++;
+                S.Push(v);
+                v.OnStack = true;
+
+                // Consider successors of v
+                foreach (var w_ in graph.GetSuccessors(v.Vertex))
+                {
+                    if (HasNode(w_) == false) // "index is undefined"
+                    {
+                        // Successor w has not yet been visited; recurse on it
+                        StrongConnect(w_);
+                        v.LowLink = Math.Min(v.LowLink, GetNode(w_).LowLink);
+                    }
+                    else
+                    {
+                        var w = GetNode(w_);
+                        if (w.OnStack)
+                        {
+                            // Successor w is in stack S and hence in the current SCC
+                            // If w is not on stack, then (v, w) is an edge pointing to an SCC already found and must be ignored
+                            // Note: The next line may look odd - but is correct.
+                            // It says w.index not w.lowlink; that is deliberate and from the original paper
+                            v.LowLink = Math.Min(v.LowLink, w.Index);
+                        }
+                    }
+                }
+
+                // If v is a root node, pop the stack and generate an SCC
+                if (v.LowLink == v.Index)
+                {
+                    var component = new HashSet<V>();
+
+                    var w = default(TarjanNode<V>);
+                    do
+                    {
+                        w = S.Pop();
+                        w.OnStack = false;
+                        component.Add(w.Vertex);
+                    } while (!Equals(w, v));
+
+                    output.Add(component);
+                }
+            }
+
+            bool HasNode(V v)
+            {
+                return nodes.ContainsKey(v);
+            }
+
+            TarjanNode<V> GetNode(V v)
+            {
+                if (nodes.TryGetValue(v, out var node))
+                {
+                    return node;
+                }
+                else
+                {
+                    node = new TarjanNode<V>(v);
+                    nodes[v] = node;
+                    return node;
+                }
+            }
         }
 
         /// <summary>
@@ -165,7 +334,9 @@ namespace Heirloom.Collections
             throw new NotImplementedException();
         }
 
-        // todo: confirm is Jarniks (and time complexity)
+        /// <summary>
+        /// Implements Prim/Jarnik' MST Algorthim. (https://en.wikipedia.org/wiki/Prim%27s_algorithm)
+        /// </summary>
         private static Graph<V, W> GetMinimumSpanningTree<V, W>(Graph<V, W> graph) where W : struct, IComparable
         {
             // todo: recycle/optimize use of C E and Q?
