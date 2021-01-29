@@ -327,6 +327,41 @@ namespace Heirloom
 
         #endregion
 
+        /// <summary>
+        /// Finds the most frequent (ie, mode) item in the collection.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown when the collection is empty.</exception>
+        public static T MostFrequent<T>(this IEnumerable<T> collection)
+        {
+            if (collection.Any())
+            {
+                var counts = new Dictionary<T, int>();
+
+                var bestItem = default(T);
+                var bestCount = 0;
+
+                foreach (var item in collection)
+                {
+                    // Increment count
+                    counts.TryGetValue(item, out var count);
+                    counts[item] = count + 1;
+
+                    // Remember item with highest count
+                    if (counts[item] > bestCount)
+                    {
+                        bestCount = counts[item];
+                        bestItem = item;
+                    }
+                }
+
+                return bestItem;
+            }
+            else
+            {
+                throw new InvalidOperationException("Unable to find most frequent item, collection is empty");
+            }
+        }
+
         #region Min / Max (Vector)
 
         /// <summary>

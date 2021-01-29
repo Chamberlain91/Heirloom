@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+
+using Heirloom.Mathematics;
 
 namespace Heirloom.Collections
 {
@@ -13,21 +16,121 @@ namespace Heirloom.Collections
 
         #region Page Rank
 
-        //public static IReadOnlyDictionary<V, float> ComputePageRank<V>(this WeightedGraph<V> graph)
-        //{
-        //    return ComputePageRank(graph, weight => weight);
-        //}
+        /// <summary>
+        /// Computes PageRank for this graph, assumes edge weights are 1.
+        /// </summary>
+        /// <typeparam name="V">Some vertex type.</typeparam>
+        /// <typeparam name="E">Some edge property type.</typeparam>
+        /// <param name="graph">Some graph to find communities.</param>
+        /// <returns>The ranking of each vertex.</returns>
+        public static IReadOnlyDictionary<V, float> ComputePageRank<V, E>(this Graph<V, E> graph) where E : struct
+        {
+            // Computes with an assumption edge weight is 1.
+            return ComputePageRank(graph, x => 1F);
+        }
+        /// <summary>
+        /// Computes PageRank for this graph.
+        /// </summary>
+        /// <typeparam name="V">Some vertex type.</typeparam>
+        /// <typeparam name="E">Some edge property type.</typeparam>
+        /// <param name="graph">Some graph to compute PageRank.</param>
+        /// <returns>The ranking of each vertex.</returns>
+        public static IReadOnlyDictionary<V, float> ComputePageRank<V, E>(this Graph<V, E> graph, Func<E, float> getEdgeWeight) where E : struct
+        {
+            if (graph is null) { throw new ArgumentNullException(nameof(graph)); }
 
-        //public static IReadOnlyDictionary<V, float> ComputePageRank<V, E>(this Graph2<V, E> graph, Func<E, float> getEdgeWeight)
-        //{
-        //    throw new NotImplementedException();
-        //}
+            throw new NotImplementedException();
+        }
 
         #endregion
 
         #region Community Detection
 
-        //public abstract IEnumerable<ICollection<V>> DetectCommunities(); // streaming?, what algorithm?
+        private class SCoDAInfo
+        {
+            public readonly int Index;
+
+            public int Community;
+
+            public int Degree;
+
+            public SCoDAInfo(int index)
+            {
+                Index = index;
+                Community = index;
+                Degree = 0;
+            }
+        }
+
+        /// <summary>
+        /// Detect communities in this graph (currently, implemented w/ SCoDA).
+        /// </summary>
+        /// <typeparam name="V">Some vertex type.</typeparam>
+        /// <typeparam name="E">Some edge property type.</typeparam>
+        /// <param name="graph">Some graph to find communities.</param>
+        /// <returns>All vertices, grouped into their own community collection.</returns>
+        public static IReadOnlyCollection<V>[] DetectCommunities<V, E>(this Graph<V, E> graph) where E : struct
+        {
+            // todo: Some sort of configuration / quality / deterministic fast "good enough"
+            // perhaps: https://en.wikipedia.org/wiki/Louvain_method
+            return DetectCommunities_SCoDA(graph);
+        }
+
+        private static IReadOnlyCollection<V>[] DetectCommunities_SCoDA<V, E>(Graph<V, E> graph) where E : struct
+        {
+            // Get parameter D as mode of degree of non-leaf nodes
+            var degrees = graph.Vertices.Select(v => graph.GetSuccessors(v).Count).Where(c => c > 1).OrderByDescending(c => c);
+            var D = degrees.MostFrequent();
+
+            // Get edges, randomized
+            var edges = graph.Edges.ToArray();
+            edges.Shuffle(Calc.Random);
+
+            // Create vertex/integer lookup (not part of SCoDA, but useful here)
+            var lookup = new Dictionary<V, SCoDAInfo>();
+            foreach (var vertex in graph.Vertices)
+            {
+                lookup[vertex] = new SCoDAInfo(lookup.Count);
+            }
+
+            // Update communities
+            for (var i = 0; i < edges.Length; i++)
+            {
+                var (vtx_u, vtx_v) = edges[i];
+
+                // Get integer index of node
+                var u = lookup[vtx_u];
+                var v = lookup[vtx_v];
+
+                // Increment degree of nodes
+                u.Degree++;
+                v.Degree++;
+
+                //
+                if (u.Degree <= D && v.Degree <= D)
+                {
+                    if (u.Degree < v.Degree) { u.Community = v.Community; }
+                    else { v.Community = u.Community; }
+                }
+            }
+
+            // Create output mapping
+            var output = new Dictionary<int, HashSet<V>>();
+            foreach (var vertex in graph.Vertices)
+            {
+                var community = lookup[vertex].Community;
+                if (output.TryGetValue(community, out var members))
+                {
+                    members.Add(vertex);
+                }
+                else
+                {
+                    members = new HashSet<V> { vertex };
+                    output[community] = members;
+                }
+            }
+            return output.Values.ToArray();
+        }
 
         #endregion
 

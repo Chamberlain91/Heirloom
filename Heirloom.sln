@@ -63,7 +63,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Sandbox.Triangulat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Testing.Unit", "Testing\Heirloom.Testing.Unit\Heirloom.Testing.Unit.csproj", "{A1E9A826-CF48-437C-9320-BF9F155D4099}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Examples.PathFinding", "Examples\Heirloom.Examples.PathFinding\Heirloom.Examples.PathFinding.csproj", "{9567B4B5-06FA-4037-A62E-67B9B8274F95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Examples.PathFinding", "Examples\Heirloom.Examples.PathFinding\Heirloom.Examples.PathFinding.csproj", "{9567B4B5-06FA-4037-A62E-67B9B8274F95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Examples.GraphVis", "Examples\Heirloom.Examples.GraphVis\Heirloom.Examples.GraphVis.csproj", "{72BC3612-89F6-4CA7-9BC9-2D5922180495}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -152,6 +154,10 @@ Global
 		{9567B4B5-06FA-4037-A62E-67B9B8274F95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9567B4B5-06FA-4037-A62E-67B9B8274F95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9567B4B5-06FA-4037-A62E-67B9B8274F95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72BC3612-89F6-4CA7-9BC9-2D5922180495}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72BC3612-89F6-4CA7-9BC9-2D5922180495}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72BC3612-89F6-4CA7-9BC9-2D5922180495}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72BC3612-89F6-4CA7-9BC9-2D5922180495}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -179,6 +185,7 @@ Global
 		{AA7D8A58-218D-4B4D-83E5-BAE597CA1463} = {1E955E59-ACBD-4D88-A148-4F92E0843E84}
 		{A1E9A826-CF48-437C-9320-BF9F155D4099} = {78B2E4CD-A323-4F1F-B388-D0C0D2B7A8FC}
 		{9567B4B5-06FA-4037-A62E-67B9B8274F95} = {97C3E7D0-E5D3-4650-9B12-E1FD76CA8E48}
+		{72BC3612-89F6-4CA7-9BC9-2D5922180495} = {97C3E7D0-E5D3-4650-9B12-E1FD76CA8E48}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {696A41D8-DF3F-4D16-B3D9-514D627DCCE2}

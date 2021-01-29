@@ -373,6 +373,40 @@ namespace Heirloom.Mathematics
 
         #endregion
 
+        /// <summary>
+        /// Computes an inflated copy of the poylgon by moving vertices by their normal.
+        /// </summary>
+        /// <param name="polygon">Some polygon.</param>
+        /// <param name="factor">Some inflation factor.</param>
+        /// <returns>The inflated poylgon.</returns>
+        public static Polygon Inflate(Polygon polygon, float factor)
+        {
+            if (polygon is null) { throw new ArgumentNullException(nameof(polygon)); }
+            
+            var inflated = new Polygon();
+
+            var count = polygon.Vertices.Count;
+
+            for (var i1 = 0; i1 < count; i1++)
+            {
+                var i0 = Calc.Wrap(i1 - 1, count);
+                var i2 = Calc.Wrap(i1 + 1, count);
+
+                var v0 = polygon.Vertices[i0];
+                var v1 = polygon.Vertices[i1];
+                var v2 = polygon.Vertices[i2];
+
+                // 
+                var e12 = Vector.Normalize(v2 - v1).Perpendicular;
+                var e01 = Vector.Normalize(v1 - v0).Perpendicular;
+                var dir = factor * Vector.Normalize(e12 + e01);
+
+                inflated.Add(v1 + dir);
+            }
+
+            return inflated;
+        }
+
         #region Create (From Shape)
 
         /// <summary>
