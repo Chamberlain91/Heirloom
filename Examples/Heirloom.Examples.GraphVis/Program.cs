@@ -31,7 +31,7 @@ namespace Heirloom.Examples.GraphVis
             Communities = Graph.DetectCommunities();
             for (var i = 0; i < Communities.Length; i++)
             {
-                Log.Warning($"{i}: {string.Join(", ", Communities[i])}");
+                Log.Info($"{i}: {string.Join(", ", Communities[i])}");
 
                 var hue = i / (float) Communities.Length * 300F;
                 var color = Color.FromHSV(hue, 0.8F, 0.8F);

@@ -273,14 +273,14 @@ namespace Heirloom.Collections
         }
 
         /// <summary>
-        /// Finds the strong components and returns the vertices. <para/>
-        /// This is the first step of <see cref="GetStrongComponents"/>, and useful to skip generating the subgraph instances if they are not needed.
+        /// Finds the strongly connected components. If the graph is undirected, this simply returns the connected components.
         /// </summary>
-        /// <remarks>
-        /// Tarjan's strongly connected components algorithm.
-        /// </remarks>
-        public static IReadOnlyCollection<IReadOnlyCollection<V>> GetStrongComponentVertices<V, E>(this Graph<V, E> graph) where E : struct
+        public static IReadOnlyCollection<V>[] GetStrongComponent<V, E>(this Graph<V, E> graph) where E : struct
         {
+            if (!graph.IsDirected) { return GetComponents(graph); }
+
+            // note: Tarjan's SCC
+
             var nodes = new Dictionary<V, TarjanNode<V>>();
 
             var output = new List<IReadOnlyCollection<V>>();
@@ -295,7 +295,7 @@ namespace Heirloom.Collections
                 }
             }
 
-            return output;
+            return output.ToArray();
 
             void StrongConnect(V v_)
             {
@@ -369,46 +369,18 @@ namespace Heirloom.Collections
         }
 
         /// <summary>
-        /// Finds the strong components and returns each subgraph. <para/>
-        /// This is the first step of <see cref="GetStrongComponents"/>, and useful to skip generating the subgraph instances if they are not needed.
+        /// Finds the connected components. In a directed graph, the edge direction is ignored.
         /// </summary>
-        /// <remarks>
-        /// This will throw an exception in an undirected graph. 
-        /// </remarks>
-        public static IEnumerable<Graph<V, E>> GetStrongComponents<V, E>(this Graph<V, E> graph) where E : struct
+        public static IReadOnlyCollection<V>[] GetComponents<V, E>(this Graph<V, E> graph) where E : struct
         {
-            if (!graph.IsDirected) { throw new InvalidOperationException("Unable to find strongly connected components in a directed graph."); }
+            return Generate().ToArray();
 
-            foreach (var vertices in GetStrongComponentVertices(graph))
+            IEnumerable<IReadOnlyList<V>> Generate()
             {
-                yield return graph.CreateSubgraph(vertices);
-            }
-        }
-
-        /// <summary>
-        /// Finds the weak components (union find) and returns the vertices. <para/>
-        /// This is the first step of <see cref="GetStrongComponents"/>, and useful to skip generating the subgraph instances if they are not needed.
-        /// </summary>
-        /// <remarks>
-        /// This will ignore edge direction in a directed graph. 
-        /// </remarks>
-        public static IEnumerable<IReadOnlyCollection<V>> GetComponentVertices<V, E>(this Graph<V, E> graph) where E : struct
-        {
-            foreach (var union in Search.UnionFind(graph.Vertices, graph.GetNeighbors))
-            {
-                yield return union;
-            }
-        }
-
-        /// <summary>
-        /// Finds the weakly connected components (union find) and returns each respective subgraph. <para/>
-        /// This will ignore edge direction in a directed graph.
-        /// </summary>
-        public static IEnumerable<Graph<V, E>> GetComponents<V, E>(this Graph<V, E> graph) where E : struct
-        {
-            foreach (var vertices in GetComponentVertices(graph))
-            {
-                yield return graph.CreateSubgraph(vertices);
+                foreach (var union in Search.UnionFind(graph.Vertices, graph.GetNeighbors))
+                {
+                    yield return union;
+                }
             }
         }
 
