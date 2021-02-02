@@ -1,12 +1,9 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 using Heirloom.Collections;
 using Heirloom.Desktop;
 using Heirloom.Drawing;
-using Heirloom.IO;
 using Heirloom.Mathematics;
 using Heirloom.Utilities;
 
@@ -24,27 +21,20 @@ namespace Heirloom.Examples.GraphVis
         public Program()
             : base(CreateWindowGraphics())
         {
-            // https://github.com/gephi/gephi/wiki/Datasets
-            Graph = LoadTGF(Files.OpenStream("lesmiserables.tgf"));
+            // Generate a random graph with 10% connection density, keeping the largest component.
+            Graph = GenerateRandom(20, 0.10F);
+            Graph = Graph.CreateSubgraph(Graph.GetComponents().FindMaximal(g => g.Count));
 
-            // 
+            // Detect communities, giving each a unique color.
             Communities = Graph.DetectCommunities();
             for (var i = 0; i < Communities.Length; i++)
             {
-                Log.Info($"{i}: {string.Join(", ", Communities[i])}");
-
-                var hue = i / (float) Communities.Length * 300F;
+                var hue = i / (float) Communities.Length * 360F;
                 var color = Color.FromHSV(hue, 0.8F, 0.8F);
                 foreach (var member in Communities[i])
                 {
                     member.Color = color;
                 }
-            }
-
-            var n = 0;
-            foreach (var v in Graph.Vertices)
-            {
-                v.Position = 10 * Vector.GetParabolicSpiralPoint(n++);
             }
 
             // 
@@ -53,27 +43,59 @@ namespace Heirloom.Examples.GraphVis
             {
                 A = edge.Item1,
                 B = edge.Item2,
-                Length = 20,
+                Length = 10,
                 K = 1.25F
             }).ToArray();
+
+            // Position nodes in a parabolic spiral
+            for (var i = 0; i < Nodes.Length; i++)
+            {
+                Nodes[i].Position = 20 * Vector.GetParabolicSpiralPoint(i);
+            }
+
+            // Zoom through the first 100 simulation steps to stablize the visualization
+            for (var i = 0; i < 100; i++) { UpdateSimulation(); }
+        }
+
+        private static Graph<Node, int> GenerateRandom(int size, float probability)
+        {
+            var graph = new Graph<Node, int>();
+            var nodes = new Node[size];
+
+            for (var i = 0; i < nodes.Length; i++)
+            {
+                nodes[i] = new Node($"Node: {i}");
+                graph.AddVertex(nodes[i]);
+            }
+
+            for (var i = 0; i < nodes.Length; i++)
+            {
+                for (var j = i + 1; j < nodes.Length; j++)
+                {
+                    if (Calc.Random.Chance(probability))
+                    {
+                        graph.AddEdge(nodes[i], nodes[j]);
+                    }
+                }
+            }
+
+            return graph;
+        }
+
+        private void UpdateSimulation()
+        {
+            ApplyColumbsLaw();    // Repulsion
+            ApplyHookesLaw();     // Springs 
+            IntegrateParticles(); // Integrate
         }
 
         protected override void Update(float dt)
         {
-            UpdateApplication(dt);
+            UpdateSimulation();
             DrawApplication();
 
             // Place picture on screen
             Graphics.Screen.Refresh();
-        }
-
-        private void UpdateApplication(float dt)
-        {
-            ApplyColumbsLaw(); // Repulsion
-            ApplyHookesLaw();  // Springs
-
-            // Integrate
-            IntegrateParticles(dt);
         }
 
         private void DrawApplication()
@@ -86,42 +108,35 @@ namespace Heirloom.Examples.GraphVis
             var scale = Calc.Min(Graphics.Surface.Width, Graphics.Surface.Height) / (64 + Calc.Max(bounds.Width, bounds.Height));
             Graphics.SetCamera(bounds.Center, scale);
 
-            // Draw communities
-            foreach (var community in Communities)
-            {
-                Graphics.Color = community.First().Color * Color.DarkGray;
-                var hull = Polygon.CreateConvexHull(community.Select(member => member.Position));
-                hull = Polygon.Inflate(hull, 10);
-
-                Graphics.DrawPolygon(hull);
-
-                Graphics.Color = community.First().Color;
-                Graphics.DrawPolygonOutline(hull, 2);
-            }
-
             // Draw edges
             Graphics.Color = Color.Gray;
             foreach (var (a, b) in Graph.Edges)
             {
-                Graphics.DrawLine(a.Position, b.Position);
+                Graphics.DrawLine(a.Position, b.Position, Graphics.ApproximatePixelScale);
             }
 
             // Draw vertices
             foreach (var v in Graph.Vertices)
             {
                 Graphics.Color = v.Color;
-                Graphics.DrawCircle(v.Position, 3);
+                Graphics.DrawCircle(v.Position, 5);
             }
         }
 
-        private void IntegrateParticles(float dt)
+        private void IntegrateParticles()
         {
+            var div = 10 + Calc.Sqrt(Nodes.Length);
+            var err = 1F - Springs.Length / (Nodes.Length * (Nodes.Length - 1) / 2F) / 2F;
+
             foreach (var node in Nodes)
             {
-                node.Velocity += node.Force / 10F;
-                node.Velocity *= 0.90F;
+                node.Velocity += node.Force / div;
+                node.Velocity *= err;
 
-                node.Position += node.Velocity / 10F;
+                // Speed limit, prevent explosions
+                if (node.Velocity.Length > 1000) { node.Velocity = Vector.Normalize(node.Velocity) * 1000; }
+
+                node.Position += node.Velocity / div;
 
                 node.Force = Vector.Zero;
             }
@@ -225,62 +240,9 @@ namespace Heirloom.Examples.GraphVis
             public float K;
         }
 
-        private static Graph<Node, int> LoadTGF(Stream stream)
-        {
-            using var reader = new StreamReader(stream);
-
-            const int READ_VERTICES = 0;
-            const int READ_EDGES = 1;
-
-            var graph = new Graph<Node, int>(directed: false);
-            var names = new Dictionary<int, Node>();
-
-            var mode = READ_VERTICES;
-            while (!reader.EndOfStream)
-            {
-                var line = reader.ReadLine();
-
-                if (line == "#") { mode = READ_EDGES; }
-                else
-                if (mode == READ_VERTICES)
-                {
-                    var match = Regex.Match(line, @"(\d+)\s+(.+)");
-                    if (match.Success)
-                    {
-                        var id = int.Parse(match.Groups[1].Value);
-                        var name = match.Groups[2].Value;
-
-                        var node = new Node(name);
-                        graph.AddVertex(node);
-                        names[id] = node;
-                    }
-                    else
-                    {
-                        Log.Warning("Unable to read line from TFG file");
-                    }
-                }
-                else
-                {
-                    var match = Regex.Match(line, @"(\d+)\s+(\d+)");
-                    if (match.Success)
-                    {
-                        var a = names[int.Parse(match.Groups[1].Value)];
-                        var b = names[int.Parse(match.Groups[2].Value)];
-                        graph.AddEdge(a, b);
-                    }
-                    else
-                    {
-                        Log.Warning("Unable to read line from TFG file");
-                    }
-                }
-            }
-
-            return graph;
-        }
-
         private static GraphicsContext CreateWindowGraphics()
         {
-            var window = new Window("Path Finding", (640, 640), MultisampleQuality.High);
+            var window = new Window("Graph Visualization", (640, 640), MultisampleQuality.High);
             window.Position = (IntVector) (Display.Primary.Size - window.Size) / 2;
 
             return window.Graphics;

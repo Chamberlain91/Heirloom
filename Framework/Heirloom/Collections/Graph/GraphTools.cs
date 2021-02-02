@@ -339,7 +339,7 @@ namespace Heirloom.Collections
         /// <typeparam name="V">Some vertex type.</typeparam>
         /// <typeparam name="E">Some edge property type.</typeparam>
         /// <param name="graph">Some graph to find a path within.</param>
-        public static IReadOnlyCollection<V>[] GetStrongComponent<V, E>(this Graph<V, E> graph) where E : struct
+        public static IReadOnlyCollection<V>[] GetStrongComponents<V, E>(this Graph<V, E> graph) where E : struct
         {
             if (!graph.IsDirected) { return GetComponents(graph); }
 
