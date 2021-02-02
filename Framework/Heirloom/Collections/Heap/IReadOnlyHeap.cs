@@ -7,7 +7,7 @@ namespace Heirloom.Collections
     /// </summary>
     /// <tags>Heap, Priority</tags>
     /// <category>Heap</category>
-    public interface IReadOnlyHeap<T> : IReadOnlyCollection<T> // TODO: Implement all of ICollection<T>
+    public interface IReadOnlyHeap<T> : IReadOnlyCollection<T>
     {
         /// <summary>
         /// The comparer used to compare item priority.

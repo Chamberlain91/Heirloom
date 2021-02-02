@@ -256,6 +256,67 @@ namespace Heirloom.Collections
 
         #endregion
 
+        /// <summary>
+        /// Computes all paths from <paramref name="source"/> to every other vertex.
+        /// If a vertex is unreachable, it won't be included in the output.
+        /// </summary>
+        /// <typeparam name="V">Some vertex type.</typeparam>
+        /// <typeparam name="E">Some edge property type.</typeparam>
+        /// <param name="graph">Some graph to find a path within.</param>
+        /// <param name="source">Some vertex within the graph.</param>
+        /// <param name="cost">Some graph to find a path within.</param>
+        /// <returns>The dictionary of shorest path predecessors.</returns>
+        /// <remarks>Implements Dijktra's shorest path algorithm.</remarks>
+        public static IReadOnlyDictionary<V, V> ComputeAllPaths<V, E>(this Graph<V, E> graph, V source, ActualCost<V> cost) where E : struct
+        {
+            if (graph is null) { throw new ArgumentNullException(nameof(graph)); }
+            if (cost is null) { throw new ArgumentNullException(nameof(cost)); }
+
+            if (!graph.ContainsVertex(source))
+            {
+                throw new ArgumentException("Source vertex not contained by graph", nameof(source));
+            }
+
+            var dist = new Dictionary<V, float>();
+            var prev = new Dictionary<V, V>();
+
+            dist[source] = 0F;
+
+            // Initialize priority queue
+            var Q = new PriorityQueue<V, float>();
+            foreach (var v in graph.Vertices)
+            {
+                if (!Equals(v, source))
+                {
+                    dist[v] = float.PositiveInfinity;
+                    // prev[v] = undefined;
+                }
+
+                Q.Add(v, dist[v]);
+            }
+
+            // Process vertices
+            while (Q.Count > 0)
+            {
+                var u = Q.Pop();
+
+                foreach (var v in graph.GetSuccessors(u))
+                {
+                    var alt = dist[u] + cost(u, v);
+                    if (alt < dist[v])
+                    {
+                        dist[v] = alt;
+                        prev[v] = u;
+
+                        // Cause the queue to reorder
+                        Q.Update(v, alt);
+                    }
+                }
+            }
+
+            return prev;
+        }
+
         #region Components (Strong & Weak)
 
         private class TarjanNode<V>
@@ -275,6 +336,9 @@ namespace Heirloom.Collections
         /// <summary>
         /// Finds the strongly connected components. If the graph is undirected, this simply returns the connected components.
         /// </summary>
+        /// <typeparam name="V">Some vertex type.</typeparam>
+        /// <typeparam name="E">Some edge property type.</typeparam>
+        /// <param name="graph">Some graph to find a path within.</param>
         public static IReadOnlyCollection<V>[] GetStrongComponent<V, E>(this Graph<V, E> graph) where E : struct
         {
             if (!graph.IsDirected) { return GetComponents(graph); }
@@ -371,6 +435,9 @@ namespace Heirloom.Collections
         /// <summary>
         /// Finds the connected components. In a directed graph, the edge direction is ignored.
         /// </summary>
+        /// <typeparam name="V">Some vertex type.</typeparam>
+        /// <typeparam name="E">Some edge property type.</typeparam>
+        /// <param name="graph">Some graph to find a path within.</param>
         public static IReadOnlyCollection<V>[] GetComponents<V, E>(this Graph<V, E> graph) where E : struct
         {
             return Generate().ToArray();
@@ -391,7 +458,11 @@ namespace Heirloom.Collections
         /// <summary>
         /// Computes the minimum spanning tree/arborescence of the graph.
         /// </summary>
-        /// <returns>Implemented with ??? (for directed) or Prims/Jarniks (for undirected) algorithm.</returns>
+        /// <typeparam name="V">Some vertex type.</typeparam>
+        /// <typeparam name="E">Some edge property type.</typeparam>
+        /// <param name="graph">Some graph to find a path within.</param>
+        /// <returns>The minimum spnnign tree.</returns>
+        /// <remarks>Currently only implements minimum spanning tree for undirected graphs (Prims/Jarniks).</remarks>
         public static Graph<V, W> GetMinimumSpanning<V, W>(this Graph<V, W> graph) where W : struct, IComparable
         {
             if (graph.IsDirected)
@@ -406,7 +477,7 @@ namespace Heirloom.Collections
 
         private static Graph<V, W> GetMinimumSpanningArborescence<V, W>(Graph<V, W> graph) where W : struct, IComparable
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Minimum spanning arborescence is not yet implemented");
         }
 
         /// <summary>
@@ -470,6 +541,9 @@ namespace Heirloom.Collections
         /// <summary>
         /// Produces a topological ordering of the graph.
         /// </summary>
+        /// <typeparam name="V">Some vertex type.</typeparam>
+        /// <typeparam name="E">Some edge property type.</typeparam>
+        /// <param name="graph">Some graph to find a path within.</param>
         /// <exception cref="InvalidOperationException">Unable to produce a topological ordering of a undirected graph.</exception>
         /// <exception cref="InvalidOperationException">Unable to produce a topological ordering of a cyclic graph.</exception>
         public static IEnumerable<T> GetTopologicalOrder<T, E>(this Graph<T, E> graph) where E : struct

@@ -38,6 +38,18 @@ namespace Heirloom.Mathematics
         public const float Sqrt2 = 1.41421F;
 
         /// <summary>
+        /// <para> The golden angle. </para>
+        /// <para> Approximately 2.39996... </para>
+        /// </summary>
+        public const float GoldenAngle = 2.39996F;
+
+        /// <summary>
+        /// <para> The golden ratio. </para>
+        /// <para> Approximately 1.618033... </para>
+        /// </summary>
+        public const float GoldenRatio = 1.618033F;
+
+        /// <summary>
         /// Pi / 180.0
         /// </summary>
         public const float ToRadians = Pi / 180f;

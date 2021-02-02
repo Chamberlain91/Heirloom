@@ -366,6 +366,20 @@ namespace Heirloom.Mathematics
             };
         }
 
+        /// <summary>
+        /// Computes the position of the ith point in Fermat's spiral.
+        /// </summary>
+        /// <param name="index">The ith spiral point.</param>
+        public static Vector GetParabolicSpiralPoint(int index)
+        {
+            if (index < 0) { throw new ArgumentException($"Argument '{nameof(index)}' must be greater non-negative.", nameof(index)); }
+
+            var a = index * Calc.GoldenAngle;
+            var r = Calc.Sqrt(index);
+
+            return FromAngle(a) * r;
+        }
+
         #endregion
 
         #region Dot (Scalar) Product 

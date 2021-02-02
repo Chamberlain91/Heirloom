@@ -9,7 +9,7 @@ namespace Heirloom.Collections
     /// <typeparam name="T">Type of the elements.</typeparam>
     /// <tags>Heap, Priority</tags>
     /// <category>Heap</category>
-    public interface IHeap<T> : IReadOnlyHeap<T>
+    public interface IHeap<T> : IReadOnlyHeap<T> // TODO: Implement all of ICollection<T>?
     {
         /// <summary>
         /// Adds an item to the heap.

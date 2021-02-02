@@ -41,11 +41,10 @@ namespace Heirloom.Examples.GraphVis
                 }
             }
 
-            // Scatter graph points randomly
-            var bounds = new Rectangle(32, 32, Graphics.Surface.Width - 64, Graphics.Surface.Height - 64);
+            var n = 0;
             foreach (var v in Graph.Vertices)
             {
-                v.Position = Calc.Random.NextVector(bounds);
+                v.Position = 10 * Vector.GetParabolicSpiralPoint(n++);
             }
 
             // 
@@ -54,8 +53,8 @@ namespace Heirloom.Examples.GraphVis
             {
                 A = edge.Item1,
                 B = edge.Item2,
-                Length = 250,
-                K = 2
+                Length = 20,
+                K = 1.25F
             }).ToArray();
         }
 
@@ -120,7 +119,7 @@ namespace Heirloom.Examples.GraphVis
             foreach (var node in Nodes)
             {
                 node.Velocity += node.Force / 10F;
-                node.Velocity *= 0.95F;
+                node.Velocity *= 0.90F;
 
                 node.Position += node.Velocity / 10F;
 
@@ -141,7 +140,7 @@ namespace Heirloom.Examples.GraphVis
                     var distance = offset.Length;
                     var dir = offset.Normalized;
 
-                    var strength = 10000F / (0.5F * (distance * distance) + 0.001F);
+                    var strength = 10000F / (0.5F * (distance * distance) + 0.0001F);
                     particleA.Force += dir * strength;
                     particleB.Force -= dir * strength;
                 }
@@ -162,7 +161,7 @@ namespace Heirloom.Examples.GraphVis
             }
         }
 
-        public sealed class Node
+        public sealed class Node : System.IEquatable<Node>
         {
             public readonly string Name;
 
@@ -179,10 +178,40 @@ namespace Heirloom.Examples.GraphVis
                 Name = name ?? throw new System.ArgumentNullException(nameof(name));
             }
 
+            #region Equality
+
+            public override bool Equals(object obj)
+            {
+                return Equals(obj as Node);
+            }
+
+            public bool Equals(Node other)
+            {
+                return other != null &&
+                       Name == other.Name;
+            }
+
+            public override int GetHashCode()
+            {
+                return System.HashCode.Combine(Name);
+            }
+
             public override string ToString()
             {
                 return Name;
             }
+
+            public static bool operator ==(Node left, Node right)
+            {
+                return EqualityComparer<Node>.Default.Equals(left, right);
+            }
+
+            public static bool operator !=(Node left, Node right)
+            {
+                return !(left == right);
+            }
+
+            #endregion
         }
 
         public sealed class Spring
