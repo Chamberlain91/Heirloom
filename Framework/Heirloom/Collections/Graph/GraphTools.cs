@@ -63,7 +63,7 @@ namespace Heirloom.Collections
         }
 
         /// <summary>
-        /// Detect communities in this graph (currently, implemented w/ SCoDA).
+        /// Detect communities in this graph (currently implemented with SCoDA).
         /// </summary>
         /// <typeparam name="V">Some vertex type.</typeparam>
         /// <typeparam name="E">Some edge property type.</typeparam>
@@ -133,189 +133,6 @@ namespace Heirloom.Collections
         }
 
         #endregion
-
-        #region Find Path (Heuristic Search, A*)
-
-        /// <summary>
-        /// Find a path from some starting vertex until a goal condition is reached.
-        /// </summary>
-        /// <typeparam name="V">Some vertex type.</typeparam>
-        /// <typeparam name="E">Some edge property type.</typeparam>
-        /// <param name="graph">Some graph to find a path within.</param>
-        /// <param name="start">Some vertex within the graph to start.</param>
-        /// <param name="goalCondition">Some condition to accept goal state.</param>
-        /// <param name="cost">The cost between neighboring vertices.</param>
-        /// <param name="heuristic">The cost estimation to reach the goal condition.</param>
-        /// <returns>A sequence of vertices from start (inclusive) to goal (inclusive).</returns>
-        public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
-            V start,
-            Func<V, bool> goalCondition,
-            ActualCost<V> cost,
-            HeuristicCost<V> heuristic) where E : struct
-        {
-            return Search.HeuristicSearch(start, goalCondition, graph.GetSuccessors, cost, heuristic);
-        }
-
-        /// <summary>
-        /// Find a path from some starting vertex until a goal condition is reached.
-        /// </summary>
-        /// <typeparam name="V">Some vertex type.</typeparam>
-        /// <typeparam name="E">Some edge property type.</typeparam>
-        /// <param name="graph">Some graph to find a path within.</param>
-        /// <param name="start">Some vertex within the graph to start.</param>
-        /// <param name="goalCondition">Some condition to accept goal state.</param>
-        /// <param name="getCost">Gets the edge cost from <typeparamref name="E"/>.</param>
-        /// <param name="heuristic">The cost estimation to reach the goal condition.</param>
-        /// <returns>A sequence of vertices from start (inclusive) to goal (inclusive).</returns>
-        public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
-            V start,
-            Func<V, bool> goalCondition,
-            Func<E, float> getCost,
-            HeuristicCost<V> heuristic) where E : struct
-        {
-            return FindPath(graph, start, goalCondition, (a, b) => getCost(graph.GetEdgeProperty(a, b)), heuristic);
-        }
-
-        /// <summary>
-        /// Find a path from some starting vertex until a goal condition is reached.
-        /// </summary>
-        /// <typeparam name="V">Some vertex type.</typeparam>
-        /// <typeparam name="E">Some edge property type.</typeparam>
-        /// <param name="graph">Some graph to find a path within.</param>
-        /// <param name="start">Some vertex within the graph to start.</param>
-        /// <param name="goalCondition">Some condition to accept goal state.</param>
-        /// <param name="getCost">Gets the edge cost from <typeparamref name="E"/>.</param>
-        /// <returns>A sequence of vertices from start (inclusive) to goal (inclusive).</returns>
-        public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
-            V start,
-            Func<V, bool> goalCondition,
-            Func<E, float> getCost) where E : struct
-        {
-            // degenerates to Djikstra's?
-            return FindPath(graph, start, goalCondition, getCost, x => 0);
-        }
-
-        /// <summary>
-        /// Find a path between to vertices in the graph.
-        /// </summary>
-        /// <typeparam name="V">Some vertex type.</typeparam>
-        /// <typeparam name="E">Some edge property type.</typeparam>
-        /// <param name="graph">Some graph to find a path within.</param>
-        /// <param name="start">Some vertex within the graph to act as the start vertex.</param>
-        /// <param name="target">Some vertex within the graph to act as the goal vertex.</param>
-        /// <param name="cost">The cost between neighboring vertices.</param>
-        /// <param name="heuristic">The cost estimation to reach the goal condition.</param>
-        /// <returns>A sequence of vertices from start (inclusive) to goal (inclusive).</returns>
-        public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
-            V start,
-            V target,
-            ActualCost<V> cost,
-            HeuristicCost<V> heuristic) where E : struct
-        {
-            return FindPath(graph, start, vtx => Equals(vtx, target), cost, heuristic);
-        }
-
-        /// <summary>
-        /// Find a path between to vertices in the graph.
-        /// </summary>
-        /// <typeparam name="V">Some vertex type.</typeparam>
-        /// <typeparam name="E">Some edge property type.</typeparam>
-        /// <param name="graph">Some graph to find a path within.</param>
-        /// <param name="start">Some vertex within the graph to act as the start vertex.</param>
-        /// <param name="target">Some vertex within the graph to act as the goal vertex.</param>
-        /// <param name="getCost">Gets the edge cost from <typeparamref name="E"/>.</param>
-        /// <param name="heuristic">The cost estimation to reach the goal condition.</param>
-        /// <returns>A sequence of vertices from start (inclusive) to goal (inclusive).</returns>
-        public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
-            V start,
-            V target,
-            Func<E, float> getCost,
-            HeuristicCost<V> heuristic) where E : struct
-        {
-            return FindPath(graph, start, vtx => Equals(vtx, target), getCost, heuristic);
-        }
-
-        /// <summary>
-        /// Find a path between to vertices in the graph.
-        /// </summary>
-        /// <typeparam name="V">Some vertex type.</typeparam>
-        /// <typeparam name="E">Some edge property type.</typeparam>
-        /// <param name="graph">Some graph to find a path within.</param>
-        /// <param name="start">Some vertex within the graph to act as the start vertex.</param>
-        /// <param name="target">Some vertex within the graph to act as the goal vertex.</param>
-        /// <param name="getCost">Gets the edge cost from <typeparamref name="E"/>.</param>
-        /// <returns>A sequence of vertices from start (inclusive) to goal (inclusive).</returns>
-        public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
-            V start,
-            V target,
-            Func<E, float> getCost) where E : struct
-        {
-            // degenerates to Djikstra's?
-            return FindPath(graph, start, vtx => Equals(vtx, target), getCost, x => 0);
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Computes all paths from <paramref name="source"/> to every other vertex.
-        /// If a vertex is unreachable, it won't be included in the output.
-        /// </summary>
-        /// <typeparam name="V">Some vertex type.</typeparam>
-        /// <typeparam name="E">Some edge property type.</typeparam>
-        /// <param name="graph">Some graph to find a path within.</param>
-        /// <param name="source">Some vertex within the graph.</param>
-        /// <param name="cost">Some graph to find a path within.</param>
-        /// <returns>The dictionary of shorest path predecessors.</returns>
-        /// <remarks>Implements Dijktra's shorest path algorithm.</remarks>
-        public static IReadOnlyDictionary<V, V> ComputeAllPaths<V, E>(this Graph<V, E> graph, V source, ActualCost<V> cost) where E : struct
-        {
-            if (graph is null) { throw new ArgumentNullException(nameof(graph)); }
-            if (cost is null) { throw new ArgumentNullException(nameof(cost)); }
-
-            if (!graph.ContainsVertex(source))
-            {
-                throw new ArgumentException("Source vertex not contained by graph", nameof(source));
-            }
-
-            var dist = new Dictionary<V, float>();
-            var prev = new Dictionary<V, V>();
-
-            dist[source] = 0F;
-
-            // Initialize priority queue
-            var Q = new PriorityQueue<V, float>();
-            foreach (var v in graph.Vertices)
-            {
-                if (!Equals(v, source))
-                {
-                    dist[v] = float.PositiveInfinity;
-                    // prev[v] = undefined;
-                }
-
-                Q.Add(v, dist[v]);
-            }
-
-            // Process vertices
-            while (Q.Count > 0)
-            {
-                var u = Q.Pop();
-
-                foreach (var v in graph.GetSuccessors(u))
-                {
-                    var alt = dist[u] + cost(u, v);
-                    if (alt < dist[v])
-                    {
-                        dist[v] = alt;
-                        prev[v] = u;
-
-                        // Cause the queue to reorder
-                        Q.Update(v, alt);
-                    }
-                }
-            }
-
-            return prev;
-        }
 
         #region Components (Strong & Weak)
 
@@ -453,85 +270,260 @@ namespace Heirloom.Collections
 
         #endregion
 
-        #region Minimum Spanning (Tree/Arborescence)
+        #region Find Path (Heuristic Search, A*)
 
         /// <summary>
-        /// Computes the minimum spanning tree/arborescence of the graph.
+        /// Find a path from some starting vertex until a goal condition is reached.
         /// </summary>
         /// <typeparam name="V">Some vertex type.</typeparam>
         /// <typeparam name="E">Some edge property type.</typeparam>
         /// <param name="graph">Some graph to find a path within.</param>
-        /// <returns>The minimum spnnign tree.</returns>
-        /// <remarks>Currently only implements minimum spanning tree for undirected graphs (Prims/Jarniks).</remarks>
-        public static Graph<V, W> GetMinimumSpanning<V, W>(this Graph<V, W> graph) where W : struct, IComparable
+        /// <param name="start">Some vertex within the graph to start.</param>
+        /// <param name="goalCondition">Some condition to accept goal state.</param>
+        /// <param name="cost">The cost between neighboring vertices.</param>
+        /// <param name="heuristic">The cost estimation to reach the goal condition.</param>
+        /// <returns>A sequence of coordinates from start (inclusive) to goal (inclusive) or null if a path cannot be found.</returns>
+        public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
+            V start,
+            Func<V, bool> goalCondition,
+            ActualCost<V> cost,
+            HeuristicCost<V> heuristic) where E : struct
         {
-            if (graph.IsDirected)
-            {
-                return GetMinimumSpanningArborescence(graph);
-            }
-            else
-            {
-                return GetMinimumSpanningTree(graph);
-            }
-        }
-
-        private static Graph<V, W> GetMinimumSpanningArborescence<V, W>(Graph<V, W> graph) where W : struct, IComparable
-        {
-            throw new NotImplementedException("Minimum spanning arborescence is not yet implemented");
+            return Search.HeuristicSearch(start, goalCondition, graph.GetSuccessors, cost, heuristic);
         }
 
         /// <summary>
-        /// Implements Prim/Jarnik' MST Algorthim. (https://en.wikipedia.org/wiki/Prim%27s_algorithm)
+        /// Find a path from some starting vertex until a goal condition is reached.
         /// </summary>
-        private static Graph<V, W> GetMinimumSpanningTree<V, W>(Graph<V, W> graph) where W : struct, IComparable
+        /// <typeparam name="V">Some vertex type.</typeparam>
+        /// <typeparam name="E">Some edge property type.</typeparam>
+        /// <param name="graph">Some graph to find a path within.</param>
+        /// <param name="start">Some vertex within the graph to start.</param>
+        /// <param name="goalCondition">Some condition to accept goal state.</param>
+        /// <param name="getCost">Gets the edge cost from <typeparamref name="E"/>.</param>
+        /// <param name="heuristic">The cost estimation to reach the goal condition.</param>
+        /// <returns>A sequence of coordinates from start (inclusive) to goal (inclusive) or null if a path cannot be found.</returns>
+        public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
+            V start,
+            Func<V, bool> goalCondition,
+            Func<E, float> getCost,
+            HeuristicCost<V> heuristic) where E : struct
         {
-            // todo: recycle/optimize use of C E and Q?
-            var C = new Dictionary<V, W>();
-            var E = new Dictionary<V, V>();
-            var Q = new Heap<V>((a, b) => C[a].CompareTo(C[b]));
+            return FindPath(graph, start, goalCondition, (a, b) => getCost(graph.GetEdgeProperty(a, b)), heuristic);
+        }
 
-            // Construct output graph (ie, the forest)
-            var F = new Graph<V, W>();
+        /// <summary>
+        /// Find a path from some starting vertex until a goal condition is reached.
+        /// </summary>
+        /// <typeparam name="V">Some vertex type.</typeparam>
+        /// <typeparam name="E">Some edge property type.</typeparam>
+        /// <param name="graph">Some graph to find a path within.</param>
+        /// <param name="start">Some vertex within the graph to start.</param>
+        /// <param name="goalCondition">Some condition to accept goal state.</param>
+        /// <param name="getCost">Gets the edge cost from <typeparamref name="E"/>.</param>
+        /// <returns>A sequence of coordinates from start (inclusive) to goal (inclusive) or null if a path cannot be found.</returns>
+        public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
+            V start,
+            Func<V, bool> goalCondition,
+            Func<E, float> getCost) where E : struct
+        {
+            // degenerates to Djikstra's?
+            return FindPath(graph, start, goalCondition, getCost, x => 0);
+        }
 
-            // Initialize
-            foreach (var v in graph.Vertices)
+        /// <summary>
+        /// Find a path between to vertices in the graph.
+        /// </summary>
+        /// <typeparam name="V">Some vertex type.</typeparam>
+        /// <typeparam name="E">Some edge property type.</typeparam>
+        /// <param name="graph">Some graph to find a path within.</param>
+        /// <param name="start">Some vertex within the graph to act as the start vertex.</param>
+        /// <param name="target">Some vertex within the graph to act as the goal vertex.</param>
+        /// <param name="cost">The cost between neighboring vertices.</param>
+        /// <param name="heuristic">The cost estimation to reach the goal condition.</param>
+        /// <returns>A sequence of coordinates from start (inclusive) to goal (inclusive) or null if a path cannot be found.</returns>
+        public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
+            V start,
+            V target,
+            ActualCost<V> cost,
+            HeuristicCost<V> heuristic) where E : struct
+        {
+            return FindPath(graph, start, vtx => Equals(vtx, target), cost, heuristic);
+        }
+
+        /// <summary>
+        /// Find a path between to vertices in the graph.
+        /// </summary>
+        /// <typeparam name="V">Some vertex type.</typeparam>
+        /// <typeparam name="E">Some edge property type.</typeparam>
+        /// <param name="graph">Some graph to find a path within.</param>
+        /// <param name="start">Some vertex within the graph to act as the start vertex.</param>
+        /// <param name="target">Some vertex within the graph to act as the goal vertex.</param>
+        /// <param name="getCost">Gets the edge cost from <typeparamref name="E"/>.</param>
+        /// <param name="heuristic">The cost estimation to reach the goal condition.</param>
+        /// <returns>A sequence of coordinates from start (inclusive) to goal (inclusive) or null if a path cannot be found.</returns>
+        public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
+            V start,
+            V target,
+            Func<E, float> getCost,
+            HeuristicCost<V> heuristic) where E : struct
+        {
+            return FindPath(graph, start, vtx => Equals(vtx, target), getCost, heuristic);
+        }
+
+        /// <summary>
+        /// Find a path between to vertices in the graph.
+        /// </summary>
+        /// <typeparam name="V">Some vertex type.</typeparam>
+        /// <typeparam name="E">Some edge property type.</typeparam>
+        /// <param name="graph">Some graph to find a path within.</param>
+        /// <param name="start">Some vertex within the graph to act as the start vertex.</param>
+        /// <param name="target">Some vertex within the graph to act as the goal vertex.</param>
+        /// <param name="getCost">Gets the edge cost from <typeparamref name="E"/>.</param>
+        /// <returns>A sequence of coordinates from start (inclusive) to goal (inclusive) or null if a path cannot be found.</returns>
+        public static IReadOnlyList<V> FindPath<V, E>(this IReadOnlyGraph<V, E> graph,
+            V start,
+            V target,
+            Func<E, float> getCost) where E : struct
+        {
+            // degenerates to Djikstra's?
+            return FindPath(graph, start, vtx => Equals(vtx, target), getCost, x => 0);
+        }
+
+        #endregion
+
+        #region Find All Paths (Djikstras)
+
+        /// <summary>
+        /// Computes all paths from <paramref name="source"/> to every other vertex.
+        /// If a vertex is unreachable, it won't be included in the output.
+        /// </summary>
+        /// <typeparam name="V">Some vertex type.</typeparam>
+        /// <typeparam name="E">Some edge property type.</typeparam>
+        /// <param name="graph">Some graph to find a path within.</param>
+        /// <param name="source">Some vertex within the graph.</param>
+        /// <param name="cost">Some graph to find a path within.</param>
+        /// <returns>The dictionary of shorest path predecessors.</returns>
+        /// <remarks>Implements Dijktra's shorest path algorithm.</remarks>
+        // todo: finalize return
+        public static IReadOnlyDictionary<V, V> FindAllPaths<V, E>(this Graph<V, E> graph, V source, ActualCost<V> cost) where E : struct
+        {
+            if (graph is null) { throw new ArgumentNullException(nameof(graph)); }
+            if (cost is null) { throw new ArgumentNullException(nameof(cost)); }
+
+            if (!graph.ContainsVertex(source))
             {
-                // C[v] = float.PositiveInfinity;
-                Q.Add(v);
+                throw new ArgumentException("Source vertex not contained by graph", nameof(source));
             }
 
-            while (Q.Count > 0)
+            var dist = new Dictionary<V, float>();
+            var prev = new Dictionary<V, V>();
+
+            dist[source] = 0F;
+
+            // Initialize priority queue
+            var Q = new PriorityQueue<V, float>();
+            foreach (var v in graph.Vertices)
             {
-                var v = Q.Remove();
-
-                // Insert vertex into tree
-                F.AddVertex(v);
-
-                // Add best edge to tree, if a minimum weight is known.
-                if (E.TryGetValue(v, out var e))
+                if (!Equals(v, source))
                 {
-                    F.AddEdge(e, v, C[v]);
+                    dist[v] = float.PositiveInfinity;
+                    // prev[v] = undefined;
                 }
 
-                // 
-                foreach (var w in graph.GetSuccessors(v))
-                {
-                    if (Q.Contains(w))
-                    {
-                        var weight = graph.GetEdgeProperty(v, w);
-                        if (!C.ContainsKey(w) || weight.CompareTo(C[w]) < 0)
-                        {
-                            C[w] = weight;
-                            E[w] = v;
+                Q.Add(v, dist[v]);
+            }
 
-                            // Notify the queue the priority of the item has changed
-                            Q.Update(w);
-                        }
+            // Process vertices
+            while (Q.Count > 0)
+            {
+                var u = Q.Pop();
+
+                foreach (var v in graph.GetSuccessors(u))
+                {
+                    var alt = dist[u] + cost(u, v);
+                    if (alt < dist[v])
+                    {
+                        dist[v] = alt;
+                        prev[v] = u;
+
+                        // Cause the queue to reorder
+                        Q.Update(v, alt);
                     }
                 }
             }
 
-            return F;
+            return prev;
+        }
+
+        #endregion
+
+        #region Minimum Spanning (Tree/Arborescence)
+
+        /// <summary>
+        /// Computes the minimum spanning tree of an undirected graph.
+        /// </summary>
+        /// <typeparam name="V">Some vertex type.</typeparam>
+        /// <typeparam name="W">Some edge property type that is comparable.</typeparam>
+        /// <param name="graph">Some graph to find a path within.</param>
+        /// <returns>The minimum spanning tree.</returns>
+        /// <remarks>Implements Prim-Jarnik MST algorithm for undirected graphs.</remarks>
+        public static Graph<V, W> GetMinimumSpanningTree<V, W>(this Graph<V, W> graph) where W : struct, IComparable
+        {
+            if (graph.IsDirected)
+            {
+                throw new InvalidOperationException("Unable to compute a minimum spanning tree of a directed graph.");
+            }
+            else
+            {
+                // todo: recycle/optimize use of C E and Q?
+                var C = new Dictionary<V, W>();
+                var E = new Dictionary<V, V>();
+                var Q = new Heap<V>((a, b) => C[a].CompareTo(C[b]));
+
+                // Construct output graph (ie, the forest)
+                var F = new Graph<V, W>();
+
+                // Initialize
+                foreach (var v in graph.Vertices)
+                {
+                    // C[v] = float.PositiveInfinity;
+                    Q.Add(v);
+                }
+
+                while (Q.Count > 0)
+                {
+                    var v = Q.Remove();
+
+                    // Insert vertex into tree
+                    F.AddVertex(v);
+
+                    // Add best edge to tree, if a minimum weight is known.
+                    if (E.TryGetValue(v, out var e))
+                    {
+                        F.AddEdge(e, v, C[v]);
+                    }
+
+                    // 
+                    foreach (var w in graph.GetSuccessors(v))
+                    {
+                        if (Q.Contains(w))
+                        {
+                            var weight = graph.GetEdgeProperty(v, w);
+                            if (!C.ContainsKey(w) || weight.CompareTo(C[w]) < 0)
+                            {
+                                C[w] = weight;
+                                E[w] = v;
+
+                                // Notify the queue the priority of the item has changed
+                                Q.Update(w);
+                            }
+                        }
+                    }
+                }
+
+                return F;
+            }
         }
 
         #endregion
@@ -546,12 +538,12 @@ namespace Heirloom.Collections
         /// <param name="graph">Some graph to find a path within.</param>
         /// <exception cref="InvalidOperationException">Unable to produce a topological ordering of a undirected graph.</exception>
         /// <exception cref="InvalidOperationException">Unable to produce a topological ordering of a cyclic graph.</exception>
-        public static IEnumerable<T> GetTopologicalOrder<T, E>(this Graph<T, E> graph) where E : struct
+        public static IEnumerable<V> GetTopologicalOrder<V, E>(this Graph<V, E> graph) where E : struct
         {
             if (graph.IsDirected)
             {
                 var ordering = Search.GetTopologicalOrder(graph.Vertices, graph.GetSuccessors);
-                if (ordering == null) { throw new InvalidOperationException("Unable to determine topological order of an cyclic graph."); }
+                if (ordering == null) { throw new InvalidOperationException("Unable to determine topological order of a cyclic graph."); }
                 return ordering;
             }
             else
