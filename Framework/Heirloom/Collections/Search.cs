@@ -298,7 +298,7 @@ namespace Heirloom.Collections
             var output = new List<T>();
 
             var items = new Bag<T>(nodes);
-            while (items.TryTake(out var start))
+            while (items.TryRemove(out var start))
             {
                 // Node has been marked, skip
                 // todo: this feels potentially inefficient, somehow implement bag to have O(1) remove intead of O(n) skips?

@@ -43,7 +43,7 @@ namespace Heirloom.Collections
             }
         }
 
-        public bool TryTake(out T item)
+        public bool TryRemove(out T item)
         {
             if (TryPeek(out item))
             {
@@ -69,9 +69,9 @@ namespace Heirloom.Collections
             }
         }
 
-        public T Take()
+        public T Remove()
         {
-            if (TryTake(out var item))
+            if (TryRemove(out var item))
             {
                 return item;
             }
