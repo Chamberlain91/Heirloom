@@ -1,4 +1,4 @@
-﻿
+
 using Heirloom.Mathematics;
 
 namespace Heirloom.Drawing.Software
@@ -20,7 +20,6 @@ namespace Heirloom.Drawing.Software
         public void Set(IntVector co, Color color)
         {
             // Clamp (saturate)
-            // todo: does this mimic GL properly?
             color.R = Calc.Clamp(color.R, 0F, 1F);
             color.G = Calc.Clamp(color.G, 0F, 1F);
             color.B = Calc.Clamp(color.B, 0F, 1F);

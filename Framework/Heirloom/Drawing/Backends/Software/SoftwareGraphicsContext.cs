@@ -158,7 +158,7 @@ namespace Heirloom.Drawing.Software
 
                     case BlendingMode.Multiply:
                     {
-                        // todo: is this correct?
+                        // todo: Validate blending mode truly mimic the OpenGL behaviour
                         // Might not be correct in OpenGL/Heirloom either!
                         return (src * dst) + ((1F - src.A) * dst);
                     }
@@ -240,7 +240,18 @@ namespace Heirloom.Drawing.Software
 
         public override Image GrabPixels(IntRectangle region)
         {
-            // todo: validate region will indeed fit in region
+            // Validate region size is at least 1x1
+            if (region.Width == 0 || region.Height == 0)
+            {
+                throw new InvalidOperationException("Unable to grab pixels, region size is zero.");
+            }
+
+            // Validate region
+            if (region.Left < 0 || region.Top < 0 || region.Right >= Surface.Width || region.Bottom >= Surface.Height)
+            {
+                throw new ArgumentException("Unable to grab pixels, region outside the bounds of the surface.", nameof(region));
+            }
+
             var surface = Backend.GetNativeObject<SoftwareSurface>(Surface);
             var image = surface.ColorBuffer.GrabPixels(region);
             image.Flip(Axis.Vertical); // because surface

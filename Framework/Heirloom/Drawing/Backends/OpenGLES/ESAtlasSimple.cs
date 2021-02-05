@@ -31,7 +31,6 @@ namespace Heirloom.Drawing.OpenGLES
                 {
                     texture.Bind();
                     texture.Update(0, 0, image);
-                    texture.GenerateMips();
                 });
 
                 texture.Version = image.Version;

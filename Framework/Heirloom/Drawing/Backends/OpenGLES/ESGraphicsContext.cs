@@ -311,16 +311,22 @@ namespace Heirloom.Drawing.OpenGLES
 
         public override unsafe Image GrabPixels(IntRectangle region)
         {
+            // Validate region size is at least 1x1
+            if (region.Width == 0 || region.Height == 0)
+            {
+                throw new InvalidOperationException("Unable to grab pixels, region size is zero.");
+            }
+
+            // Validate region
+            if (region.Left < 0 || region.Top < 0 || region.Right >= Surface.Width || region.Bottom >= Surface.Height)
+            {
+                throw new ArgumentException("Unable to grab pixels, region outside the bounds of the surface.", nameof(region));
+            }
+
             return Invoke(() =>
             {
                 // Ensure all render jobs are submitted to the GPU
                 Flush(block: false);
-
-                // Validate region size is at least 1x1
-                if (region.Width == 0 || region.Height == 0)
-                {
-                    throw new InvalidOperationException("Unable to grab pixels, region size is zero.");
-                }
 
                 // Flip Y axis to correct top-right to bottom-left coordinates
                 region.Y = Surface.Height - region.Y - region.Height;
@@ -406,7 +412,6 @@ namespace Heirloom.Drawing.OpenGLES
                     }
 
                     // Update uniforms
-                    // todo: is this dictionary loop efficient enough?
                     foreach (var data in _modifiedUniforms.Values) { UpdateUniform(data.Uniform, data.Value); }
                     _modifiedUniforms.Clear();
 

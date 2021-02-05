@@ -150,9 +150,6 @@ namespace Heirloom.Drawing.OpenGLES
                         }
                     }
 
-                    // Generate mip-maps for the atlas
-                    Texture.GenerateMips();
-
                     // Clear changes
                     _changes.Clear();
                 }

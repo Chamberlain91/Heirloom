@@ -104,15 +104,6 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        /// <summary>
-        /// Generates mipmaps
-        /// </summary>
-        public void GenerateMips()
-        {
-            // todo: validate this texture is bound?
-            GLES.GenerateMipmap(Target);
-        }
-
         #region Dispose
 
         private void Dispose(bool disposeManaged)
