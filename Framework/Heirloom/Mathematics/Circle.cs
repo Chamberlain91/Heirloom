@@ -66,7 +66,6 @@ namespace Heirloom.Mathematics
         {
             get
             {
-                // todo: optimize to reduce copies
                 var min = Position - (Vector.One * Radius);
                 var max = Position + (Vector.One * Radius);
                 return new Rectangle(min, max);

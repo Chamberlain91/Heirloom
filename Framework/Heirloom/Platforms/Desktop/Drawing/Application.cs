@@ -193,9 +193,6 @@ namespace Heirloom.Desktop
             // Initialize OpenGL ES Backend
             _backend = InitializeES();
 
-            // todo: Vulkan Backend and ability to switch / auto select
-            // _backend = InitiaizeVK();
-
             // Reset default window creation hints
             Glfw.SetWindowCreationHint(WindowAttribute.FocusOnShow, true);
             Glfw.SetWindowCreationHint(WindowAttribute.Visible, true);

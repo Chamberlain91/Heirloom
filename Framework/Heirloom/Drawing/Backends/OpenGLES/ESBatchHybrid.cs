@@ -1,9 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 using Heirloom.Mathematics;
 
@@ -11,6 +7,8 @@ namespace Heirloom.Drawing.OpenGLES
 {
     internal sealed class ESBatchHybrid : ESBatch
     {
+        private const int BatchDecisionThreshold = 100;
+
         private readonly ESBatchInstance _instancingTechnique;
         private readonly ESBatchStreaming _streamingTechnique;
 
@@ -53,18 +51,15 @@ namespace Heirloom.Drawing.OpenGLES
                 _baseMesh = mesh;
             }
 
-            //lock (_commandBuffer)
-            {
-                // Construct command
-                var command = _commandPool.Request();
-                command.Mesh = _copyMesh;
-                command.Transform = transform;
-                command.UVRect = uvRect;
-                command.Color = color;
+            // Construct command
+            var command = _commandPool.Request();
+            command.Mesh = _copyMesh;
+            command.Transform = transform;
+            command.UVRect = uvRect;
+            command.Color = color;
 
-                // Add submission to buffer
-                _commandBuffer.Add(command);
-            }
+            // Add submission to buffer
+            _commandBuffer.Add(command);
 
             return true;
         }
@@ -84,86 +79,83 @@ namespace Heirloom.Drawing.OpenGLES
 
             if (IsDirty)
             {
-                //lock (_commandBuffer)
+                for (var i = 0; i < _commandBuffer.Count; i++)
                 {
-                    for (var i = 0; i < _commandBuffer.Count; i++)
+                    var command = _commandBuffer[i];
+
+                    // Look into the future and determine how many instances exist
+                    // todo: Can probably optimize by breaking loop in CountInstances at
+                    // decision boundary (ie. 10 instances) and then when submitting scanning
+                    // until invalid command is visited. This might improve performance as
+                    // this look ahead will do less work. Perhaps tracking the instancing length
+                    // in Submit() and avoiding a look-ahead all together.
+                    var instances = CountInstances(i, command.Mesh);
+
+                    // Are there enough instances detected to batch draw via instancing?
+                    if (instances > BatchDecisionThreshold) // an arbitrary number I picked
                     {
-                        var command = _commandBuffer[i];
+                        // If streaming had anything batched, draw that now to keep order of operations
+                        _streamingTechnique.Commit();
 
-                        // Look into the future and determine how many instances exist
-                        // todo: Can probably optimize by breaking loop in CountInstances at
-                        // decision boundary (ie. 10 instances) and then when submitting scanning
-                        // until invalid command is visited. This might improve performance as
-                        // this look ahead will do less work. Perhaps tracking the instancing length
-                        // in Submit() and avoiding a look-ahead all together.
-                        var instances = CountInstances(i, command.Mesh);
-
-                        // Are there enough instances detected to batch draw via instancing?
-                        if (instances > 100) // an arbitrary number I picked
+                        // Submit instances
+                        for (var j = i; j < i + instances; j++)
                         {
-                            // If streaming had anything batched, draw that now to keep order of operations
-                            _streamingTechnique.Commit();
+                            var instance = _commandBuffer[j];
 
-                            // Submit instances
-                            for (var j = i; j < i + instances; j++)
+                            // Submit draw command to instancing technique
+                            while (!_instancingTechnique.Submit(instance.Mesh, instance.UVRect, instance.Transform, instance.Color))
                             {
-                                var instance = _commandBuffer[j];
-
-                                // Submit draw command to instancing technique
-                                while (!_instancingTechnique.Submit(instance.Mesh, instance.UVRect, instance.Transform, instance.Color))
-                                {
-                                    // Draw previously batched instances and try again
-                                    _instancingTechnique.Commit();
-                                }
-
-                                // We no longer need this command
-                                _commandPool.Recycle(instance);
+                                // Draw previously batched instances and try again
+                                _instancingTechnique.Commit();
                             }
-
-                            // Schedule to recycle mesh
-                            _meshRecycleSet.Add(command.Mesh);
-
-                            // Draw batched instances
-                            _instancingTechnique.Commit();
-
-                            // Advance main loop by instances
-                            i += instances - 1;
-                        }
-                        else
-                        {
-                            // Submit draw command to streaming technique
-                            while (!_streamingTechnique.Submit(command.Mesh, command.UVRect, command.Transform, command.Color))
-                            {
-                                // Draw previously batched triangles and try again
-                                _streamingTechnique.Commit();
-                            }
-
-                            // Schedule to recycle mesh
-                            _meshRecycleSet.Add(command.Mesh);
 
                             // We no longer need this command
-                            _commandPool.Recycle(command);
+                            _commandPool.Recycle(instance);
                         }
+
+                        // Schedule to recycle mesh
+                        _meshRecycleSet.Add(command.Mesh);
+
+                        // Draw batched instances
+                        _instancingTechnique.Commit();
+
+                        // Advance main loop by instances
+                        i += instances - 1;
                     }
-
-                    // Draw batched triangles
-                    _streamingTechnique.Commit();
-
-                    // Recycle meshes for future use
-                    foreach (var mesh in _meshRecycleSet)
+                    else
                     {
-                        _meshPool.Recycle(mesh);
-                    }
+                        // Submit draw command to streaming technique
+                        while (!_streamingTechnique.Submit(command.Mesh, command.UVRect, command.Transform, command.Color))
+                        {
+                            // Draw previously batched triangles and try again
+                            _streamingTechnique.Commit();
+                        }
 
-                    // Clear commands and recycle set
-                    _meshRecycleSet.Clear();
-                    _commandBuffer.Clear();
+                        // Schedule to recycle mesh
+                        _meshRecycleSet.Add(command.Mesh);
+
+                        // We no longer need this command
+                        _commandPool.Recycle(command);
+                    }
                 }
 
-                // Clear known mesh
-                _baseMeshVersion = 0;
-                _baseMesh = null;
+                // Draw batched triangles
+                _streamingTechnique.Commit();
+
+                // Recycle meshes for future use
+                foreach (var mesh in _meshRecycleSet)
+                {
+                    _meshPool.Recycle(mesh);
+                }
+
+                // Clear commands and recycle set
+                _meshRecycleSet.Clear();
+                _commandBuffer.Clear();
             }
+
+            // Clear known mesh
+            _baseMeshVersion = 0;
+            _baseMesh = null;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -95,7 +95,7 @@ namespace Heirloom.Collections
             {
                 foreach (var x in GetListByType(typeof(X)))
                 {
-                    yield return (X) x; // todo: avoid cast...?
+                    yield return (X) x;
                 }
             }
         }
@@ -109,7 +109,6 @@ namespace Heirloom.Collections
             // Create type list if not already present
             if (!_typeLists.ContainsKey(type))
             {
-                // TODO: Actually create polymorphic List<X>
                 _typeLists[type] = new List<T>();
             }
 

@@ -112,55 +112,6 @@ namespace Heirloom.Collections
             }
         }
 
-        private class Node<T> : IComparable<Node<T>>, IEquatable<Node<T>>
-        // TODO: Use finalizer to recycle these node objects into a object pool to reduce allocations?
-        {
-            public Node<T> Ancestor;
-
-            public float GScore;
-
-            public float FScore;
-
-            public T State;
-
-            public bool Visited;
-
-            public Node(T state)
-            {
-                GScore = float.PositiveInfinity;
-                FScore = float.PositiveInfinity;
-                Ancestor = null;
-                Visited = false;
-                State = state;
-            }
-
-            public override bool Equals(object obj)
-            {
-                if (obj is Node<T> node)
-                {
-                    return Equals(node);
-                }
-
-                return false;
-            }
-
-            public bool Equals(Node<T> other)
-            {
-                return Equals(State, other.State);
-            }
-
-            public override int GetHashCode()
-            {
-                return State.GetHashCode();
-            }
-
-            public int CompareTo(Node<T> other)
-            {
-                var compare = FScore.CompareTo(other.FScore);
-                return compare == 0 ? GScore.CompareTo(other.GScore) : compare;
-            }
-        }
-
         #endregion
 
         #region Traversal

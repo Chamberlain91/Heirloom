@@ -14,8 +14,6 @@ namespace Heirloom.Drawing.Software
         {
             Surface = new Surface(size, MultisampleQuality.None, SurfaceFormat.UnsignedByte);
             _size = size;
-
-            // todo: potentially dummy "null" input devices?
         }
 
         public void SetGraphicsContext(SoftwareGraphicsContext graphics)

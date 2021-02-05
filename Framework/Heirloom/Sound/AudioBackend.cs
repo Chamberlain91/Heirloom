@@ -85,26 +85,22 @@ namespace Heirloom.Sound
 
         #region Device Enumeration
 
-        //// todo: make public when ready
         //internal static AudioDevice[] GetPlaybackDevices()
         //{
         //    return _implementation.GetPlaybackDevices();
         //}
 
-        //// todo: make public when ready
         //internal static AudioDevice[] GetCaptureDevices()
         //{
         //    return _implementation.GetCaptureDevices();
         //}
 
-        //// todo: make public when ready
         //internal static void UsePlaybackDevice(AudioDevice device)
         //{
         //    device ??= _implementation.GetDefaultPlaybackDevice();
         //    _implementation.UsePlaybackDevice(device);
         //}
 
-        //// todo: make public when ready
         //internal static void UseCaptureDevice(AudioDevice device)
         //{
         //    device ??= _implementation.GetDefaultCaptureDevice();

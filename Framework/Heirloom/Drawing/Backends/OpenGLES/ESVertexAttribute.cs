@@ -53,7 +53,6 @@ namespace Heirloom.Drawing.OpenGLES
         static ESVertexAttribute()
         {
             // Construct attribute index map
-            // TODO: Automate better with enum attributes or something, so it isn't hard coded in here?
             var offset = 0u;
             var attributeIndices = new Dictionary<ESVertexAttributeName, uint>();
             foreach (ESVertexAttributeName name in Enum.GetValues(typeof(ESVertexAttributeName)))

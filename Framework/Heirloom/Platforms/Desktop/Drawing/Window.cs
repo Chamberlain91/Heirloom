@@ -187,7 +187,7 @@ namespace Heirloom.Desktop
                 return new IntSize(w, h);
             }));
 
-            // todo: set default icons
+            // Initialize window with default icons
             SetIcons(CreateDefaultIcons());
 
             // Create input source and assign window as input source if no other input source has been set.
@@ -617,7 +617,11 @@ namespace Heirloom.Desktop
                     // Dispose managed...?
                 }
 
-                // todo: untrack input source...?
+                // Untrack input source if this window was the source
+                if (Input.InputSource == this)
+                {
+                    Input.SetInputSource(null);
+                }
 
                 // Dispose graphics context
                 Graphics.Dispose();

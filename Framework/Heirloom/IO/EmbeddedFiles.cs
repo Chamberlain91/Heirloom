@@ -49,7 +49,7 @@ namespace Heirloom.IO
         /// </summary>
         public static void Discover(Assembly assembly)
         {
-            // todo: warning?
+            // todo: What and why is this guard here?
             if (assembly == null) { return; }
 
             // Ignore known assemblies we shouldn't scan (ie. System, etc)

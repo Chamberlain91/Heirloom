@@ -352,7 +352,6 @@ namespace Heirloom.Drawing
                 string RecursiveLoadSource(string path, int depth)
                 {
                     // Normalize path
-                    // todo: resolve path (ie, collapse '..')
                     path = Files.NormalizePath(path);
 
                     // Have we already loaded this source?

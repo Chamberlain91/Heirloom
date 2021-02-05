@@ -453,7 +453,7 @@ namespace Heirloom.Drawing
 
         #region Stencil
 
-        // todo: implement
+        // todo: possibly implement, should determine if the stencil was ever written to?
         // public abstract bool HasStencil { get; }
 
         public abstract void ClearStencil();

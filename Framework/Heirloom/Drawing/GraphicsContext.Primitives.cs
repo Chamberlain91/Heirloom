@@ -404,7 +404,6 @@ namespace Heirloom.Drawing
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawRegularPolygonOutline(Vector center, float radius, int segments, float width = 1F)
-        // todo: optimize/evaluate performance
         {
             DrawPolyLine(GeometryTools.GenerateRegularPolygon(center, segments, radius), width, loop: true);
         }
@@ -415,7 +414,6 @@ namespace Heirloom.Drawing
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void DrawPolygon(Polygon polygon)
-        // todo: optimize/evaluate performance
         {
             _mesh.Clear();
 

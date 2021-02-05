@@ -118,7 +118,6 @@ namespace Heirloom.Mathematics
                 }
 
                 // Gets the angle of the vector
-                // todo: do we have to be normalized?
                 var angle = Calc.Atan2(Y, X);
                 if (angle < 0) { angle += Calc.TwoPi; }
                 return angle;
@@ -354,7 +353,7 @@ namespace Heirloom.Mathematics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector Rotate(Vector v, float angle)
         {
-            // todo: rotation type?
+            // todo: better document rotational direction
             var cos = Calc.Cos(angle);
             var sin = Calc.Sin(angle);
 
