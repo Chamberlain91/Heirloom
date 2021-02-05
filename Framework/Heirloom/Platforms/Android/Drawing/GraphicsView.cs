@@ -129,8 +129,6 @@ namespace Heirloom.Android
 
         public void Refresh()
         {
-            // todo: poll input
-
             Graphics.CompleteFrame();
         }
     }

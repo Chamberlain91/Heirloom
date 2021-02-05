@@ -1,4 +1,3 @@
-#if ANDROID
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ namespace Heirloom.Android.EGL
 {
     internal static unsafe partial class Egl
     {
-        // TODO: [ThreadStatic]
+        // TODO: overhaul EGL implementation with [ThreadStatic] or implementation otherwise
         private static readonly Dictionary<Thread, EglContext> _threadContexts;
         private static readonly Dictionary<Thread, EglSurface> _threadDrawSurfaces;
         private static readonly Dictionary<Thread, EglSurface> _threadReadSurfaces;
@@ -543,4 +542,3 @@ namespace Heirloom.Android.EGL
         }
     }
 }
-#endif
