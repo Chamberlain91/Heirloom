@@ -63,6 +63,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Examples.PathFindi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Examples.GraphVis", "Examples\Heirloom.Examples.GraphVis\Heirloom.Examples.GraphVis.csproj", "{72BC3612-89F6-4CA7-9BC9-2D5922180495}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Examples.Anim2D", "Examples\Heirloom.Examples.Anim2D\Heirloom.Examples.Anim2D.csproj", "{3550B111-2E79-4B7E-BEC5-8A883F21C4AB}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Tools\Benchmark\Heirloom.Benchmark\Heirloom.Benchmark.projitems*{541e747b-0e2d-45ff-89e9-331cd30a355f}*SharedItemsImports = 4
@@ -154,6 +156,10 @@ Global
 		{72BC3612-89F6-4CA7-9BC9-2D5922180495}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72BC3612-89F6-4CA7-9BC9-2D5922180495}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72BC3612-89F6-4CA7-9BC9-2D5922180495}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3550B111-2E79-4B7E-BEC5-8A883F21C4AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3550B111-2E79-4B7E-BEC5-8A883F21C4AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3550B111-2E79-4B7E-BEC5-8A883F21C4AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3550B111-2E79-4B7E-BEC5-8A883F21C4AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -180,6 +186,7 @@ Global
 		{A1E9A826-CF48-437C-9320-BF9F155D4099} = {78B2E4CD-A323-4F1F-B388-D0C0D2B7A8FC}
 		{9567B4B5-06FA-4037-A62E-67B9B8274F95} = {97C3E7D0-E5D3-4650-9B12-E1FD76CA8E48}
 		{72BC3612-89F6-4CA7-9BC9-2D5922180495} = {97C3E7D0-E5D3-4650-9B12-E1FD76CA8E48}
+		{3550B111-2E79-4B7E-BEC5-8A883F21C4AB} = {97C3E7D0-E5D3-4650-9B12-E1FD76CA8E48}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {696A41D8-DF3F-4D16-B3D9-514D627DCCE2}
