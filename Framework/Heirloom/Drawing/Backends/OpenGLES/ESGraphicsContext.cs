@@ -1028,6 +1028,11 @@ namespace Heirloom.Drawing.OpenGLES
                 atlasTexture = esSurface.Texture;
                 atlasRect = (0, 0, 1, 1 + (int) AtlasFlipMode.Vertical);
             }
+            else if (texture == null)
+            {
+                // Somehow received a null texture
+                throw new ArgumentNullException(nameof(texture), "Texture object was not of a known type.");
+            }
             else
             {
                 // fatal error?!

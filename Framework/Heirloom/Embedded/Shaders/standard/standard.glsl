@@ -80,26 +80,16 @@ vec4 _H_SampleAtlasNearest(sampler2D img, vec2 size, vec2 uv, vec4 rect, int rep
             break;
             
         case _H_REPEAT_BLANK:
-            if (uv.x < 0.0 || uv.y < 0.0 || uv.x > 1.0 || uv.y > 1.0) 
-            {
-                // note: mapping here because dFdx/dFdy on some GPU's causes spike in mip
-                // even though we are exiting the function. On RTX 2080 this was not present, but
-                // is visible on AMD Vega 8. This however, did not fix the artifact on a Adreno 640.
-                uv = _H_TransformUVToAtlas(uv, rect, size);
-                return TRANSPARENT;
-            }
+            if (uv.x < 0.0 || uv.y < 0.0) return TRANSPARENT;
+            if (uv.x > 1.0 || uv.y > 1.0) return TRANSPARENT;
             break;
     }
 
     // Map UV to atlas domain
     uv = _H_TransformUVToAtlas(uv, rect, size);
 
-    // Adjust for appropriate mip-map level
-    int mip = max(_H_ComputeMipLevel(uv), 0);
-    uv /= float(1 << mip);
-
     // Fetch texel
-    return texelFetch(img, ivec2(uv), mip);
+    return texelFetch(img, ivec2(uv), 0);
 }
 
 // linear sampling
