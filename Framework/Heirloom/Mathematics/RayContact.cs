@@ -24,7 +24,13 @@ namespace Heirloom.Mathematics
         /// </summary>
         public readonly float Distance;
 
-        internal RayContact(Vector position, Vector normal, float distance)
+        /// <summary>
+        /// Constructs a new ray contact point.
+        /// </summary>
+        /// <param name="position">The position of contact on the contact surface.</param>
+        /// <param name="normal">The normal direction of the contact surface.</param>
+        /// <param name="distance">The distance from ray origin to contact point.</param>
+        public RayContact(Vector position, Vector normal, float distance)
         {
             Distance = distance;
             Position = position;

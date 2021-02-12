@@ -63,7 +63,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Examples.PathFindi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Examples.GraphVis", "Examples\Heirloom.Examples.GraphVis\Heirloom.Examples.GraphVis.csproj", "{72BC3612-89F6-4CA7-9BC9-2D5922180495}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Examples.Anim2D", "Examples\Heirloom.Examples.Anim2D\Heirloom.Examples.Anim2D.csproj", "{3550B111-2E79-4B7E-BEC5-8A883F21C4AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Examples.Anim2D", "Examples\Heirloom.Examples.Anim2D\Heirloom.Examples.Anim2D.csproj", "{3550B111-2E79-4B7E-BEC5-8A883F21C4AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Extras.Anim2D", "Heirloom.Extras.Anim2D\Heirloom.Extras.Anim2D.csproj", "{D1E5427B-FFD8-4374-8AD5-F2B82B50057A}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -160,6 +162,10 @@ Global
 		{3550B111-2E79-4B7E-BEC5-8A883F21C4AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3550B111-2E79-4B7E-BEC5-8A883F21C4AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3550B111-2E79-4B7E-BEC5-8A883F21C4AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1E5427B-FFD8-4374-8AD5-F2B82B50057A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1E5427B-FFD8-4374-8AD5-F2B82B50057A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1E5427B-FFD8-4374-8AD5-F2B82B50057A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1E5427B-FFD8-4374-8AD5-F2B82B50057A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -187,6 +193,7 @@ Global
 		{9567B4B5-06FA-4037-A62E-67B9B8274F95} = {97C3E7D0-E5D3-4650-9B12-E1FD76CA8E48}
 		{72BC3612-89F6-4CA7-9BC9-2D5922180495} = {97C3E7D0-E5D3-4650-9B12-E1FD76CA8E48}
 		{3550B111-2E79-4B7E-BEC5-8A883F21C4AB} = {97C3E7D0-E5D3-4650-9B12-E1FD76CA8E48}
+		{D1E5427B-FFD8-4374-8AD5-F2B82B50057A} = {2D655A39-AE72-44F7-A21E-0DBE975B5E96}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {696A41D8-DF3F-4D16-B3D9-514D627DCCE2}

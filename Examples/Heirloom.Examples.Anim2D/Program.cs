@@ -1,11 +1,8 @@
-using System.Collections.Generic;
-
-using DragonBones;
+using System.Threading.Tasks;
 
 using Heirloom.Desktop;
 using Heirloom.Drawing;
-using Heirloom.Examples.Anim2D.Anim2D;
-using Heirloom.IO;
+using Heirloom.Extras.Anim2D;
 using Heirloom.Mathematics;
 using Heirloom.Utilities;
 
@@ -14,37 +11,24 @@ namespace Heirloom.Examples.Anim2D
     public class Program : GameWrapper
     {
         public Armature[] Armatures;
-        public Mathematics.Matrix[] Matrices;
+        public Matrix[] Matrices;
 
         public Program()
             : base(CreateWindowGraphics())
         {
-            // Load rooster anim
-            LoadDragonBonesData("abc", "Files/NewDragon_ske.json", "Files/NewDragon_tex.json", "Files/NewDragon_tex.png");
+            // Load bicycle
+            var armatureData = ArmatureData.LoadDragonBones("files/Dragon_ske.json");
 
             // construct armature
             Armatures = new Armature[1];
-            Matrices = new Mathematics.Matrix[Armatures.Length];
+            Matrices = new Matrix[Armatures.Length];
             for (var i = 0; i < Armatures.Length; i++)
             {
-                Armatures[i] = AnimFactory.Factory.BuildArmature("armatureName", "abc");
-                Armatures[i].animation.GotoAndPlayByTime("stand", Calc.Random.NextFloat());
+                Armatures[i] = armatureData.CreateArmature();
+                Armatures[i].Animation.PlayAtTime("stand", Calc.Random.NextFloat(), 0);
 
-                Matrices[i] = Mathematics.Matrix.CreateTranslation(Calc.Random.NextVectorDisk(0));
+                Matrices[i] = Matrix.CreateTranslation(Calc.Random.NextVectorDisk(0));
             }
-        }
-
-        private static void LoadDragonBonesData(string name, string skeletonPath, string atlasPath, string imagePath)
-        {
-            // load bones
-            var bonesJson = Files.ReadText(skeletonPath);
-            var bonesData = (Dictionary<string, object>) MiniJSON.Json.Deserialize(bonesJson);
-            AnimFactory.Factory.ParseDragonBonesData(bonesData, name);
-
-            // load atlas data
-            var atlasJson = Files.ReadText(atlasPath);
-            var atlasData = (Dictionary<string, object>) MiniJSON.Json.Deserialize(atlasJson);
-            AnimFactory.Factory.ParseTextureAtlasData(atlasData, new Image(imagePath), name);
         }
 
         protected override void Update(float dt)
@@ -53,23 +37,22 @@ namespace Heirloom.Examples.Anim2D
             Graphics.ResetState();
             Graphics.Clear(Color.DarkGray);
             Graphics.Performance.ShowOverlay = true;
-            Graphics.SetCamera(Vector.Up * 250, 1.0F);
+            Graphics.SetCamera(Vector.Up * 200, 1 / 1F);
 
-            // Update animation system
-            AnimFactory.Factory.DragonBones.AdvanceTime(dt);
-
+            // Draw each armature
             for (var i = 0; i < Armatures.Length; i++)
             {
-                // Render armature
-                var armature = Armatures[i].display as AnimArmature;
-                foreach (var slot in armature.Slots)
-                {
-                    slot.Draw(Graphics, Matrices[i]);
-                }
+                Armatures[i].Draw(Graphics, Matrices[i]);
             }
+
+            // Update animation system (in background thread, to allow screen refresh to block)
+            var animUpdate = Task.Run(() => { foreach (var arm in Armatures) { arm.AdvanceTime(dt); } });
 
             // Place picture on screen
             Graphics.Screen.Refresh();
+
+            // Wait for animation task to complete
+            animUpdate.Wait();
         }
 
         private static GraphicsContext CreateWindowGraphics()

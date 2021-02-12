@@ -247,7 +247,7 @@ namespace Heirloom.Drawing.Software
             }
 
             // Validate region
-            if (region.Left < 0 || region.Top < 0 || region.Right >= Surface.Width || region.Bottom >= Surface.Height)
+            if (region.Left < 0 || region.Top < 0 || region.Right > Surface.Width || region.Bottom > Surface.Height)
             {
                 throw new ArgumentException("Unable to grab pixels, region outside the bounds of the surface.", nameof(region));
             }
