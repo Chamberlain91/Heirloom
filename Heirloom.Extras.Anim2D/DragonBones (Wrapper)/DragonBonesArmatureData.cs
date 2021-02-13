@@ -35,8 +35,8 @@ namespace Heirloom.Extras.Anim2D
             if (_package != null)
             {
                 // Remove from dragonbones cache
-                DragoneBonesFactory.Factory.RemoveTextureAtlasData(Identifier);
-                DragoneBonesFactory.Factory.RemoveDragonBonesData(Identifier);
+                DragonFactory.Factory.RemoveTextureAtlasData(Identifier);
+                DragonFactory.Factory.RemoveDragonBonesData(Identifier);
 
                 // 
                 _package = null;
@@ -50,14 +50,14 @@ namespace Heirloom.Extras.Anim2D
 
             // Load and parse dragon bones data
             var dragonFile = LoadDragonBoneFile(skeletonPath);
-            var dragonData = DragoneBonesFactory.Factory.ParseDragonBonesData(dragonFile, identifier);
+            var dragonData = DragonFactory.Factory.ParseDragonBonesData(dragonFile, identifier);
 
             // Load and parse atlas data
             var atlasJson = Files.ReadText(atlasPath);
             var atlasJsonData = (Dictionary<string, object>) Json.Deserialize(atlasJson);
             var atlasImagePath = Path.Combine(Path.GetDirectoryName(atlasPath), atlasJsonData["imagePath"] as string);
             if (!Files.Exists(atlasImagePath)) { throw new FileNotFoundException($"Unable to find dragonbones image file: '{atlasImagePath}'"); }
-            DragoneBonesFactory.Factory.ParseTextureAtlasData(atlasJsonData, new Image(atlasImagePath), identifier);
+            DragonFactory.Factory.ParseTextureAtlasData(atlasJsonData, new Image(atlasImagePath), identifier);
 
             // ...
             return new DragonBonesArmaturePackage(identifier, dragonData);

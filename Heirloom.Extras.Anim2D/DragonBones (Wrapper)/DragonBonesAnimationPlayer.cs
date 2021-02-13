@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using DBAnimation = DragonBones.Animation;
 using DBAnimationState = DragonBones.AnimationState;
-// using Transform = Heirloom.Mathematics.Transform;
 
 namespace Heirloom.Extras.Anim2D
 {

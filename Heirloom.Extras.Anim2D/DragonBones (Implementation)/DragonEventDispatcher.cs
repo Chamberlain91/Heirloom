@@ -4,7 +4,7 @@ using DragonBones;
 
 namespace Heirloom.Extras.Anim2D
 {
-    internal class AnimEventDispatcher : IEventDispatcher<EventObject>
+    internal class DragonEventDispatcher : IEventDispatcher<EventObject>
     {
         private readonly Dictionary<string, HashSet<ListenerDelegate<EventObject>>> _listeners = new Dictionary<string, HashSet<ListenerDelegate<EventObject>>>();
 

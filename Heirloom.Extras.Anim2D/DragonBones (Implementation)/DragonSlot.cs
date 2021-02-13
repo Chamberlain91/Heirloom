@@ -5,12 +5,12 @@ using Heirloom.Mathematics;
 
 namespace Heirloom.Extras.Anim2D
 {
-    internal sealed class AnimSlot : Slot
+    internal sealed class DragonSlot : Slot
     {
         private readonly MeshBuffer _meshBuffer = new MeshBuffer();
         private Mesh _mesh = new Mesh();
 
-        private AnimArmature _proxy;
+        private DragonArmature _proxy;
 
         private bool _skewed;
 
@@ -20,7 +20,7 @@ namespace Heirloom.Extras.Anim2D
         private Transform _transform = new Transform();
         private DragonBones.Matrix _transformMatrix = new DragonBones.Matrix();
 
-        public AnimTextureAtlasData CurrentTextureAtlasData
+        public DragonTextureAtlasData CurrentTextureAtlasData
         {
             get
             {
@@ -29,7 +29,7 @@ namespace Heirloom.Extras.Anim2D
                     return null;
                 }
 
-                return _textureData.Parent as AnimTextureAtlasData;
+                return _textureData.Parent as DragonTextureAtlasData;
             }
         }
 
@@ -49,7 +49,7 @@ namespace Heirloom.Extras.Anim2D
         protected override void _OnUpdateDisplay()
         {
             // unity impl would add MeshRenderer, MeshFilter and allocate MeshBuffer
-            _proxy = _armature.Proxy as AnimArmature;
+            _proxy = _armature.Proxy as DragonArmature;
         }
 
         protected override void _AddDisplay()
@@ -102,7 +102,7 @@ namespace Heirloom.Extras.Anim2D
 
             _meshBuffer.Clear();
 
-            if (_displayIndex >= 0 && _display != null && _textureData is AnimTextureData textureData)
+            if (_displayIndex >= 0 && _display != null && _textureData is DragonTextureData textureData)
             {
                 var currentTextureAtlas = CurrentTextureAtlasData.Image;
                 if (currentTextureAtlas != null)

@@ -4,13 +4,13 @@ using Heirloom.Drawing;
 
 namespace Heirloom.Extras.Anim2D
 {
-    internal sealed class AnimTextureAtlasData : TextureAtlasData
+    internal sealed class DragonTextureAtlasData : TextureAtlasData
     {
         public Image Image { get; set; }
 
         public override TextureData CreateTexture()
         {
-            return BorrowObject<AnimTextureData>();
+            return BorrowObject<DragonTextureData>();
         }
 
         protected override void _OnClear()

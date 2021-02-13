@@ -10,9 +10,9 @@ namespace Heirloom.Extras.Anim2D
 
     internal sealed class DragonBonesArmatureSlot : ArmatureSlot
     {
-        private readonly AnimSlot _slot;
+        private readonly DragonSlot _slot;
 
-        public DragonBonesArmatureSlot(AnimSlot slot)
+        public DragonBonesArmatureSlot(DragonSlot slot)
         {
             _slot = slot ?? throw new ArgumentNullException(nameof(slot));
         }

@@ -6,15 +6,15 @@ using DBArmature = DragonBones.Armature;
 
 namespace Heirloom.Extras.Anim2D
 {
-    internal sealed class AnimArmature : IArmatureProxy
+    internal sealed class DragonArmature : IArmatureProxy
     {
-        private readonly AnimEventDispatcher _events = new AnimEventDispatcher();
+        private readonly DragonEventDispatcher _events = new DragonEventDispatcher();
 
         public DBArmature Armature { get; internal set; }
 
         public Animation Animation => Armature?.Animation;
 
-        internal List<AnimSlot> Slots { get; } = new List<AnimSlot>();
+        internal List<DragonSlot> Slots { get; } = new List<DragonSlot>();
 
         public void DBInit(DBArmature armature)
         {

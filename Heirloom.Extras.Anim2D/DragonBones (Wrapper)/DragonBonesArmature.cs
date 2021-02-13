@@ -26,13 +26,13 @@ namespace Heirloom.Extras.Anim2D
         private static readonly Point _farPoint = new Point();
 
         private readonly DBArmature _armature;
-        private readonly Dictionary<AnimSlot, DragonBonesArmatureSlot> _slots;
+        private readonly Dictionary<DragonSlot, DragonBonesArmatureSlot> _slots;
 
         public DragonBonesArmature(DragonBonesArmaturePackage armature, string name)
             : base(armature)
         {
             // Build dragon bones armature representation
-            _armature = DragoneBonesFactory.Factory.BuildArmature(name, armature.Identifier);
+            _armature = DragonFactory.Factory.BuildArmature(name, armature.Identifier);
 
             // Register event listeners
             _armature.EventDispatcher.AddDBEventListener(EventObject.START, OnEvent);
@@ -42,8 +42,8 @@ namespace Heirloom.Extras.Anim2D
             _armature.EventDispatcher.AddDBEventListener(EventObject.SOUND_EVENT, OnEvent);
 
             // Map internal slots public counterparts
-            _slots = new Dictionary<AnimSlot, DragonBonesArmatureSlot>();
-            foreach (AnimSlot slot in _armature.GetSlots())
+            _slots = new Dictionary<DragonSlot, DragonBonesArmatureSlot>();
+            foreach (DragonSlot slot in _armature.GetSlots())
             {
                 _slots[slot] = new DragonBonesArmatureSlot(slot);
             }
@@ -141,7 +141,7 @@ namespace Heirloom.Extras.Anim2D
             }
             else
             {
-                slot = _slots[touch as AnimSlot];
+                slot = _slots[touch as DragonSlot];
                 return true;
             }
         }
@@ -168,7 +168,7 @@ namespace Heirloom.Extras.Anim2D
                 var farPos = new Vector(_farPoint.X, _farPoint.Y);
                 far = new RayContact(farPos, Vector.FromAngle(_normalPoint.Y), Vector.Distance(start, farPos));
 
-                slot = _slots[touch as AnimSlot];
+                slot = _slots[touch as DragonSlot];
                 return true;
             }
         }
@@ -187,7 +187,7 @@ namespace Heirloom.Extras.Anim2D
                 var nearPos = new Vector(_nearPoint.X, _nearPoint.Y);
                 near = new RayContact(nearPos, Vector.FromAngle(_normalPoint.X), Vector.Distance(start, nearPos));
 
-                slot = _slots[touch as AnimSlot];
+                slot = _slots[touch as DragonSlot];
                 return true;
             }
         }
@@ -202,7 +202,7 @@ namespace Heirloom.Extras.Anim2D
             }
             else
             {
-                slot = _slots[touch as AnimSlot];
+                slot = _slots[touch as DragonSlot];
                 return true;
             }
         }

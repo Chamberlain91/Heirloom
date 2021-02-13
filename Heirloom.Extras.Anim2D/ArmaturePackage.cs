@@ -11,6 +11,11 @@ namespace Heirloom.Extras.Anim2D
     /// <seealso cref="ArmatureFactory.Unload(ArmaturePackage)"/>
     public abstract class ArmaturePackage
     {
+        ~ArmaturePackage()
+        {
+            Log.Warning($"Finalized: {GetType().Name}");
+        }
+
         /// <summary>
         /// The names of the armatures in this package.
         /// </summary>

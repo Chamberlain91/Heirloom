@@ -6,31 +6,31 @@ using DBArmature = DragonBones.Armature;
 
 namespace Heirloom.Extras.Anim2D
 {
-    internal sealed class DragoneBonesFactory : BaseFactory
+    internal sealed class DragonFactory : BaseFactory
     {
-        private readonly AnimEventDispatcher _eventDispatcher;
+        private readonly DragonEventDispatcher _eventDispatcher;
 
-        private static DragoneBonesFactory _factory;
+        private static DragonFactory _factory;
 
-        public static DragoneBonesFactory Factory
+        public static DragonFactory Factory
         {
             get
             {
-                if (_factory == null) { _factory = new DragoneBonesFactory(); }
+                if (_factory == null) { _factory = new DragonFactory(); }
                 return _factory;
             }
         }
 
-        private DragoneBonesFactory(DataParser dataParser = null)
+        private DragonFactory(DataParser dataParser = null)
             : base(dataParser)
         {
-            _eventDispatcher = new AnimEventDispatcher();
+            _eventDispatcher = new DragonEventDispatcher();
             DragonBones = new DragonBones.DragonBones(_eventDispatcher);
         }
 
         protected override TextureAtlasData _BuildTextureAtlasData(TextureAtlasData textureAtlasData, object textureAtlas)
         {
-            if (textureAtlasData is AnimTextureAtlasData data)
+            if (textureAtlasData is DragonTextureAtlasData data)
             {
                 if (textureAtlas is Image image)
                 {
@@ -40,7 +40,7 @@ namespace Heirloom.Extras.Anim2D
             }
             else
             {
-                textureAtlasData = BaseObject.BorrowObject<AnimTextureAtlasData>();
+                textureAtlasData = BaseObject.BorrowObject<DragonTextureAtlasData>();
             }
 
             return textureAtlasData;
@@ -49,7 +49,7 @@ namespace Heirloom.Extras.Anim2D
         protected override DBArmature _BuildArmature(BuildArmaturePackage dataPackage)
         {
             var armature = BaseObject.BorrowObject<DBArmature>();
-            var proxy = new AnimArmature
+            var proxy = new DragonArmature
             {
                 Armature = armature
             };
@@ -63,9 +63,9 @@ namespace Heirloom.Extras.Anim2D
 
         protected override Slot _BuildSlot(BuildArmaturePackage dataPackage, SlotData slotData, DBArmature armature)
         {
-            var slot = BaseObject.BorrowObject<AnimSlot>();
+            var slot = BaseObject.BorrowObject<DragonSlot>();
 
-            var _armature = armature.Display as AnimArmature;
+            var _armature = armature.Display as DragonArmature;
             _armature.Slots.Add(slot);
 
             slot.Init(slotData, armature, slot, slot);
