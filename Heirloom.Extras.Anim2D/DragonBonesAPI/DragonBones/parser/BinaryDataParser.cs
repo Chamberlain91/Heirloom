@@ -320,7 +320,7 @@ namespace DragonBones
                 headerLength = (int) reader.ReadUInt32();
                 var headerBytes = reader.ReadBytes(headerLength);
                 var headerString = System.Text.Encoding.UTF8.GetString(headerBytes);
-                result = MiniJSON.Json.Deserialize(headerString) as Dictionary<string, object>;
+                result = Json.Deserialize(headerString) as Dictionary<string, object>;
 
                 reader.Close();
                 ms.Dispose();

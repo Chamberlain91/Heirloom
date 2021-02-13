@@ -1,4 +1,4 @@
-/**
+﻿/**
  * The MIT License (MIT)
  *
  * Copyright (c) 2012-2017 DragonBones team and other contributors
@@ -24,50 +24,6 @@ using System;
 
 namespace DragonBones
 {
-    /// <internal/>
-    /// <private/>
-    internal abstract class Constraint : BaseObject
-    {
-        protected static readonly Matrix _helpMatrix = new Matrix();
-        protected static readonly Transform _helpTransform = new Transform();
-        protected static readonly Point _helpPoint = new Point();
-
-        /// <summary>
-        /// - For timeline state.
-        /// </summary>
-        /// <internal/>
-        internal ConstraintData _constraintData;
-        protected Armature _armature;
-
-        /// <summary>
-        /// - For sort bones.
-        /// </summary>
-        /// <internal/>
-        internal Bone _target;
-        /// <summary>
-        /// - For sort bones.
-        /// </summary>
-        /// <internal/>
-        internal Bone _root;
-        internal Bone _bone;
-
-        protected override void _OnClear()
-        {
-            _armature = null;
-            _target = null; //
-            _root = null; //
-            _bone = null; //
-        }
-
-        public abstract void Init(ConstraintData constraintData, Armature armature);
-        public abstract void Update();
-        public abstract void InvalidUpdate();
-
-        public string name
-        {
-            get { return _constraintData.name; }
-        }
-    }
     /// <internal/>
     /// <private/>
     internal class IKConstraint : Constraint

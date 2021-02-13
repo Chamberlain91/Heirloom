@@ -1,4 +1,4 @@
-﻿/**
+/**
  * The MIT License (MIT)
  *
  * Copyright (c) 2012-2017 DragonBones team and other contributors
@@ -23,22 +23,5 @@
 
 namespace DragonBones
 {
-    /// <summary>
-    /// - Cohen–Sutherland algorithm https://en.wikipedia.org/wiki/Cohen%E2%80%93Sutherland_algorithm
-    /// ----------------------
-    /// | 0101 | 0100 | 0110 |
-    /// ----------------------
-    /// | 0001 | 0000 | 0010 |
-    /// ----------------------
-    /// | 1001 | 1000 | 1010 |
-    /// ----------------------
-    /// </summary>
-    internal enum CohenSutherlandOutCode
-    {
-        InSide = 0, // 0000
-        Left = 1,   // 0001
-        Right = 2,  // 0010
-        Top = 4,    // 0100
-        Bottom = 8  // 1000
-    }
+ 
 }

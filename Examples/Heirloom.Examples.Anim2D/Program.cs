@@ -10,24 +10,31 @@ namespace Heirloom.Examples.Anim2D
 {
     public class Program : GameWrapper
     {
+        public const int NumberOfArmatures = 1;
+        public const float ScatterRadius = 0;
+
         public Armature[] Armatures;
         public Matrix[] Matrices;
 
         public Program()
             : base(CreateWindowGraphics())
         {
-            // Load bicycle
-            var armatureData = ArmatureData.LoadDragonBones("files/Dragon_ske.json");
+            // Load armature data from DragonBones 5.5 json format.
+            // note: This function automatically assumes texture atlas '*_tex.json'
+            // note: This step may load multiple armatures in the package
+            ArmatureFactory.LoadDragonBones("files/Dragon_ske.json");
 
-            // construct armature
-            Armatures = new Armature[1];
+            // Construct armature instances
+            Armatures = new Armature[NumberOfArmatures];
             Matrices = new Matrix[Armatures.Length];
             for (var i = 0; i < Armatures.Length; i++)
             {
-                Armatures[i] = armatureData.CreateArmature();
+                // Create an instance of the "dragon" armature
+                Armatures[i] = ArmatureFactory.CreateArmature("dragon");
                 Armatures[i].Animation.PlayAtTime("stand", Calc.Random.NextFloat(), 0);
 
-                Matrices[i] = Matrix.CreateTranslation(Calc.Random.NextVectorDisk(0));
+                // Position dragon randomly.
+                Matrices[i] = Matrix.CreateTranslation(Calc.Random.NextVectorDisk(ScatterRadius));
             }
         }
 
@@ -37,7 +44,10 @@ namespace Heirloom.Examples.Anim2D
             Graphics.ResetState();
             Graphics.Clear(Color.DarkGray);
             Graphics.Performance.ShowOverlay = true;
-            Graphics.SetCamera(Vector.Up * 200, 1 / 1F);
+
+            // Zoom camera to "fit" the dragons
+            var zoom = Calc.Max(1F, ScatterRadius / (Graphics.Surface.Height / 2));
+            Graphics.SetCamera(Vector.Zero, 1F / zoom);
 
             // Draw each armature
             for (var i = 0; i < Armatures.Length; i++)
@@ -45,8 +55,8 @@ namespace Heirloom.Examples.Anim2D
                 Armatures[i].Draw(Graphics, Matrices[i]);
             }
 
-            // Update animation system (in background thread, to allow screen refresh to block)
-            var animUpdate = Task.Run(() => { foreach (var arm in Armatures) { arm.AdvanceTime(dt); } });
+            // Update animation system (in background thread, to also allow the screen to refresh, saving time)
+            var animUpdate = Task.Run(() => { foreach (var armature in Armatures) { armature.AdvanceTime(dt); } });
 
             // Place picture on screen
             Graphics.Screen.Refresh();
@@ -57,7 +67,7 @@ namespace Heirloom.Examples.Anim2D
 
         private static GraphicsContext CreateWindowGraphics()
         {
-            var window = new Window("Graph Visualization", MultisampleQuality.Medium);
+            var window = new Window("Graph Visualization", MultisampleQuality.Low);
             // window.Position = (IntVector) (Display.Primary.Size - window.Size) / 2;
             window.Maximize();
 

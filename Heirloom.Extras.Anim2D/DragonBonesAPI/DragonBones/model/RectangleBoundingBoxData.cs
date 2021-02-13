@@ -1,4 +1,4 @@
-﻿/**
+/**
  * The MIT License (MIT)
  *
  * Copyright (c) 2012-2017 DragonBones team and other contributors
@@ -38,31 +38,50 @@ namespace DragonBones
     internal class RectangleBoundingBoxData : BoundingBoxData
     {
         /// <summary>
+        /// - Cohen–Sutherland algorithm https://en.wikipedia.org/wiki/Cohen%E2%80%93Sutherland_algorithm
+        /// ----------------------
+        /// | 0101 | 0100 | 0110 |
+        /// ----------------------
+        /// | 0001 | 0000 | 0010 |
+        /// ----------------------
+        /// | 1001 | 1000 | 1010 |
+        /// ----------------------
+        /// </summary>
+        private enum OutCode
+        {
+            InSide = 0, // 0000
+            Left = 1,   // 0001
+            Right = 2,  // 0010
+            Top = 4,    // 0100
+            Bottom = 8  // 1000
+        }
+
+        /// <summary>
         /// - Compute the bit code for a point (x, y) using the clip rectangle
         /// </summary>
         private static int _ComputeOutCode(float x, float y, float xMin, float yMin, float xMax, float yMax)
         {
-            var code = CohenSutherlandOutCode.InSide;  // initialised as being inside of [[clip window]]
+            var code = OutCode.InSide;  // initialised as being inside of [[clip window]]
 
             if (x < xMin)
             {             // to the left of clip window
-                code |= CohenSutherlandOutCode.Left;
+                code |= OutCode.Left;
             }
             else if (x > xMax)
             {        // to the right of clip window
-                code |= CohenSutherlandOutCode.Right;
+                code |= OutCode.Right;
             }
 
             if (y < yMin)
             {             // below the clip window
-                code |= CohenSutherlandOutCode.Top;
+                code |= OutCode.Top;
             }
             else if (y > yMax)
             {        // above the clip window
-                code |= CohenSutherlandOutCode.Bottom;
+                code |= OutCode.Bottom;
             }
 
-            return (int)code;
+            return (int) code;
         }
         /// <private/>
         public static int RectangleIntersectsSegment(float xA, float yA, float xB, float yB,
@@ -105,27 +124,27 @@ namespace DragonBones
                 var outcodeOut = outcode0 != 0 ? outcode0 : outcode1;
 
                 // Now find the intersection point;
-                if ((outcodeOut & (int)CohenSutherlandOutCode.Top) != 0)
+                if ((outcodeOut & (int) OutCode.Top) != 0)
                 {             // point is above the clip rectangle
                     x = xA + (xB - xA) * (yMin - yA) / (yB - yA);
                     y = yMin;
 
                     if (normalRadians != null)
                     {
-                        normalRadian = -(float)Math.PI * 0.5f;
+                        normalRadian = -(float) Math.PI * 0.5f;
                     }
                 }
-                else if ((outcodeOut & (int)CohenSutherlandOutCode.Bottom) != 0)
+                else if ((outcodeOut & (int) OutCode.Bottom) != 0)
                 {     // point is below the clip rectangle
                     x = xA + (xB - xA) * (yMax - yA) / (yB - yA);
                     y = yMax;
 
                     if (normalRadians != null)
                     {
-                        normalRadian = (float)Math.PI * 0.5f;
+                        normalRadian = (float) Math.PI * 0.5f;
                     }
                 }
-                else if ((outcodeOut & (int)CohenSutherlandOutCode.Right) != 0)
+                else if ((outcodeOut & (int) OutCode.Right) != 0)
                 {      // point is to the right of clip rectangle
                     y = yA + (yB - yA) * (xMax - xA) / (xB - xA);
                     x = xMax;
@@ -135,14 +154,14 @@ namespace DragonBones
                         normalRadian = 0;
                     }
                 }
-                else if ((outcodeOut & (int)CohenSutherlandOutCode.Left) != 0)
+                else if ((outcodeOut & (int) OutCode.Left) != 0)
                 {       // point is to the left of clip rectangle
                     y = yA + (yB - yA) * (xMin - xA) / (xB - xA);
                     x = xMin;
 
                     if (normalRadians != null)
                     {
-                        normalRadian = (float)Math.PI;
+                        normalRadian = (float) Math.PI;
                     }
                 }
 
@@ -192,7 +211,7 @@ namespace DragonBones
 
                     if (normalRadians != null)
                     {
-                        normalRadians.X = normalRadians.Y + (float)Math.PI;
+                        normalRadians.X = normalRadians.Y + (float) Math.PI;
                     }
                 }
                 else if (inSideB)
@@ -213,7 +232,7 @@ namespace DragonBones
 
                     if (normalRadians != null)
                     {
-                        normalRadians.Y = normalRadians.X + (float)Math.PI;
+                        normalRadians.Y = normalRadians.X + (float) Math.PI;
                     }
                 }
                 else

@@ -6,23 +6,22 @@ using DBArmature = DragonBones.Armature;
 
 namespace Heirloom.Extras.Anim2D
 {
-
-    internal sealed class AnimFactory : BaseFactory
+    internal sealed class DragoneBonesFactory : BaseFactory
     {
         private readonly AnimEventDispatcher _eventDispatcher;
 
-        private static AnimFactory _factory;
+        private static DragoneBonesFactory _factory;
 
-        public static AnimFactory Factory
+        public static DragoneBonesFactory Factory
         {
             get
             {
-                if (_factory == null) { _factory = new AnimFactory(); }
+                if (_factory == null) { _factory = new DragoneBonesFactory(); }
                 return _factory;
             }
         }
 
-        private AnimFactory(DataParser dataParser = null)
+        private DragoneBonesFactory(DataParser dataParser = null)
             : base(dataParser)
         {
             _eventDispatcher = new AnimEventDispatcher();

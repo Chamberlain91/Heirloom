@@ -12,13 +12,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Files\Dragon_ske.json">
+    <EmbeddedResource Include="Files\dragon_ske.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Files\Dragon_tex.json">
+    <EmbeddedResource Include="Files\dragon_tex.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Files\Dragon_tex.png">
+    <EmbeddedResource Include="Files\dragon_tex.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
