@@ -21,14 +21,18 @@ namespace Heirloom.Extras.Anim2D
 
         public abstract IReadOnlyCollection<ArmatureSlot> Slots { get; }
 
+        public abstract IReadOnlyCollection<ArmatureBone> Bones { get; }
+
         public abstract bool FlipX { get; set; }
 
         public abstract bool FlipY { get; set; }
 
         public abstract void Draw(GraphicsContext gfx, Matrix matrix);
 
-        public abstract void AdvanceTime(float dt);
-         
+        public abstract ArmatureSlot GetSlot(string name);
+
+        public abstract ArmatureBone GetBone(string name);
+
         #region Contains
 
         public abstract bool ContainsPoint(Vector point, out ArmatureSlot slot);

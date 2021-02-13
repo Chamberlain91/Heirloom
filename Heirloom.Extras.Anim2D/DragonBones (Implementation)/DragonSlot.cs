@@ -20,6 +20,8 @@ namespace Heirloom.Extras.Anim2D
         private Transform _transform = new Transform();
         private DragonBones.Matrix _transformMatrix = new DragonBones.Matrix();
 
+        private bool _isMeshDirty;
+
         public DragonTextureAtlasData CurrentTextureAtlasData
         {
             get
@@ -94,12 +96,16 @@ namespace Heirloom.Extras.Anim2D
 
                 _meshBuffer.Vertices[i].Color = new Color(r, g, b, a);
             }
+
+            // Require mesh to be reconstructed
+            _isMeshDirty = true;
         }
 
         protected override void _UpdateFrame()
         {
             var currentVerticesData = (_deformVertices != null && _display == _meshDisplay) ? _deformVertices.verticesData : null;
 
+            _isMeshDirty = true;
             _meshBuffer.Clear();
 
             if (_displayIndex >= 0 && _display != null && _textureData is DragonTextureData textureData)
@@ -247,6 +253,8 @@ namespace Heirloom.Extras.Anim2D
                     _visibleDirty = true;
                     _colorDirty = true;
 
+                    _isMeshDirty = true;
+
                     return;
                 }
             }
@@ -311,6 +319,8 @@ namespace Heirloom.Extras.Anim2D
                     vertex.Position.X = xG;
                     vertex.Position.Y = yG;
                 }
+
+                _isMeshDirty = true;
             }
             else if (hasDeform)
             {
@@ -336,8 +346,7 @@ namespace Heirloom.Extras.Anim2D
                     vertex.Position.Y = ry;
                 }
 
-                //// todo: Compute bounds
-                //_meshBuffer.Update(_mesh);
+                _isMeshDirty = true;
             }
         }
 
@@ -386,21 +395,10 @@ namespace Heirloom.Extras.Anim2D
 
                         _meshBuffer.Vertices[i].Position.Y = y * cos;
                     }
+
+                    // Mark mesh for update
+                    _isMeshDirty = true;
                 }
-
-                //var skew = global.skew;
-                //var dSkew = skew;
-
-                //if (_armature.flipX && _armature.flipY)
-                //{
-                //    dSkew = -skew + Transform.PI;
-                //}
-                //else if (!_armature.flipX && !_armature.flipY)
-                //{
-                //    dSkew = -skew - Transform.PI;
-                //}
-
-                //transform.skew = dSkew;
 
                 // Set slot position
                 _transform.x = Global.x;
@@ -411,7 +409,7 @@ namespace Heirloom.Extras.Anim2D
 
                 // Set slot scale
                 _transform.scaleX = (_armature.FlipX ? -1 : +1) * Global.scaleX;
-                _transform.scaleY = (_armature.FlipY ? +1 : -1) * Global.scaleY; 
+                _transform.scaleY = (_armature.FlipY ? +1 : -1) * Global.scaleY;
             }
 
             if (_childArmature != null)
@@ -436,23 +434,30 @@ namespace Heirloom.Extras.Anim2D
         {
             if (_currentImage == null) { return; }
 
-            // todo: isDirty or version check to reduce work
-            _meshBuffer.Update(_mesh);
+            if (Visible)
+            {
+                if (_isMeshDirty)
+                {
+                    // todo: Compute visible bounds
+                    _meshBuffer.Update(_mesh);
+                    _isMeshDirty = false;
+                }
 
-            // Convert to matrix
-            _transform.ToMatrix(_transformMatrix);
+                // Convert to matrix
+                _transform.ToMatrix(_transformMatrix);
 
-            // Copy DB Matrix to Heirlooom Matrix
-            var m = Mathematics.Matrix.Identity;
-            m.M0 = _transformMatrix.A;
-            m.M1 = _transformMatrix.B;
-            m.M2 = _transformMatrix.Tx;
-            m.M3 = _transformMatrix.C;
-            m.M4 = _transformMatrix.D;
-            m.M5 = _transformMatrix.Ty;
+                // Copy DB Matrix to Heirlooom Matrix
+                var m = Mathematics.Matrix.Identity;
+                m.M0 = _transformMatrix.A;
+                m.M1 = _transformMatrix.B;
+                m.M2 = _transformMatrix.Tx;
+                m.M3 = _transformMatrix.C;
+                m.M4 = _transformMatrix.D;
+                m.M5 = _transformMatrix.Ty;
 
-            // Draw slot
-            gfx.Draw(_mesh, _currentImage, matrix * m);
+                // Draw slot
+                gfx.Draw(_mesh, _currentImage, matrix * m);
+            }
 
             //// Draw triangle wireframe
             //var xform = matrix * m;

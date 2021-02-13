@@ -54,9 +54,6 @@ namespace Heirloom.Extras.Anim2D
                 Armature = armature
             };
 
-            // ...
-            Factory.Clock.Add(armature);
-
             armature.Init(dataPackage.Armature, proxy, proxy, DragonBones);
             return armature;
         }

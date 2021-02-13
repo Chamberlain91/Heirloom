@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using DragonBones;
@@ -6,6 +7,8 @@ using Heirloom.Drawing;
 using Heirloom.Mathematics;
 
 using DBArmature = DragonBones.Armature;
+using DragonBone = DragonBones.Bone;
+
 using Matrix = Heirloom.Mathematics.Matrix;
 
 namespace Heirloom.Extras.Anim2D
@@ -27,6 +30,7 @@ namespace Heirloom.Extras.Anim2D
 
         private readonly DBArmature _armature;
         private readonly Dictionary<DragonSlot, DragonBonesArmatureSlot> _slots;
+        private readonly Dictionary<DragonBone, DragonBonesArmatureBone> _bones;
 
         public DragonBonesArmature(DragonBonesArmaturePackage armature, string name)
             : base(armature)
@@ -35,11 +39,12 @@ namespace Heirloom.Extras.Anim2D
             _armature = DragonFactory.Factory.BuildArmature(name, armature.Identifier);
 
             // Register event listeners
+            // todo: only register (and remove) iif the event properties are used
             _armature.EventDispatcher.AddDBEventListener(EventObject.START, OnEvent);
             _armature.EventDispatcher.AddDBEventListener(EventObject.COMPLETE, OnEvent);
             _armature.EventDispatcher.AddDBEventListener(EventObject.LOOP_COMPLETE, OnEvent);
-            _armature.EventDispatcher.AddDBEventListener(EventObject.FRAME_EVENT, OnEvent);
-            _armature.EventDispatcher.AddDBEventListener(EventObject.SOUND_EVENT, OnEvent);
+            _armature.EventDispatcher.AddDBEventListener(EventObject.FRAME_EVENT, OnEvent); // Custom
+            _armature.EventDispatcher.AddDBEventListener(EventObject.SOUND_EVENT, OnEvent); // Sound
 
             // Map internal slots public counterparts
             _slots = new Dictionary<DragonSlot, DragonBonesArmatureSlot>();
@@ -48,14 +53,25 @@ namespace Heirloom.Extras.Anim2D
                 _slots[slot] = new DragonBonesArmatureSlot(slot);
             }
 
+            // Map internal bones to public counterparts
+            _bones = new Dictionary<DragonBone, DragonBonesArmatureBone>();
+            foreach (var bone in _armature.GetBones())
+            {
+                _bones[bone] = new DragonBonesArmatureBone(this, bone);
+            }
+
             // Create animation wrapper
             Animation = new DragonBonesAnimationPlayer(_armature.Animation);
         }
 
+        ~DragonBonesArmature()
+        {
+            Dispose(false);
+        }
+
         private void OnEvent(string type, EventObject ev)
         {
-            Log.Warning($"Armature Event: {type}");
-
+            LogEvent(ev);
             switch (type)
             {
                 case EventObject.START:
@@ -82,25 +98,42 @@ namespace Heirloom.Extras.Anim2D
 
         private void OnStartEvent(EventObject ev)
         {
-            // Nothing
+            // AnimationStarted?.Invoke(this)
         }
 
         private void OnCompleteEvent(EventObject ev, bool isLoop)
         {
-            // Nothing
+            // AnimationCompleted?.Invoke(this, isLoop)
         }
 
         private void OnFrameEvent(EventObject ev)
         {
-            // Nothing
+            // Invoke FrameEvent?.Invoke(ev.name, ...data, bone, time?)
         }
 
         private void OnSoundEvent(EventObject ev)
         {
-            // Nothing
+            // Invoke SoundEvent?.Invoke(ev.name, ...time?)
+        }
+
+        private static void LogEvent(EventObject ev)
+        {
+            Log.Debug($"EVENT {ev.type.ToUpper()}");
+            Log.Debug($"         State: {ev.animationState.name}");
+            if (ev.actionData != null) { Log.Debug($"         Event: {ev.name} @ {ev.time:N2} seconds ({ev.actionData.type})"); }
+            if (ev.slot != null) { Log.Debug($"          Slot: {ev.slot}"); }
+            if (ev.bone != null) { Log.Debug($"          Bone: {ev.bone.BoneData.name}"); }
+            if (ev.data != null)
+            {
+                if (ev.data.strings.Count > 0) { Log.Debug($"          Data: '{ev.data.strings[0]}'"); }
+                if (ev.data.floats.Count > 0) { Log.Debug($"          Data: {ev.data.floats[0]}"); }
+                if (ev.data.ints.Count > 0) { Log.Debug($"          Data: {ev.data.ints[0]}"); }
+            }
         }
 
         public override IReadOnlyCollection<ArmatureSlot> Slots => _slots.Values;
+
+        public override IReadOnlyCollection<ArmatureBone> Bones => _bones.Values;
 
         public override AnimationPlayer Animation { get; }
 
@@ -116,9 +149,16 @@ namespace Heirloom.Extras.Anim2D
             set => _armature.FlipY = value;
         }
 
-        public override void AdvanceTime(float dt)
+        public override ArmatureSlot GetSlot(string name)
         {
-            _armature.AdvanceTime(dt);
+            if (_armature.GetSlot(name) is DragonSlot slot) { return _slots[slot]; }
+            else { return null; }
+        }
+
+        public override ArmatureBone GetBone(string name)
+        {
+            if (_armature.GetBone(name) is DragonBone bone) { return _bones[bone]; }
+            else { return null; }
         }
 
         public override void Draw(GraphicsContext gfx, Matrix matrix)
@@ -209,9 +249,17 @@ namespace Heirloom.Extras.Anim2D
 
         #endregion
 
+        private void Dispose(bool disposing)
+        {
+            Log.Warning("Dispose!");
+            _armature.Proxy.Dispose(true);
+            _armature.Dispose();
+        }
+
         public override void Dispose()
         {
-            _armature.Dispose();
+            GC.SuppressFinalize(this);
+            Dispose(true);
         }
     }
 }

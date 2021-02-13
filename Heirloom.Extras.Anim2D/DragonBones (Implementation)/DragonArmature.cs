@@ -19,16 +19,21 @@ namespace Heirloom.Extras.Anim2D
         public void DBInit(DBArmature armature)
         {
             Armature = armature;
+            DragonFactory.Factory.Clock.Add(Armature);
         }
 
         public void DBClear()
         {
-            Armature = null;
+            if (Armature != null)
+            {
+                DragonFactory.Factory.Clock.Remove(Armature);
+                Armature = null;
+            }
         }
 
         public void DBUpdate()
         {
-            // the threeJS example added/removed debug drawing here
+            // Nothing to do
         }
 
         #region Event Dispatcher
@@ -57,6 +62,8 @@ namespace Heirloom.Extras.Anim2D
 
         public void Dispose(bool disposeProxy)
         {
+            Log.Warning("Disposing Armature Implementation");
+
             Armature?.Dispose();
             Armature = null;
         }

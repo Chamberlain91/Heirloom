@@ -22,7 +22,10 @@ namespace Heirloom.Examples.Anim2D
             // Load armature data from DragonBones 5.5 json format.
             // note: This function automatically assumes texture atlas '*_tex.json'
             // note: This step may load multiple armatures in the package
-            ArmatureFactory.LoadDragonBones("files/Dragon_ske.json");
+            ArmatureFactory.LoadDragonBones("files/dragon_ske.json");
+
+            // ... 
+            ArmatureFactory.CreateArmature("dragon");
 
             // Construct armature instances
             Armatures = new Armature[NumberOfArmatures];
@@ -47,7 +50,7 @@ namespace Heirloom.Examples.Anim2D
 
             // Zoom camera to "fit" the dragons
             var zoom = Calc.Max(1F, ScatterRadius / (Graphics.Surface.Height / 2));
-            Graphics.SetCamera(Vector.Zero, 1F / zoom);
+            Graphics.SetCamera(Vector.Up * 250, 1F / zoom);
 
             // Draw each armature
             for (var i = 0; i < Armatures.Length; i++)
@@ -55,14 +58,11 @@ namespace Heirloom.Examples.Anim2D
                 Armatures[i].Draw(Graphics, Matrices[i]);
             }
 
-            // Update animation system (in background thread, to also allow the screen to refresh, saving time)
-            var animUpdate = Task.Run(() => { foreach (var armature in Armatures) { armature.AdvanceTime(dt); } });
+            // Update armatures and process events
+            WorldClock.AdvanceTime(dt);
 
             // Place picture on screen
             Graphics.Screen.Refresh();
-
-            // Wait for animation task to complete
-            animUpdate.Wait();
         }
 
         private static GraphicsContext CreateWindowGraphics()
