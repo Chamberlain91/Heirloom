@@ -12,10 +12,15 @@ namespace Heirloom.Extras.Anim2D
     {
         internal Armature(ArmaturePackage armature)
         {
-            ArmatureData = armature ?? throw new ArgumentNullException(nameof(armature));
+            ArmaturePackage = armature ?? throw new ArgumentNullException(nameof(armature));
         }
 
-        public ArmaturePackage ArmatureData { get; }
+        /// <summary>
+        /// Enable or disable drawing armature debug information.
+        /// </summary>
+        public bool EnableDebug { get; set; }
+
+        public ArmaturePackage ArmaturePackage { get; }
 
         public abstract AnimationPlayer Animation { get; }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 
 using Heirloom.Desktop;
@@ -16,6 +17,9 @@ namespace Heirloom.Examples.Anim2D
         public Armature[] Armatures;
         public Matrix[] Matrices;
 
+        private bool _flipX;
+        private bool _flipY;
+
         public Program()
             : base(CreateWindowGraphics())
         {
@@ -23,9 +27,6 @@ namespace Heirloom.Examples.Anim2D
             // note: This function automatically assumes texture atlas '*_tex.json'
             // note: This step may load multiple armatures in the package
             ArmatureFactory.LoadDragonBones("files/dragon_ske.json");
-
-            // ... 
-            ArmatureFactory.CreateArmature("dragon");
 
             // Construct armature instances
             Armatures = new Armature[NumberOfArmatures];
@@ -35,6 +36,7 @@ namespace Heirloom.Examples.Anim2D
                 // Create an instance of the "dragon" armature
                 Armatures[i] = ArmatureFactory.CreateArmature("dragon");
                 Armatures[i].Animation.PlayAtTime("stand", Calc.Random.NextFloat(), 0);
+                Armatures[i].EnableDebug = true;
 
                 // Position dragon randomly.
                 Matrices[i] = Matrix.CreateTranslation(Calc.Random.NextVectorDisk(ScatterRadius));
@@ -52,17 +54,23 @@ namespace Heirloom.Examples.Anim2D
             var zoom = Calc.Max(1F, ScatterRadius / (Graphics.Surface.Height / 2));
             Graphics.SetCamera(Vector.Up * 250, 1F / zoom);
 
+            if (Input.IsKeyPressed(Key.Q)) { _flipX = !_flipX; }
+            if (Input.IsKeyPressed(Key.E)) { _flipY = !_flipY; }
+
             // Draw each armature
             for (var i = 0; i < Armatures.Length; i++)
             {
+                Armatures[i].FlipX = _flipX;
+                Armatures[i].FlipY = _flipY;
+
                 Armatures[i].Draw(Graphics, Matrices[i]);
             }
 
+            // Place picture on screen &
             // Update armatures and process events
-            WorldClock.AdvanceTime(dt);
-
-            // Place picture on screen
+            var task = Task.Run(() => WorldClock.AdvanceTime(dt));
             Graphics.Screen.Refresh();
+            task.Wait();
         }
 
         private static GraphicsContext CreateWindowGraphics()

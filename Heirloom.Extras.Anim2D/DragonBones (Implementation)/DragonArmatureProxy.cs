@@ -6,7 +6,7 @@ using DBArmature = DragonBones.Armature;
 
 namespace Heirloom.Extras.Anim2D
 {
-    internal sealed class DragonArmature : IArmatureProxy
+    internal sealed class DragonArmatureProxy : IArmatureProxy
     {
         private readonly DragonEventDispatcher _events = new DragonEventDispatcher();
 

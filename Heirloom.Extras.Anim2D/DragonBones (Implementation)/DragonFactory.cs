@@ -49,7 +49,7 @@ namespace Heirloom.Extras.Anim2D
         protected override DBArmature _BuildArmature(BuildArmaturePackage dataPackage)
         {
             var armature = BaseObject.BorrowObject<DBArmature>();
-            var proxy = new DragonArmature
+            var proxy = new DragonArmatureProxy
             {
                 Armature = armature
             };
@@ -62,7 +62,7 @@ namespace Heirloom.Extras.Anim2D
         {
             var slot = BaseObject.BorrowObject<DragonSlot>();
 
-            var _armature = armature.Display as DragonArmature;
+            var _armature = armature.Display as DragonArmatureProxy;
             _armature.Slots.Add(slot);
 
             slot.Init(slotData, armature, slot, slot);

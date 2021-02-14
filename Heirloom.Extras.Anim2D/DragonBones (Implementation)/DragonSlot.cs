@@ -10,7 +10,7 @@ namespace Heirloom.Extras.Anim2D
         private readonly MeshBuffer _meshBuffer = new MeshBuffer();
         private Mesh _mesh = new Mesh();
 
-        private DragonArmature _proxy;
+        private DragonArmatureProxy _proxy;
 
         private bool _skewed;
 
@@ -51,7 +51,7 @@ namespace Heirloom.Extras.Anim2D
         protected override void _OnUpdateDisplay()
         {
             // unity impl would add MeshRenderer, MeshFilter and allocate MeshBuffer
-            _proxy = _armature.Proxy as DragonArmature;
+            _proxy = _armature.Proxy as DragonArmatureProxy;
         }
 
         protected override void _AddDisplay()
@@ -354,51 +354,54 @@ namespace Heirloom.Extras.Anim2D
         {
             UpdateGlobalTransform(); // Update transform.
 
+            var flipX = _armature.FlipX;
+            var flipY = _armature.FlipY;
+
             // Modify mesh skew...?
             // TODO child armature skew...?
             if (_display == _rawDisplay || _display == _meshDisplay)
             {
-                var skew = Global.skew;
-                var dSkew = skew;
+                //var skew = Global.skew;
+                //var dSkew = skew;
 
-                if (_armature.FlipX && _armature.FlipY)
-                {
-                    dSkew = -skew + Transform.PI;
-                }
-                else if (!_armature.FlipX && !_armature.FlipY)
-                {
-                    dSkew = -skew - Transform.PI;
-                }
+                //if (flipX && flipY)
+                //{
+                //    dSkew = -skew + Transform.PI;
+                //}
+                //else if (!flipX && !flipY)
+                //{
+                //    dSkew = -skew - Transform.PI;
+                //}
 
-                var skewed = dSkew < -0.01f || 0.01f < dSkew;
-                if (_skewed || skewed)
-                {
-                    _skewed = skewed;
+                //var skewed = dSkew < -0.01f || 0.01f < dSkew;
+                //if (_skewed || skewed)
+                //{
+                //    _skewed = skewed;
 
-                    var isPositive = Global.scaleX >= 0.0f;
-                    var cos = Calc.Cos(dSkew);
-                    var sin = Calc.Sin(dSkew);
+                //    var isPositive = Global.scaleX >= 0.0f;
+                //    var cos = Calc.Cos(dSkew);
+                //    var sin = Calc.Sin(dSkew);
 
-                    for (int i = 0, l = _meshBuffer.Vertices.Length; i < l; ++i)
-                    {
-                        var x = _meshBuffer.Raw[i].X;
-                        var y = _meshBuffer.Raw[i].Y;
+                //    for (int i = 0, l = _meshBuffer.Vertices.Length; i < l; ++i)
+                //    {
+                //        var x = _meshBuffer.Raw[i].X;
+                //        var y = _meshBuffer.Raw[i].Y;
 
-                        if (isPositive)
-                        {
-                            _meshBuffer.Vertices[i].Position.X = x + (y * sin);
-                        }
-                        else
-                        {
-                            _meshBuffer.Vertices[i].Position.X = -x + (y * sin);
-                        }
+                //        if (isPositive)
+                //        {
+                //            _meshBuffer.Vertices[i].Position.X = x + (y * sin);
+                //        }
+                //        else
+                //        {
+                //            _meshBuffer.Vertices[i].Position.X = -x + (y * sin);
+                //        }
 
-                        _meshBuffer.Vertices[i].Position.Y = y * cos;
-                    }
+                //        _meshBuffer.Vertices[i].Position.Y = y * cos;
+                //    }
 
-                    // Mark mesh for update
-                    _isMeshDirty = true;
-                }
+                //    // Mark mesh for update
+                //    _isMeshDirty = true;
+                //}
 
                 // Set slot position
                 _transform.x = Global.x;
@@ -407,15 +410,42 @@ namespace Heirloom.Extras.Anim2D
                 // Set slot rotation
                 _transform.rotation = Global.rotation;
 
+                // todo: comment on what this is actually doing
+                // these dragonbones people have bad code for something so neat
+
+                if (flipX != flipY)
+                {
+                    _transform.rotation = -_transform.rotation;
+                }
+
+                if (flipX || flipY)
+                {
+                    if (flipX && flipY)
+                    {
+                        _transform.rotation += Calc.Pi;
+                    }
+                    else
+                    {
+                        if (flipX)
+                        {
+                            _transform.rotation = Calc.Pi - _transform.rotation;
+                        }
+                        else
+                        {
+                            _transform.rotation = -_transform.rotation;
+                        }
+                    }
+                }
+
                 // Set slot scale
-                _transform.scaleX = (_armature.FlipX ? -1 : +1) * Global.scaleX;
-                _transform.scaleY = (_armature.FlipY ? +1 : -1) * Global.scaleY;
+                _transform.scaleX = (flipX ? -1 : +1) * Global.scaleX;
+                _transform.scaleY = (flipY ? -1 : +1) * Global.scaleY;
             }
 
             if (_childArmature != null)
             {
-                _childArmature.FlipX = _armature.FlipX;
-                _childArmature.FlipY = _armature.FlipY;
+                _childArmature.FlipX = flipX;
+                _childArmature.FlipY = flipY;
             }
         }
 
@@ -443,20 +473,12 @@ namespace Heirloom.Extras.Anim2D
                     _isMeshDirty = false;
                 }
 
-                // Convert to matrix
+                // Convert dragonebones to heirloom matrix 
                 _transform.ToMatrix(_transformMatrix);
-
-                // Copy DB Matrix to Heirlooom Matrix
-                var m = Mathematics.Matrix.Identity;
-                m.M0 = _transformMatrix.A;
-                m.M1 = _transformMatrix.B;
-                m.M2 = _transformMatrix.Tx;
-                m.M3 = _transformMatrix.C;
-                m.M4 = _transformMatrix.D;
-                m.M5 = _transformMatrix.Ty;
+                var transformMatrix = Helper.GetHeirloomMatrix(_transformMatrix);
 
                 // Draw slot
-                gfx.Draw(_mesh, _currentImage, matrix * m);
+                gfx.Draw(_mesh, _currentImage, matrix * transformMatrix);
             }
 
             //// Draw triangle wireframe

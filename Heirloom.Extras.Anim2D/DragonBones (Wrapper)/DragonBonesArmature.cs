@@ -29,6 +29,7 @@ namespace Heirloom.Extras.Anim2D
         private static readonly Point _farPoint = new Point();
 
         private readonly DBArmature _armature;
+
         private readonly Dictionary<DragonSlot, DragonBonesArmatureSlot> _slots;
         private readonly Dictionary<DragonBone, DragonBonesArmatureBone> _bones;
 
@@ -50,7 +51,7 @@ namespace Heirloom.Extras.Anim2D
             _slots = new Dictionary<DragonSlot, DragonBonesArmatureSlot>();
             foreach (DragonSlot slot in _armature.GetSlots())
             {
-                _slots[slot] = new DragonBonesArmatureSlot(slot);
+                _slots[slot] = new DragonBonesArmatureSlot(this, slot);
             }
 
             // Map internal bones to public counterparts
@@ -155,17 +156,57 @@ namespace Heirloom.Extras.Anim2D
             else { return null; }
         }
 
+        internal ArmatureSlot GetSlot(DragonSlot dragonSlot)
+        {
+            if (_slots.TryGetValue(dragonSlot, out var slot))
+            {
+                return slot;
+            }
+
+            return null;
+        }
+
         public override ArmatureBone GetBone(string name)
         {
             if (_armature.GetBone(name) is DragonBone bone) { return _bones[bone]; }
             else { return null; }
         }
 
+        internal ArmatureBone GetBone(DragonBone dragonBone)
+        {
+            if (_bones.TryGetValue(dragonBone, out var bone))
+            {
+                return bone;
+            }
+
+            return null;
+        }
+
         public override void Draw(GraphicsContext gfx, Matrix matrix)
         {
+            // Draw slots
             foreach (var slot in _slots.Keys)
             {
                 slot.Draw(gfx, matrix);
+            }
+
+            if (EnableDebug)
+            {
+                // Draw bones
+                gfx.PushState();
+                gfx.Color = Color.Cyan;
+                foreach (var bone in Bones)
+                {
+                    var a = matrix * bone.Base;
+                    gfx.DrawCross(a);
+                    if (bone.Length > 0)
+                    {
+                        var b = matrix * bone.Tip;
+                        gfx.DrawDottedLine(a, b);
+                    }
+                    gfx.DrawText(bone.Name, a, Font.Default, 16);
+                }
+                gfx.PopState();
             }
         }
 
@@ -251,7 +292,8 @@ namespace Heirloom.Extras.Anim2D
 
         private void Dispose(bool disposing)
         {
-            Log.Warning("Dispose!");
+            Log.Warning($"Disposing: '{GetType().Name}'");
+
             _armature.Proxy.Dispose(true);
             _armature.Dispose();
         }
