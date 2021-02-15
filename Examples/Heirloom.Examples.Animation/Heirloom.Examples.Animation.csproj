@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Files\dragon_ske.json" />
+    <None Remove="Files\dragon_tex.json" />
+    <None Remove="Files\dragon_tex.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Files\dragon_ske.json" />
+    <EmbeddedResource Include="Files\dragon_tex.json" />
+    <EmbeddedResource Include="Files\dragon_tex.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Heirloom\Heirloom.csproj" />
+    <ProjectReference Include="..\..\Framework\Heirloom.Extras.Animation\Heirloom.Extras.Animation.csproj" />
+  </ItemGroup>
+
+</Project>

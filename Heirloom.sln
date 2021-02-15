@@ -63,9 +63,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Examples.PathFindi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Examples.GraphVis", "Examples\Heirloom.Examples.GraphVis\Heirloom.Examples.GraphVis.csproj", "{72BC3612-89F6-4CA7-9BC9-2D5922180495}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Examples.Anim2D", "Examples\Heirloom.Examples.Anim2D\Heirloom.Examples.Anim2D.csproj", "{3550B111-2E79-4B7E-BEC5-8A883F21C4AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Examples.Animation", "Examples\Heirloom.Examples.Animation\Heirloom.Examples.Animation.csproj", "{3550B111-2E79-4B7E-BEC5-8A883F21C4AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Extras.Anim2D", "Heirloom.Extras.Anim2D\Heirloom.Extras.Anim2D.csproj", "{D1E5427B-FFD8-4374-8AD5-F2B82B50057A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Extras.Animation", "Framework\Heirloom.Extras.Animation\Heirloom.Extras.Animation.csproj", "{D1E5427B-FFD8-4374-8AD5-F2B82B50057A}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
