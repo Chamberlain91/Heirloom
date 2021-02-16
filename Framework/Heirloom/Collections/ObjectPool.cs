@@ -1,33 +1,33 @@
 using System;
 using System.Collections.Generic;
 
+using Heirloom.Utilities;
+
 namespace Heirloom.Collections
 {
     /// <summary>
-    /// Implements an object pool to recycle objects and reduce allocatio stress.
+    /// Implements an object pool to recycle objects and reduce allocation stress.
     /// </summary>
     /// <typeparam name="T">Some reference type.</typeparam>
-    public class ObjectPool<T> where T : class
+    public sealed class ObjectPool<T> where T : class
     {
         private readonly HashSet<T> _owned = new HashSet<T>();
         private readonly Queue<T> _queue = new Queue<T>();
 
-        /// <summary>
-        /// Constructs an instance of <typeparamref name="T"/>.
-        /// </summary>
-        /// <returns>An newly allocated instance of <typeparamref name="T"/>.</returns>
-        protected virtual T CreateItem()
-        {
-            return Activator.CreateInstance<T>();
-        }
+        private static readonly ObjectPoolStrategy<T> _strategy;
 
-        /// <summary>
-        /// When <see cref="ObjectPool{T}"/> is subclassed, this can be overriden to clear state on recycled objects.
-        /// </summary>
-        /// <param name="item">A recycled object.</param>
-        protected virtual void ResetItem(T item)
+        static ObjectPool()
         {
-            // Do Nothing
+            // Find object pool strategies
+            var types = new List<Type>(ReflectionHelper.GetSubclassTypes<ObjectPoolStrategy<T>>());
+            if (types.Count > 1)
+            {
+                Log.Warning($"WARNING: More than one implementation of {nameof(ObjectPoolStrategy<T>)}.");
+            }
+
+            // Creat instance of strategy
+            if (types.Count > 0) { _strategy = Activator.CreateInstance(types[0]) as ObjectPoolStrategy<T>; }
+            else { _strategy = new DefaultStrategy(); }
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Heirloom.Collections
                 else
                 {
                     // Construct a new item and return it
-                    var item = CreateItem();
+                    var item = _strategy.Create();
                     _owned.Add(item);
                     return item;
                 }
@@ -63,8 +63,8 @@ namespace Heirloom.Collections
             {
                 if (_owned.Contains(item))
                 {
+                    _strategy.Clear(item);
                     _queue.Enqueue(item);
-                    ResetItem(item);
                 }
                 else if (item is null)
                 {
@@ -74,6 +74,19 @@ namespace Heirloom.Collections
                 {
                     throw new InvalidOperationException("Unable to recycle item, object not owned by the pool.");
                 }
+            }
+        }
+
+        private sealed class DefaultStrategy : ObjectPoolStrategy<T>
+        {
+            protected internal override T Create()
+            {
+                return Activator.CreateInstance<T>();
+            }
+
+            protected internal override void Clear(T obj)
+            {
+                // Does Nothing
             }
         }
     }

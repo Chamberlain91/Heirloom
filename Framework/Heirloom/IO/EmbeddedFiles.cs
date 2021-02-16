@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
+
+using static Heirloom.Utilities.ReflectionHelper;
 
 namespace Heirloom.IO
 {
@@ -23,11 +24,8 @@ namespace Heirloom.IO
             _aliasMap = new Dictionary<string, EmbeddedFile>();
             _files = new HashSet<EmbeddedFile>();
 
-            // Discover entry assembly
-            Discover(Assembly.GetEntryAssembly());
-
             // Try all known assemblies to the current domain
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            foreach (var assembly in GetAssemblies())
             {
                 Discover(assembly);
             }
@@ -112,17 +110,6 @@ namespace Heirloom.IO
             return assembly.DefinedTypes.Select(x => x.Namespace)
                                         .Distinct()
                                         .Where(x => !string.IsNullOrEmpty(x));
-        }
-
-        private static bool IsIgnoredAssembly(Assembly assembly)
-        {
-            // Ignore .NET Framework Assemblies
-            var productAttribute = assembly.GetCustomAttributes<AssemblyProductAttribute>().FirstOrDefault();
-            if (productAttribute?.Product == "Microsoft® .NET Framework") { return true; }
-            if (assembly.FullName.StartsWith("System.")) { return true; }
-
-            // Not ignored
-            return false;
         }
 
         /// <summary>
