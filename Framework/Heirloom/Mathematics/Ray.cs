@@ -38,7 +38,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Sets the components of this size.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public void Set(Vector origin, Vector direction)
         {
             Origin = origin;
@@ -48,7 +48,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Gets a point along the ray.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public Vector GetPoint(float distance)
         {
             return Origin + (Direction * distance);
@@ -59,7 +59,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Creates a ray from a line segment.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Ray FromLineSegment(Vector origin, Vector target)
         {
             var dir = (target - origin).Normalized;
@@ -69,7 +69,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Creates a ray from a line segment.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Ray FromLineSegment(LineSegment segment)
         {
             return FromLineSegment(segment.A, segment.B);
@@ -78,7 +78,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Creates a ray pointed along the specified angle from the origin given.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Ray FromAngle(Vector origin, float angle)
         {
             return new Ray(origin, Vector.FromAngle(angle));

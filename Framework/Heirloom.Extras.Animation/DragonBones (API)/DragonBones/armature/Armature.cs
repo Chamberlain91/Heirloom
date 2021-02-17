@@ -110,7 +110,7 @@ namespace DragonBones
 
         /// <internal/>
         /// <private/>
-        internal DragonBones _dragonBones;
+        // internal readonly EventBuffer _eventBuffer = new EventBuffer();
         private WorldClock _clock = null; // Initial value.
 
         /// <internal/>
@@ -175,7 +175,6 @@ namespace DragonBones
             _display = null;
             _replaceTextureAtlasData = null;
             _replacedTexture = null;
-            _dragonBones = null; //
             _clock = null;
             _parent = null;
         }
@@ -289,16 +288,14 @@ namespace DragonBones
             {
                 _lockUpdate = true;
 
-                if (_dragonBones != null)
-                {
-                    _dragonBones.BufferObject(this);
-                }
+                // Recycle this instance
+                ReturnToPool();
             }
         }
 
         /// <internal/>
         /// <private/>
-        internal void Init(ArmatureData armatureData, IArmatureProxy proxy, object display, DragonBones dragonBones)
+        internal void Init(ArmatureData armatureData, IArmatureProxy proxy, object display)
         {
             if (_armatureData != null)
             {
@@ -309,7 +306,6 @@ namespace DragonBones
             _animation = BorrowObject<Animation>();
             _proxy = proxy;
             _display = display;
-            _dragonBones = dragonBones;
 
             _proxy.DBInit(this);
             _animation.Init(this);

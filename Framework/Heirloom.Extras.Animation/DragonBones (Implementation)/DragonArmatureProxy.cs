@@ -20,33 +20,28 @@ namespace Heirloom.Extras.Animation
         public void DBInit(DBArmature armature)
         {
             Armature = armature;
-            DragonFactory.Factory.Clock.Add(Armature);
         }
 
         public void DBClear()
         {
-            if (Armature != null)
-            {
-                DragonFactory.Factory.Clock.Remove(Armature);
-                Armature = null;
-            }
+            _events.Clear();
         }
 
         public void DBUpdate()
         {
-            // Nothing to do
+            _events.ProcessEvents();
         }
 
         #region Event Dispatcher
 
-        public bool HasDBEventListener(string type)
-        {
-            return _events.HasDBEventListener(type);
-        }
-
         public void DispatchDBEvent(string type, EventObject eventObject)
         {
             _events.DispatchDBEvent(type, eventObject);
+        }
+
+        public bool HasDBEventListener(string type)
+        {
+            return _events.HasDBEventListener(type);
         }
 
         public void AddDBEventListener(string type, ListenerDelegate<EventObject> listener)

@@ -38,6 +38,8 @@ namespace Heirloom.Extras.Animation
 
         public abstract ArmatureBone GetBone(string name);
 
+        public abstract void Update(float dt);
+
         #region Contains
 
         public abstract bool ContainsPoint(Vector point, out ArmatureSlot slot);

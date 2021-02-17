@@ -376,19 +376,19 @@ namespace Heirloom.Drawing
 
         #region Fundamental Drawing
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public void Draw(Mesh mesh, Texture texture, Rectangle uvRegion)
         {
             Draw(mesh, texture, uvRegion, Matrix.Identity);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public void Draw(Mesh mesh, Texture texture, Matrix matrix)
         {
             Draw(mesh, texture, Rectangle.One, matrix);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public void Draw(Mesh mesh, Texture texture)
         {
             Draw(mesh, texture, Rectangle.One);
@@ -419,7 +419,7 @@ namespace Heirloom.Drawing
         /// </summary> 
         /// <param name="image">Some image.</param>
         /// <param name="rectangle">The bounds of the drawn image.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public void DrawImage(Texture image, Rectangle rectangle)
         {
             var transform = Matrix.CreateTransform(rectangle.Position, 0, (Vector) rectangle.Size);

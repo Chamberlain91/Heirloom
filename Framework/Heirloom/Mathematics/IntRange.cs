@@ -65,7 +65,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Sets the components of this range.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public void Set(int min, int max)
         {
             Min = min;

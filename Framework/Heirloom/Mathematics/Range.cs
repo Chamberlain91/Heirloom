@@ -77,7 +77,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Sets the components of this range.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public void Set(float min, float max)
         {
             Min = min;
@@ -87,7 +87,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Sets both components to a constant value.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public void Set(float constant)
         {
             Min = constant;
@@ -163,7 +163,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Scales <paramref name="x"/> from input domain (this range) to output range.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public float Rescale(float x, float outMin, float outMax)
         {
             return Calc.Rescale(x, Min, Max, outMin, outMax);
@@ -172,7 +172,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Scales <paramref name="x"/> from input domain (this range) to output range.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public float Rescale(float x, Range outRange)
         {
             return Calc.Rescale(x, Min, Max, outRange.Min, outRange.Max);

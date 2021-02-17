@@ -1,3 +1,5 @@
+using System;
+
 using DragonBones;
 
 using Heirloom.Drawing;
@@ -7,20 +9,15 @@ namespace Heirloom.Extras.Animation
 {
     internal sealed class DragonSlot : Slot
     {
+        private static readonly int[] _quadTriangles = new[] { 0, 1, 2, 0, 2, 3 };
+
         private readonly MeshBuffer _meshBuffer = new MeshBuffer();
-        private Mesh _mesh = new Mesh();
-
-        private DragonArmatureProxy _proxy;
-
-        private bool _skewed;
 
         private BlendMode _currentBlendMode;
         private Image _currentImage;
 
         private Transform _transform = new Transform();
         private DragonBones.Matrix _transformMatrix = new DragonBones.Matrix();
-
-        private bool _isMeshDirty;
 
         public DragonTextureAtlasData CurrentTextureAtlasData
         {
@@ -37,21 +34,17 @@ namespace Heirloom.Extras.Animation
 
         protected override void _InitDisplay(object value, bool isRetain)
         {
-            // nothing
+            // ...
         }
 
         protected override void _DisposeDisplay(object value, bool isRelease)
         {
-            if (!isRelease)
-            {
-                // destroy game object
-            }
+            // ...
         }
 
         protected override void _OnUpdateDisplay()
         {
-            // unity impl would add MeshRenderer, MeshFilter and allocate MeshBuffer
-            _proxy = _armature.Proxy as DragonArmatureProxy;
+            // ...
         }
 
         protected override void _AddDisplay()
@@ -76,6 +69,7 @@ namespace Heirloom.Extras.Animation
 
         internal override void _UpdateVisible()
         {
+            // ...
             // parent.visible
         }
 
@@ -87,25 +81,23 @@ namespace Heirloom.Extras.Animation
 
         protected override void _UpdateColor()
         {
-            for (var i = 0; i < _meshBuffer.Vertices.Length; i++)
+            for (var i = 0; i < _meshBuffer.Mesh.Vertices.Count; i++)
             {
                 var r = _colorTransform.RedMultiplier;
                 var g = _colorTransform.GreenMultiplier;
                 var b = _colorTransform.BlueMultiplier;
                 var a = _colorTransform.AlphaMultiplier;
 
-                _meshBuffer.Vertices[i].Color = new Color(r, g, b, a);
+                var v = _meshBuffer.Mesh.Vertices[i];
+                v.Color = new Color(r, g, b, a);
+                _meshBuffer.Mesh.Vertices[i] = v;
             }
-
-            // Require mesh to be reconstructed
-            _isMeshDirty = true;
         }
 
         protected override void _UpdateFrame()
         {
             var currentVerticesData = (_deformVertices != null && _display == _meshDisplay) ? _deformVertices.verticesData : null;
 
-            _isMeshDirty = true;
             _meshBuffer.Clear();
 
             if (_displayIndex >= 0 && _display != null && _textureData is DragonTextureData textureData)
@@ -139,32 +131,34 @@ namespace Heirloom.Extras.Animation
 
                         var uvOffset = vertexOffset + (vertexCount * 2);
 
-                        // Allocate vertex arrays
-                        if (_meshBuffer.Vertices?.Length != vertexCount) { _meshBuffer.Vertices = new MeshVertex[vertexCount]; }
-                        if (_meshBuffer.Raw?.Length != vertexCount) { _meshBuffer.Raw = new Vector[vertexCount]; }
+                        // Ensure mesh buffers are large enough for the mesh data
+                        _meshBuffer.Resize(vertexCount, triangleCount);
 
-                        // Allocate triangle arrays
-                        if (_meshBuffer.Triangles?.Length != triangleCount) { _meshBuffer.Triangles = new int[triangleCount]; }
-
-                        // 
-                        for (int i = 0, iV = vertexOffset, iU = uvOffset, l = vertexCount; i < l; ++i)
+                        //
+                        var iUV = uvOffset;
+                        var iXY = vertexOffset;
+                        for (var i = 0; i < vertexCount; i++)
                         {
-                            ref var vertex = ref _meshBuffer.Vertices[i];
+                            // Compute raw (untransformed?) position
                             ref var raw = ref _meshBuffer.Raw[i];
+                            raw.X = floatArray[iXY++] * textureScale;
+                            raw.Y = floatArray[iXY++] * textureScale;
 
-                            vertex.UV.X = (sourceX + (floatArray[iU++] * sourceWidth)) / textureAtlasWidth;
-                            vertex.UV.Y = (sourceY + (floatArray[iU++] * sourceHeight)) / textureAtlasHeight;
+                            // Compute texture atlas coordinates
+                            var u = (sourceX + (floatArray[iUV++] * sourceWidth)) / textureAtlasWidth;
+                            var v = (sourceY + (floatArray[iUV++] * sourceHeight)) / textureAtlasHeight;
 
-                            raw.X = floatArray[iV++] * textureScale;
-                            raw.Y = floatArray[iV++] * textureScale;
+                            var vertex = _meshBuffer.Mesh.Vertices[i];
+                            vertex.Position = raw;
+                            vertex.UV = new Vector(u, v);
 
-                            vertex.Position.X = raw.X;
-                            vertex.Position.Y = raw.Y;
+                            _meshBuffer.Mesh.Vertices[i] = vertex;
                         }
 
-                        for (var i = 0; i < triangleCount; ++i)
+                        for (var t = 0; t < triangleCount; ++t)
                         {
-                            _meshBuffer.Triangles[i] = intArray[meshOffset + (int) BinaryOffset.MeshVertexIndices + i];
+                            var i = intArray[meshOffset + (int) BinaryOffset.MeshVertexIndices + t];
+                            _meshBuffer.Mesh.Indices[t] = i;
                         }
 
                         var isSkinned = currentVerticesData.weight != null;
@@ -175,16 +169,14 @@ namespace Heirloom.Extras.Animation
                     }
                     else
                     {
-                        // TODO: QUAD OPTIMIZATION?
+                        // Ensure mesh buffers are large enough for the mesh data
+                        _meshBuffer.Resize(4, 6);
 
-                        if (_meshBuffer.Raw == null || _meshBuffer.Raw.Length != 4)
-                        {
-                            _meshBuffer.Vertices = new MeshVertex[4];
-                            _meshBuffer.Raw = new Vector[4];
-                        }
+                        // Copy quad indices
+                        _meshBuffer.Mesh.AddIndices(_quadTriangles);
 
-                        // Normal texture.                        
-                        for (int i = 0, l = 4; i < l; ++i)
+                        // Normal quad image
+                        for (var i = 0; i < 4; i++)
                         {
                             var u = 0.0f;
                             var v = 0.0f;
@@ -216,8 +208,10 @@ namespace Heirloom.Extras.Animation
                             var pivotX = _pivotX;
                             var pivotY = _pivotY;
 
-                            ref var vertex = ref _meshBuffer.Vertices[i];
+                            // ref var vertex = ref _meshBuffer.Vertices[i];
                             ref var raw = ref _meshBuffer.Raw[i];
+
+                            var UV = Vector.Zero;
 
                             if (textureData.Rotated)
                             {
@@ -228,23 +222,25 @@ namespace Heirloom.Extras.Animation
                                 pivotX = scaleWidth - _pivotX;
                                 pivotY = scaleHeight - _pivotY;
 
-                                vertex.UV.X = (sourceX + ((1.0f - v) * sourceWidth)) / textureAtlasWidth;
-                                vertex.UV.Y = (sourceY + (u * sourceHeight)) / textureAtlasHeight;
+                                UV.X = (sourceX + ((1.0f - v) * sourceWidth)) / textureAtlasWidth;
+                                UV.Y = (sourceY + (u * sourceHeight)) / textureAtlasHeight;
                             }
                             else
                             {
-                                vertex.UV.X = (sourceX + (u * sourceWidth)) / textureAtlasWidth;
-                                vertex.UV.Y = (sourceY + (v * sourceHeight)) / textureAtlasHeight;
+                                UV.X = (sourceX + (u * sourceWidth)) / textureAtlasWidth;
+                                UV.Y = (sourceY + (v * sourceHeight)) / textureAtlasHeight;
                             }
 
                             raw.X = (u * scaleWidth) - pivotX;
                             raw.Y = (v * scaleHeight) - pivotY;
 
-                            vertex.Position.X = raw.X;
-                            vertex.Position.Y = raw.Y;
-                        }
+                            // Overwrite vertex position and uv
+                            var vertex = _meshBuffer.Mesh.Vertices[i];
+                            vertex.Position = raw;
+                            vertex.UV = UV;
 
-                        _meshBuffer.Triangles = new[] { 0, 1, 2, 0, 2, 3 };
+                            _meshBuffer.Mesh.Vertices[i] = vertex;
+                        }
                     }
 
                     _currentImage = currentTextureAtlas;
@@ -252,8 +248,6 @@ namespace Heirloom.Extras.Animation
                     _blendModeDirty = true;
                     _visibleDirty = true;
                     _colorDirty = true;
-
-                    _isMeshDirty = true;
 
                     return;
                 }
@@ -315,12 +309,12 @@ namespace Heirloom.Extras.Animation
                         }
                     }
 
-                    ref var vertex = ref _meshBuffer.Vertices[i];
-                    vertex.Position.X = xG;
-                    vertex.Position.Y = yG;
-                }
+                    // Overwrite vertex position
+                    var vertex = _meshBuffer.Mesh.Vertices[i];
+                    vertex.Position = new Vector(xG, yG);
 
-                _isMeshDirty = true;
+                    _meshBuffer.Mesh.Vertices[i] = vertex;
+                }
             }
             else if (hasDeform)
             {
@@ -333,7 +327,7 @@ namespace Heirloom.Extras.Animation
                 // 
                 for (int i = 0, iV = 0, iF = 0, l = vertextCount; i < l; ++i)
                 {
-                    ref var vertex = ref _meshBuffer.Vertices[i];
+                    //ref var vertex = ref _meshBuffer.Vertices[i];
                     ref var raw = ref _meshBuffer.Raw[i];
 
                     var rx = (data.floatArray[vertexOffset + iV++] * scale) + deformVertices[iF++];
@@ -342,11 +336,12 @@ namespace Heirloom.Extras.Animation
                     raw.X = rx;
                     raw.Y = ry;
 
-                    vertex.Position.X = rx;
-                    vertex.Position.Y = ry;
-                }
+                    // Overwrite vertex position
+                    var vertex = _meshBuffer.Mesh.Vertices[i];
+                    vertex.Position = raw;
 
-                _isMeshDirty = true;
+                    _meshBuffer.Mesh.Vertices[i] = vertex;
+                }
             }
         }
 
@@ -466,19 +461,13 @@ namespace Heirloom.Extras.Animation
 
             if (Visible)
             {
-                if (_isMeshDirty)
-                {
-                    // todo: Compute visible bounds
-                    _meshBuffer.Update(_mesh);
-                    _isMeshDirty = false;
-                }
-
                 // Convert dragonebones to heirloom matrix 
                 _transform.ToMatrix(_transformMatrix);
                 var transformMatrix = Helper.GetHeirloomMatrix(_transformMatrix);
 
-                // Draw slot
-                gfx.Draw(_mesh, _currentImage, matrix * transformMatrix);
+                // Combine transform and draw
+                Mathematics.Matrix.Multiply(matrix, transformMatrix, ref matrix);
+                gfx.Draw(_meshBuffer.Mesh, _currentImage, matrix);
             }
 
             //// Draw triangle wireframe
@@ -495,30 +484,30 @@ namespace Heirloom.Extras.Animation
 
         private class MeshBuffer
         {
-            public MeshVertex[] Vertices;
-            public Vector[] Raw;
+            public Mesh Mesh = new Mesh();
+            public Vector[] Raw = new Vector[4];
 
-            public int[] Triangles;
+            public int TriangleCount;
+            public int VertexCount;
+
+            internal void Resize(int vertexCount, int triangleCount)
+            {
+                if (vertexCount > Mesh.Vertices.Count)
+                {
+                    Array.Resize(ref Raw, vertexCount);
+                }
+
+                Mesh.SetIndexCount(triangleCount);
+                Mesh.SetVertexCount(vertexCount);
+
+                TriangleCount = triangleCount;
+                VertexCount = vertexCount;
+            }
 
             internal void Clear()
             {
-                // 
-            }
-
-            internal void Update(Mesh mesh)
-            {
-                mesh.Clear();
-
-                for (var i = 0; i < Triangles.Length; i += 3)
-                {
-                    var i0 = Triangles[i + 0];
-                    var i1 = Triangles[i + 1];
-                    var i2 = Triangles[i + 2];
-
-                    mesh.AddVertex(Vertices[i0]);
-                    mesh.AddVertex(Vertices[i1]);
-                    mesh.AddVertex(Vertices[i2]);
-                }
+                TriangleCount = 0;
+                VertexCount = 0;
             }
         }
     }

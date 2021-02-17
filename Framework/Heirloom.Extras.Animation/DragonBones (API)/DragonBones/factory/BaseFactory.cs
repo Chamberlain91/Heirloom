@@ -60,8 +60,6 @@ namespace DragonBones
         /// <private/>
         protected readonly Dictionary<string, List<TextureAtlasData>> TextureAtlasDataMap = new Dictionary<string, List<TextureAtlasData>>();
         /// <private/>
-        public DragonBones DragonBones;
-        /// <private/>
         protected DataParser DataParser;
         /// <summary>
         /// - Create a factory instance. (typically only one global factory instance is required)
@@ -296,81 +294,81 @@ namespace DragonBones
             switch (displayData.type)
             {
                 case DisplayType.Image:
+                {
+                    var imageDisplayData = displayData as ImageDisplayData;
+                    if (imageDisplayData.texture == null)
                     {
-                        var imageDisplayData = displayData as ImageDisplayData;
-                        if (imageDisplayData.texture == null)
-                        {
-                            imageDisplayData.texture = _GetTextureData(dataName, displayData.path);
-                        }
-                        else if (dataPackage != null && !string.IsNullOrEmpty(dataPackage.TextureAtlasName))
-                        {
-                            imageDisplayData.texture = _GetTextureData(dataPackage.TextureAtlasName, displayData.path);
-                        }
-
-                        if (rawDisplayData != null && rawDisplayData.type == DisplayType.Mesh && _IsSupportMesh())
-                        {
-                            display = slot.MeshDisplay;
-                        }
-                        else
-                        {
-                            display = slot.RawDisplay;
-                        }
+                        imageDisplayData.texture = _GetTextureData(dataName, displayData.path);
                     }
-                    break;
+                    else if (dataPackage != null && !string.IsNullOrEmpty(dataPackage.TextureAtlasName))
+                    {
+                        imageDisplayData.texture = _GetTextureData(dataPackage.TextureAtlasName, displayData.path);
+                    }
+
+                    if (rawDisplayData != null && rawDisplayData.type == DisplayType.Mesh && _IsSupportMesh())
+                    {
+                        display = slot.MeshDisplay;
+                    }
+                    else
+                    {
+                        display = slot.RawDisplay;
+                    }
+                }
+                break;
                 case DisplayType.Mesh:
+                {
+                    var meshDisplayData = displayData as MeshDisplayData;
+                    if (meshDisplayData.texture == null)
                     {
-                        var meshDisplayData = displayData as MeshDisplayData;
-                        if (meshDisplayData.texture == null)
-                        {
-                            meshDisplayData.texture = _GetTextureData(dataName, meshDisplayData.path);
-                        }
-                        else if (dataPackage != null && !string.IsNullOrEmpty(dataPackage.TextureAtlasName))
-                        {
-                            meshDisplayData.texture = _GetTextureData(dataPackage.TextureAtlasName, meshDisplayData.path);
-                        }
-
-                        if (_IsSupportMesh())
-                        {
-                            display = slot.MeshDisplay;
-                        }
-                        else
-                        {
-                            display = slot.RawDisplay;
-                        }
+                        meshDisplayData.texture = _GetTextureData(dataName, meshDisplayData.path);
                     }
-                    break;
-                case DisplayType.Armature:
+                    else if (dataPackage != null && !string.IsNullOrEmpty(dataPackage.TextureAtlasName))
                     {
-                        var armatureDisplayData = displayData as ArmatureDisplayData;
-                        var childArmature = _BuildChildArmature(dataPackage, slot, displayData);
-                        if (childArmature != null)
+                        meshDisplayData.texture = _GetTextureData(dataPackage.TextureAtlasName, meshDisplayData.path);
+                    }
+
+                    if (_IsSupportMesh())
+                    {
+                        display = slot.MeshDisplay;
+                    }
+                    else
+                    {
+                        display = slot.RawDisplay;
+                    }
+                }
+                break;
+                case DisplayType.Armature:
+                {
+                    var armatureDisplayData = displayData as ArmatureDisplayData;
+                    var childArmature = _BuildChildArmature(dataPackage, slot, displayData);
+                    if (childArmature != null)
+                    {
+                        childArmature.InheritAnimation = armatureDisplayData.inheritAnimation;
+                        if (!childArmature.InheritAnimation)
                         {
-                            childArmature.InheritAnimation = armatureDisplayData.inheritAnimation;
-                            if (!childArmature.InheritAnimation)
+                            var actions = armatureDisplayData.actions.Count > 0 ? armatureDisplayData.actions : childArmature.ArmatureData.defaultActions;
+                            if (actions.Count > 0)
                             {
-                                var actions = armatureDisplayData.actions.Count > 0 ? armatureDisplayData.actions : childArmature.ArmatureData.defaultActions;
-                                if (actions.Count > 0)
+                                foreach (var action in actions)
                                 {
-                                    foreach (var action in actions)
-                                    {
-                                        var eventObject = BaseObject.BorrowObject<EventObject>();
-                                        EventObject.ActionDataToInstance(action, eventObject, slot.Armature);
-                                        eventObject.slot = slot;
-                                        slot.Armature._BufferAction(eventObject, false);
-                                    }
-                                }
-                                else
-                                {
-                                    childArmature.Animation.Play();
+                                    var eventObject = BaseObject.BorrowObject<EventObject>();
+                                    EventObject.ActionDataToInstance(action, eventObject, slot.Armature);
+                                    eventObject.slot = slot;
+                                    slot.Armature._BufferAction(eventObject, false);
                                 }
                             }
-
-                            armatureDisplayData.armature = childArmature.ArmatureData; // 
+                            else
+                            {
+                                childArmature.Animation.Play();
+                            }
                         }
 
-                        display = childArmature;
+                        armatureDisplayData.armature = childArmature.ArmatureData; // 
                     }
-                    break;
+
+                    display = childArmature;
+                }
+                break;
                 case DisplayType.BoundingBox:
                     break;
             }
@@ -412,7 +410,7 @@ namespace DragonBones
         /// <language>zh_CN</language>
         public DragonBonesData ParseDragonBonesData(object rawData, string name = null, float scale = 1.0f)
         {
-            var dataParser = rawData is byte[] ? BinaryParser : DataParser;
+            var dataParser = rawData is byte[]? BinaryParser : DataParser;
             var dragonBonesData = dataParser.ParseDragonBonesData(rawData, scale);
 
             while (true)
@@ -584,7 +582,7 @@ namespace DragonBones
             {
                 if (disposeData)
                 {
-                    DragonBones.BufferObject(DragonBonesDataMap[name]);
+                    DragonBonesDataMap[name].ReturnToPool();
                 }
 
                 DragonBonesDataMap.Remove(name);
@@ -681,7 +679,7 @@ namespace DragonBones
                 {
                     foreach (var textureAtlasData in textureAtlasDataList)
                     {
-                        DragonBones.BufferObject(textureAtlasData);
+                        textureAtlasData.ReturnToPool();
                     }
                 }
 
@@ -734,14 +732,14 @@ namespace DragonBones
             {
                 foreach (var dragonBoneData in DragonBonesDataMap.Values)
                 {
-                    DragonBones.BufferObject(dragonBoneData);
+                    dragonBoneData.ReturnToPool();
                 }
 
                 foreach (var textureAtlasDatas in TextureAtlasDataMap.Values)
                 {
                     foreach (var textureAtlasData in textureAtlasDatas)
                     {
-                        DragonBones.BufferObject(textureAtlasData);
+                        textureAtlasData.ReturnToPool();
                     }
                 }
             }
@@ -1153,19 +1151,6 @@ namespace DragonBones
         {
             return TextureAtlasDataMap;
         }
-
-        /// <summary>
-        /// - An Worldclock instance updated by engine.
-        /// </summary>
-        /// <version>DragonBones 5.7</version>
-        /// <language>en_US</language>
-
-        /// <summary>
-        /// - 由引擎驱动的 WorldClock 实例。
-        /// </summary>
-        /// <version>DragonBones 5.7</version>
-        /// <language>zh_CN</language>
-        public WorldClock Clock => DragonBones.Clock;
 
         /// <summary>
         /// - Deprecated, please refer to {@link #replaceSkin}.

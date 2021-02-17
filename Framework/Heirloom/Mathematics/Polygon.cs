@@ -175,7 +175,7 @@ namespace Heirloom.Mathematics
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private void LazyComputeBounds()
         {
             if (_dirty.HasFlag(Dirty.Bounds))
@@ -186,7 +186,7 @@ namespace Heirloom.Mathematics
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private void LazyComputeMetrics()
         {
             if (_dirty.HasFlag(Dirty.Metrics))
@@ -196,7 +196,7 @@ namespace Heirloom.Mathematics
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private void LazyComputeConvexPartitions()
         {
             if (_dirty.HasFlag(Dirty.ConvexPartitions))
@@ -224,7 +224,7 @@ namespace Heirloom.Mathematics
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private void LazyComputeNormals()
         {
             if (_dirty.HasFlag(Dirty.Normals))
@@ -311,7 +311,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Determines if the specified point is contained by this polygon.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public bool Contains(Vector point)
         {
             // Check for containment in each convex fragment
@@ -330,7 +330,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Checks for an overlap between this polygon and another shape.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public bool Overlaps(IShape shape)
         {
             return Collision.CheckOverlap(this, shape);
@@ -343,7 +343,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Checks if a ray intersects this polygon.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public bool Raycast(Ray ray)
         {
             return PolygonTools.Raycast(_vertices, ray, out _);
@@ -352,7 +352,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Checks if a ray intersects this polygon and outputs information on the contact point.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public bool Raycast(Ray ray, out RayContact hit)
         {
             return PolygonTools.Raycast(_vertices, ray, out hit);

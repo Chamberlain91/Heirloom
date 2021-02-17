@@ -6,12 +6,14 @@ namespace Heirloom.Drawing.OpenGLES
     internal unsafe class ESVertexArray
     {
         public readonly ESVertexBuffer[] VertexBuffers;
+        public readonly ESIndexBuffer IndexBuffer;
 
         public readonly uint Handle;
 
-        public ESVertexArray(params ESVertexBuffer[] vertexBuffers)
+        public ESVertexArray(ESIndexBuffer indexBuffer, params ESVertexBuffer[] vertexBuffers)
         {
             VertexBuffers = vertexBuffers ?? throw new ArgumentNullException(nameof(vertexBuffers));
+            IndexBuffer = indexBuffer ?? throw new ArgumentNullException(nameof(indexBuffer));
 
             if (VertexBuffers.Length == 0)
             {
@@ -29,6 +31,9 @@ namespace Heirloom.Drawing.OpenGLES
                 {
                     buffer.Bind();
                 }
+
+                // Bind the index buffer
+                IndexBuffer.Bind();
             }
             GLES.BindVertexArray(0);
         }

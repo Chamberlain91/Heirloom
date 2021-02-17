@@ -6,7 +6,7 @@ namespace Heirloom.Drawing.OpenGLES
 {
     internal abstract class ESBatch
     {
-        protected static int BatchCapacity = ushort.MaxValue * 4;
+        protected static int BatchCapacity = ushort.MaxValue;
 
         protected ESBatch(ESGraphicsContext context)
         {

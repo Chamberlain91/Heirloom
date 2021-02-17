@@ -1,105 +1,204 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+
+using Heirloom.Utilities;
 
 namespace Heirloom.Extras.Animation
 {
-    //public class Clock
-    //{
-    //    /// <summary>
-    //    /// A globally available clock.
-    //    /// </summary>
-    //    public static Clock Global { get; } = new Clock();
+    public static class Clock
+    {
+        private static readonly List<ClockService> _services = new List<ClockService>();
 
-    //    private readonly List<IAnimatable> _animatables = new List<IAnimatable>();
-    //    private bool _isUpdating;
+        private static readonly CoroutineClockService _coroutine;
+        private static readonly IntervalClockService _interval;
+        private static readonly TimeoutClockService _timeout;
 
-    //    public float TimeScale { get; set; } = 1F;
+        private static float _timeScale;
 
-    //    public float Delta { get; private set; }
+        static Clock()
+        {
+            // Allocate all discoverable clock environments
+            foreach (var type in ReflectionHelper.GetSubclassTypes<ClockService>())
+            {
+                var instance = Activator.CreateInstance(type) as ClockService;
+                _services.Add(instance);
+            }
 
-    //    public float Time { get; private set; }
+            // Sort environments by priority
+            _services.StableSort();
 
-    //    public void Update(float dt)
-    //    {
-    //        // Mark updating state, to help prevent mutation.
-    //        _isUpdating = true;
+            // Get static references for faster access
+            _coroutine = GetClockEnvironment<CoroutineClockService>();
+            _interval = GetClockEnvironment<IntervalClockService>();
+            _timeout = GetClockEnvironment<TimeoutClockService>();
+        }
 
-    //        // Compute time scaled delta
-    //        var scaleDelta = dt * TimeScale;
-    //        Delta = scaleDelta;
+        /// <summary>
+        /// The time rate multiplier, used to control global animation speed and other clock features.
+        /// </summary>
+        public static float TimeScale
+        {
+            get => _timeScale;
+            set
+            {
+                _timeScale = value;
+                foreach (var service in _services)
+                {
+                    service.TimeScale = value;
+                    service.OnTimeScaleChanged();
+                }
+            }
+        }
 
-    //        // Accumulate time
-    //        Time += scaleDelta;
+        /// <summary>
+        /// The time (in seconds) between subsequent calls to <see cref="Update(float)"/>.
+        /// </summary>
+        public static float Delta { get; private set; }
 
-    //        // Update each animatable
-    //        foreach (var animatable in _animatables)
-    //        {
-    //            animatable.Update(scaleDelta);
-    //        }
+        /// <summary>
+        /// The time since application start.
+        /// </summary>
+        public static float Time { get; private set; }
 
-    //        // No longer updating
-    //        _isUpdating = false;
-    //    }
+        /// <summary>
+        /// Advances the clock by <paramref name="delta"/> seconds and all instances <see cref="ClockService"/> (in priority order).
+        /// </summary>
+        public static void Update(float delta)
+        {
+            // Accumulate time
+            Delta = delta * TimeScale;
+            Time += Delta;
 
-    //    #region Add/Remove/Contains IAnimatable
+            // Update clock services
+            foreach (var clock in _services)
+            {
+                clock.Update(delta);
+            }
+        }
 
-    //    public void Add(IAnimatable animatable)
-    //    {
-    //        if (_isUpdating) { throw new InvalidOperationException("Unable to modify animatable collection, executing in update."); }
-    //        else
-    //        {
-    //            if (animatable.Clock == null)
-    //            {
-    //                _animatables.Add(animatable);
-    //                animatable.Clock = this;
-    //            }
-    //            else
-    //            {
-    //                throw new InvalidOperationException("Unable to add animatable to clock, already attached to another clock");
-    //            }
-    //        }
-    //    }
+        /// <summary>
+        /// Gets the instance of some <see cref="ClockService"/>.
+        /// </summary>
+        public static TClockService GetClockEnvironment<TClockService>() where TClockService : ClockService
+        {
+            foreach (var clock in _services)
+            {
+                if (clock is TClockService service)
+                {
+                    return service;
+                }
+            }
 
-    //    public void Remove(IAnimatable animatable)
-    //    {
-    //        if (_isUpdating) { throw new InvalidOperationException("Unable to modify animatable collection, executing in update."); }
-    //        else
-    //        {
-    //            if (animatable.Clock == this)
-    //            {
-    //                _animatables.Remove(animatable);
-    //                animatable.Clock = null;
-    //            }
-    //            else
-    //            {
-    //                throw new InvalidOperationException("Unable to remove animatable from clock, attache to a different clock");
-    //            }
-    //        }
-    //    }
+            return default;
+        }
 
-    //    public bool Contains(IAnimatable animatable)
-    //    {
-    //        if (animatable.Clock == this)
-    //        {
-    //            return _animatables.Contains(animatable);
-    //        }
-    //        else
-    //        {
-    //            return false;
-    //        }
-    //    }
+        #region Coroutine Service
 
-    //    #endregion
+        public static uint StartCoroutine(IEnumerator coroutine)
+        {
+            return _coroutine.Start(coroutine);
+        }
 
-    //    // todo: coroutines ( uint StartCoroutine(...), StopCoroutine(handle) )
-    //    // todo: intervals ( uint StartInterval(..., duration), StopInterval(handle) )
-    //    // todo: 
-    //}
+        public static void StopCoroutine(uint handle)
+        {
+            _coroutine.Stop(handle);
+        }
 
-    //public interface IAnimatable
-    //{
-    //    Clock Clock { get; internal set; }
+        private sealed class CoroutineClockService : ClockService
+        {
+            public CoroutineClockService()
+                : base(ClockServicePriority.Coroutines - 0)
+            { }
 
-    //    void Update(float dt);
-    //}
+            protected internal override void Update(float dt)
+            {
+                // Nothing (Yet)
+            }
+
+            internal uint Start(IEnumerator coroutine)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void Stop(uint handle)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion
+
+        #region Interval Service
+
+        public static uint StartInterval(IEnumerator coroutine, float duration)
+        {
+            return _interval.Start(coroutine, duration);
+        }
+
+        public static void StopInterval(uint handle)
+        {
+            _interval.Stop(handle);
+        }
+
+        private sealed class IntervalClockService : ClockService
+        {
+            public IntervalClockService()
+                : base(ClockServicePriority.Coroutines - 1)
+            { }
+
+            protected internal override void Update(float dt)
+            {
+                // Nothing (Yet)
+            }
+
+            internal uint Start(IEnumerator coroutine, float duration)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void Stop(uint handle)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion
+
+        #region Timeout Service
+
+        public static uint StartTimeout(IEnumerator coroutine, float delay)
+        {
+            return _timeout.Start(coroutine);
+        }
+
+        public static void StopTimeout(uint handle)
+        {
+            _timeout.Stop(handle);
+        }
+
+        private sealed class TimeoutClockService : ClockService
+        {
+            public TimeoutClockService()
+                : base(ClockServicePriority.Coroutines - 2)
+            { }
+
+            protected internal override void Update(float dt)
+            {
+                // Nothing (Yet)
+            }
+
+            internal uint Start(IEnumerator coroutine)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void Stop(uint handle)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion 
+    }
 }

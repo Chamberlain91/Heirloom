@@ -8,8 +8,6 @@ namespace Heirloom.Extras.Animation
 {
     internal sealed class DragonFactory : BaseFactory
     {
-        private readonly DragonEventDispatcher _eventDispatcher;
-
         private static DragonFactory _factory;
 
         public static DragonFactory Factory
@@ -23,10 +21,7 @@ namespace Heirloom.Extras.Animation
 
         private DragonFactory(DataParser dataParser = null)
             : base(dataParser)
-        {
-            _eventDispatcher = new DragonEventDispatcher();
-            DragonBones = new DragonBones.DragonBones(_eventDispatcher);
-        }
+        { }
 
         protected override TextureAtlasData _BuildTextureAtlasData(TextureAtlasData textureAtlasData, object textureAtlas)
         {
@@ -54,7 +49,7 @@ namespace Heirloom.Extras.Animation
                 Armature = armature
             };
 
-            armature.Init(dataPackage.Armature, proxy, proxy, DragonBones);
+            armature.Init(dataPackage.Armature, proxy, proxy);
             return armature;
         }
 

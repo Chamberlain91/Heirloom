@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using DragonBones;
@@ -7,20 +8,51 @@ namespace Heirloom.Extras.Animation
     internal class DragonEventDispatcher : IEventDispatcher<EventObject>
     {
         private readonly Dictionary<string, HashSet<ListenerDelegate<EventObject>>> _listeners = new Dictionary<string, HashSet<ListenerDelegate<EventObject>>>();
+        private readonly List<EventObject> _events = new List<EventObject>();
 
         public bool HasDBEventListener(string type)
         {
             return GetListeners(type).Count > 0;
         }
 
+        internal void Clear()
+        {
+            foreach (var ev in _events) { ev.ReturnToPool(); }
+            _events.Clear();
+        }
+
+        internal void ProcessEvents()
+        {
+            if (_events.Count > 0)
+            {
+                for (var i = 0; i < _events.Count; ++i)
+                {
+                    var eventObject = _events[i];
+
+                    var type = eventObject.type;
+
+                    // 
+                    if (_listeners.TryGetValue(type, out var listeners))
+                    {
+                        foreach (var listener in listeners)
+                        {
+                            listener(type, eventObject);
+                        }
+                    }
+
+                    // Recycle event object
+                    eventObject.ReturnToPool();
+                }
+
+                _events.Clear();
+            }
+        }
+
         public void DispatchDBEvent(string type, EventObject eventObject)
         {
-            if (_listeners.TryGetValue(type, out var listeners))
+            if (!_events.Contains(eventObject))
             {
-                foreach (var listener in listeners)
-                {
-                    listener(type, eventObject);
-                }
+                _events.Add(eventObject);
             }
         }
 

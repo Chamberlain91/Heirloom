@@ -88,7 +88,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Checks if a ray intersects this polygon and outputs information on the contact point.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static bool Raycast(IReadOnlyList<Vector> polygon, Ray ray, out RayContact contact)
         {
             // todo: perhaps implement against LineSegment.Intersects? somehow comparitively see what is better
@@ -590,7 +590,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Determines if the polygon is convex.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static bool IsConvexPolygon(IReadOnlyList<Vector> polygon)
         {
             int pos = 0, neg = 0;
@@ -608,7 +608,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Determines if the ith vertex is a convex (clockwise) vertex.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static bool IsClockwise(IReadOnlyList<Vector> polygon, int i)
         {
             var p = GetVertex(polygon, i - 1);
@@ -621,7 +621,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Determines if the vertex '<paramref name="vCurr"/>' is convex (clockwise).
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static bool IsClockwise(Vector vPrev, Vector vCurr, Vector vNext)
         // todo: can be implemented against Vector.Cross, that's pretty much what is happening below.
         {
@@ -681,7 +681,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Vector perpendicular to the i-th edge.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector GetNormal(IReadOnlyList<Vector> polygon, int i)
         {
             return Vector.Normalize(GetScaledNormal(polygon, i));
@@ -690,7 +690,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Vector perpendicular to the i-th edge scaled by the length of the edge.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         internal static Vector GetScaledNormal(IReadOnlyList<Vector> polygon, int i)
         {
             var v1 = polygon[i];
@@ -710,7 +710,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Gets the i-th vertex but also wraps beyond the domain (ie, -1 will access last vertex).
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         internal static Vector GetVertex(IReadOnlyList<Vector> data, int index)
         {
             // todo: test if statements vs wrap (modulus heavy) has considerable performance effect?

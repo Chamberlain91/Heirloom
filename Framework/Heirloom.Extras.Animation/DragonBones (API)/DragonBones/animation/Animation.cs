@@ -204,7 +204,8 @@ namespace DragonBones
                 var animationState = _animationStates[0];
                 if (animationState._fadeState > 0 && animationState._subFadeState > 0)
                 {
-                    _armature._dragonBones.BufferObject(animationState);
+                    animationState.ReturnToPool();
+
                     _animationStates.Clear();
                     _lastAnimationState = null;
                 }
@@ -253,7 +254,8 @@ namespace DragonBones
                     if (animationState._fadeState > 0 && animationState._subFadeState > 0)
                     {
                         r++;
-                        _armature._dragonBones.BufferObject(animationState);
+                        animationState.ReturnToPool();
+
                         _animationDirty = true;
                         if (_lastAnimationState == animationState)
                         {

@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 using Heirloom.Mathematics;
@@ -9,6 +8,7 @@ namespace Heirloom.Drawing.OpenGLES
     {
         private readonly VertexBuffer<InstanceData> _instanceBuffer;
         private readonly VertexBuffer<VertexData> _vertexBuffer;
+        private readonly ESIndexBuffer _indexBuffer;
 
         private readonly ESVertexArray _vertexArray;
 
@@ -21,13 +21,14 @@ namespace Heirloom.Drawing.OpenGLES
         public ESBatchInstance(ESGraphicsContext context)
             : base(context)
         {
-            _instanceBuffer = new VertexBuffer<InstanceData>(BatchCapacity, false);
+            _instanceBuffer = new VertexBuffer<InstanceData>(BatchCapacity * 8, false);
             _vertexBuffer = new VertexBuffer<VertexData>(BatchCapacity, true);
+            _indexBuffer = new ESIndexBuffer(BatchCapacity);
 
-            _vertexArray = new ESVertexArray(_instanceBuffer, _vertexBuffer);
+            _vertexArray = new ESVertexArray(_indexBuffer, _instanceBuffer, _vertexBuffer);
         }
 
-        public override bool IsDirty => _instanceBuffer.Count > 0;
+        public override bool IsDirty => _clearColor.HasValue || _instanceBuffer.Count > 0;
 
         public override void Clear(Color color)
         {
@@ -53,7 +54,7 @@ namespace Heirloom.Drawing.OpenGLES
             return true;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private bool TryUpdateTemplateMesh(Mesh mesh)
         {
             // Different mesh or out-of-date.
@@ -81,8 +82,15 @@ namespace Heirloom.Drawing.OpenGLES
                     vtx.UV = mesh.Vertices[i].UV;
                 }
 
+                // Copy index data
+                for (var i = 0; i < mesh.Indices.Count; i++)
+                {
+                    _indexBuffer.Data[i] = (ushort) mesh.Indices[i];
+                }
+
                 // Store vertex and index counts
                 _vertexBuffer.Count = mesh.Vertices.Count;
+                _indexBuffer.Count = mesh.Indices.Count;
 
                 // We have copied the template
                 _copyTemplate = false;
@@ -109,12 +117,12 @@ namespace Heirloom.Drawing.OpenGLES
                 // Upload buffers to GPU
                 _instanceBuffer.Upload();
                 _vertexBuffer.Upload();
-
-                // Log.Info($"Drawing {_instanceBuffer.Count} x {IndexBuffer.Count / 3} triangles.");
+                _indexBuffer.Upload();
 
                 // Draw the geometry
                 GLES.BindVertexArray(_vertexArray.Handle);
-                GLES.DrawArraysInstanced(DrawMode.Triangles, _vertexBuffer.Count, _instanceBuffer.Count);
+                if (_indexBuffer.Count > 0) { GLES.DrawElementsInstanced(DrawMode.Triangles, _indexBuffer.Count, DrawElementType.UnsignedShort, _instanceBuffer.Count); }
+                else { GLES.DrawArraysInstanced(DrawMode.Triangles, _vertexBuffer.Count, _instanceBuffer.Count); }
                 GLES.BindVertexArray(0);
             }
 

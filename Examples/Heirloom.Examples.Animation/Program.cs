@@ -10,8 +10,8 @@ namespace Heirloom.Examples.Animation
 {
     public class Program : GameWrapper
     {
-        public const int NumberOfArmatures = 1;
-        public const float ScatterRadius = 0;
+        public const int NumberOfArmatures = 1000;
+        public const float ScatterRadius = 300;
 
         public Armature[] Armatures;
         public Matrix[] Matrices;
@@ -35,10 +35,13 @@ namespace Heirloom.Examples.Animation
                 // Create an instance of the "dragon" armature
                 Armatures[i] = ArmatureFactory.CreateArmature("dragon");
                 Armatures[i].Animation.PlayAtTime("stand", Calc.Random.NextFloat(), 0);
-                Armatures[i].EnableDebug = true;
+
+                //// Enable debug drawing of armature
+                //Armatures[i].EnableDebug = true;
 
                 // Position dragon randomly.
-                Matrices[i] = Matrix.CreateTranslation(Calc.Random.NextVectorDisk(ScatterRadius));
+                var p = Vector.GetParabolicSpiralPoint(i) * ScatterRadius;
+                Matrices[i] = Matrix.CreateTranslation(p);
             }
         }
 
@@ -50,31 +53,35 @@ namespace Heirloom.Examples.Animation
             Graphics.Performance.ShowOverlay = true;
 
             // Zoom camera to "fit" the dragons
-            var zoom = Calc.Max(1F, ScatterRadius / (Graphics.Surface.Height / 2));
+            var zoom = Calc.Max(1F, ScatterRadius * Calc.Sqrt(NumberOfArmatures) / (Graphics.Surface.Height / 2));
             Graphics.SetCamera(Vector.Up * 250, 1F / zoom);
 
-            if (Input.IsKeyPressed(Key.Q)) { _flipX = !_flipX; }
-            if (Input.IsKeyPressed(Key.E)) { _flipY = !_flipY; }
+            // Flip armatures
+            if (Input.IsKeyPressed(Key.W)) { _flipY = false; }
+            if (Input.IsKeyPressed(Key.A)) { _flipX = true; }
+            if (Input.IsKeyPressed(Key.S)) { _flipY = true; }
+            if (Input.IsKeyPressed(Key.D)) { _flipX = false; }
 
             // Draw each armature
             for (var i = 0; i < Armatures.Length; i++)
             {
+                // Configure armature flipping
                 Armatures[i].FlipX = _flipX;
                 Armatures[i].FlipY = _flipY;
 
+                // Draw armature
                 Armatures[i].Draw(Graphics, Matrices[i]);
             }
 
-            // Place picture on screen &
-            // Update armatures and process events
-            var task = Task.Run(() => WorldClock.AdvanceTime(dt));
+            // Update armatures and present graphics to the screen
+            var task = Task.Run(() => { foreach (var armature in Armatures) { armature.Update(dt); } });
             Graphics.Screen.Refresh();
             task.Wait();
         }
 
         private static GraphicsContext CreateWindowGraphics()
         {
-            var window = new Window("Graph Visualization", MultisampleQuality.Low);
+            var window = new Window("Graph Visualization", MultisampleQuality.Medium);
             // window.Position = (IntVector) (Display.Primary.Size - window.Size) / 2;
             window.Maximize();
 

@@ -1,6 +1,7 @@
+using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
+using Heirloom.Collections;
 using Heirloom.Mathematics;
 
 namespace Heirloom.Drawing.OpenGLES
@@ -13,7 +14,7 @@ namespace Heirloom.Drawing.OpenGLES
         private readonly ESBatchStreaming _streamingTechnique;
 
         private readonly ObjectPool<Command> _commandPool = new ObjectPool<Command>();
-        private readonly ObjectPool<Mesh> _meshPool = new ObjectPool<Mesh>();
+        private readonly ObjectPool<Mesh> _meshPool = new ObjectPool<Mesh>(m => m.Clear());
 
         private readonly HashSet<Mesh> _meshRecycleSet = new HashSet<Mesh>();
         private readonly List<Command> _commandBuffer = new List<Command>();
@@ -30,7 +31,7 @@ namespace Heirloom.Drawing.OpenGLES
             _streamingTechnique = new ESBatchStreaming(context);
         }
 
-        public override bool IsDirty => _commandBuffer.Count > 0;
+        public override bool IsDirty => _clearColor.HasValue || _commandBuffer.Count > 0;
 
         public override void Clear(Color color)
         {
@@ -42,9 +43,10 @@ namespace Heirloom.Drawing.OpenGLES
             // If the mesh isn't consistent with last submission defensively copy the mesh
             if (_baseMesh != mesh || _baseMeshVersion != mesh.Version)
             {
-                // Copy data into defensive copy mesh
+                // Request a pooled mesh to defensively copy into
                 _copyMesh = _meshPool.Request();
-                _copyMesh.SetVertices(mesh.Vertices);
+                _copyMesh.AddVertices(mesh.Vertices);
+                _copyMesh.AddIndices(mesh.Indices);
 
                 // Track mesh information
                 _baseMeshVersion = mesh.Version;
@@ -158,7 +160,6 @@ namespace Heirloom.Drawing.OpenGLES
             _baseMesh = null;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private int CountInstances(int i, Mesh mesh)
         {
             var instances = 1;
@@ -181,13 +182,19 @@ namespace Heirloom.Drawing.OpenGLES
 
         private sealed class ObjectPool<T> where T : class, new()
         {
-            private readonly Queue<T> _queue = new Queue<T>();
+            private readonly Bag<T> _bucket = new Bag<T>();
+            private readonly Action<T> _reset;
+
+            public ObjectPool(Action<T> reset = null)
+            {
+                _reset = reset;
+            }
 
             public T Request()
             {
-                if (_queue.Count > 0)
+                if (_bucket.Count > 0)
                 {
-                    return _queue.Dequeue();
+                    return _bucket.Remove();
                 }
                 else
                 {
@@ -197,7 +204,8 @@ namespace Heirloom.Drawing.OpenGLES
 
             public void Recycle(T item)
             {
-                _queue.Enqueue(item);
+                _reset?.Invoke(item);
+                _bucket.Add(item);
             }
         }
     }

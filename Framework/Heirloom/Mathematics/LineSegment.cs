@@ -36,7 +36,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Sets the components of this line segment.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public void Set(Vector a, Vector b)
         {
             A = a;
@@ -47,7 +47,7 @@ namespace Heirloom.Mathematics
         /// Gets a intermediate point along the line segment.
         /// </summary>
         /// <param name="t">A zero to one value of how much interpolation between endpoints.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public Vector GetIntermediatePoint(float t)
         {
             return Vector.Lerp(A, B, t);

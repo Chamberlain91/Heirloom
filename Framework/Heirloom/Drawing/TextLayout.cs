@@ -43,7 +43,7 @@ namespace Heirloom.Drawing
         /// <param name="text">The text to layout and measure.</param>
         /// <param name="font">The font to use.</param>
         /// <param name="fontSize">The font size to use.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Rectangle Measure(string text, Font font, int fontSize)
         {
             return Measure(text, Size.Infinite, font, fontSize);
@@ -57,7 +57,7 @@ namespace Heirloom.Drawing
         /// <param name="font">The font to use.</param>
         /// <param name="fontSize">The font size to use.</param>
         /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Rectangle Measure(string text, Size layoutSize, Font font, int fontSize)
         {
             return Measure(text, new Rectangle(Vector.Zero, layoutSize), font, fontSize);
@@ -71,7 +71,7 @@ namespace Heirloom.Drawing
         /// <param name="font">The font to use.</param>
         /// <param name="fontSize">The size to measure the font with.</param>
         /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Rectangle Measure(string text, Rectangle layoutBox, Font font, int fontSize)
         {
             if (text is null) { throw new ArgumentNullException(nameof(text)); }

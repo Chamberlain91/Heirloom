@@ -187,7 +187,7 @@ namespace Heirloom.Mathematics
         #endregion
 
         // 6t^5 - 15t^4 + 10t^3
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private static float Fade(float t)
         {
             return t * t * t * (t * (t * 6 - 15) + 10);

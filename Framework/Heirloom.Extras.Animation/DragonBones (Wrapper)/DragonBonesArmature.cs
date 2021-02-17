@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 using DragonBones;
 
@@ -70,6 +71,11 @@ namespace Heirloom.Extras.Animation
             Dispose(false);
         }
 
+        public override void Update(float dt)
+        {
+            _armature.AdvanceTime(dt);
+        }
+
         private void OnEvent(string type, EventObject ev)
         {
             LogEvent(ev);
@@ -117,6 +123,7 @@ namespace Heirloom.Extras.Animation
             // Invoke SoundEvent?.Invoke(ev.name, ...time?)
         }
 
+        [Conditional("DEBUG")]
         private static void LogEvent(EventObject ev)
         {
             Log.Debug($"EVENT {ev.type.ToUpper()}");

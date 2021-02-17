@@ -54,7 +54,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Shader
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static uint CreateShader(ShaderType type)
         {
             var name = glCreateShader(type);
@@ -62,28 +62,28 @@ namespace Heirloom.Drawing.OpenGLES
             return name;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteShader(uint shader)
         {
             glDeleteShader(shader);
             CheckError(nameof(DeleteShader));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void CompileShader(uint shader)
         {
             glCompileShader(shader);
             CheckError(nameof(CompileShader));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void ShaderSource(uint shader, string source)
         {
             glShaderSource(shader, 1, new[] { source }, new int[] { source.Length });
             CheckError(nameof(ShaderSource));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static int GetShader(uint shader, ShaderParameter name)
         {
             var x = new int[1];
@@ -92,7 +92,7 @@ namespace Heirloom.Drawing.OpenGLES
             return x[0];
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static string GetShaderInfoLog(uint shader)
         {
             var builder = new StringBuilder(16384);
@@ -105,7 +105,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Shader Program
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static uint CreateProgram()
         {
             var name = glCreateProgram();
@@ -113,21 +113,21 @@ namespace Heirloom.Drawing.OpenGLES
             return name;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteProgram(uint program)
         {
             glDeleteProgram(program);
             CheckError(nameof(DeleteProgram));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteProgram(ref uint program)
         {
             DeleteProgram(program);
             program = 0;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static bool IsProgram(uint program)
         {
             var x = glIsProgram(program);
@@ -135,49 +135,49 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void LinkProgram(uint program)
         {
             glLinkProgram(program);
             CheckError(nameof(LinkProgram));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void ValidateProgram(uint program)
         {
             glValidateProgram(program);
             CheckError(nameof(ValidateProgram));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void AttachShader(uint program, uint shader)
         {
             glAttachShader(program, shader);
             CheckError(nameof(AttachShader));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DetachShader(uint program, uint shader)
         {
             glDetachShader(program, shader);
             CheckError(nameof(DetachShader));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void UseProgram(uint program)
         {
             glUseProgram(program);
             CheckError(nameof(UseProgram));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void BindAttribLocation(uint program, uint index, string name)
         {
             glBindAttribLocation(program, index, name);
             CheckError(nameof(BindAttribLocation));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static int GetFragDataLocation(uint program, string name)
         {
             var x = glGetFragDataLocation(program, name);
@@ -191,7 +191,7 @@ namespace Heirloom.Drawing.OpenGLES
         /// <param name="program"> A valid program name </param>
         /// <param name="property"> The type of property to request </param>
         /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static int GetProgram(uint program, ProgramParameter property)
         {
             var x = new int[1];
@@ -200,7 +200,7 @@ namespace Heirloom.Drawing.OpenGLES
             return x[0];
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static string GetProgramInfoLog(uint program)
         {
             var builder = new StringBuilder(16384);
@@ -209,7 +209,7 @@ namespace Heirloom.Drawing.OpenGLES
             return builder.ToString(0, messageLength).Trim();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static ActiveAttribute GetActiveAttribute(uint program, uint index)
         {
             var builder = new StringBuilder(16384);
@@ -221,7 +221,7 @@ namespace Heirloom.Drawing.OpenGLES
             return new ActiveAttribute(name, size, type);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static ActiveAttribute[] GetActiveAttributes(uint program)
         {
             // Get the number of active attributes
@@ -237,7 +237,7 @@ namespace Heirloom.Drawing.OpenGLES
             return attributes;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static ActiveUniform GetActiveUniform(uint program, uint index)
         {
             var builder = new StringBuilder(16384);
@@ -252,7 +252,7 @@ namespace Heirloom.Drawing.OpenGLES
             return new ActiveUniform(name, index, size, type, offset[0]);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static ActiveUniform[] GetActiveUniforms(uint program)
         {
             // Get the number of active uniforms
@@ -268,7 +268,7 @@ namespace Heirloom.Drawing.OpenGLES
             return uniforms;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static int GetAttribLocation(uint program, string name)
         {
             var x = glGetAttribLocation(program, name);
@@ -276,7 +276,7 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static int GetUniformLocation(uint program, string name)
         {
             var x = glGetUniformLocation(program, name);
@@ -284,7 +284,7 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static string GetActiveUniformBlockName(uint program, uint blockIndex)
         {
             var builer = new StringBuilder(16384);
@@ -295,7 +295,7 @@ namespace Heirloom.Drawing.OpenGLES
             return nameLength == -1 ? null : builer.ToString(0, nameLength);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static uint GetActiveUniformBlockIndex(uint program, string name)
         {
             var idx = glGetUniformBlockIndex(program, name);
@@ -303,7 +303,7 @@ namespace Heirloom.Drawing.OpenGLES
             return idx;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void GetActiveUniform(uint program, uint[] uniformIndices, UniformParameter pname, int[] result)
         // TODO: switch( pname ) { ... return arr; } ... because each parameter has known size return?
         {
@@ -311,7 +311,7 @@ namespace Heirloom.Drawing.OpenGLES
             CheckError(nameof(GetActiveUniform));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static ActiveUniformBlock GetActiveUniformBlock(uint program, uint index)
         {
             // Get block name and size
@@ -333,7 +333,7 @@ namespace Heirloom.Drawing.OpenGLES
             return new ActiveUniformBlock(name, index, size, uniforms);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static ActiveUniformBlock[] GetActiveUniformBlocks(uint program)
         {
             // Get the number of active uniform blocks
@@ -349,7 +349,7 @@ namespace Heirloom.Drawing.OpenGLES
             return blocks;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void GetActiveUniformBlock(uint program, uint blockIndex, UniformBlockParameter pname, int[] result)
         // TODO: switch( pname ) { ... return arr; } ... because each parameter has known size return?
         {
@@ -357,7 +357,7 @@ namespace Heirloom.Drawing.OpenGLES
             CheckError(nameof(GetActiveUniformBlock));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void GetActiveUniformBlock(uint program, uint blockIndex, UniformBlockParameter pname, out int value)
         // TODO: switch( pname ) { ... return arr; } ... because each parameter has known size return?
         {
@@ -366,7 +366,7 @@ namespace Heirloom.Drawing.OpenGLES
             value = result[0];
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void UniformBlockBinding(uint program, uint index, uint binding)
         {
             glUniformBlockBinding(program, index, binding);
@@ -379,28 +379,28 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Float
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform1(int location, float v)
         {
             glUniform1f(location, v);
             CheckError(nameof(Uniform1));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform2(int location, float v1, float v2)
         {
             glUniform2f(location, v1, v2);
             CheckError(nameof(Uniform2));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform3(int location, float v1, float v2, float v3)
         {
             glUniform3f(location, v1, v2, v3);
             CheckError(nameof(Uniform3));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform4(int location, float v1, float v2, float v3, float v4)
         {
             glUniform4f(location, v1, v2, v3, v4);
@@ -411,28 +411,28 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Integer
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform1(int location, int v)
         {
             glUniform1i(location, v);
             CheckError(nameof(Uniform1));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform2(int location, int v1, int v2)
         {
             glUniform2i(location, v1, v2);
             CheckError(nameof(Uniform2));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform3(int location, int v1, int v2, int v3)
         {
             glUniform3i(location, v1, v2, v3);
             CheckError(nameof(Uniform3));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform4(int location, int v1, int v2, int v3, int v4)
         {
             glUniform4i(location, v1, v2, v3, v4);
@@ -443,28 +443,28 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Unsigned Integer
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform1(int location, uint v)
         {
             glUniform1ui(location, v);
             CheckError(nameof(Uniform1));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform2(int location, uint v1, uint v2)
         {
             glUniform2ui(location, v1, v2);
             CheckError(nameof(Uniform2));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform3(int location, uint v1, uint v2, uint v3)
         {
             glUniform3ui(location, v1, v2, v3);
             CheckError(nameof(Uniform3));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform4(int location, uint v1, uint v2, uint v3, uint v4)
         {
             glUniform4ui(location, v1, v2, v3, v4);
@@ -479,35 +479,35 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Float
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform1(int location, int count, float* arr)
         {
             glUniform1fv(location, count, arr);
             CheckError(nameof(Uniform1));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform2(int location, int count, float* arr)
         {
             glUniform2fv(location, count, arr);
             CheckError(nameof(Uniform2));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform3(int location, int count, float* arr)
         {
             glUniform3fv(location, count, arr);
             CheckError(nameof(Uniform3));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform4(int location, int count, float* arr)
         {
             glUniform4fv(location, count, arr);
             CheckError(nameof(Uniform4));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform1(int location, float[] arr)
         {
             fixed (float* ptr = arr)
@@ -517,7 +517,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform2(int location, float[] arr)
         {
             // Ensure the array is appropriate length
@@ -530,7 +530,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform3(int location, float[] arr)
         {
             // Ensure the array is appropriate length
@@ -543,7 +543,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform4(int location, float[] arr)
         {
             // Ensure the array is appropriate length
@@ -560,35 +560,35 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Integer
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform1(int location, int count, int* arr)
         {
             glUniform1iv(location, count, arr);
             CheckError(nameof(Uniform1));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform2(int location, int count, int* arr)
         {
             glUniform2iv(location, count, arr);
             CheckError(nameof(Uniform2));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform3(int location, int count, int* arr)
         {
             glUniform3iv(location, count, arr);
             CheckError(nameof(Uniform3));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform4(int location, int count, int* arr)
         {
             glUniform4iv(location, count, arr);
             CheckError(nameof(Uniform4));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform1(int location, int[] arr)
         {
             fixed (int* ptr = arr)
@@ -598,7 +598,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform2(int location, int[] arr)
         {
             // Ensure the array is appropriate length
@@ -611,7 +611,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform3(int location, int[] arr)
         {
             // Ensure the array is appropriate length
@@ -624,7 +624,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform4(int location, int[] arr)
         {
             // Ensure the array is appropriate length
@@ -641,35 +641,35 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Unsigned Integer
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform1(int location, int count, uint* arr)
         {
             glUniform1uiv(location, count, arr);
             CheckError(nameof(Uniform1));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform2(int location, int count, uint* arr)
         {
             glUniform2uiv(location, count, arr);
             CheckError(nameof(Uniform2));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform3(int location, int count, uint* arr)
         {
             glUniform3uiv(location, count, arr);
             CheckError(nameof(Uniform3));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform4(int location, int count, uint* arr)
         {
             glUniform4uiv(location, count, arr);
             CheckError(nameof(Uniform4));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform1(int location, uint[] arr)
         {
             fixed (uint* ptr = arr)
@@ -679,7 +679,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform2(int location, uint[] arr)
         {
             // Ensure the array is appropriate length
@@ -692,7 +692,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform3(int location, uint[] arr)
         {
             // Ensure the array is appropriate length
@@ -705,7 +705,7 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Uniform4(int location, uint[] arr)
         {
             // Ensure the array is appropriate length
@@ -726,7 +726,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Array Based
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void UniformMatrix2x2(int location, float[] values)
         {
             fixed (float* ptr = values)
@@ -737,7 +737,7 @@ namespace Heirloom.Drawing.OpenGLES
             CheckError(nameof(UniformMatrix2x2));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void UniformMatrix2x3(int location, float[] values)
         {
             fixed (float* ptr = values)
@@ -748,7 +748,7 @@ namespace Heirloom.Drawing.OpenGLES
             CheckError(nameof(UniformMatrix2x3));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void UniformMatrix2x4(int location, float[] values)
         {
             fixed (float* ptr = values)
@@ -759,7 +759,7 @@ namespace Heirloom.Drawing.OpenGLES
             CheckError(nameof(UniformMatrix2x4));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void UniformMatrix3x2(int location, float[] values)
         {
             fixed (float* ptr = values)
@@ -770,7 +770,7 @@ namespace Heirloom.Drawing.OpenGLES
             CheckError(nameof(UniformMatrix3x2));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void UniformMatrix3x3(int location, float[] values)
         {
             fixed (float* ptr = values)
@@ -781,7 +781,7 @@ namespace Heirloom.Drawing.OpenGLES
             CheckError(nameof(UniformMatrix3x3));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void UniformMatrix3x4(int location, float[] values)
         {
             fixed (float* ptr = values)
@@ -792,7 +792,7 @@ namespace Heirloom.Drawing.OpenGLES
             CheckError(nameof(UniformMatrix3x2));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void UniformMatrix4x2(int location, float[] values)
         {
             fixed (float* ptr = values)
@@ -803,7 +803,7 @@ namespace Heirloom.Drawing.OpenGLES
             CheckError(nameof(UniformMatrix4x2));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void UniformMatrix4x3(int location, float[] values)
         {
             fixed (float* ptr = values)
@@ -814,7 +814,7 @@ namespace Heirloom.Drawing.OpenGLES
             CheckError(nameof(UniformMatrix4x3));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void UniformMatrix4x4(int location, float[] values)
         {
             fixed (float* ptr = values)
@@ -829,63 +829,63 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Pointer Based
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void UniformMatrix2x2(int location, int count, float* ptr)
         {
             glUniformMatrix2fv(location, count, false, ptr);
             CheckError(nameof(UniformMatrix2x2));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void UniformMatrix2x3(int location, int count, float* ptr)
         {
             glUniformMatrix2x3fv(location, count, false, ptr);
             CheckError(nameof(UniformMatrix2x3));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void UniformMatrix2x4(int location, int count, float* ptr)
         {
             glUniformMatrix2x4fv(location, count, false, ptr);
             CheckError(nameof(UniformMatrix2x4));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void UniformMatrix3x2(int location, int count, float* ptr)
         {
             glUniformMatrix3x2fv(location, count, false, ptr);
             CheckError(nameof(UniformMatrix3x2));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void UniformMatrix3x3(int location, int count, float* ptr)
         {
             glUniformMatrix3fv(location, count, false, ptr);
             CheckError(nameof(UniformMatrix3x3));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void UniformMatrix3x4(int location, int count, float* ptr)
         {
             glUniformMatrix3x4fv(location, count, false, ptr);
             CheckError(nameof(UniformMatrix3x4));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void UniformMatrix4x2(int location, int count, float* ptr)
         {
             glUniformMatrix4x2fv(location, count, false, ptr);
             CheckError(nameof(UniformMatrix4x2));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void UniformMatrix4x3(int location, int count, float* ptr)
         {
             glUniformMatrix4x3fv(location, count, false, ptr);
             CheckError(nameof(UniformMatrix4x3));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void UniformMatrix4x4(int location, int count, float* ptr)
         {
             glUniformMatrix4fv(location, count, false, ptr);
@@ -898,7 +898,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Get Functions
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static string GetString(StringParameter name)
         {
             var x = new string(glGetString(name));
@@ -906,7 +906,7 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static bool GetBoolean(GetParameter name)
         {
             bool x;
@@ -915,7 +915,7 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void GetBoolean(GetParameter name, bool[] values)
         {
             fixed (bool* ptr = values)
@@ -926,7 +926,7 @@ namespace Heirloom.Drawing.OpenGLES
             CheckError(nameof(GetBoolean));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static int GetInteger(GetParameter name)
         {
             int x;
@@ -935,7 +935,7 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static int[] GetInternalformat(RenderbufferFormat renderBufferFormat, InternalFormatParameter pname, int bufferSize = 16)
         {
             var buffer = new int[bufferSize];
@@ -944,7 +944,7 @@ namespace Heirloom.Drawing.OpenGLES
             return buffer;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void GetIntegers(GetParameter name, int[] values)
         {
             fixed (int* ptr = values)
@@ -955,7 +955,7 @@ namespace Heirloom.Drawing.OpenGLES
             CheckError(nameof(GetIntegers));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static int[] GetIntegers(GetParameter name)
         {
             int[] arr;
@@ -975,7 +975,7 @@ namespace Heirloom.Drawing.OpenGLES
             return arr;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float GetFloat(GetParameter name)
         {
             float x;
@@ -984,7 +984,7 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void GetFloat(GetParameter name, float[] values)
         {
             fixed (float* ptr = values)
@@ -999,28 +999,28 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Draw Functions
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DrawArrays(DrawMode mode, int count)
         {
             glDrawArrays(mode, 0, count);
             CheckError(nameof(DrawArrays));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DrawArrays(DrawMode mode, int first, int count)
         {
             glDrawArrays(mode, first, count);
             CheckError(nameof(DrawArrays));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DrawElements(DrawMode mode, int count, DrawElementType type, int offset = 0)
         {
             glDrawElements(mode, count, type, (void*) offset);
             CheckError(nameof(DrawElements));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DrawRangeElements(DrawMode mode, int start, int end, int count, DrawElementType type, int offset = 0)
         {
             glDrawRangeElements(mode, start, end, count, type, (void*) offset);
@@ -1031,21 +1031,21 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Instance Draw Functions
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DrawArraysInstanced(DrawMode mode, int count, int primCount)
         {
             glDrawArraysInstanced(mode, 0, count, primCount);
             CheckError(nameof(DrawArraysInstanced));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DrawArraysInstanced(DrawMode mode, int first, int count, int primCount)
         {
             glDrawArraysInstanced(mode, first, count, primCount);
             CheckError(nameof(DrawArraysInstanced));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DrawElementsInstanced(DrawMode mode, int count, DrawElementType type, int primCount, int offset = 0)
         {
             glDrawElementsInstanced(mode, count, type, (void*) offset, primCount);
@@ -1056,35 +1056,35 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Vertex Attribute Functions
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void EnableVertexAttribArray(uint index)
         {
             glEnableVertexAttribArray(index);
             CheckError(nameof(EnableVertexAttribArray));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DisableVertexAttribArray(uint index)
         {
             glDisableVertexAttribArray(index);
             CheckError(nameof(DisableVertexAttribArray));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetVertexAttribPointer(uint index, int size, VertexAttributeType type, bool normalized, int stride, IntPtr pointer)
         {
             glVertexAttribPointer(index, size, type, normalized, stride, pointer);
             CheckError(nameof(SetVertexAttribPointer));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetVertexAttribPointer(uint index, int size, VertexAttributeType type, bool normalized, int stride, uint bufferOffset)
         {
             glVertexAttribPointer(index, size, type, normalized, stride, (IntPtr) bufferOffset);
             CheckError(nameof(SetVertexAttribPointer));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetVertexAttribDivisor(uint index, int divisor)
         {
             glVertexAttribDivisor(index, divisor);
@@ -1095,13 +1095,13 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Buffers
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static uint GenBuffer()
         {
             return GenBuffers(1)[0];
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static uint[] GenBuffers(int n)
         {
             var x = new uint[n];
@@ -1110,27 +1110,27 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteBuffers(int n, uint[] buffers)
         {
             glDeleteBuffers(n, buffers);
             CheckError(nameof(DeleteBuffers));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteBuffer(uint buffer)
         {
             DeleteBuffers(1, new[] { buffer });
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteBuffer(ref uint buffer)
         {
             DeleteBuffer(buffer);
             buffer = 0;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static bool IsBuffer(uint buffer)
         {
             var x = glIsBuffer(buffer);
@@ -1138,42 +1138,42 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void BindBuffer(BufferTarget target, uint buffer)
         {
             glBindBuffer(target, buffer);
             CheckError(nameof(BindBuffer));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void BindBufferBase(BufferTarget target, uint index, uint buffer)
         {
             glBindBufferBase(target, index, buffer);
             CheckError(nameof(BindBufferBase));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void GetBufferParameters(BufferTarget index, BufferParameter parameter, int[] result)
         {
             glGetBufferParameteriv(index, parameter, result);
             CheckError(nameof(GetBufferParameters));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void BufferData(BufferTarget target, uint size, IntPtr data, BufferUsage usage = BufferUsage.Static)
         {
             glBufferData(target, size, data, usage);
             CheckError(nameof(BufferData));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void BufferSubData(BufferTarget target, uint offset, uint size, IntPtr data)
         {
             glBufferSubData(target, offset, size, data);
             CheckError(nameof(BufferSubData));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void BufferData<T>(BufferTarget target, T[] data, BufferUsage usage = BufferUsage.Static) where T : struct
         {
             var size = Marshal.SizeOf<T>() * data.Length;
@@ -1184,7 +1184,7 @@ namespace Heirloom.Drawing.OpenGLES
             CheckError(nameof(BufferData));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void BufferSubData<T>(BufferTarget target, uint offset, T[] data) where T : struct
         {
             var size = Marshal.SizeOf<T>() * data.Length;
@@ -1195,7 +1195,7 @@ namespace Heirloom.Drawing.OpenGLES
             CheckError(nameof(BufferSubData));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void* MapBufferRange(BufferTarget target, int offset, int length, MapBufferAccess access)
         {
             var ptr = glMapBufferRange(target, offset, length, access);
@@ -1203,7 +1203,7 @@ namespace Heirloom.Drawing.OpenGLES
             return ptr;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static bool UnmapBuffer(BufferTarget target)
         {
             var success = glUnmapBuffer(target);
@@ -1211,7 +1211,7 @@ namespace Heirloom.Drawing.OpenGLES
             return success;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void FlushMappedBufferRange(BufferTarget target, int offset, int size)
         {
             glFlushMappedBufferRange(target, offset, size);
@@ -1222,13 +1222,13 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Vertex Array
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static uint GenVertexArray()
         {
             return GenVertexArrays(1)[0];
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static uint[] GenVertexArrays(int n)
         {
             var x = new uint[n];
@@ -1237,35 +1237,35 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteVertexArrays(int n, uint[] vaos)
         {
             glDeleteVertexArrays(1, vaos);
             CheckError(nameof(DeleteVertexArrays));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteVertexArray(uint vao)
         {
             DeleteVertexArrays(1, new[] { vao });
             CheckError(nameof(DeleteVertexArray));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteVertexArray(ref uint vao)
         {
             DeleteVertexArray(vao);
             vao = 0;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void IsVertexArray(uint vao)
         {
             glIsVertexArray(vao);
             CheckError(nameof(IsVertexArray));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void BindVertexArray(uint vao)
         {
             glBindVertexArray(vao);
@@ -1276,13 +1276,13 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Framebuffers
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static uint GenFramebuffer()
         {
             return GenFramebuffers(1)[0];
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static uint[] GenFramebuffers(int n)
         {
             var x = new uint[n];
@@ -1291,27 +1291,27 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteFramebuffers(int n, uint[] buffers)
         {
             glDeleteFramebuffers(1, buffers);
             CheckError(nameof(DeleteFramebuffers));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteFramebuffer(uint buffer)
         {
             DeleteFramebuffers(1, new[] { buffer });
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteFramebuffer(ref uint buffer)
         {
             DeleteFramebuffer(buffer);
             buffer = 0;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static bool IsFramebuffer(uint buffer)
         {
             var x = glIsFramebuffer(buffer);
@@ -1319,21 +1319,21 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void BindFramebuffer(FramebufferTarget target, uint buffer)
         {
             glBindFramebuffer(target, buffer);
             CheckError(nameof(BindFramebuffer));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void GetFramebufferAttachmentParameters(FramebufferTarget target, FramebufferAttachment attachment, FramebufferAttachmentParameter parameter, int[] result)
         {
             glGetFramebufferAttachmentParameteriv(target, attachment, parameter, result);
             CheckError(nameof(GetFramebufferAttachmentParameters));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static FramebufferStatus CheckFramebufferStatus(FramebufferTarget target)
         {
             var x = glCheckFramebufferStatus(target);
@@ -1341,28 +1341,28 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void FramebufferTexture2D(FramebufferTarget target, FramebufferAttachment attachment, TextureImageTarget texTarget, uint tex, int mip)
         {
             glFramebufferTexture2D(target, attachment, texTarget, tex, mip);
             CheckError(nameof(FramebufferTexture2D));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void FramebufferTextureLayer(FramebufferTarget target, FramebufferAttachment attachment, uint tex, int mip, int layer)
         {
             glFramebufferTextureLayer(target, attachment, tex, mip, layer);
             CheckError(nameof(FramebufferTextureLayer));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void FramebufferRenderbuffer(FramebufferTarget target, FramebufferAttachment attachment, uint renderbuffer)
         {
             glFramebufferRenderbuffer(target, attachment, RenderbufferTarget.Renderbuffer, renderbuffer);
             CheckError(nameof(FramebufferRenderbuffer));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void BlitFramebuffer(int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, FramebufferBlitMask mask, FramebufferBlitFilter filter)
         {
             glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
@@ -1375,14 +1375,14 @@ namespace Heirloom.Drawing.OpenGLES
         //    CheckError( "GetActiveUniform" );
         //}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void InvalidateFramebuffer(FramebufferAttachment[] attachments)
         {
             glInvalidateFramebuffer(FramebufferTarget.Framebuffer, attachments.Length, attachments);
             CheckError(nameof(InvalidateFramebuffer));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void InvalidateSubFramebuffer(FramebufferAttachment[] attachments, int x, int y, int width, int height)
         {
             glInvalidateSubFramebuffer(FramebufferTarget.Framebuffer, attachments.Length, attachments, x, y, width, height);
@@ -1393,13 +1393,13 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Renderbuffers
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static uint GenRenderbuffer()
         {
             return GenRenderbuffers(1)[0];
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static uint[] GenRenderbuffers(int n)
         {
             var x = new uint[n];
@@ -1408,27 +1408,27 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteRenderbuffer(uint buffer)
         {
             DeleteRenderbuffers(1, new[] { buffer });
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteRenderbuffer(ref uint buffer)
         {
             DeleteRenderbuffer(buffer);
             buffer = 0;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteRenderbuffers(int n, uint[] buffers)
         {
             glDeleteRenderbuffers(1, buffers);
             CheckError(nameof(DeleteRenderbuffers));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static bool IsRenderbuffer(uint buffer)
         {
             var x = glIsRenderbuffer(buffer);
@@ -1436,28 +1436,28 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void RenderbufferStorage(RenderbufferFormat format, int width, int height)
         {
             glRenderbufferStorage(RenderbufferTarget.Renderbuffer, format, width, height);
             CheckError(nameof(RenderbufferStorage));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void RenderbufferStorage(RenderbufferFormat format, int width, int height, int samples = 0)
         {
             glRenderbufferStorageMultisample(RenderbufferTarget.Renderbuffer, samples, format, width, height);
             CheckError(nameof(RenderbufferStorage));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void GetRenderbufferParameter(RenderbufferValue parameter, int[] result)
         {
             glGetRenderbufferParameteriv(RenderbufferTarget.Renderbuffer, parameter, result);
             CheckError(nameof(GetRenderbufferParameter));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void BindRenderbuffer(uint renderbuffer)
         {
             glBindRenderbuffer(RenderbufferTarget.Renderbuffer, renderbuffer);
@@ -1468,13 +1468,13 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Textures
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static uint GenTexture()
         {
             return GenTextures(1)[0];
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static uint[] GenTextures(int n)
         {
             var x = new uint[n];
@@ -1483,27 +1483,27 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteTextures(int n, uint[] textures)
         {
             glDeleteTextures(1, textures);
             CheckError(nameof(DeleteTextures));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteTexture(uint texture)
         {
             DeleteTextures(1, new[] { texture });
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteTexture(ref uint texture)
         {
             DeleteTexture(texture);
             texture = 0;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static bool IsTexture(uint texture)
         {
             var x = glIsTexture(texture);
@@ -1511,63 +1511,63 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void BindTexture(TextureTarget target, uint texture)
         {
             glBindTexture(target, texture);
             CheckError(nameof(BindTexture));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void ActiveTexture(uint texture)
         {
             glActiveTexture( /*GL_TEXTURE0*/0x84C0 + texture);
             CheckError(nameof(ActiveTexture));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void GetTextureParameters(TextureTarget index, TextureParameter parameter, float[] result)
         {
             glGetTexParameterfv(index, parameter, result);
             CheckError(nameof(GetTextureParameters));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void GetTextureParameters(TextureTarget index, TextureParameter parameter, int[] result)
         {
             glGetTexParameteriv(index, parameter, result);
             CheckError(nameof(GetTextureParameters));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetTextureParameter(TextureTarget index, TextureParameter parameter, float value)
         {
             glTexParameterf(index, parameter, value);
             CheckError(nameof(SetTextureParameter));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetTextureParameter(TextureTarget index, TextureParameter parameter, int value)
         {
             glTexParameteri(index, parameter, value);
             CheckError(nameof(SetTextureParameter));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetTextureParameter(TextureTarget index, TextureParameter parameter, float[] value)
         {
             glTexParameterfv(index, parameter, value);
             CheckError(nameof(SetTextureParameter));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetTextureParameter(TextureTarget index, TextureParameter parameter, int[] value)
         {
             glTexParameteriv(index, parameter, value);
             CheckError(nameof(SetTextureParameter));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void TexStorage2D(TextureImageTarget target, int levels, TextureSizedFormat format, int width, int height)
         {
             glTexStorage2D(target, levels, format, width, height);
@@ -1575,77 +1575,77 @@ namespace Heirloom.Drawing.OpenGLES
         }
 
         // ES 3.1
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void TexStorage2DMultisample(TextureImageTarget target, int samples, TextureSizedFormat format, int width, int height, bool fixedSampleLocations = false)
         {
             glTexStorage2DMultisample(target, samples, format, width, height, fixedSampleLocations);
             CheckError(nameof(TexStorage2DMultisample));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void TexStorage3D(TextureImageTarget target, int levels, TextureSizedFormat format, int width, int height, int depth)
         {
             glTexStorage3D(target, levels, format, width, height, depth);
             CheckError(nameof(TexStorage3D));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void TexImage2D(TextureImageTarget target, int level, TextureSizedFormat internalFormat, int width, int height, TexturePixelFormat format, TexturePixelType pixelFormat, IntPtr data)
         {
             glTexImage2D(target, level, internalFormat, width, height, 0, format, pixelFormat, data);
             CheckError(nameof(TexImage2D));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void TexImage3D(TextureImageTarget target, int level, TextureSizedFormat internalFormat, int width, int height, int depth, TexturePixelFormat format, TexturePixelType pixelFormat, IntPtr data)
         {
             glTexImage3D(target, level, internalFormat, width, height, depth, 0, format, pixelFormat, data);
             CheckError(nameof(TexImage3D));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void TexSubImage2D(TextureImageTarget target, int level, int xoffset, int yoffset, int width, int height, TexturePixelFormat format, TexturePixelType pixelFormat, IntPtr data)
         {
             glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, pixelFormat, data);
             CheckError(nameof(TexSubImage2D));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void TexSubImage3D(TextureImageTarget target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, TexturePixelFormat format, TexturePixelType pixelFormat, IntPtr data)
         {
             glTexSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, format, pixelFormat, data);
             CheckError(nameof(TexSubImage3D));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void CompressedTexImage2D(TextureImageTarget target, int level, int width, int height, TextureCompressedFormat format, int size, IntPtr data)
         {
             glCompressedTexImage2D(target, level, format, width, height, 0, size, data);
             CheckError(nameof(CompressedTexImage2D));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void CompressedTexImage3D(TextureImageTarget target, int level, int width, int height, int depth, TextureCompressedFormat format, int size, IntPtr data)
         {
             glCompressedTexImage3D(target, level, format, width, height, depth, 0, size, data);
             CheckError(nameof(CompressedTexImage3D));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void CompressedTexSubImage2D(TextureImageTarget target, int level, int xoffset, int yoffset, int width, int height, int size, IntPtr data)
         {
             glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, size, data);
             CheckError(nameof(CompressedTexSubImage2D));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void CompressedTexSubImage3D(TextureImageTarget target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, int size, IntPtr data)
         {
             glCompressedTexSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, size, data);
             CheckError(nameof(CompressedTexSubImage3D));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void TexImage2D<T>(TextureImageTarget target, int level, TextureSizedFormat internalFormat, int width, int height, TexturePixelFormat format, TexturePixelType pixelFormat, T[] data)
             where T : struct
         {
@@ -1657,7 +1657,7 @@ namespace Heirloom.Drawing.OpenGLES
             CheckError(nameof(TexImage2D));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void TexImage3D<T>(TextureImageTarget target, int level, TextureSizedFormat internalFormat, int width, int height, int depth, TexturePixelFormat format, TexturePixelType pixelFormat, T[] data)
             where T : struct
         {
@@ -1669,7 +1669,7 @@ namespace Heirloom.Drawing.OpenGLES
             CheckError(nameof(TexImage3D));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void TexSubImage2D<T>(TextureImageTarget target, int level, int xoffset, int yoffset, int width, int height, TexturePixelFormat format, TexturePixelType pixelFormat, T[] data)
             where T : struct
         {
@@ -1681,7 +1681,7 @@ namespace Heirloom.Drawing.OpenGLES
             CheckError(nameof(TexSubImage2D));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void TexSubImage3D<T>(TextureImageTarget target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, TexturePixelFormat format, TexturePixelType pixelFormat, T[] data)
             where T : struct
         {
@@ -1693,7 +1693,7 @@ namespace Heirloom.Drawing.OpenGLES
             CheckError(nameof(TexSubImage3D));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void GenerateMipmap(TextureTarget target)
         {
             glGenerateMipmap(target);
@@ -1704,13 +1704,13 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Samplers
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static uint GenSampler()
         {
             return GenSamplers(1)[0];
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static uint[] GenSamplers(int n)
         {
             var x = new uint[n];
@@ -1719,27 +1719,27 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteSamplers(int n, uint[] sampler)
         {
             glDeleteSamplers(1, sampler);
             CheckError(nameof(DeleteSamplers));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteSampler(uint sampler)
         {
             DeleteSamplers(1, new[] { sampler });
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteSampler(ref uint sampler)
         {
             DeleteTexture(sampler);
             sampler = 0;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static bool IsSampler(uint sampler)
         {
             var x = glIsSampler(sampler);
@@ -1747,49 +1747,49 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void BindSampler(uint unit, uint sampler)
         {
             glBindSampler(unit, sampler);
             CheckError(nameof(BindSampler));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void GetSamplerParameters(uint sampler, TextureParameter parameter, float[] result)
         {
             glGetSamplerParameterfv(sampler, parameter, result);
             CheckError(nameof(GetSamplerParameters));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void GetSamplerParameters(uint sampler, TextureParameter parameter, int[] result)
         {
             glGetSamplerParameteriv(sampler, parameter, result);
             CheckError(nameof(GetSamplerParameters));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SamplerParameter(uint sampler, TextureParameter parameter, float value)
         {
             glSamplerParameterf(sampler, parameter, value);
             CheckError(nameof(SamplerParameter));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SamplerParameter(uint sampler, TextureParameter parameter, int value)
         {
             glSamplerParameteri(sampler, parameter, value);
             CheckError(nameof(SamplerParameter));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SamplerParameter(uint sampler, TextureParameter parameter, float[] value)
         {
             glSamplerParameterfv(sampler, parameter, value);
             CheckError(nameof(SamplerParameter));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SamplerParameter(uint sampler, TextureParameter parameter, int[] value)
         {
             glSamplerParameteriv(sampler, parameter, value);
@@ -1800,21 +1800,21 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Render State
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Enable(EnableCap enable)
         {
             glEnable(enable);
             CheckError(nameof(Enable));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Disable(EnableCap enable)
         {
             glDisable(enable);
             CheckError(nameof(Disable));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static bool IsEnabled(EnableCap enable)
         {
             var x = glIsEnabled(enable);
@@ -1825,35 +1825,35 @@ namespace Heirloom.Drawing.OpenGLES
         /// <summary>
         /// Clears the buffers of the currently bound framebuffer specified by the mask.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Clear(ClearMask mask)
         {
             glClear(mask);
             CheckError(nameof(Clear));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetViewport(int x, int y, int width, int height)
         {
             glViewport(x, y, width, height);
             CheckError(nameof(SetViewport));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetScissor(int x, int y, int width, int height)
         {
             glScissor(x, y, width, height);
             CheckError(nameof(SetScissor));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void FrontFace(FrontFaceMode mode)
         {
             glFrontFace(mode);
             CheckError(nameof(FrontFace));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetCullFace(Face face)
         {
             glCullFace(face);
@@ -1862,27 +1862,27 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Color State
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetColorMask(bool rgba)
         {
             SetColorMask(rgba, rgba, rgba, rgba);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetColorMask(bool r, bool g, bool b, bool a)
         {
             glColorMask(r, g, b, a);
             CheckError(nameof(SetColorMask));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetClearColor(float r, float g, float b, float a)
         {
             glClearColor(r, g, b, a);
             CheckError(nameof(SetClearColor));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetClearColor(uint c)
         {
             // Extract from ARGB integer
@@ -1905,28 +1905,28 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Depth State
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetDepthMask(bool depth)
         {
             glDepthMask(depth);
             CheckError(nameof(SetDepthMask));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetDepthFunction(DepthFunction func)
         {
             glDepthFunc(func);
             CheckError(nameof(SetDepthFunction));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetDepthRange(float near, float far)
         {
             glDepthRangef(near, far);
             CheckError(nameof(SetDepthRange));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetClearDepth(float depth)
         {
             glClearDepthf(depth);
@@ -1935,42 +1935,42 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetClearStencil(int stencil)
         {
             glClearStencil(stencil);
             CheckError(nameof(SetClearStencil));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetLineWidth(float width)
         {
             glLineWidth(width);
             CheckError(nameof(SetLineWidth));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetHint(Hint hint, HintMode mode)
         {
             glHint(hint, mode);
             CheckError(nameof(SetHint));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetSampleCoverage(float val, bool invert)
         {
             glSampleCoverage(val, invert);
             CheckError(nameof(SetSampleCoverage));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetPolygonOffset(float factor, float units)
         {
             glPolygonOffset(factor, units);
             CheckError(nameof(SetPolygonOffset));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetPixelStore(PixelStoreParameter pname, int value)
         {
             glPixelStorei(pname, value);
@@ -1981,7 +1981,7 @@ namespace Heirloom.Drawing.OpenGLES
         /// Changes the read buffer ( where reading operations occur )
         /// </summary>
         /// <param name="mode"> The read mode/target </param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetReadBuffer(FramebufferBuffer mode)
         {
             glReadBuffer(mode);
@@ -1991,7 +1991,7 @@ namespace Heirloom.Drawing.OpenGLES
         /// Changes the read buffer ( where reading operations occur )
         /// </summary>
         /// <param name="mode"> The read mode/target </param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetDrawBuffers(FramebufferBuffer[] mode)
         {
             glDrawBuffers(mode.Length, mode);
@@ -2001,7 +2001,7 @@ namespace Heirloom.Drawing.OpenGLES
         /// <summary>
         /// Reads a block of pixels from the frame buffer.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void ReadPixels(int x, int y, int width, int height, ReadPixelsFormat format, ReadPixelsType type, void* data)
         {
             glReadPixels(x, y, width, height, format, type, data);
@@ -2011,7 +2011,7 @@ namespace Heirloom.Drawing.OpenGLES
         /// <summary>
         /// Reads a block of pixels from the frame buffer.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void ReadPixels(int x, int y, int width, int height, ReadPixelsFormat format, ReadPixelsType type, byte[] data)
         {
             fixed (void* ptr = data)
@@ -2027,7 +2027,7 @@ namespace Heirloom.Drawing.OpenGLES
         /// </summary> 
         /// <seealso cref="ReadPixels(int, int, int, int, ReadPixelsFormat, ReadPixelsType, void*)"/>
         /// <seealso cref="ReadPixels(int, int, int, int, ReadPixelsFormat, ReadPixelsType, byte[])"/> 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static uint[] ReadPixels(int x, int y, int width, int height)
         {
             var pixels = new uint[width * height];
@@ -2040,14 +2040,14 @@ namespace Heirloom.Drawing.OpenGLES
             return pixels;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Finish()
         {
             glFinish();
             CheckError(nameof(Finish));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Flush()
         {
             glFlush();
@@ -2058,35 +2058,35 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Blending
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetBlendColor(float r, float g, float b, float a)
         {
             glBlendColor(r, g, b, a);
             CheckError(nameof(SetBlendColor));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetBlendEquation(BlendEquation eq)
         {
             glBlendEquation(eq);
             CheckError(nameof(SetBlendEquation));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetBlendEquation(BlendEquation eqColor, BlendEquation eqAlpha)
         {
             glBlendEquationSeparate(eqColor, eqAlpha);
             CheckError(nameof(SetBlendEquation));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetBlendFunction(BlendFunction source, BlendFunction destination)
         {
             glBlendFunc(source, destination);
             CheckError(nameof(SetBlendFunction));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetBlendFunction(BlendFunction sourceColor, BlendFunction destinationColor, BlendFunction sourceAlpha, BlendFunction destinationAlpha)
         {
             glBlendFuncSeparate(sourceColor, destinationColor, sourceAlpha, destinationAlpha);
@@ -2097,42 +2097,42 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Stencil
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void StencilFunction(StencilFunction func, int refVal, uint mask)
         {
             glStencilFunc(func, refVal, mask);
             CheckError(nameof(StencilFunction));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void StencilFunction(Face face, StencilFunction func, int refVal, uint mask)
         {
             glStencilFuncSeparate(face, func, refVal, mask);
             CheckError(nameof(StencilFunction));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetStencilMask(uint mask)
         {
             glStencilMask(mask);
             CheckError(nameof(SetStencilMask));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void SetStencilMask(Face face, uint mask)
         {
             glStencilMaskSeparate(face, mask);
             CheckError(nameof(SetStencilMask));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void StencilOperation(StencilOperation stencilFail, StencilOperation depthFail, StencilOperation depthPass)
         {
             glStencilOp(stencilFail, depthFail, depthPass);
             CheckError(nameof(StencilOperation));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void StencilOperation(Face face, StencilOperation stencilFail, StencilOperation depthFail, StencilOperation depthPass)
         {
             glStencilOpSeparate(face, stencilFail, depthFail, depthPass);
@@ -2143,7 +2143,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Query
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static uint[] GenQueries(int n)
         {
             var x = new uint[n];
@@ -2152,54 +2152,54 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static uint GenQuery()
         {
             return GenQueries(1)[0];
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteQueries(uint[] queries)
         {
             glDeleteQueries(queries.Length, queries);
             CheckError(nameof(DeleteQueries));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteQuery(uint query)
         {
             DeleteQueries(new[] { query });
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteQuery(ref uint query)
         {
             DeleteQuery(query);
             query = 0;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void BeginQuery(QueryTarget target, uint query)
         {
             glBeginQuery(target, query);
             CheckError(nameof(BeginQuery));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void EndQuery(QueryTarget target)
         {
             glEndQuery(target);
             CheckError(nameof(EndQuery));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void GetQuery(QueryTarget target, QueryParameter pname, int[] values)
         {
             glGetQueryiv(target, pname, values);
             CheckError(nameof(GetQuery));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void GetQueryObject(uint query, QueryObjectParameter pname, out uint value)
         {
             var result = new uint[1];
@@ -2208,7 +2208,7 @@ namespace Heirloom.Drawing.OpenGLES
             value = result[0];
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static bool IsQuery(uint query)
         {
             var x = glIsQuery(query);
@@ -2220,7 +2220,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Sync
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static ulong FenceSync(SyncFenceCondition condition, SyncFenceFlags flags)
         {
             var x = glFenceSync(condition, flags);
@@ -2228,7 +2228,7 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static ClientWaitSyncResult ClientWaitSync(ulong sync, ClientWaitSyncFlags flags)
         {
             var x = glClientWaitSync(sync, flags, 0xFFFFFFFFFFFFFFFF);
@@ -2236,21 +2236,21 @@ namespace Heirloom.Drawing.OpenGLES
             return x;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void WaitSync(ulong sync, WaitSyncFlags flags)
         {
             glWaitSync(sync, flags, 0xFFFFFFFFFFFFFFFF);
             CheckError(nameof(WaitSync));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void DeleteSync(ulong sync)
         {
             glDeleteSync(sync);
             CheckError(nameof(DeleteSync));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static bool IsSync(ulong sync)
         {
             var x = glIsSync(sync);

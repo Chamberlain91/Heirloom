@@ -67,7 +67,7 @@ namespace Heirloom
         /// <summary>
         /// Gets the ith unicode character of this string.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static UnicodeCharacter GetCharacter(this string text, int i)
         {
             return (UnicodeCharacter) char.ConvertToUtf32(text, i);

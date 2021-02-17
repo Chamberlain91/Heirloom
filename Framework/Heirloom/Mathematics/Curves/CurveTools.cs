@@ -17,7 +17,7 @@ namespace Heirloom.Mathematics
         /// <param name="b">The curve middle (handle).</param>
         /// <param name="c">The curve ending point.</param>
         /// <param name="t">The interpolation factor along the curve.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector Interpolate(Vector a, Vector b, Vector c, float t)
         {
             // c*t^2 + 2*b*(1-t)*t + a*(1-t)^2 
@@ -32,7 +32,7 @@ namespace Heirloom.Mathematics
         /// <param name="b">The curve middle (handle).</param>
         /// <param name="c">The curve ending point.</param>
         /// <param name="t">The interpolation factor along the curve.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector InterpolateDerivative(Vector a, Vector b, Vector c, float t)
         {
             // 2*((c-2*b+a)*t+b-a)
@@ -46,7 +46,7 @@ namespace Heirloom.Mathematics
         /// <param name="b">The curve middle (handle).</param>
         /// <param name="c">The curve ending point.</param>
         /// <param name="resolution">The number of segments to approximate the curve with.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float ApproximateLength(Vector a, Vector b, Vector c, int resolution = 4)
         {
             return ApproximateLength(t => Interpolate(a, b, c, t), resolution);
@@ -64,7 +64,7 @@ namespace Heirloom.Mathematics
         /// <param name="c">The curve's second handle.</param>
         /// <param name="d">The curve's ending point.</param>
         /// <param name="t">The interpolation factor along the curve.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector Interpolate(Vector a, Vector b, Vector c, Vector d, float t)
         {
             // d*t^3+3*c*(1-t)*t^2+3*b*(1-t)^2*t+a*(1-t)^3
@@ -79,7 +79,7 @@ namespace Heirloom.Mathematics
         /// <param name="c">The curve's second handle.</param>
         /// <param name="d">The curve's ending point.</param>
         /// <param name="t">The interpolation factor along the curve.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector InterpolateDerivative(Vector a, Vector b, Vector c, Vector d, float t)
         {
             // 3*((d-3*c+3*b-a)*t^2+(2*c-4*b+2*a)*t+b-a) 
@@ -94,7 +94,7 @@ namespace Heirloom.Mathematics
         /// <param name="c">The curve's second handle.</param>
         /// <param name="d">The curve's ending point.</param>
         /// <param name="resolution">The number of segments to approximate the curve with.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float ApproximateLength(Vector a, Vector b, Vector c, Vector d, int resolution = 5)
         {
             return ApproximateLength(t => Interpolate(a, b, c, d, t), resolution);
@@ -107,7 +107,7 @@ namespace Heirloom.Mathematics
         /// </summary>
         /// <param name="getPoint">A function to get a interpolated point.</param>
         /// <param name="resolution">The number of discretes steps along the curve.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float ApproximateLength(Func<float, Vector> getPoint, int resolution = 5)
         {
             var length = 0F;

@@ -19,7 +19,7 @@ namespace Heirloom
         /// <summary> 
         /// Returns a random floating-point number that is greater than or equal to 0.0, and less than 1.0.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float NextFloat(this Random @this)
         {
             return (float) @this.NextDouble();
@@ -28,7 +28,7 @@ namespace Heirloom
         /// <summary> 
         /// Returns a random floating-point number that is within the specified range.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float NextFloat(this Random @this, float min, float max)
         {
             return min + (max - min) * @this.NextFloat();
@@ -37,7 +37,7 @@ namespace Heirloom
         /// <summary> 
         /// Returns a random floating-point number that is within the specified range.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static double NextDouble(this Random @this, double min, double max)
         {
             return min + (max - min) * @this.NextDouble();
@@ -50,7 +50,7 @@ namespace Heirloom
         /// <summary> 
         /// Returns a random floating-point number that is within the specified range.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float NextFloat(this Random @this, Range range)
         {
             return NextFloat(@this, range.Min, range.Max);
@@ -59,7 +59,7 @@ namespace Heirloom
         /// <summary> 
         /// Returns a random integer number that is within the specified range.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float Next(this Random @this, IntRange range)
         {
             return @this.Next(range.Min, range.Max);
@@ -72,7 +72,7 @@ namespace Heirloom
         /// <summary>
         /// Returns a random point within a unit circle.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector NextVectorDisk(this Random @this)
         {
             return NextVectorDisk(@this, 1F);
@@ -81,7 +81,7 @@ namespace Heirloom
         /// <summary>
         /// Returns a random point within a circle.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector NextVectorDisk(this Random @this, float r)
         {
             // poisson distribution?
@@ -94,7 +94,7 @@ namespace Heirloom
         /// <summary>
         /// Returns a random unit vector (point on edge of unit circle).
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector NextUnitVector(this Random @this)
         {
             var theta = Calc.TwoPi * NextFloat(@this);
@@ -104,7 +104,7 @@ namespace Heirloom
         /// <summary>
         /// Returns a random point within the specified rectangular domain.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector NextVector(this Random @this, Rectangle domain)
         {
             var x = NextFloat(@this, domain.Left, domain.Right);
@@ -115,7 +115,7 @@ namespace Heirloom
         /// <summary>
         /// Returns a random point within the bounds of the specified shape.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector NextVector(this Random @this, IShape shape)
         {
             switch (shape)
@@ -154,7 +154,7 @@ namespace Heirloom
         /// </summary>
         /// <param name="random">The instance this extension method operates on.</param>
         /// <param name="useAlpha">Should this call randomize the alpha or use an alpha of 1.0?</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Color NextColor(this Random random, bool useAlpha = false)
         {
             var r = NextFloat(random, 0F, 1F);
@@ -171,7 +171,7 @@ namespace Heirloom
         /// <param name="saturation">The saturation to use.</param>
         /// <param name="value">The brightness to use.</param>
         /// <param name="alpha">The alpha to use.</param> 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Color NextColorHue(this Random random, float saturation = 0.7F, float value = 0.9F, float alpha = 1F)
         {
             var hue = NextFloat(random, 0F, 360F);
@@ -185,7 +185,7 @@ namespace Heirloom
         /// <summary>
         /// Randomly return true for occurrences with the specified probability.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static bool Chance(this Random @this, float probability)
         {
             return @this.NextDouble() < probability;
@@ -194,7 +194,7 @@ namespace Heirloom
         /// <summary>
         /// Randomly select one of the specified items.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static T Choice<T>(this Random @this, IReadOnlyList<T> items)
         {
             var index = @this.Next(0, items.Count);
@@ -204,7 +204,7 @@ namespace Heirloom
         /// <summary>
         /// Randomly select one of the specified items.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static T Choice<T>(this Random @this, params T[] items)
         {
             return Choice(@this, (IReadOnlyList<T>) items);

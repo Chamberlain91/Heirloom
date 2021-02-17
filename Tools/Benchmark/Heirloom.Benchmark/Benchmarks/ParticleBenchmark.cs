@@ -8,10 +8,13 @@ namespace Heirloom.Benchmark
 {
     public abstract class ParticleBenchmark : BenchmarkScene
     {
+        private const int DensityDuration = 10;
+
         private readonly Image[] _images;
         private Particle[] _particles;
 
-        private readonly int[] _densities = new int[] { 250, 2500, 25000 };
+        private readonly int[] _densities = new int[] { 1000, 5000, 15000, 30000, 100000 };
+
         private int _densityIndex;
 
         public ParticleBenchmark(string name, Image[] images)
@@ -29,7 +32,7 @@ namespace Heirloom.Benchmark
         protected override void InitializeScene()
         {
             // Allocates and randomize the particles
-            _particles = new Particle[ushort.MaxValue]; // 65K
+            _particles = new Particle[_densities.Max()];
             for (var i = 0; i < _particles.Length; i++)
             {
                 var image = _images[i % _images.Length];
@@ -54,10 +57,13 @@ namespace Heirloom.Benchmark
             var mtx = Matrix.Identity;
 
             // Advance to the next density index
-            if (Time >= 10)
+            if (Time >= DensityDuration)
             {
+                SubmitStatisticsBlock();
+                Time -= DensityDuration;
+
+                // Move to the next density index
                 _densityIndex++;
-                Time -= 10F;
             }
 
             if (_densityIndex >= _densities.Length)

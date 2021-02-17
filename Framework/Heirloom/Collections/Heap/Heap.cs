@@ -106,14 +106,14 @@ namespace Heirloom.Collections
 
         #region Compare Items
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private int Compare(T a, T b)
         {
             var cmp = Comparer.Compare(a, b);
             return Type == HeapType.Max ? (cmp *= -1) : cmp;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private int Compare(int a, int b)
         {
             return Compare(Get(a), Get(b));
@@ -123,47 +123,47 @@ namespace Heirloom.Collections
 
         #region Node Access
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private bool HasLeft(int node) { return GetLeftIndex(node) <= Count; }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private bool HasRight(int node) { return GetRightIndex(node) <= Count; }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private bool HasParent(int node) { return node > 1; }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private int GetLeftIndex(int node) { return node * 2; }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private int GetRightIndex(int node) { return node * 2 + 1; }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private int GetParentIndex(int node) { return node / 2; }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private ref T Get(int node) { return ref _items[node].Value; }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private ref Node GetNode(int node) { return ref _items[node]; }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private Node GetNode(T node) { return _lookup[node]; }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private ref T GetLeft(int node) { return ref Get(GetLeftIndex(node)); }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private ref T GetRight(int node) { return ref Get(GetRightIndex(node)); }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private ref T GetParent(int node) { return ref Get(GetParentIndex(node)); }
 
         #endregion
 
         #region Bubble / Swap / Resize
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private void BubbleUp(int index)
         {
             if (index == 0) { throw new ArgumentException("Unable to bubble up from index 0, this is an invalid node number."); }
@@ -177,7 +177,7 @@ namespace Heirloom.Collections
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private void BubbleDown(int index)
         {
             if (index == 0) { throw new ArgumentException("Unable to bubble down from index 0, this is an invalid node number."); }
@@ -208,7 +208,7 @@ namespace Heirloom.Collections
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private void Swap(int a, int b)
         {
             var _temp = _items[a];
@@ -222,7 +222,7 @@ namespace Heirloom.Collections
             _items[b].Index = b;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private void CheckResize()
         {
             var capacity = _items.Length - 1;
@@ -302,7 +302,7 @@ namespace Heirloom.Collections
         /// <summary>
         /// Gets the next item in the heap to be removed.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public T Peek()
         {
             if (Count == 0) { throw new InvalidOperationException($"Unable to peek, {nameof(Heap<T>)} is empty."); }
@@ -312,7 +312,7 @@ namespace Heirloom.Collections
         /// <summary>
         /// Removes and returns the next priority item in the heap.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public T Remove()
         {
             // If heap is empty, throw a fit

@@ -32,7 +32,7 @@ namespace DragonBones
             var eventDispatcher = _armature.Proxy;
             if (_animationState.actionEnabled)
             {
-                var frameOffset = _animationData.frameOffset + _timelineArray[(_timelineData as TimelineData).offset + (int)BinaryOffset.TimelineFrameOffset + frameIndex];
+                var frameOffset = _animationData.frameOffset + _timelineArray[(_timelineData as TimelineData).offset + (int) BinaryOffset.TimelineFrameOffset + frameIndex];
                 var actionCount = _frameArray[frameOffset + 1];
                 var actions = _animationData.parent.actions; // May be the animaton data not belong to this armature data.
 
@@ -43,7 +43,7 @@ namespace DragonBones
 
                     if (action.type == ActionType.Play)
                     {
-                        var eventObject = BaseObject.BorrowObject<EventObject>();
+                        var eventObject = BorrowObject<EventObject>();
                         // eventObject.time = this._frameArray[frameOffset] * this._frameRateR; // Precision problem
                         eventObject.time = _frameArray[frameOffset] / _frameRate;
                         eventObject.animationState = _animationState;
@@ -55,12 +55,14 @@ namespace DragonBones
                         var eventType = action.type == ActionType.Frame ? EventObject.FRAME_EVENT : EventObject.SOUND_EVENT;
                         if (action.type == ActionType.Sound || eventDispatcher.HasDBEventListener(eventType))
                         {
-                            var eventObject = BaseObject.BorrowObject<EventObject>();
+                            var eventObject = BorrowObject<EventObject>();
                             // eventObject.time = this._frameArray[frameOffset] * this._frameRateR; // Precision problem
-                            eventObject.time = (float)_frameArray[frameOffset] / (float)_frameRate;
+                            eventObject.time = _frameArray[frameOffset] / (float) _frameRate;
                             eventObject.animationState = _animationState;
                             EventObject.ActionDataToInstance(action, eventObject, _armature);
-                            _armature._dragonBones.BufferEvent(eventObject);
+
+                            // Dispatch event
+                            eventDispatcher.DispatchDBEvent(eventObject.type, eventObject);
                         }
                     }
                 }
@@ -93,11 +95,13 @@ namespace DragonBones
 
                         if (eventDispatcher.HasDBEventListener(EventObject.START))
                         {
-                            var eventObject = BaseObject.BorrowObject<EventObject>();
+                            var eventObject = BorrowObject<EventObject>();
                             eventObject.type = EventObject.START;
                             eventObject.armature = _armature;
                             eventObject.animationState = _animationState;
-                            _armature._dragonBones.BufferEvent(eventObject);
+
+                            // Dispatch event
+                            eventDispatcher.DispatchDBEvent(eventObject.type, eventObject);
                         }
                     }
                     else
@@ -114,7 +118,7 @@ namespace DragonBones
                 {
                     if (eventDispatcher.HasDBEventListener(EventObject.LOOP_COMPLETE))
                     {
-                        loopCompleteEvent = BaseObject.BorrowObject<EventObject>();
+                        loopCompleteEvent = BorrowObject<EventObject>();
                         loopCompleteEvent.type = EventObject.LOOP_COMPLETE;
                         loopCompleteEvent.armature = _armature;
                         loopCompleteEvent.animationState = _animationState;
@@ -124,7 +128,7 @@ namespace DragonBones
                     {
                         if (eventDispatcher.HasDBEventListener(EventObject.COMPLETE))
                         {
-                            completeEvent = BaseObject.BorrowObject<EventObject>();
+                            completeEvent = BorrowObject<EventObject>();
                             completeEvent.type = EventObject.COMPLETE;
                             completeEvent.armature = _armature;
                             completeEvent.animationState = _animationState;
@@ -135,8 +139,8 @@ namespace DragonBones
                 if (_frameCount > 1)
                 {
                     var timelineData = _timelineData as TimelineData;
-                    var timelineFrameIndex = (int)(currentTime * _frameRate); // uint
-                    var frameIndex = (int)_frameIndices[timelineData.frameIndicesOffset + timelineFrameIndex];
+                    var timelineFrameIndex = (int) (currentTime * _frameRate); // uint
+                    var frameIndex = (int) _frameIndices[timelineData.frameIndicesOffset + timelineFrameIndex];
                     if (_frameIndex != frameIndex)
                     {
                         // Arrive at frame.                   
@@ -144,13 +148,13 @@ namespace DragonBones
                         _frameIndex = frameIndex;
                         if (_timelineArray != null)
                         {
-                            _frameOffset = _animationData.frameOffset + _timelineArray[timelineData.offset + (int)BinaryOffset.TimelineFrameOffset + _frameIndex];
+                            _frameOffset = _animationData.frameOffset + _timelineArray[timelineData.offset + (int) BinaryOffset.TimelineFrameOffset + _frameIndex];
                             if (isReverse)
                             {
                                 if (crossedFrameIndex < 0)
                                 {
-                                    var prevFrameIndex = (int)(prevTime * _frameRate);
-                                    crossedFrameIndex = (int)_frameIndices[timelineData.frameIndicesOffset + prevFrameIndex];
+                                    var prevFrameIndex = (int) (prevTime * _frameRate);
+                                    crossedFrameIndex = (int) _frameIndices[timelineData.frameIndicesOffset + prevFrameIndex];
                                     if (currentPlayTimes == prevPlayTimes)
                                     {
                                         // Start.
@@ -163,9 +167,9 @@ namespace DragonBones
 
                                 while (crossedFrameIndex >= 0)
                                 {
-                                    var frameOffset = _animationData.frameOffset + _timelineArray[timelineData.offset + (int)BinaryOffset.TimelineFrameOffset + crossedFrameIndex];
+                                    var frameOffset = _animationData.frameOffset + _timelineArray[timelineData.offset + (int) BinaryOffset.TimelineFrameOffset + crossedFrameIndex];
                                     // const framePosition = this._frameArray[frameOffset] * this._frameRateR; // Precision problem
-                                    var framePosition = (float)_frameArray[frameOffset] / (float)_frameRate;
+                                    var framePosition = (float) _frameArray[frameOffset] / (float) _frameRate;
 
                                     if (_position <= framePosition && framePosition <= _position + _duration)
                                     {
@@ -175,8 +179,9 @@ namespace DragonBones
 
                                     if (loopCompleteEvent != null && crossedFrameIndex == 0)
                                     {
-                                        // Add loop complete event after first frame.
-                                        _armature._dragonBones.BufferEvent(loopCompleteEvent);
+                                        // Dispatch event
+                                        eventDispatcher.DispatchDBEvent(loopCompleteEvent.type, loopCompleteEvent);
+
                                         loopCompleteEvent = null;
                                     }
 
@@ -186,7 +191,7 @@ namespace DragonBones
                                     }
                                     else
                                     {
-                                        crossedFrameIndex = (int)_frameCount - 1;
+                                        crossedFrameIndex = (int) _frameCount - 1;
                                     }
 
                                     if (crossedFrameIndex == frameIndex)
@@ -199,11 +204,11 @@ namespace DragonBones
                             {
                                 if (crossedFrameIndex < 0)
                                 {
-                                    var prevFrameIndex = (int)(prevTime * _frameRate);
-                                    crossedFrameIndex = (int)_frameIndices[timelineData.frameIndicesOffset + prevFrameIndex];
-                                    var frameOffset = _animationData.frameOffset + _timelineArray[timelineData.offset + (int)BinaryOffset.TimelineFrameOffset + crossedFrameIndex];
+                                    var prevFrameIndex = (int) (prevTime * _frameRate);
+                                    crossedFrameIndex = (int) _frameIndices[timelineData.frameIndicesOffset + prevFrameIndex];
+                                    var frameOffset = _animationData.frameOffset + _timelineArray[timelineData.offset + (int) BinaryOffset.TimelineFrameOffset + crossedFrameIndex];
                                     // const framePosition = this._frameArray[frameOffset] * this._frameRateR; // Precision problem
-                                    var framePosition = (float)_frameArray[frameOffset] / (float)_frameRate;
+                                    var framePosition = (float) _frameArray[frameOffset] / (float) _frameRate;
                                     if (currentPlayTimes == prevPlayTimes)
                                     {
                                         // Start.
@@ -216,7 +221,7 @@ namespace DragonBones
                                             }
                                             else
                                             {
-                                                crossedFrameIndex = (int)_frameCount - 1;
+                                                crossedFrameIndex = (int) _frameCount - 1;
                                             }
                                         }
                                         else if (crossedFrameIndex == frameIndex)
@@ -238,9 +243,9 @@ namespace DragonBones
                                         crossedFrameIndex = 0;
                                     }
 
-                                    var frameOffset = _animationData.frameOffset + _timelineArray[timelineData.offset + (int)BinaryOffset.TimelineFrameOffset + crossedFrameIndex];
+                                    var frameOffset = _animationData.frameOffset + _timelineArray[timelineData.offset + (int) BinaryOffset.TimelineFrameOffset + crossedFrameIndex];
                                     // const framePosition = this._frameArray[frameOffset] * this._frameRateR; // Precision problem
-                                    var framePosition = (float)_frameArray[frameOffset] / (float)_frameRate;
+                                    var framePosition = (float) _frameArray[frameOffset] / (float) _frameRate;
                                     if (_position <= framePosition && framePosition <= _position + _duration)
                                     {
                                         // Support interval play.
@@ -249,8 +254,9 @@ namespace DragonBones
 
                                     if (loopCompleteEvent != null && crossedFrameIndex == 0)
                                     {
-                                        // Add loop complete event before first frame.
-                                        _armature._dragonBones.BufferEvent(loopCompleteEvent);
+                                        // Dispatch event
+                                        eventDispatcher.DispatchDBEvent(loopCompleteEvent.type, loopCompleteEvent);
+
                                         loopCompleteEvent = null;
                                     }
 
@@ -268,9 +274,9 @@ namespace DragonBones
                     _frameIndex = 0;
                     if (_timelineData != null)
                     {
-                        _frameOffset = _animationData.frameOffset + _timelineArray[_timelineData.offset + (int)BinaryOffset.TimelineFrameOffset];
+                        _frameOffset = _animationData.frameOffset + _timelineArray[_timelineData.offset + (int) BinaryOffset.TimelineFrameOffset];
                         // Arrive at frame.
-                        var framePosition = (float)_frameArray[_frameOffset] / (float)_frameRate;
+                        var framePosition = (float) _frameArray[_frameOffset] / (float) _frameRate;
                         if (currentPlayTimes == prevPlayTimes)
                         {
                             // Start.
@@ -285,7 +291,7 @@ namespace DragonBones
                             if (!isReverse && loopCompleteEvent != null)
                             {
                                 // Add loop complete event before first frame.
-                                _armature._dragonBones.BufferEvent(loopCompleteEvent);
+                                eventDispatcher.DispatchDBEvent(loopCompleteEvent.type, loopCompleteEvent);
                                 loopCompleteEvent = null;
                             }
 
@@ -296,12 +302,12 @@ namespace DragonBones
 
                 if (loopCompleteEvent != null)
                 {
-                    _armature._dragonBones.BufferEvent(loopCompleteEvent);
+                    eventDispatcher.DispatchDBEvent(loopCompleteEvent.type, loopCompleteEvent);
                 }
 
                 if (completeEvent != null)
                 {
-                    _armature._dragonBones.BufferEvent(completeEvent);
+                    eventDispatcher.DispatchDBEvent(completeEvent.type, completeEvent);
                 }
             }
         }
@@ -323,7 +329,7 @@ namespace DragonBones
                 var count = _frameArray[_frameOffset + 1];
                 if (count > 0)
                 {
-                    _armature._SortZOrder(_frameArray, (int)_frameOffset + 2);
+                    _armature._SortZOrder(_frameArray, (int) _frameOffset + 2);
                 }
                 else
                 {

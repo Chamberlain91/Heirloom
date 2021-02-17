@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Threading;
 
 using Heirloom.Mathematics;
@@ -100,7 +99,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Invoke
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         protected internal void Invoke(Action action, bool blocking = true)
         {
             if (!IsThreadRunning) { throw new InvalidOperationException("Unable to invoke, context thread not started."); }
@@ -108,7 +107,7 @@ namespace Heirloom.Drawing.OpenGLES
             else { _thread.InvokeLater(action); }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         protected internal T Invoke<T>(Func<T> action)
         {
             if (!IsThreadRunning) { throw new InvalidOperationException("Unable to invoke, context thread not started."); }

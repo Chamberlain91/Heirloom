@@ -77,7 +77,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Sets the components of this circle.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public void Set(Vector position, float radius)
         {
             Position = position;

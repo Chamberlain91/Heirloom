@@ -394,10 +394,10 @@ namespace DragonBones
                         _pivotY += Slot._helpPoint.Y;
                     }
 
-                    if (!DragonBones.YDown)
-                    {
-                        _pivotY = (_textureData.Rotated ? _textureData.Region.Width : _textureData.Region.Height) * scale - _pivotY;
-                    }
+                    //if (!DragonBones.YDown)
+                    //{
+                    //    _pivotY = (_textureData.Rotated ? _textureData.Region.Width : _textureData.Region.Height) * scale - _pivotY;
+                    //}
                 }
                 else
                 {

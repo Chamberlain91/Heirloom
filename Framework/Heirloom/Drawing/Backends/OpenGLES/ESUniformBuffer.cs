@@ -8,13 +8,13 @@ namespace Heirloom.Drawing.OpenGLES
             : base(BufferTarget.UniformBuffer, sizeInBytes)
         { }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public new unsafe void Update(void* data, int offset, int size)
         {
             base.Update(data, offset, size);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public new unsafe void Update<T>(T[] data, int offset, int size) where T : struct
         {
             base.Update(data, offset, size);

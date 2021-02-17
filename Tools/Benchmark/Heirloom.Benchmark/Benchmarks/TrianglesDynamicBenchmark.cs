@@ -16,7 +16,7 @@ namespace Heirloom.Benchmark
         protected override void InitializeScene()
         {
             // Randomize point positions
-            _particles = new Particle[250];
+            _particles = new Particle[500];
             for (var i = 0; i < _particles.Length; i++)
             {
                 var x = Calc.Random.NextFloat(Bounds.Left, Bounds.Right);
@@ -67,6 +67,7 @@ namespace Heirloom.Benchmark
             }
 
             IsComplete = Time >= 10F;
+            if (IsComplete) { SubmitStatisticsBlock(); }
         }
 
         private sealed class Particle

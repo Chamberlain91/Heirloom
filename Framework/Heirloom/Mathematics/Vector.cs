@@ -142,7 +142,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Sets the components of this vector.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public void Set(float x, float y)
         {
             X = x;
@@ -154,7 +154,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Gets the maximal component in the input vector.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float GetMaxComponent(Vector vec)
         {
             return Calc.Max(vec.X, vec.Y);
@@ -163,7 +163,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Gets the minimal component in the input vector.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float GetMinComponent(Vector vec)
         {
             return Calc.Min(vec.X, vec.Y);
@@ -172,7 +172,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes a new vector where each component is the minimum component in each respective input vector.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector Min(Vector a, Vector b)
         {
             var x = Calc.Min(a.X, b.X);
@@ -184,7 +184,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes a new vector where each component is the maximum component in each respective input vector.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector Max(Vector a, Vector b)
         {
             var x = Calc.Max(a.X, b.X);
@@ -196,7 +196,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes a new vector where each component is the absolute value of each component in the input vector.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector Abs(Vector vec)
         {
             var x = Calc.Abs(vec.X);
@@ -223,7 +223,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes the euclidean distance between any two vectors.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float Distance(Vector a, Vector b)
         {
             return Calc.Distance(a.X, a.Y, b.X, b.Y);
@@ -232,7 +232,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes the squared euclidean distance between any two vectors.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float DistanceSquared(Vector a, Vector b)
         {
             return Calc.DistanceSquared(a.X, a.Y, b.X, b.Y);
@@ -241,7 +241,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes the manhattan distance between any two vectors.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float ManhattanDistance(Vector a, Vector b)
         {
             return Calc.ManhattanDistance(a.X, a.Y, b.X, b.Y);
@@ -250,7 +250,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes an approximation to euclidean distance between any two vectors.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float ApproximateDistance(Vector a, Vector b)
         {
             return Calc.ApproximateDistance(a.X, a.Y, b.X, b.Y);
@@ -263,7 +263,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Normalize this vector.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public void Normalize()
         {
             Normalize(ref this);
@@ -272,7 +272,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Normalizes the input vector and return it.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector Normalize(Vector vec)
         {
             Normalize(ref vec);
@@ -282,7 +282,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Normalizes the input vector.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Normalize(ref Vector vec)
         {
             var length = vec.Length;
@@ -307,7 +307,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Interpolate two vectors.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector Lerp(Vector from, Vector to, float t)
         {
             var x = Calc.Lerp(from.X, to.X, t);
@@ -323,7 +323,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Creates a unit length vector with the given angle from the x-axis.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector FromAngle(float angle)
         {
             var x = Calc.Cos(angle);
@@ -350,7 +350,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Rotates a vector by the specified angle.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector Rotate(Vector v, float angle)
         {
             // todo: better document rotational direction
@@ -386,7 +386,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes the dot-product of two vectors.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float Dot(Vector a, Vector b)
         {
             return (a.X * b.X) + (a.Y * b.Y);
@@ -399,7 +399,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes the cross-product of two vectors.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float Cross(Vector a, Vector b)
         {
             return (a.X * b.Y) - (a.Y * b.X);
@@ -408,7 +408,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes the cross-product of a vector and a magnitude.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector Cross(Vector a, float s)
         {
             return new Vector(s * a.Y, -s * a.X);
@@ -417,7 +417,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes the cross-product of a vector and a magnitude.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector Cross(float s, Vector a)
         {
             return new Vector(-s * a.Y, s * a.X);
@@ -433,7 +433,7 @@ namespace Heirloom.Mathematics
         /// <param name="u"> The first vector. </param>
         /// <param name="v"> The second vector. </param>
         /// <returns>The 'progress' along <paramref name="v"/>.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float Project(Vector u, Vector v)
         {
             return Dot(u, v) / Dot(v, v);
@@ -486,7 +486,7 @@ namespace Heirloom.Mathematics
         /// Computes a new vector with the floor of each component of the input vector.
         /// </summary>
         /// <see cref="Calc.Floor(float)"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector Floor(Vector v)
         {
             v.X = Calc.Floor(v.X);
@@ -498,7 +498,7 @@ namespace Heirloom.Mathematics
         /// Computes a new vector with the ceiling of each component of the input vector.
         /// </summary>
         /// <see cref="Calc.Ceil(float)"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector Ceil(Vector v)
         {
             v.X = Calc.Ceil(v.X);
@@ -510,7 +510,7 @@ namespace Heirloom.Mathematics
         /// Computes a new vector with the rounded value of each component of the input vector.
         /// </summary>
         /// <see cref="Calc.Round(float)"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector Round(Vector v)
         {
             v.X = Calc.Round(v.X);
@@ -522,7 +522,7 @@ namespace Heirloom.Mathematics
         /// Computes a new vector with the fractional portion of each component of the input vector.
         /// </summary>
         /// <see cref="Calc.Fraction(float)"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector Fraction(Vector v)
         {
             v.X = Calc.Fraction(v.X);

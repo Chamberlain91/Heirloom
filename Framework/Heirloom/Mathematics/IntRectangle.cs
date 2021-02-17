@@ -201,7 +201,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Sets the components of this rectangle.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public void Set(int x, int y, int w, int h)
         {
             X = x;
@@ -299,7 +299,7 @@ namespace Heirloom.Mathematics
         /// <param name="a">Some rectangle '<paramref name="a"/>'.</param>
         /// <param name="b">Some rectangle '<paramref name="b"/>'.</param>
         /// <returns> A potentially larger rectangle comprised of the two given. </returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static IntRectangle Merge(IntRectangle a, IntRectangle b)
         {
             var minX = Calc.Min(a.X, b.X);
@@ -319,7 +319,7 @@ namespace Heirloom.Mathematics
         /// </remarks>
         /// <param name="rects">A collection of rectangles to merge.</param>
         /// <returns> A potentially larger rectangle comprised of the two given. </returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static IntRectangle Merge(params IntRectangle[] rects)
         {
             var min = rects[0].Min;
@@ -391,7 +391,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes the bounding rectangle of the given set of points.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static IntRectangle FromPoints(params IntVector[] points)
         {
             return FromPoints((IEnumerable<IntVector>) points);
@@ -400,7 +400,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes the bounding rectangle of the given set of points.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static IntRectangle FromPoints(IEnumerable<IntVector> points)
         {
             var b = InvertedInfinite;

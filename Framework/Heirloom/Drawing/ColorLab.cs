@@ -146,7 +146,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Computes the perceived distance between two colors (using the 1994 model, for performance reasons).
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float Distance(ColorLab a, ColorLab b)
         {
             return Sqrt(DistanceSquared(a, b));
@@ -155,7 +155,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Computes the perceived squared distance between two colors (using the 1994 model, for performance reasons).
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float DistanceSquared(ColorLab a, ColorLab b)
         {
             var xDL = b.L - a.L;

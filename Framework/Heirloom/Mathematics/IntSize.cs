@@ -85,7 +85,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Sets the components of this size.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public void Set(int width, int height)
         {
             Width = width;

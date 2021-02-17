@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 
 using Heirloom.Drawing;
 using Heirloom.Mathematics;
@@ -27,7 +27,7 @@ namespace Heirloom.Benchmark
 
                 // Particle benchmarks
                 new AdventureParticleBenchmark(),
-                new CasinoParticleBenchmark(),
+                // new CasinoParticleBenchmark(),
                 new EmoteParticleBenchmark()
             };
         }
@@ -67,32 +67,49 @@ namespace Heirloom.Benchmark
             }
             else
             {
-                // Compute resolution ratio (hopefully, compensates for different screen sizes)
-                var resolutionRatio = Graphics.Screen.Surface.Size.Area / (float) (1600 * 960);
-
                 // Draw results screen
                 var text = "";
-                var totalScore = 0F;
                 var totalTime = 0F;
+                var finalMean = 0F;
+                var finalDev = 0F;
+
                 foreach (var scene in _scenes)
                 {
-                    // Show contribution of each test
-                    text += $"{scene.Name}: {scene.Score * resolutionRatio / scene.TotalTime: 0.0}\n";
+                    var stats = scene.GetStatistics();
 
-                    totalScore += scene.Score;
+                    // Compute scene average mean and devation
+                    var mean = stats.Select(s => s.Mean).Average();
+                    var dev = stats.Select(s => s.Deviation).Average();
+
+                    // Sum mean
+                    finalMean += mean;
+                    finalDev += dev;
+
+                    // Show contribution of each test
+                    text += $"{scene.Name}:\n";
+
+                    foreach (var stat in stats)
+                    {
+                        text += $"  -> {stat:N1} fps\n";
+                    }
+
                     totalTime += scene.TotalTime;
                 }
 
-                // Compute finalized score
-                var finalScore = totalScore * resolutionRatio / totalTime;
+                // Compute final mean/dev
+                finalMean /= _scenes.Count;
+                finalDev /= _scenes.Count;
 
                 text += $"--------------------\n";
                 text += $"Elasped Time: {Time.GetEnglishTime(totalTime)}\n";
-                text += $"Final Score: {finalScore: 0.0}\n";
+                text += $"Final Score: {finalMean:N1} ± {finalDev:N1}\n";
+
+                // todo: emit text file for run
 
                 // Draw text
                 Graphics.Color = Color.Black;
-                Graphics.DrawText(text, (10, 10), Font.SansSerifBold, 24);
+                var box = Graphics.DrawText(text, (32, 32), Font.SansSerifBold, 18);
+                Graphics.DrawRectOutline(Rectangle.Inflate(box, 4));
             }
 
             // Present graphics to screen

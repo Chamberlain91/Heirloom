@@ -69,7 +69,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Sets each point of the triangle.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public void Set(Vector a, Vector b, Vector c)
         {
             A = a;
@@ -123,7 +123,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Determines if this triangle overlaps another shape.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public bool Overlaps(IShape shape)
         {
             return Collision.CheckOverlap(this, shape);
@@ -151,7 +151,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes the barycentric coefficients of the point <paramref name="p"/> within the triangle.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public void Barycentric(Vector p, out float u, out float v, out float w)
         {
             Barycentric(p, A, B, C, out u, out v, out w);
@@ -207,7 +207,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes the circumcircle for the specified triangle.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Circle CreateCircumcircle(Triangle tri)
         {
             return CreateCircumcircle(tri.A, tri.B, tri.C);
@@ -334,13 +334,13 @@ namespace Heirloom.Mathematics
 
         #endregion
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private static void PopulatePolygon(Triangle triangle)
         {
             PopulatePolygon(triangle.A, triangle.B, triangle.C);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         private static void PopulatePolygon(Vector a, Vector b, Vector c)
         {
             _polygon ??= new Vector[3];

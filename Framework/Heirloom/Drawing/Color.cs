@@ -467,6 +467,42 @@ namespace Heirloom.Drawing
             return new Color(r, g, b, a);
         }
 
+        #region Multiply
+
+        /// <summary>
+        /// Multiply two colors together.
+        /// </summary>
+        /// <param name="colorA">First color</param>
+        /// <param name="colorB">Second color.</param>
+        /// <param name="dest">Where to store the multiplied color.</param>
+        public static void Multiply(Color colorA, Color colorB, ref Color dest)
+        {
+            var r = colorA.R * colorB.R;
+            var g = colorA.G * colorB.G;
+            var b = colorA.B * colorB.B;
+            var a = colorA.A * colorB.A;
+
+            dest.R = r;
+            dest.G = g;
+            dest.B = b;
+            dest.A = a;
+        }
+
+        /// <summary>
+        /// Multiply two colors together.
+        /// </summary>
+        /// <param name="colorA">First color</param>
+        /// <param name="colorB">Second color.</param>
+        /// <returns>The multiplied color.</returns>
+        public static Color Multiply(Color colorA, Color colorB)
+        {
+            var dest = default(Color);
+            Multiply(colorA, colorB, ref dest);
+            return dest;
+        }
+
+        #endregion
+
         #region Distance
 
         /// <summary>
@@ -535,12 +571,7 @@ namespace Heirloom.Drawing
         /// </summary>
         public static Color operator *(Color c1, Color c2)
         {
-            var r = c1.R * c2.R;
-            var g = c1.G * c2.G;
-            var b = c1.B * c2.B;
-            var a = c1.A * c2.A;
-
-            return new Color(r, g, b, a);
+            return Multiply(c1, c2);
         }
 
         /// <summary>

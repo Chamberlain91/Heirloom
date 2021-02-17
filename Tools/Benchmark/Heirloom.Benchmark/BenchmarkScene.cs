@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using Heirloom.Drawing;
 using Heirloom.Mathematics;
@@ -14,8 +15,6 @@ namespace Heirloom.Benchmark
 
         public string Name { get; }
 
-        public float Score { get; private set; }
-
         public bool IsComplete { get; protected set; }
 
         public float Time { get; protected set; }
@@ -24,12 +23,18 @@ namespace Heirloom.Benchmark
 
         public Rectangle Bounds { get; private set; }
 
+        private List<float> _frames = new List<float>();
+        private List<Statistics> _stats = new List<Statistics>();
+
         public void Initialize(Rectangle bounds)
         {
             Bounds = bounds;
-            Score = 0;
             TotalTime = 0;
             Time = 0;
+
+            // 
+            _frames.Clear();
+            _stats.Clear();
 
             // Ensure randomization produces same results
             Calc.SetRandomSeed(0);
@@ -42,10 +47,27 @@ namespace Heirloom.Benchmark
         {
             TotalTime += dt;
             Time += dt;
-            Score++;
+
+            // Append frame time
+            if (dt > Calc.Epsilon) { _frames.Add(1F / dt); }
 
             // Process scene
             UpdateScene(gfx, dt);
+        }
+
+        protected void SubmitStatisticsBlock()
+        {
+            // Drop first frame to help avoid the large spike that seems to exist...
+            // todo: properly handle this large frame time
+            _frames.RemoveAt(0);
+
+            _stats.Add(Statistics.Compute(_frames));
+            _frames.Clear();
+        }
+
+        public IEnumerable<Statistics> GetStatistics()
+        {
+            return _stats;
         }
 
         protected abstract void InitializeScene();

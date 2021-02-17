@@ -174,7 +174,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes the inverse of this matrix.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Matrix Inverse(Matrix a)
         {
             var inv = default(Matrix);
@@ -242,7 +242,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Multiply two matrices together.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Matrix Multiply(Matrix a, Matrix b)
         {
             var c = default(Matrix);
@@ -257,7 +257,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Multiplies a vector against this matrix.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public Vector Multiply(Vector v)
         {
             var c = default(Vector);
@@ -268,7 +268,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Multiplies a vector against this matrix ignoring the translational components.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public Vector MultiplyVector(Vector v)
         {
             var c = default(Vector);
@@ -279,7 +279,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Multiplies a vector and matrix together and stores the resulting vector into <paramref name="dest"/>.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void Multiply(Matrix a, Vector v, ref Vector dest)
         {
             // Computes into temporary locals to prevent error when 
@@ -295,7 +295,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Multiplies a vector and matrix together ignoring the translational components and stores the resulting vector into <paramref name="r"/>.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static void MultiplyVector(Matrix a, Vector v, ref Vector r)
         {
             var x = (a.M0 * v.X) + (a.M1 * v.Y);
@@ -308,7 +308,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Multiplies a vector and matrix together.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector Multiply(Matrix a, Vector v)
         {
             var c = default(Vector);
@@ -319,7 +319,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Multiplies a vector and matrix together ignoring the translational components.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector MultiplyVector(Matrix a, Vector v)
         {
             var c = default(Vector);
@@ -334,7 +334,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Sets the components of this matrix.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public void Set(float m0, float m1, float m2, float m3, float m4, float m5)
         {
             M0 = m0;
@@ -425,7 +425,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Constructs a new scaling matrix.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Matrix CreateScale(float sx, float sy)
         {
             var m = Identity;
@@ -436,7 +436,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Constructs a new scaling matrix.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Matrix CreateScale(Size scale)
         {
             return CreateScale(scale.Width, scale.Height);
@@ -445,7 +445,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Constructs a new scaling matrix.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Matrix CreateScale(Vector scale)
         {
             return CreateScale(scale.X, scale.Y);
@@ -454,7 +454,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Constructs a new uniform scaling matrix.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Matrix CreateScale(float scale)
         {
             return CreateScale(scale, scale);
@@ -467,7 +467,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Constructs a new shearing matrix.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Matrix CreateShear(Vector shear)
         {
             return CreateShear(shear.X, shear.Y);
@@ -476,7 +476,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Constructs a new shearing matrix.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Matrix CreateShear(float sx, float sy)
         {
             var m = Identity;
@@ -638,7 +638,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Performs the multiplication of two matrices.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Matrix operator *(Matrix a, Matrix b)
         {
             Multiply(a, b, ref b);
@@ -648,7 +648,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Performs the multiplication of a matrix and vector, transforming the vector.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Vector operator *(Matrix m, Vector v)
         {
             Multiply(m, v, ref v);

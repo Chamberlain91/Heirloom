@@ -201,7 +201,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Sets the components of this rectangle.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public void Set(float x, float y, float w, float h)
         {
             X = x;
@@ -317,7 +317,7 @@ namespace Heirloom.Mathematics
         /// <param name="a">Some rectangle '<paramref name="a"/>'.</param>
         /// <param name="b">Some rectangle '<paramref name="b"/>'.</param>
         /// <returns> The bounding rectangle of the input rectangles. </returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Rectangle Merge(Rectangle a, Rectangle b)
         {
             var minX = Calc.Min(a.X, b.X);
@@ -337,7 +337,7 @@ namespace Heirloom.Mathematics
         /// </remarks>
         /// <param name="rects">A collection of rectangles to merge.</param>
         /// <returns> The bounding rectangle of the input rectangles. </returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Rectangle Merge(IEnumerable<Rectangle> rects)
         {
             var merged = InvertedInfinite;
@@ -357,7 +357,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes the bounding rectangle of the given set of points.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Rectangle FromPoints(params Vector[] points)
         {
             return FromPoints((IEnumerable<Vector>) points);
@@ -366,7 +366,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes the bounding rectangle of the given set of points.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static Rectangle FromPoints(IEnumerable<Vector> points)
         {
             var b = InvertedInfinite;
@@ -549,7 +549,7 @@ namespace Heirloom.Mathematics
         /// </summary>
         /// <param name="ray">Some ray.</param>
         /// <param name="contact">Ray intersection information.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public bool Raycast(Ray ray, out RayContact contact)
         {
             // r.dir is unit direction vector of ray

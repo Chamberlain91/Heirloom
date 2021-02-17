@@ -121,7 +121,7 @@ namespace DragonBones
             var boneData = _boneData;
             var parent = _parent;
             var flipX = _armature.FlipX;
-            var flipY = _armature.FlipY == DragonBones.YDown;
+            var flipY = _armature.FlipY;
             var rotation = 0.0f;
             var global = this.Global;
             var inherit = parent != null;

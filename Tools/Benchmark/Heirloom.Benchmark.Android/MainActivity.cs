@@ -6,7 +6,7 @@ using Heirloom.Android;
 namespace Heirloom.Benchmark.Android
 {
     [Activity(Label = "Benchmark",
-        ScreenOrientation = ScreenOrientation.SensorPortrait,
+        ScreenOrientation = ScreenOrientation.SensorLandscape,
         ConfigurationChanges = ConfigChanges.Orientation,
         MainLauncher = true)]
     public class MainActivity : GraphicsActivity
@@ -16,6 +16,7 @@ namespace Heirloom.Benchmark.Android
         protected override void GetUserGraphicsConfiguration(ref GraphicsConfiguration config)
         {
             config.VSync = false;
+            config.Resolution = (1280, 720);
         }
 
         protected override void GraphicsResume()

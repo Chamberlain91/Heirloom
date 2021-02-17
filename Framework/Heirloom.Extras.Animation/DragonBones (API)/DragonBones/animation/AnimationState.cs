@@ -328,13 +328,13 @@ namespace DragonBones
                             switch (timelineData.type)
                             {
                                 case TimelineType.IKConstraint:
-                                    {
-                                        var timeline = BaseObject.BorrowObject<IKConstraintTimelineState>();
-                                        timeline.constraint = constraint;
-                                        timeline.Init(_armature, this, timelineData);
-                                        _constraintTimelines.Add(timeline);
-                                        break;
-                                    }
+                                {
+                                    var timeline = BaseObject.BorrowObject<IKConstraintTimelineState>();
+                                    timeline.constraint = constraint;
+                                    timeline.Init(_armature, this, timelineData);
+                                    _constraintTimelines.Add(timeline);
+                                    break;
+                                }
 
                                 default:
                                     break;
@@ -395,41 +395,41 @@ namespace DragonBones
                                 switch (timelineData.type)
                                 {
                                     case TimelineType.BoneAll:
-                                        {
-                                            var timeline = BaseObject.BorrowObject<BoneAllTimelineState>();
-                                            timeline.bone = bone;
-                                            timeline.bonePose = bonePose;
-                                            timeline.Init(_armature, this, timelineData);
-                                            _boneTimelines.Add(timeline);
-                                            break;
-                                        }
+                                    {
+                                        var timeline = BaseObject.BorrowObject<BoneAllTimelineState>();
+                                        timeline.bone = bone;
+                                        timeline.bonePose = bonePose;
+                                        timeline.Init(_armature, this, timelineData);
+                                        _boneTimelines.Add(timeline);
+                                        break;
+                                    }
                                     case TimelineType.BoneTranslate:
-                                        {
-                                            var timeline = BaseObject.BorrowObject<BoneTranslateTimelineState>();
-                                            timeline.bone = bone;
-                                            timeline.bonePose = bonePose;
-                                            timeline.Init(_armature, this, timelineData);
-                                            _boneTimelines.Add(timeline);
-                                            break;
-                                        }
+                                    {
+                                        var timeline = BaseObject.BorrowObject<BoneTranslateTimelineState>();
+                                        timeline.bone = bone;
+                                        timeline.bonePose = bonePose;
+                                        timeline.Init(_armature, this, timelineData);
+                                        _boneTimelines.Add(timeline);
+                                        break;
+                                    }
                                     case TimelineType.BoneRotate:
-                                        {
-                                            var timeline = BaseObject.BorrowObject<BoneRotateTimelineState>();
-                                            timeline.bone = bone;
-                                            timeline.bonePose = bonePose;
-                                            timeline.Init(_armature, this, timelineData);
-                                            _boneTimelines.Add(timeline);
-                                            break;
-                                        }
+                                    {
+                                        var timeline = BaseObject.BorrowObject<BoneRotateTimelineState>();
+                                        timeline.bone = bone;
+                                        timeline.bonePose = bonePose;
+                                        timeline.Init(_armature, this, timelineData);
+                                        _boneTimelines.Add(timeline);
+                                        break;
+                                    }
                                     case TimelineType.BoneScale:
-                                        {
-                                            var timeline = BaseObject.BorrowObject<BoneScaleTimelineState>();
-                                            timeline.bone = bone;
-                                            timeline.bonePose = bonePose;
-                                            timeline.Init(_armature, this, timelineData);
-                                            _boneTimelines.Add(timeline);
-                                            break;
-                                        }
+                                    {
+                                        var timeline = BaseObject.BorrowObject<BoneScaleTimelineState>();
+                                        timeline.bone = bone;
+                                        timeline.bonePose = bonePose;
+                                        timeline.Init(_armature, this, timelineData);
+                                        _boneTimelines.Add(timeline);
+                                        break;
+                                    }
 
                                     default:
                                         break;
@@ -505,32 +505,32 @@ namespace DragonBones
                                 switch (timelineData.type)
                                 {
                                     case TimelineType.SlotDisplay:
-                                        {
-                                            var timeline = BaseObject.BorrowObject<SlotDislayTimelineState>();
-                                            timeline.slot = slot;
-                                            timeline.Init(_armature, this, timelineData);
-                                            _slotTimelines.Add(timeline);
-                                            displayIndexFlag = true;
-                                            break;
-                                        }
+                                    {
+                                        var timeline = BaseObject.BorrowObject<SlotDislayTimelineState>();
+                                        timeline.slot = slot;
+                                        timeline.Init(_armature, this, timelineData);
+                                        _slotTimelines.Add(timeline);
+                                        displayIndexFlag = true;
+                                        break;
+                                    }
                                     case TimelineType.SlotColor:
-                                        {
-                                            var timeline = BaseObject.BorrowObject<SlotColorTimelineState>();
-                                            timeline.slot = slot;
-                                            timeline.Init(_armature, this, timelineData);
-                                            _slotTimelines.Add(timeline);
-                                            colorFlag = true;
-                                            break;
-                                        }
+                                    {
+                                        var timeline = BaseObject.BorrowObject<SlotColorTimelineState>();
+                                        timeline.slot = slot;
+                                        timeline.Init(_armature, this, timelineData);
+                                        _slotTimelines.Add(timeline);
+                                        colorFlag = true;
+                                        break;
+                                    }
                                     case TimelineType.SlotDeform:
-                                        {
-                                            var timeline = BaseObject.BorrowObject<DeformTimelineState>();
-                                            timeline.slot = slot;
-                                            timeline.Init(_armature, this, timelineData);
-                                            _slotTimelines.Add(timeline);
-                                            ffdFlags.Add((int)timeline.vertexOffset);
-                                            break;
-                                        }
+                                    {
+                                        var timeline = BaseObject.BorrowObject<DeformTimelineState>();
+                                        timeline.slot = slot;
+                                        timeline.Init(_armature, this, timelineData);
+                                        _slotTimelines.Add(timeline);
+                                        ffdFlags.Add((int) timeline.vertexOffset);
+                                        break;
+                                    }
 
                                     default:
                                         break;
@@ -675,11 +675,13 @@ namespace DragonBones
                 var eventType = isFadeOut ? EventObject.FADE_OUT : EventObject.FADE_IN;
                 if (_armature.EventDispatcher.HasDBEventListener(eventType))
                 {
-                    var eventObject = BaseObject.BorrowObject<EventObject>();
+                    var eventObject = BorrowObject<EventObject>();
                     eventObject.type = eventType;
                     eventObject.armature = _armature;
                     eventObject.animationState = this;
-                    _armature._dragonBones.BufferEvent(eventObject);
+
+                    // Dispatch armature event
+                    _armature.EventDispatcher.DispatchDBEvent(eventObject.type, eventObject);
                 }
             }
 
@@ -723,7 +725,9 @@ namespace DragonBones
                     eventObject.type = eventType;
                     eventObject.armature = _armature;
                     eventObject.animationState = this;
-                    _armature._dragonBones.BufferEvent(eventObject);
+
+                    // Dispatch armature event
+                    _armature.EventDispatcher.DispatchDBEvent(eventObject.type, eventObject);
                 }
             }
         }
@@ -884,7 +888,7 @@ namespace DragonBones
             {
                 // Cache time internval.
                 var internval = cacheFrameRate * 2.0f;
-                _actionTimeline.currentTime = (float)Math.Floor(_actionTimeline.currentTime * internval) / internval;
+                _actionTimeline.currentTime = (float) Math.Floor(_actionTimeline.currentTime * internval) / internval;
             }
 
             if (_zOrderTimeline != null && _zOrderTimeline.playState <= 0)
@@ -896,7 +900,7 @@ namespace DragonBones
             if (isCacheEnabled)
             {
                 // Update cache.
-                var cacheFrameIndex = (int)Math.Floor(_actionTimeline.currentTime * cacheFrameRate); // uint
+                var cacheFrameIndex = (int) Math.Floor(_actionTimeline.currentTime * cacheFrameRate); // uint
                 if (_armature._cacheFrameIndex == cacheFrameIndex)
                 {
                     // Same cache.

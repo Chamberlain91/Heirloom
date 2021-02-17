@@ -151,7 +151,7 @@ namespace Heirloom.Drawing
             return stbtt_GetGlyphKernAdvance(Info, g1.Index, g2.Index) * scale;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         internal float ComputeScale(float height)
         {
             return stbtt_ScaleForMappingEmToPixels(Info, height);
@@ -163,7 +163,7 @@ namespace Heirloom.Drawing
         /// Gets the information about a particular glyph in this font.
         /// </summary>
         /// <param name="ch">Some character.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public Glyph GetGlyph(char ch)
         {
             return GetGlyph((UnicodeCharacter) ch);

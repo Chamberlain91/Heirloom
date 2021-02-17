@@ -248,7 +248,7 @@ namespace Heirloom.Drawing
         /// <param name="interpolationMode">The interpolation mode, controlling how pixels are interpolated.</param>
         /// <param name="repeatMode">The repeat mode, controlling the behaviour of out-of-bounds coordinates.</param>
         /// <returns>The pixel color sampled at the specified coordinates.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public Color Sample(Vector co, InterpolationMode interpolationMode = InterpolationMode.Linear, RepeatMode repeatMode = RepeatMode.Repeat, bool normalized = false)
         {
             return Sample(co.X, co.Y, interpolationMode, repeatMode, normalized);

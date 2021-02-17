@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Heirloom.Drawing.OpenGLES
@@ -64,10 +63,12 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override void Upload()
         {
-            Update(Data, Count);
+            if (Count > 0)
+            {
+                Update(Data, Count);
+            }
         }
     }
 }

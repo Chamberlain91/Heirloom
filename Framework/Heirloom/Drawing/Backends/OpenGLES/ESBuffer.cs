@@ -44,28 +44,31 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public virtual void Bind()
         {
             GLES.BindBuffer(Target, Handle);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         protected unsafe void Update(void* data, int offset, int size)
         {
+            if (size == 0) { return; } // nothing to copy, skip
+
             // Bind the buffer...?
             GLES.BindBuffer(Target, Handle);
 
-            // Submit new data...
-            if (offset == 0 && size == Size) { GLES.BufferData(Target, (uint) size, (IntPtr) data, BufferUsage.Stream); }
-            else { GLES.BufferSubData(Target, (uint) offset, (uint) size, (IntPtr) data); }
+            //// Submit new data (via subdata)
+            //if (offset == 0 && size == Size) { GLES.BufferData(Target, (uint) size, (IntPtr) data, BufferUsage.Stream); }
+            //else { GLES.BufferSubData(Target, (uint) offset, (uint) size, (IntPtr) data); }
 
-            // var ptr = GL.MapBufferRange(Target, offset, size, MapBufferAccess.Write | MapBufferAccess.InvalidateRange);
-            // Buffer.MemoryCopy(data, ptr, size, size);
-            // GL.UnmapBuffer(Target);
+            // Submit new data (via map)
+            var ptr = GLES.MapBufferRange(Target, offset, size, MapBufferAccess.Write | MapBufferAccess.InvalidateRange);
+            Buffer.MemoryCopy(data, ptr, size, size);
+            GLES.UnmapBuffer(Target);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         protected unsafe void Update<TStruct>(TStruct[] data, int count, int offset = 0)
             where TStruct : struct
         {

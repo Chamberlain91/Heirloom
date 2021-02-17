@@ -12,7 +12,7 @@ namespace Heirloom.Benchmark.Desktop
         public Program()
         {
             // Create window and go fullscreen
-            Window = new Window("Heirloom Benchmark", (1600, 960), vsync: false) { IsResizable = false };
+            Window = new Window("Heirloom Benchmark", (1280, 720), vsync: false) { IsResizable = false };
             Window.Position = (IntVector) (Display.Primary.Size - Window.Size) / 2; // Center on display
 
             // Create benchmark app

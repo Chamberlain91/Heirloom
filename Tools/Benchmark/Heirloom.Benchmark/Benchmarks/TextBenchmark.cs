@@ -22,9 +22,10 @@ namespace Heirloom.Benchmark
         {
             // Simply draw text
             gfx.Color = Color.DarkGray;
-            gfx.DrawText(_text, (20, 20, gfx.Surface.Width - 40, gfx.Surface.Height - 40), Font.SansSerif, 15);
+            gfx.DrawText(_text, (20, 20, gfx.Surface.Width - 40, gfx.Surface.Height - 40), Font.SansSerif, 14);
 
             IsComplete = Time >= 10F;
+            if (IsComplete) { SubmitStatisticsBlock(); }
         }
     }
 }

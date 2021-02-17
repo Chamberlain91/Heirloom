@@ -25,33 +25,33 @@ using System.Collections.Generic;
 namespace DragonBones
 {
     /// <private/>
-    internal class DragonBones
+    internal class DragonBones2
     {
         public static bool YDown = true;
         public static readonly string VERSION = "5.6.300";
 
         private readonly WorldClock _clock = new WorldClock();
         private readonly List<EventObject> _events = new List<EventObject>();
-        private readonly List<BaseObject> _objects = new List<BaseObject>();
+        //private readonly List<BaseObject> _objects = new List<BaseObject>();
         private IEventDispatcher<EventObject> _eventManager = null;
 
-        public DragonBones(IEventDispatcher<EventObject> eventManager)
+        public DragonBones2(IEventDispatcher<EventObject> eventManager)
         {
             _eventManager = eventManager;
         }
 
         public void AdvanceTime(float passedTime)
         {
-            if (_objects.Count > 0)
-            {
-                for (var i = 0; i < _objects.Count; ++i)
-                {
-                    var obj = _objects[i];
-                    obj.ReturnToPool();
-                }
+            //if (_objects.Count > 0)
+            //{
+            //    for (var i = 0; i < _objects.Count; ++i)
+            //    {
+            //        var obj = _objects[i];
+            //        obj.ReturnToPool();
+            //    }
 
-                _objects.Clear();
-            }
+            //    _objects.Clear();
+            //}
 
             if (_events.Count > 0)
             {
@@ -88,16 +88,18 @@ namespace DragonBones
 
         public void BufferObject(BaseObject value)
         {
-            if (!_objects.Contains(value))
-            {
-                _objects.Add(value);
-            }
+            //if (!_objects.Contains(value))
+            //{
+            //    _objects.Add(value);
+            //}
+
+            value.ReturnToPool();
         }
 
-        public static implicit operator bool(DragonBones exists)
-        {
-            return exists != null;
-        }
+        //public static implicit operator bool(DragonBones exists)
+        //{
+        //    return exists != null;
+        //}
 
         public WorldClock Clock => _clock;
 

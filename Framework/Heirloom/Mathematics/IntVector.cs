@@ -120,7 +120,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Sets the components of this vector.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public void Set(int x, int y)
         {
             X = x;
@@ -132,7 +132,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Gets the maximal component in the input vector.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static int GetMaxComponent(IntVector vec)
         {
             return Math.Max(vec.X, vec.Y);
@@ -141,7 +141,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Gets the minimal component in the input vector.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static int GetMinComponent(IntVector vec)
         {
             return Math.Min(vec.X, vec.Y);
@@ -150,7 +150,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes a new vector where each component is the minimum component in each respective input vector.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static IntVector Min(IntVector a, IntVector b)
         {
             var x = Math.Min(a.X, b.X);
@@ -162,7 +162,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes a new vector where each component is the maximum component in each respective input vector.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static IntVector Max(IntVector a, IntVector b)
         {
             var x = Math.Max(a.X, b.X);
@@ -174,7 +174,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes a new vector where each component is the absolute value of each component in the input vector.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static IntVector Abs(IntVector vec)
         {
             var x = Math.Abs(vec.X);
@@ -201,7 +201,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes the euclidean distance between any two vectors.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float Distance(IntVector a, IntVector b)
         {
             return Calc.Distance(a.X, a.Y, b.X, b.Y);
@@ -210,7 +210,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes the squared euclidean distance between any two vectors.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float DistanceSquared(IntVector a, IntVector b)
         {
             return Calc.DistanceSquared(a.X, a.Y, b.X, b.Y);
@@ -219,7 +219,7 @@ namespace Heirloom.Mathematics
         /// <summary>
         /// Computes the manhattan distance between any two vectors.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public static float ManhattanDistance(IntVector a, IntVector b)
         {
             return Calc.ManhattanDistance(a.X, a.Y, b.X, b.Y);
