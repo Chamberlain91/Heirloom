@@ -61,7 +61,7 @@ namespace Heirloom.Drawing
             if (_stops.Count == 0)
             {
                 // No stops, return transparent (or exception?!)
-                return Color.Transparent;
+                return Color.TransparentBlack;
             }
             else if (_stops.Count == 1)
             {

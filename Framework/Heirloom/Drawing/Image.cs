@@ -327,7 +327,7 @@ namespace Heirloom.Drawing
                     case RepeatMode.Blank:
                         if (x < 0 || y < 0 || x >= Width || y >= Height)
                         {
-                            return Color.Transparent;
+                            return Color.TransparentBlack;
                         }
 
                         break;
@@ -880,7 +880,7 @@ namespace Heirloom.Drawing
 
                 var pixel = (Color) image.GetPixel(x2, y2);
 
-                var c = Color.Transparent;
+                var c = Color.TransparentBlack;
                 var w = 0F;
 
                 Contribute(x2, y2);
@@ -895,7 +895,7 @@ namespace Heirloom.Drawing
                 }
 
                 // Divide to compute average.
-                if (w <= 0) { c = Color.Transparent; }
+                if (w <= 0) { c = Color.TransparentBlack; }
                 else { c /= w; }
 
                 resized.SetPixel(coord, c);
@@ -1031,7 +1031,7 @@ namespace Heirloom.Drawing
 
         void IGrid<ColorBytes>.Clear()
         {
-            Clear(Color.Transparent);
+            Clear(Color.TransparentBlack);
         }
 
         bool IReadOnlyGrid<ColorBytes>.IsValidCoordinate(int x, int y)

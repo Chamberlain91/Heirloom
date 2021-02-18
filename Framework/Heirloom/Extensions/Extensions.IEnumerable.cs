@@ -275,7 +275,7 @@ namespace Heirloom
         /// </summary>
         public static Color Sum(this IEnumerable<Color> colors)
         {
-            var sum = Color.Transparent;
+            var sum = Color.TransparentBlack;
 
             foreach (var color in colors)
             {
@@ -312,7 +312,7 @@ namespace Heirloom
         /// </summary>
         public static Color Average(this IEnumerable<Color> colors)
         {
-            var sum = Color.Transparent;
+            var sum = Color.TransparentBlack;
             var count = 0;
 
             foreach (var color in colors)

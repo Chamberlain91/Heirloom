@@ -114,7 +114,12 @@ namespace Heirloom.Drawing
         /// <summary>
         /// The color transparent black (#00000000).
         /// </summary>
-        public static Color Transparent { get; } = Parse("00000000");
+        public static Color TransparentBlack { get; } = Parse("00000000");
+
+        /// <summary>
+        /// The color transparent white (#00FFFFFF).
+        /// </summary>
+        public static Color TransparentWhite { get; } = Parse("00FFFFFF");
 
         #endregion
 
@@ -256,7 +261,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Parses a hex-string representation of a color. 
-        /// May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'.
+        /// May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'AARRGGBB' with or without a preceding '#'.
         /// </summary>
         /// <param name="color">The hex-encoded string.</param>
         public static Color Parse(string color)
@@ -267,7 +272,7 @@ namespace Heirloom.Drawing
 
         /// <summary>
         /// Parses a hex-string representation of a color. 
-        /// May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'RRGGBBAA' with or without a preceding '#'.
+        /// May be formatted as 'RGB', 'RGBA', 'RRGGBB', 'AARRGGBB' with or without a preceding '#'.
         /// </summary>
         /// <param name="color">The hex-encoded string.</param>
         /// <param name="outColor">Outputs the parsed color.</param>
@@ -308,7 +313,7 @@ namespace Heirloom.Drawing
                     b = ParseHexInt(color.Substring(4, 2));
                 }
 
-                // RRGGBBAA style
+                // AARRGGBB style
                 else if (color.Length == 8)
                 {
                     a = ParseHexInt(color.Substring(0, 2));
