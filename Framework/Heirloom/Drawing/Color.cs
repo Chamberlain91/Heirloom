@@ -635,14 +635,14 @@ namespace Heirloom.Drawing
         /// </summary>
         /// <remarks>
         /// It is possible to overflow the 8 bit integer components of <see cref="ColorBytes"/> if the components of
-        /// this <see cref="Color"/> are outside the range of 0.0 to 1.0.
+        /// this <see cref="Color"/> are outside the range of 0.0 to 1.0, thus color is clamped.
         /// </remarks>
         public static implicit operator ColorBytes(Color c)
         {
-            var r = (byte) (c.R * 255);
-            var g = (byte) (c.G * 255);
-            var b = (byte) (c.B * 255);
-            var a = (byte) (c.A * 255);
+            var r = (byte) Calc.Clamp(c.R * 255, 0, 255);
+            var g = (byte) Calc.Clamp(c.G * 255, 0, 255);
+            var b = (byte) Calc.Clamp(c.B * 255, 0, 255);
+            var a = (byte) Calc.Clamp(c.A * 255, 0, 255);
 
             return new ColorBytes(r, g, b, a);
         }
