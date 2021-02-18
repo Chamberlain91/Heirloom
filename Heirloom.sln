@@ -65,7 +65,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Examples.GraphVis"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Examples.Animation", "Examples\Heirloom.Examples.Animation\Heirloom.Examples.Animation.csproj", "{3550B111-2E79-4B7E-BEC5-8A883F21C4AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Extras.Animation", "Framework\Heirloom.Extras.Animation\Heirloom.Extras.Animation.csproj", "{D1E5427B-FFD8-4374-8AD5-F2B82B50057A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Extras.Animation", "Framework\Heirloom.Extras.Animation\Heirloom.Extras.Animation.csproj", "{D1E5427B-FFD8-4374-8AD5-F2B82B50057A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Testing.BlendMode", "Testing\Heirloom.Testing.BlendMode\Heirloom.Testing.BlendMode.csproj", "{78676742-E0B5-4DAC-BE8C-522370C75492}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -166,6 +168,10 @@ Global
 		{D1E5427B-FFD8-4374-8AD5-F2B82B50057A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1E5427B-FFD8-4374-8AD5-F2B82B50057A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1E5427B-FFD8-4374-8AD5-F2B82B50057A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78676742-E0B5-4DAC-BE8C-522370C75492}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78676742-E0B5-4DAC-BE8C-522370C75492}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78676742-E0B5-4DAC-BE8C-522370C75492}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78676742-E0B5-4DAC-BE8C-522370C75492}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -194,6 +200,7 @@ Global
 		{72BC3612-89F6-4CA7-9BC9-2D5922180495} = {97C3E7D0-E5D3-4650-9B12-E1FD76CA8E48}
 		{3550B111-2E79-4B7E-BEC5-8A883F21C4AB} = {97C3E7D0-E5D3-4650-9B12-E1FD76CA8E48}
 		{D1E5427B-FFD8-4374-8AD5-F2B82B50057A} = {2D655A39-AE72-44F7-A21E-0DBE975B5E96}
+		{78676742-E0B5-4DAC-BE8C-522370C75492} = {78B2E4CD-A323-4F1F-B388-D0C0D2B7A8FC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {696A41D8-DF3F-4D16-B3D9-514D627DCCE2}

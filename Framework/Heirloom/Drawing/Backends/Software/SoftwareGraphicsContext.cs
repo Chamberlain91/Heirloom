@@ -122,14 +122,6 @@ namespace Heirloom.Drawing.Software
             {
                 switch (BlendingMode)
                 {
-                    case BlendingMode.Opaque:
-                    {
-                        var srcF = 1F;
-                        var dstF = 0F;
-
-                        return Additive(dst, src, srcF, dstF, srcF, dstF);
-                    }
-
                     case BlendingMode.Alpha:
                     {
                         var cSrc = src.A;

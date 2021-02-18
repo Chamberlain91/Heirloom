@@ -487,11 +487,6 @@ namespace Heirloom.Drawing.OpenGLES
                     default:
                         throw new InvalidOperationException("Unable to set unknown blend mode.");
 
-                    case BlendingMode.Opaque:
-                        GLES.SetBlendEquation(BlendEquation.Add);
-                        GLES.SetBlendFunction(BlendFunction.One, BlendFunction.Zero);
-                        break;
-
                     case BlendingMode.Alpha:
                         GLES.SetBlendEquation(BlendEquation.Add, BlendEquation.Add);
                         GLES.SetBlendFunction(BlendFunction.SourceAlpha, BlendFunction.OneMinusSourceAlpha);
@@ -502,20 +497,19 @@ namespace Heirloom.Drawing.OpenGLES
                         GLES.SetBlendFunction(BlendFunction.SourceAlpha, BlendFunction.One);
                         break;
 
-                    case BlendingMode.Subtractive: // Opposite of Additive (DST - SRC)
+                    case BlendingMode.Subtractive: // Opposite of Additive
                         GLES.SetBlendEquation(BlendEquation.ReverseSubtract);
-                        // GL.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.OneMinusSourceAlpha, BlendFunction.One);
                         GLES.SetBlendFunction(BlendFunction.SourceAlpha, BlendFunction.One);
                         break;
 
                     case BlendingMode.Multiply:
-                        GLES.SetBlendEquation(BlendEquation.Add);
+                        GLES.SetBlendEquation(BlendEquation.Add); // for pre-multiplied
                         GLES.SetBlendFunction(BlendFunction.DestinationColor, BlendFunction.OneMinusSourceAlpha);
                         break;
 
                     case BlendingMode.Invert:
-                        GLES.SetBlendEquation(BlendEquation.Subtract);
-                        GLES.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.One, BlendFunction.Zero);
+                        GLES.SetBlendEquation(BlendEquation.Subtract); // ??
+                        GLES.SetBlendFunction(BlendFunction.One, BlendFunction.One, BlendFunction.SourceAlpha, BlendFunction.OneMinusSourceAlpha);
                         break;
                 }
             }

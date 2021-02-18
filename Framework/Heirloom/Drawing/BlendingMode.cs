@@ -3,11 +3,6 @@ namespace Heirloom.Drawing
     public enum BlendingMode
     {
         /// <summary>
-        /// Drawn pixels are fully opaque and will replace existing pixels.
-        /// </summary>
-        Opaque,
-
-        /// <summary>
         /// Draw pixels are blended based on their alpha values with existing pixels.
         /// </summary>
         Alpha,
