@@ -36,20 +36,28 @@ namespace Heirloom.Desktop
             //    Log.Error("Unable to schedule action on GL thread. Backend has been disposed.");
             //}
 
-            // The application has a global GL context, we will schedule GL work there.
-            // This context is not associated to any graphics context, so we should avoid
-            // rendering and changing state. Just the allocation and manipulation of objects.
-            Application.Invoke(() =>
+            // Does the current thread happen to be a graphics thread?
+            if (ESGraphicsContext.IsGraphicsThread)
             {
-                // Make the share context current here
-                Glfw.MakeContextCurrent(Application.ShareContext);
-
-                // Execute action
                 action();
+            }
+            else
+            {
+                // The application has a global GL context, we will schedule GL work there.
+                // This context is not associated to any graphics context, so we should avoid
+                // rendering and changing state. Just the allocation and manipulation of objects.
+                Application.Invoke(() =>
+                {
+                    // Make the share context current here
+                    Glfw.MakeContextCurrent(Application.ShareContext);
 
-                // Release context from thread. We want it not associated with any thread.
-                Glfw.MakeContextCurrent(WindowHandle.None);
-            });
+                    // Execute action
+                    action();
+
+                    // Release context from thread. We want it not associated with any thread.
+                    Glfw.MakeContextCurrent(WindowHandle.None);
+                });
+            }
         }
 
         internal sealed class ESWindowGraphicsContext : ESGraphicsContext

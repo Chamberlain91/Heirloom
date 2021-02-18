@@ -67,7 +67,7 @@ namespace Heirloom.Drawing
 
         protected internal T GetNativeObject<T>(GraphicsResource resource) where T : class, IDisposable
         {
-            if (!(resource.GetBackendNativeObject() is T obj))
+            if (resource.GetBackendNativeObject() is not T obj)
             {
                 // No backend object is known for this resource, we must now create one.
                 obj = GenerateNativeObject(resource) as T;

@@ -589,7 +589,7 @@ namespace Heirloom.Drawing
 
         protected internal T GetNativeObject<T>(GraphicsResource resource) where T : class, IDisposable
         {
-            if (!(resource.GetContextNativeObject(this) is T obj))
+            if (resource.GetContextNativeObject(this) is not T obj)
             {
                 // No context native object is known for this resources, we must now create one.
                 obj = GenerateNativeObject(resource) as T;
