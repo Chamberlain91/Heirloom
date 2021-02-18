@@ -458,7 +458,7 @@ namespace Heirloom.Drawing
 
         public abstract void ClearStencil();
 
-        public abstract void BeginStencil();
+        public abstract void BeginStencil(float alphaCutoff = 1 / 200F);
 
         public abstract void EndStencil();
 

@@ -17,6 +17,9 @@ namespace Heirloom.Testing.BlendMode
             Color.Green,
         };
 
+        public static readonly Color TransparentBlack = new Color(0, 0, 0, 1F / 128);
+        public static readonly Color TransparentWhite = new Color(1, 1, 1, 1F / 128);
+
         public Program()
         {
             var modes = System.Enum.GetValues<BlendingMode>();
@@ -87,8 +90,8 @@ namespace Heirloom.Testing.BlendMode
             gfx.DrawRect((100, 50, 50, 50));
 
             gfx.Color = Color.White;
-            var alphaRamp1 = new Gradient(GradientMode.RGB) { { 0F, Color.White }, { 1F, Color.TransparentWhite } };
-            var alphaRamp2 = new Gradient(GradientMode.RGB) { { 0F, Color.TransparentBlack }, { 1F, Color.Black } };
+            var alphaRamp1 = new Gradient(GradientMode.RGB) { { 0F, Color.White }, { 1F, TransparentWhite } };
+            var alphaRamp2 = new Gradient(GradientMode.RGB) { { 0F, TransparentBlack }, { 1F, Color.Black } };
             var gradient1 = Image.CreateGradient(75, 50, alphaRamp1, Axis.Horizontal);
             var gradient2 = Image.CreateGradient(75, 50, alphaRamp2, Axis.Horizontal);
             gfx.DrawImage(gradient1, Matrix.CreateTranslation(0, 100));

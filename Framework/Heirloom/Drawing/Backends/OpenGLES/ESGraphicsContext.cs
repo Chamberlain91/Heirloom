@@ -7,7 +7,7 @@ using Heirloom.Utilities;
 
 namespace Heirloom.Drawing.OpenGLES
 {
-    public abstract class ESGraphicsContext : GraphicsContext
+    internal abstract class ESGraphicsContext : GraphicsContext
     {
         [ThreadStatic] internal protected static bool IsGraphicsThread;
 
@@ -25,6 +25,8 @@ namespace Heirloom.Drawing.OpenGLES
         private ESAtlas _atlas;
 
         private readonly Mesh _clipMesh = new Mesh();
+
+        private float _alphaCutoff;
 
         #region Constructor
 
@@ -248,7 +250,7 @@ namespace Heirloom.Drawing.OpenGLES
             });
         }
 
-        public override void BeginStencil()
+        public override void BeginStencil(float alphaCutoff)
         {
             // stencil enable = true
             // stencil write = true
@@ -281,6 +283,9 @@ namespace Heirloom.Drawing.OpenGLES
                 // Update stencil reference
                 GLES.StencilOperation(StencilOperation.Keep, StencilOperation.Keep, StencilOperation.Replace);
                 GLES.StencilFunction(StencilFunction.Always, _stencilReference, 0xFF);
+
+                // Store alpha cutoff
+                _alphaCutoff = alphaCutoff;
             });
         }
 
@@ -303,6 +308,9 @@ namespace Heirloom.Drawing.OpenGLES
                 // Update stencil reference
                 GLES.StencilFunction(StencilFunction.Equal, _stencilReference, 0xFF);
                 GLES.StencilOperation(StencilOperation.Keep, StencilOperation.Keep, StencilOperation.Keep);
+
+                // Disable alpha cutoff
+                _alphaCutoff = float.MinValue;
             });
         }
 
@@ -413,6 +421,9 @@ namespace Heirloom.Drawing.OpenGLES
                     // Update uniforms
                     foreach (var data in _modifiedUniforms.Values) { UpdateUniform(data.Uniform, data.Value); }
                     _modifiedUniforms.Clear();
+
+                    // Update the alpha cutoff uniform
+                    UpdateUniform(Shader.GetUniform("uAlphaCutoff"), _alphaCutoff);
 
                     // Commit drawing operations
                     _batch.Commit();

@@ -11,7 +11,9 @@ out vec4 outColor;
 // == Uniforms ==
 
 uniform sampler2D uMainImage;
-in vec4 uMainImage_UVRect; 
+in vec4 uMainImage_UVRect;
+
+uniform float uAlphaCutoff;
 
 // == Fragment Shader ==
 
@@ -25,5 +27,5 @@ void main(void)
 	outColor *= frag.color;
 
 	// Cutoff alpha
-	if (outColor.a < 0.003) { discard; }
+	if (outColor.a < uAlphaCutoff) { discard; }
 }

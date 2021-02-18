@@ -12,6 +12,8 @@ namespace Heirloom.Drawing.Software
         private bool _stencilWrite;
         private bool _colorWrite = true;
 
+        private float _alphaCutoff;
+
         internal SoftwareGraphicsContext(SoftwareGraphicsBackend backend, IntSize size)
             : base(backend, new SoftwareScreen(size))
         {
@@ -86,7 +88,7 @@ namespace Heirloom.Drawing.Software
                             color *= Color;
 
                             // Discard alpha values too small
-                            if (color.A < 0.005F) { return; }
+                            if (color.A < _alphaCutoff) { return; }
 
                             // Skip writing color
                             if (_colorWrite)
@@ -210,8 +212,10 @@ namespace Heirloom.Drawing.Software
             _colorWrite = true;
         }
 
-        public override void BeginStencil()
+        public override void BeginStencil(float alphaCutoff)
         {
+            _alphaCutoff = alphaCutoff;
+
             _stencilEnable = true;
             _stencilWrite = true;
             _colorWrite = false;
@@ -226,6 +230,8 @@ namespace Heirloom.Drawing.Software
 
         public override void EndStencil()
         {
+            _alphaCutoff = -1;
+
             _stencilWrite = false;
             _colorWrite = true;
         }
