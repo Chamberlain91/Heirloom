@@ -31,11 +31,11 @@ namespace Heirloom.Testing.MemoryLeak
                 var surface = new Surface(window.Surface.Size, MultisampleQuality.None);
 
                 // Draw image to surface
-                window.Graphics.SetRenderTarget(surface);
+                window.Graphics.SetSurface(surface);
                 window.Graphics.DrawImage(image, Matrix.Identity);
 
                 // Draw surface to screen
-                window.Graphics.SetRenderTarget(window.Surface);
+                window.Graphics.SetSurface(window.Surface);
                 window.Graphics.DrawImage(surface, Matrix.Identity);
 
                 // Present to screen

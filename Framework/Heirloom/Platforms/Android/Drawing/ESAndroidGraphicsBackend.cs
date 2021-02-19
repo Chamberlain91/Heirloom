@@ -178,7 +178,7 @@ namespace Heirloom.Android
                 }
             }
 
-            protected override void SwapBuffers()
+            internal override void SwapBuffers()
             {
                 // Swap buffers (on the gl thread)
                 Invoke(blocking: false, action: () =>
@@ -188,7 +188,7 @@ namespace Heirloom.Android
                 });
             }
 
-            protected override void Dispose(bool disposing)
+            internal override void Dispose(bool disposing)
             {
                 _backend.RemoveGraphics(this);
                 base.Dispose(disposing);

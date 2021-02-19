@@ -1,26 +1,24 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
+using Heirloom.Collections;
 using Heirloom.Mathematics;
 
 namespace Heirloom.Drawing
 {
+    /// <summary>
+    /// Represents a graphical context, providing the ability to draw onto surfaces.
+    /// </summary>
     public abstract partial class GraphicsContext : IDisposable
-    /**
-    * When a shader is created, it requests from an active context for it to be compiled.
-    * This then can defer to whatever backend is running the context... this is to prevent a lazy compile of the shader.
-    * 
-    * Shader uniforms are apparently per-program, so once updated they should be the same across contexts. Only trick is making sure
-    * synchronization is predictable (as most parts of the GL backend)
-    */
     {
-        private static readonly RecyclePool<int> _idPool = new RecyclePool<int>(() => _idCounter++);
-        private static int _idCounter;
+        private static readonly IdentifierPool _idPool = new IdentifierPool();
 
-        protected internal readonly int Id = _idPool.Request();
+        /// <summary>
+        /// The unique integer representing this graphics context.
+        /// </summary>
+        internal readonly int Id = _idPool.GetNextIdentifier();
 
-        protected StateDirtyFlags StateFlags = StateDirtyFlags.All;
+        internal StateDirtyFlags StateFlags = StateDirtyFlags.All;
 
         private readonly Stack<RenderState> _stateStack = new Stack<RenderState>();
         private RenderState _state;
@@ -39,7 +37,7 @@ namespace Heirloom.Drawing
         private bool _isDisposed;
 
         [Flags]
-        protected enum StateDirtyFlags
+        internal enum StateDirtyFlags
         {
             Viewport = 1 << 0,
             Surface = 1 << 1,
@@ -51,7 +49,7 @@ namespace Heirloom.Drawing
             All = Viewport | Surface | Blending | Shader
         }
 
-        protected struct RenderState
+        internal struct RenderState
         {
             public BlendingMode BlendingMode;
             public Shader Shader;
@@ -64,18 +62,12 @@ namespace Heirloom.Drawing
 
             public Color Color;
 
-            public bool PixelPerfect;
-        }
-
-        private void MarkStateDirty(StateDirtyFlags flag)
-        {
-            if (StateFlags.HasFlag(flag) && HasPendingWork) { Flush(); }
-            StateFlags |= flag;
+            public IShape ClipShape;
         }
 
         #region Constructor
 
-        protected GraphicsContext(GraphicsBackend backend, IScreen screen)
+        internal GraphicsContext(GraphicsBackend backend, IScreen screen)
         {
             Backend = backend ?? throw new ArgumentNullException(nameof(backend));
             Screen = screen ?? throw new ArgumentNullException(nameof(screen));
@@ -83,6 +75,7 @@ namespace Heirloom.Drawing
             Performance = new GraphicsPerformance();
         }
 
+        /// <inheritdoc/>
         ~GraphicsContext()
         {
             Dispose(disposing: false);
@@ -90,24 +83,34 @@ namespace Heirloom.Drawing
 
         #endregion
 
+        /// <summary>
+        /// Gets render performance information.
+        /// </summary>
         public GraphicsPerformance Performance { get; }
 
+        /// <summary>
+        /// Gets the screen associated with the <see cref="GraphicsContext"/>.
+        /// </summary>
         public IScreen Screen { get; }
 
-        protected internal bool IsInitialized { get; protected set; }
+        internal bool IsInitialized { get; set; }
 
-        protected internal GraphicsBackend Backend { get; }
+        internal GraphicsBackend Backend { get; }
 
-        protected abstract bool HasPendingWork { get; }
+        internal abstract bool HasPendingWork { get; }
 
         internal bool IsDisposed => _isDisposed;
 
-        public IShape ClipShape { get; set; }
-
         #region Render State (Properties)
 
+        /// <summary>
+        /// Gets the approximate scale of a pixel compared to default.
+        /// </summary>
         public float ApproximatePixelScale => Vector.GetMinComponent(1F / CompositeMatrix.GetAffineScale());
 
+        /// <summary>
+        /// Gets or sets the current blending mode.
+        /// </summary>
         public BlendingMode BlendingMode
         {
             get => _state.BlendingMode;
@@ -122,20 +125,40 @@ namespace Heirloom.Drawing
             }
         }
 
-        public Color Color
-        {
-            get => _state.Color;
-            set => _state.Color = value;
-        }
-
+        /// <summary>
+        /// Gets the current viewport.
+        /// </summary>
         public IntRectangle Viewport => _state.Viewport;
 
+        /// <summary>
+        /// Gets the current surface.
+        /// </summary>
         public Surface Surface => _state.Surface;
 
-        public Shader Shader => _state.Shader;
+        /// <summary>
+        /// Gets the current shader.
+        /// </summary>
+        public Shader Shader
+        {
+            get => _state.Shader;
+
+            set
+            {
+                if (value is null) { throw new ArgumentNullException(nameof(value)); }
+
+                if (_state.Shader != value)
+                {
+                    MarkStateDirty(StateDirtyFlags.Shader);
+                    _state.Shader = value;
+                }
+            }
+        }
 
         #region Transform Matrix
 
+        /// <summary>
+        /// Gets or sets the global transform.
+        /// </summary>
         public Matrix Transform
         {
             get => _state.Transform;
@@ -151,6 +174,9 @@ namespace Heirloom.Drawing
             }
         }
 
+        /// <summary>
+        /// Gets the inverse of the global tranform.
+        /// </summary>
         public Matrix InverseTransform
         {
             get
@@ -172,6 +198,9 @@ namespace Heirloom.Drawing
 
         #region Camera Matrix
 
+        /// <summary>
+        /// Gets or sets the camera transform matrix.
+        /// </summary>
         public Matrix CameraMatrix
         {
             get => _state.CameraMatrix;
@@ -186,6 +215,9 @@ namespace Heirloom.Drawing
             }
         }
 
+        /// <summary>
+        /// Gets the inverse of the camera transform matrix.
+        /// </summary>
         public Matrix InverseCameraMatrix
         {
             get
@@ -249,10 +281,34 @@ namespace Heirloom.Drawing
 
         #endregion
 
+        /// <summary>
+        /// Gets or sets the software clipping shape. Set this value to <see langword="null"/> to disable software clipping.
+        /// </summary>
+        public IShape ClipShape
+        {
+            get => _state.ClipShape;
+            set => _state.ClipShape = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the current draw color.
+        /// </summary>
+        public Color Color
+        {
+            get => _state.Color;
+            set => _state.Color = value;
+        }
+
         #endregion
 
         #region Render State (Methods)
 
+        /// <summary>
+        /// Configures <see cref="CameraMatrix"/> to mimic a 2D camera centered on some location.
+        /// </summary>
+        /// <param name="center">Some location for the camera to look at.</param>
+        /// <param name="scale">The scaling factor to apply. For example, <c>0.5</c> is "zoomed out".</param>
+        /// <param name="rotation">The rotation of the camera, in radians.</param>
         public void SetCamera(Vector center, float scale = 1F, float rotation = 0F)
         {
             var offset = (Vector) Viewport.Size / (2F * scale);
@@ -287,12 +343,14 @@ namespace Heirloom.Drawing
             }
         }
 
-        public virtual void SetRenderTarget(Surface surface, IntRectangle? viewport = null)
+        /// <summary>
+        /// Changes the surface this graphics context will draw onto.
+        /// </summary>
+        /// <param name="surface">Some surface.</param>
+        /// <param name="viewport">The viewport (think split screen) or null to use the full surface.</param>
+        public virtual void SetSurface(Surface surface, IntRectangle? viewport = null)
         {
-            if (surface is null)
-            {
-                throw new ArgumentNullException(nameof(surface));
-            }
+            if (surface is null) { throw new ArgumentNullException(nameof(surface)); }
 
             // If viewport is not specified, use the surface size.
             viewport ??= (IntVector.Zero, surface.Size);
@@ -306,24 +364,20 @@ namespace Heirloom.Drawing
             }
         }
 
-        public virtual void UseShader(Shader shader)
-        {
-            if (shader is null) { throw new ArgumentNullException(nameof(shader)); }
-
-            if (_state.Shader != shader)
-            {
-                MarkStateDirty(StateDirtyFlags.Shader);
-                _state.Shader = shader;
-            }
-        }
-
         #region State Stack
 
+        /// <summary>
+        /// Push the current render state onto the stack.
+        /// Please note, this does not include the stencil.
+        /// </summary>
         public void PushState()
         {
             _stateStack.Push(_state);
         }
 
+        /// <summary>
+        /// Pops the prior render state off the stack, restoring its configuration.
+        /// </summary>
         public void PopState()
         {
             var state = _stateStack.Pop();
@@ -333,16 +387,19 @@ namespace Heirloom.Drawing
             Color = state.Color;
 
             // Restore prior shader
-            UseShader(state.Shader);
+            Shader = state.Shader;
 
             // Restore prior render target
-            SetRenderTarget(state.Surface, state.Viewport);
+            SetSurface(state.Surface, state.Viewport);
 
             // Restore prior matrices
             CameraMatrix = state.CameraMatrix;
             Transform = state.Transform;
         }
 
+        /// <summary>
+        /// Resets the render state to defaults.
+        /// </summary>
         public void ResetState()
         {
             // todo: clear stencil?!
@@ -352,10 +409,10 @@ namespace Heirloom.Drawing
             Color = Color.White;
 
             // Default shader configuration
-            UseShader(Shader.Default);
+            Shader = Shader.Default;
 
             // Set default surface
-            SetRenderTarget(Screen.Surface);
+            SetSurface(Screen.Surface);
 
             // Set default matrices
             CameraMatrix = Matrix.Identity;
@@ -368,27 +425,58 @@ namespace Heirloom.Drawing
 
         #region Draw Methods
 
+        /// <summary>
+        /// Clear the currently bound surface with the specified color.
+        /// </summary>
         public abstract void Clear(Color color);
 
-        public abstract void Draw(Mesh mesh, Texture texture, Rectangle uvRegion, Matrix matrix);
+        /// <summary>
+        /// Draws the specified mesh and texture to the currently bound surface.
+        /// </summary>
+        /// <param name="mesh">Some mesh to draw.</param>
+        /// <param name="texture">Some texture to apply to the mesh.</param>
+        /// <param name="uvRegion">Some subregion of the texture to remap UV coordinates.</param>
+        /// <param name="transform">Some transformation matrix to apply before rendering the mesh.</param>
+        public abstract void Draw(Mesh mesh, Texture texture, Rectangle uvRegion, Matrix transform);
 
+        /// <summary>
+        /// Updates the value of some uniform in the current bound shader.
+        /// </summary>
+        /// <typeparam name="T">Some type to assign to the shader.</typeparam>
+        /// <param name="name">The name of the uniform.</param>
+        /// <param name="value">The value to assign to each uniform.</param>
+        // todo: perhaps make dedicated methods for each type instead?
         public abstract void SetUniform<T>(string name, T value);
 
         #region Fundamental Drawing
 
-        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
+        /// <summary>
+        /// Draws the specified mesh and texture to the currently bound surface.
+        /// </summary>
+        /// <param name="mesh">Some mesh to draw.</param>
+        /// <param name="texture">Some texture to apply to the mesh.</param>
+        /// <param name="uvRegion">Some subregion of the texture to remap UV coordinates.</param>
         public void Draw(Mesh mesh, Texture texture, Rectangle uvRegion)
         {
             Draw(mesh, texture, uvRegion, Matrix.Identity);
         }
 
-        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
-        public void Draw(Mesh mesh, Texture texture, Matrix matrix)
+        /// <summary>
+        /// Draws the specified mesh and texture to the currently bound surface.
+        /// </summary>
+        /// <param name="mesh">Some mesh to draw.</param>
+        /// <param name="texture">Some texture to apply to the mesh.</param>
+        /// <param name="transform">Some transformation matrix to apply before rendering the mesh.</param>
+        public void Draw(Mesh mesh, Texture texture, Matrix transform)
         {
-            Draw(mesh, texture, Rectangle.One, matrix);
+            Draw(mesh, texture, Rectangle.One, transform);
         }
 
-        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
+        /// <summary>
+        /// Draws the specified mesh and texture to the currently bound surface.
+        /// </summary>
+        /// <param name="mesh">Some mesh to draw.</param>
+        /// <param name="texture">Some texture to apply to the mesh.</param>
         public void Draw(Mesh mesh, Texture texture)
         {
             Draw(mesh, texture, Rectangle.One);
@@ -398,9 +486,15 @@ namespace Heirloom.Drawing
 
         #region Basic Image Drawing
 
-        // draw image
+        /// <summary>
+        /// Draws an image to the currently bound surface.
+        /// </summary>
+        /// <param name="texture">Some image.</param>
+        /// <param name="transform">Some transformation matrix to apply before rendering the image.</param>
         public unsafe void DrawImage(Texture texture, Matrix transform)
         {
+            if (texture is null) { throw new ArgumentNullException(nameof(texture)); }
+
             var w = (float) texture.Width;
             var h = (float) texture.Height;
 
@@ -415,19 +509,23 @@ namespace Heirloom.Drawing
         }
 
         /// <summary>
-        /// Draws an image stretched to fill a rectangular region.
+        /// Draws an image stretched to fill a rectangular region to the currently bound surface.
         /// </summary> 
-        /// <param name="image">Some image.</param>
+        /// <param name="texture">Some image.</param>
         /// <param name="rectangle">The bounds of the drawn image.</param>
-        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
-        public void DrawImage(Texture image, Rectangle rectangle)
+        public void DrawImage(Texture texture, Rectangle rectangle)
         {
             var transform = Matrix.CreateTransform(rectangle.Position, 0, (Vector) rectangle.Size);
-            Draw(Mesh.QuadMesh, image, transform);
+            Draw(Mesh.QuadMesh, texture, transform);
         }
 
-        // draw partial image
-        public void DrawImage(Texture texture, IntRectangle region, Matrix matrix)
+        /// <summary>
+        /// Draws a subregion of an image to the currently bound surface.
+        /// </summary>
+        /// <param name="texture">Some image.</param>
+        /// <param name="region">Some subregion of the image (specified in pixels).</param>
+        /// <param name="transform">Some transformation matrix to apply before rendering the image.</param>
+        public void DrawImage(Texture texture, IntRectangle region, Matrix transform)
         {
             var w = (float) texture.Width;
             var h = (float) texture.Height;
@@ -440,13 +538,13 @@ namespace Heirloom.Drawing
             uvRect.Height = region.Height / h;
 
             // Scale to image dimensions
-            matrix.M0 *= w;
-            matrix.M3 *= w;
-            matrix.M1 *= h;
-            matrix.M4 *= h;
+            transform.M0 *= w;
+            transform.M3 *= w;
+            transform.M1 *= h;
+            transform.M4 *= h;
 
             // Submit draw
-            Draw(Mesh.QuadMesh, texture, uvRect, matrix);
+            Draw(Mesh.QuadMesh, texture, uvRect, transform);
         }
 
         #endregion
@@ -456,11 +554,21 @@ namespace Heirloom.Drawing
         // todo: possibly implement, should determine if the stencil was ever written to?
         // public abstract bool HasStencil { get; }
 
-        public abstract void ClearStencil();
+        /// <summary>
+        /// Clears the stencil mask, effectively disabling it.
+        /// </summary>
+        public abstract void ClearMask();
 
-        public abstract void BeginStencil(float alphaCutoff = 1 / 200F);
+        /// <summary>
+        /// Enables definition of the stencil mask, used to render "cookie cutter" style.
+        /// </summary>
+        /// <param name="alphaCutoff">The alpha threshold to discard rendered fragments.</param>
+        public abstract void BeginDefineMask(float alphaCutoff = 1 / 200F);
 
-        public abstract void EndStencil();
+        /// <summary>
+        /// Ends definition of the stencil mask, subsequent drawing operations are subject to this mask.
+        /// </summary>
+        public abstract void EndDefineMask();
 
         #endregion
 
@@ -486,10 +594,26 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        protected void Initialize()
+        /// <summary>
+        /// Commits pending drawing operations, blocking until all operations complete.
+        /// </summary>
+        public void Commit()
+        {
+            Flush(true);
+        }
+
+        #region Internal Methods
+
+        internal void Initialize()
         {
             ResetState();
             IsInitialized = true;
+        }
+
+        private void MarkStateDirty(StateDirtyFlags flag)
+        {
+            if (StateFlags.HasFlag(flag) && HasPendingWork) { Flush(); }
+            StateFlags |= flag;
         }
 
         internal void CompleteFrame()
@@ -543,24 +667,18 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Causes the back and front buffers to be swapped.
         /// </summary>
-        protected abstract void SwapBuffers();
+        internal abstract void SwapBuffers();
 
         /// <summary>
         /// Submit all pending drawing operations, optionally blocking for completion.
         /// </summary>
-        protected abstract void Flush(bool block = false);
+        internal abstract void Flush(bool block = false);
 
-        /// <summary>
-        /// Commits pending drawing operations, blocking until all operations complete.
-        /// </summary>
-        public void Commit()
-        {
-            Flush(true);
-        }
+        #endregion
 
         #region Dispose
 
-        protected virtual void Dispose(bool disposing)
+        internal virtual void Dispose(bool disposing)
         {
             if (!_isDisposed)
             {
@@ -575,6 +693,9 @@ namespace Heirloom.Drawing
             }
         }
 
+        /// <summary>
+        /// Dispose of this graphical context, cleaning up resources, effectively discarding it.
+        /// </summary>
         public void Dispose()
         {
             Dispose(disposing: true);
@@ -585,9 +706,9 @@ namespace Heirloom.Drawing
 
         #region Native Resource Access
 
-        protected abstract object GenerateNativeObject(GraphicsResource resource);
+        internal abstract object GenerateNativeObject(GraphicsResource resource);
 
-        protected internal T GetNativeObject<T>(GraphicsResource resource) where T : class, IDisposable
+        internal T GetNativeObject<T>(GraphicsResource resource) where T : class, IDisposable
         {
             if (resource.GetContextNativeObject(this) is not T obj)
             {
@@ -602,17 +723,17 @@ namespace Heirloom.Drawing
             return obj;
         }
 
-        protected internal void SetNativeObject<T>(GraphicsResource resource, T obj) where T : class, IDisposable
+        internal void SetNativeObject<T>(GraphicsResource resource, T obj) where T : class, IDisposable
         {
             resource.SetContextNativeObject(this, obj);
         }
 
-        protected internal uint GetResourceVersion(GraphicsResource resource)
+        internal uint GetResourceVersion(GraphicsResource resource)
         {
             return resource.Version;
         }
 
-        protected internal void IncrementVersion(GraphicsResource resource)
+        internal void IncrementVersion(GraphicsResource resource)
         {
             resource.IncrementVersion();
         }

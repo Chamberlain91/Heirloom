@@ -42,7 +42,7 @@ namespace Heirloom.Examples.Stencil
             DrawBackgroundImages(gfx, Image, angle);
 
             // Draw a stencil mask
-            gfx.BeginStencil();
+            gfx.BeginDefineMask();
             gfx.PushState();
             {
                 var center = (Vector) gfx.Surface.Size / 2F;
@@ -50,7 +50,7 @@ namespace Heirloom.Examples.Stencil
                 gfx.DrawText("Princess Zelda", center, Font.Default, 200, TextAlign.Center | TextAlign.Middle);
             }
             gfx.PopState();
-            gfx.EndStencil();
+            gfx.EndDefineMask();
 
             // White for full brightness
             gfx.Color = Color.White;
@@ -59,7 +59,7 @@ namespace Heirloom.Examples.Stencil
             DrawBackgroundImages(gfx, Image, angle);
 
             // Clear the stencil, back to regular drawing.
-            gfx.ClearStencil();
+            gfx.ClearMask();
 
             // Draw regular text again
             gfx.DrawText($"Heirloom 2D Graphics", (gfx.Surface.Width - 8, 8), Font.Default, 16, TextAlign.Top | TextAlign.Right);

@@ -30,7 +30,7 @@ namespace Heirloom.Drawing.Software
             Initialize();
         }
 
-        protected override bool HasPendingWork => false;
+        internal override bool HasPendingWork => false;
 
         public override void Clear(Color color)
         {
@@ -205,14 +205,14 @@ namespace Heirloom.Drawing.Software
             throw new NotImplementedException("Unable to set uniforms on software context");
         }
 
-        public override void ClearStencil()
+        public override void ClearMask()
         {
             _stencilWrite = false;
             _stencilEnable = false;
             _colorWrite = true;
         }
 
-        public override void BeginStencil(float alphaCutoff)
+        public override void BeginDefineMask(float alphaCutoff)
         {
             _alphaCutoff = alphaCutoff;
 
@@ -228,7 +228,7 @@ namespace Heirloom.Drawing.Software
             }
         }
 
-        public override void EndStencil()
+        public override void EndDefineMask()
         {
             _alphaCutoff = -1;
 
@@ -256,18 +256,18 @@ namespace Heirloom.Drawing.Software
             return image;
         }
 
-        protected override void SwapBuffers()
+        internal override void SwapBuffers()
         {
             throw new NotImplementedException("Unable to swap buffers of a software screen.");
         }
 
-        protected override void Flush(bool blockCompletion = false)
+        internal override void Flush(bool blockCompletion = false)
         {
             // Nothing to do, all drawing happens immediately in this software context.
             // Just carry on!
         }
 
-        protected override object GenerateNativeObject(GraphicsResource resource)
+        internal override object GenerateNativeObject(GraphicsResource resource)
         {
             throw new NotImplementedException();
         }

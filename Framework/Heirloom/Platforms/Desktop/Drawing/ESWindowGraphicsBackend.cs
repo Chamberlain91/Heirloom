@@ -111,13 +111,13 @@ namespace Heirloom.Desktop
                 }
             }
 
-            protected override void SwapBuffers()
+            internal override void SwapBuffers()
             {
                 // Swap buffers (on the gl thread)
                 Invoke(() => Glfw.SwapBuffers(_window.Handle), false);
             }
 
-            protected override void Dispose(bool disposing)
+            internal override void Dispose(bool disposing)
             {
                 _backend.RemoveGraphics(this);
                 base.Dispose(disposing);

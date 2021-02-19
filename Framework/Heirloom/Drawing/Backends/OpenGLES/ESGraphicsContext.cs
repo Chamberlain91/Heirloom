@@ -64,7 +64,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
-        protected override bool HasPendingWork => _batch.IsDirty;
+        internal override bool HasPendingWork => _batch.IsDirty;
 
         public bool IsThreadRunning { get; set; }
 
@@ -230,7 +230,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Stencil Methods
 
-        public override void ClearStencil()
+        public override void ClearMask()
         {
             // stencil enable = false
             // stencil write = false
@@ -250,7 +250,7 @@ namespace Heirloom.Drawing.OpenGLES
             });
         }
 
-        public override void BeginStencil(float alphaCutoff)
+        public override void BeginDefineMask(float alphaCutoff)
         {
             // stencil enable = true
             // stencil write = true
@@ -274,7 +274,7 @@ namespace Heirloom.Drawing.OpenGLES
                 {
                     // 
                     GLES.SetClearStencil(0xFF);
-                    GLES.Clear(ClearMask.Stencil);
+                    GLES.Clear(OpenGLES.ClearMask.Stencil);
 
                     // Set to zero
                     _stencilReference = 0x1;
@@ -289,7 +289,7 @@ namespace Heirloom.Drawing.OpenGLES
             });
         }
 
-        public override void EndStencil()
+        public override void EndDefineMask()
         {
             // stencil write = false
             // color write = true
@@ -364,7 +364,7 @@ namespace Heirloom.Drawing.OpenGLES
             });
         }
 
-        protected override void Flush(bool block = false)
+        internal override void Flush(bool block = false)
         {
             if (_shouldMakeCurrent)
             {
@@ -1046,7 +1046,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
-        protected override object GenerateNativeObject(GraphicsResource resource)
+        internal override object GenerateNativeObject(GraphicsResource resource)
         {
             return Invoke<object>(() =>
             {

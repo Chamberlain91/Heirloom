@@ -73,7 +73,7 @@ namespace Heirloom.Testing.BlendMode
             var surface = new Surface(150, 150);
 
             gfx.ResetState();
-            gfx.SetRenderTarget(surface);
+            gfx.SetSurface(surface);
             gfx.Clear(Color.TransparentBlack);
 
             var grayscaleRamp = new Gradient { { 0F, Color.White }, { 1F, Color.Black } };

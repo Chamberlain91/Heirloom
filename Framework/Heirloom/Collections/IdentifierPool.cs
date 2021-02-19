@@ -8,16 +8,22 @@ namespace Heirloom.Collections
     /// </summary>
     public sealed class IdentifierPool
     {
-        private readonly List<uint> _recycle = new List<uint>();
-        private uint _counter;
+        private readonly List<int> _recycle = new List<int>();
+        private int _counter;
 
         /// <summary>
         /// Gets the next available identifier in the pool.
         /// </summary>
-        public uint GetNextIdentifier()
+        /// <exception cref="InvalidOperationException">Raised when no more identifiers can be generated (int.MaxValue).</exception>
+        public int GetNextIdentifier()
         {
             if (_recycle.Count == 0)
             {
+                if (_counter == int.MaxValue)
+                {
+                    throw new InvalidOperationException($"{nameof(IdentifierPool)} exceeded int.MaxValue number of identifiers.");
+                }
+
                 // Generate a new identifier
                 return _counter++;
             }
@@ -34,7 +40,7 @@ namespace Heirloom.Collections
         /// <summary>
         /// Recycles an identifier, placing it back into the pool.
         /// </summary>
-        public void RecycleIdentifier(uint identifier)
+        public void Recycle(int identifier)
         {
             if (_recycle.Contains(identifier))
             {
