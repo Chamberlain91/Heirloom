@@ -10,7 +10,7 @@ namespace Heirloom.Examples.Animation
 {
     public class Program : GameWrapper
     {
-        public const int NumberOfArmatures = 1000;
+        public const int NumberOfArmatures = 1;
         public const float ScatterRadius = 300;
 
         public Armature[] Armatures;
