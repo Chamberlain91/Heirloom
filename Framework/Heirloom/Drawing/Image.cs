@@ -447,6 +447,14 @@ namespace Heirloom.Drawing
             return clone;
         }
 
+        /// <summary>
+        /// Creates a clone of a subregion of this image.
+        /// </summary>
+        public Image Clone(IntRectangle region)
+        {
+            return CreateCopy(this, region);
+        }
+
         #endregion
 
         #region Procedural Images (Static)
@@ -734,6 +742,35 @@ namespace Heirloom.Drawing
         #endregion
 
         #region Copy (Static)
+
+        /// <summary>
+        /// Creates a copy of a region of some image.
+        /// </summary>
+        /// <param name="source">Some image</param>
+        /// <param name="region">Some region within the source image.</param>
+        /// <returns>A copy of the subregion of the source image as its own image.</returns>
+        public static Image CreateCopy(Image source, IntRectangle region)
+        {
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (region.Width <= 0 || region.Height <= 0)
+            {
+                throw new ArgumentException("Region size must be greater than zero.");
+            }
+
+            if (region.X < 0 || region.Y < 0 || region.Right >= source.Width || region.Bottom >= source.Height)
+            {
+                throw new ArgumentException("Region outside bounds of image", nameof(region));
+            }
+
+            // Copy the image
+            var target = new Image(region.Size);
+            Copy(source, new IntRectangle(IntVector.Zero, source.Size), target, IntVector.Zero);
+            return target;
+        }
 
         /// <summary>
         /// Copies a region of the <paramref name="source"/> image into the <paramref name="target"/> image at the specified offset.
