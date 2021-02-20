@@ -43,7 +43,7 @@ namespace Heirloom.Drawing.OpenGLES
                 MakeCurrent();
 
                 // Initialize batch and atlas systems
-                _batch = new ESBatchHybrid(this);
+                _batch = new ESBatchStreaming(this);
                 _atlas = new ESAtlasPacker(this);
 
                 // Enable required GL features

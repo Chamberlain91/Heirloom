@@ -49,7 +49,7 @@ namespace Heirloom.Benchmark
             Time += dt;
 
             // Append frame time
-            if (dt > Calc.Epsilon) { _frames.Add(1F / dt); }
+            if (dt > Calc.Epsilon) { _frames.Add(dt * 1000); }
 
             // Process scene
             UpdateScene(gfx, dt);

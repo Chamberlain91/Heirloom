@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,6 +15,9 @@ namespace Heirloom.Benchmark
         private readonly List<BenchmarkScene> _scenes;
         private bool _mustInitialize = true;
         private int _sceneIndex;
+
+        private string _prevText;
+        private string _currText;
 
         public BenchmarkApp(GraphicsContext graphics) : base(graphics)
         {
@@ -33,6 +37,10 @@ namespace Heirloom.Benchmark
         }
 
         public BenchmarkScene CurrentScene => _scenes[_sceneIndex];
+
+        public Func<string> GetRecordText;
+
+        public Action<string> SetRecordText;
 
         protected override void Update(float dt)
         {
@@ -67,49 +75,65 @@ namespace Heirloom.Benchmark
             }
             else
             {
-                // Draw results screen
-                var text = "";
-                var totalTime = 0F;
-                var finalMean = 0F;
-                var finalDev = 0F;
-
-                foreach (var scene in _scenes)
+                // Generate text results
+                if (_prevText == null)
                 {
-                    var stats = scene.GetStatistics();
+                    _currText = "";
 
-                    // Compute scene average mean and devation
-                    var mean = stats.Select(s => s.Mean).Average();
-                    var dev = stats.Select(s => s.Deviation).Average();
+                    var totalTime = 0F;
+                    var finalMean = 0F;
+                    var finalDev = 0F;
 
-                    // Sum mean
-                    finalMean += mean;
-                    finalDev += dev;
-
-                    // Show contribution of each test
-                    text += $"{scene.Name}:\n";
-
-                    foreach (var stat in stats)
+                    foreach (var scene in _scenes)
                     {
-                        text += $"  -> {stat:N1} fps\n";
+                        var stats = scene.GetStatistics();
+
+                        // Compute scene average mean and devation
+                        var mean = stats.Select(s => s.Mean).Average();
+                        var dev = stats.Select(s => s.Deviation).Average();
+
+                        // Sum mean
+                        finalMean += mean;
+                        finalDev += dev;
+
+                        // Show contribution of each test
+                        _currText += $"{scene.Name}:\n";
+
+                        foreach (var stat in stats)
+                        {
+                            _currText += $"  -> {stat:N1} ms\n";
+                        }
+
+                        totalTime += scene.TotalTime;
                     }
 
-                    totalTime += scene.TotalTime;
+                    // Compute final mean/dev
+                    finalMean /= _scenes.Count;
+                    finalDev /= _scenes.Count;
+
+                    _currText += $"--------------------\n";
+                    _currText += $"Average Time: {finalMean:N1} ± {finalDev:N1} ms\n";
+
+                    // read prior run and write current 
+                    _prevText = GetRecordText();
+                    SetRecordText(_currText);
+
+                    // Title each text blob
+                    _currText = $"This Run:\n{_currText}";
+                    _prevText = $"Last Run:\n{_prevText}";
                 }
-
-                // Compute final mean/dev
-                finalMean /= _scenes.Count;
-                finalDev /= _scenes.Count;
-
-                text += $"--------------------\n";
-                text += $"Elasped Time: {Time.GetEnglishTime(totalTime)}\n";
-                text += $"Final Score: {finalMean:N1} ± {finalDev:N1}\n";
-
-                // todo: emit text file for run
 
                 // Draw text
                 Graphics.Color = Color.Black;
-                var box = Graphics.DrawText(text, (32, 32), Font.SansSerifBold, 18);
+                var box = Graphics.DrawText(_currText, (32, 32), Font.SansSerifBold, 18);
                 Graphics.DrawRectOutline(Rectangle.Inflate(box, 4));
+
+                // Draw prior text
+                if (_prevText.Length > 0)
+                {
+                    var box2 = Graphics.DrawText(_prevText, (box.Right + 32, 32), Font.SansSerifBold, 18);
+                    Graphics.DrawRectOutline(Rectangle.Inflate(box, 4));
+                }
             }
 
             // Present graphics to screen

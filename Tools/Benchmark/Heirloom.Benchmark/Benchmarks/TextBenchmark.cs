@@ -1,11 +1,13 @@
 using Heirloom.Drawing;
 using Heirloom.IO;
+using Heirloom.Mathematics;
 
 namespace Heirloom.Benchmark
 {
     public sealed class TextBenchmark : BenchmarkScene
     {
         private readonly string _text;
+        private float _time;
 
         public TextBenchmark()
             : base("Alice in Wonderland")
@@ -20,9 +22,21 @@ namespace Heirloom.Benchmark
 
         protected override void UpdateScene(GraphicsContext gfx, float dt)
         {
-            // Simply draw text
+            _time += dt;
+
+            var w = gfx.Surface.Width / 2 + Calc.Sin(_time * 1.5F) * 200;
+            var x = (gfx.Surface.Width - w) / 2F;
+
+            // Draw text layout box
+            var layoutBox = new Rectangle(x, 20, w, gfx.Surface.Height - 40);
+            gfx.Color = Color.White;
+            gfx.DrawRect(layoutBox);
             gfx.Color = Color.DarkGray;
-            gfx.DrawText(_text, (20, 20, gfx.Surface.Width - 40, gfx.Surface.Height - 40), Font.SansSerif, 14);
+            gfx.DrawRectOutline(layoutBox);
+
+            // Shrink rectangle slightly to give padding to the layout box
+            layoutBox = Rectangle.Inflate(layoutBox, -12);
+            gfx.DrawText(_text, layoutBox, Font.SansSerifBold, 14);
 
             IsComplete = Time >= 10F;
             if (IsComplete) { SubmitStatisticsBlock(); }

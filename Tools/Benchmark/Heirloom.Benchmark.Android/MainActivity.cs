@@ -1,4 +1,5 @@
 using Android.App;
+using Android.Content;
 using Android.Content.PM;
 
 using Heirloom.Android;
@@ -21,13 +22,35 @@ namespace Heirloom.Benchmark.Android
 
         protected override void GraphicsResume()
         {
-            if (App == null) { App = new BenchmarkApp(Graphics); }
+            if (App == null)
+            {
+                App = new BenchmarkApp(Graphics)
+                {
+                    GetRecordText = GetRecordText,
+                    SetRecordText = SetRecordText
+                };
+            }
+
             App.Loop.Start();
         }
 
         protected override void GraphicsPause()
         {
             App.Loop.Stop();
+        }
+
+        private void SetRecordText(string message)
+        {
+            var preferences = GetPreferences(FileCreationMode.Private);
+            var editor = preferences.Edit();
+            editor.PutString("record", message);
+            editor.Apply();
+        }
+
+        private string GetRecordText()
+        {
+            var preferences = GetPreferences(FileCreationMode.Private);
+            return preferences.GetString("record", string.Empty);
         }
     }
 }
