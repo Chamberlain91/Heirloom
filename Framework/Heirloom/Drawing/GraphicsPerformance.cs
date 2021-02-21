@@ -2,11 +2,15 @@ using System.Diagnostics;
 
 namespace Heirloom.Drawing
 {
-    public class GraphicsPerformance
+    /// <summary>
+    /// Provides performance metrics for an instance of <see cref="GraphicsContext"/>.
+    /// </summary>
+    public sealed class GraphicsPerformance
     {
         readonly private Stopwatch _stopwatch;
 
         private int _batchCount;
+        private int _evictCount;
         private int _frameCount;
 
         internal GraphicsPerformance()
@@ -14,11 +18,30 @@ namespace Heirloom.Drawing
             _stopwatch = Stopwatch.StartNew();
         }
 
-        public float FPS { get; private set; }
+        /// <summary>
+        /// Enables or disables drawing the performance overlay.
+        /// </summary>
+        public bool ShowOverlay { get; set; }
 
+        /// <summary>
+        /// Gets the average frame rate (in hertz).
+        /// </summary>
+        public float AverageFrameRate { get; private set; }
+
+        /// <summary>
+        /// Gets the average frame time (in seconds).
+        /// </summary>
+        public float AverageFrameTime { get; private set; }
+
+        /// <summary>
+        /// Gets the average number of geometry batches per frame.
+        /// </summary>
         public float Batches { get; private set; }
 
-        public bool ShowOverlay { get; set; }
+        /// <summary>
+        /// Gets the average number of atlas evictions per frame.
+        /// </summary>
+        public float AtlasEvictions { get; private set; }
 
         internal void NotifyFrame()
         {
@@ -31,20 +54,31 @@ namespace Heirloom.Drawing
             if (elapsedTime > 1F)
             {
                 // Compute average frames per-second
-                FPS = _frameCount / elapsedTime;
+                AverageFrameRate = _frameCount / elapsedTime;
+                AverageFrameTime = 1F / AverageFrameRate;
 
-                // Compute average batches per second -> per frame
+                // Compute average batches per frame
                 Batches = _batchCount / elapsedTime;
-                Batches /= FPS;
+                Batches /= AverageFrameRate;
+
+                // Compute average evictions per frame
+                AtlasEvictions = _evictCount / elapsedTime;
+                AtlasEvictions /= AverageFrameRate;
 
                 _stopwatch.Restart();
 
                 _batchCount = 0;
+                _evictCount = 0;
                 _frameCount = 0;
             }
         }
 
         internal void NotifyBatch()
+        {
+            _batchCount++;
+        }
+
+        internal void NotifyEviction()
         {
             _batchCount++;
         }

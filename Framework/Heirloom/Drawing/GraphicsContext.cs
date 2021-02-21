@@ -644,7 +644,7 @@ namespace Heirloom.Drawing
                 ResetState();
 
                 var anchor = new Vector(Screen.Surface.Width - 10 - PaddingX, Screen.Surface.Height - 10 - PaddingY);
-                var text = $"FPS: {Performance.FPS,5:N1}\nBatches: {Performance.Batches,5:N1}";
+                var text = $"FPS: {Performance.AverageFrameRate,5:N1}\nBatches: {Performance.Batches,5:N1}";
 
                 // Measure text
                 var measure = TextLayout.Measure(text, Font.Default, 16);
