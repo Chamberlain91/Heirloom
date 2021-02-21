@@ -13,8 +13,15 @@ namespace Heirloom.Examples.PlayMusic
             Console.WriteLine("Now Playing: Dubstep from https://www.bensound.com/");
 
             // Create an (streaming) audio source and play
-            var clip = new AudioClip("bensound-dubstep.wav");
+            var clip = new AudioClip("bensound-dubstep.mp3");
             var source = new AudioSource(clip);
+
+            // Uncomment some or all of the effects lines to preview them
+            //source.Effects.Add(new LowPassFilter(100));
+            //source.Effects.Add(new HighPassFilter(5000));
+            //source.Effects.Add(new ReverbEffect());
+
+            // Play the audio track
             source.Play();
 
             // Sleep thread for duration of the song
