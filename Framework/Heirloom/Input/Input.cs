@@ -1,5 +1,3 @@
-using System;
-
 using Heirloom.Mathematics;
 
 namespace Heirloom
@@ -62,6 +60,14 @@ namespace Heirloom
             return GetKeyState(key).HasFlag(state);
         }
 
+        /// <summary>
+        /// Determines if the specified key was pressed this frame, optionally retriggering on repeat.
+        /// </summary>
+        /// <param name="key">Some key.</param>
+        /// <param name="repeat"></param>
+        /// <remarks>
+        /// The key is 'repeated' when it triggers again when held down, for example in a text editor.
+        /// </remarks>
         public static bool IsKeyPressed(Key key, bool repeat = false)
         {
             var success = CheckKey(key, ButtonState.Pressed);
@@ -69,23 +75,35 @@ namespace Heirloom
             return success;
         }
 
+        /// <summary>
+        /// Determines if the the specified key was released this frame.
+        /// </summary>
+        /// <param name="key">Some key.</param>
         public static bool IsKeyReleased(Key key)
         {
             return CheckKey(key, ButtonState.Released);
         }
 
+        /// <summary>
+        /// Determines if the specified key is held down.
+        /// </summary>
+        /// <param name="key">Some key.</param>
         public static bool IsKeyDown(Key key)
         {
             return CheckKey(key, ButtonState.Down);
         }
 
+        /// <summary>
+        /// Determines if the specified key is not held down.
+        /// </summary>
+        /// <param name="key">Some key.</param>
         public static bool IsKeyUp(Key key)
         {
             return CheckKey(key, ButtonState.Up);
         }
 
         /// <summary>
-        /// Shows the software keyboard.
+        /// Shows the software keyboard (if supported).
         /// </summary>
         public static void ShowSoftwareKeyboard()
         {
@@ -96,7 +114,7 @@ namespace Heirloom
         }
 
         /// <summary>
-        /// Hides the software keyboard.
+        /// Hides the software keyboard (if supported).
         /// </summary>
         public static void HideSoftwareKeyboard()
         {
@@ -144,21 +162,37 @@ namespace Heirloom
             return GetButtonState(button).HasFlag(state);
         }
 
+        /// <summary>
+        /// Determines if the the specified key was pressed this frame.
+        /// </summary>
+        /// <param name="button">Some button.</param>
         public static bool IsMousePressed(MouseButton button)
         {
             return CheckButton(button, ButtonState.Pressed);
         }
 
+        /// <summary>
+        /// Determines if the the specified key was released this frame.
+        /// </summary>
+        /// <param name="button">Some button.</param>
         public static bool IsMouseReleased(MouseButton button)
         {
             return CheckButton(button, ButtonState.Released);
         }
 
+        /// <summary>
+        /// Determines if the specified mouse button is held down.
+        /// </summary>
+        /// <param name="button">Some button.</param>
         public static bool IsMouseDown(MouseButton button)
         {
             return CheckButton(button, ButtonState.Down);
         }
 
+        /// <summary>
+        /// Determines if the specified mouse button is not held down.
+        /// </summary>
+        /// <param name="button">Some button.</param>
         public static bool IsMouseUp(MouseButton button)
         {
             return CheckButton(button, ButtonState.Up);
