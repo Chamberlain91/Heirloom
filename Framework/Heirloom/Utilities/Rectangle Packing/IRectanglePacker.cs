@@ -34,6 +34,11 @@ namespace Heirloom
         void Clear();
 
         /// <summary>
+        /// Compact elements by evicting all elements and inserting in optimal order.
+        /// </summary>
+        bool Compact();
+
+        /// <summary>
         /// Determines if this collection contains the specified element.
         /// </summary>
         bool Contains(TElement element);

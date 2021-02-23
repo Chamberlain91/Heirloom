@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using Heirloom.Mathematics;
 
 namespace Heirloom
@@ -29,6 +31,16 @@ namespace Heirloom
 
             // Reset shelf
             _x = _y = _next = 0;
+        }
+
+        protected override void SortElements(List<KeyValuePair<TElement, IntRectangle>> elements)
+        {
+            elements.Sort((a, b) =>
+            {
+                var costA = (a.Value.Height * Size.Width) + b.Value.Width;
+                var costB = (b.Value.Height * Size.Width) + b.Value.Width;
+                return costA.CompareTo(costB);
+            });
         }
 
         protected override bool Insert(IntSize size, out IntRectangle rect)

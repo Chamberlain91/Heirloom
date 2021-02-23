@@ -32,6 +32,48 @@ namespace Heirloom
             _elements.Clear();
         }
 
+        public bool Compact()
+        {
+            // Copy elements
+            var elements = new List<KeyValuePair<TElement, IntRectangle>>(_elements);
+
+            // Clear 
+            Clear();
+
+            // Insert elements in optimal order
+            SortElements(elements);
+            foreach (var (element, rect) in elements)
+            {
+                if (!TryAdd(element, rect.Size))
+                {
+                    // Was unable to compact
+                    RestorePriorState();
+                    return false;
+                }
+            }
+
+            // Compact complete
+            return true;
+
+            void RestorePriorState()
+            {
+                _elements.Clear();
+                foreach (var (k, v) in elements)
+                {
+                    _elements.Add(k, v);
+                }
+            }
+        }
+
+        protected virtual void SortElements(List<KeyValuePair<TElement, IntRectangle>> elements)
+        {
+            elements.Sort((a, b) =>
+            {
+                // Sort elements area descending order
+                return b.Value.Area.CompareTo(a.Value.Area);
+            });
+        }
+
         public bool Contains(TElement element)
         {
             return _elements.ContainsKey(element);

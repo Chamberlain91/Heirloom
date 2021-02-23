@@ -99,7 +99,7 @@ namespace Heirloom.Drawing.OpenGLES
 
             public AtlasPage(ESTexture texture)
             {
-                Packer = new SkylinePacker<AtlasEntry>(texture.Size);
+                Packer = new SkylinePacker2<AtlasEntry>(texture.Size);
                 Texture = texture;
             }
 

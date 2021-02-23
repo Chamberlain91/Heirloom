@@ -23,7 +23,7 @@ namespace Heirloom
         /// </summary>
         /// <param name="size">The size of the container rectangle.</param>
         /// <param name="quality">The packing algorithm to use.</param>
-        public RectanglePacker(IntSize size, PackingAlgorithm quality = PackingAlgorithm.Maxrects)
+        public RectanglePacker(IntSize size, PackingAlgorithm quality = PackingAlgorithm.Skyline)
             : this(size.Width, size.Height, quality)
         { }
 
@@ -33,12 +33,12 @@ namespace Heirloom
         /// <param name="width">The width of the container rectangle.</param>
         /// <param name="height">The height of the container rectangle.</param>
         /// <param name="quality">The packing algorithm to use.</param>
-        public RectanglePacker(int width, int height, PackingAlgorithm quality = PackingAlgorithm.Maxrects)
+        public RectanglePacker(int width, int height, PackingAlgorithm quality = PackingAlgorithm.Skyline)
         {
             _impl = quality switch
             {
                 PackingAlgorithm.Maxrects => new MaxrectsPacker<T>(width, height),
-                PackingAlgorithm.Skyline => new SkylinePacker<T>(width, height),
+                PackingAlgorithm.Skyline => new SkylinePacker2<T>(width, height),
                 PackingAlgorithm.Shelf => new ShelfPacker<T>(width, height),
                 _ => throw new ArgumentException("Incorrect packing algorithm specified.", nameof(quality)),
             };
@@ -80,6 +80,12 @@ namespace Heirloom
         public bool TryGetRectangle(T element, out IntRectangle rectangle)
         {
             return ((IRectanglePacker<T>) _impl).TryGetRectangle(element, out rectangle);
+        }
+
+        /// <inheritdoc/>
+        public bool Compact()
+        {
+            return ((IRectanglePacker<T>) _impl).Compact();
         }
     }
 }
