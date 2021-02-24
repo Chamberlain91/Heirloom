@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Heirloom.AtlasSystem
     public sealed class Program : GameWrapper
     {
         public RectanglePacker<int> Packer;
-        public Queue<IntSize> Boxes;
+        public List<IntSize> Boxes;
 
         private readonly Stopwatch _sw = new Stopwatch();
 
@@ -20,26 +21,69 @@ namespace Heirloom.AtlasSystem
         {
             Calc.SetRandomSeed(0);
 
-            var wasted = new float[500];
-            for (var i = 0; i < wasted.Length; i++) { wasted[i] = GenerateAndPack() * 100; }
-            Log.Info($"Packing Waste: {Statistics.Compute(wasted)}");
+            var sw = new Stopwatch();
+
+            var times = new List<(int x, float y)>();
+
+            var inc = 200;
+            for (var c = inc; c < 15000; c += inc)
+            {
+                const int Iterations = 100;
+                inc = inc * 3 / 2;
+
+                var wasted = new float[Iterations];
+                var time = new float[Iterations];
+
+                for (var i = 0; i < Iterations; i++)
+                {
+                    ClearPacker(c);
+                    sw.Restart();
+
+                    // Insert every element
+                    var used = InsertAllElements();
+
+                    // Record initial time
+                    time[i] = (float) sw.Elapsed.TotalMilliseconds;
+
+                    // Compute wasted space
+                    wasted[i] = GetWastedSpace(used);
+                }
+
+                // Store mean time
+                times.Add((c / 100, time.Average()));
+
+                Log.Info($"Size: {c}");
+                Log.Info($"  Waste: {Statistics.Compute(wasted)} %");
+                Log.Info($"  Time:  {Statistics.Compute(time)} ms");
+            }
+
+            Log.Info(string.Join(",", times.Select(c => $"({c.x},{c.y})")));
+
+            //// REMOVE!!
+            //Environment.Exit(0);
 
             // Reset packer
-            ClearPacker();
+            ClearPacker(1000);
+
+            float GetWastedSpace(float used)
+            {
+                // Compute tighter bounds
+                var tightBounds = IntRectangle.Zero;
+                tightBounds.Height = Packer.Elements.Select(Packer.GetRectangle).Max(r => r.Bottom);
+                tightBounds.Width = Packer.Size.Width;
+
+                return (1F - (used / tightBounds.Area)) * 100;
+            }
         }
 
-        private void ClearPacker()
+        private void ClearPacker(int c)
         {
             // Generate new boxes
-            var elements = Generate().ToArray();
-            elements.Shuffle(Calc.Random);
+            Boxes = Generate(c).ToList();
 
             // Find maximal box height and total area
-            var maxHeight = elements.Max(b => b.Height);
-            var sumArea = elements.Sum(i => i.Area);
-
-            // Sort elements favoring similar heights before different widths
-            Boxes = new Queue<IntSize>(elements);
+            var maxHeight = Boxes.Max(b => b.Height);
+            var sumArea = Boxes.Sum(i => i.Area);
 
             // Compute packer container size
             var boxAreaW = (int) Calc.Sqrt(sumArea);
@@ -48,51 +92,51 @@ namespace Heirloom.AtlasSystem
             // Create packer
             Packer = new RectanglePacker<int>(boxAreaW, boxAreaH);
 
-            static IEnumerable<IntSize> Generate()
+            // Optimize insertion order
+            // Note: Reversed 'a' and 'b' here because we use the list like a queue from the end
+            Boxes.Sort((a, b) => Compare(b, a, Packer.Size.Width));
+
+            static IEnumerable<IntSize> Generate(int c)
             {
-                for (var r = 0; r < 3; r++)
+                for (var i = 0; i < c; i++)
                 {
-                    // Some fake text, 16pt font
-                    for (var i = 0; i < 256; i++)
-                    {
-                        var w = (int) Calc.Random.NextFloat(10, 18);
-                        var h = (int) Calc.Random.NextFloat(14, 18);
+                    var w = (int) Calc.Random.NextFloat(8, 32);
+                    var h = (int) Calc.Random.NextFloat(8, 32);
 
-                        yield return new IntSize(w, h);
-                    }
-
-                    // Some fake sprite anims
-                    for (var i = 0; i < 100; i++) { yield return new IntSize(24, 32); }
-                    for (var i = 0; i < 50; i++) { yield return new IntSize(64, 72); }
-
-                    // Some background assets
-                    yield return new IntSize(300, 250);
-                    yield return new IntSize(250, 250);
-                    yield return new IntSize(100, 250);
-
-                    // Some skybox
-                    yield return new IntSize(640, 400);
+                    yield return new IntSize(w, h);
                 }
+
+                //for (var r = 0; r < 3; r++)
+                //{
+                //    // Some fake text, 16pt font
+                //    for (var i = 0; i < 256; i++)
+                //    {
+                //        var w = (int) Calc.Random.NextFloat(10, 18);
+                //        var h = (int) Calc.Random.NextFloat(14, 18);
+
+                //        yield return new IntSize(w, h);
+                //    }
+
+                //    // Some fake sprite anims
+                //    for (var i = 0; i < 100; i++) { yield return new IntSize(24, 32); }
+                //    for (var i = 0; i < 50; i++) { yield return new IntSize(64, 72); }
+
+                //    // Some background assets
+                //    yield return new IntSize(300, 250);
+                //    yield return new IntSize(250, 250);
+                //    yield return new IntSize(100, 250);
+
+                //    // Some skybox
+                //    yield return new IntSize(640, 400);
+                //}
             }
         }
 
-        private float GenerateAndPack()
+        public static int Compare(IntSize a, IntSize b, int packerWidth)
         {
-            ClearPacker();
-
-            // Insert every element
-            var used = InsertAllElements();
-
-            // Compact atlas
-            Packer.Compact();
-
-            // Compute tighter bounds
-            var tightBounds = IntRectangle.Zero;
-            tightBounds.Height = Packer.Elements.Select(Packer.GetRectangle).Max(r => r.Bottom);
-            tightBounds.Width = Packer.Size.Width;
-
-            // Return wasted space
-            return 1F - (used / tightBounds.Area);
+            var costA = (a.Height * packerWidth) + b.Width;
+            var costB = (b.Height * packerWidth) + b.Width;
+            return costB.CompareTo(costA);
         }
 
         private float InsertAllElements()
@@ -108,7 +152,9 @@ namespace Heirloom.AtlasSystem
 
         private int InsertElement()
         {
-            var size = Boxes.Dequeue();
+            var size = Boxes[Boxes.Count - 1];
+            Boxes.RemoveAt(Boxes.Count - 1);
+
             var name = Boxes.Count;
 
             if (!Packer.TryAdd(name, size))
@@ -166,7 +212,7 @@ namespace Heirloom.AtlasSystem
             var shift = Input.IsKeyDown(Key.LeftShift);
             if (Input.IsKeyPressed(Key.Space, true))
             {
-                if (Boxes.Count == 0) { ClearPacker(); }
+                if (Boxes.Count == 0) { ClearPacker(1000); }
 
                 if (!shift)
                 {

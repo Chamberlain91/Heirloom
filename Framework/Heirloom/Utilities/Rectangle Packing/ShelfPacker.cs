@@ -33,7 +33,7 @@ namespace Heirloom
             _x = _y = _next = 0;
         }
 
-        protected override void SortElements(List<KeyValuePair<TElement, IntRectangle>> elements)
+        protected override void OptimizeElementOrder(List<KeyValuePair<TElement, IntRectangle>> elements)
         {
             elements.Sort((a, b) =>
             {

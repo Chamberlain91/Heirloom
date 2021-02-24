@@ -41,7 +41,7 @@ namespace Heirloom
             Clear();
 
             // Insert elements in optimal order
-            SortElements(elements);
+            OptimizeElementOrder(elements);
             foreach (var (element, rect) in elements)
             {
                 if (!TryAdd(element, rect.Size))
@@ -65,7 +65,7 @@ namespace Heirloom
             }
         }
 
-        protected virtual void SortElements(List<KeyValuePair<TElement, IntRectangle>> elements)
+        protected virtual void OptimizeElementOrder(List<KeyValuePair<TElement, IntRectangle>> elements)
         {
             elements.Sort((a, b) =>
             {

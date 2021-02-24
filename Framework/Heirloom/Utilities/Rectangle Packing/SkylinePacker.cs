@@ -8,7 +8,7 @@ namespace Heirloom
 {
     internal sealed class SkylinePacker<TElement> : RectanglePackerImpl<TElement>
     {
-        public List<Strip> Strips;
+        private readonly List<Strip> _strips;
 
         #region Constructor
 
@@ -19,7 +19,7 @@ namespace Heirloom
         public SkylinePacker(IntSize size)
             : base(size)
         {
-            Strips = new List<Strip>();
+            _strips = new List<Strip>();
 
             // Start clean
             Clear();
@@ -31,33 +31,46 @@ namespace Heirloom
         {
             base.Clear();
 
-            Strips.Clear();
-            Strips.Add(new Strip(0, 0, Size.Width));
+            // Clear strips
+            _strips.Clear();
+            _strips.Add(new Strip(0, 0, Size.Width));
         }
 
-        protected override void SortElements(List<KeyValuePair<TElement, IntRectangle>> elements)
+        protected override void OptimizeElementOrder(List<KeyValuePair<TElement, IntRectangle>> elements)
         {
-            elements.Sort((a, b) =>
-            {
-                var costA = (a.Value.Height * Size.Width) + b.Value.Width;
-                var costB = (b.Value.Height * Size.Width) + b.Value.Width;
-                return costB.CompareTo(costA);
-            });
+            elements.Sort((a, b) => Compare(a.Value, b.Value, Size.Width));
+        }
+
+        public static int Compare(IntRectangle a, IntRectangle b, int packerWidth)
+        {
+            var costA = (a.Height * packerWidth) + b.Width;
+            var costB = (b.Height * packerWidth) + b.Width;
+            return costB.CompareTo(costA);
         }
 
         protected override bool Insert(IntSize size, out IntRectangle rect)
         {
-            // Find first acceptable insertion
-            for (var i = 0; i < Strips.Count; i++)
+            var minCost = int.MaxValue;
+            rect = default;
+
+            // Find minimal cost insertion
+            for (var i = 0; i < _strips.Count; i++)
             {
-                // Try to fit compact
-                if (CheckFit(i, size))
+                // Try to fit the strip
+                if (CheckFit(i, size, out var cost) && cost < minCost)
                 {
-                    // Anchor image to 
-                    rect = new IntRectangle(Strips[i].Position, size);
-                    InsertStrip(new Strip(rect.X, rect.Y + size.Height, size.Width));
-                    return true;
+                    var position = _strips[i].Position;
+                    rect = new IntRectangle(position, size);
+                    minCost = cost;
                 }
+            }
+
+            // If we found some heuristic insertion
+            if (minCost < int.MaxValue)
+            {
+                // Insert at best matching location
+                InsertStrip(new Strip(rect.X, rect.Y + size.Height, size.Width));
+                return true;
             }
 
             // No acceptable insertion, try to place on "shelf"
@@ -69,27 +82,29 @@ namespace Heirloom
             }
 
             // Unable to find a place to insert
-            rect = default;
             return false;
         }
 
         private bool CheckFitShelf(IntSize size, out int shelf)
         {
-            shelf = Strips.Where(s => s.X < size.Width).Max(s => s.Y);
+            shelf = _strips.Where(s => s.X < size.Width).Max(s => s.Y);
             return Size.Height - shelf >= size.Height;
         }
 
-        private bool CheckFit(int index, IntSize size)
+        private bool CheckFit(int index, IntSize size, out int cost)
         {
-            var root = Strips[index];
+            var root = _strips[index];
 
-            // Get insert position
+            // Get min position
             var x = root.X;
             var y = root.Y;
 
-            // Get insert right edge
+            // Get max position
             var r = x + size.Width;
             var b = y + size.Height;
+
+            // Start with zero wasted space, but penalize elevation.
+            cost = y * 200;
 
             // Horizontal Bounds Check
             if (r > Size.Width) { return false; }
@@ -97,23 +112,42 @@ namespace Heirloom
             // Vertical Bounds Check
             if (b > Size.Height) { return false; }
 
-            // Can fit in the input strip, accept.
+            // If the item can fit entirely in the intial strip, accept immediately.
             if (root.Width >= size.Width) { return true; }
             else
             {
-                // We must do a more sophisticated check. We already know the strip at index
-                // can't fit it, so we know we exceed that strip. We then must check the strips
-                // in order.
-                for (var i = index + 1; i < Strips.Count; i++)
+                // We must do a more sophisticated check because the item will exceed the initial strip.
+                // We then must check subsequent strips in order.
+                for (var i = index + 1; i < _strips.Count; i++) // O(n)
                 {
-                    var strip = Strips[i];
+                    var strip = _strips[i];
 
-                    // Strip does not overlap insert region
-                    if (strip.X > r) { continue; }
-                    if (strip.X + strip.Width < x) { continue; }
+                    // Strip is beyond edge of insertion range, we can exit the loop now.
+                    if (strip.X > r) { break; }
 
-                    // Strip higher, so we will hit its wall.
+                    // Strip is at a higher elevation, so the item will hit that wall.
                     if (strip.Y > y) { return false; }
+                    else
+                    {
+                        // Strip is below, we will waste some pixel space if we insert here.
+                        // We know the strip overlaps due to the edge check above.
+                        strip.CheckOverlap(x, size.Width, out var overlap);
+
+                        // Compute wasted height.
+                        var trashHeight = y - strip.Y;
+
+                        // Strip overlap on an edge, so we must compute the split point.
+                        // We also know the strips are x-sorted, so we can do this easily.
+                        if (overlap == OverlapType.Overlaps)
+                        {
+                            cost += (r - strip.X) * trashHeight;
+                        }
+                        // Strip is entirely contained inside the insertion bounds.
+                        else if (overlap == OverlapType.Contained)
+                        {
+                            cost += strip.Width * trashHeight;
+                        }
+                    }
                 }
 
                 // Was not rejected!
@@ -121,47 +155,80 @@ namespace Heirloom
             }
         }
 
-        private void InsertStrip(Strip insert)
+        private int FindFirstStrip(int x)
         {
-            var adds = new List<Strip> { insert };
-            var rems = new List<Strip>();
+            var min = 0;
+            var max = _strips.Count - 1;
 
-            // Find overlapping strips and decimate
-            for (var i = 0; i < Strips.Count; i++)
+            while (min <= max)
             {
-                var current = Strips[i];
+                var mid = (min + max) / 2;
+                var cmp = x.CompareTo(_strips[mid].X);
 
-                if (current.CheckOverlap(insert, out var overlap))
+                // Exact match
+                if (cmp == 0) { return mid; }
+                else
+                // Strip is greater than input
+                if (cmp == 1)
+                {
+                    min = mid + 1;
+                }
+                // Strip is lesser than input
+                else
+                {
+                    max = mid - 1;
+                }
+            }
+
+            return min;
+        }
+
+        private void InsertStrip(Strip insert) // O(n*log(n))
+        {
+            // Get right edge of insertion range
+            var r = insert.X + insert.Width;
+
+            var rem = 0;
+
+            // Find overlapping strips and split
+            var start = FindFirstStrip(insert.X); // O(log(n))
+
+            for (var i = start; i < _strips.Count; i++)
+            {
+                var strip = _strips[i - rem];
+
+                // Strip is beyond edge of insertion range, we can exit the loop now.
+                if (strip.X > r) { break; }
+
+                // Determine if the strip overlaps the strip we are inserting
+                if (strip.CheckOverlap(insert, out var overlap))
                 {
                     // Remove strip
-                    rems.Add(current);
+                    _strips.RemoveAt(i - rem);
+                    rem++;
 
                     // If overlaping, clip and insert
                     if (overlap == OverlapType.Overlaps)
                     {
                         var l = insert.X + insert.Width;
-                        var w = current.Width - l + current.X;
-                        if (w > 2) { adds.Add(new Strip(l, current.Y, w)); }
+                        var w = strip.Width - l + strip.X;
+                        // If strip is too small, don't add it.
+                        // This seeminly improves quality slighly as well as improving performance.
+                        // todo: might be unecessary if contiguous strips can be merged
+                        if (w > 2) // todo: configurable threshold?
+                        {
+                            // Add strip
+                            _strips.Insert(++i - rem, new Strip(l, strip.Y, w));
+                        }
                     }
                 }
             }
 
-            // Mutate strip list
-            foreach (var rem in rems) { Strips.Remove(rem); }
-            Strips.AddRange(adds);
-
-            // Sort all strips 
-            Strips.Sort(StripSort);
+            // 
+            _strips.Insert(start, insert);
         }
 
-        private int StripSort(Strip a, Strip b)
-        {
-            // Sort by height, and strips on the same level, keep left most
-            var key = a.Y.CompareTo(b.Y);
-            return key == 0 ? a.X.CompareTo(b.X) : key;
-        }
-
-        public struct Strip
+        public struct Strip : IComparable<Strip>
         {
             public int X;
 
@@ -182,11 +249,16 @@ namespace Heirloom
 
             public bool CheckOverlap(Strip strip, out OverlapType type)
             {
+                return CheckOverlap(strip.X, strip.Width, out type);
+            }
+
+            public bool CheckOverlap(int x, int width, out OverlapType type)
+            {
                 var aL = X;
                 var aR = X + Width;
 
-                var bL = strip.X;
-                var bR = strip.X + strip.Width;
+                var bL = x;
+                var bR = x + width;
 
                 // Assumes by default no overlap (disjoint)
                 type = OverlapType.None;
@@ -206,6 +278,12 @@ namespace Heirloom
 
                 // Return true if any overlap of any kind occurs.
                 return type != OverlapType.None;
+            }
+
+            public int CompareTo(Strip other)
+            {
+                // order is increasing x-coordinates
+                return X.CompareTo(other.X);
             }
         }
 

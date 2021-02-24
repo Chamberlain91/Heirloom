@@ -38,7 +38,7 @@ namespace Heirloom
             _impl = quality switch
             {
                 PackingAlgorithm.Maxrects => new MaxrectsPacker<T>(width, height),
-                PackingAlgorithm.Skyline => new SkylinePacker2<T>(width, height),
+                PackingAlgorithm.Skyline => new SkylinePacker<T>(width, height),
                 PackingAlgorithm.Shelf => new ShelfPacker<T>(width, height),
                 _ => throw new ArgumentException("Incorrect packing algorithm specified.", nameof(quality)),
             };
