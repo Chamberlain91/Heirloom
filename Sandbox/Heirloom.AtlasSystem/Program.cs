@@ -59,9 +59,6 @@ namespace Heirloom.AtlasSystem
 
             Log.Info(string.Join(",", times.Select(c => $"({c.x},{c.y})")));
 
-            //// REMOVE!!
-            //Environment.Exit(0);
-
             // Reset packer
             ClearPacker(1000);
 
@@ -105,30 +102,6 @@ namespace Heirloom.AtlasSystem
 
                     yield return new IntSize(w, h);
                 }
-
-                //for (var r = 0; r < 3; r++)
-                //{
-                //    // Some fake text, 16pt font
-                //    for (var i = 0; i < 256; i++)
-                //    {
-                //        var w = (int) Calc.Random.NextFloat(10, 18);
-                //        var h = (int) Calc.Random.NextFloat(14, 18);
-
-                //        yield return new IntSize(w, h);
-                //    }
-
-                //    // Some fake sprite anims
-                //    for (var i = 0; i < 100; i++) { yield return new IntSize(24, 32); }
-                //    for (var i = 0; i < 50; i++) { yield return new IntSize(64, 72); }
-
-                //    // Some background assets
-                //    yield return new IntSize(300, 250);
-                //    yield return new IntSize(250, 250);
-                //    yield return new IntSize(100, 250);
-
-                //    // Some skybox
-                //    yield return new IntSize(640, 400);
-                //}
             }
         }
 
@@ -232,7 +205,7 @@ namespace Heirloom.AtlasSystem
                 Packer.Compact();
                 _sw.Stop();
 
-                Log.Info($"Compact Time: {Time.GetEnglishTime((float) _sw.Elapsed.TotalSeconds)}");
+                Log.Info($"Compact Time:  {Time.GetEnglishTime((float) _sw.Elapsed.TotalSeconds)}");
             }
         }
 

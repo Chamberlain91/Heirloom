@@ -104,7 +104,6 @@ namespace Heirloom
 
         private bool CheckFit(LinkedListNode<Strip> node, IntSize size, out int cost)
         {
-            // var root = _strips[index];
             var root = node.Value;
 
             // Get min position
@@ -116,7 +115,7 @@ namespace Heirloom
             var b = y + size.Height;
 
             // Start with zero wasted space, but penalize elevation.
-            cost = y * 200;
+            cost = y * 50;
 
             // Horizontal Bounds Check
             if (r > Size.Width) { return false; }
@@ -128,12 +127,12 @@ namespace Heirloom
             if (root.Width >= size.Width) { return true; }
             else
             {
-                node = node.Next; // index + 1
+                // Skip the first node, we know it does not fit from the check above.
+                node = node.Next;
 
                 // We must do a more sophisticated check because the item will exceed the initial strip.
                 // We then must check subsequent strips in order.
-                // for (var i = index + 1; i < _strips.Count; i++) // O(n)
-                while (node != null)
+                while (node != null) // O(n)
                 {
                     // var strip = _strips[i];
                     var strip = node.Value;
@@ -165,7 +164,7 @@ namespace Heirloom
                         }
                     }
 
-                    // i++
+                    // Advance to next node
                     node = node.Next;
                 }
 
@@ -180,13 +179,10 @@ namespace Heirloom
             var r = insert.X + insert.Width;
 
             // Find overlapping strips and split
-            // var start = FindFirstStrip(insert.X); // O(log(n))
             _strips.AddBefore(node, insert);
 
-            // for (var i = start; i < _strips.Count; i++)
             while (node != null)
             {
-                // var strip = _strips[i - rem];
                 var strip = node.Value;
                 var next = node.Next;
 
@@ -194,7 +190,7 @@ namespace Heirloom
                 if (strip.X > r) { break; }
 
                 // Determine if the strip overlaps the strip we are inserting
-                if (strip.CheckOverlap(insert, out var overlap))
+                if (strip.CheckOverlap(insert.X, insert.Width, out var overlap))
                 {
                     // If overlaping, clip and insert
                     if (overlap == OverlapType.Overlaps)
@@ -202,7 +198,8 @@ namespace Heirloom
                         var l = insert.X + insert.Width;
                         var w = strip.Width - l + strip.X;
                         // If strip is too small, don't add it.
-                        // This seeminly improves quality slighly as well as improving performance.
+                        // This is an empiracal value but it seeminly does the best to improve
+                        // both packing quality as well as improving performance.
                         // todo: might be unecessary if contiguous strips can be merged
                         if (w > 2) // todo: configurable threshold?
                         {
@@ -220,7 +217,7 @@ namespace Heirloom
             }
         }
 
-        public struct Strip : IComparable<Strip>
+        public struct Strip
         {
             public int X;
 
@@ -238,11 +235,6 @@ namespace Heirloom
             }
 
             public IntVector Position => new IntVector(X, Y);
-
-            public bool CheckOverlap(Strip strip, out OverlapType type)
-            {
-                return CheckOverlap(strip.X, strip.Width, out type);
-            }
 
             public bool CheckOverlap(int x, int width, out OverlapType type)
             {
@@ -270,12 +262,6 @@ namespace Heirloom
 
                 // Return true if any overlap of any kind occurs.
                 return type != OverlapType.None;
-            }
-
-            public int CompareTo(Strip other)
-            {
-                // order is increasing x-coordinates
-                return X.CompareTo(other.X);
             }
         }
 
