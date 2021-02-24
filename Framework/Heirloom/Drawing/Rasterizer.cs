@@ -14,6 +14,7 @@ namespace Heirloom.Drawing
     /// </remarks>
     /// <category>Utility</category>
     public static class Rasterizer
+    // Useful implementation/guide: http://members.chello.at/easyfilter/bresenham.html
     {
         #region Rectangle
 
@@ -224,8 +225,6 @@ namespace Heirloom.Drawing
         }
 
         #endregion
-
-        // todo: Curves
 
         #region Line
 
