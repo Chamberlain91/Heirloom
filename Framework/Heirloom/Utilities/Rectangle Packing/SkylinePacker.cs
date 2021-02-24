@@ -8,7 +8,7 @@ namespace Heirloom
 {
     internal sealed class SkylinePacker<TElement> : RectanglePackerImpl<TElement>
     {
-        private readonly List<Strip> _strips;
+        private readonly LinkedList<Strip> _strips;
 
         #region Constructor
 
@@ -19,7 +19,7 @@ namespace Heirloom
         public SkylinePacker(IntSize size)
             : base(size)
         {
-            _strips = new List<Strip>();
+            _strips = new LinkedList<Strip>();
 
             // Start clean
             Clear();
@@ -33,7 +33,7 @@ namespace Heirloom
 
             // Clear strips
             _strips.Clear();
-            _strips.Add(new Strip(0, 0, Size.Width));
+            _strips.AddFirst(new Strip(0, 0, Size.Width));
         }
 
         protected override void OptimizeElementOrder(List<KeyValuePair<TElement, IntRectangle>> elements)
@@ -51,33 +51,44 @@ namespace Heirloom
         protected override bool Insert(IntSize size, out IntRectangle rect)
         {
             var minCost = int.MaxValue;
+            var minNode = default(LinkedListNode<Strip>);
+
             rect = default;
 
             // Find minimal cost insertion
-            for (var i = 0; i < _strips.Count; i++)
+            // for (var i = 0; i < _strips.Count; i++)
+            var node = _strips.First;
+            while (node != null)
             {
                 // Try to fit the strip
-                if (CheckFit(i, size, out var cost) && cost < minCost)
+                if (CheckFit(node, size, out var cost) && cost < minCost)
                 {
-                    var position = _strips[i].Position;
+                    var position = node.Value.Position;
                     rect = new IntRectangle(position, size);
+                    minNode = node;
                     minCost = cost;
                 }
+
+                // Advance to next node
+                node = node.Next;
             }
 
             // If we found some heuristic insertion
             if (minCost < int.MaxValue)
             {
                 // Insert at best matching location
-                InsertStrip(new Strip(rect.X, rect.Y + size.Height, size.Width));
+                InsertStrip(minNode, new Strip(rect.X, rect.Y + size.Height, size.Width));
                 return true;
             }
 
             // No acceptable insertion, try to place on "shelf"
             if (CheckFitShelf(size, out var shelf))
             {
+                // Create new shelf (complete horizontal layer)
+                InsertStrip(_strips.First, new Strip(0, shelf + size.Height, size.Width));
+
+                // Return success
                 rect = new IntRectangle((0, shelf), size);
-                InsertStrip(new Strip(0, shelf + size.Height, size.Width));
                 return true;
             }
 
@@ -91,9 +102,10 @@ namespace Heirloom
             return Size.Height - shelf >= size.Height;
         }
 
-        private bool CheckFit(int index, IntSize size, out int cost)
+        private bool CheckFit(LinkedListNode<Strip> node, IntSize size, out int cost)
         {
-            var root = _strips[index];
+            // var root = _strips[index];
+            var root = node.Value;
 
             // Get min position
             var x = root.X;
@@ -116,11 +128,15 @@ namespace Heirloom
             if (root.Width >= size.Width) { return true; }
             else
             {
+                node = node.Next; // index + 1
+
                 // We must do a more sophisticated check because the item will exceed the initial strip.
                 // We then must check subsequent strips in order.
-                for (var i = index + 1; i < _strips.Count; i++) // O(n)
+                // for (var i = index + 1; i < _strips.Count; i++) // O(n)
+                while (node != null)
                 {
-                    var strip = _strips[i];
+                    // var strip = _strips[i];
+                    var strip = node.Value;
 
                     // Strip is beyond edge of insertion range, we can exit the loop now.
                     if (strip.X > r) { break; }
@@ -148,6 +164,9 @@ namespace Heirloom
                             cost += strip.Width * trashHeight;
                         }
                     }
+
+                    // i++
+                    node = node.Next;
                 }
 
                 // Was not rejected!
@@ -155,47 +174,21 @@ namespace Heirloom
             }
         }
 
-        private int FindFirstStrip(int x)
-        {
-            var min = 0;
-            var max = _strips.Count - 1;
-
-            while (min <= max)
-            {
-                var mid = (min + max) / 2;
-                var cmp = x.CompareTo(_strips[mid].X);
-
-                // Exact match
-                if (cmp == 0) { return mid; }
-                else
-                // Strip is greater than input
-                if (cmp == 1)
-                {
-                    min = mid + 1;
-                }
-                // Strip is lesser than input
-                else
-                {
-                    max = mid - 1;
-                }
-            }
-
-            return min;
-        }
-
-        private void InsertStrip(Strip insert) // O(n*log(n))
+        private void InsertStrip(LinkedListNode<Strip> node, Strip insert)
         {
             // Get right edge of insertion range
             var r = insert.X + insert.Width;
 
-            var rem = 0;
-
             // Find overlapping strips and split
-            var start = FindFirstStrip(insert.X); // O(log(n))
+            // var start = FindFirstStrip(insert.X); // O(log(n))
+            _strips.AddBefore(node, insert);
 
-            for (var i = start; i < _strips.Count; i++)
+            // for (var i = start; i < _strips.Count; i++)
+            while (node != null)
             {
-                var strip = _strips[i - rem];
+                // var strip = _strips[i - rem];
+                var strip = node.Value;
+                var next = node.Next;
 
                 // Strip is beyond edge of insertion range, we can exit the loop now.
                 if (strip.X > r) { break; }
@@ -203,10 +196,6 @@ namespace Heirloom
                 // Determine if the strip overlaps the strip we are inserting
                 if (strip.CheckOverlap(insert, out var overlap))
                 {
-                    // Remove strip
-                    _strips.RemoveAt(i - rem);
-                    rem++;
-
                     // If overlaping, clip and insert
                     if (overlap == OverlapType.Overlaps)
                     {
@@ -218,14 +207,17 @@ namespace Heirloom
                         if (w > 2) // todo: configurable threshold?
                         {
                             // Add strip
-                            _strips.Insert(++i - rem, new Strip(l, strip.Y, w));
+                            _strips.AddBefore(node, new Strip(l, strip.Y, w));
                         }
                     }
-                }
-            }
 
-            // 
-            _strips.Insert(start, insert);
+                    // Remove strip
+                    _strips.Remove(node);
+                }
+
+                // Advance node
+                node = next;
+            }
         }
 
         public struct Strip : IComparable<Strip>
