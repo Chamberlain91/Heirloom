@@ -13,15 +13,32 @@ namespace Heirloom.Drawing
     {
         private readonly SortedList<float, Color> _stops;
 
+        #region Constructors
+
         /// <summary>
         /// Constructs a new instance of <see cref="Gradient"/>.
         /// </summary>
-        /// <param name="mode"></param>
-        public Gradient(GradientMode mode = GradientMode.CIELab)
+        /// <param name="mode">The color space to perform interpolation.</param>
+        public Gradient(GradientMode mode = GradientMode.LAB)
         {
             _stops = new SortedList<float, Color>();
             Mode = mode;
         }
+
+        /// <summary>
+        /// Constructs a simple gradient between two colors.
+        /// </summary>
+        /// <param name="start">The starting color (at time 0.0).</param>
+        /// <param name="end">The ending color (at time 1.0).</param>
+        /// <param name="mode">The color space to perform interpolation.</param>
+        public Gradient(Color start, Color end, GradientMode mode = GradientMode.LAB)
+            : this(mode)
+        {
+            Add(0F, start);
+            Add(1F, end);
+        }
+
+        #endregion
 
         /// <summary>
         /// Gets or sets the interpolation mode.
@@ -107,7 +124,7 @@ namespace Heirloom.Drawing
                     return Mode switch
                     {
                         GradientMode.RGB => Color.Lerp(cLo, cHi, t),
-                        GradientMode.CIELab => (Color) ColorLab.Lerp((ColorLab) cLo, (ColorLab) cHi, t),
+                        GradientMode.LAB => (Color) ColorLab.Lerp((ColorLab) cLo, (ColorLab) cHi, t),
                         _ => throw new InvalidOperationException("Invalid gradient mode."),
                     };
                 }

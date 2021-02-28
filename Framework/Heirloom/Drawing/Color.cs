@@ -1,7 +1,7 @@
-using Heirloom.Mathematics;
-
 using System;
 using System.Runtime.InteropServices;
+
+using Heirloom.Mathematics;
 
 namespace Heirloom.Drawing
 {

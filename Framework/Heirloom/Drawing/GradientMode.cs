@@ -11,8 +11,8 @@ namespace Heirloom.Drawing
         RGB,
 
         /// <summary>
-        /// Converts interpolated colors into CIELab space for interpolation.
+        /// Converts colors into LAB color space before interpolation.
         /// </summary>
-        CIELab
+        LAB
     };
 }

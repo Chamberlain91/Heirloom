@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 
 using Heirloom.Mathematics;
 
@@ -9,7 +8,7 @@ using static Heirloom.Mathematics.Calc;
 namespace Heirloom.Drawing
 {
     /// <summary>
-    /// Color in CIE-L*ab format encoded as 3 floats.
+    /// Color in OKLab color space format encoded as 3 floats.
     /// </summary>
     /// <remarks> Note: This color representation does not contain transparency (alpha). </remarks>
     /// <seealso cref="Color"/>
@@ -123,7 +122,39 @@ namespace Heirloom.Drawing
             B = b;
         }
 
-        #endregion 
+        #endregion
+
+        #region LCH Conversion
+
+        /// <summary>
+        /// Converts from LCH (Lightness, Chroma, Hue) polar coordinates into LAB space.
+        /// </summary>
+        /// <param name="l">Lightness</param>
+        /// <param name="c">Chroma</param>
+        /// <param name="h">Hue (in degrees)</param>
+        public static ColorLab FromLCH(float l, float c, float h)
+        // https://bottosson.github.io/posts/oklab/
+        {
+            h *= ToRadians;
+            return new ColorLab(l, c * Cos(h), c * Sin(h));
+        }
+
+        /// <summary>
+        /// Converts LAB space to LCH (Lightness, Chroma, Hue) polar coordiantes.
+        /// </summary>
+        /// <param name="l">Lightness</param>
+        /// <param name="c">Chroma</param>
+        /// <param name="h">Hue (in degrees)</param>
+        public void ToLCH(out float l, out float c, out float h)
+        // https://bottosson.github.io/posts/oklab/
+        {
+            c = Sqrt((A * A) + (B * B));
+            h = Atan2(B, A) * ToDegree;
+            if (h < 0) { h += 360; }
+            l = L;
+        }
+
+        #endregion
 
         /// <summary>
         /// Linear interpolation of two colors.
@@ -141,21 +172,19 @@ namespace Heirloom.Drawing
             };
         }
 
-        #region Distance
+        #region Perceptual Distance
 
         /// <summary>
-        /// Computes the perceived distance between two colors (using the 1994 model, for performance reasons).
-        /// </summary>
-        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
+        /// Computes the perceived distance between two colors (using the CIE 1994 model).
+        /// </summary> 
         public static float Distance(ColorLab a, ColorLab b)
         {
             return Sqrt(DistanceSquared(a, b));
         }
 
         /// <summary>
-        /// Computes the perceived squared distance between two colors (using the 1994 model, for performance reasons).
-        /// </summary>
-        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
+        /// Computes the perceived squared distance between two colors (using the CIE 1994 model).
+        /// </summary> 
         public static float DistanceSquared(ColorLab a, ColorLab b)
         {
             var xDL = b.L - a.L;
@@ -273,7 +302,7 @@ namespace Heirloom.Drawing
         /// </summary>
         public static explicit operator Color(ColorLab lab)
         {
-            return ColorSpace.LABtoRGB(lab);
+            return ColorSpace.LabToRgb(lab);
         }
 
         /// <summary>
@@ -281,7 +310,7 @@ namespace Heirloom.Drawing
         /// </summary>
         public static explicit operator ColorLab(Color rgb)
         {
-            return ColorSpace.RGBtoLAB(rgb);
+            return ColorSpace.RgbToLab(rgb);
         }
 
         /// <summary>

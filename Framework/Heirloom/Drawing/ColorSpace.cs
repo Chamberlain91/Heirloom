@@ -8,158 +8,7 @@ namespace Heirloom.Drawing
     /// Provides methods for converting between color spaces and other utility functions.
     /// </summary>
     public static class ColorSpace
-    // http://www.easyrgb.com/en/math.php
     {
-        // D65/2 illuminant
-        private const float D65X = 95.047F;
-        private const float D65Y = 100.0F;
-        private const float D65Z = 108.883F;
-
-        #region Convert RGB & LAB
-
-        #region RGB & XYZ
-
-        private static XYZColor RGBtoXYZ(Color rgb)
-        {
-            // sR, sG and sB (Standard RGB) input range = 0 ÷ 255
-            // X, Y and Z output refer to a D65/2° standard illuminant.
-
-            var r = rgb.R;
-            var g = rgb.G;
-            var b = rgb.B;
-
-            if (r > 0.04045F) { r = Pow((r + 0.055F) / 1.055F, 2.4F); }
-            else { r /= 12.92F; }
-
-            if (g > 0.04045F) { g = Pow((g + 0.055F) / 1.055F, 2.4F); }
-            else { g /= 12.92F; }
-
-            if (b > 0.04045F) { b = Pow((b + 0.055F) / 1.055F, 2.4F); }
-            else { b /= 12.92F; }
-
-            r *= 100;
-            g *= 100;
-            b *= 100;
-
-            var X = (r * 0.4124F) + (g * 0.3576F) + (b * 0.1805F);
-            var Y = (r * 0.2126F) + (g * 0.7152F) + (b * 0.0722F);
-            var Z = (r * 0.0193F) + (g * 0.1192F) + (b * 0.9505F);
-
-            return new XYZColor(X, Y, Z); // 0 - 100
-        }
-
-        private static Color XYZtoRGB(XYZColor color)
-        {
-            //X, Y and Z input refer to a D65/2° standard illuminant.
-            //sR, sG and sB (standard RGB) output range = 0 ÷ 255
-
-            var x = color.X / 100F;
-            var y = color.Y / 100F;
-            var z = color.Z / 100F;
-
-            var r = (x * 3.2406F) + (y * -1.5372F) + (z * -0.4986F);
-            var g = (x * -0.9689F) + (y * 1.8758F) + (z * 0.0415F);
-            var b = (x * 0.0557F) + (y * -0.2040F) + (z * 1.0570F);
-
-            if (r > 0.0031308F) { r = (1.055F * Pow(r, 1 / 2.4F)) - 0.055F; }
-            else { r = 12.92F * r; }
-
-            if (g > 0.0031308F) { g = (1.055F * Pow(g, 1 / 2.4F)) - 0.055F; }
-            else { g = 12.92F * g; }
-
-            if (b > 0.0031308F) { b = (1.055F * Pow(b, 1 / 2.4F)) - 0.055F; }
-            else { b = 12.92F * b; }
-
-            // 
-            return new Color(r, g, b);
-        }
-
-        #endregion
-
-        #region XYZ & LAB
-
-        private static ColorLab XYZtoLAB(XYZColor xyz)
-        {
-            var x = xyz.X / D65X;
-            var y = xyz.Y / D65Y;
-            var z = xyz.Z / D65Z;
-
-            if (x > 0.008856F) { x = Pow(x, 1 / 3F); }
-            else { x = (7.787F * x) + (16 / 116F); }
-
-            if (y > 0.008856F) { y = Pow(y, 1 / 3F); }
-            else { y = (7.787F * y) + (16 / 116F); }
-
-            if (z > 0.008856F) { z = Pow(z, 1 / 3F); }
-            else { z = (7.787F * z) + (16 / 116F); }
-
-            var L = (116 * y) - 16;
-            var A = 500 * (x - y);
-            var B = 200 * (y - z);
-
-            return new ColorLab(L, A, B);
-        }
-
-        private static XYZColor LABtoXYZ(ColorLab lab)
-        {
-            var y = (lab.L + 16) / 116F;
-            var x = (lab.A / 500F) + y;
-            var z = y - (lab.B / 200F);
-
-            var y3 = y * y * y;
-            if (y3 > 0.008856) { y = y3; }
-            else { y = (y - (16 / 116F)) / 7.787F; }
-
-            var x3 = x * x * x;
-            if (x3 > 0.008856) { x = x3; }
-            else { x = (x - (16 / 116F)) / 7.787F; }
-
-            var z3 = z * z * z;
-            if (z3 > 0.008856) { z = z3; }
-            else { z = (z - (16 / 116F)) / 7.787F; }
-
-            x *= D65X;
-            y *= D65Y;
-            z *= D65Z;
-
-            return new XYZColor(x, y, z);
-        }
-
-        #endregion
-
-        private struct XYZColor
-        {
-            public float X;
-            public float Y;
-            public float Z;
-
-            public XYZColor(float x, float y, float z)
-            {
-                X = x;
-                Y = y;
-                Z = z;
-            }
-        }
-
-        /// <summary>
-        /// Converts a RGB color to CIE-LAB.
-        /// </summary>
-        /// <remarks>Note, the alpha component is discarded.</remarks>
-        internal static ColorLab RGBtoLAB(Color rgb)
-        {
-            return XYZtoLAB(RGBtoXYZ(rgb));
-        }
-
-        /// <summary>
-        /// Converts a CIE-LAB Color to RGB
-        /// </summary>
-        internal static Color LABtoRGB(ColorLab lab)
-        {
-            return XYZtoRGB(LABtoXYZ(lab));
-        }
-
-        #endregion
-
         #region RGB Bits
 
         /// <summary>
@@ -220,6 +69,83 @@ namespace Heirloom.Drawing
             }
         }
 
-        #endregion 
+        #endregion
+
+        #region Conversion (Gamma sRGB to Linear sRGB)
+
+        /// <summary>
+        /// Move color from sRGB (w/ Gamma Curve) to Linear sRGB (w/out Gamma Curve)
+        /// </summary>
+        public static Color ToLinear(Color c)
+        {
+            return new Color(ToLinear(c.R), ToLinear(c.G), ToLinear(c.B), c.A);
+        }
+
+        /// <summary>
+        /// Move color from Linear sRGB (w/out Gamma Curve) to sRGB (w/ Gamma Curve)
+        /// </summary>
+        public static Color ToGamma(Color c)
+        {
+            return new Color(ToGamma(c.R), ToGamma(c.G), ToGamma(c.B), c.A);
+        }
+
+        private static float ToLinear(float x)
+        {
+            if (x > 0.04045F) { return Pow((x + 0.055F) / 1.055F, 2.4F); }
+            else { return x / 12.92F; }
+        }
+
+        private static float ToGamma(float x)
+        {
+            if (x > 0.0031308F) { return (1.055F * Pow(x, 1 / 2.4F)) - 0.055F; }
+            else { return 12.92F * x; }
+        }
+
+        #endregion
+
+        #region Conversion (RGB and Lab)
+
+        /// <summary>
+        /// Convert from linear sRGB to Lab.
+        /// </summary>
+        public static ColorLab RgbToLab(Color c)
+        // https://bottosson.github.io/posts/oklab/
+        {
+            var l = 0.4122214708f * c.R + 0.5363325363f * c.G + 0.0514459929f * c.B;
+            var m = 0.2119034982f * c.R + 0.6806995451f * c.G + 0.1073969566f * c.B;
+            var s = 0.0883024619f * c.R + 0.2817188376f * c.G + 0.6299787005f * c.B;
+
+            var l_ = MathF.Cbrt(l);
+            var m_ = MathF.Cbrt(m);
+            var s_ = MathF.Cbrt(s);
+
+            return new ColorLab(
+                0.2104542553f * l_ + 0.7936177850f * m_ - 0.0040720468f * s_,
+                1.9779984951f * l_ - 2.4285922050f * m_ + 0.4505937099f * s_,
+                0.0259040371f * l_ + 0.7827717662f * m_ - 0.8086757660f * s_
+            );
+        }
+
+        /// <summary>
+        /// Convert from Lab to linear sRGB.
+        /// </summary>
+        public static Color LabToRgb(ColorLab c)
+        // https://bottosson.github.io/posts/oklab/
+        {
+            var l_ = c.L + 0.3963377774f * c.A + 0.2158037573f * c.B;
+            var m_ = c.L - 0.1055613458f * c.A - 0.0638541728f * c.B;
+            var s_ = c.L - 0.0894841775f * c.A - 1.2914855480f * c.B;
+
+            var l = l_ * l_ * l_;
+            var m = m_ * m_ * m_;
+            var s = s_ * s_ * s_;
+
+            return new Color(
+                +4.0767416621f * l - 3.3077115913f * m + 0.2309699292f * s,
+                -1.2684380046f * l + 2.6097574011f * m - 0.3413193965f * s,
+                -0.0041960863f * l - 0.7034186147f * m + 1.7076147010f * s);
+        }
+
+        #endregion
     }
 }
