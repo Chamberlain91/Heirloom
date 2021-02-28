@@ -69,11 +69,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Extras.Animation",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Testing.BlendMode", "Testing\Heirloom.Testing.BlendMode\Heirloom.Testing.BlendMode.csproj", "{78676742-E0B5-4DAC-BE8C-522370C75492}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Examples.Minimal", "Examples\Heirloom.Examples.Minimal\Heirloom.Examples.Minimal.csproj", "{52A5A85F-5A82-4AC6-BB08-F701C062C721}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Examples.Minimal", "Examples\Heirloom.Examples.Minimal\Heirloom.Examples.Minimal.csproj", "{52A5A85F-5A82-4AC6-BB08-F701C062C721}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Android", "Android", "{54A5474B-4BBF-4BE5-B667-EA988D709EE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.AtlasSystem", "Sandbox\Heirloom.AtlasSystem\Heirloom.AtlasSystem.csproj", "{79F17F56-1414-46F2-8AED-0D8D669E3D3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Testing.AtlasSystem", "Testing\Heirloom.Testing.AtlasSystem\Heirloom.Testing.AtlasSystem.csproj", "{994BD3C7-C706-49C6-960D-3814C8F6CFA9}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -182,10 +182,10 @@ Global
 		{52A5A85F-5A82-4AC6-BB08-F701C062C721}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52A5A85F-5A82-4AC6-BB08-F701C062C721}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52A5A85F-5A82-4AC6-BB08-F701C062C721}.Release|Any CPU.Build.0 = Release|Any CPU
-		{79F17F56-1414-46F2-8AED-0D8D669E3D3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79F17F56-1414-46F2-8AED-0D8D669E3D3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79F17F56-1414-46F2-8AED-0D8D669E3D3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79F17F56-1414-46F2-8AED-0D8D669E3D3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{994BD3C7-C706-49C6-960D-3814C8F6CFA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{994BD3C7-C706-49C6-960D-3814C8F6CFA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{994BD3C7-C706-49C6-960D-3814C8F6CFA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{994BD3C7-C706-49C6-960D-3814C8F6CFA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -217,7 +217,7 @@ Global
 		{78676742-E0B5-4DAC-BE8C-522370C75492} = {78B2E4CD-A323-4F1F-B388-D0C0D2B7A8FC}
 		{52A5A85F-5A82-4AC6-BB08-F701C062C721} = {97C3E7D0-E5D3-4650-9B12-E1FD76CA8E48}
 		{54A5474B-4BBF-4BE5-B667-EA988D709EE2} = {97C3E7D0-E5D3-4650-9B12-E1FD76CA8E48}
-		{79F17F56-1414-46F2-8AED-0D8D669E3D3A} = {1E955E59-ACBD-4D88-A148-4F92E0843E84}
+		{994BD3C7-C706-49C6-960D-3814C8F6CFA9} = {78B2E4CD-A323-4F1F-B388-D0C0D2B7A8FC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {696A41D8-DF3F-4D16-B3D9-514D627DCCE2}

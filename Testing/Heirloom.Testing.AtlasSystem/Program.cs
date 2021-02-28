@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -8,7 +7,7 @@ using Heirloom.Drawing;
 using Heirloom.Mathematics;
 using Heirloom.Utilities;
 
-namespace Heirloom.AtlasSystem
+namespace Heirloom.Testing.AtlasSystem
 {
     public sealed class Program : GameWrapper
     {
@@ -97,10 +96,20 @@ namespace Heirloom.AtlasSystem
             {
                 for (var i = 0; i < c; i++)
                 {
-                    var w = (int) Calc.Random.NextFloat(8, 32);
-                    var h = (int) Calc.Random.NextFloat(8, 32);
+                    if (Calc.Random.Chance(0.01F))
+                    {
+                        var w = (int) Calc.Random.NextFloat(200, 400);
+                        var h = (int) Calc.Random.NextFloat(200, 400);
 
-                    yield return new IntSize(w, h);
+                        yield return new IntSize(w, h);
+                    }
+                    else
+                    {
+                        var w = (int) Calc.Random.NextFloat(8, 32);
+                        var h = (int) Calc.Random.NextFloat(8, 32);
+
+                        yield return new IntSize(w, h);
+                    }
                 }
             }
         }
