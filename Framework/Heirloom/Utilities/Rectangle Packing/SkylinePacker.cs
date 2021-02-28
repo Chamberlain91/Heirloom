@@ -198,10 +198,10 @@ namespace Heirloom
                         var l = insert.X + insert.Width;
                         var w = strip.Width - l + strip.X;
                         // If strip is too small, don't add it.
-                        // This is an empiracal value but it seeminly does the best to improve
+                        // Note: This is an empiracal condition. It seemingly does the best to improve
                         // both packing quality as well as improving performance.
-                        // todo: might be unecessary if contiguous strips can be merged
-                        if (w > 2) // todo: configurable threshold?
+                        // todo: This might be unecessary if contiguous strips can be merged in a performant way?
+                        if (w > 2)
                         {
                             // Add strip
                             _strips.AddBefore(node, new Strip(l, strip.Y, w));
