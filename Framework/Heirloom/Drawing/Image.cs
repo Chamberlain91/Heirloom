@@ -2,7 +2,6 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -248,7 +247,6 @@ namespace Heirloom.Drawing
         /// <param name="interpolationMode">The interpolation mode, controlling how pixels are interpolated.</param>
         /// <param name="repeatMode">The repeat mode, controlling the behaviour of out-of-bounds coordinates.</param>
         /// <returns>The pixel color sampled at the specified coordinates.</returns>
-        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         public Color Sample(Vector co, InterpolationMode interpolationMode = InterpolationMode.Linear, RepeatMode repeatMode = RepeatMode.Repeat, bool normalized = false)
         {
             return Sample(co.X, co.Y, interpolationMode, repeatMode, normalized);
@@ -376,34 +374,34 @@ namespace Heirloom.Drawing
         {
             if (axis == Axis.Vertical) { FlipVertical(); }
             else { FlipHorizontal(); }
-        }
 
-        private void FlipVertical()
-        {
-            for (var y = 0; y < Height / 2; y++)
+            void FlipVertical()
             {
-                for (var x = 0; x < Width; x++)
+                for (var y = 0; y < Height / 2; y++)
                 {
-                    var i0 = x + (y * Width);
-                    var i1 = x + ((Height - y - 1) * Width);
+                    for (var x = 0; x < Width; x++)
+                    {
+                        var i0 = x + (y * Width);
+                        var i1 = x + ((Height - y - 1) * Width);
 
-                    // 
-                    Calc.Swap(ref Pixels[i0], ref Pixels[i1]);
+                        // 
+                        Calc.Swap(ref Pixels[i0], ref Pixels[i1]);
+                    }
                 }
             }
-        }
 
-        private void FlipHorizontal()
-        {
-            for (var y = 0; y < Height; y++)
+            void FlipHorizontal()
             {
-                for (var x = 0; x < Width / 2; x++)
+                for (var y = 0; y < Height; y++)
                 {
-                    var i0 = x + 0 + (y * Width);
-                    var i1 = (Width - x - 1) + (y * Width);
+                    for (var x = 0; x < Width / 2; x++)
+                    {
+                        var i0 = x + 0 + (y * Width);
+                        var i1 = (Width - x - 1) + (y * Width);
 
-                    // 
-                    Calc.Swap(ref Pixels[i0], ref Pixels[i1]);
+                        // 
+                        Calc.Swap(ref Pixels[i0], ref Pixels[i1]);
+                    }
                 }
             }
         }
@@ -493,6 +491,8 @@ namespace Heirloom.Drawing
             return im;
         }
 
+        #region Checkerboard
+
         /// <summary>
         /// Create an image with checkerboard pattern.
         /// </summary>
@@ -539,6 +539,10 @@ namespace Heirloom.Drawing
             });
         }
 
+        #endregion
+
+        #region Grid
+
         /// <summary>
         /// Create an image with a grid pattern.
         /// </summary>
@@ -570,6 +574,10 @@ namespace Heirloom.Drawing
             });
         }
 
+        #endregion
+
+        #region Solid Color
+
         /// <summary>
         /// Creates an image filled with a solid color.
         /// </summary>
@@ -594,6 +602,10 @@ namespace Heirloom.Drawing
             image.Repeat = RepeatMode.Repeat;
             return image;
         }
+
+        #endregion
+
+        #region Gradient
 
         /// <summary>
         /// Creates an image filled with a gradient.
@@ -651,6 +663,10 @@ namespace Heirloom.Drawing
                 return gradient.Evaluate(t);
             });
         }
+
+        #endregion
+
+        #region Noise
 
         /// <summary>
         /// Creates an image filled with noise.
@@ -738,6 +754,8 @@ namespace Heirloom.Drawing
                 return new Color(n0, n1, n2, n3);
             });
         }
+
+        #endregion
 
         #endregion
 
@@ -876,7 +894,7 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        #region Downsampling
+        #region Downsampling (Static)
 
         /// <summary>
         /// Creates a set of mipmaps by repeatedly invoking <see cref="Downsample(Image)"/> for the specified image.
@@ -949,11 +967,12 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        #region Write
+        #region Write Encoding (Static)
 
         /// <summary>
         /// Writes the image to a file encoded as one of the specified formats.
         /// </summary>
+        /// <param name="file">The path on disk write to disk with.</param>
         /// <param name="quality">The compression quality (0-100) for image formats that this is relevant.</param>
         public unsafe void Write(string file, int quality = 85)
         {
@@ -962,9 +981,9 @@ namespace Heirloom.Drawing
 
             var format = extension switch
             {
-                ".jpg" => ImageFormat.Jpg,
-                ".jpeg" => ImageFormat.Jpg,
-                ".png" => ImageFormat.Png,
+                ".jpg" => ImageEncoding.Jpg,
+                ".jpeg" => ImageEncoding.Jpg,
+                ".png" => ImageEncoding.Png,
                 _ => throw new ArgumentException($"Unknown image type '{extension}'.")
             };
 
@@ -974,16 +993,18 @@ namespace Heirloom.Drawing
         /// <summary>
         /// Writes the image to the stream encoded as one of the specified formats.
         /// </summary>
+        /// <param name="stream">The stream to write the encoded image to.</param>
+        /// <param name="format">The image encoding format to use.</param>
         /// <param name="quality">The compression quality (0-100) for image formats that this is relevant.</param>
-        public unsafe void Write(Stream stream, ImageFormat format, int quality = 85)
+        public unsafe void Write(Stream stream, ImageEncoding format, int quality = 85)
         {
             switch (format)
             {
-                case ImageFormat.Jpg:
+                case ImageEncoding.Jpg:
                     WriteJPG(stream, quality);
                     break;
 
-                case ImageFormat.Png:
+                case ImageEncoding.Png:
                     WritePNG(stream);
                     break;
 
