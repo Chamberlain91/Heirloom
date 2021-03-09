@@ -8,8 +8,14 @@ namespace Heirloom
     /// <category>User Input</category>
     public interface IInputSource
     {
+        /// <summary>
+        /// Called when this input source becomes active (ie, added to the input system).
+        /// </summary>
         void Activate();
 
+        /// <summary>
+        /// Called when this input source is deactivated (ie, removed from the input system).
+        /// </summary>
         void Deactivate();
 
         #region Keyboard

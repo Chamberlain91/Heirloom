@@ -75,7 +75,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Android", "Android", "{54A5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Testing.AtlasSystem", "Testing\Heirloom.Testing.AtlasSystem\Heirloom.Testing.AtlasSystem.csproj", "{994BD3C7-C706-49C6-960D-3814C8F6CFA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Testing.Colors", "Testing\Heirloom.Testing.Colors\Heirloom.Testing.Colors.csproj", "{A063FECB-A221-4655-910F-4290206218FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Testing.Colors", "Testing\Heirloom.Testing.Colors\Heirloom.Testing.Colors.csproj", "{A063FECB-A221-4655-910F-4290206218FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Testing.InputVisualizer", "Testing\Heirloom.Testing.InputVisualizer\Heirloom.Testing.InputVisualizer.csproj", "{AD74248F-02E5-45E7-B0D3-4B1C0EA180F1}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -192,6 +194,10 @@ Global
 		{A063FECB-A221-4655-910F-4290206218FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A063FECB-A221-4655-910F-4290206218FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A063FECB-A221-4655-910F-4290206218FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD74248F-02E5-45E7-B0D3-4B1C0EA180F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD74248F-02E5-45E7-B0D3-4B1C0EA180F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD74248F-02E5-45E7-B0D3-4B1C0EA180F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD74248F-02E5-45E7-B0D3-4B1C0EA180F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -225,6 +231,7 @@ Global
 		{54A5474B-4BBF-4BE5-B667-EA988D709EE2} = {97C3E7D0-E5D3-4650-9B12-E1FD76CA8E48}
 		{994BD3C7-C706-49C6-960D-3814C8F6CFA9} = {78B2E4CD-A323-4F1F-B388-D0C0D2B7A8FC}
 		{A063FECB-A221-4655-910F-4290206218FD} = {78B2E4CD-A323-4F1F-B388-D0C0D2B7A8FC}
+		{AD74248F-02E5-45E7-B0D3-4B1C0EA180F1} = {78B2E4CD-A323-4F1F-B388-D0C0D2B7A8FC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {696A41D8-DF3F-4D16-B3D9-514D627DCCE2}

@@ -829,9 +829,14 @@ namespace Heirloom.Desktop
                         var ev = KeyEvents.Dequeue();
 
                         // If the event is reporting a new press (ie, 'now')
-                        if (ev.State.HasFlag(ButtonState.Recent) || ev.State.HasFlag(ButtonState.Repeat))
+                        if (ev.State.HasFlag(ButtonState.Recent))
                         {
                             _keyStates[ev.Key] = ev.State;
+                        }
+
+                        if (ev.State.HasFlag(ButtonState.Repeat))
+                        {
+                            _keyStates[ev.Key] |= ButtonState.Repeat;
                         }
                     }
 
