@@ -1,49 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using Heirloom.Collections;
 using Heirloom.Mathematics;
 
 namespace Heirloom.Drawing
-{ 
-    /// <summary>
-    /// Provides access to metrics and user level control over the internal atlas system.
-    /// </summary>
-    public abstract class AtlasSystem
-    {
-        /// <summary>
-        /// Gets the estimated GPU memory usage of the atlas system.
-        /// </summary>
-        public abstract int EstimatedMemoryUsage { get; }
-
-        /// <summary>
-        /// Gets the number of pages the atlas system has allocated.
-        /// </summary>
-        public abstract int NumberOfPages { get; }
-
-        /// <summary>
-        /// Inserts an image into the atlas system.
-        /// Please Note: doing so may cause the atlas to overflow and evict prior images.
-        /// </summary>
-        public abstract void Insert(Image image);
-
-        /// <summary>
-        /// Removes an image from the atlas system.
-        /// </summary>
-        public abstract void Remove(Image image);
-
-        /// <summary>
-        /// Evict all entries and reinsert images in a more optimal manner.
-        /// </summary>
-        public abstract void Compact();
-
-        /// <summary>
-        /// Remove all entries in the atlas system.
-        /// </summary>
-        public abstract void Clear();
-    }
-
+{
     /// <summary>
     /// Represents a graphical context, providing the ability to draw onto surfaces.
     /// </summary>
@@ -127,11 +89,6 @@ namespace Heirloom.Drawing
         public GraphicsPerformance Performance { get; }
 
         /// <summary>
-        /// Gets the fine-grain control object for the internal atlas system.
-        /// </summary>
-        public AtlasSystem Atlas { get; }
-
-        /// <summary>
         /// Gets the screen associated with the <see cref="GraphicsContext"/>.
         /// </summary>
         public IScreen Screen { get; }
@@ -179,7 +136,7 @@ namespace Heirloom.Drawing
         public Surface Surface => _state.Surface;
 
         /// <summary>
-        /// Gets the current shader.
+        /// Gets or sets the current shader program applied to drawing operations.
         /// </summary>
         public Shader Shader
         {
@@ -481,15 +438,6 @@ namespace Heirloom.Drawing
         /// <param name="uvRegion">Some subregion of the texture to remap UV coordinates.</param>
         /// <param name="transform">Some transformation matrix to apply before rendering the mesh.</param>
         public abstract void Draw(Mesh mesh, Texture texture, Rectangle uvRegion, Matrix transform);
-
-        /// <summary>
-        /// Updates the value of some uniform in the current bound shader.
-        /// </summary>
-        /// <typeparam name="T">Some type to assign to the shader.</typeparam>
-        /// <param name="name">The name of the uniform.</param>
-        /// <param name="value">The value to assign to each uniform.</param>
-        // todo: perhaps make dedicated methods for each type instead?
-        public abstract void SetUniform<T>(string name, T value);
 
         #region Fundamental Drawing
 

@@ -47,7 +47,7 @@ namespace Heirloom.Drawing.OpenGLES
             // Nothing to commit since we aren't really managing an atlas
         }
 
-        public override void Evict()
+        public override void GetMoreMemory()
         {
             // Won't be called since the atlas doesn't actually exist
         }

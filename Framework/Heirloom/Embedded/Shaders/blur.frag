@@ -47,11 +47,11 @@ vec4 fragmentProgram(vec4 color)
 {
     color = vec4(0.0);
 
-    vec2 texelSize = 1.0 / atlasSize(uMainImage, uMainImage_UVRect);
+    vec2 texelSize = 1.0 / atlasSize(uMainImageRect);
     for (int i = 0; i < KERNEL_SIZE; i++)
     {
         vec2 offset = (float(i) / KERNEL_SIZE * 2.0 - 1.0) * texelSize * uVector;
-        color += atlas(uMainImage, uMainImage_UVRect, frag.uv + offset) * kernel[i];
+        color += atlas(uMainImageRect, frag.uv + offset) * kernel[i];
     }
     
     return color;

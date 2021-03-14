@@ -11,22 +11,29 @@ namespace Heirloom.Drawing.OpenGLES
     {
         [ThreadStatic] internal protected static bool IsGraphicsThread;
 
+        private readonly ConsumerThread _thread;
         private bool _shouldMakeCurrent;
 
-        private readonly ConsumerThread _thread;
+        // Software Shape Clipping
+        private readonly Mesh _clipMesh = new Mesh();
+
+        // Stencil Mask System
         private byte _stencilReference;
 
-        private ESTexture _atlasTexture;
-        private bool _atlasTextureDirty;
+        // Texture Unit System
+        // todo: evaluate based on available uniforms of current shader?
+        private const int MaxTextureCount = 8;
+        private readonly Dictionary<ESTexture, TextureUnit> _textures = new Dictionary<ESTexture, TextureUnit>();
+        private bool _texturesDirty = false;
 
-        private readonly Dictionary<int, UniformData> _modifiedUniforms = new Dictionary<int, UniformData>();
-
+        // Batching Systems
         private ESBatch _batch;
         private ESAtlas _atlas;
 
-        private readonly Mesh _clipMesh = new Mesh();
-
-        private float _alphaCutoff;
+        // Internal Uniforms
+        // todo: only update when dirty?
+        private Matrix _uProjectionMatrix;
+        private float _uAlphaCutoff;
 
         #region Constructor
 
@@ -101,7 +108,6 @@ namespace Heirloom.Drawing.OpenGLES
 
         #region Invoke
 
-        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         protected internal void Invoke(Action action, bool blocking = true)
         {
             if (!IsThreadRunning) { throw new InvalidOperationException("Unable to invoke, context thread not started."); }
@@ -109,7 +115,6 @@ namespace Heirloom.Drawing.OpenGLES
             else { _thread.InvokeLater(action); }
         }
 
-        /*[MethodImpl(MethodImplOptions.AggressiveInlining)]*/
         protected internal T Invoke<T>(Func<T> action)
         {
             if (!IsThreadRunning) { throw new InvalidOperationException("Unable to invoke, context thread not started."); }
@@ -130,25 +135,16 @@ namespace Heirloom.Drawing.OpenGLES
             // todo: there is a logic error with the state changing flags...
             //       set blending, draw, set blending, draw should flush on the second blending?
 
-            // if (StateFlags != 0) { Flush(); } 
-            // if (_modifiedUniforms.Count > 0) { Flush(); }
+            // ...?
+            if (StateFlags != 0) { Flush(); }
+
+            // Shader has changed, we must flush
+            var esShader = Backend.GetNativeObject<ESShaderProgram>(Shader);
+            if (esShader.Version != Shader.Version) { Flush(); }
 
             // Request es texture information
-            RequestTextureInformation(texture, out var atlasTexture, out var atlasRect);
-
-            // Map UV rect into atlas rect
-            MapAndEncodeUV(texture, ref uvRect, atlasRect);
-
-            // Inconsistent atlas texture, mark to rebind.
-            if (_atlasTexture != atlasTexture)
-            {
-                // We have work dependant on a prior texture, flush.
-                if (_atlasTexture != null) { Flush(); }
-
-                // Change atlas texture
-                _atlasTexture = atlasTexture;
-                _atlasTextureDirty = true;
-            }
+            RequestTextureInformation(texture, out var atlasIndex, out var atlasRect);
+            MapAndEncodeUV(texture, atlasIndex, ref uvRect, atlasRect);
 
             // Combine composite with local transform
             Matrix.Multiply(CompositeMatrix, matrix, ref matrix);
@@ -216,18 +212,6 @@ namespace Heirloom.Drawing.OpenGLES
             mesh = _clipMesh;
         }
 
-        public override void SetUniform<T>(string name, T value)
-        {
-            var uniform = Shader.GetUniform(name);
-
-            // Update uniform
-            _modifiedUniforms[uniform.Location] = new UniformData
-            {
-                Uniform = uniform,
-                Value = value
-            };
-        }
-
         #region Stencil Methods
 
         public override void ClearMask()
@@ -285,7 +269,7 @@ namespace Heirloom.Drawing.OpenGLES
                 GLES.StencilFunction(StencilFunction.Always, _stencilReference, 0xFF);
 
                 // Store alpha cutoff
-                _alphaCutoff = alphaCutoff;
+                _uAlphaCutoff = alphaCutoff;
             });
         }
 
@@ -310,7 +294,7 @@ namespace Heirloom.Drawing.OpenGLES
                 GLES.StencilOperation(StencilOperation.Keep, StencilOperation.Keep, StencilOperation.Keep);
 
                 // Disable alpha cutoff
-                _alphaCutoff = float.MinValue;
+                _uAlphaCutoff = float.MinValue;
             });
         }
 
@@ -381,19 +365,6 @@ namespace Heirloom.Drawing.OpenGLES
 
                     if (StateFlags != 0) // state has been changed!
                     {
-                        // Update each aspect if the respective flag is set
-                        if (StateFlags.HasFlag(StateDirtyFlags.Blending))
-                        {
-                            StateFlags &= ~StateDirtyFlags.Blending;
-                            UpdateBlending();
-                        }
-
-                        if (StateFlags.HasFlag(StateDirtyFlags.Viewport))
-                        {
-                            StateFlags &= ~StateDirtyFlags.Viewport;
-                            UpdateViewport();
-                        }
-
                         if (StateFlags.HasFlag(StateDirtyFlags.Surface))
                         {
                             StateFlags &= ~StateDirtyFlags.Surface;
@@ -405,25 +376,48 @@ namespace Heirloom.Drawing.OpenGLES
                             StateFlags &= ~StateDirtyFlags.Shader;
                             UpdateShader();
                         }
+
+                        if (StateFlags.HasFlag(StateDirtyFlags.Viewport))
+                        {
+                            StateFlags &= ~StateDirtyFlags.Viewport;
+                            UpdateViewport();
+                        }
+
+                        // Update each aspect if the respective flag is set
+                        if (StateFlags.HasFlag(StateDirtyFlags.Blending))
+                        {
+                            StateFlags &= ~StateDirtyFlags.Blending;
+                            UpdateBlending();
+                        }
                     }
 
                     // Commit changes to atlas
                     _atlas.Commit();
 
-                    // todo: a more sophisticated way to use texture units?
-                    if (_atlasTextureDirty)
+                    if (_texturesDirty)
                     {
-                        GLES.ActiveTexture(0);
-                        _atlasTexture.Bind();
-                        _atlasTextureDirty = false;
+                        // Bind each texture unit
+                        var uniform = Shader.GetUniform("uSamplers[0]");
+                        foreach (var unit in _textures.Values)
+                        {
+                            unit.Texture.BindActive((uint) unit.Index);
+                            GLES.Uniform1(uniform.Location + unit.Index, unit.Index);
+                        }
+
+                        _texturesDirty = false;
                     }
 
-                    // Update uniforms
-                    foreach (var data in _modifiedUniforms.Values) { UpdateUniform(data.Uniform, data.Value); }
-                    _modifiedUniforms.Clear();
+                    // Update shader uniforms
+                    var esShader = Backend.GetNativeObject<ESShaderProgram>(Shader);
+                    foreach (var uniform in esShader.UpdateUniforms(Shader.Version, Shader.Uniforms))
+                    {
+                        Log.Warning($"[Updating Uniform] {uniform.Name} -> {uniform.Value}");
+                        UpdateUniform(uniform, uniform.Value);
+                    }
 
-                    // Update the alpha cutoff uniform
-                    UpdateUniform(Shader.GetUniform("uAlphaCutoff"), _alphaCutoff);
+                    // Update system uniforms
+                    UpdateUniform("uProjection", _uProjectionMatrix);
+                    UpdateUniform("uAlphaCutoff", _uAlphaCutoff);
 
                     // Commit drawing operations
                     _batch.Commit();
@@ -452,8 +446,7 @@ namespace Heirloom.Drawing.OpenGLES
                 GLES.SetScissor(x, y, w, h);
 
                 // Compute projection matrix to convert from pixel space to normalized coordinates
-                var projectionMatrix = Matrix.RectangleProjection(0, 0, Viewport.Width, Viewport.Height);
-                SetUniform("uProjection", projectionMatrix);
+                _uProjectionMatrix = Matrix.RectangleProjection(0, 0, Viewport.Width, Viewport.Height);
             }
 
             void UpdateSurface()
@@ -477,8 +470,10 @@ namespace Heirloom.Drawing.OpenGLES
 
             void UpdateShader()
             {
-                // Begin use of this shader program
+                // Get the native shader object
                 var esShader = Backend.GetNativeObject<ESShaderProgram>(Shader);
+
+                // Begin use of this shader program
                 GLES.UseProgram(esShader.Handle);
 
                 // Bind uniform buffers
@@ -526,11 +521,10 @@ namespace Heirloom.Drawing.OpenGLES
             }
         }
 
-        private struct UniformData
+        private unsafe void UpdateUniform(string name, object value)
         {
-            public Uniform Uniform;
-
-            public object Value;
+            var uniform = Shader.GetUniform(name);
+            UpdateUniform(uniform, value);
         }
 
         private unsafe void UpdateUniform(Uniform uniform, object value)
@@ -857,6 +851,11 @@ namespace Heirloom.Drawing.OpenGLES
                     {
                         GLES.Uniform4(location, arr);
                     }
+                    // Float Array
+                    else if (value is Texture tex)
+                    {
+                        AssignTextureUniform(location, tex);
+                    }
                     else
                     {
                         goto BadUniformException;
@@ -900,37 +899,42 @@ namespace Heirloom.Drawing.OpenGLES
 
                 #endregion
 
-                case UniformType.Image:
+                // todo: sampler2D itself is not allowable... but we hide/batch/encode texture lookups within uv rects.
+                //       should images be detected by name? ie, anything matching a pattern of "uNameImageRect"
+                //       or image uniforms be detected by vec4's but then incoming value type is Texture..?
+                case UniformType.Sampler2D:
                 {
                     if (value is Texture texture)
                     {
-                        // Get the texture information for this image source
-                        RequestTextureInformation(texture, out var esTexture, out var uvRect);
+                        //// Get the texture information for this image source
+                        //RequestTextureInformation(texture, out var esTexture, out var uvRect);
 
-                        // Get texture unit for sampler2D uniform.
-                        var unit = Shader.GetTextureUnit(uniform.Name);
+                        //// Get texture unit for sampler2D uniform.
+                        //var unit = Shader.GetTextureUnit(uniform.Name);
 
-                        // Shader should reserve X of the N allowable texture units available
-                        // on the executing hardware. Thus if a shader requires the use of two
-                        // textures it would claim two of the units available and prevent their
-                        // use from the batching mechanism.
+                        //// Shader should reserve X of the N allowable texture units available
+                        //// on the executing hardware. Thus if a shader requires the use of two
+                        //// textures it would claim two of the units available and prevent their
+                        //// use from the batching mechanism.
 
-                        // todo: Associate uniform with texture unit
-                        GLES.Uniform1(location, unit);
+                        //// todo: Associate uniform with texture unit
+                        //GLES.Uniform1(location, unit);
 
-                        // Bind texture
-                        // todo: only do this if the texture isn't already mapped
-                        GLES.ActiveTexture(unit);
-                        esTexture.Bind();
+                        //// Bind texture
+                        //// todo: only do this if the texture isn't already mapped
+                        //GLES.ActiveTexture(unit);
+                        //esTexture.Bind();
 
-                        // Check if associated atlas rectangle (uvrect) exists. If it
-                        // does then we need to set that as well.
-                        var uvRectUniformName = GetAtlasRectUniformName(uniform.Name);
-                        if (Shader.HasUniform(uvRectUniformName))
-                        {
-                            var uvRectUniform = Shader.GetUniform(uvRectUniformName);
-                            UpdateUniform(uvRectUniform, uvRect);
-                        }
+                        //// Check if associated atlas rectangle (uvrect) exists. If it
+                        //// does then we need to set that as well.
+                        //var uvRectUniformName = GetAtlasRectUniformName(uniform.Name);
+                        //if (Shader.HasUniform(uvRectUniformName))
+                        //{
+                        //    var uvRectUniform = Shader.GetUniform(uvRectUniformName);
+                        //    UpdateUniform(uvRectUniform, uvRect);
+                        //}
+
+                        throw new NotImplementedException("Unable to use samplers directly. Use vec4 instead for use with the atlas system.");
                     }
                     else
                     {
@@ -949,26 +953,20 @@ namespace Heirloom.Drawing.OpenGLES
             throw new InvalidOperationException($"Unable to update uniform '{uniform.Name}' " +
                 $"({uniform.Type}{uniform.Dimensions}[{uniform.ArraySize}]) to mismatched type {value.GetType()}.");
 
-            static string GetAtlasRectUniformName(string uniform)
+            void AssignTextureUniform(int location, Texture texture)
             {
-                var suffix = "_UVRect";
+                throw new NotImplementedException("Currently unable to update uvrect-style uniforms.");
 
-                // Check if uniform name is an array (ie, 'uImage[2]')
-                var lastBracket = uniform.LastIndexOf('[');
-                if (lastBracket >= 0)
-                {
-                    // Extract non-array name (ie 'uImage' )
-                    var name = uniform.Substring(0, lastBracket);
-                    var index = uniform.Substring(lastBracket);
+                // Request information / associate texture unit
+                var uvRect = Rectangle.One;
+                RequestTextureInformation(texture, out var atlasIndex, out var atlasRect);
+                MapAndEncodeUV(texture, atlasIndex, ref uvRect, atlasRect);
 
-                    // Combine name with suffix (ie 'uImage_UVRect[2]')
-                    return name + suffix + index;
-                }
-                else
-                {
-                    // Combine name with suffix (ie 'uImage_UVRect')
-                    return uniform + suffix;
-                }
+                // Update uniform
+                // Note: If the residence of the texture changse, this uniform will need to change
+                // Intuituvely the uniform shouldn't change...
+                // todo: replace shader uniform system with an even more inuitive API...
+                GLES.Uniform4(location, uvRect.X, uvRect.Y, uvRect.Width, uvRect.Height);
             }
         }
 
@@ -982,40 +980,62 @@ namespace Heirloom.Drawing.OpenGLES
             Both = 3
         }
 
-        private void MapAndEncodeUV(Texture texture, ref Rectangle uvRect, Rectangle atlasRect)
+        private TextureUnit AssociateTextureUnit(ESTexture texture)
         {
-            // Map incoming uv region to the atlas region (0.0 to 1.0)
-            uvRect.X = atlasRect.X + (uvRect.X * atlasRect.Width);
-            uvRect.Y = atlasRect.Y + (uvRect.Y * atlasRect.Height);
-            uvRect.Width *= atlasRect.Width;
-            uvRect.Height *= atlasRect.Height;
+            if (_textures.TryGetValue(texture, out var unit))
+            {
+                // Texture is already known
+                return unit;
+            }
+            else
+            {
+                // Mark texture bindings as dirty. We will need to update them now.
+                // todo: Can probably optimize with a flag per unit to prevent needless glBind calls?
+                _texturesDirty = true;
 
-            // A simple meta data encoding trick. Because the UV rectangle describes a
-            // zero-to-one domain, we can use integers values to encode special meaning
-            // into each component of the rect and return it to a zero origin value
-            // - X component encodes interpolation mode
-            // - Y component encodes repeat mode
-            // - Z component encodes the atlas page
-            // - W component encodes vertical flip (to compensate for framebuffers).
-            uvRect.X += (float) texture.Interpolation;
-            uvRect.Y += (float) texture.Repeat;
-            // uvRect.Width += (float) esTexture.AtlasPage;
-            // uvRect.Height += (float) flipMode;
+                // We need a new texture unit. If we have reached the capacity of
+                // the texture units. Flush and start a new batch.
+                var index = _textures.Count;
+                if (index == MaxTextureCount)
+                {
+                    // Commit all pending work
+                    Flush();
+
+                    // Purge texture unit information
+                    _textures.Clear();
+                    index = 0;
+                }
+
+                // Create new unit information 
+                unit = new TextureUnit(texture, index);
+
+                // Store and return texture unit info
+                _textures[texture] = unit;
+                return unit;
+            }
         }
 
-        private void RequestTextureInformation(Texture texture, out ESTexture atlasTexture, out Rectangle atlasRect)
+        private void RequestTextureInformation(Texture texture, out int atlasIndex, out Rectangle atlasRect)
         {
             if (texture is Image image)
             {
+                ESTexture atlasTexture;
+
+                // Try to use the image via system atlas
                 while (!_atlas.Submit(image, out atlasTexture, out atlasRect))
                 {
                     // Unable to submit new image to atlas, we need to flush
                     // all pending work that depends on the current state of the atlas.
                     Flush();
 
-                    // Evict atlas, we need space for this new texture.
-                    _atlas.Evict();
+                    // Current atlas allocation is unable to contain this texture, we need
+                    // to request more space for this new texture. This may allocate a new page
+                    // or evict an existing one based on memory constraints.
+                    _atlas.GetMoreMemory();
                 }
+
+                // Associate the atlas texture with some texture unit
+                atlasIndex = AssociateTextureUnit(atlasTexture).Index;
             }
             else if (texture is Surface surface)
             {
@@ -1028,8 +1048,8 @@ namespace Heirloom.Drawing.OpenGLES
                     Invoke(() => esSurface.BlitToTexture());
                 }
 
-                // 
-                atlasTexture = esSurface.Texture;
+                // Emit atlas information
+                atlasIndex = AssociateTextureUnit(esSurface.Texture).Index;
                 atlasRect = (0, 0, 1, 1 + (int) AtlasFlipMode.Vertical);
             }
             else if (texture == null)
@@ -1042,6 +1062,28 @@ namespace Heirloom.Drawing.OpenGLES
                 // fatal error?!
                 throw new ArgumentException("Texture object was not of a known type.", nameof(texture));
             }
+        }
+
+        private static void MapAndEncodeUV(Texture texture, int atlasIndex, ref Rectangle uvRect, Rectangle atlasRect)
+        {
+            // Map incoming uv region to the atlas region (0.0 to 1.0)
+            uvRect.X = atlasRect.X + (uvRect.X * atlasRect.Width);
+            uvRect.Y = atlasRect.Y + (uvRect.Y * atlasRect.Height);
+            uvRect.Width *= atlasRect.Width;
+            uvRect.Height *= atlasRect.Height;
+
+            // A simple meta data encoding trick. Because the UV rectangle describes a
+            // zero-to-one domain, we can use integers values to encode special meaning
+            // into each component of the rect and return it to a zero origin value
+            // - X component encodes interpolation mode
+            // - Y component encodes repeat mode
+            // - Z component encodes the texture unit to use1
+            // - W component encodes vertical flip (to compensate for framebuffers).
+
+            uvRect.X += (float) texture.Interpolation;
+            uvRect.Y += (float) texture.Repeat;
+            uvRect.Width += atlasIndex;
+            // uvRect.Height += (float) flipMode;
         }
 
         #endregion
@@ -1057,6 +1099,18 @@ namespace Heirloom.Drawing.OpenGLES
                     _ => throw new InvalidOperationException($"Unable to generate native reresentation of {resource}"),
                 };
             });
+        }
+
+        private class TextureUnit
+        {
+            public ESTexture Texture;
+            public int Index;
+
+            public TextureUnit(ESTexture texture, int index)
+            {
+                Texture = texture ?? throw new ArgumentNullException(nameof(texture));
+                Index = index;
+            }
         }
     }
 }

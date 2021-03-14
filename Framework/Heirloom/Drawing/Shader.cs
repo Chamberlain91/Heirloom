@@ -15,14 +15,13 @@ namespace Heirloom.Drawing
         private const string DefaultFragmentPath = "embedded/shaders/default.frag";
         private const string DefaultVertexPath = "embedded/shaders/default.vert";
 
-        internal readonly bool IsDefaultShader;
-
         internal readonly string VertSource;
-
         internal readonly string FragSource;
 
-        private readonly Dictionary<string, Uniform> _uniforms;
-        private readonly Dictionary<string, uint> _units;
+        internal readonly bool IsDefaultShader;
+
+        private readonly Dictionary<string, Uniform> _uniformLookup;
+        private readonly List<Uniform> _uniforms;
 
         #region Constructors
 
@@ -45,43 +44,44 @@ namespace Heirloom.Drawing
                 throw new InvalidOperationException($"Graphics backend does not support custom shaders.");
             }
 
-            // Validate paths
+            // Validate shader paths
             ValidateExtension(vertPath, ".vert", "Vertex shader must have a '.vert' extension.");
             ValidateExtension(fragPath, ".frag", "Fragment shader must have a '.frag' extension.");
 
-            // Load shader source (handles preprocessor, etc)
-            VertSource = ShaderFactory.LoadSource(vertPath, defines, true);
-            FragSource = ShaderFactory.LoadSource(fragPath, defines, true);
-
             // If custom shaders are supported, compile this shader. If custom shaders
-            // are not supported, this must the 'default shader' and we can just skip compilation.
-            Uniforms = Array.Empty<Uniform>();
+            // are not supported, this must the 'default shader' and we can just skip compilation. 
             if (GraphicsBackend.Current.SupportsCustomShaders)
             {
+                // Load shader source (handles preprocessor, etc)
+                VertSource = ShaderFactory.LoadSource(vertPath, defines, true);
+                FragSource = ShaderFactory.LoadSource(fragPath, defines, true);
+
+                // Create uniform data structures 
+                _uniformLookup = new Dictionary<string, Uniform>();
+                _uniforms = new List<Uniform>();
+
                 // Compile shader immedately (blocking call).
                 // This returns the uniforms (ie, shader variables) discovered during compilation.
-                Uniforms = GraphicsBackend.Current?.CompileShader(this);
+                foreach (var uniform in GraphicsBackend.Current?.CompileShader(this))
+                {
+                    // Store uniform info
+                    _uniformLookup[uniform.Name] = uniform;
+                    _uniforms.Add(uniform);
+                }
             }
 
-            // Store uniforms by name
-            _uniforms = new Dictionary<string, Uniform>();
-            _units = new Dictionary<string, uint>();
-            foreach (var uniform in Uniforms)
+            static void ValidateExtension(string path, string ext, string message)
             {
-                // Store by name
-                _uniforms[uniform.Name] = uniform;
-
-                // Map samplers to some unit
-                if (uniform.Type == UniformType.Image)
+                if (!string.Equals(Path.GetExtension(path), ext, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    _units[uniform.Name] = (uint) _units.Count;
+                    throw new ArgumentException(message);
                 }
             }
         }
 
         private static string GetVertexPath(string path)
         {
-            return (Path.GetExtension(path).ToLower()) switch
+            return Path.GetExtension(path).ToLower() switch
             {
                 ".vert" => path,
                 ".frag" => DefaultVertexPath,
@@ -91,7 +91,7 @@ namespace Heirloom.Drawing
 
         private static string GetFragmentPath(string path)
         {
-            return (Path.GetExtension(path).ToLower()) switch
+            return Path.GetExtension(path).ToLower() switch
             {
                 ".vert" => DefaultFragmentPath,
                 ".frag" => path,
@@ -99,23 +99,15 @@ namespace Heirloom.Drawing
             };
         }
 
-        private static void ValidateExtension(string path, string ext, string message)
-        {
-            if (!string.Equals(Path.GetExtension(path), ext, StringComparison.InvariantCultureIgnoreCase))
-            {
-                throw new ArgumentException(message);
-            }
-        }
-
         #endregion
 
         #region Uniforms
 
-        internal IReadOnlyList<Uniform> Uniforms { get; private set; }
+        internal IReadOnlyList<Uniform> Uniforms => _uniforms;
 
         internal Uniform GetUniform(string name)
         {
-            if (_uniforms.TryGetValue(name, out var uniform))
+            if (_uniformLookup.TryGetValue(name, out var uniform))
             {
                 return uniform;
             }
@@ -125,20 +117,39 @@ namespace Heirloom.Drawing
             }
         }
 
-        internal bool HasUniform(string name)
+        /// <summary>
+        /// Sets a new value for the specified uniform.
+        /// </summary>
+        public void SetUniform<T>(string name, T value)
+        // todo: figure out how to work with arrays/structs?
         {
-            return _uniforms.ContainsKey(name);
-        }
-
-        internal uint GetTextureUnit(string name)
-        {
-            if (_units.TryGetValue(name, out var unit))
+            if (_uniformLookup.TryGetValue(name, out var uniform))
             {
-                return unit;
+                // Update shader version (to detect changes)
+                IncrementVersion();
+
+                // Update uniform value
+                uniform.Version.Increment();
+                uniform.Value = value;
             }
             else
             {
-                throw new KeyNotFoundException($"Unable to find sampler2D uniform named '{name}'.");
+                throw new KeyNotFoundException($"Unable to find uniform named '{name}'.");
+            }
+        }
+
+        /// <summary>
+        /// Gets the latest value known for the specified uniform.
+        /// </summary>
+        public T GetUniform<T>(string name)
+        {
+            if (_uniformLookup.TryGetValue(name, out var uniform))
+            {
+                return (T) uniform.Value;
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Unable to find uniform named '{name}'.");
             }
         }
 

@@ -2,8 +2,12 @@ using Heirloom.Mathematics;
 
 namespace Heirloom.Drawing
 {
-    public sealed class Uniform
+    internal sealed class Uniform
     {
+        internal readonly Version Version = new Version();
+
+        internal object Value;
+
         internal Uniform(int location, string name, UniformType type, IntSize dimensions, int arraySize)
         {
             Location = location;

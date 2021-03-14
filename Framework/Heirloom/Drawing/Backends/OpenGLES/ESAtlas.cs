@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using Heirloom.Mathematics;
 
@@ -17,6 +17,6 @@ namespace Heirloom.Drawing.OpenGLES
 
         public abstract void Commit();
 
-        public abstract void Evict();
+        public abstract void GetMoreMemory();
     }
 }

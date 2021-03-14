@@ -1,5 +1,7 @@
 using System;
 
+using Heirloom.Mathematics;
+
 namespace Heirloom
 {
     /// <summary>
@@ -53,7 +55,8 @@ namespace Heirloom
         /// </summary>
         public static string GetEnglishTime(float duration, string numberFormat = "N1")
         {
-            if (duration >= WeekAsSeconds) { return str(TimeUnit.Week); }
+            if (Calc.NearZero(duration)) { return str(TimeUnit.Second); }
+            else if (duration >= WeekAsSeconds) { return str(TimeUnit.Week); }
             else if (duration >= DayAsSeconds) { return str(TimeUnit.Day); }
             else if (duration >= HourAsSeconds) { return str(TimeUnit.Hour); }
             else if (duration >= MinuteAsSeconds) { return str(TimeUnit.Minute); }
@@ -71,7 +74,7 @@ namespace Heirloom
             {
                 // 
                 var time = Convert(duration, TimeUnit.Second, unit);
-                var timeName = GetTimeName(unit, time > 1F);
+                var timeName = GetTimeName(unit, time > 1F || Calc.NearZero(time));
 
                 return $"{time.ToString(numberFormat)} {timeName}";
             }
@@ -123,7 +126,7 @@ namespace Heirloom
         /// <summary>
         /// Gets a human readable format for the given time and unit.
         /// </summary>
-        public static string GetTimeString(float duration, TimeUnit unit)
+        public static string GetEnglishTime(float duration, TimeUnit unit)
         {
             var seconds = Convert(duration, unit, TimeUnit.Second);
             return GetEnglishTime(seconds);

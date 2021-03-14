@@ -56,7 +56,7 @@ namespace Heirloom
             var right = _x + size.Width;
 
             // Will the insert exceed the right boundary?
-            if (right >= Size.Width)
+            if (right > Size.Width)
             {
                 // Perform a "newline"
                 _y = _next;

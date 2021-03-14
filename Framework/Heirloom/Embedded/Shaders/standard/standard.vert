@@ -14,22 +14,12 @@ in vec4   aColor;
 
 // == Output (Fragment Shader) ==
 
-out vec4 uMainImage_UVRect;
+out vec4 uMainImageRect;
 out PerFragment frag;
 
 // == Uniforms ==
  
 uniform mat2x3 uProjection;
-uniform bool uPixelPerfect;
-
-// == Helper Functions ==
-
-vec3 _H_SnapPixel(vec3 position) 
-{
-	// position.x = int(position.x);
-	// position.y = int(position.y);
-	return position;
-}
 
 // == Vertex Shader ==
 
@@ -42,16 +32,11 @@ void main()
 	vec3 vPosition = vec3(vertexProgram(aPosition), 1.0);
 	     vPosition = vec3(vPosition * aTransform, 1.0);
 	
-	// If specified, snap to pixel space
-	if (uPixelPerfect) {
-		vPosition = _H_SnapPixel(vPosition); 
-	}
-	
 	// Transform from pixel space to normalized space
 	vPosition = vec3(vPosition * uProjection, 1.0);
 	
 	// Emit atlas transform rect
-	uMainImage_UVRect = aAtlasRect;
+	uMainImageRect = aAtlasRect;
 
 	// Emit per fragment values
 	frag.color = aColor; 

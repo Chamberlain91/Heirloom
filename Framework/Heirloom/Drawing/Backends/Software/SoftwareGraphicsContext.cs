@@ -200,11 +200,6 @@ namespace Heirloom.Drawing.Software
             }
         }
 
-        public override void SetUniform<T>(string name, T value)
-        {
-            throw new NotImplementedException("Unable to set uniforms on software context");
-        }
-
         public override void ClearMask()
         {
             _stencilWrite = false;

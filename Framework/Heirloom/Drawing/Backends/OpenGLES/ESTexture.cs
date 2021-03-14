@@ -76,6 +76,15 @@ namespace Heirloom.Drawing.OpenGLES
         }
 
         /// <summary>
+        /// Change the active texture unit and bind this texture.
+        /// </summary>
+        public void BindActive(uint unit)
+        {
+            GLES.ActiveTexture(unit);
+            Bind();
+        }
+
+        /// <summary>
         /// Submits new image data to the texture.
         /// </summary>
         public unsafe void Update(int x, int y, Image image)

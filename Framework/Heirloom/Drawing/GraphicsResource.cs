@@ -2,7 +2,6 @@ using System;
 
 namespace Heirloom.Drawing
 {
-
     public abstract class GraphicsResource : IDisposable
     {
         private IDisposable[] _contextObjects = Array.Empty<IDisposable>();

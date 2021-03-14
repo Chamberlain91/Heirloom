@@ -1,9 +1,9 @@
-﻿namespace Heirloom.Drawing
+namespace Heirloom.Drawing
 {
     /// <summary>
     /// Represents the type of a uniform in a <see cref="Shader"/>.
     /// </summary>
-    public enum UniformType
+    internal enum UniformType
     {
         /// <summary>
         /// The uniform is a float type.
@@ -28,6 +28,6 @@
         /// <summary>
         /// The uniform is a image (ie, sampler2D) type.
         /// </summary>
-        Image
+        Sampler2D
     }
 }

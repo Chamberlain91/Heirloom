@@ -93,7 +93,7 @@ namespace Heirloom.Drawing.OpenGLES
                         return UniformType.UnsignedInteger;
 
                     case ActiveUniformType.Sampler2D:
-                        return UniformType.Image;
+                        return UniformType.Sampler2D;
 
                     default:
                         throw new NotSupportedException($"Unable to extract type, uniform type '{uniform.Type}' is not supported.");
@@ -190,9 +190,11 @@ namespace Heirloom.Drawing.OpenGLES
 
         protected override GraphicsCapabilities GetGraphicsCapabilities()
         {
+            // Textures will be intentionally limited to at most 64 megabytes (4096^2 * 4)
+
             return new GraphicsCapabilities
             {
-                MaxTextureSize = GLES.GetInteger(GetParameter.MaxTextureSize),
+                MaxTextureSize = Calc.Min(4096, GLES.GetInteger(GetParameter.MaxTextureSize)),
                 MaxSupportedMultisample = (MultisampleQuality) GLES.GetInteger(GetParameter.MaxSamples)
             };
         }

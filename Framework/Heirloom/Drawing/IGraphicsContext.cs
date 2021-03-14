@@ -4,22 +4,24 @@ using Heirloom.Mathematics;
 
 namespace Heirloom.Drawing
 {
-    public interface IGraphicsContext
+    internal interface IGraphicsContext
     {
-        // Object State
+        // Object State (Batch Safe)
         Matrix Transform { get; set; }
-        BlendingMode BlendingMode { get; set; }
-        Shader Shader { get; }
         Color Color { get; set; }
 
-        // View State
+        // Object State (Batch Break)
+        BlendingMode Blending { get; set; }
+        Shader Shader { get; set; }
+
+        // View State (Batch Break)
         Surface Surface { get; set; }
         View View { get; set; }
 
         // Performance metrics
         GraphicsPerformance Performance { get; }
 
-        IScreen Screen { get; } // todo: may remove
+        IScreen Screen { get; }
 
         // todo: consider if its now possible to neglect GraphicsContext and perform drawing commands directly on a surface?
         //       ie, surface.Clear()... surface.DrawLine()
@@ -28,28 +30,23 @@ namespace Heirloom.Drawing
         void PushState();
         void PopState();
 
-        void SetShader(Shader shader);            // todo: or setter in property?
-        void SetUniform<T>(string name, T value); // todo: perhaps a dict in the shader object?
-
-        Image GrabPixels(IntRectangle region);
-        Image GrabPixels();
-
-        void Clear(Color color);
-
         void BeginStencil();
         void EndStencil();
         void ClearStencil();
+
+        void Clear(Color color);
 
         void Draw(Mesh mesh, Texture texture, Rectangle uvRegion, Matrix matrix); // fundamental draw method
         void Draw(Mesh mesh, Texture texture, Rectangle uvRegion); // todo: ???
         void Draw(Mesh mesh, Texture texture, Matrix matrix);
         void Draw(Mesh mesh, Texture texture); // todo: ???
 
+        Image GrabPixels(IntRectangle region);
+        Image GrabPixels();
+
         void Commit();
 
         void Dispose();
-
-        #region Drawing Implementation
 
         #region Draw Line
 
@@ -94,9 +91,29 @@ namespace Heirloom.Drawing
 
         #endregion
 
-        // todo: Draw Polygon
-        // todo: Draw Regular Polygon
-        // todo: Draw Circle
+        #region Draw Polygon
+
+        void DrawPolygon(Polygon polygon, Matrix matrix);
+        void DrawPolygon(IEnumerable<Vector> polygon, Matrix matrix);
+
+        void DrawPolygonOutline(Polygon polygon, Matrix matrix, float width = 1F);
+        void DrawPolygonOutline(IEnumerable<Vector> polygon, Matrix matrix, float width = 1F);
+
+        #endregion
+
+        #region Draw Regular Polygon
+
+        void DrawRegularPolygon(Vector center, int sides, Matrix matrix);
+        void DrawRegularPolygonOutline(Vector center, int sides, Matrix matrix, float width = 1F);
+
+        #endregion
+
+        #region Draw Circle
+
+        void DrawCircle(Vector center, Matrix matrix);
+        void DrawCircleOutline(Vector center, int sides, Matrix matrix, float width = 1F);
+
+        #endregion
 
         #region Draw Rectangle
 
@@ -122,7 +139,30 @@ namespace Heirloom.Drawing
         void DrawCross(Vector center, float size = 3, float width = 1);
 
         #endregion
-
-        #endregion
     }
+
+    //public readonly struct Transform
+    //{
+    //    public readonly Matrix Matrix;
+
+    //    public Transform(Matrix matrix)
+    //    {
+    //        Matrix = matrix;
+    //    }
+
+    //    public static implicit operator Matrix(Transform transform)
+    //    {
+    //        return transform.Matrix;
+    //    }
+
+    //    public static implicit operator Transform(Matrix transform)
+    //    {
+    //        return new Transform(transform);
+    //    }
+
+    //    public static implicit operator Transform(Vector translation)
+    //    {
+    //        return Matrix.CreateTranslation(translation);
+    //    }
+    //}
 }

@@ -24,7 +24,7 @@ namespace Heirloom.Drawing
         /// <summary>
         /// The max allowable image size for any dimension.
         /// </summary>
-        public const int MaxImageDimension = 8192;
+        public static int MaxImageDimension => GraphicsBackend.Current?.Capabilities.MaxTextureSize ?? 4096;
 
         /// <summary>
         /// The underlying pixel data.

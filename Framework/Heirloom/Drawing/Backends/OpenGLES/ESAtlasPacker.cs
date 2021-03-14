@@ -9,22 +9,21 @@ namespace Heirloom.Drawing.OpenGLES
     internal sealed class ESAtlasPacker : ESAtlas
     {
         private readonly ConditionalWeakTable<Image, AtlasEntry> _entries;
-        private readonly AtlasPage _page;
+        private readonly List<AtlasPage> _pages = new List<AtlasPage>();
 
         public ESAtlasPacker(ESGraphicsContext context)
             : base(context)
         {
             _entries = new ConditionalWeakTable<Image, AtlasEntry>();
 
-            // Create packer - it will be at most 64 megabytes (4096^2 * 4 bytes)
-            var pageSize = Calc.Min(4096, GraphicsBackend.Current.Capabilities.MaxTextureSize);
-
-            // Allocate texture
-            var textureSize = new IntSize(pageSize, pageSize);
-            var texture = Context.Invoke(() => new ESTexture(textureSize, TextureSizedFormat.RGBA8));
-
             // Allocate new atlas page
-            _page = new AtlasPage(texture);
+            AllocateAtlasPage();
+        }
+
+        private void AllocateAtlasPage()
+        {
+            Log.Debug("Allocating Virtual Texture Page");
+            _pages.Add(new AtlasPage(Context));
         }
 
         private AtlasEntry GetAtlasEntry(Image image)
@@ -73,8 +72,16 @@ namespace Heirloom.Drawing.OpenGLES
 
         private bool SubmitImage(AtlasEntry entry)
         {
-            // todo: multiple pages
-            return _page.Insert(entry);
+            foreach (var page in _pages)
+            {
+                if (page.Insert(entry))
+                {
+                    return true;
+                }
+            }
+
+            // Failed to insert in every page
+            return false;
         }
 
         /// <summary>
@@ -82,12 +89,28 @@ namespace Heirloom.Drawing.OpenGLES
         /// </summary>
         public override void Commit()
         {
-            _page.Commit();
+            foreach (var page in _pages)
+            {
+                page.Commit();
+            }
+
+            // todo: dispose unused or overly-fragmented pages
         }
 
-        public override void Evict()
+        public override void GetMoreMemory()
         {
-            _page.Evict();
+            if (_pages.Count > 8) // todo: keep a maximal amount based on vram?
+            {
+                // For now, trash a random page.
+                // todo: evict least recently used or something else?
+                var page = _pages[Calc.Random.Next(0, _pages.Count)];
+                page.Evict();
+            }
+            else
+            {
+                // Ran out of space, allocate another page
+                AllocateAtlasPage();
+            }
         }
 
         private class AtlasPage
@@ -97,10 +120,13 @@ namespace Heirloom.Drawing.OpenGLES
 
             private readonly HashSet<AtlasEntry> _changes = new HashSet<AtlasEntry>();
 
-            public AtlasPage(ESTexture texture)
+            public AtlasPage(ESGraphicsContext context)
             {
-                Packer = new SkylinePacker<AtlasEntry>(texture.Size);
-                Texture = texture;
+                var pageSize = GraphicsBackend.Current.Capabilities.MaxTextureSize;
+
+                // Allocate texture
+                Texture = context.Invoke(() => new ESTexture((pageSize, pageSize), TextureSizedFormat.RGBA8));
+                Packer = new SkylinePacker<AtlasEntry>(Texture.Size);
             }
 
             public void MarkDirty(AtlasEntry entry)

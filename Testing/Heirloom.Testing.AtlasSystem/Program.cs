@@ -13,6 +13,16 @@ namespace Heirloom.Testing.AtlasSystem
     {
         public RectanglePacker<int> Packer;
         public List<IntSize> Boxes;
+        public int Total;
+
+        private static readonly Experiment[] _experiments = new[]
+        {
+            GenerateTileset(),
+            GenerateRandomSmall(),
+            GenerateRandomLarge(),
+            GenerateRandomAll(),
+            GenerateSynthetic()
+        };
 
         private readonly Stopwatch _sw = new Stopwatch();
 
@@ -22,44 +32,46 @@ namespace Heirloom.Testing.AtlasSystem
 
             var sw = new Stopwatch();
 
-            var times = new List<(int x, float y)>();
+            const int Iterations = 10;
 
-            var inc = 200;
-            for (var c = inc; c < 15000; c += inc)
+            var wasted = new float[Iterations];
+            var time = new float[Iterations];
+
+            // 
+            foreach (var experiment in _experiments)
             {
-                const int Iterations = 100;
-                inc = inc * 3 / 2;
+                Log.Info($"{experiment.Name} ({experiment.Items.Count()})");
 
-                var wasted = new float[Iterations];
-                var time = new float[Iterations];
-
-                for (var i = 0; i < Iterations; i++)
+                foreach (var sort in new[] { false, true })
                 {
-                    ClearPacker(c);
-                    sw.Restart();
+                    for (var i = 0; i < Iterations; i++)
+                    {
+                        // Prepare packer
+                        ClearPacker(experiment, sort);
+                        sw.Restart();
 
-                    // Insert every element
-                    var used = InsertAllElements();
+                        // Insert every element
+                        var used = InsertAllElements();
 
-                    // Record initial time
-                    time[i] = (float) sw.Elapsed.TotalMilliseconds;
+                        // Record initial time
+                        time[i] = (float) sw.Elapsed.TotalMilliseconds;
 
-                    // Compute wasted space
-                    wasted[i] = GetWastedSpace(used);
+                        // Compute wasted space
+                        wasted[i] = GetWastedSpace(used);
+                    }
+
+                    if (sort) { Log.Info($"    Sorted"); }
+                    else { Log.Info($"    Unsorted"); }
+
+                    Log.Info($"        Waste: {Statistics.Compute(wasted):N2} %");
+                    Log.Info($"        Time:  {Statistics.Compute(time):N2} ms");
                 }
 
-                // Store mean time
-                times.Add((c / 100, time.Average()));
-
-                Log.Info($"Size: {c}");
-                Log.Info($"  Waste: {Statistics.Compute(wasted)} %");
-                Log.Info($"  Time:  {Statistics.Compute(time)} ms");
+                Log.Info(string.Empty);
             }
 
-            Log.Info(string.Join(",", times.Select(c => $"({c.x},{c.y})")));
-
             // Reset packer
-            ClearPacker(1000);
+            ClearPacker(GenerateSynthetic(), true);
 
             float GetWastedSpace(float used)
             {
@@ -72,31 +84,135 @@ namespace Heirloom.Testing.AtlasSystem
             }
         }
 
-        private void ClearPacker(int c)
+        private static Experiment GenerateTileset()
         {
-            // Generate new boxes
-            Boxes = Generate(c).ToList();
+            var size = new IntSize(Image.MaxImageDimension, Image.MaxImageDimension);
 
-            // Find maximal box height and total area
-            var maxHeight = Boxes.Max(b => b.Height);
-            var sumArea = Boxes.Sum(i => i.Area);
+            const int SizeMin = 16;
+            const int SizeMax = 16;
 
-            // Compute packer container size
-            var boxAreaW = (int) Calc.Sqrt(sumArea);
-            var boxAreaH = maxHeight * Boxes.Count;
-
-            // Create packer
-            Packer = new RectanglePacker<int>(boxAreaW, boxAreaH);
-
-            // Optimize insertion order
-            // Note: Reversed 'a' and 'b' here because we use the list like a queue from the end
-            Boxes.Sort((a, b) => Compare(b, a, Packer.Size.Width));
-
-            static IEnumerable<IntSize> Generate(int c)
+            var area = 0;
+            var maxArea = size.Area * 1.0;
+            var items = new List<IntSize>();
+            while (area < maxArea)
             {
-                for (var i = 0; i < c; i++)
+                var w = Calc.Random.Next(SizeMin, SizeMax);
+                var h = Calc.Random.Next(SizeMin, SizeMax);
+                if (area + (w * h) <= maxArea)
                 {
-                    if (Calc.Random.Chance(0.01F))
+                    items.Add(new IntSize(w, h));
+                }
+
+                area += w * h;
+            }
+
+            return new Experiment("Perfect 16x16", size, items);
+        }
+
+        private static Experiment GenerateRandomSmall()
+        {
+            var size = new IntSize(Image.MaxImageDimension, Image.MaxImageDimension);
+
+            const int SizeMin = 16;
+            const int SizeMax = 32;
+
+            var area = 0;
+            var maxArea = size.Area * 0.75;
+            var items = new List<IntSize>();
+            while (area < maxArea)
+            {
+                var w = Calc.Random.Next(SizeMin, SizeMax);
+                var h = Calc.Random.Next(SizeMin, SizeMax);
+                if (area + (w * h) <= maxArea)
+                {
+                    items.Add(new IntSize(w, h));
+                }
+
+                area += w * h;
+            }
+
+            return new Experiment($"Random Items ({SizeMin} to {SizeMax})", size, items);
+        }
+
+        private static Experiment GenerateRandomLarge()
+        {
+            var size = new IntSize(Image.MaxImageDimension, Image.MaxImageDimension);
+
+            const int SizeMin = 128;
+            const int SizeMax = 512;
+
+            var area = 0;
+            var maxArea = size.Area * 0.75;
+            var items = new List<IntSize>();
+            while (area < maxArea)
+            {
+                var w = Calc.Random.Next(SizeMin, SizeMax);
+                var h = Calc.Random.Next(SizeMin, SizeMax);
+                if (area + (w * h) <= maxArea)
+                {
+                    items.Add(new IntSize(w, h));
+                }
+
+                area += w * h;
+            }
+
+            return new Experiment($"Random Items ({SizeMin} to {SizeMax})", size, items);
+        }
+
+        private static Experiment GenerateRandomAll()
+        {
+            var size = new IntSize(Image.MaxImageDimension, Image.MaxImageDimension);
+
+            const int SizeMin = 16;
+            const int SizeMax = 256;
+
+            var area = 0;
+            var maxArea = size.Area * 0.75;
+            var items = new List<IntSize>();
+            while (area < maxArea)
+            {
+                var w = Calc.Random.Next(SizeMin, SizeMax);
+                var h = Calc.Random.Next(SizeMin, SizeMax);
+                if (area + (w * h) <= maxArea)
+                {
+                    items.Add(new IntSize(w, h));
+                }
+
+                area += w * h;
+            }
+
+            return new Experiment($"Random Items ({SizeMin} to {SizeMax})", size, items);
+        }
+
+        private static Experiment GenerateSynthetic()
+        {
+            var size = new IntSize(Image.MaxImageDimension, Image.MaxImageDimension);
+
+            var area = 0;
+            var maxArea = size.Area * 0.75;
+            var items = new List<IntSize>();
+            foreach (var item in GenerateItems())
+            {
+                if (area + item.Area < maxArea)
+                {
+                    items.Add(item);
+                }
+
+                area += item.Area;
+
+                if (area >= maxArea)
+                {
+                    break;
+                }
+            }
+
+            return new Experiment("Synthetic", size, items);
+
+            static IEnumerable<IntSize> GenerateItems()
+            {
+                while (true)
+                {
+                    if (Calc.Random.Chance(0.02F))
                     {
                         var w = (int) Calc.Random.NextFloat(200, 400);
                         var h = (int) Calc.Random.NextFloat(200, 400);
@@ -114,11 +230,28 @@ namespace Heirloom.Testing.AtlasSystem
             }
         }
 
-        public static int Compare(IntSize a, IntSize b, int packerWidth)
+        private void ClearPacker(Experiment experiment, bool sort)
         {
-            var costA = (a.Height * packerWidth) + b.Width;
-            var costB = (b.Height * packerWidth) + b.Width;
-            return costB.CompareTo(costA);
+            // Generate new boxes
+            Boxes = experiment.Items.ToList();
+            Total = Boxes.Count;
+
+            if (sort)
+            {
+                // Optimize insertion order
+                // Note: Reversed 'a' and 'b' here because we use the list like a queue from the end
+                Boxes.Sort((a, b) => Compare(b, a, experiment.Size.Width));
+            }
+
+            // Create packer
+            Packer = new RectanglePacker<int>(experiment.Size);
+
+            static int Compare(IntSize a, IntSize b, int packerWidth)
+            {
+                var costA = (a.Height * packerWidth) + b.Width;
+                var costB = (b.Height * packerWidth) + b.Width;
+                return costB.CompareTo(costA);
+            }
         }
 
         private float InsertAllElements()
@@ -126,7 +259,9 @@ namespace Heirloom.Testing.AtlasSystem
             var used = 0;
             while (Boxes.Count > 0)
             {
-                used += InsertElement();
+                var c = InsertElement();
+                if (c == 0) { break; }
+                used += c;
             }
 
             return used;
@@ -141,7 +276,7 @@ namespace Heirloom.Testing.AtlasSystem
 
             if (!Packer.TryAdd(name, size))
             {
-                Log.Error($"Unable to fit box #{name}");
+                Log.Error($"Unable to fit box. ({name} / {Total})");
                 return 0;
             }
             else
@@ -194,7 +329,7 @@ namespace Heirloom.Testing.AtlasSystem
             var shift = Input.IsKeyDown(Key.LeftShift);
             if (Input.IsKeyPressed(Key.Space, true))
             {
-                if (Boxes.Count == 0) { ClearPacker(1000); }
+                if (Boxes.Count == 0) { ClearPacker(GenerateSynthetic(), true); }
 
                 if (!shift)
                 {
@@ -229,6 +364,22 @@ namespace Heirloom.Testing.AtlasSystem
         private static void Main(string[] args)
         {
             Application.Run<Program>();
+        }
+    }
+
+    internal readonly struct Experiment
+    {
+        public readonly IntSize Size;
+
+        public readonly IEnumerable<IntSize> Items;
+
+        public readonly string Name;
+
+        public Experiment(string name, IntSize size, IEnumerable<IntSize> items)
+        {
+            Size = size;
+            Items = items;
+            Name = name;
         }
     }
 }

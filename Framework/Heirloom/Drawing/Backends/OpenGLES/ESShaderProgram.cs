@@ -12,8 +12,7 @@ namespace Heirloom.Drawing.OpenGLES
         private readonly Dictionary<string, ActiveUniformBlock> _blocks;
         private readonly Dictionary<string, uint> _blockBindings;
 
-        private readonly Dictionary<string, Uniform> _uniforms;
-        private readonly Dictionary<string, uint> _textureUnits;
+        private readonly Dictionary<string, ESUniform> _uniforms;
         private readonly Dictionary<string, int> _locations;
 
         internal readonly uint Handle;
@@ -21,8 +20,10 @@ namespace Heirloom.Drawing.OpenGLES
         internal readonly string Name;
 
         internal readonly ESShaderStage FragmentShader;
-
         internal readonly ESShaderStage VertexShader;
+
+        private readonly uint[] _uniformVersions;
+        internal uint Version;
 
         #region Constructors
 
@@ -40,16 +41,18 @@ namespace Heirloom.Drawing.OpenGLES
             _blocks = new Dictionary<string, ActiveUniformBlock>();
             _blockBindings = new Dictionary<string, uint>();
 
-            _uniforms = new Dictionary<string, Uniform>();
-            _textureUnits = new Dictionary<string, uint>();
+            _uniforms = new Dictionary<string, ESUniform>();
             _locations = new Dictionary<string, int>();
 
             // Create uniforms
             foreach (var uniform in GLES.GetActiveUniforms(Handle))
             {
                 var location = GLES.GetUniformLocation(Handle, uniform.Name);
-                _uniforms[uniform.Name] = new Uniform(uniform, location);
+                _uniforms[uniform.Name] = new ESUniform(uniform, location);
             }
+
+            // Create version storage information
+            _uniformVersions = new uint[_uniforms.Count];
 
             // For each block
             foreach (var block in GLES.GetActiveUniformBlocks(Handle))
@@ -93,9 +96,6 @@ namespace Heirloom.Drawing.OpenGLES
             }
 
             DebugPrintUniformStructure();
-
-            // 
-            ConfigureStandardUniforms();
         }
 
         ~ESShaderProgram()
@@ -109,7 +109,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         public IEnumerable<ActiveUniformBlock> Blocks => _blocks.Values;
 
-        public IEnumerable<Uniform> Uniforms => _uniforms.Values;
+        public IEnumerable<ESUniform> Uniforms => _uniforms.Values;
 
         #endregion
 
@@ -153,26 +153,27 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
-        private void ConfigureStandardUniforms()
+        internal IEnumerable<Uniform> UpdateUniforms(uint shaderVersion, IReadOnlyList<Uniform> values)
         {
-            GLES.UseProgram(Handle);
-
-            // Associate texture units with each sampler
-            var textureUnit = 0u;
-            foreach (var uniform in Uniforms.Where(u => u.BlockInfo == null).Select(u => u.Info)
-                                            .Where(uniform => uniform.Type == ActiveUniformType.Sampler2D))
+            // If a macro change in the shader...
+            if (Version != shaderVersion)
             {
-                // Store texture unit by name
-                _textureUnits[uniform.Name] = textureUnit;
+                // ...then check against each value for a change.
+                for (var i = 0; i < values.Count; i++)
+                {
+                    var uniformValue = values[i];
 
-                // Associate uniform location to unit
-                GLES.Uniform1(GetUniformLocation(uniform.Name), (int) textureUnit);
+                    // If the uniform has changed, then we should update it here.
+                    if (uniformValue.Version != _uniformVersions[i])
+                    {
+                        _uniformVersions[i] = uniformValue.Version;
+                        yield return uniformValue;
+                    }
+                }
 
-                // Increment unit
-                textureUnit++;
+                // Mark shader as up to date
+                Version = shaderVersion;
             }
-
-            GLES.UseProgram(0);
         }
 
         public uint GetBindPoint(string blockName)
@@ -195,7 +196,7 @@ namespace Heirloom.Drawing.OpenGLES
             return _uniforms.ContainsKey(name);
         }
 
-        public Uniform GetUniform(string name)
+        public ESUniform GetUniform(string name)
         {
             if (_uniforms.TryGetValue(name, out var uniform))
             {
@@ -216,15 +217,15 @@ namespace Heirloom.Drawing.OpenGLES
             return location;
         }
 
-        public uint GetTextureUnit(string name)
-        {
-            if (!_textureUnits.TryGetValue(name, out var unit))
-            {
-                throw new InvalidOperationException($"Unable to get texture unit for '{name}'.");
-            }
+        //public uint GetTextureUnit(string name)
+        //{
+        //    if (!_textureUnits.TryGetValue(name, out var unit))
+        //    {
+        //        throw new InvalidOperationException($"Unable to get texture unit for '{name}'.");
+        //    }
 
-            return unit;
-        }
+        //    return unit;
+        //}
 
         private static uint CreateAndLinkShaderProgram(ESShaderStage frag, ESShaderStage vert)
         {
@@ -288,7 +289,7 @@ namespace Heirloom.Drawing.OpenGLES
 
         #endregion
 
-        public class Uniform
+        public class ESUniform
         {
             public ActiveUniform Info;
 
@@ -296,7 +297,7 @@ namespace Heirloom.Drawing.OpenGLES
 
             readonly public int Location;
 
-            public Uniform(ActiveUniform info, int location)
+            public ESUniform(ActiveUniform info, int location)
             {
                 Info = info ?? throw new ArgumentNullException(nameof(info));
                 Location = location;
