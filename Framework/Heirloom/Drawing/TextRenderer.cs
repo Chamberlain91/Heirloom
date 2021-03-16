@@ -123,7 +123,8 @@ namespace Heirloom.Drawing
 
             float SnapToPixels(float x)
             {
-                return Calc.Floor(x * gfx.ApproximatePixelScale) / gfx.ApproximatePixelScale;
+                // return Calc.Floor(x * gfx.ApproximatePixelScale) / gfx.ApproximatePixelScale;
+                return x;
             }
         }
     }

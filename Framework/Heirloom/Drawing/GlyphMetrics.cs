@@ -10,8 +10,6 @@ namespace Heirloom.Drawing
     /// <category>Text</category>
     public readonly struct GlyphMetrics
     {
-        private readonly IntRectangle _box;
-
         /// <summary>
         /// The advance width of the glyph. 
         /// This is the spacing between the glyph's left edge and the next glyph.
@@ -19,32 +17,23 @@ namespace Heirloom.Drawing
         public readonly float AdvanceWidth;
 
         /// <summary>
-        /// The bearing of this glyph.
+        /// The glyph offset from the pen position (in pixels).
         /// </summary>
-        public readonly float Bearing;
+        public readonly IntVector Offset;
+
+        /// <summary>
+        /// The size of the glyph (in pixels).
+        /// </summary>
+        public readonly IntSize Size;
 
         #region Constructors
 
-        internal GlyphMetrics(float advanceWidth, float bearing, IntRectangle box)
+        internal GlyphMetrics(float advanceWidth, IntVector offset, IntSize size)
         {
             AdvanceWidth = advanceWidth;
-            Bearing = bearing;
-            _box = box;
+            Offset = offset;
+            Size = size;
         }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// The glyph offset from the pen position.
-        /// </summary>
-        public IntVector Offset => _box.Position;
-
-        /// <summary>
-        /// The glyph bounds size.
-        /// </summary>
-        public IntSize Size => _box.Size;
 
         #endregion
 
@@ -58,8 +47,8 @@ namespace Heirloom.Drawing
             if (obj is GlyphMetrics metrics)
             {
                 return (metrics.AdvanceWidth == AdvanceWidth)
-                    && (metrics.Bearing == Bearing)
-                    && (metrics._box == _box);
+                    && (metrics.Offset == Offset)
+                    && (metrics.Size == Size);
             }
 
             return false;
@@ -70,7 +59,7 @@ namespace Heirloom.Drawing
         /// </summary>
         public override int GetHashCode()
         {
-            return HashCode.Combine(AdvanceWidth, Bearing, _box);
+            return HashCode.Combine(AdvanceWidth, Offset, Size);
         }
 
         /// <summary>

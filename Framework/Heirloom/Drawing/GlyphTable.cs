@@ -49,7 +49,7 @@ namespace Heirloom.Drawing
                 if (!_images.TryGetValue(ch, out image))
                 {
                     // Render glyph and place into table
-                    image = glyph.RenderGlyph(FontSize);
+                    image = glyph.CreateImage(FontSize);
                     _images[ch] = image;
                 }
 

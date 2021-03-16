@@ -650,7 +650,7 @@ namespace Heirloom.Drawing
 
                 // Draw text
                 Color = Color.LightGray;
-                this.DrawText(text, measure.BottomRight - (PaddingX, PaddingY), Font.Default, 16, TextAlign.Right | TextAlign.Bottom);
+                this.DrawText(text, measure.BottomRight - (PaddingX, PaddingY),  Font.Default, 16, TextAlign.Right | TextAlign.Bottom);
             }
             PopState();
         }

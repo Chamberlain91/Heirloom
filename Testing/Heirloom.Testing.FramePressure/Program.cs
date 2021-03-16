@@ -14,6 +14,9 @@ namespace Heirloom.Testing.FramePressure
             const int MinSize = 16;
             const int MaxSize = 96;
 
+            // Every run will have the same random sequence
+            Calc.SetRandomSeed(0);
+
             Application.Run(() =>
             {
                 var window = new Window("Heirloom - First Frame Pressure", vsync: false);

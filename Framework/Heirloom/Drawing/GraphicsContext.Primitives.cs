@@ -40,13 +40,13 @@ namespace Heirloom.Drawing
                 transform.M2 += p0.X + 0.5F;
                 transform.M5 += p0.Y + 0.5F;
 
-                DrawImage(Image.Default, transform);
+                DrawImage(Texture.Default, transform);
             }
             else
             {
                 // A single pixel "DrawLine(a, a)"
                 var transform = Matrix.CreateTranslation(p0);
-                DrawImage(Image.Default, transform);
+                DrawImage(Texture.Default, transform);
             }
         }
 
