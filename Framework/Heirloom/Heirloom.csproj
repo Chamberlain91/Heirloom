@@ -82,7 +82,7 @@
     <EmbeddedResource Include="Embedded\shaders\standard\standard.glsl" />
     <EmbeddedResource Include="Embedded\shaders\standard\standard.vert" />
   </ItemGroup>
-
+  
   <!-- StbImageSharp -->
   <ItemGroup>
     <!-- remove all files -->
@@ -112,8 +112,15 @@
     <!-- reintroduce only source files -->
     <Compile Include="Drawing\External\StbTrueTypeSharp\src\*.cs" />
   </ItemGroup>
+
+  <!-- StbImageResizeSharp -->
   <ItemGroup>
-    <None Include="Hardware\HardwareDetector.cs" />
+    <!-- remove all files -->
+    <None Remove="Drawing\External\StbImageResizeSharp\**" />
+    <Compile Remove="Drawing\External\StbImageResizeSharp\**" />
+    <EmbeddedResource Remove="Drawing\External\StbImageResizeSharp\**" />
+    <!-- reintroduce only source files -->
+    <Compile Include="Drawing\External\StbImageResizeSharp\src\*.cs" />
   </ItemGroup>
 
 </Project>

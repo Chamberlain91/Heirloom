@@ -24,6 +24,12 @@ If you build the projects in the `Framework\` directory, it should generate the 
 
 ## Building
 
+You will need to initialize the StbSharp submodules to before building.
+
+```sh
+git submodule update --init --recursive
+```
+
 ### Using Visual Studio
 
 1. Clone this repository.

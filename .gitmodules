@@ -1,9 +1,12 @@
-[submodule "Meadows/Drawing/External/StbImageSharp"]
-	path = Meadows/Drawing/External/StbImageSharp
-	url = https://github.com/StbSharp/StbImageSharp.git
-[submodule "Meadows/Drawing/External/StbImageWriteSharp"]
-	path = Meadows/Drawing/External/StbImageWriteSharp
-	url = https://github.com/StbSharp/StbImageWriteSharp.git
-[submodule "Meadows/Drawing/External/StbTrueTypeSharp"]
-	path = Meadows/Drawing/External/StbTrueTypeSharp
+[submodule "Framework/Heirloom/Drawing/External/StbTrueTypeSharp"]
+	path = Framework/Heirloom/Drawing/External/StbTrueTypeSharp
 	url = https://github.com/StbSharp/StbTrueTypeSharp.git
+[submodule "Framework/Heirloom/Drawing/External/StbImageSharp"]
+	path = Framework/Heirloom/Drawing/External/StbImageSharp
+	url = https://github.com/StbSharp/StbImageSharp.git
+[submodule "Framework/Heirloom/Drawing/External/StbImageWriteSharp"]
+	path = Framework/Heirloom/Drawing/External/StbImageWriteSharp
+	url = https://github.com/StbSharp/StbImageWriteSharp.git
+[submodule "Framework/Heirloom/Drawing/External/StbImageResizeSharp"]
+	path = Framework/Heirloom/Drawing/External/StbImageResizeSharp
+	url = https://github.com/StbSharp/StbImageResizeSharp.git

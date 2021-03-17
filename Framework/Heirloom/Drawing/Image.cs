@@ -11,6 +11,7 @@ using Heirloom.Mathematics;
 
 using StbImageSharp;
 
+using static StbImageResizeSharp.StbImageResize;
 using static StbImageWriteSharp.StbImageWrite;
 
 namespace Heirloom.Drawing
@@ -129,6 +130,12 @@ namespace Heirloom.Drawing
             {
                 var size = new IntSize(width, height);
                 throw new ArgumentException($"Image dimensions must be less than or equal to {MaxImageDimension} (was {size}).");
+            }
+
+            if (width <= 0 || height <= 0)
+            {
+                var size = new IntSize(width, height);
+                throw new ArgumentException($"Image dimensions must be greater than zero (was {size}).");
             }
         }
 
@@ -897,71 +904,171 @@ namespace Heirloom.Drawing
         #region Downsampling (Static)
 
         /// <summary>
-        /// Creates a set of mipmaps by repeatedly invoking <see cref="Downsample(Image)"/> for the specified image.
-        /// The returned array begins with the input image.
+        /// Creates a set of mipmaps by repeatedly resizing the image in half.
+        /// The returned array begins with the input image itself.
         /// </summary>
-        public static Image[] CreateMipChain(Image image)
+        public static Image[] CreateMipChain(Image image, int minDim = 1)
         {
             if (image is null) { throw new ArgumentNullException(nameof(image)); }
+            if (minDim < 1) { throw new ArgumentException("Mip map minimal size must be 1x1 or greater.", nameof(minDim)); }
 
             var mips = new List<Image> { image };
 
-            while (mips[^1].Width > 1 && mips[^1].Height > 1)
+            while (mips[^1].Width > minDim && mips[^1].Height > minDim)
             {
                 // Compute half-size image
                 mips.Add(Downsample(mips[^1]));
             }
 
             return mips.ToArray();
+
+            /// <summary>
+            /// Downsamples an image (half size) using a simple averaging filter.
+            /// </summary>
+            static Image Downsample(Image image)
+            {
+                var resized = new Image(image.Width / 2, image.Height / 2);
+
+                // Compute in parallel for each 2x2 patch
+                var coordinates = Rasterizer.Rectangle(resized.Size);
+                Parallel.ForEach(coordinates, AveragePool);
+
+                return resized;
+
+                void AveragePool(IntVector coord)
+                {
+                    var x2 = coord.X * 2;
+                    var y2 = coord.Y * 2;
+
+                    var pixel = (Color) image.GetPixel(x2, y2);
+
+                    var c = Color.TransparentBlack;
+                    var w = 0F;
+
+                    Contribute(x2, y2);
+
+                    // If 2x2 patch does not exceed image bounds, average.
+                    if (x2 + 1 <= image.Width && y2 + 1 <= image.Height)
+                    {
+                        // Average 2x2 patch
+                        Contribute(x2 + 1, y2);
+                        Contribute(x2 + 1, y2 + 1);
+                        Contribute(x2, y2 + 1);
+                    }
+
+                    // Divide to compute average.
+                    if (w <= 0) { c = Color.TransparentBlack; }
+                    else { c /= w; }
+
+                    resized.SetPixel(coord, c);
+
+                    void Contribute(int x, int y)
+                    {
+                        var pixel = (Color) image.GetPixel(x, y);
+
+                        c += pixel * pixel.A;
+                        w += pixel.A;
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region Resize (Instance)
+
+        /// <summary>
+        /// Resize the image to the target dimensions, returning the resized copy.
+        /// </summary>
+        /// <param name="size">The target image size.</param>
+        /// <param name="mode">The resize filter quality.</param>
+        /// <returns>The resized copy of the source image.</returns>
+        public Image Resize(IntSize size, InterpolationMode mode = InterpolationMode.Linear)
+        {
+            return Resize(this, size.Width, size.Height, mode);
         }
 
         /// <summary>
-        /// Downsamples an image (half size) using a simple averaging filter.
+        /// Resize the image to the target dimensions, returning the resized copy.
         /// </summary>
-        public static Image Downsample(Image image)
+        /// <param name="width">The target image width.</param>
+        /// <param name="height">The target image height.</param>
+        /// <param name="mode">The resize filter quality.</param>
+        /// <returns>The resized copy of the source image.</returns>
+        public Image Resize(int width, int height, InterpolationMode mode = InterpolationMode.Linear)
         {
-            var resized = new Image(image.Width / 2, image.Height / 2);
+            return Resize(this, width, height, mode);
+        }
 
-            // Compute in parallel for each 2x2 patch
-            var coordinates = Rasterizer.Rectangle(resized.Size);
-            Parallel.ForEach(coordinates, AveragePool);
+        #endregion
 
-            return resized;
+        #region Resize (Static)
 
-            void AveragePool(IntVector coord)
+        /// <summary>
+        /// Resize the input image to the target dimensions, returning the resized copy.
+        /// </summary>
+        /// <param name="source">Some input image.</param>
+        /// <param name="size">The target image size.</param>
+        /// <param name="mode">The resize filter quality.</param>
+        /// <returns>The resized copy of the source image.</returns>
+        public static Image Resize(Image source, IntSize size, InterpolationMode mode = InterpolationMode.Linear)
+        {
+            return Resize(source, size.Width, size.Height, mode);
+        }
+
+        /// <summary>
+        /// Resize the input image to the target dimensions, returning the resized copy.
+        /// </summary>
+        /// <param name="source">Some input image.</param>
+        /// <param name="width">The target image width.</param>
+        /// <param name="height">The target image height.</param>
+        /// <param name="mode">The resize filter quality.</param>
+        /// <returns>The resized copy of the source image.</returns>
+        public static unsafe Image Resize(Image source, int width, int height, InterpolationMode mode = InterpolationMode.Linear)
+        {
+            if (source is null) { throw new ArgumentNullException(nameof(source)); }
+            ValidateImageSize(width, height);
+
+            if (mode == InterpolationMode.Linear) { return LinearResize(source, width, height); }
+            else { return NearestResize(source, width, height); }
+
+            static Image LinearResize(Image source, int width, int height)
             {
-                var x2 = coord.X * 2;
-                var y2 = coord.Y * 2;
+                var target = new Image(width, height);
 
-                var pixel = (Color) image.GetPixel(x2, y2);
-
-                var c = Color.TransparentBlack;
-                var w = 0F;
-
-                Contribute(x2, y2);
-
-                // If 2x2 patch does not exceed image bounds, average.
-                if (x2 + 1 <= image.Width && y2 + 1 <= image.Height)
+                fixed (ColorBytes* sourcePtr = source.Pixels)
+                fixed (ColorBytes* targetPtr = target.Pixels)
                 {
-                    // Average 2x2 patch
-                    Contribute(x2 + 1, y2);
-                    Contribute(x2 + 1, y2 + 1);
-                    Contribute(x2, y2 + 1);
+                    var status = stbir_resize(
+                        (byte*) sourcePtr, source.Width, source.Height, 0,
+                        (byte*) targetPtr, target.Width, target.Height, 0,
+                        STBIR_TYPE_UINT8, 4, -1, -1,
+                        STBIR_EDGE_CLAMP, STBIR_EDGE_CLAMP,
+                        STBIR_FILTER_DEFAULT, STBIR_FILTER_DEFAULT,
+                        STBIR_COLORSPACE_LINEAR);
+
+                    if (status != 1)
+                    {
+                        throw new InvalidOperationException("Unable to resize image, internal error.");
+                    }
                 }
 
-                // Divide to compute average.
-                if (w <= 0) { c = Color.TransparentBlack; }
-                else { c /= w; }
+                target.IncrementVersion();
+                return target;
+            }
 
-                resized.SetPixel(coord, c);
+            static Image NearestResize(Image source, int width, int height)
+            {
+                var target = new Image(width, height);
 
-                void Contribute(int x, int y)
+                foreach (var co in Rasterizer.Rectangle(target.Size))
                 {
-                    var pixel = (Color) image.GetPixel(x, y);
-
-                    c += pixel * pixel.A;
-                    w += pixel.A;
+                    var x = (int) Calc.Rescale(co.X, 0, target.Width, 0, source.Width);
+                    var y = (int) Calc.Rescale(co.Y, 0, target.Height, 0, source.Height);
+                    target.SetPixel(co, source.GetPixel(x, y));
                 }
+
+                return target;
             }
         }
 

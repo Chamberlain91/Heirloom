@@ -511,20 +511,8 @@ namespace Heirloom.Desktop
 
         private static Image[] CreateDefaultIcons()
         {
-            return Generate().ToArray();
-
-            static IEnumerable<Image> Generate()
-            {
-                var icon = new Image("Heirloom/Embedded/icon.png");
-
-                while (icon.Width > 32 && icon.Height > 32)
-                {
-                    yield return icon;
-                    icon = Image.Downsample(icon);
-                }
-
-                yield return icon;
-            }
+            var icon = new Image("Heirloom/Embedded/icon.png");
+            return GenerateIconSet(icon);
         }
 
         /// <summary>
@@ -579,20 +567,24 @@ namespace Heirloom.Desktop
         /// </summary>
         public void SetIcons(Image icon)
         {
-            if (icon.Width != icon.Height)
+            var icons = GenerateIconSet(icon);
+            SetIcons(icons);
+        }
+
+        private static Image[] GenerateIconSet(Image icon)
+        {
+            var size = Calc.Min(icon.Width, icon.Height, 256);
+            size = Calc.NearestPowerOfTwo(size);
+
+            // Force smaller square dimension
+            if (icon.Width != size || icon.Height != size)
             {
-                throw new ArgumentException("Icon must be of square dimensions.");
+                icon = Image.Resize(icon, size, size);
             }
 
-            var icons = new List<Image>() { icon };
-            var count = (int) Calc.Max(Calc.Log(icon.Width) - 4, 0);
-            for (var i = 0; i < count; i++)
-            {
-                var resized = Image.Downsample(icons[^1]);
-                icons.Add(resized);
-            }
-
-            SetIcons(icons.ToArray());
+            // Generate icons
+            var icons = Image.CreateMipChain(icon, 16).ToArray();
+            return icons;
         }
 
         #region Dispose
