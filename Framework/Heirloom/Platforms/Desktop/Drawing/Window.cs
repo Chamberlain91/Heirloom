@@ -16,7 +16,7 @@ namespace Heirloom.Desktop
         private readonly WindowCloseCallback _windowCloseCallback;
         private readonly WindowSizeCallback _windowSizeCallback;
         // private readonly WindowContentScaleCallback _windowContentScaleCallback;
-        // private readonly WindowPositionCallback _windowPositionCallback;
+        private readonly WindowPositionCallback _windowPositionCallback;
 
         private readonly CharCallback _charCallback;
         private readonly KeyCallback _keyCallback;
@@ -34,6 +34,9 @@ namespace Heirloom.Desktop
 
         private Display _fullscreenDisplay;
         private bool _visible = true;
+
+        private IntVector _windowPosition;
+        private IntSize _windowSize;
 
         #region Constructors
 
@@ -69,7 +72,19 @@ namespace Heirloom.Desktop
 
             Glfw.SetWindowSizeCallback(Handle, _windowSizeCallback = (_, w, h) =>
             {
-                Resized?.Invoke(this, new IntSize(w, h));
+                // Update window size
+                _windowSize = new IntSize(w, h);
+
+                // Invoke resize event
+                Resized?.Invoke(this, _windowSize);
+            });
+
+            Glfw.SetWindowPositionCallback(Handle, _windowPositionCallback = (_, x, y) =>
+            {
+                // Update window size
+                _windowPosition = new IntVector(x, y);
+
+                // todo: Window position event?
             });
 
             Glfw.SetFramebufferSizeCallback(Handle, _framebufferSizeCallback = (_, w, h) =>
@@ -300,13 +315,14 @@ namespace Heirloom.Desktop
         /// </summary>
         public IntVector Position
         {
-            get => Application.Invoke(() =>
-            {
-                Glfw.GetWindowPosition(Handle, out var x, out var y);
-                return new IntVector(x, y);
-            });
+            get => _windowPosition;
 
-            set => Application.Invoke(() => Glfw.SetWindowPosition(Handle, value.X, value.Y));
+            set
+            {
+                if (State == WindowState.Fullscreen) { EndFullscreen(); }
+                Application.Invoke(() => Glfw.SetWindowPosition(Handle, value.X, value.Y));
+                _windowPosition = value;
+            }
         }
 
         /// <summary>
@@ -314,16 +330,13 @@ namespace Heirloom.Desktop
         /// </summary>
         public IntSize Size
         {
-            get => Application.Invoke(() =>
-            {
-                Glfw.GetWindowSize(Handle, out var width, out var height);
-                return new IntSize(width, height);
-            });
+            get => _windowSize;
 
             set
             {
                 if (State == WindowState.Fullscreen) { EndFullscreen(); }
                 Application.Invoke(() => Glfw.SetWindowSize(Handle, value.Width, value.Height));
+                _windowSize = value;
             }
         }
 

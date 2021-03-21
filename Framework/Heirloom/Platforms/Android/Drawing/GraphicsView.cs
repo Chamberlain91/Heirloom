@@ -19,14 +19,12 @@ namespace Heirloom.Android
 
         public GraphicsContext Graphics => _esGraphics;
 
-        internal GraphicsView(Activity activity, IntSize? resolution = null, MultisampleQuality multisample = MultisampleQuality.None, bool vsync = true)
+        internal GraphicsView(Activity activity, IntSize resolution, MultisampleQuality multisample = MultisampleQuality.None, bool vsync = true)
            : base(activity)
         {
-            resolution ??= AndroidHelper.ComputeAutomaticResolution(activity);
-
             // Configure holder resolution
             Holder.AddCallback(this);
-            Holder.SetFixedSize(resolution.Value.Width, resolution.Value.Height);
+            Holder.SetFixedSize(resolution.Width, resolution.Height);
             Holder.SetFormat(Format.Rgb888);
 
             // Construct the default surface and context

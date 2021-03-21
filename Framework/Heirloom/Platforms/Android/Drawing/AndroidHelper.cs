@@ -26,10 +26,11 @@ namespace Heirloom.Android
 
         public static IntSize ComputeAutomaticResolution(Activity activity, int pixelsPerMM = 10)
         {
-            var metrics = new DisplayMetrics();
-            activity.WindowManager.DefaultDisplay.GetRealMetrics(metrics);
+            var w = activity.Resources.DisplayMetrics.WidthPixels;
+            var h = activity.Resources.DisplayMetrics.HeightPixels;
+            var d = activity.Resources.DisplayMetrics.DensityDpi;
 
-            return ComputeAutomaticResolution(metrics.WidthPixels, metrics.HeightPixels, (float) metrics.DensityDpi, pixelsPerMM);
+            return ComputeAutomaticResolution(w, h, (float) d, pixelsPerMM);
         }
 
         public static IntSize ComputeAutomaticResolution(int width, int height, float dpi, int pixelsPerMM)

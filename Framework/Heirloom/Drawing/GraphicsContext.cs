@@ -603,7 +603,7 @@ namespace Heirloom.Drawing
 
         private void MarkStateDirty(StateDirtyFlags flag)
         {
-            if (StateFlags.HasFlag(flag) && HasPendingWork) { Flush(); }
+            if (HasPendingWork) { Flush(); }
             StateFlags |= flag;
         }
 
@@ -635,7 +635,7 @@ namespace Heirloom.Drawing
                 ResetState();
 
                 var anchor = new Vector(Screen.Surface.Width - 10 - PaddingX, Screen.Surface.Height - 10 - PaddingY);
-                var text = $"FPS: {Performance.AverageFrameRate,5:N1}\nBatches: {Performance.Batches,5:N1}";
+                var text = $"Frame Time: {Performance.AverageFrameTime * 1000:N1}\nBatches: {Performance.Batches:N1}";
 
                 // Measure text
                 var measure = TextLayout.Measure(text, Font.Default, 16);
@@ -650,7 +650,7 @@ namespace Heirloom.Drawing
 
                 // Draw text
                 Color = Color.LightGray;
-                this.DrawText(text, measure.BottomRight - (PaddingX, PaddingY),  Font.Default, 16, TextAlign.Right | TextAlign.Bottom);
+                this.DrawText(text, measure.BottomRight - (PaddingX, PaddingY), Font.Default, 16, TextAlign.Right | TextAlign.Bottom);
             }
             PopState();
         }

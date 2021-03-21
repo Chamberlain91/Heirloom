@@ -4,11 +4,6 @@ namespace Heirloom.Drawing
 {
     public abstract class Texture : GraphicsResource
     {
-        /// <summary>
-        /// A small (1x1) solid white image.
-        /// </summary>
-        public static readonly Texture Default = Image.CreateColor(1, 1, Color.White);
-
         internal Texture()
         {
             // Only visible to friends
@@ -38,5 +33,15 @@ namespace Heirloom.Drawing
         /// Repeat mode.
         /// </summary>
         public RepeatMode Repeat { get; set; } = RepeatMode.Blank;
+
+        /// <summary>
+        /// A small (1x1) solid white image.
+        /// </summary>
+        public static Texture Default { get; private set; }
+
+        internal static void InitializeDefaults()
+        {
+            Default = Image.CreateColor(1, 1, Color.White);
+        }
     }
 }

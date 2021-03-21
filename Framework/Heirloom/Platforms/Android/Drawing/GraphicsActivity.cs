@@ -3,7 +3,6 @@ using Android.OS;
 using Android.Views;
 
 using Heirloom.Drawing;
-using Heirloom.Hardware;
 using Heirloom.Mathematics;
 using Heirloom.Sound;
 
@@ -20,7 +19,7 @@ namespace Heirloom.Android
 
         protected struct GraphicsConfiguration
         {
-            public IntSize? Resolution;
+            public IntSize Resolution;
             public MultisampleQuality Multisample;
             public bool VSync;
         }
@@ -40,7 +39,7 @@ namespace Heirloom.Android
             // Get the user graphics config
             var config = new GraphicsConfiguration
             {
-                Resolution = null,
+                Resolution = AndroidHelper.ComputeAutomaticResolution(this),
                 Multisample = MultisampleQuality.None,
                 VSync = true
             };

@@ -45,6 +45,7 @@ namespace Heirloom.Drawing
                 SystemInformation.UpdateGPUInfo(Current.GetGpuInfo());
 
                 // Initialize shader backend
+                Texture.InitializeDefaults();
                 Shader.InitializeDefaults();
 
                 // Mark backend as properly initialized.

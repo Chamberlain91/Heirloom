@@ -31,14 +31,12 @@ namespace Heirloom
         /// <summary>
         /// Event called when the screen is resized.
         /// </summary>
-        /// <seealso cref="ContentScaleChanged"/>
         /// <seealso cref="Surface"/>
         public event Action<IScreen, IntSize> Resized;
 
         /// <summary>
         /// Event called when the surface associated with the screen is resized.
         /// </summary>
-        /// <seealso cref="ContentScaleChanged"/>
         /// <seealso cref="Surface"/>
         public event Action<IScreen, IntSize> SurfaceResized;
 
