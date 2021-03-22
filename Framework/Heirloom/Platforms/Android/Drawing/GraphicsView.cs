@@ -14,18 +14,21 @@ namespace Heirloom.Android
     internal sealed class GraphicsView : SurfaceView, IScreen, ISurfaceHolderCallback
     {
         private readonly ESGraphicsContext _esGraphics;
+        private readonly int _pixelDensity;
 
         internal EglSurface EglSurface;
 
         public GraphicsContext Graphics => _esGraphics;
 
-        internal GraphicsView(Activity activity, IntSize resolution, MultisampleQuality multisample = MultisampleQuality.None, bool vsync = true)
+        internal GraphicsView(Activity activity, int pixelDensity, MultisampleQuality multisample = MultisampleQuality.None, bool vsync = true)
            : base(activity)
         {
             // Configure holder resolution
-            Holder.AddCallback(this);
-            Holder.SetFixedSize(resolution.Width, resolution.Height);
             Holder.SetFormat(Format.Rgb888);
+            Holder.AddCallback(this);
+
+            // ...
+            _pixelDensity = pixelDensity;
 
             // Construct the default surface and context
             if (GraphicsBackend.Current is ESAndroidGraphicsBackend esBackend)
@@ -58,7 +61,22 @@ namespace Heirloom.Android
                 EglSurface = Egl.CreateWindowSurface(esBackend.EglContext, AndroidWindow.GetWindowHandle(holder));
 
                 // Launch GL thread, EGL surface has been created.
-                if (_esGraphics.IsThreadRunning == false) { _esGraphics.StartThread(); }
+                if (_esGraphics.IsThreadRunning == false)
+                {
+                    _esGraphics.StartThread();
+
+                    if (_pixelDensity <= 0)
+                    {
+                        var w = EglSurface.Width;
+                        var h = EglSurface.Height;
+                        var d = (int) Resources.DisplayMetrics.DensityDpi;
+
+                        //
+                        var resolution = AndroidHelper.ComputeAutomaticResolution(w, h, d, _pixelDensity);
+                        Log.Debug($"[Holder] Assign Fixed Size ({resolution})");
+                        Holder.SetFixedSize(resolution.Width, resolution.Height);
+                    }
+                }
 
                 // Notify that we need to rebind the context to the thread. The surface has changed.
                 _esGraphics.NotifyMakeCurrent();

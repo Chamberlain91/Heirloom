@@ -3,7 +3,6 @@ using Android.OS;
 using Android.Views;
 
 using Heirloom.Drawing;
-using Heirloom.Mathematics;
 using Heirloom.Sound;
 
 namespace Heirloom.Android
@@ -19,8 +18,19 @@ namespace Heirloom.Android
 
         protected struct GraphicsConfiguration
         {
-            public IntSize Resolution;
+            /// <summary>
+            /// The number of pixels per millimeter.
+            /// </summary>
+            public int PixelDensity;
+
+            /// <summary>
+            /// The multisample quality, the desired amount may not be present on the device.
+            /// </summary>
             public MultisampleQuality Multisample;
+
+            /// <summary>
+            /// Should the application wait for a vertical blank each rendered frame?
+            /// </summary>
             public bool VSync;
         }
 
@@ -39,7 +49,7 @@ namespace Heirloom.Android
             // Get the user graphics config
             var config = new GraphicsConfiguration
             {
-                Resolution = AndroidHelper.ComputeAutomaticResolution(this),
+                PixelDensity = 10,
                 Multisample = MultisampleQuality.None,
                 VSync = true
             };
@@ -50,7 +60,7 @@ namespace Heirloom.Android
             _backend = new ESAndroidGraphicsBackend(config.Multisample);
 
             // Create graphics view
-            _view = new GraphicsView(this, config.Resolution, config.Multisample, config.VSync);
+            _view = new GraphicsView(this, config.PixelDensity, config.Multisample, config.VSync);
             SetContentView(_view);
 
             _view.GraphicsEnabled += () =>
