@@ -65,7 +65,7 @@ namespace Heirloom.Android
                 {
                     _esGraphics.StartThread();
 
-                    if (_pixelDensity <= 0)
+                    if (_pixelDensity > 0)
                     {
                         var w = EglSurface.Width;
                         var h = EglSurface.Height;

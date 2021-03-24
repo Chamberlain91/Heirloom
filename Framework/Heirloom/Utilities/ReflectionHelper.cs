@@ -19,9 +19,6 @@ namespace Heirloom.Utilities
 
             static IEnumerable<Assembly> Generate()
             {
-                // Discover entry assembly
-                yield return Assembly.GetEntryAssembly();
-
                 // Try all known assemblies to the current domain
                 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
                 {
