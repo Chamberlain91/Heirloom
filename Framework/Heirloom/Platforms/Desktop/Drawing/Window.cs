@@ -722,6 +722,15 @@ namespace Heirloom.Desktop
             return _inputSource.TryGetButton(button, out state);
         }
 
+        bool IInputSource.HasTouchSupport => _inputSource.HasTouchSupport;
+
+        int IInputSource.TouchCount => _inputSource.TouchCount;
+
+        Touch IInputSource.GetTouch(int index)
+        {
+            return _inputSource.GetTouch(index);
+        }
+
         #endregion
 
         private sealed class InputSource : IInputSource
@@ -907,6 +916,21 @@ namespace Heirloom.Desktop
             {
                 // Try to get state for button
                 return _mouseStates.TryGetValue(button, out state);
+            }
+
+            #endregion
+
+            #region Touch
+
+            // Assuming touch support is not available on desktop devices.
+            // It seems that glfw doesn't expose/support this.
+            public bool HasTouchSupport => false;
+
+            public int TouchCount => 0;
+
+            public Touch GetTouch(int index)
+            {
+                return default;
             }
 
             #endregion

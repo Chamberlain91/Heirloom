@@ -1,3 +1,5 @@
+using System;
+
 using Heirloom.Mathematics;
 
 namespace Heirloom
@@ -77,6 +79,25 @@ namespace Heirloom
 
         #endregion
 
+        #region Touch
+
+        /// <summary>
+        /// Gets a value that determines if touch-based input is supported.
+        /// </summary>
+        bool HasTouchSupport { get; }
+
+        /// <summary>
+        /// Gets the number of touch points available this frame.
+        /// </summary>
+        int TouchCount { get; }
+
+        /// <summary>
+        /// Gets the information about one of the touch points this frame.
+        /// </summary>
+        Touch GetTouch(int index);
+
+        #endregion
+
 #if false
 
         #region Gamepad
@@ -92,19 +113,25 @@ namespace Heirloom
 
         #endregion
 
-        #region Touch
-
-        event Action<Screen, TouchEvent> TouchDown;
-        event Action<Screen, TouchEvent> TouchUp;
-        event Action<Screen, TouchEvent> TouchMoved;
-
-        bool IsTouchSupported { get; }
-        int TouchCount { get; }
-
-        Touch GetTouch(int index);
-
-        #endregion
-
 #endif
+    }
+
+    public readonly struct Touch
+    {
+        public readonly Vector Position;
+
+        public readonly Vector Delta;
+
+        public readonly ButtonState State;
+
+        public readonly int Finger;
+
+        public Touch(Vector position, Vector delta, int finger, ButtonState state)
+        {
+            Position = position;
+            Delta = delta;
+            Finger = finger;
+            State = state;
+        }
     }
 }

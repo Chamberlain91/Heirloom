@@ -1,3 +1,5 @@
+using System;
+
 using Heirloom.Mathematics;
 
 namespace Heirloom
@@ -196,6 +198,30 @@ namespace Heirloom
         public static bool IsMouseUp(MouseButton button)
         {
             return CheckButton(button, ButtonState.Up);
+        }
+
+        #endregion
+
+        #region Touch
+
+        /// <summary>
+        /// Gets a value that determines if touch-based input is supported.
+        /// </summary>
+        public static bool HasTouchSupport => InputSource?.HasTouchSupport ?? false;
+
+        /// <summary>
+        /// Gets the number of touch points available this frame.
+        /// </summary>
+        public static int TouchCount => InputSource?.TouchCount ?? 0;
+
+        /// <summary>
+        /// Gets the information about one of the touch points this frame.
+        /// </summary>
+        public static Touch GetTouch(int index)
+        {
+            if (index < 0) { throw new ArgumentOutOfRangeException(nameof(index), "Must be non-negative."); }
+            if (index >= TouchCount) { throw new ArgumentOutOfRangeException(nameof(index), $"Must be between 0 and the value of {nameof(TouchCount)}."); }
+            return InputSource.GetTouch(index);
         }
 
         #endregion

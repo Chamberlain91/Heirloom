@@ -81,7 +81,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Testing.InputVisua
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Testing.FramePressure", "Testing\Heirloom.Testing.FramePressure\Heirloom.Testing.FramePressure.csproj", "{7D1537F6-C35E-44AB-B949-AC9206F4AACF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Testing.SoftwareResize", "Testing\Heirloom.Testing.SoftwareResize\Heirloom.Testing.SoftwareResize.csproj", "{E4AC2B03-06A6-4BE0-A5FD-49D708CAA0E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heirloom.Testing.SoftwareResize", "Testing\Heirloom.Testing.SoftwareResize\Heirloom.Testing.SoftwareResize.csproj", "{E4AC2B03-06A6-4BE0-A5FD-49D708CAA0E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heirloom.Android.Examples.FingerPaint", "Examples\Heirloom.Android.Examples.FingerPaint\Heirloom.Android.Examples.FingerPaint.csproj", "{6CDE4B0E-0F2F-450D-9810-F4E99BA56072}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -210,6 +212,12 @@ Global
 		{E4AC2B03-06A6-4BE0-A5FD-49D708CAA0E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4AC2B03-06A6-4BE0-A5FD-49D708CAA0E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4AC2B03-06A6-4BE0-A5FD-49D708CAA0E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CDE4B0E-0F2F-450D-9810-F4E99BA56072}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CDE4B0E-0F2F-450D-9810-F4E99BA56072}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CDE4B0E-0F2F-450D-9810-F4E99BA56072}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{6CDE4B0E-0F2F-450D-9810-F4E99BA56072}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CDE4B0E-0F2F-450D-9810-F4E99BA56072}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CDE4B0E-0F2F-450D-9810-F4E99BA56072}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -246,6 +254,7 @@ Global
 		{AD74248F-02E5-45E7-B0D3-4B1C0EA180F1} = {78B2E4CD-A323-4F1F-B388-D0C0D2B7A8FC}
 		{7D1537F6-C35E-44AB-B949-AC9206F4AACF} = {78B2E4CD-A323-4F1F-B388-D0C0D2B7A8FC}
 		{E4AC2B03-06A6-4BE0-A5FD-49D708CAA0E2} = {78B2E4CD-A323-4F1F-B388-D0C0D2B7A8FC}
+		{6CDE4B0E-0F2F-450D-9810-F4E99BA56072} = {54A5474B-4BBF-4BE5-B667-EA988D709EE2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {696A41D8-DF3F-4D16-B3D9-514D627DCCE2}

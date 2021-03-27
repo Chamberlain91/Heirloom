@@ -25,7 +25,8 @@ namespace Heirloom
         Recent = 1 << 2,
 
         /// <summary>
-        /// Button state is now repeating, this is dependant on the OS.
+        /// Button state is now repeating.
+        /// The behaviour of a repeating button is dependant on the device and operating system.
         /// </summary>
         Repeat = 1 << 3,
 

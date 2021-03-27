@@ -1,8 +1,13 @@
+using System;
+using System.Buffers;
+using System.Collections.Generic;
+
 using Android.App;
 using Android.OS;
 using Android.Views;
 
 using Heirloom.Drawing;
+using Heirloom.Mathematics;
 using Heirloom.Sound;
 
 namespace Heirloom.Android
