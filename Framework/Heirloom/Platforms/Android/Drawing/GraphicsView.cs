@@ -219,7 +219,7 @@ namespace Heirloom.Android
 
             void ProcessTouchEvents()
             {
-                // remove recent flag from touch points
+                // Prepare touch points for new frame
                 for (var finger = 0; finger < MAX_TOUCH_POINTS; finger++)
                 {
                     var touch = _touches[finger];
@@ -227,16 +227,22 @@ namespace Heirloom.Android
                     // Finger has stopped touching
                     if (touch.State == ButtonState.Released) { _fingers.Remove(touch.Finger); }
 
+                    var state = touch.State;
+
                     // Demote recent states
                     // * Released -> Up
                     // * Pressed -> Down
                     if (touch.State.HasFlag(ButtonState.Recent))
                     {
-                        var state = touch.State & ~ButtonState.Recent;
-                        _touches[finger] = new Touch(touch.Position, touch.Delta, touch.Finger, state);
+                        state &= ~ButtonState.Recent;
                     }
+
+                    // Assign touch, removing delta and recent (consumed last frame)
+                    _touches[finger] = new Touch(touch.Position, Vector.Zero, touch.Finger, state);
                 }
 
+                // Process new events
+                var delta = Vector.Zero;
                 while (_events.Count > 0)
                 {
                     var touch = _events.Dequeue();
@@ -245,11 +251,10 @@ namespace Heirloom.Android
                     if (touch.State == ButtonState.Pressed) { _fingers.Add(touch.Finger); }
 
                     // Compute delta position
-                    var delta = Vector.Zero;
                     if (touch.State != ButtonState.Pressed)
                     {
                         var prior = _touchesPrior[touch.Finger];
-                        delta = touch.Position - prior;
+                        delta += touch.Position - prior;
                     }
 
                     // Store latest touch information
@@ -311,8 +316,7 @@ namespace Heirloom.Android
                 x = x / Width * Surface.Width;
                 y = y / Height * Surface.Height;
 
-                var pos = new Vector(x, y);
-                return pos;
+                return new Vector(x, y);
             }
         }
 
